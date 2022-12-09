@@ -1,27 +1,27 @@
 import {
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
-  DrugInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
   SourceSource,
+  TherapyInteraction,
   VariantOrigin,
 } from '@app/generated/civic.apollo';
 
 export type InputEnum =
-  | EvidenceClinicalSignificance
+  | EvidenceSignificance
   | EvidenceDirection
   | EvidenceType
-  | AssertionClinicalSignificance
+  | AssertionSignificance
   | AssertionDirection
   | AssertionType
   | VariantOrigin
   | SourceSource
   | EvidenceLevel
-  | DrugInteraction;
+  | TherapyInteraction;
 
 export function formatEvidenceEnum(value: InputEnum): string {
   let str: string[]

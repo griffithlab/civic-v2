@@ -41,6 +41,8 @@ class FrontendRouter
       [ Disease, :id ]
     when /drugs?/
       [ Drug, :id ]
+    when /therapies?/
+      [ Drug, :id ]
     when /assertions?/
       [ Assertion, :id ]
     when /sources?/

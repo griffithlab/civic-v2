@@ -3,7 +3,7 @@ query BrowseMolecularProfiles(
   $variantId: Int
   $entrezSymbol: String
   $diseaseName: String
-  $drugName: String
+  $therapyName: String
   $molecularProfileAlias: String,
   $sortBy: MolecularProfilesSort
   $first: Int
@@ -16,7 +16,7 @@ query BrowseMolecularProfiles(
     variantId: $variantId
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     molecularProfileAlias: $molecularProfileAlias
     sortBy: $sortBy
     first: $first
@@ -60,7 +60,7 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
     name
     link
   }
-  drugs {
+  therapies {
     id
     name
     link

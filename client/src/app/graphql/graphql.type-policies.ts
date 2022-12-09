@@ -14,7 +14,7 @@ export const CvcTypePolicies: TypePolicies = {
     fields: {
       browseGenes: relayStylePagination([
         'entrezSymbol',
-        'drugName',
+        'therapayName',
         'geneAlias',
         'diseaseName',
       ]),
@@ -22,7 +22,7 @@ export const CvcTypePolicies: TypePolicies = {
         'variantName',
         'entrezSymbol',
         'diseaseName',
-        'drugName',
+        'therapayName',
         'variantTypeId',
         'variantGroupId'
       ]),
@@ -30,7 +30,7 @@ export const CvcTypePolicies: TypePolicies = {
         'variantName',
         'entrezSymbol',
         'diseaseName',
-        'drugName',
+        'therapayName',
         'molecularProfileAlias',
         'variantId'
       ]),
@@ -81,12 +81,12 @@ export const CvcTypePolicies: TypePolicies = {
       comments: relayStylePagination(['originatingUserId', 'subject']),
       evidenceItems: relayStylePagination([
         'diseaseName',
-        'drugName',
+        'therapayName',
         'id',
         'description',
         'evidenceLevel',
         'evidenceDirection',
-        'clinicalSignificance',
+        'significance',
         'evidenceType',
         'evidenceRating',
         'variantOrigin',
@@ -97,7 +97,7 @@ export const CvcTypePolicies: TypePolicies = {
         'userId',
         'phenotypeId',
         'diseaseId',
-        'drugId',
+        'therapayId',
         'sourceId',
         'geneSymbol',
         'variantName',
@@ -106,12 +106,12 @@ export const CvcTypePolicies: TypePolicies = {
       ]),
       assertions: relayStylePagination([
         'diseaseName',
-        'drugName',
+        'therapayName',
         'id',
         'name',
         'summary',
         'assertionDirection',
-        'clinicalSignificance',
+        'significance',
         'assertionType',
         'variantId',
         'molecularProfileId',
@@ -123,7 +123,7 @@ export const CvcTypePolicies: TypePolicies = {
         'userId',
         'phenotypeId',
         'diseaseId',
-        'drugId',
+        'therapayId',
         'status'
       ]),
       organizations: relayStylePagination(['name', 'id']),
@@ -135,7 +135,7 @@ export const CvcTypePolicies: TypePolicies = {
       ]),
       phenotypes: relayStylePagination(['hpoId', 'name', 'id']),
       variantTypes: relayStylePagination(['soid', 'name', 'id']),
-      drugs: relayStylePagination(['ncitId', 'name', 'id']),
+      therapies: relayStylePagination(['ncitId', 'name', 'id']),
       clinicalTrials: relayStylePagination(['nctId', 'name', 'id']),
       notifications: relayStylePagination([
         'notificationReason',

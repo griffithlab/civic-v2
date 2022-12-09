@@ -9,6 +9,7 @@ const optionText: { [option: string]: string } = {
   'COMMON_GERMLINE': 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item.',
   'UNKNOWN': 'The variant origin is uncertain based on the available evidence.',
   'NA': 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
+  'MIXED': 'Variants in the corresponding Molecular Profile have heterogenous origins.',
 }
 
 export const variantOriginSelectTypeOption: TypeOption = {
@@ -26,6 +27,7 @@ export const variantOriginSelectTypeOption: TypeOption = {
         {value: VariantOrigin.CommonGermline, label: formatEvidenceEnum(VariantOrigin.CommonGermline)},
         {value: VariantOrigin.Unknown, label: formatEvidenceEnum(VariantOrigin.Unknown)},
         {value: VariantOrigin.Na, label: formatEvidenceEnum(VariantOrigin.Na)},
+        {value: VariantOrigin.Mixed, label: formatEvidenceEnum(VariantOrigin.Mixed)},
       ]
     },
     expressionProperties: {

@@ -34,7 +34,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:disease_name, type: GraphQL::Types::String, description: 'Substring filtering on disease name.') do |scope, value|
     scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
   end
-  option(:drug_name, type: GraphQL::Types::String, description: 'Substring filtering on drug name.') do |scope, value|
+  option(:therapy_name, type: GraphQL::Types::String, description: 'Substring filtering on therapy name.') do |scope, value|
     scope.joins(:drugs).where('drugs.name ILIKE ?', "%#{value}%")
   end
   option(:molecular_profile_name, type: GraphQL::Types::String, description: 'Substring filtering on molecular profile name') do |scope, value|
@@ -59,8 +59,8 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:assertion_direction, type: Types::EvidenceDirectionType, description: 'Filtering on the assertion direction.') do |scope, value|
     scope.where(evidence_direction: value)
   end
-  option(:clinical_significance, type: Types::EvidenceClinicalSignificanceType, description: "Filtering on the assertion's clinical significance.") do |scope, value|
-    scope.where(clinical_significance: value)
+  option(:significance, type: Types::EvidenceSignificanceType, description: "Filtering on the assertion's significance.") do |scope, value|
+    scope.where(significance: value)
   end
   option(:amp_level, type: Types::AmpLevelType, description: 'Filtering on the AMP/ASCO/CAP category.') do |scope, value|
     scope.where(amp_level: value)
@@ -71,7 +71,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:disease_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the assertions based on the internal CIViC disease id') do |scope, value|
     scope.joins(:disease).where('diseases.id = ?', value)
   end
-  option(:drug_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the assertions based on the internal CIViC drug id') do |scope, value|
+  option(:therapy_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the assertions based on the internal CIViC therapy id') do |scope, value|
     scope.joins(:drugs).where('drugs.id = ?', value)
   end
   option(:status, type: Types::EvidenceStatusFilterType, description: "Filtering on the status of the assertion.") do |scope, value|
@@ -89,7 +89,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
       scope.reorder("assertions.id #{value.direction}")
     when 'DISEASE_NAME'
       scope.joins(:disease).reorder("diseases.name #{value.direction}")
-    when 'DRUG_NAME'
+    when 'THERAPY_NAME'
       scope.joins(:drugs).reorder("drugs.name #{value.direction}")
     when 'SUMMARY'
       scope.reorder("assertions.summary #{value.direction}")
@@ -99,8 +99,8 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
       scope.reorder("status #{value.direction}")
     when 'ASSERTION_DIRECTION'
       scope.reorder("evidence_direction #{value.direction}")
-    when 'CLINICAL_SIGNIFICANCE'
-      scope.reorder("clinical_significance #{value.direction}")
+    when 'SIGNIFICANCE'
+      scope.reorder("significance #{value.direction}")
     when 'AMP_LEVEL'
       scope.reorder("amp_level #{value.direction}")
     when 'EVIDENCE_ITEMS_COUNT'

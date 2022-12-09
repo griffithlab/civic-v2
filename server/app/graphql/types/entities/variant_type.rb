@@ -11,7 +11,6 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :description, String, null: true
     field :gene, Types::Entities::GeneType, null: false
     field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false
     field :sources, [Types::Entities::SourceType], null: false

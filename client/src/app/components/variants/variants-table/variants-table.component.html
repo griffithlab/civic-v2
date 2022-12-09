@@ -60,7 +60,7 @@
           Diseases
         </th>
         <th nzWidth="180px">
-          Drugs
+          Therapies
         </th>
       </tr>
       <tr class="filter-row">
@@ -81,7 +81,7 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
       </tr>
@@ -111,10 +111,10 @@
               [matchingText]="diseaseNameInput"> </cvc-tag-overflow>
           </td>
           <td>
-            <cvc-tag-overflow tagType="drug"
-              [tags]="variant.drugs"
+            <cvc-tag-overflow tagType="therapy"
+              [tags]="variant.therapies"
               [maxDisplayCount]="1"
-              [matchingText]="drugNameInput"> </cvc-tag-overflow>
+              [matchingText]="therapyNameInput"> </cvc-tag-overflow>
           </td>
         </tr>
       </ng-template>

@@ -2,7 +2,7 @@
   <nz-space nzDirection="vertical">
     <ng-container *ngrxLet="this.mpsToDeprecate$ as mpsToDeprecate">
       <ng-container *ngIf="mpsToDeprecate.length > 0">
-        <nz-alert *nzSpaceItem nzType="warning" nzMessage="This action will deprecate the following Molecular Profiles:" [nzDescription]="mpsToDeprecateTpl">
+        <nz-alert *nzSpaceItem nzType="warning" nzMessage="This action will also deprecate the following Molecular Profiles:" [nzDescription]="mpsToDeprecateTpl">
           <ng-template #mpsToDeprecateTpl>
             <ng-container *ngFor="let mp of mpsToDeprecate">
               <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>

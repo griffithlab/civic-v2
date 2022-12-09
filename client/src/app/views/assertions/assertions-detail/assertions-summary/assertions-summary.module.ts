@@ -13,7 +13,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
@@ -23,6 +22,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -42,7 +42,7 @@ import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-prof
     CvcStatusTagModule,
     CvcUserTagModule,
     CvcTagListModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcEvidenceTableModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,

@@ -13,7 +13,7 @@ export interface FormDisease {
   displayName?: string;
 }
 
-export interface FormDrug {
+export interface FormTherapy {
   id: number;
   ncitId?: string;
   name?: string;

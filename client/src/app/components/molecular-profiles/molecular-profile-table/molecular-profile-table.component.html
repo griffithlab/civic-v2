@@ -60,7 +60,7 @@
           Diseases
         </th>
         <th nzWidth="180px">
-          Drugs
+          Therapies
         </th>
         <th nzWidth="75px"
           nzRight
@@ -117,7 +117,7 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzWidth="180px">
-          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzWidth="75px"
@@ -162,10 +162,10 @@
               [matchingText]="diseaseNameInput"> </cvc-tag-overflow>
           </td>
           <td>
-            <cvc-tag-overflow tagType="drug"
-              [tags]="mp.drugs"
+            <cvc-tag-overflow tagType="therapy"
+              [tags]="mp.therapies"
               [maxDisplayCount]="1"
-              [matchingText]="drugNameInput"> </cvc-tag-overflow>
+              [matchingText]="therapyNameInput"> </cvc-tag-overflow>
           </td>
           <td nzRight
             nzAlign="right">{{mp.evidenceScore | number }}</td>

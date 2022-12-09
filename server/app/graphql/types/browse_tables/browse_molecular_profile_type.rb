@@ -14,13 +14,13 @@ module Types::BrowseTables
     end
     class LinkableDisease < LinkableTag
     end
-    class LinkableDrug < LinkableTag
+    class LinkableTherapy < LinkableTag
     end
 
     field :id, Int, null: false
     field :name, String, null: false
     field :diseases, [LinkableDisease], null: false
-    field :drugs, [LinkableDrug], null: false
+    field :therapies, [LinkableTherapy], null: false
     field :genes, [LinkableGene], null: false
     field :variants,[LinkableVariant], null: false
     field :link, String, null: false
@@ -58,10 +58,10 @@ module Types::BrowseTables
         .map { |d| { name: d['name'], id: d['id'], link: "/disease/#{d['id']}"} }
     end
 
-    def drugs
+    def therapies
       Array(object.drugs)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/drugs/#{d['id']}"} }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"} }
     end
 
     def aliases

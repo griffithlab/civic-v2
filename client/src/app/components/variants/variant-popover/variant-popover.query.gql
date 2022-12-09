@@ -7,7 +7,6 @@ query VariantPopover($variantId: Int!){
 fragment variantPopoverFields on Variant {
   id
   name
-  description
   variantAliases
   alleleRegistryId
   evidenceItems {

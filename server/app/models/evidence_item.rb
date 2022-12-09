@@ -22,7 +22,7 @@ class EvidenceItem < ActiveRecord::Base
   #TODO make this an enum:
   #enum evidence_status: Constants::EVIDENCE_STATUS
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
-  enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
+  enum significance: Constants::SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
 
   has_one :submission_event,

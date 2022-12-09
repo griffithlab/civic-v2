@@ -14,7 +14,7 @@ fragment RevisableAssertionFields on Assertion {
     link
   }
   variantOrigin
-  clinicalSignificance
+  significance
   disease {
     id
     doid
@@ -22,13 +22,13 @@ fragment RevisableAssertionFields on Assertion {
     displayName
     link
   }
-  drugs {
+  therapies {
     id
     ncitId
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   assertionDirection
   assertionType
   phenotypes {

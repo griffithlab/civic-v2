@@ -12,14 +12,14 @@ fragment evidencePopover on EvidenceItem {
   evidenceLevel
   evidenceType
   evidenceDirection
-  clinicalSignificance
+  significance
   variantOrigin
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name

@@ -6,7 +6,6 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterModule } from '@angular/router';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -19,6 +18,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 
 @NgModule({
   declarations: [CvcAssertionPopoverComponent],
@@ -37,7 +37,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcMolecularProfileTagNameModule,
     CvcMolecularProfileTagModule,
     CvcPhenotypeTagModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcPipesModule,
     CvcStatusTagModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),

@@ -9,7 +9,7 @@ module Types::BrowseTables
     field :gene_name, String, null: false
     field :gene_link, String, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
-    field :drugs, [Types::Entities::DrugType], null: false
+    field :therapies, [Types::Entities::TherapyType], null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false
 
     def link
@@ -32,10 +32,10 @@ module Types::BrowseTables
         .map { |d| { name: d['name'], id: d['id'], link: "/disease/#{d['id']}" } }
     end
 
-    def drugs
+    def therapies
       Array(object.drugs)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/drugs/#{d['id']}" } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}" } }
     end
   end
 end

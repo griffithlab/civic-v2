@@ -133,7 +133,7 @@
 
         <nz-descriptions-item nzTitle="Clinical Significance"
           nzSpan="2">
-          {{ assertion.clinicalSignificance | evidenceEnumDisplay }}
+          {{ assertion.significance | evidenceEnumDisplay }}
         </nz-descriptions-item>
 
         <nz-descriptions-item nzTitle="Disease"
@@ -148,14 +148,14 @@
           </ng-template>
         </nz-descriptions-item>
 
-        <nz-descriptions-item nzTitle="Drugs"
+        <nz-descriptions-item nzTitle="Therapies"
           nzSpan="2"
-          *ngIf="assertion.drugs.length > 0">
-          <span *ngFor="let drug of assertion.drugs">
-            <cvc-drug-tag [enablePopover]="false" [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
+          *ngIf="assertion.therapies.length > 0">
+          <span *ngFor="let therapy of assertion.therapies">
+            <cvc-therapy-tag [enablePopover]="false" [therapy]="therapy" [truncateLongName]="true"></cvc-therapy-tag>
           </span>
-          <ng-container *ngIf="assertion.drugs.length > 1">
-            {{ assertion.drugInteractionType | titlecase }}
+          <ng-container *ngIf="assertion.therapies.length > 1">
+            {{ assertion.therapyInteractionType | titlecase }}
           </ng-container>
         </nz-descriptions-item>
 

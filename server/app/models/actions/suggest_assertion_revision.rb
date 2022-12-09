@@ -7,7 +7,7 @@ class Actions::SuggestAssertionRevision < Actions::SuggestRevisionSet
       :gene_id,
       :variant_origin,
       :evidence_type,
-      :clinical_significance,
+      :significance,
       :disease_id,
       :evidence_direction,
       :phenotype_ids,

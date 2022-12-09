@@ -15,7 +15,7 @@ class Drug < ApplicationRecord
   end
 
   def link
-    Rails.application.routes.url_helpers.url_for("/drugs/#{self.id}")
+    Rails.application.routes.url_helpers.url_for("/therapies/#{self.id}")
   end
 
   def self.timepoint_query
