@@ -1808,7 +1808,7 @@ type Disease {
   diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
-  doid: Int
+  doid: String
   id: Int!
   link: String!
   name: String!
@@ -1819,7 +1819,7 @@ type DiseasePopover {
   diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
-  doid: Int
+  doid: String
   evidenceItemCount: Int!
   id: Int!
   link: String!

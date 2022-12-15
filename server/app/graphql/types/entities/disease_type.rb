@@ -3,7 +3,7 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :display_name, String, null: false
-    field :doid, Int, null: true
+    field :doid, String, null: true
     field :disease_url, String, null: true
     field :disease_aliases, [String], null: false
     field :link, String, null: false
