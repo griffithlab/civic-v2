@@ -9,7 +9,7 @@ export interface FormSource {
 
 export interface FormDisease {
   id?: number;
-  doid?: number;
+  doid?: string;
   displayName?: string;
 }
 

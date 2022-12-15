@@ -1135,7 +1135,7 @@ export type Disease = {
   diseaseAliases: Array<Scalars['String']>;
   diseaseUrl?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
-  doid?: Maybe<Scalars['Int']>;
+  doid?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -1147,7 +1147,7 @@ export type DiseasePopover = {
   diseaseAliases: Array<Scalars['String']>;
   diseaseUrl?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
-  doid?: Maybe<Scalars['Int']>;
+  doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
   link: Scalars['String'];
@@ -5109,7 +5109,7 @@ export type DiseasePopoverQueryVariables = Exact<{
 }>;
 
 
-export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: number | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, link: string } | undefined };
+export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, link: string } | undefined };
 
 export type BrowseDiseasesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5674,9 +5674,9 @@ export type AssertionRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
+export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
 
-export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
+export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
 
 export type SuggestAssertionRevisionMutationVariables = Exact<{
   input: SuggestAssertionRevisionInput;
@@ -5769,7 +5769,7 @@ export type DiseaseTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type DiseaseTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Array<{ __typename: 'Disease', id: number, name: string, displayName: string, doid?: number | undefined, diseaseAliases: Array<string> }> };
+export type DiseaseTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Array<{ __typename: 'Disease', id: number, name: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> }> };
 
 export type AddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
@@ -5922,9 +5922,9 @@ export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: string, citation?: string | undefined } } | undefined };
+export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: string, citation?: string | undefined } } | undefined };
 
-export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: string, citation?: string | undefined } };
+export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: string, citation?: string | undefined } };
 
 export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
   input: SuggestEvidenceItemRevisionInput;
@@ -6132,16 +6132,16 @@ export type DiseaseDetailQueryVariables = Exact<{
 }>;
 
 
-export type DiseaseDetailQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: number | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
+export type DiseaseDetailQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
 
 export type DiseasesSummaryQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
 
 
-export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: number | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
+export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
 
-export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: number | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string };
+export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string };
 
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];

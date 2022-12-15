@@ -14,7 +14,7 @@ import { filter, map, pluck } from 'rxjs/operators';
 interface DiseaseTypeahead {
   id: number,
   displayName: string,
-  doid?: number,
+  doid?: string,
   diseaseAliases: string[]
 }
 
