@@ -29,8 +29,8 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     end
 
     if molecular_profile_id
-      mp = MolecularProfile.where(id: molecular_profile_id)
-      if !mp.exists?
+      mp = MolecularProfile.find_by(id: molecular_profile_id)
+      if mp.blank?
         errors << "Molecular Profile with ID #{molecular_profile_id} does not exist in CIViC"
       elsif mp.deprecated
         errors << "Molecuarl Profile with ID #{molecular_profile_id} is deprecated"
