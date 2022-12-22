@@ -29,7 +29,7 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
       scope.reorder "evidence_item_count #{value.direction}"
     when "assertionCount"
       scope.reorder "assertion_count #{value.direction}"
-    when "evidenceScore"
+    when "molecularProfileScore"
       scope.reorder "evidence_score #{value.direction}"
     end
   end
