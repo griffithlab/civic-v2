@@ -951,10 +951,10 @@ type BrowseMolecularProfile {
   assertionCount: Int!
   diseases: [LinkableDisease!]!
   evidenceItemCount: Int!
-  evidenceScore: Float!
   genes: [LinkableGene!]!
   id: Int!
   link: String!
+  molecularProfileScore: Float!
   name: String!
   therapies: [LinkableTherapy!]!
   variants: [LinkableVariant!]!
@@ -3418,7 +3418,6 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     last: Int
   ): EvidenceItemConnection!
-  evidenceScore: Float!
   flagged: Boolean!
 
   """
@@ -3471,6 +3470,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   lastSubmittedRevisionEvent: Event
   link: String!
   molecularProfileAliases: [String!]!
+  molecularProfileScore: Float!
 
   """
   The human readable name of this profile, including gene and variant names.
@@ -3696,7 +3696,7 @@ input MolecularProfilesSort {
 enum MolecularProfilesSortColumns {
   assertionCount
   evidenceItemCount
-  evidenceScore
+  molecularProfileScore
 }
 
 type Mutation {

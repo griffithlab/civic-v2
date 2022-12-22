@@ -10,7 +10,7 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
   name
   description
   molecularProfileAliases
-  evidenceScore
+  molecularProfileScore
   sources {
     id
     citation

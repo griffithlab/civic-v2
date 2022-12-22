@@ -25,11 +25,15 @@ module Types::Entities
     field :deprecated, Boolean, null: false
     field :deprecated_variants, [Types::Entities::VariantType], null: false
     field :deprecation_event, Types::Entities::EventType, null: true
-    field :evidence_score, Float, null: false
+    field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
 
     def raw_name
       object.name
+    end
+
+    def molecular_profile_score
+      object.evidence_score
     end
 
     def name

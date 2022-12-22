@@ -27,8 +27,11 @@ module Types::BrowseTables
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
     field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
-    field :evidence_score, Float, null: false
+    field :molecular_profile_score, Float, null: false
 
+    def molecular_profile_score
+      object.evidence_score
+    end
 
     def name
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|

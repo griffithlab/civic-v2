@@ -45,7 +45,7 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
   id
   name
   evidenceItemCount
-  evidenceScore
+  molecularProfileScore
   assertionCount
   aliases {
     name
