@@ -31,7 +31,8 @@ export const CvcTypePolicies: TypePolicies = {
         'variantName',
         'entrezSymbol',
         'diseaseName',
-        'therapayName',
+        'therapyName',
+        'molecularProfileScore',
         'molecularProfileAlias',
         'variantId'
       ]),

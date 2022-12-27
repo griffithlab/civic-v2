@@ -67,11 +67,11 @@
           nzAlign="right"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
-          [nzColumnKey]="sortColumns.EvidenceScore"
+          [nzColumnKey]="sortColumns.MolecularProfileScore"
           nz-tooltip
-          nzTooltipTitle="Evidence Score">
+          nzTooltipTitle="Molecular Profile Score">
           <i nz-icon
-            nzType="civic-evidence"></i> Score
+            nzType="civic-molecularprofile"></i> Score
         </th>
         <th nzWidth="75px"
           nzRight
@@ -167,8 +167,8 @@
               [maxDisplayCount]="1"
               [matchingText]="therapyNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight
-            nzAlign="right">{{mp.evidenceScore | number }}</td>
+          <td nzRigh
+            nzAlign="right">{{mp.molecularProfileScore | number }}</td>
           <td nzRight
             nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
           <td nzRight
