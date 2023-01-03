@@ -3222,6 +3222,7 @@ export type QueryMolecularProfilesArgs = {
   geneId?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  variantId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -4636,7 +4637,6 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   ensemblVersion?: Maybe<Scalars['Int']>;
   /** List and filter events for an object */
   events: EventConnection;
-  evidenceItems: EvidenceItemConnection;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -4647,7 +4647,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String'];
-  molecularProfiles: Array<MolecularProfile>;
+  molecularProfiles: MolecularProfileConnection;
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
   openCravatUrl?: Maybe<Scalars['String']>;
@@ -4691,14 +4691,6 @@ export type VariantEventsArgs = {
 };
 
 
-export type VariantEvidenceItemsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-};
-
-
 export type VariantFlagsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4708,6 +4700,14 @@ export type VariantFlagsArgs = {
   resolvingUserId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<DateSort>;
   state?: InputMaybe<FlagState>;
+};
+
+
+export type VariantMolecularProfilesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -5620,9 +5620,9 @@ export type VariantPopoverQueryVariables = Exact<{
 }>;
 
 
-export type VariantPopoverQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, gene: { __typename: 'Gene', id: number, name: string, link: string }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type VariantPopoverQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, gene: { __typename: 'Gene', id: number, name: string, link: string }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
@@ -6052,7 +6052,7 @@ export type MolecularProfilesForVariantQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfilesForVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, molecularProfiles: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string, evidenceCountsByStatus: { __typename: 'EvidenceItemsByStatus', submittedCount: number, acceptedCount: number } }> } | undefined };
+export type MolecularProfilesForVariantQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', nodes: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string, evidenceCountsByStatus: { __typename: 'EvidenceItemsByStatus', submittedCount: number, acceptedCount: number } }> } };
 
 export type SuggestVariantGroupRevisionMutationVariables = Exact<{
   input: SuggestVariantGroupRevisionInput;
@@ -7385,13 +7385,13 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   name
   variantAliases
   alleleRegistryId
-  evidenceItems {
-    totalCount
-  }
   gene {
     id
     name
     link
+  }
+  molecularProfiles {
+    totalCount
   }
   revisions(status: NEW) {
     totalCount
@@ -11196,9 +11196,8 @@ export const DeprecateVariantDocument = gql`
   }
 export const MolecularProfilesForVariantDocument = gql`
     query MolecularProfilesForVariant($variantId: Int!) {
-  variant(id: $variantId) {
-    id
-    molecularProfiles {
+  molecularProfiles(variantId: $variantId, first: 50) {
+    nodes {
       id
       name
       link
