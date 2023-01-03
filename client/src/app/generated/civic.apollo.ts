@@ -2010,7 +2010,7 @@ export type ModeratedObjectField = {
 export type MolecularProfile = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
   __typename: 'MolecularProfile';
   /** The collection of assertions associated with this molecular profile. */
-  assertions: Array<Assertion>;
+  assertions: AssertionConnection;
   /** List and filter comments. */
   comments: CommentConnection;
   deprecated: Scalars['Boolean'];
@@ -2043,6 +2043,14 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   sources: Array<Source>;
   /** The collection of variants included in this molecular profile. Please note the name for their relation to each other. */
   variants: Array<Variant>;
+};
+
+
+export type MolecularProfileAssertionsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -5278,9 +5286,9 @@ export type MolecularProfilePopoverQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, deprecated: boolean, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, molecularProfileAliases: Array<string>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, deprecated: boolean, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, assertions: { __typename: 'AssertionConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, deprecated: boolean, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, molecularProfileAliases: Array<string>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, deprecated: boolean, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, assertions: { __typename: 'AssertionConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseMolecularProfilesQueryVariables = Exact<{
   variantName?: InputMaybe<Scalars['String']>;
@@ -6937,7 +6945,11 @@ export const MolecularProfilePopoverFieldsFragmentDoc = gql`
       link
     }
   }
+  molecularProfileAliases
   evidenceItems {
+    totalCount
+  }
+  assertions {
     totalCount
   }
   revisions(status: NEW) {

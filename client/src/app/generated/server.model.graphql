@@ -3304,7 +3304,27 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   """
   The collection of assertions associated with this molecular profile.
   """
-  assertions: [Assertion!]!
+  assertions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): AssertionConnection!
 
   """
   List and filter comments.
