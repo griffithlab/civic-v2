@@ -80,7 +80,7 @@
 
             <!-- allele reg. id -->
             <nz-descriptions-item nzTitle="Allele Registry ID">
-              <cvc-link-tag *ngIf="variant.alleleRegistryId != 'unregistered'; else noAlleleRegistry"
+              <cvc-link-tag *ngIf="variant.alleleRegistryId && variant.alleleRegistryId != 'unregistered'; else noAlleleRegistry"
                 [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'"
                 tooltip="View on ClinGen Allele Registry">
                 {{ variant.alleleRegistryId }}
