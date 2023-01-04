@@ -52,6 +52,15 @@ fragment VariantMolecularProfileCardFields on Variant {
       name
       link
   }
+  molecularProfiles(first: 3) {
+    totalCount
+    nodes {
+      id
+      link
+      name
+      deprecated
+    }
+  }
   variantAliases
   clinvarIds
   alleleRegistryId

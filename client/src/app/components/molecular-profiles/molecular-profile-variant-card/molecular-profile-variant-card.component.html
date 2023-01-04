@@ -79,7 +79,24 @@
                                 <span nz-typography nzType="secondary">None provided</span>
                             </ng-template>
                         </nz-descriptions-item>
+                    </nz-descriptions>
+                </nz-col>
 
+                <nz-col [nzSpan]="24">
+                    <nz-descriptions nzLayout="horizontal" nzSize="small" [nzBordered]="true" [nzColumn]="1" >
+                        <nz-descriptions-item *ngIf="this.displayMps.length > 0" nzTitle="Other Molecular Profiles">
+                            <cvc-tag-list>
+                                <ng-container *ngFor="let mp of this.displayMps">
+                                    <cvc-molecular-profile-tag [molecularProfile]="mp" [truncateLongName]="true"></cvc-molecular-profile-tag>
+                                </ng-container>
+                                <ng-container *ngIf="variant.molecularProfiles.totalCount > (this.displayMps.length + 1)">
+                                    <a routerLink="/variants/{{variant.id}}/summary">
+                                        + {{ variant.molecularProfiles.totalCount - this.displayMps.length}} more
+                                    </a>
+                                </ng-container>
+                            </cvc-tag-list>
+
+                        </nz-descriptions-item>
                     </nz-descriptions>
                 </nz-col>
 
@@ -185,6 +202,7 @@
                             <cvc-empty-revisable notification="No coordinates specified"> </cvc-empty-revisable>
                         </ng-template>
                     </nz-card>
+                    <span style="float: right;">View full variant details on the <cvc-variant-tag [variant]="variant"></cvc-variant-tag>page.</span>
                 </nz-col>
             </nz-row>
         </nz-col>

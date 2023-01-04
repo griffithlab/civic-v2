@@ -78,7 +78,7 @@
       <nz-row [nzGutter]="[8,8]">
         <nz-col [nzSpan]="12"
           *ngFor="let v of mp.variants">
-          <cvc-mp-variant-card [variant]="v"></cvc-mp-variant-card>
+          <cvc-mp-variant-card [variant]="v" [currentMolecularProfileId]="mp.id"></cvc-mp-variant-card>
         </nz-col>
       </nz-row>
     </nz-col>
