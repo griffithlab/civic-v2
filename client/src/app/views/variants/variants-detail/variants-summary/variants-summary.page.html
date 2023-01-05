@@ -58,6 +58,10 @@
 
           </nz-descriptions>
         </nz-col>
+        <!-- coordinates -->
+        <nz-col [nzSpan]="24">
+          <cvc-coordinates-card [cvcVariantId]="variant.id"></cvc-coordinates-card>
+        </nz-col>
       </nz-row>
 
     </nz-col>
@@ -122,10 +126,6 @@
             </nz-descriptions-item>
 
           </nz-descriptions>
-        </nz-col>
-        <!-- coordinates -->
-        <nz-col [nzSpan]="24">
-          <cvc-coordinates-card [cvcVariantId]="variant.id"></cvc-coordinates-card>
         </nz-col>
 
         <!-- myvariant info -->
