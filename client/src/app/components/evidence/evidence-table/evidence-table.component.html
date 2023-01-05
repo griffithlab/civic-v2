@@ -176,15 +176,15 @@
             (ngModelChange)="filterChange$.next()"
             [(ngModel)]="evidenceLevelInput">
             <nz-option nzValue="A"
-              nzLabel="A"></nz-option>
+              [nzLabel]="'A - ' + (evidenceLevels.A | evidenceLevelDisplay)"></nz-option>
             <nz-option nzValue="B"
-              nzLabel="B"></nz-option>
+              [nzLabel]="'B - ' + (evidenceLevels.B | evidenceLevelDisplay)"></nz-option>
             <nz-option nzValue="C"
-              nzLabel="C"></nz-option>
+              [nzLabel]="'C - ' + (evidenceLevels.C | evidenceLevelDisplay)"></nz-option>
             <nz-option nzValue="D"
-              nzLabel="D"></nz-option>
+              [nzLabel]="'D - ' + (evidenceLevels.D | evidenceLevelDisplay)"></nz-option>
             <nz-option nzValue="E"
-              nzLabel="E"></nz-option>
+              [nzLabel]="'E - ' + (evidenceLevels.E | evidenceLevelDisplay)"></nz-option>
           </nz-select>
         </th>
         <th nzAlign="center"
