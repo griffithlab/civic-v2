@@ -1,5 +1,3 @@
-spectaql:
-
 introspection:
   schemaFile: ./client/src/app/generated/server.model.graphql
 

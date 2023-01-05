@@ -9,13 +9,13 @@ fragment variantPopoverFields on Variant {
   name
   variantAliases
   alleleRegistryId
-  evidenceItems {
-    totalCount
-  }
   gene {
     id
     name
     link
+  }
+  molecularProfiles {
+    totalCount
   }
   revisions(status: NEW) {
     totalCount

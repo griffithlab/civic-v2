@@ -75,12 +75,13 @@
 
     <!-- variant cards -->
     <nz-col nzSpan="24">
-      <nz-row [nzGutter]="[8,8]">
-        <nz-col [nzSpan]="12"
-          *ngFor="let v of mp.variants">
-          <cvc-mp-variant-card [variant]="v"></cvc-mp-variant-card>
-        </nz-col>
-      </nz-row>
+      <nz-card nzTitle="MP Variants">
+        <nz-row [nzGutter]="[8,8]">
+          <nz-col nzSpan="24" *ngFor="let v of mp.variants">
+            <cvc-mp-variant-card [variant]="v" [currentMolecularProfileId]="mp.id"></cvc-mp-variant-card>
+          </nz-col>
+        </nz-row>
+      </nz-card>
     </nz-col>
     <!-- evidence table -->
     <nz-col nzSpan="24">

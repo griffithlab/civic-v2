@@ -15,7 +15,7 @@ module Types::Entities
       description: 'The profile name with its constituent parts as objects, suitable for building tags.'
     field :variants, [Types::Entities::VariantType], null: false,
       description: 'The collection of variants included in this molecular profile. Please note the name for their relation to each other.'
-    field :assertions, [Types::Entities::AssertionType], null: false,
+    field :assertions, Types::Entities::AssertionType.connection_type, null: false,
       description: 'The collection of assertions associated with this molecular profile.'
     field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false,
       description: 'The collection of evidence items associated with this molecular profile.'

@@ -12,6 +12,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcMolecularProfileTagNameModule } from '../molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 
 @NgModule({
   declarations: [CvcMolecularProfilePopoverComponent],
@@ -27,6 +28,7 @@ import { CvcMolecularProfileTagNameModule } from '../molecular-profile-tag-name/
     NzSpaceModule,
     CvcGeneTagModule,
     CvcLinkTagModule,
+    CvcTagListModule,
     CvcMolecularProfileTagNameModule
   ],
   exports: [CvcMolecularProfilePopoverComponent]

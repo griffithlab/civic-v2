@@ -14,24 +14,33 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcMolecularProfileTagModule } from '../molecular-profile-tag/molecular-profile-tag.module';
+import { RouterModule } from '@angular/router';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module';
 
 @NgModule({
   declarations: [CvcMolecularProfileVariantCardComponent],
   imports: [
     CommonModule,
+    RouterModule,
     NzTagModule,
     NzIconModule,
     NzGridModule,
     NzDescriptionsModule,
     NzTypographyModule,
     NzCardModule,
+    NzCollapseModule,
     CvcPipesModule,
     CvcVariantTagModule,
     CvcGeneTagModule,
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcVariantTypeTagModule,
-    CvcLinkTagModule
+    CvcLinkTagModule,
+    CvcTagListModule,
+    CvcMolecularProfileTagModule,
+    CvcCoordinatesCardModule
   ],
   exports: [CvcMolecularProfileVariantCardComponent]
 })
