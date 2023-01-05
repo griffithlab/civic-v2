@@ -97,6 +97,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   variantOriginInput: Maybe<VariantOrigin>
 
   sortColumns = EvidenceSortColumns
+  evidenceLevels = EvidenceLevel
 
   selectedEvidenceIds = new Map<number, FormEvidence>()
 
