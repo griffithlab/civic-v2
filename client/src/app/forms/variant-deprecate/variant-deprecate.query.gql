@@ -23,9 +23,8 @@ mutation DeprecateVariant(
 }
 
 query MolecularProfilesForVariant($variantId: Int!) {
-  variant(id: $variantId) {
-    id
-    molecularProfiles {
+  molecularProfiles(variantId: $variantId, first: 50) {
+    nodes {
       id
       name
       link
