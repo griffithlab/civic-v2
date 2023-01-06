@@ -88,7 +88,8 @@ module Importer
 
       unprocessed_doids.each do |doid|
         d = Disease.find_by(doid: doid)
-        if d.evidence_items.count == 0 && d.assertions.count == 0 && d.source_suggestions.count == 0
+        revisions = Revision.where(field_name: 'disease_id').where(current_value: d.id).or(Revision.where(field_name: 'disease_id').where(suggested_value: d.id))
+        if d.evidence_items.count == 0 && d.assertions.count == 0 && d.source_suggestions.count == 0 && revisions.count == 0
           d.disease_aliases.clear
           d.delete
         else
@@ -96,7 +97,7 @@ module Importer
           resp = Net::HTTP.get_response(uri)
           if resp.code == '200'
             #DOID exists but isn't in the cancer slim file
-            if ['3852', '8432', '0060474', '3883', '14175', '3012', '0111503', '13481', '3205', '0111359', '0080894', '0111278'].include? d.doid
+            if ['3852', '8432', '0060474', '3883', '14175', '3012', '0111503', '13481', '3205', '0111359', '0080894', '0111278', '0060060'].include? d.doid
               #Non-cancer diseases don't belong in the cancer slim file and
               #need to be updated using the data returned by the API
               metadata = JSON.parse(resp.body)
