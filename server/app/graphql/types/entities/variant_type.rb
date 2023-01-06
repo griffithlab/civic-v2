@@ -12,7 +12,6 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :gene, Types::Entities::GeneType, null: false
-    field :sources, [Types::Entities::SourceType], null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true

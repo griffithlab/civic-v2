@@ -7838,7 +7838,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   secondaryCoordinates: Coordinate
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
-  sources: [Source!]!
   variantAliases: [String!]!
   variantBases: String
   variantTypes: [VariantType!]!
