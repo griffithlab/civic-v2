@@ -3,12 +3,9 @@ import { CommonModule } from '@angular/common';
 import { CvcAssertionPopoverComponent } from './assertion-popover.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterModule } from '@angular/router';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -19,6 +16,9 @@ import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 
 @NgModule({
   declarations: [CvcAssertionPopoverComponent],
@@ -33,11 +33,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzSpaceModule,
     NzTagModule,
     NzToolTipModule,
-    CvcGeneTagModule,
     CvcDiseaseTagModule,
-    CvcVariantTagModule,
+    CvcMolecularProfileTagNameModule,
+    CvcMolecularProfileTagModule,
     CvcPhenotypeTagModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcPipesModule,
     CvcStatusTagModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),

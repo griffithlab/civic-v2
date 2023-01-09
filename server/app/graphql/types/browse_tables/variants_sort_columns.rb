@@ -3,9 +3,6 @@ module Types::BrowseTables
     value "entrezSymbol"
     value "variantName"
     value "diseaseName"
-    value "drugName"
-    value "evidenceItemCount"
-    value "assertionCount"
-    value "evidenceScore"
+    value "therapyName"
   end
 end

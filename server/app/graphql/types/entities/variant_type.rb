@@ -7,13 +7,11 @@ module Types::Entities
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::MolecularProfileComponent
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :description, String, null: true
     field :gene, Types::Entities::GeneType, null: false
-    field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false
-    field :sources, [Types::Entities::SourceType], null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
@@ -21,24 +19,43 @@ module Types::Entities
     field :reference_bases, String, null: true
     field :variant_bases, String, null: true
     field :allele_registry_id, String, null: true
-    field :evidence_score, Float, null: false
     field :variant_aliases, [String], null: false
     field :variant_types, [Types::Entities::VariantTypeType], null: false
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
     field :link, String, null: false
+    field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
+    field :single_variant_molecular_profile_id, Int, null: false
+    field :deprecated, Boolean, null: false
+    field :deprecation_reason, Types::DeprecationReasonType, null: true
+    field :deprecation_comment, Types::Entities::CommentType, null: true
+    field :deprecation_event, Types::Entities::EventType, null: true
+    field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
+    field :open_cravat_url, String, null: true
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
     end
 
-    def evidence_items
-      Loaders::AssociationLoader.for(Variant, :evidence_items).load(object)
-    end
-
     def variant_types
       Loaders::AssociationLoader.for(Variant, :variant_types).load(object)
+    end
+
+    def molecular_profiles
+      Loaders::AssociationLoader.for(Variant, :molecular_profiles).load(object)
+    end
+
+    def single_variant_molecular_profile
+      Loaders::AssociationLoader.for(Variant, :single_variant_molecular_profile).load(object)
+    end
+
+    def deprecation_comment
+      Loaders::AssociationLoader.for(Variant, :deprecation_comment).load(object)
+    end
+
+    def deprecation_event
+      Loaders::AssociationLoader.for(Variant, :deprecation_event).load(object)
     end
 
     def primary_coordinates
@@ -81,10 +98,6 @@ module Types::Entities
       else
         return object.reference_bases
       end
-    end
-
-    def evidence_score
-      object.civic_actionability_score
     end
 
     def variant_aliases

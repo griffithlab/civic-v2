@@ -1,7 +1,6 @@
 query VariantsMenu(
   $geneId: Int,
   $variantName: String,
-  $evidenceStatusFilter: VariantDisplayFilter,
   $first: Int,
   $last: Int,
   $before: String,
@@ -11,7 +10,6 @@ query VariantsMenu(
   variants(
     geneId: $geneId,
     name: $variantName,
-    evidenceStatusFilter: $evidenceStatusFilter
     first: $first,
     last: $last,
     before: $before,
@@ -38,4 +36,5 @@ fragment menuVariant on Variant {
   id
   name
   link
+  flagged
 }

@@ -10,16 +10,15 @@ class InputAdaptors::AssertionInputAdaptor
     Assertion.new(
       description: input.description,
       summary: input.summary,
-      variant_id: input.variant_id,
-      gene_id: input.gene_id,
+      molecular_profile_id: input.molecular_profile_id,
       variant_origin: input.variant_origin,
       evidence_type: input.assertion_type,
-      clinical_significance: input.clinical_significance,
+      significance: input.significance,
       disease_id: input.disease_id,
       evidence_direction: input.assertion_direction,
       phenotype_ids: input.phenotype_ids,
-      drug_ids: input.drug_ids,
-      drug_interaction_type: input.drug_interaction_type,
+      drug_ids: input.therapy_ids,
+      drug_interaction_type: input.therapy_interaction_type,
       amp_level: input.amp_level,
       evidence_item_ids: input.evidence_item_ids,
       nccn_guideline_id: input.nccn_guideline_id,
@@ -40,9 +39,9 @@ class InputAdaptors::AssertionInputAdaptor
       errors << "Provided phenotype ids: #{fields.phenotype_ids.join(', ')} but only #{existing_phenotype_ids.join(', ')} exist."
     end
 
-    existing_drug_ids = Drug.where(id: fields.drug_ids).pluck(:id)
-    if existing_drug_ids.size != fields.drug_ids.size
-      errors << "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
+    existing_drug_ids = Drug.where(id: fields.therapy_ids).pluck(:id)
+    if existing_drug_ids.size != fields.therapy_ids.size
+      errors << "Provided therapy ids: #{fields.therapy_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
     end
 
     existing_eids = EvidenceItem.where(id: fields.evidence_item_ids)
@@ -80,12 +79,8 @@ class InputAdaptors::AssertionInputAdaptor
       errors << "Provided ClinGen code ids: #{fields.clingen_code_ids.join(', ')} but only #{existing_clingen_ids.join(', ')} exist."
     end
 
-    if !Variant.where(id: fields.variant_id).exists?
-      errors << "Provided variant id: #{fields.variant_id} is not found."
-    end
-
-    if !Gene.where(id: fields.gene_id).exists?
-      errors << "Provided gene id: #{fields.gene_id} is not found."
+    if !MolecularProfile.where(id: fields.molecular_profile_id).exists?
+      errors << "Provided molecular profile id: #{fields.molecular_profile_id} is not found."
     end
 
     return errors

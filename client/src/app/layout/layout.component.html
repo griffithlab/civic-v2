@@ -51,6 +51,17 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'Molecular Profiles' : ''"
+            nzSelected
+            nzMatchRouter>
+            <i nz-icon
+              nzType="civic-molecularprofile"></i>
+            <span> <a routerLink="/molecular-profiles">Molecular Profiles</a> </span>
+          </li>
+
+          <li nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
             nzSelected
             nzMatchRouter>
@@ -109,12 +120,12 @@
       <li nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
-        [nzTooltipTitle]="isCollapsed ? 'Drugs' : ''"
+        [nzTooltipTitle]="isCollapsed ? 'Therapies' : ''"
         nzSelected
         nzMatchRouter>
         <i nz-icon
           nzType="civic-intervention"></i>
-        <span> <a routerLink="/drugs">Drugs</a> </span>
+        <span> <a routerLink="/therapies">Therapies</a> </span>
       </li>
 
       <li nz-menu-item
@@ -242,7 +253,7 @@
   <nz-layout class="right-layout"
     [ngClass]="{ 'is-collapsed': isCollapsed }">
     <nz-header>
-      <div nz-row>
+      <div nz-row id="header-row">
         <!-- sidebar collapse/show trigger -->
         <div nz-col
           nzFlex="40px">
@@ -252,12 +263,12 @@
           </span>
         </div>
         <div nz-col
-          nzFlex="300px"
+          nzFlex="200px"
           id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
         <div nz-col
-          nzFlex="300px"
+          nzFlex="1 0 250px"
           id="header-menu">
           <ul nz-menu
             nzMode="horizontal"
@@ -281,7 +292,7 @@
         </div>
         <!-- header user -->
         <div nz-col
-          nzFlex="auto"
+          nzFlex="1 0 auto"
           id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
           <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>

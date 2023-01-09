@@ -1,6 +1,6 @@
 class VariantTsvFormatter
   def self.objects
-    Variant.joins(:evidence_items)
+    Variant.joins(molecular_profiles: [:evidence_items])
       .includes(:gene, :variant_groups, :variant_types, :hgvs_expressions, :variant_aliases)
       .where("evidence_items.status = 'accepted'")
       .distinct
@@ -13,7 +13,6 @@ class VariantTsvFormatter
       'gene',
       'entrez_id',
       'variant',
-      'summary',
       'variant_groups',
       'chromosome',
       'start',
@@ -30,12 +29,9 @@ class VariantTsvFormatter
       'variant_types',
       'hgvs_expressions',
       'last_review_date',
-      'civic_variant_evidence_score',
       'allele_registry_id',
       'clinvar_ids',
       'variant_aliases',
-      'assertion_ids',
-      'assertion_civic_urls',
       'is_flagged'
     ]
   end
@@ -47,7 +43,6 @@ class VariantTsvFormatter
       variant.gene.name,
       variant.gene.entrez_id,
       variant.name,
-      variant.description&.gsub("\n", ' '),
       variant.variant_groups.map(&:name).join(','),
       variant.chromosome,
       variant.start,
@@ -64,12 +59,9 @@ class VariantTsvFormatter
       variant.variant_types.map(&:name).join(','),
       variant.hgvs_expressions.map(&:expression).join(','),
       variant.updated_at,
-      variant.civic_actionability_score,
       variant.allele_registry_id,
       variant.clinvar_entries.map(&:clinvar_id).join(','),
       variant.variant_aliases.map(&:name).join(','),
-      variant.assertions.map(&:id).join(','),
-      variant.assertions.map{|a| LinkAdaptors::Assertion.new(a).permalink_path(include_domain: true)},
       variant.flagged
     ]
   end

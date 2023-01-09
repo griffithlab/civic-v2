@@ -1,0 +1,31 @@
+query MolecularProfileDetail($mpId: Int!) {
+  molecularProfile(id: $mpId) {
+    ...MolecularProfileDetailFields
+  }
+}
+
+fragment MolecularProfileDetailFields on MolecularProfile {
+  id
+  name
+  deprecated
+  deprecatedVariants {
+    deprecationReason
+    deprecationComment {
+      ...commentListNode
+    }
+    id
+    deprecated
+    name
+    link
+  }
+  molecularProfileAliases
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

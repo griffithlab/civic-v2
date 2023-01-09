@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, T
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
-import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -20,11 +20,12 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
-  @Input() drugId: Maybe<number>
+  @Input() therapyId: Maybe<number>
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -76,13 +77,12 @@ export class CvcAssertionsTableComponent implements OnInit {
   //filters
   aidInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   summaryInput: Maybe<string>
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
-  variantNameInput: Maybe<string>
-  geneNameInput: Maybe<string>
+  SignificanceInput: Maybe<EvidenceSignificance>
+  molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
 
   sortColumns: typeof AssertionSortColumns = AssertionSortColumns
@@ -102,12 +102,13 @@ export class CvcAssertionsTableComponent implements OnInit {
         {
           first: this.initialPageSize,
           variantId: this.variantId,
+          molecularProfileId: this.molecularProfileId,
           evidenceId: this.evidenceId,
           organizationId: this.organizationId,
           userId: this.userId,
           phenotypeId: this.phenotypeId,
           diseaseId: this.diseaseId,
-          drugId: this.drugId,
+          therapyId: this.therapyId,
           status: this.status,
         });
 
@@ -118,14 +119,14 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // controls the smaller [Loading...] indicator, better for not distracting
     // users by overlaying the row data they're focusing on
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'assertions'),
@@ -207,13 +208,12 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.queryRef.refetch({
       id: aid,
       diseaseName: this.diseaseNameInput,
-      geneName: this.geneNameInput,
-      variantName: this.variantNameInput,
-      drugName: this.drugNameInput,
+      molecularProfileName: this.molecularProfileNameInput,
+      therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       assertionType: this.assertionTypeInput ? this.assertionTypeInput : undefined,
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,
-      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
+      significance: this.SignificanceInput ? this.SignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
     })
   }

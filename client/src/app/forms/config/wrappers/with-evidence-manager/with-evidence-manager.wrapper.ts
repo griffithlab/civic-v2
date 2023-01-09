@@ -18,30 +18,25 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
   evidenceGridFilters: EvidenceTableUserFilters  = {
       eidInput: undefined,
       diseaseNameInput: undefined,
-      drugNameInput: undefined,
+      therapyNameInput: undefined,
       descriptionInput: undefined,
       evidenceLevelInput: undefined,
       evidenceTypeInput: undefined,
       evidenceDirectionInput: undefined,
-      clinicalSignificanceInput: undefined,
+      SignificanceInput: undefined,
       variantOriginInput: undefined,
       evidenceRatingInput: undefined,
-      variantNameInput: undefined,
+      molecularProfileNameInput: undefined,
       geneSymbolInput: undefined,
   }
 
   handleOpen() {
     if(this.field.parent?.model) {
       const parentModel = this.field.parent?.model
-      if (parentModel.gene?.length == 1 && parentModel.gene[0]) {
-        this.evidenceGridFilters.geneSymbolInput = parentModel.gene[0].name
-      } else {
-        this.evidenceGridFilters.geneSymbolInput = undefined
-      }
-      if (parentModel.variant.length == 1 && parentModel.variant[0]) {
-        this.evidenceGridFilters.variantNameInput = parentModel.variant[0].name
+      if (parentModel.molecularProfile) {
+        this.evidenceGridFilters.molecularProfileNameInput = parentModel.molecularProfile.name
       } else  {
-        this.evidenceGridFilters.variantNameInput = undefined
+        this.evidenceGridFilters.molecularProfileNameInput = undefined
       }
       if (parentModel.evidenceType) {
         this.evidenceGridFilters.evidenceTypeInput = parentModel.evidenceType

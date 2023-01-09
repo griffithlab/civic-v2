@@ -8,18 +8,17 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 export interface SourceSuggestionTableFilters {
   citationIdInput?: Maybe<string>
   citationInput?: Maybe<string>
   commentInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  geneNameInput?: Maybe<string>
+  molecularProfileNameInput?: Maybe<string>
   sourceIdInput?: Maybe<number>
   sourceTypeInput?: Maybe<SourceSource>
   submitterInput?: Maybe<string>
-  variantNameInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -68,8 +67,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   citationIdInput: Maybe<string>
   sourceTypeInput: Maybe<SourceSource>
   sourceIdInput: Maybe<number>
-  geneNameInput: Maybe<string>
-  variantNameInput: Maybe<string>
+  molecularProfileNameInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   commentInput: Maybe<string>
   submitterInput: Maybe<string>
@@ -121,13 +119,13 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     // entity relay connection
     this.connection$ = this.result$
@@ -193,8 +191,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
         citationId: this.citationIdInput ? +this.citationIdInput : undefined,
         sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
         sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
-        geneName: this.geneNameInput,
-        variantName: this.variantNameInput,
+        molecularProfileName: this.molecularProfileNameInput,
         diseaseName: this.diseaseNameInput,
         comment: this.commentInput,
         submitter: this.submitterInput,

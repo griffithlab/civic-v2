@@ -23,6 +23,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { VariantSubmitForm } from './variant-submit.form';
 import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant-input.module';
+import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 
 @NgModule({
   declarations: [VariantSubmitForm],
@@ -50,6 +52,8 @@ import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-
     CvcFormContainerWrapperModule,
     CvcCancelButtonModule,
     CvcSubmitButtonTypeModule,
+    CvcVariantInputTypeModule,
+    CvcVariantArrayTypeModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantSubmitForm],

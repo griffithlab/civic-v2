@@ -1,0 +1,101 @@
+<ng-container *ngIf="molecularProfile$ | ngrxPush as mp">
+  <cvc-section-navigation [displayName]="mp.name" [actionsTpl]="mpActions">
+  </cvc-section-navigation>
+
+  <ng-template #mpActions>
+    <ng-container *ngrxLet="viewer$ as viewer">
+      <button routerLink="/evidence/add/submit"
+        [queryParams]="{molecularProfileId: mp.id}"
+        nz-button
+        *ngIf="viewer.canCurate"
+        nzSize="small">
+        <i nz-icon
+          nzType="plus-circle"></i> Add Evidence For This Molecular Profile
+      </button>
+    </ng-container>
+  </ng-template>
+
+  <div cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
+    <nz-page-header class="site-page-header">
+      <!-- title -->
+      <nz-page-header-title cvcFlaggableOptions
+        [ngClass]="{ 'flagged': mp.flags.totalCount > 0 }">
+        <i nz-icon
+          nzType="civic:molecularprofile"></i> {{ mp.name }}
+      </nz-page-header-title>
+
+      <!-- subtitle -->
+      <nz-page-header-subtitle *ngIf="mp.molecularProfileAliases.length > 0">
+        <span *ngFor="let alias of mp.molecularProfileAliases; last as isLast">
+          {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
+        </span>
+      </nz-page-header-subtitle>
+
+      <!-- header action btns, actions menu -->
+      <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+        <nz-space nzDirection="horizontal"
+          nzSize="small"
+          *ngrxLet="viewer$ as viewer">
+
+          <!-- add revision btn -->
+          <span *nzSpaceItem>
+            <button [routerLink]="['/molecular-profiles', mp.id, 'revise']"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Revise
+            </button>
+          </span>
+
+          <!-- add flag btn -->
+          <!-- TODO implement as flag form within popover window -->
+          <span *nzSpaceItem>
+            <button routerLink="flags"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
+          </span>
+
+          <span *nzSpaceItem>
+            <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="MolecularProfile">
+            </cvc-entity-subscription-button>
+          </span>
+
+        </nz-space>
+      </nz-page-header-extra>
+      <nz-page-header-content>
+        <nz-alert *ngIf="mp.deprecated"
+          nzBanner
+          [nzMessage]=deprecationMessageTemplate
+          nzType="error"></nz-alert>
+        <ng-template #deprecationMessageTemplate>
+          This Molecular Profile has been deprecated because one or more of its underlying variants are deprecated
+          <ng-container *ngFor="let v of mp.deprecatedVariants">
+            <br />
+            <cvc-variant-tag [variant]="v"></cvc-variant-tag> {{ v.deprecationReason | enumToTitle}}. 
+            <cvc-comment-body [commentBodySegments]="v.deprecationComment.parsedComment"></cvc-comment-body>
+          </ng-container>
+        </ng-template>
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
+          <ng-template #tabBarExtraContent>
+            <nz-col id="contributors-col">
+              <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+            </nz-col>
+          </ng-template>
+        </cvc-tab-navigation>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </div>
+</ng-container>

@@ -15,7 +15,9 @@
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <i nz-icon
-        nzType="civic:source"></i> {{ source.citation }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'Source' | entityColor"
+        nzType="civic-source"></i> {{ source.citation }}
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag [href]="source.sourceUrl"
@@ -24,7 +26,7 @@
       </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
-        <cvc-tab-navigation [tabs]="this.tabs"></cvc-tab-navigation>
+      <cvc-tab-navigation [tabs]="this.tabs"></cvc-tab-navigation>
       <div class="content">
         <router-outlet></router-outlet>
       </div>

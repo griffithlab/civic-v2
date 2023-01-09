@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [VariantsHomePage],
@@ -29,6 +30,7 @@ import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submi
     NzButtonModule,
     NzSpaceModule,
     NzPopoverModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcVariantsTableModule,

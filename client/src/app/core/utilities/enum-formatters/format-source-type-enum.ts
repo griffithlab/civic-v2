@@ -6,6 +6,8 @@ export function formatSourceTypeEnum(value: SourceSource): string {
       return 'ASCO';
     case 'PUBMED':
       return 'PubMed';
+    case 'ASH':
+      return 'ASH';
     default:
       return value;
   }

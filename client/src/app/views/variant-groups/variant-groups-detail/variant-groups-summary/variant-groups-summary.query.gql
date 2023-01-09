@@ -22,7 +22,6 @@ fragment VariantGroupSummaryFields on VariantGroup {
         id
         name
         link
-        description
       }
     }
   }

@@ -1,6 +1,6 @@
 class GeneTsvFormatter
   def self.objects
-    Gene.joins(variants: [:evidence_items]).distinct
+    Gene.joins(variants: { molecular_profiles: [:evidence_items]}).distinct
   end
 
   def self.headers
@@ -21,7 +21,7 @@ class GeneTsvFormatter
       LinkAdaptors::Gene.new(gene).permalink_path(include_domain: true),
       gene.name,
       gene.entrez_id,
-      gene.description.gsub("\n", ' '),
+      gene.description.squish,
       gene.updated_at,
       gene.flagged
     ]

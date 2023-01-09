@@ -1,0 +1,74 @@
+query BrowseMolecularProfiles(
+  $variantName: String
+  $variantId: Int
+  $entrezSymbol: String
+  $diseaseName: String
+  $therapyName: String
+  $molecularProfileAlias: String,
+  $sortBy: MolecularProfilesSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  browseMolecularProfiles(
+    variantName: $variantName
+    variantId: $variantId
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    therapyName: $therapyName
+    molecularProfileAlias: $molecularProfileAlias
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...BrowseMolecularProfilesFields
+      }
+    }
+    filteredCount
+    pageCount
+  }
+}
+
+fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
+  id
+  name
+  evidenceItemCount
+  molecularProfileScore
+  assertionCount
+  aliases {
+    name
+  }
+  genes {
+    id
+    name
+    link
+  }
+  variants {
+    id
+    name
+    link
+  }
+  therapies {
+    id
+    name
+    link
+  }
+  diseases {
+    id
+    name
+    link
+  }
+  link
+}

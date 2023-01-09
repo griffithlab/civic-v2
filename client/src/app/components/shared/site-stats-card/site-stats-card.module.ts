@@ -14,6 +14,7 @@ import { CvcSiteStatsCardComponent } from './site-stats-card.component';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterModule } from '@angular/router';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RouterModule } from '@angular/router';
     NzTypographyModule,
     NzIconModule,
     NgxJsonViewerModule,
+    CvcPipesModule,
   ],
   exports: [
     CvcSiteStatsCardComponent

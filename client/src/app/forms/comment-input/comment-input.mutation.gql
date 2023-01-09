@@ -10,7 +10,9 @@ fragment previewComment on CommentBodySegment {
     entityId
     displayName
     tagType
+    link
     status
+    deprecated
     __typename
   }
   ... on CommentTextSegment {

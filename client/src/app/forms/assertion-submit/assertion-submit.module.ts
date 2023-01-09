@@ -17,7 +17,7 @@ import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info
 import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcMultiFieldTypeModule } from '../config/types/multi-field/multi-field.module';
 import { CvcSourceInputTypeModule } from '../config/types/source-input/source-input.module';
-import { CvcDrugInputTypeModule } from '../config/types/drug-input/drug-input.module';
+import { CvcTherapyInputTypeModule } from '../config/types/therapy-input/therapy-input.module';
 import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-input.module';
 import { CvcPhenotypeInputTypeModule } from '../config/types/phenotype-input/phenotype-input.module';
 import { CvcDiseaseInputTypeModule } from '../config/types/disease-input/disease-input.module';
@@ -25,15 +25,13 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
 import { CvcCommentTextareaTypeModule } from '../config/types/comment-textarea/comment-textarea.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
-import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
+import { CvcSignificanceSelectModule } from '../config/types/significance-select/significance-select.module';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
 import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
 import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
-import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
+import { CvcTherapyArrayTypeModule } from '../config/types/therapies-array/therapies-array.module';
 import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
-import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
+import { CvcTherapyInteractionSelectTypeModule } from '../config/types/therapy-interaction-select/therapy-interaction-select.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { CvcAmpLevelInputTypeModule } from '../config/types/amp-level-input/amp-level-input.module';
 import { CvcAcmgCodeArrayTypeModule } from '../config/types/acmg-code-array/acmg-code-array.module';
@@ -49,6 +47,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-array/clingen-code-array.module';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [
@@ -72,23 +71,22 @@ import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-arra
     CvcOrgSubmitButtonTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
-    CvcDrugInputTypeModule,
+    CvcTherapyInputTypeModule,
     CvcRatingInputTypeModule,
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
     CvcTextareaBaseTypeModule,
     CvcCommentTextareaTypeModule,
+    CvcMolecularProfileInputTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
-    CvcClinicalSignificanceSelectModule,
+    CvcSignificanceSelectModule,
     CvcEvidenceLevelSelectModule,
     CvcEvidenceDirectionSelectModule,
     CvcDiseaseArrayTypeModule,
-    CvcDrugArrayTypeModule,
+    CvcTherapyArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
-    CvcDrugInteractionSelectTypeModule,
-    CvcGeneArrayTypeModule,
-    CvcVariantArrayTypeModule,
+    CvcTherapyInteractionSelectTypeModule,
     CvcSourceArrayTypeModule,
     CvcAmpLevelInputTypeModule,
     CvcAcmgCodeArrayTypeModule,

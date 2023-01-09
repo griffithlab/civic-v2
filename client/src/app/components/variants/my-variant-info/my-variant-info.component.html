@@ -6,7 +6,7 @@
           <nz-tab (nzClick)="tabIndex.next(1)" nzTitle="ClinVar"> </nz-tab>
           <nz-tab (nzClick)="tabIndex.next(2)" nzTitle="gnomAD (2.1.1)"></nz-tab>
           <nz-tab (nzClick)="tabIndex.next(3)" nzTitle="EXAC (0.3.1)"></nz-tab>
-          <nz-tab (nzClick)="tabIndex.next(4)" nzTitle="CADD"></nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(4)" nzTitle="Conservation Analysis Tools"></nz-tab>
           <nz-tab (nzClick)="tabIndex.next(5)" nzTitle="EGL"></nz-tab>
           <nz-tab (nzClick)="tabIndex.next(6)" nzTitle="Effect Scores"></nz-tab>
         </nz-tabset>
@@ -222,7 +222,7 @@
             </div>
           </div>
         </ng-container>
-        <!-- CADD tab -->
+        <!-- Conservation Analysis Tools tab -->
         <ng-container *ngSwitchCase="4">
           <div class="tab-padding">
             <div nz-row [nzGutter]="8">
@@ -485,7 +485,11 @@
                     </ng-container>
                   </ng-container>
                 </td>
-                <td>{{ variantInfo.caddScore | ifEmpty: '--' }}</td>
+                <td>
+                  {{ variantInfo.caddScore | ifEmpty: '--' }} (raw)
+                  <br/>
+                  {{ variantInfo.caddPhred | ifEmpty: '--' }} (PHRED)
+                </td>
               </tr>
               <tr>
                 <td>FATHMM-MKL</td>

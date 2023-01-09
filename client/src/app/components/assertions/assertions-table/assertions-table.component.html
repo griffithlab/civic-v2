@@ -47,17 +47,9 @@
           [nzSortFn]="true">
           AID
         </th>
-        <th nzWidth="120px"
-          nzLeft
-          [nzColumnKey]="sortColumns.GeneName"
-          [nzSortFn]="true">
-          Gene
-        </th>
-        <th nzWidth="200px"
-          nzLeft
-          [nzColumnKey]="sortColumns.VariantName"
-          [nzSortFn]="true">
-          Variant
+        <th nzWidth="320px"
+          nzLeft>
+          Molecular Profile
         </th>
         <th nzWidth="250px"
           [nzColumnKey]="sortColumns.DiseaseName"
@@ -65,14 +57,14 @@
           Disease
         </th>
         <th nzWidth="350px"
-          [nzColumnKey]="sortColumns.DrugName"
+          [nzColumnKey]="sortColumns.TherapyName"
           [nzSortFn]="true">
-          Drugs
+          Therapies
         </th>
         <th nzWidth="40px"
           nz-tooltip
-          nzTooltipTitle="Drug Interaction Type">
-          DIT
+          nzTooltipTitle="Therapy Interaction Type">
+          IT
         </th>
         <th nzWidth="60px"
           nzRight
@@ -102,12 +94,12 @@
         </th>
         <th nzWidth="60px"
           nzRight
-          [nzColumnKey]="sortColumns.ClinicalSignificance"
+          [nzColumnKey]="sortColumns.Significance"
           [nzSortFn]="true"
           nzAlign="center"
           nz-tooltip
-          nzTooltipTitle="Clinical Significance">
-          CS
+          nzTooltipTitle="Significance">
+          S
         </th>
         <th nzWidth="60px"
           nzRight
@@ -125,8 +117,9 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Evidence Count"><i nz-icon
-                                            nzType="civic:evidence"></i> Count
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon
+            nzType="civic-evidence"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -135,11 +128,7 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-        </th>
-        <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -147,7 +136,7 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th></th>
@@ -198,7 +187,7 @@
             [nzDropdownMatchSelectWidth]="false"
             nzPlaceHolder="All"
             (ngModelChange)="onModelChanged()"
-            [(ngModel)]="clinicalSignificanceInput">
+            [(ngModel)]="SignificanceInput">
             <nz-option-group nzLabel="Predictive">
               <nz-option nzValue="SENSITIVITYRESPONSE"
                 nzLabel="Sensitivity/Response"></nz-option>
@@ -283,10 +272,7 @@
             <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
           </td>
           <td nzLeft>
-            <cvc-gene-tag [gene]="aid.gene"></cvc-gene-tag>
-          </td>
-          <td nzLeft>
-            <cvc-variant-tag [variant]="aid.variant"></cvc-variant-tag>
+            <cvc-molecular-profile-tag [molecularProfile]="aid.molecularProfile" [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="aid.disease.name; else diseaseElse">
@@ -298,31 +284,31 @@
             </ng-template>
           </td>
           <td>
-            <div *ngIf="aid.drugs.length > 0; else drugsElse">
+            <div *ngIf="aid.therapies.length > 0; else therapiesElse">
               <cvc-tag-list>
-                <ng-container *ngFor="let drug of aid.drugs">
-                  <cvc-drug-tag [drug]="drug"
-                    [truncateLongName]="true"></cvc-drug-tag>
+                <ng-container *ngFor="let therapy of aid.therapies">
+                  <cvc-therapy-tag [therapy]="therapy"
+                    [truncateLongName]="true"></cvc-therapy-tag>
                 </ng-container>
               </cvc-tag-list>
             </div>
-            <ng-template #drugsElse>
+            <ng-template #therapiesElse>
               <i nz-typography
                 nzType="secondary">N/A</i>
             </ng-template>
           </td>
           <td>
-            <ng-container *ngIf="aid.drugInteractionType">
+            <ng-container *ngIf="aid.therapyInteractionType">
               <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="!isScrolling ? (aid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                [nzTooltipTitle]="!isScrolling ? (aid.therapyInteractionType | therapyInteractionEnumDisplay) : ''">
                 <i nz-icon
                   style="color: #ac3996"
-                  [nzType]="aid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
+                  [nzType]="aid.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
                   class="attribute-icon"></i>
               </nz-tag>
             </ng-container>
-            <ng-container *ngIf="!aid.drugInteractionType">
+            <ng-container *ngIf="!aid.therapyInteractionType">
               <i nz-typography
                 nzType="secondary">N/A</i>
             </ng-container>
@@ -360,9 +346,9 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="!isScrolling ? (aid.clinicalSignificance | evidenceEnumDisplay) : ''">
+              [nzTooltipTitle]="!isScrolling ? (aid.significance | evidenceEnumDisplay) : ''">
               <i nz-icon
-                [nzType]="aid.clinicalSignificance| evidenceEnumDisplay: 'icon-name':'clinical-significance'"
+                [nzType]="aid.significance| evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -386,8 +372,6 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <i nz-icon
-    nzType="civic:assertion"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

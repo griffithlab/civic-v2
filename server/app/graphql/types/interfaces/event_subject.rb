@@ -29,6 +29,8 @@ module Types::Interfaces
           Types::Entities::SourceSuggestionType
         when VariantGroup
           Types::Entities::VariantGroupType
+        when MolecularProfile
+          Types::Entities::MolecularProfileType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

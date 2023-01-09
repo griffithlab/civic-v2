@@ -8,18 +8,13 @@ fragment RevisableAssertionFields on Assertion {
   id
   summary
   description
-  variant {
-    id
-    name
-    link
-  }
-  gene {
+  molecularProfile {
     id
     name
     link
   }
   variantOrigin
-  clinicalSignificance
+  significance
   disease {
     id
     doid
@@ -27,13 +22,13 @@ fragment RevisableAssertionFields on Assertion {
     displayName
     link
   }
-  drugs {
+  therapies {
     id
     ncitId
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   assertionDirection
   assertionType
   phenotypes {
@@ -72,6 +67,9 @@ mutation SuggestAssertionRevision($input: SuggestAssertionRevisionInput!) {
     clientMutationId
     assertion {
       id
+    }
+    results {
+      newlyCreated
     }
   }
 }

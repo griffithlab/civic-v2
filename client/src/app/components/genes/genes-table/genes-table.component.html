@@ -56,7 +56,7 @@
           Diseases
         </th>
         <th nzWidth="225px">
-          Drugs
+          Therapies
         </th>
         <th nzWidth="75px"
           nzRight
@@ -67,7 +67,7 @@
           nz-tooltip
           nzTooltipTitle="Variant Count">
           <i nz-icon
-            nzType="civic:variant"></i> Count
+            nzType="civic-variant"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -78,7 +78,8 @@
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon
-            nzType="civic:evidence"></i> Count
+            nzType="civic-evidence"></i>
+          Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -89,7 +90,7 @@
           nz-tooltip
           nzTooltipTitle="Assertion Count">
           <i nz-icon
-            nzType="civic:assertion"></i> Count
+            nzType="civic-assertion"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -106,7 +107,7 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="drugInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
@@ -133,10 +134,10 @@
               [matchingText]="diseaseInput"> </cvc-tag-overflow>
           </td>
           <td>
-            <cvc-tag-overflow tagType='drug'
+            <cvc-tag-overflow tagType='therapy'
               [maxDisplayCount]="1"
-              [tags]="gene.drugs"
-              [matchingText]="drugInput"> </cvc-tag-overflow>
+              [tags]="gene.therapies"
+              [matchingText]="therapyInput"> </cvc-tag-overflow>
           </td>
           <td nzRight
             nzAlign="right">{{gene.variantCount}}</td>
@@ -152,8 +153,6 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <i nz-icon
-    nzType="civic:gene"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

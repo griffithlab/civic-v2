@@ -7,8 +7,7 @@ query BrowseSourceSuggestions(
   $sourceType: SourceSource
   $citationId: Int
   $sourceId: Int
-  $geneName: String
-  $variantName: String
+  $molecularProfileName: String
   $diseaseName: String
   $comment: String
   $submitter: String
@@ -25,8 +24,7 @@ query BrowseSourceSuggestions(
     sourceType: $sourceType
     citationId: $citationId
     sourceId: $sourceId
-    geneName: $geneName
-    variantName: $variantName
+    molecularProfileName: $molecularProfileName
     diseaseName: $diseaseName
     comment: $comment
     submitter: $submitter
@@ -54,12 +52,7 @@ query BrowseSourceSuggestions(
 
 fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   id
-  gene {
-    id
-    name
-    link
-  }
-  variant {
+  molecularProfile {
     id
     name
     link
@@ -70,6 +63,7 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     link
   }
   source {
+    link
     id
     citation
     citationId

@@ -10,8 +10,8 @@
       nzPopoverTrigger="click"
       [nzPopoverContent]="addVariantForm"
       nzPopoverPlacement="bottomRight">
-      <i nz-icon nzType="plus-circle"></i>
-      Submit New Variant
+      <i nz-icon
+        nzType="plus-circle"></i> Submit New Variant
       <ng-template #addVariantForm>
         <div class="addVariant">
           <cvc-variant-submit-form></cvc-variant-submit-form>
@@ -30,16 +30,22 @@
       <nz-col nzFlex="64px"
         class="header-icon">
         <i nz-icon
-          nzType="civic:variant"></i>
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Variant' | entityColor"
+          nzType="civic-variant"></i>
       </nz-col>
-      <nz-col nzFlex="600px"
+      <nz-col nzFlex="0 1 600px"
         class="header-description">
         <h2>Variants</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">CIViC variants are usually genomic alterations, including single nucleotide variants, insertion/deletion events, copy number alterations, structural variants, and other events that differ from the "normal" genome.</p>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">CIViC variants are usually genomic alterations, including single nucleotide variants, insertion/deletion events, copy number alterations, structural variants, and other events that differ from the "normal" genome.</p>
       </nz-col>
       <nz-col nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+        <nz-space nzDirection="vertical"
+          class="docs-buttons">
           <a nz-button
             href="https://civic.readthedocs.io/en/latest/model/variants.html"
             target="_blank"

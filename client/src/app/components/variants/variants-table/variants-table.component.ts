@@ -7,13 +7,13 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 export interface VariantTableUserFilters {
   variantNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  drugNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
   variantAliasInput?: Maybe<string>
 }
 
@@ -63,7 +63,7 @@ export class CvcVariantsTableComponent implements OnInit {
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   variantAliasInput: Maybe<string>
 
   private initialQueryArgs?: BrowseVariantsQueryVariables
@@ -93,13 +93,13 @@ export class CvcVariantsTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'browseVariants'),
@@ -162,7 +162,7 @@ export class CvcVariantsTableComponent implements OnInit {
     this.queryRef
       .refetch({
         diseaseName: this.diseaseNameInput,
-        drugName: this.drugNameInput,
+        therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         variantAlias: this.variantAliasInput ? this.variantAliasInput : undefined,
         entrezSymbol: this.geneSymbolInput,

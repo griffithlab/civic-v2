@@ -5,13 +5,12 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
+  <nz-tag [ngClass]="{ rejected: assertion.status === 'REJECTED', submitted: assertion.status === 'SUBMITTED', accepted: assertion.status === 'ACCEPTED' }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="assertionPopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover"
-    [nzColor]="assertion.status | colorNameForStatus">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -20,16 +19,18 @@
   </ng-template>
 </ng-template>
 
-<ng-template #noPopover>
-  <nz-tag [nzColor]="assertion.status | colorNameForStatus">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
-</ng-template>
-
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon nzType="civic-assertion" nzTheme="twotone" nzTwotoneColor="#7243B5"></i> {{ assertion.name }}
+  <cvc-icon-badges [flagged]="assertion.flagged"
+    [entityColor]="iconColor">
+    <i nz-icon
+      nzType="civic-assertion"
+      nzTheme="twotone"
+      [nzTwotoneColor]="assertion.status === 'REJECTED' ? ('Rejected' | entityColor) : ('Assertion' | entityColor)">
+  </i>
+  </cvc-icon-badges>
+  {{ assertion.name }}
 </ng-template>

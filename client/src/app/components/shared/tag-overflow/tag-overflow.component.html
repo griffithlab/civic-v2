@@ -1,18 +1,9 @@
 <cvc-tag-list size="xs">
   <div *ngFor="let tag of displayedTags"
     [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
-    <ng-container [ngSwitch]="tagType">
-      <ng-container *ngSwitchCase="'drug'">
-        <cvc-drug-tag [drug]="tag"
-          [truncateLongName]="true"></cvc-drug-tag>
-      </ng-container>
-      <ng-container *ngSwitchCase="'disease'">
-        <cvc-disease-tag [disease]="tag"
-          [truncateLongName]="true"></cvc-disease-tag>
-      </ng-container>
-      <ng-container *ngSwitchCase="'organization'">
-        <cvc-organization-tag [org]="tag"></cvc-organization-tag>
-      </ng-container>
+    <ng-container 
+      [ngTemplateOutlet]="tagTemplate" 
+      [ngTemplateOutletContext]="{tagType:tagType,tag:tag}">
     </ng-container>
   </div>
   <div [ngClass]="{'matched-tag': matchedHiddenCount > 0}">
@@ -33,16 +24,9 @@
         <div *ngFor="let tag of hiddenTags"
           [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
           <ng-container [ngSwitch]="tagType">
-            <ng-container *ngSwitchCase="'drug'">
-              <cvc-drug-tag [drug]="tag"
-                [truncateLongName]="true"></cvc-drug-tag>
-            </ng-container>
-            <ng-container *ngSwitchCase="'disease'">
-              <cvc-disease-tag [disease]="tag"
-                [truncateLongName]="true"></cvc-disease-tag>
-            </ng-container>
-            <ng-container *ngSwitchCase="'organization'">
-              <cvc-organization-tag [org]="tag"></cvc-organization-tag>
+            <ng-container 
+              [ngTemplateOutlet]="tagTemplate" 
+              [ngTemplateOutletContext]="{tagType:tagType,tag:tag}">
             </ng-container>
           </ng-container>
         </div>
@@ -50,3 +34,26 @@
     </div>
   </ng-template>
 </cvc-tag-list>
+
+<ng-template #tagTemplate let-tag='tag' let-tagType='tagType'>
+  <ng-container [ngSwitch]="tagType">
+    <ng-container *ngSwitchCase="'therapy'">
+      <cvc-therapy-tag [therapy]="tag"
+        [truncateLongName]="true"></cvc-therapy-tag>
+    </ng-container>
+    <ng-container *ngSwitchCase="'disease'">
+      <cvc-disease-tag [disease]="tag"
+        [truncateLongName]="true"></cvc-disease-tag>
+    </ng-container>
+    <ng-container *ngSwitchCase="'gene'">
+      <cvc-gene-tag [gene]="tag"
+        [truncateLongName]="true"></cvc-gene-tag>
+    </ng-container>
+    <ng-container *ngSwitchCase="'organization'">
+      <cvc-organization-tag [org]="tag"></cvc-organization-tag>
+    </ng-container>
+    <ng-container *ngSwitchCase="'variant'">
+      <cvc-variant-tag [variant]="tag"></cvc-variant-tag>
+    </ng-container>
+  </ng-container>
+</ng-template>

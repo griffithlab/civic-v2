@@ -86,7 +86,7 @@ export class CvcQuicksearchComponent {
 
     // set queryRef with watch(), return its valueChanges observable
     const watchQuery = (str: string) => {
-      this.queryRef = this.gql.watch({ query: str })
+      this.queryRef = this.gql.watch({ query: str, highlightMatches: true })
       return this.queryRef.valueChanges
     }
 
@@ -100,7 +100,9 @@ export class CvcQuicksearchComponent {
       case SearchableEntities.EvidenceItem:
         return 'civic:evidence';
       case SearchableEntities.VariantGroup:
-
+        return 'civic:variantgroup'
+      case SearchableEntities.MolecularProfile:
+        return 'civic:molecularprofile'
       default:
         return `civic:${res.resultType.toLowerCase()}`
     }
@@ -114,6 +116,9 @@ export class CvcQuicksearchComponent {
         break;
       case SearchableEntities.EvidenceItem:
         name = 'evidence';
+        break;
+      case SearchableEntities.MolecularProfile:
+        name = 'molecular-profiles';
         break;
       default:
         name = `${res.resultType.toLowerCase()}s`

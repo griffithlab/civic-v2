@@ -1,5 +1,6 @@
 module Types::BrowseTables
   class BrowseGeneType < Types::BaseObject
+    implements Types::Interfaces::Flaggable
     connection_type_class(Types::Connections::BrowseTableConnection)
 
     field :id, Int, null: false
@@ -9,7 +10,7 @@ module Types::BrowseTables
     field :description, String, null: false
     field :gene_aliases, [String], null: true
     field :diseases, [Types::Entities::DiseaseType], null: true
-    field :drugs, [Types::Entities::DrugType], null: true
+    field :therapies, [Types::Entities::TherapyType], null: true
     field :variant_count, Int, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
@@ -28,10 +29,10 @@ module Types::BrowseTables
         .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}" } }
     end
 
-    def drugs
+    def therapies
       Array(object.drugs)
         .sort_by { |d| -d['total'] }
-        .map { |d| { name: d['name'], id: d['id'], link: "/drugs/#{d['id']}"  } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"  } }
     end
   end
 end

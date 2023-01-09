@@ -10,14 +10,18 @@ module Types
     description 'Counts of CIViC activity over time, used for the homepage'
     field :genes, TimePointCounts, null: false
     field :variants, TimePointCounts, null: false
+    field :molecular_profiles, TimePointCounts, null: false
     field :revisions, TimePointCounts, null: false
     field :evidence_items, TimePointCounts, null: false
     field :comments, TimePointCounts, null: false
-    field :drugs, TimePointCounts, null: false
+    field :therapies, TimePointCounts, null: false
     field :diseases, TimePointCounts, null: false
     field :sources, TimePointCounts, null: false
     field :users, TimePointCounts, null: false
     field :assertions, TimePointCounts, null: false
 
+    def therapies
+      object['drugs']
+    end
   end
 end

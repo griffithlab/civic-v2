@@ -10,12 +10,7 @@
         *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
       <span *nzSpaceItem
         class="tags">
-        <a routerLink="/genes/{{ evidence.gene.id }}">
-          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
-        </a>
-        <a routerLink="/variants/{{ evidence.variant.id }}">
-          <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
-        </a>
+        <cvc-molecular-profile-tag [molecularProfile]="evidence.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
     </nz-space>
 
@@ -26,7 +21,9 @@
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
       <i nz-icon
-        nzType="civic:evidence"></i> {{ evidence.name }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'EvidenceItem' | entityColor"
+        nzType="civic-evidence"></i> {{ evidence.name }}
     </nz-page-header-title>
 
     <nz-page-header-content>
@@ -35,8 +32,10 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24" nzJustify="center">
-            <div nz-col nzSpan="6">
+          <nz-row nzSpan="24"
+            nzJustify="center">
+            <div nz-col
+              nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>
           </nz-row>

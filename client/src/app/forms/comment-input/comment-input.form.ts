@@ -27,9 +27,10 @@ import {
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { filter, map, pluck, startWith, takeUntil } from 'rxjs/operators';
 import {QueryRef } from 'apollo-angular';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import { isNonNulled } from 'rxjs-etc';
 
 
 interface WithDisplayNameAndValue {
@@ -74,8 +75,9 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
     });
 
     this.userTypeaheadQueryRef$.valueChanges.pipe(
-      map(({data}) => data.userTypeahead),
-      takeUntil(this.destroy$)
+      pluck('data', 'userTypeahead'),
+      filter(isNonNulled),
+      takeUntil(this.destroy$),
     ).subscribe((users) => this.suggestions = users.map((u) => {return {displayName: u.username, value: u.username }}))
 
     this.entityTypeaheadQueryRef$ = this.entityTypeaheadGql.watch({
@@ -83,7 +85,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
     })
 
     this.entityTypeaheadQueryRef$.valueChanges.pipe(
-      map(({data}) => data.entityTypeahead),
+      pluck('data', 'entityTypeahead'),
+      filter(isNonNulled),
       takeUntil(this.destroy$)
     ).subscribe((tagEntities) => this.suggestions = tagEntities.map((t) => {
       return {
@@ -115,6 +118,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
         return `AID${id}`;
       case TaggableEntity.Revision:
         return `RID${id}`;
+      case TaggableEntity.MolecularProfile:
+        return `MPID${id}`
       case TaggableEntity.Role:
         return Object.keys(UserRole)[id];
     }
@@ -132,7 +137,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   onPreviewButtonClicked() {
     if (this.commentText) {
       this.previewComment$ = this.previewCommentGql.watch({commentText: this.commentText}).valueChanges.pipe(
-        map(({data}) => { return data.previewCommentText })
+        pluck('data', 'previewCommentText'),
+        filter(isNonNulled),
       );
       this.previewLoading$ = this.previewCommentGql.watch({commentText: this.commentText}).valueChanges.pipe(
         map(({loading}) => { return loading }), startWith(true)

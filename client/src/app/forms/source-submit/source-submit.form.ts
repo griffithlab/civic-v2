@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { Maybe, Organization, SuggestSourceGQL, SuggestSourceInput, SuggestSourceMutation, SuggestSourceMutationVariables } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { FormDisease, FormGene, FormSource, FormVariant } from '../forms.interfaces';
+import { Subject, Subscription } from 'rxjs';
+import { FormDisease, FormMolecularProfile, FormSource } from '../forms.interfaces';
 
 interface FormModel {
   fields: {
     id: number,
-    gene: FormGene[],
-    variant: FormVariant[],
+    molecularProfile: FormMolecularProfile,
     disease: FormDisease[],
     source: FormSource[],
     comment: Maybe<string>,
@@ -25,10 +25,10 @@ interface FormModel {
   templateUrl: './source-submit.form.html',
   styleUrls: ['./source-submit.form.less']
 })
-export class SourceSubmitForm implements OnInit {
+export class SourceSubmitForm implements OnDestroy {
   private destroy$: Subject<void> = new Subject();
 
-  formModel!: FormModel;
+  formModel?: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
@@ -40,13 +40,21 @@ export class SourceSubmitForm implements OnInit {
   loading: boolean = false
   newId?: number
 
+  navigationSubscription?: Subscription;
+
   constructor(
     private suggestSourceGQL: SuggestSourceGQL,
     private errService: NetworkErrorsService,
+    private router: Router
   ) {
 
     this.suggestSourceMutator = new MutatorWithState(errService);
 
+    this.navigationSubscription = router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        this.reset();
+      }
+    })
     this.formFields = [
       {
         key: 'fields',
@@ -56,18 +64,14 @@ export class SourceSubmitForm implements OnInit {
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
-              maxCount: 1
-            }
+              label: 'Molecular Profile',
+              helpText: 'lorem ipsum',
+              required: false,
+              allowCreate: true,
+            },
           },
           {
             key: 'disease',
@@ -123,15 +127,14 @@ export class SourceSubmitForm implements OnInit {
     ]; // formFields[ ]
   } // constructor()
 
-  submitSourceSuggestion(formModel: FormModel): void {
-    console.log(formModel);
+  submitSourceSuggestion(formModel: Maybe<FormModel>): void {
     let input = this.toSubmitInput(formModel);
     if (input) {
       let state = this.suggestSourceMutator.mutate(this.suggestSourceGQL, {
         input: input
       }, {},
         (data) => {
-          this.newId = data.suggestSource.sourceSuggestion.id;
+          this.newId = data.suggestSource?.sourceSuggestion.id;
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -153,12 +156,18 @@ export class SourceSubmitForm implements OnInit {
     }
   }
 
+  reset() {
+    this.success = false
+    this.errorMessages = []
+    this.newId = undefined
+    this.formModel = undefined
+  }
+
   toSubmitInput(model: Maybe<FormModel>): Maybe<SuggestSourceInput> {
     if (model) {
       const fields = model.fields;
       return {
-          variantId: fields.variant[0]?.id,
-          geneId: fields.gene[0]?.id,
+          molecularProfileId: fields.molecularProfile?.id,
           sourceId: fields.source[0].id!,
           diseaseId: fields.disease[0]?.id,
       comment: fields.comment!,
@@ -169,9 +178,8 @@ export class SourceSubmitForm implements OnInit {
     return undefined
   }
 
-
-
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.navigationSubscription?.unsubscribe();
   }
 
 }

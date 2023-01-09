@@ -8,16 +8,21 @@
       <nz-col nzFlex="64px"
         class="header-icon">
         <i nz-icon
-          nzType="civic:user"></i>
-      </nz-col>
-      <nz-col nzFlex="600px"
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Curator' | entityColor"
+          nzType="civic-curator"></i> </nz-col>
+      <nz-col nzFlex="0 1 600px"
         class="header-description">
         <h2>Contributors</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">CIViC depends on its users to add to its knowledgebase and curate its content. Anyone may join CIViC as a Curator and begin contributing.</p>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">CIViC depends on its users to add to its knowledgebase and curate its content. Anyone may join CIViC as a Curator and begin contributing.</p>
       </nz-col>
       <nz-col nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+        <nz-space nzDirection="vertical"
+          class="docs-buttons">
           <a nz-button
             href="https://civic.readthedocs.io/en/latest/using/users.html"
             target="_blank"
@@ -33,7 +38,8 @@
       </nz-col>
     </nz-row>
     <div nz-row>
-      <div nz-col [nzSpan]="24">
+      <div nz-col
+        [nzSpan]="24">
         <div class="content">
           <cvc-users-table cvcTitle="Browse All Contributors"></cvc-users-table>
         </div>

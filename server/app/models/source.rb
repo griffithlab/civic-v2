@@ -6,11 +6,12 @@ class Source < ActiveRecord::Base
   has_many :evidence_items
   has_and_belongs_to_many :genes
   has_and_belongs_to_many :clinical_trials
+  has_and_belongs_to_many :molecular_profiles
   has_many :authors_sources
   has_many :authors, through: :authors_sources
   has_many :variant_groups
 
-  enum source_type: ['PubMed', 'ASCO']
+  enum source_type: ['PubMed', 'ASCO', 'ASH']
 
   def name
     display_name
@@ -36,22 +37,13 @@ class Source < ActiveRecord::Base
     "#{self.source_type}"
   end
 
-  def author_string
-    if source_type == 'PubMed'
-      authors = authors_sources.reload.reject { |as| as.fore_name.blank? && as.last_name.blank? }.sort_by{ |as| as.author_position }.map do |as|
-        "#{as.fore_name} #{as.last_name}"
-      end
-      authors.join(', ')
-    elsif source_type == 'ASCO'
-      asco_presenter
-    end
-  end
-
   def self.url_for(source:)
     if source.source_type == 'PubMed'
       "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
     elsif source.source_type == 'ASCO'
       "https://meetinglibrary.asco.org/record/#{source.citation_id}/abstract"
+    elsif source.source_type == 'ASH'
+      "https://doi.org/#{source.citation_id}"
     end
   end
 

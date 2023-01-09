@@ -45,7 +45,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 interface FormSource {
   id?: number;
   sourceType?: SourceSource;
-  citationId?: number;
+  citationId?: string;
   citation?: string;
 }
 
@@ -65,8 +65,6 @@ interface FormModel {
     id: number;
     name: string;
     variantAliases: string[];
-    description?: string;
-    sources: FormSource[];
     clinvarStatus: ClinvarOptions;
     clinvarIds: string[];
     gene: FormGene;
@@ -97,6 +95,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
   variantRevisionInput!: SuggestVariantRevisionInput;
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -140,32 +139,6 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               helpText: 'Enter the name of the Variant according to the <a href="https://civic.readthedocs.io/en/latest/model/variants/name.html#curating-variant-names" target="_blank">Variant Curation SOP</a>',
               required: true,
             },
-          },
-          {
-            key: 'description',
-            type: 'cvc-textarea',
-            templateOptions: {
-              label: 'Variant Description',
-              placeholder: 'Enter a description for this variant.',
-              helpText: 'Provide a summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.',
-              required: false,
-            },
-          },
-          {
-            key: 'sources',
-            type: 'multi-field',
-            wrappers: ['form-field'],
-            templateOptions: {
-              label: 'Variant Description Sources',
-              addText: 'Add a Source',
-              helpText: 'Add any Sources used as references for this Variant\'s Description above.'
-            },
-            fieldArray: {
-              type: 'source-input',
-              templateOptions: {
-                required: false
-              }
-            }
           },
           {
             key: 'variantAliases',
@@ -520,11 +493,17 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
                 status: RevisionStatus.New
               }
           }
-        ]
-      })
+        ],
+      },
+      (data) => {
+        if(data.suggestVariantRevision?.results.every(r => r.newlyCreated == false)) {
+          this.noNewRevisions = true
+          this.success = false
+        }       
+      });
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if (res) {
+        if(res) {
           this.success = true
         }
       })
@@ -553,7 +532,6 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           name: fields.name,
           geneId: fields.gene.id,
           ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
-          description: fmt.toNullableString(fields.description),
           clinvarIds: fmt.toClinvarInput(fields.clinvarIds, fields.clinvarStatus),
           primaryCoordinates: fmt.toCoordinateInput(fields.primaryCoordinates),
           secondaryCoordinates: fmt.toCoordinateInput(fields.secondaryCoordinates),
@@ -561,7 +539,6 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           variantBases: fmt.toNullableString(fields.variantBases),
           referenceBuild: fmt.toNullableReferenceBuildInput(fields.referenceBuild),
           hgvsDescriptions: fields.hgvsDescriptions,
-          sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
           variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
           aliases: model.fields.variantAliases,
         },

@@ -18,12 +18,12 @@
           <nz-tag nzMode="closeable" (nzOnClose)="onSetFilterClearClicked()">Group: {{this.filteredSet}}</nz-tag>
         </nz-row>
       </nz-space>
-      <cvc-participant-list listTitle="Revision Status" [preselectedOption]="this.selectableStatuses[0]" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">
+      <cvc-participant-list listTitle="Filter by Revision Status" [preselectedOption]="this.preselectedRevisionStatus" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">
         <ng-template #itemTemplate let-status>
           <span>{{status.displayName}}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Revisors" [participantList]="uniqueRevisors$ | ngrxPush" (participantSelectedEvent)="onRevisorSelected($event)">
+      <cvc-participant-list listTitle="Filter by Revisor" [participantList]="uniqueRevisors$ | ngrxPush" (participantSelectedEvent)="onRevisorSelected($event)">
         <ng-template #itemTemplate let-user>
           <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
           </nz-avatar>
@@ -33,12 +33,12 @@
           <span>{{user.username}}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Fields Revised" [participantList]="revisionFields$ | ngrxPush" (participantSelectedEvent)="onFieldNameSelected($event)">
+      <cvc-participant-list listTitle="Filter by Field" [participantList]="revisionFields$ | ngrxPush" (participantSelectedEvent)="onFieldNameSelected($event)">
         <ng-template #itemTemplate let-field>
           <span>{{field.displayName}}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Resolvers" [participantList]="uniqueResolvers$ | ngrxPush" (participantSelectedEvent)="onResolverSelected($event)">
+      <cvc-participant-list listTitle="Filter by Resolver" [participantList]="uniqueResolvers$ | ngrxPush" (participantSelectedEvent)="onResolverSelected($event)">
         <ng-template #itemTemplate let-user>
           <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
           </nz-avatar>

@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, AfterViewInit, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import {
-  DrugInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
@@ -20,6 +19,7 @@ import {
   RevisionsGQL,
   RevisionStatus,
   ModeratedEntities,
+  TherapyInteraction,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -28,46 +28,15 @@ import { takeUntil } from 'rxjs/operators';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { FormGene } from '../forms.interfaces';
-
-
-interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: number;
-  citation?: string;
-}
-
-interface FormDisease {
-  id: number;
-  doid?: number;
-  displayName: string;
-}
-
-interface FormDrug {
-  id?: number;
-  ncitId?: string;
-  name?: string;
-}
-
-interface FormPhenotype {
-  id: number;
-  hpoId?: string;
-  name?: string;
-}
-
-interface FormVariant {
-  id: number;
-  name: string;
-}
+import { FormDisease, FormTherapy, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
 
 /* SuggestEvidenceItemRevisionInput
  *
  * description: NullableStringInput!
  * The Evidence Items's description/summary text.
  *
- * variantId: Int!
- * The ID of the Variant to which this EvidenceItem belongs
+ * molecularProfileId: Int!
+ * The ID of the Molecular Profile to which this EvidenceItem belongs
  *
  * variantOrigin: VariantOrigin!
  * The Variant Origin for this EvidenceItem.
@@ -78,7 +47,7 @@ interface FormVariant {
  * evidenceType: EvidenceType!
  * The Type of the EvidenceItem
  *
- * clinicalSignificance: EvidenceClinicalSignificance!
+ * significance: EvidenceSignificance!
  * The Clinical Significance of the EvidenceItem
  *
  * diseaseId: NullableIntInput!
@@ -107,20 +76,19 @@ interface FormVariant {
 interface FormModel {
   fields: {
     id: number;
-    clinicalSignificance: EvidenceClinicalSignificance;
+    significance: EvidenceSignificance;
     description: string;
     disease: Maybe<FormDisease>[];
-    drugInteractionType: Maybe<DrugInteraction>;
-    drugs: FormDrug[];
+    therapyInteractionType: Maybe<TherapyInteraction>;
+    therapies: FormTherapy[];
     evidenceDirection: EvidenceDirection;
     evidenceLevel: EvidenceLevel;
     evidenceType: EvidenceType;
     phenotypes: FormPhenotype[];
     evidenceRating: Maybe<number>;
     source: FormSource[];
-    variant: FormVariant[];
-    gene: FormGene[];
     variantOrigin: VariantOrigin;
+    molecularProfile: FormMolecularProfile;
     comment: Maybe<string>,
     organization: Maybe<Organization>
   };
@@ -143,6 +111,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -170,30 +139,14 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             hide: true
           },
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'multi-field',
-            wrappers: ['form-field'],
-            templateOptions: {
-              label: 'Variant',
-              addText: 'Specify a Variant',
-              maxCount: 1,
+              label: 'Molecular Profile',
+              helpText: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               required: true,
-              helpText: 'The most specific description of the variant that the underlying source allows. If you need to <i>rename the Variant itself</i> please submit a revision to the Variant instead.',
-            },
-            fieldArray: {
-              type: 'variant-input',
-              templateOptions: {
-                required: true,
-                allowCreate: false
-              },
+              nzSelectedIndex: 2,
+              allowCreate: true
             },
           },
           {
@@ -239,8 +192,15 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'evidenceDirection',
+            type: 'evidence-direction-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true
             }
@@ -260,19 +220,12 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'evidenceDirection',
-            type: 'evidence-direction-select',
-            templateOptions: {
-              required: true,
-            },
+            key: 'therapies',
+            type: 'therapy-array',
           },
           {
-            key: 'drugs',
-            type: 'drug-array',
-          },
-          {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select'
+            key: 'therapyInteractionType',
+            type: 'therapy-interaction-select'
           },
           {
             key: 'phenotypes',
@@ -355,13 +308,12 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     return {
       fields: {
         ...evidence,
-        gene: [evidence.gene],
-        variant: [evidence.variant],
+        molecularProfile: evidence.molecularProfile,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
-        drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
+        therapies: evidence.therapies.length > 0 ? evidence.therapies : [],
         disease: [evidence.disease],
         comment: this.formModel?.fields.comment,
-        drugInteractionType: evidence.drugInteractionType,
+        therapyInteractionType: evidence.therapyInteractionType,
         organization: this.formModel?.fields.organization,
         evidenceRating: evidence.evidenceRating
       },
@@ -388,6 +340,12 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               }
           }
         ]
+      },
+      (data) => {
+       if(data.suggestEvidenceItemRevision?.results.every(r => r.newlyCreated == false)) {
+        this.noNewRevisions = true
+        this.success = false
+       }
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -418,17 +376,17 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          variantId: fields.variant[0].id,
+          molecularProfileId: fields.molecularProfile.id,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: fields.evidenceRating!,
-          drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
-          drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
+          therapyIds: fields.therapies.map((dr: FormTherapy) => { return dr.id! }),
+          therapyInteractionType: fmt.toNullableInput(fields.therapies.length > 1 ? fields.therapyInteractionType : undefined)
         },
         organizationId: model.fields.organization?.id
 

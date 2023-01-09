@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL, VariantSummaryGQL, VariantGroupsSummaryGQL, AssertionSummaryGQL, GenesSummaryGQL, EvidenceSummaryGQL} from '@app/generated/civic.apollo';
+import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL, VariantSummaryGQL, VariantGroupsSummaryGQL, AssertionSummaryGQL, GenesSummaryGQL, EvidenceSummaryGQL, MolecularProfileDetailGQL, MolecularProfileSummaryGQL} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, pluck, startWith } from 'rxjs/operators';
@@ -27,36 +27,39 @@ export interface SelectableRevisionStatus {
 @Component({
   selector: 'cvc-revisions-list-and-filter',
   templateUrl: './revisions-list-and-filter.component.html',
-  styleUrls: ['./revisions-list-and-filter.component.less']
+  styleUrls: ['./revisions-list-and-filter.component.less'],
 })
 export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
-  @Input() id!: number
-  @Input() entityType!: ModeratedEntities
+  @Input() id!: number;
+  @Input() entityType!: ModeratedEntities;
 
-  revisions$?: Observable<Maybe<RevisionFragment>[]>
-  pageInfo$?: Observable<Maybe<PageInfo>>
+  revisions$?: Observable<Maybe<RevisionFragment>[]>;
+  pageInfo$?: Observable<Maybe<PageInfo>>;
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
-  uniqueRevisors$: Maybe<Observable<Maybe<UniqueUsers[]>>>
-  uniqueResolvers$: Maybe<Observable<Maybe<UniqueUsers[]>>>
-  unfilteredCount$: Maybe<Observable<Maybe<number>>>
+  uniqueRevisors$: Maybe<Observable<Maybe<UniqueUsers[]>>>;
+  uniqueResolvers$: Maybe<Observable<Maybe<UniqueUsers[]>>>;
+  unfilteredCount$: Maybe<Observable<Maybe<number>>>;
   isLoading$: Maybe<Observable<boolean>>;
 
-  filteredSet: undefined | string = undefined
+  filteredSet: undefined | string = undefined;
 
-  queryRef!: QueryRef<RevisionsQuery, RevisionsQueryVariables>
+  queryRef!: QueryRef<RevisionsQuery, RevisionsQueryVariables>;
 
-  routeSub?: Subscription
+  routeSub?: Subscription;
+  queryParamsSub?: Subscription;
 
   selectableStatuses: SelectableRevisionStatus[] = [
-    {id: 4, displayName: 'New', value: RevisionStatus.New},
-    {id: 1, displayName: 'Accepted', value: RevisionStatus.Accepted},
-    {id: 2, displayName: 'Rejected', value: RevisionStatus.Rejected},
-    {id: 3, displayName: 'Superseded', value: RevisionStatus.Superseded},
-  ]
+    { id: 4, displayName: 'New', value: RevisionStatus.New },
+    { id: 1, displayName: 'Accepted', value: RevisionStatus.Accepted },
+    { id: 2, displayName: 'Rejected', value: RevisionStatus.Rejected },
+    { id: 3, displayName: 'Superseded', value: RevisionStatus.Superseded },
+  ];
 
-  private defaultPageSize = 10
+  preselectedRevisionStatus: Maybe<SelectableRevisionStatus> = this.selectableStatuses[0]
 
-  refetchQueries: InternalRefetchQueryDescriptor[] = []
+  private defaultPageSize = 10;
+
+  refetchQueries: InternalRefetchQueryDescriptor[] = [];
 
   constructor(
     private gql: RevisionsGQL,
@@ -70,170 +73,198 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     private geneDetailGql: GeneDetailGQL,
     private geneSummaryGql: GenesSummaryGQL,
     private evidenceDetailGql: EvidenceDetailGQL,
-    private evidenceSummaryGql: EvidenceSummaryGQL
-  ) {
-  }
+    private evidenceSummaryGql: EvidenceSummaryGQL,
+    private molecularProfileDetailGql: MolecularProfileDetailGQL,
+    private molecularProfileSummaryGql: MolecularProfileSummaryGQL
+  ) {}
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({
-        first: this.defaultPageSize,
-        subject: {id: this.id, entityType: this.entityType},
-        status: RevisionStatus.New
-      })
-      let observable = this.queryRef.valueChanges
+      this.queryParamsSub = this.route.queryParams.subscribe((queryParams) => {
+        let input: RevisionsQueryVariables = {
+          first: this.defaultPageSize,
+          subject: { id: this.id, entityType: this.entityType },
+          status: RevisionStatus.New,
+        };
 
-      this.revisions$ = observable.pipe(
-        pluck('data', 'revisions', 'edges'),
-        map((edges) => {
-          return edges.map((e) => e.node)
-        })
-      );
+        if (queryParams.revisionsetId) {
+          this.filteredSet = queryParams.revisionsetId;
+          this.preselectedRevisionStatus = undefined;
+          input.status = undefined;
+          input.revisionsetId = queryParams.revisionsetId;
+        }
 
-      this.isLoading$ = observable.pipe(
-        map((res) =>  res.loading),
-        startWith(true)
-      )
+        this.queryRef = this.gql.watch(input);
+        let observable = this.queryRef.valueChanges;
 
-      this.pageInfo$ = observable.pipe(
-        pluck('data', 'revisions', 'pageInfo')
-      );
+        this.revisions$ = observable.pipe(
+          pluck('data', 'revisions', 'edges'),
+          map((edges) => {
+            return edges.map((e) => e.node);
+          })
+        );
 
-      this.uniqueRevisors$ = observable.pipe(
-        map(({data}) => { return data.revisions?.uniqueRevisors })
-      );
+        this.isLoading$ = observable.pipe(
+          map((res) => res.loading),
+          startWith(true)
+        );
 
-      this.uniqueResolvers$ = observable.pipe(
-        map(({data}) => { return data.revisions?.uniqueResolvers })
-      );
-  
-      this.revisionFields$ = observable.pipe(
-        map(({ data }) => {
-          return data.revisions?.revisedFieldNames.map((f, i) => {
-            return { 
-              ...f,
-              id: i 
-            };
-          });
-        })
-      );
+        this.pageInfo$ = observable.pipe(
+          pluck('data', 'revisions', 'pageInfo')
+        );
 
-      this.unfilteredCount$ = observable.pipe(
-        pluck('data', 'revisions', 'unfilteredCountForSubject')
-      )
+        this.uniqueRevisors$ = observable.pipe(
+          map(({ data }) => {
+            return data.revisions?.uniqueRevisors;
+          })
+        );
+
+        this.uniqueResolvers$ = observable.pipe(
+          map(({ data }) => {
+            return data.revisions?.uniqueResolvers;
+          })
+        );
+
+        this.revisionFields$ = observable.pipe(
+          map(({ data }) => {
+            return data.revisions?.revisedFieldNames.map((f, i) => {
+              return {
+                ...f,
+                id: i,
+              };
+            });
+          })
+        );
+
+        this.unfilteredCount$ = observable.pipe(
+          pluck('data', 'revisions', 'unfilteredCountForSubject')
+        );
+      });
     });
 
     switch (this.entityType) {
-      case ModeratedEntities.Variant: 
+      case ModeratedEntities.Variant:
         this.refetchQueries.push({
           query: this.variantDetailGql.document,
-          variables: { variantId: this.id }
-        })
+          variables: { variantId: this.id },
+        });
         this.refetchQueries.push({
           query: this.variantSummaryGql.document,
-          variables: { variantId: this.id }
-        })
-        return
+          variables: { variantId: this.id },
+        });
+        return;
       case ModeratedEntities.Assertion:
         this.refetchQueries.push({
           query: this.assertionDetailGql.document,
-          variables: { assertionId: this.id }
-        })
+          variables: { assertionId: this.id },
+        });
         this.refetchQueries.push({
           query: this.assertionSummaryGql.document,
-          variables: { assertionId: this.id }
-        })
-        return
+          variables: { assertionId: this.id },
+        });
+        return;
       case ModeratedEntities.EvidenceItem:
         this.refetchQueries.push({
           query: this.evidenceDetailGql.document,
-          variables: { evidenceId: this.id }
-        })
+          variables: { evidenceId: this.id },
+        });
         this.refetchQueries.push({
           query: this.evidenceSummaryGql.document,
-          variables: { evidenceId: this.id }
-        })
-        return
+          variables: { evidenceId: this.id },
+        });
+        return;
       case ModeratedEntities.Gene:
         this.refetchQueries.push({
           query: this.geneDetailGql.document,
-          variables: { geneId: this.id }
-        })
+          variables: { geneId: this.id },
+        });
         this.refetchQueries.push({
           query: this.geneSummaryGql.document,
-          variables: { geneId: this.id }
-        })
-        return
+          variables: { geneId: this.id },
+        });
+        return;
       case ModeratedEntities.VariantGroup:
         this.refetchQueries.push({
           query: this.variantGroupDetailGql.document,
-          variables: { variantGroupId: this.id }
-        })
+          variables: { variantGroupId: this.id },
+        });
         this.refetchQueries.push({
           query: this.variantGroupSummaryGql.document,
-          variables: { variantGroupId: this.id }
-        })
-        return
+          variables: { variantGroupId: this.id },
+        });
+        return;
+      case ModeratedEntities.MolecularProfile:
+        this.refetchQueries.push({
+          query: this.molecularProfileDetailGql.document,
+          variables: { molecularProfileId: this.id },
+        });
+        this.refetchQueries.push({
+          query: this.molecularProfileSummaryGql.document,
+          variables: { molecularProfileId: this.id },
+        });
+        return;
     }
   }
 
   ngOnDestroy() {
     this.routeSub?.unsubscribe();
+    this.queryParamsSub?.unsubscribe();
   }
 
   onFieldNameSelected(field: SelectableFieldName) {
     this.queryRef.refetch({
-      subject: {id: this.id, entityType: this.entityType},
-      fieldName: field ? field.name : undefined
-    })
+      subject: { id: this.id, entityType: this.entityType },
+      fieldName: field ? field.name : undefined,
+    });
   }
 
   onRevisorSelected(user: UniqueUsers) {
     this.queryRef.refetch({
-      subject: {id: this.id, entityType: this.entityType},
-      originatingUserId: user ? user.id : undefined
-    })
+      subject: { id: this.id, entityType: this.entityType },
+      originatingUserId: user ? user.id : undefined,
+    });
   }
 
   onResolverSelected(user: UniqueUsers) {
     this.queryRef.refetch({
-      subject: {id: this.id, entityType: this.entityType},
-      resolvingUserId: user ? user.id : undefined
-    })
+      subject: { id: this.id, entityType: this.entityType },
+      resolvingUserId: user ? user.id : undefined,
+    });
   }
 
   onStatusSelected(status: Maybe<SelectableRevisionStatus>) {
+    this.preselectedRevisionStatus = status
     this.queryRef.refetch({
-      subject: {id: this.id, entityType: this.entityType},
-      status: status ? status.value : undefined
-    })
+      subject: { id: this.id, entityType: this.entityType },
+      status: status ? status.value : undefined,
+    });
   }
 
   onRevisionSetSelected(revisionsetId: string) {
-    this.filteredSet = revisionsetId
+    this.filteredSet = revisionsetId;
     this.queryRef.refetch({
-      subject: {id: this.id, entityType: this.entityType},
-      revisionsetId: revisionsetId ? revisionsetId : undefined
-    })
+      subject: { id: this.id, entityType: this.entityType },
+      revisionsetId: revisionsetId ? revisionsetId : undefined,
+    });
   }
 
   onSetFilterClearClicked() {
-    this.filteredSet = undefined
+    this.filteredSet = undefined;
     this.queryRef.refetch({
-      subject: {id: this.id, entityType: this.entityType},
-      revisionsetId: undefined
-    })
+      subject: { id: this.id, entityType: this.entityType },
+      revisionsetId: undefined,
+    });
   }
 
   refresh() {
-    this.queryRef.refetch()
+    this.queryRef.refetch();
   }
 
-  loadMore(afterCursor: Maybe<string>):void {
+  loadMore(afterCursor: Maybe<string>): void {
     this.queryRef?.fetchMore({
       variables: {
         first: this.defaultPageSize,
-        after: afterCursor
+        after: afterCursor,
       },
     });
   }

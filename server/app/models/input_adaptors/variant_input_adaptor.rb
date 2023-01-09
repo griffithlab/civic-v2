@@ -10,8 +10,6 @@ class InputAdaptors::VariantInputAdaptor
     Variant.new(
       gene_id: input.gene_id,
       name: input.name,
-      description: input.description,
-      source_ids: input.source_ids,
       variant_type_ids: input.variant_type_ids,
       reference_build: input.reference_build,
       ensembl_version: input.ensembl_version,

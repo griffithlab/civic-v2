@@ -111,8 +111,6 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <i nz-icon
-    nzType="civic:organization"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

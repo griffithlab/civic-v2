@@ -1,4 +1,4 @@
-query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
+query CitationExistenceCheck($sourceType: SourceSource!, $citationId: String!) {
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
 }
 

@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcVariantPopoverComponent],
@@ -24,6 +25,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     NzTagModule,
     NzIconModule,
     NzSpaceModule,
+    CvcPipesModule,
     CvcGeneTagModule,
     CvcLinkTagModule
   ],

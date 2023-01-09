@@ -5,6 +5,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
@@ -36,6 +37,7 @@ import { CvcSourcesTableComponent } from './sources-table.component';
     NzToolTipModule,
     NzTypographyModule,
 
+    CvcPipesModule,
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,

@@ -39,11 +39,6 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
 
     @variant = variant
 
-    existing_source_ids = Source.where(id: fields.source_ids).pluck(:id)
-    if existing_source_ids.size != fields.source_ids.size
-      raise GraphQL::ExecutionError, "Provided source ids: #{fields.source_ids.join(', ')} but only #{existing_source_ids.join(', ')} exist."
-    end
-
     if !Gene.find(fields.gene_id)
       raise GraphQL::ExecutionError, "Provided gene id: #{fields.gene_id} is not found."
     end
@@ -63,6 +58,8 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment: nil)
     updated_variant = InputAdaptors::VariantInputAdaptor.new(variant_input_object: fields).perform
+    updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
+
     cmd = Actions::SuggestVariantRevision.new(
       existing_obj: variant,
       updated_obj: updated_variant,

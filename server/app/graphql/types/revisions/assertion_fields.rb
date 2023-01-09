@@ -5,15 +5,13 @@ module Types::Revisions
       description: "A detailed description of the Assertion including practice guidelines and approved tests."
     argument :summary, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "A brief single sentence statement summarizing the clinical significance of this Assertion."
-    argument :variant_id, Int, required: true,
-      description: 'The ID of the Variant to which this Assertion belongs'
-    argument :gene_id, Int, required: true,
-      description: 'The ID of the Gene to which this Assertion belongs'
+    argument :molecular_profile_id, Int, required: true,
+      description: 'The ID of the Molecular Profile to which this Assertion belongs'
     argument :variant_origin, Types::VariantOriginType, required: true,
       description: 'The Variant Origin for this Assertion.'
     argument :assertion_type, Types::AssertionTypeType, required: true,
       description: 'The Type of the Assertion'
-    argument :clinical_significance, Types::AssertionClinicalSignificanceType, required: true,
+    argument :significance, Types::AssertionSignificanceType, required: true,
       description: 'The Clinical Significance of the Assertion'
     argument :disease_id, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,
       description: 'The ID of the disease (if applicable) for this Assertion'
@@ -21,10 +19,10 @@ module Types::Revisions
       description: 'The evidence direction for this Assertion.'
     argument :phenotype_ids, [Int], required: true,
       description: 'List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none.'
-    argument :drug_ids, [Int], required: true,
-      description: 'List of IDs of CIViC Drug entries for this Assertion. An empty list indicates none.'
-    argument :drug_interaction_type, Types::NullableValueInputType.for(Types::DrugInteractionType), required: true,
-      description: 'Drug interaction type for cases where more than one drug ID is provided.'
+    argument :therapy_ids, [Int], required: true,
+      description: 'List of IDs of CIViC Therapy entries for this Assertion. An empty list indicates none.'
+    argument :therapy_interaction_type, Types::NullableValueInputType.for(Types::TherapyInteractionType), required: true,
+      description: 'Therapy interaction type for cases where more than one therapy ID is provided.'
     argument :amp_level, Types::NullableValueInputType.for(Types::AmpLevelType), required: true,
       description: 'The AMP/ASCO/CAP Category for this assertion.'
     argument :evidence_item_ids, [Int], required: true,

@@ -1,16 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import {
     AcmgCode,
     AmpLevel,
-    AssertionClinicalSignificance,
+    AssertionSignificance,
     AssertionDirection,
     AssertionType,
     ClingenCode,
-    DrugInteraction,
     Maybe,
     NccnGuideline,
     Organization,
@@ -18,6 +17,7 @@ import {
     SubmitAssertionInput,
     SubmitAssertionMutation,
     SubmitAssertionMutationVariables,
+    TherapyInteraction,
     VariantOrigin
 } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -26,11 +26,10 @@ import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
 import {
   FormDisease,
-  FormDrug,
+  FormTherapy,
   FormEvidence,
-  FormGene,
+  FormMolecularProfile,
   FormPhenotype,
-  FormVariant
 } from '../forms.interfaces';
 
 interface FormModel {
@@ -38,16 +37,15 @@ interface FormModel {
     id: number
     description: string
     summary: string
-    variant: FormVariant[]
-    gene: FormGene[]
+    molecularProfile: FormMolecularProfile
     variantOrigin: VariantOrigin
     evidenceType: AssertionType
-    clinicalSignificance: AssertionClinicalSignificance
+    significance: AssertionSignificance
     disease: FormDisease[]
     evidenceDirection: AssertionDirection
     phenotypes: FormPhenotype[]
-    drugs: FormDrug[]
-    drugInteractionType: Maybe<DrugInteraction>
+    therapies: FormTherapy[]
+    therapyInteractionType: Maybe<TherapyInteraction>
     ampLevel: Maybe<AmpLevel>
     evidenceItems: FormEvidence[],
     nccnGuideline: Maybe<NccnGuideline>
@@ -110,21 +108,14 @@ export class AssertionSubmitForm implements OnDestroy {
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
+              label: 'Molecular Profile',
+              helpText: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               required: true,
-              maxCount: 1,
-              allowCreate: false
-            }
+              allowCreate: false,
+            },
           },
           {
             key: 'variantOrigin',
@@ -158,22 +149,22 @@ export class AssertionSubmitForm implements OnDestroy {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true
             }
           },
           {
-            key: 'drugs',
-            type: 'drug-array',
+            key: 'therapies',
+            type: 'therapy-array',
             templateOptions: {
               allowCreate: false
             }
           },
           {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select',
+            key: 'therapyInteractionType',
+            type: 'therapy-interaction-select',
             templateOptions: {}
           },
           {
@@ -295,16 +286,15 @@ export class AssertionSubmitForm implements OnDestroy {
         fields: {
           description: fmt.toNullableString(fields.description),
           summary: fmt.toNullableString(fields.summary),
-          variantId: fields.variant[0].id!,
-          geneId: fields.gene[0].id!,
+          molecularProfileId: fields.molecularProfile.id,
           variantOrigin: fields.variantOrigin,
           assertionType: fields.evidenceType,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0].id!),
           assertionDirection: fields.evidenceDirection,
           phenotypeIds: fields.phenotypes.map(p => p.id),
-          drugIds: fields.drugs.map(d => d.id),
-          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType),
+          therapyIds: fields.therapies.map(d => d.id),
+          therapyInteractionType: fmt.toNullableInput(fields.therapyInteractionType),
           ampLevel: fmt.toNullableInput(fields.ampLevel),
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
@@ -327,7 +317,7 @@ export class AssertionSubmitForm implements OnDestroy {
         input: input
       }, {},
         (data) => {
-          this.newId = data.submitAssertion.assertion.id;
+          this.newId = data.submitAssertion?.assertion.id;
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

@@ -8,16 +8,19 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { CvcUserTagComponent } from './user-tag.component';
 import { CvcUserPopoverModule } from '../user-popover/user-popover.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcUserTagComponent],
   imports: [
     CommonModule,
     RouterModule,
-    CvcUserPopoverModule,
     NzPopoverModule,
     NzTagModule,
     NzIconModule,
+
+    CvcPipesModule,
+    CvcUserPopoverModule,
   ],
   exports: [CvcUserTagComponent]
 })

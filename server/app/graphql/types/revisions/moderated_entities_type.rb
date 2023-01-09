@@ -6,5 +6,6 @@ module Types::Revisions
     value 'EVIDENCE_ITEM', value: 'EvidenceItem'
     value 'ASSERTION', value: 'Assertion'
     value 'VARIANT_GROUP', value: 'VariantGroup'
+    value 'MOLECULAR_PROFILE', value: 'MolecularProfile'
   end
 end

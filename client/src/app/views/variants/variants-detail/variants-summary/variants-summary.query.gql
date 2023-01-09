@@ -7,21 +7,14 @@ query VariantSummary($variantId: Int!) {
 fragment VariantSummaryFields on Variant {
   id
   name
-  description
   gene {
     id
     name
     link
   }
-  sources {
-    id
-    citation
-    sourceUrl
-    displayType
-    sourceType
-  }
   variantAliases
   alleleRegistryId
+  openCravatUrl
   variantTypes {
     id
     link
@@ -30,7 +23,6 @@ fragment VariantSummaryFields on Variant {
   }
   hgvsDescriptions
   clinvarIds
-  evidenceScore
   referenceBuild
   ensemblVersion
   primaryCoordinates {
@@ -82,6 +74,7 @@ fragment MyVariantInfoFields on MyVariantInfo {
   caddConsequence
   caddDetail
   caddScore
+  caddPhred
   clinvarClinicalSignificance
   clinvarHgvsCoding
   clinvarHgvsGenomic

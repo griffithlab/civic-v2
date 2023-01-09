@@ -9,19 +9,19 @@
 
   <!-- if multiple organizations, wrap in btn-group w/ selector btn -->
   <ng-container *ngIf="organizations.length > 1">
-    <nz-button-group [nzSize]="nzSize">
+    <nz-button-group>
 
       <ng-container *ngTemplateOutlet="submitButton"></ng-container>
 
-      <button type="button" nz-button [nzType]="buttonType" [nzDanger]="this.nzDanger" class="org-dropdown-btn"
+      <button type="button" nz-button
+        [ngClass]="buttonClass$ | ngrxPush"
+        [hidden]="isHidden$ | ngrxPush"
         [disabled]="isDisabled$ | ngrxPush"
         nz-dropdown [nzDropdownMenu]="orgMenu">
-        <nz-space nzDirection="horizontal" [nzSize]="4">
-          <span>for</span>
-          <nz-avatar [nzSrc]="selectedOrg?.profileImagePath" [nzSize]="10"
-            [nzShape]="'square'"></nz-avatar>
-          <i nz-icon nzType="down"></i>
-        </nz-space>
+        <span>for</span>
+        <nz-avatar [nzSrc]="selectedOrg?.profileImagePath" [nzSize]="10"
+          [nzShape]="'square'"></nz-avatar>
+        <i nz-icon nzType="down"></i>
       </button>
     </nz-button-group>
   </ng-container>

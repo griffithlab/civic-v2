@@ -6,5 +6,6 @@ module Types::Commentable
     value 'ASSERTION'
     value 'VARIANT_GROUP'
     value 'SOURCE'
+    value 'MOLECULAR_PROFILE'
   end
 end

@@ -16,6 +16,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CvcFlagPopoverComponent } from './flag-popover.component';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcFlagPopoverComponent],
@@ -27,6 +28,7 @@ import { CvcFlagPopoverComponent } from './flag-popover.component';
     NzIconModule,
     NzSpaceModule,
     NzDescriptionsModule,
+    CvcPipesModule,
     CvcGeneTagModule,
     CvcUserTagModule,
     CvcAssertionsTagModule,

@@ -4,27 +4,27 @@ query EvidenceBrowse(
   $before: String
   $after: String
   $diseaseName: String
-  $drugName: String
+  $therapyName: String
   $id: Int
   $description: String
   $evidenceLevel: EvidenceLevel
   $evidenceDirection: EvidenceDirection
-  $clinicalSignificance: EvidenceClinicalSignificance
+  $significance: EvidenceSignificance
   $evidenceType: EvidenceType
   $rating: Int
   $variantOrigin: VariantOrigin
   $variantId: Int
+  $molecularProfileId: Int
   $assertionId: Int
   $organizationId: Int
   $userId: Int
-  $sortBy: EvidenceSort,
-  $phenotypeId: Int,
-  $diseaseId: Int,
-  $drugId: Int,
-  $sourceId: Int,
-  $clinicalTrialId: Int,
-  $geneSymbol: String,
-  $variantName: String
+  $sortBy: EvidenceSort
+  $phenotypeId: Int
+  $diseaseId: Int
+  $therapyId: Int
+  $sourceId: Int
+  $clinicalTrialId: Int
+  $molecularProfileName: String
   $status: EvidenceStatusFilter
 ) {
   evidenceItems(
@@ -33,27 +33,27 @@ query EvidenceBrowse(
     before: $before
     after: $after
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     id: $id
     description: $description
     evidenceLevel: $evidenceLevel
     evidenceDirection: $evidenceDirection
-    clinicalSignificance: $clinicalSignificance
+    significance: $significance
     evidenceType: $evidenceType
     evidenceRating: $rating
     variantOrigin: $variantOrigin
     variantId: $variantId
+    molecularProfileId: $molecularProfileId
     assertionId: $assertionId
     organizationId: $organizationId
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
-    drugId: $drugId
+    therapyId: $therapyId
     sourceId: $sourceId
-    clinicalTrialId: $clinicalTrialId,
-    geneSymbol: $geneSymbol,
-    variantName: $variantName,
-    status: $status,
+    clinicalTrialId: $clinicalTrialId
+    molecularProfileName: $molecularProfileName
+    status: $status
     sortBy: $sortBy
   ) {
     totalCount
@@ -73,36 +73,35 @@ query EvidenceBrowse(
 }
 
 fragment EvidenceGridFields on EvidenceItem {
+  id
+  name
+  link
+  disease {
     id
     name
     link
-    disease {
-      id
-      name
-      link
+  }
+  therapies {
+    id
+    name
+    link
+  }
+  molecularProfile {
+    id
+    name
+    link
+    parsedName {
+      ...MolecularProfileParsedName
     }
-    drugs {
-      id
-      name
-      link
-    }
-    gene {
-      id
-      name
-      link
-    }
-    variant {
-      id
-      name
-      link
-    }
-    status
-    drugInteractionType
-    description
-    evidenceType
-    evidenceDirection
-    evidenceLevel
-    evidenceRating
-    clinicalSignificance
-    variantOrigin
+  }
+  status
+  flagged
+  therapyInteractionType
+  description
+  evidenceType
+  evidenceDirection
+  evidenceLevel
+  evidenceRating
+  significance
+  variantOrigin
 }

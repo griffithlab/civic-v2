@@ -1,15 +1,25 @@
 <nz-space nzDirection="vertical">
-  <nz-row [nzGutter]="16" *nzSpaceItem>
+  <nz-row [nzGutter]="16"
+    *nzSpaceItem>
     <nz-col [nzSpan]="24">
       <nz-card [nzTitle]="evidenceTitle"
         style="width: 100%">
         <ng-template #evidenceTitle>
+
           <i nz-icon
-            nzType="civic:evidence"></i> {{ evidence.name }}
+            nzTheme="twotone"
+            [nzTwotoneColor]="'EvidenceItem' | entityColor"
+            nzType="civic-evidence"></i> {{ evidence.name }}
+
           <i nz-icon
-            nzType="civic:gene"></i> {{ evidence.gene.name }}
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Gene' | entityColor"
+            nzType="civic-gene"></i> {{ evidence.gene.name }}
+
           <i nz-icon
-            nzType="civic:variant"></i> {{ evidence.variant.name }}
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Variant' | entityColor"
+            nzType="civic-variant"></i> {{ evidence.variant.name }}
         </ng-template>
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="8">
@@ -18,7 +28,9 @@
               <b>Supports Assertions:&nbsp;</b>
               <ng-container *ngFor="let assertion of evidence.assertions">
                 <i nz-icon
-                  nzType="civic:assertion"></i>{{ assertion.name }}
+                  nzTheme="twotone"
+                  [nzTwotoneColor]="'Assertion' | entityColor"
+                  nzType="civic-assertion"></i>{{ assertion.name }}
               </ng-container>
             </nz-row>
           </nz-col>
@@ -26,16 +38,16 @@
             <nz-row><b>Evidence Level:&nbsp;</b>{{ evidence.evidenceLevel }}</nz-row>
             <nz-row><b>Evidence Type:&nbsp;</b>{{ evidence.evidenceType | evidenceEnumDisplay }}</nz-row>
             <nz-row><b>Evidence Direction:&nbsp;</b>{{ evidence.evidenceDirection | evidenceEnumDisplay }}</nz-row>
-            <nz-row><b>Clinical Significance:&nbsp;</b>{{ evidence.clinicalSignificance | evidenceEnumDisplay }}</nz-row>
+            <nz-row><b>Clinical Significance:&nbsp;</b>{{ evidence.significance | evidenceEnumDisplay }}</nz-row>
             <nz-row><b>Variant Origin:&nbsp;</b>{{ evidence.variantOrigin | evidenceEnumDisplay }}</nz-row>
-            <nz-row [ngPlural]="evidence.drugs.length">
-              <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
-              <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
-              <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
-              <ng-container *ngFor="let drug of evidence.drugs">
-                <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+            <nz-row [ngPlural]="evidence.therapies.length">
+              <ng-template ngPluralCase="=0"><b>Therapy:&nbsp;</b> <i>Not Applicable</i></ng-template>
+              <ng-template ngPluralCase="=1"><b>Therapy:&nbsp;</b></ng-template>
+              <ng-template ngPluralCase="other"><b>Therapies:&nbsp;</b></ng-template>
+              <ng-container *ngFor="let therapy of evidence.therapies">
+                <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
               </ng-container>
-              <ng-container *ngIf="evidence.drugs.length > 1">({{ evidence.drugInteractionType | titlecase }})</ng-container>
+              <ng-container *ngIf="evidence.therapies.length > 1">({{ evidence.therapyInteractionType | titlecase }})</ng-container>
             </nz-row>
           </nz-col>
           <nz-col [nzSpan]="8">

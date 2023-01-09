@@ -36,6 +36,7 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
   formOptions: FormlyFormOptions = {};
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -197,6 +198,12 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
               }
           }
         ]
+      },
+      (data) => {
+        if(data.suggestVariantGroupRevision?.results.every(r => r.newlyCreated == false)) {
+          this.noNewRevisions = true
+          this.success = false
+         }
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

@@ -3,17 +3,17 @@ import { EvidenceStatus, SourceSource } from "@app/generated/civic.apollo";
 export interface FormSource {
   id?: number;
   sourceType?: SourceSource;
-  citationId?: number;
+  citationId?: string;
   citation?: string;
 }
 
 export interface FormDisease {
   id?: number;
-  doid?: number;
+  doid?: string;
   displayName?: string;
 }
 
-export interface FormDrug {
+export interface FormTherapy {
   id: number;
   ncitId?: string;
   name?: string;
@@ -30,9 +30,15 @@ export interface FormGene {
   name?: string;
 }
 
+export interface FormMolecularProfile {
+  id: number;
+  name?: string;
+}
+
 export interface FormVariant {
   id?: number;
   name: string;
+  singleVariantMolecularProfile: FormMolecularProfile,
 }
 
 export interface FormEvidence {

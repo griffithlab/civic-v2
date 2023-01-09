@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AmpFormatPipe } from './amp-format-pipe';
 import { CamelCaseToWordPipe } from './camel-case-to-words-pipe';
 import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
-import { DrugInteractionEnumDisplayPipe } from './drug-interaction-enum-display.pipe';
 import { EnumToTitlePipe } from './enum-to-title-pipe';
 import { EventVerbiagePipe } from './event-verbiage-pipe';
 import { EvidenceEnumDisplayPipe } from './evidence-enum-display-type';
@@ -21,13 +20,16 @@ import { SourceSuggestionStatusEnumDisplay } from './source-suggestion-status-en
 import { SourceTypeDisplayPipe } from './source-type-display.pipe';
 import { TruncatePipe } from './truncate-pipe';
 import { TypenameToRoutePipe } from './typename-to-route-pipe';
+import { EntityColorPipe } from './entity-color.pipe';
+import { DevRandomBoolPipe } from './dev-rnd-bool.pipe';
+import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-display.pipe';
 
 @NgModule({
   declarations: [
     AmpFormatPipe,
     CamelCaseToWordPipe,
     ColorNameForStatusPipe,
-    DrugInteractionEnumDisplayPipe,
+    TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
@@ -45,6 +47,8 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     SourceTypeDisplayPipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    EntityColorPipe,
+    DevRandomBoolPipe,
   ],
   imports: [
     CommonModule,
@@ -53,7 +57,7 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     AmpFormatPipe,
     CamelCaseToWordPipe,
     ColorNameForStatusPipe,
-    DrugInteractionEnumDisplayPipe,
+    TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
@@ -72,6 +76,8 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     TruncatePipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    EntityColorPipe,
+    DevRandomBoolPipe,
   ],
   providers: [
     SourceTypeDisplayPipe

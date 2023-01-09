@@ -21,12 +21,8 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
     scope.where(source_id: value)
   end
 
-  option(:gene_name, type: String) do |scope, value|
-    scope.joins(:gene).where('genes.name ILIKE ?', "#{value}%")
-  end
-
-  option(:variant_name, type: String) do |scope, value|
-    scope.joins(:variant).where('variants.name ILIKE ?', "#{value}%")
+  option(:molecular_profile_name, type: String) do |scope, value|
+    scope.joins(:molecular_profile).where('molecular_profiles.name ILIKE ?', "#{value}%")
   end
 
   option(:disease_name, type: String) do |scope, value|
@@ -63,10 +59,6 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
       scope.joins(:source).order("sources.citation_id #{value.direction}")
     when "CITATION"
       scope.joins(:source).order("sources.description #{value.direction}")
-    when "GENE_NAME"
-      scope.order("gene_name #{value.direction}")
-    when "VARIANT_NAME"
-      scope.order("variant_name #{value.direction}")
     when "DISEASE_NAME"
       scope.order("disease_name #{value.direction}")
     when "CREATED_AT"

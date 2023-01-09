@@ -3,8 +3,6 @@
     [nzExtra]="cardExtra">
 
     <ng-template #cardTitle>
-      <i nz-icon
-        nzType="civic:gene"></i> {{ geneName }} Variants
       <ng-container *ngIf="totalVariants$ | ngrxPush as total">
         <span nz-typography
           nzType="secondary">{{ total }} Total</span>
@@ -50,34 +48,18 @@
               nzSize="small"
               id="variant-sort-order"
               name="sortBy"
+              style="width: 115px;"
               [(ngModel)]="sortBy">
               <nz-option nzValue="NAME"
                 nzLabel="Variant Name"
+                style="width: 100%"
                 selected></nz-option>
               <nz-option nzValue="COORDINATE_START"
+                style="width: 100%"
                 nzLabel="Start Position"></nz-option>
               <nz-option nzValue="COORDINATE_END"
+                style="width: 100%"
                 nzLabel="End Position"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Show</nz-form-label>
-          <nz-form-control>
-            <nz-select (ngModelChange)="onVariantStatusFilterChanged($event)"
-              nzSize="small"
-              id="status-filter"
-              name="statusFilter"
-              [(ngModel)]="statusFilter">
-              <nz-option nzValue="WITH_ACCEPTED"
-                nzLabel="Variants with accepted evidence"></nz-option>
-              <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED"
-                nzLabel="Variants with accepted and/or submitted evidence"
-                selected></nz-option>
-              <nz-option nzValue="WITH_SUBMITTED"
-                nzLabel="Variants with submitted evidence"></nz-option>
-              <nz-option nzValue="ALL"
-                nzLabel="All Variants"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -86,15 +68,15 @@
     <nz-row>
       <nz-col nzSpan="24">
         <cvc-tag-list size="sm">
-          <ng-container
-            *ngFor="let v of variants">
+          <ng-container *ngFor="let v of variants">
             <cvc-variant-tag [variant]="v"></cvc-variant-tag>
           </ng-container>
         </cvc-tag-list>
       </nz-col>
     </nz-row>
     <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage">
+      <nz-row id="load-more-btn"
+        *ngIf="pageInfo.hasNextPage">
         <button nz-button
           nzType="default"
           nzSize="small"

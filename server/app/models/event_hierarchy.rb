@@ -34,8 +34,6 @@ class EventHierarchy
         },
         Variant => {
           children: [
-            :evidence_items,
-            :assertions
           ],
           direct_relations: [
             :revisions,
@@ -55,6 +53,16 @@ class EventHierarchy
         Assertion => {
           children: [
             :evidence_items,
+          ],
+          direct_relations: [
+            :revisions,
+          ]
+        },
+        MolecularProfile => {
+          children: [
+            :variants,
+            :evidence_items,
+            :assertions
           ],
           direct_relations: [
             :revisions,

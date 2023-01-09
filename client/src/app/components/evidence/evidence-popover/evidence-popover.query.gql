@@ -12,14 +12,14 @@ fragment evidencePopover on EvidenceItem {
   evidenceLevel
   evidenceType
   evidenceDirection
-  clinicalSignificance
+  significance
   variantOrigin
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name
@@ -31,15 +31,14 @@ fragment evidencePopover on EvidenceItem {
     link
   }
   evidenceRating
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    link
+    deprecated
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   source {
     id

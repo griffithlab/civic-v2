@@ -27,6 +27,8 @@ class FrontendRouter
       [ Variant, :id, ]
     when /evidence/, /evidence_items?/
       [ EvidenceItem, :id, ]
+    when /molecular_profiles?/, /molecular-profiles?/
+      [ MolecularProfile, :id, ]
     when /entrez_id/
       [ Gene, :entrez_id, ]
     when /entrez_name/
@@ -38,6 +40,8 @@ class FrontendRouter
     when /diseases?/
       [ Disease, :id ]
     when /drugs?/
+      [ Drug, :id ]
+    when /therapies?/
       [ Drug, :id ]
     when /assertions?/
       [ Assertion, :id ]
@@ -53,6 +57,8 @@ class FrontendRouter
         [ Gene, :id ]
       when "VID"
         [ Variant, :id ]
+      when "MPID"
+        [ MolecularProfile, :id ]
       when "EID"
         [ EvidenceItem, :id ]
       when "SID"
@@ -66,7 +72,7 @@ class FrontendRouter
   end
 
   def remove_tag(id_with_tag)
-    match = id_with_tag.upcase.match(/^(AID|GID|VID|EID|SID)(\d+)$/)
+    match = id_with_tag.upcase.match(/^(AID|GID|VID|EID|SID|MPID)(\d+)$/)
     if match
       match.captures
     else

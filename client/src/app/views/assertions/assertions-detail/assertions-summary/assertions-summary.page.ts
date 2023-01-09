@@ -1,10 +1,11 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { AssertionSummaryGQL, Maybe, AssertionSummaryQuery, AssertionSummaryQueryVariables, AssertionSummaryFieldsFragment, SubscribableInput, SubscribableEntities, AssertionType } from "@app/generated/civic.apollo";
+import { AssertionSummaryGQL, Maybe, AssertionSummaryQuery, AssertionSummaryQueryVariables, AssertionSummaryFieldsFragment, SubscribableInput, SubscribableEntities } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { AssertionState } from "@app/forms/config/states/assertion.state";
+import { tag } from "rxjs-spy/cjs/operators";
 
 @Component({
   selector: 'cvc-assertion-summary',

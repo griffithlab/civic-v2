@@ -29,12 +29,30 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'molecular_profile_id'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Molecular Profile">
+              <ng-template #itemTemplate let-item>
+                <cvc-molecular-profile-tag [molecularProfile]="{id: item.id, name: item.displayName, link: item.link}"></cvc-molecular-profile-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'drug_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Drugs">
+              entityType="Therapies">
               <ng-template #itemTemplate let-item>
-                <cvc-drug-tag [drug]="{id: item.id, name: item.displayName, link: item.link}"></cvc-drug-tag>
+                <cvc-therapy-tag [therapy]="{id: item.id, name: item.displayName, link: item.link}"></cvc-therapy-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
+          <ng-container *ngSwitchCase="'therapy_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Therapies">
+              <ng-template #itemTemplate let-item>
+                <cvc-therapy-tag [therapy]="{id: item.id, name: item.displayName, link: item.link}"></cvc-therapy-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -42,6 +60,17 @@
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Variant Aliases">
+              <ng-template #itemTemplate let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
+          <ng-container *ngSwitchCase="'molecular_profile_alias_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Molecular Profile Aliases">
               <ng-template #itemTemplate let-item>
                 <nz-tag>
                   {{ item.displayName }}
@@ -70,11 +99,22 @@
                 </nz-tag>
               </ng-template>
             </cvc-revision-list-diff>
-          </ng-container> -->
+          </ng-container>
           <ng-container *ngSwitchCase="'acmg_code_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
               entityType="ACMG/AMP Code(s)">
+              <ng-template #itemTemplate let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
+          <ng-container *ngSwitchCase="'nccn_guideline_id'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="NCCN Guideline">
               <ng-template #itemTemplate let-item>
                 <nz-tag>
                   {{ item.displayName }}
@@ -179,7 +219,10 @@
         <ng-template #revCardHeaderTitle>
           <nz-space>
             <span *nzSpaceItem>
-              <i nz-icon nzType="civic:revision"></i> RID{{ revision.id }}
+              <i nz-icon
+              nzTheme="twotone"
+              [nzTwotoneColor]="'Revision' | entityColor"
+              nzType="civic-revision"></i> RID{{ revision.id }}
               <span>{{ revision.linkoutData.name }} Updated</span>
             </span>
             <ng-container *ngIf="revision.creationComment">

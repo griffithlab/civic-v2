@@ -17,9 +17,10 @@
       <nz-col nzFlex="64px"
         class="header-icon">
         <i nz-icon
-          nzType="civic:evidence"></i>
+          nzType="civic-evidence"
+        nzTheme="twotone" [nzTwotoneColor]="'EvidenceItem' | entityColor"></i>
       </nz-col>
-      <nz-col nzFlex="600px"
+      <nz-col nzFlex="0 1 600px"
         class="header-description">
         <h2>Evidence Items</h2>
         <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">The clinical evidence statement is a piece of information that has been manually curated from trustable medical literature about a variant or genomic ‘event’ that has implications in cancer predisposition, diagnosis (aka molecular classification), prognosis, or predictive response to therapy.</p>

@@ -5,7 +5,7 @@ class Mutations::AddRemoteCitation < Mutations::BaseMutation
     such as adding new evidence items and is distinct from suggesting a source for curation.
   DOC
 
-  argument :citation_id, GraphQL::Types::Int, required: true,
+  argument :citation_id, GraphQL::Types::String, required: true,
     description: 'The external id for the source to add.'
   argument :source_type, Types::SourceSourceType, required: true,
     description: 'The origin of the external source.'

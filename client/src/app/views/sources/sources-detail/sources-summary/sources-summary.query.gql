@@ -22,5 +22,6 @@ fragment SourceSummaryFields on Source {
   clinicalTrials {
     nctId
     id
+    link
   }
 }

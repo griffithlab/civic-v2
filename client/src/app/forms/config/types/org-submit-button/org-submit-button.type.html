@@ -1,10 +1,11 @@
 <cvc-form-buttons>
-  <cvc-org-selector-btn-group #orgButton [(selectedOrg)]="selectedOrg"
-    [nzSize]="to.submitSize">
+  <cvc-org-selector-btn-group #orgButton
+    [(selectedOrg)]="selectedOrg">
     <button type="submit"
       (click)="orgButton.refreshViewer();"
       nz-button
       cvcOrgSelectorBtn
+      [nzSize]="to.submitSize"
       nzType="primary"
       [disabled]="!form.valid">
       {{ to.submitLabel }}

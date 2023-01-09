@@ -16,7 +16,7 @@ module Actions
     def execute
       update_status
       create_event
-      update_variant_score
+      update_mp_score
     end
 
     def update_status
@@ -51,8 +51,8 @@ module Actions
       )
     end
 
-    def update_variant_score
-      UpdateVariantScore.perform_later(evidence_item.variant)
+    def update_mp_score
+      UpdateMolecularProfileScore.perform_later(evidence_item.molecular_profile)
     end
   end
 end

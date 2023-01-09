@@ -23,7 +23,6 @@ fragment GeneSummaryFields on Gene {
       node {
         id
         name
-        description
       }
     }
   }

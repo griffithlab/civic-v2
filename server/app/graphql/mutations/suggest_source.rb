@@ -8,11 +8,8 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text explaining why this source should be curated for CIViC evidence.'
 
-  argument :variant_id, GraphQL::Types::Int, required: false,
-    description: 'Internal CIViC ID for the applicable variant, if any.'
-
-  argument :gene_id, GraphQL::Types::Int, required: false,
-    description: 'Internal CIViC ID for the applicable gene, if any.'
+  argument :molecular_profile_id, GraphQL::Types::Int, required: false,
+    description: 'Internal CIViC ID for the applicable molecular profile, if any.'
 
   argument :disease_id, GraphQL::Types::Int, required: false,
     description: 'Internal CIViC ID for the applicable disease, if any.'
@@ -21,7 +18,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     description: 'The newly created Source Suggestion'
 
 
-  def ready?(organization_id: nil, source_id:, variant_id: nil, gene_id: nil, disease_id: nil, **kwargs)
+  def ready?(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, **kwargs)
     validate_user_logged_in
     validate_user_org(organization_id)
 
@@ -31,20 +28,17 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       errors << "Source with ID #{source_id} does not exist in CIViC"
     end
 
-    if gene_id && !Gene.where(id: gene_id).exists?
-      errors << "Gene with ID #{gene_id} does not exist in CIViC"
+    if molecular_profile_id
+      mp = MolecularProfile.find_by(id: molecular_profile_id)
+      if mp.blank?
+        errors << "Molecular Profile with ID #{molecular_profile_id} does not exist in CIViC"
+      elsif mp.deprecated
+        errors << "Molecuarl Profile with ID #{molecular_profile_id} is deprecated"
+      end
     end
 
     if disease_id && !Disease.where(id: disease_id).exists?
       errors << "Disease with ID #{disease_id} does not exist in CIViC"
-    end
-
-    if variant_id && !gene_id
-      errors << "If you provide a variant ID, you must provide a Gene ID"
-    end
-
-    if variant_id && !Variant.where(id: variant_id).exists?
-      errors << "Variant with ID #{variant_id} does not exist in CIVi"
     end
 
     if errors.any?
@@ -59,7 +53,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(organization_id: nil, source_id:, variant_id: nil, gene_id: nil, disease_id: nil, comment:, **kwargs)
+  def resolve(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, comment:, **kwargs)
 
     cmd = Actions::SuggestSource.new(
       source_id: source_id,
@@ -67,8 +61,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       organization_id: organization_id,
       comment_body: comment,
       disease_id: disease_id,
-      variant_id: variant_id,
-      gene_id: gene_id
+      molecular_profile_id: molecular_profile_id
     )
     res = cmd.perform
 

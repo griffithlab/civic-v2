@@ -20,9 +20,9 @@ module Constants
 
   EVIDENCE_STATUS = ['accepted', 'submitted', 'rejected']
 
-  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A']
+  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A', 'Mixed']
 
-  CLINICAL_SIGNIFICANCES = [
+  SIGNIFICANCES = [
     'Sensitivity/Response',
     'Resistance',
     'Better Outcome',
@@ -115,6 +115,7 @@ module Constants
     'Variant' => 'variants',
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
+    'MolecularProfile' => 'molecular-profiles'
   }
 
   CIVICBOT_USER_ID = 385

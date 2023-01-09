@@ -1,27 +1,27 @@
-query AssertionsBrowse (
+query AssertionsBrowse(
   $first: Int
   $last: Int
   $before: String
   $after: String
   $diseaseName: String
-  $drugName: String
+  $therapyName: String
   $id: Int
   $summary: String
   $assertionDirection: EvidenceDirection
-  $clinicalSignificance: EvidenceClinicalSignificance
+  $significance: EvidenceSignificance
   $assertionType: EvidenceType
   $variantId: Int,
+  $molecularProfileId: Int,
   $evidenceId: Int,
-  $geneName: String,
-  $variantName: String,
+  $molecularProfileName: String,
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
-  $organizationId: Int,
-  $userId: Int,
-  $phenotypeId: Int,
-  $diseaseId: Int,
-  $drugId: Int,
-  $status: EvidenceStatusFilter,
+  $organizationId: Int
+  $userId: Int
+  $phenotypeId: Int
+  $diseaseId: Int
+  $therapyId: Int
+  $status: EvidenceStatusFilter
 ) {
   assertions(
     first: $first
@@ -29,23 +29,23 @@ query AssertionsBrowse (
     before: $before
     after: $after
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     id: $id
     summary: $summary
     assertionDirection: $assertionDirection
-    clinicalSignificance: $clinicalSignificance
+    significance: $significance
     assertionType: $assertionType
     variantId: $variantId,
+    molecularProfileId: $molecularProfileId,
     sortBy: $sortBy,
     ampLevel: $ampLevel,
-    geneName: $geneName,
-    variantName: $variantName,
+    molecularProfileName: $molecularProfileName,
     evidenceId: $evidenceId
     organizationId: $organizationId
-    userId: $userId,
+    userId: $userId
     phenotypeId: $phenotypeId
-    drugId: $drugId
-    diseaseId: $diseaseId,
+    therapyId: $therapyId
+    diseaseId: $diseaseId
     status: $status
   ) {
     totalCount
@@ -68,32 +68,31 @@ fragment AssertionBrowseFields on Assertion {
   id
   name
   link
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   disease {
     id
     name
     link
   }
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   summary
   assertionType
   assertionDirection
-  clinicalSignificance
+  significance
   ampLevel
   evidenceItemsCount
   status
+  flagged
 }

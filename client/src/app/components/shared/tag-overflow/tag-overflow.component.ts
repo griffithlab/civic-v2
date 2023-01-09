@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { Maybe } from "@app/generated/civic.apollo";
 
-export type SupportedPileupTags = 'drug' | 'disease' | 'organization'
+export type SupportedPileupTags = 'therapy' | 'disease' | 'gene' | 'organization' | 'variant'
 
 export type TagInfo = {
   id: number
@@ -44,6 +44,7 @@ export class CvcTagOverflowComponent implements OnChanges {
     this.hiddenCount = this.hiddenTags?.length
 
     if (this.matchingText) {
+      this.matchedHiddenCount = 0
       if (this.hiddenTags) {
         let text = this.matchingText.toLowerCase();
         this.hiddenTags.forEach(t => {

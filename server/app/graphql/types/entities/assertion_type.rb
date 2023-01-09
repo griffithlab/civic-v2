@@ -9,14 +9,13 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :variant, Types::Entities::VariantType, null: false
-    field :gene, Types::Entities::GeneType, null: false
-    field :clinical_significance, Types::AssertionClinicalSignificanceType, null: false
+    field :molecular_profile, Types::Entities::MolecularProfileType, null: false
+    field :significance, Types::AssertionSignificanceType, null: false
     field :summary, String, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
-    field :drugs, [Types::Entities::DrugType], null: false
-    field :drug_interaction_type, Types::DrugInteractionType, null: true
+    field :therapies, [Types::Entities::TherapyType], null: false
+    field :therapy_interaction_type, Types::TherapyInteractionType, null: true
     field :assertion_direction, Types::AssertionDirectionType, null: false
     field :assertion_type, Types::AssertionTypeType, null: false
     field :phenotypes, [Types::Entities::PhenotypeType], null: false
@@ -41,8 +40,12 @@ module Types::Entities
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
     end
 
-    def drugs
+    def therapies
       Loaders::AssociationLoader.for(Assertion, :drugs).load(object)
+    end
+
+    def therapy_interaction_type
+      object.drug_interaction_type
     end
 
     def phenotypes
@@ -57,12 +60,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :clingen_codes).load(object)
     end
 
-    def variant
-      Loaders::RecordLoader.for(Variant).load(object.variant_id)
-    end
-
-    def gene
-      Loaders::RecordLoader.for(Gene).load(object.gene_id)
+    def molecular_profile
+      Loaders::RecordLoader.for(MolecularProfile).load(object.molecular_profile_id)
     end
 
     def assertion_direction

@@ -11,12 +11,7 @@
         *nzSpaceItem>Related to <strong>{{ assertion.name }}</strong>:</span>
       <span *nzSpaceItem
         class="tags">
-        <a routerLink="/genes/{{ assertion.gene.id }}">
-          <cvc-gene-tag [gene]="assertion.gene"></cvc-gene-tag>
-        </a>
-        <a routerLink="/variants/{{ assertion.variant.id }}">
-          <cvc-variant-tag [variant]="assertion.variant"></cvc-variant-tag>
-        </a>
+        <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
 
     </nz-space>
@@ -30,7 +25,9 @@
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:assertion"></i> {{ assertion.name }}
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Assertion' | entityColor"
+          nzType="civic-assertion"></i> {{ assertion.name }}
       </nz-page-header-title>
 
       <!-- header action btns, actions menu -->
@@ -103,6 +100,11 @@
           nzBanner
           nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
+        <nz-alert *ngIf="this.assertion.status == 'REJECTED'"
+          nzBanner
+          nzMessage="This Assertion has been rejected."
+          nzType="error">
+        </nz-alert>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
@@ -110,7 +112,8 @@
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
-        <nz-space nzDirection="vertical" *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
+        <nz-space nzDirection="vertical"
+          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons entityType="Assertion"
               [rejectOnly]="!viewer.canModerate"

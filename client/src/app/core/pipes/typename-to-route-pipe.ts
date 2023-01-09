@@ -22,6 +22,8 @@ export class TypenameToRoutePipe implements PipeTransform {
         return 'source-suggestions'
       case ('Revision'):
         return 'revisions'
+      case ('MolecularProfile'):
+        return 'molecular-profiles'
       default:
         throw new Error('Not handling all typenames yet' + n)
     }

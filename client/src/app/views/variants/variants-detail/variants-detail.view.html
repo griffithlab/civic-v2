@@ -6,8 +6,11 @@
     <nz-space nzDirection="horizontal">
 
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem><strong>{{ variant.name }}</strong> Parent:</span>
-      <span *nzSpaceItem class="tags">
+      <span nz-typography
+        class="label"
+        *nzSpaceItem><strong>{{ variant.name }}</strong> Parent:</span>
+      <span *nzSpaceItem
+        class="tags">
         <a routerLink="/genes/{{ variant.gene.id }}">
           <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
         </a>
@@ -23,7 +26,9 @@
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': variant.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:variant"></i> {{ variant.name }}
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Variant' | entityColor"
+          nzType="civic-variant"></i> {{ variant.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
@@ -66,6 +71,27 @@
             </button>
           </span>
 
+          <!-- deprecate variant btn -->
+          <span *nzSpaceItem>
+            <button
+              nz-button
+              nzSize="small"
+              *ngIf="viewer.isEditor"
+              [disabled]="variant.deprecated"
+              nz-popover
+              nzPopoverTitle="Deprecate Variant"
+              nzPopoverTrigger="click"
+              [nzPopoverContent]="deprecateVariantForm"
+              nzPopoverPlacement="bottomRight">
+                Deprecate
+              <ng-template #deprecateVariantForm>
+                <div class="deprecateVariant">
+                  <cvc-variant-deprecate-form [variantId]="variant.id"></cvc-variant-deprecate-form>
+                </div>
+              </ng-template>
+            </button>
+          </span>
+
           <span *nzSpaceItem>
             <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="Variant">
             </cvc-entity-subscription-button>
@@ -74,6 +100,14 @@
         </nz-space>
       </nz-page-header-extra>
       <nz-page-header-content>
+        <nz-alert *ngIf="variant.deprecated"
+          nzBanner
+          [nzMessage]=deprecationMessageTemplate
+          nzType="error"></nz-alert>
+        <ng-template #deprecationMessageTemplate>
+          This Variant has been deprecated for reason: {{ variant.deprecationReason | enumToTitle }}.
+          <cvc-comment-body [commentBodySegments]="variant.deprecationComment.parsedComment"></cvc-comment-body>
+        </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">

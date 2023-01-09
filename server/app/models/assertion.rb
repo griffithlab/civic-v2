@@ -7,8 +7,9 @@ class Assertion < ActiveRecord::Base
   include Moderated
   include WithTimepointCounts
 
-  belongs_to :gene
-  belongs_to :variant
+  belongs_to :gene, optional: true
+  belongs_to :variant, optional: true
+  belongs_to :molecular_profile
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :drugs
   belongs_to :disease
@@ -21,7 +22,7 @@ class Assertion < ActiveRecord::Base
   enum amp_level: Constants::AMP_LEVELS
   enum evidence_type: Constants::ASSERTION_TYPES, _suffix: true
   enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
-  enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
+  enum significance: Constants::SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
 

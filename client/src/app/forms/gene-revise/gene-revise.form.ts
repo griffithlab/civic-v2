@@ -30,7 +30,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 export interface FormSource {
   id?: number;
   sourceType?: SourceSource,
-  citationId?: number;
+  citationId?: string;
   citation?: string;
 }
 
@@ -58,6 +58,7 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
   geneRevisionInput!: SuggestGeneRevisionInput;
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -209,6 +210,12 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
               }
           }
         ]
+      },
+      (data) => {
+        if(data.suggestGeneRevision?.results.every(r => r.newlyCreated == false)) {
+          this.noNewRevisions = true
+          this.success = false
+        }       
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

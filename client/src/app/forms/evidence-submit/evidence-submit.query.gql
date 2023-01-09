@@ -1,11 +1,6 @@
-query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $geneId: Int, $variantId: Int, $diseaseId: Int) {
-  sourceSuggestionValues(geneId: $geneId, variantId: $variantId, diseaseId: $diseaseId, sourceId: $sourceId) {
-    gene {
-      id
-      name
-      link
-    }
-    variant {
+query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $molecularProfileId: Int, $diseaseId: Int) {
+  sourceSuggestionValues(molecularProfileId: $molecularProfileId, diseaseId: $diseaseId, sourceId: $sourceId) {
+    molecularProfile {
       id
       name
       link
@@ -36,19 +31,11 @@ fragment SubmittableEvidenceFields on EvidenceItem {
   description
   variantOrigin
   evidenceType
-  clinicalSignificance
+  significance
   evidenceLevel
   evidenceDirection
   evidenceRating
-  drugInteractionType
-  gene {
-    id
-    name
-  }
-  variant {
-    id
-    name
-  }
+  therapyInteractionType
   source {
     id
     citation
@@ -58,7 +45,7 @@ fragment SubmittableEvidenceFields on EvidenceItem {
     id
     name
   }
-  drugs {
+  therapies {
     id
     name
   }

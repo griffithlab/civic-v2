@@ -4,17 +4,16 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 export type TableCountsInfo = {
-  totalCount: number
   filteredCount: Maybe<number>
   edgeCount: number
 }
 
 export type EntityConnection = {
   edges: Array<EntityEdge>
-  nodes: Array<object>
+  nodes?: Array<object>
   pageCount: number
-  totalCount: number
   filteredCount?: number
+  totalCount?: number
   pageInfo: PageInfo
 }
 
@@ -37,20 +36,21 @@ export class TableCountsComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableCountsInfo$ = this.cvcTableCountsConnection
-      .pipe(filter((c) => c.totalCount !== undefined),
+      .pipe(filter((c) => c.totalCount != undefined || c.filteredCount != undefined),
         map((c: EntityConnection) => {
-          const { filteredCount: fc, totalCount: tc, edges } = c
-          // if no filtered count, and an initial total count has
-          // not been set, set it to total count
-          if (!fc && !this.initialTotalCount) this.initialTotalCount = tc
-          const itc = this.initialTotalCount
+          console.log(c)
+          const fc = c.filteredCount
+          const tc = c.totalCount
+          const edges = c.edges
+          // Need to provide either filtered count or total count
+          if (fc == undefined && tc == undefined) {
+            console.log("Need to provide either filtered count or total count in the table counts component")
+          }
+          // If no filtered count, set filtered count to total count
+          const filteredCount = fc == undefined ? tc : fc
           return {
             edgeCount: edges.length,
-            // if the current total is less than the initial total,
-            // set total count to initial total count.
-            totalCount: (itc && tc < itc) ? itc : tc,
-            // If no filtered count, set filtered count to current total count
-            filteredCount: fc ? fc : tc
+            filteredCount: filteredCount
           }
         }));
   }
