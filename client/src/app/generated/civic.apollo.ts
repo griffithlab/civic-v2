@@ -4667,7 +4667,6 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   secondaryCoordinates?: Maybe<Coordinate>;
   singleVariantMolecularProfile: MolecularProfile;
   singleVariantMolecularProfileId: Scalars['Int'];
-  sources: Array<Source>;
   variantAliases: Array<Scalars['String']>;
   variantBases?: Maybe<Scalars['String']>;
   variantTypes: Array<VariantType>;
@@ -8187,7 +8186,7 @@ export const VariantMolecularProfileCardFieldsFragmentDoc = gql`
     name
     link
   }
-  molecularProfiles(first: 5) {
+  molecularProfiles(first: 3) {
     totalCount
     nodes {
       id
