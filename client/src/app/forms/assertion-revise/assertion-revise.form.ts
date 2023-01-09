@@ -93,7 +93,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
             type: 'molecular-profile-input',
             templateOptions: {
               label: 'Molecular Profile',
-              helpText: 'lorem ipsum',
+              helpText: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               required: true,
               nzSelectedIndex: 2,
               allowCreate: false,

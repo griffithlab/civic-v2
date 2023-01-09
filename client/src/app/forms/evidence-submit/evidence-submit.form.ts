@@ -100,7 +100,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             type: 'molecular-profile-input',
             templateOptions: {
               label: 'Molecular Profile',
-              helpText: 'TODO',
+              helpText: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               required: true,
               allowCreate: true,
             },
