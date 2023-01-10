@@ -12,4 +12,4 @@ jobs:
           count: 1
           labels: "bugfix, housekeeping, new-feature, enhancement, ignore-for-release"
           add_comment: true
-          message: "You must specify one of the following labels {{ provided }} in order for this PR to appear in the release notes."
+          message: "You must specify one of the following labels: {{ provided }} in order for this PR to appear in the release notes."
