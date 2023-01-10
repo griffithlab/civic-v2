@@ -17,10 +17,6 @@ class Source < ActiveRecord::Base
     display_name
   end
 
-  def citation
-    description
-  end
-
   def source_url
     Source.url_for(source: self)
   end

@@ -35,7 +35,7 @@ module Scrapers
       source.journal = resp.journal
       source.title = resp.article_title
       source.full_journal_title = resp.full_journal_title
-      source.description = resp.citation
+      source.citation = resp.citation
 
       source.save!
     end
