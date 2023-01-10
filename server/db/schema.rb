@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_10_191626) do
+ActiveRecord::Schema.define(version: 2023_01_10_192703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,11 +87,11 @@ ActiveRecord::Schema.define(version: 2023_01_10_191626) do
     t.integer "gene_id"
     t.integer "variant_id"
     t.integer "disease_id"
-    t.integer "evidence_type"
+    t.integer "assertion_type"
     t.boolean "fda_companion_test"
     t.boolean "fda_regulatory_approval"
     t.integer "drug_interaction_type"
-    t.integer "evidence_direction"
+    t.integer "assertion_direction"
     t.text "summary"
     t.integer "variant_origin"
     t.bigint "nccn_guideline_id"

@@ -54,10 +54,10 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.where("assertions.summary ILIKE ?", "%#{value}%")
   end
   option(:assertion_type, type: Types::EvidenceTypeType, description: 'Filtering on the assertion type.') do |scope, value|
-    scope.where(evidence_type: value)
+    scope.where(assertion_type: value)
   end
   option(:assertion_direction, type: Types::EvidenceDirectionType, description: 'Filtering on the assertion direction.') do |scope, value|
-    scope.where(evidence_direction: value)
+    scope.where(assertion_direction: value)
   end
   option(:significance, type: Types::EvidenceSignificanceType, description: "Filtering on the assertion's significance.") do |scope, value|
     scope.where(significance: value)
@@ -94,11 +94,11 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     when 'SUMMARY'
       scope.reorder("assertions.summary #{value.direction}")
     when 'ASSERTION_TYPE'
-      scope.reorder("evidence_type #{value.direction}")
+      scope.reorder("assertion_type #{value.direction}")
     when 'STATUS'
       scope.reorder("status #{value.direction}")
     when 'ASSERTION_DIRECTION'
-      scope.reorder("evidence_direction #{value.direction}")
+      scope.reorder("assertion_direction #{value.direction}")
     when 'SIGNIFICANCE'
       scope.reorder("significance #{value.direction}")
     when 'AMP_LEVEL'
