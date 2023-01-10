@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_10_192703) do
+ActiveRecord::Schema.define(version: 2023_01_10_202136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -489,20 +489,20 @@ ActiveRecord::Schema.define(version: 2023_01_10_192703) do
     t.index ["gene_id", "source_id"], name: "index_genes_sources_on_gene_id_and_source_id"
   end
 
-  create_table "hgvs_expressions", id: :serial, force: :cascade do |t|
-    t.text "expression"
+  create_table "hgvs_descriptions", id: :serial, force: :cascade do |t|
+    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["expression"], name: "index_hgvs_expressions_on_expression"
+    t.index ["description"], name: "index_hgvs_descriptions_on_description"
   end
 
-  create_table "hgvs_expressions_variants", id: false, force: :cascade do |t|
-    t.integer "hgvs_expression_id", null: false
+  create_table "hgvs_descriptions_variants", id: false, force: :cascade do |t|
+    t.integer "hgvs_description_id", null: false
     t.integer "variant_id", null: false
     t.integer "variants_id"
     t.integer "hgvs_expressions_id"
-    t.index ["hgvs_expression_id"], name: "index_hgvs_expressions_variants_on_hgvs_expression_id"
-    t.index ["variant_id", "hgvs_expression_id"], name: "idx_variant_id_hgvs_id"
+    t.index ["hgvs_description_id"], name: "index_hgvs_descriptions_variants_on_hgvs_description_id"
+    t.index ["variant_id", "hgvs_description_id"], name: "idx_variant_id_hgvs_id"
   end
 
   create_table "molecular_profile_aliases", force: :cascade do |t|

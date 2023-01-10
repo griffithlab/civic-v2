@@ -16,7 +16,7 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :variant_aliases
   has_and_belongs_to_many :variant_types
   has_and_belongs_to_many :clinvar_entries
-  has_and_belongs_to_many :hgvs_expressions
+  has_and_belongs_to_many :hgvs_descriptions
   has_and_belongs_to_many :sources
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 

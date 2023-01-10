@@ -7,7 +7,7 @@ class MyVariantInfo
 
   def response
     Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
-      if hgvs = HgvsExpression.my_gene_info_hgvs(variant)
+      if hgvs = HgvsDescription.my_gene_info_hgvs(variant)
         response = make_request(hgvs)
         parse_response(response, hgvs)
       else
