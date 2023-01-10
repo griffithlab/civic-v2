@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_10_202136) do
+ActiveRecord::Schema.define(version: 2023_01_10_203308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -638,16 +638,11 @@ ActiveRecord::Schema.define(version: 2023_01_10_202136) do
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
-    t.text "gene_name"
-    t.text "disease_name"
-    t.text "variant_name"
     t.text "initial_comment"
     t.text "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "reason"
-    t.integer "gene_id"
-    t.integer "variant_id"
     t.integer "disease_id"
     t.bigint "molecular_profile_id"
     t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
@@ -680,13 +675,6 @@ ActiveRecord::Schema.define(version: 2023_01_10_202136) do
 
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
     t.integer "variant_group_id", null: false
-    t.integer "source_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "sources_variants", id: false, force: :cascade do |t|
-    t.integer "variant_id", null: false
     t.integer "source_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -822,7 +810,6 @@ ActiveRecord::Schema.define(version: 2023_01_10_202136) do
   create_table "variants", id: :serial, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.string "name", null: false
-    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "deleted", default: false
@@ -919,9 +906,7 @@ ActiveRecord::Schema.define(version: 2023_01_10_202136) do
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "source_suggestions", "diseases"
-  add_foreign_key "source_suggestions", "genes"
   add_foreign_key "source_suggestions", "molecular_profiles"
-  add_foreign_key "source_suggestions", "variants"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
   add_foreign_key "user_mentions", "comments"
