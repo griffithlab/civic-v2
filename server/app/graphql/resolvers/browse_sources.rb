@@ -18,7 +18,8 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   end
 
   option(:author, type: String) do |scope, value|
-    scope.where("array_to_string(authors, '|') ILIKE ?", "%#{value}%")
+    query = "%#{value}%"
+    scope.where("array_to_string(authors, '|') ILIKE ?", query).or(scope.where('asco_presenter ILIKE ?', query))
   end
 
   option(:year, type: Int) do |scope, value|
