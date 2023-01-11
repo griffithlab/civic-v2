@@ -9,11 +9,11 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
   description 'List and filter Therapies from the NCI Thesaurus.'
 
   scope do
-    Drug.select('drugs.id, drugs.name, drugs.ncit_id, count(distinct(assertions.id)) as assertion_count, count(distinct(evidence_items.id)) as evidence_count')
+    Therapy.select('therapies.id, therapies.name, therapies.ncit_id, count(distinct(assertions.id)) as assertion_count, count(distinct(evidence_items.id)) as evidence_count')
       .left_outer_joins(:assertions)
       .left_outer_joins(:evidence_items)
       .where("evidence_items.status != 'rejected' OR assertions.status != 'rejected'")
-      .group('drugs.id, drugs.name, drugs.ncit_id')
+      .group('therapies.id, therapies.name, therapies.ncit_id')
       .having('COUNT(evidence_items.id) > 0 OR COUNT(assertions.id) > 0')
       .order('evidence_count DESC', :id)
   end

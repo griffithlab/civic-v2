@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_11_154658) do
+ActiveRecord::Schema.define(version: 2023_01_11_182847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.integer "assertion_type"
     t.boolean "fda_companion_test"
     t.boolean "fda_regulatory_approval"
-    t.integer "drug_interaction_type"
+    t.integer "therapy_interaction_type"
     t.integer "assertion_direction"
     t.text "summary"
     t.integer "variant_origin"
@@ -100,10 +100,10 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.bigint "molecular_profile_id"
     t.index ["description"], name: "index_assertions_on_description"
     t.index ["disease_id"], name: "index_assertions_on_disease_id"
-    t.index ["drug_interaction_type"], name: "index_assertions_on_drug_interaction_type"
     t.index ["gene_id"], name: "index_assertions_on_gene_id"
     t.index ["molecular_profile_id"], name: "index_assertions_on_molecular_profile_id"
     t.index ["nccn_guideline_id"], name: "index_assertions_on_nccn_guideline_id"
+    t.index ["therapy_interaction_type"], name: "index_assertions_on_therapy_interaction_type"
     t.index ["variant_id"], name: "index_assertions_on_variant_id"
     t.index ["variant_origin"], name: "index_assertions_on_variant_origin"
   end
@@ -115,13 +115,6 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["assertion_id"], name: "index_assertions_clingen_codes_on_assertion_id"
     t.index ["clingen_code_id", "assertion_id"], name: "idx_clingencodes_assertions"
-  end
-
-  create_table "assertions_drugs", id: false, force: :cascade do |t|
-    t.integer "assertion_id", null: false
-    t.integer "drug_id", null: false
-    t.index ["assertion_id", "drug_id"], name: "index_assertions_drugs_on_assertion_id_and_drug_id"
-    t.index ["drug_id"], name: "index_assertions_drugs_on_drug_id"
   end
 
   create_table "assertions_evidence_items", id: false, force: :cascade do |t|
@@ -142,6 +135,13 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.integer "phenotype_id", null: false
     t.index ["assertion_id", "phenotype_id"], name: "index_assertions_phenotypes_on_assertion_id_and_phenotype_id"
     t.index ["phenotype_id"], name: "index_assertions_phenotypes_on_phenotype_id"
+  end
+
+  create_table "assertions_therapies", id: false, force: :cascade do |t|
+    t.integer "assertion_id", null: false
+    t.integer "therapy_id", null: false
+    t.index ["assertion_id", "therapy_id"], name: "index_assertions_therapies_on_assertion_id_and_therapy_id"
+    t.index ["therapy_id"], name: "index_assertions_therapies_on_therapy_id"
   end
 
   create_table "audits", id: :serial, force: :cascade do |t|
@@ -338,34 +338,6 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
   end
 
-  create_table "drug_aliases", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.index ["name"], name: "index_drug_aliases_on_name"
-  end
-
-  create_table "drug_aliases_drugs", id: :serial, force: :cascade do |t|
-    t.integer "drug_id"
-    t.integer "drug_alias_id"
-    t.index ["drug_alias_id"], name: "index_drug_aliases_drugs_on_drug_alias_id"
-    t.index ["drug_id"], name: "index_drug_aliases_drugs_on_drug_id"
-  end
-
-  create_table "drugs", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text "ncit_id"
-    t.index ["name"], name: "index_drugs_on_name"
-    t.index ["ncit_id"], name: "index_drugs_on_ncit_id", unique: true
-  end
-
-  create_table "drugs_evidence_items", id: false, force: :cascade do |t|
-    t.integer "drug_id", null: false
-    t.integer "evidence_item_id", null: false
-    t.index ["drug_id", "evidence_item_id"], name: "index_drugs_evidence_items_on_drug_id_and_evidence_item_id"
-    t.index ["evidence_item_id"], name: "index_drugs_evidence_items_on_evidence_item_id"
-  end
-
   create_table "entity_mentions", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -415,12 +387,11 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.integer "significance"
     t.boolean "deleted", default: false
     t.datetime "deleted_at"
-    t.integer "drug_interaction_type"
+    t.integer "therapy_interaction_type"
     t.boolean "flagged", default: false, null: false
     t.bigint "molecular_profile_id"
     t.index ["deleted"], name: "index_evidence_items_on_deleted"
     t.index ["disease_id"], name: "index_evidence_items_on_disease_id"
-    t.index ["drug_interaction_type"], name: "index_evidence_items_on_drug_interaction_type"
     t.index ["evidence_direction"], name: "index_evidence_items_on_evidence_direction"
     t.index ["evidence_level"], name: "index_evidence_items_on_evidence_level"
     t.index ["evidence_type"], name: "index_evidence_items_on_evidence_type"
@@ -428,6 +399,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.index ["significance"], name: "index_evidence_items_on_significance"
     t.index ["source_id"], name: "index_evidence_items_on_source_id"
     t.index ["status"], name: "index_evidence_items_on_status"
+    t.index ["therapy_interaction_type"], name: "index_evidence_items_on_therapy_interaction_type"
     t.index ["variant_id"], name: "index_evidence_items_on_variant_id"
     t.index ["variant_origin"], name: "index_evidence_items_on_variant_origin"
   end
@@ -437,6 +409,13 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.integer "phenotype_id", null: false
     t.index ["evidence_item_id", "phenotype_id"], name: "index_evidence_item_id_phenotype_id"
     t.index ["phenotype_id"], name: "index_evidence_items_phenotypes_on_phenotype_id"
+  end
+
+  create_table "evidence_items_therapies", id: false, force: :cascade do |t|
+    t.integer "therapy_id", null: false
+    t.integer "evidence_item_id", null: false
+    t.index ["evidence_item_id"], name: "index_evidence_items_therapies_on_evidence_item_id"
+    t.index ["therapy_id", "evidence_item_id"], name: "idx_therapy_eid_bridge_table"
   end
 
   create_table "flags", id: :serial, force: :cascade do |t|
@@ -708,6 +687,27 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
     t.index ["updated_at"], name: "index_suggested_changes_on_updated_at"
   end
 
+  create_table "therapies", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text "ncit_id"
+    t.index ["name"], name: "index_therapies_on_name"
+    t.index ["ncit_id"], name: "index_therapies_on_ncit_id", unique: true
+  end
+
+  create_table "therapies_therapy_aliases", id: :serial, force: :cascade do |t|
+    t.integer "therapy_id"
+    t.integer "therapy_alias_id"
+    t.index ["therapy_alias_id"], name: "index_therapies_therapy_aliases_on_therapy_alias_id"
+    t.index ["therapy_id"], name: "index_therapies_therapy_aliases_on_therapy_id"
+  end
+
+  create_table "therapy_aliases", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.index ["name"], name: "index_therapy_aliases_on_name"
+  end
+
   create_table "tsv_releases", id: :serial, force: :cascade do |t|
     t.text "path", null: false
     t.datetime "created_at"
@@ -859,14 +859,14 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
   add_foreign_key "assertions", "nccn_guidelines"
   add_foreign_key "assertions_clingen_codes", "assertions"
   add_foreign_key "assertions_clingen_codes", "clingen_codes"
-  add_foreign_key "assertions_drugs", "assertions"
-  add_foreign_key "assertions_drugs", "drugs"
   add_foreign_key "assertions_evidence_items", "assertions"
   add_foreign_key "assertions_evidence_items", "evidence_items"
   add_foreign_key "assertions_molecular_profiles", "assertions"
   add_foreign_key "assertions_molecular_profiles", "molecular_profiles"
   add_foreign_key "assertions_phenotypes", "assertions"
   add_foreign_key "assertions_phenotypes", "phenotypes"
+  add_foreign_key "assertions_therapies", "assertions"
+  add_foreign_key "assertions_therapies", "therapies"
   add_foreign_key "audits", "users"
   add_foreign_key "authorizations", "users"
   add_foreign_key "authors_sources", "authors"
@@ -878,8 +878,6 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
   add_foreign_key "disease_aliases_diseases", "disease_aliases"
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
-  add_foreign_key "drugs_evidence_items", "drugs"
-  add_foreign_key "drugs_evidence_items", "evidence_items"
   add_foreign_key "entity_mentions", "comments"
   add_foreign_key "events", "organizations"
   add_foreign_key "events", "users", column: "originating_user_id"
@@ -888,6 +886,8 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
   add_foreign_key "evidence_items", "variants"
   add_foreign_key "evidence_items_phenotypes", "evidence_items"
   add_foreign_key "evidence_items_phenotypes", "phenotypes"
+  add_foreign_key "evidence_items_therapies", "evidence_items"
+  add_foreign_key "evidence_items_therapies", "therapies"
   add_foreign_key "gene_aliases_genes", "gene_aliases"
   add_foreign_key "gene_aliases_genes", "genes"
   add_foreign_key "genes_sources", "genes"
@@ -926,7 +926,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
       genes.name AS gene_name,
       variants.name AS variant_name,
       diseases.name AS disease_name,
-      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
+      array_agg(DISTINCT therapies.name ORDER BY therapies.name) AS drug_names,
       evidence_items.status,
       evidence_items.description,
       evidence_items.evidence_direction,
@@ -939,8 +939,8 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
        JOIN variants ON ((evidence_items.variant_id = variants.id)))
        JOIN genes ON ((variants.gene_id = genes.id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY evidence_items.id, evidence_items.status, evidence_items.description, evidence_items.evidence_direction, evidence_items.evidence_level, evidence_items.rating, evidence_items.evidence_type, evidence_items.variant_origin, evidence_items.significance, genes.name, variants.name, diseases.name;
   SQL
@@ -968,7 +968,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
       outer_genes.flagged,
       array_agg(DISTINCT gene_aliases.name ORDER BY gene_aliases.name) AS alias_names,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
-      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
+      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', drug_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS drugs,
       count(DISTINCT variants.id) AS variant_count,
       count(DISTINCT evidence_items.id) AS evidence_item_count,
       count(DISTINCT assertions.id) AS assertion_count
@@ -978,17 +978,17 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
        JOIN variants ON ((variants.gene_id = outer_genes.id)))
        JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
        LEFT JOIN assertions ON ((assertions.gene_id = outer_genes.id)))
        LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM (((evidence_items evidence_items_1
                JOIN variants variants_1 ON ((variants_1.id = evidence_items_1.variant_id)))
-               JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
-               JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
+               JOIN evidence_items_therapies drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
+               JOIN therapies drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.therapy_id)))
             WHERE (variants_1.gene_id = outer_genes.id)
-            GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
+            GROUP BY drugs_1.id) drug_count ON ((therapies.id = drug_count.drug_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM ((evidence_items evidence_items_1
@@ -1052,7 +1052,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
       count(DISTINCT evidence_items.id) AS evidence_item_count,
       array_agg(DISTINCT variant_types.id) AS variant_types,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
-      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
+      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', drug_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS drugs,
       count(DISTINCT assertions.id) AS assertion_count
      FROM ((((((((((((variants outer_variants
        LEFT JOIN variant_aliases_variants ON ((variant_aliases_variants.variant_id = outer_variants.id)))
@@ -1060,18 +1060,18 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
        JOIN evidence_items ON ((evidence_items.variant_id = outer_variants.id)))
        JOIN genes ON ((genes.id = outer_variants.gene_id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
        LEFT JOIN assertions ON ((assertions.variant_id = outer_variants.id)))
        LEFT JOIN variant_types_variants ON ((variant_types_variants.variant_id = outer_variants.id)))
        LEFT JOIN variant_types ON ((variant_types_variants.variant_type_id = variant_types.id)))
-       LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
+       LEFT JOIN LATERAL ( SELECT therapies_1.id AS drug_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM ((evidence_items evidence_items_1
-               JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
-               JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
+               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
             WHERE (evidence_items_1.variant_id = outer_variants.id)
-            GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
+            GROUP BY therapies_1.id) drug_count ON ((therapies.id = drug_count.drug_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM (evidence_items evidence_items_1
@@ -1091,7 +1091,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
       json_agg(DISTINCT jsonb_build_object('name', genes.name, 'id', genes.id)) FILTER (WHERE (genes.name IS NOT NULL)) AS genes,
       json_agg(DISTINCT jsonb_build_object('name', variants.name, 'id', variants.id)) FILTER (WHERE (variants.name IS NOT NULL)) AS variants,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
-      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
+      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', drug_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS drugs,
       count(DISTINCT assertions.id) AS assertion_count,
       outer_mps.evidence_score
      FROM ((((((((((((molecular_profiles outer_mps
@@ -1100,18 +1100,18 @@ ActiveRecord::Schema.define(version: 2023_01_11_154658) do
        JOIN variants ON ((molecular_profiles_variants.variant_id = variants.id)))
        JOIN genes ON ((genes.id = variants.gene_id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
        LEFT JOIN assertions ON ((assertions.molecular_profile_id = outer_mps.id)))
        LEFT JOIN molecular_profile_aliases_molecular_profiles ON ((molecular_profile_aliases_molecular_profiles.molecular_profile_id = outer_mps.id)))
        LEFT JOIN molecular_profile_aliases ON ((molecular_profile_aliases.id = molecular_profile_aliases_molecular_profiles.molecular_profile_alias_id)))
-       LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
+       LEFT JOIN LATERAL ( SELECT therapies_1.id AS drug_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM ((evidence_items evidence_items_1
-               JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
-               JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
+               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
             WHERE (evidence_items_1.molecular_profile_id = outer_mps.id)
-            GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
+            GROUP BY therapies_1.id) drug_count ON ((therapies.id = drug_count.drug_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM (evidence_items evidence_items_1

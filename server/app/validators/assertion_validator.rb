@@ -21,18 +21,18 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :disease_id, "Disease cannot be set for #{record.assertion_type} assertion type"
     end
 
-    if validator[:drug] && record.drug_ids.blank?
-      record.errors.add :drug_ids, "Therapy required for #{record.assertion_type} assertion type"
-    elsif !validator[:drug] && !record.drug_ids.blank?
-      record.errors.add :drug_ids, "Therapy cannot be set for #{record.assertion_type} assertion type"
+    if validator[:therapy] && record.therapy_ids.blank?
+      record.errors.add :therapy_ids, "Therapy required for #{record.assertion_type} assertion type"
+    elsif !validator[:therapy] && !record.therapy_ids.blank?
+      record.errors.add :therapy_ids, "Therapy cannot be set for #{record.assertion_type} assertion type"
     end
 
-    if record.drug_ids.size > 1 && !record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Multiple therapies set but no therapy interaction type provided"
+    if record.therapy_ids.size > 1 && !record.therapy_interaction_type
+      record.errors.add :therapy_interaction_type, "Multiple therapies set but no therapy interaction type provided"
     end
 
-    if record.drug_ids.size < 2 && record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Therapy interaction type cannot be set unless multiple drugs are specified."
+    if record.therapy_ids.size < 2 && record.therapy_interaction_type
+      record.errors.add :therapy_interaction_type, "Therapy interaction type cannot be set unless multiple therapys are specified."
     end
 
     if !validator[:acmg_codes] && record.acmg_code_ids.size > 0
@@ -71,7 +71,7 @@ class AssertionValidator < ActiveModel::Validator
         significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
         assertion_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: true,
+        therapy: true,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
@@ -81,7 +81,7 @@ class AssertionValidator < ActiveModel::Validator
         significance: ['Positive', 'Negative'],
         assertion_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
@@ -91,7 +91,7 @@ class AssertionValidator < ActiveModel::Validator
         significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
         assertion_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
@@ -101,7 +101,7 @@ class AssertionValidator < ActiveModel::Validator
        significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
         assertion_direction: ['Supports'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: true,
         amp_level: false,
         clingen_codes: false,
@@ -111,7 +111,7 @@ class AssertionValidator < ActiveModel::Validator
        significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain', 'Likely Benign', 'Benign'],
         assertion_direction: ['Supports'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: false,
         amp_level: false,
         clingen_codes: true,
