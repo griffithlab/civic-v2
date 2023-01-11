@@ -35,7 +35,7 @@ class Asco
     if not query_resp.citations.any?
       query_resp = call_asco_query_stage_api_by_asco_id(source.citation_id)
     end
-    source.description = get_citation_from_asco_id(source.citation_id)
+    source.citation = get_citation_from_asco_id(source.citation_id)
     source.asco_presenter = record_resp.presenter
     source.asco_abstract_id = record_resp.asco_abstract_id
     source.publication_year = query_resp.publication_year

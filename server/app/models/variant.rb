@@ -12,12 +12,10 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
   has_many :variant_groups, through: :variant_group_variants
-  has_many :source_suggestions
   has_and_belongs_to_many :variant_aliases
   has_and_belongs_to_many :variant_types
   has_and_belongs_to_many :clinvar_entries
-  has_and_belongs_to_many :hgvs_expressions
-  has_and_belongs_to_many :sources
+  has_and_belongs_to_many :hgvs_descriptions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   belongs_to :single_variant_molecular_profile, 

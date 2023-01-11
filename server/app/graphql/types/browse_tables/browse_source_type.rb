@@ -17,10 +17,6 @@ module Types::BrowseTables
     field :source_url, String, null: false
     field :link, String, null: false
 
-    def citation
-      object.description
-    end
-
     def source_url
       Source.url_for(source: object)
     end

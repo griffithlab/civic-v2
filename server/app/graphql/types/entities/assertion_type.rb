@@ -64,14 +64,6 @@ module Types::Entities
       Loaders::RecordLoader.for(MolecularProfile).load(object.molecular_profile_id)
     end
 
-    def assertion_direction
-      object.evidence_direction
-    end
-
-    def assertion_type
-      object.evidence_type
-    end
-
     def regulatory_approval
       object.fda_regulatory_approval
     end

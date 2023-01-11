@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_08_213028) do
+ActiveRecord::Schema.define(version: 2023_01_10_203308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,11 +87,11 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
     t.integer "gene_id"
     t.integer "variant_id"
     t.integer "disease_id"
-    t.integer "evidence_type"
+    t.integer "assertion_type"
     t.boolean "fda_companion_test"
     t.boolean "fda_regulatory_approval"
     t.integer "drug_interaction_type"
-    t.integer "evidence_direction"
+    t.integer "assertion_direction"
     t.text "summary"
     t.integer "variant_origin"
     t.bigint "nccn_guideline_id"
@@ -489,20 +489,20 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
     t.index ["gene_id", "source_id"], name: "index_genes_sources_on_gene_id_and_source_id"
   end
 
-  create_table "hgvs_expressions", id: :serial, force: :cascade do |t|
-    t.text "expression"
+  create_table "hgvs_descriptions", id: :serial, force: :cascade do |t|
+    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["expression"], name: "index_hgvs_expressions_on_expression"
+    t.index ["description"], name: "index_hgvs_descriptions_on_description"
   end
 
-  create_table "hgvs_expressions_variants", id: false, force: :cascade do |t|
-    t.integer "hgvs_expression_id", null: false
+  create_table "hgvs_descriptions_variants", id: false, force: :cascade do |t|
+    t.integer "hgvs_description_id", null: false
     t.integer "variant_id", null: false
     t.integer "variants_id"
     t.integer "hgvs_expressions_id"
-    t.index ["hgvs_expression_id"], name: "index_hgvs_expressions_variants_on_hgvs_expression_id"
-    t.index ["variant_id", "hgvs_expression_id"], name: "idx_variant_id_hgvs_id"
+    t.index ["hgvs_description_id"], name: "index_hgvs_descriptions_variants_on_hgvs_description_id"
+    t.index ["variant_id", "hgvs_description_id"], name: "idx_variant_id_hgvs_id"
   end
 
   create_table "molecular_profile_aliases", force: :cascade do |t|
@@ -638,16 +638,11 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
-    t.text "gene_name"
-    t.text "disease_name"
-    t.text "variant_name"
     t.text "initial_comment"
     t.text "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "reason"
-    t.integer "gene_id"
-    t.integer "variant_id"
     t.integer "disease_id"
     t.bigint "molecular_profile_id"
     t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
@@ -656,7 +651,7 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
   create_table "sources", id: :serial, force: :cascade do |t|
     t.string "citation_id", null: false
     t.string "study_type"
-    t.text "description"
+    t.text "citation"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "abstract"
@@ -680,13 +675,6 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
 
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
     t.integer "variant_group_id", null: false
-    t.integer "source_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "sources_variants", id: false, force: :cascade do |t|
-    t.integer "variant_id", null: false
     t.integer "source_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -822,7 +810,6 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
   create_table "variants", id: :serial, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.string "name", null: false
-    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "deleted", default: false
@@ -919,9 +906,7 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "source_suggestions", "diseases"
-  add_foreign_key "source_suggestions", "genes"
   add_foreign_key "source_suggestions", "molecular_profiles"
-  add_foreign_key "source_suggestions", "variants"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
   add_foreign_key "user_mentions", "comments"
@@ -1037,28 +1022,6 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
   SQL
   add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
 
-  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT sources.id,
-      sources.source_type,
-      sources.citation_id,
-      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
-      sources.publication_year,
-      sources.journal,
-      sources.title,
-      sources.description,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT source_suggestions.id) AS source_suggestion_count
-     FROM ((((sources
-       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
-       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
-       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((source_suggestions.status = 'new'::text) OR (source_suggestions.status IS NULL)))
-    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title
-   HAVING ((count(DISTINCT evidence_items.id) > 0) OR (count(DISTINCT evidence_items.id) > 0));
-  SQL
-  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
-
   create_view "evidence_items_by_statuses", sql_definition: <<-SQL
       SELECT mp.id AS molecular_profile_id,
       sum(
@@ -1159,5 +1122,27 @@ ActiveRecord::Schema.define(version: 2022_12_08_213028) do
     GROUP BY outer_mps.id, outer_mps.name, outer_mps.evidence_score;
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
+
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
+      sources.publication_year,
+      sources.journal,
+      sources.title,
+      sources.citation,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT source_suggestions.id) AS source_suggestion_count
+     FROM ((((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((source_suggestions.status = 'new'::text) OR (source_suggestions.status IS NULL)))
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title
+   HAVING ((count(DISTINCT evidence_items.id) > 0) OR (count(DISTINCT evidence_items.id) > 0));
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
 end

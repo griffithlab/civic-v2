@@ -52,7 +52,7 @@ class EvidenceItemTsvFormatter
       ei.source.citation_id,
       ei.source.source_type,
       ei.source.asco_abstract_id,
-      ei.source.description,
+      ei.source.citation,
       ei.source.clinical_trials.map(&:nct_id).join(','),
       ei.rating,
       ei.status,
