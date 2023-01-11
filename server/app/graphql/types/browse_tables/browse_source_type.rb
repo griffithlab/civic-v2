@@ -29,6 +29,16 @@ module Types::BrowseTables
       end
     end
 
+    def authors
+      if object.authors.present?
+        object.authors
+      elsif object.asco_presenter.present?
+        Array(object.asco_presenter)
+      else
+        []
+      end
+    end
+
     def name
       object.title
     end
