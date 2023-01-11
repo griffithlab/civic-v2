@@ -4,7 +4,7 @@ module Types::Popovers
     field :evidence_item_count, Int, null: false
 
     def assertion_count
-      Drug.where(id: object.id)
+      Therapy.where(id: object.id)
         .joins(:assertions)
         .select('assertions.id')
         .where("assertions.status != 'rejected'")
@@ -13,7 +13,7 @@ module Types::Popovers
     end
 
     def evidence_item_count
-      Drug.where(id: object.id)
+      Therapy.where(id: object.id)
         .joins(:evidence_items)
         .where("evidence_items.status != 'rejected'")
         .select('evidence_items.id')

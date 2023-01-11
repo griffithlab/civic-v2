@@ -50,7 +50,7 @@ module Constants
     'Oncogenicity'
   ]
 
-  DRUG_INTERACTION_TYPES = ['Combination', 'Sequential', 'Substitutes']
+  THERAPY_INTERACTION_TYPES = ['Combination', 'Sequential', 'Substitutes']
 
   NCCN_GUIDELINES = [
     'Acute Lymphoblastic Leukemia',

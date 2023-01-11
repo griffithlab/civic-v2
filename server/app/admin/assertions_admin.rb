@@ -89,12 +89,12 @@ Trestle.resource(:assertions) do
 
       row do
         col(sm: 10) do
-          select :drug_ids, Drug.order(:name), { label: "Drugs" }, multiple: true
+          select :therapy_ids, Therapy.order(:name), { label: "Therapies" }, multiple: true
         end
         col(sm: 2) do
-          drug_interaction_types = Assertion.drug_interaction_types.keys.map { |interaction_type| [interaction_type, interaction_type] }
-          drug_interaction_types << ["None", nil]
-          select :drug_interaction_type, drug_interaction_types
+          therapy_interaction_types = Assertion.therapy_interaction_types.keys.map { |interaction_type| [interaction_type, interaction_type] }
+          therapy_interaction_types << ["None", nil]
+          select :therapy_interaction_type, therapy_interaction_types
         end
       end
 
