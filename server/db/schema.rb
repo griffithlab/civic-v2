@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_10_203308) do
+ActiveRecord::Schema.define(version: 2023_01_11_154658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1129,6 +1129,7 @@ ActiveRecord::Schema.define(version: 2023_01_10_203308) do
       sources.citation_id,
       array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
       sources.publication_year,
+      sources.asco_presenter,
       sources.journal,
       sources.title,
       sources.citation,
