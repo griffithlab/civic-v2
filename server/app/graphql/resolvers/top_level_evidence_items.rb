@@ -86,7 +86,8 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
                   value,
                   models: [MolecularProfile],
                   fields: ['name'],
-                  match: :word_start
+                  match: :word_start,
+                  misspellings: {below: 1}
                 )
     ids = results.hits.map { |x| x["_id"] }
     scope.joins(:molecular_profile).where(molecular_profiles: { id: ids })
