@@ -185,7 +185,7 @@
 
             <!-- molecular profile -->
             <nz-descriptions-item nzTitle="Molecular Profile Name">
-              <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
+              <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="true"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
             <!-- molecular profile expression -->
@@ -252,17 +252,20 @@
             <nz-descriptions-item nzTitle="Regulatory Approval"
               nzSpan="1">
               <i nz-icon
-                *ngIf="assertion.regulatoryApproval"
+                *ngIf="assertion.regulatoryApproval === true"
                 [nzType]="'check-circle'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#52c41a'"></i>
               <i nz-icon
-                *ngIf="!assertion.regulatoryApproval"
+                *ngIf="assertion.regulatoryApproval === false"
                 [nzType]="'close-square'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#d93026'"></i>
               <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
                 (last updated {{ assertion.regulatoryApprovalLastUpdated | timeago }})
+              </ng-container>
+              <ng-container *ngIf="assertion.regulatoryApproval === undefined">
+                <span nz-typography nzType="secondary">N/A</span>
               </ng-container>
             </nz-descriptions-item>
 
@@ -270,17 +273,20 @@
             <nz-descriptions-item nzTitle="FDA Companion Test"
               nzSpan="1">
               <i nz-icon
-                *ngIf="assertion.fdaCompanionTest"
+                *ngIf="assertion.fdaCompanionTest === true"
                 [nzType]="'check-circle'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#52c41a'"></i>
               <i nz-icon
-                *ngIf="!assertion.fdaCompanionTest"
+                *ngIf="assertion.fdaCompanionTest === false"
                 [nzType]="'close-square'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#d93026'"></i>
               <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
                 (last updated {{ assertion.fdaCompanionTestLastUpdated | timeago }})
+              </ng-container>
+              <ng-container *ngIf="assertion.fdaCompanionTest=== undefined">
+                <span nz-typography nzType="secondary">N/A</span>
               </ng-container>
             </nz-descriptions-item>
 

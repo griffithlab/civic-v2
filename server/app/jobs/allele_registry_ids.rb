@@ -23,7 +23,7 @@ class AlleleRegistryIds < ApplicationJob
   end
 
   def response(variant)
-    if hgvs = HgvsExpression.allele_registry_hgvs(variant)
+    if hgvs = HgvsDescription.allele_registry_hgvs(variant)
       make_request(hgvs)
     else
       {}

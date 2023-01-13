@@ -105,7 +105,7 @@ export class SourceSubmitForm implements OnDestroy {
             templateOptions: {
               label: 'Comment',
               helpText: 'Please provide any additional comments you wish to make about this Source Suggestion. This comment will appear as the first comment in this item\'s comment thread.',
-              placeholder: 'Please enter a comment describing your revision.',
+              placeholder: 'Please enter a brief comment describing why this Source should be curated in CIViC.',
               required: true,
               minLength: 10
             },

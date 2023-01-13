@@ -47,6 +47,15 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'therapy_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Therapies">
+              <ng-template #itemTemplate let-item>
+                <cvc-therapy-tag [therapy]="{id: item.id, name: item.displayName, link: item.link}"></cvc-therapy-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'variant_alias_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
@@ -113,10 +122,10 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
-          <ng-container *ngSwitchCase="'hgvs_expression_ids'">
+          <ng-container *ngSwitchCase="'hgvs_description_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="HGVS Expressions">
+              entityType="HGVS Descriptions">
               <ng-template #itemTemplate let-item>
                 <nz-tag>
                   {{ item.displayName }}

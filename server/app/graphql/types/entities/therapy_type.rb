@@ -8,13 +8,13 @@ module Types::Entities
     field :link, String, null: false
 
     def therapy_aliases
-      Loaders::AssociationLoader.for(Drug, :drug_aliases).load(object).then do |drug_aliases|
-        drug_aliases.map{|d| d.name}.sort
+      Loaders::AssociationLoader.for(Therapy, :therapy_aliases).load(object).then do |therapy_aliases|
+        therapy_aliases.map{|a| a.name}.sort
       end
     end
 
     def therapy_url
-      Drug.url_for(ncit_id: object.ncit_id)
+      Therapy.url_for(ncit_id: object.ncit_id)
     end
   end
 end

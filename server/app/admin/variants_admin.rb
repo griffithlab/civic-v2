@@ -73,7 +73,7 @@ Trestle.resource(:variants) do
 
       select :variant_type_ids, VariantType.order(:name), { label: "Variant Types" }, multiple: true
 
-      select :hgvs_expression_ids, HgvsExpression.order(:expression), { label: "HGVS Descriptions" }, multiple: true
+      select :hgvs_description_ids, HgvsDescription.order(:description), { label: "HGVS Descriptions" }, multiple: true
 
       row do
         col(sm: 6) do

@@ -36,7 +36,7 @@ module Scrapers
     end
 
     def abstract
-      #TODO
+      html.xpath("//section[@class='abstract']/p").inner_text
     end
 
     def publication_date

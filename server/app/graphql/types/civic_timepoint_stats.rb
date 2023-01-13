@@ -19,9 +19,5 @@ module Types
     field :sources, TimePointCounts, null: false
     field :users, TimePointCounts, null: false
     field :assertions, TimePointCounts, null: false
-
-    def therapies
-      object['drugs']
-    end
   end
 end

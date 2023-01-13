@@ -171,7 +171,7 @@ module Types
     end
 
     def therapy(id: )
-      Drug.find_by(id: id)
+      Therapy.find_by(id: id)
     end
 
     def gene(id: )

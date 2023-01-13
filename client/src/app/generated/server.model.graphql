@@ -117,7 +117,7 @@ input AddDiseaseInput {
   """
   The DOID of the disease, if the disease is present in the Disease Ontology.
   """
-  doid: Int
+  doid: String
 
   """
   The name of the disease.
@@ -957,6 +957,7 @@ type BrowseMolecularProfile {
   molecularProfileScore: Float!
   name: String!
   therapies: [LinkableTherapy!]!
+  variantCount: Int!
   variants: [LinkableVariant!]!
 }
 
@@ -3717,6 +3718,7 @@ enum MolecularProfilesSortColumns {
   assertionCount
   evidenceItemCount
   molecularProfileScore
+  variantCount
 }
 
 type Mutation {
@@ -4750,6 +4752,7 @@ type Query {
     """
     last: Int
     molecularProfileAlias: String
+    molecularProfileName: String
     sortBy: MolecularProfilesSort
     therapyName: String
     variantId: Int
@@ -7839,7 +7842,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   secondaryCoordinates: Coordinate
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
-  sources: [Source!]!
   variantAliases: [String!]!
   variantBases: String
   variantTypes: [VariantType!]!

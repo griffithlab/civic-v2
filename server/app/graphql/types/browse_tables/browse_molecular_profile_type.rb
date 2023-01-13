@@ -26,6 +26,7 @@ module Types::BrowseTables
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
+    field :variant_count, Int, null: false
     field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
     field :molecular_profile_score, Float, null: false
 
@@ -62,7 +63,7 @@ module Types::BrowseTables
     end
 
     def therapies
-      Array(object.drugs)
+      Array(object.therapies)
         .sort_by { |d| -d['total']}
         .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"} }
     end

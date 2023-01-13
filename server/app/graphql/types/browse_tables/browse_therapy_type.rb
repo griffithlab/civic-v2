@@ -11,7 +11,7 @@ module Types::BrowseTables
     field :link, String, null: false
 
     def therapy_url
-      Drug.url_for(ncit_id: object.ncit_id)
+      Therapy.url_for(ncit_id: object.ncit_id)
     end
   end
 end

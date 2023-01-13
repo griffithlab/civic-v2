@@ -1,8 +1,8 @@
-class HgvsExpression < ActiveRecord::Base
+class HgvsDescription < ActiveRecord::Base
   has_and_belongs_to_many :variants
 
   def display_name
-    expression
+    description
   end
 
   def self.my_gene_info_hgvs(variant)

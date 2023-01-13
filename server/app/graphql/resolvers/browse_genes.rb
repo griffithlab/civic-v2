@@ -15,7 +15,7 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
   option(:search_scope, type: Types::AdvancedSearch::GeneSearchFilterType) do |scope, value|
     scope.where('gene_browse_table_rows.id' => AdvancedSearches::Gene.new(query: value).results)
   end
-  option(:therapy_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
+  option(:therapy_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
 
   option :sort_by, type: Types::BrowseTables::GenesSortType do |scope, value|
     case value.column

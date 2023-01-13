@@ -1,10 +1,10 @@
-Trestle.resource(:drugs) do
+Trestle.resource(:therapies) do
   menu do
-    item :drugs, icon: "fa fa-pills"
+    item :therapies, icon: "fa fa-pills"
   end
 
   scope :all, default: true
-  scope :without_ncit_id, -> { Drug.where(ncit_id: nil) }
+  scope :without_ncit_id, -> { Therapy.where(ncit_id: nil) }
 
   # Customize the table columns shown on the index view.
   table do

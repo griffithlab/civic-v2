@@ -17,7 +17,7 @@ class PubMed
 
   def self.populate_source_fields(source)
     resp = call_pubmed_api(source.citation_id)
-    source.description = resp.citation
+    source.citation = resp.citation
     resp.authors.each do |author|
       author_obj = Author.where(
         last_name: author[:last_name],

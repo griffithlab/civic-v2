@@ -7,11 +7,10 @@ class EvidenceItem < ActiveRecord::Base
   include Moderated
   include WithTimepointCounts
 
-  belongs_to :variant, optional: true
   belongs_to :molecular_profile
   belongs_to :disease, optional: true
   belongs_to :source
-  has_and_belongs_to_many :drugs
+  has_and_belongs_to_many :therapies
   has_and_belongs_to_many :phenotypes
   has_and_belongs_to_many :assertions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
@@ -23,7 +22,7 @@ class EvidenceItem < ActiveRecord::Base
   #enum evidence_status: Constants::EVIDENCE_STATUS
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
   enum significance: Constants::SIGNIFICANCES
-  enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
+  enum therapy_interaction_type: Constants::THERAPY_INTERACTION_TYPES
 
   has_one :submission_event,
     ->() { where(action: 'submitted').includes(:originating_user) },

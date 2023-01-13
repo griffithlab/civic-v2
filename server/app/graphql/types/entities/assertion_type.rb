@@ -41,11 +41,7 @@ module Types::Entities
     end
 
     def therapies
-      Loaders::AssociationLoader.for(Assertion, :drugs).load(object)
-    end
-
-    def therapy_interaction_type
-      object.drug_interaction_type
+      Loaders::AssociationLoader.for(Assertion, :therapies).load(object)
     end
 
     def phenotypes
@@ -62,14 +58,6 @@ module Types::Entities
 
     def molecular_profile
       Loaders::RecordLoader.for(MolecularProfile).load(object.molecular_profile_id)
-    end
-
-    def assertion_direction
-      object.evidence_direction
-    end
-
-    def assertion_type
-      object.evidence_type
     end
 
     def regulatory_approval

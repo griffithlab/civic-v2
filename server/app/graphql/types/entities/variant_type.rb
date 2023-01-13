@@ -12,7 +12,6 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :gene, Types::Entities::GeneType, null: false
-    field :sources, [Types::Entities::SourceType], null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
@@ -114,8 +113,8 @@ module Types::Entities
     end
 
     def hgvs_descriptions
-      Loaders::AssociationLoader.for(Variant, :hgvs_expressions).load(object).then do |hgvs|
-        hgvs.map(&:expression)
+      Loaders::AssociationLoader.for(Variant, :hgvs_descriptions).load(object).then do |hgvs|
+        hgvs.map(&:description)
       end
     end
 

@@ -1,6 +1,6 @@
 class AssertionTsvFormatter
   def self.objects
-    Assertion.eager_load(:disease, :drugs, :phenotypes, :molecular_profile, :evidence_items)
+    Assertion.eager_load(:disease, :therapies, :phenotypes, :molecular_profile, :evidence_items)
       .where(status: 'accepted')
   end
 
@@ -41,9 +41,9 @@ class AssertionTsvFormatter
       a.disease.name,
       a.disease.doid,
       a.phenotypes.map(&:hpo_class).join(','),
-      a.drugs.map(&:name).join(','),
-      a.evidence_type,
-      a.evidence_direction,
+      a.therapies.map(&:name).join(','),
+      a.assertion_type,
+      a.assertion_direction,
       a.significance,
       a.acmg_codes.map(&:code).join(','),
       a.amp_level,

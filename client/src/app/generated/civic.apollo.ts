@@ -90,7 +90,7 @@ export type AddDiseaseInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: InputMaybe<Scalars['String']>;
   /** The DOID of the disease, if the disease is present in the Disease Ontology. */
-  doid?: InputMaybe<Scalars['Int']>;
+  doid?: InputMaybe<Scalars['String']>;
   /** The name of the disease. */
   name: Scalars['String'];
 };
@@ -560,6 +560,7 @@ export type BrowseMolecularProfile = {
   molecularProfileScore: Scalars['Float'];
   name: Scalars['String'];
   therapies: Array<LinkableTherapy>;
+  variantCount: Scalars['Int'];
   variants: Array<LinkableVariant>;
 };
 
@@ -2206,7 +2207,8 @@ export type MolecularProfilesSort = {
 export enum MolecularProfilesSortColumns {
   AssertionCount = 'assertionCount',
   EvidenceItemCount = 'evidenceItemCount',
-  MolecularProfileScore = 'molecularProfileScore'
+  MolecularProfileScore = 'molecularProfileScore',
+  VariantCount = 'variantCount'
 }
 
 export type Mutation = {
@@ -3013,6 +3015,7 @@ export type QueryBrowseMolecularProfilesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   molecularProfileAlias?: InputMaybe<Scalars['String']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<MolecularProfilesSort>;
   therapyName?: InputMaybe<Scalars['String']>;
   variantId?: InputMaybe<Scalars['Int']>;
@@ -4668,7 +4671,6 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   secondaryCoordinates?: Maybe<Coordinate>;
   singleVariantMolecularProfile: MolecularProfile;
   singleVariantMolecularProfileId: Scalars['Int'];
-  sources: Array<Source>;
   variantAliases: Array<Scalars['String']>;
   variantBases?: Maybe<Scalars['String']>;
   variantTypes: Array<VariantType>;
@@ -5293,6 +5295,7 @@ export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfi
 export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, molecularProfileAliases: Array<string>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, deprecated: boolean, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, assertions: { __typename: 'AssertionConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseMolecularProfilesQueryVariables = Exact<{
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantId?: InputMaybe<Scalars['Int']>;
   entrezSymbol?: InputMaybe<Scalars['String']>;
@@ -5307,9 +5310,9 @@ export type BrowseMolecularProfilesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, variantCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseMolecularProfilesFieldsFragment = { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> };
+export type BrowseMolecularProfilesFieldsFragment = { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, variantCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> };
 
 export type MolecularProfileMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
@@ -5783,7 +5786,7 @@ export type DiseaseTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Arr
 
 export type AddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
-  doid?: InputMaybe<Scalars['Int']>;
+  doid?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -6981,6 +6984,7 @@ export const BrowseMolecularProfilesFieldsFragmentDoc = gql`
   evidenceItemCount
   molecularProfileScore
   assertionCount
+  variantCount
   aliases {
     name
   }
@@ -8203,7 +8207,7 @@ export const VariantMolecularProfileCardFieldsFragmentDoc = gql`
     name
     link
   }
-  molecularProfiles(first: 5) {
+  molecularProfiles(first: 3) {
     totalCount
     nodes {
       id
@@ -9279,8 +9283,9 @@ export const MolecularProfilePopoverDocument = gql`
     }
   }
 export const BrowseMolecularProfilesDocument = gql`
-    query BrowseMolecularProfiles($variantName: String, $variantId: Int, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseMolecularProfiles($molecularProfileName: String, $variantName: String, $variantId: Int, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseMolecularProfiles(
+    molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId
     entrezSymbol: $entrezSymbol
@@ -10537,7 +10542,7 @@ export const DiseaseTypeaheadDocument = gql`
     }
   }
 export const AddDiseaseDocument = gql`
-    mutation AddDisease($name: String!, $doid: Int) {
+    mutation AddDisease($name: String!, $doid: String) {
   addDisease(input: {name: $name, doid: $doid}) {
     ...AddDiseaseFields
   }

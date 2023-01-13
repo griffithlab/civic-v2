@@ -1,0 +1,15 @@
+name: Pull Request Labels
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mheap/github-action-required-labels@v3
+        with:
+          mode: exactly
+          count: 1
+          labels: "bugfix, housekeeping, new-feature, enhancement, ignore-for-release"
+          add_comment: true
+          message: "You must specify one of the following labels: {{ provided }} in order for this PR to appear in the release notes."
