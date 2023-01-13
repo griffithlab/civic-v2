@@ -6,7 +6,6 @@ class Gene < ActiveRecord::Base
   include WithTimepointCounts
 
   has_many :variants
-  has_many :assertions
   has_many :variant_groups
   has_many :source_suggestions
   has_and_belongs_to_many :sources

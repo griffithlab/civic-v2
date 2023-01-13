@@ -7,8 +7,6 @@ class Variant < ApplicationRecord
 
   belongs_to :gene
   belongs_to :secondary_gene, class_name: 'Gene', optional: true
-  has_many :evidence_items
-  has_many :assertions
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
   has_many :variant_groups, through: :variant_group_variants

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_13_193451) do
+ActiveRecord::Schema.define(version: 2023_01_13_194126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,8 +84,6 @@ ActiveRecord::Schema.define(version: 2023_01_13_193451) do
     t.text "nccn_guideline_version"
     t.integer "amp_level"
     t.integer "significance"
-    t.integer "gene_id"
-    t.integer "variant_id"
     t.integer "disease_id"
     t.integer "assertion_type"
     t.boolean "fda_companion_test"
@@ -100,11 +98,9 @@ ActiveRecord::Schema.define(version: 2023_01_13_193451) do
     t.bigint "molecular_profile_id"
     t.index ["description"], name: "index_assertions_on_description"
     t.index ["disease_id"], name: "index_assertions_on_disease_id"
-    t.index ["gene_id"], name: "index_assertions_on_gene_id"
     t.index ["molecular_profile_id"], name: "index_assertions_on_molecular_profile_id"
     t.index ["nccn_guideline_id"], name: "index_assertions_on_nccn_guideline_id"
     t.index ["therapy_interaction_type"], name: "index_assertions_on_therapy_interaction_type"
-    t.index ["variant_id"], name: "index_assertions_on_variant_id"
     t.index ["variant_origin"], name: "index_assertions_on_variant_origin"
   end
 
@@ -883,7 +879,6 @@ ActiveRecord::Schema.define(version: 2023_01_13_193451) do
   add_foreign_key "events", "users", column: "originating_user_id"
   add_foreign_key "evidence_items", "diseases"
   add_foreign_key "evidence_items", "sources"
-  add_foreign_key "evidence_items", "variants"
   add_foreign_key "evidence_items_phenotypes", "evidence_items"
   add_foreign_key "evidence_items_phenotypes", "phenotypes"
   add_foreign_key "evidence_items_therapies", "evidence_items"
