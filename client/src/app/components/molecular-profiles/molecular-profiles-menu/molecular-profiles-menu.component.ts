@@ -31,7 +31,7 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
   pageInfo$?: Observable<PageInfo>;
 
   mpNameFilter: Maybe<string>;
-  statusFilter: MolecularProfileDisplayFilter = MolecularProfileDisplayFilter.WithAcceptedOrSubmitted;
+  statusFilter: MolecularProfileDisplayFilter = MolecularProfileDisplayFilter.All;
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<MolecularProfileMenuQuery>>
