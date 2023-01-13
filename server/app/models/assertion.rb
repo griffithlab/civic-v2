@@ -7,8 +7,6 @@ class Assertion < ActiveRecord::Base
   include Moderated
   include WithTimepointCounts
 
-  belongs_to :gene, optional: true
-  belongs_to :variant, optional: true
   belongs_to :molecular_profile
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :therapies
