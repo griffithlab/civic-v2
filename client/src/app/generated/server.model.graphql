@@ -957,6 +957,7 @@ type BrowseMolecularProfile {
   molecularProfileScore: Float!
   name: String!
   therapies: [LinkableTherapy!]!
+  variantCount: Int!
   variants: [LinkableVariant!]!
 }
 
@@ -3717,6 +3718,7 @@ enum MolecularProfilesSortColumns {
   assertionCount
   evidenceItemCount
   molecularProfileScore
+  variantCount
 }
 
 type Mutation {
@@ -4749,6 +4751,7 @@ type Query {
     """
     last: Int
     molecularProfileAlias: String
+    molecularProfileName: String
     sortBy: MolecularProfilesSort
     therapyName: String
     variantId: Int

@@ -58,6 +58,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   isScrolling: boolean = false
 
   // filters
+  mpNameInput: Maybe<string>
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
@@ -158,6 +159,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
+        molecularProfileName: this.mpNameInput,
         diseaseName: this.diseaseNameInput,
         therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
