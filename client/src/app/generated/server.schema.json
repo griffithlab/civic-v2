@@ -359,7 +359,7 @@
               "description": "The DOID of the disease, if the disease is present in the Disease Ontology.",
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null,

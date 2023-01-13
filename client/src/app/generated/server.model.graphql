@@ -117,7 +117,7 @@ input AddDiseaseInput {
   """
   The DOID of the disease, if the disease is present in the Disease Ontology.
   """
-  doid: Int
+  doid: String
 
   """
   The name of the disease.
