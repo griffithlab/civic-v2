@@ -33,7 +33,7 @@ class Gene < ActiveRecord::Base
 
   def self.timepoint_query
     ->(x) {
-      self.joins(variants: [:evidence_items])
+      self.joins(variants: { molecular_profiles: [:evidence_items] })
         .group('genes.id')
         .select('genes.id')
         .where("evidence_items.status != 'rejected'")
