@@ -1,5 +1,5 @@
 module LinkAdaptors
-  class Drug < Base
+  class Therapy < Base
     def display_name
       obj.name
     end

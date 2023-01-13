@@ -1,10 +1,10 @@
-class Drug < ApplicationRecord
+class Therapy < ApplicationRecord
   include WithTimepointCounts
   include WithCapitalizedName
 
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :assertions
-  has_and_belongs_to_many :drug_aliases
+  has_and_belongs_to_many :therapy_aliases
 
   def self.url_for(ncit_id:)
     if ncit_id.nil?
@@ -21,8 +21,8 @@ class Drug < ApplicationRecord
   def self.timepoint_query
     ->(x) {
       self.joins(:evidence_items)
-        .group('drugs.id')
-        .select('drugs.id')
+        .group('therapies.id')
+        .select('therapies.id')
         .where("evidence_items.status != 'rejected'")
         .having('MIN(evidence_items.created_at) >= ?', x)
         .distinct

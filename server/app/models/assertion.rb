@@ -11,7 +11,7 @@ class Assertion < ActiveRecord::Base
   belongs_to :variant, optional: true
   belongs_to :molecular_profile
   has_and_belongs_to_many :evidence_items
-  has_and_belongs_to_many :drugs
+  has_and_belongs_to_many :therapies
   belongs_to :disease
   belongs_to :nccn_guideline, optional: true
   has_and_belongs_to_many :acmg_codes
@@ -23,7 +23,7 @@ class Assertion < ActiveRecord::Base
   enum assertion_type: Constants::ASSERTION_TYPES, _suffix: true
   enum assertion_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
   enum significance: Constants::SIGNIFICANCES
-  enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
+  enum therapy_interaction_type: Constants::THERAPY_INTERACTION_TYPES
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
 
   has_one :submission_event,

@@ -35,11 +35,7 @@ module Types::Entities
     end
 
     def therapies
-      Loaders::AssociationLoader.for(EvidenceItem, :drugs).load(object)
-    end
-
-    def therapy_interaction_type
-      object.drug_interaction_type
+      Loaders::AssociationLoader.for(EvidenceItem, :therapies).load(object)
     end
 
     def evidence_rating

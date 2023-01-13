@@ -20,20 +20,20 @@ class Mutations::AddTherapy < Mutations::BaseMutation
   end
 
   def resolve(name: , ncit_id: nil)
-    display_name = Drug.capitalize_name(name)
+    display_name = Therapy.capitalize_name(name)
     if ncit_id
       parsed_ncit_id = ncit_id.upcase.sub('NCIT:', '')
-      if d = Drug.find_by(ncit_id: parsed_ncit_id)
-        return {therapy: d, new: false}
+      if t = Therapy.find_by(ncit_id: parsed_ncit_id)
+        return {therapy: t, new: false}
       else
-        d = Drug.where(name: display_name, ncit_id: parsed_ncit_id).create!
-        return {therapy: d, new: true}
+        t = Therapy.where(name: display_name, ncit_id: parsed_ncit_id).create!
+        return {therapy: t, new: true}
       end
-    elsif d = Drug.where("name ILIKE ?", name).first
-      return {therapy: d, new: false}
+    elsif t = Therapy.where("name ILIKE ?", name).first
+      return {therapy: t, new: false}
     else
-      d = Drug.where(name: display_name).create!
-      return {therapy: d, new: true}
+      t = Therapy.where(name: display_name).create!
+      return {therapy: t, new: true}
     end
   end
 end

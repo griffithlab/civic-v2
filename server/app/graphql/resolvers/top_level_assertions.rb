@@ -35,7 +35,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
   end
   option(:therapy_name, type: GraphQL::Types::String, description: 'Substring filtering on therapy name.') do |scope, value|
-    scope.joins(:drugs).where('drugs.name ILIKE ?', "%#{value}%")
+    scope.joins(:therapies).where('therapies.name ILIKE ?', "%#{value}%")
   end
   option(:molecular_profile_name, type: GraphQL::Types::String, description: 'Substring filtering on molecular profile name') do |scope, value|
     results = Searchkick.search(
@@ -72,7 +72,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.joins(:disease).where('diseases.id = ?', value)
   end
   option(:therapy_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the assertions based on the internal CIViC therapy id') do |scope, value|
-    scope.joins(:drugs).where('drugs.id = ?', value)
+    scope.joins(:therapies).where('therapies.id = ?', value)
   end
   option(:status, type: Types::EvidenceStatusFilterType, description: "Filtering on the status of the assertion.") do |scope, value|
     if value != 'ALL'
@@ -90,7 +90,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     when 'DISEASE_NAME'
       scope.joins(:disease).reorder("diseases.name #{value.direction}")
     when 'THERAPY_NAME'
-      scope.joins(:drugs).reorder("drugs.name #{value.direction}")
+      scope.joins(:therapies).reorder("therapies.name #{value.direction}")
     when 'SUMMARY'
       scope.reorder("assertions.summary #{value.direction}")
     when 'ASSERTION_TYPE'
