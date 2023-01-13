@@ -99,6 +99,8 @@
       <tr class="filter-row">
         <th nzWidth="200px"
           nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="mpNameInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzWidth="100px">
           <cvc-clearable-input-filter [(inputModel)]="aliasInput"

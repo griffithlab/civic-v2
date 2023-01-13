@@ -14,6 +14,19 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
       .order('evidence_score DESC')
   end
 
+  option(:molecular_profile_name, type: String) do |scope, value|
+    results = Searchkick.search(
+                  value,
+                  models: [MolecularProfile],
+                  fields: ['name'],
+                  match: :word_start,
+                  misspellings: {below: 1}
+                )
+    ids = results.hits.map { |x| x["_id"] }
+
+    scope.where(id: ids)
+  end
+
   option(:variant_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('variants'), "#{value}%") }
   option(:entrez_symbol, type: String)  { |scope, value| scope.where(json_name_query_for_column('genes'), "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }

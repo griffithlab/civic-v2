@@ -3012,6 +3012,7 @@ export type QueryBrowseMolecularProfilesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   molecularProfileAlias?: InputMaybe<Scalars['String']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<MolecularProfilesSort>;
   therapyName?: InputMaybe<Scalars['String']>;
   variantId?: InputMaybe<Scalars['Int']>;
@@ -5290,6 +5291,7 @@ export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfi
 export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, molecularProfileAliases: Array<string>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, deprecated: boolean, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, assertions: { __typename: 'AssertionConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseMolecularProfilesQueryVariables = Exact<{
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantId?: InputMaybe<Scalars['Int']>;
   entrezSymbol?: InputMaybe<Scalars['String']>;
@@ -9261,8 +9263,9 @@ export const MolecularProfilePopoverDocument = gql`
     }
   }
 export const BrowseMolecularProfilesDocument = gql`
-    query BrowseMolecularProfiles($variantName: String, $variantId: Int, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseMolecularProfiles($molecularProfileName: String, $variantName: String, $variantId: Int, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseMolecularProfiles(
+    molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId
     entrezSymbol: $entrezSymbol

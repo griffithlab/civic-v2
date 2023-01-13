@@ -1,4 +1,5 @@
 query BrowseMolecularProfiles(
+  $molecularProfileName: String
   $variantName: String
   $variantId: Int
   $entrezSymbol: String
@@ -12,6 +13,7 @@ query BrowseMolecularProfiles(
   $after: String
 ) {
   browseMolecularProfiles(
+    molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId
     entrezSymbol: $entrezSymbol

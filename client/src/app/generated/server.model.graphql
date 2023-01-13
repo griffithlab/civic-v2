@@ -4749,6 +4749,7 @@ type Query {
     """
     last: Int
     molecularProfileAlias: String
+    molecularProfileName: String
     sortBy: MolecularProfilesSort
     therapyName: String
     variantId: Int
