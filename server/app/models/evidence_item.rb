@@ -11,7 +11,7 @@ class EvidenceItem < ActiveRecord::Base
   belongs_to :molecular_profile
   belongs_to :disease, optional: true
   belongs_to :source
-  has_and_belongs_to_many :therapy
+  has_and_belongs_to_many :therapies
   has_and_belongs_to_many :phenotypes
   has_and_belongs_to_many :assertions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'

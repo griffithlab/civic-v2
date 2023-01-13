@@ -62,7 +62,7 @@ module Types::BrowseTables
     end
 
     def therapies
-      Array(object.drugs)
+      Array(object.therapies)
         .sort_by { |d| -d['total']}
         .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"} }
     end
