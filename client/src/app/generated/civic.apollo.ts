@@ -90,7 +90,7 @@ export type AddDiseaseInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: InputMaybe<Scalars['String']>;
   /** The DOID of the disease, if the disease is present in the Disease Ontology. */
-  doid?: InputMaybe<Scalars['Int']>;
+  doid?: InputMaybe<Scalars['String']>;
   /** The name of the disease. */
   name: Scalars['String'];
 };
@@ -5784,7 +5784,7 @@ export type DiseaseTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Arr
 
 export type AddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
-  doid?: InputMaybe<Scalars['Int']>;
+  doid?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -10525,7 +10525,7 @@ export const DiseaseTypeaheadDocument = gql`
     }
   }
 export const AddDiseaseDocument = gql`
-    mutation AddDisease($name: String!, $doid: Int) {
+    mutation AddDisease($name: String!, $doid: String) {
   addDisease(input: {name: $name, doid: $doid}) {
     ...AddDiseaseFields
   }
