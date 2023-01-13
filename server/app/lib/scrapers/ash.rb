@@ -32,6 +32,7 @@ module Scrapers
       source.publication_day = day
       source.publication_month = month
       source.publication_year = year
+      source.abstract = resp.abstract
       source.journal = resp.journal
       source.title = resp.article_title
       source.full_journal_title = resp.full_journal_title
