@@ -26,6 +26,7 @@ module Types::BrowseTables
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
+    field :variant_count, Int, null: false
     field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
     field :molecular_profile_score, Float, null: false
 
