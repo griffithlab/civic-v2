@@ -1,17 +1,22 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { VariantTypeTypeaheadGQL, VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
+// import { UntypedFormControl } from '@angular/forms';
+import {
+  VariantTypeTypeaheadGQL,
+  VariantTypeTypeaheadQuery,
+  VariantTypeTypeaheadQueryVariables,
+} from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, map } from 'rxjs/operators';
 
 interface VariantTypeTypeahead {
-  id: number,
-  soid: string,
-  name: string
+  id: number;
+  soid: string;
+  name: string;
 }
 
 @Component({
@@ -19,34 +24,38 @@ interface VariantTypeTypeahead {
   templateUrl: './variant-type-input.type.html',
   styleUrls: ['./variant-type-input.type.less'],
 })
-export class VariantTypeInputType extends FieldType implements OnInit, AfterViewInit {
-  formControl!: UntypedFormControl;
+export class VariantTypeInputType
+  extends FieldType<any>
+  implements OnInit, AfterViewInit
+{
+  private queryRef?: QueryRef<
+    VariantTypeTypeaheadQuery,
+    VariantTypeTypeaheadQueryVariables
+  >;
 
-  private queryRef?: QueryRef<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables>
-
-  variantTypes$?: Observable<VariantTypeTypeahead[]>
+  variantTypes$?: Observable<VariantTypeTypeahead[]>;
 
   defaultOptions = {
     templateOptions: {
       placeholder: 'Search Variant Types',
       showArrow: false,
-      onSearch: () => { },
+      onSearch: () => {},
       minLengthSearch: 1,
       optionList: [],
     },
   };
 
-  constructor(
-    private variantTypeTypeaheadQuery: VariantTypeTypeaheadGQL) {
+  constructor(private variantTypeTypeaheadQuery: VariantTypeTypeaheadGQL) {
     super();
   }
 
   ngOnInit() {
-    this.queryRef = this.variantTypeTypeaheadQuery.watch({ name: '' })
+    this.queryRef = this.variantTypeTypeaheadQuery.watch({ name: '' });
 
-    this.variantTypes$ = this.queryRef.valueChanges
-      .pipe(map(r => r.data?.variantTypeTypeahead),
-        filter(isNonNulled));
+    this.variantTypes$ = this.queryRef.valueChanges.pipe(
+      map((r) => r.data?.variantTypeTypeahead),
+      filter(isNonNulled)
+    );
   }
 
   ngAfterViewInit() {
@@ -60,7 +69,7 @@ export class VariantTypeInputType extends FieldType implements OnInit, AfterView
         return;
       }
 
-      this.queryRef?.refetch({ name: value })
+      this.queryRef?.refetch({ name: value });
     };
   }
 }

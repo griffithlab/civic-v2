@@ -1,6 +1,6 @@
 import { EvidenceLevel } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { $enum } from 'ts-enum-util';
 
 const labels = new Map<EvidenceLevel, string>([

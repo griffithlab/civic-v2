@@ -8,7 +8,7 @@ import { FieldType } from '@ngx-formly/core';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MultiFieldAddBtnType extends FieldType {
+export class MultiFieldAddBtnType extends FieldType<any> {
 
   constructor() { super(); }
 

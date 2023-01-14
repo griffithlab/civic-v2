@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 const requiredValidationMsgFn = (): string => {
   return 'Evidence requires that a Variant be specified.';

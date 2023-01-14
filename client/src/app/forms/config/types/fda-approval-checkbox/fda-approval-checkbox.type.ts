@@ -1,7 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { EntityState, EntityType } from '../../states/entity.state';
 
 export const fdaApprovalCheckboxTypeOption: TypeOption = {

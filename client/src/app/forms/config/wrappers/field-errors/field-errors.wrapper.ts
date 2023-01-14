@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
-import { WrapperOption } from '@ngx-formly/core/lib/services/formly.config';
+import { WrapperOption } from '@ngx-formly/core/lib/models';
 
 @Component({
   selector: 'cvc-field-errors-wrapper',

@@ -3,7 +3,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { AcmgCode, AcmgCodeTypeaheadGQL, AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
@@ -15,8 +15,8 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './acmg-code-select.type.html',
   styleUrls: ['./acmg-code-select.type.less'],
 })
-export class AcmgCodeInputType extends FieldType implements OnInit {
-  formControl!: UntypedFormControl;
+export class AcmgCodeInputType extends FieldType<any> implements OnInit {
+  
 
   searchVal = ''
 

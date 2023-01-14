@@ -35,8 +35,8 @@ interface CitationSelectOption {
   styleUrls: ['./citation-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CitationSelectType extends FieldType implements OnInit, AfterViewInit {
-  formControl!: UntypedFormControl;
+export class CitationSelectType extends FieldType<any> implements OnInit, AfterViewInit {
+  
   private queryRef!: QueryRef<SourceTypeaheadQuery, SourceTypeaheadQueryVariables>;
   sources$?: Observable<CitationSelectOption[]>;
   onAddCitation: (e: any) => void

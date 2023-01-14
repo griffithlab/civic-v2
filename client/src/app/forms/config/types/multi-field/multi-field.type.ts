@@ -10,8 +10,8 @@ export class MultiFieldType extends FieldArrayType implements OnInit {
   defaultOptions = {
     templateOptions: {
       maxCount: 0, // zero maxCount indicates no maxCount
-    }
-  }
+    },
+  };
 
   constructor() {
     super();
@@ -22,7 +22,9 @@ export class MultiFieldType extends FieldArrayType implements OnInit {
   }
 
   addField(e: MouseEvent): void {
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     this.add();
   }
 
@@ -46,4 +48,4 @@ export const MultiFieldTypeOption = {
   name: 'multi-field',
   component: MultiFieldType,
   // wrappers: ['cvc-field-errors']
-}
+};

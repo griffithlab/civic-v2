@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import {TypeOption} from "@ngx-formly/core/lib/models";
 
 @Component({
   selector: 'cvc-submit-button-type',
@@ -8,7 +8,7 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
   styleUrls: ['./submit-button.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SubmitButtonComponent extends FieldType {
+export class SubmitButtonComponent extends FieldType<any> {
   defaultOptions = {
     templateOptions: {
       submitLabel: 'Submit',

@@ -16,7 +16,7 @@ export interface SourceSelectModel {
   templateUrl: './source-select.type.html',
   styleUrls: ['./source-select.type.less']
 })
-export class SourceSelectType extends FieldType {
+export class SourceSelectType extends FieldType<any> {
   private updateSub!: Subscription;
 
   constructor() {

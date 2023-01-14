@@ -3,7 +3,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { PhenotypeTypeaheadGQL, PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
+import { TypeOption } from "@ngx-formly/core/lib/models";
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
@@ -21,8 +21,8 @@ interface PhenotypeTypeahead {
   templateUrl: './phenotype-input.type.html',
   styleUrls: ['./phenotype-input.type.less'],
 })
-export class PhenotypeInputType extends FieldType implements OnInit, AfterViewInit {
-  formControl!: UntypedFormControl;
+export class PhenotypeInputType extends FieldType<any> implements OnInit, AfterViewInit {
+  
 
   private queryRef?: QueryRef<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables>
 

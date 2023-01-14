@@ -2969,19 +2969,19 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-15.1.1.tgz#4563bb02233c544458afe8ac6e1dc6563e676feb"
   integrity sha512-pHkVE4IfIGcrIqxxrBQJV62GBqXF+LU4sPY5MLNWIfKSctW6AdTVoO9ilx8pclaFJkMLkPMbrmfGosYw47L+lg==
 
-"@ngx-formly/core@^5.10.32":
-  version "5.12.5"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.12.5.tgz#6d0bd0782792828db3c56059404e335c6f63c6b6"
-  integrity sha512-oD+rv2lWrosYTPdU14HG2RR3yKYty+P1ekxn5C7E0Nv6ydK66O5Zh4n8oHS/ptu6CrsymQAmRtLmNtSmL6pTQg==
+"@ngx-formly/core@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-6.0.4.tgz#a4378d861f1eb620c27f9a0c4a30a5bf5b8db8de"
+  integrity sha512-GH+uIwNivI7EmqIRcGwyWa+CXPBY3ihWi05foMsYV7ghADe2Ap6mHaYdKoejMItLoWz79CrV2pYfwrnjlE3KOQ==
   dependencies:
-    tslib "^1.7.1"
+    tslib "^2.0.0"
 
-"@ngx-formly/ng-zorro-antd@^0.0":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-0.0.1.tgz#5c44c310616b3b4c8029ab8cfd2da5dbdde041ff"
-  integrity sha512-6K/mth46XTmNCdedq9vYe+yDkky/93WtjRRT2DTij+Wu7OrRXO/aZxdB+v+X2YxjOyxHPkmPpH7rRVN/m/mtMQ==
+"@ngx-formly/ng-zorro-antd@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-6.0.4.tgz#98a799017cd5deccc7ec48539d8afd03d14d55df"
+  integrity sha512-lmMO37bCckGHSX79I/FoELlnvqdz7lQF3qVlMX3z3myDEXHvq2YhYYruczPE6/QL2n/bV7Z2IVJhImOHPTolYw==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.0.0"
 
 "@ngx-formly/schematics@^5.10.30":
   version "5.12.5"
@@ -11933,7 +11933,7 @@ tslib@2.4.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
   integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
 
-tslib@^1.10.0, tslib@^1.13.0, tslib@^1.7.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tslib@^1.10.0, tslib@^1.13.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==

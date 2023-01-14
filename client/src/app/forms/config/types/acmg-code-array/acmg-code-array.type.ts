@@ -2,7 +2,7 @@ import { AbstractControl, UntypedFormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { isNonNulled } from 'rxjs-etc';
 import { filter } from 'rxjs/operators';
 import { EntityState, EntityType } from '../../states/entity.state';

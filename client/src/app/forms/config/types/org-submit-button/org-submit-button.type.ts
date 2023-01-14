@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
+import { TypeOption } from "@ngx-formly/core/lib/models";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
   styleUrls: ['./org-submit-button.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrgSubmitButtonComponent extends FieldType implements AfterViewInit, OnDestroy {
+export class OrgSubmitButtonComponent extends FieldType<any> implements AfterViewInit, OnDestroy {
   _selectedOrg: Maybe<Organization> = undefined;
   get selectedOrg(): Maybe<Organization> {
     return this._selectedOrg;

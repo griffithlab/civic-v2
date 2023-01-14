@@ -1,7 +1,7 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 const optionText: { [option: string]: string } = {
   'SOMATIC': 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',

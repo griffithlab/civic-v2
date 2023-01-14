@@ -10,12 +10,13 @@ import { CvcCitationLoaderModule } from '../citation-loader/citation-loader.modu
 // import { SourceSelectorLoaderModule } from '../source-selector-loader/source-selector-loader.module';
 const configOption: ConfigOption = {
   types: [
-    { // citation-select only
+    {
+      // citation-select only
       name: 'citation-select',
       component: CitationSelectType,
     },
-  ]
-}
+  ],
+};
 
 @NgModule({
   declarations: [CitationSelectType],
@@ -28,6 +29,6 @@ const configOption: ConfigOption = {
     FormlyModule.forChild(configOption),
 
     NgxJsonViewerModule,
-  ]
+  ],
 })
-export class CvcCitationSelectModule { }
+export class CvcCitationSelectModule {}

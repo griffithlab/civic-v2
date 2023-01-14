@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 @Component({
   selector: 'cvc-textarea-base-type',
@@ -10,8 +10,8 @@ import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class TextareaBaseType extends FieldType {
-  formControl!: UntypedFormControl;
+export class TextareaBaseType extends FieldType<any> {
+  
 
   defaultOptions = {
     templateOptions: {

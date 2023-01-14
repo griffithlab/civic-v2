@@ -1,4 +1,4 @@
-import { TypeOption, ValidationMessageOption, ValidatorOption, } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption, ValidationMessageOption, ValidatorOption, } from '@ngx-formly/core/lib/models';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EntitySignificance, EntityState, EntityType, SelectOption, SelectType } from '../../states/entity.state';

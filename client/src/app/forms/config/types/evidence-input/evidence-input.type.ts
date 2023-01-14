@@ -9,7 +9,7 @@ import { FieldType } from '@ngx-formly/core';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import {TypeOption} from "@ngx-formly/core/lib/models";
 import { EvidenceStatus, EvidenceTypeaheadGQL, EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables, Maybe } from '@app/generated/civic.apollo';
 
 interface EvidenceTypeahead {
@@ -29,8 +29,8 @@ interface EvidenceTypeaheadOption {
   templateUrl: './evidence-input.type.html',
   styleUrls: ['./evidence-input.type.less'],
 })
-export class EvidenceInputType extends FieldType implements AfterViewInit, OnInit, OnDestroy {
-  formControl!: UntypedFormControl;
+export class EvidenceInputType extends FieldType<any> implements AfterViewInit, OnInit, OnDestroy {
+  
 
   private queryRef!: QueryRef<EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables>
   eid$?: Observable<Maybe<EvidenceTypeaheadOption>>

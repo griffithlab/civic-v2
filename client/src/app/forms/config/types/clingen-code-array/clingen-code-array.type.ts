@@ -1,7 +1,7 @@
 import { AbstractControl, UntypedFormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { EntityState, EntityType } from '../../states/entity.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {

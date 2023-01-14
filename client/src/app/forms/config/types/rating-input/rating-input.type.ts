@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import {TypeOption} from "@ngx-formly/core/lib/models";
 
 const optionText: { [option: string]: string } = {
   1: 'Poor - Claim is not supported well by experimental evidence. Results are not reproducible, or have very small sample size. No follow-up is done to validate novel claims.',
@@ -16,8 +16,8 @@ const optionText: { [option: string]: string } = {
   templateUrl: './rating-input.type.html',
   styleUrls: ['./rating-input.type.less'],
 })
-export class RatingInputType extends FieldType {
-  formControl!: UntypedFormControl;
+export class RatingInputType extends FieldType<any> {
+  
   rating?: number;
 
   defaultOptions = {

@@ -1,4 +1,4 @@
-import { ConfigOption } from '@ngx-formly/core/lib/services/formly.config';
+import { ConfigOption } from '@ngx-formly/core/lib/models';
 import { HasFocusExtension, } from './config/extensions/has-focus.extension';
 import { defaultMessages, defaultValidators } from './config/validators/default.validators';
 

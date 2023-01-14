@@ -1,6 +1,6 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { EvidenceDirection, EvidenceType, Maybe } from '@app/generated/civic.apollo';
-import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/models';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
