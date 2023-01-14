@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-molecular-profiles-suggest',
   templateUrl: './molecular-profiles-suggest.page.html',
-  styleUrls: ['./molecular-profiles-suggest.page.less']
 })
 export class MolecularProfilesSuggestPage implements OnDestroy {
   molecularProfileId?: number;

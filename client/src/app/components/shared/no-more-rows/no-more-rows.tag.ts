@@ -5,7 +5,6 @@ import { first } from 'rxjs/operators';
 @Component({
   selector: 'cvc-no-more-rows',
   templateUrl: './no-more-rows.tag.html',
-  styleUrls: ['./no-more-rows.tag.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoMoreRowsTag {

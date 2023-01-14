@@ -13,7 +13,6 @@ export interface LinkableGene {
 @Component({
   selector: 'cvc-gene-tag',
   templateUrl: './gene-tag.component.html',
-  styleUrls: ['./gene-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {

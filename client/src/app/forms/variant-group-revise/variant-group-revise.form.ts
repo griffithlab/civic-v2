@@ -23,7 +23,6 @@ interface FormModel {
 @Component({
   selector: 'cvc-variant-group-revise-form',
   templateUrl: './variant-group-revise.form.html',
-  styleUrls: ['./variant-group-revise.form.less']
 })
 export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
   @Input() variantGroupId!: number;

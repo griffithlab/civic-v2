@@ -6,7 +6,6 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
 @Component({
   selector: 'cvc-textarea-base-type',
   templateUrl: './textarea-base.type.html',
-  styleUrls: ['./textarea-base.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

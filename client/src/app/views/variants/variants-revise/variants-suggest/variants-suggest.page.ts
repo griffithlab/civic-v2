@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-variants-suggest',
   templateUrl: './variants-suggest.page.html',
-  styleUrls: ['./variants-suggest.page.less']
 })
 export class VariantsSuggestPage implements OnDestroy {
   variantId?: number;

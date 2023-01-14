@@ -4,7 +4,6 @@ import { OrganizationMembersFieldsFragment, UserRole } from "@app/generated/civi
 @Component({
     selector: 'cvc-user-card',
     templateUrl: './user-card.component.html',
-    styleUrls: ['./user-card.component.less']
 })
 export class CvcUserCardComponent implements OnInit {
     @Input() user!: OrganizationMembersFieldsFragment;

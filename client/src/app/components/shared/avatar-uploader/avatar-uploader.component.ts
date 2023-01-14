@@ -5,7 +5,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: 'cvc-avatar-uploader',
   templateUrl: './avatar-uploader.component.html',
-  styleUrls: ['./avatar-uploader.component.less'],
 })
 export class CvcAvatarUploaderComponent implements OnDestroy {
   @Output() uploadComplete = new EventEmitter<boolean>();

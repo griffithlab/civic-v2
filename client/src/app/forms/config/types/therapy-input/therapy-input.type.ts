@@ -36,7 +36,6 @@ interface TherapyTypeaheadOption {
 @Component({
   selector: 'cvc-therapy-input-type',
   templateUrl: './therapy-input.type.html',
-  styleUrls: ['./therapy-input.type.less'],
 })
 export class TherapyInputType
   extends FieldType<any>

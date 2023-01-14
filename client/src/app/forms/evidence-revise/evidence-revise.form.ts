@@ -97,7 +97,6 @@ interface FormModel {
 @Component({
   selector: 'cvc-evidence-revise-form',
   templateUrl: './evidence-revise.form.html',
-  styleUrls: ['./evidence-revise.form.less'],
 })
 export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() evidenceId!: number;

@@ -9,7 +9,6 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-organizations-members',
   templateUrl: './organizations-members.component.html',
-  styleUrls: ['./organizations-members.component.less']
 })
 export class OrganizationsMembersComponent implements OnDestroy {
   queryRef?: QueryRef<OrganizationMembersQuery, OrganizationMembersQueryVariables>;

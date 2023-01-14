@@ -7,7 +7,6 @@ import { EventDisplayOption } from '../event-feed/event-feed.component';
 @Component({
   selector: 'cvc-event-timeline-item',
   templateUrl: './event-timeline-item.component.html',
-  styleUrls: ['./event-timeline-item.component.less']
 })
 export class CvcEventTimelineItemComponent implements OnInit {
   @Input() event!: EventFeedNodeFragment;

@@ -12,7 +12,6 @@ export interface FlaggableSubject {
 @Component({
   selector: '[cvcFlaggable]',
   templateUrl: './flaggable.component.html',
-  styleUrls: ['./flaggable.component.less']
 })
 export class CvcFlaggableComponent implements AfterViewInit, OnChanges {
   @Input() flags?: Maybe<number>;

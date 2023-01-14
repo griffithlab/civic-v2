@@ -13,7 +13,6 @@ export type CommentSegment = CommentBodyUserSegment | CommentTagSegment | Commen
 @Component({
     selector: 'cvc-comment-body',
     templateUrl: './comment-body.component.html',
-    styleUrls: ['./comment-body.component.less']
 })
 export class CvcCommentBodyComponent implements OnInit {
     @Input() commentBodySegments!: CommentSegment[]

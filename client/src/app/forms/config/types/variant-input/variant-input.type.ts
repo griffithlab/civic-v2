@@ -38,7 +38,6 @@ interface VariantSelectOption {
 @Component({
   selector: 'cvc-variant-input-type',
   templateUrl: './variant-input.type.html',
-  styleUrls: ['./variant-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantInputType

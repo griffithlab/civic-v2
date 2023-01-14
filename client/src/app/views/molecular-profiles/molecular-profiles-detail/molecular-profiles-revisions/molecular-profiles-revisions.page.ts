@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-molecular-profiles-revisions',
   templateUrl: './molecular-profiles-revisions.page.html',
-  styleUrls: ['./molecular-profiles-revisions.page.less']
 })
 export class MolecularProfilesRevisionsPage implements OnDestroy {
   molecularProfileId!: number

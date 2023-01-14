@@ -10,7 +10,6 @@ export interface TagLinkableUser {
 @Component({
   selector: 'cvc-user-tag',
   templateUrl: './user-tag.component.html',
-  styleUrls: ['./user-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcUserTagComponent {

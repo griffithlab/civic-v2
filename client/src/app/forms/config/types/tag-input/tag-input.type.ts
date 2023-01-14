@@ -9,7 +9,6 @@ import { TypeOption } from "@ngx-formly/core/lib/models";
 @Component({
   selector: 'cvc-tag-input-type',
   templateUrl: './tag-input.type.html',
-  styleUrls: ['./tag-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagInputType extends FieldType<any> {

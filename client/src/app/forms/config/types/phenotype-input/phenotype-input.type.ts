@@ -19,7 +19,6 @@ interface PhenotypeTypeahead {
 @Component({
   selector: 'cvc-phenotype-input-type',
   templateUrl: './phenotype-input.type.html',
-  styleUrls: ['./phenotype-input.type.less'],
 })
 export class PhenotypeInputType extends FieldType<any> implements OnInit, AfterViewInit {
   

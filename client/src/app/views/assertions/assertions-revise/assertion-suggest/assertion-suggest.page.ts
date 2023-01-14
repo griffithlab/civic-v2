@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-assertions-suggest-page',
   templateUrl: './assertion-suggest.page.html',
-  styleUrls: ['./assertion-suggest.page.less']
 })
 export class AssertionSuggestPage implements OnDestroy {
   assertionId?: number;

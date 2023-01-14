@@ -4,7 +4,6 @@ import { Maybe } from '@app/generated/civic.apollo';
 @Component({
   selector: 'cvc-link-tag',
   templateUrl: './link-tag.component.html',
-  styleUrls: ['./link-tag.component.less']
 })
 export class CvcLinkTagComponent {
   _href!: string;

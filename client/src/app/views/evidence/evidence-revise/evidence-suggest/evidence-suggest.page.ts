@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-evidence-suggest',
   templateUrl: './evidence-suggest.page.html',
-  styleUrls: ['./evidence-suggest.page.less']
 })
 export class EvidenceSuggestPage implements OnDestroy {
   evidenceId?: number;

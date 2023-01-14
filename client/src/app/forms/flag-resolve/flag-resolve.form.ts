@@ -16,7 +16,6 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'cvc-flag-resolve-form',
   templateUrl: './flag-resolve.form.html',
-  styleUrls: ['./flag-resolve.form.less'],
 })
 export class CvcFlagResolveForm implements OnInit, OnDestroy {
   @Input() flag!: FlagFragment;

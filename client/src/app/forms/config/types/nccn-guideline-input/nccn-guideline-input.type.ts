@@ -11,7 +11,6 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'cvc-nccn-guideline-input-type',
   templateUrl: './nccn-guideline-input.type.html',
-  styleUrls: ['./nccn-guideline-input.type.less']
 })
 export class NccnGuidelineInputType extends FieldType<any> implements OnInit {
   

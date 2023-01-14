@@ -29,7 +29,6 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 @Component({
   selector: 'cvc-update-source-suggestion-form',
   templateUrl: './update-source-suggestion.form.html',
-  styleUrls: ['./update-source-suggestion.form.less'],
   encapsulation: ViewEncapsulation.None,
 })
 export class CvcUpdateSourceSuggestionForm implements OnDestroy {

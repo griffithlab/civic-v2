@@ -9,7 +9,6 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
 @Component({
   selector: 'cvc-molecular-profile-input-type',
   templateUrl: './molecular-profile-input.type.html',
-  styleUrls: ['./molecular-profile-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MolecularProfileInputType extends FieldType<any> implements OnInit {

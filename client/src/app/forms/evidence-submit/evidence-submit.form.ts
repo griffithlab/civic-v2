@@ -54,7 +54,6 @@ interface FormModel {
 @Component({
   selector: 'cvc-evidence-submit-form',
   templateUrl: './evidence-submit.form.html',
-  styleUrls: ['./evidence-submit.form.less'],
 })
 export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   private destroy$: Subject<void> = new Subject();

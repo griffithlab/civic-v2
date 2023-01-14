@@ -9,7 +9,6 @@ import { takeUntil } from "rxjs/operators";
 @Component({
     selector: 'cvc-flag-add-form',
     templateUrl: './flag-add.form.html',
-    styleUrls: ['./flag-add.form.less']
 })
 export class CvcFlagAddForm implements OnInit, OnDestroy {
     @Input() flaggable!: FlaggableInput

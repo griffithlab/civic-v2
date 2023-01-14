@@ -14,7 +14,6 @@ export interface Subject {
 @Component({
   selector: 'cvc-flag-tag',
   templateUrl: './flag-tag.component.html',
-  styleUrls: ['./flag-tag.component.less']
 })
 export class CvcFlagTagComponent implements OnInit {
   @Input() flag!: LinkableFlag

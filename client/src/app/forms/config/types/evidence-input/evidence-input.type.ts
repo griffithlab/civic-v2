@@ -27,7 +27,6 @@ interface EvidenceTypeaheadOption {
 @Component({
   selector: 'cvc-evidence-input-type',
   templateUrl: './evidence-input.type.html',
-  styleUrls: ['./evidence-input.type.less'],
 })
 export class EvidenceInputType extends FieldType<any> implements AfterViewInit, OnInit, OnDestroy {
   

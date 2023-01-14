@@ -4,7 +4,6 @@ import { EvidenceGridFieldsFragment } from "@app/generated/civic.apollo";
 @Component({
     selector: 'cvc-evidence-card',
     templateUrl: './evidence-card.component.html',
-    styleUrls: ['./evidence-card.component.less']
 })
 export class CvcEvidenceCardComponent implements OnInit {
     @Input() evidence!: EvidenceGridFieldsFragment;

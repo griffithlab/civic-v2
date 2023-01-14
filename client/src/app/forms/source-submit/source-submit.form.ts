@@ -23,7 +23,6 @@ interface FormModel {
 @Component({
   selector: 'cvc-source-submit-form',
   templateUrl: './source-submit.form.html',
-  styleUrls: ['./source-submit.form.less']
 })
 export class SourceSubmitForm implements OnDestroy {
   private destroy$: Subject<void> = new Subject();

@@ -22,7 +22,6 @@ interface VariantTypeTypeahead {
 @Component({
   selector: 'cvc-variant-type-input-type',
   templateUrl: './variant-type-input.type.html',
-  styleUrls: ['./variant-type-input.type.less'],
 })
 export class VariantTypeInputType
   extends FieldType<any>

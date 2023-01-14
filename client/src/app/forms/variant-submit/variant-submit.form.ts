@@ -31,7 +31,6 @@ export interface SelectedVariant {
 @Component({
   selector: 'cvc-variant-submit-form',
   templateUrl: './variant-submit.form.html',
-  styleUrls: ['./variant-submit.form.less'],
 })
 export class VariantSubmitForm implements OnDestroy, OnInit {
   @Output() onVariantSelected = new EventEmitter<SelectedVariant>();

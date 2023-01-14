@@ -6,7 +6,6 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
 @Component({
   selector: 'comment-textarea-type',
   templateUrl: './comment-textarea.type.html',
-  styleUrls: ['./comment-textarea.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentTextareaType extends FieldType<any> {

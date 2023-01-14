@@ -13,7 +13,6 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'cvc-acmg-code-select-type',
   templateUrl: './acmg-code-select.type.html',
-  styleUrls: ['./acmg-code-select.type.less'],
 })
 export class AcmgCodeInputType extends FieldType<any> implements OnInit {
   

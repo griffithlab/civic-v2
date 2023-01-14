@@ -6,7 +6,6 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
 @Component({
   selector: 'cvc-source-input-type',
   templateUrl: './source-input.type.html',
-  styleUrls: ['./source-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceInputType extends FieldType<any> {

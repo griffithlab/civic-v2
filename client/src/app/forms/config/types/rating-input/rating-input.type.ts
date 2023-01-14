@@ -14,7 +14,6 @@ const optionText: { [option: string]: string } = {
 @Component({
   selector: 'cvc-rating-input-type',
   templateUrl: './rating-input.type.html',
-  styleUrls: ['./rating-input.type.less'],
 })
 export class RatingInputType extends FieldType<any> {
   

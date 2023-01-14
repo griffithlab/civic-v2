@@ -22,7 +22,6 @@ import { isDefined } from '@app/core/utilities/defined-typeguard';
 @Component({
   selector: 'cvc-variant-deprecate-form',
   templateUrl: './variant-deprecate.form.html',
-  styleUrls: ['./variant-deprecate.form.less'],
 })
 export class VariantDeprecateForm implements OnDestroy, OnInit {
   @Input() variantId!: number

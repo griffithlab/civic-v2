@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-assertions-revisions',
   templateUrl: './assertions-revisions.page.html',
-  styleUrls: ['./assertions-revisions.page.less']
 })
 export class AssertionsRevisionsPage implements OnInit {
   aid!: number

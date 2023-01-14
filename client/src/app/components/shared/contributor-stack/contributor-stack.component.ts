@@ -4,7 +4,6 @@ import { ContributorFieldsFragment, Maybe } from "@app/generated/civic.apollo";
 @Component({
   selector: 'cvc-contributor-stack',
   templateUrl: './contributor-stack.component.html',
-  styleUrls: ['./contributor-stack.component.less'],
 })
 export class CvcContributorStackComponent implements OnInit {
   @Input() contributors: Maybe<ContributorFieldsFragment[]>

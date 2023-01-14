@@ -24,7 +24,6 @@ interface GeneTypeaheadOption {
 @Component({
   selector: 'cvc-gene-input',
   templateUrl: './gene-input.type.html',
-  styleUrls: ['./gene-input.type.less'],
 })
 export class GeneInputType extends FieldType<any> implements AfterViewInit, OnInit {
   

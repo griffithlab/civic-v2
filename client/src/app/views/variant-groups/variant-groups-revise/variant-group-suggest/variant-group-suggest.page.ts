@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-variant-groups-suggest-page',
   templateUrl: './variant-group-suggest.page.html',
-  styleUrls: ['./variant-group-suggest.page.less']
 })
 export class VariantGroupSuggestPage implements OnDestroy {
 

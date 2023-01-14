@@ -11,7 +11,6 @@ export interface LinkableDisease {
 @Component({
   selector: 'cvc-disease-tag',
   templateUrl: './cvc-disease-tag.component.html',
-  styleUrls: ['./cvc-disease-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcDiseaseTagComponent extends BaseCloseableTag implements OnInit {

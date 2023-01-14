@@ -11,7 +11,6 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'cvc-clingen-code-select-type',
   templateUrl: './clingen-code-select.type.html',
-  styleUrls: ['./clingen-code-select.type.less'],
 })
 export class ClingenCodeInputType extends FieldType<any> implements OnInit {
   

@@ -6,7 +6,6 @@ type StatusType  =  EvidenceStatus | RevisionStatus | FlagState
 @Component({
   selector: 'cvc-status-tag',
   templateUrl: './status-tag.component.html',
-  styleUrls: ['./status-tag.component.less']
 })
 export class CvcStatusTagComponent implements OnInit {
   private _status?: StatusType

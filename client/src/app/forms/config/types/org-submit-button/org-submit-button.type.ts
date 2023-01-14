@@ -8,7 +8,6 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'cvc-org-submit-button-type',
   templateUrl: './org-submit-button.type.html',
-  styleUrls: ['./org-submit-button.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrgSubmitButtonComponent extends FieldType<any> implements AfterViewInit, OnDestroy {

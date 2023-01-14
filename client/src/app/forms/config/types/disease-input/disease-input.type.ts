@@ -29,7 +29,6 @@ interface DiseaseTypeaheadOption {
 @Component({
   selector: 'cvc-disease-input-type',
   templateUrl: './disease-input.type.html',
-  styleUrls: ['./disease-input.type.less'],
 })
 export class DiseaseInputType extends FieldType<any> implements AfterViewInit, OnInit {
   

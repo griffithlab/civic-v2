@@ -23,7 +23,6 @@ interface FormModel {
 @Component({
   selector: 'cvc-variant-group-submit-form',
   templateUrl: './variant-group-submit.form.html',
-  styleUrls: ['./variant-group-submit.form.less']
 })
 export class VariantGroupSubmitForm implements OnDestroy{
   private destroy$: Subject<void> = new Subject();
