@@ -33,8 +33,8 @@ export class EvidenceDetailView implements OnDestroy {
   flagsTotal$?: Observable<number>;
   viewer$?: Observable<Viewer>;
 
-  errors: string[] = []
-  successMessage: Maybe<string>
+  errors: string[] = [];
+  successMessage: Maybe<string>;
 
   routeSub: Subscription;
   subscribable?: SubscribableInput;
@@ -46,12 +46,12 @@ export class EvidenceDetailView implements OnDestroy {
     {
       routeName: 'summary',
       iconName: 'pic-left',
-      tabLabel: 'Summary'
+      tabLabel: 'Summary',
     },
     {
       routeName: 'comments',
       iconName: 'civic-comment',
-      tabLabel: 'Comments'
+      tabLabel: 'Comments',
     },
     {
       routeName: 'revisions',
@@ -61,15 +61,14 @@ export class EvidenceDetailView implements OnDestroy {
     {
       routeName: 'flags',
       iconName: 'civic-flag',
-      tabLabel: 'Flags'
+      tabLabel: 'Flags',
     },
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events'
+      tabLabel: 'Events',
     },
-  ]
-
+  ];
 
   constructor(
     private gql: EvidenceDetailGQL,
@@ -93,47 +92,44 @@ export class EvidenceDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.evidence$.pipe(pluck('flags', 'totalCount'));
 
-      this.evidence$.pipe(
-        pluck('revisions', 'totalCount'),
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (count) => {
-          this.tabs$.next(
-            this.defaultTabs.map((tab) => {
-              if (tab.tabLabel === 'Revisions') {
-                return {
-                  badgeCount: count as number,
-                  ...tab
+      this.evidence$
+        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .subscribe({
+          next: (count) => {
+            this.tabs$.next(
+              this.defaultTabs.map((tab) => {
+                if (tab.tabLabel === 'Revisions') {
+                  return {
+                    badgeCount: count as number,
+                    ...tab,
+                  };
+                } else {
+                  return tab;
                 }
-              }
-              else {
-                return tab
-              }
-            }
-          ))
-        }
-      })
+              })
+            );
+          },
+        });
 
       this.subscribable = {
         id: +params.evidenceId,
-        entityType: SubscribableEntities.EvidenceItem
-      }
+        entityType: SubscribableEntities.EvidenceItem,
+      };
 
       this.viewer$ = this.viewerService.viewer$;
     });
-
   }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
-    this.destroy$.next()
+    this.destroy$.next();
     this.destroy$.unsubscribe();
   }
 
   onRevertCompleted(res: true | string[]) {
-    if(res === true){
+    if (res === true) {
       this.errors = [];
-      this.successMessage = "Evidence Item reverted to submitted status.";
+      this.successMessage = 'Evidence Item reverted to submitted status.';
       this.queryRef?.refetch();
     } else {
       this.errors = res;
@@ -142,7 +138,7 @@ export class EvidenceDetailView implements OnDestroy {
   }
 
   onModerateCompleted(res: EvidenceStatus | string[]) {
-    if(Array.isArray(res)) {
+    if (Array.isArray(res)) {
       this.errors = res;
       this.successMessage = undefined;
     } else {
@@ -153,7 +149,7 @@ export class EvidenceDetailView implements OnDestroy {
   }
 
   onErrorBannerClose(err: string) {
-    this.errors = this.errors?.filter(e => e != err);
+    this.errors = this.errors?.filter((e) => e != err);
   }
 
   onSuccessBannerClose() {

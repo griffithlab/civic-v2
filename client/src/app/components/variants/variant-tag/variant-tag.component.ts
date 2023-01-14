@@ -1,31 +1,36 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { getEntityColor } from '@app/core/utilities/get-entity-color';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableVariant {
-  id: number
-  name: string
-  link: string
-  flagged?: boolean
-  deprecated?: boolean
+  id: number;
+  name: string;
+  link: string;
+  flagged?: boolean;
+  deprecated?: boolean;
 }
 
 @Component({
   selector: 'cvc-variant-tag',
   templateUrl: './variant-tag.component.html',
   styleUrls: ['./variant-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
   @Input() variant!: LinkableVariant;
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() enablePopover: Maybe<boolean> = true;
+  @Input() truncateLongName: Maybe<boolean> = false;
 
-  iconColor: string
+  iconColor: string;
   constructor() {
-    super()
-    this.iconColor = getEntityColor('Variant')
+    super();
+    this.iconColor = getEntityColor('Variant');
   }
 
   idFunction(): number {

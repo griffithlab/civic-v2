@@ -17,6 +17,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzPopoverModule,
     CvcVariantTypePopoverModule,
   ],
-  exports: [CvcVariantTypeTagComponent]
+  exports: [CvcVariantTypeTagComponent],
 })
-export class CvcVariantTypeTagModule { }
+export class CvcVariantTypeTagModule {}

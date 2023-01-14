@@ -18,6 +18,6 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzButtonModule,
     NzSpinModule,
     CvcUserCardModule,
-  ]
+  ],
 })
-export class OrganizationsMembersModule { }
+export class OrganizationsMembersModule {}

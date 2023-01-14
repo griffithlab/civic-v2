@@ -14,6 +14,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzGridModule,
     NzSpaceModule,
     NzCardModule,
-  ]
+  ],
 })
-export class PagesHelpModule { }
+export class PagesHelpModule {}

@@ -13,7 +13,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     FormlyModule.forChild({
       types: [ampLevelInputTypeOption],
     }),
-
-  ]
+  ],
 })
-export class CvcAmpLevelInputTypeModule { }
+export class CvcAmpLevelInputTypeModule {}

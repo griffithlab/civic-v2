@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './variant-group-submit.page.html',
 })
 export class VariantGroupSubmitPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

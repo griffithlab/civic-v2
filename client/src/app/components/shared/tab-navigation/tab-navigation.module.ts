@@ -19,6 +19,6 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzBadgeModule,
     ReactiveComponentModule,
   ],
-  exports: [CvcTabNavigationComponent]
+  exports: [CvcTabNavigationComponent],
 })
-export class CvcTabNavigationModule { }
+export class CvcTabNavigationModule {}

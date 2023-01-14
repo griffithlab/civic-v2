@@ -48,6 +48,6 @@ import { NgModule } from '@angular/core';
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
     CvcMolecularProfileTagModule,
-  ]
+  ],
 })
-export class EvidenceDetailModule { }
+export class EvidenceDetailModule {}

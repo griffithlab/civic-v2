@@ -14,4 +14,4 @@ import { FormlyModule } from '@ngx-formly/core';
     CvcSourceTagModule,
   ],
 })
-export class CvcSourceInputTypeModule { }
+export class CvcSourceInputTypeModule {}

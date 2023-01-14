@@ -6,11 +6,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcEmptyRevisableComponent],
-  imports: [
-    CommonModule,
-    NzEmptyModule,
-    NzIconModule,
-  ],
-  exports: [CvcEmptyRevisableComponent]
+  imports: [CommonModule, NzEmptyModule, NzIconModule],
+  exports: [CvcEmptyRevisableComponent],
 })
-export class CvcEmptyRevisableModule { }
+export class CvcEmptyRevisableModule {}

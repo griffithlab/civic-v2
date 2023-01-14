@@ -15,15 +15,15 @@ const routes: Routes = [
         path: 'suggest',
         component: VariantGroupSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), VariantGroupSuggestModule],
   exports: [RouterModule],
 })
-export class VariantGroupsReviseRoutingModule { }
+export class VariantGroupsReviseRoutingModule {}

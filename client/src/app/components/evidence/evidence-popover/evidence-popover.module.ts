@@ -41,6 +41,6 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
   ],
-  exports: [CvcEvidencePopoverComponent]
+  exports: [CvcEvidencePopoverComponent],
 })
-export class CvcEvidencePopoverModule { }
+export class CvcEvidencePopoverModule {}

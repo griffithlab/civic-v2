@@ -5,9 +5,6 @@ import { UsersEventsComponent } from './users-events.component';
 
 @NgModule({
   declarations: [UsersEventsComponent],
-  imports: [
-    CommonModule,
-    CvcEventFeedModule,
-  ]
+  imports: [CommonModule, CvcEventFeedModule],
 })
-export class UsersEventsModule { }
+export class UsersEventsModule {}

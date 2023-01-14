@@ -5,12 +5,7 @@ import { MolecularProfilesRoutingModule } from './molecular-profiles-routing.mod
 import { MolecularProfilesView } from './molecular-profiles.view';
 
 @NgModule({
-  declarations: [
-    MolecularProfilesView,
-  ],
-  imports: [
-    CommonModule,
-    MolecularProfilesRoutingModule
-  ],
+  declarations: [MolecularProfilesView],
+  imports: [CommonModule, MolecularProfilesRoutingModule],
 })
 export class MolecularProfilesModule {}

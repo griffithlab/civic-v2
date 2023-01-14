@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sources.view.html',
 })
 export class SourcesView implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

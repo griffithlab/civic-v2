@@ -44,6 +44,6 @@ import { CvcVariantGroupsTableComponent } from './variant-groups-table.component
     CvcVariantGroupTagModule,
     CvcVariantTagModule,
   ],
-  exports: [CvcVariantGroupsTableComponent]
+  exports: [CvcVariantGroupsTableComponent],
 })
-export class CvcVariantGroupsTableModule { }
+export class CvcVariantGroupsTableModule {}

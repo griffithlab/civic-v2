@@ -15,15 +15,15 @@ const routes: Routes = [
         path: 'suggest',
         component: AssertionSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), AssertionSuggestModule],
   exports: [RouterModule],
 })
-export class AssertionsReviseRoutingModule { }
+export class AssertionsReviseRoutingModule {}

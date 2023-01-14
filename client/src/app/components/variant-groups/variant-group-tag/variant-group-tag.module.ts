@@ -21,6 +21,6 @@ import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-bad
     CvcPipesModule,
     CvcIconBadgesModule,
   ],
-  exports: [CvcVariantGroupTagComponent]
+  exports: [CvcVariantGroupTagComponent],
 })
-export class CvcVariantGroupTagModule { }
+export class CvcVariantGroupTagModule {}

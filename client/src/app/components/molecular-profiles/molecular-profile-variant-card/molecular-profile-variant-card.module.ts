@@ -40,8 +40,8 @@ import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-c
     CvcLinkTagModule,
     CvcTagListModule,
     CvcMolecularProfileTagModule,
-    CvcCoordinatesCardModule
+    CvcCoordinatesCardModule,
   ],
-  exports: [CvcMolecularProfileVariantCardComponent]
+  exports: [CvcMolecularProfileVariantCardComponent],
 })
-export class CvcMolecularProfileVariantCardModule { }
+export class CvcMolecularProfileVariantCardModule {}

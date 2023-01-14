@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './therapies.component.html',
 })
 export class TherapiesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

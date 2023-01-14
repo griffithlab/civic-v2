@@ -50,7 +50,7 @@
 @text-color-secondary-dark: fade(@white, 65%);
 // @text-selection-bg: @primary-color;
 @font-variant-base: tabular-nums;
-@font-feature-settings-base: 'tnum';
+@font-feature-settings-base: "tnum";
 @font-size-base: 14px;
 @font-size-lg: @font-size-base + 2px;
 @font-size-sm: 12px;
@@ -170,8 +170,12 @@
 // ---
 @input-padding-vertical-base: round(
   max(
-    (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
-      @border-width-base,
+    (
+        round(
+            ((@input-height-base - @font-size-base * @line-height-base) / 2) *
+              10
+          ) / 10
+      ) - @border-width-base,
     2px
   )
 );
@@ -198,7 +202,8 @@
 // ---
 @select-dropdown-height: @height-base;
 @select-single-item-height-lg: 32px;
-@select-multiple-item-height: @input-height-base - max(@input-padding-vertical-base, 4) * 2; // Normal 24px
+@select-multiple-item-height: @input-height-base -
+  max(@input-padding-vertical-base, 4) * 2; // Normal 24px
 @select-multiple-item-height-lg: 24px;
 @select-multiple-item-spacing-half: 3px;
 
@@ -295,7 +300,8 @@
 // ---
 @alert-with-description-no-icon-padding-vertical: 7px;
 @alert-with-description-padding-vertical: 11px;
-@alert-icon-top: 7px + @font-size-base * (@line-height-base / 2) - (@font-size-base / 2);
+@alert-icon-top: 7px + @font-size-base * (@line-height-base / 2) -
+  (@font-size-base / 2);
 @alert-with-description-icon-size: 20px;
 
 // Skeleton

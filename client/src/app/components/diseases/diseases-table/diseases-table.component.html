@@ -1,30 +1,34 @@
 <!-- if cvcHeight not specified, render table without card height container & viewport target -->
 <ng-container *ngIf="!cvcHeight; else setHeightCard">
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-  <nz-card [nzTitle]="titleTemplate"
+  <nz-card
+    [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
-    cvcAutoHeightTarget="viewport">
+    cvcAutoHeightTarget="viewport"
+  >
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container"
-    [ngStyle]="{ 'height': cvcHeight }">
-    <nz-card [nzTitle]="titleTemplate"
+  <div class="card-container" [ngStyle]="{ height: cvcHeight }">
+    <nz-card
+      [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-      nzSize="small">
+      nzSize="small"
+    >
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
 </ng-template>
 
 <ng-template #table>
-  <nz-table #virtualTable
+  <nz-table
+    #virtualTable
     nzSize="small"
     [nzData]="row$ | ngrxPush"
     [nzLoading]="initialLoading$ | ngrxPush"
@@ -38,80 +42,93 @@
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
-    [nzShowPagination]="false">
+    [nzShowPagination]="false"
+  >
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="300px"
+        <th
+          nzWidth="300px"
           nzLeft
           [nzColumnKey]="sortColumns.Name"
-          [nzSortFn]="true">
+          [nzSortFn]="true"
+        >
           Name
         </th>
-        <th nzWidth="150px"
+        <th
+          nzWidth="150px"
           nzLeft
           [nzColumnKey]="sortColumns.Doid"
-          [nzSortFn]="true">
+          [nzSortFn]="true"
+        >
           DOID
         </th>
-        <th nzWidth="400px">
-          Genes
-        </th>
-        <th nzWidth="75px"
+        <th nzWidth="400px">Genes</th>
+        <th
+          nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.GeneCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Gene Count">
-          <i nz-icon
-            nzType="civic-gene"></i> Count
+          nzTooltipTitle="Gene Count"
+        >
+          <i nz-icon nzType="civic-gene"></i> Count
         </th>
-        <th nzWidth="75px"
+        <th
+          nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.VariantCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Variant Count">
-          <i nz-icon
-            nzType="civic-variant"></i> Count
+          nzTooltipTitle="Variant Count"
+        >
+          <i nz-icon nzType="civic-variant"></i> Count
         </th>
-        <th nzWidth="75px"
+        <th
+          nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Evidence Count">
-          <i nz-icon
-            nzType="civic-evidence"></i> Count
+          nzTooltipTitle="Evidence Count"
+        >
+          <i nz-icon nzType="civic-evidence"></i> Count
         </th>
-        <th nzWidth="75px"
+        <th
+          nzWidth="75px"
           nzRight
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Assertion Count">
-          <i nz-icon
-            nzType="civic-assertion"></i> Count
+          nzTooltipTitle="Assertion Count"
+        >
+          <i nz-icon nzType="civic-assertion"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="nameInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="nameInput"
+            (inputModelChange)="filterChange$.next()"
+          ></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="doidInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="doidInput"
+            (inputModelChange)="filterChange$.next()"
+          ></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="geneNameInput"
+            (inputModelChange)="filterChange$.next()"
+          ></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
         <th nzRight></th>
@@ -120,48 +137,46 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll
-        let-disease
-        let-index="index">
+      <ng-template nz-virtual-scroll let-disease let-index="index">
         <tr class="data-row">
           <td nzLeft>
             <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
           </td>
           <td nzLeft>
-            <cvc-link-tag *ngIf="disease.doid; else noDoid"
+            <cvc-link-tag
+              *ngIf="disease.doid; else noDoid"
               [href]="disease.diseaseUrl"
-              tooltip="View on disease-ontology.org">
-              {{ 'DOID:' + disease.doid }}
+              tooltip="View on disease-ontology.org"
+            >
+              {{ "DOID:" + disease.doid }}
             </cvc-link-tag>
 
-            <ng-template #noDoid>
-              --
-            </ng-template>
+            <ng-template #noDoid> -- </ng-template>
           </td>
-          <td class="overflow-ellipsis"
+          <td
+            class="overflow-ellipsis"
             nz-tooltip
-            [nzTooltipTitle]="!isScrolling ? geneNames : ''">
+            [nzTooltipTitle]="!isScrolling ? geneNames : ''"
+          >
             <ng-template #geneNames>
-              <ng-container *ngFor="let gene of disease.geneNames; last as isLast">
-                {{ gene }}{{ isLast ? '' : ', ' }}
+              <ng-container
+                *ngFor="let gene of disease.geneNames; last as isLast"
+              >
+                {{ gene }}{{ isLast ? "" : ", " }}
               </ng-container>
             </ng-template>
             <ng-container [ngTemplateOutlet]="geneNames"></ng-container>
           </td>
-          <td nzRight
-            nzAlign="right">
+          <td nzRight nzAlign="right">
             {{ disease.geneCount }}
           </td>
-          <td nzRight
-            nzAlign="right">
+          <td nzRight nzAlign="right">
             {{ disease.variantCount }}
           </td>
-          <td nzRight
-            nzAlign="right">
+          <td nzRight nzAlign="right">
             {{ disease.evidenceItemCount }}
           </td>
-          <td nzRight
-            nzAlign="right">
+          <td nzRight nzAlign="right">
             {{ disease.assertionCount }}
           </td>
         </tr>
@@ -180,17 +195,16 @@
   </ng-container>
 
   <span class="table-info">
-    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"
+    ></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush"
-    nzColor="processing">
-    <i nz-icon
-      nzType="sync"
-      nzSpin></i>
+  <nz-tag *ngIf="moreLoading$ | ngrxPush" nzColor="processing">
+    <i nz-icon nzType="sync" nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>

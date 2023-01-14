@@ -1,11 +1,28 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { Flag, FlagFragment, Maybe, Organization } from '@app/generated/civic.apollo';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
+import {
+  Flag,
+  FlagFragment,
+  Maybe,
+  Organization,
+} from '@app/generated/civic.apollo';
 import { Observable, Subject } from 'rxjs';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
 import { MutationState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
 
-type SuccessType = false | 'accepted' | 'rejected'
+type SuccessType = false | 'accepted' | 'rejected';
 
 @Component({
   selector: 'cvc-flag-list',
@@ -14,26 +31,24 @@ type SuccessType = false | 'accepted' | 'rejected'
 })
 export class FlagListComponent implements OnInit, OnDestroy {
   @Input() flags?: FlagFragment[];
-  @Input() flagResolvedCallback?: () => void
+  @Input() flagResolvedCallback?: () => void;
 
   mostRecentOrg!: Maybe<Organization>;
 
   selectedFlagId: Maybe<number>;
 
   viewer$?: Observable<Viewer>;
-  
-  isLoading: boolean = false
+
+  isLoading: boolean = false;
   errors: Maybe<string[]>;
 
-  success: SuccessType = false
+  success: SuccessType = false;
 
-  flagComment: Maybe<string>
+  flagComment: Maybe<string>;
 
   private destroy$ = new Subject();
 
-  constructor(
-    private viewerService: ViewerService,
-  ) { }
+  constructor(private viewerService: ViewerService) {}
 
   ngOnInit(): void {
     this.viewer$ = this.viewerService.viewer$;
@@ -43,21 +58,21 @@ export class FlagListComponent implements OnInit, OnDestroy {
   }
 
   setupMutationResultHandlers(state: MutationState, successType: SuccessType) {
-      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if (res) {
-          this.isLoading = false
-          //this.revisionMutationCompleted.emit();
-          this.errors = undefined
-          this.success = successType
-        }
-      })
-      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if (res.length > 0) {
-          this.isLoading = false
-          this.success = false
-          this.errors  = res
-        }
-      })
+    state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      if (res) {
+        this.isLoading = false;
+        //this.revisionMutationCompleted.emit();
+        this.errors = undefined;
+        this.success = successType;
+      }
+    });
+    state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      if (res.length > 0) {
+        this.isLoading = false;
+        this.success = false;
+        this.errors = res;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -66,10 +81,10 @@ export class FlagListComponent implements OnInit, OnDestroy {
   }
 
   onErrorBannerClose(err: string) {
-    this.errors = this.errors?.filter(e => e != err)
+    this.errors = this.errors?.filter((e) => e != err);
   }
 
   onSuccessBannerClose() {
-    this.success = false
+    this.success = false;
   }
 }

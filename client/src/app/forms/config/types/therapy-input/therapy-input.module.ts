@@ -30,7 +30,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcTherapyTagModule,
     CvcFormErrorsAlertModule,
     CvcPipesModule,
-    CvcAutofocusModule
+    CvcAutofocusModule,
   ],
 })
-export class CvcTherapyInputTypeModule { }
+export class CvcTherapyInputTypeModule {}

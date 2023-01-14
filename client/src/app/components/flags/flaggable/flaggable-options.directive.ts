@@ -1,15 +1,13 @@
 import { Directive, TemplateRef } from '@angular/core';
 
 export type FlaggableOptions = {
-  showCount?: boolean
-  flaggableContent?: string | TemplateRef<void>
-}
+  showCount?: boolean;
+  flaggableContent?: string | TemplateRef<void>;
+};
 
 @Directive({
-  selector: '[cvcFlaggableOptions]'
+  selector: '[cvcFlaggableOptions]',
 })
 export class CvcFlaggableOptionsDirective {
-
-  constructor() { }
-
+  constructor() {}
 }

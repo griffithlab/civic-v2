@@ -1,15 +1,17 @@
 <ng-container *ngIf="linked; else unlinked">
-  <a routerLink="/users/{{user.id}}">
+  <a routerLink="/users/{{ user.id }}">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag nz-popover
+  <nz-tag
+    nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="userPopover"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    nzPopoverPlacement="topCenter">
+    nzPopoverPlacement="topCenter"
+  >
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -29,8 +31,11 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
+  <i
+    nz-icon
     [nzType]="icon"
     nzTheme="twotone"
-    [nzTwotoneColor]="user.role | titlecase | entityColor"></i> {{ user.displayName }}
+    [nzTwotoneColor]="user.role | titlecase | entityColor"
+  ></i>
+  {{ user.displayName }}
 </ng-template>

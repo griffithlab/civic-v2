@@ -41,8 +41,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     CvcFormButtonsModule,
     CvcCommentBodyModule,
     CvcCommentTextareaTypeModule,
-    CvcCommentInputFormModule
+    CvcCommentInputFormModule,
   ],
-  exports: [CvcCommentAddForm]
+  exports: [CvcCommentAddForm],
 })
-export class CvcCommentAddFormModule { }
+export class CvcCommentAddFormModule {}

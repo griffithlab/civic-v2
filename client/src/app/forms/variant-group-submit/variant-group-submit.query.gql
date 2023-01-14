@@ -1,5 +1,5 @@
 query VariantGroupSubmittableFields($variantGroupId: Int!) {
-  variantGroup(id: $variantGroupId ) {
+  variantGroup(id: $variantGroupId) {
     ...SubmittableVariantGroupFields
   }
 }
@@ -33,6 +33,6 @@ mutation SubmitVariantGroup($input: SubmitVariantGroupInput!) {
     clientMutationId
     variantGroup {
       id
-    } 
+    }
   }
 }

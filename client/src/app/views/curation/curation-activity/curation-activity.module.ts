@@ -27,6 +27,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcPipesModule,
     CvcSectionNavigationModule,
     CvcTabNavigationModule,
-  ]
+  ],
 })
-export class CurationActivityModule { }
+export class CurationActivityModule {}

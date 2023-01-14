@@ -6,11 +6,7 @@ import { CvcAvatarUploaderComponent } from './avatar-uploader.component';
 
 @NgModule({
   declarations: [CvcAvatarUploaderComponent],
-  imports: [
-    CommonModule,
-    NzButtonModule,
-    NzIconModule
-  ],
-  exports: [CvcAvatarUploaderComponent]
+  imports: [CommonModule, NzButtonModule, NzIconModule],
+  exports: [CvcAvatarUploaderComponent],
 })
-export class CvcAvatarUploaderModule { }
+export class CvcAvatarUploaderModule {}

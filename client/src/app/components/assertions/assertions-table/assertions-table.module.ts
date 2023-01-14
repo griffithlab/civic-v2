@@ -62,6 +62,6 @@ import { CvcAssertionsTableComponent } from './assertions-table.component';
     CvcTagOverflowModule,
     CvcMolecularProfileTagModule,
   ],
-  exports: [CvcAssertionsTableComponent]
+  exports: [CvcAssertionsTableComponent],
 })
-export class CvcAssertionsTableModule { }
+export class CvcAssertionsTableModule {}

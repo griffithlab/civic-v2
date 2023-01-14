@@ -15,6 +15,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzToolTipModule,
     CvcPipesModule,
   ],
-  exports: [CvcAttributeTagComponent]
+  exports: [CvcAttributeTagComponent],
 })
-export class CvcAttributeTagModule { }
+export class CvcAttributeTagModule {}

@@ -26,7 +26,7 @@ import { VariantGroupsReviseView } from './variant-groups-revise.view';
     CvcSectionNavigationModule,
     CvcLoginPromptModule,
     ReactiveComponentModule,
-    NzGridModule
-  ]
+    NzGridModule,
+  ],
 })
-export class VariantGroupsReviseModule { }
+export class VariantGroupsReviseModule {}

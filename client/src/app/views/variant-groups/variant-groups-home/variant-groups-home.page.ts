@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'variant-groups-home',
   templateUrl: './variant-groups-home.page.html',
-  styleUrls: ['./variant-groups-home.page.less']
+  styleUrls: ['./variant-groups-home.page.less'],
 })
 export class VariantGroupsHomePage implements OnInit {
   viewer$?: Observable<Viewer>;
@@ -14,7 +17,5 @@ export class VariantGroupsHomePage implements OnInit {
     this.viewer$ = this.viewerService.viewer$;
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

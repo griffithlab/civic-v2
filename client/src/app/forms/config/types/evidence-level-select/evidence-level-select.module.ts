@@ -11,6 +11,6 @@ import { evidenceLevelSelectTypeOption } from './evidence-level-select.type';
     ReactiveFormsModule,
     FormlySelectModule,
     FormlyModule.forChild({ types: [evidenceLevelSelectTypeOption] }),
-  ]
+  ],
 })
-export class CvcEvidenceLevelSelectModule { }
+export class CvcEvidenceLevelSelectModule {}

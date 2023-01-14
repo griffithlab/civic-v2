@@ -29,8 +29,8 @@ import { CvcUserTagModule } from '../user-tag/user-tag.module';
     CvcLinkTagModule,
     CvcPipesModule,
     CvcOrganizationTagModule,
-    CvcUserTagModule
+    CvcUserTagModule,
   ],
-  exports: [CvcUserCardComponent]
+  exports: [CvcUserCardComponent],
 })
-export class CvcUserCardModule { }
+export class CvcUserCardModule {}

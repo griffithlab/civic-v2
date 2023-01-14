@@ -1,6 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import {
   Organization,
@@ -69,13 +72,13 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
         input: {
           id: this.flag.id,
           comment: this.comment,
-          organizationId: this.selectedOrg?.id
+          organizationId: this.selectedOrg?.id,
         },
       });
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
           this.flagResolvePopoverVisible = false;
-          this.success = true
+          this.success = true;
           if (this.flagResolvedCallback) {
             this.flagResolvedCallback();
           }
@@ -83,12 +86,16 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
       });
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res.length > 0) {
-          this.success = false
+          this.success = false;
           this.errorMessages = res;
         }
       });
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => { this.loading = loading; });
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading;
+        });
     }
   }
 

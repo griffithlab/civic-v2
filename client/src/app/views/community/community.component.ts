@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './community.component.html',
 })
 export class CommunityComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

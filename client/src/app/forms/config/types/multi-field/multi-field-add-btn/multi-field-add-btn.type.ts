@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
@@ -8,12 +12,12 @@ import { FieldType } from '@ngx-formly/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiFieldAddBtnType extends FieldType<any> {
-
-  constructor() { super(); }
-
+  constructor() {
+    super();
+  }
 }
 
 export const MultiFieldAddBtnTypeOption = {
   name: 'cvc-multi-field-add-btn',
   component: MultiFieldAddBtnType,
-}
+};

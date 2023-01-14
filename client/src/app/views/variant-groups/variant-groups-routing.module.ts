@@ -13,46 +13,46 @@ const routes: Routes = [
         path: 'home',
         component: VariantGroupsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: 'add',
         loadChildren: () =>
-          import('@app/views/variant-groups/variant-groups-add/variant-groups-add.module').then(
-            (m) => m.VariantGroupsAddModule
-          ),
-        data: { breadcrumb: 'Add' }
+          import(
+            '@app/views/variant-groups/variant-groups-add/variant-groups-add.module'
+          ).then((m) => m.VariantGroupsAddModule),
+        data: { breadcrumb: 'Add' },
       },
       {
         path: ':variantGroupId',
         data: {
-          breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
+          breadcrumb: 'DISPLAYNAME', // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('@app/views/variant-groups/variant-groups-detail/variant-groups-detail.module').then(
-                (m) => m.VariantGroupsDetailModule
-              ),
+              import(
+                '@app/views/variant-groups/variant-groups-detail/variant-groups-detail.module'
+              ).then((m) => m.VariantGroupsDetailModule),
           },
           {
             path: 'revise',
             loadChildren: () =>
-              import('@app/views/variant-groups/variant-groups-revise/variant-groups-revise.module').then(
-                (m) => m.VariantGroupsReviseModule
-              ),
-            data: { breadcrumb: 'Revise' }
+              import(
+                '@app/views/variant-groups/variant-groups-revise/variant-groups-revise.module'
+              ).then((m) => m.VariantGroupsReviseModule),
+            data: { breadcrumb: 'Revise' },
           },
-        ]
-      }
-    ]
-  }
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class VariantGroupsRoutingModule { }
+export class VariantGroupsRoutingModule {}

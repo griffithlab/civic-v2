@@ -28,6 +28,6 @@ import { DiseasesDetailComponent } from './diseases-detail.component';
     CvcLinkTagModule,
     CvcSectionNavigationModule,
     CvcPipesModule,
-  ]
+  ],
 })
-export class DiseasesDetailModule { }
+export class DiseasesDetailModule {}

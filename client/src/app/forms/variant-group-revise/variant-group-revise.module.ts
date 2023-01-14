@@ -21,12 +21,8 @@ import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
-
-
 @NgModule({
-  declarations: [
-    VariantGroupReviseForm
-  ],
+  declarations: [VariantGroupReviseForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -51,6 +47,6 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
-  exports: [VariantGroupReviseForm]
+  exports: [VariantGroupReviseForm],
 })
-export class VariantGroupReviseModule { }
+export class VariantGroupReviseModule {}

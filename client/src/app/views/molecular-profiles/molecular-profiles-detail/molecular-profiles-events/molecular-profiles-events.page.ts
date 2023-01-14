@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SubscribableEntities, SubscribableInput } from '@app/generated/civic.apollo';
+import {
+  SubscribableEntities,
+  SubscribableInput,
+} from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-molecular-profiles-events',
@@ -8,13 +11,13 @@ import { SubscribableEntities, SubscribableInput } from '@app/generated/civic.ap
   styleUrls: ['./molecular-profiles-events.page.less'],
 })
 export class MolecularProfilesEventsPage {
-  subscribable: SubscribableInput
+  subscribable: SubscribableInput;
 
   constructor(private route: ActivatedRoute) {
     const mpId: number = +this.route.snapshot.params['molecularProfileId'];
     this.subscribable = {
       id: mpId,
-      entityType: SubscribableEntities.MolecularProfile
-    }
+      entityType: SubscribableEntities.MolecularProfile,
+    };
   }
 }

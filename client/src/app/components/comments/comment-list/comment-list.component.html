@@ -1,97 +1,118 @@
-<ng-container *ngIf="unfilteredCount$ | ngrxPush as unfilteredCount; else noComments">
+<ng-container
+  *ngIf="unfilteredCount$ | ngrxPush as unfilteredCount; else noComments"
+>
   <nz-row [nzGutter]="16">
     <nz-col nzSpan="18">
-      <nz-space nzDirection="vertical"
-        style="width: 100%">
-        <nz-card nzTitle="Comments"
-          *nzSpaceItem>
-          <nz-list [nzDataSource]="comments$ | ngrxPush"
+      <nz-space nzDirection="vertical" style="width: 100%">
+        <nz-card nzTitle="Comments" *nzSpaceItem>
+          <nz-list
+            [nzDataSource]="comments$ | ngrxPush"
             [nzLoading]="loading$ | ngrxPush"
             [nzRenderItem]="comment"
             nzSize="small"
-            nzItemLayout="horizontal">
+            nzItemLayout="horizontal"
+          >
             <nz-list-header *ngIf="pageInfo$ | ngrxPush as pageInfo">
-              <div nz-list-load-more
-                *ngIf="pageInfo.hasPreviousPage">
-                <button nz-button
+              <div nz-list-load-more *ngIf="pageInfo.hasPreviousPage">
+                <button
+                  nz-button
                   nzType="link"
                   nzSize="small"
                   nzBlock
-                  (click)="onLoadMore(pageInfo.startCursor)">Load older comments
+                  (click)="onLoadMore(pageInfo.startCursor)"
+                >
+                  Load older comments
                 </button>
               </div>
             </nz-list-header>
-            <ng-template #comment
-              let-comment>
+            <ng-template #comment let-comment>
               <nz-list-item>
                 <cvc-comment-display [comment]="comment"></cvc-comment-display>
               </nz-list-item>
             </ng-template>
           </nz-list>
         </nz-card>
-        <cvc-comment-add-form id="addComment"
+        <cvc-comment-add-form
+          id="addComment"
           [subject]="commentable"
-          (commentAddedEvent)="refreshList()" *nzSpaceItem></cvc-comment-add-form>
+          (commentAddedEvent)="refreshList()"
+          *nzSpaceItem
+        ></cvc-comment-add-form>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
-      <cvc-participant-list listTitle="Commenters"
+      <cvc-participant-list
+        listTitle="Commenters"
         [participantList]="commenters$ | ngrxPush"
-        (participantSelectedEvent)="onCommenterSelected($event)">
-        <ng-template #itemTemplate
-          let-user>
-          <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+        (participantSelectedEvent)="onCommenterSelected($event)"
+      >
+        <ng-template #itemTemplate let-user>
+          <nz-avatar
+            *ngIf="user.profileImagePath; else noAvatar"
             nz-comment-avatar
-            [nzSrc]="user.profileImagePath">
+            [nzSrc]="user.profileImagePath"
+          >
           </nz-avatar>
           <ng-template #noAvatar>
-            <nz-avatar nz-comment-avatar
-              [nzText]="user.displayName.charAt(0) | uppercase"></nz-avatar>
+            <nz-avatar
+              nz-comment-avatar
+              [nzText]="user.displayName.charAt(0) | uppercase"
+            ></nz-avatar>
           </ng-template>
-          <span>{{user.displayName}}</span>
+          <span>{{ user.displayName }}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Mentioned Users"
+      <cvc-participant-list
+        listTitle="Mentioned Users"
         [participantList]="mentionedUsers$ | ngrxPush"
-        (participantSelectedEvent)="onMentionedUserSelected($event)">
-        <ng-template #itemTemplate
-          let-user>
-          <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+        (participantSelectedEvent)="onMentionedUserSelected($event)"
+      >
+        <ng-template #itemTemplate let-user>
+          <nz-avatar
+            *ngIf="user.profileImagePath; else noAvatar"
             nz-comment-avatar
-            [nzSrc]="user.profileImagePath">
+            [nzSrc]="user.profileImagePath"
+          >
           </nz-avatar>
           <ng-template #noAvatar>
-            <nz-avatar nz-comment-avatar
-              [nzText]="user.displayName.charAt(0) | uppercase"></nz-avatar>
+            <nz-avatar
+              nz-comment-avatar
+              [nzText]="user.displayName.charAt(0) | uppercase"
+            ></nz-avatar>
           </ng-template>
-          <span>{{user.displayName}}</span>
+          <span>{{ user.displayName }}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Mentioned Roles"
+      <cvc-participant-list
+        listTitle="Mentioned Roles"
         [participantList]="mentionedRoles$ | ngrxPush"
-        (participantSelectedEvent)="onMentionedRoleSelected($event)">
-        <ng-template #itemTemplate
-          let-role>
-          <nz-avatar nzIcon="civic-{{role.tag.displayName}}">
-          </nz-avatar>
-          <span>{{role.tag.displayName}}s</span>
+        (participantSelectedEvent)="onMentionedRoleSelected($event)"
+      >
+        <ng-template #itemTemplate let-role>
+          <nz-avatar nzIcon="civic-{{ role.tag.displayName }}"> </nz-avatar>
+          <span>{{ role.tag.displayName }}s</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Mentioned Entities"
+      <cvc-participant-list
+        listTitle="Mentioned Entities"
         [participantList]="mentionedEntities$ | ngrxPush"
-        (participantSelectedEvent)="onMentionedEntitySelected($event)">
-        <ng-template #itemTemplate
-          let-entity>
-          <i nz-icon
-            [nzType]="entity.tag.tagType | iconNameForSubscribableEntity"></i>
-          <span>{{entity.tag.displayName}}</span>
+        (participantSelectedEvent)="onMentionedEntitySelected($event)"
+      >
+        <ng-template #itemTemplate let-entity>
+          <i
+            nz-icon
+            [nzType]="entity.tag.tagType | iconNameForSubscribableEntity"
+          ></i>
+          <span>{{ entity.tag.displayName }}</span>
         </ng-template>
       </cvc-participant-list>
     </nz-col>
   </nz-row>
 </ng-container>
 <ng-template #noComments>
-  <cvc-comment-add-form id="addComment"
+  <cvc-comment-add-form
+    id="addComment"
     [subject]="commentable"
-    (commentAddedEvent)="refreshList()"></cvc-comment-add-form>
+    (commentAddedEvent)="refreshList()"
+  ></cvc-comment-add-form>
 </ng-template>

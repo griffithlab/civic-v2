@@ -1,11 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkablePhenotype {
-  id: number,
-  name: string,
-  link: string,
+  id: number;
+  name: string;
+  link: string;
 }
 
 @Component({
@@ -15,18 +20,22 @@ export interface LinkablePhenotype {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcPhenotypeTagComponent extends BaseCloseableTag {
-  _phenotype!: LinkablePhenotype
+  _phenotype!: LinkablePhenotype;
   @Input()
   set phenotype(ph: LinkablePhenotype) {
-    if(!ph) throw new Error('phenotype-tag phentype input requires LinkablePhenotype.');
+    if (!ph)
+      throw new Error(
+        'phenotype-tag phentype input requires LinkablePhenotype.'
+      );
     this._phenotype = ph;
   }
-  get phenotype(): LinkablePhenotype { return this._phenotype }
+  get phenotype(): LinkablePhenotype {
+    return this._phenotype;
+  }
 
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true;
 
   idFunction(): number {
     return this.phenotype.id;
   }
-
 }

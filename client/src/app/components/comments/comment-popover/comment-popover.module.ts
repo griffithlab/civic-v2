@@ -29,8 +29,10 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     CvcVariantTagModule,
     CvcRevisionTagModule,
     CvcSourceTagModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
   ],
-  exports: [CvcCommentPopoverComponent]
+  exports: [CvcCommentPopoverComponent],
 })
-export class CvcCommentPopoverModule { }
+export class CvcCommentPopoverModule {}

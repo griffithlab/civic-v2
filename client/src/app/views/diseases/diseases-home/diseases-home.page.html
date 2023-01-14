@@ -1,60 +1,57 @@
 <cvc-section-navigation> </cvc-section-navigation>
 <nz-page-header class="site-page-header">
-
   <!--content-->
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px"
-        class="header-icon">
-        <i nz-icon
-        nzTheme="twotone"
-        [nzTwotoneColor]="'Disease' | entityColor"
-        nzType="civic-disease"></i>
+      <nz-col nzFlex="64px" class="header-icon">
+        <i
+          nz-icon
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Disease' | entityColor"
+          nzType="civic-disease"
+        ></i>
       </nz-col>
-      <nz-col nzFlex="0 1 600px"
-        class="header-description">
+      <nz-col nzFlex="0 1 600px" class="header-description">
         <h2>Diseases</h2>
-        <p nz-typography
-          nzEllipsis
-          nzExpandable
-          [nzEllipsisRows]="2">
-          All CIViC Evidence Items are associated with a Disease included in the Disease Ontology database.
+        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+          All CIViC Evidence Items are associated with a Disease included in the
+          Disease Ontology database.
         </p>
       </nz-col>
-      <nz-col nzFlex="auto"
-        class="header-links">
-        <nz-space nzDirection="vertical"
-          class="docs-buttons">
-          <a nz-button
+      <nz-col nzFlex="auto" class="header-links">
+        <nz-space nzDirection="vertical" class="docs-buttons">
+          <a
+            nz-button
             href="https://civic.readthedocs.io/en/latest/model/evidence/disease.html"
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem>
-            <i nz-icon
-              nzType="link"
-              nzTheme="outline"></i>
+            *nzSpaceItem
+          >
+            <i nz-icon nzType="link" nzTheme="outline"></i>
             View Disease Attribute Docs
-        </a>
-          <a nz-button href="https://civic.readthedocs.io/en/latest/model/evidence/disease.html#curating-diseases"
+          </a>
+          <a
+            nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence/disease.html#curating-diseases"
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem>
-            <i nz-icon
-              nzType="link"
-              nzTheme="outline"></i>
+            *nzSpaceItem
+          >
+            <i nz-icon nzType="link" nzTheme="outline"></i>
             View Disease Curation Docs
-        </a>
+          </a>
         </nz-space>
       </nz-col>
     </nz-row>
     <div nz-row>
-      <div nz-col
-        [nzSpan]="24">
+      <div nz-col [nzSpan]="24">
         <div class="content">
-          <cvc-diseases-table cvcTitle="Browse All Diseases"></cvc-diseases-table>
+          <cvc-diseases-table
+            cvcTitle="Browse All Diseases"
+          ></cvc-diseases-table>
         </div>
       </div>
     </div>

@@ -13,8 +13,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzButtonModule,
     NzIconModule,
     NzToolTipModule,
-    ReactiveComponentModule
+    ReactiveComponentModule,
   ],
-  exports: [CvcEntitySubscriptionButtonComponent]
+  exports: [CvcEntitySubscriptionButtonComponent],
 })
-export class CvcEntitySubscriptionButtonModule { }
+export class CvcEntitySubscriptionButtonModule {}

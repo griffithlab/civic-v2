@@ -1,6 +1,8 @@
-import { SourceSuggestionStatus } from "@app/generated/civic.apollo";
+import { SourceSuggestionStatus } from '@app/generated/civic.apollo';
 
-export function formatSourceSuggestionStatusEnum(value: SourceSuggestionStatus): string {
+export function formatSourceSuggestionStatusEnum(
+  value: SourceSuggestionStatus
+): string {
   switch (value) {
     case 'NEW':
       return 'New';

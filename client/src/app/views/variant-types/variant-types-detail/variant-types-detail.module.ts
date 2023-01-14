@@ -20,6 +20,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcPipesModule,
     CvcLinkTagModule,
     CvcSectionNavigationModule,
-  ]
+  ],
 })
-export class VariantTypesDetailModule { }
+export class VariantTypesDetailModule {}

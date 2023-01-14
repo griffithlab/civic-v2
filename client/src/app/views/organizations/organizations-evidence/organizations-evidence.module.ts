@@ -5,9 +5,6 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 
 @NgModule({
   declarations: [OrganizationsEvidenceComponent],
-  imports: [
-    CommonModule,
-    CvcEvidenceTableModule,
-  ]
+  imports: [CommonModule, CvcEvidenceTableModule],
 })
-export class OrganizationsEvidenceModule { }
+export class OrganizationsEvidenceModule {}

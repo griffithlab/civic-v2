@@ -5,9 +5,6 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
 
 @NgModule({
   declarations: [OrganizationsEventsComponent],
-  imports: [
-    CommonModule,
-    CvcEventFeedModule,
-  ]
+  imports: [CommonModule, CvcEventFeedModule],
 })
-export class OrganizationsEventsModule { }
+export class OrganizationsEventsModule {}

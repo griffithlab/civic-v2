@@ -47,6 +47,6 @@ import { CvcSourcesTableComponent } from './sources-table.component';
     CvcTableCountsModule,
     CvcTableScrollModule,
   ],
-  exports: [CvcSourcesTableComponent]
+  exports: [CvcSourcesTableComponent],
 })
-export class CvcSourcesTableModule { }
+export class CvcSourcesTableModule {}

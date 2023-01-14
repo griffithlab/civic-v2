@@ -5,6 +5,6 @@ import { TableScrollDirective } from './table-scroll.directive';
 @NgModule({
   declarations: [TableScrollDirective],
   imports: [CommonModule],
-  exports: [TableScrollDirective]
+  exports: [TableScrollDirective],
 })
-export class CvcTableScrollModule { }
+export class CvcTableScrollModule {}

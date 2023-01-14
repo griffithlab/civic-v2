@@ -25,6 +25,6 @@ import { GenesHomePage } from './genes-home.page';
     CvcSectionNavigationModule,
     CvcGenesTableModule,
   ],
-  exports: [GenesHomePage]
+  exports: [GenesHomePage],
 })
-export class GenesHomeModule { }
+export class GenesHomeModule {}

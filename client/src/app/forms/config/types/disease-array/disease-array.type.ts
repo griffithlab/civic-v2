@@ -7,8 +7,14 @@ import { Subject } from 'rxjs';
 import { EvidenceState } from '../../states/evidence.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
-  const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
-  return etCtrl ? `${formatEvidenceEnum(etCtrl.value)} Evidence requires a disease to be specified.` : 'Disease is required.';
+  const etCtrl: AbstractControl | null = ffc?.form
+    ? ffc.form.get('evidenceType')
+    : null;
+  return etCtrl
+    ? `${formatEvidenceEnum(
+        etCtrl.value
+      )} Evidence requires a disease to be specified.`
+    : 'Disease is required.';
 };
 
 export const diseaseArrayTypeOption: TypeOption = {
@@ -18,30 +24,35 @@ export const diseaseArrayTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Disease',
-      helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
+      helpText:
+        "Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the 'Could not find disease' checkbox below and enter the disease in the field that appears.",
       required: false,
       addText: 'Add a Disease',
-      destroy$: new Subject<boolean>()
+      destroy$: new Subject<boolean>(),
     },
     fieldArray: {
       type: 'cvc-disease-input',
       templateOptions: {
-        required: false
+        required: false,
       },
       expressionProperties: {
-        'templateOptions.allowCreate': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+        'templateOptions.allowCreate': (
+          m: any,
+          st: any,
+          ffc?: FormlyFieldConfig
+        ) => {
           const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
           if (existingSetting !== undefined) {
             return existingSetting;
           }
           return true;
-        }
-      }
+        },
+      },
     },
     defaultValue: [],
     validation: {
       messages: {
-        required: requiredValidationMsgFn
+        required: requiredValidationMsgFn,
       },
     },
     hooks: {
@@ -50,30 +61,35 @@ export const diseaseArrayTypeOption: TypeOption = {
         // check for formState, populate with all options if not found
         const st: EvidenceState = ffc?.options?.formState;
         // find evidenceType formControl, subscribe to value changes to update options
-        const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
-        if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
-        to.vcSub = etCtrl.valueChanges
-          .subscribe((et: EvidenceType) => {
-            const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray;
-            if (!st.requiresDisease(et)) {
-              to.hidden = true;
-              to.required = false;
-              // remove() rebuilds the field, so here we clear the array except for the
-              // first element, then call remove() so the field is only rebuilt once
-              if (ffc!.model.length > 0) {
-                ffc!.model.splice(1);
-                to.remove(0);
-              }
-            } else {
-              to.hidden = false;
-              to.required = true;
+        const etCtrl: AbstractControl | null = ffc?.form
+          ? ffc.form.get('evidenceType')
+          : null;
+        if (!etCtrl) {
+          return;
+        } // no evidenceType FormControl found, cannot subscribe
+        to.vcSub = etCtrl.valueChanges.subscribe((et: EvidenceType) => {
+          const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray;
+          if (!st.requiresDisease(et)) {
+            to.hidden = true;
+            to.required = false;
+            // remove() rebuilds the field, so here we clear the array except for the
+            // first element, then call remove() so the field is only rebuilt once
+            if (ffc!.model.length > 0) {
+              ffc!.model.splice(1);
+              to.remove(0);
             }
-          });
+          } else {
+            to.hidden = false;
+            to.required = true;
+          }
+        });
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to: FormlyTemplateOptions = ffc!.templateOptions!;
-        if (to.vcSub) { to.vcSub.unsubscribe(); }
-      }
+        if (to.vcSub) {
+          to.vcSub.unsubscribe();
+        }
+      },
     },
-  }
-}
+  },
+};

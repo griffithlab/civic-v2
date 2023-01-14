@@ -44,6 +44,6 @@ import { CvcDiseasesTableComponent } from './diseases-table.component';
     CvcTableCountsModule,
     CvcTableScrollModule,
   ],
-  exports: [CvcDiseasesTableComponent]
+  exports: [CvcDiseasesTableComponent],
 })
-export class CvcDiseasesTableModule { }
+export class CvcDiseasesTableModule {}

@@ -7,11 +7,7 @@ import { AssertionsReviseModule } from './assertions-revise/assertions-revise.mo
 
 @NgModule({
   declarations: [AssertionsView],
-  imports: [
-    CommonModule,
-    AssertionsRoutingModule,
-    AssertionsReviseModule,
-  ],
-  exports: [AssertionsView]
+  imports: [CommonModule, AssertionsRoutingModule, AssertionsReviseModule],
+  exports: [AssertionsView],
 })
-export class AssertionsModule { }
+export class AssertionsModule {}

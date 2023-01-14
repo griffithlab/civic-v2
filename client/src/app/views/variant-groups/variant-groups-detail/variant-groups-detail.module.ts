@@ -33,6 +33,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     CvcEntitySubscriptionButtonModule,
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
-  ]
+  ],
 })
-export class VariantGroupsDetailModule { }
+export class VariantGroupsDetailModule {}

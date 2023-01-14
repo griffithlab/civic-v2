@@ -27,8 +27,8 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcGeneTagModule,
     CvcUserTagModule,
     CvcOrganizationTagModule,
-    CvcMolecularProfileTagModule
+    CvcMolecularProfileTagModule,
   ],
-  exports: [CvcCommentBodyComponent]
+  exports: [CvcCommentBodyComponent],
 })
-export class CvcCommentBodyModule { }
+export class CvcCommentBodyModule {}

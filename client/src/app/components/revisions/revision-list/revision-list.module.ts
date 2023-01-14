@@ -62,7 +62,9 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzDescriptionsModule,
     NzDividerModule,
     FormsModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
     CvcSourceTagModule,
@@ -82,8 +84,8 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzCollapseModule,
     NzButtonModule,
     NzAlertModule,
-    ReactiveComponentModule
+    ReactiveComponentModule,
   ],
-  exports: [RevisionListComponent]
+  exports: [RevisionListComponent],
 })
-export class RevisionListModule { }
+export class RevisionListModule {}

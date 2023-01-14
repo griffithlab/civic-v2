@@ -17,6 +17,6 @@ import { CvcTagGroupModule } from '@app/components/shared/tag-group/tag-group.mo
     CvcGeneTagModule,
     CvcTagGroupModule,
   ],
-  exports: [CvcMolecularProfileTagNameComponent]
+  exports: [CvcMolecularProfileTagNameComponent],
 })
-export class CvcMolecularProfileTagNameModule { }
+export class CvcMolecularProfileTagNameModule {}

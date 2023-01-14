@@ -43,4 +43,4 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     CvcCommentBodyModule,
   ],
 })
-export class MolecularProfilesDetailModule { }
+export class MolecularProfilesDetailModule {}

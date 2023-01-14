@@ -2,15 +2,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableRevision {
-  id: number,
-  name: string,
-  link: string,
-  revisionsetId: string
+  id: number;
+  name: string;
+  link: string;
+  revisionsetId: string;
 }
 
 export interface Subject {
-  id: number,
-  __typename: string
+  id: number;
+  __typename: string;
 }
 
 @Component({
@@ -18,16 +18,17 @@ export interface Subject {
   templateUrl: './revision-tag.component.html',
 })
 export class CvcRevisionTagComponent implements OnInit {
-  @Input() revision!: LinkableRevision
-  @Input() subject?: Subject
-  @Input() enablePopover: Boolean = true
+  @Input() revision!: LinkableRevision;
+  @Input() subject?: Subject;
+  @Input() enablePopover: Boolean = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    if (this.revision=== undefined) {
-      throw new Error('cvc-revision-tag requires LinkableRevision input, none supplied.')
+    if (this.revision === undefined) {
+      throw new Error(
+        'cvc-revision-tag requires LinkableRevision input, none supplied.'
+      );
     }
   }
-
 }

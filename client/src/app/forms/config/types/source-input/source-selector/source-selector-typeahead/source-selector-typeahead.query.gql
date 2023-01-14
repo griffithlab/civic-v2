@@ -1,4 +1,7 @@
-query CitationTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
+query CitationTypeahead(
+  $partialCitationId: String!
+  $sourceType: SourceSource!
+) {
   sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
     ...SourceTypeaheadResult
   }

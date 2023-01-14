@@ -30,8 +30,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcPipesModule,
-    CvcCommentInputFormModule
+    CvcCommentInputFormModule,
   ],
-  exports: [CvcFlagAddForm]
+  exports: [CvcFlagAddForm],
 })
-export class CvcFlagAddFormModule { }
+export class CvcFlagAddFormModule {}

@@ -13,9 +13,7 @@ import { OrganizationsSourceSuggestionsModule } from './organizations-source-sug
 import { OrganizationsComponent } from './organizations.component';
 
 @NgModule({
-  declarations: [
-    OrganizationsComponent,
-  ],
+  declarations: [OrganizationsComponent],
   imports: [
     CommonModule,
     ReactiveComponentModule,
@@ -30,4 +28,4 @@ import { OrganizationsComponent } from './organizations.component';
     OrganizationsSourceSuggestionsModule,
   ],
 })
-export class OrganizationsModule { }
+export class OrganizationsModule {}

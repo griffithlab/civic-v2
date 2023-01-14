@@ -15,15 +15,15 @@ import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 
 export interface UniqueFlaggingUsers {
-  id: number
-  username: string
-  profileImagePath?: string
+  id: number;
+  username: string;
+  profileImagePath?: string;
 }
 
 export interface SelectableFlagState {
-  id: number,
-  displayName: string,
-  value: FlagState
+  id: number;
+  displayName: string;
+  value: FlagState;
 }
 
 @Component({
@@ -36,24 +36,21 @@ export class CvcFlagListAndFilterComponent implements OnInit {
 
   private queryRef!: QueryRef<FlagListQuery, FlagListQueryVariables>;
   private results$!: Observable<ApolloQueryResult<FlagListQuery>>;
-  private defaultPageSize = 5
-  flags$?: Observable<Maybe<FlagFragment>[]>
-  pageInfo$?: Observable<Maybe<PageInfo>>
-  uniqueFlaggingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>
-  uniqueResolvingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>
-  unfilteredCount$: Maybe<Observable<Maybe<number>>>
+  private defaultPageSize = 5;
+  flags$?: Observable<Maybe<FlagFragment>[]>;
+  pageInfo$?: Observable<Maybe<PageInfo>>;
+  uniqueFlaggingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>;
+  uniqueResolvingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>;
+  unfilteredCount$: Maybe<Observable<Maybe<number>>>;
 
   selectableStates: SelectableFlagState[] = [
-    {id: 1, displayName: 'Open', value: FlagState.Open},
-    {id: 2, displayName: 'Resolved', value: FlagState.Resolved},
-  ]
+    { id: 1, displayName: 'Open', value: FlagState.Open },
+    { id: 2, displayName: 'Resolved', value: FlagState.Resolved },
+  ];
 
   refresh!: () => void;
 
-  constructor(
-    private gql: FlagListGQL,
-  ) {
-  }
+  constructor(private gql: FlagListGQL) {}
 
   ngOnInit() {
     if (this.flaggable == undefined) {
@@ -74,53 +71,64 @@ export class CvcFlagListAndFilterComponent implements OnInit {
     this.flags$ = this.results$.pipe(
       pluck('data', 'flags', 'edges'),
       map((edges) => {
-        return edges.map((e) => e.node)
+        return edges.map((e) => e.node);
       })
     );
 
-    this.pageInfo$ = this.results$.pipe(
-      pluck('data', 'flags', 'pageInfo')
-    )
+    this.pageInfo$ = this.results$.pipe(pluck('data', 'flags', 'pageInfo'));
 
     this.unfilteredCount$ = this.results$.pipe(
       pluck('data', 'flags', 'unfilteredCountForSubject')
-    )
+    );
 
     this.uniqueFlaggingUsers$ = this.results$.pipe(
-      map(({data}) => { return data.flags?.uniqueFlaggingUsers })
+      map(({ data }) => {
+        return data.flags?.uniqueFlaggingUsers;
+      })
     );
 
     this.uniqueResolvingUsers$ = this.results$.pipe(
-      map(({data}) => { return data.flags?.uniqueResolvingUsers })
+      map(({ data }) => {
+        return data.flags?.uniqueResolvingUsers;
+      })
     );
   }
 
   onFlaggingUsersSelected(user: UniqueFlaggingUsers) {
     this.queryRef.refetch({
-      flaggable: {id: this.flaggable.id, entityType: this.flaggable.entityType},
-      flaggingUserId: user ? user.id : undefined
-    })
+      flaggable: {
+        id: this.flaggable.id,
+        entityType: this.flaggable.entityType,
+      },
+      flaggingUserId: user ? user.id : undefined,
+    });
   }
 
   onResolvingUsersSelected(user: UniqueFlaggingUsers) {
     this.queryRef.refetch({
-      flaggable: {id: this.flaggable.id, entityType: this.flaggable.entityType},
-      resolvingUserId: user ? user.id : undefined
-    })
+      flaggable: {
+        id: this.flaggable.id,
+        entityType: this.flaggable.entityType,
+      },
+      resolvingUserId: user ? user.id : undefined,
+    });
   }
 
   onStateSelected(state: Maybe<SelectableFlagState>) {
     this.queryRef.refetch({
-      flaggable: {id: this.flaggable.id, entityType: this.flaggable.entityType},
-      state: state ? state.value : undefined
-    })
+      flaggable: {
+        id: this.flaggable.id,
+        entityType: this.flaggable.entityType,
+      },
+      state: state ? state.value : undefined,
+    });
   }
 
-  loadMore(afterCursor: Maybe<string>):void {
+  loadMore(afterCursor: Maybe<string>): void {
     this.queryRef?.fetchMore({
       variables: {
         first: this.defaultPageSize,
-        after: afterCursor
+        after: afterCursor,
       },
     });
   }

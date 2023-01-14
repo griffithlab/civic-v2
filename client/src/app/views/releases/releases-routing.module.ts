@@ -13,14 +13,13 @@ const routes: Routes = [
         path: 'main',
         component: ReleasesMainComponent,
         data: { breadcrumb: 'Downloads' },
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class ReleasesRoutingModule { }
+export class ReleasesRoutingModule {}

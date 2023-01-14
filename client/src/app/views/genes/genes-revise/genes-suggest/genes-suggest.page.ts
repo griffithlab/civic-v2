@@ -1,11 +1,11 @@
-import { Component, OnDestroy}  from '@angular/core';
-import { ActivatedRoute, } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-genes-suggest',
   templateUrl: './genes-suggest.page.html',
-  styleUrls: ['./genes-suggest.page.less']
+  styleUrls: ['./genes-suggest.page.less'],
 })
 export class GenesSuggestPage implements OnDestroy {
   geneId?: number;
@@ -20,5 +20,4 @@ export class GenesSuggestPage implements OnDestroy {
   ngOnDestroy(): void {
     this.routeParams$.unsubscribe();
   }
-
 }

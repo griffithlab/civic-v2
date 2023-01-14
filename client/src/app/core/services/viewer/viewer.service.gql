@@ -10,7 +10,7 @@ query ViewerBase {
       id
       name
       profileImagePath(size: 32)
-    },
+    }
     mostRecentConflictOfInterestStatement {
       coiStatus
     }

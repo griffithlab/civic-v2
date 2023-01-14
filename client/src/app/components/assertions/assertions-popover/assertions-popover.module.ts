@@ -40,8 +40,10 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcTherapyTagModule,
     CvcPipesModule,
     CvcStatusTagModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
   ],
-  exports: [CvcAssertionPopoverComponent]
+  exports: [CvcAssertionPopoverComponent],
 })
-export class CvcAssertionsPopoverModule { }
+export class CvcAssertionsPopoverModule {}

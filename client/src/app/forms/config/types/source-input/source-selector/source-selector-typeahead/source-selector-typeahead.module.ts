@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { SourceSelectorTypeaheadType, SourceSelectorTypeaheadTypeOption } from './source-selector-typeahead.type';
+import {
+  SourceSelectorTypeaheadType,
+  SourceSelectorTypeaheadTypeOption,
+} from './source-selector-typeahead.type';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { SourceSelectorLoaderModule } from '../source-selector-loader/source-selector-loader.module';
@@ -17,7 +20,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzSelectModule,
     NzInputModule,
     SourceSelectorLoaderModule,
-    CvcAutofocusModule
-  ]
+    CvcAutofocusModule,
+  ],
 })
-export class CvcSourceSelectorTypeaheadTypeModule { }
+export class CvcSourceSelectorTypeaheadTypeModule {}

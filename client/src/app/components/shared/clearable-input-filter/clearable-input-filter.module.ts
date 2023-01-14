@@ -13,8 +13,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     FormsModule,
     NzFormModule,
     NzInputModule,
-    NzIconModule
+    NzIconModule,
   ],
-  exports: [CvcClearableInputFilterComponent]
+  exports: [CvcClearableInputFilterComponent],
 })
-export class CvcClearableInputFilterModule { }
+export class CvcClearableInputFilterModule {}

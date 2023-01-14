@@ -25,8 +25,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzTagModule,
     NzToolTipModule,
     CvcLinkTagModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
-  exports: [CvcTherapyPopoverComponent]
+  exports: [CvcTherapyPopoverComponent],
 })
-export class CvcTherapyPopoverModule { }
+export class CvcTherapyPopoverModule {}

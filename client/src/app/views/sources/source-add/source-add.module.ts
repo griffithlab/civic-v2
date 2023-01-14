@@ -16,6 +16,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcPipesModule,
     CvcSectionNavigationModule,
     CvcSourceSubmitFormModule,
-  ]
+  ],
 })
-export class SourceAddModule { }
+export class SourceAddModule {}

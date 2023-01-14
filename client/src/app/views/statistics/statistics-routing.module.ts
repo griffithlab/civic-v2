@@ -11,15 +11,14 @@ const routes: Routes = [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       {
         path: 'main',
-        component: StatisticsMainComponent
-      }
-    ]
-  }
+        component: StatisticsMainComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class StatisticsRoutingModule { }
+export class StatisticsRoutingModule {}

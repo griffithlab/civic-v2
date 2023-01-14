@@ -51,6 +51,6 @@ import { CvcGenesTableComponent } from './genes-table.component';
     CvcTableScrollModule,
     CvcTagOverflowModule,
   ],
-  exports: [CvcGenesTableComponent]
+  exports: [CvcGenesTableComponent],
 })
-export class CvcGenesTableModule { }
+export class CvcGenesTableModule {}

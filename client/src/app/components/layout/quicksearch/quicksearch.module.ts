@@ -25,6 +25,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzIconModule,
     NzAutocompleteModule,
   ],
-  exports: [CvcQuicksearchComponent]
+  exports: [CvcQuicksearchComponent],
 })
-export class CvcQuicksearchModule { }
+export class CvcQuicksearchModule {}

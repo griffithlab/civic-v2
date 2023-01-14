@@ -1,5 +1,5 @@
 <nz-spin [nzSpinning]="this.loading$ | ngrxPush">
-  <ng-container *ngIf="! (this.loading$ | ngrxPush)">
+  <ng-container *ngIf="!(this.loading$ | ngrxPush)">
     <nz-space nzSize="middle" nzDirection="vertical" class="space-align-block">
       <div nz-row [nzGutter]="[16, 16]" *nzSpaceItem>
         <div *ngFor="let member of members$ | ngrxPush" nz-col [nzSpan]="6">
@@ -10,8 +10,14 @@
       <ng-container *nzSpaceItem>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
           <ng-container *ngIf="pageInfo.hasNextPage">
-            <button *ngIf="pageInfo.hasNextPage" (click)="loadMore(pageInfo.endCursor)" nz-button nzBlock>Load
-              {{this.initialPageSize}} More</button>
+            <button
+              *ngIf="pageInfo.hasNextPage"
+              (click)="loadMore(pageInfo.endCursor)"
+              nz-button
+              nzBlock
+            >
+              Load {{ this.initialPageSize }} More
+            </button>
           </ng-container>
         </ng-container>
       </ng-container>

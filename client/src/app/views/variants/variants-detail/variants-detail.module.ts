@@ -46,4 +46,4 @@ import { VariantsDetailView } from './variants-detail.view';
     VariantDeprecateFormModule,
   ],
 })
-export class VariantsDetailModule { }
+export class VariantsDetailModule {}

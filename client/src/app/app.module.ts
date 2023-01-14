@@ -2,13 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule, HttpClient } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HttpClientXsrfModule,
+  HttpClientJsonpModule,
+  HttpClient,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
 import { civicIcons } from '@app/icons-provider.module';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
-import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
@@ -26,13 +31,11 @@ import { AppLoadErrorHandler } from './core/utilities/app-reload-handler';
 registerLocaleData(en);
 
 function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
-  return () => httpClient.get("/api/status");
+  return () => httpClient.get('/api/status');
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -43,14 +46,18 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     HttpClientJsonpModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
-      level: !environment.production ? NgxLoggerLevel.TRACE : NgxLoggerLevel.OFF,
+      level: !environment.production
+        ? NgxLoggerLevel.TRACE
+        : NgxLoggerLevel.OFF,
       enableSourceMaps: true,
-      serverLogLevel: NgxLoggerLevel.ERROR
+      serverLogLevel: NgxLoggerLevel.ERROR,
     }),
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
     ReactiveComponentModule,
-    TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter }}),
+    TimeagoModule.forRoot({
+      formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter },
+    }),
     CvcFormsModule,
     CvcNetworkErrorAlertModule,
   ],
@@ -58,16 +65,16 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     CookieService,
     {
       provide: ErrorHandler,
-      useClass: AppLoadErrorHandler
+      useClass: AppLoadErrorHandler,
     },
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApiFactory,
       deps: [HttpClient],
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

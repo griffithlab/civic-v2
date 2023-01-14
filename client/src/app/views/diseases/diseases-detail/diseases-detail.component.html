@@ -1,15 +1,21 @@
 <ng-container *ngIf="disease$ | ngrxPush as disease">
-  <cvc-section-navigation [displayName]="disease.name"> </cvc-section-navigation>
+  <cvc-section-navigation [displayName]="disease.name">
+  </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Disease' | entityColor"
-        nzType="civic-disease"></i> {{ disease.name }}
+        nzType="civic-disease"
+      ></i>
+      {{ disease.name }}
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="disease.doid">
-      <cvc-link-tag [href]="disease.diseaseUrl"
-        tooltip="View on disease-ontology.org">
+      <cvc-link-tag
+        [href]="disease.diseaseUrl"
+        tooltip="View on disease-ontology.org"
+      >
         {{ "DOID:" + disease.doid }}
       </cvc-link-tag>
     </nz-page-header-extra>

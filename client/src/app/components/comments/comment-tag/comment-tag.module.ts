@@ -17,8 +17,8 @@ import { RouterModule } from '@angular/router';
     NzPopoverModule,
     NzIconModule,
     CvcCommentPopoverModule,
-    NzTagModule
+    NzTagModule,
   ],
-  exports: [CvcCommentTagComponent]
+  exports: [CvcCommentTagComponent],
 })
-export class CvcCommentTagModule { }
+export class CvcCommentTagModule {}

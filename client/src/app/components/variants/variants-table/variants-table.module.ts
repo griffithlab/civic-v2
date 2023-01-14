@@ -47,6 +47,6 @@ import { CvcVariantsTableComponent } from './variants-table.component';
     CvcTagOverflowModule,
     CvcVariantTagModule,
   ],
-  exports: [CvcVariantsTableComponent]
+  exports: [CvcVariantsTableComponent],
 })
-export class CvcVariantsTableModule { }
+export class CvcVariantsTableModule {}

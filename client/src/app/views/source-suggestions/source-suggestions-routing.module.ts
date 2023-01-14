@@ -11,21 +11,21 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'home',
         component: SourceSuggestionsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SourceSuggestionsRoutingModule { }
+export class SourceSuggestionsRoutingModule {}

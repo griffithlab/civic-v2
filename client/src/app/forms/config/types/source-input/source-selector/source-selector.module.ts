@@ -21,6 +21,6 @@ import { CvcMultiFieldAddBtnTypeModule } from '@app/forms/config/types/multi-fie
     CvcSourceSelectorTypeaheadTypeModule,
     CvcMultiFieldAddBtnTypeModule,
   ],
-  exports: [SourceSelectorForm]
+  exports: [SourceSelectorForm],
 })
-export class CvcSourceSelectorFormModule { }
+export class CvcSourceSelectorFormModule {}

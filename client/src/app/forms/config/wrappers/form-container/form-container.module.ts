@@ -1,22 +1,22 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { ReactiveComponentModule } from "@ngrx/component";
-import { ConfigOption, FormlyModule } from "@ngx-formly/core";
-import { NzCardModule } from "ng-zorro-antd/card";
-import { NzCollapseModule } from "ng-zorro-antd/collapse";
-import { NzGridModule } from "ng-zorro-antd/grid";
-import { NgxJsonViewerModule } from "ngx-json-viewer";
-import { CvcFormInfoCardModule } from "../../components/form-info-card/form-info-card.module";
-import { FormContainerWrapper } from "./form-container.wrapper";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { ConfigOption, FormlyModule } from '@ngx-formly/core';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { CvcFormInfoCardModule } from '../../components/form-info-card/form-info-card.module';
+import { FormContainerWrapper } from './form-container.wrapper';
 
 const configOption: ConfigOption = {
   wrappers: [
     {
       name: 'form-container',
-      component: FormContainerWrapper
-    }
-  ]
-}
+      component: FormContainerWrapper,
+    },
+  ],
+};
 
 @NgModule({
   declarations: [FormContainerWrapper],
@@ -30,6 +30,6 @@ const configOption: ConfigOption = {
     CvcFormInfoCardModule,
     NgxJsonViewerModule,
   ],
-  exports: [FormContainerWrapper]
+  exports: [FormContainerWrapper],
 })
-export class CvcFormContainerWrapperModule { }
+export class CvcFormContainerWrapperModule {}

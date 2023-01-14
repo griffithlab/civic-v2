@@ -26,8 +26,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzButtonModule,
     NzSpinModule,
     NzSelectModule,
-    CvcFormErrorsAlertModule
+    CvcFormErrorsAlertModule,
   ],
-  exports: [CvcUserProfileForm]
+  exports: [CvcUserProfileForm],
 })
 export class CvcUserProfileFormModule {}

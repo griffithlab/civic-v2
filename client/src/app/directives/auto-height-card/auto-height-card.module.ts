@@ -4,9 +4,7 @@ import { CvcAutoHeightCardDirective } from './auto-height-card.directive';
 
 @NgModule({
   declarations: [CvcAutoHeightCardDirective],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [CvcAutoHeightCardDirective],
 })
-export class CvcAutoHeightCardModule { }
+export class CvcAutoHeightCardModule {}

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentableEntities, CommentableInput } from '@app/generated/civic.apollo';
+import {
+  CommentableEntities,
+  CommentableInput,
+} from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-variants-comments',
@@ -8,13 +11,13 @@ import { CommentableEntities, CommentableInput } from '@app/generated/civic.apol
   styleUrls: ['./variants-comments.page.less'],
 })
 export class VariantsCommentsPage {
-  commentable: CommentableInput
+  commentable: CommentableInput;
 
   constructor(private route: ActivatedRoute) {
     const variantId: number = +this.route.snapshot.params['variantId'];
     this.commentable = {
       id: variantId,
-      entityType: CommentableEntities.Variant
-    }
+      entityType: CommentableEntities.Variant,
+    };
   }
 }

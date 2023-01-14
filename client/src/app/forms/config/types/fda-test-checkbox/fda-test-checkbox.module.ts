@@ -8,7 +8,7 @@ import { fdaTestCheckboxTypeOption } from './fda-test-checkbox.type';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild({types: [fdaTestCheckboxTypeOption]}),
-  ]
+    FormlyModule.forChild({ types: [fdaTestCheckboxTypeOption] }),
+  ],
 })
-export class CvcFdaTestCheckboxTypeModule { }
+export class CvcFdaTestCheckboxTypeModule {}

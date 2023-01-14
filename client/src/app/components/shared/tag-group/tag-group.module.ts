@@ -4,9 +4,7 @@ import { CvcTagGroupComponent } from './tag-group.component';
 
 @NgModule({
   declarations: [CvcTagGroupComponent],
-  imports: [
-    CommonModule,
-  ],
-  exports: [CvcTagGroupComponent]
+  imports: [CommonModule],
+  exports: [CvcTagGroupComponent],
 })
-export class CvcTagGroupModule { }
+export class CvcTagGroupModule {}

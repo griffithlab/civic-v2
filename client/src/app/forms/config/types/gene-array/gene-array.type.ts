@@ -11,21 +11,22 @@ export const geneArrayTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Gene',
-      helpText: 'Entrez Gene name (e.g. BRAF). Gene name must be known to the Entrez database.',
+      helpText:
+        'Entrez Gene name (e.g. BRAF). Gene name must be known to the Entrez database.',
       required: false,
       addText: 'Specify a Gene',
     },
     fieldArray: {
       type: 'cvc-gene-input',
       templateOptions: {
-        required: false
-      }
+        required: false,
+      },
     },
     defaultValue: [],
     validation: {
       messages: {
-        required: requiredValidationMsgFn
+        required: requiredValidationMsgFn,
       },
     },
-  }
-}
+  },
+};

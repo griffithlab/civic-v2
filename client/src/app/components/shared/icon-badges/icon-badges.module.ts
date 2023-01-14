@@ -5,10 +5,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcIconBadgesComponent],
-  imports: [
-    CommonModule,
-    CvcPipesModule,
-  ],
+  imports: [CommonModule, CvcPipesModule],
   exports: [CvcIconBadgesComponent],
 })
-export class CvcIconBadgesModule { }
+export class CvcIconBadgesModule {}

@@ -18,6 +18,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzTableModule,
     NzTypographyModule,
   ],
-  exports: [CvcMyGeneInfoComponent]
+  exports: [CvcMyGeneInfoComponent],
 })
-export class CvcMyGeneInfoModule { }
+export class CvcMyGeneInfoModule {}

@@ -15,14 +15,14 @@ const routes: Routes = [
         path: 'home',
         component: PhenotypesHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':phenotypeId',
         component: PhenotypesDetailComponent,
         data: {
-          breadcrumb: 'DISPLAYNAME'
+          breadcrumb: 'DISPLAYNAME',
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -30,17 +30,17 @@ const routes: Routes = [
             path: 'summary',
             component: PhenotypesSummaryComponent,
             data: {
-              breadcrumb: 'Summary'
-            }
-          }
-        ]
-      }
-    ]
-  }
+              breadcrumb: 'Summary',
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PhenotypesRoutingModule { }
+export class PhenotypesRoutingModule {}

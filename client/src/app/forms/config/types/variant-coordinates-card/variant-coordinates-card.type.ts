@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import {TypeOption} from "@ngx-formly/core/lib/models";
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 @Component({
   selector: 'cvc-variant-coordinates-card-type',
@@ -10,12 +10,12 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
 export class VariantCoordinatesCardType extends FieldType<any> {
   defaultOptions = {
     templateOptions: {
-      isFusionVariant: false
-    }
-  }
+      isFusionVariant: false,
+    },
+  };
 }
 
 export const VariantCoordinatesCardTypeOption: TypeOption = {
   name: 'variant-coordinates-card',
   component: VariantCoordinatesCardType,
-}
+};

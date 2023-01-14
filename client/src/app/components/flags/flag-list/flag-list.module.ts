@@ -54,7 +54,9 @@ import { FlagListComponent } from './flag-list.component';
     NzIconModule,
     NzInputModule,
     FormsModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
     CvcOrgSelectorBtnGroupModule,
     CvcSourceTagModule,
     CvcUserTagModule,
@@ -70,8 +72,8 @@ import { FlagListComponent } from './flag-list.component';
     ReactiveComponentModule,
     CvcResolveFlagFormModule,
     NzDividerModule,
-    CvcCommentBodyModule
+    CvcCommentBodyModule,
   ],
-  exports: [FlagListComponent]
+  exports: [FlagListComponent],
 })
-export class FlagListModule { }
+export class FlagListModule {}

@@ -10,8 +10,6 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { EvidenceAddRoutingModule } from './evidence-add-routing.module';
 import { EvidenceAddView } from './evidence-add.view';
 
-
-
 @NgModule({
   declarations: [EvidenceAddView],
   imports: [
@@ -26,6 +24,6 @@ import { EvidenceAddView } from './evidence-add.view';
     CvcLoginPromptModule,
     CvcSectionNavigationModule,
     CvcPipesModule,
-  ]
+  ],
 })
-export class EvidenceAddModule { }
+export class EvidenceAddModule {}

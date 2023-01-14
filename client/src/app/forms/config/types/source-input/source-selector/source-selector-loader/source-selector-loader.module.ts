@@ -17,6 +17,6 @@ import { SourceSelectorLoaderComponent } from './source-selector-loader.componen
     CvcFormErrorsAlertModule,
     NzButtonModule,
   ],
-  exports: [SourceSelectorLoaderComponent]
+  exports: [SourceSelectorLoaderComponent],
 })
-export class SourceSelectorLoaderModule { }
+export class SourceSelectorLoaderModule {}

@@ -5,9 +5,6 @@ import { CvcRevisionsListAndFilterModule } from '@app/components/revisions/revis
 
 @NgModule({
   declarations: [EvidenceRevisionsPage],
-  imports: [
-    CommonModule,
-    CvcRevisionsListAndFilterModule
-  ]
+  imports: [CommonModule, CvcRevisionsListAndFilterModule],
 })
-export class EvidenceRevisionsModule { }
+export class EvidenceRevisionsModule {}

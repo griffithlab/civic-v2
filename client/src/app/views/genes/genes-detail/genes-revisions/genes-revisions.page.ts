@@ -9,17 +9,15 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./genes-revisions.page.less'],
 })
 export class GenesRevisionsPage implements OnDestroy {
-  geneId!: number
-  entityType!: ModeratedEntities
-  
-  routeSub: Subscription
+  geneId!: number;
+  entityType!: ModeratedEntities;
 
-  constructor(
-    private route: ActivatedRoute
-  ) {
+  routeSub: Subscription;
+
+  constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.geneId = +params.geneId;
-      this.entityType = ModeratedEntities['Gene']
+      this.entityType = ModeratedEntities['Gene'];
     });
   }
 

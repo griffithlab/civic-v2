@@ -6,23 +6,19 @@ import { startWith, pluck } from 'rxjs/operators';
 @Component({
   selector: 'cvc-releases-main',
   templateUrl: './releases-main.component.html',
-  styleUrls: ['./releases-main.component.less']
+  styleUrls: ['./releases-main.component.less'],
 })
 export class ReleasesMainComponent implements OnInit {
-
   loading$?: Observable<boolean>;
-  releases$?: Observable<ReleaseFragment[]>
+  releases$?: Observable<ReleaseFragment[]>;
 
-  constructor(private gql: DataReleasesGQL) { }
+  constructor(private gql: DataReleasesGQL) {}
 
   ngOnInit(): void {
-    let queryRef = this.gql.watch().valueChanges
+    let queryRef = this.gql.watch().valueChanges;
 
-    this.loading$ = queryRef.pipe(
-      pluck('loading'),
-      startWith(true)
-    );
+    this.loading$ = queryRef.pipe(pluck('loading'), startWith(true));
 
-    this.releases$ = queryRef.pipe(pluck('data', 'dataReleases'))
+    this.releases$ = queryRef.pipe(pluck('data', 'dataReleases'));
   }
 }

@@ -8,8 +8,8 @@ import { EventFeedMode } from '@app/generated/civic.apollo';
   styleUrls: ['./organizations-events.component.less'],
 })
 export class OrganizationsEventsComponent {
-  organizationId: number
-  mode = EventFeedMode.Organization
+  organizationId: number;
+  mode = EventFeedMode.Organization;
 
   constructor(private route: ActivatedRoute) {
     this.organizationId = +this.route.snapshot.params['organizationId'];

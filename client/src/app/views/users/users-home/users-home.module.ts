@@ -25,6 +25,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcUsersTableModule,
     CvcPipesModule,
   ],
-  exports: [UsersHomePage]
+  exports: [UsersHomePage],
 })
-export class UsersHomeModule { }
+export class UsersHomeModule {}

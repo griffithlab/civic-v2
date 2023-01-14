@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./users-evidence.component.less'],
 })
 export class UsersEvidenceComponent {
-  userId: number
+  userId: number;
 
   constructor(private route: ActivatedRoute) {
     this.userId = +this.route.snapshot.params['userId'];

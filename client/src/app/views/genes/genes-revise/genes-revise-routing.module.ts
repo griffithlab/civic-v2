@@ -15,17 +15,14 @@ const routes: Routes = [
         path: 'suggest',
         component: GenesSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    GenesSuggestModule
-  ]
+  imports: [RouterModule.forChild(routes), GenesSuggestModule],
 })
 export class GenesReviseRoutingModule {}

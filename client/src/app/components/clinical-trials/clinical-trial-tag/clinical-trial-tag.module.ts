@@ -19,6 +19,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcClinicalTrialPopoverModule,
     CvcPipesModule,
   ],
-  exports: [CvcClinicalTrialTagComponent]
+  exports: [CvcClinicalTrialTagComponent],
 })
-export class CvcClinicalTrialTagModule { }
+export class CvcClinicalTrialTagModule {}

@@ -25,6 +25,6 @@ import { CvcTherapiesTableModule } from '@app/components/therapies/therapies-tab
     CvcSectionNavigationModule,
     CvcTherapiesTableModule,
   ],
-  exports: [TherapiesHomePage]
+  exports: [TherapiesHomePage],
 })
-export class TherapiesHomeModule { }
+export class TherapiesHomeModule {}

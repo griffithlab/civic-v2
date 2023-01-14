@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-variant-types-summary',
   templateUrl: './variant-types-summary.component.html',
-  styleUrls: ['./variant-types-summary.component.less']
+  styleUrls: ['./variant-types-summary.component.less'],
 })
 export class VariantTypesSummaryComponent implements OnDestroy {
   variantTypeId?: number;
@@ -14,7 +14,7 @@ export class VariantTypesSummaryComponent implements OnDestroy {
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.variantTypeId = +params.variantTypeId;
-    })
+    });
   }
 
   ngOnDestroy() {

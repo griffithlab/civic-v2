@@ -19,6 +19,6 @@ import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avat
     CvcLinkTagModule,
     CvcUserAvatarModule,
   ],
-  exports: [CvcOrganizationPopoverComponent]
+  exports: [CvcOrganizationPopoverComponent],
 })
-export class CvcOrganizationPopoverModule { }
+export class CvcOrganizationPopoverModule {}

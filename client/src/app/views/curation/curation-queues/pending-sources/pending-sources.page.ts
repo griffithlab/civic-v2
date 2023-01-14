@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './pending-sources.page.html',
 })
 export class PendingSourcesPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

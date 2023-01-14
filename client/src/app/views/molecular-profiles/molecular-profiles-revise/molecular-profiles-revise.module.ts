@@ -10,7 +10,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { MolecularProfilesReviseRoutingModule } from './molecular-profiles-routing.module';
 
-
 @NgModule({
   declarations: [MolecularProfilesReviseView],
   imports: [
@@ -21,7 +20,7 @@ import { MolecularProfilesReviseRoutingModule } from './molecular-profiles-routi
     CvcSectionNavigationModule,
     CvcLoginPromptModule,
     ReactiveComponentModule,
-    NzGridModule
-  ]
+    NzGridModule,
+  ],
 })
-export class MolecularProfilesReviseModule { }
+export class MolecularProfilesReviseModule {}

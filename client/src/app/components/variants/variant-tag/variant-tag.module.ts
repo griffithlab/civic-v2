@@ -21,6 +21,6 @@ import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-bad
     CvcVariantPopoverModule,
     CvcIconBadgesModule,
   ],
-  exports: [CvcVariantTagComponent]
+  exports: [CvcVariantTagComponent],
 })
-export class CvcVariantTagModule { }
+export class CvcVariantTagModule {}

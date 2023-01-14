@@ -41,8 +41,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
-    CvcCommentInputFormModule
+    CvcCommentInputFormModule,
   ],
-  exports: [CvcUpdateSourceSuggestionForm]
+  exports: [CvcUpdateSourceSuggestionForm],
 })
-export class CvcUpdateSourceSuggestionFormModule { }
+export class CvcUpdateSourceSuggestionFormModule {}

@@ -5,9 +5,9 @@ query GenePopover($geneId: Int!) {
 }
 
 fragment genePopover on Gene {
-  id,
-  name,
-  officialName,
+  id
+  name
+  officialName
   geneAliases
   variants {
     totalCount

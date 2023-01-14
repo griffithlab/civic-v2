@@ -13,11 +13,10 @@ export class EvidenceSuggestPage implements OnDestroy {
   constructor(private route: ActivatedRoute) {
     this.routeParams$ = this.route.params.subscribe((params) => {
       this.evidenceId = +params.evidenceId;
-    })
+    });
   }
 
   ngOnDestroy(): void {
     this.routeParams$.unsubscribe();
   }
-
 }

@@ -21,6 +21,6 @@ import { CvcStatsCardComponent } from './stats-card.component';
     NzCardModule,
     CvcPipesModule,
   ],
-  exports: [CvcStatsCardComponent]
+  exports: [CvcStatsCardComponent],
 })
-export class CvcStatsCardModule { }
+export class CvcStatsCardModule {}

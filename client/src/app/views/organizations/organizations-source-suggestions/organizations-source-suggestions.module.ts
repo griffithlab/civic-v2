@@ -5,9 +5,6 @@ import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggesti
 
 @NgModule({
   declarations: [OrganizationsSourceSuggestionsComponent],
-  imports: [
-    CommonModule,
-    CvcSourceSuggestionsTableModule,
-  ]
+  imports: [CommonModule, CvcSourceSuggestionsTableModule],
 })
-export class OrganizationsSourceSuggestionsModule { }
+export class OrganizationsSourceSuggestionsModule {}

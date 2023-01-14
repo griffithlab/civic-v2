@@ -1,7 +1,7 @@
 query VariantTypeahead($name: String!, $geneId: Int) {
   variants(name: $name, geneId: $geneId, first: 20) {
     nodes {
-      ... VariantTypeaheadFields
+      ...VariantTypeaheadFields
     }
   }
 }
@@ -19,7 +19,7 @@ fragment VariantTypeaheadFields on Variant {
 }
 
 mutation AddVariant($name: String!, $geneId: Int!) {
-  addVariant(input: {name: $name, geneId: $geneId}) {
+  addVariant(input: { name: $name, geneId: $geneId }) {
     ...AddVariantFields
   }
 }
@@ -42,11 +42,10 @@ fragment AddVariantFields on AddVariantPayload {
 query VariantSelect($name: String!, $geneId: Int) {
   variants(name: $name, first: 20, geneId: $geneId) {
     nodes {
-      ... VariantTypeaheadFields
+      ...VariantTypeaheadFields
     }
   }
 }
-
 
 fragment VariantSelectFields on Variant {
   id

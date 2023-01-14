@@ -16,4 +16,4 @@ export class FieldErrorsWrapper extends FieldWrapper {
 export const FieldErrorsWrapperOption: WrapperOption = {
   name: 'cvc-field-errors',
   component: FieldErrorsWrapper,
-}
+};

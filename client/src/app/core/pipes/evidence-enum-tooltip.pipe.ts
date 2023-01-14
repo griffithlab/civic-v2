@@ -4,19 +4,19 @@ import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-
 
 @Pipe({
   name: 'enumTooltip',
-  pure: true
+  pure: true,
 })
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(
     value: string | symbol | number, // value of attribute
     name: string | symbol, // name of entity attribute
     // optional contextual type (evidence/assertionType)
-    contextType: Maybe<symbol>  = undefined,
+    contextType: Maybe<symbol> = undefined,
     // optional contextual entity ('Assertion' or 'EvidenceType')
     contextEntity: Maybe<string> = undefined
   ) {
-    if(!name) return ''
-    if(!value) return ''
-    return getEvidenceEnumTooltip(name, value, contextType, contextEntity)
+    if (!name) return '';
+    if (!value) return '';
+    return getEvidenceEnumTooltip(name, value, contextType, contextEntity);
   }
 }

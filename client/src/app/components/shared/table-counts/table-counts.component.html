@@ -1,7 +1,8 @@
 <span
-  *ngIf="(tableCountsInfo$ | ngrxPush) as tci"
+  *ngIf="tableCountsInfo$ | ngrxPush as tci"
   class="table-counts"
   nz-typography
-  nzType="secondary">
+  nzType="secondary"
+>
   {{ tci.edgeCount | number }} of {{ tci.filteredCount | number }} displayed
 </span>

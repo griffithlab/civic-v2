@@ -8,12 +8,7 @@ import { CommunityHomePage } from './community-home.page';
 
 @NgModule({
   declarations: [CommunityHomePage],
-  imports: [
-    CommonModule,
-    NzPageHeaderModule,
-    NzIconModule,
-    NzGridModule,
-  ],
-  exports: [CommunityHomePage]
+  imports: [CommonModule, NzPageHeaderModule, NzIconModule, NzGridModule],
+  exports: [CommunityHomePage],
 })
-export class CommunityHomeModule { }
+export class CommunityHomeModule {}

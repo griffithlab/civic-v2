@@ -8,10 +8,10 @@ import {
 } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 
-function NccnVersionValidator(control: AbstractControl): ValidationErrors | null {
-  return /^\d{1,2}\.\d{4}$/.test(control.value)
-    ? {'format': true}
-    : null;
+function NccnVersionValidator(
+  control: AbstractControl
+): ValidationErrors | null {
+  return /^\d{1,2}\.\d{4}$/.test(control.value) ? { format: true } : null;
 }
 
 @NgModule({
@@ -20,9 +20,7 @@ function NccnVersionValidator(control: AbstractControl): ValidationErrors | null
     ReactiveFormsModule,
     FormlyModule.forChild({
       types: [nccnVersionInputTypeOption],
-      validators: [
-        { name: 'format', validation: NccnVersionValidator }
-      ],
+      validators: [{ name: 'format', validation: NccnVersionValidator }],
       validationMessages: [
         {
           name: 'format',

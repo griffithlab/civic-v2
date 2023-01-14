@@ -8,16 +8,18 @@ export type InputEnum = EvidenceLevel;
 
 @Pipe({
   name: 'evidenceLevelDisplay',
-  pure: true
+  pure: true,
 })
 export class EvidenceLevelDisplayPipe implements PipeTransform {
-  transform(value: Maybe<EvidenceLevel>, context: EnumOutputStyle = 'display-string') : string {
-    if(value === undefined) return ''
+  transform(
+    value: Maybe<EvidenceLevel>,
+    context: EnumOutputStyle = 'display-string'
+  ): string {
+    if (value === undefined) return '';
     if (context === 'display-string') {
       return formatEvidenceLevelEnum(value);
     } else {
-      return `civic-${value.replace(/_/g, '').toLowerCase()}`
+      return `civic-${value.replace(/_/g, '').toLowerCase()}`;
     }
   }
-
 }

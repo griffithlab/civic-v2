@@ -10,7 +10,7 @@ import { therapyInteractionSelectTypeOption } from './therapy-interaction-select
     CommonModule,
     ReactiveFormsModule,
     FormlySelectModule,
-    FormlyModule.forChild({ types: [therapyInteractionSelectTypeOption] })
-  ]
+    FormlyModule.forChild({ types: [therapyInteractionSelectTypeOption] }),
+  ],
 })
-export class CvcTherapyInteractionSelectTypeModule { }
+export class CvcTherapyInteractionSelectTypeModule {}

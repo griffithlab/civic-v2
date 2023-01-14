@@ -42,8 +42,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CvcEventTimelineModule,
     CvcPipesModule,
     CvcParticipantListModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
-  exports: [CvcEventFeedComponent]
+  exports: [CvcEventFeedComponent],
 })
-export class CvcEventFeedModule { }
+export class CvcEventFeedModule {}

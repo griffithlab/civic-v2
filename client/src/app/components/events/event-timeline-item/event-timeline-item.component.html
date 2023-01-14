@@ -1,53 +1,95 @@
 <!-- display full description row unless Comment type -->
-<nz-row class="timeline-item" *ngIf="event.originatingObject; else noOriginating">
-
+<nz-row
+  class="timeline-item"
+  *ngIf="event.originatingObject; else noOriginating"
+>
   <!-- default to full description -->
   <nz-col nzFlex="auto" class="description">
-
     <!-- user tag -->
-    <cvc-user-tag [user]="event.originatingUser" *ngIf="tagDisplay != 'hideUser'"></cvc-user-tag>
+    <cvc-user-tag
+      [user]="event.originatingUser"
+      *ngIf="tagDisplay != 'hideUser'"
+    ></cvc-user-tag>
 
     <!-- verb -->
-    <span nz-typography>{{ event.action | eventVerbiage:'feed' }}&nbsp;</span>
+    <span nz-typography>{{ event.action | eventVerbiage : "feed" }}&nbsp;</span>
 
     <!-- originating object -->
     <ng-container *ngIf="event.originatingObject as object">
       <ng-container [ngSwitch]="object.__typename">
         <span *ngSwitchCase="'Revision'">
-          <cvc-revision-tag [revision]="$any(object)" [subject]="event.subject"></cvc-revision-tag>
-          <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
-            }}&nbsp;</span>
+          <cvc-revision-tag
+            [revision]="$any(object)"
+            [subject]="event.subject"
+          ></cvc-revision-tag>
+          <span nz-typography *ngIf="tagDisplay != 'hideSubject'"
+            >{{ event.action | prepositionForSubject }}&nbsp;</span
+          >
         </span>
         <span *ngSwitchCase="'Comment'">
-          <cvc-comment-tag [comment]="object" [subject]="event.subject"></cvc-comment-tag>
-          <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
-            }}&nbsp;</span>
+          <cvc-comment-tag
+            [comment]="object"
+            [subject]="event.subject"
+          ></cvc-comment-tag>
+          <span nz-typography *ngIf="tagDisplay != 'hideSubject'"
+            >{{ event.action | prepositionForSubject }}&nbsp;</span
+          >
         </span>
         <span *ngSwitchCase="'Flag'">
-          <cvc-flag-tag [flag]="object" [subject]="event.subject"></cvc-flag-tag>
-          <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
-            }}&nbsp;</span>
+          <cvc-flag-tag
+            [flag]="object"
+            [subject]="event.subject"
+          ></cvc-flag-tag>
+          <span nz-typography *ngIf="tagDisplay != 'hideSubject'"
+            >{{ event.action | prepositionForSubject }}&nbsp;</span
+          >
         </span>
         <span *ngSwitchCase="'SourceSuggestion'">
-          <nz-tag style="cursor: pointer;" [routerLink]="object.link">
+          <nz-tag style="cursor: pointer" [routerLink]="object.link">
             {{ object.name }}
           </nz-tag>
-          <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
-            }}&nbsp;</span>
+          <span nz-typography *ngIf="tagDisplay != 'hideSubject'"
+            >{{ event.action | prepositionForSubject }}&nbsp;</span
+          >
         </span>
       </ng-container>
     </ng-container>
 
     <!-- subject -->
-    <ng-container *ngIf="tagDisplay != 'hideSubject' && event.subject as subject" [ngSwitch]="subject.__typename">
+    <ng-container
+      *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
+      [ngSwitch]="subject.__typename"
+    >
       <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="subject"></cvc-gene-tag>
-      <cvc-assertion-tag *ngSwitchCase="'Assertion'" [assertion]="subject"></cvc-assertion-tag>
-      <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [evidence]="subject"></cvc-evidence-tag>
-      <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="subject"></cvc-variant-tag>
-      <cvc-revision-tag *ngSwitchCase="'Revision'" [revision]="$any(subject)"></cvc-revision-tag>
-      <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'" [variantgroup]="subject"></cvc-variant-group-tag>
-      <cvc-source-tag *ngSwitchCase="'Source'" mode="concise" [source]="$any(subject)"></cvc-source-tag>
-      <cvc-molecular-profile-tag *ngSwitchCase="'MolecularProfile'" [molecularProfile]="subject"></cvc-molecular-profile-tag>
+      <cvc-assertion-tag
+        *ngSwitchCase="'Assertion'"
+        [assertion]="subject"
+      ></cvc-assertion-tag>
+      <cvc-evidence-tag
+        *ngSwitchCase="'EvidenceItem'"
+        [evidence]="subject"
+      ></cvc-evidence-tag>
+      <cvc-variant-tag
+        *ngSwitchCase="'Variant'"
+        [variant]="subject"
+      ></cvc-variant-tag>
+      <cvc-revision-tag
+        *ngSwitchCase="'Revision'"
+        [revision]="$any(subject)"
+      ></cvc-revision-tag>
+      <cvc-variant-group-tag
+        *ngSwitchCase="'VariantGroup'"
+        [variantgroup]="subject"
+      ></cvc-variant-group-tag>
+      <cvc-source-tag
+        *ngSwitchCase="'Source'"
+        mode="concise"
+        [source]="$any(subject)"
+      ></cvc-source-tag>
+      <cvc-molecular-profile-tag
+        *ngSwitchCase="'MolecularProfile'"
+        [molecularProfile]="subject"
+      ></cvc-molecular-profile-tag>
       <span *ngSwitchDefault>{{ subject.name }}</span>
     </ng-container>
 
@@ -56,10 +98,13 @@
       <span nz-typography>for&nbsp;</span>
       <cvc-organization-tag [org]="org"></cvc-organization-tag>
     </ng-container>
-
   </nz-col>
   <nz-col nzFlex="100px" class="timestamp">
-    <span nz-tooltip nzTooltipPlacement="top" [nzTooltipTitle]="event.createdAt | date">
+    <span
+      nz-tooltip
+      nzTooltipPlacement="top"
+      [nzTooltipTitle]="event.createdAt | date"
+    >
       {{ event.createdAt | timeago }}
     </span>
   </nz-col>

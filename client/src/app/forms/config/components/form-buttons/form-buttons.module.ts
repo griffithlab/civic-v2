@@ -4,9 +4,7 @@ import { CvcFormButtonsComponent } from './form-buttons.component';
 
 @NgModule({
   declarations: [CvcFormButtonsComponent],
-  imports: [
-    CommonModule,
-  ],
-  exports: [CvcFormButtonsComponent]
+  imports: [CommonModule],
+  exports: [CvcFormButtonsComponent],
 })
-export class CvcFormButtonsModule { }
+export class CvcFormButtonsModule {}

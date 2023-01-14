@@ -5,10 +5,7 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 
 @NgModule({
   declarations: [VariantsCommentsPage],
-  imports: [
-    CommonModule,
-    CvcCommentListModule
-  ],
+  imports: [CommonModule, CvcCommentListModule],
   exports: [VariantsCommentsPage],
 })
-export class VariantsCommentsModule { }
+export class VariantsCommentsModule {}

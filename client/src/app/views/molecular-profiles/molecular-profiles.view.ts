@@ -5,6 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './molecular-profiles.view.html',
 })
 export class MolecularProfilesView {
-  constructor() { }
+  constructor() {}
 }
-

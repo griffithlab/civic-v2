@@ -50,9 +50,7 @@ import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-di
     EntityColorPipe,
     DevRandomBoolPipe,
   ],
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
   exports: [
     AmpFormatPipe,
     CamelCaseToWordPipe,
@@ -79,8 +77,6 @@ import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-di
     EntityColorPipe,
     DevRandomBoolPipe,
   ],
-  providers: [
-    SourceTypeDisplayPipe
-  ]
+  providers: [SourceTypeDisplayPipe],
 })
-export class CvcPipesModule { }
+export class CvcPipesModule {}

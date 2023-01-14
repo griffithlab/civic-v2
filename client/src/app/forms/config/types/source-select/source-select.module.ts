@@ -14,17 +14,16 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 
 const configOption: ConfigOption = {
   types: [
-    { // source-select only
+    {
+      // source-select only
       name: 'source-select',
       component: SourceSelectType,
-      wrappers: ['form-field']
+      wrappers: ['form-field'],
     },
-  ]
-}
-@NgModule({
-  declarations: [
-    SourceSelectType
   ],
+};
+@NgModule({
+  declarations: [SourceSelectType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -36,6 +35,6 @@ const configOption: ConfigOption = {
     NzTagModule,
     CvcCitationSelectModule,
     CvcSourceTagModule,
-  ]
+  ],
 })
-export class CvcSourceSelectModule { }
+export class CvcSourceSelectModule {}

@@ -14,20 +14,20 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'home',
         component: VariantTypesHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':variantTypeId',
         component: VariantTypesDetailComponent,
         data: {
-          breadcrumb: 'DISPLAYNAME'
+          breadcrumb: 'DISPLAYNAME',
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -35,17 +35,17 @@ const routes: Routes = [
             path: 'summary',
             component: VariantTypesSummaryComponent,
             data: {
-              breadcrumb: 'Summary'
-            }
-          }
-        ]
-      }
-    ]
-  }
+              breadcrumb: 'Summary',
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class VariantTypesRoutingModule { }
+export class VariantTypesRoutingModule {}

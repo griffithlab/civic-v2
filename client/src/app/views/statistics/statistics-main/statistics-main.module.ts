@@ -7,11 +7,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [StatisticsMainComponent],
-  imports: [
-    CommonModule,
-    NzPageHeaderModule,
-    NzGridModule,
-    NzIconModule,
-  ]
+  imports: [CommonModule, NzPageHeaderModule, NzGridModule, NzIconModule],
 })
-export class StatisticsMainModule { }
+export class StatisticsMainModule {}

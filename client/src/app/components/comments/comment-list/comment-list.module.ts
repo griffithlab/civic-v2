@@ -33,6 +33,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcParticipantListModule,
     CvcCommentDisplayModule,
   ],
-  exports: [CvcCommentListComponent]
+  exports: [CvcCommentListComponent],
 })
-export class CvcCommentListModule { }
+export class CvcCommentListModule {}

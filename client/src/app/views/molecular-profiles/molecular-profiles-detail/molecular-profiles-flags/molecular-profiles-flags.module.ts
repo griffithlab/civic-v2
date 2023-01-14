@@ -21,4 +21,4 @@ import { NzCardModule } from 'ng-zorro-antd/card';
   ],
   exports: [MolecularProfilesFlagsPage],
 })
-export class MolecularProfilesFlagsModule { }
+export class MolecularProfilesFlagsModule {}

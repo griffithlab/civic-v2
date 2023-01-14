@@ -3,24 +3,23 @@ import { Maybe, SubscribableInput } from '@app/generated/civic.apollo';
 import { Router } from '@angular/router';
 
 export interface RouteableTab {
-  routeName: string,
-  tabLabel: string,
-  iconName: string
-  badgeCount?: number
+  routeName: string;
+  tabLabel: string;
+  iconName: string;
+  badgeCount?: number;
 }
 
 @Component({
   selector: 'cvc-tab-navigation',
   templateUrl: './tab-navigation.component.html',
-  styleUrls: ['./tab-navigation.component.less']
+  styleUrls: ['./tab-navigation.component.less'],
 })
 export class CvcTabNavigationComponent {
   @Input() entity: Maybe<SubscribableInput>;
-  @Input() tabs: Maybe<RouteableTab[]>
-
+  @Input() tabs: Maybe<RouteableTab[]>;
 
   //May pass in an <ng-template #tabBarExtraContent> as a child element
-  @ContentChild('tabBarExtraContent') tabBarExtraContent?: TemplateRef<any>
+  @ContentChild('tabBarExtraContent') tabBarExtraContent?: TemplateRef<any>;
 
   selectedTabIndex: Maybe<number>;
 

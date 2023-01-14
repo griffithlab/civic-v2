@@ -5,10 +5,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcEntityTableCardComponent],
-  imports: [
-    CommonModule,
-    NzCardModule
-  ],
-  exports: [CvcEntityTableCardComponent]
+  imports: [CommonModule, NzCardModule],
+  exports: [CvcEntityTableCardComponent],
 })
-export class CvcEntityTableCardModule { }
+export class CvcEntityTableCardModule {}

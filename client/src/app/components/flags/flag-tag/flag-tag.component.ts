@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 export interface LinkableFlag {
-  id: number,
-  name: string,
-  link: string,
+  id: number;
+  name: string;
+  link: string;
 }
 
 export interface Subject {
-  id: number,
-  __typename: string
+  id: number;
+  __typename: string;
 }
 
 @Component({
@@ -16,16 +16,17 @@ export interface Subject {
   templateUrl: './flag-tag.component.html',
 })
 export class CvcFlagTagComponent implements OnInit {
-  @Input() flag!: LinkableFlag
-  @Input() subject?: Subject
-  @Input() enablePopover: Boolean = true
+  @Input() flag!: LinkableFlag;
+  @Input() subject?: Subject;
+  @Input() enablePopover: Boolean = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.flag === undefined) {
-      throw new Error('cvc-flag-tag requires LinkableFlag input, none supplied.')
+      throw new Error(
+        'cvc-flag-tag requires LinkableFlag input, none supplied.'
+      );
     }
   }
-
 }

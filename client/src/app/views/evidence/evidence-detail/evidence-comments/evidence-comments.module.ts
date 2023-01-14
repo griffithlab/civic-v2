@@ -5,9 +5,6 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 
 @NgModule({
   declarations: [EvidenceCommentsPage],
-  imports: [
-    CommonModule,
-    CvcCommentListModule
-  ]
+  imports: [CommonModule, CvcCommentListModule],
 })
-export class EvidenceCommentsModule { }
+export class EvidenceCommentsModule {}

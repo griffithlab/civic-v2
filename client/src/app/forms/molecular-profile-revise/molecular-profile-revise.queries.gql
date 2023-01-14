@@ -1,6 +1,6 @@
 query MolecularProfileRevisableFields($molecularProfileId: Int!) {
   molecularProfile(id: $molecularProfileId) {
-    ... RevisableMolecularProfileFields
+    ...RevisableMolecularProfileFields
   }
 }
 
@@ -16,7 +16,9 @@ fragment RevisableMolecularProfileFields on MolecularProfile {
   molecularProfileAliases
 }
 
-mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevisionInput!) {
+mutation SuggestMolecularProfileRevision(
+  $input: SuggestMolecularProfileRevisionInput!
+) {
   suggestMolecularProfileRevision(input: $input) {
     clientMutationId
     molecularProfile {

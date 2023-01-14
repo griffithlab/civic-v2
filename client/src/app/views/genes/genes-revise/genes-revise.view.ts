@@ -1,14 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { GeneDetailFieldsFragment, GeneDetailGQL, Maybe } from '@app/generated/civic.apollo';
+import {
+  GeneDetailFieldsFragment,
+  GeneDetailGQL,
+  Maybe,
+} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { map, pluck, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'genes-revise',
   templateUrl: './genes-revise.view.html',
-  styleUrls: ['./genes-revise.view.less']
+  styleUrls: ['./genes-revise.view.less'],
 })
 export class GenesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
@@ -36,17 +40,14 @@ export class GenesReviseView implements OnInit, OnDestroy {
       this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'));
 
       this.revisionsTotal$ = this.gene$.pipe(pluck('revisions', 'totalCount'));
-
     });
   }
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn));
   }
-
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
-
 }

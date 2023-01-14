@@ -76,6 +76,6 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcCancelButtonModule,
     CvcMolecularProfileInputTypeModule,
   ],
-  exports: [EvidenceReviseForm]
+  exports: [EvidenceReviseForm],
 })
-export class EvidenceReviseFormModule { }
+export class EvidenceReviseFormModule {}

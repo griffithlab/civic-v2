@@ -29,7 +29,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module';
 import { CvcEvidenceTableComponent } from './evidence-table.component';
 
-
 @NgModule({
   declarations: [CvcEvidenceTableComponent],
   imports: [
@@ -64,6 +63,6 @@ import { CvcEvidenceTableComponent } from './evidence-table.component';
     CvcTagOverflowModule,
     CvcMolecularProfileTagModule,
   ],
-  exports: [CvcEvidenceTableComponent]
+  exports: [CvcEvidenceTableComponent],
 })
-export class CvcEvidenceTableModule { }
+export class CvcEvidenceTableModule {}

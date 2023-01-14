@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './evidence.view.html',
 })
 export class EvidenceView {
-  constructor() { }
+  constructor() {}
 }

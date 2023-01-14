@@ -66,6 +66,6 @@ import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info
     NgxJsonViewerModule,
     CvcFormInfoWrapperModule,
   ],
-  exports: [GeneReviseForm]
+  exports: [GeneReviseForm],
 })
-export class GeneSuggestRevisionFormModule { }
+export class GeneSuggestRevisionFormModule {}

@@ -5,7 +5,7 @@ import {
   Renderer2,
   OnInit,
   AfterViewInit,
-  DoCheck
+  DoCheck,
 } from '@angular/core';
 //
 //
@@ -15,7 +15,9 @@ import {
   // tslint:disable-next-line: directive-selector
   selector: '[cvcAutoHeightDiv]',
 })
-export class CvcAutoHeightDivDirective implements OnInit, AfterViewInit, DoCheck {
+export class CvcAutoHeightDivDirective
+  implements OnInit, AfterViewInit, DoCheck
+{
   private _offset = 27;
   private divTop = 0;
 
@@ -27,9 +29,9 @@ export class CvcAutoHeightDivDirective implements OnInit, AfterViewInit, DoCheck
     }
   }
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngDoCheck(): void {
     const div = this.el.nativeElement;
@@ -61,5 +63,4 @@ export class CvcAutoHeightDivDirective implements OnInit, AfterViewInit, DoCheck
       div.style['overflow-y'] = 'auto';
     }
   }
-
 }

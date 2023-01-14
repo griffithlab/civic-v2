@@ -32,7 +32,9 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzTypographyModule,
     NzTimelineModule,
     NzGridModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
     CvcRevisionTagModule,
     CvcUserTagModule,
     CvcPipesModule,
@@ -46,6 +48,6 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcSourceTagModule,
     CvcEventTimelineItemModule,
   ],
-  exports: [CvcEventTimelineComponent]
+  exports: [CvcEventTimelineComponent],
 })
-export class CvcEventTimelineModule { }
+export class CvcEventTimelineModule {}

@@ -1,5 +1,5 @@
-query NccnGuidelineTypeahead($name: String!){
-  nccnGuidelinesTypeahead(queryTerm: $name){
+query NccnGuidelineTypeahead($name: String!) {
+  nccnGuidelinesTypeahead(queryTerm: $name) {
     id
     name
   }

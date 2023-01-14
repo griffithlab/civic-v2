@@ -55,8 +55,8 @@ import { CvcSourceSuggestionsTableComponent } from './source-suggestions-table.c
     CvcSourceTagModule,
     CvcUpdateSourceSuggestionFormModule,
     CvcUserTagModule,
-    CvcMolecularProfileTagModule
+    CvcMolecularProfileTagModule,
   ],
-  exports: [CvcSourceSuggestionsTableComponent]
+  exports: [CvcSourceSuggestionsTableComponent],
 })
-export class CvcSourceSuggestionsTableModule { }
+export class CvcSourceSuggestionsTableModule {}

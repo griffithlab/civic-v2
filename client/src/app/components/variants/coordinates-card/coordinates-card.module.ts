@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CvcCoordinatesCard} from './coordinates-card.component';
+import { CvcCoordinatesCard } from './coordinates-card.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
@@ -19,6 +19,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcLinkTagModule,
     CvcEmptyRevisableModule,
   ],
-  exports: [CvcCoordinatesCard]
+  exports: [CvcCoordinatesCard],
 })
-export class CvcCoordinatesCardModule { }
+export class CvcCoordinatesCardModule {}

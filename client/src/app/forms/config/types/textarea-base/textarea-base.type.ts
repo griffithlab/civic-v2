@@ -8,18 +8,15 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
   templateUrl: './textarea-base.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class TextareaBaseType extends FieldType<any> {
-  
-
   defaultOptions = {
     templateOptions: {
       autosize: {
         minRows: 2,
-        maxRows: 20
-      }
-    }
-  }
+        maxRows: 20,
+      },
+    },
+  };
 }
 
 export const texareaBaseTypeOption: TypeOption = {

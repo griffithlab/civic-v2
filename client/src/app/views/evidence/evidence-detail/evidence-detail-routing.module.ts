@@ -24,39 +24,39 @@ const routes: Routes = [
         path: 'summary',
         component: EvidenceSummaryPage,
         data: {
-          breadcrumb: 'Summary'
-        }
+          breadcrumb: 'Summary',
+        },
       },
       {
         path: 'comments',
         component: EvidenceCommentsPage,
         data: {
-          breadcrumb: 'Comments'
-        }
+          breadcrumb: 'Comments',
+        },
       },
       {
         path: 'revisions',
         component: EvidenceRevisionsPage,
         data: {
-          breadcrumb: 'Revisions'
-        }
+          breadcrumb: 'Revisions',
+        },
       },
       {
         path: 'flags',
         component: EvidenceFlagsPage,
         data: {
-          breadcrumb: 'Flags'
-        }
+          breadcrumb: 'Flags',
+        },
       },
       {
         path: 'events',
         component: EvidenceEventsPage,
         data: {
-          breadcrumb: 'Events'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Events',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -66,8 +66,8 @@ const routes: Routes = [
     EvidenceCommentsModule,
     EvidenceRevisionsModule,
     EvidenceFlagsModule,
-    EvidenceEventsModule
+    EvidenceEventsModule,
   ],
   exports: [RouterModule],
 })
-export class EvidenceDetailRoutingModule { }
+export class EvidenceDetailRoutingModule {}

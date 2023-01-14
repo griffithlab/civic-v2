@@ -11,7 +11,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
-
 @NgModule({
   declarations: [VariantsReviseView],
   imports: [
@@ -23,7 +22,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcSectionNavigationModule,
     CvcLoginPromptModule,
     ReactiveComponentModule,
-    NzGridModule
-  ]
+    NzGridModule,
+  ],
 })
-export class VariantsReviseModule { }
+export class VariantsReviseModule {}

@@ -1,5 +1,5 @@
 <nz-tag *ngIf="tagStatus" [nzColor]="tagStatus">
-  <ng-container [ngSwitch]="tagStatus" >
+  <ng-container [ngSwitch]="tagStatus">
     <i *ngSwitchCase="'success'" nz-icon nzType="check-circle"></i>
     <i *ngSwitchCase="'error'" nz-icon nzType="close-circle"></i>
     <i *ngSwitchCase="'warning'" nz-icon nzType="exclamation-circle"></i>

@@ -1,29 +1,36 @@
 <nz-form-item>
   <!-- providing #cardExtra here probably won't work as intended -->
-  <nz-form-control class="cvc-form-card-control" [nzValidateStatus]="errorState"
-    [nzErrorTip]="cardExtra">
-
-    <nz-card nzSize="small"
+  <nz-form-control
+    class="cvc-form-card-control"
+    [nzValidateStatus]="errorState"
+    [nzErrorTip]="cardExtra"
+  >
+    <nz-card
+      nzSize="small"
       nzType="inner"
       [nzTitle]="cardTitle"
-      [nzExtra]="cardExtra">
-        <ng-container #fieldComponent></ng-container>
+      [nzExtra]="cardExtra"
+    >
+      <ng-container #fieldComponent></ng-container>
     </nz-card>
     <!-- field label -->
     <ng-template #cardTitle>
-      <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
-        [nzFor]="id">
+      <nz-form-label
+        [nzRequired]="to.required && to.hideRequiredMarker !== true"
+        [nzFor]="id"
+      >
         {{ to.label }}
-        <i *ngIf="to.helpText"
+        <i
+          *ngIf="to.helpText"
           nzType="question-circle"
           nzTheme="fill"
           nz-tooltip
-          nzTooltipTitle="to.helpText"></i>
+          nzTooltipTitle="to.helpText"
+        ></i>
       </nz-form-label>
     </ng-template>
     <!-- field error or value description (future) -->
-    <ng-template #cardExtra
-      let-control>
+    <ng-template #cardExtra let-control>
       <!-- <div @helpMotion
            class="ant-form-item-explain ant-form-item-explain-connected"
            *ngIf="innerTip">
@@ -35,8 +42,10 @@
            </div>
            </div> -->
 
-      <formly-validation-message *ngIf="showError"
-        [field]="field"></formly-validation-message>
+      <formly-validation-message
+        *ngIf="showError"
+        [field]="field"
+      ></formly-validation-message>
     </ng-template>
   </nz-form-control>
 </nz-form-item>

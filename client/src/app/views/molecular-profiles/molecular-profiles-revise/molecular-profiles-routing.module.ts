@@ -5,7 +5,8 @@ import { MolecularProfilesSuggestModule } from './molecular-profiles-suggest/mol
 import { MolecularProfilesSuggestPage } from './molecular-profiles-suggest/molecular-profiles-suggest.page';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: MolecularProfilesReviseView,
     data: { breadcrumb: 'Revise' },
     children: [
@@ -14,11 +15,11 @@ const routes: Routes = [
         path: 'suggest',
         component: MolecularProfilesSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({

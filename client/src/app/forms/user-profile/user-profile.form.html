@@ -1,89 +1,96 @@
 <nz-card>
-  <nz-alert *ngIf="this.success" nzBanner nzMessage="Profile Updated" nzType="success" nzCloseable ></nz-alert>
-    <nz-form-item *ngIf="this.errorMessages.length > 0">
-      <cvc-form-errors-alert [errors]="this.errorMessages">
-      </cvc-form-errors-alert>
+  <nz-alert
+    *ngIf="this.success"
+    nzBanner
+    nzMessage="Profile Updated"
+    nzType="success"
+    nzCloseable
+  ></nz-alert>
+  <nz-form-item *ngIf="this.errorMessages.length > 0">
+    <cvc-form-errors-alert [errors]="this.errorMessages">
+    </cvc-form-errors-alert>
+  </nz-form-item>
+  <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+    <nz-form-item>
+      <nz-form-label nzRequired>Username</nz-form-label>
+      <input nz-input [(ngModel)]="this.username" style="width: 100%" />
     </nz-form-item>
-    <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
-      <nz-form-item>
-        <nz-form-label nzRequired>Username</nz-form-label>
-        <input nz-input [(ngModel)]="this.username"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Name</nz-form-label>
-        <input nz-input [(ngModel)]="this.name"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired>Email</nz-form-label>
-        <input nz-input [(ngModel)]="this.email"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>User Bio</nz-form-label>
-        <textarea nz-input rows="5" [(ngModel)]="this.bio"
-          style="width: 100%"
-        ></textarea>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Country</nz-form-label>
-        <nz-select [(ngModel)]="this.countryId" nzAllowClear nzShowSearch>
-          <nz-option *ngFor="let country of countries$ | ngrxPush" [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
-        </nz-select>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Area of Expertise</nz-form-label>
-        <nz-select [(ngModel)]="this.areaOfExpertise" nzAllowClear>
-          <nz-option nzLabel="Patient Advocate" nzValue="PATIENT_ADVOCATE"></nz-option>
-          <nz-option nzLabel="Clinical Scientist" nzValue="CLINICAL_SCIENTIST"></nz-option>
-          <nz-option nzLabel="Research Scientist" nzValue="RESEARCH_SCIENTIST"></nz-option>
-        </nz-select>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>ORCID Identifier</nz-form-label>
-        <input nz-input [(ngModel)]="this.orcid"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Personal Website</nz-form-label>
-        <input nz-input [(ngModel)]="this.url"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Twitter Handle</nz-form-label>
-        <input nz-input [(ngModel)]="this.twitterHandle"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Facebook Profile</nz-form-label>
-        <input nz-input [(ngModel)]="this.facebookProfile"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>LinkedIn Profile</nz-form-label>
-        <input nz-input [(ngModel)]="this.linkedinProfile"
-          style="width: 100%"
-        />
-      </nz-form-item>
-      <nz-form-item>
-        <button type="submit" 
-          nz-button
-          nzType="primary"
-          nzSize="small"
-          style="width: 100%;"
-          [disabled]="this.loading || !this.username || !this.email"
-          (click)="updateProfile()"
-          >
-          Update Profile
-        </button>
-      </nz-form-item>
-    </nz-spin>
+    <nz-form-item>
+      <nz-form-label>Name</nz-form-label>
+      <input nz-input [(ngModel)]="this.name" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>Email</nz-form-label>
+      <input nz-input [(ngModel)]="this.email" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>User Bio</nz-form-label>
+      <textarea
+        nz-input
+        rows="5"
+        [(ngModel)]="this.bio"
+        style="width: 100%"
+      ></textarea>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Country</nz-form-label>
+      <nz-select [(ngModel)]="this.countryId" nzAllowClear nzShowSearch>
+        <nz-option
+          *ngFor="let country of countries$ | ngrxPush"
+          [nzLabel]="country.name"
+          [nzValue]="country.id"
+        ></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Area of Expertise</nz-form-label>
+      <nz-select [(ngModel)]="this.areaOfExpertise" nzAllowClear>
+        <nz-option
+          nzLabel="Patient Advocate"
+          nzValue="PATIENT_ADVOCATE"
+        ></nz-option>
+        <nz-option
+          nzLabel="Clinical Scientist"
+          nzValue="CLINICAL_SCIENTIST"
+        ></nz-option>
+        <nz-option
+          nzLabel="Research Scientist"
+          nzValue="RESEARCH_SCIENTIST"
+        ></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>ORCID Identifier</nz-form-label>
+      <input nz-input [(ngModel)]="this.orcid" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Personal Website</nz-form-label>
+      <input nz-input [(ngModel)]="this.url" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Twitter Handle</nz-form-label>
+      <input nz-input [(ngModel)]="this.twitterHandle" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Facebook Profile</nz-form-label>
+      <input nz-input [(ngModel)]="this.facebookProfile" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>LinkedIn Profile</nz-form-label>
+      <input nz-input [(ngModel)]="this.linkedinProfile" style="width: 100%" />
+    </nz-form-item>
+    <nz-form-item>
+      <button
+        type="submit"
+        nz-button
+        nzType="primary"
+        nzSize="small"
+        style="width: 100%"
+        [disabled]="this.loading || !this.username || !this.email"
+        (click)="updateProfile()"
+      >
+        Update Profile
+      </button>
+    </nz-form-item>
+  </nz-spin>
 </nz-card>

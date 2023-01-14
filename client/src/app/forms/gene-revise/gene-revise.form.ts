@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  AfterViewInit,
+} from '@angular/core';
 
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
@@ -29,7 +35,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 
 export interface FormSource {
   id?: number;
-  sourceType?: SourceSource,
+  sourceType?: SourceSource;
   citationId?: string;
   citation?: string;
 }
@@ -53,14 +59,18 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() geneId!: number;
   private destroy$ = new Subject();
 
-  suggestRevisionMutator: MutatorWithState<SuggestGeneRevisionGQL, SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables>
+  suggestRevisionMutator: MutatorWithState<
+    SuggestGeneRevisionGQL,
+    SuggestGeneRevisionMutation,
+    SuggestGeneRevisionMutationVariables
+  >;
 
   geneRevisionInput!: SuggestGeneRevisionInput;
 
-  success: boolean = false
-  noNewRevisions: boolean = false
-  errorMessages: string[] = []
-  loading: boolean = false
+  success: boolean = false;
+  noNewRevisions: boolean = false;
+  errorMessages: string[] = [];
+  loading: boolean = false;
 
   formModel: Maybe<FormModel>;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});
@@ -74,14 +84,14 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
     private geneDetailGQL: GeneDetailGQL,
     private revisionsGQL: RevisionsGQL
   ) {
-    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService);
 
     this.formFields = [
       {
         key: 'fields',
         wrappers: ['form-container'],
         templateOptions: {
-          label: 'Suggest Gene Revision Form'
+          label: 'Suggest Gene Revision Form',
         },
         fieldGroup: [
           {
@@ -94,7 +104,8 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
             type: 'cvc-textarea',
             templateOptions: {
               label: 'Gene Description',
-              helpText: 'User-defined summary of the clinical relevance of this Gene. By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a></p><p>Should include:</p><ul><li>relevance to appropriate cancer(s)</li><li>treatment(s) related specifically to variants affecting this Gene</li></ul><p>May include relevant mechanistic information such as:</p><ul><li>pathway interactions</li><li>functional alterations caused by variants in this Gene (i.e., activating, loss-of-function, etc.)</li><li>normal functions key to its oncogenic properties.</li>',
+              helpText:
+                'User-defined summary of the clinical relevance of this Gene. By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a></p><p>Should include:</p><ul><li>relevance to appropriate cancer(s)</li><li>treatment(s) related specifically to variants affecting this Gene</li></ul><p>May include relevant mechanistic information such as:</p><ul><li>pathway interactions</li><li>functional alterations caused by variants in this Gene (i.e., activating, loss-of-function, etc.)</li><li>normal functions key to its oncogenic properties.</li>',
               placeholder: 'Enter a description for this gene.',
               required: false,
             },
@@ -106,7 +117,8 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
             templateOptions: {
               label: 'Gene Description Sources',
               addText: 'Add a Source',
-              helpText: 'Add any Sources used as references for this Gene\'s Description above.'
+              helpText:
+                "Add any Sources used as references for this Gene's Description above.",
             },
             fieldArray: {
               type: 'source-input',
@@ -129,33 +141,33 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
             key: 'cancel',
             type: 'cancel-button',
             templateOptions: {
-              redirectPath: '../..'
-            }
+              redirectPath: '../..',
+            },
           },
           {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
               submitLabel: 'Submit Gene Revision',
-              submitSize: 'large'
-            }
-          }
-        ]
-      }
+              submitSize: 'large',
+            },
+          },
+        ],
+      },
     ];
   }
 
   ngOnInit() {
-    console.log(this.geneId)
+    console.log(this.geneId);
   }
 
   ngAfterViewInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL
-      .fetch({ geneId: this.geneId }, {fetchPolicy: 'network-only'})
+      .fetch({ geneId: this.geneId }, { fetchPolicy: 'network-only' })
       .subscribe(
         ({ data: { gene } }) => {
-          console.log("gene")
+          console.log('gene');
           if (gene) {
             this.formModel = this.toFormModel(gene);
           }
@@ -167,7 +179,7 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
         },
         // complete
         () => {
-          console.log("complete")
+          console.log('complete');
           if (this.formOptions.updateInitialValue) {
             this.formOptions.updateInitialValue();
           }
@@ -175,9 +187,13 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
           // prompt fields to display any errors that exist in loaded evidenceItem
           this.formGroup.markAllAsTouched();
           // mark comment field as untouched, we don't want to show an error before the user interacts with the field
-          const commentFc: AbstractControl | null = this.formGroup.get('fields.comment');
-          if (commentFc) { commentFc.markAsUntouched() }
-        });
+          const commentFc: AbstractControl | null =
+            this.formGroup.get('fields.comment');
+          if (commentFc) {
+            commentFc.markAsUntouched();
+          }
+        }
+      );
   }
 
   toFormModel(gene: RevisableGeneFieldsFragment): FormModel {
@@ -185,55 +201,67 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
       fields: {
         ...gene,
         comment: this.formModel?.fields.comment,
-        organization: this.formModel?.fields.organization
+        organization: this.formModel?.fields.organization,
       },
-    }
+    };
   }
 
   submitRevision(formModel: Maybe<FormModel>): void {
-    let input = this.toRevisionInput(formModel)
-    if(input) {
-      let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
-        input: input
-      },
-      {
-        refetchQueries: [
-          {
-            query: this.geneDetailGQL.document,
-            variables: { geneId: this.geneId }
-          },
-          {
-            query: this.revisionsGQL.document,
-            variables: {
-                subject: {id: this.geneId, entityType: ModeratedEntities.Gene},
-                status: RevisionStatus.New
-              }
+    let input = this.toRevisionInput(formModel);
+    if (input) {
+      let state = this.suggestRevisionMutator.mutate(
+        this.suggestRevisionGQL,
+        {
+          input: input,
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.geneDetailGQL.document,
+              variables: { geneId: this.geneId },
+            },
+            {
+              query: this.revisionsGQL.document,
+              variables: {
+                subject: {
+                  id: this.geneId,
+                  entityType: ModeratedEntities.Gene,
+                },
+                status: RevisionStatus.New,
+              },
+            },
+          ],
+        },
+        (data) => {
+          if (
+            data.suggestGeneRevision?.results.every(
+              (r) => r.newlyCreated == false
+            )
+          ) {
+            this.noNewRevisions = true;
+            this.success = false;
           }
-        ]
-      },
-      (data) => {
-        if(data.suggestGeneRevision?.results.every(r => r.newlyCreated == false)) {
-          this.noNewRevisions = true
-          this.success = false
-        }       
-      })
+        }
+      );
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
-          this.success = true
+        if (res) {
+          this.success = true;
         }
-      })
+      });
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
-          this.errorMessages = errs
-          this.success = false
+        if (errs) {
+          this.errorMessages = errs;
+          this.success = false;
         }
-      })
+      });
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading;
+        });
     }
   }
 
@@ -246,11 +274,13 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
         organizationId: fields.organization?.id,
         fields: {
           description: toNullableString(model.fields.description),
-          sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
-        }
-      }
+          sourceIds: model.fields.sources.map((s: any) => {
+            return +s.id;
+          }),
+        },
+      };
     }
-    return undefined
+    return undefined;
   }
 
   ngOnDestroy(): void {

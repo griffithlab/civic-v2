@@ -58,4 +58,4 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
   ],
   exports: [VariantSubmitForm],
 })
-export class VariantSubmitFormModule { }
+export class VariantSubmitFormModule {}

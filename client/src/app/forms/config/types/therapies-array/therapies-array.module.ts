@@ -8,9 +8,9 @@ import { therapyArrayTypeOption } from './therapies-array.type';
 @NgModule({
   imports: [
     CommonModule,
-    FormlyModule.forChild({types: [therapyArrayTypeOption]}),
+    FormlyModule.forChild({ types: [therapyArrayTypeOption] }),
     CvcTherapyInputTypeModule,
     CvcMultiFieldTypeModule,
-  ]
+  ],
 })
-export class CvcTherapyArrayTypeModule { }
+export class CvcTherapyArrayTypeModule {}

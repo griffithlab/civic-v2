@@ -39,35 +39,35 @@ export class AssertionsDetailView implements OnDestroy {
   tabs$: BehaviorSubject<RouteableTab[]>;
   destroy$ = new Subject<void>();
   defaultTabs: RouteableTab[] = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary'
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments'
-      },
-      {
-        routeName: 'revisions',
-        iconName: 'civic-revision',
-        tabLabel: 'Revisions'
-      },
-      {
-        routeName: 'flags',
-        iconName: 'civic-flag',
-        tabLabel: 'Flags'
-      },
-      {
-        routeName: 'events',
-        iconName: 'civic-event',
-        tabLabel: 'Events'
-      }
-    ]
+    {
+      routeName: 'summary',
+      iconName: 'pic-left',
+      tabLabel: 'Summary',
+    },
+    {
+      routeName: 'comments',
+      iconName: 'civic-comment',
+      tabLabel: 'Comments',
+    },
+    {
+      routeName: 'revisions',
+      iconName: 'civic-revision',
+      tabLabel: 'Revisions',
+    },
+    {
+      routeName: 'flags',
+      iconName: 'civic-flag',
+      tabLabel: 'Flags',
+    },
+    {
+      routeName: 'events',
+      iconName: 'civic-event',
+      tabLabel: 'Events',
+    },
+  ];
 
-  errors: string[] = []
-  successMessage: Maybe<string>
+  errors: string[] = [];
+  successMessage: Maybe<string>;
 
   constructor(
     private gql: AssertionDetailGQL,
@@ -91,31 +91,29 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'));
 
-      this.assertion$.pipe(
-        pluck('revisions', 'totalCount'),
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (count) => {
-          this.tabs$.next(
-            this.defaultTabs.map((tab) => {
-              if (tab.tabLabel === 'Revisions') {
-                return {
-                  badgeCount: count as number,
-                  ...tab
+      this.assertion$
+        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .subscribe({
+          next: (count) => {
+            this.tabs$.next(
+              this.defaultTabs.map((tab) => {
+                if (tab.tabLabel === 'Revisions') {
+                  return {
+                    badgeCount: count as number,
+                    ...tab,
+                  };
+                } else {
+                  return tab;
                 }
-              }
-              else {
-                return tab
-              }
-            }
-          ))
-        }
-      })
+              })
+            );
+          },
+        });
 
       this.subscribable = {
         id: +params.assertionId,
-        entityType: SubscribableEntities.Assertion
-      }
+        entityType: SubscribableEntities.Assertion,
+      };
 
       this.viewer$ = this.viewerService.viewer$;
     });
@@ -128,9 +126,9 @@ export class AssertionsDetailView implements OnDestroy {
   }
 
   onRevertCompleted(res: true | string[]) {
-    if(res === true){
+    if (res === true) {
       this.errors = [];
-      this.successMessage = "Assertion reverted to submitted status.";
+      this.successMessage = 'Assertion reverted to submitted status.';
       this.queryRef?.refetch();
     } else {
       this.errors = res;
@@ -139,7 +137,7 @@ export class AssertionsDetailView implements OnDestroy {
   }
 
   onErrorBannerClose(err: string) {
-    this.errors = this.errors?.filter(e => e != err);
+    this.errors = this.errors?.filter((e) => e != err);
   }
 
   onSuccessBannerClose() {
@@ -147,7 +145,7 @@ export class AssertionsDetailView implements OnDestroy {
   }
 
   onModerateCompleted(res: EvidenceStatus | string[]) {
-    if(Array.isArray(res)) {
+    if (Array.isArray(res)) {
       this.errors = res;
       this.successMessage = undefined;
     } else {
@@ -156,5 +154,4 @@ export class AssertionsDetailView implements OnDestroy {
       this.queryRef?.refetch();
     }
   }
-
 }

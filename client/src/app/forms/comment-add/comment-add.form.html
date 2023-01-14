@@ -1,8 +1,13 @@
 <nz-card>
-  <nz-alert *ngIf="this.success" nzBanner nzMessage="Comment submitted" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-  <form nz-form
-    (ngSubmit)="submitComment()"
-    nzLayout="vertical">
+  <nz-alert
+    *ngIf="this.success"
+    nzBanner
+    nzMessage="Comment submitted"
+    nzType="success"
+    nzCloseable
+    (nzOnClose)="onSuccessBannerClose()"
+  ></nz-alert>
+  <form nz-form (ngSubmit)="submitComment()" nzLayout="vertical">
     <nz-form-item *ngIf="this.errorMessages.length > 0">
       <cvc-form-errors-alert [errors]="this.errorMessages">
       </cvc-form-errors-alert>
@@ -13,12 +18,14 @@
         <nz-form-control>
           <cvc-form-buttons>
             <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-              <button type="submit"
+              <button
+                type="submit"
                 nz-button
                 cvcOrgSelectorBtn
                 nzType="primary"
                 nzSize="small"
-                [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)">
+                [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)"
+              >
                 Add Comment
               </button>
             </cvc-org-selector-btn-group>

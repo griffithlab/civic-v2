@@ -24,7 +24,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzIconModule,
     NzButtonModule,
     NgxJsonViewerModule,
-    NzTagModule
+    NzTagModule,
   ],
 })
-export class CvcMultiFieldTypeModule { }
+export class CvcMultiFieldTypeModule {}

@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './assertion-submit.page.html',
 })
 export class AssertionSubmitPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

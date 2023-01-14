@@ -33,6 +33,6 @@ import { CvcVariantsMenuComponent } from './variants-menu.component';
     CvcVariantTagModule,
     CvcTagListModule,
   ],
-  exports: [CvcVariantsMenuComponent ]
+  exports: [CvcVariantsMenuComponent],
 })
-export class CvcVariantsMenuModule { }
+export class CvcVariantsMenuModule {}

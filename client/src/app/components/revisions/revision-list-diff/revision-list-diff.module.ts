@@ -17,8 +17,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzGridModule,
     NzTagModule,
     NzSpaceModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
-  exports: [RevisionListDiffComponent]
+  exports: [RevisionListDiffComponent],
 })
-export class RevisionListDiffModule { }
+export class RevisionListDiffModule {}

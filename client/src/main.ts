@@ -20,8 +20,9 @@ if (environment.production) {
   // unused variable usage (a convention)
   spy.show();
   // log everything, provide tag name to focus log on a single observable
-  spy.log()
+  spy.log();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => console.error(err));

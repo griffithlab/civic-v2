@@ -29,8 +29,8 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     CvcGeneTagModule,
     CvcLinkTagModule,
     CvcTagListModule,
-    CvcMolecularProfileTagNameModule
+    CvcMolecularProfileTagNameModule,
   ],
-  exports: [CvcMolecularProfilePopoverComponent]
+  exports: [CvcMolecularProfilePopoverComponent],
 })
-export class CvcMolecularProfilePopoverModule { }
+export class CvcMolecularProfilePopoverModule {}

@@ -17,9 +17,9 @@ import { sourceArrayTypeOption } from './source-array.type';
     NzSelectModule,
     FormlyNzFormFieldModule,
     FormlySelectModule,
-    FormlyModule.forChild({types: [sourceArrayTypeOption]}),
+    FormlyModule.forChild({ types: [sourceArrayTypeOption] }),
     CvcSourceInputTypeModule,
     CvcMultiFieldTypeModule,
-  ]
+  ],
 })
-export class CvcSourceArrayTypeModule { }
+export class CvcSourceArrayTypeModule {}

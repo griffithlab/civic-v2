@@ -13,6 +13,6 @@ import { PagesHelpModule } from './pages-help/pages-help.module';
     PagesRoutingModule,
     PagesAboutModule,
     PagesHelpModule,
-  ]
+  ],
 })
-export class PagesModule { }
+export class PagesModule {}

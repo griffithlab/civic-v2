@@ -18,6 +18,6 @@ import { EvidenceReviseFormModule } from '@app/forms/evidence-revise/evidence-re
     NzSkeletonModule,
     NzSpaceModule,
     EvidenceReviseFormModule,
-  ]
+  ],
 })
-export class EvidenceSuggestModule { }
+export class EvidenceSuggestModule {}

@@ -13,9 +13,11 @@ import { CvcCommentBodyModule } from '../comment-body/comment-body.module';
     CommonModule,
     NzCommentModule,
     NzAvatarModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
-    CvcCommentBodyModule
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
+    CvcCommentBodyModule,
   ],
-  exports: [CvcCommentDisplayComponent]
+  exports: [CvcCommentDisplayComponent],
 })
-export class CvcCommentDisplayModule { }
+export class CvcCommentDisplayModule {}

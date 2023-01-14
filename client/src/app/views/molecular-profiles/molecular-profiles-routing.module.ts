@@ -24,29 +24,26 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('@app/views/molecular-profiles/molecular-profiles-detail/molecular-profiles-detail.module').then(
-                (m) => m.MolecularProfilesDetailModule
-              ),
+              import(
+                '@app/views/molecular-profiles/molecular-profiles-detail/molecular-profiles-detail.module'
+              ).then((m) => m.MolecularProfilesDetailModule),
           },
           {
             path: 'revise',
-             loadChildren: () =>
-              import('@app/views/molecular-profiles/molecular-profiles-revise/molecular-profiles-revise.module').then(
-                (m) => m.MolecularProfilesReviseModule
-              ),
-            data: { breadcrumb: 'Revise' }
+            loadChildren: () =>
+              import(
+                '@app/views/molecular-profiles/molecular-profiles-revise/molecular-profiles-revise.module'
+              ).then((m) => m.MolecularProfilesReviseModule),
+            data: { breadcrumb: 'Revise' },
           },
-        ]
+        ],
       },
     ],
   },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    MolecularProfilesHomeModule
-  ],
+  imports: [RouterModule.forChild(routes), MolecularProfilesHomeModule],
   exports: [RouterModule],
 })
 export class MolecularProfilesRoutingModule {}

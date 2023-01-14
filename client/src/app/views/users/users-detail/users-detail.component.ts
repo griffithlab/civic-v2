@@ -1,11 +1,20 @@
-import { Component, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Maybe, UserDetailFieldsFragment, UserDetailGQL, UserDetailQuery, UserDetailQueryVariables } from "@app/generated/civic.apollo";
-import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
-import { QueryRef } from "apollo-angular";
-import { pluck, startWith } from "rxjs/operators";
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  Maybe,
+  UserDetailFieldsFragment,
+  UserDetailGQL,
+  UserDetailQuery,
+  UserDetailQueryVariables,
+} from '@app/generated/civic.apollo';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
+import { QueryRef } from 'apollo-angular';
+import { pluck, startWith } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigation.component";
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
   selector: 'users-detail',
@@ -22,7 +31,7 @@ export class UsersDetailComponent implements OnDestroy {
   updateSuccess = false;
 
   updateCoiModalVisible = false;
-  updateProfileModalVisible = false
+  updateProfileModalVisible = false;
 
   routeSub: Subscription;
   viewerSub?: Subscription;

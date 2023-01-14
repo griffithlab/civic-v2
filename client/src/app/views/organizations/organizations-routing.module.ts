@@ -19,66 +19,66 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
-        component: OrganizationsHomePage
+        component: OrganizationsHomePage,
       },
       {
         path: ':organizationId',
         component: OrganizationsDetailComponent,
         data: {
-          breadcrumb: 'DISPLAYNAME'
+          breadcrumb: 'DISPLAYNAME',
         },
         children: [
-          {path: '', redirectTo: 'members', pathMatch: 'full'},
+          { path: '', redirectTo: 'members', pathMatch: 'full' },
           {
             path: 'members',
             component: OrganizationsMembersComponent,
             data: {
-              breadcrumb: 'Members'
-            }
+              breadcrumb: 'Members',
+            },
           },
           {
             path: 'groups',
             component: OrganizationsGroupsComponent,
             data: {
-              breadcrumb: 'Child Organizations'
-            }
+              breadcrumb: 'Child Organizations',
+            },
           },
           {
             path: 'evidence',
             component: OrganizationsEvidenceComponent,
             data: {
-              breadcrumb: 'Evidence'
-            }
+              breadcrumb: 'Evidence',
+            },
           },
           {
             path: 'assertions',
             component: OrganizationsAssertionsComponent,
             data: {
-              breadcrumb: 'Assertions'
-            }
+              breadcrumb: 'Assertions',
+            },
           },
           {
             path: 'activity',
             component: OrganizationsEventsComponent,
             data: {
-              breadcrumb: 'Activity'
-            }
+              breadcrumb: 'Activity',
+            },
           },
           {
             path: 'source-suggestions',
             component: OrganizationsSourceSuggestionsComponent,
             data: {
-              breadcrumb: 'Source Suggestions'
-            }
-          }
-        ]
-      }
-    ]
-  }
+              breadcrumb: 'Source Suggestions',
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class OrganizationsRoutingModule { }
+export class OrganizationsRoutingModule {}

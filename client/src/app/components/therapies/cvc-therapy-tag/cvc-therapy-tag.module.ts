@@ -19,6 +19,6 @@ import { CvcTherapyPopoverModule } from '../cvc-therapy-popover/cvc-therapy-popo
     CvcPipesModule,
     CvcTherapyPopoverModule,
   ],
-  exports: [CvcTherapyTagComponent]
+  exports: [CvcTherapyTagComponent],
 })
-export class CvcTherapyTagModule { }
+export class CvcTherapyTagModule {}

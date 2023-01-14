@@ -6,15 +6,14 @@ import { Maybe } from '@app/generated/civic.apollo';
   selector: 'cvc-icon-badges',
   templateUrl: './icon-badges.component.html',
   styleUrls: ['./icon-badges.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcIconBadgesComponent {
-  @Input() hasRevisions: Maybe<boolean> = false
-  @Input() flagged: Maybe<boolean> = false
-  @Input() hasComments: Maybe<boolean> = false
-  @Input() entityColor: string = '#AAA'
+  @Input() hasRevisions: Maybe<boolean> = false;
+  @Input() flagged: Maybe<boolean> = false;
+  @Input() hasComments: Maybe<boolean> = false;
+  @Input() entityColor: string = '#AAA';
 
-  flagColor = getEntityColor('Flag')
+  flagColor = getEntityColor('Flag');
   constructor() {}
-
 }

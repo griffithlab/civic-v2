@@ -16,6 +16,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzIconModule,
     CvcSectionNavigationModule,
     CvcPipesModule,
-  ]
+  ],
 })
-export class AssertionAddModule { }
+export class AssertionAddModule {}

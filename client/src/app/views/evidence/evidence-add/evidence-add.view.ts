@@ -6,16 +6,14 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'evidence-add',
   templateUrl: './evidence-add.view.html',
-  styleUrls: ['./evidence-add.view.less']
+  styleUrls: ['./evidence-add.view.less'],
 })
 export class EvidenceAddView implements OnInit {
-
   isSignedIn$?: Observable<boolean>;
 
-  constructor(private viewerService: ViewerService) { }
+  constructor(private viewerService: ViewerService) {}
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn));
   }
-
 }

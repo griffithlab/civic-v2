@@ -1,13 +1,20 @@
-<nz-empty [nzNotFoundContent]="notFound"
-  [nzNotFoundImage]="notFoundImg">
+<nz-empty [nzNotFoundContent]="notFound" [nzNotFoundImage]="notFoundImg">
 </nz-empty>
 
 <ng-template #notFound>
-  <span *ngIf="notification; else defaultNotification" nz-typography nzType="secondary">{{ notification }}</span>
-  <ng-template #defaultNotification>
-    Not specified
-  </ng-template>
+  <span
+    *ngIf="notification; else defaultNotification"
+    nz-typography
+    nzType="secondary"
+    >{{ notification }}</span
+  >
+  <ng-template #defaultNotification> Not specified </ng-template>
 </ng-template>
 <ng-template #notFoundImg>
-  <i nz-icon nzType="civic-revision" nzTheme="twotone" nzTwotoneColor="#dfdfdf"></i>
+  <i
+    nz-icon
+    nzType="civic-revision"
+    nzTheme="twotone"
+    nzTwotoneColor="#dfdfdf"
+  ></i>
 </ng-template>

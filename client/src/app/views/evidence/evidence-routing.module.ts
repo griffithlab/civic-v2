@@ -14,8 +14,8 @@ const routes: Routes = [
         path: 'home',
         component: EvidenceHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: 'add',
@@ -23,7 +23,7 @@ const routes: Routes = [
           import('@app/views/evidence/evidence-add/evidence-add.module').then(
             (m) => m.EvidenceAddModule
           ),
-        data: { breadcrumb: 'Add' }
+        data: { breadcrumb: 'Add' },
       },
       {
         path: ':evidenceId',
@@ -32,30 +32,26 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('@app/views/evidence/evidence-detail/evidence-detail.module').then(
-                (m) => m.EvidenceDetailModule
-              ),
+              import(
+                '@app/views/evidence/evidence-detail/evidence-detail.module'
+              ).then((m) => m.EvidenceDetailModule),
           },
           {
             path: 'revise',
             loadChildren: () =>
-              import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
-                (m) => m.EvidenceReviseModule
-              ),
-            data: { breadcrumb: 'Revise' }
+              import(
+                '@app/views/evidence/evidence-revise/evidence-revise.module'
+              ).then((m) => m.EvidenceReviseModule),
+            data: { breadcrumb: 'Revise' },
           },
-        ]
+        ],
       },
-
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    EvidenceHomeModule
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes), EvidenceHomeModule],
+  exports: [RouterModule],
 })
-export class EvidenceRoutingModule { }
+export class EvidenceRoutingModule {}

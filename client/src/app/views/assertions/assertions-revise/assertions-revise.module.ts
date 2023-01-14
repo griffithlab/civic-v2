@@ -31,7 +31,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcCommentTextareaTypeModule,
     ReactiveComponentModule,
     NzGridModule,
-    CvcLoginPromptModule
-  ]
+    CvcLoginPromptModule,
+  ],
 })
-export class AssertionsReviseModule { }
+export class AssertionsReviseModule {}

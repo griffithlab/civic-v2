@@ -1,6 +1,6 @@
 query AssertionRevisableFields($assertionId: Int!) {
   assertion(id: $assertionId) {
-    ... RevisableAssertionFields
+    ...RevisableAssertionFields
   }
 }
 

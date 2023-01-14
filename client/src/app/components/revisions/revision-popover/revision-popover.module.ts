@@ -38,8 +38,10 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcVariantGroupTagModule,
     CvcStatusTagModule,
     RevisionListDiffModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
   ],
-  exports: [CvcRevisionPopoverComponent]
+  exports: [CvcRevisionPopoverComponent],
 })
-export class CvcRevisionPopoverModule { }
+export class CvcRevisionPopoverModule {}

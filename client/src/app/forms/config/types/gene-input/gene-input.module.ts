@@ -23,7 +23,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     NzTypographyModule,
     CvcGeneTagModule,
     CvcPipesModule,
-    CvcAutofocusModule
-  ]
+    CvcAutofocusModule,
+  ],
 })
-export class CvcGeneInputTypeModule { }
+export class CvcGeneInputTypeModule {}

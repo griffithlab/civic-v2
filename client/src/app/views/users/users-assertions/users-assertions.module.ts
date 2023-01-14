@@ -6,10 +6,6 @@ import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-
 
 @NgModule({
   declarations: [UsersAssertionsComponent],
-  imports: [
-    CommonModule,
-    NzIconModule,
-    CvcAssertionsTableModule,
-  ]
+  imports: [CommonModule, NzIconModule, CvcAssertionsTableModule],
 })
-export class UsersAssertionsModule { }
+export class UsersAssertionsModule {}

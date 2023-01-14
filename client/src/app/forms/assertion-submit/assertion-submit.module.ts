@@ -50,9 +50,7 @@ import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-arra
 import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
-  declarations: [
-    AssertionSubmitForm
-  ],
+  declarations: [AssertionSubmitForm],
   imports: [
     CommonModule,
     RouterModule,
@@ -102,10 +100,8 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcClingenCodeArrayTypeModule,
     NzSpaceModule,
     NzCardModule,
-    NzTypographyModule
+    NzTypographyModule,
   ],
-  exports: [
-    AssertionSubmitForm
-  ]
+  exports: [AssertionSubmitForm],
 })
-export class CvcAssertionSubmitModule { }
+export class CvcAssertionSubmitModule {}

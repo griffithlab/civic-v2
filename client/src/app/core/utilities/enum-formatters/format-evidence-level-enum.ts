@@ -1,6 +1,4 @@
-import {
-  EvidenceLevel
-} from '@app/generated/civic.apollo';
+import { EvidenceLevel } from '@app/generated/civic.apollo';
 
 const levelDescriptions = new Map<EvidenceLevel, string>([
   [EvidenceLevel.A, 'Validated Association'],

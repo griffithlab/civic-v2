@@ -36,8 +36,7 @@ const routes: Routes = [
               ),
             data: { breadcrumb: 'Revise' },
           },
-
-        ]
+        ],
       },
     ],
   },
@@ -45,6 +44,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes), GenesHomeModule],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class GenesRoutingModule {}

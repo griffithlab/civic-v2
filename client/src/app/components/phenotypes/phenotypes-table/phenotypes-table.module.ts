@@ -41,6 +41,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcPhenotypeTagModule,
     CvcLinkTagModule,
   ],
-  exports: [CvcPhenotypesTableComponent]
+  exports: [CvcPhenotypesTableComponent],
 })
-export class CvcPhenotypesTableModule { }
+export class CvcPhenotypesTableModule {}

@@ -1,34 +1,36 @@
 import { NgModule } from '@angular/core';
 import { TypePolicies } from '@apollo/client/cache';
-import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
+import {
+  ApolloClientOptions,
+  ApolloLink,
+  InMemoryCache,
+} from '@apollo/client/core';
 import result from '@app/generated/civic.possible-types';
 import { ApolloModule, APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { CvcTypePolicies } from './graphql.type-policies';
-
 
 const uri = '/api/graphql'; // <-- URL of the GraphQL server
 
 const typePolicies: TypePolicies = CvcTypePolicies;
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
-
-  let http = httpLink.create({ uri: uri, withCredentials: true })
+  let http = httpLink.create({ uri: uri, withCredentials: true });
 
   const analyticsLink = new ApolloLink((operation, forward) => {
     operation.setContext({
       headers: {
-        'Civic-Client-Name': 'civic-frontend'
-      }
-    })
+        'Civic-Client-Name': 'civic-frontend',
+      },
+    });
     return forward(operation);
-  })
+  });
 
   return {
     link: analyticsLink.concat(http),
     cache: new InMemoryCache({
       possibleTypes: result.possibleTypes,
-      typePolicies: typePolicies
+      typePolicies: typePolicies,
     }),
     defaultOptions: {
       watchQuery: {
@@ -58,4 +60,4 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     },
   ],
 })
-export class GraphQLModule { }
+export class GraphQLModule {}

@@ -24,7 +24,10 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./molecular-profiles-detail.view.less'],
 })
 export class MolecularProfilesDetailView implements OnDestroy {
-  queryRef?: QueryRef<MolecularProfileDetailQuery, MolecularProfileDetailQueryVariables>;
+  queryRef?: QueryRef<
+    MolecularProfileDetailQuery,
+    MolecularProfileDetailQueryVariables
+  >;
 
   molecularProfile$?: Observable<Maybe<MolecularProfileDetailFieldsFragment>>;
   loading$?: Observable<boolean>;
@@ -38,32 +41,32 @@ export class MolecularProfilesDetailView implements OnDestroy {
   tabs$: BehaviorSubject<RouteableTab[]>;
   destroy$ = new Subject<void>();
   defaultTabs: RouteableTab[] = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary'
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments'
-      },
-      {
-        routeName: 'revisions',
-        iconName: 'civic-revision',
-        tabLabel: 'Revisions'
-      },
-      {
-        routeName: 'flags',
-        iconName: 'civic-flag',
-        tabLabel: 'Flags'
-      },
-      {
-        routeName: 'events',
-        iconName: 'civic-event',
-        tabLabel: 'Events'
-      }
-    ]
+    {
+      routeName: 'summary',
+      iconName: 'pic-left',
+      tabLabel: 'Summary',
+    },
+    {
+      routeName: 'comments',
+      iconName: 'civic-comment',
+      tabLabel: 'Comments',
+    },
+    {
+      routeName: 'revisions',
+      iconName: 'civic-revision',
+      tabLabel: 'Revisions',
+    },
+    {
+      routeName: 'flags',
+      iconName: 'civic-flag',
+      tabLabel: 'Flags',
+    },
+    {
+      routeName: 'events',
+      iconName: 'civic-event',
+      tabLabel: 'Events',
+    },
+  ];
 
   constructor(
     private gql: MolecularProfileDetailGQL,
@@ -79,37 +82,41 @@ export class MolecularProfilesDetailView implements OnDestroy {
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-      this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'));
+      this.molecularProfile$ = observable.pipe(
+        pluck('data', 'molecularProfile')
+      );
 
-      this.commentsTotal$ = this.molecularProfile$.pipe(pluck('comments', 'totalCount'));
+      this.commentsTotal$ = this.molecularProfile$.pipe(
+        pluck('comments', 'totalCount')
+      );
 
-      this.flagsTotal$ = this.molecularProfile$.pipe(pluck('flags', 'totalCount'));
+      this.flagsTotal$ = this.molecularProfile$.pipe(
+        pluck('flags', 'totalCount')
+      );
 
-      this.molecularProfile$.pipe(
-        pluck('revisions', 'totalCount'),
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (count) => {
-          this.tabs$.next(
-            this.defaultTabs.map((tab) => {
-              if (tab.tabLabel === 'Revisions') {
-                return {
-                  badgeCount: count as number,
-                  ...tab
+      this.molecularProfile$
+        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .subscribe({
+          next: (count) => {
+            this.tabs$.next(
+              this.defaultTabs.map((tab) => {
+                if (tab.tabLabel === 'Revisions') {
+                  return {
+                    badgeCount: count as number,
+                    ...tab,
+                  };
+                } else {
+                  return tab;
                 }
-              }
-              else {
-                return tab
-              }
-            }
-          ))
-        }
-      })
+              })
+            );
+          },
+        });
 
       this.subscribable = {
         id: +params.molecularProfileId,
-        entityType: SubscribableEntities.MolecularProfile
-      }
+        entityType: SubscribableEntities.MolecularProfile,
+      };
 
       this.viewer$ = this.viewerService.viewer$;
     });

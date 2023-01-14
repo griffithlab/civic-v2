@@ -5,9 +5,6 @@ import { CvcVariantReviseFormModule } from '@app/forms/variant-revise/variant-re
 
 @NgModule({
   declarations: [VariantsSuggestPage],
-  imports: [
-    CommonModule,
-    CvcVariantReviseFormModule,
-  ]
+  imports: [CommonModule, CvcVariantReviseFormModule],
 })
-export class VariantsSuggestModule { }
+export class VariantsSuggestModule {}

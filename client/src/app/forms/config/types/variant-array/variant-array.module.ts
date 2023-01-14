@@ -17,9 +17,9 @@ import { variantArrayTypeOption } from './variant-array.type';
     NzSelectModule,
     FormlyNzFormFieldModule,
     FormlySelectModule,
-    FormlyModule.forChild({types: [variantArrayTypeOption]}),
+    FormlyModule.forChild({ types: [variantArrayTypeOption] }),
     CvcVariantInputTypeModule,
     CvcMultiFieldTypeModule,
-  ]
+  ],
 })
-export class CvcVariantArrayTypeModule { }
+export class CvcVariantArrayTypeModule {}

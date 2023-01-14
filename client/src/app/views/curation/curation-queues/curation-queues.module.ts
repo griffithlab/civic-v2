@@ -13,9 +13,7 @@ import { CurationQueuesRoutingModule } from './curation-queues-routing.module';
 import { CurationQueuesView } from './curation-queues.view';
 
 @NgModule({
-  declarations: [
-    CurationQueuesView
-  ],
+  declarations: [CurationQueuesView],
   imports: [
     CommonModule,
     ReactiveComponentModule,
@@ -30,6 +28,6 @@ import { CurationQueuesView } from './curation-queues.view';
     CvcSectionNavigationModule,
     CvcTabNavigationModule,
     CvcPipesModule,
-  ]
+  ],
 })
-export class CurationQueuesModule { }
+export class CurationQueuesModule {}

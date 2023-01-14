@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './variant-types.component.html',
 })
 export class VariantTypesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

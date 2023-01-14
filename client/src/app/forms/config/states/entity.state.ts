@@ -1,4 +1,7 @@
-import { formatEvidenceEnum, InputEnum } from "@app/core/utilities/enum-formatters/format-evidence-enum";
+import {
+  formatEvidenceEnum,
+  InputEnum,
+} from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import {
   AssertionSignificance,
   AssertionDirection,
@@ -6,38 +9,37 @@ import {
   EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
-} from "@app/generated/civic.apollo";
-import { $enum } from "ts-enum-util";
+} from '@app/generated/civic.apollo';
+import { $enum } from 'ts-enum-util';
 
-export type EntityType = EvidenceType | AssertionType
+export type EntityType = EvidenceType | AssertionType;
 
-export type EntitySignificance =
-  EvidenceSignificance | AssertionSignificance;
+export type EntitySignificance = EvidenceSignificance | AssertionSignificance;
 
 export type EntityDirection = EvidenceDirection | AssertionDirection;
 
 export type ValidEntity = {
-  entityType: EntityType
-  significance: EntitySignificance[]
-  entityDirection: EntityDirection[]
-  requiresDisease: boolean
-  requiresDrug: boolean
-  requiresAcmgCodes: boolean
-  requiresAmpLevel: boolean
-  requiresClingenCodes: boolean
-  allowsFdaApproval: boolean
-}
+  entityType: EntityType;
+  significance: EntitySignificance[];
+  entityDirection: EntityDirection[];
+  requiresDisease: boolean;
+  requiresDrug: boolean;
+  requiresAcmgCodes: boolean;
+  requiresAmpLevel: boolean;
+  requiresClingenCodes: boolean;
+  allowsFdaApproval: boolean;
+};
 
 export type SelectOption = { [key: string | number]: string | number };
 
 export enum EntityName {
   EVIDENCE = 'Evidence',
-  ASSERTION = 'Assertion'
+  ASSERTION = 'Assertion',
 }
 
 export enum SelectType {
   CS = 'significance',
-  ED = 'entityDirection'
+  ED = 'entityDirection',
 }
 
 // export type OptionValidator = {
@@ -47,12 +49,15 @@ export enum SelectType {
 // }
 
 export interface IEntityState {
-  validStates: Map<EntityType, ValidEntity>
+  validStates: Map<EntityType, ValidEntity>;
   getTypeOptions: () => EntityType[];
   getSignificanceOptions: (et: EntityType) => EntitySignificance[];
   getDirectionOptions: (et: EntityType) => EntityDirection[];
-  isValidSignificanceOption: (et: EntityType, cs: EntitySignificance) => boolean;
-  isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
+  isValidSignificanceOption: (
+    et: EntityType,
+    cs: EntitySignificance
+  ) => boolean;
+  isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean;
   requiresDrug: (et: EntityType) => boolean;
   requiresDisease: (et: EntityType) => boolean;
   requiresAcmgCodes: (et: EntityType) => boolean;
@@ -75,74 +80,80 @@ class EntityState implements IEntityState {
   }
 
   getTypeOptions = (): EntityType[] => {
-    if(this.entityName == EntityName.ASSERTION) {
-      return $enum(AssertionType).map(value => value);
+    if (this.entityName == EntityName.ASSERTION) {
+      return $enum(AssertionType).map((value) => value);
     } else {
-      return $enum(EvidenceType).map(value => value);
+      return $enum(EvidenceType).map((value) => value);
     }
-  }
+  };
 
   getSignificanceOptions = (et: EntityType): EntitySignificance[] => {
     const state = this.validStates.get(et);
     return state?.significance || [];
-  }
+  };
 
-  isValidSignificanceOption = (et: EntityType,
-    cs: EntitySignificance): boolean => {
+  isValidSignificanceOption = (
+    et: EntityType,
+    cs: EntitySignificance
+  ): boolean => {
     const state = this.validStates.get(et);
-    if (!state) { return true; }
+    if (!state) {
+      return true;
+    }
     return state.significance.includes(cs);
-  }
+  };
 
   getDirectionOptions = (et: EntityType): EntityDirection[] => {
     const state = this.validStates.get(et);
     return state?.entityDirection || [];
-  }
+  };
 
   isValidDirectionOption = (et: EntityType, ed: EntityDirection): boolean => {
     const state = this.validStates.get(et);
-    if (!state) { return true; }
+    if (!state) {
+      return true;
+    }
     return state.entityDirection.includes(ed);
-  }
+  };
 
   requiresDrug = (et: EntityType): boolean => {
     const state = this.validStates.get(et);
     return state !== undefined ? state.requiresDrug : true;
-  }
+  };
 
   requiresDisease = (et: EntityType): boolean => {
     const state = this.validStates.get(et);
     return state !== undefined ? state.requiresDisease : true;
-  }
+  };
 
   requiresAcmgCodes = (at: EntityType): boolean => {
     const state = this.validStates.get(at);
     return state !== undefined ? state.requiresAcmgCodes : true;
-  }
+  };
 
   requiresAmpLevel = (at: EntityType): boolean => {
     const state = this.validStates.get(at);
     return state !== undefined ? state.requiresAmpLevel : true;
-  }
+  };
 
   requiresClingenCodes = (et: EntityType): boolean => {
     const state = this.validStates.get(et);
     return state !== undefined ? state.requiresClingenCodes : true;
-  }
+  };
 
   allowsFdaApproval = (et: EntityType): boolean => {
     const state = this.validStates.get(et);
     return state !== undefined ? state.allowsFdaApproval : true;
-
-  }
-
-  getOptionsFromEnums = (e: InputEnum[]): SelectOption[] => {
-    if (e.length === 0) { return []; }
-    return e.map((value) => {
-      return { value: value, label: formatEvidenceEnum(value) }
-    })
   };
 
+  getOptionsFromEnums = (e: InputEnum[]): SelectOption[] => {
+    if (e.length === 0) {
+      return [];
+    }
+    return e.map((value) => {
+      return { value: value, label: formatEvidenceEnum(value) };
+    });
+  };
 }
 
 export { EntityState };

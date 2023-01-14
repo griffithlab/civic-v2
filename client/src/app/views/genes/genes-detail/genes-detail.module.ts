@@ -35,7 +35,7 @@ import { GenesDetailView } from './genes-detail.view';
     CvcContributorAvatarsModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
-    CvcEventFeedModule
-  ]
+    CvcEventFeedModule,
+  ],
 })
-export class GenesDetailModule { }
+export class GenesDetailModule {}

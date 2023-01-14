@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './curation-dashboard.page.html',
 })
 export class CurationDashboardPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

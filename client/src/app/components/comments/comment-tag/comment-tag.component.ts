@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 export interface LinkableComment {
-  id: number,
-  name: string,
-  link: string
+  id: number;
+  name: string;
+  link: string;
 }
 
 export interface Subject {
-  id: number,
-  __typename: string
+  id: number;
+  __typename: string;
 }
 
 @Component({
@@ -18,14 +18,15 @@ export interface Subject {
 export class CvcCommentTagComponent implements OnInit {
   @Input() comment!: LinkableComment;
   @Input() subject?: Subject;
-  @Input() enablePopover: Boolean = true
+  @Input() enablePopover: Boolean = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     if (this.comment === undefined) {
-      throw new Error('cvc-comment-tag requires LinkableComment input, none supplied.')
+      throw new Error(
+        'cvc-comment-tag requires LinkableComment input, none supplied.'
+      );
     }
   }
-
 }

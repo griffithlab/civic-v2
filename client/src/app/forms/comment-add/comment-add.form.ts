@@ -4,12 +4,10 @@ import {
   Input,
   OnDestroy,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  Subject,
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -22,7 +20,10 @@ import {
   AddCommentMutationVariables,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
+import {
+  ViewerService,
+  Viewer,
+} from '@app/core/services/viewer/viewer.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
@@ -40,18 +41,22 @@ export class CvcCommentAddForm implements OnDestroy {
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 
-  success: boolean = false
-  errorMessages: string[] = []
-  loading: boolean = false
+  success: boolean = false;
+  errorMessages: string[] = [];
+  loading: boolean = false;
 
-  addCommentMutator: MutatorWithState<AddCommentGQL, AddCommentMutation, AddCommentMutationVariables>;
+  addCommentMutator: MutatorWithState<
+    AddCommentGQL,
+    AddCommentMutation,
+    AddCommentMutationVariables
+  >;
 
   commentText?: string;
   constructor(
     private viewerService: ViewerService,
     private addCommentGql: AddCommentGQL,
     private networkErrorService: NetworkErrorsService
-    ) {
+  ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -61,7 +66,7 @@ export class CvcCommentAddForm implements OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-      this.addCommentMutator = new MutatorWithState(networkErrorService);
+    this.addCommentMutator = new MutatorWithState(networkErrorService);
   }
 
   selectOrg(org: Organization): void {
@@ -83,22 +88,24 @@ export class CvcCommentAddForm implements OnDestroy {
       });
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
-          this.resetForm()
-          this.success = true
+        if (res) {
+          this.resetForm();
+          this.success = true;
         }
-      })
+      });
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
-          this.errorMessages = errs
-          this.success = false
+        if (errs) {
+          this.errorMessages = errs;
+          this.success = false;
         }
-      })
+      });
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading;
+        });
     }
   }
 

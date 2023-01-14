@@ -11,6 +11,6 @@ import { evidenceTypeSelectTypeOption } from './evidence-type-select.type';
     ReactiveFormsModule,
     FormlySelectModule,
     FormlyModule.forChild({ types: [evidenceTypeSelectTypeOption] }),
-  ]
+  ],
 })
-export class CvcEvidenceTypeSelectTypeModule { }
+export class CvcEvidenceTypeSelectTypeModule {}

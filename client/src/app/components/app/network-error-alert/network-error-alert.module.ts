@@ -17,6 +17,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzModalModule,
     NzTypographyModule,
   ],
-  exports: [CvcNetworkErrorAlertComponent]
+  exports: [CvcNetworkErrorAlertComponent],
 })
-export class CvcNetworkErrorAlertModule { }
+export class CvcNetworkErrorAlertModule {}

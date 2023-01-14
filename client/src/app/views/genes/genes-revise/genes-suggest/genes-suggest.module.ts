@@ -22,6 +22,6 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     NzPageHeaderModule,
     GeneSuggestRevisionFormModule,
     CvcSectionNavigationModule,
-  ]
+  ],
 })
-export class GenesSuggestModule { }
+export class GenesSuggestModule {}

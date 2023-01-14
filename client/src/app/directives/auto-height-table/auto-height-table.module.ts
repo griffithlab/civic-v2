@@ -4,9 +4,7 @@ import { CvcAutoHeightTableDirective } from './auto-height-table.directive';
 
 @NgModule({
   declarations: [CvcAutoHeightTableDirective],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [CvcAutoHeightTableDirective],
 })
-export class CvcAutoHeightTableModule { }
+export class CvcAutoHeightTableModule {}

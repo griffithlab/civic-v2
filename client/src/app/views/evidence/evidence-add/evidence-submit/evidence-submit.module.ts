@@ -31,7 +31,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzIconModule,
     NzButtonModule,
     CvcOrgSelectorBtnGroupModule,
-
-  ]
+  ],
 })
-export class EvidenceSubmitModule { }
+export class EvidenceSubmitModule {}

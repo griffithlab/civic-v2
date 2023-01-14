@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { Maybe, VariantGroupDetailFieldsFragment, VariantGroupDetailGQL } from '@app/generated/civic.apollo';
+import {
+  Maybe,
+  VariantGroupDetailFieldsFragment,
+  VariantGroupDetailGQL,
+} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { pluck, startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-variant-groups-revise-view',
   templateUrl: './variant-groups-revise.view.html',
-  styleUrls: ['./variant-groups-revise.view.less']
+  styleUrls: ['./variant-groups-revise.view.less'],
 })
 export class VariantGroupsReviseView implements OnInit {
   loading$?: Observable<boolean>;
@@ -21,9 +25,10 @@ export class VariantGroupsReviseView implements OnInit {
     private route: ActivatedRoute,
     private viewerService: ViewerService
   ) {
-
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ variantGroupId: +params.variantGroupId }).valueChanges;
+      let observable = this.gql.watch({
+        variantGroupId: +params.variantGroupId,
+      }).valueChanges;
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
@@ -32,11 +37,10 @@ export class VariantGroupsReviseView implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn));
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
-
 }

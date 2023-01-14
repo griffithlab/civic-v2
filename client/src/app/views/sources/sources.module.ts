@@ -12,9 +12,7 @@ import { RouterModule } from '@angular/router';
 import { SourcesCommentsModule } from './sources-detail/sources-comments/sources-comments.module';
 
 @NgModule({
-  declarations: [
-    SourcesView,
-  ],
+  declarations: [SourcesView],
   imports: [
     CommonModule,
     RouterModule,
@@ -26,4 +24,4 @@ import { SourcesCommentsModule } from './sources-detail/sources-comments/sources
     SourcesCommentsModule,
   ],
 })
-export class SourcesModule { }
+export class SourcesModule {}

@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { FieldErrorsWrapper, FieldErrorsWrapperOption } from './field-errors.wrapper';
+import {
+  FieldErrorsWrapper,
+  FieldErrorsWrapperOption,
+} from './field-errors.wrapper';
 
 @NgModule({
   declarations: [FieldErrorsWrapper],
@@ -16,4 +19,4 @@ import { FieldErrorsWrapper, FieldErrorsWrapperOption } from './field-errors.wra
     }),
   ],
 })
-export class CvcFieldErrorsWrapper{}
+export class CvcFieldErrorsWrapper {}

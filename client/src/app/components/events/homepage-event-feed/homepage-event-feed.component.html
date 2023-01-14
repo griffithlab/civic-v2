@@ -7,11 +7,20 @@
             <nz-row [nzGutter]="16">
               <nz-col nzSpan="24" class="timeline">
                 <ng-container *ngIf="events.length; else noEvents">
-                  <cvc-event-timeline [events]="events" [tagDisplay]="tagDisplay"></cvc-event-timeline>
+                  <cvc-event-timeline
+                    [events]="events"
+                    [tagDisplay]="tagDisplay"
+                  ></cvc-event-timeline>
                 </ng-container>
                 <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-                  <button nz-button nzType="default" nzSize="small" nzBlock
-                    routerLink="/curation/activity">See Full Activity Feed
+                  <button
+                    nz-button
+                    nzType="default"
+                    nzSize="small"
+                    nzBlock
+                    routerLink="/curation/activity"
+                  >
+                    See Full Activity Feed
                   </button>
                 </ng-container>
               </nz-col>

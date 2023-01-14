@@ -17,9 +17,7 @@ import { RouterModule } from '@angular/router';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
-  declarations: [
-    CvcSiteStatsCardComponent
-  ],
+  declarations: [CvcSiteStatsCardComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,8 +34,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NgxJsonViewerModule,
     CvcPipesModule,
   ],
-  exports: [
-    CvcSiteStatsCardComponent
-  ]
+  exports: [CvcSiteStatsCardComponent],
 })
-export class CvcSiteStatsCardModule { }
+export class CvcSiteStatsCardModule {}

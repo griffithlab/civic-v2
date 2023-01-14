@@ -5,13 +5,7 @@ import { GenesRoutingModule } from './genes-routing.module';
 import { GenesView } from './genes.view';
 
 @NgModule({
-  declarations: [
-    GenesView
-  ],
-  imports: [
-    CommonModule,
-    GenesRoutingModule,
-  ]
+  declarations: [GenesView],
+  imports: [CommonModule, GenesRoutingModule],
 })
-
-export class GenesModule { }
+export class GenesModule {}

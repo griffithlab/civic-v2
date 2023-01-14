@@ -31,7 +31,6 @@ import { CvcViewerButtonModule } from '@app/components/layout/viewer-button/view
     CvcLoginButtonModule,
     CvcViewerButtonModule,
     CvcQuicksearchModule,
-  ]
+  ],
 })
-
-export class LayoutModule { }
+export class LayoutModule {}

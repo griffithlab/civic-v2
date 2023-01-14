@@ -1,6 +1,6 @@
 query GeneRevisableFields($geneId: Int!) {
   gene(id: $geneId) {
-    ... RevisableGeneFields
+    ...RevisableGeneFields
   }
 }
 

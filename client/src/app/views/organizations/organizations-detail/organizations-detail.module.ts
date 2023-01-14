@@ -42,7 +42,7 @@ import { CvcOrganizationCardModule } from '@app/components/organizations/organiz
     CvcLinkTagModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
-    CvcOrganizationCardModule
-  ]
+    CvcOrganizationCardModule,
+  ],
 })
-export class OrganizationsDetailModule { }
+export class OrganizationsDetailModule {}

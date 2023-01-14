@@ -1,53 +1,66 @@
 <div id="popover-content">
   <ng-container *ngIf="revision$ | ngrxPush as r">
-    <nz-card [nzTitle]="cardTitle"
+    <nz-card
+      [nzTitle]="cardTitle"
       [nzExtra]="subject"
       nzBordered="false"
-      id="card-content">
-
+      id="card-content"
+    >
       <ng-template #cardTitle>
         <nz-space class="revision-card-title">
           <span *nzSpaceItem>
-          <i nz-icon
-            nzTheme="twotone"
-            [nzTwotoneColor]="'Revision' | entityColor"
-            nzType="civic-revision"></i> RID{{ r.id }}
+            <i
+              nz-icon
+              nzTheme="twotone"
+              [nzTwotoneColor]="'Revision' | entityColor"
+              nzType="civic-revision"
+            ></i>
+            RID{{ r.id }}
           </span>
-          <cvc-status-tag [status]="r.status"
-            *nzSpaceItem></cvc-status-tag>
+          <cvc-status-tag [status]="r.status" *nzSpaceItem></cvc-status-tag>
         </nz-space>
       </ng-template>
 
       <ng-template #subject>
         <ng-container [ngSwitch]="r.subject.__typename">
-          <cvc-gene-tag *ngSwitchCase="'Gene'"
+          <cvc-gene-tag
+            *ngSwitchCase="'Gene'"
             [enablePopover]="false"
-            [gene]="r.subject"></cvc-gene-tag>
-          <cvc-assertion-tag *ngSwitchCase="'Assertion'"
+            [gene]="r.subject"
+          ></cvc-gene-tag>
+          <cvc-assertion-tag
+            *ngSwitchCase="'Assertion'"
             [enablePopover]="false"
-            [assertion]="r.subject"></cvc-assertion-tag>
-          <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'"
+            [assertion]="r.subject"
+          ></cvc-assertion-tag>
+          <cvc-evidence-tag
+            *ngSwitchCase="'EvidenceItem'"
             [enablePopover]="false"
-            [evidence]="r.subject"></cvc-evidence-tag>
-          <cvc-variant-tag *ngSwitchCase="'Variant'"
+            [evidence]="r.subject"
+          ></cvc-evidence-tag>
+          <cvc-variant-tag
+            *ngSwitchCase="'Variant'"
             [enablePopover]="false"
-            [variant]="r.subject"></cvc-variant-tag>
-          <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'"
+            [variant]="r.subject"
+          ></cvc-variant-tag>
+          <cvc-variant-group-tag
+            *ngSwitchCase="'VariantGroup'"
             [enablePopover]="false"
-            [variantgroup]="r.subject"></cvc-variant-group-tag>
+            [variantgroup]="r.subject"
+          ></cvc-variant-group-tag>
           <span *ngSwitchDefault>{{ r.subject.name }}</span>
         </ng-container>
       </ng-template>
 
-      <nz-descriptions nzBordered
-        [nzColumn]="1"
-        nzSize="small">
+      <nz-descriptions nzBordered [nzColumn]="1" nzSize="small">
         <nz-descriptions-item nzTitle="Revisor">
-          <cvc-user-tag [enablePopover]="false"
-            [user]="r.revisor"></cvc-user-tag>
+          <cvc-user-tag
+            [enablePopover]="false"
+            [user]="r.revisor"
+          ></cvc-user-tag>
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Field">
-          {{r.linkoutData.name}}
+          {{ r.linkoutData.name }}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Revision Date">
           {{ r.createdAt | timeago }}

@@ -31,7 +31,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     CvcVariantTagModule,
     CvcFormErrorsAlertModule,
     CvcPipesModule,
-    CvcAutofocusModule
-  ], exports: [VariantInputType]
+    CvcAutofocusModule,
+  ],
+  exports: [VariantInputType],
 })
-export class CvcVariantInputTypeModule { }
+export class CvcVariantInputTypeModule {}

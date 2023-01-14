@@ -24,7 +24,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzTypographyModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
-    CvcOrganizationsTableModule
+    CvcOrganizationsTableModule,
   ],
 })
-export class OrganizationsHomeModule { }
+export class OrganizationsHomeModule {}

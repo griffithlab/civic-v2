@@ -8,9 +8,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CancelButtonComponent, CancelButtonType } from './cancel-button.type';
 
 @NgModule({
-  declarations: [
-    CancelButtonComponent
-  ],
+  declarations: [CancelButtonComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,8 +20,6 @@ import { CancelButtonComponent, CancelButtonType } from './cancel-button.type';
       types: [CancelButtonType],
     }),
   ],
-  exports: [
-    CancelButtonComponent
-  ]
+  exports: [CancelButtonComponent],
 })
-export class CvcCancelButtonModule { }
+export class CvcCancelButtonModule {}

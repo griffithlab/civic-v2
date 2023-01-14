@@ -13,8 +13,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzCardModule,
     NzListModule,
     NzIconModule,
-    NzButtonModule
+    NzButtonModule,
   ],
-  exports: [CvcParticipantListComponent]
+  exports: [CvcParticipantListComponent],
 })
-export class CvcParticipantListModule { }
+export class CvcParticipantListModule {}

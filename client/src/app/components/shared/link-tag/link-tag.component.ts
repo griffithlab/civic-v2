@@ -12,9 +12,10 @@ export class CvcLinkTagComponent {
     if (!h) throw new Error('link-tag link Input requires string.');
     this._href = h;
   }
-  get href(): string { return this._href; }
+  get href(): string {
+    return this._href;
+  }
 
   @Input() tooltip: Maybe<string>;
-  @Input() iconName: Maybe<string>
-
+  @Input() iconName: Maybe<string>;
 }

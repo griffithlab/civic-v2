@@ -23,6 +23,6 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcGeneTagModule,
     CvcVariantTagModule,
   ],
-  exports: [CvcTagOverflowComponent]
+  exports: [CvcTagOverflowComponent],
 })
-export class CvcTagOverflowModule { }
+export class CvcTagOverflowModule {}

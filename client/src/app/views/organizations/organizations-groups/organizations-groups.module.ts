@@ -16,6 +16,6 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzGridModule,
     NzSpinModule,
     CvcOrganizationCardModule,
-  ]
+  ],
 })
-export class OrganizationsGroupsModule { }
+export class OrganizationsGroupsModule {}

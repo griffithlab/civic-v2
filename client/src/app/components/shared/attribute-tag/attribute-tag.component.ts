@@ -4,12 +4,12 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'cvc-attribute-tag',
   templateUrl: './attribute-tag.component.html',
   styleUrls: ['./attribute-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcAttributeTagComponent {
-  @Input() cvcAttrValue!: any
+  @Input() cvcAttrValue!: any;
 
-  @Input() cvcShowLabel: boolean = true
-  @Input() cvcShowTooltip: boolean = true
-  @Input() showIcon: boolean = true
+  @Input() cvcShowLabel: boolean = true;
+  @Input() cvcShowTooltip: boolean = true;
+  @Input() showIcon: boolean = true;
 }

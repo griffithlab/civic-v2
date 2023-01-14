@@ -4,8 +4,8 @@ import {
   VariantComponent,
 } from '@app/generated/civic.apollo';
 
-const leftParen = /\(/g
-const rightParen = /\)/g
+const leftParen = /\(/g;
+const rightParen = /\)/g;
 const booleanToken = /AND|OR/i;
 const variantToken = /^(?<not>NOT\s)?\s*#VID(?<variantId>\d+)$/i;
 const whitespace = /\s+/;
@@ -18,9 +18,7 @@ export interface MpParseError {
 export type MpParseResult = MpParseError | MolecularProfileComponentInput;
 
 export function parseMolecularProfile(input: string): MpParseResult {
-  let padded = input
-    .replace(leftParen, ' ( ')
-    .replace(rightParen, ' ) ')
+  let padded = input.replace(leftParen, ' ( ').replace(rightParen, ' ) ');
   return parseSection(padded);
 }
 
@@ -65,7 +63,10 @@ function parseSection(section: string): MpParseResult {
   for (let token of processedTokens) {
     let isBool = booleanToken.test(token);
     if (isBool && i == tokens.length - 1) {
-      return { errorMessage: 'Trailing boolean operator found. You cannot end your profile with an operator.' };
+      return {
+        errorMessage:
+          'Trailing boolean operator found. You cannot end your profile with an operator.',
+      };
     }
 
     if (isBool && i == 0) {
@@ -77,7 +78,10 @@ function parseSection(section: string): MpParseResult {
     } else if (isBool && firstBoolean) {
       let nextBool = booleanOperatorFromToken(token);
       if (nextBool !== firstBoolean) {
-        return { errorMessage: 'You cannot mix and match AND/OR in a single segment. Use parenthesis to logically group your variants.', };
+        return {
+          errorMessage:
+            'You cannot mix and match AND/OR in a single segment. Use parenthesis to logically group your variants.',
+        };
       }
     }
     i++;
@@ -90,7 +94,9 @@ function parseSection(section: string): MpParseResult {
     let matchData = variantToken.exec(token);
     if (matchData === null) {
       if (token !== exprPlaceholder) {
-        return { errorMessage: `Variant ${token} does not match the expected format. The token should be a #VID prepended with an optional NOT.` };
+        return {
+          errorMessage: `Variant ${token} does not match the expected format. The token should be a #VID prepended with an optional NOT.`,
+        };
       }
     } else {
       variants.push({

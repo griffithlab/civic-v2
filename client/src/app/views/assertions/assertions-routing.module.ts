@@ -14,16 +14,16 @@ const routes: Routes = [
         path: 'home',
         component: AssertionsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: 'add',
         loadChildren: () =>
-          import('@app/views/assertions/assertion-add/assertion-add.module').then(
-            (m) => m.AssertionAddModule
-          ),
-        data: { breadcrumb: 'Add' }
+          import(
+            '@app/views/assertions/assertion-add/assertion-add.module'
+          ).then((m) => m.AssertionAddModule),
+        data: { breadcrumb: 'Add' },
       },
       {
         path: ':assertionId',
@@ -32,31 +32,33 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('@app/views/assertions/assertions-detail/assertions-detail.module').then(
-                (m) => m.AssertionsDetailModule
-              ),
+              import(
+                '@app/views/assertions/assertions-detail/assertions-detail.module'
+              ).then((m) => m.AssertionsDetailModule),
           },
           {
             path: 'revise',
             loadChildren: () =>
-              import('@app/views/assertions/assertions-revise/assertions-revise.module').then(
-                (m) => m.AssertionsReviseModule
-              ),
-            data: { breadcrumb: 'Revise' }
+              import(
+                '@app/views/assertions/assertions-revise/assertions-revise.module'
+              ).then((m) => m.AssertionsReviseModule),
+            data: { breadcrumb: 'Revise' },
           },
-        ]
+        ],
       },
-
-    ]
+    ],
   },
-  { path: 'revise', loadChildren: () => import('./assertion-add/assertion-add.module').then(m => m.AssertionAddModule) }
+  {
+    path: 'revise',
+    loadChildren: () =>
+      import('./assertion-add/assertion-add.module').then(
+        (m) => m.AssertionAddModule
+      ),
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    AssertionsHomeModule
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes), AssertionsHomeModule],
+  exports: [RouterModule],
 })
-export class AssertionsRoutingModule { }
+export class AssertionsRoutingModule {}

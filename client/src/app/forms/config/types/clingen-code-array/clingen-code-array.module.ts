@@ -8,9 +8,9 @@ import { CvcClingenCodeSelectTypeModule } from '../clingen-code-select/clingen-c
 @NgModule({
   imports: [
     CommonModule,
-    FormlyModule.forChild({types: [clingenCodeArrayTypeOption]}),
+    FormlyModule.forChild({ types: [clingenCodeArrayTypeOption] }),
     CvcMultiFieldTypeModule,
-    CvcClingenCodeSelectTypeModule
+    CvcClingenCodeSelectTypeModule,
   ],
 })
-export class CvcClingenCodeArrayTypeModule { }
+export class CvcClingenCodeArrayTypeModule {}

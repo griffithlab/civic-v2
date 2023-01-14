@@ -22,8 +22,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzSpaceModule,
     NzGridModule,
     ReactiveComponentModule,
-    CvcOrgSelectorBtnGroupModule
+    CvcOrgSelectorBtnGroupModule,
   ],
-  exports: [CvcModerateEntityButtonsComponent]
+  exports: [CvcModerateEntityButtonsComponent],
 })
-export class CvcModerateEntityButtonsModule { }
+export class CvcModerateEntityButtonsModule {}

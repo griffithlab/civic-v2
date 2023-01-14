@@ -5,7 +5,8 @@ export const routes: Routes = [
   // see layout-routing module for the rest of the routes
   {
     path: '',
-    loadChildren: () => import('@app/layout/layout.module').then(m => m.LayoutModule)
+    loadChildren: () =>
+      import('@app/layout/layout.module').then((m) => m.LayoutModule),
   },
 ];
 
@@ -20,6 +21,6 @@ export const routingConfiguration: ExtraOptions = {
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, routingConfiguration)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

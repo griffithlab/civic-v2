@@ -13,18 +13,17 @@ declare let gtag: Function;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
-
 export class AppComponent {
   constructor(private iconService: NzIconService, private router: Router) {
     this.addIcons(fullColorIcons);
     if (environment.production) {
-      this.router.events.subscribe(event => {
-        if(event instanceof NavigationEnd) {
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
           gtag('config', 'UA-60119642-1', {
-            'page_path':  event.urlAfterRedirects
+            page_path: event.urlAfterRedirects,
           });
         }
-      })
+      });
     }
   }
 
@@ -35,6 +34,6 @@ export class AppComponent {
       const regex = /Fullcolor/i;
       const name = 'civic:' + icon.name.replace(regex, '');
       this.iconService.addIconLiteral(name, icon.data);
-    })
+    });
   }
 }

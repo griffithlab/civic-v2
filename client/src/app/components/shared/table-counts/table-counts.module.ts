@@ -6,11 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   declarations: [TableCountsComponent],
-  imports: [
-    CommonModule,
-    ReactiveComponentModule,
-    NzTypographyModule
-  ],
-  exports: [TableCountsComponent]
+  imports: [CommonModule, ReactiveComponentModule, NzTypographyModule],
+  exports: [TableCountsComponent],
 })
-export class CvcTableCountsModule { }
+export class CvcTableCountsModule {}

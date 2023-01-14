@@ -1,6 +1,6 @@
 query EvidenceItemRevisableFields($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
-    ... RevisableEvidenceFields
+    ...RevisableEvidenceFields
   }
 }
 
@@ -41,10 +41,11 @@ fragment RevisableEvidenceFields on EvidenceItem {
     citationId
     citation
   }
-
 }
 
-mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) {
+mutation SuggestEvidenceItemRevision(
+  $input: SuggestEvidenceItemRevisionInput!
+) {
   suggestEvidenceItemRevision(input: $input) {
     clientMutationId
     evidenceItem {

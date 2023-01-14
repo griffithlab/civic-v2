@@ -29,8 +29,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzSpaceModule,
     CvcPipesModule,
     CvcAssertionsTableModule,
-    CvcSectionNavigationModule
+    CvcSectionNavigationModule,
   ],
-  exports: [AssertionsHomePage]
+  exports: [AssertionsHomePage],
 })
-export class AssertionsHomeModule { }
+export class AssertionsHomeModule {}

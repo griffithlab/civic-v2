@@ -28,7 +28,7 @@ import { CvcRevisionsListAndFilterModule } from '@app/components/revisions/revis
     NzAvatarModule,
     CvcParticipantListModule,
     RevisionListModule,
-    CvcRevisionsListAndFilterModule
-  ]
+    CvcRevisionsListAndFilterModule,
+  ],
 })
-export class GenesRevisionsModule { }
+export class GenesRevisionsModule {}

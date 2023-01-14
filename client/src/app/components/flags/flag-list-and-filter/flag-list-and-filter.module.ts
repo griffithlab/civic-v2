@@ -24,7 +24,9 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CommonModule,
     FormsModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
     NzButtonModule,
     NzFormModule,
     NzRadioModule,
@@ -37,8 +39,8 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzEmptyModule,
     CvcParticipantListModule,
     NzAvatarModule,
-    NzSpaceModule
+    NzSpaceModule,
   ],
-  exports: [CvcFlagListAndFilterComponent]
+  exports: [CvcFlagListAndFilterComponent],
 })
-export class CvcFlagListAndFilterModule { }
+export class CvcFlagListAndFilterModule {}

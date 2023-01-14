@@ -21,13 +21,19 @@ import { Observable } from 'rxjs';
 export class MolecularProfilesSummaryPage {
   @Input() molecularProfileId: Maybe<number>;
 
-  queryRef: QueryRef<MolecularProfileSummaryQuery, MolecularProfileSummaryQueryVariables>;
+  queryRef: QueryRef<
+    MolecularProfileSummaryQuery,
+    MolecularProfileSummaryQueryVariables
+  >;
   loading$: Observable<boolean>;
   molecularProfile$: Observable<Maybe<MolecularProfileSummaryFieldsFragment>>;
 
   subscribable: SubscribableInput;
 
-  constructor(private gql: MolecularProfileSummaryGQL, private route: ActivatedRoute) {
+  constructor(
+    private gql: MolecularProfileSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     var queryMpId: number;
     if (this.molecularProfileId) {
       queryMpId = this.molecularProfileId;

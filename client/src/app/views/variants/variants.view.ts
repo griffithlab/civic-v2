@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './variants.view.html',
 })
 export class VariantsView {
-  constructor() { }
+  constructor() {}
 }

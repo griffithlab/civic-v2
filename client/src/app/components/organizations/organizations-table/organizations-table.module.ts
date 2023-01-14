@@ -45,6 +45,6 @@ import { CvcOrganizationsTableComponent } from './organizations-table.component'
     CvcTagOverflowModule,
     CvcPipesModule,
   ],
-  exports: [CvcOrganizationsTableComponent]
+  exports: [CvcOrganizationsTableComponent],
 })
-export class CvcOrganizationsTableModule { }
+export class CvcOrganizationsTableModule {}

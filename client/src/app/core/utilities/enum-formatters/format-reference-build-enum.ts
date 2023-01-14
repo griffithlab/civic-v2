@@ -1,4 +1,4 @@
-import { ReferenceBuild } from "@app/generated/civic.apollo";
+import { ReferenceBuild } from '@app/generated/civic.apollo';
 
 export function formatReferenceBuildEnum(value: ReferenceBuild): string {
   switch (value) {

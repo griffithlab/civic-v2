@@ -8,9 +8,7 @@ import { ClinicalTrialsDetailModule } from './clinical-trials-detail/clinical-tr
 import { ClinicalTrialsSummaryModule } from './clinical-trials-detail/clinical-trials-summary/clinical-trials-summary.module';
 
 @NgModule({
-  declarations: [
-    ClinicalTrialsComponent,
-  ],
+  declarations: [ClinicalTrialsComponent],
   imports: [
     CommonModule,
     ClinicalTrialsRoutingModule,

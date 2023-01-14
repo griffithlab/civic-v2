@@ -5,10 +5,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @NgModule({
   declarations: [CvcOrganizationAvatarComponent],
-  imports: [
-    CommonModule,
-    NzAvatarModule,
-  ],
-  exports: [CvcOrganizationAvatarComponent]
+  imports: [CommonModule, NzAvatarModule],
+  exports: [CvcOrganizationAvatarComponent],
 })
-export class CvcOrganizationAvatarModule { }
+export class CvcOrganizationAvatarModule {}

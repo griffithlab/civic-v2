@@ -1,22 +1,27 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
-import { formatEvidenceEnum, InputEnum } from '../utilities/enum-formatters/format-evidence-enum';
+import {
+  formatEvidenceEnum,
+  InputEnum,
+} from '../utilities/enum-formatters/format-evidence-enum';
 
-export type EnumOutputStyle = 'display-string' | 'icon-name'
+export type EnumOutputStyle = 'display-string' | 'icon-name';
 
 @Pipe({
   name: 'evidenceEnumDisplay',
-  pure: true
+  pure: true,
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
-  transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string') : string {
-    if(value === undefined) return ''
+  transform(
+    value: Maybe<InputEnum>,
+    context: EnumOutputStyle = 'display-string'
+  ): string {
+    if (value === undefined) return '';
     if (context === 'display-string') {
       return formatEvidenceEnum(value);
       // return this.formatString(value)
     } else {
-      return `civic-${value.replace(/_/g, '').toLowerCase()}`
+      return `civic-${value.replace(/_/g, '').toLowerCase()}`;
     }
   }
-
 }

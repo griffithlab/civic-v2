@@ -29,8 +29,8 @@ import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submi
     NzModalModule,
     CvcUserAvatarModule,
     CvcUserCoiFormModule,
-    VariantSubmitFormModule
+    VariantSubmitFormModule,
   ],
-  exports: [CvcViewerButtonComponent]
+  exports: [CvcViewerButtonComponent],
 })
-export class CvcViewerButtonModule { }
+export class CvcViewerButtonModule {}

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { ApolloQueryResult } from "@apollo/client/core";
+import { Component, Input, OnInit } from '@angular/core';
+import { ApolloQueryResult } from '@apollo/client/core';
 import {
   EventFeedGQL,
   EventFeedMode,
@@ -7,15 +7,19 @@ import {
   EventFeedQuery,
   EventFeedQueryVariables,
   Maybe,
-  PageInfo
-} from "@app/generated/civic.apollo";
-import { QueryRef } from "apollo-angular";
-import { environment } from "environments/environment";
+  PageInfo,
+} from '@app/generated/civic.apollo';
+import { QueryRef } from 'apollo-angular';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { isNonNulled } from "rxjs-etc";
+import { isNonNulled } from 'rxjs-etc';
 import { filter, map, pluck } from 'rxjs/operators';
 
-export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displayAll"
+export type EventDisplayOption =
+  | 'hideSubject'
+  | 'hideUser'
+  | 'hideOrg'
+  | 'displayAll';
 
 @Component({
   selector: 'cvc-homepage-event-feed',
@@ -23,11 +27,11 @@ export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displ
   styleUrls: ['./homepage-event-feed.component.less'],
 })
 export class CvcHomepageEventFeedComponent implements OnInit {
-  @Input() pageSize = 15
+  @Input() pageSize = 15;
 
-  mode: EventFeedMode = EventFeedMode.Unscoped
-  tagDisplay: EventDisplayOption = "hideOrg"
-  showFilters: boolean = false
+  mode: EventFeedMode = EventFeedMode.Unscoped;
+  tagDisplay: EventDisplayOption = 'hideOrg';
+  showFilters: boolean = false;
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
@@ -36,40 +40,43 @@ export class CvcHomepageEventFeedComponent implements OnInit {
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
-  unfilteredCount$?: Observable<number>
+  unfilteredCount$?: Observable<number>;
 
-  constructor(private gql: EventFeedGQL) {
-  }
+  constructor(private gql: EventFeedGQL) {}
 
   ngOnInit() {
     this.initialQueryVars = {
       first: this.pageSize,
       mode: this.mode,
       showFilters: this.showFilters,
-      includeAutomatedEvents: false
-    }
+      includeAutomatedEvents: false,
+    };
 
     if (environment.production) {
-      this.queryRef = this.gql.watch(this.initialQueryVars, { pollInterval: 30000 });
+      this.queryRef = this.gql.watch(this.initialQueryVars, {
+        pollInterval: 30000,
+      });
     } else {
       this.queryRef = this.gql.watch(this.initialQueryVars);
     }
-    this.results$ = this.queryRef.valueChanges
+    this.results$ = this.queryRef.valueChanges;
 
-    this.pageInfo$ = this.results$
-      .pipe(
-        pluck('data'),
-        filter(isNonNulled),
-        map(({ events }) => events.pageInfo));
+    this.pageInfo$ = this.results$.pipe(
+      pluck('data'),
+      filter(isNonNulled),
+      map(({ events }) => events.pageInfo)
+    );
 
     this.events$ = this.results$.pipe(
       pluck('data'),
       filter(isNonNulled),
-      map(({ events }) => events.edges.map(e => e.node)));
+      map(({ events }) => events.edges.map((e) => e.node))
+    );
 
     this.unfilteredCount$ = this.results$.pipe(
       pluck('data'),
       filter(isNonNulled),
-      map(({ events }) => events.unfilteredCount ))
+      map(({ events }) => events.unfilteredCount)
+    );
   }
 }

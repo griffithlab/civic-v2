@@ -16,6 +16,6 @@ import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-
     NzSpaceModule,
     NzSkeletonModule,
     CvcFlagListAndFilterModule,
-  ]
+  ],
 })
-export class EvidenceFlagsModule { }
+export class EvidenceFlagsModule {}

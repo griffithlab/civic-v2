@@ -1,4 +1,5 @@
-<nz-select nzShowSearch
+<nz-select
+  nzShowSearch
   nzServerSearch
   nzAllowClear
   [(ngModel)]="selectedOpt"
@@ -7,27 +8,26 @@
   nzPlaceHolder="Search CIViC"
   [nzOptionHeightPx]="28"
   [nzShowArrow]="false"
-  [nzDropdownMatchSelectWidth]="false">
-  <nz-option *ngFor="let o of (option$ | ngrxPush)"
+  [nzDropdownMatchSelectWidth]="false"
+>
+  <nz-option
+    *ngFor="let o of (option$ | ngrxPush)"
     nzCustomContent
     [nzLabel]="o.text"
-    [nzValue]="o.result">
-    <i nz-icon
+    [nzValue]="o.result"
+  >
+    <i
+      nz-icon
       [nzType]="iconNameForResult(o.result)"
-      style="margin-right: .5em"></i>
-    <span innerHTML= {{o.result.name}}></span>
-    <span *ngIf="o.result.matchingText"
-      nz-typography
-      nzType="secondary">
-    &mdash;
-    <span innerHTML= {{o.result.matchingText}}></span>
+      style="margin-right: 0.5em"
+    ></i>
+    <span innerHTML="{{o.result.name}}"></span>
+    <span *ngIf="o.result.matchingText" nz-typography nzType="secondary">
+      &mdash;
+      <span innerHTML="{{o.result.matchingText}}"></span>
     </span>
   </nz-option>
-  <nz-option *ngIf="isLoading$ | ngrxPush"
-    nzDisabled
-    nzCustomContent>
-    <i nz-icon
-      nzType="loading"
-      class="loading-icon"></i> Loading Data...
+  <nz-option *ngIf="isLoading$ | ngrxPush" nzDisabled nzCustomContent>
+    <i nz-icon nzType="loading" class="loading-icon"></i> Loading Data...
   </nz-option>
 </nz-select>

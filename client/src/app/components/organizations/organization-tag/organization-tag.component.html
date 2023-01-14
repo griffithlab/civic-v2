@@ -1,17 +1,18 @@
 <ng-container *ngIf="linked; else unlinked">
-  <a routerLink="/organizations/{{org.id}}">
+  <a routerLink="/organizations/{{ org.id }}">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag nz-popover
-    [nzPopoverContent]="orgPopover">
+  <nz-tag nz-popover [nzPopoverContent]="orgPopover">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #orgPopover>
-    <cvc-organization-popover *ngIf="enablePopover"
-      [orgId]="org.id"></cvc-organization-popover>
+    <cvc-organization-popover
+      *ngIf="enablePopover"
+      [orgId]="org.id"
+    ></cvc-organization-popover>
   </ng-template>
 </ng-template>
 
@@ -20,8 +21,11 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
+  <i
+    nz-icon
     nzType="civic-organization"
     nzTheme="twotone"
-    nzTwotoneColor="#58A0C4"></i> {{ org.name }}
+    nzTwotoneColor="#58A0C4"
+  ></i>
+  {{ org.name }}
 </ng-template>

@@ -15,7 +15,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzGridModule,
     NzSpaceModule,
     NzCardModule,
-    NzTableModule
-  ]
+    NzTableModule,
+  ],
 })
-export class PagesAboutModule { }
+export class PagesAboutModule {}

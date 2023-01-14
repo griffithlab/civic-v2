@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'molecular-profiles-home',
   templateUrl: './molecular-profiles-home.page.html',
-  styleUrls: ['./molecular-profiles-home.page.less']
+  styleUrls: ['./molecular-profiles-home.page.less'],
 })
 export class MolecularProfilesHomePage implements OnInit {
   viewer$?: Observable<Viewer>;
@@ -14,7 +17,5 @@ export class MolecularProfilesHomePage implements OnInit {
     this.viewer$ = this.viewerService.viewer$;
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

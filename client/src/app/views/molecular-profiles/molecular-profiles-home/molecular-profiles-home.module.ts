@@ -38,6 +38,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcSectionNavigationModule,
     VariantSubmitFormModule,
   ],
-  exports: [MolecularProfilesHomePage]
+  exports: [MolecularProfilesHomePage],
 })
-export class MolecularProfilesHomeModule { }
+export class MolecularProfilesHomeModule {}

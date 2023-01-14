@@ -6,11 +6,9 @@ import { EvidenceStatusFilter } from '@app/generated/civic.apollo';
   templateUrl: './pending-assertions.page.html',
 })
 export class PendingAssertionsPage implements OnInit {
-  status = EvidenceStatusFilter.Submitted
+  status = EvidenceStatusFilter.Submitted;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

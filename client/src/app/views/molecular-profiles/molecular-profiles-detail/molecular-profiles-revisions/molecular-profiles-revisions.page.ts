@@ -1,4 +1,4 @@
-import { Component, OnDestroy, } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModeratedEntities } from '@app/generated/civic.apollo';
 import { Subscription } from 'rxjs';
@@ -8,17 +8,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './molecular-profiles-revisions.page.html',
 })
 export class MolecularProfilesRevisionsPage implements OnDestroy {
-  molecularProfileId!: number
-  entityType!: ModeratedEntities
-  
-  routeSub: Subscription
+  molecularProfileId!: number;
+  entityType!: ModeratedEntities;
 
-  constructor(
-    private route: ActivatedRoute
-  ) {
+  routeSub: Subscription;
+
+  constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.molecularProfileId= +params.molecularProfileId;
-      this.entityType = ModeratedEntities.MolecularProfile
+      this.molecularProfileId = +params.molecularProfileId;
+      this.entityType = ModeratedEntities.MolecularProfile;
     });
   }
 

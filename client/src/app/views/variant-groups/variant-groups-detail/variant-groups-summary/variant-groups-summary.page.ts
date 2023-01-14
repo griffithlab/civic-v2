@@ -19,7 +19,7 @@ import {
 @Component({
   selector: 'cvc-variant-groups-summary',
   templateUrl: './variant-groups-summary.page.html',
-  styleUrls: ['./variant-groups-summary.page.less']
+  styleUrls: ['./variant-groups-summary.page.less'],
 })
 export class VariantGroupsSummaryPage implements OnDestroy {
   variantGroup$?: Observable<Maybe<VariantGroupSummaryFieldsFragment>>;
@@ -29,7 +29,7 @@ export class VariantGroupsSummaryPage implements OnDestroy {
 
   subscribableEntity?: SubscribableInput;
 
-  routeSub: Subscription
+  routeSub: Subscription;
 
   constructor(
     private gql: VariantGroupsSummaryGQL,
@@ -58,6 +58,6 @@ export class VariantGroupsSummaryPage implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe()
+    this.routeSub.unsubscribe();
   }
 }

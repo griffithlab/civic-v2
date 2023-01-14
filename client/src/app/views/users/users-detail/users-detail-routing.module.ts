@@ -20,45 +20,43 @@ const routes: Routes = [
         path: 'evidence',
         component: UsersEvidenceComponent,
         data: {
-          breadcrumb: 'Evidence'
-        }
+          breadcrumb: 'Evidence',
+        },
       },
       {
         path: 'assertions',
         component: UsersAssertionsComponent,
         data: {
-          breadcrumb: 'Assertions'
-        }
+          breadcrumb: 'Assertions',
+        },
       },
       {
         path: 'activity',
         component: UsersEventsComponent,
         data: {
-          breadcrumb: 'Activity'
-        }
+          breadcrumb: 'Activity',
+        },
       },
       {
         path: 'source-suggestions',
         component: UsersSourceSuggestionsComponent,
         data: {
-          breadcrumb: 'Source Suggestions'
-        }
+          breadcrumb: 'Source Suggestions',
+        },
       },
       {
         path: 'notifications',
         component: UsersNotificationsComponent,
         data: {
-          breadcrumb: 'Notifications'
-        }
+          breadcrumb: 'Notifications',
+        },
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UsersDetailRoutingModule { }
+export class UsersDetailRoutingModule {}

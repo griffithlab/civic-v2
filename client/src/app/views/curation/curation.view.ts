@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './curation.view.html',
 })
 export class CurationView implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -7,12 +7,13 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { DuplicateEvidenceWarningComponent, DuplicateEvidenceWarningType } from './duplicate-evidence-warning';
+import {
+  DuplicateEvidenceWarningComponent,
+  DuplicateEvidenceWarningType,
+} from './duplicate-evidence-warning';
 
 @NgModule({
-  declarations: [
-    DuplicateEvidenceWarningComponent
-  ],
+  declarations: [DuplicateEvidenceWarningComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -24,10 +25,8 @@ import { DuplicateEvidenceWarningComponent, DuplicateEvidenceWarningType } from 
     }),
     NzAlertModule,
     NzTypographyModule,
-    CvcEvidenceTableModule
+    CvcEvidenceTableModule,
   ],
-  exports: [
-    DuplicateEvidenceWarningComponent
-  ]
+  exports: [DuplicateEvidenceWarningComponent],
 })
-export class CvcDuplicateEvidenceWarningModule { }
+export class CvcDuplicateEvidenceWarningModule {}

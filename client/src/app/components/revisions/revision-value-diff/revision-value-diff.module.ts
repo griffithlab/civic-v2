@@ -5,10 +5,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
   declarations: [RevisionValueDiffComponent],
-  imports: [
-    CommonModule,
-    NzGridModule,
-  ],
-  exports: [RevisionValueDiffComponent]
+  imports: [CommonModule, NzGridModule],
+  exports: [RevisionValueDiffComponent],
 })
-export class CvcRevisionValueDiffModule { }
+export class CvcRevisionValueDiffModule {}

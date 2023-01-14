@@ -14,6 +14,6 @@ import { CvcVariantsTableModule } from '@app/components/variants/variants-table/
     CvcEvidenceTableModule,
     CvcSourcesTableModule,
     CvcVariantsTableModule,
-  ]
+  ],
 })
-export class VariantTypesSummaryModule { }
+export class VariantTypesSummaryModule {}

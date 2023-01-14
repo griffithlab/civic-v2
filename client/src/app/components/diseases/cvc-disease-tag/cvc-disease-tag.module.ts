@@ -17,8 +17,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzPopoverModule,
     NzIconModule,
     CvcPipesModule,
-    CvcDiseasePopoverModule
+    CvcDiseasePopoverModule,
   ],
-  exports: [CvcDiseaseTagComponent]
+  exports: [CvcDiseaseTagComponent],
 })
-export class CvcDiseaseTagModule { }
+export class CvcDiseaseTagModule {}

@@ -38,32 +38,32 @@ export class VariantsDetailView implements OnDestroy {
   tabs$: BehaviorSubject<RouteableTab[]>;
   destroy$ = new Subject<void>();
   defaultTabs: RouteableTab[] = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary'
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments'
-      },
-      {
-        routeName: 'revisions',
-        iconName: 'civic-revision',
-        tabLabel: 'Revisions'
-      },
-      {
-        routeName: 'flags',
-        iconName: 'civic-flag',
-        tabLabel: 'Flags'
-      },
-      {
-        routeName: 'events',
-        iconName: 'civic-event',
-        tabLabel: 'Events'
-      }
-    ]
+    {
+      routeName: 'summary',
+      iconName: 'pic-left',
+      tabLabel: 'Summary',
+    },
+    {
+      routeName: 'comments',
+      iconName: 'civic-comment',
+      tabLabel: 'Comments',
+    },
+    {
+      routeName: 'revisions',
+      iconName: 'civic-revision',
+      tabLabel: 'Revisions',
+    },
+    {
+      routeName: 'flags',
+      iconName: 'civic-flag',
+      tabLabel: 'Flags',
+    },
+    {
+      routeName: 'events',
+      iconName: 'civic-event',
+      tabLabel: 'Events',
+    },
+  ];
 
   constructor(
     private gql: VariantDetailGQL,
@@ -85,31 +85,29 @@ export class VariantsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'));
 
-      this.variant$.pipe(
-        pluck('revisions', 'totalCount'),
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (count) => {
-          this.tabs$.next(
-            this.defaultTabs.map((tab) => {
-              if (tab.tabLabel === 'Revisions') {
-                return {
-                  badgeCount: count as number,
-                  ...tab
+      this.variant$
+        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .subscribe({
+          next: (count) => {
+            this.tabs$.next(
+              this.defaultTabs.map((tab) => {
+                if (tab.tabLabel === 'Revisions') {
+                  return {
+                    badgeCount: count as number,
+                    ...tab,
+                  };
+                } else {
+                  return tab;
                 }
-              }
-              else {
-                return tab
-              }
-            }
-          ))
-        }
-      })
+              })
+            );
+          },
+        });
 
       this.subscribable = {
         id: +params.variantId,
-        entityType: SubscribableEntities.Variant
-      }
+        entityType: SubscribableEntities.Variant,
+      };
 
       this.viewer$ = this.viewerService.viewer$;
     });

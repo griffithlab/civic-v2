@@ -5,10 +5,7 @@ import { AssertionsCommentsPage } from './assertions-comments.page';
 
 @NgModule({
   declarations: [AssertionsCommentsPage],
-  imports: [
-    CommonModule,
-    CvcCommentListModule,
-  ],
-  exports: [AssertionsCommentsPage]
+  imports: [CommonModule, CvcCommentListModule],
+  exports: [AssertionsCommentsPage],
 })
-export class AssertionsCommentsModule { }
+export class AssertionsCommentsModule {}

@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ClingenCode, ClingenCodeTypeaheadGQL, ClingenCodeTypeaheadQuery, ClingenCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
+import {
+  ClingenCode,
+  ClingenCodeTypeaheadGQL,
+  ClingenCodeTypeaheadQuery,
+  ClingenCodeTypeaheadQueryVariables,
+} from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
@@ -13,30 +18,31 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './clingen-code-select.type.html',
 })
 export class ClingenCodeInputType extends FieldType<any> implements OnInit {
-  
+  searchVal = '';
 
-  searchVal = ''
+  private queryRef?: QueryRef<
+    ClingenCodeTypeaheadQuery,
+    ClingenCodeTypeaheadQueryVariables
+  >;
+  codes$?: Observable<ClingenCode[]>;
 
-  private queryRef?: QueryRef<ClingenCodeTypeaheadQuery, ClingenCodeTypeaheadQueryVariables>
-  codes$?: Observable<ClingenCode[]>
-
-  constructor(private clingenCodeGQL: ClingenCodeTypeaheadGQL){
+  constructor(private clingenCodeGQL: ClingenCodeTypeaheadGQL) {
     super();
   }
 
   ngOnInit(): void {
-    this.queryRef = this.clingenCodeGQL.watch({ code: this.searchVal })
-    this.codes$ = this.queryRef.valueChanges
-      .pipe(map(r => r.data),
-        filter(isNonNulled),
-        map(({ clingenCodesTypeahead }) => clingenCodesTypeahead));
+    this.queryRef = this.clingenCodeGQL.watch({ code: this.searchVal });
+    this.codes$ = this.queryRef.valueChanges.pipe(
+      map((r) => r.data),
+      filter(isNonNulled),
+      map(({ clingenCodesTypeahead }) => clingenCodesTypeahead)
+    );
   }
 
   onSearch(value: string): void {
-    this.searchVal = value
-    this.queryRef?.refetch({ code: value })
+    this.searchVal = value;
+    this.queryRef?.refetch({ code: value });
   }
-
 }
 export const clingenCodeSelectTypeOption: TypeOption = {
   name: 'clingen-code-select',
@@ -47,5 +53,5 @@ export const clingenCodeSelectTypeOption: TypeOption = {
     templateOptions: {
       placeholder: 'None specified.',
     },
-  }
-}
+  },
+};

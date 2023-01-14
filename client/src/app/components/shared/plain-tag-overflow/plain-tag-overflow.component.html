@@ -1,26 +1,38 @@
 <cvc-tag-list size="xs">
-  <span *ngFor="let tag of displayedTags"
-    [ngClass]="{'matched-tag': matchingText && tag.toLowerCase().includes(matchingText)}">
+  <span
+    *ngFor="let tag of displayedTags"
+    [ngClass]="{
+      'matched-tag': matchingText && tag.toLowerCase().includes(matchingText)
+    }"
+  >
     <nz-tag>{{ tag }}</nz-tag>
   </span>
-  <span [ngClass]="{'matched-tag': matchedHiddenCount > 0}">
-    <nz-tag class="overflow-tag"
+  <span [ngClass]="{ 'matched-tag': matchedHiddenCount > 0 }">
+    <nz-tag
+      class="overflow-tag"
       *ngIf="hiddenCount && hiddenCount > 0"
       nz-popover
       [nzPopoverMouseEnterDelay]="0"
       [nzPopoverContent]="additionalTagPopover"
       nzPopoverPlacement="top"
-      nzPopoverTrigger="hover">
+      nzPopoverTrigger="hover"
+    >
       +<span *ngIf="matchedHiddenCount > 0">
-      {{matchedHiddenCount}}
-      of </span>{{this.hiddenCount}}
+        {{ matchedHiddenCount }}
+        of </span
+      >{{ this.hiddenCount }}
     </nz-tag>
   </span>
   <ng-template #additionalTagPopover>
     <div class="popover-tag-list">
       <cvc-tag-list size="xs">
-        <div *ngFor="let tag of hiddenTags"
-          [ngClass]="{'matched-tag': matchingText && tag.toLowerCase().includes(matchingText)}">
+        <div
+          *ngFor="let tag of hiddenTags"
+          [ngClass]="{
+            'matched-tag':
+              matchingText && tag.toLowerCase().includes(matchingText)
+          }"
+        >
           <nz-tag>{{ tag }}</nz-tag>
         </div>
       </cvc-tag-list>

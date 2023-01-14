@@ -7,9 +7,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 })
 export class CvcFormInfoPanelComponent implements OnInit {
   @Input() field!: FormlyFieldConfig;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

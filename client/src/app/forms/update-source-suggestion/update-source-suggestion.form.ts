@@ -4,12 +4,10 @@ import {
   Input,
   OnDestroy,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  Subject,
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -22,7 +20,10 @@ import {
   UpdateSourceSuggestionMutationVariables,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
+import {
+  ViewerService,
+  Viewer,
+} from '@app/core/services/viewer/viewer.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
@@ -41,22 +42,25 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 
-  reason?: string
-  newStatus?: SourceSuggestionStatus
+  reason?: string;
+  newStatus?: SourceSuggestionStatus;
 
+  success: boolean = false;
+  errorMessages: string[] = [];
+  loading: boolean = false;
 
-  success: boolean = false
-  errorMessages: string[] = []
-  loading: boolean = false
-
-  sourceSuggestionStatusMutator: MutatorWithState<UpdateSourceSuggestionGQL, UpdateSourceSuggestionMutation, UpdateSourceSuggestionMutationVariables>;
+  sourceSuggestionStatusMutator: MutatorWithState<
+    UpdateSourceSuggestionGQL,
+    UpdateSourceSuggestionMutation,
+    UpdateSourceSuggestionMutationVariables
+  >;
 
   commentText?: string;
   constructor(
     private viewerService: ViewerService,
     private networkErrorService: NetworkErrorsService,
     private updateSuggestionStatusGql: UpdateSourceSuggestionGQL
-    ) {
+  ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -66,7 +70,9 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-      this.sourceSuggestionStatusMutator = new MutatorWithState(networkErrorService);
+    this.sourceSuggestionStatusMutator = new MutatorWithState(
+      networkErrorService
+    );
   }
 
   selectOrg(org: Organization): void {
@@ -74,30 +80,35 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
   }
 
   updateSourceSuggestionStatus(): void {
-    if(this.newStatus) {
-      let state = this.sourceSuggestionStatusMutator.mutate(this.updateSuggestionStatusGql, {
-        input: {
-          id: this.sourceSuggestionId,
-          newStatus: this.newStatus,
-          reason: this.reason,
-          organizationId: this.mostRecentOrg?.id
+    if (this.newStatus) {
+      let state = this.sourceSuggestionStatusMutator.mutate(
+        this.updateSuggestionStatusGql,
+        {
+          input: {
+            id: this.sourceSuggestionId,
+            newStatus: this.newStatus,
+            reason: this.reason,
+            organizationId: this.mostRecentOrg?.id,
+          },
+        }
+      );
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        this.resetForm();
+        this.success = true;
+      });
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if (errs) {
+          this.errorMessages = errs;
         }
       });
 
-        state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-          this.resetForm();
-          this.success = true
-        })
-
-        state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-          if(errs) {
-            this.errorMessages = errs
-          }
-        })
-
-        state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-          this.loading = loading
-        })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading;
+        });
     }
   }
 
@@ -108,7 +119,6 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
   onSuccessBannerClose() {
     this.resetForm();
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next();

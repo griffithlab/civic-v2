@@ -6,11 +6,9 @@ import { EventFeedMode } from '@app/generated/civic.apollo';
   templateUrl: './curation-timeline.page.html',
 })
 export class CurationTimelinePage implements OnInit {
-  feedMode =  EventFeedMode.Unscoped
+  feedMode = EventFeedMode.Unscoped;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

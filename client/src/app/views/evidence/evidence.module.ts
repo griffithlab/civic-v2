@@ -5,15 +5,8 @@ import { EvidenceRoutingModule } from './evidence-routing.module';
 import { EvidenceView } from './evidence.view';
 
 @NgModule({
-  declarations: [
-    EvidenceView,
-  ],
-  imports: [
-    CommonModule,
-    EvidenceRoutingModule,
-  ],
-  exports: [
-    EvidenceView,
-  ]
+  declarations: [EvidenceView],
+  imports: [CommonModule, EvidenceRoutingModule],
+  exports: [EvidenceView],
 })
-export class EvidenceModule { }
+export class EvidenceModule {}

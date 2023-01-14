@@ -5,9 +5,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CommunityMainComponent],
-  imports: [
-    CommonModule,
-    NzIconModule,
-  ]
+  imports: [CommonModule, NzIconModule],
 })
-export class CommunityMainModule { }
+export class CommunityMainModule {}

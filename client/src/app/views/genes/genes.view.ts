@@ -5,7 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './genes.view.html',
 })
 export class GenesView {
-
-  constructor() { }
-
+  constructor() {}
 }

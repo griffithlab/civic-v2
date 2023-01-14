@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import {TypeOption} from "@ngx-formly/core/lib/models";
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 @Component({
   selector: 'cvc-source-input-type',
@@ -17,10 +17,9 @@ export class SourceInputType extends FieldType<any> {
     console.log(s);
     this.formControl.setValue(s);
   }
-
 }
 
 export const SourceInputTypeOption: TypeOption = {
   name: 'source-input',
   component: SourceInputType,
-}
+};

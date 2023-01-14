@@ -1,6 +1,19 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ApolloError } from '@apollo/client/errors';
-import { AddRemoteCitationGQL, CheckRemoteCitationGQL, Maybe, SourceSource, SourceStub, SourceStubFieldsFragmentDoc } from '@app/generated/civic.apollo';
+import {
+  AddRemoteCitationGQL,
+  CheckRemoteCitationGQL,
+  Maybe,
+  SourceSource,
+  SourceStub,
+  SourceStubFieldsFragmentDoc,
+} from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
@@ -9,7 +22,7 @@ import { $enum } from 'ts-enum-util';
 @Component({
   selector: 'cvc-citation-loader',
   templateUrl: './citation-loader.component.html',
-  styleUrls: ['./citation-loader.component.less']
+  styleUrls: ['./citation-loader.component.less'],
 })
 export class CitationLoaderComponent {
   @Input() model!: any;
@@ -47,19 +60,26 @@ export class CitationLoaderComponent {
     private existenceCheckQuery: CheckRemoteCitationGQL,
     private createSourceStubQuery: AddRemoteCitationGQL,
     private changeDetectorRef: ChangeDetectorRef
-  ) { }
+  ) {}
 
   onExistenceQuery(e: any): void {
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     this.isChecking = true;
     this.foundCitation = undefined;
     this.existenceCheckQuery
       .fetch({
         sourceType: this.sourceType,
-        citationId: this.citationId
+        citationId: this.citationId,
       })
-      .pipe(finalize(() => { this.isChecking = false; this.changeDetectorRef.detectChanges(); }),
-        untilDestroyed(this))
+      .pipe(
+        finalize(() => {
+          this.isChecking = false;
+          this.changeDetectorRef.detectChanges();
+        }),
+        untilDestroyed(this)
+      )
       .subscribe({
         next: ({ data: { remoteCitation } }) => {
           if (remoteCitation !== null) {
@@ -71,17 +91,19 @@ export class CitationLoaderComponent {
         },
         error: (error: ApolloError): void => {
           this.showPrompt = false;
-          this.existenceErrors = error.graphQLErrors.map(e => e.message);
+          this.existenceErrors = error.graphQLErrors.map((e) => e.message);
         },
         complete: (): void => {
           this.existenceErrors = [];
-        }
-      })
+        },
+      });
   }
 
   onAddRemoteCitation(e: any) {
     // TODO determine if this preventDefault is actuall required
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     this.isCreating = true;
     this.createSuccess = false;
 
@@ -89,39 +111,42 @@ export class CitationLoaderComponent {
       .mutate({
         input: {
           citationId: this.citationId,
-          sourceType: this.sourceType
-        }
+          sourceType: this.sourceType,
+        },
       })
-      .pipe(finalize(() => {
-        this.isCreating = false;
-        // TODO figure out why this detectChanges call is necessary
-        this.changeDetectorRef.detectChanges();
-      }),
-        untilDestroyed(this))
-      .subscribe(
-        {
-          next: ({ data }): void => {
-            console.log(data);
-            const source = data?.addRemoteCitation?.newSource as SourceStub;
-            this.sourceStub = source;
-            this.createSuccess = true;
-          },
-          error: (error: ApolloError): void => {
-            this.showPrompt = false;
-            this.createSuccess = false;
-            this.createErrors = error.graphQLErrors.map(e => e.message);
-          },
-          complete: (): void => {
-            this.createErrors = [];
-          }
-        });
+      .pipe(
+        finalize(() => {
+          this.isCreating = false;
+          // TODO figure out why this detectChanges call is necessary
+          this.changeDetectorRef.detectChanges();
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe({
+        next: ({ data }): void => {
+          console.log(data);
+          const source = data?.addRemoteCitation?.newSource as SourceStub;
+          this.sourceStub = source;
+          this.createSuccess = true;
+        },
+        error: (error: ApolloError): void => {
+          this.showPrompt = false;
+          this.createSuccess = false;
+          this.createErrors = error.graphQLErrors.map((e) => e.message);
+        },
+        complete: (): void => {
+          this.createErrors = [];
+        },
+      });
   }
 
   onAcceptSource(e: any): void {
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     this.addCitation.emit({
       id: this.sourceStub!.id,
-      entityFragment: SourceStubFieldsFragmentDoc
-    })
+      entityFragment: SourceStubFieldsFragmentDoc,
+    });
   }
 }

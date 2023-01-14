@@ -9,9 +9,7 @@ import { RouterModule } from '@angular/router';
 import { DiseasesHomeModule } from './diseases-home/diseases-home.module';
 
 @NgModule({
-  declarations: [
-    DiseasesComponent,
-  ],
+  declarations: [DiseasesComponent],
   imports: [
     CommonModule,
     RouterModule,

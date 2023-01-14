@@ -4,7 +4,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 @Component({
   selector: 'cvc-curation-activity-view',
   templateUrl: './curation-activity.view.html',
-  styleUrls: ['./curation-activity.view.less']
+  styleUrls: ['./curation-activity.view.less'],
 })
 export class CurationActivityView {
   tabs: RouteableTab[];
@@ -13,9 +13,8 @@ export class CurationActivityView {
       {
         routeName: 'curation-timeline',
         iconName: 'civic-event',
-        tabLabel: 'Timeline'
+        tabLabel: 'Timeline',
       },
-    ]
+    ];
   }
-
 }

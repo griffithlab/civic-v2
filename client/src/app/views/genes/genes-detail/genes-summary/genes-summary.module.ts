@@ -40,6 +40,6 @@ import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profil
     CvcMyGeneInfoModule,
     CvcMolecularProfilesMenuModule,
   ],
-  exports: [GenesSummaryPage]
+  exports: [GenesSummaryPage],
 })
-export class GenesSummaryModule { }
+export class GenesSummaryModule {}

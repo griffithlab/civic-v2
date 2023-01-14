@@ -4,9 +4,7 @@ import { CvcTagListComponent } from './tag-list.component';
 
 @NgModule({
   declarations: [CvcTagListComponent],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [CvcTagListComponent],
 })
-export class CvcTagListModule { }
+export class CvcTagListModule {}

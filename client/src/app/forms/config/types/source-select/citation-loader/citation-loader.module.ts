@@ -17,6 +17,6 @@ import { CitationLoaderComponent } from './citation-loader.component';
     CvcFormErrorsAlertModule,
     NzButtonModule,
   ],
-  exports: [CitationLoaderComponent]
+  exports: [CitationLoaderComponent],
 })
-export class CvcCitationLoaderModule { }
+export class CvcCitationLoaderModule {}

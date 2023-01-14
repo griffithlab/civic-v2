@@ -14,16 +14,13 @@ const configOption: ConfigOption = {
   wrappers: [
     {
       name: 'form-card',
-      component: FormCardWrapper
-    }
-  ]
-}
+      component: FormCardWrapper,
+    },
+  ],
+};
 
 @NgModule({
-  declarations: [
-    FormCardWrapper,
-    FormCardDirective
-  ],
+  declarations: [FormCardWrapper, FormCardDirective],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,8 +31,6 @@ const configOption: ConfigOption = {
     FormlyModule.forChild(configOption),
     NgxJsonViewerModule,
   ],
-  exports: [
-    FormCardDirective
-  ]
+  exports: [FormCardDirective],
 })
-export class CvcFormCardModule { }
+export class CvcFormCardModule {}

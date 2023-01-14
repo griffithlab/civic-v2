@@ -21,4 +21,4 @@ import { NzCardModule } from 'ng-zorro-antd/card';
   ],
   exports: [VariantsFlagsPage],
 })
-export class VariantsFlagsModule { }
+export class VariantsFlagsModule {}

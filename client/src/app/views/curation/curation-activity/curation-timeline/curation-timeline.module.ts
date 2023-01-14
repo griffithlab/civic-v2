@@ -7,11 +7,6 @@ import { CurationTimelinePage } from './curation-timeline.page';
 
 @NgModule({
   declarations: [CurationTimelinePage],
-  imports: [
-    CommonModule,
-    NzGridModule,
-    NzCardModule,
-    CvcEventFeedModule,
-  ]
+  imports: [CommonModule, NzGridModule, NzCardModule, CvcEventFeedModule],
 })
-export class CurationTimelineModule { }
+export class CurationTimelineModule {}

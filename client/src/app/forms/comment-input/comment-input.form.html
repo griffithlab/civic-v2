@@ -1,17 +1,21 @@
 <ng-container *ngrxLet="this.viewer$ as viewer">
   <nz-tabset [nzAnimated]="false">
     <nz-tab nzTitle="Write">
-      <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@', '$']"
-          nzNotFoundContent="No matches..."
-          [nzValueWith]="autoCompleteValueFor"
-          (nzOnSelect)="this.suggestions = []">
+      <nz-mention
+        [nzSuggestions]="suggestions"
+        (nzOnSearchChange)="onSearchChange($event)"
+        [nzPrefix]="['#', '@', '$']"
+        nzNotFoundContent="No matches..."
+        [nzValueWith]="autoCompleteValueFor"
+        (nzOnSelect)="this.suggestions = []"
+      >
         <textarea
           [placeholder]="(viewer && viewer.canCurate) ? 'Enter comment (minimum length 10. Use @ to mention users; # to link entities)' : 'Please sign in'"
           nzMentionTrigger
           nz-input
           rows="4"
           style="width: 100%"
-          [attr.disabled]="(viewer && viewer.canCurate) ? null : true" 
+          [attr.disabled]="(viewer && viewer.canCurate) ? null : true"
           [(ngModel)]="commentText"
           (ngModelChange)="onCommentChanged($event)"
         ></textarea>
@@ -25,7 +29,9 @@
         <nz-spin nzTip="Loading..."></nz-spin>
       </ng-container>
       <ng-container *ngIf="(previewComment$ | ngrxPush) as previewComment">
-        <cvc-comment-body [commentBodySegments]="previewComment"></cvc-comment-body>
+        <cvc-comment-body
+          [commentBodySegments]="previewComment"
+        ></cvc-comment-body>
       </ng-container>
     </nz-tab>
   </nz-tabset>

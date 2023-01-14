@@ -19,5 +19,4 @@ export class VariantsSuggestPage implements OnDestroy {
   ngOnDestroy(): void {
     this.routeParams$.unsubscribe();
   }
-
 }

@@ -8,20 +8,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './assertions-revisions.page.html',
 })
 export class AssertionsRevisionsPage implements OnInit {
-  aid!: number
-  entityType!: ModeratedEntities
+  aid!: number;
+  entityType!: ModeratedEntities;
 
-  routeSub: Subscription
+  routeSub: Subscription;
 
-  constructor(
-    private route: ActivatedRoute
-  ) {
+  constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.aid = +params.assertionId;
-      this.entityType = ModeratedEntities['Assertion']
+      this.entityType = ModeratedEntities['Assertion'];
     });
   }
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

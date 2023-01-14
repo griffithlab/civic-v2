@@ -24,8 +24,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzRadioModule,
     NzButtonModule,
     NzSpinModule,
-    CvcFormErrorsAlertModule
+    CvcFormErrorsAlertModule,
   ],
-  exports: [CvcUserCoiForm]
+  exports: [CvcUserCoiForm],
 })
 export class CvcUserCoiFormModule {}

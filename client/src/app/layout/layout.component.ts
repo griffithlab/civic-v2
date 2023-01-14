@@ -18,7 +18,7 @@ export class LayoutComponent {
   canCurate$!: Observable<boolean>;
   canModerate$!: Observable<boolean>;
 
-  constructor(private viewerService: ViewerService,) {}
+  constructor(private viewerService: ViewerService) {}
 
   ngOnInit(): void {
     this.viewer$ = this.viewerService.viewer$;
@@ -27,5 +27,4 @@ export class LayoutComponent {
     this.canCurate$ = this.viewerService.canCurate$;
     this.canModerate$ = this.viewerService.canModerate$;
   }
-
 }

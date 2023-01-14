@@ -15,8 +15,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzTagModule,
     NzIconModule,
     NzPopoverModule,
-    CvcOrganizationPopoverModule
+    CvcOrganizationPopoverModule,
   ],
-  exports: [CvcOrganizationTagComponent]
+  exports: [CvcOrganizationTagComponent],
 })
-export class CvcOrganizationTagModule { }
+export class CvcOrganizationTagModule {}

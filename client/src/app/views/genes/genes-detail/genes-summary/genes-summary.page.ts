@@ -29,7 +29,7 @@ export class GenesSummaryPage implements OnDestroy {
 
   subscribableEntity?: SubscribableInput;
 
-  routeSub: Subscription
+  routeSub: Subscription;
 
   constructor(
     private gql: GenesSummaryGQL,
@@ -58,6 +58,6 @@ export class GenesSummaryPage implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe()
+    this.routeSub.unsubscribe();
   }
 }

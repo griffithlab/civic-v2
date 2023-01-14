@@ -5,9 +5,6 @@ import { MolecularProfileSuggestRevisionFormModule } from '@app/forms/molecular-
 
 @NgModule({
   declarations: [MolecularProfilesSuggestPage],
-  imports: [
-    CommonModule,
-    MolecularProfileSuggestRevisionFormModule,
-  ]
+  imports: [CommonModule, MolecularProfileSuggestRevisionFormModule],
 })
-export class MolecularProfilesSuggestModule { }
+export class MolecularProfilesSuggestModule {}

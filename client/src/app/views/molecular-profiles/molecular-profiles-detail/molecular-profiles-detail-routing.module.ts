@@ -26,7 +26,7 @@ const routes: Routes = [
           breadcrumb: 'Summary',
         },
       },
-       {
+      {
         path: 'comments',
         component: MolecularProfilesCommentsPage,
         data: {

@@ -22,6 +22,6 @@ import { VariantGroupsAddView } from './variant-groups-add.view';
     CvcLoginPromptModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
-  ]
+  ],
 })
-export class VariantGroupsAddModule { }
+export class VariantGroupsAddModule {}

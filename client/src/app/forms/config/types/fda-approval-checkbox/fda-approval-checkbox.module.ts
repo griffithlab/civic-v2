@@ -8,7 +8,7 @@ import { FormlyModule } from '@ngx-formly/core';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild({types: [fdaApprovalCheckboxTypeOption]}),
-  ]
+    FormlyModule.forChild({ types: [fdaApprovalCheckboxTypeOption] }),
+  ],
 })
-export class CvcFdaApprovalCheckboxTypeModule { }
+export class CvcFdaApprovalCheckboxTypeModule {}

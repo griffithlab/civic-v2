@@ -47,8 +47,8 @@ import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profi
     CvcMyVariantInfoModule,
     CvcEmptyRevisableModule,
     CvcEventFeedModule,
-    CvcMolecularProfilesTableModule
+    CvcMolecularProfilesTableModule,
   ],
   exports: [VariantsSummaryPage],
 })
-export class VariantsSummaryModule { }
+export class VariantsSummaryModule {}

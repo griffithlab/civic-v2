@@ -1,27 +1,54 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL, VariantSummaryGQL, VariantGroupsSummaryGQL, AssertionSummaryGQL, GenesSummaryGQL, EvidenceSummaryGQL, MolecularProfileDetailGQL, MolecularProfileSummaryGQL} from '@app/generated/civic.apollo';
+import {
+  RevisionsGQL,
+  RevisionsQuery,
+  RevisionsQueryVariables,
+  Maybe,
+  RevisionFragment,
+  ModeratedEntities,
+  RevisionStatus,
+  PageInfo,
+  VariantDetailGQL,
+  AssertionDetailGQL,
+  GeneDetailGQL,
+  EvidenceDetailGQL,
+  VariantGroupDetailGQL,
+  VariantSummaryGQL,
+  VariantGroupsSummaryGQL,
+  AssertionSummaryGQL,
+  GenesSummaryGQL,
+  EvidenceSummaryGQL,
+  MolecularProfileDetailGQL,
+  MolecularProfileSummaryGQL,
+} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, pluck, startWith } from 'rxjs/operators';
 import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types';
 
 export interface SelectableFieldName {
-  id: number
-  name: string
-  displayName: string
+  id: number;
+  name: string;
+  displayName: string;
 }
 
 export interface UniqueUsers {
-  id: number
-  username: string
-  profileImagePath?: string
+  id: number;
+  username: string;
+  profileImagePath?: string;
 }
 
 export interface SelectableRevisionStatus {
-  id: number,
-  displayName: string,
-  value: RevisionStatus
+  id: number;
+  displayName: string;
+  value: RevisionStatus;
 }
 
 @Component({
@@ -55,7 +82,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     { id: 3, displayName: 'Superseded', value: RevisionStatus.Superseded },
   ];
 
-  preselectedRevisionStatus: Maybe<SelectableRevisionStatus> = this.selectableStatuses[0]
+  preselectedRevisionStatus: Maybe<SelectableRevisionStatus> =
+    this.selectableStatuses[0];
 
   private defaultPageSize = 10;
 
@@ -233,7 +261,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   }
 
   onStatusSelected(status: Maybe<SelectableRevisionStatus>) {
-    this.preselectedRevisionStatus = status
+    this.preselectedRevisionStatus = status;
     this.queryRef.refetch({
       subject: { id: this.id, entityType: this.entityType },
       status: status ? status.value : undefined,

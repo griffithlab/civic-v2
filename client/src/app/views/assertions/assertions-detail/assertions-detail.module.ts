@@ -48,4 +48,4 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcMolecularProfileTagModule,
   ],
 })
-export class AssertionsDetailModule { }
+export class AssertionsDetailModule {}

@@ -1,5 +1,6 @@
 <ng-container *ngIf="!formControl.value?.id; else eidListItem">
-  <nz-select nzShowSearch
+  <nz-select
+    nzShowSearch
     nzServerSearch
     autofocus="click"
     [formControl]="formControl"
@@ -8,19 +9,15 @@
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
-    (nzOnSearch)="to.onSearch($event)">
+    (nzOnSearch)="to.onSearch($event)"
+  >
     <ng-container *ngIf="eid$ | ngrxPush as eid">
-      <nz-option 
-        nzCustomContent
-        [nzLabel]="eid.tooltip"
-        [nzValue]="eid.eid">
-          {{ eid.label }}
+      <nz-option nzCustomContent [nzLabel]="eid.tooltip" [nzValue]="eid.eid">
+        {{ eid.label }}
       </nz-option>
     </ng-container>
   </nz-select>
-  <ng-template #sourceLoader>
-    No EID matches the provided ID
-  </ng-template>
+  <ng-template #sourceLoader> No EID matches the provided ID </ng-template>
 </ng-container>
 <ng-template #eidListItem>
   <cvc-evidence-tag [evidence]="formControl.value"></cvc-evidence-tag>

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
 import { WrapperOption } from '@ngx-formly/core/lib/models';
 
@@ -8,10 +13,9 @@ import { WrapperOption } from '@ngx-formly/core/lib/models';
   styleUrls: ['./form-info.wrapper.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcFormInfoWrapper extends FieldWrapper {
-}
+export class CvcFormInfoWrapper extends FieldWrapper {}
 
 export const CvcFormInfoWrapperOption: WrapperOption = {
   name: 'form-info',
-  component: CvcFormInfoWrapper
-}
+  component: CvcFormInfoWrapper,
+};

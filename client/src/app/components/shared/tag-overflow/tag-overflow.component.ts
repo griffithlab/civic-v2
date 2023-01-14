@@ -1,32 +1,45 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { Maybe } from "@app/generated/civic.apollo";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
-export type SupportedPileupTags = 'therapy' | 'disease' | 'gene' | 'organization' | 'variant'
+export type SupportedPileupTags =
+  | 'therapy'
+  | 'disease'
+  | 'gene'
+  | 'organization'
+  | 'variant';
 
 export type TagInfo = {
-  id: number
-  name: string
-  link: string
-}
+  id: number;
+  name: string;
+  link: string;
+};
 
 @Component({
   selector: 'cvc-tag-overflow',
   templateUrl: './tag-overflow.component.html',
   styleUrls: ['./tag-overflow.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcTagOverflowComponent implements OnChanges {
   @Input() tags: Maybe<TagInfo[]>;
-  @Input() maxDisplayCount: number = 2
-  @Input() matchingText?: string
-  @Input() tagType: Maybe<SupportedPileupTags>
+  @Input() maxDisplayCount: number = 2;
+  @Input() matchingText?: string;
+  @Input() tagType: Maybe<SupportedPileupTags>;
   @Input() thisOne = false;
 
-  displayedTags?: TagInfo[]
-  hiddenTags?: TagInfo[]
-  hiddenCount?: number
-  matchedHiddenCount: number = 0
-  constructor(private cdr: ChangeDetectorRef) { }
+  displayedTags?: TagInfo[];
+  hiddenTags?: TagInfo[];
+  hiddenCount?: number;
+  matchedHiddenCount: number = 0;
+  constructor(private cdr: ChangeDetectorRef) {}
   ngOnChanges(_: SimpleChanges): void {
     // if (this.thisOne) console.log(changes);
 
@@ -39,20 +52,19 @@ export class CvcTagOverflowComponent implements OnChanges {
   }
 
   calculateDisplayedTags() {
-    this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
-    this.hiddenTags = this.tags?.slice(this.maxDisplayCount)
-    this.hiddenCount = this.hiddenTags?.length
+    this.displayedTags = this.tags?.slice(0, this.maxDisplayCount);
+    this.hiddenTags = this.tags?.slice(this.maxDisplayCount);
+    this.hiddenCount = this.hiddenTags?.length;
 
     if (this.matchingText) {
-      this.matchedHiddenCount = 0
+      this.matchedHiddenCount = 0;
       if (this.hiddenTags) {
         let text = this.matchingText.toLowerCase();
-        this.hiddenTags.forEach(t => {
+        this.hiddenTags.forEach((t) => {
           if (t.name.toLowerCase().includes(text)) {
-            this.matchedHiddenCount += 1
+            this.matchedHiddenCount += 1;
           }
         });
-
       }
     } else {
       this.matchedHiddenCount = 0;

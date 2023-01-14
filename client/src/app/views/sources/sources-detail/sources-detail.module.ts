@@ -27,6 +27,6 @@ import { SourcesDetailView } from './sources-detail.view';
     CvcTabNavigationModule,
     CvcPipesModule,
   ],
-  exports: [SourcesDetailView]
+  exports: [SourcesDetailView],
 })
-export class SourcesDetailModule { }
+export class SourcesDetailModule {}

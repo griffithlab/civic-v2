@@ -16,6 +16,6 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
     NzGridModule,
     CvcEvidenceTableModule,
     CvcSourcesTableModule,
-  ]
+  ],
 })
-export class ClinicalTrialsSummaryModule { }
+export class ClinicalTrialsSummaryModule {}

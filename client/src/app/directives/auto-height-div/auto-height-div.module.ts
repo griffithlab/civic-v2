@@ -4,9 +4,7 @@ import { CvcAutoHeightDivDirective } from './auto-height-div.directive';
 
 @NgModule({
   declarations: [CvcAutoHeightDivDirective],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [CvcAutoHeightDivDirective],
 })
-export class CvcAutoHeightDivModule { }
+export class CvcAutoHeightDivModule {}

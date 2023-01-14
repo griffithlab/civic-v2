@@ -5,10 +5,7 @@ import { AssertionsRevisionsPage } from './assertions-revisions.page';
 
 @NgModule({
   declarations: [AssertionsRevisionsPage],
-  imports: [
-    CommonModule,
-    CvcRevisionsListAndFilterModule,
-  ],
-  exports: [AssertionsRevisionsPage]
+  imports: [CommonModule, CvcRevisionsListAndFilterModule],
+  exports: [AssertionsRevisionsPage],
 })
-export class AssertionsRevisionsModule { }
+export class AssertionsRevisionsModule {}

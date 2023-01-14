@@ -38,6 +38,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcSectionNavigationModule,
     VariantSubmitFormModule,
   ],
-  exports: [VariantsHomePage]
+  exports: [VariantsHomePage],
 })
-export class VariantsHomeModule { }
+export class VariantsHomeModule {}

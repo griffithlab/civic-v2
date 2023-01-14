@@ -21,4 +21,4 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
   ],
   exports: [CvcMyVariantInfoComponent],
 })
-export class CvcMyVariantInfoModule { }
+export class CvcMyVariantInfoModule {}

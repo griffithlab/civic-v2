@@ -5,10 +5,7 @@ import { SourcesCommentsPage } from './sources-comments.page';
 
 @NgModule({
   declarations: [SourcesCommentsPage],
-  imports: [
-    CommonModule,
-    CvcCommentListModule
-  ],
-  exports: [SourcesCommentsPage]
+  imports: [CommonModule, CvcCommentListModule],
+  exports: [SourcesCommentsPage],
 })
-export class SourcesCommentsModule { }
+export class SourcesCommentsModule {}

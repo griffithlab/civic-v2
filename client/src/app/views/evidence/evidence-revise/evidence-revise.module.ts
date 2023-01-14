@@ -33,6 +33,6 @@ import { EvidenceReviseView } from './evidence-revise.view';
     CvcSectionNavigationModule,
     CvcCommentTextareaTypeModule,
     CvcLoginPromptModule,
-  ]
+  ],
 })
-export class EvidenceReviseModule { }
+export class EvidenceReviseModule {}

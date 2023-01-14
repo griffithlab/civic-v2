@@ -38,8 +38,8 @@ import { RouterModule } from '@angular/router';
     CvcEventTimelineModule,
     CvcPipesModule,
     CvcParticipantListModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
-  exports: [CvcHomepageEventFeedComponent]
+  exports: [CvcHomepageEventFeedComponent],
 })
-export class CvcHomepageEventFeedModule { }
+export class CvcHomepageEventFeedModule {}

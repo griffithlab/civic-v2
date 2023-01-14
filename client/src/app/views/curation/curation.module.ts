@@ -17,6 +17,6 @@ import { PendingAssertionsModule } from './curation-queues/pending-assertions/pe
     PendingSourcesModule,
     PendingEvidenceModule,
     PendingAssertionsModule,
-  ]
+  ],
 })
-export class CurationModule { }
+export class CurationModule {}

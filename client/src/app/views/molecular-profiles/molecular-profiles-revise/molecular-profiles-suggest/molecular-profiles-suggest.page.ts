@@ -19,5 +19,4 @@ export class MolecularProfilesSuggestPage implements OnDestroy {
   ngOnDestroy(): void {
     this.routeParams$.unsubscribe();
   }
-
 }

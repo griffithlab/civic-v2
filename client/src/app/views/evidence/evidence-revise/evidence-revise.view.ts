@@ -1,14 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { Maybe, EvidenceDetailFieldsFragment, EvidenceDetailGQL } from '@app/generated/civic.apollo';
+import {
+  Maybe,
+  EvidenceDetailFieldsFragment,
+  EvidenceDetailGQL,
+} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { map, pluck, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-evidence-revise',
   templateUrl: './evidence-revise.view.html',
-  styleUrls: ['./evidence-revise.view.less']
+  styleUrls: ['./evidence-revise.view.less'],
 })
 export class EvidenceReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
@@ -25,29 +29,31 @@ export class EvidenceReviseView implements OnInit, OnDestroy {
     private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ evidenceId: +params.evidenceId }).valueChanges;
+      let observable = this.gql.watch({
+        evidenceId: +params.evidenceId,
+      }).valueChanges;
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
       this.evidence$ = observable.pipe(pluck('data', 'evidenceItem'));
 
-      this.commentsTotal$ = this.evidence$.pipe(pluck('comments', 'totalCount'));
+      this.commentsTotal$ = this.evidence$.pipe(
+        pluck('comments', 'totalCount')
+      );
 
       this.flagsTotal$ = this.evidence$.pipe(pluck('flags', 'totalCount'));
 
-      this.revisionsTotal$ = this.evidence$.pipe(pluck('revisions', 'totalCount'));
-
-
-
+      this.revisionsTotal$ = this.evidence$.pipe(
+        pluck('revisions', 'totalCount')
+      );
     });
   }
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn));
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
-
 }

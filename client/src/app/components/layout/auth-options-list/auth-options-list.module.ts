@@ -7,12 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcAuthOptionsListComponent],
-  imports: [
-    CommonModule,
-    NzIconModule,
-    NzListModule,
-    NzButtonModule,
-  ],
-  exports: [CvcAuthOptionsListComponent]
+  imports: [CommonModule, NzIconModule, NzListModule, NzButtonModule],
+  exports: [CvcAuthOptionsListComponent],
 })
-export class CvcAuthOptionsListModule { }
+export class CvcAuthOptionsListModule {}

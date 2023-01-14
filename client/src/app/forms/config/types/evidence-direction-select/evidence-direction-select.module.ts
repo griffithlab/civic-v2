@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
-import { edOptionValidationMessage, edOptionValidator, evidenceDirectionSelectTypeOption } from './evidence-direction-select.type';
+import {
+  edOptionValidationMessage,
+  edOptionValidator,
+  evidenceDirectionSelectTypeOption,
+} from './evidence-direction-select.type';
 
 @NgModule({
   imports: [
@@ -9,8 +13,8 @@ import { edOptionValidationMessage, edOptionValidator, evidenceDirectionSelectTy
     FormlyModule.forChild({
       types: [evidenceDirectionSelectTypeOption],
       validators: [edOptionValidator],
-      validationMessages: [edOptionValidationMessage]
+      validationMessages: [edOptionValidationMessage],
     }),
-  ]
+  ],
 })
-export class CvcEvidenceDirectionSelectModule { }
+export class CvcEvidenceDirectionSelectModule {}

@@ -20,6 +20,6 @@ import { PhenotypesDetailComponent } from './phenotypes-detail.component';
     CvcPipesModule,
     CvcLinkTagModule,
     CvcSectionNavigationModule,
-  ]
+  ],
 })
-export class PhenotypesDetailModule { }
+export class PhenotypesDetailModule {}

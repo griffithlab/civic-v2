@@ -18,8 +18,8 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
     NzPopoverModule,
     NzDescriptionsModule,
     CvcPipesModule,
-    CvcUserPopoverModule
+    CvcUserPopoverModule,
   ],
-  exports: [CvcContributorStackComponent]
+  exports: [CvcContributorStackComponent],
 })
-export class CvcContributorStackModule { }
+export class CvcContributorStackModule {}

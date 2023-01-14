@@ -6,11 +6,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcStatusTagComponent],
-  imports: [
-    CommonModule,
-    NzTagModule,
-    NzIconModule,
-  ],
-  exports: [CvcStatusTagComponent]
+  imports: [CommonModule, NzTagModule, NzIconModule],
+  exports: [CvcStatusTagComponent],
 })
-export class CvcStatusTagModule { }
+export class CvcStatusTagModule {}

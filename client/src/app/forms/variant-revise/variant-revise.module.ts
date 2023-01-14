@@ -69,4 +69,4 @@ import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coo
   ],
   exports: [VariantReviseForm],
 })
-export class CvcVariantReviseFormModule { }
+export class CvcVariantReviseFormModule {}

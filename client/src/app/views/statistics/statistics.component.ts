@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './statistics.component.html',
 })
 export class StatisticsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

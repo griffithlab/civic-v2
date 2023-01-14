@@ -1,22 +1,24 @@
 <div class="summary-container">
   <ng-container *ngIf="therapy$ | ngrxPush as therapy">
-
     <!-- grid with 8px horizontal gutter, 16px vertical gutter -->
     <nz-row [nzGutter]="[8, 16]">
-
       <!-- summary details -->
       <nz-col [nzSpan]="12">
-        <nz-descriptions nzSize="small"
+        <nz-descriptions
+          nzSize="small"
           nzLayout="vertical"
           [nzColumn]="1"
-          nzBordered="true">
-          <nz-descriptions-item
-            nzTitle="Aliases"
-            nzSpan="1">
-            <cvc-tag-list *ngIf="therapy.therapyAliases.length > 0; else noAliases">
-              <nz-tag nz-tooltip
+          nzBordered="true"
+        >
+          <nz-descriptions-item nzTitle="Aliases" nzSpan="1">
+            <cvc-tag-list
+              *ngIf="therapy.therapyAliases.length > 0; else noAliases"
+            >
+              <nz-tag
+                nz-tooltip
                 [nzTooltipTitle]="alias"
-                *ngFor="let alias of therapy.therapyAliases">
+                *ngFor="let alias of therapy.therapyAliases"
+              >
                 {{ alias | truncate }}
               </nz-tag>
             </cvc-tag-list>
@@ -29,17 +31,20 @@
 
       <!-- evidence table -->
       <nz-col [nzSpan]="24">
-        <cvc-evidence-table [therapyId]="therapy.id" cvcHeight="400px"
-          cvcTitle="Evidence associated with {{ therapy.name }}"></cvc-evidence-table>
+        <cvc-evidence-table
+          [therapyId]="therapy.id"
+          cvcHeight="400px"
+          cvcTitle="Evidence associated with {{ therapy.name }}"
+        ></cvc-evidence-table>
       </nz-col>
 
       <!-- assertions table -->
       <nz-col [nzSpan]="24">
-        <cvc-assertions-table [therapyId]="therapy.id"
-          cvcTitle="Assertions associated with {{ therapy.name  }}"></cvc-assertions-table>
+        <cvc-assertions-table
+          [therapyId]="therapy.id"
+          cvcTitle="Assertions associated with {{ therapy.name }}"
+        ></cvc-assertions-table>
       </nz-col>
-
     </nz-row>
-
   </ng-container>
 </div>

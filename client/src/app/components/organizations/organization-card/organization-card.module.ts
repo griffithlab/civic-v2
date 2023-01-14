@@ -47,6 +47,6 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcStatsCardModule,
     CvcTagListModule,
   ],
-  exports: [CvcOrganizationCardComponent]
+  exports: [CvcOrganizationCardComponent],
 })
-export class CvcOrganizationCardModule { }
+export class CvcOrganizationCardModule {}

@@ -1,37 +1,55 @@
 <div id="popover-content">
-  <ng-container *ngIf="disease$ | ngrxPush as d" >
-    <nz-card [nzTitle]="cardTitle" nzBordered="false"
+  <ng-container *ngIf="disease$ | ngrxPush as d">
+    <nz-card
+      [nzTitle]="cardTitle"
+      nzBordered="false"
       id="card-content"
-      [nzExtra]="linkout">
+      [nzExtra]="linkout"
+    >
       <ng-template #cardTitle>
-      <i nz-icon nzType="civic-disease" nzTheme="twotone" nzTwotoneColor="#E62F76"></i>
-         {{ d.name | truncate: 50}}
+        <i
+          nz-icon
+          nzType="civic-disease"
+          nzTheme="twotone"
+          nzTwotoneColor="#E62F76"
+        ></i>
+        {{ d.name | truncate : 50 }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag *ngIf="d.doid; else noDoid" [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
+        <cvc-link-tag
+          *ngIf="d.doid; else noDoid"
+          [href]="d.diseaseUrl"
+          tooltip="View on disease-ontology.org"
+        >
           DOID: {{ d.doid }}
         </cvc-link-tag>
       </ng-template>
       <ng-template #noDoid>
         <span nz-typography nzType="secondary">No DOID</span>
       </ng-template>
-      <nz-descriptions nzSize="small"
-        [nzColumn]="1"
-        nzBordered="true">
-        <nz-descriptions-item *ngIf="d.name.length > 50" nzTitle="Name" nzSpan="2">
+      <nz-descriptions nzSize="small" [nzColumn]="1" nzBordered="true">
+        <nz-descriptions-item
+          *ngIf="d.name.length > 50"
+          nzTitle="Name"
+          nzSpan="2"
+        >
           {{ d.name }}
         </nz-descriptions-item>
-        <nz-descriptions-item *ngIf="d.diseaseAliases.length > 0" nzTitle="Aliases" nzSpan="2">
-          {{ d.diseaseAliases.join(', ') }}
+        <nz-descriptions-item
+          *ngIf="d.diseaseAliases.length > 0"
+          nzTitle="Aliases"
+          nzSpan="2"
+        >
+          {{ d.diseaseAliases.join(", ") }}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Assertions" nzSpan="1">
-          {{d.assertionCount}}
+          {{ d.assertionCount }}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Evidence" nzSpan="1">
-          {{d.evidenceItemCount}}
+          {{ d.evidenceItemCount }}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Variants" nzSpan="1">
-          {{d.variantCount}}
+          {{ d.variantCount }}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>

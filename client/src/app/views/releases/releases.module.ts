@@ -6,10 +6,6 @@ import { ReleasesComponent } from './releases.component';
 
 @NgModule({
   declarations: [ReleasesComponent],
-  imports: [
-    CommonModule,
-    ReleasesRoutingModule,
-    ReleasesMainModule,
-  ]
+  imports: [CommonModule, ReleasesRoutingModule, ReleasesMainModule],
 })
-export class ReleasesModule { }
+export class ReleasesModule {}

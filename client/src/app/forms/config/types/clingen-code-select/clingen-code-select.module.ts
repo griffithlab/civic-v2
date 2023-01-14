@@ -10,7 +10,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcFormFieldWrapperModule } from '../../wrappers/form-field/form-field.module';
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
-import { ClingenCodeInputType, clingenCodeSelectTypeOption } from './clingen-code-select.type';
+import {
+  ClingenCodeInputType,
+  clingenCodeSelectTypeOption,
+} from './clingen-code-select.type';
 
 @NgModule({
   declarations: [ClingenCodeInputType],
@@ -23,9 +26,9 @@ import { ClingenCodeInputType, clingenCodeSelectTypeOption } from './clingen-cod
     NzSelectModule,
     NzSpaceModule,
     CvcPipesModule,
-    FormlyModule.forChild({types: [clingenCodeSelectTypeOption],}),
+    FormlyModule.forChild({ types: [clingenCodeSelectTypeOption] }),
     CvcFormFieldWrapperModule,
-    CvcAutofocusModule
-  ]
+    CvcAutofocusModule,
+  ],
 })
-export class CvcClingenCodeSelectTypeModule { }
+export class CvcClingenCodeSelectTypeModule {}

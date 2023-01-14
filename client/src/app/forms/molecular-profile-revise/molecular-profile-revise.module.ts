@@ -68,6 +68,6 @@ import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.modul
     NgxJsonViewerModule,
     CvcFormInfoWrapperModule,
   ],
-  exports: [MolecularProfileReviseForm]
+  exports: [MolecularProfileReviseForm],
 })
-export class MolecularProfileSuggestRevisionFormModule { }
+export class MolecularProfileSuggestRevisionFormModule {}

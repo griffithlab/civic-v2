@@ -1,7 +1,8 @@
 <ng-container *ngIf="!formControl.value?.id; else variantListItem">
-  <nz-select nzShowSearch
+  <nz-select
+    nzShowSearch
     nzServerSearch
-    style="width: 300px;"
+    style="width: 300px"
     autofocus="click"
     [formControl]="formControl"
     [formlyAttributes]="field"
@@ -9,21 +10,29 @@
     [nzDropdownRender]="to.allowCreate? addVariantTmpl : null"
     [nzShowArrow]="to.showArrow"
     [nzNotFoundContent]="variantNotFound"
-    (nzOnSearch)="to.onSearch($event)">
-      <nz-option *ngFor="let opt of variants$ | ngrxPush"
-        nzCustomContent
-        [nzValue]="opt.variant">
-        <nz-space>
-          <span *nzSpaceItem [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
-          <span *nzSpaceItem nz-typography nzType="secondary">
-            ID: {{opt.variant.id}}
-            <span *ngIf="opt.variant.variantAliases.length > 0">
-              - Aliases:&nbsp;
-            </span>
-            <span [innerHtml]="opt.variant.variantAliases.join(', ')  | highlightTypeahead: this.to.searchString"></span>
+    (nzOnSearch)="to.onSearch($event)"
+  >
+    <nz-option
+      *ngFor="let opt of variants$ | ngrxPush"
+      nzCustomContent
+      [nzValue]="opt.variant"
+    >
+      <nz-space>
+        <span
+          *nzSpaceItem
+          [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"
+        ></span>
+        <span *nzSpaceItem nz-typography nzType="secondary">
+          ID: {{opt.variant.id}}
+          <span *ngIf="opt.variant.variantAliases.length > 0">
+            - Aliases:&nbsp;
           </span>
-        </nz-space>
-      </nz-option>
+          <span
+            [innerHtml]="opt.variant.variantAliases.join(', ')  | highlightTypeahead: this.to.searchString"
+          ></span>
+        </span>
+      </nz-space>
+    </nz-option>
   </nz-select>
 </ng-container>
 <ng-template #variantListItem>
@@ -34,7 +43,8 @@
   <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="notFoundContent">
   </nz-empty>
   <ng-template #notFoundContent>
-    No Existing CIViC Variant&nbsp;<strong>{{ to.searchString }}</strong>&nbsp;found.
+    No Existing CIViC Variant&nbsp;<strong>{{ to.searchString }}</strong
+    >&nbsp;found.
   </ng-template>
 </ng-template>
 
@@ -42,12 +52,25 @@
   <ng-container *ngIf="this.displayAdd$ | ngrxPush">
     <ng-container *ngIf="this.to.searchString !== ''">
       <nz-space nzDirection="vertical">
-          <cvc-form-errors-alert nzSpaceItem *ngIf="this.errorMessages.length > 0" [errors]="errorMessages"> </cvc-form-errors-alert>
-          <button nzSpaceItem *ngIf="this.errorMessages.length == 0" nz-button nzSize="small" [nzLoading]="this.loading" (click)="addVariant(to.searchString)">
-            <i nz-icon nzType="plus" nzTheme="outline"></i>Create&nbsp;<strong>{{ to.searchString }}</strong>?
-          </button>
+        <cvc-form-errors-alert
+          nzSpaceItem
+          *ngIf="this.errorMessages.length > 0"
+          [errors]="errorMessages"
+        >
+        </cvc-form-errors-alert>
+        <button
+          nzSpaceItem
+          *ngIf="this.errorMessages.length == 0"
+          nz-button
+          nzSize="small"
+          [nzLoading]="this.loading"
+          (click)="addVariant(to.searchString)"
+        >
+          <i nz-icon nzType="plus" nzTheme="outline"></i>Create&nbsp;<strong
+            >{{ to.searchString }}</strong
+          >?
+        </button>
       </nz-space>
     </ng-container>
   </ng-container>
 </ng-template>
-

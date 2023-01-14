@@ -20,6 +20,6 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzIconModule,
     NzPopoverModule,
   ],
-  exports: [CvcRevisionTagComponent]
+  exports: [CvcRevisionTagComponent],
 })
-export class CvcRevisionTagModule { }
+export class CvcRevisionTagModule {}

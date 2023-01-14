@@ -5,18 +5,22 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag nz-popover
+  <nz-tag
+    nz-popover
     [ngClass]="{ deprecated: variant.deprecated }"
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="popoverContent"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
     [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
+    (nzOnClose)="itemClosed($event)"
+  >
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
-    <cvc-variant-popover *ngIf="enablePopover"
-      [variantId]="variant.id"></cvc-variant-popover>
+    <cvc-variant-popover
+      *ngIf="enablePopover"
+      [variantId]="variant.id"
+    ></cvc-variant-popover>
   </ng-template>
 </ng-template>
 
@@ -25,14 +29,17 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges
-    [flagged]="variant.flagged"
-    [entityColor]="iconColor">
-    <i nz-icon nzType="civic-variant" nzTheme="twotone" [nzTwotoneColor]="iconColor"></i>
-</cvc-icon-badges>
+  <cvc-icon-badges [flagged]="variant.flagged" [entityColor]="iconColor">
+    <i
+      nz-icon
+      nzType="civic-variant"
+      nzTheme="twotone"
+      [nzTwotoneColor]="iconColor"
+    ></i>
+  </cvc-icon-badges>
   <!-- variant name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
-    {{ variant.name | truncate: 20}}
+    {{ variant.name | truncate : 20 }}
   </ng-container>
   <ng-template #fullName>
     {{ variant.name }}

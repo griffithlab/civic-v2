@@ -22,6 +22,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcPipesModule,
     CvcUserPopoverModule,
   ],
-  exports: [CvcUserTagComponent]
+  exports: [CvcUserTagComponent],
 })
-export class CvcUserTagModule { }
+export class CvcUserTagModule {}

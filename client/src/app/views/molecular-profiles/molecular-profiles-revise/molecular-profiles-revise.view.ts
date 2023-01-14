@@ -1,14 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { Maybe, MolecularProfileDetailFieldsFragment, MolecularProfileDetailGQL } from '@app/generated/civic.apollo';
+import {
+  Maybe,
+  MolecularProfileDetailFieldsFragment,
+  MolecularProfileDetailGQL,
+} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { map, pluck, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-molecular-profiles-revise',
   templateUrl: './molecular-profiles-revise.view.html',
-  styleUrls: ['./molecular-profiles-revise.view.less']
+  styleUrls: ['./molecular-profiles-revise.view.less'],
 })
 export class MolecularProfilesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
@@ -25,27 +29,35 @@ export class MolecularProfilesReviseView implements OnInit, OnDestroy {
     private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ mpId: +params.molecularProfileId }).valueChanges;
+      let observable = this.gql.watch({
+        mpId: +params.molecularProfileId,
+      }).valueChanges;
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-      this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'));
+      this.molecularProfile$ = observable.pipe(
+        pluck('data', 'molecularProfile')
+      );
 
-      this.commentsTotal$ = this.molecularProfile$.pipe(pluck('comments', 'totalCount'));
+      this.commentsTotal$ = this.molecularProfile$.pipe(
+        pluck('comments', 'totalCount')
+      );
 
-      this.flagsTotal$ = this.molecularProfile$.pipe(pluck('flags', 'totalCount'));
+      this.flagsTotal$ = this.molecularProfile$.pipe(
+        pluck('flags', 'totalCount')
+      );
 
-      this.revisionsTotal$ = this.molecularProfile$.pipe(pluck('revisions', 'totalCount'));
-
+      this.revisionsTotal$ = this.molecularProfile$.pipe(
+        pluck('revisions', 'totalCount')
+      );
     });
   }
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn));
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
-
 }

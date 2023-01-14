@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-phenotypes-summary',
   templateUrl: './phenotypes-summary.component.html',
-  styleUrls: ['./phenotypes-summary.component.less']
+  styleUrls: ['./phenotypes-summary.component.less'],
 })
 export class PhenotypesSummaryComponent implements OnDestroy {
   routeSub: Subscription;
@@ -14,7 +14,7 @@ export class PhenotypesSummaryComponent implements OnDestroy {
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.phenotypeId = +params.phenotypeId;
-    })
+    });
   }
 
   ngOnDestroy() {

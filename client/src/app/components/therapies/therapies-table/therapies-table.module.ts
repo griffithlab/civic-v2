@@ -44,6 +44,6 @@ import { CvcTherapyTagModule } from '../cvc-therapy-tag/cvc-therapy-tag.module';
     CvcTableCountsModule,
     CvcTableScrollModule,
   ],
-  exports: [CvcTherapiesTableComponent]
+  exports: [CvcTherapiesTableComponent],
 })
-export class CvcTherapiesTableModule { }
+export class CvcTherapiesTableModule {}

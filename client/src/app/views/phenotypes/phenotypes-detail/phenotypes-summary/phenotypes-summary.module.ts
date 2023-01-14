@@ -15,6 +15,6 @@ import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-hei
     CvcAutoHeightDivModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
-  ]
+  ],
 })
-export class PhenotypesSummaryModule { }
+export class PhenotypesSummaryModule {}

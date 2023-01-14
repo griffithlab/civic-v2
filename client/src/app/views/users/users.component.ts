@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-users',
   templateUrl: './users.component.html',
 })
-export class UsersComponent{
-  constructor() { }
+export class UsersComponent {
+  constructor() {}
 }

@@ -50,8 +50,8 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
     CvcMolecularProfileTagModule,
     CvcVariantTagModule,
     VariantSubmitFormModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
   ],
-  exports: [CvcComplexMolecularProfileInputForm]
+  exports: [CvcComplexMolecularProfileInputForm],
 })
-export class CvcComplexMolecularProfileInputFormModule { }
+export class CvcComplexMolecularProfileInputFormModule {}

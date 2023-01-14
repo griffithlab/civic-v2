@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantCoordinatesCardType, VariantCoordinatesCardTypeOption } from './variant-coordinates-card.type';
+import {
+  VariantCoordinatesCardType,
+  VariantCoordinatesCardTypeOption,
+} from './variant-coordinates-card.type';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,4 +17,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzCardModule,
   ],
 })
-export class CvcVariantCoordinatesCardTypeModule { }
+export class CvcVariantCoordinatesCardTypeModule {}

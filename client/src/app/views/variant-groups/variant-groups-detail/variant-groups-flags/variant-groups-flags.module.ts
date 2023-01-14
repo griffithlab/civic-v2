@@ -5,10 +5,7 @@ import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-
 
 @NgModule({
   declarations: [VariantGroupsFlagsPage],
-  imports: [
-    CommonModule,
-    CvcFlagListAndFilterModule,
-  ],
+  imports: [CommonModule, CvcFlagListAndFilterModule],
   exports: [VariantGroupsFlagsPage],
 })
-export class VariantGroupsFlagsModule { }
+export class VariantGroupsFlagsModule {}

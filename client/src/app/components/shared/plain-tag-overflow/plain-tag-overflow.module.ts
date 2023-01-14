@@ -7,12 +7,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
   declarations: [CvcPlainTagOverflowComponent],
-  imports: [
-    CommonModule,
-    NzTagModule,
-    NzPopoverModule,
-    CvcTagListModule,
-  ],
-  exports: [CvcPlainTagOverflowComponent]
+  imports: [CommonModule, NzTagModule, NzPopoverModule, CvcTagListModule],
+  exports: [CvcPlainTagOverflowComponent],
 })
-export class CvcPlainTagOverflowModule { }
+export class CvcPlainTagOverflowModule {}

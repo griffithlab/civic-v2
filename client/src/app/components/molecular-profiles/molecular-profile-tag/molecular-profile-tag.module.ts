@@ -17,8 +17,8 @@ import { CvcMolecularProfilePopoverModule } from '../molecular-profile-popover/m
     NzPopoverModule,
     NzIconModule,
     CvcPipesModule,
-    CvcMolecularProfilePopoverModule
+    CvcMolecularProfilePopoverModule,
   ],
-  exports: [CvcMolecularProfileTagComponent]
+  exports: [CvcMolecularProfileTagComponent],
 })
-export class CvcMolecularProfileTagModule { }
+export class CvcMolecularProfileTagModule {}

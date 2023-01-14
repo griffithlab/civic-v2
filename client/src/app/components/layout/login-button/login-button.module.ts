@@ -13,6 +13,6 @@ import { CvcAuthOptionsListModule } from '../auth-options-list/auth-options-list
     NzModalModule,
     CvcAuthOptionsListModule,
   ],
-  exports: [CvcLoginButtonComponent]
+  exports: [CvcLoginButtonComponent],
 })
-export class CvcLoginButtonModule { }
+export class CvcLoginButtonModule {}

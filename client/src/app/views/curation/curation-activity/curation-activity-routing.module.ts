@@ -8,13 +8,13 @@ const routes: Routes = [
     path: 'curation-timeline',
     component: CurationTimelinePage,
     data: {
-      breadcrumb: 'Timeline'
+      breadcrumb: 'Timeline',
     },
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CurationActivityRoutingModule { }
+export class CurationActivityRoutingModule {}

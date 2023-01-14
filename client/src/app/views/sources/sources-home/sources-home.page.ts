@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sources-home',
   templateUrl: './sources-home.page.html',
-  styleUrls: ['./sources-home.page.less']
+  styleUrls: ['./sources-home.page.less'],
 })
 export class SourcesHomePage implements OnInit {
   viewer$?: Observable<Viewer>;
@@ -14,7 +17,5 @@ export class SourcesHomePage implements OnInit {
     this.viewer$ = this.viewerService.viewer$;
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

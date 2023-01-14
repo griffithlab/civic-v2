@@ -8,7 +8,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -30,8 +31,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     IconsProviderModule,
@@ -55,10 +55,10 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzPopoverModule,
     NzDividerModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
   ],
-  exports: [
-  ]
+  exports: [],
 })
-
-export class GenesComponentsModule { }
+export class GenesComponentsModule {}

@@ -41,11 +41,8 @@ import { SourceSuggestionsHomeModule } from './source-suggestions-home/source-su
 import { SourceSuggestionsRoutingModule } from './source-suggestions-routing.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
-
 @NgModule({
-  declarations: [
-    SourceSuggestionsComponent,
-  ],
+  declarations: [SourceSuggestionsComponent],
   imports: [
     CommonModule,
     SourceSuggestionsHomeModule,
@@ -80,15 +77,16 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzToolTipModule,
     NzTypographyModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
     NzInputModule,
     FormsModule,
 
     EvidenceModule,
 
-    NzSelectModule
+    NzSelectModule,
   ],
-  exports: [
-  ]
+  exports: [],
 })
-export class SourceSuggestionsModule { }
+export class SourceSuggestionsModule {}

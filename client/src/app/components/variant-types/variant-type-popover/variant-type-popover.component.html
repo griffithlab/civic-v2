@@ -1,34 +1,35 @@
 <div id="popover-content">
   <ng-container *ngIf="variantType$ | ngrxPush as vt">
-    <nz-card [nzTitle]="cardTitle"
+    <nz-card
+      [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="linkout">
+      [nzExtra]="linkout"
+    >
       <ng-template #cardTitle>
-        <i nz-icon
+        <i
+          nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'VariantType' | entityColor"
-          nzType="civic-varianttype"></i>
+          nzType="civic-varianttype"
+        ></i>
 
         {{ vt.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag *ngIf="vt.soid != 'N/A'"
+        <cvc-link-tag
+          *ngIf="vt.soid != 'N/A'"
           [href]="vt.url"
-          tooltip="View on SequenceOntology.org">
+          tooltip="View on SequenceOntology.org"
+        >
           {{ vt.soid }}
         </cvc-link-tag>
       </ng-template>
 
-      <nz-descriptions nzSize="small"
-        [nzColumn]="2"
-        nzBordered="true">
-
-        <nz-descriptions-item nzTitle="Variants"
-          nzSpan="2">
-          {{vt.variantCount}}
+      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
+        <nz-descriptions-item nzTitle="Variants" nzSpan="2">
+          {{ vt.variantCount }}
         </nz-descriptions-item>
-
       </nz-descriptions>
     </nz-card>
   </ng-container>

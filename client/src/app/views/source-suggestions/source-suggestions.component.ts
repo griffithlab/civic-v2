@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './source-suggestions.component.html',
 })
 export class SourceSuggestionsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

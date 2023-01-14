@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './variant-groups.view.html',
 })
 export class VariantGroupsView implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

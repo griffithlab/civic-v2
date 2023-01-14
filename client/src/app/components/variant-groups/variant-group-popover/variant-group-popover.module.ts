@@ -25,6 +25,6 @@ import { CvcVariantGroupPopoverComponent } from './variant-group-popover.compone
     CvcTagListModule,
     CvcPipesModule,
   ],
-  exports: [CvcVariantGroupPopoverComponent]
+  exports: [CvcVariantGroupPopoverComponent],
 })
-export class CvcVariantGroupPopoverModule { }
+export class CvcVariantGroupPopoverModule {}

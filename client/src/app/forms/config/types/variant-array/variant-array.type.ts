@@ -13,28 +13,35 @@ export const variantArrayTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Variant',
-      helpText: 'Description of the type of variant (e.g., V600E, BCR-ABL fusion, Loss-of-function, exon 12 mutations). Should be as specific as possible (i.e., specific amino acid changes).',
+      helpText:
+        'Description of the type of variant (e.g., V600E, BCR-ABL fusion, Loss-of-function, exon 12 mutations). Should be as specific as possible (i.e., specific amino acid changes).',
       required: false,
       addText: 'Specify a Variant',
     },
     fieldArray: {
       type: 'variant-input',
       templateOptions: {
-        required: false
+        required: false,
       },
       expressionProperties: {
-        'templateOptions.allowCreate': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+        'templateOptions.allowCreate': (
+          m: any,
+          st: any,
+          ffc?: FormlyFieldConfig
+        ) => {
           const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
           if (existingSetting !== undefined) {
             return existingSetting;
           }
           return true;
-        }
-      }
+        },
+      },
     },
     hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
-      const geneCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('gene') : null;      
-      if(!geneCtrl || !geneCtrl.value || !geneCtrl.value[0]) {
+      const geneCtrl: AbstractControl | null = ffc?.form
+        ? ffc.form.get('gene')
+        : null;
+      if (!geneCtrl || !geneCtrl.value || !geneCtrl.value[0]) {
         return true;
       }
       return false;
@@ -42,8 +49,8 @@ export const variantArrayTypeOption: TypeOption = {
     defaultValue: [],
     validation: {
       messages: {
-        required: requiredValidationMsgFn
+        required: requiredValidationMsgFn,
       },
     },
-  }
-}
+  },
+};

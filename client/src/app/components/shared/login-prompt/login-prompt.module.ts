@@ -15,6 +15,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzIconModule,
     NzTypographyModule,
   ],
-  exports: [CvcLoginPromptComponent]
+  exports: [CvcLoginPromptComponent],
 })
-export class CvcLoginPromptModule { }
+export class CvcLoginPromptModule {}

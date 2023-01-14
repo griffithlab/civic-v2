@@ -3,9 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
-import {
-    NzAlertModule
-} from 'ng-zorro-antd/alert';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -23,9 +21,7 @@ import { SourceSubmitForm } from './source-submit.form';
 import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
-  declarations: [
-    SourceSubmitForm
-  ],
+  declarations: [SourceSubmitForm],
   imports: [
     CommonModule,
     RouterModule,
@@ -48,8 +44,6 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     RouterModule,
     NgxJsonViewerModule,
   ],
-  exports: [
-    SourceSubmitForm
-  ]
+  exports: [SourceSubmitForm],
 })
-export class CvcSourceSubmitFormModule { }
+export class CvcSourceSubmitFormModule {}

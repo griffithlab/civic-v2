@@ -16,6 +16,6 @@ import { VariantTypesComponent } from './variant-types.component';
     VariantTypesHomeModule,
     VariantTypesDetailModule,
     VariantTypesSummaryModule,
-  ]
+  ],
 })
-export class VariantTypesModule { }
+export class VariantTypesModule {}

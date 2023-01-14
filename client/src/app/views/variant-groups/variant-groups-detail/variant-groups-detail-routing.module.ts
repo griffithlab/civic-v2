@@ -24,39 +24,39 @@ const routes: Routes = [
         path: 'summary',
         component: VariantGroupsSummaryPage,
         data: {
-          breadcrumb: 'Summary'
-        }
+          breadcrumb: 'Summary',
+        },
       },
       {
         path: 'comments',
         component: VariantGroupsCommentsPage,
         data: {
-          breadcrumb: 'Comments'
-        }
+          breadcrumb: 'Comments',
+        },
       },
       {
         path: 'revisions',
         component: VariantGroupsRevisionsPage,
         data: {
-          breadcrumb: 'Revisions'
-        }
+          breadcrumb: 'Revisions',
+        },
       },
       {
         path: 'flags',
         component: VariantGroupsFlagsPage,
         data: {
-          breadcrumb: 'Flags'
-        }
+          breadcrumb: 'Flags',
+        },
       },
       {
         path: 'events',
         component: VariantGroupsEventsPage,
         data: {
-          breadcrumb: 'Events'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Events',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -66,8 +66,8 @@ const routes: Routes = [
     VariantGroupsCommentsModule,
     VariantGroupsRevisionsModule,
     VariantGroupsFlagsModule,
-    VariantGroupsEventsModule
+    VariantGroupsEventsModule,
   ],
   exports: [RouterModule],
 })
-export class VariantGroupsDetailRoutingModule { }
+export class VariantGroupsDetailRoutingModule {}

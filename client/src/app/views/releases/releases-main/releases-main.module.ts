@@ -30,6 +30,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzCardModule,
     CvcSectionNavigationModule,
     CvcLinkTagModule,
-  ]
+  ],
 })
-export class ReleasesMainModule { }
+export class ReleasesMainModule {}

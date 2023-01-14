@@ -30,7 +30,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     NzInputModule,
     FormsModule,
     CvcPipesModule,
-    CvcAutofocusModule
+    CvcAutofocusModule,
   ],
 })
-export class CvcDiseaseInputTypeModule { }
+export class CvcDiseaseInputTypeModule {}

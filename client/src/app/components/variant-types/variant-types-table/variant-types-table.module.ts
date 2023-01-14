@@ -47,6 +47,6 @@ import { CvcVariantTypesTableComponent } from './variant-types-table.component';
     CvcVariantTypeTagModule,
     CvcPipesModule,
   ],
-  exports: [CvcVariantTypesTableComponent]
+  exports: [CvcVariantTypesTableComponent],
 })
-export class CvcVariantTypesTableModule { }
+export class CvcVariantTypesTableModule {}

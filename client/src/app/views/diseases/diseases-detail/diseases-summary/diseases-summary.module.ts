@@ -18,6 +18,6 @@ import { DiseasesSummaryComponent } from './diseases-summary.component';
     NzTypographyModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
-  ]
+  ],
 })
-export class DiseasesSummaryModule { }
+export class DiseasesSummaryModule {}

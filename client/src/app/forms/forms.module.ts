@@ -21,6 +21,6 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     ReactiveFormsModule,
     FormlyModule,
     FormlyNgZorroAntdModule,
-  ]
+  ],
 })
-export class CvcFormsModule { }
+export class CvcFormsModule {}

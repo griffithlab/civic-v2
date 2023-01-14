@@ -15,6 +15,6 @@ import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggesti
     NzGridModule,
     CvcSourceSuggestionsTableModule,
   ],
-  exports: [SourceSuggestionsHomePage]
+  exports: [SourceSuggestionsHomePage],
 })
-export class SourceSuggestionsHomeModule { }
+export class SourceSuggestionsHomeModule {}

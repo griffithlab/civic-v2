@@ -27,37 +27,37 @@ export class GenesDetailView implements OnDestroy {
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
   routeSub: Subscription;
-  subscribable?: SubscribableInput
+  subscribable?: SubscribableInput;
 
   tabs$: BehaviorSubject<RouteableTab[]>;
   destroy$ = new Subject<void>();
   defaultTabs: RouteableTab[] = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary'
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments'
-      },
-      {
-        routeName: 'revisions',
-        iconName: 'civic-revision',
-        tabLabel: 'Revisions'
-      },
-      {
-        routeName: 'flags',
-        iconName: 'civic-flag',
-        tabLabel: 'Flags'
-      },
-      {
-        routeName: 'events',
-        iconName: 'civic-event',
-        tabLabel: 'Events'
-      }
-    ]
+    {
+      routeName: 'summary',
+      iconName: 'pic-left',
+      tabLabel: 'Summary',
+    },
+    {
+      routeName: 'comments',
+      iconName: 'civic-comment',
+      tabLabel: 'Comments',
+    },
+    {
+      routeName: 'revisions',
+      iconName: 'civic-revision',
+      tabLabel: 'Revisions',
+    },
+    {
+      routeName: 'flags',
+      iconName: 'civic-flag',
+      tabLabel: 'Flags',
+    },
+    {
+      routeName: 'events',
+      iconName: 'civic-event',
+      tabLabel: 'Events',
+    },
+  ];
 
   constructor(
     private gql: GeneDetailGQL,
@@ -77,31 +77,29 @@ export class GenesDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'));
 
-      this.gene$.pipe(
-        pluck('revisions', 'totalCount'),
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (count) => {
-          this.tabs$.next(
-            this.defaultTabs.map((tab) => {
-              if (tab.tabLabel === 'Revisions') {
-                return {
-                  badgeCount: count as number,
-                  ...tab
+      this.gene$
+        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .subscribe({
+          next: (count) => {
+            this.tabs$.next(
+              this.defaultTabs.map((tab) => {
+                if (tab.tabLabel === 'Revisions') {
+                  return {
+                    badgeCount: count as number,
+                    ...tab,
+                  };
+                } else {
+                  return tab;
                 }
-              }
-              else {
-                return tab
-              }
-            }
-          ))
-        }
-      })
+              })
+            );
+          },
+        });
 
       this.subscribable = {
         id: +params.geneId,
-        entityType: SubscribableEntities.Gene
-      }
+        entityType: SubscribableEntities.Gene,
+      };
 
       this.viewer$ = this.viewerService.viewer$;
     });
@@ -109,10 +107,10 @@ export class GenesDetailView implements OnDestroy {
 
   filterCurators = (u: any): boolean => {
     return u.role == 'curator';
-  }
+  };
   filterEditors = (u: any): boolean => {
     return u.role == 'editor' || u.role == 'admin';
-  }
+  };
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();

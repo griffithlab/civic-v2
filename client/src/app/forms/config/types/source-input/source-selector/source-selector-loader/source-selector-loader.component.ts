@@ -1,14 +1,31 @@
-import { AfterContentInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FetchResult } from '@apollo/client/core';
 import { ApolloError } from '@apollo/client/errors';
-import { AddRemoteCitationInput, CitationExistenceCheckGQL, CreateSourceStubGQL, CreateSourceStubMutation, CreateSourceStubMutationVariables, Maybe, SourceSource, SourceStub } from '@app/generated/civic.apollo';
+import {
+  AddRemoteCitationInput,
+  CitationExistenceCheckGQL,
+  CreateSourceStubGQL,
+  CreateSourceStubMutation,
+  CreateSourceStubMutationVariables,
+  Maybe,
+  SourceSource,
+  SourceStub,
+} from '@app/generated/civic.apollo';
 import { finalize } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
 
 @Component({
   selector: 'cvc-source-loader',
   templateUrl: './source-selector-loader.component.html',
-  styleUrls: ['./source-selector-loader.component.less']
+  styleUrls: ['./source-selector-loader.component.less'],
 })
 export class SourceSelectorLoaderComponent implements AfterContentInit {
   @Input() model!: any;
@@ -46,22 +63,26 @@ export class SourceSelectorLoaderComponent implements AfterContentInit {
     private existenceCheckQuery: CitationExistenceCheckGQL,
     private createSourceStubQuery: CreateSourceStubGQL,
     private changeDetectorRef: ChangeDetectorRef
-  ) { }
+  ) {}
 
   onExistenceQuery(e: any): void {
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     this.isChecking = true;
     this.foundCitation = undefined;
     this.existenceCheckQuery
       .fetch({
         sourceType: this.sourceType,
-        citationId: this.citationId
+        citationId: this.citationId,
       })
-      .pipe(finalize(() => {
-        this.isChecking = false;
-        // TODO figure out why this detectChanges call is necessary
-        this.changeDetectorRef.detectChanges();
-      }))
+      .pipe(
+        finalize(() => {
+          this.isChecking = false;
+          // TODO figure out why this detectChanges call is necessary
+          this.changeDetectorRef.detectChanges();
+        })
+      )
       .subscribe({
         next: ({ data: { remoteCitation } }) => {
           if (remoteCitation !== null) {
@@ -73,17 +94,19 @@ export class SourceSelectorLoaderComponent implements AfterContentInit {
         },
         error: (error: ApolloError): void => {
           this.showPrompt = false;
-          this.existenceError = error.graphQLErrors.map(e => e.message);
+          this.existenceError = error.graphQLErrors.map((e) => e.message);
         },
         complete: (): void => {
           this.existenceError = [];
-        }
-      })
+        },
+      });
   }
 
   onCreateSourceStub(e: any) {
     // TODO determine if this preventDefault is actuall required
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     this.isCreating = true;
     this.createSuccess = false;
 
@@ -91,45 +114,46 @@ export class SourceSelectorLoaderComponent implements AfterContentInit {
       .mutate({
         input: {
           citationId: this.citationId,
-          sourceType: this.sourceType
-        }
+          sourceType: this.sourceType,
+        },
       })
-      .pipe(finalize(() => {
-        this.isCreating = false;
-        // TODO figure out why this detectChanges call is necessary
-        this.changeDetectorRef.detectChanges();
-      }))
-      .subscribe(
-        {
-          next: ({ data }): void => {
-            console.log(data);
-            const source = data?.addRemoteCitation?.newSource as SourceStub;
-            this.sourceStub = source;
-            this.createSuccess = true;
-          },
-          error: (error: ApolloError): void => {
-            this.showPrompt = false;
-            this.createSuccess = false;
-            this.createErrors = error.graphQLErrors.map(e => e.message);
-          },
-          complete: (): void => {
-            this.createErrors = [];
-          }
-        }
+      .pipe(
+        finalize(() => {
+          this.isCreating = false;
+          // TODO figure out why this detectChanges call is necessary
+          this.changeDetectorRef.detectChanges();
+        })
       )
-
+      .subscribe({
+        next: ({ data }): void => {
+          console.log(data);
+          const source = data?.addRemoteCitation?.newSource as SourceStub;
+          this.sourceStub = source;
+          this.createSuccess = true;
+        },
+        error: (error: ApolloError): void => {
+          this.showPrompt = false;
+          this.createSuccess = false;
+          this.createErrors = error.graphQLErrors.map((e) => e.message);
+        },
+        complete: (): void => {
+          this.createErrors = [];
+        },
+      });
   }
 
   onAcceptSource(e: any): void {
-    if (e) { e.preventDefault(); } // prevent form submit
+    if (e) {
+      e.preventDefault();
+    } // prevent form submit
     console.log('source accepted');
     const model = {
       ...this.model,
       id: this.sourceStub!.id,
       citation: this.foundCitation,
       citationId: this.citationId,
-    }
-    this.modelUpdate.emit(model)
+    };
+    this.modelUpdate.emit(model);
   }
 
   ngAfterContentInit(): void {

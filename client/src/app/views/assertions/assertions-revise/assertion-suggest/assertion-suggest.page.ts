@@ -13,11 +13,10 @@ export class AssertionSuggestPage implements OnDestroy {
   constructor(private route: ActivatedRoute) {
     this.routeParams$ = this.route.params.subscribe((params) => {
       this.assertionId = +params.assertionId;
-    })
+    });
   }
 
   ngOnDestroy(): void {
     this.routeParams$.unsubscribe();
   }
-
 }

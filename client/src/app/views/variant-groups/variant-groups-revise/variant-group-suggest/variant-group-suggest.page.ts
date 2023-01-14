@@ -7,18 +7,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './variant-group-suggest.page.html',
 })
 export class VariantGroupSuggestPage implements OnDestroy {
-
   variantGroupId?: number;
   routeParams$: Subscription;
 
   constructor(private route: ActivatedRoute) {
     this.routeParams$ = this.route.params.subscribe((params) => {
       this.variantGroupId = +params.variantGroupId;
-    })
+    });
   }
 
   ngOnDestroy(): void {
     this.routeParams$.unsubscribe();
   }
-
 }

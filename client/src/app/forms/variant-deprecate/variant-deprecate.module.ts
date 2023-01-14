@@ -56,8 +56,8 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcSubmitButtonTypeModule,
     CvcCommentInputFormModule,
     CvcOrgSelectorBtnGroupModule,
-    CvcMolecularProfileTagModule
+    CvcMolecularProfileTagModule,
   ],
   exports: [VariantDeprecateForm],
 })
-export class VariantDeprecateFormModule { }
+export class VariantDeprecateFormModule {}

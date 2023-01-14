@@ -18,10 +18,10 @@ import { geneArrayTypeOption } from './gene-array.type';
     NzSelectModule,
     FormlyNzFormFieldModule,
     FormlySelectModule,
-    FormlyModule.forChild({types: [geneArrayTypeOption]}),
+    FormlyModule.forChild({ types: [geneArrayTypeOption] }),
     CvcGeneInputTypeModule,
     CvcMultiFieldTypeModule,
     CvcFormCardModule,
-  ]
+  ],
 })
-export class CvcGeneArrayTypeModule { }
+export class CvcGeneArrayTypeModule {}

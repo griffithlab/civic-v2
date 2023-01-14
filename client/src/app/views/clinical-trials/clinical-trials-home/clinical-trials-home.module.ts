@@ -29,6 +29,6 @@ import { ClinicalTrialsHomePage } from './clinical-trials-home.page';
     CvcSectionNavigationModule,
     CvcPipesModule,
   ],
-  exports: [ClinicalTrialsHomePage]
+  exports: [ClinicalTrialsHomePage],
 })
-export class ClinicalTrialsHomeModule { }
+export class ClinicalTrialsHomeModule {}

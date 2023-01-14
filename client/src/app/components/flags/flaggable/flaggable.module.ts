@@ -18,6 +18,6 @@ import { RouterModule } from '@angular/router';
     NzToolTipModule,
     NzTypographyModule,
   ],
-  exports: [CvcFlaggableComponent, CvcFlaggableOptionsDirective]
+  exports: [CvcFlaggableComponent, CvcFlaggableOptionsDirective],
 })
-export class CvcFlaggableModule { }
+export class CvcFlaggableModule {}

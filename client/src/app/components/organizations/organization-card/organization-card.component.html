@@ -1,20 +1,19 @@
-<nz-card *ngIf="inCard; else noCard"
-  [nzTitle]="organization.name">
-  <ng-template [ngTemplateOutlet]="content">
-  </ng-template>
+<nz-card *ngIf="inCard; else noCard" [nzTitle]="organization.name">
+  <ng-template [ngTemplateOutlet]="content"> </ng-template>
 </nz-card>
 
 <ng-template #noCard>
-  <ng-template [ngTemplateOutlet]="content">
-  </ng-template>
+  <ng-template [ngTemplateOutlet]="content"> </ng-template>
 </ng-template>
 
 <ng-template #content>
   <nz-row [nzGutter]="16">
     <nz-col [nzSpan]="3">
       <div class="org-avatar">
-        <cvc-organization-avatar [organization]="organization"
-          [size]="128"></cvc-organization-avatar>
+        <cvc-organization-avatar
+          [organization]="organization"
+          [size]="128"
+        ></cvc-organization-avatar>
       </div>
       <div class="org-name">
         <span nz-typography>
@@ -23,52 +22,60 @@
       </div>
     </nz-col>
     <nz-col [nzSpan]="13">
-      <nz-card nzTitle="Profile"
+      <nz-card
+        nzTitle="Profile"
         class="organization-profile"
         nzSize="small"
-      [nzExtra]="orgLink">
+        [nzExtra]="orgLink"
+      >
         <ng-template #orgLink>
           <cvc-link-tag [href]="organization.url">
             View Organization Website
           </cvc-link-tag>
         </ng-template>
-        <nz-descriptions nzBordered
+        <nz-descriptions
+          nzBordered
           nzLayout="vertical"
           nzSize="small"
-          [nzColumn]="1">
-          <nz-descriptions-item nzTitle="Description"
-            [nzSpan]="1">
+          [nzColumn]="1"
+        >
+          <nz-descriptions-item nzTitle="Description" [nzSpan]="1">
             {{ organization.description }}
           </nz-descriptions-item>
-          <nz-descriptions-item nzTitle="Child Organizations"
-            [nzSpan]="1">
+          <nz-descriptions-item nzTitle="Child Organizations" [nzSpan]="1">
             <cvc-tag-list *ngIf="organization.subGroups.length > 0">
               <ng-container *ngFor="let suborg of organization.subGroups">
                 <cvc-organization-tag [org]="suborg"></cvc-organization-tag>
               </ng-container>
             </cvc-tag-list>
-            <ng-container *ngIf="organization.subGroups.length ===0">
-              <span nz-typography
-                nzType="secondary"> <i>No child organizations specified.</i> </span>
+            <ng-container *ngIf="organization.subGroups.length === 0">
+              <span nz-typography nzType="secondary">
+                <i>No child organizations specified.</i>
+              </span>
             </ng-container>
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-card>
-
     </nz-col>
 
     <nz-col [nzSpan]="8">
-      <nz-card nzSize="small"
+      <nz-card
+        nzSize="small"
         nzTitle="Curation Stats"
-        [nzExtra]="subGroupToggle">
-        <cvc-stats-card [stats]="includeSubStats ? organization.orgAndSuborgsStatsHash : organization.orgStatsHash"
-          header="User Statistics"></cvc-stats-card>
+        [nzExtra]="subGroupToggle"
+      >
+        <cvc-stats-card
+          [stats]="
+            includeSubStats
+              ? organization.orgAndSuborgsStatsHash
+              : organization.orgStatsHash
+          "
+          header="User Statistics"
+        ></cvc-stats-card>
       </nz-card>
       <ng-template #subGroupToggle>
-        <ng-container *ngIf="organization.subGroups.length >0">
-          <label nz-checkbox
-            [(ngModel)]="includeSubStats"
-            class="stats-toggle">
+        <ng-container *ngIf="organization.subGroups.length > 0">
+          <label nz-checkbox [(ngModel)]="includeSubStats" class="stats-toggle">
             Include sub-orgs
           </label>
         </ng-container>

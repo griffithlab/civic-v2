@@ -11,14 +11,14 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
-        component: CommunityHomePage
-      }
-    ]
-  }
+        component: CommunityHomePage,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CommunityRoutingModule { }
+export class CommunityRoutingModule {}

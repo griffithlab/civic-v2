@@ -67,7 +67,7 @@ const routes: Routes = [
     GenesCommentsModule,
     GenesRevisionsModule,
     GenesFlagsModule,
-    GenesEventsModule
+    GenesEventsModule,
   ],
   exports: [RouterModule],
 })

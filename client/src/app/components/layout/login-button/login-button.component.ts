@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'cvc-login-button',
   templateUrl: './login-button.component.html',
-  styleUrls: ['./login-button.component.less']
+  styleUrls: ['./login-button.component.less'],
 })
 export class CvcLoginButtonComponent implements OnInit {
   authVisible: boolean;
@@ -12,8 +12,7 @@ export class CvcLoginButtonComponent implements OnInit {
     this.authVisible = false;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   showAuth(): void {
     this.authVisible = true;

@@ -18,6 +18,6 @@ import { CvcAssertionReviseFormModule } from '@app/forms/assertion-revise/assert
     NzSkeletonModule,
     NzSpaceModule,
     CvcAssertionReviseFormModule,
-  ]
+  ],
 })
-export class AssertionSuggestModule { }
+export class AssertionSuggestModule {}

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
   AddVariantGQL,
@@ -12,20 +19,24 @@ import { Subject } from 'rxjs';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { FormGene, FormMolecularProfile, FormVariant } from '../forms.interfaces';
+import {
+  FormGene,
+  FormMolecularProfile,
+  FormVariant,
+} from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
 interface FormModel {
   fields: {
-    gene: FormGene[],
-    variant: FormVariant[],
-  }
+    gene: FormGene[];
+    variant: FormVariant[];
+  };
 }
 
 export interface SelectedVariant {
-  variantId: number,
-  molecularProfile: FormMolecularProfile
+  variantId: number;
+  molecularProfile: FormMolecularProfile;
 }
 
 @Component({
@@ -43,23 +54,26 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
   formFields: FormlyFieldConfig[] = [];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
-  submitVariantMutator: MutatorWithState<AddVariantGQL, AddVariantMutation, AddVariantMutationVariables>
+  submitVariantMutator: MutatorWithState<
+    AddVariantGQL,
+    AddVariantMutation,
+    AddVariantMutationVariables
+  >;
 
-  submittedGeneId: Maybe<number>
-  submittedVariantId: Maybe<number>
+  submittedGeneId: Maybe<number>;
+  submittedVariantId: Maybe<number>;
 
-  success: boolean = false
-  errorMessages: string[] = []
-  loading: boolean = false
-  newId?: number
-  isNew?: boolean
+  success: boolean = false;
+  errorMessages: string[] = [];
+  loading: boolean = false;
+  newId?: number;
+  isNew?: boolean;
 
   constructor(
     private submitVariantGQL: AddVariantGQL,
     private networkErrorService: NetworkErrorsService,
     private route: ActivatedRoute
-    ) {
-
+  ) {
     this.submitVariantMutator = new MutatorWithState(networkErrorService);
   }
 
@@ -68,21 +82,20 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
       {
         key: 'fields',
         wrappers: ['form-container'],
-        templateOptions: {
-        },
+        templateOptions: {},
         fieldGroup: [
           {
             key: 'gene',
             type: 'gene-array',
             templateOptions: {
               maxCount: 1,
-              required: true
+              required: true,
             },
             validation: {
               messages: {
-                required: 'Gene is required to select a variant.'
-              }
-            }
+                required: 'Gene is required to select a variant.',
+              },
+            },
           },
           {
             key: 'variant',
@@ -91,61 +104,68 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
               required: false,
               maxCount: 1,
               allowCreate: this.allowCreate,
-            }
+            },
           },
-        ]
-      }
+        ],
+      },
     ];
   }
 
   submitVariant(model: Maybe<FormModel>): void {
-    let geneId = model?.fields.gene[0].id
-    let name = model?.fields.variant[0].name
+    let geneId = model?.fields.gene[0].id;
+    let name = model?.fields.variant[0].name;
     if (geneId && name) {
       let input = {
         geneId: geneId,
-        name: name
-      }
+        name: name,
+      };
 
-      let state = this.submitVariantMutator.mutate(this.submitVariantGQL, input, {},
+      let state = this.submitVariantMutator.mutate(
+        this.submitVariantGQL,
+        input,
+        {},
         (data) => {
-          let addVariantResult = data.addVariant
-          if(addVariantResult) {
+          let addVariantResult = data.addVariant;
+          if (addVariantResult) {
             this.newId = addVariantResult.variant.id;
-            this.isNew = addVariantResult.new
+            this.isNew = addVariantResult.new;
             this.onVariantSelected.emit({
               variantId: addVariantResult.variant.id,
-              molecularProfile: addVariantResult.variant.singleVariantMolecularProfile
+              molecularProfile:
+                addVariantResult.variant.singleVariantMolecularProfile,
             });
           }
-        })
+        }
+      );
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true
+          this.success = true;
         }
-      })
+      });
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs
-          this.success = false
+          this.errorMessages = errs;
+          this.success = false;
         }
-      })
+      });
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading;
+        });
     }
   }
 
   onFormModelChange(model: FormModel): void {
-    this.formModel = model
-    if(model.fields.variant && model.fields.variant[0]) {
+    this.formModel = model;
+    if (model.fields.variant && model.fields.variant[0]) {
       this.onVariantSelected.emit({
         variantId: model.fields.variant[0].id!,
-        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile
-      })
+        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile,
+      });
     }
   }
 

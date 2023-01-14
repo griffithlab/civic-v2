@@ -5,10 +5,7 @@ import { CvcRevisionsListAndFilterModule } from '@app/components/revisions/revis
 
 @NgModule({
   declarations: [MolecularProfilesRevisionsPage],
-  imports: [
-    CommonModule,
-    CvcRevisionsListAndFilterModule
-  ],
+  imports: [CommonModule, CvcRevisionsListAndFilterModule],
   exports: [MolecularProfilesRevisionsPage],
 })
-export class MolecularProfilesRevisionsModule { }
+export class MolecularProfilesRevisionsModule {}

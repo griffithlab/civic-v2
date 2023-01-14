@@ -45,8 +45,8 @@ import { CvcMolecularProfileVariantCardModule } from '@app/components/molecular-
     CvcLinkTagModule,
     CvcEmptyRevisableModule,
     CvcMolecularProfileTagNameModule,
-    CvcMolecularProfileVariantCardModule
+    CvcMolecularProfileVariantCardModule,
   ],
   exports: [MolecularProfilesSummaryPage],
 })
-export class MolecularProfilesSummaryModule { }
+export class MolecularProfilesSummaryModule {}

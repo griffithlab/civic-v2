@@ -11,56 +11,57 @@ export interface EvidenceStatechartSchema {
           states: {
             // characterized if identified & all required fields are specified
             characterized: {
-              states: { // parallel state
+              states: {
+                // parallel state
                 // complete if characterized & all optional fields specified
-                complete: {}
+                complete: {};
                 curated: {
                   states: {
-                    pending: {}
-                    approved: {}
-                    rejected: {}
-                    revised: {}
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                    pending: {};
+                    approved: {};
+                    rejected: {};
+                    revised: {};
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
 }
 
 export interface EvidenceStatechartContext {
   evidence: {
-    hasGene: boolean
-    hasVariant: boolean
-    hasSource: boolean
+    hasGene: boolean;
+    hasVariant: boolean;
+    hasSource: boolean;
 
-    hasVariantOrigin: boolean
-    hasType: boolean
+    hasVariantOrigin: boolean;
+    hasType: boolean;
 
-    hasDisease: boolean
-    hasDrug: boolean
-    hasMultipleDrugs: boolean
-    hasInteractionType: boolean
+    hasDisease: boolean;
+    hasDrug: boolean;
+    hasMultipleDrugs: boolean;
+    hasInteractionType: boolean;
 
-    hasSignificance: boolean
-    hasDirection: boolean
-    hasLevel: boolean
-    hasRating: boolean
+    hasSignificance: boolean;
+    hasDirection: boolean;
+    hasLevel: boolean;
+    hasRating: boolean;
 
-    hasPhenotype: boolean
-  }
+    hasPhenotype: boolean;
+  };
   curation: {
-    isLocated: boolean
-    isIdentified: boolean
-    isCharacterized: boolean
-    isComplete: boolean
-    isCurated: boolean
-    isSubmitted: boolean
-    isApproved: boolean
-    isRejected: boolean
-    isRevised: boolean
-  }
+    isLocated: boolean;
+    isIdentified: boolean;
+    isCharacterized: boolean;
+    isComplete: boolean;
+    isCurated: boolean;
+    isSubmitted: boolean;
+    isApproved: boolean;
+    isRejected: boolean;
+    isRevised: boolean;
+  };
 }

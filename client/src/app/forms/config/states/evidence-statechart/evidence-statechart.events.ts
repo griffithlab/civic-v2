@@ -1,5 +1,11 @@
-import { TherapyInteraction, EvidenceDirection, EvidenceLevel, EvidenceType, VariantOrigin } from "@app/generated/civic.apollo";
-import { EntityType } from "../entity.state";
+import {
+  TherapyInteraction,
+  EvidenceDirection,
+  EvidenceLevel,
+  EvidenceType,
+  VariantOrigin,
+} from '@app/generated/civic.apollo';
+import { EntityType } from '../entity.state';
 
 // to be based on: https://github.com/stefanoslig/xstate-angular/blob/main/apps/conduit/src/app/article-list/%2Bxstate/article-list-machine.events.ts
 export class SetGene {
@@ -39,7 +45,7 @@ export class SetDrug {
 
 export class SetInteraction {
   readonly type = 'SET_INTERACTION';
-  constructor(public interaction: TherapyInteraction) {  }
+  constructor(public interaction: TherapyInteraction) {}
 }
 
 export class SetDirection {

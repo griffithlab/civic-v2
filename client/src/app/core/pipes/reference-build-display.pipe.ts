@@ -5,7 +5,7 @@ import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/fo
 
 @Pipe({
   name: 'referenceBuildDisplay',
-  pure: true
+  pure: true,
 })
 export class ReferenceBuildDisplayPipe implements PipeTransform {
   transform(value: Maybe<ReferenceBuild>): string {

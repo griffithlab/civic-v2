@@ -7,12 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcLinkTagComponent],
-  imports: [
-    CommonModule,
-    NzToolTipModule,
-    NzTagModule,
-    NzIconModule
-  ],
-  exports: [CvcLinkTagComponent]
+  imports: [CommonModule, NzToolTipModule, NzTagModule, NzIconModule],
+  exports: [CvcLinkTagComponent],
 })
-export class CvcLinkTagModule { }
+export class CvcLinkTagModule {}

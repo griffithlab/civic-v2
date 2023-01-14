@@ -6,10 +6,6 @@ import { OrganizationsAssertionsComponent } from './organizations-assertions.com
 
 @NgModule({
   declarations: [OrganizationsAssertionsComponent],
-  imports: [
-    CommonModule,
-    CvcAssertionsTableModule,
-    NzIconModule,
-  ]
+  imports: [CommonModule, CvcAssertionsTableModule, NzIconModule],
 })
-export class OrganizationsAssertionsModule { }
+export class OrganizationsAssertionsModule {}

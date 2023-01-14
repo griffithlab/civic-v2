@@ -8,7 +8,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import {
   SignificanceSelectTypeOption,
   csOptionValidationMessage,
-  csOptionValidator
+  csOptionValidator,
 } from './significance-select.type';
 
 @NgModule({
@@ -21,9 +21,9 @@ import {
     FormlySelectModule,
     FormlyModule.forChild({
       types: [SignificanceSelectTypeOption],
-      validators:  [csOptionValidator],
-      validationMessages: [csOptionValidationMessage]
+      validators: [csOptionValidator],
+      validationMessages: [csOptionValidationMessage],
     }),
-  ]
+  ],
 })
-export class CvcSignificanceSelectModule { }
+export class CvcSignificanceSelectModule {}

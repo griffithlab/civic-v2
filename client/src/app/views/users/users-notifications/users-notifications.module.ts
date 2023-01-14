@@ -33,7 +33,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CvcEventTimelineItemModule,
     CvcPipesModule,
     CvcParticipantListModule,
-
-  ]
+  ],
 })
-export class UsersNotificationsModule { }
+export class UsersNotificationsModule {}

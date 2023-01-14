@@ -21,6 +21,6 @@ import { CvcClinicalTrialPopoverComponent } from './clinical-trial-popover.compo
     CvcLinkTagModule,
     CvcPipesModule,
   ],
-  exports: [CvcClinicalTrialPopoverComponent]
+  exports: [CvcClinicalTrialPopoverComponent],
 })
-export class CvcClinicalTrialPopoverModule { }
+export class CvcClinicalTrialPopoverModule {}

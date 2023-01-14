@@ -9,7 +9,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'form-card-wrapper',
   templateUrl: './form-card.wrapper.html',
   styleUrls: ['./form-card.wrapper.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCardWrapper extends FieldWrapper implements OnInit {
   get errorState() {
@@ -17,9 +17,9 @@ export class FormCardWrapper extends FieldWrapper implements OnInit {
     return this.showError ? 'error' : '';
   }
 
-  constructor() { super(); }
-
-  ngOnInit(): void {
+  constructor() {
+    super();
   }
 
+  ngOnInit(): void {}
 }

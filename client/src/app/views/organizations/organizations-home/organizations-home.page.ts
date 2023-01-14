@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'organizations-home',
   templateUrl: './organizations-home.page.html',
-  styleUrls: ['./organizations-home.page.less']
+  styleUrls: ['./organizations-home.page.less'],
 })
 export class OrganizationsHomePage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

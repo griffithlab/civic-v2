@@ -35,7 +35,9 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzTypographyModule,
     NzGridModule,
     RouterModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
     CvcRevisionTagModule,
     CvcUserTagModule,
     CvcPipesModule,
@@ -50,6 +52,6 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcVariantGroupTagModule,
     CvcMolecularProfileTagModule,
   ],
-  exports: [CvcEventTimelineItemComponent]
+  exports: [CvcEventTimelineItemComponent],
 })
-export class CvcEventTimelineItemModule { }
+export class CvcEventTimelineItemModule {}

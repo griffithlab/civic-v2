@@ -10,7 +10,10 @@ import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/for
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { EvidenceInputType, EvidenceInputTypeOption } from './evidence-input.type';
+import {
+  EvidenceInputType,
+  EvidenceInputTypeOption,
+} from './evidence-input.type';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
@@ -30,7 +33,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     CvcEvidenceTagModule,
     CvcFormErrorsAlertModule,
     CvcPipesModule,
-    CvcAutofocusModule
+    CvcAutofocusModule,
   ],
 })
-export class CvcEvidenceInputTypeModule { }
+export class CvcEvidenceInputTypeModule {}

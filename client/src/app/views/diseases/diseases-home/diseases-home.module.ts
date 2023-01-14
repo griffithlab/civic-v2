@@ -27,6 +27,6 @@ import { DiseasesHomePage } from './diseases-home.page';
     CvcDiseasesTableModule,
     CvcPipesModule,
   ],
-  exports: [DiseasesHomePage]
+  exports: [DiseasesHomePage],
 })
-export class DiseasesHomeModule { }
+export class DiseasesHomeModule {}

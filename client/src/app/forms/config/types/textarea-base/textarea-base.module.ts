@@ -13,6 +13,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     ReactiveFormsModule,
     FormlyModule.forChild({ types: [texareaBaseTypeOption] }),
     NzInputModule,
-  ]
+  ],
 })
-export class CvcTextareaBaseTypeModule { }
+export class CvcTextareaBaseTypeModule {}

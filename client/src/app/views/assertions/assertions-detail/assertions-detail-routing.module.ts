@@ -24,39 +24,39 @@ const routes: Routes = [
         path: 'summary',
         component: AssertionsSummaryPage,
         data: {
-          breadcrumb: 'Summary'
-        }
+          breadcrumb: 'Summary',
+        },
       },
       {
         path: 'events',
         component: AssertionsEventsPage,
         data: {
-          breadcrumb: 'Events'
-        }
+          breadcrumb: 'Events',
+        },
       },
       {
         path: 'comments',
         component: AssertionsCommentsPage,
         data: {
-          breadcrumb: 'Comments'
-        }
+          breadcrumb: 'Comments',
+        },
       },
       {
         path: 'revisions',
         component: AssertionsRevisionsPage,
         data: {
-          breadcrumb: 'Revisions'
-        }
+          breadcrumb: 'Revisions',
+        },
       },
       {
         path: 'flags',
         component: AssertionsFlagsPage,
         data: {
-          breadcrumb: 'Flags'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Flags',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -66,8 +66,8 @@ const routes: Routes = [
     AssertionsCommentsModule,
     AssertionsRevisionsModule,
     AssertionsFlagsModule,
-    AssertionsEventsModule
+    AssertionsEventsModule,
   ],
   exports: [RouterModule],
 })
-export class AssertionsDetailRoutingModule { }
+export class AssertionsDetailRoutingModule {}

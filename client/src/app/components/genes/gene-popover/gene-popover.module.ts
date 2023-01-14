@@ -25,6 +25,6 @@ import { CvcGenePopoverComponent } from './gene-popover.component';
     NzSpaceModule,
     CvcPipesModule,
   ],
-  exports: [CvcGenePopoverComponent]
+  exports: [CvcGenePopoverComponent],
 })
-export class CvcGenePopoverModule { }
+export class CvcGenePopoverModule {}

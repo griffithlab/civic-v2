@@ -1,8 +1,4 @@
-import { Component,
-         Input,
-         OnChanges,
-         OnInit,
-       } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 
 import { NGXLogger } from 'ngx-logger';
@@ -12,7 +8,7 @@ import { MyGeneInfoService } from './my-gene-info.service';
 @Component({
   selector: 'cvc-my-gene-info',
   templateUrl: './my-gene-info.component.html',
-  styleUrls: ['./my-gene-info.component.less']
+  styleUrls: ['./my-gene-info.component.less'],
 })
 export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   @Input() geneInfo: any;
@@ -21,7 +17,10 @@ export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   // TODO set this as number type w/o causing TS compile error
   tabIndex: any;
 
-  constructor(private infoService: MyGeneInfoService, private logger: NGXLogger) {
+  constructor(
+    private infoService: MyGeneInfoService,
+    private logger: NGXLogger
+  ) {
     this.tabIndex = 0;
   }
 
@@ -30,7 +29,7 @@ export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if(this.geneInfo) {
+    if (this.geneInfo) {
       this.info = this.infoService.parse(this.geneInfo);
     }
   }
@@ -38,5 +37,4 @@ export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   tabChange(args: NzTabChangeEvent): void {
     this.tabIndex = args.index;
   }
-
 }

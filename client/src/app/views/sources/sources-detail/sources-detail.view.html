@@ -1,27 +1,36 @@
 <ng-container *ngIf="source$ | ngrxPush as source">
-  <cvc-section-navigation [displayName]="source.citation"
-    [actionsTpl]="sourcesActions"> </cvc-section-navigation>
+  <cvc-section-navigation
+    [displayName]="source.citation"
+    [actionsTpl]="sourcesActions"
+  >
+  </cvc-section-navigation>
   <ng-template #sourcesActions>
     <ng-container *ngrxLet="viewer$ as viewer">
-      <button routerLink="/sources/add"
+      <button
+        routerLink="/sources/add"
         *ngIf="viewer.signedIn"
         nz-button
-        nzSize="small">
-        <i nz-icon
-          nzType="plus-circle"></i> Suggest a New Source
+        nzSize="small"
+      >
+        <i nz-icon nzType="plus-circle"></i> Suggest a New Source
       </button>
     </ng-container>
   </ng-template>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Source' | entityColor"
-        nzType="civic-source"></i> {{ source.citation }}
+        nzType="civic-source"
+      ></i>
+      {{ source.citation }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [href]="source.sourceUrl"
-        [tooltip]="'View on ' + source.displayType">
+      <cvc-link-tag
+        [href]="source.sourceUrl"
+        [tooltip]="'View on ' + source.displayType"
+      >
         {{ source.displayType + ':' + source.citationId }}
       </cvc-link-tag>
     </nz-page-header-extra>

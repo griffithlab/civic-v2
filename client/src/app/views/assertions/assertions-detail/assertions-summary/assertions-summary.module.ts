@@ -49,8 +49,10 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcAttributeTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
-    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    TimeagoModule.forChild({
+      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
+    }),
   ],
-  exports: [AssertionsSummaryPage]
+  exports: [AssertionsSummaryPage],
 })
-export class AssertionsSummaryModule { }
+export class AssertionsSummaryModule {}

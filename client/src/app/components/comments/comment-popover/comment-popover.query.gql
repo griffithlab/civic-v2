@@ -4,7 +4,6 @@ query CommentPopover($commentId: Int!) {
   }
 }
 
-
 fragment commentPopover on Comment {
   id
   name

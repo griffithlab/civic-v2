@@ -12,8 +12,7 @@ import { CvcContributorStackModule } from '../contributor-stack/contributor-stac
     ReactiveComponentModule,
     NzTypographyModule,
     CvcContributorStackModule,
-
   ],
-  exports: [CvcContributorAvatarsComponent]
+  exports: [CvcContributorAvatarsComponent],
 })
-export class CvcContributorAvatarsModule { }
+export class CvcContributorAvatarsModule {}

@@ -21,8 +21,8 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcTherapyTagModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
-  exports: [CvcAssertionCardComponent]
+  exports: [CvcAssertionCardComponent],
 })
-export class CvcAssertionCardModule { }
+export class CvcAssertionCardModule {}

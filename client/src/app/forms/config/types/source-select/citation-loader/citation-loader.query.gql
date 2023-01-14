@@ -5,7 +5,7 @@ query CheckRemoteCitation($sourceType: SourceSource!, $citationId: String!) {
 mutation AddRemoteCitation($input: AddRemoteCitationInput!) {
   addRemoteCitation(input: $input) {
     newSource {
-      ... SourceStubFields
+      ...SourceStubFields
     }
   }
 }

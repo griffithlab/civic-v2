@@ -25,6 +25,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcSectionNavigationModule,
     CvcVariantTypesTableModule,
   ],
-  exports: [VariantTypesHomePage]
+  exports: [VariantTypesHomePage],
 })
-export class VariantTypesHomeModule { }
+export class VariantTypesHomeModule {}

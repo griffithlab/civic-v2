@@ -1,24 +1,32 @@
-import { Component, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Maybe, Organization, OrganizationDetailFieldsFragment, OrganizationDetailGQL, OrganizationDetailQueryVariables } from "@app/generated/civic.apollo";
-import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
-import { QueryRef } from "apollo-angular";
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
-  OrganizationDetailQuery
-} from '@app/generated/civic.apollo'
-import { pluck, startWith, map, takeUntil } from "rxjs/operators";
+  Maybe,
+  Organization,
+  OrganizationDetailFieldsFragment,
+  OrganizationDetailGQL,
+  OrganizationDetailQueryVariables,
+} from '@app/generated/civic.apollo';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
+import { QueryRef } from 'apollo-angular';
+import { OrganizationDetailQuery } from '@app/generated/civic.apollo';
+import { pluck, startWith, map, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigation.component";
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
   selector: 'organizations-detail',
   templateUrl: './organizations-detail.component.html',
-  styleUrls: ['./organizations-detail.component.less']
+  styleUrls: ['./organizations-detail.component.less'],
 })
-
-
 export class OrganizationsDetailComponent implements OnDestroy {
-  queryRef?: QueryRef<OrganizationDetailQuery, OrganizationDetailQueryVariables>;
+  queryRef?: QueryRef<
+    OrganizationDetailQuery,
+    OrganizationDetailQueryVariables
+  >;
   destroy$ = new Subject<void>();
 
   organization$?: Observable<Maybe<OrganizationDetailFieldsFragment>>;
@@ -30,41 +38,44 @@ export class OrganizationsDetailComponent implements OnDestroy {
     {
       routeName: 'members',
       tabLabel: 'Members',
-      iconName: 'pic-right'
+      iconName: 'pic-right',
     },
     {
       routeName: 'activity',
       tabLabel: 'Activity',
-      iconName: 'civic-event'
+      iconName: 'civic-event',
     },
     {
       routeName: 'evidence',
       tabLabel: 'Evidence Items',
-      iconName: 'civic-evidence'
+      iconName: 'civic-evidence',
     },
     {
       routeName: 'assertions',
       tabLabel: 'Assertions',
-      iconName: 'civic-assertion'
+      iconName: 'civic-assertion',
     },
-  ]
+  ];
 
-  tabs$: BehaviorSubject<RouteableTab[]>
+  tabs$: BehaviorSubject<RouteableTab[]>;
 
-  constructor(private gql: OrganizationDetailGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
-    this.tabs$ = new BehaviorSubject(this.defaultTabs)
+  constructor(
+    private gql: OrganizationDetailGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
+    this.tabs$ = new BehaviorSubject(this.defaultTabs);
 
     this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ organizationId: +params.organizationId });
+      this.queryRef = this.gql.watch({
+        organizationId: +params.organizationId,
+      });
 
-      let observable = this.queryRef.valueChanges
+      let observable = this.queryRef.valueChanges;
 
-      this.loading$ = observable.pipe(
-        pluck('loading'),
-        startWith(true));
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-      this.organization$ = observable.pipe(
-        pluck('data', 'organization'));
+      this.organization$ = observable.pipe(pluck('data', 'organization'));
 
       this.viewer$ = this.viewerService.viewer$;
 
@@ -72,23 +83,24 @@ export class OrganizationsDetailComponent implements OnDestroy {
         next: (org: Maybe<OrganizationDetailFieldsFragment>) => {
           if (org && org.subGroups.length > 0) {
             this.tabs$.next([
-              ... this.defaultTabs,
+              ...this.defaultTabs,
               {
                 routeName: 'groups',
                 tabLabel: 'Child Organizations',
-                iconName: 'civic-organization'
-             }]);
+                iconName: 'civic-organization',
+              },
+            ]);
           } else {
             this.tabs$.next(this.defaultTabs);
           }
-        }
-      })
-    })
+        },
+      });
+    });
   }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
-    this.destroy$.next()
+    this.destroy$.next();
     this.destroy$.unsubscribe();
   }
 }

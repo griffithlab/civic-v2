@@ -10,78 +10,77 @@ import { FieldWrapper } from '@ngx-formly/core';
   styleUrls: ['./with-evidence-manager.wrapper.less'],
 })
 export class WithEvidenceManagerWrapper extends FieldWrapper {
+  managerVisible = false;
+  alreadySelected: FormEvidence[] = [];
+  private managerSelectedEids: FormEvidence[] = [];
 
-  managerVisible = false
-  alreadySelected: FormEvidence[] = []
-  private managerSelectedEids: FormEvidence[] = []
-
-  evidenceGridFilters: EvidenceTableUserFilters  = {
-      eidInput: undefined,
-      diseaseNameInput: undefined,
-      therapyNameInput: undefined,
-      descriptionInput: undefined,
-      evidenceLevelInput: undefined,
-      evidenceTypeInput: undefined,
-      evidenceDirectionInput: undefined,
-      SignificanceInput: undefined,
-      variantOriginInput: undefined,
-      evidenceRatingInput: undefined,
-      molecularProfileNameInput: undefined,
-      geneSymbolInput: undefined,
-  }
+  evidenceGridFilters: EvidenceTableUserFilters = {
+    eidInput: undefined,
+    diseaseNameInput: undefined,
+    therapyNameInput: undefined,
+    descriptionInput: undefined,
+    evidenceLevelInput: undefined,
+    evidenceTypeInput: undefined,
+    evidenceDirectionInput: undefined,
+    SignificanceInput: undefined,
+    variantOriginInput: undefined,
+    evidenceRatingInput: undefined,
+    molecularProfileNameInput: undefined,
+    geneSymbolInput: undefined,
+  };
 
   handleOpen() {
-    if(this.field.parent?.model) {
-      const parentModel = this.field.parent?.model
+    if (this.field.parent?.model) {
+      const parentModel = this.field.parent?.model;
       if (parentModel.molecularProfile) {
-        this.evidenceGridFilters.molecularProfileNameInput = parentModel.molecularProfile.name
-      } else  {
-        this.evidenceGridFilters.molecularProfileNameInput = undefined
+        this.evidenceGridFilters.molecularProfileNameInput =
+          parentModel.molecularProfile.name;
+      } else {
+        this.evidenceGridFilters.molecularProfileNameInput = undefined;
       }
       if (parentModel.evidenceType) {
-        this.evidenceGridFilters.evidenceTypeInput = parentModel.evidenceType
+        this.evidenceGridFilters.evidenceTypeInput = parentModel.evidenceType;
       } else {
-        this.evidenceGridFilters.evidenceTypeInput = undefined
+        this.evidenceGridFilters.evidenceTypeInput = undefined;
       }
       if (parentModel.disease.length == 1 && parentModel.disease[0]) {
-        this.evidenceGridFilters.diseaseNameInput = parentModel.disease[0].name
+        this.evidenceGridFilters.diseaseNameInput = parentModel.disease[0].name;
       } else {
-        this.evidenceGridFilters.diseaseNameInput = undefined
+        this.evidenceGridFilters.diseaseNameInput = undefined;
       }
     }
-    if(this.model) {
-      this.alreadySelected = this.model.filter((eid: any) => eid)
+    if (this.model) {
+      this.alreadySelected = this.model.filter((eid: any) => eid);
     }
-    this.managerVisible = true
+    this.managerVisible = true;
   }
 
   handleCancel() {
-    this.managerVisible = false
+    this.managerVisible = false;
   }
 
   handleOk() {
-    this.managerVisible = false
-    const eids = this.managerSelectedEids
+    this.managerVisible = false;
+    const eids = this.managerSelectedEids;
 
-    while(this.formControl.value.length < eids.length) {
+    while (this.formControl.value.length < eids.length) {
       this.to.add(eids[0]);
     }
-    while(this.formControl.value.length > eids.length) {
+    while (this.formControl.value.length > eids.length) {
       this.to.remove(this.formControl.value.length - 1);
     }
 
     eids.forEach((eid, i) => {
-      let control = this.field.formControl as UntypedFormArray
-      control.controls[i].setValue(eid)
-    })
+      let control = this.field.formControl as UntypedFormArray;
+      control.controls[i].setValue(eid);
+    });
 
-    if(this.to.eidCallback) {
-      this.to.eidCallback(eids)
+    if (this.to.eidCallback) {
+      this.to.eidCallback(eids);
     }
   }
 
   onEidSelectionChange(eids: FormEvidence[]) {
-    this.managerSelectedEids = eids
-
+    this.managerSelectedEids = eids;
   }
 }

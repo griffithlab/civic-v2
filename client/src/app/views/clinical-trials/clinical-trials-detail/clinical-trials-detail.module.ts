@@ -22,6 +22,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcLinkTagModule,
     CvcSectionNavigationModule,
     CvcPipesModule,
-  ]
+  ],
 })
-export class ClinicalTrialsDetailModule { }
+export class ClinicalTrialsDetailModule {}

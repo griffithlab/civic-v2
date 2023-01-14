@@ -36,6 +36,6 @@ import { NzMentionModule } from 'ng-zorro-antd/mention';
     CvcCommentBodyModule,
     CvcCommentTextareaTypeModule,
   ],
-  exports: [CvcCommentInputForm]
+  exports: [CvcCommentInputForm],
 })
-export class CvcCommentInputFormModule { }
+export class CvcCommentInputFormModule {}

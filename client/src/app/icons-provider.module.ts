@@ -4,14 +4,19 @@ import { IconDefinition, ThemeType } from '@ant-design/icons-angular';
 
 import { camelToKebab } from '@app/core/utilities/camel-to-kebab';
 
-import { MenuFoldOutline, MenuUnfoldOutline, FormOutline, DashboardOutline } from '@ant-design/icons-angular/icons';
+import {
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  FormOutline,
+  DashboardOutline,
+} from '@ant-design/icons-angular/icons';
 
 // NZ icons used in base app components
 const icons = [
   MenuFoldOutline,
   MenuUnfoldOutline,
   DashboardOutline,
-  FormOutline
+  FormOutline,
 ];
 
 import {
@@ -237,12 +242,9 @@ export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals);
 @NgModule({
   imports: [NzIconModule],
   exports: [NzIconModule],
-  providers: [
-    { provide: NZ_ICONS, useValue: icons },
-  ]
+  providers: [{ provide: NZ_ICONS, useValue: icons }],
 })
-
-export class IconsProviderModule { }
+export class IconsProviderModule {}
 
 export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
   const defs: any[] = [];
@@ -250,8 +252,8 @@ export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
     const def: IconDefinition = {
       name: getName(icon.name),
       theme: getTheme(icon.name),
-      icon: icon.data
-    }
+      icon: icon.data,
+    };
     defs.push(def);
   });
   return defs;
@@ -268,9 +270,9 @@ export function getTheme(name: string): ThemeType | undefined {
     return 'twotone';
   } else if (name.includes('Outline')) {
     return 'outline';
-  } else if (name.includes('Fill')){
+  } else if (name.includes('Fill')) {
     return 'fill';
   } else {
-    return
+    return;
   }
 }

@@ -23,7 +23,7 @@ import { PhenotypesHomePage } from './phenotypes-home.page';
     NzTypographyModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
-    CvcPhenotypesTableModule
+    CvcPhenotypesTableModule,
   ],
 })
-export class PhenotypesHomeModule { }
+export class PhenotypesHomeModule {}

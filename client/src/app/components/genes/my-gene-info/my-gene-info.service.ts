@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MyGeneInfoService {
-
-  constructor(private logger: NGXLogger) {
-  }
+  constructor(private logger: NGXLogger) {}
 
   parse(geneInfo: any): any {
-    const srcMap: { [key: string]: string | null; } = {
+    const srcMap: { [key: string]: string | null } = {
       kegg: 'http://www.genome.jp/kegg-bin/show_pathway?',
       reactome: 'https://reactome.org/content/detail/',
       pharmgkb: 'https://www.pharmgkb.org/pathway/',
@@ -22,16 +20,16 @@ export class MyGeneInfoService {
       biocarta: null,
       inoh: null,
       signalink: null,
-      ehmn: null
+      ehmn: null,
     };
     const pathways = geneInfo.pathway || [];
     const pathwaysFinal: PathwayRow[] = [];
     let link;
-    Object.keys(pathways).forEach(function(src) {
+    Object.keys(pathways).forEach(function (src) {
       if (!Array.isArray(pathways[src])) {
         pathways[src] = [pathways[src]];
       }
-      pathways[src].forEach(function(p: Pathway, i: number) {
+      pathways[src].forEach(function (p: Pathway, i: number) {
         link = srcMap[src] + pathways[src][i].id;
         if (srcMap[src] === null) {
           link = null;
@@ -39,36 +37,38 @@ export class MyGeneInfoService {
         pathwaysFinal.push({
           name: pathways[src][i].name,
           link: link,
-          src: src
+          src: src,
         });
       });
     });
     geneInfo.pathway = pathwaysFinal;
-    geneInfo.pathwayList = pathwaysFinal.map(p => p.name);
+    geneInfo.pathwayList = pathwaysFinal.map((p) => p.name);
     if (!Array.isArray(geneInfo.alias) && geneInfo.alias) {
       geneInfo.alias = [geneInfo.alias];
     }
     if (!Array.isArray(geneInfo.interpro) && geneInfo.interpro) {
       geneInfo.interpro = [geneInfo.interpro];
     }
-    geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => { return pd.desc; })
+    geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => {
+      return pd.desc;
+    });
     return geneInfo;
   }
 }
 
 export interface ProteinDomain {
-  desc: string,
-  id: string,
-  short_desc: string
+  desc: string;
+  id: string;
+  short_desc: string;
 }
 
 export interface PathwayRow {
-  name: string
-  link: string | null
-  src: string | null
+  name: string;
+  link: string | null;
+  src: string | null;
 }
 
 export interface Pathway {
-  name: string
-  id: string
+  name: string;
+  id: string;
 }

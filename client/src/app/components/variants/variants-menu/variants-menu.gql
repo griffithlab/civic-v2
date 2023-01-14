@@ -1,21 +1,21 @@
 query VariantsMenu(
-  $geneId: Int,
-  $variantName: String,
-  $first: Int,
-  $last: Int,
-  $before: String,
-  $after: String,
+  $geneId: Int
+  $variantName: String
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
   $sortBy: VariantMenuSort
-  ) {
+) {
   variants(
-    geneId: $geneId,
-    name: $variantName,
-    first: $first,
-    last: $last,
-    before: $before,
-    after: $after,
+    geneId: $geneId
+    name: $variantName
+    first: $first
+    last: $last
+    before: $before
+    after: $after
     sortBy: $sortBy
-    ) {
+  ) {
     totalCount
     pageInfo {
       startCursor

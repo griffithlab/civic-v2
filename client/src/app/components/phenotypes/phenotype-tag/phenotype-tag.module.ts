@@ -21,6 +21,6 @@ import { CvcPhenotypeTagComponent } from './phenotype-tag.component';
     CvcPhenotypePopoverModule,
     CvcPipesModule,
   ],
-  exports: [CvcPhenotypeTagComponent]
+  exports: [CvcPhenotypeTagComponent],
 })
-export class CvcPhenotypeTagModule { }
+export class CvcPhenotypeTagModule {}

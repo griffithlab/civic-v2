@@ -1,28 +1,25 @@
 <ng-template #flaggedContent><ng-content></ng-content></ng-template>
 
-<ng-container *ngIf="flags === 0" >
+<ng-container *ngIf="flags === 0">
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
 <ng-container *ngIf="flags">
-  <nz-ribbon [nzText]="flaggedText"
-    nzPlacement="start"
-    nzColor="#ff3333">
+  <nz-ribbon [nzText]="flaggedText" nzPlacement="start" nzColor="#ff3333">
     <ng-template #flaggedText>
-      <a routerLink="flags"
-        style="color: #FFF;">
-        <i nz-icon
+      <a routerLink="flags" style="color: #fff">
+        <i
+          nz-icon
           nzType="flag"
           nzTheme="fill"
           nz-tooltip
           nzTooltipPlacement="top"
           nzTooltipColor="#FF3333"
-          [nzTooltipTitle]="flaggedTooltip"></i>
+          [nzTooltipTitle]="flaggedTooltip"
+        ></i>
       </a>
     </ng-template>
-    <ng-template #flaggedTooltip>
-      {{ flags }} open flags
-    </ng-template>
+    <ng-template #flaggedTooltip> {{ flags }} open flags </ng-template>
     <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
   </nz-ribbon>
 </ng-container>

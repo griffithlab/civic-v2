@@ -5,10 +5,7 @@ import { MolecularProfilesCommentsPage } from './molecular-profiles-comments.pag
 
 @NgModule({
   declarations: [MolecularProfilesCommentsPage],
-  imports: [
-    CommonModule,
-    CvcCommentListModule
-  ],
+  imports: [CommonModule, CvcCommentListModule],
   exports: [MolecularProfilesCommentsPage],
 })
-export class MolecularProfilesCommentsModule { }
+export class MolecularProfilesCommentsModule {}

@@ -7,12 +7,7 @@ import { CvcSourceTagModule } from './source-tag/source-tag.module';
 
 @NgModule({
   declarations: [SourceListItemComponent],
-  imports: [
-    CommonModule,
-    NzTagModule,
-    NzTypographyModule,
-    CvcSourceTagModule,
-  ],
-  exports: [SourceListItemComponent]
+  imports: [CommonModule, NzTagModule, NzTypographyModule, CvcSourceTagModule],
+  exports: [SourceListItemComponent],
 })
-export class SourcesComponentsModule { }
+export class SourcesComponentsModule {}

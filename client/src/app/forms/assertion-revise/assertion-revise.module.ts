@@ -49,9 +49,7 @@ import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-arra
 import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
-  declarations: [
-    AssertionReviseForm
-  ],
+  declarations: [AssertionReviseForm],
   imports: [
     CommonModule,
     RouterModule,
@@ -99,8 +97,6 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcCancelButtonModule,
     CvcClingenCodeArrayTypeModule,
   ],
-  exports: [
-    AssertionReviseForm
-  ]
+  exports: [AssertionReviseForm],
 })
-export class CvcAssertionReviseFormModule { }
+export class CvcAssertionReviseFormModule {}

@@ -1,10 +1,10 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
-  selector: '[autofocus]'
+  selector: '[autofocus]',
 })
 export class CvcAutofocusDirective {
-  @Input() autofocus: 'click' | 'focus' = 'focus'
+  @Input() autofocus: 'click' | 'focus' = 'focus';
   constructor(private host: ElementRef) {}
 
   ngAfterViewInit() {

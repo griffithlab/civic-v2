@@ -1,10 +1,18 @@
-<nz-comment [nzAuthor]="comment.commenter.displayName" [nzDatetime]="comment.createdAt | timeago">
-    <nz-avatar *ngIf="comment.commenter.profileImagePath; else noAvatar" nz-comment-avatar
-        [nzSrc]="comment.commenter.profileImagePath"></nz-avatar>
-    <ng-template #noAvatar>
-        <nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar>
-    </ng-template>
-    <nz-comment-content>
-        <cvc-comment-body [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
-    </nz-comment-content>
+<nz-comment
+  [nzAuthor]="comment.commenter.displayName"
+  [nzDatetime]="comment.createdAt | timeago"
+>
+  <nz-avatar
+    *ngIf="comment.commenter.profileImagePath; else noAvatar"
+    nz-comment-avatar
+    [nzSrc]="comment.commenter.profileImagePath"
+  ></nz-avatar>
+  <ng-template #noAvatar>
+    <nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar>
+  </ng-template>
+  <nz-comment-content>
+    <cvc-comment-body
+      [commentBodySegments]="comment.parsedComment"
+    ></cvc-comment-body>
+  </nz-comment-content>
 </nz-comment>

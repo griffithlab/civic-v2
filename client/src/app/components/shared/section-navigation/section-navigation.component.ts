@@ -8,7 +8,12 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  PRIMARY_OUTLET,
+  Router,
+} from '@angular/router';
 
 import { Maybe } from '@app/generated/civic.apollo';
 import { Subject } from 'rxjs';
@@ -25,7 +30,7 @@ export interface TitleSegment {
   selector: 'cvc-section-navigation',
   templateUrl: './section-navigation.component.html',
   styleUrls: ['./section-navigation.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>;
@@ -40,7 +45,7 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   constructor(
     private titleService: TitleService,
     private injector: Injector,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.getRouteLabel = (label) => label;
   }
@@ -54,11 +59,14 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   // passed to nz-segments & used by title creation below
   // to generate segments & titles from route data parameter or provided display name
   private _getRouteLabel = (label: string): string => {
-    if (label !== 'DISPLAYNAME') { return label; }
-    else {
-      return this.displayName === undefined ? '[?DISPLAY NAME?]' : this.displayName;
+    if (label !== 'DISPLAYNAME') {
+      return label;
+    } else {
+      return this.displayName === undefined
+        ? '[?DISPLAY NAME?]'
+        : this.displayName;
     }
-  }
+  };
 
   private registerRouterChange(): void {
     try {
@@ -66,7 +74,7 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
       const activatedRoute = this.injector.get(ActivatedRoute);
       router.events
         .pipe(
-          filter(e => e instanceof NavigationEnd),
+          filter((e) => e instanceof NavigationEnd),
           takeUntil(this.destroy$),
           startWith(true) // trigger initial render
         )
@@ -74,17 +82,22 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
           this.segments = this.getTitleSegments(activatedRoute.root);
           // construct titles string
           let title: string = '';
-          let len = this.segments.length, i = 1;
+          let len = this.segments.length,
+            i = 1;
           this.segments.forEach((bc: TitleSegment) => {
             title += this._getRouteLabel(bc.label);
-            if(i < len) { title += ' '; }
+            if (i < len) {
+              title += ' ';
+            }
             i++;
           });
           this.titleService.updateTitle(title);
           this.cdr.markForCheck();
         });
     } catch (e) {
-      throw new Error(`cvc-section-navigation should import RouterModule if you want to autogenerate title`);
+      throw new Error(
+        `cvc-section-navigation should import RouterModule if you want to autogenerate title`
+      );
     }
   }
 
@@ -106,8 +119,8 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
         // (router-outlet without a specific name).
         // Parse this route and generate a title segment.
         const routeUrl: string = child.snapshot.url
-          .map(segment => segment.path)
-          .filter(path => path)
+          .map((segment) => segment.path)
+          .filter((path) => path)
           .join('/');
 
         // Do not change nextUrl if routeUrl is falsy.
@@ -119,7 +132,7 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
         if (routeUrl && segmentLabel) {
           const breadcrumb: TitleSegment = {
             label: segmentLabel,
-            url: nextUrl
+            url: nextUrl,
           };
           segments.push(breadcrumb);
         }
@@ -135,5 +148,4 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 }

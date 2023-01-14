@@ -17,9 +17,9 @@ import { diseaseArrayTypeOption } from './disease-array.type';
     NzSelectModule,
     CvcFormFieldWrapperModule,
     FormlySelectModule,
-    FormlyModule.forChild({types: [diseaseArrayTypeOption]}),
+    FormlyModule.forChild({ types: [diseaseArrayTypeOption] }),
     CvcDiseaseInputTypeModule,
     CvcMultiFieldTypeModule,
-  ]
+  ],
 })
-export class CvcDiseaseArrayTypeModule { }
+export class CvcDiseaseArrayTypeModule {}

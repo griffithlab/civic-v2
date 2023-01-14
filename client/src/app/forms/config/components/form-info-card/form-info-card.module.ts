@@ -12,9 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
-  declarations: [
-    CvcFormInfoCardComponent,
-  ],
+  declarations: [CvcFormInfoCardComponent],
   imports: [
     CommonModule,
     ReactiveComponentModule,
@@ -27,6 +25,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CvcFormInfoPanelModule,
     NgxJsonViewerModule,
   ],
-  exports: [CvcFormInfoCardComponent]
+  exports: [CvcFormInfoCardComponent],
 })
-export class CvcFormInfoCardModule { }
+export class CvcFormInfoCardModule {}

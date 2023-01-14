@@ -17,9 +17,9 @@ import { phenotypeArrayTypeOption } from './phenotypes-array.type';
     NzSelectModule,
     FormlyNzFormFieldModule,
     FormlySelectModule,
-    FormlyModule.forChild({types: [phenotypeArrayTypeOption]}),
+    FormlyModule.forChild({ types: [phenotypeArrayTypeOption] }),
     CvcPhenotypeInputTypeModule,
     CvcMultiFieldTypeModule,
-  ]
+  ],
 })
-export class CvcPhenotypeArrayTypeModule { }
+export class CvcPhenotypeArrayTypeModule {}

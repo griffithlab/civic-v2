@@ -5,7 +5,8 @@ import { VariantsSuggestModule } from './variants-suggest/variants-suggest.modul
 import { VariantsSuggestPage } from './variants-suggest/variants-suggest.page';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: VariantsReviseView,
     data: { breadcrumb: 'Revise' },
     children: [
@@ -14,11 +15,11 @@ const routes: Routes = [
         path: 'suggest',
         component: VariantsSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({

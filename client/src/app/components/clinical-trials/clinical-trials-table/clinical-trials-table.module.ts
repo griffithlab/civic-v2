@@ -41,6 +41,6 @@ import { CvcClinicalTrialsTableComponent } from './clinical-trials-table.compone
     CvcTableCountsModule,
     CvcTableScrollModule,
   ],
-  exports: [CvcClinicalTrialsTableComponent]
+  exports: [CvcClinicalTrialsTableComponent],
 })
-export class CvcClinicalTrialsTableModule { }
+export class CvcClinicalTrialsTableModule {}

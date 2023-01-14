@@ -1,34 +1,39 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { getEntityColor } from "@app/core/utilities/get-entity-color";
-import { Maybe } from "@app/generated/civic.apollo";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { getEntityColor } from '@app/core/utilities/get-entity-color';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableVariantgroup {
-  id: number,
-  name: string,
-  link: string,
-  flagged?: boolean
+  id: number;
+  name: string;
+  link: string;
+  flagged?: boolean;
 }
 
 @Component({
   selector: 'cvc-variant-group-tag',
   templateUrl: './variant-group-tag.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcVariantGroupTagComponent {
-  _variantgroup!: LinkableVariantgroup
+  _variantgroup!: LinkableVariantgroup;
   @Input()
   set variantgroup(eid: LinkableVariantgroup) {
-    if (!eid) { throw new Error('cvc-variantgroup-tag input requires LinkableVariantgroup.') }
+    if (!eid) {
+      throw new Error(
+        'cvc-variantgroup-tag input requires LinkableVariantgroup.'
+      );
+    }
     this._variantgroup = eid;
   }
-  get variantgroup(): LinkableVariantgroup { return this._variantgroup; }
+  get variantgroup(): LinkableVariantgroup {
+    return this._variantgroup;
+  }
   @Input() linked: Maybe<boolean> = true;
   @Input() enablePopover: Maybe<boolean> = true;
 
-  iconColor: string
+  iconColor: string;
 
   constructor() {
-    this.iconColor = getEntityColor('VariantGroup')
+    this.iconColor = getEntityColor('VariantGroup');
   }
-
 }

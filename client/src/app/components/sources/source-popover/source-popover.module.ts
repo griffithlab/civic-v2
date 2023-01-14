@@ -19,8 +19,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzDescriptionsModule,
     CvcLinkTagModule,
     CvcTagListModule,
-    CvcClinicalTrialTagModule
+    CvcClinicalTrialTagModule,
   ],
-  exports: [CvcSourcePopoverComponent]
+  exports: [CvcSourcePopoverComponent],
 })
-export class CvcSourcePopoverModule { }
+export class CvcSourcePopoverModule {}

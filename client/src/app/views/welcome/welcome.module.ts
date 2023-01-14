@@ -38,11 +38,7 @@ import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-even
     CvcHomepageEventFeedModule,
     NgxJsonViewerModule,
   ],
-  declarations: [
-    WelcomeComponent
-  ],
-  exports: [
-    WelcomeComponent
-  ]
+  declarations: [WelcomeComponent],
+  exports: [WelcomeComponent],
 })
-export class WelcomeModule { }
+export class WelcomeModule {}

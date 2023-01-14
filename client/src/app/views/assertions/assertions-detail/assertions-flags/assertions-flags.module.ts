@@ -19,4 +19,4 @@ import { AssertionsFlagsPage } from './assertions-flags.page';
   ],
   exports: [AssertionsFlagsPage],
 })
-export class AssertionsFlagsModule { }
+export class AssertionsFlagsModule {}

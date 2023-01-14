@@ -24,8 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NzSpinModule,
     NzSpaceModule,
     ReactiveComponentModule,
-    CvcOrgSelectorBtnGroupModule
+    CvcOrgSelectorBtnGroupModule,
   ],
-  exports: [CvcRevertEntityButtonComponent]
+  exports: [CvcRevertEntityButtonComponent],
 })
-export class CvcRevertEntityButtonModule { }
+export class CvcRevertEntityButtonModule {}

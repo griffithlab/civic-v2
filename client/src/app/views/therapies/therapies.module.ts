@@ -9,9 +9,7 @@ import { TherapiesHomeModule } from './therapies-home/therapies-home.module';
 import { TherapiesSummaryModule } from './therapies-detail/therapies-summary/therapies-summary.module';
 
 @NgModule({
-  declarations: [
-    TherapiesComponent,
-  ],
+  declarations: [TherapiesComponent],
   imports: [
     CommonModule,
     RouterModule,

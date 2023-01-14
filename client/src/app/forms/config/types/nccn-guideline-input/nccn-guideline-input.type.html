@@ -1,5 +1,6 @@
 <ng-container *ngIf="!formControl.value?.id; else nccnItem">
-  <nz-select nzShowSearch
+  <nz-select
+    nzShowSearch
     nzServerSearch
     [formControl]="formControl"
     [formlyAttributes]="field"
@@ -7,16 +8,17 @@
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
-    (nzOnSearch)="onSearch($event)">
+    (nzOnSearch)="onSearch($event)"
+  >
     <ng-container *ngrxLet="this.guidelines$ as guidelines">
-      <nz-option *ngFor="let opt of guidelines"
+      <nz-option
+        *ngFor="let opt of guidelines"
         nzCustomContent
         [nzLabel]="opt.name"
-        [nzValue]="opt">
+        [nzValue]="opt"
+      >
         <nz-space>
-          <span *nzSpaceItem>
-            {{ opt.name }}
-          </span>
+          <span *nzSpaceItem> {{ opt.name }} </span>
         </nz-space>
       </nz-option>
     </ng-container>

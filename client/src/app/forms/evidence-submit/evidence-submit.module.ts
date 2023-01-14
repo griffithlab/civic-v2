@@ -91,4 +91,4 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
   ],
   exports: [EvidenceSubmitForm],
 })
-export class EvidenceSubmitFormModule { }
+export class EvidenceSubmitFormModule {}

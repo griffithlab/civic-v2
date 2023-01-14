@@ -21,6 +21,6 @@ import { CvcFormInfoPanelComponent } from './form-info-panel.component';
     NzToolTipModule,
     NgxJsonViewerModule,
   ],
-  exports: [CvcFormInfoPanelComponent]
+  exports: [CvcFormInfoPanelComponent],
 })
-export class CvcFormInfoPanelModule { }
+export class CvcFormInfoPanelModule {}

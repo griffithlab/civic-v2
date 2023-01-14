@@ -25,6 +25,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CvcOrganizationTagModule,
     CvcUserAvatarModule,
   ],
-  exports: [CvcUserPopoverComponent]
+  exports: [CvcUserPopoverComponent],
 })
-export class CvcUserPopoverModule { }
+export class CvcUserPopoverModule {}

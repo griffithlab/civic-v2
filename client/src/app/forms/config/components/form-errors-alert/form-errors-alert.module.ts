@@ -5,10 +5,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [CvcFormErrorsAlertComponent],
-  imports: [
-    CommonModule,
-    NzAlertModule
-  ],
-  exports: [CvcFormErrorsAlertComponent]
+  imports: [CommonModule, NzAlertModule],
+  exports: [CvcFormErrorsAlertComponent],
 })
-export class CvcFormErrorsAlertModule { }
+export class CvcFormErrorsAlertModule {}

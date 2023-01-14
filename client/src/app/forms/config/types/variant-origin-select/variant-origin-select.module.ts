@@ -11,6 +11,6 @@ import { FormlySelectModule } from '@ngx-formly/core/select';
     ReactiveFormsModule,
     FormlySelectModule,
     FormlyModule.forChild({ types: [variantOriginSelectTypeOption] }),
-  ]
+  ],
 })
-export class CvcVariantOriginSelectTypeModule { }
+export class CvcVariantOriginSelectTypeModule {}

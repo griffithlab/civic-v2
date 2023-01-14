@@ -23,6 +23,6 @@ import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-bad
     CvcPipesModule,
     CvcIconBadgesModule,
   ],
-  exports: [CvcEvidenceTagComponent]
+  exports: [CvcEvidenceTagComponent],
 })
-export class CvcEvidenceTagModule { }
+export class CvcEvidenceTagModule {}

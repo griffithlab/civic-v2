@@ -29,4 +29,4 @@ import { UsersNotificationsModule } from './users-notifications/users-notificati
     UsersNotificationsModule,
   ],
 })
-export class UsersModule { }
+export class UsersModule {}

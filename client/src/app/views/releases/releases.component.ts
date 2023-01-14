@@ -5,10 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './releases.component.html',
 })
 export class ReleasesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -23,9 +23,7 @@ import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
-  declarations: [
-    VariantGroupSubmitForm
-  ],
+  declarations: [VariantGroupSubmitForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -50,8 +48,6 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
-  exports: [
-    VariantGroupSubmitForm
-  ]
+  exports: [VariantGroupSubmitForm],
 })
-export class VariantGroupSubmitFormModule { }
+export class VariantGroupSubmitFormModule {}

@@ -34,6 +34,6 @@ import { CvcMolecularProfilesMenuComponent } from './molecular-profiles-menu.com
     CvcMolecularProfileTagModule,
     CvcTagListModule,
   ],
-  exports: [CvcMolecularProfilesMenuComponent ]
+  exports: [CvcMolecularProfilesMenuComponent],
 })
-export class CvcMolecularProfilesMenuModule { }
+export class CvcMolecularProfilesMenuModule {}

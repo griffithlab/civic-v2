@@ -33,6 +33,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcGeneTagModule,
     CvcEvidenceTableModule,
   ],
-  exports: [EvidenceHomePage]
+  exports: [EvidenceHomePage],
 })
-export class EvidenceHomeModule { }
+export class EvidenceHomeModule {}

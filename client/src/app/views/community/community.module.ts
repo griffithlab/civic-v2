@@ -13,6 +13,6 @@ import { CommunityMainModule } from './community-main/community-main.module';
     CommunityRoutingModule,
     CommunityHomeModule,
     CommunityMainModule,
-  ]
+  ],
 })
-export class CommunityModule { }
+export class CommunityModule {}

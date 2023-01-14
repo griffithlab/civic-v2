@@ -10,27 +10,27 @@ const routes: Routes = [
     path: 'pending-sources',
     component: PendingSourcesPage,
     data: {
-      breadcrumb: 'Pending Source Suggestions'
+      breadcrumb: 'Pending Source Suggestions',
     },
   },
   {
     path: 'pending-evidence',
     component: PendingEvidencePage,
     data: {
-      breadcrumb: 'Pending Evidence Items'
+      breadcrumb: 'Pending Evidence Items',
     },
   },
   {
     path: 'pending-assertions',
     component: PendingAssertionsPage,
     data: {
-      breadcrumb: 'Pending Assertions'
+      breadcrumb: 'Pending Assertions',
     },
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CurationQueuesRoutingModule { }
+export class CurationQueuesRoutingModule {}

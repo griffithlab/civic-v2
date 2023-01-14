@@ -8,9 +8,9 @@ import { CvcAcmgCodeSelectTypeModule } from '../acmg-code-select/acmg-code-selec
 @NgModule({
   imports: [
     CommonModule,
-    FormlyModule.forChild({types: [acmgCodeArrayTypeOption]}),
+    FormlyModule.forChild({ types: [acmgCodeArrayTypeOption] }),
     CvcMultiFieldTypeModule,
     CvcAcmgCodeSelectTypeModule,
   ],
 })
-export class CvcAcmgCodeArrayTypeModule { }
+export class CvcAcmgCodeArrayTypeModule {}

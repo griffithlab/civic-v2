@@ -7,12 +7,7 @@ import { NoMoreRowsTag } from './no-more-rows.tag';
 
 @NgModule({
   declarations: [NoMoreRowsTag],
-  imports: [
-    CommonModule,
-    ReactiveComponentModule,
-    NzTagModule,
-    NzIconModule
-  ],
-  exports: [NoMoreRowsTag]
+  imports: [CommonModule, ReactiveComponentModule, NzTagModule, NzIconModule],
+  exports: [NoMoreRowsTag],
 })
-export class CvcNoMoreRowsModule { }
+export class CvcNoMoreRowsModule {}

@@ -7,7 +7,7 @@ import { encodeUriString } from '@app/core/utilities/encode-uri-string';
 @Component({
   selector: 'cvc-auth-options-list',
   templateUrl: './auth-options-list.component.html',
-  styleUrls: ['./auth-options-list.component.less']
+  styleUrls: ['./auth-options-list.component.less'],
 })
 export class CvcAuthOptionsListComponent implements OnInit {
   location: string;
@@ -18,7 +18,5 @@ export class CvcAuthOptionsListComponent implements OnInit {
     this.xsrfToken = this.cookies.get('XSRF-TOKEN');
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

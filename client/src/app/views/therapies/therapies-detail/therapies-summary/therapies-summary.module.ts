@@ -37,6 +37,6 @@ import { TherapiesSummaryComponent } from './therapies-summary.component';
     CvcAssertionsTableModule,
 
     NgxJsonViewerModule,
-  ]
+  ],
 })
-export class TherapiesSummaryModule { }
+export class TherapiesSummaryModule {}

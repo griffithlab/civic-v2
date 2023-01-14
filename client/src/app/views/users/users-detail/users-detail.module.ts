@@ -53,7 +53,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     CvcUserAvatarModule,
     CvcAvatarUploaderModule,
     CvcOrganizationTagModule,
-    CvcStatsCardModule
-  ]
+    CvcStatsCardModule,
+  ],
 })
-export class UsersDetailModule { }
+export class UsersDetailModule {}

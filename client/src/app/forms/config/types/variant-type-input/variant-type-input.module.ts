@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantTypeInputType, VariantTypeInputTypeOption } from './variant-type-input.type';
+import {
+  VariantTypeInputType,
+  VariantTypeInputTypeOption,
+} from './variant-type-input.type';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -17,7 +20,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     ReactiveComponentModule,
     NzSelectModule,
     CvcVariantTypeTagModule,
-    CvcAutofocusModule
-  ]
+    CvcAutofocusModule,
+  ],
 })
-export class CvcVariantTypeInputTypeModule { }
+export class CvcVariantTypeInputTypeModule {}

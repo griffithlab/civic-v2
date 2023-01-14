@@ -1,17 +1,21 @@
 <nz-spin [nzSpinning]="this.loading">
-  <form nz-form
+  <form
+    nz-form
     *ngIf="formModel"
     [formGroup]="formGroup"
     (ngSubmit)="reviseAssertion(formModel)"
-    nzLayout="vertical">
+    nzLayout="vertical"
+  >
     <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-    <formly-form *ngIf="!this.success && !this.noNewRevisions" [form]="formGroup"
+    <formly-form
+      *ngIf="!this.success && !this.noNewRevisions"
+      [form]="formGroup"
       [fields]="formFields"
       [model]="formModel"
       [options]="formOptions"
-      (modelChange)="formModel = $event"></formly-form>
-
+      (modelChange)="formModel = $event"
+    ></formly-form>
   </form>
 
   <ng-template #formMessages>
@@ -22,24 +26,32 @@
       </nz-form-item>
     </ng-container>
     <ng-container *ngIf="this.success && !this.noNewRevisions">
-      <nz-alert nzType="success"
+      <nz-alert
+        nzType="success"
         nzMessage="Suggested Revision Submitted"
         [nzDescription]="successMessage"
-        nzShowIcon></nz-alert>
-      <ng-template #successMessage
-        nzSize="small">
-        <p>View it on the <a routerLink="../../revisions">Revisions Page</a>.</p>
+        nzShowIcon
+      ></nz-alert>
+      <ng-template #successMessage nzSize="small">
+        <p>
+          View it on the <a routerLink="../../revisions">Revisions Page</a>.
+        </p>
       </ng-template>
     </ng-container>
   </ng-template>
   <ng-container *ngIf="this.noNewRevisions">
-    <nz-alert nzType="warning"
+    <nz-alert
+      nzType="warning"
       nzMessage="No New Revisions Created"
       [nzDescription]="duplicateMessage"
-      nzShowIcon></nz-alert>
-    <ng-template #duplicateMessage
-      nzSize="small">
-      <p>Your submission succeeded but no new revisions were created. Identical ones already exist, view them on the <a routerLink="../../revisions">Revisions Page</a>.</p>
+      nzShowIcon
+    ></nz-alert>
+    <ng-template #duplicateMessage nzSize="small">
+      <p>
+        Your submission succeeded but no new revisions were created. Identical
+        ones already exist, view them on the
+        <a routerLink="../../revisions">Revisions Page</a>.
+      </p>
     </ng-template>
   </ng-container>
 </nz-spin>

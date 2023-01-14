@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentableEntities, CommentableInput } from '@app/generated/civic.apollo';
+import {
+  CommentableEntities,
+  CommentableInput,
+} from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-sources-comments',
@@ -8,14 +11,13 @@ import { CommentableEntities, CommentableInput } from '@app/generated/civic.apol
   styleUrls: ['./sources-comments.page.less'],
 })
 export class SourcesCommentsPage {
-  commentable: CommentableInput
+  commentable: CommentableInput;
 
   constructor(private route: ActivatedRoute) {
-
     const sourceId: number = +this.route.snapshot.params['sourceId'];
     this.commentable = {
       id: sourceId,
-      entityType: CommentableEntities.Source
-    }
+      entityType: CommentableEntities.Source,
+    };
   }
 }

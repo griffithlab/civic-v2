@@ -5,11 +5,11 @@ import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Pipe({
   name: 'sourceTypeDisplay',
-  pure: true
+  pure: true,
 })
 export class SourceTypeDisplayPipe implements PipeTransform {
   transform(value: Maybe<SourceSource>): string {
-    if(!value) return '';
+    if (!value) return '';
     return formatSourceTypeEnum(value);
   }
 }

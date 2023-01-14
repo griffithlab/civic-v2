@@ -4,10 +4,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NzTagModule,
-    NzTypographyModule,
-  ],
+  imports: [CommonModule, NzTagModule, NzTypographyModule],
 })
-export class SourcesComponentsModule { }
+export class SourcesComponentsModule {}

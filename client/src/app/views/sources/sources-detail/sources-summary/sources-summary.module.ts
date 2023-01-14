@@ -30,6 +30,6 @@ import { SourcesSummaryPage } from './sources-summary.page';
     CvcEvidenceTableModule,
     CvcSourceSuggestionsTableModule,
     CvcClinicalTrialTagModule,
-  ]
+  ],
 })
-export class SourcesSummaryModule { }
+export class SourcesSummaryModule {}

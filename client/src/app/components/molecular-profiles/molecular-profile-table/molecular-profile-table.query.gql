@@ -5,7 +5,7 @@ query BrowseMolecularProfiles(
   $entrezSymbol: String
   $diseaseName: String
   $therapyName: String
-  $molecularProfileAlias: String,
+  $molecularProfileAlias: String
   $sortBy: MolecularProfilesSort
   $first: Int
   $last: Int

@@ -1,32 +1,35 @@
 <div class="summary-container">
   <ng-container *ngIf="disease$ | ngrxPush as disease">
-    <nz-row [nzGutter]="[8,16]">
+    <nz-row [nzGutter]="[8, 16]">
       <nz-col [nzSpan]="24">
-       <!-- disease aliases -->
-        <nz-descriptions nzSize="small"
-          [nzColumn]="2"
-          nzBordered="true">
+        <!-- disease aliases -->
+        <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
           <nz-descriptions-item nzTitle="Aliases">
-            <ng-container *ngIf="disease.diseaseAliases.length > 0; else noAliases">
+            <ng-container
+              *ngIf="disease.diseaseAliases.length > 0; else noAliases"
+            >
               {{ disease.diseaseAliases.join(", ") }}
             </ng-container>
             <ng-template #noAliases>
-              <span nz-typography
-                nzType="secondary">None specified.</span>
+              <span nz-typography nzType="secondary">None specified.</span>
             </ng-template>
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
       <!-- disease evidence table -->
       <nz-col [nzSpan]="24">
-        <cvc-evidence-table [diseaseId]="diseaseId"
+        <cvc-evidence-table
+          [diseaseId]="diseaseId"
           cvcHeight="400px"
-          cvcTitle="{{disease.displayName}} Evidence"></cvc-evidence-table>
+          cvcTitle="{{ disease.displayName }} Evidence"
+        ></cvc-evidence-table>
       </nz-col>
       <!-- disease assertions table -->
       <nz-col [nzSpan]="24">
-        <cvc-assertions-table [diseaseId]="diseaseId"
-          cvcTitle="{{disease.displayName}} Assertions"></cvc-assertions-table>
+        <cvc-assertions-table
+          [diseaseId]="diseaseId"
+          cvcTitle="{{ disease.displayName }} Assertions"
+        ></cvc-assertions-table>
       </nz-col>
     </nz-row>
   </ng-container>

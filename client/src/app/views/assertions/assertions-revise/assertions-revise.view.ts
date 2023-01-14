@@ -1,14 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { AssertionDetailFieldsFragment, AssertionDetailGQL, Maybe } from '@app/generated/civic.apollo';
+import {
+  AssertionDetailFieldsFragment,
+  AssertionDetailGQL,
+  Maybe,
+} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
-import { map, pluck, startWith } from 'rxjs/operators';;
+import { map, pluck, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-assertions-revise-view',
   templateUrl: './assertions-revise.view.html',
-  styleUrls: ['./assertions-revise.view.less']
+  styleUrls: ['./assertions-revise.view.less'],
 })
 export class AssertionsReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
@@ -22,7 +26,9 @@ export class AssertionsReviseView implements OnInit, OnDestroy {
     private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ assertionId: +params.assertionId }).valueChanges;
+      let observable = this.gql.watch({
+        assertionId: +params.assertionId,
+      }).valueChanges;
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
@@ -31,11 +37,10 @@ export class AssertionsReviseView implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn));
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
-
 }

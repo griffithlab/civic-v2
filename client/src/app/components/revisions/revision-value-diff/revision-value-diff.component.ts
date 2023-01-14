@@ -1,17 +1,11 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'cvc-revision-value-diff',
   templateUrl: './revision-value-diff.component.html',
   styleUrls: ['./revision-value-diff.component.less'],
-  encapsulation: ViewEncapsulation.None // no encapsulation b/c diff html provided by server
+  encapsulation: ViewEncapsulation.None, // no encapsulation b/c diff html provided by server
 })
-
 export class RevisionValueDiffComponent implements OnInit {
   @Input() currentValue?: string;
   @Input() suggestedValue?: string;
@@ -19,17 +13,17 @@ export class RevisionValueDiffComponent implements OnInit {
   @Input() right!: string;
   @Input() entityType!: string;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.left === undefined) {
-      throw new Error("Must provide a left side of the diff.")
+      throw new Error('Must provide a left side of the diff.');
     }
     if (this.right === undefined) {
-      throw new Error("Must provide a right side of the diff.")
+      throw new Error('Must provide a right side of the diff.');
     }
     if (this.entityType === undefined) {
-      throw new Error("Must provide a diff.")
+      throw new Error('Must provide a diff.');
     }
   }
 }

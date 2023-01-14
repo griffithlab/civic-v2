@@ -2,8 +2,14 @@
   <nz-list-item>
     <form action="/api/auth/google_oauth2?origin={{ location }}" method="post">
       <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
-      <button type="submit" nz-button nzBlock
-        nzType="default" nzSize="large" nzShape="round">
+      <button
+        type="submit"
+        nz-button
+        nzBlock
+        nzType="default"
+        nzSize="large"
+        nzShape="round"
+      >
         <i nz-icon nzType="google"></i> Sign In with a Google Account
       </button>
     </form>
@@ -11,8 +17,14 @@
   <nz-list-item>
     <form action="/api/auth/orcid?origin={{ location }}" method="post">
       <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
-      <button type="submit" nz-button nzBlock
-        nzType="default" nzSize="large" nzShape="round">
+      <button
+        type="submit"
+        nz-button
+        nzBlock
+        nzType="default"
+        nzSize="large"
+        nzShape="round"
+      >
         Sign In with an ORCID Account
       </button>
     </form>
@@ -20,8 +32,14 @@
   <nz-list-item>
     <form action="/api/auth/github?origin={{ location }}" method="post">
       <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
-      <button type="submit" nz-button nzBlock
-        nzType="default" nzSize="large" nzShape="round">
+      <button
+        type="submit"
+        nz-button
+        nzBlock
+        nzType="default"
+        nzSize="large"
+        nzShape="round"
+      >
         <i nz-icon nzType="github"></i> Sign In with a Github Account
       </button>
     </form>

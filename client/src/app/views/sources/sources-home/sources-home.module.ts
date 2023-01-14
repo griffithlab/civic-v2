@@ -31,6 +31,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcSourcesTableModule,
     CvcPipesModule,
   ],
-  exports: [SourcesHomePage]
+  exports: [SourcesHomePage],
 })
-export class SourcesHomeModule { }
+export class SourcesHomeModule {}

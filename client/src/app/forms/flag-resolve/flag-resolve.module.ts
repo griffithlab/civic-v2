@@ -34,6 +34,6 @@ import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-inpu
     CvcFormButtonsModule,
     CvcOrgSelectorBtnGroupModule,
   ],
-  exports: [CvcFlagResolveForm]
+  exports: [CvcFlagResolveForm],
 })
-export class CvcResolveFlagFormModule { }
+export class CvcResolveFlagFormModule {}

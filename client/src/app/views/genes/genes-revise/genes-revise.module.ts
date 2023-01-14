@@ -26,6 +26,6 @@ import { GenesReviseView } from './genes-revise.view';
     CvcLoginPromptModule,
     CvcSectionNavigationModule,
     CvcPipesModule,
-  ]
+  ],
 })
-export class GenesReviseModule { }
+export class GenesReviseModule {}

@@ -2,14 +2,16 @@
   <cvc-section-navigation [displayName]="trial.nctId"> </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'ClinicalTrial' | entityColor"
-        nzType="civic-clinicaltrial"></i> {{ trial.nctId }}
+        nzType="civic-clinicaltrial"
+      ></i>
+      {{ trial.nctId }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [href]="trial.url"
-        tooltip="View on clinicaltrials.gov">
+      <cvc-link-tag [href]="trial.url" tooltip="View on clinicaltrials.gov">
         {{ trial.nctId }}
       </cvc-link-tag>
     </nz-page-header-extra>

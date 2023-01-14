@@ -7,12 +7,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [CvcSectionNavigationComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NzGridModule,
-    NzBreadCrumbModule
-  ],
-  exports: [CvcSectionNavigationComponent]
+  imports: [CommonModule, RouterModule, NzGridModule, NzBreadCrumbModule],
+  exports: [CvcSectionNavigationComponent],
 })
-export class CvcSectionNavigationModule { }
+export class CvcSectionNavigationModule {}

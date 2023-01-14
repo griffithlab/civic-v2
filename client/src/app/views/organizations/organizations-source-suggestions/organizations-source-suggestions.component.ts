@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./organizations-source-suggestions.component.less'],
 })
 export class OrganizationsSourceSuggestionsComponent {
-  userId: number
+  userId: number;
 
   constructor(private route: ActivatedRoute) {
     this.userId = +this.route.snapshot.params['userId'];
