@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray } from '@angular/forms';
+import { AbstractControl, UntypedFormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
@@ -52,7 +52,7 @@ export const therapyArrayTypeOption: TypeOption = {
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
         to.vcSub = etCtrl.valueChanges
           .subscribe((et: EntityType) => {
-            const fc: FormArray = ffc!.formControl! as FormArray;
+            const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray;
             if (!st.requiresDrug(et)) {
               to.hidden = true;
               to.required = false;

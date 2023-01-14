@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
@@ -10,7 +10,7 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentTextareaType extends FieldType<FormlyFieldConfig> {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   defaultOptions = {
     defaultValue: '',

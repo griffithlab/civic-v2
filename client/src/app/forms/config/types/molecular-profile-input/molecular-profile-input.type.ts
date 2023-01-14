@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CvcComplexMolecularProfileInputForm } from '@app/forms/complex-molecular-profile-input/complex-molecular-profile-input.form';
 import { FormMolecularProfile } from '@app/forms/forms.interfaces';
 import { SelectedVariant } from '@app/forms/variant-submit/variant-submit.form';
@@ -14,7 +14,7 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 })
 export class MolecularProfileInputType extends FieldType implements OnInit {
   @ViewChild('complexMolecularProfileInputForm', { static: false}) complexMpForm?: CvcComplexMolecularProfileInputForm
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
   mpId?: number;
 
   ngOnInit() {

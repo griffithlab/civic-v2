@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { isDefined } from '@app/core/utilities/defined-typeguard';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
@@ -29,7 +29,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
   private destroy$: Subject<void> = new Subject();
 
   formModel!: FormModel;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[];
 
   success: boolean = false

@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
@@ -30,7 +30,7 @@ interface EvidenceTypeaheadOption {
   styleUrls: ['./evidence-input.type.less'],
 })
 export class EvidenceInputType extends FieldType implements AfterViewInit, OnInit, OnDestroy {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   private queryRef!: QueryRef<EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables>
   eid$?: Observable<Maybe<EvidenceTypeaheadOption>>

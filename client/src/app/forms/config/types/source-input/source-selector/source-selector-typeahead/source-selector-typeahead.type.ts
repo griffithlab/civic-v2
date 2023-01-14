@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CitationTypeaheadGQL } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
@@ -15,7 +15,7 @@ import { filter, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceSelectorTypeaheadType extends FieldType implements AfterViewInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
   selectedValue = null;
   nzFilterOption = () => true;
 

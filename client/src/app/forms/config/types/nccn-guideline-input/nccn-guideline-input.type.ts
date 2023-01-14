@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { NccnGuideline, NccnGuidelineTypeaheadGQL, NccnGuidelineTypeaheadQuery, NccnGuidelineTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
@@ -14,7 +14,7 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./nccn-guideline-input.type.less']
 })
 export class NccnGuidelineInputType extends FieldType implements OnInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   private searchVal = ''
 

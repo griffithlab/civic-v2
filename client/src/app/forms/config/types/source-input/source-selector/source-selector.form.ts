@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import {
   Maybe,
@@ -29,7 +29,7 @@ export const sourceSelectorInitialValue: SourceSelectorModel = {
 export class SourceSelectorForm implements OnInit, OnDestroy {
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
   model: SourceSelectorModel = sourceSelectorInitialValue;
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
 

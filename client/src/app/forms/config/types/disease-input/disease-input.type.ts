@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { AddDiseaseGQL, AddDiseaseMutation, AddDiseaseMutationVariables, DiseaseTypeaheadGQL, DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables } from '@app/generated/civic.apollo';
@@ -32,7 +32,7 @@ interface DiseaseTypeaheadOption {
   styleUrls: ['./disease-input.type.less'],
 })
 export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
   private queryRef!: QueryRef<DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables>
   diseases$?: Observable<DiseaseTypeaheadOption[]>
 

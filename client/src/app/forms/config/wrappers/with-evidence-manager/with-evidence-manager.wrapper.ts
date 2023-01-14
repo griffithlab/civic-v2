@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { UntypedFormArray } from '@angular/forms';
 import { EvidenceTableUserFilters } from '@app/components/evidence/evidence-table/evidence-table.component';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { FieldWrapper } from '@ngx-formly/core';
@@ -71,7 +71,7 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
     }
 
     eids.forEach((eid, i) => {
-      let control = this.field.formControl as FormArray
+      let control = this.field.formControl as UntypedFormArray
       control.controls[i].setValue(eid)
     })
 

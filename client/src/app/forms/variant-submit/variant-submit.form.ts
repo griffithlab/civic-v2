@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
   AddVariantGQL,
   AddVariantMutation,
@@ -40,7 +40,7 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
   private destroy$ = new Subject();
 
   formModel!: FormModel;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[] = [];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 

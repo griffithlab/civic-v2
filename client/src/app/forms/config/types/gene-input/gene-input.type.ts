@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { GeneTypeaheadFieldsFragment, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
@@ -27,7 +27,7 @@ interface GeneTypeaheadOption {
   styleUrls: ['./gene-input.type.less'],
 })
 export class GeneInputType extends FieldType implements AfterViewInit, OnInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   defaultOptions = {
     templateOptions: {

@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
@@ -17,7 +17,7 @@ const optionText: { [option: string]: string } = {
   styleUrls: ['./rating-input.type.less'],
 })
 export class RatingInputType extends FieldType {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
   rating?: number;
 
   defaultOptions = {

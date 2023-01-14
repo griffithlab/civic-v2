@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { PhenotypeTypeaheadGQL, PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
@@ -22,7 +22,7 @@ interface PhenotypeTypeahead {
   styleUrls: ['./phenotype-input.type.less'],
 })
 export class PhenotypeInputType extends FieldType implements OnInit, AfterViewInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   private queryRef?: QueryRef<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables>
 

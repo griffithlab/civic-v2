@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { VariantTypeTypeaheadGQL, VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
@@ -20,7 +20,7 @@ interface VariantTypeTypeahead {
   styleUrls: ['./variant-type-input.type.less'],
 })
 export class VariantTypeInputType extends FieldType implements OnInit, AfterViewInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   private queryRef?: QueryRef<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables>
 

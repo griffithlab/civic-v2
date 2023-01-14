@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { AcmgCode, AmpLevel, AssertionSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, ClingenCode, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, TherapyInteraction, VariantOrigin } from '@app/generated/civic.apollo';
@@ -48,7 +48,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
 
   formModel?: FormModel;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new AssertionState() };
 

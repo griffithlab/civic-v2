@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { AddVariantGQL, AddVariantMutation, AddVariantMutationVariables, VariantSelectFieldsFragment, VariantSelectQuery, VariantSelectQueryVariables, VariantTypeaheadGQL } from '@app/generated/civic.apollo';
@@ -28,7 +28,7 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
   @Output() onVariantSelected = new EventEmitter<number>();
   callbackSub?: Subscription
 
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
   private queryRef!: QueryRef<VariantSelectQuery, VariantSelectQueryVariables>;
   variants$?: Observable<VariantSelectOption[]>;
 

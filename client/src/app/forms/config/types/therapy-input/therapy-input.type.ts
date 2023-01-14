@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { AddTherapyGQL, AddTherapyMutation, AddTherapyMutationVariables, TherapyTypeaheadGQL, TherapyTypeaheadQuery, TherapyTypeaheadQueryVariables } from '@app/generated/civic.apollo';
@@ -32,7 +32,7 @@ interface TherapyTypeaheadOption {
   styleUrls: ['./therapy-input.type.less'],
 })
 export class TherapyInputType extends FieldType implements AfterViewInit, OnInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   private queryRef!: QueryRef<TherapyTypeaheadQuery, TherapyTypeaheadQueryVariables>
   therapies$?: Observable<TherapyTypeaheadOption[]>

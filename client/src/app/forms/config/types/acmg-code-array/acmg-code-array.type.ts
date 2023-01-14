@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray } from '@angular/forms';
+import { AbstractControl, UntypedFormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
@@ -46,7 +46,7 @@ export const acmgCodeArrayTypeOption: TypeOption = {
         to.vcSub = etCtrl
           .valueChanges
           .subscribe((et: EntityType) => {
-            const fc: FormArray = ffc!.formControl! as FormArray;
+            const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray;
             if (!st.requiresAcmgCodes(et)) {
               to.hidden = true;
               to.required = false;

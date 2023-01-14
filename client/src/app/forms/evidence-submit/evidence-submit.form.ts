@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
   EvidenceSignificance,
   EvidenceDirection,
@@ -60,7 +60,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   private destroy$: Subject<void> = new Subject();
 
   formModel!: FormModel;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 

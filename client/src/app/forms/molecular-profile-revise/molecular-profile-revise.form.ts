@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -62,7 +62,7 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
   loading: boolean = false
 
   formModel: Maybe<FormModel>;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 

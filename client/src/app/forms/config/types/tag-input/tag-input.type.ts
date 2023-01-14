@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
 
@@ -13,7 +13,7 @@ import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagInputType extends FieldType {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   constructor() {
     super();

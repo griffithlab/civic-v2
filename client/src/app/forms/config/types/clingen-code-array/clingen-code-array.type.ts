@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray } from '@angular/forms';
+import { AbstractControl, UntypedFormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
@@ -43,7 +43,7 @@ export const clingenCodeArrayTypeOption: TypeOption = {
         to.vcSub = etCtrl
           .valueChanges
           .subscribe((et: EntityType) => {
-            const fc: FormArray = ffc!.formControl! as FormArray;
+            const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray;
             if (!st.requiresClingenCodes(et)) {
               to.hidden = true;
               to.required = false;

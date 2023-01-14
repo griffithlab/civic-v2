@@ -7,7 +7,7 @@ import {
 
 import {
   AbstractControl,
-  FormGroup,
+  UntypedFormGroup,
 } from '@angular/forms';
 
 import {
@@ -100,7 +100,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
   loading: boolean = false
 
   formModel: Maybe<FormModel>;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 

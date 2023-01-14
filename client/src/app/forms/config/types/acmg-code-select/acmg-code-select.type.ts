@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { AcmgCode, AcmgCodeTypeaheadGQL, AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
@@ -16,7 +16,7 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./acmg-code-select.type.less'],
 })
 export class AcmgCodeInputType extends FieldType implements OnInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
 
   searchVal = ''
 

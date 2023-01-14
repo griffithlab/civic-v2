@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   Maybe,
   SourceSource,
@@ -36,7 +36,7 @@ interface CitationSelectOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CitationSelectType extends FieldType implements OnInit, AfterViewInit {
-  formControl!: FormControl;
+  formControl!: UntypedFormControl;
   private queryRef!: QueryRef<SourceTypeaheadQuery, SourceTypeaheadQueryVariables>;
   sources$?: Observable<CitationSelectOption[]>;
   onAddCitation: (e: any) => void

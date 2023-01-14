@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, AfterViewInit, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import {
   EvidenceSignificance,
   EvidenceDirection,
@@ -106,7 +106,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   suggestRevisionMutator: MutatorWithState<SuggestEvidenceItemRevisionGQL, SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables>
 
   formModel: Maybe<FormModel>;
-  formGroup: FormGroup = new FormGroup({});
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
