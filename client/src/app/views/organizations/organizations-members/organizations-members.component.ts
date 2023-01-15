@@ -14,6 +14,7 @@ import {
 } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 import { map, startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

@@ -36,13 +36,14 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  pluck,
+  
   skip,
   take,
   takeUntil,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @UntilDestroy()
 @Component({

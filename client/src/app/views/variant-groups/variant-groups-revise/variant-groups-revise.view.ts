@@ -8,6 +8,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'cvc-variant-groups-revise-view',

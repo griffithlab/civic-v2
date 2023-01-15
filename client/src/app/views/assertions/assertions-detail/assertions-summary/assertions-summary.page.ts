@@ -11,6 +11,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { Observable } from 'rxjs';
 import { AssertionState } from '@app/forms/config/states/assertion.state';
 import { tag } from 'rxjs-spy/cjs/operators';

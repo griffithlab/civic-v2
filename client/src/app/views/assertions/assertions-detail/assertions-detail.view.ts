@@ -16,6 +16,7 @@ import {
 import { QueryRef } from 'apollo-angular';
 import { AssertionDetailQuery } from '@app/generated/civic.apollo';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 

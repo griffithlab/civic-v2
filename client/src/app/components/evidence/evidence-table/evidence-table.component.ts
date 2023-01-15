@@ -40,11 +40,12 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  pluck,
+  
   skip,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 export interface EvidenceTableUserFilters {
   eidInput?: Maybe<string>;

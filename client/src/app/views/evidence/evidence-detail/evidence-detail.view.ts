@@ -16,6 +16,7 @@ import {
 } from '@app/core/services/viewer/viewer.service';
 import { ActivatedRoute } from '@angular/router';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 

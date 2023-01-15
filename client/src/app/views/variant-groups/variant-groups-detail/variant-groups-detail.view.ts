@@ -13,6 +13,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { ActivatedRoute } from '@angular/router';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({

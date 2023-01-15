@@ -11,8 +11,8 @@ import {
   MyVariantInfoFieldsFragment,
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
-import { pluck } from 'rxjs-etc/operators';
 import { startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { Observable } from 'rxjs';
 
 @Component({

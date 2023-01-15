@@ -34,7 +34,7 @@ import {
   first,
   map,
   pairwise,
-  pluck,
+  
   skip,
   startWith,
   take,
@@ -44,6 +44,7 @@ import {
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 export interface ClinicalTrialsTableUserFilters {
   nctIdFilter?: Maybe<string>;

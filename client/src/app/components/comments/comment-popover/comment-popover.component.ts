@@ -6,6 +6,7 @@ import {
 } from '@app/generated/civic.apollo';
 
 import { Observable } from 'rxjs';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'cvc-comment-popover',

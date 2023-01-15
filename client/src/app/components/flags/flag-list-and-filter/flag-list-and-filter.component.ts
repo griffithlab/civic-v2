@@ -13,6 +13,7 @@ import {
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 export interface UniqueFlaggingUsers {
   id: number;

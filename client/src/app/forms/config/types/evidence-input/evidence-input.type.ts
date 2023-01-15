@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 import { map, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { TypeOption } from '@ngx-formly/core/lib/models';

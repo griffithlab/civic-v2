@@ -11,6 +11,7 @@ import { QueryRef } from 'apollo-angular/query-ref';
 import { Observable, Subscription } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'cvc-clinical-trials-summary',

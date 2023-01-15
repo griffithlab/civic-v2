@@ -19,6 +19,7 @@ import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component';
 
 interface CommentTagSegmentWithId {

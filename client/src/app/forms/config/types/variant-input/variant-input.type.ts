@@ -27,6 +27,7 @@ import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, map, skip } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 interface VariantSelectOption {
   value: number;

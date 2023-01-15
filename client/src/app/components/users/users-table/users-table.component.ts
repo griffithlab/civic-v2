@@ -33,12 +33,13 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  pluck,
+  
   skip,
   take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 export interface UsersTableFilters {
   nameInput?: Maybe<string>;

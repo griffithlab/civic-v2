@@ -8,6 +8,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'genes-revise',

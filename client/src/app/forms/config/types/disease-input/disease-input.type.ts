@@ -17,6 +17,7 @@ import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, map } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 interface DiseaseTypeahead {
   id: number;

@@ -14,6 +14,7 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, map } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 export type EventDisplayOption =
   | 'hideSubject'

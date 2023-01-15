@@ -11,6 +11,7 @@ import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'cvc-coordinates-card',

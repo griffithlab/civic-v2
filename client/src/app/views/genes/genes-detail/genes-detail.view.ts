@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import {
   GeneDetailFieldsFragment,
   GeneDetailGQL,

@@ -25,6 +25,7 @@ import {
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 import { filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { QueryRef } from 'apollo-angular';
 import {
   Viewer,

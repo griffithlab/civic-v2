@@ -10,6 +10,7 @@ import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { TypeOption } from '@ngx-formly/core/lib/models';
 import { isNonNulled } from 'rxjs-etc';
 import { UntilDestroy } from '@ngneat/until-destroy';

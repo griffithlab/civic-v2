@@ -32,12 +32,13 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  pluck,
+  
   skip,
   take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 export interface VariantGroupTableUserFilters {

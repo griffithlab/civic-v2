@@ -15,6 +15,7 @@ import {
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'cvc-sources-detail',

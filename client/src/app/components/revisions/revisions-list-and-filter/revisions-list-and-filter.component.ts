@@ -31,6 +31,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types';
 
 export interface SelectableFieldName {

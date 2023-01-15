@@ -9,6 +9,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

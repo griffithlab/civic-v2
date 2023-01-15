@@ -10,6 +10,7 @@ import {
 import { QueryRef } from 'apollo-angular/query-ref';
 import { Observable, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 
 @Component({
   selector: 'cvc-diseases-summary',

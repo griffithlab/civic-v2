@@ -29,6 +29,7 @@ import {
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 import { map, takeUntil, debounceTime, filter } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { QueryRef } from 'apollo-angular';
 import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
 import { isNonNulled } from 'rxjs-etc';

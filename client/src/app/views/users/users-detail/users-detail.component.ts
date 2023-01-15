@@ -13,6 +13,7 @@ import {
 } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 import { startWith } from 'rxjs/operators';
+import { pluck } from 'rxjs-etc/operators';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
