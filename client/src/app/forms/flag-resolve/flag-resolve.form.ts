@@ -40,7 +40,7 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
     ResolveFlagMutationVariables
   >;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private gql: ResolveFlagGQL,

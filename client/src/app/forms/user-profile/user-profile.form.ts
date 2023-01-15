@@ -39,7 +39,7 @@ export class CvcUserProfileForm implements OnInit, OnDestroy {
   errorMessages: string[] = [];
   loading: boolean = false;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   updateProfileMutator: MutatorWithState<
     UpdateUserProfileGQL,

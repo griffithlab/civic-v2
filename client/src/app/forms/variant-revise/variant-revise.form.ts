@@ -431,7 +431,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.destroy$ = new Subject();
+    this.destroy$ = new Subject<void>();
   }
 
   ngAfterViewInit(): void {

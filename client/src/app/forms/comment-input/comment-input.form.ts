@@ -48,7 +48,7 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   @Input() comment?: string;
   @Output() commentChange = new EventEmitter<string>();
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   previewComment$?: Observable<PreviewCommentFragment[]>;
   previewLoading$?: Observable<boolean>;

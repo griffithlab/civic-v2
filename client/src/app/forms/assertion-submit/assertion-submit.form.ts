@@ -65,7 +65,7 @@ interface FormModel {
   styleUrls: ['./assertion-submit.form.less'],
 })
 export class AssertionSubmitForm implements OnDestroy {
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>();
 
   formModel!: FormModel;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});

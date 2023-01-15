@@ -52,7 +52,7 @@ export interface FormModel {
 })
 export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
   @Input() molecularProfileId!: number;
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   suggestRevisionMutator: MutatorWithState<
     SuggestMolecularProfileRevisionGQL,

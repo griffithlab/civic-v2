@@ -36,7 +36,7 @@ interface FormModel {
   templateUrl: './source-submit.form.html',
 })
 export class SourceSubmitForm implements OnDestroy {
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>();
 
   formModel?: FormModel;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});

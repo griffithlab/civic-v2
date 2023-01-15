@@ -29,7 +29,7 @@ import { isDefined } from '@app/core/utilities/defined-typeguard';
 export class VariantDeprecateForm implements OnDestroy, OnInit {
   @Input() variantId!: number;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   deprecateVariantMutator: MutatorWithState<
     DeprecateVariantGQL,

@@ -46,7 +46,7 @@ export class FlagListComponent implements OnInit, OnDestroy {
 
   flagComment: Maybe<string>;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(private viewerService: ViewerService) {}
 

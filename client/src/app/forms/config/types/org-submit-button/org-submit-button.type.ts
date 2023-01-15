@@ -30,7 +30,7 @@ export class OrgSubmitButtonComponent
     this.formControl.setValue(org);
   }
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(private cdr: ChangeDetectorRef) {
     super();

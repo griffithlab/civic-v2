@@ -40,7 +40,7 @@ interface FormModel {
 export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
   @Input() variantGroupId!: number;
 
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>();
 
   formModel!: FormModel;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});

@@ -47,7 +47,7 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
   @Output() onVariantSelected = new EventEmitter<SelectedVariant>();
   @Input() allowCreate: boolean = true;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   formModel!: FormModel;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});

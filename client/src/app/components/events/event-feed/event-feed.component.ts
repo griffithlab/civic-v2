@@ -73,7 +73,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
   newEventCount$?: Observable<number>;
   originalEventCount?: number;
-  destroy$ = new Subject();
+  destroy$ = new Subject<void>();
 
   showChildren: boolean = false;
 

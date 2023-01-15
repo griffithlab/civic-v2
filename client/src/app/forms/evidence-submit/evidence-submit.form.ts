@@ -62,7 +62,7 @@ interface FormModel {
   templateUrl: './evidence-submit.form.html',
 })
 export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>();
 
   formModel!: FormModel;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});

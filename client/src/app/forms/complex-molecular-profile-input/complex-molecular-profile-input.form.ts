@@ -58,8 +58,8 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
   @Output() onMolecularProfileSelected =
     new EventEmitter<FormMolecularProfile>();
 
-  private destroy$ = new Subject();
-  private debouncedPreview = new Subject();
+  private destroy$ = new Subject<void>();
+  private debouncedPreview = new Subject<void>();
 
   previewQueryRef?: QueryRef<
     PreviewMolecularProfileNameQuery,

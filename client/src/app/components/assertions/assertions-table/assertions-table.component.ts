@@ -122,7 +122,7 @@ export class CvcAssertionsTableComponent implements OnInit {
 
   sortColumns: typeof AssertionSortColumns = AssertionSortColumns;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private gql: AssertionsBrowseGQL,

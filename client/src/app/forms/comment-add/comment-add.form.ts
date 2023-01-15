@@ -37,7 +37,7 @@ export class CvcCommentAddForm implements OnDestroy {
   @Input() subject!: CommentableInput;
   @Output() commentAddedEvent = new EventEmitter<void>();
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 

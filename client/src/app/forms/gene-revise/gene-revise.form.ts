@@ -57,7 +57,7 @@ export interface FormModel {
 })
 export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() geneId!: number;
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   suggestRevisionMutator: MutatorWithState<
     SuggestGeneRevisionGQL,

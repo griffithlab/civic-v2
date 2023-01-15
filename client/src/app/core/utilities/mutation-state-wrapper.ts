@@ -26,7 +26,7 @@ export class MutatorWithState<
     options?: MutationOptionsAlone<T, V>,
     dataCallback?: (data: T) => void
   ): MutationState {
-    let destroy$ = new Subject();
+    let destroy$ = new Subject<void>();
 
     let stateVals = {
       isSubmitting$: new BehaviorSubject<boolean>(false),

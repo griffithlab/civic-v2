@@ -40,7 +40,7 @@ export class EvidenceInputType
   >;
   eid$?: Observable<Maybe<EvidenceTypeaheadOption>>;
 
-  destroy$ = new Subject();
+  destroy$ = new Subject<void>();
 
   constructor(private evidenceGQL: EvidenceTypeaheadGQL) {
     super();

@@ -63,7 +63,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   validationPopoverVisible: boolean = false;
   revisionComment: Maybe<string>;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   @Output() revisionSetSelectedEvent = new EventEmitter<string>();
   @Output() revisionMutationCompleted = new EventEmitter<void>();

@@ -32,7 +32,7 @@ interface FormModel {
   templateUrl: './variant-group-submit.form.html',
 })
 export class VariantGroupSubmitForm implements OnDestroy {
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>();
 
   formModel!: FormModel;
   formGroup: UntypedFormGroup = new UntypedFormGroup({});

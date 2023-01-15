@@ -27,7 +27,7 @@ export class CvcUserCoiForm implements OnDestroy {
   errorMessages: string[] = [];
   loading: boolean = false;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   updateCoiMutator: MutatorWithState<
     UpdateCoiGQL,

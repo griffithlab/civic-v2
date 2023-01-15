@@ -38,7 +38,7 @@ export class CvcUpdateSourceSuggestionForm implements OnDestroy {
 
   @Output() commentAddedEvent = new EventEmitter<void>();
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 

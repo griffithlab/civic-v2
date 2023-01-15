@@ -291,7 +291,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.destroy$ = new Subject();
+    this.destroy$ = new Subject<void>();
   }
 
   ngAfterViewInit(): void {

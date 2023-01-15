@@ -39,7 +39,7 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
     FlagEntityMutationVariables
   >;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private gql: FlagEntityGQL,
