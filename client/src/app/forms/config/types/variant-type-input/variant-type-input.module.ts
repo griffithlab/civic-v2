@@ -7,7 +7,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
@@ -17,7 +17,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     CommonModule,
     ReactiveFormsModule,
     FormlyModule.forChild({ types: [VariantTypeInputTypeOption] }),
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzSelectModule,
     CvcVariantTypeTagModule,
     CvcAutofocusModule,

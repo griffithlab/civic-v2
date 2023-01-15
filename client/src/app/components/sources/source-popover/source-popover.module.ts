@@ -5,7 +5,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -13,7 +13,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   declarations: [CvcSourcePopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzIconModule,
     NzCardModule,
     NzDescriptionsModule,

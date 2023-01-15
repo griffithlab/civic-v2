@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcSiteStatsCardModule } from '@app/components/shared/site-stats-card/site-stats-card.module';
 import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-event-feed/homepage-event-feed.module';
 
@@ -23,7 +23,7 @@ import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-even
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzGridModule,
     NzCarouselModule,

@@ -6,7 +6,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { FormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -17,7 +17,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     CommonModule,
     FormsModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzTypographyModule,
     NzSelectModule,
     NzInputModule,

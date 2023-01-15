@@ -9,7 +9,7 @@ import {
   HttpClient,
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
 import { civicIcons } from '@app/icons-provider.module';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
@@ -54,7 +54,7 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     }),
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
-    ReactiveComponentModule,
+    LetModule, PushModule,
     TimeagoModule.forRoot({
       formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter },
     }),

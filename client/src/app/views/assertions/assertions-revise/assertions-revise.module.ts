@@ -9,7 +9,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
@@ -29,7 +29,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcMolecularProfileTagModule,
     CvcSectionNavigationModule,
     CvcCommentTextareaTypeModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzGridModule,
     CvcLoginPromptModule,
   ],

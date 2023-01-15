@@ -9,14 +9,14 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 @NgModule({
   declarations: [NccnGuidelineInputType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzSelectModule,
     NzSpaceModule,
     NzTagModule,

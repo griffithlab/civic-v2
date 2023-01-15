@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcCommentPopoverComponent } from './comment-popover.component';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
@@ -18,7 +18,7 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
   declarations: [CvcCommentPopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzCardModule,
     NzGridModule,
     CvcGeneTagModule,

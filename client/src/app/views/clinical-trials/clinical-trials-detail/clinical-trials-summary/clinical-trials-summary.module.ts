@@ -4,14 +4,14 @@ import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary.compon
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [ClinicalTrialsSummaryComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzDescriptionsModule,
     NzGridModule,
     CvcEvidenceTableModule,

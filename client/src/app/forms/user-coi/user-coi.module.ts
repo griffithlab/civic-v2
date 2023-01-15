@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcUserCoiForm } from './user-coi.form';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -18,7 +18,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzCardModule,
     NzAlertModule,
     NzRadioModule,

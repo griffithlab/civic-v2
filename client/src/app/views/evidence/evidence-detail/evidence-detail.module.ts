@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { EvidenceDetailView } from './evidence-detail.view';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -26,7 +26,7 @@ import { NgModule } from '@angular/core';
   imports: [
     CommonModule,
     EvidenceDetailRoutingModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
 
     NzAlertModule,
     NzButtonModule,

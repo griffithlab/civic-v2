@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceSummaryPage } from './evidence-summary.page';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -33,7 +33,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzGridModule,
     NzSpaceModule,
     NzTypographyModule,

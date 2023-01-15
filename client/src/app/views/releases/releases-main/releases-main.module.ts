@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReleasesMainComponent } from './releases-main.component';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -18,7 +18,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
   declarations: [ReleasesMainComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzPageHeaderModule,
     NzGridModule,

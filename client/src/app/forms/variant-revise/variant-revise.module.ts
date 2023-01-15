@@ -18,7 +18,7 @@ import { CvcVariantTypeInputTypeModule } from '@app/forms/config/types/variant-t
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
@@ -36,7 +36,7 @@ import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coo
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     ReactiveFormsModule,
     FormlyModule,
     NgxJsonViewerModule,

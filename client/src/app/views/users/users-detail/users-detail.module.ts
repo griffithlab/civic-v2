@@ -12,7 +12,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -32,7 +32,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     CommonModule,
     RouterModule,
     UsersDetailRoutingModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzAlertModule,
     NzGridModule,
     NzPageHeaderModule,

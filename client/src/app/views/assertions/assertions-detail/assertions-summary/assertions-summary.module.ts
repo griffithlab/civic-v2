@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssertionsSummaryPage } from './assertions-summary.page';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -28,7 +28,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
   declarations: [AssertionsSummaryPage],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzGridModule,
     NzSpaceModule,
     NzGridModule,

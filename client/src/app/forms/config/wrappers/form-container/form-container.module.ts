@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { ConfigOption, FormlyModule } from '@ngx-formly/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
@@ -22,7 +22,7 @@ const configOption: ConfigOption = {
   declarations: [FormContainerWrapper],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     FormlyModule.forChild(configOption),
     NzGridModule,
     NzCardModule,

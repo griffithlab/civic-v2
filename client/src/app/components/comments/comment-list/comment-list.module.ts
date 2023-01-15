@@ -6,7 +6,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentDisplayModule } from '../comment-display/comment-display.module';
@@ -19,7 +19,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
   declarations: [CvcCommentListComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzGridModule,
     NzCardModule,

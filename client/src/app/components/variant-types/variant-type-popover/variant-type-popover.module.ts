@@ -4,7 +4,7 @@ import { CvcVariantTypePopoverComponent } from './variant-type-popover.component
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
@@ -12,7 +12,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
   declarations: [CvcVariantTypePopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzIconModule,
     NzCardModule,
     NzDescriptionsModule,

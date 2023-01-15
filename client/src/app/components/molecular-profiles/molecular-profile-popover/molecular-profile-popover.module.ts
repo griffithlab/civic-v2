@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcMolecularProfilePopoverComponent } from './molecular-profile-popover.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
@@ -19,7 +19,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzCardModule,
     NzGridModule,
     NzDescriptionsModule,

@@ -6,7 +6,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { CvcVariantGroupsTableModule } from '@app/components/variant-groups/variant-groups-table/variant-groups-table.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RouterModule } from '@angular/router';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -18,7 +18,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzGridModule,
     NzPageHeaderModule,

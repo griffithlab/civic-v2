@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssertionsDetailView } from './assertions-detail.view';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -28,7 +28,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CommonModule,
     AssertionsDetailRoutingModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzSpaceModule,
     NzTypographyModule,
     NzPageHeaderModule,

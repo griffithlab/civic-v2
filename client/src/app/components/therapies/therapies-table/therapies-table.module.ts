@@ -4,7 +4,7 @@ import { CvcTherapiesTableComponent } from './therapies-table.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -23,7 +23,7 @@ import { CvcTherapyTagModule } from '../cvc-therapy-tag/cvc-therapy-tag.module';
   declarations: [CvcTherapiesTableComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
 
     NzButtonModule,
     NzCardModule,

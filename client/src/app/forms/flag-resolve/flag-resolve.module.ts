@@ -10,7 +10,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module';
@@ -20,7 +20,7 @@ import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-inpu
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzFormModule,
     FormsModule,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
@@ -26,7 +26,7 @@ import { CvcMolecularProfileVariantCardModule } from '@app/components/molecular-
   declarations: [MolecularProfilesSummaryPage],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzSpaceModule,
     NzGridModule,
     NzDescriptionsModule,

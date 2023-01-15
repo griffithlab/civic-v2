@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { ConfigOption, FormlyModule } from '@ngx-formly/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -31,7 +31,7 @@ const configOption: ConfigOption = {
   declarations: [WithEvidenceManagerWrapper],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     FormlyModule.forChild(configOption),
     NzGridModule,
     NzCardModule,

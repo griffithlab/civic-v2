@@ -12,7 +12,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { CvcEventTimelineItemModule } from '@app/components/events/event-timeline-item/event-timeline-item-module';
 import { FormsModule } from '@angular/forms';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzToolTipModule,
     NzSpinModule,
     NzGridModule,

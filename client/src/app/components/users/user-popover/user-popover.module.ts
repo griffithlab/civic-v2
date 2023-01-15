@@ -4,7 +4,7 @@ import { CvcUserPopoverComponent } from './user-popover.component';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
@@ -15,7 +15,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
   declarations: [CvcUserPopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzGridModule,
     NzCardModule,
     NzDescriptionsModule,

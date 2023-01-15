@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CvcViewerButtonComponent } from './viewer-button.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -18,7 +18,7 @@ import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submi
   declarations: [CvcViewerButtonComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzDropDownModule,
     RouterModule,
     NzButtonModule,

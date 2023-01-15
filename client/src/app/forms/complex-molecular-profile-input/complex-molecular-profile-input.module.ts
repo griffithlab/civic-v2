@@ -9,7 +9,7 @@ import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-erro
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzMentionModule } from 'ng-zorro-antd/mention';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
@@ -30,7 +30,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzCardModule,
     NzFormModule,

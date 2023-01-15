@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -22,7 +22,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CommonModule,
     FormsModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzStatisticModule,
     NzGridModule,
     NzCardModule,

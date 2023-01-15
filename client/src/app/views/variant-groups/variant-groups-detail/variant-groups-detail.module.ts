@@ -9,7 +9,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
 import { VariantGroupsDetailView } from './variant-groups-detail.view';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
@@ -20,7 +20,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   declarations: [VariantGroupsDetailView],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     VariantGroupsDetailRoutingModule,
     NzIconModule,
     NzGridModule,

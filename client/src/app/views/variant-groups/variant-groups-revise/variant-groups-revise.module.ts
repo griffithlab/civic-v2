@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -25,7 +25,7 @@ import { VariantGroupsReviseView } from './variant-groups-revise.view';
     CvcPipesModule,
     CvcSectionNavigationModule,
     CvcLoginPromptModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzGridModule,
   ],
 })

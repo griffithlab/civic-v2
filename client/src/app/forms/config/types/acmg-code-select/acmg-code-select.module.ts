@@ -10,7 +10,7 @@ import {
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcFormFieldWrapperModule } from '../../wrappers/form-field/form-field.module';
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
@@ -20,7 +20,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     FormlySelectModule,
     NzTagModule,
     NzSelectModule,

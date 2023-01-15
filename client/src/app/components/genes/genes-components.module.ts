@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -54,7 +54,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NgxJsonViewerModule,
     NzPopoverModule,
     NzDividerModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     TimeagoModule.forChild({
       formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
     }),

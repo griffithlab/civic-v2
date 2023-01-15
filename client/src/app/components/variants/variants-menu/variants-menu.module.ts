@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -20,7 +20,7 @@ import { CvcVariantsMenuComponent } from './variants-menu.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzGridModule,
     NzCardModule,

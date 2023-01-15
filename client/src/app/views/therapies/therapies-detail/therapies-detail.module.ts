@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TherapiesDetailComponent } from './therapies-detail.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
@@ -18,7 +18,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzIconModule,
     NzPageHeaderModule,
     NzSpaceModule,

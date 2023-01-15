@@ -5,7 +5,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
@@ -14,7 +14,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
 
     NzPageHeaderModule,
     NzIconModule,

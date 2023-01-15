@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -12,7 +12,7 @@ import { CvcClinicalTrialPopoverComponent } from './clinical-trial-popover.compo
   declarations: [CvcClinicalTrialPopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
 
     NzCardModule,
     NzIconModule,

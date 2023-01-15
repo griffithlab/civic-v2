@@ -6,7 +6,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { GeneSuggestRevisionFormModule } from '@app/forms/gene-revise/gene-revise.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
@@ -14,7 +14,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
   declarations: [GenesSuggestPage],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzCardModule,
     NzGridModule,
     NzSpaceModule,

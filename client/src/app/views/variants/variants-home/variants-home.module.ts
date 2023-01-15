@@ -12,7 +12,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
@@ -22,7 +22,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzPageHeaderModule,
     NzGridModule,
     NzIconModule,

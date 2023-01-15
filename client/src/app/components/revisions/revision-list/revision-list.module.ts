@@ -26,7 +26,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -84,7 +84,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzCollapseModule,
     NzButtonModule,
     NzAlertModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
   ],
   exports: [RevisionListComponent],
 })

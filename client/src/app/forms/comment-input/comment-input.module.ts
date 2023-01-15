@@ -12,7 +12,7 @@ import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcCommentTextareaTypeModule } from '../config/types/comment-textarea/comment-textarea.module';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzMentionModule } from 'ng-zorro-antd/mention';
@@ -22,7 +22,7 @@ import { NzMentionModule } from 'ng-zorro-antd/mention';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzButtonModule,
     NzCardModule,
     NzTabsModule,

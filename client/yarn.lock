@@ -1977,10 +1977,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@ngrx/component@^12.5.1":
-  version "12.5.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-12.5.1.tgz#72935cab7b99ee16635c8e8e43c0eee41caf5f8f"
-  integrity sha512-uMy1yQ/ceI8fF73PaUCKwvOu3wEMc2VDauCQom1nS7+X49SDiqwAsy3kvWdkGyaDAgOGvYs1mZlTAbCI8cM8Dg==
+"@ngrx/component@^15.1.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-15.1.0.tgz#13fb0abd74760d9007130b53e22f87556e5d9d4a"
+  integrity sha512-A2PxLHvx/sJl94S3ZR75uoHmE/E3CDTvluox8c03L/RvZ+3wL5f36keoRs5PHZ3OcRB+E6XRM5pYuh+oFt22hA==
   dependencies:
     tslib "^2.0.0"
 

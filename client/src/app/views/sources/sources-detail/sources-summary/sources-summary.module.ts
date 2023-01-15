@@ -5,7 +5,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -17,7 +17,7 @@ import { SourcesSummaryPage } from './sources-summary.page';
   declarations: [SourcesSummaryPage],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     NzGridModule,
     NzSpaceModule,
     NzGridModule,

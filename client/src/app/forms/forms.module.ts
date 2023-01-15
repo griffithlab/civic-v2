@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { CvcFormlyConfig } from '@app/forms/forms.config';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     FormlyModule.forRoot(CvcFormlyConfig),
     FormlyNgZorroAntdModule,
   ],

@@ -11,7 +11,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -28,7 +28,7 @@ import { CvcGenesTableComponent } from './genes-table.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
 
     NzButtonModule,
     NzCardModule,
