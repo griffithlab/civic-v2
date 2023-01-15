@@ -4,7 +4,7 @@ import {
   CommentPopoverGQL,
   Maybe,
 } from '@app/generated/civic.apollo';
-import { pluck } from 'rxjs/operators';
+
 import { Observable } from 'rxjs';
 
 @Component({

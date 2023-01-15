@@ -11,7 +11,7 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { filter, pluck } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 interface PhenotypeTypeahead {
   id: number;

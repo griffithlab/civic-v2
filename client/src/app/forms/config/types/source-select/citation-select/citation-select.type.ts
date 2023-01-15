@@ -18,7 +18,7 @@ import {
 import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map, pluck, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
 import { SourceSelectorModel } from '../../source-input/source-selector/source-selector.form';
 

@@ -10,7 +10,7 @@ import {
 import { QueryRef } from 'apollo-angular/query-ref';
 import { Observable, Subscription } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { filter, pluck, startWith } from 'rxjs/operators';
+import { filter, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-clinical-trials-summary',

@@ -26,7 +26,7 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { filter, map, pluck, skip } from 'rxjs/operators';
+import { filter, map, skip } from 'rxjs/operators';
 
 interface VariantSelectOption {
   value: number;

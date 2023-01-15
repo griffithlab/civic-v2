@@ -12,7 +12,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface UniqueFlaggingUsers {
   id: number;

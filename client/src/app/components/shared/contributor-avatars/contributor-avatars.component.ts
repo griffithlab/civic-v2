@@ -6,7 +6,7 @@ import {
   SubscribableInput,
 } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+
 
 @Component({
   selector: 'cvc-contributor-avatars',

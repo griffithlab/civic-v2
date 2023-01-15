@@ -14,7 +14,7 @@ import {
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
-import { pluck, startWith, takeUntil } from 'rxjs/operators';
+import { startWith, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 

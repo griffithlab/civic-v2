@@ -12,7 +12,7 @@ import {
   VariantGroupDetailGQL,
 } from '@app/generated/civic.apollo';
 import { ActivatedRoute } from '@angular/router';
-import { pluck, startWith, takeUntil } from 'rxjs/operators';
+import { startWith, takeUntil } from 'rxjs/operators';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({

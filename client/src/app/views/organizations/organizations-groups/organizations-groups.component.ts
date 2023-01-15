@@ -12,7 +12,7 @@ import {
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
-import { pluck, startWith } from 'rxjs/operators';
+import { startWith } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

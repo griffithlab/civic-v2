@@ -13,7 +13,7 @@ import { QueryRef } from 'apollo-angular';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { filter, map, pluck } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 export type EventDisplayOption =
   | 'hideSubject'

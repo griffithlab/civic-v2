@@ -16,7 +16,7 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { filter, map, pluck } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 interface TherapyTypeahead {
   id: number;

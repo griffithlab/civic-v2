@@ -9,7 +9,7 @@ import {
 import { QueryRef } from 'apollo-angular';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { Observable, Subscription } from 'rxjs';
-import { pluck, startWith } from 'rxjs/operators';
+import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-therapies-summary',

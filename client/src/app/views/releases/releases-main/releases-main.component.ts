@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
-import { startWith, pluck } from 'rxjs/operators';
+import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-releases-main',

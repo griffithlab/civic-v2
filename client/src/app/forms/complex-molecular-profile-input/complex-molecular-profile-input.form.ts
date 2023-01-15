@@ -28,7 +28,7 @@ import {
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
-import { map, takeUntil, debounceTime, filter, pluck } from 'rxjs/operators';
+import { map, takeUntil, debounceTime, filter } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
 import { isNonNulled } from 'rxjs-etc';

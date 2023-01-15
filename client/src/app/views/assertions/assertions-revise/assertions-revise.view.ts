@@ -7,7 +7,7 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
-import { map, pluck, startWith } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-assertions-revise-view',

@@ -7,7 +7,7 @@ import {
   VariantGroupDetailGQL,
 } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
-import { pluck, startWith, map } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-variant-groups-revise-view',

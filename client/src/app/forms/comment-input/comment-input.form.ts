@@ -24,7 +24,7 @@ import {
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
-import { filter, map, pluck, startWith, takeUntil } from 'rxjs/operators';
+import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 import {
   Viewer,

@@ -14,7 +14,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subscription } from 'rxjs';
-import { pluck, startWith } from 'rxjs/operators';
+import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-sources-detail',

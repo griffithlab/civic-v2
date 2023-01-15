@@ -14,7 +14,7 @@ import {
 import { Maybe, Organization } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, pluck, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
   ButtonMutation,
   CvcOrgSelectorBtnDirective,
