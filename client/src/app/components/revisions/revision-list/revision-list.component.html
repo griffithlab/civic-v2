@@ -468,7 +468,7 @@
                     </button>
                   </ng-template>
                 </span>
-                <ng-container *ngIf="totalErrorCount > 0">
+                <ng-container *ngIf="totalErrorCount && totalErrorCount > 0">
                   <i
                     nz-icon
                     nzType="exclamation-circle"
@@ -548,7 +548,7 @@
                       <span *nzSpaceItem>
                         <i
                           nz-icon
-                          *ngIf="totalErrorCount > 0"
+                          *ngIf="totalErrorCount && totalErrorCount > 0"
                           nzTwotoneColor="red"
                           nzType="exclamation-circle"
                           nzTheme="twotone"
@@ -569,7 +569,10 @@
       <ng-template #validationErrorTemplate>
         <nz-space nzDirection="vertical">
           <span *nzSpaceItem>
-            <nz-card *ngIf="genericErrors.length > 0" nzTitle="Errors">
+            <nz-card
+              *ngIf="genericErrors && genericErrors.length > 0"
+              nzTitle="Errors"
+            >
               <nz-list nzSize="small">
                 <nz-list-item *ngFor="let error of genericErrors">{{
                   error
@@ -579,7 +582,7 @@
           </span>
           <span *nzSpaceItem>
             <nz-card
-              *ngIf="validationErrors.length > 0"
+              *ngIf="validationErrors && validationErrors.length > 0"
               nzTitle="Validation Errors"
             >
               <nz-descriptions nzBordered>

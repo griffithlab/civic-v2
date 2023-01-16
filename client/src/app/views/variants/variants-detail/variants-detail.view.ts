@@ -31,7 +31,7 @@ export class VariantsDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   routeSub: Subscription;
   subscribable?: SubscribableInput;
@@ -72,6 +72,7 @@ export class VariantsDetailView implements OnDestroy {
     private route: ActivatedRoute
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.viewer$ = this.viewerService.viewer$;
 
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ variantId: +params.variantId });
@@ -109,8 +110,6 @@ export class VariantsDetailView implements OnDestroy {
         id: +params.variantId,
         entityType: SubscribableEntities.Variant,
       };
-
-      this.viewer$ = this.viewerService.viewer$;
     });
   }
 

@@ -13,6 +13,7 @@
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="therapy.ncitId">
       <cvc-link-tag
+        *ngIf="therapy.therapyUrl"
         [href]="therapy.therapyUrl"
         tooltip="View in the NCIthesaurus"
       >

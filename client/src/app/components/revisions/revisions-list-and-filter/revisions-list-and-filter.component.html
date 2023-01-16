@@ -12,7 +12,7 @@
           *nzSpaceItem
         ></cvc-revision-list>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <ng-container *ngIf="pageInfo?.hasNextPage">
+          <ng-container *ngIf="pageInfo?.hasNextPage && pageInfo.endCursor">
             <button
               nz-button
               nzBlock

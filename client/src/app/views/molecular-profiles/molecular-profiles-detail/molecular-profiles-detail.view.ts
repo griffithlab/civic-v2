@@ -34,7 +34,7 @@ export class MolecularProfilesDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   routeSub: Subscription;
   subscribable?: SubscribableInput;
@@ -75,6 +75,7 @@ export class MolecularProfilesDetailView implements OnDestroy {
     private route: ActivatedRoute
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.viewer$ = this.viewerService.viewer$;
 
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ mpId: +params.molecularProfileId });
@@ -118,8 +119,6 @@ export class MolecularProfilesDetailView implements OnDestroy {
         id: +params.molecularProfileId,
         entityType: SubscribableEntities.MolecularProfile,
       };
-
-      this.viewer$ = this.viewerService.viewer$;
     });
   }
 

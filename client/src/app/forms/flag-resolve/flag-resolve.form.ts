@@ -32,7 +32,7 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
   success: boolean = false;
   flagResolvePopoverVisible: boolean = false;
 
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   resolveFlagMutator: MutatorWithState<
     ResolveFlagGQL,
@@ -48,6 +48,7 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
     private networkErrorService: NetworkErrorsService
   ) {
     this.resolveFlagMutator = new MutatorWithState(networkErrorService);
+    this.viewer$ = this.viewerService.viewer$;
   }
 
   ngOnInit() {
@@ -55,7 +56,6 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
       throw new Error('Must pass a Flag in to resolve component.');
     }
 
-    this.viewer$ = this.viewerService.viewer$;
     this.viewerService.viewer$.subscribe((v: Viewer) => {
       this.selectedOrg = v.mostRecentOrg;
     });

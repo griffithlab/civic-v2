@@ -6,7 +6,7 @@
     <ng-container *ngrxLet="viewer$ as viewer">
       <button
         routerLink="/evidence/add/submit"
-        [queryParams]="{molecularProfileId: mp.id}"
+        [queryParams]="{ molecularProfileId: mp.id }"
         nz-button
         *ngIf="viewer.canCurate"
         nzSize="small"
@@ -22,7 +22,7 @@
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': mp.flags.totalCount > 0 }"
+        [ngClass]="{ flagged: mp.flags.totalCount > 0 }"
       >
         <i nz-icon nzType="civic:molecularprofile"></i> {{ mp.name }}
       </nz-page-header-title>
@@ -30,7 +30,7 @@
       <!-- subtitle -->
       <nz-page-header-subtitle *ngIf="mp.molecularProfileAliases.length > 0">
         <span *ngFor="let alias of mp.molecularProfileAliases; last as isLast">
-          {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
+          {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
         </span>
       </nz-page-header-subtitle>
 
@@ -95,9 +95,10 @@
           underlying variants are deprecated
           <ng-container *ngFor="let v of mp.deprecatedVariants">
             <br />
-            <cvc-variant-tag [variant]="v"></cvc-variant-tag> {{
-            v.deprecationReason | enumToTitle}}.
+            <cvc-variant-tag [variant]="v"></cvc-variant-tag>
+            {{ v.deprecationReason | enumToTitle }}.
             <cvc-comment-body
+              *ngIf="v.deprecationComment"
               [commentBodySegments]="v.deprecationComment.parsedComment"
             ></cvc-comment-body>
           </ng-container>

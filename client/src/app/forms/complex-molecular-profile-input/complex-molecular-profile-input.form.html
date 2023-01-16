@@ -22,7 +22,10 @@
           *ngrxLet="previewDeprecatedVariants$ as deprecatedVariants"
         >
           <ng-container
-            *ngIf="deprecatedVariants.length > 0; else validVariants"
+            *ngIf="
+              deprecatedVariants && deprecatedVariants.length > 0;
+              else validVariants
+            "
           >
             Can't create Molecular Profile containing deprecated Variants:
             <cvc-variant-tag
@@ -34,7 +37,10 @@
             <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
               <ng-container *ngIf="this.displayPreview; else noPreview">
                 <ng-container
-                  *ngIf="previewMpAlreadyExists$ | ngrxPush as existing; else newMp"
+                  *ngIf="
+                    previewMpAlreadyExists$ | ngrxPush as existing;
+                    else newMp
+                  "
                 >
                   <cvc-molecular-profile-tag
                     [molecularProfile]="existing"
@@ -74,7 +80,7 @@
       </ng-container>
 
       <ng-template #noPreview>
-        <ng-container *ngIf="parseError"> {{parseError}} </ng-container>
+        <ng-container *ngIf="parseError"> {{ parseError }} </ng-container>
         <ng-container *ngIf="!parseError">
           <span nz-typography nzType="secondary">
             Start constructing a complex molecular profile to preview it here
@@ -102,7 +108,7 @@
         ></textarea>
 
         <ng-container *nzMentionSuggestion="let variant">
-          <span>{{variant.displayName}}</span>
+          <span>{{ variant.displayName }}</span>
         </ng-container>
       </nz-mention>
 
@@ -115,7 +121,7 @@
         [(nzPopoverVisible)]="this.variantFinderVisible"
         (click)="this.variantFinderVisible = !this.variantFinderVisible"
         [nzPopoverContent]="variantFinder"
-        [nzPopoverTrigger]="undefined "
+        [nzPopoverTrigger]="undefined"
         nzPopoverPlacement="bottom"
       >
         Find a Variant
@@ -125,7 +131,7 @@
 
     <ng-template #variantFinderTitle>
       Find a Variant
-      <span [ngStyle]="{ 'float': 'right' }">
+      <span [ngStyle]="{ float: 'right' }">
         <i
           nz-icon
           nzType="close"

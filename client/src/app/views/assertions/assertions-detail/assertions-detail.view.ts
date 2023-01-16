@@ -32,7 +32,7 @@ export class AssertionsDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   paramsSub: Subscription;
   subscribable?: SubscribableInput;
@@ -77,6 +77,8 @@ export class AssertionsDetailView implements OnDestroy {
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs);
 
+    this.viewer$ = this.viewerService.viewer$;
+
     this.paramsSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ assertionId: +params.assertionId });
 
@@ -115,8 +117,6 @@ export class AssertionsDetailView implements OnDestroy {
         id: +params.assertionId,
         entityType: SubscribableEntities.Assertion,
       };
-
-      this.viewer$ = this.viewerService.viewer$;
     });
   }
 

@@ -90,7 +90,7 @@
       </nz-col>
     </nz-row>
     <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage">
+      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
         <button
           nz-button
           nzType="default"

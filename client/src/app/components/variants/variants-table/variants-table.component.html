@@ -6,21 +6,21 @@
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
-    cvcAutoHeightTarget="viewport"
-  >
+    cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container" [ngStyle]="{ height: cvcHeight }">
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
     <nz-card
       [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-      nzSize="small"
-    >
+      nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
@@ -31,7 +31,7 @@
   <nz-table
     #virtualTable
     nzSize="small"
-    [nzData]="row$ | ngrxPush"
+    [nzData]="(row$ | ngrxPush) || []"
     [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
@@ -39,28 +39,25 @@
     (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
-    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
-    [nzShowPagination]="false"
-  >
+    [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th
           nzWidth="200px"
           nzLeft
           [nzColumnKey]="sortColumns.VariantName"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Variant
         </th>
         <th nzWidth="200px">Variant Aliases</th>
         <th
           nzWidth="150px"
           [nzColumnKey]="sortColumns.EntrezSymbol"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Gene
         </th>
         <th nzWidth="250px">Diseases</th>
@@ -70,50 +67,56 @@
         <th nzLeft>
           <cvc-clearable-input-filter
             [(inputModel)]="variantNameInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="variantAliasInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="geneSymbolInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="diseaseNameInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="therapyNameInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll let-variant let-index="index">
+      <ng-template
+        nz-virtual-scroll
+        let-variant
+        let-index="index">
         <tr class="data-row">
           <td nzLeft>
             <cvc-variant-tag
               [variant]="variant"
-              [truncateLongName]="true"
-            ></cvc-variant-tag>
+              [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td>
             <cvc-plain-tag-overflow
               [maxDisplayCount]="1"
               [tags]="variant.aliases | pluck : 'name'"
-              [matchingText]="variantAliasInput"
-            ></cvc-plain-tag-overflow>
+              [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
             <cvc-gene-tag
@@ -122,16 +125,14 @@
                 name: variant.geneName,
                 link: variant.geneLink
               }"
-              [truncateLongName]="true"
-            ></cvc-gene-tag>
+              [truncateLongName]="true"></cvc-gene-tag>
           </td>
           <td>
             <cvc-tag-overflow
               tagType="disease"
               [tags]="variant.diseases"
               [maxDisplayCount]="1"
-              [matchingText]="diseaseNameInput"
-            >
+              [matchingText]="diseaseNameInput">
             </cvc-tag-overflow>
           </td>
           <td>
@@ -139,8 +140,7 @@
               tagType="therapy"
               [tags]="variant.therapies"
               [maxDisplayCount]="1"
-              [matchingText]="therapyNameInput"
-            >
+              [matchingText]="therapyNameInput">
             </cvc-tag-overflow>
           </td>
         </tr>
@@ -159,14 +159,18 @@
 
   <span class="table-info">
     <cvc-table-counts
-      [cvcTableCountsConnection]="connection$"
-    ></cvc-table-counts>
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush" nzColor="processing">
-    <i nz-icon nzType="sync" nzSpin></i>
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>

@@ -23,7 +23,7 @@
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': variant.flags.totalCount > 0 }"
+        [ngClass]="{ flagged: variant.flags.totalCount > 0 }"
       >
         <i
           nz-icon
@@ -37,7 +37,7 @@
       <!-- subtitle -->
       <nz-page-header-subtitle *ngIf="variant.variantAliases.length > 0">
         <span *ngFor="let alias of variant.variantAliases; last as isLast">
-          {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
+          {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
         </span>
       </nz-page-header-subtitle>
 
@@ -52,7 +52,7 @@
           <span *nzSpaceItem>
             <button
               [routerLink]="['/variants', variant.id, 'revise']"
-              *ngIf="viewer.signedIn"
+              *ngIf="viewer?.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
@@ -122,10 +122,12 @@
           nzType="error"
         ></nz-alert>
         <ng-template #deprecationMessageTemplate>
-          This Variant has been deprecated for reason: {{
-          variant.deprecationReason | enumToTitle }}.
+          This Variant has been deprecated for reason:
+          {{ variant.deprecationReason | enumToTitle }}.
           <cvc-comment-body
-            [commentBodySegments]="variant.deprecationComment.parsedComment"
+            [commentBodySegments]="
+              variant.deprecationComment?.parsedComment || []
+            "
           ></cvc-comment-body>
         </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">

@@ -203,7 +203,7 @@ export class CvcGenesTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: BrowseGenesFieldsFragment): number {
+  trackByIndex(_: number, data: any): number {
     return data.id;
   }
 }

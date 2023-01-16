@@ -44,7 +44,7 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
   errorMessages: string[] = [];
   loading: boolean = false;
 
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   comment: string = '';
   reason: Maybe<DeprecationReason>;
@@ -63,10 +63,10 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
     private viewerService: ViewerService
   ) {
     this.deprecateVariantMutator = new MutatorWithState(networkErrorService);
+    this.viewer$ = this.viewerService.viewer$;
   }
 
   ngOnInit() {
-    this.viewer$ = this.viewerService.viewer$;
     this.viewerService.viewer$.subscribe((v: Viewer) => {
       this.selectedOrg = v.mostRecentOrg;
     });

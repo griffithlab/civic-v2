@@ -196,7 +196,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  trackByIndex(_: number, data: PhenotypeBrowseTableRowFieldsFragment): number {
+  trackByIndex(_: number, data: any): number {
     return data.id;
   }
 }

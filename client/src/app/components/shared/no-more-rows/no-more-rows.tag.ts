@@ -4,9 +4,10 @@ import {
   Component,
   Input,
   OnInit,
-} from '@angular/core';
-import { BehaviorSubject, interval } from 'rxjs';
-import { first } from 'rxjs/operators';
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
+import { BehaviorSubject, interval } from 'rxjs'
+import { first } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-no-more-rows',
@@ -15,25 +16,26 @@ import { first } from 'rxjs/operators';
 })
 export class NoMoreRowsTag {
   @Input()
-  set cvcShowTag(h: boolean) {
-    if (h) this.showTag();
+  set cvcShowTag(h: Maybe<boolean>) {
+    if (h === undefined) return
+    if (h) this.showTag()
   }
 
-  showTag$: BehaviorSubject<boolean>;
+  showTag$: BehaviorSubject<boolean>
 
   constructor(private cdr: ChangeDetectorRef) {
-    this.showTag$ = new BehaviorSubject<boolean>(false);
+    this.showTag$ = new BehaviorSubject<boolean>(false)
   }
 
   showTag() {
     if (this.showTag$.getValue() === false) {
-      this.showTag$.next(true);
+      this.showTag$.next(true)
       interval(3000)
         .pipe(first())
         .subscribe(() => {
-          this.showTag$.next(false);
-          this.cdr.detectChanges();
-        });
+          this.showTag$.next(false)
+          this.cdr.detectChanges()
+        })
     }
   }
 }

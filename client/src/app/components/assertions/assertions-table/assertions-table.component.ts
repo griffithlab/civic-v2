@@ -278,7 +278,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: AssertionBrowseFieldsFragment): number {
+  trackByIndex(_: number, data: any): number {
     return data.id;
   }
 

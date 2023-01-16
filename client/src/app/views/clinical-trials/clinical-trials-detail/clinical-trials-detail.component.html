@@ -11,7 +11,11 @@
       {{ trial.nctId }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [href]="trial.url" tooltip="View on clinicaltrials.gov">
+      <cvc-link-tag
+        *ngIf="trial.url"
+        [href]="trial.url"
+        tooltip="View on clinicaltrials.gov"
+      >
         {{ trial.nctId }}
       </cvc-link-tag>
     </nz-page-header-extra>

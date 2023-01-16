@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./assertions-home.page.less'],
 })
 export class AssertionsHomePage implements OnInit {
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   constructor(private viewerService: ViewerService) {
     this.viewer$ = this.viewerService.viewer$;

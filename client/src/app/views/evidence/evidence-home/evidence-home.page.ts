@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./evidence-home.page.less'],
 })
 export class EvidenceHomePage implements OnInit {
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   tableView: boolean = true;
   constructor(private viewerService: ViewerService) {

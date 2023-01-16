@@ -28,10 +28,11 @@
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag
+        *ngIf="source.sourceUrl"
         [href]="source.sourceUrl"
         [tooltip]="'View on ' + source.displayType"
       >
-        {{ source.displayType + ':' + source.citationId }}
+        {{ source.displayType + ":" + source.citationId }}
       </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>

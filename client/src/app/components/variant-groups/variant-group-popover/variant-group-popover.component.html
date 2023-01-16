@@ -1,31 +1,34 @@
 <div id="popover-content">
   <ng-container *ngIf="variantGroup$ | ngrxPush as variantGroup">
-    <nz-card [nzTitle]="cardTitle" nzBordered="false" id="card-content">
+    <nz-card
+      [nzTitle]="cardTitle"
+      nzBordered="false"
+      id="card-content">
       <ng-template #cardTitle>
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'VariantGroup' | entityColor"
-          nzType="civic-variantgroup"
-        ></i>
+          nzType="civic-variantgroup"></i>
         {{ variantGroup.name }}
       </ng-template>
 
       {{ variantGroup.description }}
 
-      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
         <!-- Variants -->
         <nz-descriptions-item
           nzTitle="Variants"
           nzSpan="2"
-          *ngIf="variantGroup.variants.edges.length > 0"
-        >
+          *ngIf="variantGroup.variants.edges.length > 0">
           <cvc-tag-list>
             <cvc-variant-tag
               *ngFor="let variant of variantGroup.variants.edges"
               [enablePopover]="false"
-              [variant]="variant.node"
-            ></cvc-variant-tag>
+              [variant]="variant.node!"></cvc-variant-tag>
           </cvc-tag-list>
         </nz-descriptions-item>
 
@@ -33,14 +36,12 @@
         <nz-descriptions-item
           nzTitle="Sources"
           nzSpan="2"
-          *ngIf="variantGroup.sources.length > 0"
-        >
+          *ngIf="variantGroup.sources.length > 0">
           <cvc-tag-list>
             <cvc-source-tag
               *ngFor="let source of variantGroup.sources"
               [enablePopover]="false"
-              [source]="source"
-            ></cvc-source-tag>
+              [source]="source"></cvc-source-tag>
           </cvc-tag-list>
         </nz-descriptions-item>
       </nz-descriptions>

@@ -12,7 +12,7 @@
     (nzOnSearch)="to.onSearch($event)"
   >
     <ng-container *ngIf="eid$ | ngrxPush as eid">
-      <nz-option nzCustomContent [nzLabel]="eid.tooltip" [nzValue]="eid.eid">
+      <nz-option nzCustomContent [nzLabel]="eid.label" [nzValue]="eid.eid">
         {{ eid.label }}
       </nz-option>
     </ng-container>

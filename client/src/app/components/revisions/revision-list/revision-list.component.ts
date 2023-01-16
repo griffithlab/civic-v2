@@ -53,7 +53,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
 
   selectedRevisionIds: number[] = [];
 
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   isLoading: boolean = false;
   errors: Maybe<string[]>;
@@ -101,6 +101,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     this.acceptRevisionsMutator = new MutatorWithState(networkErrorService);
     this.rejectRevisionsMutator = new MutatorWithState(networkErrorService);
+    this.viewer$ = this.viewerService.viewer$;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -114,7 +115,6 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.viewer$ = this.viewerService.viewer$;
     this.viewerService.viewer$.subscribe((v: Viewer) => {
       this.mostRecentOrg = v.mostRecentOrg;
     });

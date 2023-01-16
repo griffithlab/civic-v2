@@ -50,6 +50,7 @@ query VariantSelect($name: String!, $geneId: Int) {
 fragment VariantSelectFields on Variant {
   id
   name
+  variantAliases
   singleVariantMolecularProfileId
   singleVariantMolecularProfile {
     id

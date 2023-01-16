@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="this.mpListLoading$ | ngrxPush">
   <nz-space nzDirection="vertical">
     <ng-container *ngrxLet="this.mpsToDeprecate$ as mpsToDeprecate">
-      <ng-container *ngIf="mpsToDeprecate.length > 0">
+      <ng-container *ngIf="mpsToDeprecate && mpsToDeprecate.length > 0">
         <nz-alert
           *nzSpaceItem
           nzType="warning"
@@ -20,7 +20,7 @@
     </ng-container>
 
     <ng-container *ngrxLet="this.mpsWithEvidence$ as mpsWithEvidence">
-      <ng-container *ngIf="mpsWithEvidence.length > 0">
+      <ng-container *ngIf="mpsWithEvidence && mpsWithEvidence.length > 0">
         <nz-alert
           *nzSpaceItem
           nzType="error"
@@ -103,7 +103,14 @@
                     cvcOrgSelectorBtn
                     nzType="primary"
                     nzSize="small"
-                    [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !this.reason"
+                    [disabled]="
+                      !(
+                        this.comment !== undefined && this.comment.length >= 10
+                      ) ||
+                      !viewer.signedIn ||
+                      !viewer.isEditor ||
+                      !this.reason
+                    "
                   >
                     Deprecate Variant
                   </button>

@@ -23,7 +23,7 @@ import { pluck } from 'rxjs-etc/operators';
   styleUrls: ['./sources-detail.view.less'],
 })
 export class SourcesDetailView implements OnDestroy {
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
   routeSub: Subscription;
   sourceId?: number;
 

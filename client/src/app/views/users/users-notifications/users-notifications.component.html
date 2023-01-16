@@ -38,7 +38,7 @@
             </cvc-participant-list>
             <cvc-participant-list
               listTitle="Action"
-              [participantList]="actions$ | ngrxPush"
+              [participantList]="(actions$ | ngrxPush) || []"
               (participantSelectedEvent)="onActionSelected($event)"
             >
               <ng-template #itemTemplate let-action>
@@ -47,7 +47,7 @@
             </cvc-participant-list>
             <cvc-participant-list
               listTitle="Subject"
-              [participantList]="notificationSubjects$ | ngrxPush"
+              [participantList]="(notificationSubjects$ | ngrxPush) || []"
               (participantSelectedEvent)="onNotificationSubjectSelected($event)"
             >
               <ng-template #itemTemplate let-subject>
@@ -68,7 +68,7 @@
             </cvc-participant-list>
             <cvc-participant-list
               listTitle="User"
-              [participantList]="originatingUsers$ | ngrxPush"
+              [participantList]="(originatingUsers$ | ngrxPush) || []"
               (participantSelectedEvent)="onOriginatingUserSelected($event)"
             >
               <ng-template #itemTemplate let-user>
@@ -79,7 +79,7 @@
             </cvc-participant-list>
             <cvc-participant-list
               listTitle="Organization"
-              [participantList]="organizations$ | ngrxPush"
+              [participantList]="(organizations$ | ngrxPush) || []"
               (participantSelectedEvent)="onOrganizationSelected($event)"
             >
               <ng-template #itemTemplate let-organization>
@@ -232,7 +232,10 @@
                 </ng-container>
               </nz-timeline>
               <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-                <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
+                <div
+                  nz-list-load-more
+                  *ngIf="pageInfo.hasNextPage && pageInfo.endCursor"
+                >
                   <button
                     nz-button
                     nzType="default"

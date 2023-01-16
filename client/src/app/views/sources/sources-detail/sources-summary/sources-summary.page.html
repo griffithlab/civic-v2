@@ -1,5 +1,5 @@
-<ng-container *ngIf="(source$ | ngrxPush) as source">
-  <nz-row [nzGutter]="[8,16]" cvcAutoHeightDiv>
+<ng-container *ngIf="source$ | ngrxPush as source">
+  <nz-row [nzGutter]="[8, 16]" cvcAutoHeightDiv>
     <nz-col [nzSpan]="24">
       <nz-descriptions
         nzBordered
@@ -8,10 +8,10 @@
         [nzColumn]="1"
       >
         <nz-descriptions-item nzTitle="Title">
-          <i>{{ source.title}}</i>
+          <i>{{ source.title }}</i>
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Authors">
-          {{source.authorString}}
+          {{ source.authorString }}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-col>
@@ -31,23 +31,24 @@
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-descriptions nzBordered nzSize="small" [nzColumn]="1">
-        <nz-descriptions-item nzTitle="Published"
-          >{{ source.publicationDate }}</nz-descriptions-item
-        >
-        <nz-descriptions-item nzTitle="{{source.displayType}} ID">
+        <nz-descriptions-item nzTitle="Published">{{
+          source.publicationDate
+        }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="{{ source.displayType }} ID">
           <cvc-link-tag
+            *ngIf="source.sourceUrl"
             [href]="source.sourceUrl"
             [tooltip]="'View on ' + source.displayType"
           >
-            {{ source.displayType + ':' + source.citationId }}
+            {{ source.displayType + ":" + source.citationId }}
           </cvc-link-tag>
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Journal"
-          >{{ source.fullJournalTitle }}</nz-descriptions-item
-        >
+        <nz-descriptions-item nzTitle="Journal">{{
+          source.fullJournalTitle
+        }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="PMC ID">
           <ng-container *ngIf="source.pmcId; else notAvailable">
-            {{ source.pmcId}}
+            {{ source.pmcId }}
           </ng-container>
         </nz-descriptions-item>
 
@@ -93,7 +94,7 @@
       >
       </cvc-evidence-table>
       <ng-template #evidenceCardTitle>
-        Evidence for {{ source.citation}}
+        Evidence for {{ source.citation }}
       </ng-template>
     </nz-col>
 
@@ -105,7 +106,7 @@
         [cvcTitleTemplate]="sourceSuggestionCardTitle"
       ></cvc-source-suggestions-table>
       <ng-template #sourceSuggestionCardTitle>
-        Source Suggestions for {{ source.citation}}
+        Source Suggestions for {{ source.citation }}
       </ng-template>
     </nz-col>
   </nz-row>

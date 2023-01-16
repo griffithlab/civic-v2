@@ -15,6 +15,7 @@ fragment VariantDetailFields on Variant {
   gene {
     id
     name
+    link
   }
   variantAliases
   flags(state: OPEN) {

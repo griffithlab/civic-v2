@@ -4,43 +4,52 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="linkout"
-    >
+      [nzExtra]="linkout">
       <ng-template #cardTitle>
         <i
           nz-icon
           nzType="civic-source"
           nzTheme="twotone"
-          nzTwotoneColor="#F9BA45"
-        ></i>
+          nzTwotoneColor="#F9BA45"></i>
         {{ s.displayType }}:&nbsp;{{ s.citation }}
       </ng-template>
       <ng-template #linkout>
         <cvc-link-tag
           [href]="s.sourceUrl"
-          [tooltip]="'View on ' + s.displayType"
-        >
-          {{ s.displayType + ":" + s.citationId }}
+          [tooltip]="'View on ' + s.displayType">
+          {{ s.displayType + ':' + s.citationId }}
         </cvc-link-tag>
       </ng-template>
 
-      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
-        <nz-descriptions-item nzTitle="Title" nzSpan="2">
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+        <nz-descriptions-item
+          nzTitle="Title"
+          nzSpan="2">
           {{ s.name }}
         </nz-descriptions-item>
 
-        <nz-descriptions-item nzTitle="Evidence" nzSpan="2">
+        <nz-descriptions-item
+          nzTitle="Evidence"
+          nzSpan="2">
           {{ s.evidenceItemCount }}
         </nz-descriptions-item>
 
-        <nz-descriptions-item nzTitle="Clinical Trials:" nzSpan="2">
-          <ng-container *ngIf="s.clinicalTrials.length > 0; else noTrials">
+        <nz-descriptions-item
+          nzTitle="Clinical Trials:"
+          nzSpan="2">
+          <ng-container
+            *ngIf="
+              s.clinicalTrials && s.clinicalTrials.length > 0;
+              else noTrials
+            ">
             <cvc-tag-list>
               <cvc-clinical-trial-tag
                 *ngFor="let t of s.clinicalTrials"
                 [clinicalTrial]="t"
-                [enablePopover]="false"
-              ></cvc-clinical-trial-tag>
+                [enablePopover]="false"></cvc-clinical-trial-tag>
             </cvc-tag-list>
           </ng-container>
           <ng-template #noTrials> -- </ng-template>

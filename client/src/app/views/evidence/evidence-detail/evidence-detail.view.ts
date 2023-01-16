@@ -32,7 +32,7 @@ export class EvidenceDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   errors: string[] = [];
   successMessage: Maybe<string>;
@@ -77,6 +77,7 @@ export class EvidenceDetailView implements OnDestroy {
     private route: ActivatedRoute
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.viewer$ = this.viewerService.viewer$;
 
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ evidenceId: +params.evidenceId });
@@ -116,8 +117,6 @@ export class EvidenceDetailView implements OnDestroy {
         id: +params.evidenceId,
         entityType: SubscribableEntities.EvidenceItem,
       };
-
-      this.viewer$ = this.viewerService.viewer$;
     });
   }
 

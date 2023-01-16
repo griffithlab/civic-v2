@@ -1,10 +1,10 @@
-<ng-container *ngIf="(assertion$ | ngrxPush) as assertion">
+<ng-container *ngIf="assertion$ | ngrxPush as assertion">
   <!-- page layout row -->
-  <nz-row [nzGutter]="[8,16]">
+  <nz-row [nzGutter]="[8, 16]">
     <!-- LEFT COLUMN: assertion summary, desciption, attributes -->
     <nz-col [nzSpan]="12">
       <!-- layout row for description blocks -->
-      <nz-row [nzGutter]="[8,8]">
+      <nz-row [nzGutter]="[8, 8]">
         <!-- summary, description block -->
         <nz-col [nzSpan]="24">
           <nz-descriptions
@@ -38,7 +38,9 @@
                 cvcAttrName="assertionType"
                 [cvcAttrValue]="assertion.assertionType"
                 nz-tooltip
-                [nzTooltipTitle]="assertion.assertionType | enumTooltip:'assertionType'"
+                [nzTooltipTitle]="
+                  assertion.assertionType | enumTooltip : 'assertionType'
+                "
               >
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -48,7 +50,13 @@
               <cvc-attribute-tag
                 [cvcAttrValue]="assertion.assertionDirection"
                 nz-tooltip
-                [nzTooltipTitle]="assertion.assertionDirection | enumTooltip:'assertionDirection':assertion.assertionType:'Assertion'"
+                [nzTooltipTitle]="
+                  assertion.assertionDirection
+                    | enumTooltip
+                      : 'assertionDirection'
+                      : assertion.assertionType
+                      : 'Assertion'
+                "
               >
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -58,7 +66,13 @@
               <cvc-attribute-tag
                 [cvcAttrValue]="assertion.significance"
                 nz-tooltip
-                [nzTooltipTitle]="assertion.significance | enumTooltip:'significance':assertion.assertionType:'Assertion'"
+                [nzTooltipTitle]="
+                  assertion.significance
+                    | enumTooltip
+                      : 'significance'
+                      : assertion.assertionType
+                      : 'Assertion'
+                "
               >
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -68,7 +82,9 @@
               <cvc-attribute-tag
                 [cvcAttrValue]="assertion.variantOrigin"
                 nz-tooltip
-                [nzTooltipTitle]="assertion.variantOrigin | enumTooltip:'variantOrigin'"
+                [nzTooltipTitle]="
+                  assertion.variantOrigin | enumTooltip : 'variantOrigin'
+                "
               >
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -76,16 +92,24 @@
             <!-- AMP/ASO/CAP -->
             <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
               <ng-container
-                *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType); else notApplicable"
+                *ngIf="
+                  assertionRules.requiresAmpLevel(assertion.assertionType);
+                  else notApplicable
+                "
               >
-                <nz-tag>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-tag>
+                <nz-tag>{{
+                  assertion.ampLevel | formatAmp : "verbose"
+                }}</nz-tag>
               </ng-container>
             </nz-descriptions-item>
 
             <!-- ACMG Codes -->
             <nz-descriptions-item nzTitle="ACMG Codes">
               <ng-container
-                *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else notApplicable"
+                *ngIf="
+                  assertionRules.requiresAcmgCodes(assertion.assertionType);
+                  else notApplicable
+                "
               >
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <nz-tag
@@ -104,14 +128,17 @@
             <!-- ClinGen Codes -->
             <nz-descriptions-item nzTitle="ClinGen/CGC/VICC Codes">
               <ng-container
-                *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType); else notApplicable"
+                *ngIf="
+                  assertionRules.requiresClingenCodes(assertion.assertionType);
+                  else notApplicable
+                "
               >
                 <ng-container *ngIf="assertion.clingenCodes.length > 0">
                   <nz-tag
                     nz-tooltip
                     [nzTooltipTitle]="code.description"
                     *ngFor="let code of assertion.clingenCodes"
-                    >{{code.code }}</nz-tag
+                    >{{ code.code }}</nz-tag
                   >
                 </ng-container>
                 <ng-container *ngIf="assertion.clingenCodes.length == 0">
@@ -131,7 +158,7 @@
     <!-- RIGHT COLUMN: status, FDA info, related entities-->
     <nz-col [nzSpan]="12">
       <!-- right col layout row -->
-      <nz-row [nzGutter]="[8,8]">
+      <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: status, curation events block -->
         <nz-col [nzSpan]="24">
           <nz-descriptions
@@ -162,7 +189,10 @@
             <!-- TODO logic below is incorrect see AID1 - must identify the latest accept/reject event, and display that -->
             <!-- display accepted/rejected only if either exists -->
             <ng-container
-              *ngIf="assertion.rejectionEvent !== null || assertion.acceptanceEvent !== null"
+              *ngIf="
+                assertion.rejectionEvent !== null ||
+                assertion.acceptanceEvent !== null
+              "
             >
               <!-- show acceptance only if no rejection event exists -->
               <ng-container [ngSwitch]="assertion.rejectionEvent === null">
@@ -172,13 +202,13 @@
                 >
                   by
                   <cvc-user-tag
-                    [user]="assertion.acceptanceEvent.originatingUser"
+                    [user]="assertion.acceptanceEvent!.originatingUser"
                   ></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #acceptedTitle>
                   Accepted
                   <span nz-typography nzType="secondary">
-                    ({{ assertion.acceptanceEvent.createdAt| timeago }})
+                    ({{ assertion.acceptanceEvent!.createdAt | timeago }})
                   </span>
                 </ng-template>
 
@@ -186,15 +216,15 @@
                   *ngSwitchCase="false"
                   [nzTitle]="rejectedTitle"
                 >
-                  by {{ assertion.rejectionEvent.createdAt | timeago }} by
+                  by {{ assertion.rejectionEvent!.createdAt | timeago }} by
                   <cvc-user-tag
-                    [user]="assertion.rejectionEvent.originatingUser"
+                    [user]="assertion.rejectionEvent!.originatingUser"
                   ></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #rejectedTitle>
                   Rejected
                   <span nz-typography nzType="secondary">
-                    ({{ assertion.rejectionEvent.createdAt | timeago }})
+                    ({{ assertion.rejectionEvent!.createdAt | timeago }})
                   </span>
                 </ng-template>
               </ng-container>
@@ -226,13 +256,13 @@
 
             <!-- disease -->
             <nz-descriptions-item nzTitle="Disease">
-              <ng-container *ngIf="assertion.disease.name">
+              <ng-container *ngIf="assertion.disease && assertion.disease.name">
                 <cvc-disease-tag
                   [disease]="assertion.disease"
                 ></cvc-disease-tag>
               </ng-container>
               <span
-                *ngIf="!assertion.disease.name"
+                *ngIf="!assertion.disease?.name"
                 nz-typography
                 nzType="secondary"
                 >Not applicable</span
@@ -241,7 +271,9 @@
 
             <!-- phenotypes -->
             <nz-descriptions-item
-              [nzTitle]="assertion.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'"
+              [nzTitle]="
+                assertion.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'
+              "
             >
               <ng-container *ngIf="assertion.phenotypes.length === 0">
                 <span nz-typography nzType="secondary">None Specified</span>
@@ -257,7 +289,9 @@
 
             <!-- therapies -->
             <nz-descriptions-item
-              [nzTitle]="assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'"
+              [nzTitle]="
+                assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'
+              "
             >
               <ng-container [ngPlural]="assertion.therapies.length">
                 <!-- no therapy -->
@@ -283,7 +317,10 @@
               <nz-tag>
                 <i
                   nz-icon
-                  [nzType]="assertion.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
+                  [nzType]="
+                    assertion.therapyInteractionType
+                      | therapyInteractionEnumDisplay : 'icon-name'
+                  "
                   class="attribute-icon"
                 ></i>
                 {{ assertion.therapyInteractionType | titlecase }}
@@ -307,8 +344,8 @@
                 [nzTwotoneColor]="'#d93026'"
               ></i>
               <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
-                (last updated {{ assertion.regulatoryApprovalLastUpdated |
-                timeago }})
+                (last updated
+                {{ assertion.regulatoryApprovalLastUpdated | timeago }})
               </ng-container>
               <ng-container *ngIf="assertion.regulatoryApproval === undefined">
                 <span nz-typography nzType="secondary">N/A</span>
@@ -332,10 +369,10 @@
                 [nzTwotoneColor]="'#d93026'"
               ></i>
               <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
-                (last updated {{ assertion.fdaCompanionTestLastUpdated | timeago
-                }})
+                (last updated
+                {{ assertion.fdaCompanionTestLastUpdated | timeago }})
               </ng-container>
-              <ng-container *ngIf="assertion.fdaCompanionTest=== undefined">
+              <ng-container *ngIf="assertion.fdaCompanionTest === undefined">
                 <span nz-typography nzType="secondary">N/A</span>
               </ng-container>
             </nz-descriptions-item>
@@ -344,7 +381,8 @@
             <nz-descriptions-item nzTitle="NCCN Guideline">
               <ng-container *ngIf="assertion.nccnGuideline"
                 >{{ assertion.nccnGuideline.name }} ({{
-                assertion.nccnGuidelineVersion}})</ng-container
+                  assertion.nccnGuidelineVersion
+                }})</ng-container
               >
               <ng-container *ngIf="!assertion.nccnGuideline">
                 <span nz-typography nzType="secondary">None Provided</span>
@@ -359,7 +397,7 @@
     <nz-col [nzSpan]="24">
       <cvc-evidence-table
         [assertionId]="assertion.id"
-        cvcTitle="{{assertion.name}} Evidence"
+        cvcTitle="{{ assertion.name }} Evidence"
       ></cvc-evidence-table>
     </nz-col>
   </nz-row>

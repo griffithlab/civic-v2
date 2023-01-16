@@ -28,7 +28,7 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
   success: boolean = false;
   loading: boolean = false;
 
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
 
   comment: string = '';
   selectedOrg: Maybe<Organization>;
@@ -47,15 +47,15 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
     private networkErrorService: NetworkErrorsService
   ) {
     this.addFlagMutator = new MutatorWithState(networkErrorService);
+    this.viewer$ = this.viewerService.viewer$;
+    this.viewerService.viewer$.subscribe((v: Viewer) => {
+      this.selectedOrg = v.mostRecentOrg;
+    });
   }
 
   ngOnInit() {
     //For some reason this doesn't work to initially set the org id on entities without any flags.
     //It works on pages with one or more flags. Not sure why
-    this.viewer$ = this.viewerService.viewer$;
-    this.viewerService.viewer$.subscribe((v: Viewer) => {
-      this.selectedOrg = v.mostRecentOrg;
-    });
 
     if (this.flaggable === undefined) {
       throw new Error('Must pass a flagggable into flag add component');

@@ -20,7 +20,7 @@
                     ></cvc-event-timeline>
                   </ng-container>
                   <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-                    <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
+                    <div nz-list-load-more *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
                       <button
                         nz-button
                         nzType="default"

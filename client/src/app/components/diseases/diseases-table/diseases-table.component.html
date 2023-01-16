@@ -30,7 +30,7 @@
   <nz-table
     #virtualTable
     nzSize="small"
-    [nzData]="row$ | ngrxPush"
+    [nzData]="(row$ | ngrxPush) || []"
     [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
@@ -38,7 +38,7 @@
     (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
-    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"

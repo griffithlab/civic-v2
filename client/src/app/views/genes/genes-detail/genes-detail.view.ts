@@ -24,7 +24,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 export class GenesDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   gene$?: Observable<Maybe<GeneDetailFieldsFragment>>;
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
   routeSub: Subscription;
@@ -66,6 +66,7 @@ export class GenesDetailView implements OnDestroy {
     private route: ActivatedRoute
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.viewer$ = this.viewerService.viewer$;
 
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({ geneId: +params.geneId }).valueChanges;
@@ -101,8 +102,6 @@ export class GenesDetailView implements OnDestroy {
         id: +params.geneId,
         entityType: SubscribableEntities.Gene,
       };
-
-      this.viewer$ = this.viewerService.viewer$;
     });
   }
 

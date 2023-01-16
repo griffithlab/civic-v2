@@ -13,6 +13,7 @@
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="disease.doid">
       <cvc-link-tag
+        *ngIf="disease.diseaseUrl"
         [href]="disease.diseaseUrl"
         tooltip="View on disease-ontology.org"
       >

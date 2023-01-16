@@ -24,7 +24,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 export class VariantGroupsDetailView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
   variantGroup$?: Observable<Maybe<VariantGroupDetailFieldsFragment>>;
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>;
   commentsTotal$?: Observable<number>;
   revisionsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;

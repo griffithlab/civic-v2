@@ -103,7 +103,7 @@
               <nz-table
                 #releasesTable
                 nzSize="small"
-                [nzData]="releases$ | ngrxPush"
+                [nzData]="(releases$ | ngrxPush) || []"
                 [nzLoading]="loading$ | ngrxPush"
                 [nzFrontPagination]="true"
                 [nzShowPagination]="true"

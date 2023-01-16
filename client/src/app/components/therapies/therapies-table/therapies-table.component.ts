@@ -193,7 +193,7 @@ export class CvcTherapiesTableComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  trackByIndex(_: number, data: TherapyBrowseTableRowFieldsFragment): number {
+  trackByIndex(_: number, data: any): number {
     return data.id;
   }
 }

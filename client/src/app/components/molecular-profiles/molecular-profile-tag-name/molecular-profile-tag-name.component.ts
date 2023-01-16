@@ -7,7 +7,10 @@ import { MolecularProfileSegment } from '@app/generated/civic.apollo';
   styleUrls: ['./molecular-profile-tag-name.component.less'],
 })
 export class CvcMolecularProfileTagNameComponent implements OnInit {
-  @Input() nameSegments!: MolecularProfileSegment[];
+  // NOTE: #UPDATE MolecularPRofileSegment type requires full Gene, Variant so type check fails
+  // when incomplete entitites are proided. Needed to 'any' this one to get the app to compile
+  // @Input() nameSegments!: MolecularProfileSegment[];
+  @Input() nameSegments!: any[];
   @Input() enablePopover: boolean = true;
 
   ngOnInit() {
