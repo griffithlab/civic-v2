@@ -1,16 +1,28 @@
 <ng-container *ngIf="menuMolecularProfiles$ | ngrxPush as mps">
-  <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra">
+  <nz-card
+    [nzTitle]="cardTitle"
+    [nzExtra]="cardExtra">
     <ng-template #cardTitle>
       <ng-container *ngIf="totalMolecularProfiles$ | ngrxPush as total">
-        <span nz-typography nzType="secondary">{{ total }} Total</span>
-        <span nz-typography *ngIf="total > mps.length" nzType="secondary"
+        <span
+          nz-typography
+          nzType="secondary"
+          >{{ total }} Total</span
+        >
+        <span
+          nz-typography
+          *ngIf="total > mps.length"
+          nzType="secondary"
           >({{ mps.length }} displayed)</span
         >
       </ng-container>
     </ng-template>
 
     <ng-template #cardExtra>
-      <form nz-form nzLayout="inline" id="variant-filters">
+      <form
+        nz-form
+        nzLayout="inline"
+        id="variant-filters">
         <nz-form-item>
           <nz-form-label>Filter</nz-form-label>
           <nz-form-control>
@@ -18,16 +30,14 @@
               [nzSuffix]="nameInputClearTpl"
               id="name-filter-group"
               [nzCompact]="true"
-              nzSize="small"
-            >
+              nzSize="small">
               <input
                 type="text"
                 nz-input
                 placeholder="Molecular Profile Names"
                 name="name-filter"
                 (ngModelChange)="onModelUpdated()"
-                [(ngModel)]="mpNameFilter"
-              />
+                [(ngModel)]="mpNameFilter" />
               <ng-template #nameInputClearTpl>
                 <i
                   nz-icon
@@ -35,8 +45,7 @@
                   nzTheme="fill"
                   nzType="close-circle"
                   *ngIf="mpNameFilter"
-                  (click)="mpNameFilter = undefined; onModelUpdated()"
-                ></i>
+                  (click)="mpNameFilter = undefined; onModelUpdated()"></i>
               </ng-template>
             </nz-input-group>
           </nz-form-control>
@@ -50,29 +59,24 @@
               id="status-filter"
               name="statusFilter"
               style="width: 320px"
-              [(ngModel)]="statusFilter"
-            >
+              [(ngModel)]="statusFilter">
               <nz-option
                 nzValue="WITH_ACCEPTED"
                 style="width: 100%"
-                nzLabel="Molecular Profiles with accepted evidence"
-              ></nz-option>
+                nzLabel="Molecular Profiles with accepted evidence"></nz-option>
               <nz-option
                 nzValue="WITH_ACCEPTED_OR_SUBMITTED"
                 style="width: 100%"
                 nzLabel="Molecular Profiles with accepted and/or submitted evidence"
-                selected
-              ></nz-option>
+                selected></nz-option>
               <nz-option
                 nzValue="WITH_SUBMITTED"
                 style="width: 100%"
-                nzLabel="Molecular Profiles with submitted evidence"
-              ></nz-option>
+                nzLabel="Molecular Profiles with submitted evidence"></nz-option>
               <nz-option
                 nzValue="ALL"
                 style="width: 100%"
-                nzLabel="All Molecular Profiles"
-              ></nz-option>
+                nzLabel="All Molecular Profiles"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -83,21 +87,22 @@
         <cvc-tag-list size="sm">
           <ng-container *ngFor="let mp of mps">
             <cvc-molecular-profile-tag
-              [molecularProfile]="mp"
-            ></cvc-molecular-profile-tag>
+              *ngIf="mp"
+              [molecularProfile]="mp"></cvc-molecular-profile-tag>
           </ng-container>
         </cvc-tag-list>
       </nz-col>
     </nz-row>
     <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
+      <nz-row
+        id="load-more-btn"
+        *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
         <button
           nz-button
           nzType="default"
           nzSize="small"
           nzBlock
-          (click)="fetchMore(pageInfo.endCursor)"
-        >
+          (click)="fetchMore(pageInfo.endCursor)">
           Load More
         </button>
       </nz-row>

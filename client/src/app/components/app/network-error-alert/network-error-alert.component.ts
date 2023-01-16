@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core'
+import { Clipboard } from '@angular/cdk/clipboard'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal'
 
 @Component({
   selector: 'cvc-network-error-alert',
@@ -10,16 +10,17 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcNetworkErrorAlertComponent {
-  errors: NetworkErrorsService;
-  modalVisible: boolean = false;
-  modalContent!: string;
+  // NOTE: #UPDATE - networkErrors service types need some work, causing lots of type errors in the template.
+  errors: any
+  modalVisible: boolean = false
+  modalContent!: string
 
   constructor(
     networkErrors: NetworkErrorsService,
     private modal: NzModalService,
     private clipboard: Clipboard
   ) {
-    this.errors = networkErrors;
+    this.errors = networkErrors
   }
 
   showModal(
@@ -28,7 +29,7 @@ export class CvcNetworkErrorAlertComponent {
     tplFooter: TemplateRef<{}>,
     tplContent: TemplateRef<{}>
   ): void {
-    this.modalContent = backtrace.join('\n');
+    this.modalContent = backtrace.join('\n')
     this.modal.create({
       nzTitle: title,
       nzFooter: tplFooter,
@@ -45,18 +46,18 @@ export class CvcNetworkErrorAlertComponent {
       nzComponentParams: {
         backtrace: this.modalContent,
       },
-    });
+    })
   }
 
   hideModal(ref: NzModalRef): void {
-    ref.destroy();
+    ref.destroy()
   }
 
   onClose(): void {
-    this.errors.clearErrors();
+    this.errors.clearErrors()
   }
 
   copyToClipboard(): void {
-    this.clipboard.copy(this.modalContent);
+    this.clipboard.copy(this.modalContent)
   }
 }

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ApolloQueryResult } from '@apollo/client/core';
+import { Component, Input, OnInit } from '@angular/core'
+import { ApolloQueryResult } from '@apollo/client/core'
 import {
   FlaggableInput,
   FlagFragment,
@@ -9,22 +9,23 @@ import {
   FlagState,
   FlagListGQL,
   PageInfo,
-} from '@app/generated/civic.apollo';
-import { QueryRef } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { Observable } from 'rxjs'
+import { filter, map } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { isNonNulled } from 'rxjs-etc'
 
 export interface UniqueFlaggingUsers {
-  id: number;
-  username: string;
-  profileImagePath?: string;
+  id: number
+  username: string
+  profileImagePath?: string
 }
 
 export interface SelectableFlagState {
-  id: number;
-  displayName: string;
-  value: FlagState;
+  id: number
+  displayName: string
+  value: FlagState
 }
 
 @Component({
@@ -33,66 +34,67 @@ export interface SelectableFlagState {
   styleUrls: ['./flag-list-and-filter.component.less'],
 })
 export class CvcFlagListAndFilterComponent implements OnInit {
-  @Input() flaggable!: FlaggableInput;
+  @Input() flaggable!: FlaggableInput
 
-  private queryRef!: QueryRef<FlagListQuery, FlagListQueryVariables>;
-  private results$!: Observable<ApolloQueryResult<FlagListQuery>>;
-  private defaultPageSize = 5;
-  flags$?: Observable<Maybe<FlagFragment>[]>;
-  pageInfo$?: Observable<Maybe<PageInfo>>;
-  uniqueFlaggingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>;
-  uniqueResolvingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>;
-  unfilteredCount$: Maybe<Observable<Maybe<number>>>;
+  private queryRef!: QueryRef<FlagListQuery, FlagListQueryVariables>
+  private results$!: Observable<ApolloQueryResult<FlagListQuery>>
+  private defaultPageSize = 5
+  flags$!: Observable<FlagFragment[]>
+  pageInfo$?: Observable<Maybe<PageInfo>>
+  uniqueFlaggingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>
+  uniqueResolvingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>
+  unfilteredCount$: Maybe<Observable<Maybe<number>>>
 
   selectableStates: SelectableFlagState[] = [
     { id: 1, displayName: 'Open', value: FlagState.Open },
     { id: 2, displayName: 'Resolved', value: FlagState.Resolved },
-  ];
+  ]
 
-  refresh!: () => void;
+  refresh!: () => void
 
   constructor(private gql: FlagListGQL) {}
 
   ngOnInit() {
     if (this.flaggable == undefined) {
-      throw new Error('Must pass a flaggable into flag list');
+      throw new Error('Must pass a flaggable into flag list')
     }
 
     this.queryRef = this.gql.watch({
       first: this.defaultPageSize,
       flaggable: this.flaggable,
       state: FlagState.Open,
-    });
+    })
 
     this.refresh = () => {
-      this.queryRef.refetch();
-    };
+      this.queryRef.refetch()
+    }
 
-    this.results$ = this.queryRef.valueChanges;
+    this.results$ = this.queryRef.valueChanges
     this.flags$ = this.results$.pipe(
       pluck('data', 'flags', 'edges'),
+      filter(isNonNulled),
       map((edges) => {
-        return edges.map((e) => e.node);
+        return edges.map((e) => e.node as FlagFragment)
       })
-    );
+    )
 
-    this.pageInfo$ = this.results$.pipe(pluck('data', 'flags', 'pageInfo'));
+    this.pageInfo$ = this.results$.pipe(pluck('data', 'flags', 'pageInfo'))
 
     this.unfilteredCount$ = this.results$.pipe(
       pluck('data', 'flags', 'unfilteredCountForSubject')
-    );
+    )
 
     this.uniqueFlaggingUsers$ = this.results$.pipe(
       map(({ data }) => {
-        return data.flags?.uniqueFlaggingUsers;
+        return data.flags?.uniqueFlaggingUsers
       })
-    );
+    )
 
     this.uniqueResolvingUsers$ = this.results$.pipe(
       map(({ data }) => {
-        return data.flags?.uniqueResolvingUsers;
+        return data.flags?.uniqueResolvingUsers
       })
-    );
+    )
   }
 
   onFlaggingUsersSelected(user: UniqueFlaggingUsers) {
@@ -102,7 +104,7 @@ export class CvcFlagListAndFilterComponent implements OnInit {
         entityType: this.flaggable.entityType,
       },
       flaggingUserId: user ? user.id : undefined,
-    });
+    })
   }
 
   onResolvingUsersSelected(user: UniqueFlaggingUsers) {
@@ -112,7 +114,7 @@ export class CvcFlagListAndFilterComponent implements OnInit {
         entityType: this.flaggable.entityType,
       },
       resolvingUserId: user ? user.id : undefined,
-    });
+    })
   }
 
   onStateSelected(state: Maybe<SelectableFlagState>) {
@@ -122,7 +124,7 @@ export class CvcFlagListAndFilterComponent implements OnInit {
         entityType: this.flaggable.entityType,
       },
       state: state ? state.value : undefined,
-    });
+    })
   }
 
   loadMore(afterCursor: Maybe<string>): void {
@@ -131,6 +133,6 @@ export class CvcFlagListAndFilterComponent implements OnInit {
         first: this.defaultPageSize,
         after: afterCursor,
       },
-    });
+    })
   }
 }

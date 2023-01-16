@@ -1,45 +1,43 @@
 <div id="popover-content">
   <ng-container *ngIf="comment$ | ngrxPush as c">
-    <nz-card [nzTitle]="cardTitle" nzBordered="false" id="card-content">
+    <nz-card
+      [nzTitle]="cardTitle"
+      nzBordered="false"
+      id="card-content">
       <ng-template #cardTitle>
         <span class="comment-card-title">
           <cvc-user-tag
             [enablePopover]="false"
-            [user]="c.commenter"
-          ></cvc-user-tag
+            [user]="c.commenter"></cvc-user-tag
           >commented on
           <ng-container [ngSwitch]="c.commentable.__typename">
             <cvc-gene-tag
               *ngSwitchCase="'Gene'"
               [enablePopover]="false"
-              [gene]="c.commentable"
-            ></cvc-gene-tag>
+              [gene]="c.commentable"></cvc-gene-tag>
             <cvc-assertion-tag
               *ngSwitchCase="'Assertion'"
               [enablePopover]="false"
-              [assertion]="c.commentable"
-            ></cvc-assertion-tag>
+              [assertion]="c.commentable"></cvc-assertion-tag>
             <cvc-evidence-tag
               *ngSwitchCase="'EvidenceItem'"
               [enablePopover]="false"
-              [evidence]="c.commentable"
-            ></cvc-evidence-tag>
+              [evidence]="c.commentable"></cvc-evidence-tag>
             <cvc-variant-tag
               *ngSwitchCase="'Variant'"
               [enablePopover]="false"
-              [variant]="c.commentable"
-            ></cvc-variant-tag>
+              [variant]="c.commentable"></cvc-variant-tag>
+            <!-- NOTE: #UPDATE had to use $any here, [revision] attr was complaining about
+            missing linkableRevision on c.commentable -->
             <cvc-revision-tag
               *ngSwitchCase="'Revision'"
               [enablePopover]="false"
-              [revision]="c.commentable"
-            ></cvc-revision-tag>
+              [revision]="$any(c.commentable)"></cvc-revision-tag>
             <cvc-source-tag
               *ngSwitchCase="'Source'"
               mode="concise"
               [enablePopover]="false"
-              [source]="$any(c.commentable)"
-            ></cvc-source-tag>
+              [source]="$any(c.commentable)"></cvc-source-tag>
             <span *ngSwitchDefault>{{ c.commentable.name }}</span>
           </ng-container>
           {{ c.createdAt | timeago }}
@@ -48,7 +46,9 @@
       <nz-row>
         <nz-col nzSpan="24">
           <div class="popover-text">
-            <p nz-typography *ngIf="c.title">
+            <p
+              nz-typography
+              *ngIf="c.title">
               <b>{{ c.title }}</b>
             </p>
             <p>
