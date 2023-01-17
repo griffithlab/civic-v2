@@ -11,27 +11,14 @@
 
   <!-- alert message title -->
   <ng-template #alertMessage>
-    {{ error.name }} {{ error.status }} {{ error.statusText }}
+    {{ error.name }} {{ error.message }}
   </ng-template>
 
   <!-- alert message logic - one or many errors to display? -->
   <ng-template #alertDescription>
-    <ng-container *ngIf="error.error.errors as errs">
-      <ng-container *ngIf="errs.length === 1">
-        <ng-container
-          *ngTemplateOutlet="errorDisplay; context: { error: errs[0] }">
-        </ng-container>
+      <ng-container
+        *ngTemplateOutlet="errorDisplay; context: { error: error }">
       </ng-container>
-      <ng-container *ngIf="errs.length > 1">
-        <ul class="error-list">
-          <li *ngFor="let e of errs">
-            <ng-container
-              *ngTemplateOutlet="errorDisplay; context: { error: e }">
-            </ng-container>
-          </li>
-        </ul>
-      </ng-container>
-    </ng-container>
   </ng-template>
 
   <!-- alert message item -->

@@ -11,7 +11,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal'
 })
 export class CvcNetworkErrorAlertComponent {
   // NOTE: #UPDATE - networkErrors service types need some work, causing lots of type errors in the template.
-  errors: any
+  errors: NetworkErrorsService
   modalVisible: boolean = false
   modalContent!: string
 
