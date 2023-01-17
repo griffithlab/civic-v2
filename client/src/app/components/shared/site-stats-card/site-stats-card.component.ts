@@ -11,6 +11,8 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
+type StatTimeOption =  'allTime' | 'newThisYear' | 'newThisMonth' | 'newThisWeek' 
+
 @Component({
   selector: 'cvc-site-stats-card',
   templateUrl: './site-stats-card.component.html',
@@ -22,19 +24,19 @@ export class CvcSiteStatsCardComponent implements OnInit {
 
   isLoading$!: Observable<boolean>
   stats$!: Observable<CivicTimepointStats>
-  statsType: string
-  statsTypes: { [index: string]: string }
 
-  constructor(private statsGql: CivicStatsGQL) {
-    this.statsTypes = {
-      Total: 'allTime',
-      Yearly: 'newThisYear',
-      Monthly: 'newThisMonth',
-      Weekly: 'newThisWeek',
-    }
-
-    this.statsType = 'Total' // set default filter value
+  statsLabel = {
+    'allTime': 'Total',
+    'newThisYear': 'Yearly',
+    'newThisMonth': 'Monthly',
+    'newThisWeek': 'Weekly',
   }
+
+  statsType: StatTimeOption = 'allTime'
+
+  constructor(private statsGql: CivicStatsGQL) { }
+
+  label(): string { return this.statsLabel[this.statsType]; }
 
   ngOnInit() {
     this.statsRef = this.statsGql.watch({})
