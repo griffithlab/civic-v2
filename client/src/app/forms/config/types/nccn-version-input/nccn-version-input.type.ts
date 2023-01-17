@@ -1,7 +1,7 @@
-import { AbstractControl } from '@angular/forms';
-import { Maybe, NccnGuideline } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { AbstractControl } from '@angular/forms'
+import { Maybe, NccnGuideline } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 export const nccnVersionInputTypeOption: TypeOption = {
   name: 'nccn-version-input',
@@ -19,39 +19,39 @@ export const nccnVersionInputTypeOption: TypeOption = {
       },
     },
     hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
-      return !m.nccnGuideline;
+      return !m.nccnGuideline
     },
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
         if (ffc) {
-          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
+          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions
           const nccnCtrl: AbstractControl | null = ffc?.form
             ? ffc.form.get('nccnGuideline')
-            : null;
+            : null
           if (!nccnCtrl) {
-            return;
+            return
           }
           if (!to) {
-            return;
+            return
           }
           to.ncSub = nccnCtrl.valueChanges.subscribe(
             (guideline: Maybe<NccnGuideline>) => {
               if (guideline) {
-                to.required = true;
+                to.required = true
               } else {
-                to.required = false;
-                ffc.model[ffc.key as string] = undefined;
+                to.required = false
+                ffc.model[ffc.key as string] = undefined
               }
             }
-          );
+          )
         }
       },
       onDestroy: (ffc?: FormlyFieldConfig): void => {
         if (ffc) {
-          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
-          to?.ncSub?.unsubscribe();
+          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions
+          to?.ncSub?.unsubscribe()
         }
       },
     },
   },
-};
+}

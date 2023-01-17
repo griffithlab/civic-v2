@@ -6,12 +6,12 @@ import {
   NgZone,
   OnDestroy,
   ChangeDetectorRef,
-} from '@angular/core';
-import { Subject } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+} from '@angular/core'
+import { Subject } from 'rxjs'
+import { throttleTime } from 'rxjs/operators'
 
-type AutoHeightTarget = 'parent' | 'viewport' | undefined;
-type AutoHeightOffset = string | number | undefined;
+type AutoHeightTarget = 'parent' | 'viewport' | undefined
+type AutoHeightOffset = string | number | undefined
 
 //
 // From zorro-sharper: https://github.com/1-2-3/zorro-sharper/blob/master/README-en_US.md
@@ -23,88 +23,88 @@ type AutoHeightOffset = string | number | undefined;
 })
 export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   // optional offset value, if provided will be added to height calculation
-  private _offset?: AutoHeightOffset = 0;
+  private _offset?: AutoHeightOffset = 0
   // if 'parent' will use card's parent container for height calculation
   // if 'viewport', will use browser window for height calculation
-  private _target?: AutoHeightTarget = 'parent';
+  private _target?: AutoHeightTarget = 'parent'
 
   @Input()
   set cvcAutoHeightCard(v: AutoHeightOffset) {
-    if (v) this._offset = v;
+    if (v) this._offset = v
   }
   get cvcAutoHeightCard(): AutoHeightOffset {
-    return this._offset;
+    return this._offset
   }
 
   @Input()
   set cvcAutoHeightTarget(t: AutoHeightTarget) {
-    this._target = t;
+    this._target = t
   }
   get cvcAutoHeightTarget(): AutoHeightTarget {
-    return this._target;
+    return this._target
   }
 
-  private resizeObserver: ResizeObserver;
-  private onResized$: Subject<boolean>;
+  private resizeObserver: ResizeObserver
+  private onResized$: Subject<boolean>
 
   constructor(
     private el: ElementRef,
     private zone: NgZone,
     private cdr: ChangeDetectorRef
   ) {
-    this.onResized$ = new Subject();
+    this.onResized$ = new Subject()
     this.resizeObserver = new ResizeObserver((_) => {
       this.zone.run(() => {
-        this.onResized$.next(true);
-      });
-    });
+        this.onResized$.next(true)
+      })
+    })
 
     this.onResized$.pipe(throttleTime(10)).subscribe((_) => {
-      this.doAutoSize();
-    });
+      this.doAutoSize()
+    })
   }
 
   ngOnInit(): void {
-    this.resizeObserver.observe(this.el.nativeElement);
+    this.resizeObserver.observe(this.el.nativeElement)
   }
 
   private doAutoSize() {
-    const card = this.el.nativeElement;
-    const cardParentHeight = card.parentElement.clientHeight;
+    const card = this.el.nativeElement
+    const cardParentHeight = card.parentElement.clientHeight
 
     // calculate card header offset
-    const headerDiv = card.querySelector('.ant-card-head');
-    const headerDivHeight = headerDiv.clientHeight;
+    const headerDiv = card.querySelector('.ant-card-head')
+    const headerDivHeight = headerDiv.clientHeight
 
-    const bodyDiv = card.querySelector('.ant-card-body');
+    const bodyDiv = card.querySelector('.ant-card-body')
     if (bodyDiv) {
       // set card bodyDiv height
       if (this._target === 'parent') {
-        const parentOffset = headerDivHeight;
-        bodyDiv.style.height = `calc(${cardParentHeight - parentOffset}px)`;
+        const parentOffset = headerDivHeight
+        bodyDiv.style.height = `calc(${cardParentHeight - parentOffset}px)`
       } else if (this._target === 'viewport') {
         // calculate card body's viewport offset, height
-        let bodyTop = 0;
+        let bodyTop = 0
         if (
           bodyDiv.getBoundingClientRect &&
           bodyDiv.getBoundingClientRect().top
         ) {
-          bodyTop = bodyDiv.getBoundingClientRect().top;
+          bodyTop = bodyDiv.getBoundingClientRect().top
         }
-        const viewportOffset = bodyTop + headerDivHeight + this._offset;
-        bodyDiv.style.height = `calc(100vh - ${viewportOffset}px)`;
+        const viewportOffset = bodyTop + headerDivHeight + this._offset
+        bodyDiv.style.height = `calc(100vh - ${viewportOffset}px)`
       }
-      bodyDiv.style['overflow-y'] = 'auto'; // provides vertical scrollbars if overflow
+      bodyDiv.style['overflow-y'] = 'auto' // provides vertical scrollbars if overflow
     } else {
       console.warn(
         `auto-height-card could not find reference to ant-card-body div.`
-      );
+      )
     }
-    this.cdr.detectChanges();
+    this.cdr.detectChanges()
   }
 
   ngOnDestroy(): void {
-    this.onResized$.unsubscribe();
-    this.resizeObserver.unobserve(this.el.nativeElement);
+    this.onResized$.unsubscribe()
+    this.resizeObserver.unobserve(this.el.nativeElement)
   }
 }

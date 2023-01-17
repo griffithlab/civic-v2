@@ -4,8 +4,7 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="molecularProfile"
-    >
+      [nzExtra]="molecularProfile">
       <ng-template #cardTitle>
         <nz-space>
           <ng-container *nzSpaceItem>
@@ -13,31 +12,31 @@
               nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'EvidenceItem' | entityColor"
-              nzType="civic-evidence"
-            ></i>
+              nzType="civic-evidence"></i>
             {{ evidence.name }}
           </ng-container>
           <cvc-status-tag
             *nzSpaceItem
             [status]="evidence.status"
-            style="font-weight: normal"
-          ></cvc-status-tag>
+            style="font-weight: normal"></cvc-status-tag>
         </nz-space>
       </ng-template>
       <ng-template #molecularProfile>
         <cvc-molecular-profile-tag
           [molecularProfile]="evidence.molecularProfile"
           [enablePopover]="false"
-          [truncateLongName]="true"
-        ></cvc-molecular-profile-tag>
+          [truncateLongName]="true"></cvc-molecular-profile-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
           <div class="popover-text">
-            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="4">
+            <p
+              nz-typography
+              nzEllipsis
+              nzExpandable
+              [nzEllipsisRows]="4">
               <ng-container
-                *ngIf="evidence.description as desc; else noDescription"
-              >
+                *ngIf="evidence.description as desc; else noDescription">
                 {{ desc }}
               </ng-container>
             </p>
@@ -45,27 +44,28 @@
         </nz-col>
       </nz-row>
 
-      <nz-space nzDirection="vertical" nzSize="small">
+      <nz-space
+        nzDirection="vertical"
+        nzSize="small">
         <nz-descriptions
           *nzSpaceItem
           nzSize="small"
           [nzColumn]="1"
-          nzBordered="true"
-        >
+          nzBordered="true">
           <!-- molecular profile -->
           <nz-descriptions-item nzTitle="MP Expression">
             <cvc-mp-tag-name
               [nameSegments]="evidence.molecularProfile.parsedName"
-              [enablePopover]="false"
-            ></cvc-mp-tag-name>
+              [enablePopover]="false"></cvc-mp-tag-name>
           </nz-descriptions-item>
 
           <!-- source -->
-          <nz-descriptions-item nzTitle="Source" nzSpan="2">
+          <nz-descriptions-item
+            nzTitle="Source"
+            nzSpan="2">
             <cvc-source-tag
               [source]="evidence.source"
-              [enablePopover]="false"
-            ></cvc-source-tag>
+              [enablePopover]="false"></cvc-source-tag>
           </nz-descriptions-item>
         </nz-descriptions>
 
@@ -73,8 +73,7 @@
           *nzSpaceItem
           nzSize="small"
           [nzColumn]="2"
-          nzBordered="true"
-        >
+          nzBordered="true">
           <!-- evidence level -->
           <nz-descriptions-item nzTitle="Level">
             {{ evidence.evidenceLevel }}
@@ -91,14 +90,19 @@
           </nz-descriptions-item>
 
           <!-- clinical significance -->
-          <nz-descriptions-item nzTitle="Clinical Significance" nzSpan="2">
+          <nz-descriptions-item
+            nzTitle="Clinical Significance"
+            nzSpan="2">
             {{ evidence.significance | evidenceEnumDisplay }}
           </nz-descriptions-item>
 
           <!-- evidence rating -->
           <nz-descriptions-item nzTitle="Rating">
             {{ evidence.evidenceRating
-            }}<i nz-icon nzType="star" nzTheme="fill"></i>
+            }}<i
+              nz-icon
+              nzType="star"
+              nzTheme="fill"></i>
           </nz-descriptions-item>
 
           <!-- disease -->
@@ -107,8 +111,7 @@
               <cvc-disease-tag
                 [enablePopover]="false"
                 [disease]="evidence.disease"
-                [truncateLongName]="true"
-              ></cvc-disease-tag>
+                [truncateLongName]="true"></cvc-disease-tag>
             </ng-container>
             <ng-template #noDisease> N/A </ng-template>
           </nz-descriptions-item>
@@ -117,14 +120,12 @@
           <nz-descriptions-item
             nzTitle="Therapies"
             nzSpan="2"
-            *ngIf="evidence.therapies.length > 0"
-          >
+            *ngIf="evidence.therapies.length > 0">
             <span *ngFor="let therapy of evidence.therapies">
               <cvc-therapy-tag
                 [enablePopover]="false"
                 [therapy]="therapy"
-                [truncateLongName]="true"
-              ></cvc-therapy-tag>
+                [truncateLongName]="true"></cvc-therapy-tag>
             </span>
             <ng-container *ngIf="evidence.therapies.length > 1">
               {{ evidence.therapyInteractionType | titlecase }}
@@ -135,13 +136,11 @@
           <nz-descriptions-item
             nzTitle="Phenotypes"
             nzSpan="2"
-            *ngIf="evidence.phenotypes.length > 0"
-          >
+            *ngIf="evidence.phenotypes.length > 0">
             <span *ngFor="let ph of evidence.phenotypes">
               <cvc-phenotype-tag
                 [enablePopover]="false"
-                [phenotype]="ph"
-              ></cvc-phenotype-tag>
+                [phenotype]="ph"></cvc-phenotype-tag>
             </span>
           </nz-descriptions-item>
         </nz-descriptions>
@@ -151,25 +150,34 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <a routerLink="/evidence/{{ evidence.id }}/flags" *nzSpaceItem>
+            <a
+              routerLink="/evidence/{{ evidence.id }}/flags"
+              *nzSpaceItem>
               <nz-tag nzColor="red">
-                <i nz-icon nzType="civic-flag"></i> Flags ({{
-                  evidence.flags.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-flag"></i>
+                Flags ({{ evidence.flags.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/evidence/{{ evidence.id }}/revisions" *nzSpaceItem>
+            <a
+              routerLink="/evidence/{{ evidence.id }}/revisions"
+              *nzSpaceItem>
               <nz-tag nzColor="orange">
-                <i nz-icon nzType="civic-revision"></i> Revisions ({{
-                  evidence.revisions.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-revision"></i>
+                Revisions ({{ evidence.revisions.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/evidence/{{ evidence.id }}/comments" *nzSpaceItem>
+            <a
+              routerLink="/evidence/{{ evidence.id }}/comments"
+              *nzSpaceItem>
               <nz-tag nzColor="blue">
-                <i nz-icon nzType="civic-comment"></i> Comments ({{
-                  evidence.comments.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-comment"></i>
+                Comments ({{ evidence.comments.totalCount }})
               </nz-tag>
             </a>
           </nz-space>

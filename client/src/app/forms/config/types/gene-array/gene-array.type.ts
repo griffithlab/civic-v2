@@ -1,8 +1,8 @@
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const requiredValidationMsgFn = (): string => {
-  return 'Evidence requires that a Gene be specified.';
-};
+  return 'Evidence requires that a Gene be specified.'
+}
 
 export const geneArrayTypeOption: TypeOption = {
   name: 'gene-array',
@@ -29,4 +29,4 @@ export const geneArrayTypeOption: TypeOption = {
       },
     },
   },
-};
+}

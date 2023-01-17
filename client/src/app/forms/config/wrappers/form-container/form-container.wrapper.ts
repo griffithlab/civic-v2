@@ -3,8 +3,8 @@ import {
   Component,
   ViewChild,
   ViewContainerRef,
-} from '@angular/core';
-import { FieldWrapper } from '@ngx-formly/core';
+} from '@angular/core'
+import { FieldWrapper } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-form-container-wrapper',

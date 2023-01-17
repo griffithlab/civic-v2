@@ -8,8 +8,7 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="flagPopover"
     nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-  >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -19,6 +18,10 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon nzType="civic-flag" nzTheme="twotone" nzTwotoneColor="#E24759"></i>
+  <i
+    nz-icon
+    nzType="civic-flag"
+    nzTheme="twotone"
+    nzTwotoneColor="#E24759"></i>
   {{ flag.name }}
 </ng-template>

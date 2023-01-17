@@ -4,18 +4,21 @@
     'has-relations': relationsTpl !== undefined,
     'has-actions': actionsTpl !== undefined,
     'no-extras': !(relationsTpl || actionsTpl)
-  }"
->
+  }">
   <!-- breadcrumbs -->
-  <nz-col nzSpan="10" id="breadcrumbs">
+  <nz-col
+    nzSpan="10"
+    id="breadcrumbs">
     <nz-breadcrumb
       [nzAutoGenerate]="true"
-      [nzRouteLabelFn]="getRouteLabel"
-    ></nz-breadcrumb>
+      [nzRouteLabelFn]="getRouteLabel"></nz-breadcrumb>
   </nz-col>
 
   <!-- entity action buttons -->
-  <nz-col *ngIf="actionsTpl" [nzSpan]="relationsTpl ? 5 : 14" id="action-btns">
+  <nz-col
+    *ngIf="actionsTpl"
+    [nzSpan]="relationsTpl ? 5 : 14"
+    id="action-btns">
     <ng-template [ngTemplateOutlet]="actionsTpl"></ng-template>
   </nz-col>
 
@@ -23,8 +26,7 @@
   <nz-col
     *ngIf="relationsTpl"
     [nzSpan]="actionsTpl ? 9 : 14"
-    id="relations-summary"
-  >
+    id="relations-summary">
     <ng-template [ngTemplateOutlet]="relationsTpl"></ng-template>
   </nz-col>
 </nz-row>

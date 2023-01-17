@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum'
 import {
   Maybe,
   SourceSource,
   SourceTypeaheadFieldsFragmentDoc,
-} from '@app/generated/civic.apollo';
-import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import { Subscribable, Subscription } from 'rxjs';
-import { $enum } from 'ts-enum-util';
+} from '@app/generated/civic.apollo'
+import { FieldType, FormlyFieldConfig } from '@ngx-formly/core'
+import { Subscribable, Subscription } from 'rxjs'
+import { $enum } from 'ts-enum-util'
 
 export interface SourceSelectModel {
-  id: Maybe<number>;
-  sourceType: Maybe<SourceSource>;
-  citationId: Maybe<string>;
+  id: Maybe<number>
+  sourceType: Maybe<SourceSource>
+  citationId: Maybe<string>
 }
 
 @Component({
@@ -21,10 +21,10 @@ export interface SourceSelectModel {
   styleUrls: ['./source-select.type.less'],
 })
 export class SourceSelectType extends FieldType<any> {
-  private updateSub!: Subscription;
+  private updateSub!: Subscription
 
   constructor() {
-    super();
+    super()
 
     this.defaultOptions = {
       templateOptions: {
@@ -46,7 +46,7 @@ export class SourceSelectType extends FieldType<any> {
             required: false,
             placeholder: 'Select Type',
             options: $enum(SourceSource).map((value, key) => {
-              return { value: value, label: formatSourceTypeEnum(value) };
+              return { value: value, label: formatSourceTypeEnum(value) }
             }),
           },
           hideExpression: (
@@ -54,8 +54,8 @@ export class SourceSelectType extends FieldType<any> {
             formState: any,
             field?: FormlyFieldConfig
           ): boolean => {
-            console.log(model);
-            return model.source != undefined ? true : false;
+            console.log(model)
+            return model.source != undefined ? true : false
           },
         },
         {
@@ -70,11 +70,11 @@ export class SourceSelectType extends FieldType<any> {
             formState: any,
             field?: FormlyFieldConfig
           ): boolean => {
-            console.log(model);
-            return model.source != undefined ? true : false;
+            console.log(model)
+            return model.source != undefined ? true : false
           },
         },
       ],
-    };
+    }
   }
 }

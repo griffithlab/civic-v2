@@ -10,26 +10,25 @@
     [nzDropdownRender]="to.allowCreate? addVariantTmpl : null"
     [nzShowArrow]="to.showArrow"
     [nzNotFoundContent]="variantNotFound"
-    (nzOnSearch)="to.onSearch($event)"
-  >
+    (nzOnSearch)="to.onSearch($event)">
     <nz-option
       *ngFor="let opt of variants$ | ngrxPush"
       nzCustomContent
-      [nzValue]="opt.variant"
-    >
+      [nzValue]="opt.variant">
       <nz-space>
         <span
           *nzSpaceItem
-          [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"
-        ></span>
-        <span *nzSpaceItem nz-typography nzType="secondary">
+          [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
+        <span
+          *nzSpaceItem
+          nz-typography
+          nzType="secondary">
           ID: {{opt.variant.id}}
           <span *ngIf="opt.variant.variantAliases.length > 0">
             - Aliases:&nbsp;
           </span>
           <span
-            [innerHtml]="opt.variant.variantAliases.join(', ')  | highlightTypeahead: this.to.searchString"
-          ></span>
+            [innerHtml]="opt.variant.variantAliases.join(', ')  | highlightTypeahead: this.to.searchString"></span>
         </span>
       </nz-space>
     </nz-option>
@@ -40,7 +39,9 @@
 </ng-template>
 
 <ng-template #variantNotFound>
-  <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="notFoundContent">
+  <nz-empty
+    nzNotFoundImage="simple"
+    [nzNotFoundContent]="notFoundContent">
   </nz-empty>
   <ng-template #notFoundContent>
     No Existing CIViC Variant&nbsp;<strong>{{ to.searchString }}</strong
@@ -55,8 +56,7 @@
         <cvc-form-errors-alert
           nzSpaceItem
           *ngIf="this.errorMessages.length > 0"
-          [errors]="errorMessages"
-        >
+          [errors]="errorMessages">
         </cvc-form-errors-alert>
         <button
           nzSpaceItem
@@ -64,11 +64,12 @@
           nz-button
           nzSize="small"
           [nzLoading]="this.loading"
-          (click)="addVariant(to.searchString)"
-        >
-          <i nz-icon nzType="plus" nzTheme="outline"></i>Create&nbsp;<strong
-            >{{ to.searchString }}</strong
-          >?
+          (click)="addVariant(to.searchString)">
+          <i
+            nz-icon
+            nzType="plus"
+            nzTheme="outline"></i
+          >Create&nbsp;<strong>{{ to.searchString }}</strong>?
         </button>
       </nz-space>
     </ng-container>

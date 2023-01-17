@@ -8,9 +8,9 @@ export const CvcUserPolicy: TypePolicy = {
       read: (_: Maybe<Reference>, { readField }): Maybe<Reference> => {
         // return reference to most recently used Organization
         const mroId: Maybe<number> = readField('mostRecentOrganizationId')
-        const orgs: Maybe<readonly Reference[]>= readField('organizations')
-        if(mroId && orgs) {
-          return orgs.find(o => o.__ref === `Organization:${mroId}`)
+        const orgs: Maybe<readonly Reference[]> = readField('organizations')
+        if (mroId && orgs) {
+          return orgs.find((o) => o.__ref === `Organization:${mroId}`)
         } else {
           return undefined
         }

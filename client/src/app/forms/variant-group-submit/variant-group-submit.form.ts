@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { isDefined } from '@app/core/utilities/defined-typeguard';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { Component, OnDestroy } from '@angular/core'
+import { UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { isDefined } from '@app/core/utilities/defined-typeguard'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   Maybe,
   Organization,
@@ -10,21 +10,21 @@ import {
   SubmitVariantGroupInput,
   SubmitVariantGroupMutation,
   SubmitVariantGroupMutationVariables,
-} from '@app/generated/civic.apollo';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { FormSource, FormVariant } from '../forms.interfaces';
+} from '@app/generated/civic.apollo'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
+import { FormSource, FormVariant } from '../forms.interfaces'
 
 interface FormModel {
   fields: {
-    name: string;
-    description: string;
-    sources: FormSource[];
-    variants: FormVariant[];
-    comment?: string;
-    organization?: Maybe<Organization>;
-  };
+    name: string
+    description: string
+    sources: FormSource[]
+    variants: FormVariant[]
+    comment?: string
+    organization?: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -32,28 +32,28 @@ interface FormModel {
   templateUrl: './variant-group-submit.form.html',
 })
 export class VariantGroupSubmitForm implements OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
+  private destroy$: Subject<void> = new Subject<void>()
 
-  formModel!: FormModel;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
+  formModel!: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
 
-  success: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = false;
-  newId?: number;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+  newId?: number
 
   submitVariantGroupMutator: MutatorWithState<
     SubmitVariantGroupGQL,
     SubmitVariantGroupMutation,
     SubmitVariantGroupMutationVariables
-  >;
+  >
 
   constructor(
     private submitVariantGroupGQL: SubmitVariantGroupGQL,
     private networkErrorService: NetworkErrorsService
   ) {
-    this.submitVariantGroupMutator = new MutatorWithState(networkErrorService);
+    this.submitVariantGroupMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -145,11 +145,11 @@ export class VariantGroupSubmitForm implements OnDestroy {
           },
         ],
       },
-    ];
+    ]
   }
 
   submitVariantGroup(formModel: FormModel): void {
-    let input = this.toSubmitInput(formModel);
+    let input = this.toSubmitInput(formModel)
     if (input) {
       let state = this.submitVariantGroupMutator.mutate(
         this.submitVariantGroupGQL,
@@ -158,28 +158,28 @@ export class VariantGroupSubmitForm implements OnDestroy {
         },
         {},
         (data) => {
-          this.newId = data.submitVariantGroup?.variantGroup.id;
+          this.newId = data.submitVariantGroup?.variantGroup.id
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
   }
 
@@ -193,13 +193,13 @@ export class VariantGroupSubmitForm implements OnDestroy {
           ? model.fields.sources.map((s) => s.id).filter(isDefined)
           : [],
         variantIds: model.fields.variants.map((v) => v.id).filter(isDefined),
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

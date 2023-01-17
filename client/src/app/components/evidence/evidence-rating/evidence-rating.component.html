@@ -1,10 +1,13 @@
 <ng-container *ngIf="starRating; else noStars">
-  <i *ngFor="let star of filledStars" nzType="star" nzTheme="fill" nz-icon></i>
+  <i
+    *ngFor="let star of filledStars"
+    nzType="star"
+    nzTheme="fill"
+    nz-icon></i>
   <i
     *ngFor="let star of emptyStars"
     nzType="star"
     nzTheme="outline"
-    nz-icon
-  ></i>
+    nz-icon></i>
 </ng-container>
 <ng-template #noStars> -- </ng-template>

@@ -6,13 +6,11 @@
           *nzSpaceItem
           nzType="warning"
           nzMessage="This action will also deprecate the following Molecular Profiles:"
-          [nzDescription]="mpsToDeprecateTpl"
-        >
+          [nzDescription]="mpsToDeprecateTpl">
           <ng-template #mpsToDeprecateTpl>
             <ng-container *ngFor="let mp of mpsToDeprecate">
               <cvc-molecular-profile-tag
-                [molecularProfile]="mp"
-              ></cvc-molecular-profile-tag>
+                [molecularProfile]="mp"></cvc-molecular-profile-tag>
             </ng-container>
           </ng-template>
         </nz-alert>
@@ -25,13 +23,11 @@
           *nzSpaceItem
           nzType="error"
           nzMessage="Cannot deprecate this Variant because the following Molecular Profiles have attached Evidence Items:"
-          [nzDescription]="mpsWithEvidenceTpl"
-        >
+          [nzDescription]="mpsWithEvidenceTpl">
           <ng-template #mpsWithEvidenceTpl>
             <ng-container *ngFor="let mp of mpsWithEvidence">
               <cvc-molecular-profile-tag
-                [molecularProfile]="mp"
-              ></cvc-molecular-profile-tag>
+                [molecularProfile]="mp"></cvc-molecular-profile-tag>
             </ng-container>
           </ng-template>
         </nz-alert>
@@ -47,15 +43,13 @@
     nzMessage="Variant deprecated"
     nzType="success"
     nzCloseable
-    (nzOnClose)="onSuccessBannerClose()"
-  ></nz-alert>
+    (nzOnClose)="onSuccessBannerClose()"></nz-alert>
   <nz-alert
     *ngIf="errorMessages.length > 0"
     nzType="error"
     nzShowIcon
     [nzDescription]="errorContents"
-    nzMessage="Error Deprecating Variant"
-  >
+    nzMessage="Error Deprecating Variant">
   </nz-alert>
   <ng-template #errorContents>
     <ul>
@@ -66,33 +60,40 @@
     <nz-select
       [(ngModel)]="reason"
       nzPlaceHolder="Select a deprecation reason"
-      style="width: 300px"
-    >
-      <nz-option nzValue="DUPLICATE" nzLabel="duplicate"></nz-option>
-      <nz-option nzValue="INVALID" nzLabel="invalid"></nz-option>
-      <nz-option nzValue="OTHER" nzLabel="other"></nz-option>
+      style="width: 300px">
+      <nz-option
+        nzValue="DUPLICATE"
+        nzLabel="duplicate"></nz-option>
+      <nz-option
+        nzValue="INVALID"
+        nzLabel="invalid"></nz-option>
+      <nz-option
+        nzValue="OTHER"
+        nzLabel="other"></nz-option>
     </nz-select>
   </nz-form-item>
-  <form nz-form (ngSubmit)="deprecateVariant()" nzLayout="vertical">
+  <form
+    nz-form
+    (ngSubmit)="deprecateVariant()"
+    nzLayout="vertical">
     <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
-    <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+    <nz-spin
+      nzTip="Submitting"
+      [nzSpinning]="this.loading">
       <nz-form-item>
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
             <cvc-form-buttons>
               <cvc-org-selector-btn-group
-                (selectedOrgChange)="onOrgSelected($event)"
-              >
+                (selectedOrgChange)="onOrgSelected($event)">
                 <ng-container
-                  *ngIf="viewer.signedIn && viewer.isEditor; else notSignedIn"
-                >
+                  *ngIf="viewer.signedIn && viewer.isEditor; else notSignedIn">
                   <ng-template *ngTemplateOutlet="submitButton"></ng-template>
                 </ng-container>
                 <ng-template #notSignedIn>
                   <span
                     nz-tooltip
-                    nzTooltipTitle="Must be signed in and an editor to deprecate variant."
-                  >
+                    nzTooltipTitle="Must be signed in and an editor to deprecate variant.">
                     <ng-template *ngTemplateOutlet="submitButton"></ng-template>
                   </span>
                 </ng-template>
@@ -110,8 +111,7 @@
                       !viewer.signedIn ||
                       !viewer.isEditor ||
                       !this.reason
-                    "
-                  >
+                    ">
                     Deprecate Variant
                   </button>
                 </ng-template>

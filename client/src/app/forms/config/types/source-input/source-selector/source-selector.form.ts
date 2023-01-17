@@ -6,23 +6,23 @@ import {
   Output,
   ViewEncapsulation,
   OnDestroy,
-} from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+} from '@angular/core'
+import { UntypedFormGroup } from '@angular/forms'
 
-import { Maybe, SourceSource } from '@app/generated/civic.apollo';
-import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { $enum } from 'ts-enum-util';
+import { Maybe, SourceSource } from '@app/generated/civic.apollo'
+import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { $enum } from 'ts-enum-util'
 
 export interface SourceSelectorModel {
-  sourceType: Maybe<SourceSource>;
-  citationId: Maybe<string>;
+  sourceType: Maybe<SourceSource>
+  citationId: Maybe<string>
 }
 
 export const sourceSelectorInitialValue: SourceSelectorModel = {
   sourceType: undefined,
   citationId: undefined,
-};
+}
 
 @Component({
   selector: 'cvc-source-selector',
@@ -32,11 +32,11 @@ export const sourceSelectorInitialValue: SourceSelectorModel = {
   encapsulation: ViewEncapsulation.None,
 })
 export class SourceSelectorForm implements OnInit, OnDestroy {
-  @Output() sourceSelected = new EventEmitter<Maybe<any>>();
-  model: SourceSelectorModel = sourceSelectorInitialValue;
-  form = new UntypedFormGroup({});
-  options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[];
+  @Output() sourceSelected = new EventEmitter<Maybe<any>>()
+  model: SourceSelectorModel = sourceSelectorInitialValue
+  form = new UntypedFormGroup({})
+  options: FormlyFormOptions = {}
+  fields: FormlyFieldConfig[]
 
   constructor() {
     this.fields = [
@@ -54,7 +54,7 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
           required: true,
           placeholder: 'Select Type',
           options: $enum(SourceSource).map((value, key) => {
-            return { value: value, label: formatSourceTypeEnum(value) };
+            return { value: value, label: formatSourceTypeEnum(value) }
           }),
         },
       },
@@ -65,7 +65,7 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
         templateOptions: {
           required: true,
           triggerParentSubmit: () => {
-            this.onSubmit();
+            this.onSubmit()
           },
         },
         expressionProperties: {
@@ -77,9 +77,9 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
             model: SourceSelectorModel
           ): Maybe<string> => {
             if (!model.sourceType) {
-              return;
+              return
             }
-            return $enum(SourceSource).getKeyOrThrow(model.sourceType);
+            return $enum(SourceSource).getKeyOrThrow(model.sourceType)
           },
         },
       },
@@ -93,17 +93,17 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
           'templateOptions.disabled': '!model.citationId',
         },
       },
-    ];
+    ]
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    console.log('source-select form submitted.');
-    this.sourceSelected.emit(this.model);
+    console.log('source-select form submitted.')
+    this.sourceSelected.emit(this.model)
   }
 
   ngOnDestroy(): void {
-    console.log('source-selector onDestroy called.');
+    console.log('source-selector onDestroy called.')
   }
 }

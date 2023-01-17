@@ -6,16 +6,14 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'ClinicalTrial' | entityColor"
-        nzType="civic-clinicaltrial"
-      ></i>
+        nzType="civic-clinicaltrial"></i>
       {{ trial.nctId }}
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag
         *ngIf="trial.url"
         [href]="trial.url"
-        tooltip="View on clinicaltrials.gov"
-      >
+        tooltip="View on clinicaltrials.gov">
         {{ trial.nctId }}
       </cvc-link-tag>
     </nz-page-header-extra>

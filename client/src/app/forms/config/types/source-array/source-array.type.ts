@@ -1,8 +1,8 @@
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const requiredValidationMsgFn = (): string => {
-  return 'A Source is required.';
-};
+  return 'A Source is required.'
+}
 
 export const sourceArrayTypeOption: TypeOption = {
   name: 'source-array',
@@ -28,4 +28,4 @@ export const sourceArrayTypeOption: TypeOption = {
       },
     },
   },
-};
+}

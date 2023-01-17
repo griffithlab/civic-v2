@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
-import { EvidenceHomePage } from './evidence-home/evidence-home.page';
-import { EvidenceView } from './evidence.view';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { EvidenceHomeModule } from './evidence-home/evidence-home.module'
+import { EvidenceHomePage } from './evidence-home/evidence-home.page'
+import { EvidenceView } from './evidence.view'
 
 const routes: Routes = [
   {
@@ -48,7 +48,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), EvidenceHomeModule],

@@ -1,5 +1,9 @@
 <ng-container #fieldComponent></ng-container>
-<button nz-button type="button" nzType="default" (click)="handleOpen()">
+<button
+  nz-button
+  type="button"
+  nzType="default"
+  (click)="handleOpen()">
   Show Evidence Manager
 </button>
 <nz-modal
@@ -10,8 +14,7 @@
   (nzOnOk)="handleOk()"
   nzOkText="Select Evidence Items"
   [nzContent]="evidenceManager"
-  nzWidth="100%"
->
+  nzWidth="100%">
 </nz-modal>
 
 <ng-template #evidenceManager>
@@ -21,7 +24,6 @@
     [initialUserFilters]="this.evidenceGridFilters"
     [initialSelectedEids]="this.alreadySelected"
     (selectedEids)="onEidSelectionChange($event)"
-    cvcTitle="Evidence Manager"
-  >
+    cvcTitle="Evidence Manager">
   </cvc-evidence-table>
 </ng-template>

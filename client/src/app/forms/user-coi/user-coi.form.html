@@ -4,19 +4,24 @@
     nzBanner
     nzMessage="COI Statement Updated."
     nzType="success"
-    nzCloseable
-  ></nz-alert>
+    nzCloseable></nz-alert>
   <nz-form-item *ngIf="this.errorMessages.length > 0">
     <cvc-form-errors-alert [errors]="this.errorMessages">
     </cvc-form-errors-alert>
   </nz-form-item>
-  <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+  <nz-spin
+    nzTip="Submitting"
+    [nzSpinning]="this.loading">
     <nz-form-item>
       <nz-radio-group [(ngModel)]="coiStatus">
-        <label nz-radio nzValue="noCoi"
+        <label
+          nz-radio
+          nzValue="noCoi"
           >I do not have any potential conflicts of interest.</label
         >
-        <label nz-radio nzValue="coiPresent"
+        <label
+          nz-radio
+          nzValue="coiPresent"
           >I do have a potential conflict of interest.</label
         >
       </nz-radio-group>
@@ -27,8 +32,7 @@
         rows="5"
         [(ngModel)]="this.coiText"
         style="width: 100%"
-        placeholder="Provide a concise description of any potential or actual conflicts of interest that you may have in curating CIViC"
-      ></textarea>
+        placeholder="Provide a concise description of any potential or actual conflicts of interest that you may have in curating CIViC"></textarea>
     </nz-form-item>
     <nz-form-item>
       <button
@@ -37,8 +41,7 @@
         nzType="primary"
         nzSize="small"
         [disabled]="this.loading || (this.coiStatus === 'coiPresent' && (this.coiText === undefined || this.coiText.length < 10))"
-        (click)="updateCoi()"
-      >
+        (click)="updateCoi()">
         Save Conflict of Interest Statement
       </button>
     </nz-form-item>

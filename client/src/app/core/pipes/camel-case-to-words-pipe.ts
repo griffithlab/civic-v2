@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
   name: 'camelToWords',
@@ -7,9 +7,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CamelCaseToWordPipe implements PipeTransform {
   transform(word: string): string {
     if (word) {
-      return word.replace(/([a-z])([A-Z])/g, '$1 $2');
+      return word.replace(/([a-z])([A-Z])/g, '$1 $2')
     } else {
-      return '';
+      return ''
     }
   }
 }

@@ -1,16 +1,16 @@
-import { TherapyInteraction } from '@app/generated/civic.apollo';
+import { TherapyInteraction } from '@app/generated/civic.apollo'
 
 export function formatTherapyInteractionEnum(
   value: TherapyInteraction
 ): string {
   switch (value) {
     case 'COMBINATION':
-      return 'Combination';
+      return 'Combination'
     case 'SEQUENTIAL':
-      return 'Sequential';
+      return 'Sequential'
     case 'SUBSTITUTES':
-      return 'Substitutes';
+      return 'Substitutes'
     default:
-      return value;
+      return value
   }
 }

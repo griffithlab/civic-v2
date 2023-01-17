@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-import { LayoutComponent } from '@app/layout/layout.component';
+import { LayoutComponent } from '@app/layout/layout.component'
 
 const routes: Routes = [
   // Redirects
@@ -191,7 +191,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

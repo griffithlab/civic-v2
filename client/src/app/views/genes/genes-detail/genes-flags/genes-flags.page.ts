@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-genes-flags',
@@ -8,15 +8,15 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
   styleUrls: ['./genes-flags.page.less'],
 })
 export class GenesFlagsPage implements OnInit {
-  flaggable: FlaggableInput;
+  flaggable: FlaggableInput
 
   constructor(private route: ActivatedRoute) {
-    const geneId: number = +this.route.snapshot.params['geneId'];
+    const geneId: number = +this.route.snapshot.params['geneId']
 
     this.flaggable = {
       entityType: FlaggableEntities.Gene,
       id: geneId,
-    };
+    }
   }
 
   ngOnInit(): void {}

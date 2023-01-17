@@ -2,12 +2,12 @@ import {
   EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
-} from '@app/generated/civic.apollo';
-import { EntityName, EntityState } from './entity.state';
+} from '@app/generated/civic.apollo'
+import { EntityName, EntityState } from './entity.state'
 
 class EvidenceState extends EntityState {
   constructor() {
-    super(EntityName.EVIDENCE);
+    super(EntityName.EVIDENCE)
     this.validStates.set(EvidenceType.Predictive, {
       entityType: EvidenceType.Predictive,
       significance: [
@@ -27,7 +27,7 @@ class EvidenceState extends EntityState {
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false,
-    });
+    })
 
     this.validStates.set(EvidenceType.Diagnostic, {
       entityType: EvidenceType.Diagnostic,
@@ -45,7 +45,7 @@ class EvidenceState extends EntityState {
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false,
-    });
+    })
 
     this.validStates.set(EvidenceType.Prognostic, {
       entityType: EvidenceType.Prognostic,
@@ -64,7 +64,7 @@ class EvidenceState extends EntityState {
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false,
-    });
+    })
 
     this.validStates.set(EvidenceType.Oncogenic, {
       entityType: EvidenceType.Oncogenic,
@@ -82,7 +82,7 @@ class EvidenceState extends EntityState {
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false,
-    });
+    })
 
     this.validStates.set(EvidenceType.Predisposing, {
       entityType: EvidenceType.Predisposing,
@@ -100,7 +100,7 @@ class EvidenceState extends EntityState {
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false,
-    });
+    })
 
     this.validStates.set(EvidenceType.Functional, {
       entityType: EvidenceType.Functional,
@@ -122,8 +122,8 @@ class EvidenceState extends EntityState {
       requiresClingenCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false,
-    });
+    })
   }
 }
 
-export { EvidenceState };
+export { EvidenceState }

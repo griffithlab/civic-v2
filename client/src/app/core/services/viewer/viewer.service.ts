@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
 import {
   CoiStatus,
   Maybe,
@@ -7,23 +7,23 @@ import {
   User,
   UserRole,
   ViewerBaseGQL,
-} from '@app/generated/civic.apollo';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { QueryRef } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map, shareReplay, startWith } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
+} from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { QueryRef } from 'apollo-angular'
+import { Observable } from 'rxjs'
+import { map, shareReplay, startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
 
 export interface Viewer extends User {
-  mostRecentOrg: Maybe<Organization>;
-  signedIn: boolean;
-  signedOut: boolean;
-  isAdmin: boolean;
-  isEditor: boolean;
-  isCurator: boolean;
-  canCurate: boolean;
-  canModerate: boolean;
-  invalidCoi: boolean;
+  mostRecentOrg: Maybe<Organization>
+  signedIn: boolean
+  signedOut: boolean
+  isAdmin: boolean
+  isEditor: boolean
+  isCurator: boolean
+  canCurate: boolean
+  canModerate: boolean
+  invalidCoi: boolean
 }
 
 @UntilDestroy()
@@ -31,19 +31,19 @@ export interface Viewer extends User {
   providedIn: 'root',
 })
 export class ViewerService {
-  private queryRef!: QueryRef<any, any>;
+  private queryRef!: QueryRef<any, any>
 
-  viewer$: Observable<Viewer>;
+  viewer$: Observable<Viewer>
 
-  signedIn$: Observable<boolean>;
-  signedOut$: Observable<boolean>;
+  signedIn$: Observable<boolean>
+  signedOut$: Observable<boolean>
 
-  isCurator$: Observable<boolean>;
-  isAdmin$: Observable<boolean>;
-  isEditor$: Observable<boolean>;
+  isCurator$: Observable<boolean>
+  isAdmin$: Observable<boolean>
+  isEditor$: Observable<boolean>
 
-  canCurate$: Observable<boolean>;
-  canModerate$: Observable<boolean>;
+  canCurate$: Observable<boolean>
+  canModerate$: Observable<boolean>
 
   initialViewer: Viewer = <Viewer>{
     mostRecentOrg: undefined,
@@ -54,12 +54,12 @@ export class ViewerService {
     canCurate: false,
     canModerate: false,
     invalidCoi: true,
-  };
+  }
 
   constructor(private viewerBaseGQL: ViewerBaseGQL, private http: HttpClient) {
     this.queryRef = this.viewerBaseGQL.watch(undefined, {
       notifyOnNetworkStatusChange: false,
-    });
+    })
 
     this.viewer$ = this.queryRef.valueChanges.pipe(
       pluck('data', 'viewer'),
@@ -82,38 +82,38 @@ export class ViewerService {
                 CoiStatus.Expired ||
               v.mostRecentConflictOfInterestStatement.coiStatus ===
                 CoiStatus.Missing),
-        }) as Viewer;
+        }) as Viewer
       }),
       startWith(this.initialViewer),
       shareReplay(1)
-    );
+    )
 
-    this.signedIn$ = this.viewer$.pipe(map((v) => v.signedIn));
+    this.signedIn$ = this.viewer$.pipe(map((v) => v.signedIn))
 
-    this.signedOut$ = this.viewer$.pipe(map((v) => v.signedOut));
+    this.signedOut$ = this.viewer$.pipe(map((v) => v.signedOut))
 
-    this.isAdmin$ = this.viewer$.pipe(map((v) => isAdmin(v)));
+    this.isAdmin$ = this.viewer$.pipe(map((v) => isAdmin(v)))
 
-    this.isEditor$ = this.viewer$.pipe(map((v) => isEditor(v)));
+    this.isEditor$ = this.viewer$.pipe(map((v) => isEditor(v)))
 
-    this.isCurator$ = this.viewer$.pipe(map((v) => isCurator(v)));
+    this.isCurator$ = this.viewer$.pipe(map((v) => isCurator(v)))
 
-    this.canCurate$ = this.viewer$.pipe(map((v) => canCurate(v)));
+    this.canCurate$ = this.viewer$.pipe(map((v) => canCurate(v)))
 
-    this.canModerate$ = this.viewer$.pipe(map((v) => canModerate(v)));
+    this.canModerate$ = this.viewer$.pipe(map((v) => canModerate(v)))
 
     function isAdmin(v: User): boolean {
-      return v && v.role === UserRole.Admin ? true : false;
+      return v && v.role === UserRole.Admin ? true : false
     }
 
     function isEditor(v: User): boolean {
       return v && (v.role === UserRole.Editor || v.role === UserRole.Admin)
         ? true
-        : false;
+        : false
     }
 
     function isCurator(v: User): boolean {
-      return v && v.role === UserRole.Curator ? true : false;
+      return v && v.role === UserRole.Curator ? true : false
     }
 
     function canCurate(v: User): boolean {
@@ -122,7 +122,7 @@ export class ViewerService {
           v.role === UserRole.Editor ||
           v.role === UserRole.Admin)
         ? true
-        : false;
+        : false
     }
 
     function canModerate(v: User): boolean {
@@ -133,14 +133,14 @@ export class ViewerService {
           CoiStatus.Conflict ||
           v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Valid)
         ? true
-        : false;
+        : false
     }
 
     function mostRecentOrg(v: User): Maybe<Organization> {
       if (v.mostRecentOrganizationId) {
-        return v.organizations.find((o) => o.id === v.mostRecentOrganizationId);
+        return v.organizations.find((o) => o.id === v.mostRecentOrganizationId)
       } else {
-        return undefined;
+        return undefined
       }
     }
   }
@@ -150,10 +150,10 @@ export class ViewerService {
     this.http
       .get('/api/sign_out')
       .pipe(untilDestroyed(this))
-      .subscribe(() => this.queryRef.refetch());
+      .subscribe(() => this.queryRef.refetch())
   }
 
   refetch(): void {
-    this.queryRef.refetch();
+    this.queryRef.refetch()
   }
 }

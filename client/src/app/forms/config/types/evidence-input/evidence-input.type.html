@@ -9,10 +9,12 @@
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
-    (nzOnSearch)="to.onSearch($event)"
-  >
+    (nzOnSearch)="to.onSearch($event)">
     <ng-container *ngIf="eid$ | ngrxPush as eid">
-      <nz-option nzCustomContent [nzLabel]="eid.label" [nzValue]="eid.eid">
+      <nz-option
+        nzCustomContent
+        [nzLabel]="eid.label"
+        [nzValue]="eid.eid">
         {{ eid.label }}
       </nz-option>
     </ng-container>

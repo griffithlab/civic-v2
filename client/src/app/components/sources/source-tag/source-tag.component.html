@@ -13,8 +13,7 @@
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
     [(nzPopoverVisible)]="popoverVisible"
     [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)"
-  >
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -32,8 +31,7 @@
     nz-icon
     nzTheme="twotone"
     [nzTwotoneColor]="'Source' | entityColor"
-    nzType="civic-source"
-  ></i>
+    nzType="civic-source"></i>
   <ng-container *ngIf="this.mode === 'normal'; else concise">
     <ng-container *ngIf="truncateLongName">
       {{ this.displayName | truncate : 50 }}

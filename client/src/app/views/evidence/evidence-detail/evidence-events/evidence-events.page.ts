@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   SubscribableEntities,
   SubscribableInput,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-evidence-events',
@@ -11,13 +11,13 @@ import {
   styleUrls: ['./evidence-events.page.less'],
 })
 export class EvidenceEventsPage {
-  subscribable: SubscribableInput;
+  subscribable: SubscribableInput
 
   constructor(private route: ActivatedRoute) {
-    const evidenceId: number = +this.route.snapshot.params['evidenceId'];
+    const evidenceId: number = +this.route.snapshot.params['evidenceId']
     this.subscribable = {
       id: evidenceId,
       entityType: SubscribableEntities.EvidenceItem,
-    };
+    }
   }
 }

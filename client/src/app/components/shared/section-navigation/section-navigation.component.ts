@@ -7,23 +7,23 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-} from '@angular/core';
+} from '@angular/core'
 import {
   ActivatedRoute,
   NavigationEnd,
   PRIMARY_OUTLET,
   Router,
-} from '@angular/router';
+} from '@angular/router'
 
-import { Maybe } from '@app/generated/civic.apollo';
-import { Subject } from 'rxjs';
-import { filter, startWith, takeUntil } from 'rxjs/operators';
+import { Maybe } from '@app/generated/civic.apollo'
+import { Subject } from 'rxjs'
+import { filter, startWith, takeUntil } from 'rxjs/operators'
 
-import { TitleService } from '@app/core/services/title/title.service';
+import { TitleService } from '@app/core/services/title/title.service'
 
 export interface TitleSegment {
-  label: string;
-  url: string;
+  label: string
+  url: string
 }
 
 @Component({
@@ -33,45 +33,45 @@ export interface TitleSegment {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
-  @Input() displayName: Maybe<string>;
-  @Input() relationsTpl?: TemplateRef<any>;
-  @Input() actionsTpl?: TemplateRef<any>;
+  @Input() displayName: Maybe<string>
+  @Input() relationsTpl?: TemplateRef<any>
+  @Input() actionsTpl?: TemplateRef<any>
 
-  getRouteLabel: (label: string) => string;
+  getRouteLabel: (label: string) => string
 
-  private destroy$ = new Subject<void>();
-  segments: TitleSegment[] = [];
+  private destroy$ = new Subject<void>()
+  segments: TitleSegment[] = []
 
   constructor(
     private titleService: TitleService,
     private injector: Injector,
     private cdr: ChangeDetectorRef
   ) {
-    this.getRouteLabel = (label) => label;
+    this.getRouteLabel = (label) => label
   }
 
   ngOnInit(): void {
     // set up custom label function for nz-segments
-    this.getRouteLabel = this._getRouteLabel;
-    this.registerRouterChange();
+    this.getRouteLabel = this._getRouteLabel
+    this.registerRouterChange()
   }
 
   // passed to nz-segments & used by title creation below
   // to generate segments & titles from route data parameter or provided display name
   private _getRouteLabel = (label: string): string => {
     if (label !== 'DISPLAYNAME') {
-      return label;
+      return label
     } else {
       return this.displayName === undefined
         ? '[?DISPLAY NAME?]'
-        : this.displayName;
+        : this.displayName
     }
-  };
+  }
 
   private registerRouterChange(): void {
     try {
-      const router = this.injector.get(Router);
-      const activatedRoute = this.injector.get(ActivatedRoute);
+      const router = this.injector.get(Router)
+      const activatedRoute = this.injector.get(ActivatedRoute)
       router.events
         .pipe(
           filter((e) => e instanceof NavigationEnd),
@@ -79,25 +79,25 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
           startWith(true) // trigger initial render
         )
         .subscribe(() => {
-          this.segments = this.getTitleSegments(activatedRoute.root);
+          this.segments = this.getTitleSegments(activatedRoute.root)
           // construct titles string
-          let title: string = '';
+          let title: string = ''
           let len = this.segments.length,
-            i = 1;
+            i = 1
           this.segments.forEach((bc: TitleSegment) => {
-            title += this._getRouteLabel(bc.label);
+            title += this._getRouteLabel(bc.label)
             if (i < len) {
-              title += ' ';
+              title += ' '
             }
-            i++;
-          });
-          this.titleService.updateTitle(title);
-          this.cdr.markForCheck();
-        });
+            i++
+          })
+          this.titleService.updateTitle(title)
+          this.cdr.markForCheck()
+        })
     } catch (e) {
       throw new Error(
         `cvc-section-navigation should import RouterModule if you want to autogenerate title`
-      );
+      )
     }
   }
 
@@ -106,11 +106,11 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
     url: string = '',
     segments: TitleSegment[] = []
   ): TitleSegment[] {
-    const children: ActivatedRoute[] = route.children;
+    const children: ActivatedRoute[] = route.children
 
     // If there's no sub root, then stop the recurse and generated title segments
     if (children.length === 0) {
-      return segments;
+      return segments
     }
 
     for (const child of children) {
@@ -121,31 +121,31 @@ export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
         const routeUrl: string = child.snapshot.url
           .map((segment) => segment.path)
           .filter((path) => path)
-          .join('/');
+          .join('/')
 
         // Do not change nextUrl if routeUrl is falsy.
         // This happens when it's a route lazy loading other modules.
-        const nextUrl = !!routeUrl ? url + `/${routeUrl}` : url;
-        const segmentLabel = child.snapshot.data['breadcrumb'];
+        const nextUrl = !!routeUrl ? url + `/${routeUrl}` : url
+        const segmentLabel = child.snapshot.data['breadcrumb']
 
         // if data, generate a segment for it.
         if (routeUrl && segmentLabel) {
           const breadcrumb: TitleSegment = {
             label: segmentLabel,
             url: nextUrl,
-          };
-          segments.push(breadcrumb);
+          }
+          segments.push(breadcrumb)
         }
 
-        return this.getTitleSegments(child, nextUrl, segments);
+        return this.getTitleSegments(child, nextUrl, segments)
       }
     }
 
-    return segments;
+    return segments
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

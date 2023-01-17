@@ -1,18 +1,18 @@
-import { AbstractControl, FormArray, ValidationErrors } from '@angular/forms';
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { AbstractControl, FormArray, ValidationErrors } from '@angular/forms'
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
   const etCtrl: AbstractControl | null = ffc?.form
     ? ffc.form.get('evidenceType')
-    : null;
+    : null
   return etCtrl
     ? `${formatEvidenceEnum(
         etCtrl.value
       )} Evidence requires at least one phenotype to be specified.`
-    : 'Phenotype is required.';
-};
+    : 'Phenotype is required.'
+}
 
 export const phenotypeArrayTypeOption: TypeOption = {
   name: 'phenotype-array',
@@ -39,4 +39,4 @@ export const phenotypeArrayTypeOption: TypeOption = {
       },
     },
   },
-};
+}

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { MolecularProfilesHomeModule } from './molecular-profiles-home/molecular-profiles-home.module';
-import { MolecularProfilesHomePage } from './molecular-profiles-home/molecular-profiles-home.page';
-import { MolecularProfilesView } from './molecular-profiles.view';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { MolecularProfilesHomeModule } from './molecular-profiles-home/molecular-profiles-home.module'
+import { MolecularProfilesHomePage } from './molecular-profiles-home/molecular-profiles-home.page'
+import { MolecularProfilesView } from './molecular-profiles.view'
 
 const routes: Routes = [
   {
@@ -40,7 +40,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), MolecularProfilesHomeModule],

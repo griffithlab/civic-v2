@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PagesAboutPage } from './pages-about/pages-about.page';
-import { PagesHelpPage } from './pages-help/pages-help.page';
-import { PagesComponent } from './pages.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { PagesAboutPage } from './pages-about/pages-about.page'
+import { PagesHelpPage } from './pages-help/pages-help.page'
+import { PagesComponent } from './pages.component'
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -7,16 +7,14 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'VariantType' | entityColor"
-        nzType="civic-varianttype"
-      ></i>
+        nzType="civic-varianttype"></i>
       {{ variantType.name }}
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag
         *ngIf="variantType.url"
         [href]="variantType.url"
-        tooltip="View on sequenceontology.org"
-      >
+        tooltip="View on sequenceontology.org">
         {{ variantType.soid }}
       </cvc-link-tag>
     </nz-page-header-extra>

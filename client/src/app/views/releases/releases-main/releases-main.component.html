@@ -10,39 +10,56 @@
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px" class="header-icon">
-        <i nz-icon nzType="download"></i>
+      <nz-col
+        nzFlex="64px"
+        class="header-icon">
+        <i
+          nz-icon
+          nzType="download"></i>
       </nz-col>
-      <nz-col nzFlex="600px" class="header-description">
+      <nz-col
+        nzFlex="600px"
+        class="header-description">
         <h2>Data Releases</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
           The CIViC server produces nightly and monthly releases that include a
           subset of all primary entity records.
         </p>
       </nz-col>
-      <nz-col nzFlex="auto" class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+      <nz-col
+        nzFlex="auto"
+        class="header-links">
+        <nz-space
+          nzDirection="vertical"
+          class="docs-buttons">
           <a
             nz-button
             href="https://civic.readthedocs.io/en/latest/using/data_releases.html"
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem
-          >
-            <i nz-icon nzType="link" nzTheme="outline"></i>
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
             View Data Releases Docs
           </a>
         </nz-space>
       </nz-col>
     </nz-row>
-    <nz-space nzDirection="vertical" nzSpace="large">
+    <nz-space
+      nzDirection="vertical"
+      nzSpace="large">
       <nz-row *nzSpaceItem>
         <nz-alert
           nzType="info"
           nzMessage="Please Note"
-          nzDescription="TSV and VCF releases of CIViC data are provided at regular intervals for the convenience of those who require the use of a static file. For most users, we recomend utilizing our API which. Using the API will provide you with the richest metadata about CIViC entries as well as the most current versions of all evidence statements. In fact, the entire CIViC web frontend runs off the exact same API that is available for public use."
-        >
+          nzDescription="TSV and VCF releases of CIViC data are provided at regular intervals for the convenience of those who require the use of a static file. For most users, we recomend utilizing our API which. Using the API will provide you with the richest metadata about CIViC entries as well as the most current versions of all evidence statements. In fact, the entire CIViC web frontend runs off the exact same API that is available for public use.">
         </nz-alert>
       </nz-row>
       <nz-row *nzSpaceItem>
@@ -107,8 +124,7 @@
                 [nzLoading]="loading$ | ngrxPush"
                 [nzFrontPagination]="true"
                 [nzShowPagination]="true"
-                [nzPageSize]="5"
-              >
+                [nzPageSize]="5">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -128,56 +144,49 @@
                     <td *ngIf="release.geneTsv; else noData">
                       <cvc-link-tag
                         [href]="release.geneTsv.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Genes TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.variantTsv; else noData">
                       <cvc-link-tag
                         [href]="release.variantTsv.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Variants TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.molecularProfileTsv; else noData">
                       <cvc-link-tag
                         [href]="release.molecularProfileTsv.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Molecular Profiles TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.evidenceTsv; else noData">
                       <cvc-link-tag
                         [href]="release.evidenceTsv.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Evidence TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.variantGroupTsv; else noData">
                       <cvc-link-tag
                         [href]="release.variantGroupTsv.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Variant Groups TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.assertionTsv; else noData">
                       <cvc-link-tag
                         [href]="release.assertionTsv.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Assertions TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.acceptedVariantsVcf; else noData">
                       <cvc-link-tag
                         [href]="release.acceptedVariantsVcf.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Accepted Variants VCF
                       </cvc-link-tag>
                     </td>
@@ -185,18 +194,20 @@
                       *ngIf="
                         release.acceptedAndSubmittedVariantsVcf;
                         else noData
-                      "
-                    >
+                      ">
                       <cvc-link-tag
                         [href]="release.acceptedAndSubmittedVariantsVcf.path"
-                        iconName="download"
-                      >
+                        iconName="download">
                         Accepted & Submitted Variants VCF
                       </cvc-link-tag>
                     </td>
                   </tr>
                   <ng-template #noData>
-                    <td nz-typography nzType="secondary">--</td>
+                    <td
+                      nz-typography
+                      nzType="secondary">
+                      --
+                    </td>
                   </ng-template>
                 </tbody>
               </nz-table>

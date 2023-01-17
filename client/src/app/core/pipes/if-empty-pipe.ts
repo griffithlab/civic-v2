@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+import { Pipe, PipeTransform } from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Pipe({
   name: 'ifEmpty',
@@ -8,9 +8,9 @@ import { Maybe } from '@app/generated/civic.apollo';
 export class IfEmptyPipe implements PipeTransform {
   transform(input: any, defaultValue: string): string {
     if (input === undefined || input === null || input === '') {
-      return defaultValue;
+      return defaultValue
     }
 
-    return input;
+    return input
   }
 }

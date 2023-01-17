@@ -3,34 +3,32 @@
   <nz-form-control
     class="cvc-form-card-control"
     [nzValidateStatus]="errorState"
-    [nzErrorTip]="cardExtra"
-  >
+    [nzErrorTip]="cardExtra">
     <nz-card
       nzSize="small"
       nzType="inner"
       [nzTitle]="cardTitle"
-      [nzExtra]="cardExtra"
-    >
+      [nzExtra]="cardExtra">
       <ng-container #fieldComponent></ng-container>
     </nz-card>
     <!-- field label -->
     <ng-template #cardTitle>
       <nz-form-label
         [nzRequired]="to.required && to.hideRequiredMarker !== true"
-        [nzFor]="id"
-      >
+        [nzFor]="id">
         {{ to.label }}
         <i
           *ngIf="to.helpText"
           nzType="question-circle"
           nzTheme="fill"
           nz-tooltip
-          nzTooltipTitle="to.helpText"
-        ></i>
+          nzTooltipTitle="to.helpText"></i>
       </nz-form-label>
     </ng-template>
     <!-- field error or value description (future) -->
-    <ng-template #cardExtra let-control>
+    <ng-template
+      #cardExtra
+      let-control>
       <!-- <div @helpMotion
            class="ant-form-item-explain ant-form-item-explain-connected"
            *ngIf="innerTip">
@@ -44,8 +42,7 @@
 
       <formly-validation-message
         *ngIf="showError"
-        [field]="field"
-      ></formly-validation-message>
+        [field]="field"></formly-validation-message>
     </ng-template>
   </nz-form-control>
 </nz-form-item>

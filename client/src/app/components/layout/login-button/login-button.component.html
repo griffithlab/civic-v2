@@ -1,12 +1,15 @@
-<button nz-button nzType="primary" nzValue="small" (click)="showAuth()">
+<button
+  nz-button
+  nzType="primary"
+  nzValue="small"
+  (click)="showAuth()">
   <span>Sign In / Sign Up</span>
 </button>
 <nz-modal
   [(nzVisible)]="authVisible"
   [nzTitle]="loginModalTitle"
   [nzFooter]="loginModalFooter"
-  (nzOnCancel)="handleCancel()"
->
+  (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
     <p nzType="secondary">
       Click on one of the OAuth providers below to sign into CIViC. If you do
@@ -19,7 +22,11 @@
 <ng-template #loginModalTitle> Sign In / Sign Up </ng-template>
 
 <ng-template #loginModalFooter>
-  <button nz-button nzType="primary" nzValue="small" (click)="handleCancel()">
+  <button
+    nz-button
+    nzType="primary"
+    nzValue="small"
+    (click)="handleCancel()">
     Cancel
   </button>
 </ng-template>

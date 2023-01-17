@@ -3,9 +3,12 @@
   type="file"
   accept="image/*"
   style="display: none"
-  (change)="processProfileImage(profileImage.files)"
-/>
+  (change)="processProfileImage(profileImage.files)" />
 
-<button nz-button nzSize="small" nzType="link" (click)="profileImage.click()">
+<button
+  nz-button
+  nzSize="small"
+  nzType="link"
+  (click)="profileImage.click()">
   Upload Image
 </button>

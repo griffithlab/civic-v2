@@ -6,21 +6,21 @@
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
-    cvcAutoHeightTarget="viewport"
-  >
+    cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container" [ngStyle]="{ height: cvcHeight }">
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
     <nz-card
       [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-      nzSize="small"
-    >
+      nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
@@ -43,43 +43,48 @@
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
-    [nzShowPagination]="false"
-  >
+    [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="400px" nzLeft>Citation</th>
-        <th nzWidth="200px" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
+        <th
+          nzWidth="400px"
+          nzLeft>
+          Citation
+        </th>
+        <th
+          nzWidth="200px"
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
           Name
         </th>
         <th
           nzWidth="275px"
           [nzColumnKey]="sortColumns.Authors"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Authors
         </th>
         <th
           nzWidth="75px"
           [nzColumnKey]="sortColumns.SourceType"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Type
         </th>
         <th
           nzWidth="80px"
           [nzColumnKey]="sortColumns.CitationId"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           ID
         </th>
-        <th nzWidth="75px" [nzColumnKey]="sortColumns.Year" [nzSortFn]="true">
+        <th
+          nzWidth="75px"
+          [nzColumnKey]="sortColumns.Year"
+          [nzSortFn]="true">
           Year
         </th>
         <th
           nzWidth="150px"
           [nzColumnKey]="sortColumns.Journal"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Journal
         </th>
         <th
@@ -90,9 +95,11 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Evidence Count"
-        >
-          <i nz-icon nzType="civic-evidence"></i> Count
+          nzTooltipTitle="Evidence Count">
+          <i
+            nz-icon
+            nzType="civic-evidence"></i>
+          Count
         </th>
         <th
           nzWidth="75px"
@@ -102,9 +109,11 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Suggestion Count"
-        >
-          <i nz-icon nzType="civic-queue"></i> Count
+          nzTooltipTitle="Suggestion Count">
+          <i
+            nz-icon
+            nzType="civic-queue"></i>
+          Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -113,15 +122,17 @@
           <cvc-clearable-input-filter
             [(inputModel)]="nameInput"
             placeholderText="Name"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="authorInput"
             placeholderText="Authors"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <nz-select
@@ -129,57 +140,65 @@
             nzAllowClear
             nzPlaceHolder="Choose"
             (ngModelChange)="filterChange$.next()"
-            [(ngModel)]="sourceTypeInput"
-          >
-            <nz-option nzValue="PUBMED" nzLabel="PubMed"></nz-option>
-            <nz-option nzValue="ASCO" nzLabel="ASCO"></nz-option>
-            <nz-option nzValue="ASH" nzLabel="ASH"></nz-option>
+            [(ngModel)]="sourceTypeInput">
+            <nz-option
+              nzValue="PUBMED"
+              nzLabel="PubMed"></nz-option>
+            <nz-option
+              nzValue="ASCO"
+              nzLabel="ASCO"></nz-option>
+            <nz-option
+              nzValue="ASH"
+              nzLabel="ASH"></nz-option>
           </nz-select>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="citationIdInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="yearInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="journalInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
         <th nzRight></th>
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll let-source let-index="index">
+      <ng-template
+        nz-virtual-scroll
+        let-source
+        let-index="index">
         <tr class="data-row">
           <td nzLeft>
             <cvc-source-tag
               [source]="source"
-              [truncateLongName]="true"
-            ></cvc-source-tag>
+              [truncateLongName]="true"></cvc-source-tag>
           </td>
           <td
             class="overflow-ellipsis"
             nz-tooltip
-            [nzTooltipTitle]="!isScrolling ? source.name : ''"
-          >
+            [nzTooltipTitle]="!isScrolling ? source.name : ''">
             {{ source.name }}
           </td>
           <td>
             <cvc-plain-tag-overflow
               [tags]="source.authors"
               [maxDisplayCount]="1"
-              [matchingText]="authorInput"
-            >
+              [matchingText]="authorInput">
             </cvc-plain-tag-overflow>
           </td>
           <td>
@@ -194,8 +213,16 @@
           <td>
             {{ source.journal }}
           </td>
-          <td nzAlign="right" nzRight>{{ source.evidenceItemCount }}</td>
-          <td nzAlign="right" nzRight>{{ source.sourceSuggestionCount }}</td>
+          <td
+            nzAlign="right"
+            nzRight>
+            {{ source.evidenceItemCount }}
+          </td>
+          <td
+            nzAlign="right"
+            nzRight>
+            {{ source.sourceSuggestionCount }}
+          </td>
         </tr>
       </ng-template>
     </tbody>
@@ -212,15 +239,19 @@
 
   <span class="table-info">
     <cvc-table-counts
-      [cvcTableCountsConnection]="connection$"
-    ></cvc-table-counts>
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush" nzColor="processing">
-    <i nz-icon nzType="sync" nzSpin></i>
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>

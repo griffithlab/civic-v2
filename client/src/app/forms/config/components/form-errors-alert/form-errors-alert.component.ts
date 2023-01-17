@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'
 
 @Component({
   selector: 'cvc-form-errors-alert',
@@ -6,13 +6,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./form-errors-alert.component.less'],
 })
 export class CvcFormErrorsAlertComponent implements OnInit {
-  @Input() errors!: any;
+  @Input() errors!: any
 
   constructor() {}
 
   ngOnInit(): void {
     if (this.errors.length == 1) {
-      this.errors = this.errors[0].split('|');
+      this.errors = this.errors[0].split('|')
     }
   }
 }

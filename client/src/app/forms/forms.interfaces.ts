@@ -1,48 +1,48 @@
-import { EvidenceStatus, SourceSource } from '@app/generated/civic.apollo';
+import { EvidenceStatus, SourceSource } from '@app/generated/civic.apollo'
 
 export interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: string;
-  citation?: string;
+  id?: number
+  sourceType?: SourceSource
+  citationId?: string
+  citation?: string
 }
 
 export interface FormDisease {
-  id?: number;
-  doid?: string;
-  displayName?: string;
+  id?: number
+  doid?: string
+  displayName?: string
 }
 
 export interface FormTherapy {
-  id: number;
-  ncitId?: string;
-  name?: string;
+  id: number
+  ncitId?: string
+  name?: string
 }
 
 export interface FormPhenotype {
-  id: number;
-  hpoId?: string;
-  name?: string;
+  id: number
+  hpoId?: string
+  name?: string
 }
 
 export interface FormGene {
-  id: number;
-  name?: string;
+  id: number
+  name?: string
 }
 
 export interface FormMolecularProfile {
-  id: number;
-  name?: string;
+  id: number
+  name?: string
 }
 
 export interface FormVariant {
-  id?: number;
-  name: string;
-  singleVariantMolecularProfile: FormMolecularProfile;
+  id?: number
+  name: string
+  singleVariantMolecularProfile: FormMolecularProfile
 }
 
 export interface FormEvidence {
-  id: number;
-  name: string;
-  status: EvidenceStatus;
+  id: number
+  name: string
+  status: EvidenceStatus
 }

@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 import {
   PhenotypeInputType,
   PhenotypeInputTypeOption,
-} from './phenotype-input.type';
-import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormlyModule } from '@ngx-formly/core';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { LetModule, PushModule } from '@ngrx/component';
-import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
+} from './phenotype-input.type'
+import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
+import { ReactiveFormsModule } from '@angular/forms'
+import { FormlyModule } from '@ngx-formly/core'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { LetModule, PushModule } from '@ngrx/component'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module'
 
 // MultiFieldTypeOption,
 @NgModule({
@@ -18,7 +18,8 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     FormlyModule.forChild({ types: [PhenotypeInputTypeOption] }),
     NzSelectModule,
     CvcPhenotypeTagModule,

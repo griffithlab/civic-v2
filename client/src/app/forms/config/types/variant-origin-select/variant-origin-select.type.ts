@@ -1,7 +1,7 @@
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { VariantOrigin } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
+import { VariantOrigin } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const optionText: { [option: string]: string } = {
   SOMATIC:
@@ -14,7 +14,7 @@ const optionText: { [option: string]: string } = {
   NA: 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
   MIXED:
     'Variants in the corresponding Molecular Profile have heterogenous origins.',
-};
+}
 
 export const variantOriginSelectTypeOption: TypeOption = {
   name: 'variant-origin-select',
@@ -58,8 +58,8 @@ export const variantOriginSelectTypeOption: TypeOption = {
         st: any,
         ffc?: FormlyFieldConfig
       ) => {
-        return optionText[m.variantOrigin];
+        return optionText[m.variantOrigin]
       },
     },
   },
-};
+}

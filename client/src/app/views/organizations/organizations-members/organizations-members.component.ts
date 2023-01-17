@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
   OrganizationMembersQuery,
@@ -7,15 +7,12 @@ import {
   OrganizationMembersGQL,
   OrganizationMembersQueryVariables,
   PageInfo,
-} from '@app/generated/civic.apollo';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
-import { QueryRef } from 'apollo-angular';
-import { map, startWith } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
-import { Observable, Subscription } from 'rxjs';
+} from '@app/generated/civic.apollo'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { QueryRef } from 'apollo-angular'
+import { map, startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { Observable, Subscription } from 'rxjs'
 
 @Component({
   selector: 'cvc-organizations-members',
@@ -25,15 +22,15 @@ export class OrganizationsMembersComponent implements OnDestroy {
   queryRef?: QueryRef<
     OrganizationMembersQuery,
     OrganizationMembersQueryVariables
-  >;
+  >
 
-  members$?: Observable<Maybe<OrganizationMembersFieldsFragment>[]>;
-  loading$?: Observable<boolean>;
-  viewer$?: Observable<Viewer>;
-  pageInfo$?: Observable<PageInfo>;
-  routeSub: Subscription;
+  members$?: Observable<Maybe<OrganizationMembersFieldsFragment>[]>
+  loading$?: Observable<boolean>
+  viewer$?: Observable<Viewer>
+  pageInfo$?: Observable<PageInfo>
+  routeSub: Subscription
 
-  initialPageSize = 20;
+  initialPageSize = 20
 
   constructor(
     private gql: OrganizationMembersGQL,
@@ -44,22 +41,22 @@ export class OrganizationsMembersComponent implements OnDestroy {
       this.queryRef = this.gql.watch({
         organizationId: +params.organizationId,
         first: this.initialPageSize,
-      });
+      })
 
-      let observable = this.queryRef.valueChanges;
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      let observable = this.queryRef.valueChanges
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
       this.members$ = observable.pipe(
         pluck('data', 'users', 'edges'),
         map((edges) => {
-          return edges.map((e) => e.node);
+          return edges.map((e) => e.node)
         })
-      );
+      )
 
-      this.pageInfo$ = observable.pipe(pluck('data', 'users', 'pageInfo'));
+      this.pageInfo$ = observable.pipe(pluck('data', 'users', 'pageInfo'))
 
-      this.viewer$ = this.viewerService.viewer$;
-    });
+      this.viewer$ = this.viewerService.viewer$
+    })
   }
 
   loadMore(cursor: Maybe<string>) {
@@ -67,10 +64,10 @@ export class OrganizationsMembersComponent implements OnDestroy {
       variables: {
         after: cursor,
       },
-    });
+    })
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

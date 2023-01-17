@@ -9,7 +9,7 @@ import {
   SourceSource,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 export type InputEnum =
   | EvidenceSignificance
@@ -21,19 +21,19 @@ export type InputEnum =
   | VariantOrigin
   | SourceSource
   | EvidenceLevel
-  | TherapyInteraction;
+  | TherapyInteraction
 
 export function formatEvidenceEnum(value: InputEnum): string {
-  let str: string[];
+  let str: string[]
   if (value === 'NA') {
-    str = ['N/A'];
+    str = ['N/A']
   } else if (value === 'SENSITIVITYRESPONSE') {
-    str = ['Sensitivity', '/', 'Response'];
+    str = ['Sensitivity', '/', 'Response']
   } else {
-    str = value.toLowerCase().replace(/_/g, ' ').split(' ');
+    str = value.toLowerCase().replace(/_/g, ' ').split(' ')
     for (var i = 0; i < str.length; i++) {
-      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)
     }
   }
-  return str.join(' ');
+  return str.join(' ')
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
+import { Component, OnInit } from '@angular/core'
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
   selector: 'cvc-curation-queues-view',
@@ -7,7 +7,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./curation-queues.view.less'],
 })
 export class CurationQueuesView {
-  tabs: RouteableTab[];
+  tabs: RouteableTab[]
   constructor() {
     this.tabs = [
       {
@@ -25,6 +25,6 @@ export class CurationQueuesView {
         iconName: 'civic-assertion',
         tabLabel: 'Assertions Queue',
       },
-    ];
+    ]
   }
 }

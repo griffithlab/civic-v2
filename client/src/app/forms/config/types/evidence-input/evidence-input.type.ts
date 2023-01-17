@@ -1,29 +1,29 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { FieldType } from '@ngx-formly/core';
-import { map, takeUntil } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
-import { Observable, Subject } from 'rxjs';
-import { QueryRef } from 'apollo-angular';
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { UntypedFormControl } from '@angular/forms'
+import { FieldType } from '@ngx-formly/core'
+import { map, takeUntil } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { Observable, Subject } from 'rxjs'
+import { QueryRef } from 'apollo-angular'
+import { TypeOption } from '@ngx-formly/core/lib/models'
 import {
   EvidenceStatus,
   EvidenceTypeaheadGQL,
   EvidenceTypeaheadQuery,
   EvidenceTypeaheadQueryVariables,
   Maybe,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 interface EvidenceTypeahead {
-  id: number;
-  name: string;
-  status: EvidenceStatus;
+  id: number
+  name: string
+  status: EvidenceStatus
 }
 
 interface EvidenceTypeaheadOption {
-  value: number;
-  label: string;
-  eid: EvidenceTypeahead;
+  value: number
+  label: string
+  eid: EvidenceTypeahead
 }
 
 @Component({
@@ -37,13 +37,13 @@ export class EvidenceInputType
   private queryRef!: QueryRef<
     EvidenceTypeaheadQuery,
     EvidenceTypeaheadQueryVariables
-  >;
-  eid$?: Observable<Maybe<EvidenceTypeaheadOption>>;
+  >
+  eid$?: Observable<Maybe<EvidenceTypeaheadOption>>
 
-  destroy$ = new Subject<void>();
+  destroy$ = new Subject<void>()
 
   constructor(private evidenceGQL: EvidenceTypeaheadGQL) {
-    super();
+    super()
 
     this.defaultOptions = {
       templateOptions: {
@@ -54,11 +54,11 @@ export class EvidenceInputType
         optionList: [] as Array<EvidenceTypeaheadOption>,
         searchString: '',
       },
-    };
+    }
   }
 
   ngOnInit() {
-    this.queryRef = this.evidenceGQL.watch({ id: 99999999 });
+    this.queryRef = this.evidenceGQL.watch({ id: 99999999 })
 
     this.eid$ = this.queryRef.valueChanges.pipe(
       takeUntil(this.destroy$),
@@ -69,34 +69,34 @@ export class EvidenceInputType
             value: eid.id,
             label: eid.name,
             eid: eid,
-          };
+          }
         } else {
-          return undefined;
+          return undefined
         }
       })
-    );
+    )
   }
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
       if (value.length < this.to.minLengthSearch) {
-        return;
+        return
       }
 
-      let input = +value;
+      let input = +value
       if (input) {
-        this.queryRef.refetch({ id: input });
+        this.queryRef.refetch({ id: input })
       }
-    };
+    }
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }
 
 export const EvidenceInputTypeOption: TypeOption = {
   name: 'evidence-input',
   component: EvidenceInputType,
-};
+}

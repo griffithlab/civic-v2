@@ -1,8 +1,7 @@
 <nz-empty
   [nzNotFoundImage]="emptyImage"
   [nzNotFoundContent]="contentTpl"
-  [nzNotFoundFooter]="footerTpl"
->
+  [nzNotFoundFooter]="footerTpl">
   <ng-template #contentTpl>
     <span> You must be logged in to view this page. </span>
   </ng-template>
@@ -12,6 +11,10 @@
 </nz-empty>
 <ng-template #emptyImage>
   <nz-typography nzType="secondary">
-    <i nz-icon nzType="login" nzTheme="outline" style="font-size: 50pt"></i>
+    <i
+      nz-icon
+      nzType="login"
+      nzTheme="outline"
+      style="font-size: 50pt"></i>
   </nz-typography>
 </ng-template>

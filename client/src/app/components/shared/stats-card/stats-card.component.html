@@ -3,15 +3,13 @@
     <nz-statistic
       nzTitle="Evidence Submitted"
       [nzValue]="(stats.submittedEvidenceItems | number)!"
-      [nzPrefix]="evidenceIcon"
-    ></nz-statistic>
+      [nzPrefix]="evidenceIcon"></nz-statistic>
   </nz-col>
   <nz-col nzFlex="1">
     <nz-statistic
       nzTitle="Evidence Accepted"
       [nzValue]="(stats.acceptedEvidenceItems | number)!"
-      [nzPrefix]="evidenceIcon"
-    ></nz-statistic>
+      [nzPrefix]="evidenceIcon"></nz-statistic>
   </nz-col>
 </nz-row>
 <nz-row>
@@ -20,30 +18,26 @@
       nz-icon
       nzTheme="twotone"
       [nzTwotoneColor]="'EvidenceItem' | entityColor"
-      nzType="civic-evidence"
-    ></i
+      nzType="civic-evidence"></i
   ></ng-template>
   <nz-col nzFlex="1">
     <nz-statistic
       nzTitle="Assertions Submitted"
       [nzValue]="(stats.submittedAssertions | number)!"
-      [nzPrefix]="assertionIcon"
-    ></nz-statistic>
+      [nzPrefix]="assertionIcon"></nz-statistic>
   </nz-col>
   <nz-col nzFlex="1">
     <nz-statistic
       nzTitle="Assertions Accepted"
       [nzValue]="(stats.acceptedAssertions | number)!"
-      [nzPrefix]="assertionIcon"
-    ></nz-statistic>
+      [nzPrefix]="assertionIcon"></nz-statistic>
   </nz-col>
   <ng-template #assertionIcon
     ><i
       nz-icon
       nzTheme="twotone"
       [nzTwotoneColor]="'Assertion' | entityColor"
-      nzType="civic-assertion"
-    ></i
+      nzType="civic-assertion"></i
   ></ng-template>
 </nz-row>
 
@@ -52,15 +46,13 @@
     <nz-statistic
       nzTitle="Revisions Suggested"
       [nzValue]="(stats.revisions | number)!"
-      [nzPrefix]="revisionIcon"
-    ></nz-statistic>
+      [nzPrefix]="revisionIcon"></nz-statistic>
   </nz-col>
   <nz-col nzFlex="1">
     <nz-statistic
       nzTitle="Revisions Applied"
       [nzValue]="(stats.appliedRevisions | number)!"
-      [nzPrefix]="revisionIcon"
-    ></nz-statistic>
+      [nzPrefix]="revisionIcon"></nz-statistic>
   </nz-col>
 </nz-row>
 <nz-row>
@@ -69,37 +61,32 @@
       nz-icon
       nzTheme="twotone"
       [nzTwotoneColor]="'Revision' | entityColor"
-      nzType="civic-revision"
-    ></i
+      nzType="civic-revision"></i
   ></ng-template>
   <nz-col nzFlex="1">
     <nz-statistic
       nzTitle="Comments"
       [nzValue]="(stats.comments | number)!"
-      [nzPrefix]="commentIcon"
-    ></nz-statistic>
+      [nzPrefix]="commentIcon"></nz-statistic>
     <ng-template #commentIcon
       ><i
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Comment' | entityColor"
-        nzType="civic-comment"
-      ></i
+        nzType="civic-comment"></i
     ></ng-template>
   </nz-col>
   <nz-col nzFlex="1">
     <nz-statistic
       nzTitle="Sources Suggested"
       [nzValue]="(stats.suggestedSources | number)!"
-      [nzPrefix]="sourceIcon"
-    ></nz-statistic>
+      [nzPrefix]="sourceIcon"></nz-statistic>
   </nz-col>
   <ng-template #sourceIcon
     ><i
       nz-icon
       nzTheme="twotone"
       [nzTwotoneColor]="'Source' | entityColor"
-      nzType="civic-source"
-    ></i
+      nzType="civic-source"></i
   ></ng-template>
 </nz-row>

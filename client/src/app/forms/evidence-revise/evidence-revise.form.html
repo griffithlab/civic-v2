@@ -1,11 +1,12 @@
-<nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+<nz-spin
+  nzTip="Submitting"
+  [nzSpinning]="this.loading">
   <form
     nz-form
     *ngIf="formModel"
     [formGroup]="formGroup"
     (ngSubmit)="submitRevision(formModel)"
-    nzLayout="vertical"
-  >
+    nzLayout="vertical">
     <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
     <formly-form
@@ -14,8 +15,7 @@
       [fields]="formFields"
       [model]="formModel"
       [options]="formOptions"
-      (modelChange)="formModel = $event"
-    >
+      (modelChange)="formModel = $event">
     </formly-form>
   </form>
 </nz-spin>
@@ -32,9 +32,10 @@
       nzType="success"
       nzMessage="Suggested Revision Submitted"
       [nzDescription]="successMessage"
-      nzShowIcon
-    ></nz-alert>
-    <ng-template #successMessage nzSize="small">
+      nzShowIcon></nz-alert>
+    <ng-template
+      #successMessage
+      nzSize="small">
       <p>View it on the <a routerLink="../../revisions">Revisions Page</a>.</p>
     </ng-template>
   </ng-container>
@@ -43,9 +44,10 @@
       nzType="warning"
       nzMessage="No New Revisions Created"
       [nzDescription]="duplicateMessage"
-      nzShowIcon
-    ></nz-alert>
-    <ng-template #duplicateMessage nzSize="small">
+      nzShowIcon></nz-alert>
+    <ng-template
+      #duplicateMessage
+      nzSize="small">
       <p>
         Your submission succeeded but no new revisions were created. Identical
         ones already exist, view them on the

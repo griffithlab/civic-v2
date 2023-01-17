@@ -19,15 +19,15 @@
         [hidden]="isHidden$ | ngrxPush"
         [disabled]="isDisabled$ | ngrxPush"
         nz-dropdown
-        [nzDropdownMenu]="orgMenu"
-      >
+        [nzDropdownMenu]="orgMenu">
         <span>for</span>
         <nz-avatar
           [nzSrc]="selectedOrg?.profileImagePath"
           [nzSize]="10"
-          [nzShape]="'square'"
-        ></nz-avatar>
-        <i nz-icon nzType="down"></i>
+          [nzShape]="'square'"></nz-avatar>
+        <i
+          nz-icon
+          nzType="down"></i>
       </button>
     </nz-button-group>
   </ng-container>
@@ -39,14 +39,12 @@
         *ngFor="let org of organizations"
         nz-menu-item
         [nzSelected]="selectedOrg?.id === org.id"
-        (click)="selectOrg(org)"
-      >
+        (click)="selectOrg(org)">
         <nz-avatar
           [nzSrc]="org?.profileImagePath"
           [nzSize]="10"
           [nzShape]="'square'"
-          style="background-color: #f0f5ff"
-        ></nz-avatar>
+          style="background-color: #f0f5ff"></nz-avatar>
         {{ org.name }}
       </li>
     </ul>

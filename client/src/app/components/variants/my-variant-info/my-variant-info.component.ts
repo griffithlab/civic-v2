@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
-import { MyVariantInfoFieldsFragment } from '@app/generated/civic.apollo';
-import { BehaviorSubject } from 'rxjs';
+import { Component, Input, OnDestroy } from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
+import { MyVariantInfoFieldsFragment } from '@app/generated/civic.apollo'
+import { BehaviorSubject } from 'rxjs'
 
 @Component({
   selector: 'cvc-my-variant-info',
@@ -9,17 +9,17 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./my-variant-info.component.less'],
 })
 export class CvcMyVariantInfoComponent implements OnDestroy {
-  @Input() variantInfo: Maybe<MyVariantInfoFieldsFragment>;
+  @Input() variantInfo: Maybe<MyVariantInfoFieldsFragment>
 
-  tabIndex = new BehaviorSubject<number>(0);
+  tabIndex = new BehaviorSubject<number>(0)
 
   constructor() {}
 
   tabChange(index: number): void {
-    this.tabIndex.next(index);
+    this.tabIndex.next(index)
   }
 
   ngOnDestroy(): void {
-    this.tabIndex.unsubscribe();
+    this.tabIndex.unsubscribe()
   }
 }

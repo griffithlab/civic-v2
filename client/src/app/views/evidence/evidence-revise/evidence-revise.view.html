@@ -1,20 +1,23 @@
 <ng-container *ngIf="evidence$ | async as evidence">
   <cvc-section-navigation
     [displayName]="evidence.name"
-    [relationsTpl]="evidenceRelations"
-  >
+    [relationsTpl]="evidenceRelations">
   </cvc-section-navigation>
   <ng-template #evidenceRelations>
     <nz-space nzDirection="horizontal">
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem
+      <span
+        nz-typography
+        class="label"
+        *nzSpaceItem
         ><strong>{{ evidence.name }}</strong> Parents:</span
       >
-      <span *nzSpaceItem class="tags">
+      <span
+        *nzSpaceItem
+        class="tags">
         <cvc-molecular-profile-tag
           [molecularProfile]="evidence.molecularProfile"
-          [enablePopover]="false"
-        ></cvc-molecular-profile-tag>
+          [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
     </nz-space>
   </ng-template>
@@ -26,8 +29,7 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'EvidenceItem' | entityColor"
-        nzType="civic-evidence"
-      ></i>
+        nzType="civic-evidence"></i>
       {{ evidence.name }}
     </nz-page-header-title>
 
@@ -37,8 +39,12 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24" nzJustify="center">
-            <div nz-col nzSpan="6">
+          <nz-row
+            nzSpan="24"
+            nzJustify="center">
+            <div
+              nz-col
+              nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>
           </nz-row>

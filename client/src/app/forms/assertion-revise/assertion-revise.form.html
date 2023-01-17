@@ -4,8 +4,7 @@
     *ngIf="formModel"
     [formGroup]="formGroup"
     (ngSubmit)="reviseAssertion(formModel)"
-    nzLayout="vertical"
-  >
+    nzLayout="vertical">
     <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
     <formly-form
@@ -14,8 +13,7 @@
       [fields]="formFields"
       [model]="formModel"
       [options]="formOptions"
-      (modelChange)="formModel = $event"
-    ></formly-form>
+      (modelChange)="formModel = $event"></formly-form>
   </form>
 
   <ng-template #formMessages>
@@ -30,9 +28,10 @@
         nzType="success"
         nzMessage="Suggested Revision Submitted"
         [nzDescription]="successMessage"
-        nzShowIcon
-      ></nz-alert>
-      <ng-template #successMessage nzSize="small">
+        nzShowIcon></nz-alert>
+      <ng-template
+        #successMessage
+        nzSize="small">
         <p>
           View it on the <a routerLink="../../revisions">Revisions Page</a>.
         </p>
@@ -44,9 +43,10 @@
       nzType="warning"
       nzMessage="No New Revisions Created"
       [nzDescription]="duplicateMessage"
-      nzShowIcon
-    ></nz-alert>
-    <ng-template #duplicateMessage nzSize="small">
+      nzShowIcon></nz-alert>
+    <ng-template
+      #duplicateMessage
+      nzSize="small">
       <p>
         Your submission succeeded but no new revisions were created. Identical
         ones already exist, view them on the

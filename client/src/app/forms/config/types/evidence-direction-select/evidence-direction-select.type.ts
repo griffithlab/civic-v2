@@ -1,18 +1,18 @@
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import {
   EvidenceDirection,
   EvidenceType,
   Maybe,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 import {
   TypeOption,
   ValidationMessageOption,
   ValidatorOption,
-} from '@ngx-formly/core/lib/models';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { EntityState, EntityType } from '../../states/entity.state';
+} from '@ngx-formly/core/lib/models'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { AbstractControl, ValidationErrors } from '@angular/forms'
+import { EvidenceState } from '@app/forms/config/states/evidence.state'
+import { EntityState, EntityType } from '../../states/entity.state'
 
 const optionText: any = {
   Evidence: {
@@ -88,7 +88,7 @@ const optionText: any = {
         'The Assertion supports an oncogenic or protective role for a somatic variant.',
     },
   },
-};
+}
 
 export const evidenceDirectionSelectTypeOption: TypeOption = {
   name: 'evidence-direction-select',
@@ -107,49 +107,49 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
         ffc?: FormlyFieldConfig
       ) => {
         if (st.entityName && m.evidenceType && m.evidenceDirection) {
-          return optionText[st.entityName][m.evidenceType][m.evidenceDirection];
+          return optionText[st.entityName][m.evidenceType][m.evidenceDirection]
         }
       },
     },
     validators: { validation: ['ed-option'] },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to = ffc!.templateOptions!;
+        const to = ffc!.templateOptions!
         // check for formState, populate with all options if not found
-        const st: EntityState = ffc?.options?.formState;
+        const st: EntityState = ffc?.options?.formState
         if (!st) {
-          return;
+          return
         } else {
-          to.label = `${st.entityName} Direction`;
-          to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event.`;
+          to.label = `${st.entityName} Direction`
+          to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event.`
           // find evidenceType formControl, subscribe to value changes to update options
           const etCtrl: AbstractControl | null = ffc?.form
             ? ffc.form.get('evidenceType')
-            : null;
+            : null
           if (!etCtrl) {
-            return;
+            return
           } // no evidenceType FormControl found, cannot subscribe
           to.options = st.getOptionsFromEnums(
             st.getDirectionOptions(etCtrl.value)
-          );
-          ffc!.formControl!.updateValueAndValidity();
+          )
+          ffc!.formControl!.updateValueAndValidity()
           to.vcSubscription = etCtrl.valueChanges.subscribe(
             (et: EntityType) => {
               to.options = st.getOptionsFromEnums(
                 st.getDirectionOptions(etCtrl.value)
-              );
-              ffc!.formControl!.updateValueAndValidity();
+              )
+              ffc!.formControl!.updateValueAndValidity()
             }
-          );
+          )
         }
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to = ffc!.templateOptions!;
-        to.vcSubscription.unsubscribe();
+        const to = ffc!.templateOptions!
+        to.vcSubscription.unsubscribe()
       },
     },
   },
-};
+}
 
 export const edOptionValidator: ValidatorOption = {
   name: 'ed-option',
@@ -158,19 +158,19 @@ export const edOptionValidator: ValidatorOption = {
     ffc: FormlyFieldConfig,
     opt: any
   ): ValidationErrors | null => {
-    const st: EvidenceState = ffc.options?.formState;
-    const ed: EvidenceDirection = c.value;
+    const st: EvidenceState = ffc.options?.formState
+    const ed: EvidenceDirection = c.value
     if (!ed || !st) {
-      return null;
+      return null
     }
-    const et: EvidenceType = c.parent?.get('evidenceType')?.value;
+    const et: EvidenceType = c.parent?.get('evidenceType')?.value
     if (!et) {
-      return null;
+      return null
     } else {
-      return st.isValidDirectionOption(et, ed) ? null : { 'ed-option': et };
+      return st.isValidDirectionOption(et, ed) ? null : { 'ed-option': et }
     }
   },
-};
+}
 
 export const edOptionValidationMessage: ValidationMessageOption = {
   name: 'ed-option',
@@ -179,6 +179,6 @@ export const edOptionValidationMessage: ValidationMessageOption = {
       f.formControl?.value
     )}' is not a valid Clinical Significance for ${formatEvidenceEnum(
       et
-    )} Evidence.`;
+    )} Evidence.`
   },
-};
+}

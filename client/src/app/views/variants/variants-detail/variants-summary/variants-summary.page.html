@@ -11,13 +11,11 @@
             nzLayout="horizontal"
             nzSize="small"
             [nzColumn]="1"
-            nzBordered="true"
-          >
+            nzBordered="true">
             <!-- aliases -->
             <nz-descriptions-item nzTitle="Aliases">
               <ng-container
-                *ngIf="variant.variantAliases.length > 0; else noAliases"
-              >
+                *ngIf="variant.variantAliases.length > 0; else noAliases">
                 <cvc-tag-list>
                   <nz-tag *ngFor="let alias of variant.variantAliases"
                     >{{ alias }}</nz-tag
@@ -25,36 +23,39 @@
                 </cvc-tag-list>
               </ng-container>
               <ng-template #noAliases>
-                <span nz-typography nzType="secondary">None specified</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
               </ng-template>
             </nz-descriptions-item>
 
             <!-- variant type(s) -->
             <nz-descriptions-item
-              [nzTitle]="variant.variantTypes.length > 1 ? 'Variant Types' : 'Variant Type'"
-            >
+              [nzTitle]="variant.variantTypes.length > 1 ? 'Variant Types' : 'Variant Type'">
               <ng-container
-                *ngIf="variant.variantTypes.length > 0; else noTypes"
-              >
+                *ngIf="variant.variantTypes.length > 0; else noTypes">
                 <cvc-tag-list>
                   <cvc-variant-type-tag
                     [variantType]="type"
-                    *ngFor="let type of variant.variantTypes"
-                  ></cvc-variant-type-tag>
+                    *ngFor="let type of variant.variantTypes"></cvc-variant-type-tag>
                 </cvc-tag-list>
               </ng-container>
               <ng-template #noTypes>
-                <span nz-typography nzType="secondary">None specified</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
               </ng-template>
             </nz-descriptions-item>
 
             <!-- HGVS descriptions -->
             <nz-descriptions-item
-              [nzTitle]="variant.hgvsDescriptions.length > 1 ? 'HGVS Descriptions' : 'HGVS Description'"
-            >
+              [nzTitle]="variant.hgvsDescriptions.length > 1 ? 'HGVS Descriptions' : 'HGVS Description'">
               <ng-container
-                *ngIf="variant.hgvsDescriptions.length > 0; else noDescriptions"
-              >
+                *ngIf="variant.hgvsDescriptions.length > 0; else noDescriptions">
                 <cvc-tag-list>
                   <nz-tag *ngFor="let desc of variant.hgvsDescriptions"
                     >{{ desc }}</nz-tag
@@ -62,7 +63,11 @@
                 </cvc-tag-list>
               </ng-container>
               <ng-template #noDescriptions>
-                <span nz-typography nzType="secondary">None specified</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
               </ng-template>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -70,8 +75,7 @@
         <!-- coordinates -->
         <nz-col [nzSpan]="24">
           <cvc-coordinates-card
-            [cvcVariantId]="variant.id"
-          ></cvc-coordinates-card>
+            [cvcVariantId]="variant.id"></cvc-coordinates-card>
         </nz-col>
       </nz-row>
     </nz-col>
@@ -86,8 +90,7 @@
             nzLayout="horizontal"
             nzSize="small"
             [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true"
-          >
+            nzBordered="true">
             <!-- gene -->
             <nz-descriptions-item nzTitle="Gene">
               <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
@@ -98,30 +101,29 @@
               <cvc-link-tag
                 *ngIf="variant.alleleRegistryId && variant.alleleRegistryId != 'unregistered'; else noAlleleRegistry"
                 [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'"
-                tooltip="View on ClinGen Allele Registry"
-              >
+                tooltip="View on ClinGen Allele Registry">
                 {{ variant.alleleRegistryId }}
               </cvc-link-tag>
               <ng-template #noAlleleRegistry>
-                <span nz-typography nzType="secondary">Unregistered</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >Unregistered</span
+                >
               </ng-template>
             </nz-descriptions-item>
 
             <!-- clinvar ids-->
             <nz-descriptions-item
-              [nzTitle]="variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'"
-            >
+              [nzTitle]="variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'">
               <ng-container
-                *ngIf="variant.clinvarIds.length > 0 else noClinvarIds"
-              >
+                *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
                 <cvc-tag-list
-                  *ngIf="variant.clinvarIds[0] !== 'N/A' && variant.clinvarIds[0] !== 'NONE FOUND' else clinvarNotApplicable"
-                >
+                  *ngIf="variant.clinvarIds[0] !== 'N/A' && variant.clinvarIds[0] !== 'NONE FOUND' else clinvarNotApplicable">
                   <ng-container *ngFor="let id of variant.clinvarIds">
                     <cvc-link-tag
                       [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id"
-                      tooltip="View on ClinVar"
-                    >
+                      tooltip="View on ClinVar">
                       {{ id }}
                     </cvc-link-tag>
                   </ng-container>
@@ -129,24 +131,28 @@
               </ng-container>
 
               <ng-template #clinvarNotApplicable>
-                <span nz-typography nzType="secondary"
+                <span
+                  nz-typography
+                  nzType="secondary"
                   >{{ variant.clinvarIds[0] }}</span
                 >
               </ng-template>
 
               <ng-template #noClinvarIds>
-                <span nz-typography nzType="secondary">None provided</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None provided</span
+                >
               </ng-template>
             </nz-descriptions-item>
 
             <nz-descriptions-item
               *ngIf="variant.openCravatUrl"
-              nzTitle="OpenCRAVAT"
-            >
+              nzTitle="OpenCRAVAT">
               <cvc-link-tag
                 [href]="variant.openCravatUrl"
-                tooltip="View on OpenCRAVAT"
-              >
+                tooltip="View on OpenCRAVAT">
                 Variant Report
               </cvc-link-tag>
             </nz-descriptions-item>
@@ -155,20 +161,17 @@
 
         <!-- myvariant info -->
         <ng-container
-          *ngIf="variantInfo$ | ngrxPush as variantInfo else noVariantInfo"
-        >
+          *ngIf="variantInfo$ | ngrxPush as variantInfo else noVariantInfo">
           <nz-col [nzSpan]="24">
             <cvc-my-variant-info
-              [variantInfo]="variantInfo"
-            ></cvc-my-variant-info>
+              [variantInfo]="variantInfo"></cvc-my-variant-info>
           </nz-col>
         </ng-container>
         <ng-template #noVariantInfo>
           <nz-col [nzSpan]="24">
             <nz-card nzTitle="MyVariantInfo">
               <cvc-empty-revisable
-                notification="Not available, provide Representative Variant Coordinates"
-              >
+                notification="Not available, provide Representative Variant Coordinates">
               </cvc-empty-revisable>
             </nz-card>
           </nz-col>
@@ -182,8 +185,7 @@
       <cvc-molecular-profiles-table
         [variantId]="variant.id"
         cvcHeight="300px"
-        cvcTitle="{{variant.name}} Molecular Profiles"
-      >
+        cvcTitle="{{variant.name}} Molecular Profiles">
       </cvc-molecular-profiles-table>
     </nz-col>
   </nz-row>

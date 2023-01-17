@@ -7,16 +7,14 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Intervention' | entityColor"
-        nzType="civic-intervention"
-      ></i>
+        nzType="civic-intervention"></i>
       {{ therapy.name }}
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="therapy.ncitId">
       <cvc-link-tag
         *ngIf="therapy.therapyUrl"
         [href]="therapy.therapyUrl"
-        tooltip="View in the NCIthesaurus"
-      >
+        tooltip="View in the NCIthesaurus">
         {{ therapy.ncitId }}
       </cvc-link-tag>
     </nz-page-header-extra>

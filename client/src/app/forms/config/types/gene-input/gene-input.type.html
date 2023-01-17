@@ -11,27 +11,23 @@
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
-    (nzOnSearch)="to.onSearch($event)"
-  >
+    (nzOnSearch)="to.onSearch($event)">
     <ng-container *ngrxLet="this.genes$ as genes">
       <nz-option
         *ngFor="let opt of genes"
         nzCustomContent
         [nzLabel]="opt.tooltip"
-        [nzValue]="opt.gene"
-      >
+        [nzValue]="opt.gene">
         <nz-space>
           <span
             *nzSpaceItem
-            [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"
-          ></span>
+            [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
           <ng-container *ngIf="opt.gene.geneAliases.length > 0">
             <span
               nz-typography
               nzType="secondary"
               *nzSpaceItem
-              [innerHtml]="opt.gene.geneAliases.join(', ') | highlightTypeahead: this.to.searchString"
-            >
+              [innerHtml]="opt.gene.geneAliases.join(', ') | highlightTypeahead: this.to.searchString">
             </span>
           </ng-container>
         </nz-space>

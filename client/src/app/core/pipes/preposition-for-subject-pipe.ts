@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { EventAction } from '@app/generated/civic.apollo';
+import { Pipe, PipeTransform } from '@angular/core'
+import { EventAction } from '@app/generated/civic.apollo'
 
 @Pipe({
   name: 'prepositionForSubject',
@@ -9,21 +9,21 @@ export class PrepositionForSubjectPipe implements PipeTransform {
   transform(action: EventAction): string {
     switch (action) {
       case EventAction.Commented:
-        return 'to';
+        return 'to'
       case EventAction.RevisionSuggested:
-        return 'to';
+        return 'to'
       case EventAction.RevisionAccepted:
-        return 'to';
+        return 'to'
       case EventAction.RevisionRejected:
-        return 'tou';
+        return 'tou'
       case EventAction.RevisionSuperseded:
-        return 'to';
+        return 'to'
       case EventAction.Flagged:
-        return 'on';
+        return 'on'
       case EventAction.FlagResolved:
-        return 'on';
+        return 'on'
       default:
-        return '';
+        return ''
     }
   }
 }

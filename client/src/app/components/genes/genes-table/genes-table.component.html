@@ -6,21 +6,21 @@
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
-    cvcAutoHeightTarget="viewport"
-  >
+    cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container" [ngStyle]="{ height: cvcHeight }">
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
     <nz-card
       [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-      nzSize="small"
-    >
+      nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
@@ -43,19 +43,21 @@
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
-    [nzShowPagination]="false"
-  >
+    [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th
           nzWidth="150px"
           nzLeft
           [nzColumnKey]="sortColumns.EntrezSymbol"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Name
         </th>
-        <th nzLeft nzWidth="200px">Aliases</th>
+        <th
+          nzLeft
+          nzWidth="200px">
+          Aliases
+        </th>
         <th nzWidth="250px">Diseases</th>
         <th nzWidth="225px">Therapies</th>
         <th
@@ -66,9 +68,11 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Variant Count"
-        >
-          <i nz-icon nzType="civic-variant"></i> Count
+          nzTooltipTitle="Variant Count">
+          <i
+            nz-icon
+            nzType="civic-variant"></i>
+          Count
         </th>
         <th
           nzWidth="75px"
@@ -78,9 +82,10 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Evidence Count"
-        >
-          <i nz-icon nzType="civic-evidence"></i>
+          nzTooltipTitle="Evidence Count">
+          <i
+            nz-icon
+            nzType="civic-evidence"></i>
           Count
         </th>
         <th
@@ -91,35 +96,41 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Assertion Count"
-        >
-          <i nz-icon nzType="civic-assertion"></i> Count
+          nzTooltipTitle="Assertion Count">
+          <i
+            nz-icon
+            nzType="civic-assertion"></i>
+          Count
         </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter
             [(inputModel)]="nameInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter
             [(inputModel)]="aliasInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="diseaseInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="therapyInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
         <th nzRight></th>
@@ -127,7 +138,10 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll let-gene let-index="index">
+      <ng-template
+        nz-virtual-scroll
+        let-gene
+        let-index="index">
         <tr class="data-row">
           <td nzLeft>
             <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
@@ -135,16 +149,14 @@
           <td nzLeft>
             <cvc-plain-tag-overflow
               [tags]="gene.geneAliases"
-              [matchingText]="aliasInput"
-            ></cvc-plain-tag-overflow>
+              [matchingText]="aliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
             <cvc-tag-overflow
               tagType="disease"
               [maxDisplayCount]="1"
               [tags]="gene.diseases"
-              [matchingText]="diseaseInput"
-            >
+              [matchingText]="diseaseInput">
             </cvc-tag-overflow>
           </td>
           <td>
@@ -152,13 +164,24 @@
               tagType="therapy"
               [maxDisplayCount]="1"
               [tags]="gene.therapies"
-              [matchingText]="therapyInput"
-            >
+              [matchingText]="therapyInput">
             </cvc-tag-overflow>
           </td>
-          <td nzRight nzAlign="right">{{ gene.variantCount }}</td>
-          <td nzRight nzAlign="right">{{ gene.evidenceItemCount }}</td>
-          <td nzRight nzAlign="right">{{ gene.assertionCount }}</td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.variantCount }}
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.evidenceItemCount }}
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.assertionCount }}
+          </td>
         </tr>
       </ng-template>
     </tbody>
@@ -175,15 +198,19 @@
   </ng-container>
   <span class="table-info">
     <cvc-table-counts
-      [cvcTableCountsConnection]="connection$"
-    ></cvc-table-counts>
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush" nzColor="processing">
-    <i nz-icon nzType="sync" nzSpin></i>
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>

@@ -2,15 +2,13 @@
   <nz-spin [nzSpinning]="this.isSubmitting">
     <cvc-org-selector-btn-group
       *ngIf="!this.rejectOnly"
-      [(selectedOrg)]="this.mostRecentOrg"
-    >
+      [(selectedOrg)]="this.mostRecentOrg">
       <button
         cvcOrgSelectorBtn
         nzType="primary"
         nzSize="large"
         nz-button
-        (click)="this.moderate(this.evidenceStatuses.Accepted)"
-      >
+        (click)="this.moderate(this.evidenceStatuses.Accepted)">
         Accept {{ this.entityType }}
       </button>
     </cvc-org-selector-btn-group>
@@ -18,16 +16,14 @@
     <cvc-org-selector-btn-group
       nzDanger
       nzType="primary"
-      [(selectedOrg)]="this.mostRecentOrg"
-    >
+      [(selectedOrg)]="this.mostRecentOrg">
       <button
         cvcOrgSelectorBtn
         nzDanger
         nzType="primary"
         nzSize="large"
         nz-button
-        (click)="this.moderate(this.evidenceStatuses.Rejected)"
-      >
+        (click)="this.moderate(this.evidenceStatuses.Rejected)">
         Reject {{ this.entityType }}
       </button>
     </cvc-org-selector-btn-group>

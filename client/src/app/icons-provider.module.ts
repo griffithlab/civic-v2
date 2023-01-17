@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
-import { IconDefinition, ThemeType } from '@ant-design/icons-angular';
+import { NgModule } from '@angular/core'
+import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon'
+import { IconDefinition, ThemeType } from '@ant-design/icons-angular'
 
-import { camelToKebab } from '@app/core/utilities/camel-to-kebab';
+import { camelToKebab } from '@app/core/utilities/camel-to-kebab'
 
 import {
   MenuFoldOutline,
   MenuUnfoldOutline,
   FormOutline,
   DashboardOutline,
-} from '@ant-design/icons-angular/icons';
+} from '@ant-design/icons-angular/icons'
 
 // NZ icons used in base app components
 const icons = [
@@ -17,7 +17,7 @@ const icons = [
   MenuUnfoldOutline,
   DashboardOutline,
   FormOutline,
-];
+]
 
 import {
   CivicIconLiteral,
@@ -125,7 +125,7 @@ import {
   civicVarianttypeFullcolor,
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
-} from '@app/generated/civic.icons';
+} from '@app/generated/civic.icons'
 
 const iconLiterals = [
   civicAdminOutline,
@@ -209,7 +209,7 @@ const iconLiterals = [
   civicVariantgroupTwotone,
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
-];
+]
 
 export const fullColorIcons: CivicIconLiteral[] = [
   civicAdminFullcolor,
@@ -235,9 +235,9 @@ export const fullColorIcons: CivicIconLiteral[] = [
   civicVariant,
   civicVariantgroupFullcolor,
   civicVarianttypeFullcolor,
-];
+]
 
-export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals);
+export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals)
 
 @NgModule({
   imports: [NzIconModule],
@@ -247,32 +247,32 @@ export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals);
 export class IconsProviderModule {}
 
 export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
-  const defs: any[] = [];
+  const defs: any[] = []
   icons.forEach((icon: CivicIconLiteral): void => {
     const def: IconDefinition = {
       name: getName(icon.name),
       theme: getTheme(icon.name),
       icon: icon.data,
-    };
-    defs.push(def);
-  });
-  return defs;
+    }
+    defs.push(def)
+  })
+  return defs
 }
 
 // remove theme, prepend namespace
 export function getName(name: string): string {
-  const regex = /Outline|Fill|TwoTone/i;
-  return 'civic-' + camelToKebab(name.replace(regex, ''));
+  const regex = /Outline|Fill|TwoTone/i
+  return 'civic-' + camelToKebab(name.replace(regex, ''))
 }
 
 export function getTheme(name: string): ThemeType | undefined {
   if (name.includes('Twotone')) {
-    return 'twotone';
+    return 'twotone'
   } else if (name.includes('Outline')) {
-    return 'outline';
+    return 'outline'
   } else if (name.includes('Fill')) {
-    return 'fill';
+    return 'fill'
   } else {
-    return;
+    return
   }
 }

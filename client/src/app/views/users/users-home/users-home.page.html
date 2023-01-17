@@ -4,39 +4,54 @@
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px" class="header-icon">
+      <nz-col
+        nzFlex="64px"
+        class="header-icon">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Curator' | entityColor"
-          nzType="civic-curator"
-        ></i>
+          nzType="civic-curator"></i>
       </nz-col>
-      <nz-col nzFlex="0 1 600px" class="header-description">
+      <nz-col
+        nzFlex="0 1 600px"
+        class="header-description">
         <h2>Contributors</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
           CIViC depends on its users to add to its knowledgebase and curate its
           content. Anyone may join CIViC as a Curator and begin contributing.
         </p>
       </nz-col>
-      <nz-col nzFlex="auto" class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+      <nz-col
+        nzFlex="auto"
+        class="header-links">
+        <nz-space
+          nzDirection="vertical"
+          class="docs-buttons">
           <a
             nz-button
             href="https://civic.readthedocs.io/en/latest/using/users.html"
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem
-          >
-            <i nz-icon nzType="link" nzTheme="outline"></i>
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
             View Contributor Docs
           </a>
         </nz-space>
       </nz-col>
     </nz-row>
     <div nz-row>
-      <div nz-col [nzSpan]="24">
+      <div
+        nz-col
+        [nzSpan]="24">
         <div class="content">
           <cvc-users-table cvcTitle="Browse All Contributors"></cvc-users-table>
         </div>

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
   CommentableInput,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-genes-comments',
@@ -11,13 +11,13 @@ import {
   styleUrls: ['./genes-comments.page.less'],
 })
 export class GenesCommentsPage {
-  commentable: CommentableInput;
+  commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {
-    const geneId: number = +this.route.snapshot.params['geneId'];
+    const geneId: number = +this.route.snapshot.params['geneId']
     this.commentable = {
       id: geneId,
       entityType: CommentableEntities.Gene,
-    };
+    }
   }
 }

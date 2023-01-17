@@ -1,9 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'sources-home',
@@ -11,10 +8,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./sources-home.page.less'],
 })
 export class SourcesHomePage implements OnInit {
-  viewer$: Observable<Viewer>;
+  viewer$: Observable<Viewer>
 
   constructor(private viewerService: ViewerService) {
-    this.viewer$ = this.viewerService.viewer$;
+    this.viewer$ = this.viewerService.viewer$
   }
 
   ngOnInit(): void {}

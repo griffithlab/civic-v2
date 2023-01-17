@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SourceSuggestionsComponent } from './source-suggestions.component';
-import { SourceSuggestionsHomePage } from './source-suggestions-home/source-suggestions-home.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { SourceSuggestionsComponent } from './source-suggestions.component'
+import { SourceSuggestionsHomePage } from './source-suggestions-home/source-suggestions-home.page'
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

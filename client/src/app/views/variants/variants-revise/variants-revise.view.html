@@ -10,8 +10,7 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Variant' | entityColor"
-        nzType="civic-variant"
-      ></i>
+        nzType="civic-variant"></i>
       {{ variant.name }}
     </nz-page-header-title>
 
@@ -28,8 +27,12 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24" nzJustify="center">
-            <div nz-col nzSpan="6">
+          <nz-row
+            nzSpan="24"
+            nzJustify="center">
+            <div
+              nz-col
+              nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>
           </nz-row>

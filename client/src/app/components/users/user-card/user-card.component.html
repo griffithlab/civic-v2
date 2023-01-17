@@ -1,21 +1,28 @@
-<nz-card [nzTitle]="titleTemplate" style="height: 100%">
-  <nz-space nzDirection="vertical" style="width: 100%">
+<nz-card
+  [nzTitle]="titleTemplate"
+  style="height: 100%">
+  <nz-space
+    nzDirection="vertical"
+    style="width: 100%">
     <ng-container *nzSpaceItem>
       <nz-space nzSize="large">
         <cvc-user-avatar
           *nzSpaceItem
           [user]="user"
-          [size]="32"
-        ></cvc-user-avatar>
+          [size]="32"></cvc-user-avatar>
         <ng-container *nzSpaceItem>
-          <nz-space nzAlign="center" [nzSplit]="spaceSplit">
+          <nz-space
+            nzAlign="center"
+            [nzSplit]="spaceSplit">
             <ng-container *ngIf="user.twitterHandle">
               <a
                 href="http://twitter.com/{{ user.twitterHandle }}"
                 target="_blank"
-                *nzSpaceItem
-              >
-                <i nz-icon nzType="twitter" nzTheme="outline"></i>
+                *nzSpaceItem>
+                <i
+                  nz-icon
+                  nzType="twitter"
+                  nzTheme="outline"></i>
               </a>
             </ng-container>
 
@@ -23,9 +30,11 @@
               <a
                 href="http://facebook.com/{{ user.facebookProfile }}"
                 target="_blank"
-                *nzSpaceItem
-              >
-                <i nz-icon nzType="facebook" nzTheme="outline"></i>
+                *nzSpaceItem>
+                <i
+                  nz-icon
+                  nzType="facebook"
+                  nzTheme="outline"></i>
               </a>
             </ng-container>
 
@@ -33,17 +42,18 @@
               <a
                 href="http://linkedin.com/in/{{ user.linkedinProfile }}"
                 target="_blank"
-                *nzSpaceItem
-              >
-                <i nz-icon nzType="linkedin" nzTheme="outline"></i>
+                *nzSpaceItem>
+                <i
+                  nz-icon
+                  nzType="linkedin"
+                  nzTheme="outline"></i>
               </a>
             </ng-container>
             <ng-container *ngIf="user.orcid">
               <a
                 href="https://orcid.org/{{ user.orcid }}"
                 target="_blank"
-                *nzSpaceItem
-              >
+                *nzSpaceItem>
                 <span>ID</span>
               </a>
             </ng-container>
@@ -59,26 +69,30 @@
       nzBordered
       nzSize="small"
       [nzColumn]="1"
-      nzLayout="vertical"
-    >
+      nzLayout="vertical">
       <nz-descriptions-item nzTitle="Expertise">
         <ng-container *ngIf="user.areaOfExpertise; else notProvided">
           {{ user.areaOfExpertise | enumToTitle }}
         </ng-container>
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="Organization">
-        <nz-space nzDirection="vertical" [nzSize]="1">
+        <nz-space
+          nzDirection="vertical"
+          [nzSize]="1">
           <ng-container *ngFor="let organization of user.organizations">
             <cvc-organization-tag
               *nzSpaceItem
-              [org]="organization"
-            ></cvc-organization-tag>
+              [org]="organization"></cvc-organization-tag>
           </ng-container>
         </nz-space>
       </nz-descriptions-item>
     </nz-descriptions>
     <ng-template #notProvided>
-      <span nz-typography nzType="secondary">Not provided</span>
+      <span
+        nz-typography
+        nzType="secondary"
+        >Not provided</span
+      >
     </ng-template>
   </nz-space>
 </nz-card>
@@ -86,6 +100,5 @@
   <cvc-user-tag
     [user]="user"
     [enablePopover]="false"
-    style="font-weight: normal"
-  ></cvc-user-tag>
+    style="font-weight: normal"></cvc-user-tag>
 </ng-template>

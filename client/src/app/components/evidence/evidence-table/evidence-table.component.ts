@@ -7,14 +7,14 @@ import {
   OnInit,
   Output,
   TemplateRef,
-} from '@angular/core';
-import { ApolloQueryResult } from '@apollo/client/core';
+} from '@angular/core'
+import { ApolloQueryResult } from '@apollo/client/core'
 import {
   buildSortParams,
   SortDirectionEvent,
-} from '@app/core/utilities/datatable-helpers';
-import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
-import { FormEvidence } from '@app/forms/forms.interfaces';
+} from '@app/core/utilities/datatable-helpers'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { FormEvidence } from '@app/forms/forms.interfaces'
 import {
   EvidenceBrowseGQL,
   EvidenceBrowseQuery,
@@ -30,36 +30,35 @@ import {
   Maybe,
   PageInfo,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { QueryRef } from 'apollo-angular';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { isNonNulled } from 'rxjs-etc';
+} from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { QueryRef } from 'apollo-angular'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
 import {
   debounceTime,
   distinctUntilChanged,
   filter,
   map,
-  
   skip,
   takeWhile,
   withLatestFrom,
-} from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
+} from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
 
 export interface EvidenceTableUserFilters {
-  eidInput?: Maybe<string>;
-  diseaseNameInput?: Maybe<string>;
-  therapyNameInput?: Maybe<string>;
-  descriptionInput?: Maybe<string>;
-  evidenceLevelInput?: Maybe<EvidenceLevel>;
-  evidenceTypeInput?: Maybe<EvidenceType>;
-  evidenceDirectionInput?: Maybe<EvidenceDirection>;
-  SignificanceInput?: Maybe<EvidenceSignificance>;
-  variantOriginInput?: Maybe<VariantOrigin>;
-  evidenceRatingInput?: Maybe<number>;
-  molecularProfileNameInput?: Maybe<string>;
-  geneSymbolInput?: Maybe<string>;
+  eidInput?: Maybe<string>
+  diseaseNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
+  descriptionInput?: Maybe<string>
+  evidenceLevelInput?: Maybe<EvidenceLevel>
+  evidenceTypeInput?: Maybe<EvidenceType>
+  evidenceDirectionInput?: Maybe<EvidenceDirection>
+  SignificanceInput?: Maybe<EvidenceSignificance>
+  variantOriginInput?: Maybe<VariantOrigin>
+  evidenceRatingInput?: Maybe<number>
+  molecularProfileNameInput?: Maybe<string>
+  geneSymbolInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -70,80 +69,80 @@ export interface EvidenceTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceTableComponent implements OnInit {
-  @Input() cvcHeight: Maybe<string>;
-  @Input() assertionId: Maybe<number>;
-  @Input() clinicalTrialId: Maybe<number>;
-  @Input() cvcTitle: Maybe<string>;
-  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>;
-  @Input() diseaseId: Maybe<number>;
-  @Input() displayMolecularProfile = true;
-  @Input() therapyId: Maybe<number>;
-  @Input() initialSelectedEids: FormEvidence[] = [];
-  @Input() mode: 'normal' | 'select' = 'normal';
-  @Input() organizationId: Maybe<number>;
-  @Input() phenotypeId: Maybe<number>;
-  @Input() sourceId: Maybe<number>;
-  @Input() status: Maybe<EvidenceStatusFilter>;
-  @Input() userId: Maybe<number>;
-  @Input() variantId: Maybe<number>;
-  @Input() molecularProfileId: Maybe<number>;
-  @Input() initialPageSize = 35;
+  @Input() cvcHeight: Maybe<string>
+  @Input() assertionId: Maybe<number>
+  @Input() clinicalTrialId: Maybe<number>
+  @Input() cvcTitle: Maybe<string>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() diseaseId: Maybe<number>
+  @Input() displayMolecularProfile = true
+  @Input() therapyId: Maybe<number>
+  @Input() initialSelectedEids: FormEvidence[] = []
+  @Input() mode: 'normal' | 'select' = 'normal'
+  @Input() organizationId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
+  @Input() sourceId: Maybe<number>
+  @Input() status: Maybe<EvidenceStatusFilter>
+  @Input() userId: Maybe<number>
+  @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
+  @Input() initialPageSize = 35
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
     // assign any attributes in filters object to this class
-    if (f) Object.assign(this, f);
+    if (f) Object.assign(this, f)
   }
 
-  @Output() initialTotalCount = new EventEmitter<number>();
+  @Output() initialTotalCount = new EventEmitter<number>()
 
-  @Output() selectedEids = new EventEmitter<FormEvidence[]>();
+  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
 
   // SOURCE STREAMS
-  scrollEvent$: BehaviorSubject<ScrollEvent>;
-  sortChange$: Subject<SortDirectionEvent>;
-  filterChange$: Subject<void>;
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  sortChange$: Subject<SortDirectionEvent>
+  filterChange$: Subject<void>
 
   // INTERMEDIATE STREAMS
-  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>;
-  result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>;
-  connection$!: Observable<EvidenceItemConnection>;
+  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
+  result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
+  connection$!: Observable<EvidenceItemConnection>
 
   // PRESENTATION STREAMS
-  pageInfo$!: Observable<PageInfo>;
-  initialLoading$!: Observable<boolean>;
-  moreLoading$!: Observable<boolean>;
-  row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>;
-  scrollIndex$: Subject<number>;
-  noMoreRows$: BehaviorSubject<boolean>;
+  pageInfo$!: Observable<PageInfo>
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
-  isScrolling = false;
+  isScrolling = false
 
   // filters
-  SignificanceInput: Maybe<EvidenceSignificance>;
-  descriptionInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  therapyNameInput: Maybe<string>;
-  eidInput: Maybe<string>;
-  evidenceDirectionInput: Maybe<EvidenceDirection>;
-  evidenceLevelInput: Maybe<EvidenceLevel>;
-  evidenceRatingInput: Maybe<number>;
-  evidenceTypeInput: Maybe<EvidenceType>;
-  molecularProfileNameInput: Maybe<string>;
-  variantOriginInput: Maybe<VariantOrigin>;
+  SignificanceInput: Maybe<EvidenceSignificance>
+  descriptionInput: Maybe<string>
+  diseaseNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
+  eidInput: Maybe<string>
+  evidenceDirectionInput: Maybe<EvidenceDirection>
+  evidenceLevelInput: Maybe<EvidenceLevel>
+  evidenceRatingInput: Maybe<number>
+  evidenceTypeInput: Maybe<EvidenceType>
+  molecularProfileNameInput: Maybe<string>
+  variantOriginInput: Maybe<VariantOrigin>
 
-  sortColumns = EvidenceSortColumns;
-  evidenceLevels = EvidenceLevel;
+  sortColumns = EvidenceSortColumns
+  evidenceLevels = EvidenceLevel
 
-  selectedEvidenceIds = new Map<number, FormEvidence>();
+  selectedEvidenceIds = new Map<number, FormEvidence>()
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
-    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop');
-    this.sortChange$ = new Subject<SortDirectionEvent>();
-    this.filterChange$ = new Subject<void>();
-    this.scrollIndex$ = new Subject<number>();
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.filterChange$ = new Subject<void>()
+    this.scrollIndex$ = new Subject<number>()
   }
 
   ngOnInit() {
@@ -178,33 +177,33 @@ export class CvcEvidenceTableComponent implements OnInit {
       variantOrigin: this.variantOriginInput
         ? this.variantOriginInput
         : undefined,
-    });
+    })
 
     this.initialSelectedEids.forEach((eid) =>
       this.selectedEvidenceIds.set(eid.id, eid)
-    );
+    )
 
-    this.result$ = this.queryRef.valueChanges;
+    this.result$ = this.queryRef.valueChanges
 
     // toggles table overlay 'Loading...' spinner
     this.initialLoading$ = this.result$.pipe(
       pluck('loading'),
       distinctUntilChanged(),
       takeWhile((l) => l !== false, true)
-    ); // only activate on 1st true/false sequence
+    ) // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$.pipe(
       pluck('loading'),
       distinctUntilChanged(),
       skip(2)
-    ); // skip 1st true/false sequence
+    ) // skip 1st true/false sequence
 
     // entity relay connection
     this.connection$ = this.result$.pipe(
       pluck('data', 'evidenceItems'),
       filter(isNonNulled)
-    ) as Observable<EvidenceItemConnection>;
+    ) as Observable<EvidenceItemConnection>
 
     // emit total counts
     this.connection$
@@ -212,34 +211,34 @@ export class CvcEvidenceTableComponent implements OnInit {
         map((p) => p.totalCount),
         untilDestroyed(this)
       )
-      .subscribe((tc) => this.initialTotalCount.next(tc));
+      .subscribe((tc) => this.initialTotalCount.next(tc))
 
     // entity row nodes
     this.row$ = this.connection$.pipe(
       pluck('edges'),
       filter(isNonNulled),
       map((edges) => edges.map((e) => e.node))
-    );
+    )
 
     // provided to table-scroll directive for fetchMore queries
     this.pageInfo$ = this.connection$.pipe(
       pluck('pageInfo'),
       filter(isNonNulled)
-    );
+    )
 
     // refetch when column sort changes
     this.sortChange$
       .pipe(untilDestroyed(this))
       .subscribe((e: SortDirectionEvent) => {
-        this.queryRef.refetch({ sortBy: buildSortParams(e) });
-      });
+        this.queryRef.refetch({ sortBy: buildSortParams(e) })
+      })
 
     // refresh when filters change
     this.filterChange$
       .pipe(debounceTime(500), untilDestroyed(this))
       .subscribe(() => {
-        this.refresh();
-      });
+        this.refresh()
+      })
 
     // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
@@ -249,9 +248,9 @@ export class CvcEvidenceTableComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe((e) => {
-        this.isScrolling = e;
-        this.cdr.detectChanges();
-      });
+        this.isScrolling = e
+        this.cdr.detectChanges()
+      })
 
     // emit event from noMoreRow$ if hasNextPage false
     this.scrollEvent$
@@ -263,26 +262,26 @@ export class CvcEvidenceTableComponent implements OnInit {
       )
       .subscribe((pageInfo: PageInfo) => {
         if (!pageInfo.hasNextPage) {
-          this.noMoreRows$.next(true);
-          this.cdr.detectChanges();
+          this.noMoreRows$.next(true)
+          this.cdr.detectChanges()
 
           // need to send a followup 'false' here or else
           // ng won't interpret subsequent 'true' events as changes
-          setInterval(() => this.noMoreRows$.next(false));
+          setInterval(() => this.noMoreRows$.next(false))
         }
-      });
+      })
   } // ngOnInit
 
   refresh() {
-    let eid: Maybe<number>;
+    let eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
-        eid = +this.eidInput.toUpperCase().replace('EID', '');
+        eid = +this.eidInput.toUpperCase().replace('EID', '')
       } else {
-        eid = +this.eidInput;
+        eid = +this.eidInput
       }
     else {
-      eid = undefined;
+      eid = undefined
     }
     this.queryRef
       .refetch({
@@ -310,21 +309,21 @@ export class CvcEvidenceTableComponent implements OnInit {
           ? this.molecularProfileNameInput
           : undefined,
       })
-      .then(() => this.scrollIndex$.next(0));
+      .then(() => this.scrollIndex$.next(0))
 
-    this.cdr.detectChanges();
+    this.cdr.detectChanges()
   }
 
   onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
     if (newValue) {
-      this.selectedEvidenceIds.set(eid.id, eid);
+      this.selectedEvidenceIds.set(eid.id, eid)
     } else {
-      this.selectedEvidenceIds.delete(eid.id);
+      this.selectedEvidenceIds.delete(eid.id)
     }
-    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()));
+    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
   }
 
   trackByIndex(_: number, data: any): number {
-    return data.id;
+    return data.id
   }
 }

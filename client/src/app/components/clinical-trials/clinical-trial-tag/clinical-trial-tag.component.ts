@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+import { Component, Input, OnInit } from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkableClinicalTrial {
-  id: number;
-  nctId: string;
-  link: string;
+  id: number
+  nctId: string
+  link: string
 }
 
 @Component({
@@ -13,22 +13,22 @@ export interface LinkableClinicalTrial {
   styleUrls: ['./clinical-trial-tag.component.less'],
 })
 export class CvcClinicalTrialTagComponent {
-  _clinicalTrial!: LinkableClinicalTrial;
+  _clinicalTrial!: LinkableClinicalTrial
 
   @Input()
   set clinicalTrial(trial: LinkableClinicalTrial) {
     if (!trial) {
       throw new Error(
         'clinical-trial-tag clinicalTrial Input requires LinkableClinicalTrial.'
-      );
+      )
     }
-    this._clinicalTrial = trial;
+    this._clinicalTrial = trial
   }
   get clinicalTrial(): LinkableClinicalTrial {
-    return this._clinicalTrial;
+    return this._clinicalTrial
   }
-  @Input() linked: Maybe<boolean> = true;
-  @Input() enablePopover: Maybe<boolean> = true;
+  @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() {}
 }

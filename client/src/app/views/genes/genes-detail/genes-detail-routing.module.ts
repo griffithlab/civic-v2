@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { GenesCommentsModule } from './genes-comments/genes-comments.module';
-import { GenesCommentsPage } from './genes-comments/genes-comments.page';
-import { GenesDetailView } from './genes-detail.view';
-import { GenesEventsModule } from './genes-events/genes-events.module';
-import { GenesEventsPage } from './genes-events/genes-events.page';
-import { GenesFlagsModule } from './genes-flags/genes-flags.module';
-import { GenesFlagsPage } from './genes-flags/genes-flags.page';
-import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module';
-import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page';
-import { GenesSummaryModule } from './genes-summary/genes-summary.module';
-import { GenesSummaryPage } from './genes-summary/genes-summary.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { GenesCommentsModule } from './genes-comments/genes-comments.module'
+import { GenesCommentsPage } from './genes-comments/genes-comments.page'
+import { GenesDetailView } from './genes-detail.view'
+import { GenesEventsModule } from './genes-events/genes-events.module'
+import { GenesEventsPage } from './genes-events/genes-events.page'
+import { GenesFlagsModule } from './genes-flags/genes-flags.module'
+import { GenesFlagsPage } from './genes-flags/genes-flags.page'
+import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module'
+import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page'
+import { GenesSummaryModule } from './genes-summary/genes-summary.module'
+import { GenesSummaryPage } from './genes-summary/genes-summary.page'
 
 const routes: Routes = [
   {
@@ -58,7 +58,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [

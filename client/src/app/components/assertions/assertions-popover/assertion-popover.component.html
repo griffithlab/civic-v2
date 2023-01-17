@@ -4,8 +4,7 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="molecularProfile"
-    >
+      [nzExtra]="molecularProfile">
       <ng-template #cardTitle>
         <nz-space>
           <ng-container *nzSpaceItem>
@@ -13,31 +12,27 @@
               nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Assertion' | entityColor"
-              nzType="civic-assertion"
-            ></i>
+              nzType="civic-assertion"></i>
             {{ assertion.name }}
           </ng-container>
           <cvc-status-tag
             *nzSpaceItem
             [status]="assertion.status"
-            style="font-weight: normal"
-          ></cvc-status-tag>
+            style="font-weight: normal"></cvc-status-tag>
         </nz-space>
       </ng-template>
       <ng-template #molecularProfile>
         <cvc-molecular-profile-tag
           [molecularProfile]="assertion.molecularProfile"
           [enablePopover]="false"
-          [truncateLongName]="true"
-        ></cvc-molecular-profile-tag>
+          [truncateLongName]="true"></cvc-molecular-profile-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
           <div class="popover-text">
             <p nz-typography>
               <ng-container
-                *ngIf="assertion.summary as summary; else noSummary"
-              >
+                *ngIf="assertion.summary as summary; else noSummary">
                 {{ summary }}
               </ng-container>
             </p>
@@ -45,18 +40,18 @@
         </nz-col>
       </nz-row>
 
-      <nz-space nzDirection="vertical" nzSize="small">
+      <nz-space
+        nzDirection="vertical"
+        nzSize="small">
         <nz-descriptions
           *nzSpaceItem
           nzSize="small"
           [nzColumn]="1"
-          nzBordered="true"
-        >
+          nzBordered="true">
           <nz-descriptions-item nzTitle="MP Expression">
             <cvc-mp-tag-name
               [nameSegments]="assertion.molecularProfile.parsedName"
-              [enablePopover]="false"
-            ></cvc-mp-tag-name>
+              [enablePopover]="false"></cvc-mp-tag-name>
           </nz-descriptions-item>
         </nz-descriptions>
 
@@ -64,8 +59,7 @@
           *nzSpaceItem
           nzSize="small"
           [nzColumn]="2"
-          nzBordered="true"
-        >
+          nzBordered="true">
           <nz-descriptions-item nzTitle="Type">
             {{ assertion.assertionType | evidenceEnumDisplay }}
           </nz-descriptions-item>
@@ -81,8 +75,7 @@
           <nz-descriptions-item
             *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType)"
             nzTitle="ACMG Codes"
-            nzSpan="2"
-          >
+            nzSpan="2">
             <ng-container *ngIf="assertion.acmgCodes.length > 0; else noAcmg">
               <nz-tag
                 nz-tooltip
@@ -97,11 +90,9 @@
           <nz-descriptions-item
             *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType)"
             nzTitle="ClinGen/CGC/VICC Codes"
-            nzSpan="2"
-          >
+            nzSpan="2">
             <ng-container
-              *ngIf="assertion.clingenCodes.length > 0; else noClingen"
-            >
+              *ngIf="assertion.clingenCodes.length > 0; else noClingen">
               <nz-tag
                 nz-tooltip
                 [nzTooltipTitle]="code.description"
@@ -114,9 +105,8 @@
 
           <nz-descriptions-item
             *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType)"
-            nzTitle="AMP/ASCO/CAP Category"
-          >
-            {{ assertion.ampLevel | formatAmp : "compact" | ifEmpty : "--" }}
+            nzTitle="AMP/ASCO/CAP Category">
+            {{ assertion.ampLevel | formatAmp : 'compact' | ifEmpty : '--' }}
           </nz-descriptions-item>
 
           <nz-descriptions-item nzTitle="Regulatory Approval">
@@ -125,15 +115,13 @@
               *ngIf="assertion.regulatoryApproval"
               nzType="check-circle"
               nzTheme="twotone"
-              nzTwotoneColor="#52c41a"
-            ></i>
+              nzTwotoneColor="#52c41a"></i>
             <i
               nz-icon
               *ngIf="!assertion.regulatoryApproval"
               nzType="close-square"
               nzTheme="twotone"
-              nzTwotoneColor="#d93026"
-            ></i>
+              nzTwotoneColor="#d93026"></i>
             <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
               (last updated
               {{ assertion.regulatoryApprovalLastUpdated | timeAgo }})
@@ -146,15 +134,13 @@
               *ngIf="assertion.fdaCompanionTest"
               nzType="check-circle"
               nzTheme="twotone"
-              nzTwotoneColor="#52c41a"
-            ></i>
+              nzTwotoneColor="#52c41a"></i>
             <i
               nz-icon
               *ngIf="!assertion.fdaCompanionTest"
               nzType="close-square"
               nzTheme="twotone"
-              nzTwotoneColor="#d93026"
-            ></i>
+              nzTwotoneColor="#d93026"></i>
             <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
               (last updated
               {{ assertion.fdaCompanionTestLastUpdated | timeAgo }})
@@ -162,24 +148,27 @@
           </nz-descriptions-item>
 
           <nz-descriptions-item nzTitle="NCCN Guideline">
-            {{ assertion.nccnGuideline?.name | ifEmpty : "--" }}
+            {{ assertion.nccnGuideline?.name | ifEmpty : '--' }}
           </nz-descriptions-item>
 
           <nz-descriptions-item nzTitle="Variant Origin">
             {{ assertion.variantOrigin | evidenceEnumDisplay }}
           </nz-descriptions-item>
 
-          <nz-descriptions-item nzTitle="Clinical Significance" nzSpan="2">
+          <nz-descriptions-item
+            nzTitle="Clinical Significance"
+            nzSpan="2">
             {{ assertion.significance | evidenceEnumDisplay }}
           </nz-descriptions-item>
 
-          <nz-descriptions-item nzTitle="Disease" nzSpan="2">
+          <nz-descriptions-item
+            nzTitle="Disease"
+            nzSpan="2">
             <ng-container *ngIf="assertion.disease; else noDisease">
               <cvc-disease-tag
                 [enablePopover]="false"
                 [disease]="assertion.disease"
-                [truncateLongName]="true"
-              ></cvc-disease-tag>
+                [truncateLongName]="true"></cvc-disease-tag>
             </ng-container>
             <ng-template #noDisease> N/A </ng-template>
           </nz-descriptions-item>
@@ -187,14 +176,12 @@
           <nz-descriptions-item
             nzTitle="Therapies"
             nzSpan="2"
-            *ngIf="assertion.therapies.length > 0"
-          >
+            *ngIf="assertion.therapies.length > 0">
             <span *ngFor="let therapy of assertion.therapies">
               <cvc-therapy-tag
                 [enablePopover]="false"
                 [therapy]="therapy"
-                [truncateLongName]="true"
-              ></cvc-therapy-tag>
+                [truncateLongName]="true"></cvc-therapy-tag>
             </span>
             <ng-container *ngIf="assertion.therapies.length > 1">
               {{ assertion.therapyInteractionType | titlecase }}
@@ -205,13 +192,11 @@
           <nz-descriptions-item
             nzTitle="Phenotypes"
             nzSpan="2"
-            *ngIf="assertion.phenotypes.length > 0"
-          >
+            *ngIf="assertion.phenotypes.length > 0">
             <span *ngFor="let ph of assertion.phenotypes">
               <cvc-phenotype-tag
                 [enablePopover]="false"
-                [phenotype]="ph"
-              ></cvc-phenotype-tag>
+                [phenotype]="ph"></cvc-phenotype-tag>
             </span>
           </nz-descriptions-item>
         </nz-descriptions>
@@ -221,31 +206,34 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <a routerLink="/assertions/{{ assertion.id }}/flags" *nzSpaceItem>
+            <a
+              routerLink="/assertions/{{ assertion.id }}/flags"
+              *nzSpaceItem>
               <nz-tag nzColor="red">
-                <i nz-icon nzType="civic-flag"></i> Flags ({{
-                  assertion.flags.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-flag"></i>
+                Flags ({{ assertion.flags.totalCount }})
               </nz-tag>
             </a>
             <a
               routerLink="/assertions/{{ assertion.id }}/revisions"
-              *nzSpaceItem
-            >
+              *nzSpaceItem>
               <nz-tag nzColor="orange">
-                <i nz-icon nzType="civic-revision"></i> Revisions ({{
-                  assertion.revisions.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-revision"></i>
+                Revisions ({{ assertion.revisions.totalCount }})
               </nz-tag>
             </a>
             <a
               routerLink="/assertions/{{ assertion.id }}/comments"
-              *nzSpaceItem
-            >
+              *nzSpaceItem>
               <nz-tag nzColor="blue">
-                <i nz-icon nzType="civic-comment"></i> Comments ({{
-                  assertion.comments.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-comment"></i>
+                Comments ({{ assertion.comments.totalCount }})
               </nz-tag>
             </a>
           </nz-space>

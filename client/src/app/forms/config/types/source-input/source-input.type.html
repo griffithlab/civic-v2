@@ -1,7 +1,6 @@
 <ng-container *ngIf="!formControl.value?.id; else sourceListItem">
   <cvc-source-selector
-    (sourceSelected)="onSourceSelected($event)"
-  ></cvc-source-selector>
+    (sourceSelected)="onSourceSelected($event)"></cvc-source-selector>
 </ng-container>
 <ng-template #sourceListItem>
   <cvc-source-tag [source]="formControl.value"></cvc-source-tag>

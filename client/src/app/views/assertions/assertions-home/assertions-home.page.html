@@ -6,9 +6,11 @@
       routerLink="/assertions/add/submit"
       *ngIf="viewer.signedIn"
       nz-button
-      nzSize="small"
-    >
-      <i nz-icon nzType="plus-circle"></i> Submit New Assertion
+      nzSize="small">
+      <i
+        nz-icon
+        nzType="plus-circle"></i>
+      Submit New Assertion
     </button>
   </ng-container>
 </ng-template>
@@ -17,33 +19,46 @@
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px" class="header-icon">
+      <nz-col
+        nzFlex="64px"
+        class="header-icon">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Assertion' | entityColor"
-          nzType="civic-assertion"
-        ></i>
+          nzType="civic-assertion"></i>
       </nz-col>
-      <nz-col nzFlex="0 1 600px" class="header-description">
+      <nz-col
+        nzFlex="0 1 600px"
+        class="header-description">
         <h2>Assertions</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
           A CIViC Assertion summarizes a collection of Evidence Items that cover
           predictive/therapeutic, diagnostic, prognostic or predisposing
           clinical information for a variant in a specific cancer context.
         </p>
       </nz-col>
-      <nz-col nzFlex="auto" class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+      <nz-col
+        nzFlex="auto"
+        class="header-links">
+        <nz-space
+          nzDirection="vertical"
+          class="docs-buttons">
           <a
             nz-button
             href="https://civic.readthedocs.io/en/latest/model/assertions.html"
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem
-          >
-            <i nz-icon nzType="link" nzTheme="outline"></i>
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
             View Assertion Model Docs
           </a>
           <a
@@ -52,9 +67,11 @@
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem
-          >
-            <i nz-icon nzType="link" nzTheme="outline"></i>
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
             View Assertion Curation Docs
           </a>
         </nz-space>
@@ -64,8 +81,7 @@
       <nz-col [nzSpan]="24">
         <div class="content">
           <cvc-assertions-table
-            cvcTitle="Browse All Assertions"
-          ></cvc-assertions-table>
+            cvcTitle="Browse All Assertions"></cvc-assertions-table>
         </div>
       </nz-col>
     </nz-row>

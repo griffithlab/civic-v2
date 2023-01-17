@@ -9,8 +9,7 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Gene' | entityColor"
-        nzType="civic-gene"
-      ></i>
+        nzType="civic-gene"></i>
       {{ gene.name }}
     </nz-page-header-title>
 
@@ -23,8 +22,12 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24" nzJustify="center">
-            <div nz-col nzSpan="6">
+          <nz-row
+            nzSpan="24"
+            nzJustify="center">
+            <div
+              nz-col
+              nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>
           </nz-row>

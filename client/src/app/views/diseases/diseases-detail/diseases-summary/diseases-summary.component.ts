@@ -1,16 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   DiseaseDetailGQL,
   DiseasesSummaryFieldsFragment,
   DiseasesSummaryQuery,
   DiseasesSummaryQueryVariables,
   Maybe,
-} from '@app/generated/civic.apollo';
-import { QueryRef } from 'apollo-angular/query-ref';
-import { Observable, Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular/query-ref'
+import { Observable, Subscription } from 'rxjs'
+import { startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
 
 @Component({
   selector: 'cvc-diseases-summary',
@@ -18,25 +18,25 @@ import { pluck } from 'rxjs-etc/operators';
   styleUrls: ['./diseases-summary.component.less'],
 })
 export class DiseasesSummaryComponent implements OnDestroy {
-  routeSub: Subscription;
-  diseaseId?: number;
-  loading$?: Observable<boolean>;
-  queryRef?: QueryRef<DiseasesSummaryQuery, DiseasesSummaryQueryVariables>;
-  disease$?: Observable<Maybe<DiseasesSummaryFieldsFragment>>;
+  routeSub: Subscription
+  diseaseId?: number
+  loading$?: Observable<boolean>
+  queryRef?: QueryRef<DiseasesSummaryQuery, DiseasesSummaryQueryVariables>
+  disease$?: Observable<Maybe<DiseasesSummaryFieldsFragment>>
 
   constructor(private route: ActivatedRoute, private gql: DiseaseDetailGQL) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.diseaseId = +params.diseaseId;
-      this.queryRef = this.gql.watch({ diseaseId: this.diseaseId });
+      this.diseaseId = +params.diseaseId
+      this.queryRef = this.gql.watch({ diseaseId: this.diseaseId })
 
-      let observable = this.queryRef.valueChanges;
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      let observable = this.queryRef.valueChanges
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.disease$ = observable.pipe(pluck('data', 'disease'));
-    });
+      this.disease$ = observable.pipe(pluck('data', 'disease'))
+    })
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

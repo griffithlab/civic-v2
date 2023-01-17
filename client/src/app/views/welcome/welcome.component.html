@@ -1,8 +1,17 @@
-<nz-space nzDirection="vertical" nzSize="middle" class="space-container">
+<nz-space
+  nzDirection="vertical"
+  nzSize="middle"
+  class="space-container">
   <nz-row *nzSpaceItem>
     <nz-col [nzSpan]="24">
-      <nz-space nzDirection="vertical" nzSize="middle" class="space-container">
-        <nz-carousel nzAutoPlay nzAutoPlaySpeed="10000" *nzSpaceItem>
+      <nz-space
+        nzDirection="vertical"
+        nzSize="middle"
+        class="space-container">
+        <nz-carousel
+          nzAutoPlay
+          nzAutoPlaySpeed="10000"
+          *nzSpaceItem>
           <div nz-carousel-content>
             <h1>Welcome to CIViC</h1>
             <h2>
@@ -36,38 +45,43 @@
       </nz-space>
     </nz-col>
   </nz-row>
-  <nz-row *nzSpaceItem [nzGutter]="16">
+  <nz-row
+    *nzSpaceItem
+    [nzGutter]="16">
     <nz-col [nzSpan]="24">
       <cvc-site-stats-card></cvc-site-stats-card>
     </nz-col>
   </nz-row>
-  <nz-row [nzGutter]="16" *nzSpaceItem>
+  <nz-row
+    [nzGutter]="16"
+    *nzSpaceItem>
     <nz-col [nzSpan]="12">
       <nz-card
         style="height: 100%"
         nzTitle="News & Events"
         nzSize="small"
-        class="home-card"
-      >
+        class="home-card">
         <nz-list nzItemLayout="vertical">
           <nz-list-item>
             <nz-list-item-meta>
               <nz-list-item-meta-title>
                 <span>CIViC named as a Global Core Biodata Resource</span>
                 <br />
-                <span nz-typography nzType="secondary"> Dec 15, 2022 </span>
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  Dec 15, 2022
+                </span>
               </nz-list-item-meta-title>
             </nz-list-item-meta>
             <a
               href="https://globalbiodata.org"
               title="GCBR Homepage"
-              target="_blank"
-            >
+              target="_blank">
               <img
                 src="assets/images/GCBR-Logo-RGB.png"
                 alt="The Global Code Biodata Resources Logo"
-                style="float: right; margin: 0 0 8px 8px; height: 75px"
-              />
+                style="float: right; margin: 0 0 8px 8px; height: 75px" />
             </a>
             CIViC has been named in a
             <a
@@ -94,7 +108,9 @@
               <nz-list-item-meta-title>
                 <span>CIViC Wins ICTR Elevator Pitch Award</span>
                 <br />
-                <span nz-typography nzType="secondary">
+                <span
+                  nz-typography
+                  nzType="secondary">
                   September 14th, 2022
                 </span>
               </nz-list-item-meta-title>
@@ -116,7 +132,11 @@
               <nz-list-item-meta-title>
                 <span>CIViC Curation Jamboree & Hackathon</span>
                 <br />
-                <span nz-typography nzType="secondary"> July 30th, 2022 </span>
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  July 30th, 2022
+                </span>
               </nz-list-item-meta-title>
             </nz-list-item-meta>
             We're excited to announce that CIViC, the Compendium of Cancer
@@ -136,7 +156,11 @@
               <nz-list-item-meta-title>
                 <span>Welcome to CIViC 2.0!</span>
                 <br />
-                <span nz-typography nzType="secondary"> April 9th, 2022 </span>
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  April 9th, 2022
+                </span>
               </nz-list-item-meta-title>
             </nz-list-item-meta>
             CIViC 2.0 features a completely redesigned user interface and a more
@@ -160,8 +184,7 @@
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+                allowfullscreen></iframe>
             </nz-list-item-extra>
           </nz-list-item>
           <nz-list-item>
@@ -169,7 +192,9 @@
               <nz-list-item-meta-title>
                 <span>Pediatric Cancer Variants</span>
                 <br />
-                <span nz-typography nzType="secondary">
+                <span
+                  nz-typography
+                  nzType="secondary">
                   February 12th, 2021
                 </span>
               </nz-list-item-meta-title>
@@ -187,7 +212,11 @@
               <nz-list-item-meta-title>
                 <span>Explore CIViC Variants in ProteinPaint</span>
                 <br />
-                <span nz-typography nzType="secondary">June 29th, 2020</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >June 29th, 2020</span
+                >
               </nz-list-item-meta-title>
             </nz-list-item-meta>
             St. Jude's ProteinPaint now incorporates a CIViC variant track,
@@ -199,8 +228,7 @@
               <img
                 width="150"
                 alt="logo"
-                src="https://civicdb.org/assets/images/partners/protein-paint-integration.png"
-              />
+                src="https://civicdb.org/assets/images/partners/protein-paint-integration.png" />
             </nz-list-item-extra>
           </nz-list-item>
         </nz-list>
@@ -211,19 +239,19 @@
         nzTitle="Live Curation Activity"
         style="min-height: 600px"
         nzSize="small"
-        class="home-card"
-      >
+        class="home-card">
         <cvc-homepage-event-feed [pageSize]="12"></cvc-homepage-event-feed>
       </nz-card>
     </nz-col>
   </nz-row>
-  <nz-row *nzSpaceItem [nzGutter]="16">
+  <nz-row
+    *nzSpaceItem
+    [nzGutter]="16">
     <nz-col [nzSpan]="24">
       <nz-card
         nzTitle="Medical Disclaimer: This resource is intended for purely research purposes. It should not be used for emergencies or medical or professional advice."
         nzSize="small"
-        class="home-card"
-      >
+        class="home-card">
         <p>
           CIViC is a community-edited forum for discussion and interpretation of
           peer-reviewed publications pertaining to the clinical relevance of
@@ -254,10 +282,20 @@
     </nz-col>
   </nz-row>
   <ng-container *ngIf="this.release$ | async as release">
-    <nz-row *nzSpaceItem nzAlign="middle" nzJustify="center">
-      <div id="release-info" nz-typography>
+    <nz-row
+      *nzSpaceItem
+      nzAlign="middle"
+      nzJustify="center">
+      <div
+        id="release-info"
+        nz-typography>
         CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
-        <a [href]="release.html_url" target="_blank">Release Notes</a> &bull;
+        <a
+          [href]="release.html_url"
+          target="_blank"
+          >Release Notes</a
+        >
+        &bull;
         <a
           href="https://github.com/griffithlab/civic-v2/releases/"
           target="_blank"

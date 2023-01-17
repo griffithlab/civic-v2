@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'
 import {
   EvidencePopoverFragment,
   EvidencePopoverGQL,
   Maybe,
-} from '@app/generated/civic.apollo';
-import { map, filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { isNonNulled } from 'rxjs-etc';
+} from '@app/generated/civic.apollo'
+import { map, filter } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
 
 @Component({
   selector: 'cvc-evidence-popover',
@@ -14,15 +14,15 @@ import { isNonNulled } from 'rxjs-etc';
   styleUrls: ['./evidence-popover.component.less'],
 })
 export class CvcEvidencePopoverComponent implements OnInit {
-  @Input() evidenceId!: number;
+  @Input() evidenceId!: number
 
-  evidence$?: Observable<Maybe<EvidencePopoverFragment>>;
+  evidence$?: Observable<Maybe<EvidencePopoverFragment>>
 
   constructor(private gql: EvidencePopoverGQL) {}
 
   ngOnInit() {
     if (this.evidenceId == undefined) {
-      throw new Error('cvc-evidence-popover requires valid evidenceId input.');
+      throw new Error('cvc-evidence-popover requires valid evidenceId input.')
     }
 
     this.evidence$ = this.gql
@@ -30,6 +30,6 @@ export class CvcEvidencePopoverComponent implements OnInit {
       .valueChanges.pipe(
         map(({ data }) => data?.evidenceItem),
         filter(isNonNulled)
-      );
+      )
   }
 }

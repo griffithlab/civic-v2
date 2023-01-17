@@ -11,8 +11,7 @@
             nzLayout="vertical"
             nzSize="small"
             nzBordered="true"
-            [nzColumn]="1"
-          >
+            [nzColumn]="1">
             <!-- description -->
             <nz-descriptions-item nzTitle="Description">
               <p
@@ -20,8 +19,7 @@
                 nz-typography
                 nzEllipsis
                 nzExpandable
-                [nzEllipsisRows]="8"
-              >
+                [nzEllipsisRows]="8">
                 {{ gene.description }}
               </p>
 
@@ -40,34 +38,39 @@
             nzLayout="horizontal"
             nzSize="small"
             [nzColumn]="1"
-            nzBordered="true"
-          >
+            nzBordered="true">
             <!-- sources -->
             <nz-descriptions-item nzTitle="Sources">
               <ng-container *ngIf="gene.sources.length > 0; else noSources">
                 <cvc-tag-list>
                   <cvc-source-tag
                     *ngFor="let source of gene.sources"
-                    [source]="source"
-                  ></cvc-source-tag>
+                    [source]="source"></cvc-source-tag>
                 </cvc-tag-list>
               </ng-container>
               <ng-template #noSources>
-                <span nz-typography nzType="secondary">None specified</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
               </ng-template>
             </nz-descriptions-item>
 
             <!-- aliases -->
             <nz-descriptions-item
               nzTitle="Aliases"
-              *ngIf="gene.geneAliases.length > 0; else noAliases"
-            >
+              *ngIf="gene.geneAliases.length > 0; else noAliases">
               <nz-tag *ngFor="let alias of gene.geneAliases"
                 >{{ alias }}</nz-tag
               >
             </nz-descriptions-item>
             <ng-template #noAliases>
-              <span nz-typography nzType="secondary">None specified</span>
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
             </ng-template>
 
             <!-- resource links -->
@@ -75,14 +78,12 @@
               <cvc-tag-list>
                 <cvc-link-tag
                   [href]="'http://dgidb.org/genes/' + gene.name"
-                  [tooltip]="'View ' + gene.name + ' on DGIdb'"
-                >
+                  [tooltip]="'View ' + gene.name + ' on DGIdb'">
                   DGIdb
                 </cvc-link-tag>
                 <cvc-link-tag
                   [href]="'https://pecan.stjude.cloud/proteinpaint/' + gene.name + '/hg19/civic'"
-                  [tooltip]="'View ' + gene.name + ' on ProteinPaint'"
-                >
+                  [tooltip]="'View ' + gene.name + ' on ProteinPaint'">
                   ProteinPaint
                 </cvc-link-tag>
               </cvc-tag-list>
@@ -103,14 +104,12 @@
       <nz-tabset nzType="card">
         <nz-tab nzTitle="Molecular Profiles">
           <cvc-molecular-profile-menu
-            [geneId]="gene.id"
-          ></cvc-molecular-profile-menu>
+            [geneId]="gene.id"></cvc-molecular-profile-menu>
         </nz-tab>
         <nz-tab nzTitle="Variants">
           <cvc-variant-menu
             [geneId]="gene.id"
-            [geneName]="gene.name"
-          ></cvc-variant-menu>
+            [geneName]="gene.name"></cvc-variant-menu>
         </nz-tab>
       </nz-tabset>
     </nz-col>

@@ -1,22 +1,19 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
   Organization,
   OrganizationDetailFieldsFragment,
   OrganizationDetailGQL,
   OrganizationDetailQueryVariables,
-} from '@app/generated/civic.apollo';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
-import { QueryRef } from 'apollo-angular';
-import { OrganizationDetailQuery } from '@app/generated/civic.apollo';
-import { startWith, map, takeUntil } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
+} from '@app/generated/civic.apollo'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { QueryRef } from 'apollo-angular'
+import { OrganizationDetailQuery } from '@app/generated/civic.apollo'
+import { startWith, map, takeUntil } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
   selector: 'organizations-detail',
@@ -24,16 +21,13 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./organizations-detail.component.less'],
 })
 export class OrganizationsDetailComponent implements OnDestroy {
-  queryRef?: QueryRef<
-    OrganizationDetailQuery,
-    OrganizationDetailQueryVariables
-  >;
-  destroy$ = new Subject<void>();
+  queryRef?: QueryRef<OrganizationDetailQuery, OrganizationDetailQueryVariables>
+  destroy$ = new Subject<void>()
 
-  organization$?: Observable<Maybe<OrganizationDetailFieldsFragment>>;
-  loading$?: Observable<boolean>;
-  viewer$?: Observable<Viewer>;
-  routeSub: Subscription;
+  organization$?: Observable<Maybe<OrganizationDetailFieldsFragment>>
+  loading$?: Observable<boolean>
+  viewer$?: Observable<Viewer>
+  routeSub: Subscription
 
   defaultTabs: RouteableTab[] = [
     {
@@ -56,29 +50,29 @@ export class OrganizationsDetailComponent implements OnDestroy {
       tabLabel: 'Assertions',
       iconName: 'civic-assertion',
     },
-  ];
+  ]
 
-  tabs$: BehaviorSubject<RouteableTab[]>;
+  tabs$: BehaviorSubject<RouteableTab[]>
 
   constructor(
     private gql: OrganizationDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
-    this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
         organizationId: +params.organizationId,
-      });
+      })
 
-      let observable = this.queryRef.valueChanges;
+      let observable = this.queryRef.valueChanges
 
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.organization$ = observable.pipe(pluck('data', 'organization'));
+      this.organization$ = observable.pipe(pluck('data', 'organization'))
 
-      this.viewer$ = this.viewerService.viewer$;
+      this.viewer$ = this.viewerService.viewer$
 
       this.organization$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (org: Maybe<OrganizationDetailFieldsFragment>) => {
@@ -90,18 +84,18 @@ export class OrganizationsDetailComponent implements OnDestroy {
                 tabLabel: 'Child Organizations',
                 iconName: 'civic-organization',
               },
-            ]);
+            ])
           } else {
-            this.tabs$.next(this.defaultTabs);
+            this.tabs$.next(this.defaultTabs)
           }
         },
-      });
-    });
+      })
+    })
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
+    this.routeSub.unsubscribe()
+    this.destroy$.next()
+    this.destroy$.unsubscribe()
   }
 }

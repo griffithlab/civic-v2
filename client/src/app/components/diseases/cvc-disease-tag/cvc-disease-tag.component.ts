@@ -3,14 +3,14 @@ import {
   Component,
   Input,
   OnInit,
-} from '@angular/core';
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
-import { Maybe } from '@app/generated/civic.apollo';
+} from '@angular/core'
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+import { Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkableDisease {
-  id: number;
-  name: string;
-  link: string;
+  id: number
+  name: string
+  link: string
 }
 
 @Component({
@@ -19,22 +19,22 @@ export interface LinkableDisease {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcDiseaseTagComponent extends BaseCloseableTag implements OnInit {
-  _disease!: LinkableDisease;
+  _disease!: LinkableDisease
   @Input()
   set disease(d: LinkableDisease) {
     if (!d) {
-      throw new Error('disease-tag disease Input requires LinkableDisease.');
+      throw new Error('disease-tag disease Input requires LinkableDisease.')
     }
-    this._disease = d;
+    this._disease = d
   }
   get disease(): LinkableDisease {
-    return this._disease;
+    return this._disease
   }
 
-  @Input() enablePopover: Maybe<boolean> = true;
-  @Input() truncateLongName: Maybe<boolean> = false;
+  @Input() enablePopover: Maybe<boolean> = true
+  @Input() truncateLongName: Maybe<boolean> = false
 
   idFunction() {
-    return this.disease.id;
+    return this.disease.id
   }
 }

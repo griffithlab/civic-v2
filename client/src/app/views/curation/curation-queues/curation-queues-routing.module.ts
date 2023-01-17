@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PendingAssertionsPage } from './pending-assertions/pending-assertions.page';
-import { PendingEvidencePage } from './pending-evidence/pending-evidence.page';
-import { PendingSourcesPage } from './pending-sources/pending-sources.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { PendingAssertionsPage } from './pending-assertions/pending-assertions.page'
+import { PendingEvidencePage } from './pending-evidence/pending-evidence.page'
+import { PendingSourcesPage } from './pending-sources/pending-sources.page'
 
 const routes: Routes = [
   { path: '', redirectTo: 'pending-sources', pathMatch: 'full' },
@@ -27,7 +27,7 @@ const routes: Routes = [
       breadcrumb: 'Pending Assertions',
     },
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

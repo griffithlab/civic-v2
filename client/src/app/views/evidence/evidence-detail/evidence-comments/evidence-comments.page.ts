@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
   CommentableInput,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-evidence-comments',
@@ -11,13 +11,13 @@ import {
   styleUrls: ['./evidence-comments.page.less'],
 })
 export class EvidenceCommentsPage {
-  commentable: CommentableInput;
+  commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {
-    const evidenceId: number = +this.route.snapshot.params['evidenceId'];
+    const evidenceId: number = +this.route.snapshot.params['evidenceId']
     this.commentable = {
       id: evidenceId,
       entityType: CommentableEntities.EvidenceItem,
-    };
+    }
   }
 }

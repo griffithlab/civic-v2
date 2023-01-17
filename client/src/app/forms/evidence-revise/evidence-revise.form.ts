@@ -4,8 +4,8 @@ import {
   OnDestroy,
   AfterViewInit,
   OnInit,
-} from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+} from '@angular/core'
+import { AbstractControl, UntypedFormGroup } from '@angular/forms'
 import {
   EvidenceSignificance,
   EvidenceDirection,
@@ -26,21 +26,21 @@ import {
   RevisionStatus,
   ModeratedEntities,
   TherapyInteraction,
-} from '@app/generated/civic.apollo';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { EvidenceState } from '@app/forms/config/states/evidence.state';
+} from '@app/generated/civic.apollo'
+import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { EvidenceState } from '@app/forms/config/states/evidence.state'
 import {
   FormDisease,
   FormTherapy,
   FormMolecularProfile,
   FormPhenotype,
   FormSource,
-} from '../forms.interfaces';
+} from '../forms.interfaces'
 
 /* SuggestEvidenceItemRevisionInput
  *
@@ -87,23 +87,23 @@ import {
 
 interface FormModel {
   fields: {
-    id: number;
-    significance: EvidenceSignificance;
-    description: string;
-    disease: Maybe<FormDisease>[];
-    therapyInteractionType: Maybe<TherapyInteraction>;
-    therapies: FormTherapy[];
-    evidenceDirection: EvidenceDirection;
-    evidenceLevel: EvidenceLevel;
-    evidenceType: EvidenceType;
-    phenotypes: FormPhenotype[];
-    evidenceRating: Maybe<number>;
-    source: FormSource[];
-    variantOrigin: VariantOrigin;
-    molecularProfile: FormMolecularProfile;
-    comment: Maybe<string>;
-    organization: Maybe<Organization>;
-  };
+    id: number
+    significance: EvidenceSignificance
+    description: string
+    disease: Maybe<FormDisease>[]
+    therapyInteractionType: Maybe<TherapyInteraction>
+    therapies: FormTherapy[]
+    evidenceDirection: EvidenceDirection
+    evidenceLevel: EvidenceLevel
+    evidenceType: EvidenceType
+    phenotypes: FormPhenotype[]
+    evidenceRating: Maybe<number>
+    source: FormSource[]
+    variantOrigin: VariantOrigin
+    molecularProfile: FormMolecularProfile
+    comment: Maybe<string>
+    organization: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -111,24 +111,24 @@ interface FormModel {
   templateUrl: './evidence-revise.form.html',
 })
 export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
-  @Input() evidenceId!: number;
-  private destroy$!: Subject<void>;
+  @Input() evidenceId!: number
+  private destroy$!: Subject<void>
 
   suggestRevisionMutator: MutatorWithState<
     SuggestEvidenceItemRevisionGQL,
     SuggestEvidenceItemRevisionMutation,
     SuggestEvidenceItemRevisionMutationVariables
-  >;
+  >
 
-  formModel: Maybe<FormModel>;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = { formState: new EvidenceState() };
+  formModel: Maybe<FormModel>
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = { formState: new EvidenceState() }
 
-  success: boolean = false;
-  noNewRevisions: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = false;
+  success: boolean = false
+  noNewRevisions: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
   constructor(
     private suggestRevisionGQL: SuggestEvidenceItemRevisionGQL,
@@ -137,7 +137,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     private evidenceDetailGQL: EvidenceDetailGQL,
     private revisionsGQL: RevisionsGQL
   ) {
-    this.suggestRevisionMutator = new MutatorWithState(networkErrorService);
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -287,11 +287,11 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           },
         ],
       },
-    ];
+    ]
   }
 
   ngOnInit() {
-    this.destroy$ = new Subject<void>();
+    this.destroy$ = new Subject<void>()
   }
 
   ngAfterViewInit(): void {
@@ -300,30 +300,30 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
       // response
       ({ data: { evidenceItem } }) => {
         if (evidenceItem) {
-          this.formModel = this.toFormModel(evidenceItem);
+          this.formModel = this.toFormModel(evidenceItem)
         }
       },
       // error
       (error) => {
-        console.error('Error retrieving evidenceItem.');
-        console.error(error);
+        console.error('Error retrieving evidenceItem.')
+        console.error(error)
       },
       // complete
       () => {
         if (this.formOptions.updateInitialValue) {
-          this.formOptions.updateInitialValue();
+          this.formOptions.updateInitialValue()
         }
         // this.formGroup.updateValueAndValidity();
         // prompt fields to display any errors that exist in loaded evidenceItem
-        this.formGroup.markAllAsTouched();
+        this.formGroup.markAllAsTouched()
         // mark comment field as untouched, we don't want to show an error before the user interacts with the field
         const commentFc: AbstractControl | null =
-          this.formGroup.get('fields.comment');
+          this.formGroup.get('fields.comment')
         if (commentFc) {
-          commentFc.markAsUntouched();
+          commentFc.markAsUntouched()
         }
       }
-    );
+    )
   }
 
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
@@ -339,11 +339,11 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
         organization: this.formModel?.fields.organization,
         evidenceRating: evidence.evidenceRating,
       },
-    };
+    }
   }
 
   submitRevision(formModel: Maybe<FormModel>): void {
-    let input = this.toRevisionInput(formModel);
+    let input = this.toRevisionInput(formModel)
     if (input) {
       let state = this.suggestRevisionMutator.mutate(
         this.suggestRevisionGQL,
@@ -374,30 +374,30 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               (r) => r.newlyCreated == false
             )
           ) {
-            this.noNewRevisions = true;
-            this.success = false;
+            this.noNewRevisions = true
+            this.success = false
           }
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
   }
 
@@ -405,7 +405,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     model: Maybe<FormModel>
   ): Maybe<SuggestEvidenceItemRevisionInput> {
     if (model) {
-      const fields = model.fields;
+      const fields = model.fields
       return {
         id: fields.id,
         comment: fields.comment!,
@@ -420,11 +420,11 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => {
-            return ph.id;
+            return ph.id
           }),
           rating: fields.evidenceRating!,
           therapyIds: fields.therapies.map((dr: FormTherapy) => {
-            return dr.id!;
+            return dr.id!
           }),
           therapyInteractionType: fmt.toNullableInput(
             fields.therapies.length > 1
@@ -433,13 +433,13 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           ),
         },
         organizationId: model.fields.organization?.id,
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

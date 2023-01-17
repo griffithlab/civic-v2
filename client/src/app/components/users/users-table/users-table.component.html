@@ -5,21 +5,21 @@
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
-    cvcAutoHeightTarget="viewport"
-  >
+    cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container" [ngStyle]="{ height: cvcHeight }">
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
     <nz-card
       [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-      nzSize="small"
-    >
+      nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
@@ -42,24 +42,32 @@
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
-    [nzShowPagination]="false"
-  >
+    [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="200px" nzLeft>User</th>
-        <th nzWidth="150px" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
+        <th
+          nzWidth="200px"
+          nzLeft>
+          User
+        </th>
+        <th
+          nzWidth="150px"
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
           Name
         </th>
         <th nzWidth="300px">Organizations</th>
-        <th nzWidth="80px" [nzColumnKey]="sortColumns.Role" [nzSortFn]="true">
+        <th
+          nzWidth="80px"
+          [nzColumnKey]="sortColumns.Role"
+          [nzSortFn]="true">
           Role
         </th>
         <th
           nzWidth="85px"
           nzAlign="right"
           [nzColumnKey]="sortColumns.LastAction"
-          [nzSortFn]="true"
-        >
+          [nzSortFn]="true">
           Last Action
         </th>
         <th
@@ -67,18 +75,22 @@
           nzRight
           nzAlign="right"
           nz-tooltip
-          nzTooltipTitle="Evidence Count"
-        >
-          <i nz-icon nzType="civic-evidence"></i> Count
+          nzTooltipTitle="Evidence Count">
+          <i
+            nz-icon
+            nzType="civic-evidence"></i>
+          Count
         </th>
         <th
           nzWidth="75px"
           nzRight
           nzAlign="right"
           nz-tooltip
-          nzTooltipTitle="Revision Count"
-        >
-          <i nz-icon nzType="civic-revision"></i> Count
+          nzTooltipTitle="Revision Count">
+          <i
+            nz-icon
+            nzType="civic-revision"></i>
+          Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -86,14 +98,16 @@
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="nameInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
             [(inputModel)]="orgNameInput"
-            (inputModelChange)="filterChange$.next()"
-          ></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
           <nz-select
@@ -102,11 +116,16 @@
             nzPlaceHolder="Any"
             [nzDropdownMatchSelectWidth]="false"
             (ngModelChange)="filterChange$.next()"
-            [(ngModel)]="roleInput"
-          >
-            <nz-option nzValue="ADMIN" nzLabel="Admin"></nz-option>
-            <nz-option nzValue="CURATOR" nzLabel="Curator"></nz-option>
-            <nz-option nzValue="EDITOR" nzLabel="Editor"></nz-option>
+            [(ngModel)]="roleInput">
+            <nz-option
+              nzValue="ADMIN"
+              nzLabel="Admin"></nz-option>
+            <nz-option
+              nzValue="CURATOR"
+              nzLabel="Curator"></nz-option>
+            <nz-option
+              nzValue="EDITOR"
+              nzLabel="Editor"></nz-option>
           </nz-select>
         </th>
         <th></th>
@@ -115,7 +134,10 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll let-user let-index="index">
+      <ng-template
+        nz-virtual-scroll
+        let-user
+        let-index="index">
         <tr class="data-row">
           <td nzLeft>
             <cvc-user-tag [user]="user"></cvc-user-tag>
@@ -125,7 +147,11 @@
               {{ user.name }}
             </ng-container>
             <ng-template #nameElse>
-              <i nz-typography nzType="secondary">Not specified</i>
+              <i
+                nz-typography
+                nzType="secondary"
+                >Not specified</i
+              >
             </ng-template>
           </td>
           <td>
@@ -134,12 +160,15 @@
                 tagType="organization"
                 [maxDisplayCount]="1"
                 [tags]="user.organizations"
-                [matchingText]="orgNameInput"
-              >
+                [matchingText]="orgNameInput">
               </cvc-tag-overflow>
             </div>
             <ng-template #orgElse>
-              <i nz-typography nzType="secondary">None specified</i>
+              <i
+                nz-typography
+                nzType="secondary"
+                >None specified</i
+              >
             </ng-template>
           </td>
           <td>
@@ -147,16 +176,19 @@
           </td>
           <td nzAlign="right">
             <ng-container
-              *ngIf="user.mostRecentActionTimestamp; else eventElse"
-            >
+              *ngIf="user.mostRecentActionTimestamp; else eventElse">
               {{ user.mostRecentActionTimestamp | timeAgo }}
             </ng-container>
             <ng-template #eventElse> -- </ng-template>
           </td>
-          <td nzRight nzAlign="right">
+          <td
+            nzRight
+            nzAlign="right">
             {{ user.statsHash.submittedEvidenceItems }}
           </td>
-          <td nzRight nzAlign="right">
+          <td
+            nzRight
+            nzAlign="right">
             {{ user.statsHash.revisions }}
           </td>
         </tr>
@@ -176,15 +208,19 @@
 
   <span class="table-info">
     <cvc-table-counts
-      [cvcTableCountsConnection]="connection$"
-    ></cvc-table-counts>
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush" nzColor="processing">
-    <i nz-icon nzType="sync" nzSpin></i>
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>

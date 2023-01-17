@@ -4,8 +4,7 @@
     autofocus="focus"
     [formControl]="formControl"
     [formlyAttributes]="field"
-    (keydown.enter)="onEnter($event)"
-  />
+    (keydown.enter)="onEnter($event)" />
 </ng-container>
 <ng-template #tagItem>
   <nz-tag>{{formControl.value}}</nz-tag>

@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { isDefined } from '@app/core/utilities/defined-typeguard';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core'
+import { AbstractControl, UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { isDefined } from '@app/core/utilities/defined-typeguard'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   Maybe,
   ModeratedEntities,
@@ -16,21 +16,21 @@ import {
   SuggestVariantGroupRevisionMutationVariables,
   VariantGroupDetailGQL,
   VariantGroupSubmittableFieldsGQL,
-} from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { FormSource, FormVariant } from '../forms.interfaces';
+} from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
+import { FormSource, FormVariant } from '../forms.interfaces'
 
 interface FormModel {
   fields: {
-    name: string;
-    description: string;
-    sources: FormSource[];
-    variants: FormVariant[];
-    comment?: string;
-    organization?: Maybe<Organization>;
-  };
+    name: string
+    description: string
+    sources: FormSource[]
+    variants: FormVariant[]
+    comment?: string
+    organization?: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -38,25 +38,25 @@ interface FormModel {
   templateUrl: './variant-group-revise.form.html',
 })
 export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
-  @Input() variantGroupId!: number;
+  @Input() variantGroupId!: number
 
-  private destroy$: Subject<void> = new Subject<void>();
+  private destroy$: Subject<void> = new Subject<void>()
 
-  formModel!: FormModel;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formModel!: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = {}
 
-  success: boolean = false;
-  noNewRevisions: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = false;
+  success: boolean = false
+  noNewRevisions: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
   suggestRevisionMutator: MutatorWithState<
     SuggestVariantGroupRevisionGQL,
     SuggestVariantGroupRevisionMutation,
     SuggestVariantGroupRevisionMutationVariables
-  >;
+  >
 
   constructor(
     private suggestRevisionGQL: SuggestVariantGroupRevisionGQL,
@@ -65,7 +65,7 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
     private variantGroupDetailGQL: VariantGroupDetailGQL,
     private revisionsGQL: RevisionsGQL
   ) {
-    this.suggestRevisionMutator = new MutatorWithState(networkErrorService);
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -159,7 +159,7 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
           },
         ],
       },
-    ];
+    ]
   }
 
   ngAfterViewInit(): void {
@@ -168,25 +168,25 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
       .subscribe(
         ({ data: { variantGroup } }) => {
           if (variantGroup) {
-            this.formModel = this.toFormModel(variantGroup);
+            this.formModel = this.toFormModel(variantGroup)
           }
         },
         (error) => {
-          console.error('Error retrieving evidenceItem.');
-          console.error(error);
+          console.error('Error retrieving evidenceItem.')
+          console.error(error)
         },
         () => {
           if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
+            this.formOptions.updateInitialValue()
           }
-          this.formGroup.markAllAsTouched();
+          this.formGroup.markAllAsTouched()
           const commentFc: AbstractControl | null =
-            this.formGroup.get('fields.comment');
+            this.formGroup.get('fields.comment')
           if (commentFc) {
-            commentFc.markAsUntouched();
+            commentFc.markAsUntouched()
           }
         }
-      );
+      )
   }
 
   toFormModel(variantGroup: SubmittableVariantGroupFieldsFragment): FormModel {
@@ -196,11 +196,11 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
         variants: variantGroup.variants.nodes,
         organization: this.formModel?.fields.organization,
       },
-    };
+    }
   }
 
   submitVariantGroup(formModel: FormModel): void {
-    let input = this.toSubmitInput(formModel);
+    let input = this.toSubmitInput(formModel)
     if (input) {
       let state = this.suggestRevisionMutator.mutate(
         this.suggestRevisionGQL,
@@ -231,30 +231,30 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
               (r) => r.newlyCreated == false
             )
           ) {
-            this.noNewRevisions = true;
-            this.success = false;
+            this.noNewRevisions = true
+            this.success = false
           }
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
   }
 
@@ -272,13 +272,13 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
           sourceIds: model.fields.sources.map((s) => s.id).filter(isDefined),
           variantIds: model.fields.variants.map((v) => v.id).filter(isDefined),
         },
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

@@ -4,13 +4,13 @@ import {
   Input,
   OnDestroy,
   AfterViewInit,
-} from '@angular/core';
+} from '@angular/core'
 
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms'
 
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs'
 
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators'
 
 import {
   GeneRevisableFieldsGQL,
@@ -26,28 +26,28 @@ import {
   RevisionStatus,
   GeneDetailGQL,
   RevisionsGQL,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { toNullableString } from '@app/forms/config/utilities/input-formatters';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { toNullableString } from '@app/forms/config/utilities/input-formatters'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 
 export interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: string;
-  citation?: string;
+  id?: number
+  sourceType?: SourceSource
+  citationId?: string
+  citation?: string
 }
 
 export interface FormModel {
   fields: {
-    id: number;
-    description: string;
-    sources: FormSource[];
-    comment: Maybe<string>;
-    organization: Maybe<Organization>;
-  };
+    id: number
+    description: string
+    sources: FormSource[]
+    comment: Maybe<string>
+    organization: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -56,26 +56,26 @@ export interface FormModel {
   styleUrls: ['./gene-revise.form.less'],
 })
 export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
-  @Input() geneId!: number;
-  private destroy$ = new Subject<void>();
+  @Input() geneId!: number
+  private destroy$ = new Subject<void>()
 
   suggestRevisionMutator: MutatorWithState<
     SuggestGeneRevisionGQL,
     SuggestGeneRevisionMutation,
     SuggestGeneRevisionMutationVariables
-  >;
+  >
 
-  geneRevisionInput!: SuggestGeneRevisionInput;
+  geneRevisionInput!: SuggestGeneRevisionInput
 
-  success: boolean = false;
-  noNewRevisions: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = false;
+  success: boolean = false
+  noNewRevisions: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
-  formModel: Maybe<FormModel>;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formModel: Maybe<FormModel>
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = {}
 
   constructor(
     private suggestRevisionGQL: SuggestGeneRevisionGQL,
@@ -84,7 +84,7 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
     private geneDetailGQL: GeneDetailGQL,
     private revisionsGQL: RevisionsGQL
   ) {
-    this.suggestRevisionMutator = new MutatorWithState(networkErrorService);
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -154,11 +154,11 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
           },
         ],
       },
-    ];
+    ]
   }
 
   ngOnInit() {
-    console.log(this.geneId);
+    console.log(this.geneId)
   }
 
   ngAfterViewInit(): void {
@@ -167,33 +167,33 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
       .fetch({ geneId: this.geneId }, { fetchPolicy: 'network-only' })
       .subscribe(
         ({ data: { gene } }) => {
-          console.log('gene');
+          console.log('gene')
           if (gene) {
-            this.formModel = this.toFormModel(gene);
+            this.formModel = this.toFormModel(gene)
           }
         },
         // error
         (error) => {
-          console.error('Error retrieving gene.');
-          console.error(error);
+          console.error('Error retrieving gene.')
+          console.error(error)
         },
         // complete
         () => {
-          console.log('complete');
+          console.log('complete')
           if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
+            this.formOptions.updateInitialValue()
           }
           // this.formGroup.updateValueAndValidity();
           // prompt fields to display any errors that exist in loaded evidenceItem
-          this.formGroup.markAllAsTouched();
+          this.formGroup.markAllAsTouched()
           // mark comment field as untouched, we don't want to show an error before the user interacts with the field
           const commentFc: AbstractControl | null =
-            this.formGroup.get('fields.comment');
+            this.formGroup.get('fields.comment')
           if (commentFc) {
-            commentFc.markAsUntouched();
+            commentFc.markAsUntouched()
           }
         }
-      );
+      )
   }
 
   toFormModel(gene: RevisableGeneFieldsFragment): FormModel {
@@ -203,11 +203,11 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
         comment: this.formModel?.fields.comment,
         organization: this.formModel?.fields.organization,
       },
-    };
+    }
   }
 
   submitRevision(formModel: Maybe<FormModel>): void {
-    let input = this.toRevisionInput(formModel);
+    let input = this.toRevisionInput(formModel)
     if (input) {
       let state = this.suggestRevisionMutator.mutate(
         this.suggestRevisionGQL,
@@ -238,36 +238,36 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
               (r) => r.newlyCreated == false
             )
           ) {
-            this.noNewRevisions = true;
-            this.success = false;
+            this.noNewRevisions = true
+            this.success = false
           }
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
   }
 
   toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestGeneRevisionInput> {
     if (model) {
-      const fields = model.fields;
+      const fields = model.fields
       return {
         id: fields.id,
         comment: fields.comment!,
@@ -275,16 +275,16 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
         fields: {
           description: toNullableString(model.fields.description),
           sourceIds: model.fields.sources.map((s: any) => {
-            return +s.id;
+            return +s.id
           }),
         },
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

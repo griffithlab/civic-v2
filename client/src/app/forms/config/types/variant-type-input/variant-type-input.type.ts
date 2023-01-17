@@ -1,22 +1,22 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { UntypedFormControl } from '@angular/forms'
 // import { UntypedFormControl } from '@angular/forms';
 import {
   VariantTypeTypeaheadGQL,
   VariantTypeTypeaheadQuery,
   VariantTypeTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
-import { QueryRef } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { isNonNulled } from 'rxjs-etc';
-import { filter, map } from 'rxjs/operators';
+} from '@app/generated/civic.apollo'
+import { FieldType } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
+import { QueryRef } from 'apollo-angular'
+import { Observable } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { filter, map } from 'rxjs/operators'
 
 interface VariantTypeTypeahead {
-  id: number;
-  soid: string;
-  name: string;
+  id: number
+  soid: string
+  name: string
 }
 
 @Component({
@@ -30,9 +30,9 @@ export class VariantTypeInputType
   private queryRef?: QueryRef<
     VariantTypeTypeaheadQuery,
     VariantTypeTypeaheadQueryVariables
-  >;
+  >
 
-  variantTypes$?: Observable<VariantTypeTypeahead[]>;
+  variantTypes$?: Observable<VariantTypeTypeahead[]>
 
   defaultOptions = {
     templateOptions: {
@@ -42,38 +42,38 @@ export class VariantTypeInputType
       minLengthSearch: 1,
       optionList: [],
     },
-  };
+  }
 
   constructor(private variantTypeTypeaheadQuery: VariantTypeTypeaheadGQL) {
-    super();
+    super()
   }
 
   ngOnInit() {
-    this.queryRef = this.variantTypeTypeaheadQuery.watch({ name: '' });
+    this.queryRef = this.variantTypeTypeaheadQuery.watch({ name: '' })
 
     this.variantTypes$ = this.queryRef.valueChanges.pipe(
       map((r) => r.data?.variantTypeTypeahead),
       filter(isNonNulled)
-    );
+    )
   }
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.fieldValue = value;
-      this.to.fieldLength = value.length;
+      this.to.fieldValue = value
+      this.to.fieldLength = value.length
       if (
         value.length < this.to.minLengthSearch ||
         value.length > this.to.maxLength!
       ) {
-        return;
+        return
       }
 
-      this.queryRef?.refetch({ name: value });
-    };
+      this.queryRef?.refetch({ name: value })
+    }
   }
 }
 
 export const VariantTypeInputTypeOption: TypeOption = {
   name: 'variant-type-input',
   component: VariantTypeInputType,
-};
+}

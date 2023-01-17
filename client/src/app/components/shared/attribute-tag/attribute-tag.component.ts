@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 @Component({
   selector: 'cvc-attribute-tag',
@@ -7,9 +7,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcAttributeTagComponent {
-  @Input() cvcAttrValue!: any;
+  @Input() cvcAttrValue!: any
 
-  @Input() cvcShowLabel: boolean = true;
-  @Input() cvcShowTooltip: boolean = true;
-  @Input() showIcon: boolean = true;
+  @Input() cvcShowLabel: boolean = true
+  @Input() cvcShowTooltip: boolean = true
+  @Input() showIcon: boolean = true
 }

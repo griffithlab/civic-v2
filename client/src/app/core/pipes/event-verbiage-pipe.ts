@@ -1,10 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { EventAction, Maybe } from '@app/generated/civic.apollo';
+import { Pipe, PipeTransform } from '@angular/core'
+import { EventAction, Maybe } from '@app/generated/civic.apollo'
 
-export type EventVerbiageContext =
-  | 'feed'
-  | 'contributor-card'
-  | 'action-filter';
+export type EventVerbiageContext = 'feed' | 'contributor-card' | 'action-filter'
 
 @Pipe({
   name: 'eventVerbiage',
@@ -17,105 +14,105 @@ export class EventVerbiagePipe implements PipeTransform {
     count: number = 0
   ): string {
     if (context === 'contributor-card') {
-      return this.contributorVerbiage(value, count);
+      return this.contributorVerbiage(value, count)
     } else if (context === 'action-filter') {
-      return this.actionFilterVerbiage(value);
+      return this.actionFilterVerbiage(value)
     } else {
-      return this.eventFeedVerbiage(value);
+      return this.eventFeedVerbiage(value)
     }
   }
 
   eventFeedVerbiage(a: EventAction): string {
     switch (a) {
       case EventAction.Commented:
-        return 'added comment';
+        return 'added comment'
       case EventAction.RevisionSuggested:
-        return 'suggested revision';
+        return 'suggested revision'
       case EventAction.RevisionAccepted:
-        return 'accepted revision';
+        return 'accepted revision'
       case EventAction.RevisionRejected:
-        return 'rejected revision';
+        return 'rejected revision'
       case EventAction.RevisionSuperseded:
-        return 'accepted superseding revision';
+        return 'accepted superseding revision'
       case EventAction.Flagged:
-        return 'opened new flag';
+        return 'opened new flag'
       case EventAction.FlagResolved:
-        return 'resolved flag';
+        return 'resolved flag'
       case EventAction.AssertionSubmitted:
-        return 'submitted assertion';
+        return 'submitted assertion'
       case EventAction.AssertionAccepted:
-        return 'accepted assertion';
+        return 'accepted assertion'
       case EventAction.AssertionRejected:
-        return 'rejected assertion';
+        return 'rejected assertion'
       case EventAction.Submitted:
-        return 'submitted evidence item';
+        return 'submitted evidence item'
       case EventAction.Accepted:
-        return 'accepted evidence item';
+        return 'accepted evidence item'
       case EventAction.Rejected:
-        return 'rejected evidence item';
+        return 'rejected evidence item'
       case EventAction.PublicationSuggested:
-        return 'created source suggestion';
+        return 'created source suggestion'
       case EventAction.CuratedSourceSuggestion:
-        return 'finished curating source suggestion';
+        return 'finished curating source suggestion'
       case EventAction.RejectedSourceSuggestion:
-        return 'rejected source suggestion';
+        return 'rejected source suggestion'
       case EventAction.RequeuedSourceSuggestion:
-        return 'requeued source suggestion';
+        return 'requeued source suggestion'
       case EventAction.Reverted:
-        return 'reverted evidence item';
+        return 'reverted evidence item'
       case EventAction.AssertionReverted:
-        return 'reverted assertion';
+        return 'reverted assertion'
       case EventAction.DeprecatedVariant:
-        return 'deprecated variant';
+        return 'deprecated variant'
       case EventAction.DeprecatedMolecularProfile:
-        return 'deprecated molecular profile';
+        return 'deprecated molecular profile'
     }
   }
 
   actionFilterVerbiage(a: EventAction): string {
     switch (a) {
       case EventAction.Commented:
-        return 'commented';
+        return 'commented'
       case EventAction.RevisionSuggested:
-        return 'revision suggested';
+        return 'revision suggested'
       case EventAction.RevisionAccepted:
-        return 'revision accepted';
+        return 'revision accepted'
       case EventAction.RevisionRejected:
-        return 'revision rejected';
+        return 'revision rejected'
       case EventAction.RevisionSuperseded:
-        return 'superseding revision accepted';
+        return 'superseding revision accepted'
       case EventAction.Flagged:
-        return 'flag opened';
+        return 'flag opened'
       case EventAction.FlagResolved:
-        return 'flag resolved';
+        return 'flag resolved'
       case EventAction.AssertionSubmitted:
-        return 'assertion submitted';
+        return 'assertion submitted'
       case EventAction.AssertionAccepted:
-        return 'assertion accepted';
+        return 'assertion accepted'
       case EventAction.AssertionRejected:
-        return 'assertion rejected';
+        return 'assertion rejected'
       case EventAction.Submitted:
-        return 'evidence item submitted';
+        return 'evidence item submitted'
       case EventAction.Accepted:
-        return 'evidence item accepted';
+        return 'evidence item accepted'
       case EventAction.Rejected:
-        return 'evidence item rejected';
+        return 'evidence item rejected'
       case EventAction.PublicationSuggested:
-        return 'source suggestion created';
+        return 'source suggestion created'
       case EventAction.CuratedSourceSuggestion:
-        return 'source suggestion curated';
+        return 'source suggestion curated'
       case EventAction.RejectedSourceSuggestion:
-        return 'source suggestion rejected';
+        return 'source suggestion rejected'
       case EventAction.RequeuedSourceSuggestion:
-        return 'source suggestion requeued';
+        return 'source suggestion requeued'
       case EventAction.Reverted:
-        return 'evidence item reverted';
+        return 'evidence item reverted'
       case EventAction.AssertionReverted:
-        return 'assertion reverted';
+        return 'assertion reverted'
       case EventAction.DeprecatedVariant:
-        return 'variant deprecated';
+        return 'variant deprecated'
       case EventAction.DeprecatedMolecularProfile:
-        return 'molecular profile deprecated';
+        return 'molecular profile deprecated'
     }
   }
 
@@ -124,59 +121,59 @@ export class EventVerbiagePipe implements PipeTransform {
       case EventAction.Commented:
         return count == 1
           ? 'left a comment on this entity'
-          : `left ${count} comments on this entity`;
+          : `left ${count} comments on this entity`
       case EventAction.RevisionSuggested:
         return count == 1
           ? 'suggested a revision to this entity'
-          : `suggested ${count} revisions on this entity`;
+          : `suggested ${count} revisions on this entity`
       case EventAction.RevisionAccepted:
         return count == 1
           ? 'accepted a revision to this entity'
-          : `accepted ${count} revisions on this entity`;
+          : `accepted ${count} revisions on this entity`
       case EventAction.RevisionRejected:
         return count == 1
           ? 'rejected a revision to this entity'
-          : `rejected ${count} revisions on this entity`;
+          : `rejected ${count} revisions on this entity`
       case EventAction.RevisionSuperseded:
         return count == 1
           ? 'accepted a superseding revision to this entity'
-          : `accepted ${count} superseding revisions on this entity`;
+          : `accepted ${count} superseding revisions on this entity`
       case EventAction.Flagged:
         return count == 1
           ? 'opened new flag on this entity'
-          : `opened ${count} new flags on this entity`;
+          : `opened ${count} new flags on this entity`
       case EventAction.FlagResolved:
         return count == 1
           ? 'resolved a flag on this entity'
-          : `resolved ${count} flags on this entity`;
+          : `resolved ${count} flags on this entity`
       case EventAction.AssertionSubmitted:
-        return 'submitted this assertion';
+        return 'submitted this assertion'
       case EventAction.AssertionAccepted:
-        return 'accepted this assertion';
+        return 'accepted this assertion'
       case EventAction.AssertionRejected:
-        return 'rejected this assertion';
+        return 'rejected this assertion'
       case EventAction.Submitted:
-        return 'submitted this evidence item';
+        return 'submitted this evidence item'
       case EventAction.Accepted:
-        return 'accepted this evidence item';
+        return 'accepted this evidence item'
       case EventAction.Rejected:
-        return 'rejected this evidence item';
+        return 'rejected this evidence item'
       case EventAction.PublicationSuggested:
-        return '';
+        return ''
       case EventAction.CuratedSourceSuggestion:
-        return 'finished curating this source suggestion';
+        return 'finished curating this source suggestion'
       case EventAction.RejectedSourceSuggestion:
-        return 'rejected this source suggestion';
+        return 'rejected this source suggestion'
       case EventAction.RequeuedSourceSuggestion:
-        return 'requeued this source suggestion';
+        return 'requeued this source suggestion'
       case EventAction.AssertionReverted:
-        return 'reverted this assertion';
+        return 'reverted this assertion'
       case EventAction.Reverted:
-        return 'reverted this evidence item';
+        return 'reverted this evidence item'
       case EventAction.DeprecatedVariant:
-        return 'deprecated this variant';
+        return 'deprecated this variant'
       case EventAction.DeprecatedMolecularProfile:
-        return 'deprecated this molecular profile';
+        return 'deprecated this molecular profile'
     }
   }
 }

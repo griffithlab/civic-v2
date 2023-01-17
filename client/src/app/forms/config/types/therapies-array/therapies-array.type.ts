@@ -1,20 +1,20 @@
-import { AbstractControl, UntypedFormArray } from '@angular/forms';
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { Maybe } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
-import { EntityState, EntityType } from '../../states/entity.state';
+import { AbstractControl, UntypedFormArray } from '@angular/forms'
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
+import { Maybe } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
+import { EntityState, EntityType } from '../../states/entity.state'
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
   const etCtrl: AbstractControl | null = ffc?.form
     ? ffc.form.get('evidenceType')
-    : null;
+    : null
   return etCtrl
     ? `${formatEvidenceEnum(
         etCtrl.value
       )} Evidence requires at least one therapy to be specified.`
-    : 'Therapy is required.';
-};
+    : 'Therapy is required.'
+}
 
 export const therapyArrayTypeOption: TypeOption = {
   name: 'therapy-array',
@@ -39,11 +39,11 @@ export const therapyArrayTypeOption: TypeOption = {
           st: any,
           ffc?: FormlyFieldConfig
         ) => {
-          const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
+          const existingSetting = ffc?.parent?.templateOptions?.allowCreate
           if (existingSetting !== undefined) {
-            return existingSetting;
+            return existingSetting
           }
-          return true;
+          return true
         },
       },
     },
@@ -55,37 +55,37 @@ export const therapyArrayTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to: FormlyTemplateOptions = ffc!.templateOptions!;
+        const to: FormlyTemplateOptions = ffc!.templateOptions!
         // check for formState, populate with all options if not found
-        const st: EntityState = ffc?.options?.formState;
+        const st: EntityState = ffc?.options?.formState
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form
           ? ffc.form.get('evidenceType')
-          : null;
+          : null
         if (!etCtrl) {
-          return;
+          return
         } // no evidenceType FormControl found, cannot subscribe
         to.vcSub = etCtrl.valueChanges.subscribe((et: EntityType) => {
-          const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray;
+          const fc: UntypedFormArray = ffc!.formControl! as UntypedFormArray
           if (!st.requiresDrug(et)) {
-            to.hidden = true;
-            to.required = false;
+            to.hidden = true
+            to.required = false
             // remove() rebuilds the field, so here we clear the array except for the
             // first element, then call remove() so the field is only rebuilt once
             if (ffc!.model.length > 0) {
-              ffc!.model.splice(1);
-              to.remove(0);
+              ffc!.model.splice(1)
+              to.remove(0)
             }
           } else {
-            to.hidden = false;
-            to.required = true;
+            to.hidden = false
+            to.required = true
           }
-        });
+        })
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to: FormlyTemplateOptions = ffc!.templateOptions!;
-        to.vcSub.unsubscribe();
+        const to: FormlyTemplateOptions = ffc!.templateOptions!
+        to.vcSub.unsubscribe()
       },
     },
   },
-};
+}

@@ -10,26 +10,22 @@
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
-    (nzOnSearch)="to.onSearch($event)"
-  >
+    (nzOnSearch)="to.onSearch($event)">
     <ng-container *ngrxLet="this.diseases$ as diseases">
       <nz-option
         *ngFor="let opt of diseases"
         nzCustomContent
         [nzLabel]="opt.tooltip"
-        [nzValue]="opt.disease"
-      >
+        [nzValue]="opt.disease">
         <nz-space>
           <span
             *nzSpaceItem
-            [innerHtml]="opt.label |  highlightTypeahead: this.to.searchString"
-          ></span>
+            [innerHtml]="opt.label |  highlightTypeahead: this.to.searchString"></span>
           <span
             nz-typography
             nzType="secondary"
             *nzSpaceItem
-            [innerHtml]="opt.disease.diseaseAliases.join(', ')  | highlightTypeahead: this.to.searchString"
-          >
+            [innerHtml]="opt.disease.diseaseAliases.join(', ')  | highlightTypeahead: this.to.searchString">
           </span>
         </nz-space>
       </nz-option>
@@ -46,31 +42,30 @@
 <ng-template #addDiseaseTmpl>
   <ng-container *ngIf="this.displayAdd$ | ngrxPush">
     <ng-container
-      *ngIf="this.to.searchString !== '' && this.to.searchString.length >= 5"
-    >
+      *ngIf="this.to.searchString !== '' && this.to.searchString.length >= 5">
       <cvc-form-errors-alert
         *ngIf="this.errorMessages.length > 0"
-        [errors]="errorMessages"
-      >
+        [errors]="errorMessages">
       </cvc-form-errors-alert>
       <nz-input-group nzAddOnBefore="DOID:">
         <input
           type="text"
           nz-input
           placeholder="Optional DOID"
-          [(ngModel)]="enteredDoid"
-        />
+          [(ngModel)]="enteredDoid" />
       </nz-input-group>
       <button
         *ngIf="this.errorMessages.length == 0"
         nz-button
         nzSize="small"
         [nzLoading]="this.loading"
-        (click)="addDisease(to.searchString)"
-      >
-        <i nz-icon nzType="plus" nzTheme="outline"></i>No Existing CIViC
-        Disease&nbsp;<strong>{{ to.searchString }}</strong>&nbsp;found. Create A
-        New Disease?
+        (click)="addDisease(to.searchString)">
+        <i
+          nz-icon
+          nzType="plus"
+          nzTheme="outline"></i
+        >No Existing CIViC Disease&nbsp;<strong>{{ to.searchString }}</strong
+        >&nbsp;found. Create A New Disease?
       </button>
     </ng-container>
   </ng-container>

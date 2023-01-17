@@ -11,13 +11,15 @@
       a new Evidence Item added to the CIViC database.
     </nz-typography>
   </nz-card>
-  <nz-spin nzTip="Submitting" *nzSpaceItem [nzSpinning]="this.loading">
+  <nz-spin
+    nzTip="Submitting"
+    *nzSpaceItem
+    [nzSpinning]="this.loading">
     <form
       nz-form
       [formGroup]="formGroup"
       (ngSubmit)="submitSourceSuggestion(formModel)"
-      nzLayout="vertical"
-    >
+      nzLayout="vertical">
       <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
       <formly-form
@@ -26,8 +28,7 @@
         [fields]="formFields"
         [model]="formModel"
         [options]="formOptions"
-        (modelChange)="formModel = $event"
-      ></formly-form>
+        (modelChange)="formModel = $event"></formly-form>
     </form>
 
     <ng-template #formMessages>
@@ -40,9 +41,10 @@
           nzType="success"
           nzMessage="Source Suggestion Submitted"
           [nzDescription]="successMessage"
-          nzShowIcon
-        ></nz-alert>
-        <ng-template #successMessage nzSize="small">
+          nzShowIcon></nz-alert>
+        <ng-template
+          #successMessage
+          nzSize="small">
           <p>
             Thank You! Your source will now appear in the
             <a routerLink="/curation/queues/pending-sources">

@@ -3,9 +3,10 @@
   nz-tooltip="Revert to Submitted"
   nzSize="small"
   (click)="this.showConfirm = true"
-  [nzLoading]="this.isSubmitting"
->
-  <i nz-icon nzType="undo"></i>
+  [nzLoading]="this.isSubmitting">
+  <i
+    nz-icon
+    nzType="undo"></i>
 </button>
 
 <nz-modal
@@ -13,8 +14,7 @@
   [nzContent]="confirmModalContent"
   [nzTitle]="confirmModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.handleConfirmModalCancel()"
->
+  (nzOnCancel)="this.handleConfirmModalCancel()">
   <ng-template #confirmModalTitle
     ><span>Revert this {{ this.entityType }} to Submitted?</span></ng-template
   >
@@ -28,14 +28,16 @@
               nzType="primary"
               nzSize="small"
               nz-button
-              (click)="this.revert()"
-            >
+              (click)="this.revert()">
               Revert
             </button>
           </cvc-org-selector-btn-group>
         </span>
         <span *nzSpaceItem>
-          <button nz-button (click)="this.showConfirm = false" nzSize="small">
+          <button
+            nz-button
+            (click)="this.showConfirm = false"
+            nzSize="small">
             Cancel
           </button>
         </span>

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { UsersAssertionsComponent } from '../users-assertions/users-assertions.component';
-import { UsersEventsComponent } from '../users-events/users-events.component';
-import { UsersEvidenceComponent } from '../users-evidence/users-evidence.component';
-import { UsersNotificationsComponent } from '../users-notifications/users-notifications.component';
-import { UsersSourceSuggestionsComponent } from '../users-source-suggestions/users-source-suggestions.component';
-import { UsersDetailComponent } from './users-detail.component';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { UsersAssertionsComponent } from '../users-assertions/users-assertions.component'
+import { UsersEventsComponent } from '../users-events/users-events.component'
+import { UsersEvidenceComponent } from '../users-evidence/users-evidence.component'
+import { UsersNotificationsComponent } from '../users-notifications/users-notifications.component'
+import { UsersSourceSuggestionsComponent } from '../users-source-suggestions/users-source-suggestions.component'
+import { UsersDetailComponent } from './users-detail.component'
 
 const routes: Routes = [
   {
@@ -53,7 +53,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

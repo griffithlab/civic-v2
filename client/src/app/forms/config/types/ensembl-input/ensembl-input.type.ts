@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import {
   AbstractControl,
   UntypedFormControl,
   ValidationErrors,
-} from '@angular/forms';
-import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
+} from '@angular/forms'
+import { FieldType, FormlyFieldConfig } from '@ngx-formly/core'
 import {
   TypeOption,
   ValidationMessageOption,
   ValidatorOption,
-} from '@ngx-formly/core/lib/models';
+} from '@ngx-formly/core/lib/models'
 
 @Component({
   selector: 'cvc-ensembl-input-type',
@@ -26,7 +26,7 @@ export class EnsemblInputType extends FieldType<any> {
     validators: {
       validation: ['ensembl-version'],
     },
-  };
+  }
 }
 
 export const ensemblVersionValidator: ValidatorOption = {
@@ -36,26 +36,26 @@ export const ensemblVersionValidator: ValidatorOption = {
     f: FormlyFieldConfig
   ): ValidationErrors | null => {
     if (c.value === undefined || c.value === null) {
-      return null;
+      return null
     } else {
-      let versionNum = +c.value;
+      let versionNum = +c.value
       if (versionNum < 75 || versionNum > 150) {
-        return { 'ensembl-version': true };
+        return { 'ensembl-version': true }
       }
-      return null;
+      return null
     }
   },
-};
+}
 
 export const ensemblVersionValidationMessage: ValidationMessageOption = {
   name: 'ensembl-version',
   message: (_err: any, field: FormlyFieldConfig): string => {
-    return `${field.formControl?.value} is not a valid version of Ensembl. Must be an number between 75 and the latest version of Ensembl.`;
+    return `${field.formControl?.value} is not a valid version of Ensembl. Must be an number between 75 and the latest version of Ensembl.`
   },
-};
+}
 
 export const ensemblInputTypeOption: TypeOption = {
   name: 'cvc-ensembl-input',
   component: EnsemblInputType,
   wrappers: ['form-field'],
-};
+}

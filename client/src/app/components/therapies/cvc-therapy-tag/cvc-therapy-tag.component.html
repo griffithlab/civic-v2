@@ -12,8 +12,7 @@
     nzPopoverPlacement="right"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
     [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)"
-  >
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -31,8 +30,7 @@
     nz-icon
     nzType="civic-intervention"
     nzTheme="twotone"
-    nzTwotoneColor="#AC3996"
-  ></i>
+    nzTwotoneColor="#AC3996"></i>
   <ng-container *ngIf="truncateLongName; else fullName">
     {{ therapy.name | truncate : 21 }}
   </ng-container>

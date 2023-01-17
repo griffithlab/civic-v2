@@ -10,9 +10,11 @@
       nzPopoverTitle="Add New Variant"
       nzPopoverTrigger="click"
       [nzPopoverContent]="addVariantForm"
-      nzPopoverPlacement="bottomRight"
-    >
-      <i nz-icon nzType="plus-circle"></i> Submit New Variant
+      nzPopoverPlacement="bottomRight">
+      <i
+        nz-icon
+        nzType="plus-circle"></i>
+      Submit New Variant
       <ng-template #addVariantForm>
         <div class="addVariant">
           <cvc-variant-submit-form></cvc-variant-submit-form>
@@ -27,34 +29,47 @@
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px" class="header-icon">
+      <nz-col
+        nzFlex="64px"
+        class="header-icon">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Variant' | entityColor"
-          nzType="civic-variant"
-        ></i>
+          nzType="civic-variant"></i>
       </nz-col>
-      <nz-col nzFlex="0 1 600px" class="header-description">
+      <nz-col
+        nzFlex="0 1 600px"
+        class="header-description">
         <h2>Variants</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
           CIViC variants are usually genomic alterations, including single
           nucleotide variants, insertion/deletion events, copy number
           alterations, structural variants, and other events that differ from
           the "normal" genome.
         </p>
       </nz-col>
-      <nz-col nzFlex="auto" class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+      <nz-col
+        nzFlex="auto"
+        class="header-links">
+        <nz-space
+          nzDirection="vertical"
+          class="docs-buttons">
           <a
             nz-button
             href="https://civic.readthedocs.io/en/latest/model/variants.html"
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem
-          >
-            <i nz-icon nzType="link" nzTheme="outline"></i>
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
             View Variant Model Docs
           </a>
           <a
@@ -63,9 +78,11 @@
             target="_blank"
             nzSize="small"
             nzBlock
-            *nzSpaceItem
-          >
-            <i nz-icon nzType="link" nzTheme="outline"></i>
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
             View Variant Curation Docs
           </a>
         </nz-space>
@@ -75,8 +92,7 @@
       <nz-col [nzSpan]="24">
         <div class="content">
           <cvc-variants-table
-            cvcTitle="Browse All Variants"
-          ></cvc-variants-table>
+            cvcTitle="Browse All Variants"></cvc-variants-table>
         </div>
       </nz-col>
     </nz-row>

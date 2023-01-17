@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
+import { Component, OnDestroy } from '@angular/core'
+import { UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import * as fmt from '@app/forms/config/utilities/input-formatters'
 import {
   AcmgCode,
   AmpLevel,
@@ -19,44 +19,44 @@ import {
   SubmitAssertionMutationVariables,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AssertionState } from '../config/states/assertion.state';
+} from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
+import { AssertionState } from '../config/states/assertion.state'
 import {
   FormDisease,
   FormTherapy,
   FormEvidence,
   FormMolecularProfile,
   FormPhenotype,
-} from '../forms.interfaces';
+} from '../forms.interfaces'
 
 interface FormModel {
   fields: {
-    id: number;
-    description: string;
-    summary: string;
-    molecularProfile: FormMolecularProfile;
-    variantOrigin: VariantOrigin;
-    evidenceType: AssertionType;
-    significance: AssertionSignificance;
-    disease: FormDisease[];
-    evidenceDirection: AssertionDirection;
-    phenotypes: FormPhenotype[];
-    therapies: FormTherapy[];
-    therapyInteractionType: Maybe<TherapyInteraction>;
-    ampLevel: Maybe<AmpLevel>;
-    evidenceItems: FormEvidence[];
-    nccnGuideline: Maybe<NccnGuideline>;
-    nccnGuidelineVersion: Maybe<string>;
-    acmgCodes: AcmgCode[];
-    clingenCodes: ClingenCode[];
-    fdaCompanionTest: Maybe<boolean>;
-    fdaRegulatoryApproval: Maybe<boolean>;
-    comment: Maybe<string>;
-    organization: Maybe<Organization>;
-  };
+    id: number
+    description: string
+    summary: string
+    molecularProfile: FormMolecularProfile
+    variantOrigin: VariantOrigin
+    evidenceType: AssertionType
+    significance: AssertionSignificance
+    disease: FormDisease[]
+    evidenceDirection: AssertionDirection
+    phenotypes: FormPhenotype[]
+    therapies: FormTherapy[]
+    therapyInteractionType: Maybe<TherapyInteraction>
+    ampLevel: Maybe<AmpLevel>
+    evidenceItems: FormEvidence[]
+    nccnGuideline: Maybe<NccnGuideline>
+    nccnGuidelineVersion: Maybe<string>
+    acmgCodes: AcmgCode[]
+    clingenCodes: ClingenCode[]
+    fdaCompanionTest: Maybe<boolean>
+    fdaRegulatoryApproval: Maybe<boolean>
+    comment: Maybe<string>
+    organization: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -65,41 +65,41 @@ interface FormModel {
   styleUrls: ['./assertion-submit.form.less'],
 })
 export class AssertionSubmitForm implements OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
+  private destroy$: Subject<void> = new Subject<void>()
 
-  formModel!: FormModel;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = { formState: new AssertionState() };
+  formModel!: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = { formState: new AssertionState() }
 
   submitAssertionMutator: MutatorWithState<
     SubmitAssertionGQL,
     SubmitAssertionMutation,
     SubmitAssertionMutationVariables
-  >;
+  >
 
-  success: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = false;
-  newId?: number;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+  newId?: number
 
   constructor(
     private submitAssertionGQL: SubmitAssertionGQL,
     private networkErrorService: NetworkErrorsService
   ) {
     let eidCallback = (eids: FormEvidence[]) => {
-      this.formModel.fields.evidenceItems = eids;
-    };
+      this.formModel.fields.evidenceItems = eids
+    }
 
     let fdaApprovalCallback = (newVal: boolean | undefined) => {
-      this.formModel!.fields.fdaRegulatoryApproval = newVal;
-    };
+      this.formModel!.fields.fdaRegulatoryApproval = newVal
+    }
 
     let fdaCompanionCallback = (newVal: boolean | undefined) => {
-      this.formModel!.fields.fdaCompanionTest = newVal;
-    };
+      this.formModel!.fields.fdaCompanionTest = newVal
+    }
 
-    this.submitAssertionMutator = new MutatorWithState(networkErrorService);
+    this.submitAssertionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -279,12 +279,12 @@ export class AssertionSubmitForm implements OnDestroy {
           },
         ],
       },
-    ];
+    ]
   }
 
   toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitAssertionInput> {
     if (model) {
-      const fields = model.fields;
+      const fields = model.fields
       return {
         comment:
           fields.comment && fields.comment.length != 0
@@ -318,13 +318,13 @@ export class AssertionSubmitForm implements OnDestroy {
           ),
           evidenceItemIds: fields.evidenceItems.map((e) => e.id),
         },
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   submitAssertion(model: Maybe<FormModel>): void {
-    let input = this.toSubmitInput(model);
+    let input = this.toSubmitInput(model)
     if (input) {
       let state = this.submitAssertionMutator.mutate(
         this.submitAssertionGQL,
@@ -333,33 +333,33 @@ export class AssertionSubmitForm implements OnDestroy {
         },
         {},
         (data) => {
-          this.newId = data.submitAssertion?.assertion.id;
+          this.newId = data.submitAssertion?.assertion.id
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

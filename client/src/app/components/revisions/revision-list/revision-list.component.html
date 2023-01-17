@@ -4,35 +4,35 @@
   [nzMessage]="error"
   nzType="error"
   nzCloseable
-  (nzOnClose)="onErrorBannerClose(error)"
-></nz-alert>
+  (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
 <nz-alert
   *ngIf="this.success"
   nzBanner
   nzMessage="Revision(s) successfully {{ this.success }}."
   nzType="success"
   nzCloseable
-  (nzOnClose)="onSuccessBannerClose()"
-></nz-alert>
+  (nzOnClose)="onSuccessBannerClose()"></nz-alert>
 <ng-container *ngrxLet="viewer$ as viewer">
-  <nz-card nzTitle="Revisions" class="card-list" [nzExtra]="moderationButtons">
+  <nz-card
+    nzTitle="Revisions"
+    class="card-list"
+    [nzExtra]="moderationButtons">
     <nz-collapse
       class="revision-list"
-      *ngIf="revisions && revisions.length > 0; else noRevisions"
-    >
+      *ngIf="revisions && revisions.length > 0; else noRevisions">
       <nz-collapse-panel
         *ngFor="let revision of untypedRevisons"
         [nzHeader]="revCardHeaderTitle"
         [nzExtra]="revCardHeaderExtra"
-        [nzActive]="true"
-      >
+        [nzActive]="true">
         <ng-container [ngSwitch]="revision.fieldName">
           <ng-container *ngSwitchCase="'source_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Sources"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Sources">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-source-tag [source]="item"></cvc-source-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -40,73 +40,74 @@
           <ng-container *ngSwitchCase="'disease_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Disease"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Disease">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-disease-tag
                   [disease]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-disease-tag>
+                  }"></cvc-disease-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'molecular_profile_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Molecular Profile"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Molecular Profile">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-molecular-profile-tag
                   [molecularProfile]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-molecular-profile-tag>
+                  }"></cvc-molecular-profile-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'drug_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Therapies"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Therapies">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-therapy-tag
                   [therapy]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-therapy-tag>
+                  }"></cvc-therapy-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'therapy_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Therapies"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Therapies">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-therapy-tag
                   [therapy]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-therapy-tag>
+                  }"></cvc-therapy-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'variant_alias_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Variant Aliases"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Variant Aliases">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -116,9 +117,10 @@
           <ng-container *ngSwitchCase="'molecular_profile_alias_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Molecular Profile Aliases"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Molecular Profile Aliases">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -128,9 +130,10 @@
           <ng-container *ngSwitchCase="'clinvar_entry_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="ClinVar Entries"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="ClinVar Entries">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -140,9 +143,10 @@
           <ng-container *ngSwitchCase="'clingen_code_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="ClinGen/CGC/VICC Code(s)"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="ClinGen/CGC/VICC Code(s)">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -152,9 +156,10 @@
           <ng-container *ngSwitchCase="'acmg_code_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="ACMG/AMP Code(s)"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="ACMG/AMP Code(s)">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -164,9 +169,10 @@
           <ng-container *ngSwitchCase="'nccn_guideline_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="NCCN Guideline"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="NCCN Guideline">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -176,9 +182,10 @@
           <ng-container *ngSwitchCase="'hgvs_description_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="HGVS Descriptions"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="HGVS Descriptions">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <nz-tag>
                   {{ item.displayName }}
                 </nz-tag>
@@ -188,73 +195,74 @@
           <ng-container *ngSwitchCase="'variant_type_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Variant Types"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Variant Types">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-variant-type-tag
                   [variantType]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-variant-type-tag>
+                  }"></cvc-variant-type-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'phenotype_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Phenotypes"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Phenotypes">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-phenotype-tag
                   [phenotype]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-phenotype-tag>
+                  }"></cvc-phenotype-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'variant_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Variant"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Variant">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-variant-tag
                   [variant]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-variant-tag>
+                  }"></cvc-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'variant_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Variants"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Variants">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-variant-tag
                   [variant]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"
-                ></cvc-variant-tag>
+                  }"></cvc-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
           <ng-container *ngSwitchCase="'source_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Source"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Source">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-source-tag [source]="item"></cvc-source-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -262,17 +270,17 @@
           <ng-container *ngSwitchCase="'evidence_item_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Evidence"
-            >
-              <ng-template #itemTemplate let-item>
+              entityType="Evidence">
+              <ng-template
+                #itemTemplate
+                let-item>
                 <cvc-evidence-tag
                   [evidence]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link,
                     status: item.status
-                  }"
-                ></cvc-evidence-tag>
+                  }"></cvc-evidence-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -283,8 +291,9 @@
               [suggestedValue]="revision.suggestedValue"
               [left]="revision.linkoutData.diffValue.left"
               [right]="revision.linkoutData.diffValue.right"
-              [entityType]="revision.linkoutData.name"
-            ></cvc-revision-value-diff>
+              [entityType]="
+                revision.linkoutData.name
+              "></cvc-revision-value-diff>
           </ng-container>
         </ng-container>
 
@@ -296,21 +305,18 @@
                 <cvc-comment-body
                   [commentBodySegments]="
                     revision.resolutionComment.parsedComment
-                  "
-                ></cvc-comment-body>
+                  "></cvc-comment-body>
               </ng-container>
             </nz-col>
             <nz-col
               nzSpan="8"
               nz-typography
               nzType="secondary"
-              style="text-align: right"
-            >
+              style="text-align: right">
               {{ revision.status | enumToTitle }} By
               <cvc-user-tag
                 *ngIf="revision.resolver !== undefined"
-                [user]="revision.resolver"
-              ></cvc-user-tag>
+                [user]="revision.resolver"></cvc-user-tag>
               {{ revision.resolvedAt | timeAgo }}
             </nz-col>
           </nz-row>
@@ -324,8 +330,7 @@
                 nz-icon
                 nzTheme="twotone"
                 [nzTwotoneColor]="'Revision' | entityColor"
-                nzType="civic-revision"
-              ></i>
+                nzType="civic-revision"></i>
               RID{{ revision.id }}
               <span>{{ revision.linkoutData.name }} Updated</span>
             </span>
@@ -336,12 +341,12 @@
                 nz-icon
                 nzType="comment"
                 nzTheme="outline"
-                *nzSpaceItem
-              ></i>
+                *nzSpaceItem></i>
               <ng-template #creationCommentTemplate>
                 <cvc-comment-body
-                  [commentBodySegments]="revision.creationComment.parsedComment"
-                >
+                  [commentBodySegments]="
+                    revision.creationComment.parsedComment
+                  ">
                 </cvc-comment-body>
               </ng-template>
             </ng-container>
@@ -350,24 +355,37 @@
 
         <!-- header secondary & status -->
         <ng-template #revCardHeaderExtra>
-          <nz-space nzSize="small" (click)="$event.stopPropagation()">
+          <nz-space
+            nzSize="small"
+            (click)="$event.stopPropagation()">
             <span *nzSpaceItem>
               <ng-container *ngIf="revision.revisor; else noRevisor">
-                <span nz-typography nzType="secondary">Submitted By</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >Submitted By</span
+                >
                 <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
               </ng-container>
               <ng-template #noRevisor>
-                <span nz-typography nzType="secondary">Submitted</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >Submitted</span
+                >
               </ng-template>
-              <span nz-typography nzType="secondary">{{
-                revision.createdAt | timeAgo
-              }}</span>
+              <span
+                nz-typography
+                nzType="secondary"
+                >{{ revision.createdAt | timeAgo }}</span
+              >
             </span>
             <cvc-status-tag
               [status]="revision.status"
-              *nzSpaceItem
-            ></cvc-status-tag>
-            <nz-divider nzType="vertical" *nzSpaceItem></nz-divider>
+              *nzSpaceItem></cvc-status-tag>
+            <nz-divider
+              nzType="vertical"
+              *nzSpaceItem></nz-divider>
             <a
               nz-button
               nzType="link"
@@ -376,15 +394,16 @@
               >Show Group</a
             >
             <ng-container *ngIf="revision.status === 'NEW'">
-              <nz-divider nzType="vertical" *nzSpaceItem></nz-divider>
+              <nz-divider
+                nzType="vertical"
+                *nzSpaceItem></nz-divider>
               <span *nzSpaceItem>
                 <label
                   *ngIf="!viewer.signedIn; else loggedIn"
                   nz-checkbox
                   nz-tooltip
                   nzTooltipTitle="Must be signed in to manage revisions."
-                  [nzDisabled]="true"
-                ></label>
+                  [nzDisabled]="true"></label>
                 <ng-template #loggedIn>
                   <label
                     *ngIf="
@@ -394,8 +413,7 @@
                     nz-checkbox
                     nz-tooltip
                     nzTooltipTitle="Curators may only reject their own revisions."
-                    [nzDisabled]="true"
-                  ></label>
+                    [nzDisabled]="true"></label>
                   <ng-template #canRevise>
                     <label
                       nz-checkbox
@@ -403,8 +421,7 @@
                       nzTooltipTitle="Select Revision for Acceptance/Rejection"
                       (nzCheckedChange)="
                         onRevisionCheckboxClicked($event, revision.id)
-                      "
-                    ></label>
+                      "></label>
                   </ng-template>
                 </ng-template>
               </span>
@@ -416,8 +433,7 @@
     <ng-template #noRevisions>
       <nz-empty
         nzNotFoundImage="simple"
-        nzNotFoundContent="No Revisions matching filters"
-      ></nz-empty>
+        nzNotFoundContent="No Revisions matching filters"></nz-empty>
     </ng-template>
   </nz-card>
 </ng-container>
@@ -427,8 +443,13 @@
     <ng-container *ngrxLet="genericErrors$ as genericErrors">
       <ng-container *ngrxLet="totalErrorCount$ as totalErrorCount">
         <ng-container *ngrxLet="viewer$ as viewer">
-          <div nz-row style="margin-top: 1em">
-            <div nz-col nzSpan="24" style="text-align: right">
+          <div
+            nz-row
+            style="margin-top: 1em">
+            <div
+              nz-col
+              nzSpan="24"
+              style="text-align: right">
               <nz-space nzDirection="horizontal">
                 <span *nzSpaceItem>
                   <ng-container *ngIf="viewer.signedIn; else notSignedIn">
@@ -437,11 +458,9 @@
                   <ng-template #notSignedIn>
                     <span
                       nz-tooltip
-                      nzTooltipTitle="Must be signed in to manage revisions."
-                    >
+                      nzTooltipTitle="Must be signed in to manage revisions.">
                       <ng-template
-                        *ngTemplateOutlet="submitButton"
-                      ></ng-template>
+                        *ngTemplateOutlet="submitButton"></ng-template>
                     </span>
                   </ng-template>
                   <ng-template #submitButton>
@@ -461,10 +480,12 @@
                       [disabled]="
                         this.selectedRevisionIds.length === 0 ||
                         !viewer.signedIn
-                      "
-                    >
+                      ">
                       Review Selected Revisions
-                      <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+                      <i
+                        nz-icon
+                        nzType="caret-down"
+                        nzTheme="outline"></i>
                     </button>
                   </ng-template>
                 </span>
@@ -477,8 +498,7 @@
                     nz-popover
                     nzPopoverTitle="Selected Revisions would result in an invalid entity"
                     [nzPopoverContent]="validationErrorTemplate"
-                    *nzSpaceItem
-                  ></i>
+                    *nzSpaceItem></i>
                 </ng-container>
               </nz-space>
               <ng-template #validationPopoverTitleTemplate>
@@ -488,22 +508,19 @@
                     nz-icon
                     nzType="close"
                     nzTheme="outline"
-                    (click)="this.validationPopoverVisible = false"
-                  ></i>
+                    (click)="this.validationPopoverVisible = false"></i>
                 </span>
               </ng-template>
               <ng-template #validationPopoverContentTemplate>
                 <nz-space nzDirection="vertical">
                   <cvc-comment-input-form
                     [(comment)]="revisionComment"
-                    *nzSpaceItem
-                  ></cvc-comment-input-form>
+                    *nzSpaceItem></cvc-comment-input-form>
                   <span *nzSpaceItem>
                     <nz-space>
                       <span *nzSpaceItem>
                         <cvc-org-selector-btn-group
-                          [(selectedOrg)]="this.mostRecentOrg"
-                        >
+                          [(selectedOrg)]="this.mostRecentOrg">
                           <button
                             type="submit"
                             nz-button
@@ -515,16 +532,14 @@
                               this.revisionComment === undefined ||
                               this.revisionComment.length < 10
                             "
-                            (click)="onRejectRevisionsClicked()"
-                          >
+                            (click)="onRejectRevisionsClicked()">
                             Reject Revision
                           </button>
                         </cvc-org-selector-btn-group>
                       </span>
                       <span *nzSpaceItem>
                         <cvc-org-selector-btn-group
-                          [(selectedOrg)]="this.mostRecentOrg"
-                        >
+                          [(selectedOrg)]="this.mostRecentOrg">
                           <button
                             type="submit"
                             nz-button
@@ -539,8 +554,7 @@
                                   this.revisionComment.length >= 10)
                               )
                             "
-                            (click)="onAcceptRevisionClicked()"
-                          >
+                            (click)="onAcceptRevisionClicked()">
                             Accept Revision
                           </button>
                         </cvc-org-selector-btn-group>
@@ -554,8 +568,7 @@
                           nzTheme="twotone"
                           nz-popover
                           nzPopoverTitle="Selected Revisions would result in an invalid entity"
-                          [nzPopoverContent]="validationErrorTemplate"
-                        ></i>
+                          [nzPopoverContent]="validationErrorTemplate"></i>
                       </span>
                     </nz-space>
                   </span>
@@ -571,8 +584,7 @@
           <span *nzSpaceItem>
             <nz-card
               *ngIf="genericErrors && genericErrors.length > 0"
-              nzTitle="Errors"
-            >
+              nzTitle="Errors">
               <nz-list nzSize="small">
                 <nz-list-item *ngFor="let error of genericErrors">{{
                   error
@@ -583,8 +595,7 @@
           <span *nzSpaceItem>
             <nz-card
               *ngIf="validationErrors && validationErrors.length > 0"
-              nzTitle="Validation Errors"
-            >
+              nzTitle="Validation Errors">
               <nz-descriptions nzBordered>
                 <nz-descriptions-item
                   *ngFor="let error of validationErrors"

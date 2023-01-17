@@ -7,7 +7,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-} from '@angular/core';
+} from '@angular/core'
 import {
   AcceptRevisionGQL,
   AcceptRevisionMutation,
@@ -23,22 +23,19 @@ import {
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
   VariantDetailGQL,
-} from '@app/generated/civic.apollo';
-import { Observable, Subject } from 'rxjs';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
+} from '@app/generated/civic.apollo'
+import { Observable, Subject } from 'rxjs'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   MutationState,
   MutatorWithState,
-} from '@app/core/utilities/mutation-state-wrapper';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { map, startWith, takeUntil } from 'rxjs/operators';
-import { QueryRef } from 'apollo-angular';
-import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types';
+} from '@app/core/utilities/mutation-state-wrapper'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { map, startWith, takeUntil } from 'rxjs/operators'
+import { QueryRef } from 'apollo-angular'
+import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types'
 
-type SuccessType = false | 'accepted' | 'rejected';
+type SuccessType = false | 'accepted' | 'rejected'
 
 @Component({
   selector: 'cvc-revision-list',
@@ -46,51 +43,51 @@ type SuccessType = false | 'accepted' | 'rejected';
   styleUrls: ['./revision-list.component.less'],
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() revisions?: Revision[];
-  @Input() refetchQueries: InternalRefetchQueryDescriptor[] = [];
+  @Input() revisions?: Revision[]
+  @Input() refetchQueries: InternalRefetchQueryDescriptor[] = []
 
-  mostRecentOrg!: Maybe<Organization>;
+  mostRecentOrg!: Maybe<Organization>
 
-  selectedRevisionIds: number[] = [];
+  selectedRevisionIds: number[] = []
 
-  viewer$: Observable<Viewer>;
+  viewer$: Observable<Viewer>
 
-  isLoading: boolean = false;
-  errors: Maybe<string[]>;
+  isLoading: boolean = false
+  errors: Maybe<string[]>
 
-  success: SuccessType = false;
+  success: SuccessType = false
 
-  validationPopoverVisible: boolean = false;
-  revisionComment: Maybe<string>;
+  validationPopoverVisible: boolean = false
+  revisionComment: Maybe<string>
 
-  private destroy$ = new Subject<void>();
+  private destroy$ = new Subject<void>()
 
-  @Output() revisionSetSelectedEvent = new EventEmitter<string>();
-  @Output() revisionMutationCompleted = new EventEmitter<void>();
+  @Output() revisionSetSelectedEvent = new EventEmitter<string>()
+  @Output() revisionMutationCompleted = new EventEmitter<void>()
 
   //TODO: Get rid of, we need a type guard pipe in the template to narrow the type safely in the template
   // (or the angular team to make ngSwitch better)
   //until then, at least its type checked at the Input level
-  untypedRevisons?: any[];
-  genericErrors$?: Observable<Maybe<string>[]>;
-  validationErrors$?: Observable<ValidationErrorFragment[]>;
-  totalErrorCount$?: Observable<number>;
+  untypedRevisons?: any[]
+  genericErrors$?: Observable<Maybe<string>[]>
+  validationErrors$?: Observable<ValidationErrorFragment[]>
+  totalErrorCount$?: Observable<number>
 
   acceptRevisionsMutator: MutatorWithState<
     AcceptRevisionGQL,
     AcceptRevisionMutation,
     AcceptRevisionMutationVariables
-  >;
+  >
   rejectRevisionsMutator: MutatorWithState<
     RejectRevisionGQL,
     RejectRevisionMutation,
     RejectRevisionMutationVariables
-  >;
+  >
 
   queryRef!: QueryRef<
     ValidateRevisionsForAcceptanceQuery,
     ValidateRevisionsForAcceptanceQueryVariables
-  >;
+  >
 
   constructor(
     private viewerService: ViewerService,
@@ -99,97 +96,97 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     private rejectRevisionsGql: RejectRevisionGQL,
     private validationGql: ValidateRevisionsForAcceptanceGQL
   ) {
-    this.acceptRevisionsMutator = new MutatorWithState(networkErrorService);
-    this.rejectRevisionsMutator = new MutatorWithState(networkErrorService);
-    this.viewer$ = this.viewerService.viewer$;
+    this.acceptRevisionsMutator = new MutatorWithState(networkErrorService)
+    this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
+    this.viewer$ = this.viewerService.viewer$
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.untypedRevisons = this.revisions;
-    this.selectedRevisionIds = [];
+    this.untypedRevisons = this.revisions
+    this.selectedRevisionIds = []
     if (this.queryRef) {
       this.queryRef.refetch({
         ids: this.selectedRevisionIds,
-      });
+      })
     }
   }
 
   ngOnInit(): void {
     this.viewerService.viewer$.subscribe((v: Viewer) => {
-      this.mostRecentOrg = v.mostRecentOrg;
-    });
+      this.mostRecentOrg = v.mostRecentOrg
+    })
 
     this.queryRef = this.validationGql.watch({
       ids: [],
-    });
+    })
 
     this.genericErrors$ = this.queryRef.valueChanges.pipe(
       map(({ data }) => {
-        return data.validateRevisionsForAcceptance.genericErrors;
+        return data.validateRevisionsForAcceptance.genericErrors
       })
-    );
+    )
 
     this.validationErrors$ = this.queryRef.valueChanges.pipe(
       map(({ data }) => {
-        return data.validateRevisionsForAcceptance.validationErrors;
+        return data.validateRevisionsForAcceptance.validationErrors
       })
-    );
+    )
 
     this.totalErrorCount$ = this.queryRef.valueChanges.pipe(
       map(({ data }) => {
         return (
           data.validateRevisionsForAcceptance.genericErrors.length +
           data.validateRevisionsForAcceptance.validationErrors.length
-        );
+        )
       }),
       startWith(0)
-    );
+    )
 
-    this.untypedRevisons = this.revisions;
+    this.untypedRevisons = this.revisions
   }
 
   onChangesetSelected(changesetId: string) {
-    this.revisionSetSelectedEvent.emit(changesetId);
+    this.revisionSetSelectedEvent.emit(changesetId)
   }
 
   onRevisionCheckboxClicked(value: boolean, revisionId: number) {
     if (value) {
-      this.selectedRevisionIds.push(revisionId);
+      this.selectedRevisionIds.push(revisionId)
     } else {
       this.selectedRevisionIds = this.selectedRevisionIds.filter(
         (i) => i != revisionId
-      );
+      )
     }
     this.queryRef.refetch({
       ids: this.selectedRevisionIds,
-    });
+    })
   }
 
   setupMutationResultHandlers(state: MutationState, successType: SuccessType) {
     state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
       if (res) {
-        this.isLoading = false;
-        this.revisionMutationCompleted.emit();
-        this.errors = undefined;
-        this.success = successType;
-        this.validationPopoverVisible = false;
-        this.selectedRevisionIds = [];
+        this.isLoading = false
+        this.revisionMutationCompleted.emit()
+        this.errors = undefined
+        this.success = successType
+        this.validationPopoverVisible = false
+        this.selectedRevisionIds = []
       }
-    });
+    })
     state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
       if (res.length > 0) {
-        this.isLoading = false;
-        this.success = false;
-        this.errors = res;
-        this.validationPopoverVisible = false;
-        this.selectedRevisionIds = [];
+        this.isLoading = false
+        this.success = false
+        this.errors = res
+        this.validationPopoverVisible = false
+        this.selectedRevisionIds = []
       }
-    });
+    })
   }
 
   onRejectRevisionsClicked() {
     if (this.revisionComment && this.revisionComment !== '') {
-      this.isLoading = true;
+      this.isLoading = true
       let state = this.rejectRevisionsMutator.mutate(
         this.rejectRevisionsGql,
         {
@@ -202,13 +199,13 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         {
           refetchQueries: this.refetchQueries,
         }
-      );
-      this.setupMutationResultHandlers(state, 'rejected');
+      )
+      this.setupMutationResultHandlers(state, 'rejected')
     }
   }
 
   onAcceptRevisionClicked() {
-    this.isLoading = true;
+    this.isLoading = true
     let state = this.acceptRevisionsMutator.mutate(
       this.acceptRevisionsGql,
       {
@@ -222,20 +219,20 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
       {
         refetchQueries: this.refetchQueries,
       }
-    );
-    this.setupMutationResultHandlers(state, 'accepted');
+    )
+    this.setupMutationResultHandlers(state, 'accepted')
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
   onErrorBannerClose(err: string) {
-    this.errors = this.errors?.filter((e) => e != err);
+    this.errors = this.errors?.filter((e) => e != err)
   }
 
   onSuccessBannerClose() {
-    this.success = false;
+    this.success = false
   }
 }

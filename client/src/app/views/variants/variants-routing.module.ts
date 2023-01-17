@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { VariantsView } from './variants.view';
-import { VariantsHomeModule } from './variants-home/variants-home.module';
-import { VariantsHomePage } from './variants-home/variants-home.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { VariantsView } from './variants.view'
+import { VariantsHomeModule } from './variants-home/variants-home.module'
+import { VariantsHomePage } from './variants-home/variants-home.page'
 
 const routes: Routes = [
   {
@@ -40,7 +40,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), VariantsHomeModule],

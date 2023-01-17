@@ -1,8 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Maybe, TherapyInteraction } from '@app/generated/civic.apollo';
-import { formatTherapyInteractionEnum } from '../utilities/enum-formatters/format-therapy-interaction-enum';
+import { Pipe, PipeTransform } from '@angular/core'
+import { Maybe, TherapyInteraction } from '@app/generated/civic.apollo'
+import { formatTherapyInteractionEnum } from '../utilities/enum-formatters/format-therapy-interaction-enum'
 
-export type EnumOutputStyle = 'display-string' | 'icon-name';
+export type EnumOutputStyle = 'display-string' | 'icon-name'
 
 @Pipe({
   name: 'therapyInteractionEnumDisplay',
@@ -13,11 +13,11 @@ export class TherapyInteractionEnumDisplayPipe implements PipeTransform {
     value: Maybe<TherapyInteraction>,
     context: EnumOutputStyle = 'display-string'
   ): string {
-    if (value === undefined) return '';
+    if (value === undefined) return ''
     if (context === 'display-string') {
-      return formatTherapyInteractionEnum(value);
+      return formatTherapyInteractionEnum(value)
     } else {
-      return `civic-${value.replace(/_/g, '').toLowerCase()}`;
+      return `civic-${value.replace(/_/g, '').toLowerCase()}`
     }
   }
 }

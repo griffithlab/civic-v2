@@ -2,13 +2,11 @@
   *ngIf="field.templateOptions?.label as label"
   [nzHeader]="label"
   [nzActive]="field.templateOptions!.hasFocus"
-  [nzExtra]="fieldStatus"
->
+  [nzExtra]="fieldStatus">
   <div
     *ngIf="field.templateOptions?.helpText as helpText; else noHelpText"
     [innerHtml]="helpText"
-    class="helpjtext"
-  ></div>
+    class="helpjtext"></div>
   <ng-template #noHelpText>
     <div class="help-text">Help not available for this field.</div>
   </ng-template>
@@ -23,8 +21,7 @@
         nzTwotoneColor="#f5222d"
         nz-tooltip
         [nzTooltipTitle]="errorTooltip"
-        nzTooltipColor="red"
-      ></i>
+        nzTooltipColor="red"></i>
       <ng-template #errorTooltip>
         <formly-validation-message [field]="field"></formly-validation-message>
       </ng-template>

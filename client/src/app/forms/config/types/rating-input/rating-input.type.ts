@@ -1,7 +1,7 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { Component, NgZone, OnInit } from '@angular/core'
+import { UntypedFormControl } from '@angular/forms'
+import { FieldType, FormlyFieldConfig } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const optionText: { [option: string]: string } = {
   1: 'Poor - Claim is not supported well by experimental evidence. Results are not reproducible, or have very small sample size. No follow-up is done to validate novel claims.',
@@ -9,27 +9,27 @@ const optionText: { [option: string]: string } = {
   3: 'Average - Evidence is convincing, but not supported by a breadth of experiments. May be smaller scale projects, or novel results without many follow-up experiments. Discrepancies from expected results are explained and not concerning.',
   4: 'Strong - Well supported evidence. Experiments are well controlled, and results are convincing. Any discrepancies from expected results are well-explained and not concerning.',
   5: 'Excellent - Solid, well supported evidence from a lab or journal with respected academic standing. Experiments are well controlled, and results are clean and reproducible across multiple replicates. Evidence confirmed using separate methods.',
-};
+}
 
 @Component({
   selector: 'cvc-rating-input-type',
   templateUrl: './rating-input.type.html',
 })
 export class RatingInputType extends FieldType<any> {
-  rating?: number;
+  rating?: number
 
-  defaultOptions = {};
+  defaultOptions = {}
 
   updateField(e: any) {
-    this.field.formControl!.setValue(e);
-    let to = this.field.templateOptions;
+    this.field.formControl!.setValue(e)
+    let to = this.field.templateOptions
     if (to) {
-      to.optionText = optionText[e];
+      to.optionText = optionText[e]
     }
   }
 
   constructor() {
-    super();
+    super()
   }
 }
 
@@ -37,4 +37,4 @@ export const RatingInputTypeOption: TypeOption = {
   name: 'rating-input',
   component: RatingInputType,
   wrappers: ['form-field'],
-};
+}

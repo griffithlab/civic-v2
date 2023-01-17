@@ -4,8 +4,7 @@
       [nzTitle]="cardTitle"
       [nzExtra]="subject"
       nzBordered="false"
-      id="card-content"
-    >
+      id="card-content">
       <ng-template #cardTitle>
         <nz-space class="flag-card-title">
           <span *nzSpaceItem>
@@ -13,11 +12,12 @@
               nz-icon
               nzTheme="twotone"
               nzType="civic-flag"
-              [nzTwotoneColor]="'Flag' | entityColor"
-            ></i>
+              [nzTwotoneColor]="'Flag' | entityColor"></i>
             FID{{ f.id }}
           </span>
-          <cvc-status-tag [status]="f.state" *nzSpaceItem></cvc-status-tag>
+          <cvc-status-tag
+            [status]="f.state"
+            *nzSpaceItem></cvc-status-tag>
         </nz-space>
       </ng-template>
 
@@ -26,39 +26,39 @@
           <cvc-gene-tag
             *ngSwitchCase="'Gene'"
             [enablePopover]="false"
-            [gene]="f.flaggable"
-          ></cvc-gene-tag>
+            [gene]="f.flaggable"></cvc-gene-tag>
           <cvc-assertion-tag
             *ngSwitchCase="'Assertion'"
             [enablePopover]="false"
-            [assertion]="f.flaggable"
-          ></cvc-assertion-tag>
+            [assertion]="f.flaggable"></cvc-assertion-tag>
           <cvc-evidence-tag
             *ngSwitchCase="'EvidenceItem'"
             [enablePopover]="false"
-            [evidence]="f.flaggable"
-          ></cvc-evidence-tag>
+            [evidence]="f.flaggable"></cvc-evidence-tag>
           <cvc-variant-tag
             *ngSwitchCase="'Variant'"
             [enablePopover]="false"
-            [variant]="f.flaggable"
-          ></cvc-variant-tag>
+            [variant]="f.flaggable"></cvc-variant-tag>
           <cvc-variant-group-tag
             *ngSwitchCase="'VariantGroup'"
             [enablePopover]="false"
-            [variantgroup]="f.flaggable"
-          ></cvc-variant-group-tag>
+            [variantgroup]="f.flaggable"></cvc-variant-group-tag>
           <span *ngSwitchDefault>{{ f.flaggable.name }}</span>
         </ng-container>
       </ng-template>
 
-      <nz-space nzDirection="vertical" style="width: 100%">
-        <nz-descriptions *nzSpaceItem nzBordered [nzColumn]="1" nzSize="small">
+      <nz-space
+        nzDirection="vertical"
+        style="width: 100%">
+        <nz-descriptions
+          *nzSpaceItem
+          nzBordered
+          [nzColumn]="1"
+          nzSize="small">
           <nz-descriptions-item nzTitle="Flagging User">
             <cvc-user-tag
               [enablePopover]="false"
-              [user]="f.flaggingUser"
-            ></cvc-user-tag>
+              [user]="f.flaggingUser"></cvc-user-tag>
           </nz-descriptions-item>
           <nz-descriptions-item nzTitle="Flagging Date">
             {{ f.createdAt | timeAgo }}
@@ -70,8 +70,7 @@
           nzBordered
           [nzColumn]="1"
           nzSize="small"
-          nzLayout="vertical"
-        >
+          nzLayout="vertical">
           <nz-descriptions-item nzTitle="Comment">
             {{ f.openComment.comment }}
           </nz-descriptions-item>

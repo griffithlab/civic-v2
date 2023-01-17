@@ -5,15 +5,15 @@ import {
   Maybe,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 // map of tooltips for attributes without contextual differences
 export type tooltipMap = {
   [key: string | symbol]: {
     // attribute name
-    [key: string | symbol]: string; // attribute value
-  };
-};
+    [key: string | symbol]: string // attribute value
+  }
+}
 
 export const tooltips: tooltipMap = {
   evidenceType: {
@@ -81,7 +81,7 @@ export const tooltips: tooltipMap = {
     4: 'Strong - Well supported evidence. Experiments are well controlled, and results are convincing. Any discrepancies from expected results are well-explained and not concerning',
     5: 'Excellent - Solid, well supported evidence from a lab or journal with respected academic standing. Experiments are well controlled, and results are clean and reproducible across multiple replicates. Evidence confirmed using separate methods',
   },
-};
+}
 
 // a map of tooltips that differ based on their display context (entity type, evidence/asssertion type)
 export type ContextualTooltipMap = {
@@ -91,11 +91,11 @@ export type ContextualTooltipMap = {
       // TODO: type as [key in TooltipContext]?: {
       [key: string | symbol]: {
         // TODO: type as [key in InputEnum]? : {}
-        [key: string | number | symbol]: string; // TODO: type as [key in TooltipEntity]
-      };
-    };
-  };
-};
+        [key: string | number | symbol]: string // TODO: type as [key in TooltipEntity]
+      }
+    }
+  }
+}
 
 export const contextualTooltips: ContextualTooltipMap = {
   // Clinical Significance
@@ -332,7 +332,7 @@ export const contextualTooltips: ContextualTooltipMap = {
       },
     },
   },
-};
+}
 
 export function getEvidenceEnumTooltip(
   name: string | symbol,
@@ -340,13 +340,13 @@ export function getEvidenceEnumTooltip(
   contextType: Maybe<symbol>,
   contextEntity: Maybe<string>
 ): string {
-  let tooltip: string | undefined;
+  let tooltip: string | undefined
 
   if (contextType && contextEntity) {
-    tooltip = contextualTooltips[name][contextType][value][contextEntity];
+    tooltip = contextualTooltips[name][contextType][value][contextEntity]
   } else {
-    tooltip = tooltips[name][value];
+    tooltip = tooltips[name][value]
   }
 
-  return tooltip ? tooltip : '';
+  return tooltip ? tooltip : ''
 }

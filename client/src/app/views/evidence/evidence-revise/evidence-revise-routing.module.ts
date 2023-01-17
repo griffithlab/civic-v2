@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EvidenceReviseView } from './evidence-revise.view';
-import { EvidenceSuggestModule } from './evidence-suggest/evidence-suggest.module';
-import { EvidenceSuggestPage } from './evidence-suggest/evidence-suggest.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { EvidenceReviseView } from './evidence-revise.view'
+import { EvidenceSuggestModule } from './evidence-suggest/evidence-suggest.module'
+import { EvidenceSuggestPage } from './evidence-suggest/evidence-suggest.page'
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), EvidenceSuggestModule],

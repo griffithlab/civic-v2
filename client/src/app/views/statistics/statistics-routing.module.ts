@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { StatisticsMainComponent } from './statistics-main/statistics-main.component';
-import { StatisticsComponent } from './statistics.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { StatisticsMainComponent } from './statistics-main/statistics-main.component'
+import { StatisticsComponent } from './statistics.component'
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

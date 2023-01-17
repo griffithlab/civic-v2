@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'cvc-users-source-suggestions',
@@ -7,9 +7,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./users-source-suggestions.component.less'],
 })
 export class UsersSourceSuggestionsComponent {
-  userId: number;
+  userId: number
 
   constructor(private route: ActivatedRoute) {
-    this.userId = +this.route.snapshot.params['userId'];
+    this.userId = +this.route.snapshot.params['userId']
   }
 }

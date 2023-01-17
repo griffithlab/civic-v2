@@ -4,17 +4,17 @@
   [nzMessage]="error"
   nzType="error"
   nzCloseable
-  (nzOnClose)="onErrorBannerClose(error)"
-></nz-alert>
+  (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
 <nz-alert
   *ngIf="this.success"
   nzBanner
   nzMessage="Revision(s) successfully {{ this.success }}."
   nzType="success"
   nzCloseable
-  (nzOnClose)="onSuccessBannerClose()"
-></nz-alert>
-<nz-card nzTitle="Flags" class="card-list">
+  (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+<nz-card
+  nzTitle="Flags"
+  class="card-list">
   <ng-container *ngIf="flags && flags.length > 0; else noFlags">
     <nz-space nzDirection="vertical">
       <ng-container *ngFor="let flag of flags">
@@ -22,39 +22,39 @@
           [nzTitle]="flagCardHeaderTitle"
           [nzExtra]="flagCardHeaderExtra"
           nzType="inner"
-          *nzSpaceItem
-        >
+          *nzSpaceItem>
           <cvc-comment-body
             *ngIf="flag.openComment"
-            [commentBodySegments]="flag.openComment.parsedComment"
-          ></cvc-comment-body>
+            [commentBodySegments]="
+              flag.openComment.parsedComment
+            "></cvc-comment-body>
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
             <cvc-flag-resolve-form
               [flag]="flag"
-              [flagResolvedCallback]="flagResolvedCallback"
-            ></cvc-flag-resolve-form>
+              [flagResolvedCallback]="
+                flagResolvedCallback
+              "></cvc-flag-resolve-form>
           </ng-container>
           <ng-template #flagResolved>
             <nz-row>
               <nz-col nzSpan="16">
                 <ng-container *ngIf="flag.resolutionComment">
                   <cvc-comment-body
-                    [commentBodySegments]="flag.resolutionComment.parsedComment"
-                  ></cvc-comment-body>
+                    [commentBodySegments]="
+                      flag.resolutionComment.parsedComment
+                    "></cvc-comment-body>
                 </ng-container>
               </nz-col>
               <nz-col
                 nzSpan="8"
                 nz-typography
                 nzType="secondary"
-                style="text-align: right"
-              >
+                style="text-align: right">
                 Resolved By
                 <cvc-user-tag
                   *ngIf="flag.resolvingUser !== undefined"
-                  [user]="flag.resolvingUser"
-                ></cvc-user-tag>
+                  [user]="flag.resolvingUser"></cvc-user-tag>
                 {{ flag.resolvedAt | timeAgo }}
               </nz-col>
             </nz-row>
@@ -66,8 +66,7 @@
               nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Flag' | entityColor"
-              nzType="civic-flag"
-            ></i>
+              nzType="civic-flag"></i>
             FID{{ flag.id }}
           </ng-template>
 
@@ -75,16 +74,21 @@
           <ng-template #flagCardHeaderExtra>
             <nz-space nzSize="small">
               <span *nzSpaceItem>
-                <span nz-typography nzType="secondary">Flagged By</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >Flagged By</span
+                >
                 <cvc-user-tag [user]="flag.flaggingUser"></cvc-user-tag>
-                <span nz-typography nzType="secondary">{{
-                  flag.createdAt | timeAgo
-                }}</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >{{ flag.createdAt | timeAgo }}</span
+                >
               </span>
               <cvc-status-tag
                 [status]="flag.state"
-                *nzSpaceItem
-              ></cvc-status-tag>
+                *nzSpaceItem></cvc-status-tag>
             </nz-space>
           </ng-template>
         </nz-card>
@@ -94,7 +98,6 @@
   <ng-template #noFlags>
     <nz-empty
       nzNotFoundImage="simple"
-      nzNotFoundContent="No Flags matching filters"
-    ></nz-empty>
+      nzNotFoundContent="No Flags matching filters"></nz-empty>
   </ng-template>
 </nz-card>

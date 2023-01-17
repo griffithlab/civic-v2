@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AssertionsReviseView } from './assertions-revise.view';
-import { AssertionSuggestModule } from './assertion-suggest/assertion-suggest.module';
-import { AssertionSuggestPage } from './assertion-suggest/assertion-suggest.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { AssertionsReviseView } from './assertions-revise.view'
+import { AssertionSuggestModule } from './assertion-suggest/assertion-suggest.module'
+import { AssertionSuggestPage } from './assertion-suggest/assertion-suggest.page'
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), AssertionSuggestModule],

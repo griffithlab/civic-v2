@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core'
+import { AbstractControl, UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   AcmgCode,
   AmpLevel,
@@ -24,45 +24,45 @@ import {
   SuggestAssertionRevisionMutationVariables,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { AssertionState } from '../config/states/assertion.state';
+} from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { AssertionState } from '../config/states/assertion.state'
 import {
   FormDisease,
   FormTherapy,
   FormEvidence,
   FormMolecularProfile,
   FormPhenotype,
-} from '../forms.interfaces';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { takeUntil } from 'rxjs/operators';
+} from '../forms.interfaces'
+import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { takeUntil } from 'rxjs/operators'
 
 interface FormModel {
   fields: {
-    id: number;
-    description: string;
-    summary: string;
-    molecularProfile: FormMolecularProfile;
-    variantOrigin: VariantOrigin;
-    evidenceType: AssertionType;
-    significance: AssertionSignificance;
-    disease: Maybe<FormDisease>[];
-    evidenceDirection: AssertionDirection;
-    phenotypes: FormPhenotype[];
-    therapies: FormTherapy[];
-    therapyInteractionType: Maybe<TherapyInteraction>;
-    ampLevel: Maybe<AmpLevel>;
-    evidenceItems: FormEvidence[];
-    nccnGuideline: Maybe<NccnGuideline>;
-    nccnGuidelineVersion: Maybe<string>;
-    acmgCodes: AcmgCode[];
-    clingenCodes: ClingenCode[];
-    fdaCompanionTest: Maybe<boolean>;
-    fdaRegulatoryApproval: Maybe<boolean>;
-    comment: Maybe<string>;
-    organization: Maybe<Organization>;
-  };
+    id: number
+    description: string
+    summary: string
+    molecularProfile: FormMolecularProfile
+    variantOrigin: VariantOrigin
+    evidenceType: AssertionType
+    significance: AssertionSignificance
+    disease: Maybe<FormDisease>[]
+    evidenceDirection: AssertionDirection
+    phenotypes: FormPhenotype[]
+    therapies: FormTherapy[]
+    therapyInteractionType: Maybe<TherapyInteraction>
+    ampLevel: Maybe<AmpLevel>
+    evidenceItems: FormEvidence[]
+    nccnGuideline: Maybe<NccnGuideline>
+    nccnGuidelineVersion: Maybe<string>
+    acmgCodes: AcmgCode[]
+    clingenCodes: ClingenCode[]
+    fdaCompanionTest: Maybe<boolean>
+    fdaRegulatoryApproval: Maybe<boolean>
+    comment: Maybe<string>
+    organization: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -71,24 +71,24 @@ interface FormModel {
   styleUrls: ['./assertion-revise.form.less'],
 })
 export class AssertionReviseForm implements OnDestroy, AfterViewInit {
-  @Input() assertionId: Maybe<number>;
-  private destroy$ = new Subject<void>();
+  @Input() assertionId: Maybe<number>
+  private destroy$ = new Subject<void>()
 
-  formModel?: FormModel;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = { formState: new AssertionState() };
+  formModel?: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = { formState: new AssertionState() }
 
   suggestAssertionRevisionMutator: MutatorWithState<
     SuggestAssertionRevisionGQL,
     SuggestAssertionRevisionMutation,
     SuggestAssertionRevisionMutationVariables
-  >;
+  >
 
-  success: boolean = false;
-  noNewRevisions: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = true;
+  success: boolean = false
+  noNewRevisions: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = true
 
   constructor(
     private suggestAssertionRevisionGQL: SuggestAssertionRevisionGQL,
@@ -98,20 +98,20 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
     private revisionsGQL: RevisionsGQL
   ) {
     let eidCallback = (eids: FormEvidence[]) => {
-      this.formModel!.fields.evidenceItems = eids;
-    };
+      this.formModel!.fields.evidenceItems = eids
+    }
 
     let fdaApprovalCallback = (newVal: boolean | undefined) => {
-      this.formModel!.fields.fdaRegulatoryApproval = newVal;
-    };
+      this.formModel!.fields.fdaRegulatoryApproval = newVal
+    }
 
     let fdaCompanionCallback = (newVal: boolean | undefined) => {
-      this.formModel!.fields.fdaCompanionTest = newVal;
-    };
+      this.formModel!.fields.fdaCompanionTest = newVal
+    }
 
     this.suggestAssertionRevisionMutator = new MutatorWithState(
       networkErrorService
-    );
+    )
 
     this.formFields = [
       {
@@ -297,12 +297,12 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           },
         ],
       },
-    ];
+    ]
   }
 
   toReviseInput(model: Maybe<FormModel>): Maybe<SuggestAssertionRevisionInput> {
     if (model) {
-      const fields = model.fields;
+      const fields = model.fields
       return {
         id: fields.id,
         comment: fields.comment!,
@@ -334,9 +334,9 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           ),
           evidenceItemIds: fields.evidenceItems.map((e) => e.id),
         },
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   toFormModel(fields: RevisableAssertionFieldsFragment): FormModel {
@@ -365,11 +365,11 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         comment: this.formModel?.fields.comment,
         organization: this.formModel?.fields.organization,
       },
-    };
+    }
   }
 
   reviseAssertion = (model: FormModel): void => {
-    let input = this.toReviseInput(model);
+    let input = this.toReviseInput(model)
     if (input) {
       let state = this.suggestAssertionRevisionMutator.mutate(
         this.suggestAssertionRevisionGQL,
@@ -400,32 +400,32 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
               (r) => r.newlyCreated == false
             )
           ) {
-            this.noNewRevisions = true;
-            this.success = false;
+            this.noNewRevisions = true
+            this.success = false
           }
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
-  };
+  }
 
   ngAfterViewInit(): void {
     // fetch latest revisable field values, update form fields
@@ -436,36 +436,36 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           // response
           ({ data: { assertion } }) => {
             if (assertion) {
-              this.formModel = this.toFormModel(assertion);
-              this.loading = false;
+              this.formModel = this.toFormModel(assertion)
+              this.loading = false
             }
           },
           // error
           (error) => {
-            console.error('Error retrieving assertion.');
-            console.error(error);
+            console.error('Error retrieving assertion.')
+            console.error(error)
           },
           // complete
           () => {
             if (this.formOptions.updateInitialValue) {
-              this.formOptions.updateInitialValue();
+              this.formOptions.updateInitialValue()
             }
             // this.formGroup.updateValueAndValidity();
             // prompt fields to display any errors that exist in loaded evidenceItem
-            this.formGroup.markAllAsTouched();
+            this.formGroup.markAllAsTouched()
             // mark comment field as untouched, we don't want to show an error before the user interacts with the field
             const commentFc: AbstractControl | null =
-              this.formGroup.get('fields.comment');
+              this.formGroup.get('fields.comment')
             if (commentFc) {
-              commentFc.markAsUntouched();
+              commentFc.markAsUntouched()
             }
           }
-        );
+        )
     }
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

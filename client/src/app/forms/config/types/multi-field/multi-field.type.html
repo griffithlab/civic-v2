@@ -10,16 +10,20 @@
         nzSearch
         (click)="addField($event)">{{ to.addText }}</button>
       -->
-      <nz-tag class="editable-tag" nzNoAnimation (click)="addField($event)">
-        <i nz-icon nzType="plus"></i>
+      <nz-tag
+        class="editable-tag"
+        nzNoAnimation
+        (click)="addField($event)">
+        <i
+          nz-icon
+          nzType="plus"></i>
         {{ to.addText }}
       </nz-tag>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item
-    *ngFor="let f of field.fieldGroup; let i = index; let last = last"
-  >
+    *ngFor="let f of field.fieldGroup; let i = index; let last = last">
     <div ngClass="field-display">
       <!-- display field type -->
       <div [ngClass]="f.model[i] ? 'selected-field-col' : 'default-field-col'">
@@ -29,16 +33,22 @@
       <!-- display remove/add buttons if entity displayed -->
       <ng-container *ngIf="f.model[i]">
         <nz-tag class="close-tag">
-          <i nz-icon nzType="close" (click)="remove(i)"></i>
+          <i
+            nz-icon
+            nzType="close"
+            (click)="remove(i)"></i>
         </nz-tag>
-        <div class="field-add-btn" *ngIf="last">
+        <div
+          class="field-add-btn"
+          *ngIf="last">
           <nz-tag
             *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
             class="editable-tag"
             nzNoAnimation
-            (click)="addField($event)"
-          >
-            <i nz-icon nzType="plus"></i>
+            (click)="addField($event)">
+            <i
+              nz-icon
+              nzType="plus"></i>
             {{ to.addText }}
           </nz-tag>
         </div>
@@ -53,9 +63,10 @@
             nzType="default"
             nzSize="small"
             nzDanger
-            (click)="remove(i)"
-          >
-            <i nz-icon nzType="close"></i>
+            (click)="remove(i)">
+            <i
+              nz-icon
+              nzType="close"></i>
           </button>
         </div>
       </ng-container>

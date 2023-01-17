@@ -1,20 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   Maybe,
   VariantGroupDetailFieldsFragment,
   SubscribableEntities,
   SubscribableInput,
   VariantGroupDetailGQL,
-} from '@app/generated/civic.apollo';
-import { ActivatedRoute } from '@angular/router';
-import { startWith, takeUntil } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
-import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
+} from '@app/generated/civic.apollo'
+import { ActivatedRoute } from '@angular/router'
+import { startWith, takeUntil } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
   selector: 'cvc-variant-groups-detail',
@@ -22,17 +19,17 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./variant-groups-detail.view.less'],
 })
 export class VariantGroupsDetailView implements OnInit, OnDestroy {
-  loading$?: Observable<boolean>;
-  variantGroup$?: Observable<Maybe<VariantGroupDetailFieldsFragment>>;
-  viewer$: Observable<Viewer>;
-  commentsTotal$?: Observable<number>;
-  revisionsTotal$?: Observable<number>;
-  flagsTotal$?: Observable<number>;
-  routeSub: Subscription;
-  subscribable?: SubscribableInput;
+  loading$?: Observable<boolean>
+  variantGroup$?: Observable<Maybe<VariantGroupDetailFieldsFragment>>
+  viewer$: Observable<Viewer>
+  commentsTotal$?: Observable<number>
+  revisionsTotal$?: Observable<number>
+  flagsTotal$?: Observable<number>
+  routeSub: Subscription
+  subscribable?: SubscribableInput
 
-  tabs$: BehaviorSubject<RouteableTab[]>;
-  destroy$ = new Subject<void>();
+  tabs$: BehaviorSubject<RouteableTab[]>
+  destroy$ = new Subject<void>()
   defaultTabs: RouteableTab[] = [
     {
       routeName: 'summary',
@@ -54,30 +51,30 @@ export class VariantGroupsDetailView implements OnInit, OnDestroy {
       iconName: 'civic-flag',
       tabLabel: 'Flags',
     },
-  ];
+  ]
 
   constructor(
     private gql: VariantGroupDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
-    this.viewer$ = this.viewerService.viewer$;
-    this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.viewer$ = this.viewerService.viewer$
+    this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({
         variantGroupId: +params.variantGroupId,
-      }).valueChanges;
+      }).valueChanges
 
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.variantGroup$ = observable.pipe(pluck('data', 'variantGroup'));
+      this.variantGroup$ = observable.pipe(pluck('data', 'variantGroup'))
 
       this.commentsTotal$ = this.variantGroup$.pipe(
         pluck('comments', 'totalCount')
-      );
+      )
 
-      this.flagsTotal$ = this.variantGroup$.pipe(pluck('flags', 'totalCount'));
+      this.flagsTotal$ = this.variantGroup$.pipe(pluck('flags', 'totalCount'))
 
       this.variantGroup$
         .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
@@ -89,27 +86,27 @@ export class VariantGroupsDetailView implements OnInit, OnDestroy {
                   return {
                     badgeCount: count as number,
                     ...tab,
-                  };
+                  }
                 } else {
-                  return tab;
+                  return tab
                 }
               })
-            );
+            )
           },
-        });
+        })
 
       this.subscribable = {
         id: +params.variantGroupId,
         entityType: SubscribableEntities.VariantGroup,
-      };
-    });
+      }
+    })
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
+    this.routeSub.unsubscribe()
+    this.destroy$.next()
+    this.destroy$.unsubscribe()
   }
 }

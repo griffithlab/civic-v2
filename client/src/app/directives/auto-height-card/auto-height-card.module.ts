@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcAutoHeightCardDirective } from './auto-height-card.directive';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcAutoHeightCardDirective } from './auto-height-card.directive'
 
 @NgModule({
   declarations: [CvcAutoHeightCardDirective],

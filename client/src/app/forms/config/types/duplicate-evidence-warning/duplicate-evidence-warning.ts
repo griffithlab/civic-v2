@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
-import { BehaviorSubject } from 'rxjs';
+import { Component, OnInit } from '@angular/core'
+import { FieldType, FormlyFieldConfig } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
+import { BehaviorSubject } from 'rxjs'
 
 @Component({
   selector: 'cvc-duplicate-evidence-warning',
@@ -12,11 +12,11 @@ export class DuplicateEvidenceWarningComponent
   extends FieldType<any>
   implements OnInit
 {
-  paramsFilled: boolean = false;
-  matchingEvidenceExists$ = new BehaviorSubject<boolean>(false);
+  paramsFilled: boolean = false
+  matchingEvidenceExists$ = new BehaviorSubject<boolean>(false)
 
   constructor() {
-    super();
+    super()
     this.defaultOptions = {
       ...this.defaultOptions,
       expressionProperties: {
@@ -25,35 +25,35 @@ export class DuplicateEvidenceWarningComponent
           formState: any,
           ffc?: FormlyFieldConfig
         ) => {
-          let mainModel = ffc?.parent?.model;
-          let evidenceParams: any = {};
+          let mainModel = ffc?.parent?.model
+          let evidenceParams: any = {}
           if (mainModel) {
             if (mainModel.variant && mainModel.variant[0]) {
-              evidenceParams.variantId = mainModel.variant[0].id;
+              evidenceParams.variantId = mainModel.variant[0].id
             }
             if (mainModel.source && mainModel.source[0]) {
-              evidenceParams.sourceId = mainModel.source[0].id;
+              evidenceParams.sourceId = mainModel.source[0].id
             }
             if (evidenceParams.sourceId && evidenceParams.variantId) {
-              this.paramsFilled = true;
-              return evidenceParams;
+              this.paramsFilled = true
+              return evidenceParams
             }
           }
-          this.paramsFilled = false;
-          return undefined;
+          this.paramsFilled = false
+          return undefined
         },
       },
       hideExpression: () => {
-        return !this.paramsFilled;
+        return !this.paramsFilled
       },
-    };
+    }
   }
 
   ngOnInit(): void {}
 
   initalCountLoaded(count: number) {
     if (count > 0) {
-      this.matchingEvidenceExists$.next(true);
+      this.matchingEvidenceExists$.next(true)
     }
   }
 }
@@ -61,4 +61,4 @@ export class DuplicateEvidenceWarningComponent
 export const DuplicateEvidenceWarningType: TypeOption = {
   name: 'duplicate-evidence-warning',
   component: DuplicateEvidenceWarningComponent,
-};
+}

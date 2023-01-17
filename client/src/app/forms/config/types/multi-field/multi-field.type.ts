@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FieldArrayType } from '@ngx-formly/core';
+import { Component, OnInit } from '@angular/core'
+import { FieldArrayType } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-multi-field-type',
@@ -11,26 +11,26 @@ export class MultiFieldType extends FieldArrayType implements OnInit {
     templateOptions: {
       maxCount: 0, // zero maxCount indicates no maxCount
     },
-  };
+  }
 
   constructor() {
-    super();
+    super()
   }
 
   get errorState() {
-    return this.showError ? 'error' : '';
+    return this.showError ? 'error' : ''
   }
 
   addField(e: MouseEvent): void {
     if (e) {
-      e.preventDefault();
+      e.preventDefault()
     } // prevent form submit
-    this.add();
+    this.add()
   }
 
   ngOnInit() {
-    this.to.add = this.add.bind(this);
-    this.to.remove = this.remove.bind(this);
+    this.to.add = this.add.bind(this)
+    this.to.remove = this.remove.bind(this)
     // TODO: use this to debug initial form status issue w/ form-info-card
     // if(this.field.key === 'disease') {
     //   console.log('----- multi-field OnInit disease field:');
@@ -48,4 +48,4 @@ export const MultiFieldTypeOption = {
   name: 'multi-field',
   component: MultiFieldType,
   // wrappers: ['cvc-field-errors']
-};
+}

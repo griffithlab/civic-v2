@@ -1,8 +1,8 @@
-import { AbstractControl } from '@angular/forms';
-import { Maybe } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
-import { EntityState, EntityType } from '../../states/entity.state';
+import { AbstractControl } from '@angular/forms'
+import { Maybe } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
+import { EntityState, EntityType } from '../../states/entity.state'
 
 export const fdaApprovalCheckboxTypeOption: TypeOption = {
   name: 'fda-approval-checkbox',
@@ -23,37 +23,37 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
         if (ffc) {
-          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
+          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions
           const etCtrl: AbstractControl | null = ffc?.form
             ? ffc.form.get('evidenceType')
-            : null;
-          const st: EntityState = ffc?.options?.formState;
+            : null
+          const st: EntityState = ffc?.options?.formState
           if (!etCtrl) {
-            return;
+            return
           }
           if (!to) {
-            return;
+            return
           }
           to.ncSub = etCtrl.valueChanges.subscribe((et: Maybe<EntityType>) => {
             if (et && st.allowsFdaApproval(et)) {
-              to.hidden = false;
-              to.required = true;
+              to.hidden = false
+              to.required = true
             } else {
-              ffc.form?.get(ffc.key as string)?.setValue(undefined);
-              to.modelCallback(undefined);
-              ffc.model[ffc.key as string] = undefined;
-              to.hidden = true;
-              to.required = false;
+              ffc.form?.get(ffc.key as string)?.setValue(undefined)
+              to.modelCallback(undefined)
+              ffc.model[ffc.key as string] = undefined
+              to.hidden = true
+              to.required = false
             }
-          });
+          })
         }
       },
       onDestroy: (ffc?: FormlyFieldConfig): void => {
         if (ffc) {
-          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
-          to?.ncSub?.unsubscribe();
+          const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions
+          to?.ncSub?.unsubscribe()
         }
       },
     },
   },
-};
+}

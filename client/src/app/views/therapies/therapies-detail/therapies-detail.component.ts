@@ -1,16 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   TherapyDetailQuery,
   TherapyDetailQueryVariables,
   Therapy,
   TherapyDetailGQL,
-} from '@app/generated/civic.apollo';
-import { QueryRef } from 'apollo-angular';
-import { Maybe } from 'graphql/jsutils/Maybe';
-import { Observable, Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { Maybe } from 'graphql/jsutils/Maybe'
+import { Observable, Subscription } from 'rxjs'
+import { startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
 
 @Component({
   selector: 'cvc-therapies-detail',
@@ -18,27 +18,27 @@ import { pluck } from 'rxjs-etc/operators';
   styleUrls: ['./therapies-detail.component.less'],
 })
 export class TherapiesDetailComponent implements OnDestroy {
-  therapyId?: number;
-  routeSub: Subscription;
-  queryRef?: QueryRef<TherapyDetailQuery, TherapyDetailQueryVariables>;
-  loading$?: Observable<boolean>;
-  therapy$?: Observable<Maybe<Therapy>>;
+  therapyId?: number
+  routeSub: Subscription
+  queryRef?: QueryRef<TherapyDetailQuery, TherapyDetailQueryVariables>
+  loading$?: Observable<boolean>
+  therapy$?: Observable<Maybe<Therapy>>
 
   constructor(private route: ActivatedRoute, private gql: TherapyDetailGQL) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.therapyId = +params.therapyId;
+      this.therapyId = +params.therapyId
 
-      this.queryRef = this.gql.watch({ therapyId: this.therapyId });
+      this.queryRef = this.gql.watch({ therapyId: this.therapyId })
 
-      let observable = this.queryRef.valueChanges;
+      let observable = this.queryRef.valueChanges
 
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.therapy$ = observable.pipe(pluck('data', 'therapy'));
-    });
+      this.therapy$ = observable.pipe(pluck('data', 'therapy'))
+    })
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

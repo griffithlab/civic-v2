@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
-import { VariantGroupsView } from './variant-groups.view';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page'
+import { VariantGroupsView } from './variant-groups.view'
 
 const routes: Routes = [
   {
@@ -49,7 +49,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

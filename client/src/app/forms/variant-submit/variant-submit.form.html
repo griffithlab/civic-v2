@@ -1,11 +1,12 @@
-<nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+<nz-spin
+  nzTip="Submitting"
+  [nzSpinning]="this.loading">
   <form
     nz-form
     [formGroup]="formGroup"
     style="width: 400px"
     (ngSubmit)="submitVariant(formModel)"
-    nzLayout="vertical"
-  >
+    nzLayout="vertical">
     <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
     <formly-form
@@ -13,8 +14,7 @@
       [fields]="formFields"
       [model]="formModel"
       [options]="formOptions"
-      (modelChange)="onFormModelChange($event)"
-    >
+      (modelChange)="onFormModelChange($event)">
     </formly-form>
   </form>
 </nz-spin>
@@ -29,9 +29,10 @@
       nzType="success"
       [nzMessage]="this.isNew ? 'Variant Created' : 'Variant Already Exists'"
       [nzDescription]="successMessage"
-      nzShowIcon
-    ></nz-alert>
-    <ng-template #successMessage nzSize="small">
+      nzShowIcon></nz-alert>
+    <ng-template
+      #successMessage
+      nzSize="small">
       <p>
         View <a routerLink="/variants/{{this.newId}}/summary">its details</a>.
       </p>

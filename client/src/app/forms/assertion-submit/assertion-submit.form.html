@@ -22,13 +22,15 @@
       >
     </nz-typography>
   </nz-card>
-  <nz-spin nzTip="Submitting" [nzSpinning]="this.loading" *nzSpaceItem>
+  <nz-spin
+    nzTip="Submitting"
+    [nzSpinning]="this.loading"
+    *nzSpaceItem>
     <form
       nz-form
       [formGroup]="formGroup"
       (ngSubmit)="submitAssertion(formModel)"
-      nzLayout="vertical"
-    >
+      nzLayout="vertical">
       <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
       <formly-form
@@ -37,8 +39,7 @@
         [fields]="formFields"
         [model]="formModel"
         [options]="formOptions"
-        (modelChange)="formModel = $event"
-      ></formly-form>
+        (modelChange)="formModel = $event"></formly-form>
     </form>
 
     <ng-template #formMessages>
@@ -51,9 +52,10 @@
           nzType="success"
           nzMessage="Assertion Submitted"
           [nzDescription]="successMessage"
-          nzShowIcon
-        ></nz-alert>
-        <ng-template #successMessage nzSize="small">
+          nzShowIcon></nz-alert>
+        <ng-template
+          #successMessage
+          nzSize="small">
           <p>
             View
             <a routerLink="/assertions/{{this.newId}}/summary">its details</a>.

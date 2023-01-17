@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { getEntityColor } from '@app/core/utilities/get-entity-color';
-import { Maybe } from '@app/generated/civic.apollo';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-icon-badges',
@@ -9,11 +9,11 @@ import { Maybe } from '@app/generated/civic.apollo';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcIconBadgesComponent {
-  @Input() hasRevisions: Maybe<boolean> = false;
-  @Input() flagged: Maybe<boolean> = false;
-  @Input() hasComments: Maybe<boolean> = false;
-  @Input() entityColor: string = '#AAA';
+  @Input() hasRevisions: Maybe<boolean> = false
+  @Input() flagged: Maybe<boolean> = false
+  @Input() hasComments: Maybe<boolean> = false
+  @Input() entityColor: string = '#AAA'
 
-  flagColor = getEntityColor('Flag');
+  flagColor = getEntityColor('Flag')
   constructor() {}
 }

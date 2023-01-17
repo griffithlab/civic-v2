@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'cvc-pages-about',
@@ -42,7 +42,7 @@ export class PagesAboutPage implements OnInit {
       org: 'Google',
       award: '',
     },
-  ];
+  ]
 
   constructor() {}
 

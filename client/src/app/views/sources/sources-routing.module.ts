@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SourceAddPage } from './source-add/source-add.page';
-import { SourcesDetailView } from './sources-detail/sources-detail.view';
-import { SourcesHomePage } from './sources-home/sources-home.page';
-import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { SourceAddPage } from './source-add/source-add.page'
+import { SourcesDetailView } from './sources-detail/sources-detail.view'
+import { SourcesHomePage } from './sources-home/sources-home.page'
+import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page'
 
-import { SourcesView } from './sources.view';
-import { SourcesCommentsPage } from './sources-detail/sources-comments/sources-comments.page';
+import { SourcesView } from './sources.view'
+import { SourcesCommentsPage } from './sources-detail/sources-comments/sources-comments.page'
 
 const routes: Routes = [
   {
@@ -55,7 +55,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

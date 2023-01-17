@@ -5,39 +5,40 @@
     nzMessage="Flag submitted"
     nzType="success"
     nzCloseable
-    (nzOnClose)="onSuccessBannerClose()"
-  ></nz-alert>
+    (nzOnClose)="onSuccessBannerClose()"></nz-alert>
   <nz-alert
     *ngIf="errorMessages.length > 0"
     nzType="error"
     nzShowIcon
     [nzDescription]="errorContents"
-    nzMessage="Error Adding Flag"
-  >
+    nzMessage="Error Adding Flag">
   </nz-alert>
   <ng-template #errorContents>
     <ul>
       <li *ngFor="let error of errorMessages">{{ error }}</li>
     </ul>
   </ng-template>
-  <form nz-form (ngSubmit)="submitFlag()" nzLayout="vertical">
+  <form
+    nz-form
+    (ngSubmit)="submitFlag()"
+    nzLayout="vertical">
     <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
-    <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+    <nz-spin
+      nzTip="Submitting"
+      [nzSpinning]="this.loading">
       <nz-form-item>
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
             <cvc-form-buttons>
               <cvc-org-selector-btn-group
-                (selectedOrgChange)="onOrgSelected($event)"
-              >
+                (selectedOrgChange)="onOrgSelected($event)">
                 <ng-container *ngIf="viewer.signedIn; else notSignedIn">
                   <ng-template *ngTemplateOutlet="submitButton"></ng-template>
                 </ng-container>
                 <ng-template #notSignedIn>
                   <span
                     nz-tooltip
-                    nzTooltipTitle="Must be signed in to flag entity."
-                  >
+                    nzTooltipTitle="Must be signed in to flag entity.">
                     <ng-template *ngTemplateOutlet="submitButton"></ng-template>
                   </span>
                 </ng-template>
@@ -48,8 +49,7 @@
                     cvcOrgSelectorBtn
                     nzType="primary"
                     nzSize="small"
-                    [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn"
-                  >
+                    [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn">
                     Flag {{ this.flaggable.entityType | enumToTitle }}
                   </button>
                 </ng-template>

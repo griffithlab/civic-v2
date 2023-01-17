@@ -1,12 +1,13 @@
-<div class="alert-container" *ngIf="errors.networkError$ | ngrxPush as error">
+<div
+  class="alert-container"
+  *ngIf="errors.networkError$ | ngrxPush as error">
   <nz-alert
     nzBanner
     nzType="error"
     [nzMessage]="alertMessage"
     [nzDescription]="alertDescription"
     nzCloseable
-    (nzOnClose)="onClose()"
-  ></nz-alert>
+    (nzOnClose)="onClose()"></nz-alert>
 
   <!-- alert message title -->
   <ng-template #alertMessage>
@@ -18,16 +19,14 @@
     <ng-container *ngIf="error.error.errors as errs">
       <ng-container *ngIf="errs.length === 1">
         <ng-container
-          *ngTemplateOutlet="errorDisplay; context: { error: errs[0] }"
-        >
+          *ngTemplateOutlet="errorDisplay; context: { error: errs[0] }">
         </ng-container>
       </ng-container>
       <ng-container *ngIf="errs.length > 1">
         <ul class="error-list">
           <li *ngFor="let e of errs">
             <ng-container
-              *ngTemplateOutlet="errorDisplay; context: { error: e }"
-            >
+              *ngTemplateOutlet="errorDisplay; context: { error: e }">
             </ng-container>
           </li>
         </ul>
@@ -36,7 +35,9 @@
   </ng-template>
 
   <!-- alert message item -->
-  <ng-template #errorDisplay let-e="error">
+  <ng-template
+    #errorDisplay
+    let-e="error">
     {{ e.message }}
     <button
       *ngIf="e.backtrace.length > 0"
@@ -50,22 +51,33 @@
         )
       "
       nzSize="small"
-      nzType="link"
-    >
+      nzType="link">
       View Backtrace
     </button>
   </ng-template>
 
   <!-- modal templates passed in showModal() -->
-  <ng-template #modalContent let-params>
+  <ng-template
+    #modalContent
+    let-params>
     <pre style="white-space: pre-wrap; font-size: 80%">{{
       params.backtrace
     }}</pre>
   </ng-template>
-  <ng-template #modalFooter let-ref="modalRef">
-    <button nz-button nzType="default" (click)="copyToClipboard()">
+  <ng-template
+    #modalFooter
+    let-ref="modalRef">
+    <button
+      nz-button
+      nzType="default"
+      (click)="copyToClipboard()">
       Copy to Clipboard
     </button>
-    <button nz-button nzType="primary" (click)="hideModal(ref)">OK</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="hideModal(ref)">
+      OK
+    </button>
   </ng-template>
 </div>

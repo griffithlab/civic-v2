@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { GenesView } from './genes.view';
-import { GenesHomeModule } from './genes-home/genes-home.module';
-import { GenesHomePage } from './genes-home/genes-home.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { GenesView } from './genes.view'
+import { GenesHomeModule } from './genes-home/genes-home.module'
+import { GenesHomePage } from './genes-home/genes-home.page'
 
 const routes: Routes = [
   {
@@ -40,7 +40,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), GenesHomeModule],

@@ -1,37 +1,41 @@
 <nz-card>
   <ng-container *ngIf="this.selectedMp; else createMp">
     <cvc-molecular-profile-tag
-      [molecularProfile]="this.selectedMp"
-    ></cvc-molecular-profile-tag>
+      [molecularProfile]="this.selectedMp"></cvc-molecular-profile-tag>
     <nz-tag class="close-tag">
-      <i nz-icon nzType="close" (click)="resetForm()"> </i>
+      <i
+        nz-icon
+        nzType="close"
+        (click)="resetForm()">
+      </i>
     </nz-tag>
   </ng-container>
 </nz-card>
 
 <ng-template #createMp>
-  <nz-spin nzTip="Submitting" [nzSpinning]="loading">
+  <nz-spin
+    nzTip="Submitting"
+    [nzSpinning]="loading">
     <nz-form-item *ngIf="this.errorMessages.length > 0">
       <cvc-form-errors-alert [errors]="this.errorMessages">
       </cvc-form-errors-alert>
     </nz-form-item>
 
-    <nz-space nzDirection="vertical" nzSize="large">
+    <nz-space
+      nzDirection="vertical"
+      nzSize="large">
       <ng-container *nzSpaceItem>
         <ng-container
-          *ngrxLet="previewDeprecatedVariants$ as deprecatedVariants"
-        >
+          *ngrxLet="previewDeprecatedVariants$ as deprecatedVariants">
           <ng-container
             *ngIf="
               deprecatedVariants && deprecatedVariants.length > 0;
               else validVariants
-            "
-          >
+            ">
             Can't create Molecular Profile containing deprecated Variants:
             <cvc-variant-tag
               *ngFor="let v of deprecatedVariants"
-              [variant]="v"
-            ></cvc-variant-tag>
+              [variant]="v"></cvc-variant-tag>
           </ng-container>
           <ng-template #validVariants>
             <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
@@ -40,17 +44,14 @@
                   *ngIf="
                     previewMpAlreadyExists$ | ngrxPush as existing;
                     else newMp
-                  "
-                >
+                  ">
                   <cvc-molecular-profile-tag
-                    [molecularProfile]="existing"
-                  ></cvc-molecular-profile-tag>
+                    [molecularProfile]="existing"></cvc-molecular-profile-tag>
                   <button
                     nz-button
                     nzSize="small"
                     (click)="submitNewMp()"
-                    style="float: right"
-                  >
+                    style="float: right">
                     Select this Molecular Profile
                   </button>
                 </ng-container>
@@ -61,8 +62,7 @@
                       nz-button
                       nzSize="small"
                       (click)="submitNewMp()"
-                      style="float: right"
-                    >
+                      style="float: right">
                       Create Molecular Profile
                     </button>
                   </ng-container>
@@ -82,7 +82,9 @@
       <ng-template #noPreview>
         <ng-container *ngIf="parseError"> {{ parseError }} </ng-container>
         <ng-container *ngIf="!parseError">
-          <span nz-typography nzType="secondary">
+          <span
+            nz-typography
+            nzType="secondary">
             Start constructing a complex molecular profile to preview it here
           </span>
         </ng-container>
@@ -96,16 +98,14 @@
         nzPrefix="#"
         nzNotFoundContent="No matches..."
         [nzValueWith]="autoCompleteValueFor"
-        (nzOnSelect)="this.suggestions = []"
-      >
+        (nzOnSelect)="this.suggestions = []">
         <textarea
           #mpInputField
           nz-input
           rows="1"
           style="width: 100%"
           [(ngModel)]="mpName"
-          (ngModelChange)="onMpNameChanged($event)"
-        ></textarea>
+          (ngModelChange)="onMpNameChanged($event)"></textarea>
 
         <ng-container *nzMentionSuggestion="let variant">
           <span>{{ variant.displayName }}</span>
@@ -122,10 +122,12 @@
         (click)="this.variantFinderVisible = !this.variantFinderVisible"
         [nzPopoverContent]="variantFinder"
         [nzPopoverTrigger]="undefined"
-        nzPopoverPlacement="bottom"
-      >
+        nzPopoverPlacement="bottom">
         Find a Variant
-        <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+        <i
+          nz-icon
+          nzType="caret-down"
+          nzTheme="outline"></i>
       </button>
     </nz-space>
 
@@ -136,15 +138,13 @@
           nz-icon
           nzType="close"
           nzTheme="outline"
-          (click)="this.variantFinderVisible = false"
-        ></i>
+          (click)="this.variantFinderVisible = false"></i>
       </span>
     </ng-template>
 
     <ng-template #variantFinder>
       <cvc-variant-submit-form
-        (onVariantSelected)="onVariantSelected($event)"
-      ></cvc-variant-submit-form>
+        (onVariantSelected)="onVariantSelected($event)"></cvc-variant-submit-form>
     </ng-template>
   </nz-spin>
 </ng-template>

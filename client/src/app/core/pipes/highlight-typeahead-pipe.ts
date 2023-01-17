@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Pipe, PipeTransform } from '@angular/core'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 @Pipe({
   name: 'highlightTypeahead',
@@ -10,20 +10,20 @@ export class HighlightTypeaheadPipe implements PipeTransform {
 
   transform(value: string, searchTerm?: string): SafeHtml {
     if (!searchTerm || searchTerm == '') {
-      return value;
+      return value
     }
 
-    const regex = new RegExp(searchTerm, 'gi');
-    const match = value.match(regex);
+    const regex = new RegExp(searchTerm, 'gi')
+    const match = value.match(regex)
 
     if (!match) {
-      return value;
+      return value
     }
     let stringVal = value.replace(
       regex,
       `<span class='typeahead-match'>${match[0]}</span>`
-    );
+    )
 
-    return this.sanitizer.bypassSecurityTrustHtml(stringVal);
+    return this.sanitizer.bypassSecurityTrustHtml(stringVal)
   }
 }

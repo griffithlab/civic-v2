@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
   name: 'typenameToRoute',
@@ -8,23 +8,23 @@ export class TypenameToRoutePipe implements PipeTransform {
   transform(n: string): string {
     switch (n) {
       case 'Gene':
-        return 'genes';
+        return 'genes'
       case 'Variant':
-        return 'variants';
+        return 'variants'
       case 'Assertion':
-        return 'assertions';
+        return 'assertions'
       case 'EvidenceItem':
-        return 'evidence';
+        return 'evidence'
       case 'Source':
-        return 'sources';
+        return 'sources'
       case 'SourceSuggestion':
-        return 'source-suggestions';
+        return 'source-suggestions'
       case 'Revision':
-        return 'revisions';
+        return 'revisions'
       case 'MolecularProfile':
-        return 'molecular-profiles';
+        return 'molecular-profiles'
       default:
-        throw new Error('Not handling all typenames yet' + n);
+        throw new Error('Not handling all typenames yet' + n)
     }
   }
 }

@@ -1,7 +1,10 @@
 <ng-container *ngIf="clinicalTrial$ | ngrxPush as trial">
   <nz-row [nzGutter]="[8, 16]">
     <nz-col [nzSpan]="24">
-      <nz-descriptions nzLayout="vertical" nzSize="small" [nzBordered]="true">
+      <nz-descriptions
+        nzLayout="vertical"
+        nzSize="small"
+        [nzBordered]="true">
         <nz-descriptions-item nzTitle="Description">
           {{ trial.description }}
         </nz-descriptions-item>
@@ -11,15 +14,13 @@
       <cvc-sources-table
         [clinicalTrialId]="clinicalTrialId"
         cvcTitle="{{ trial.nctId }} Sources"
-        [cvcHeight]="400"
-      >
+        [cvcHeight]="400">
       </cvc-sources-table>
     </nz-col>
     <nz-col [nzSpan]="24">
       <cvc-evidence-table
         [clinicalTrialId]="clinicalTrialId"
-        cvcTitle="{{ trial.nctId }} Evidence"
-      ></cvc-evidence-table>
+        cvcTitle="{{ trial.nctId }} Evidence"></cvc-evidence-table>
     </nz-col>
   </nz-row>
 </ng-container>

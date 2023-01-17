@@ -2,18 +2,18 @@ import {
   TypeOption,
   ValidationMessageOption,
   ValidatorOption,
-} from '@ngx-formly/core/lib/models';
-import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+} from '@ngx-formly/core/lib/models'
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core'
+import { AbstractControl, ValidationErrors } from '@angular/forms'
 import {
   EntitySignificance,
   EntityState,
   EntityType,
   SelectOption,
   SelectType,
-} from '../../states/entity.state';
-import { Maybe } from '@app/generated/civic.apollo';
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
+} from '../../states/entity.state'
+import { Maybe } from '@app/generated/civic.apollo'
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 
 const optionText: any = {
   Evidence: {
@@ -102,7 +102,7 @@ const optionText: any = {
         'Does not meet guideline criteria for oncogenic/benign, or the evidence is conflicting.',
     },
   },
-};
+}
 
 export const SignificanceSelectTypeOption: TypeOption = {
   name: 'significance-select',
@@ -120,30 +120,30 @@ export const SignificanceSelectTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to: FormlyTemplateOptions = ffc!.templateOptions!;
-        const st: EntityState = ffc?.options?.formState;
+        const to: FormlyTemplateOptions = ffc!.templateOptions!
+        const st: EntityState = ffc?.options?.formState
         if (!st) {
-          return;
+          return
         } // if no form state, empty options
 
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form
           ? ffc.form.get('evidenceType')
-          : null;
+          : null
         if (!etCtrl) {
-          return;
+          return
         } // no evidenceType FormControl found, cannot subscribe
         to.options = st.getOptionsFromEnums(
           st.getSignificanceOptions(etCtrl.value)
-        );
+        )
         to.vcSub = etCtrl.valueChanges.subscribe((et: EntityType) => {
-          to.options = st.getOptionsFromEnums(st.getSignificanceOptions(et));
-          ffc!.formControl!.updateValueAndValidity();
-        });
+          to.options = st.getOptionsFromEnums(st.getSignificanceOptions(et))
+          ffc!.formControl!.updateValueAndValidity()
+        })
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to: FormlyTemplateOptions = ffc!.templateOptions!;
-        to.vcSub.unsubscribe();
+        const to: FormlyTemplateOptions = ffc!.templateOptions!
+        to.vcSub.unsubscribe()
       },
     },
     expressionProperties: {
@@ -153,12 +153,12 @@ export const SignificanceSelectTypeOption: TypeOption = {
         ffc?: FormlyFieldConfig
       ) => {
         if (st.entityName && m.evidenceType && m.significance) {
-          return optionText[st.entityName][m.evidenceType][m.significance];
+          return optionText[st.entityName][m.evidenceType][m.significance]
         }
       },
     },
   },
-};
+}
 
 export const csOptionValidator: ValidatorOption = {
   name: 'cs-option',
@@ -167,28 +167,28 @@ export const csOptionValidator: ValidatorOption = {
     ffc: FormlyFieldConfig,
     opt: any
   ): ValidationErrors | null => {
-    const st: EntityState = ffc.options?.formState;
-    const cs: EntitySignificance = c.value;
+    const st: EntityState = ffc.options?.formState
+    const cs: EntitySignificance = c.value
     if (!cs || !st) {
-      return null;
+      return null
     }
-    const et: EntityType = c.parent?.get('evidenceType')?.value;
+    const et: EntityType = c.parent?.get('evidenceType')?.value
     if (!et) {
-      return null;
+      return null
     } else {
-      return st.isValidSignificanceOption(et, cs) ? null : { 'cs-option': et };
+      return st.isValidSignificanceOption(et, cs) ? null : { 'cs-option': et }
     }
   },
-};
+}
 
 export const csOptionValidationMessage: ValidationMessageOption = {
   name: 'cs-option',
   message: (et: EntityType, ffc: FormlyFieldConfig): string => {
-    const st: EntityState = ffc.options!.formState!;
+    const st: EntityState = ffc.options!.formState!
     return `'${formatEvidenceEnum(
       ffc.formControl?.value
     )}' is not a valid Clinical Significance for ${formatEvidenceEnum(
       et
-    )} ${st.pluralNames.get(st.entityName)}.`;
+    )} ${st.pluralNames.get(st.entityName)}.`
   },
-};
+}

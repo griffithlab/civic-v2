@@ -8,8 +8,7 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="commentPopover"
     nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-  >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -29,7 +28,6 @@
     nz-icon
     nzType="civic-comment"
     nzTheme="twotone"
-    nzTwotoneColor="#44D8EF"
-  ></i>
+    nzTwotoneColor="#44D8EF"></i>
   {{ comment.name }}
 </ng-template>

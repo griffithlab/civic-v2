@@ -2,12 +2,10 @@
   <ng-container *ngIf="!(this.loading$ | ngrxPush)">
     <nz-space
       *ngFor="let organization of organizations$ | ngrxPush"
-      nzDirection="vertical"
-    >
+      nzDirection="vertical">
       <cvc-organization-card
         *nzSpaceItem
-        [organization]="organization!"
-      ></cvc-organization-card>
+        [organization]="organization!"></cvc-organization-card>
     </nz-space>
   </ng-container>
 </nz-spin>

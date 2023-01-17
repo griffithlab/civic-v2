@@ -7,17 +7,15 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Disease' | entityColor"
-        nzType="civic-disease"
-      ></i>
+        nzType="civic-disease"></i>
       {{ disease.name }}
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="disease.doid">
       <cvc-link-tag
         *ngIf="disease.diseaseUrl"
         [href]="disease.diseaseUrl"
-        tooltip="View on disease-ontology.org"
-      >
-        {{ "DOID:" + disease.doid }}
+        tooltip="View on disease-ontology.org">
+        {{ 'DOID:' + disease.doid }}
       </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>

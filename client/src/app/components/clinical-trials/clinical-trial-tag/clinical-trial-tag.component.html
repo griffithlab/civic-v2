@@ -10,15 +10,13 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="clinicalTrialPopover"
     nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-  >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #clinicalTrialPopover>
     <cvc-clinical-trial-popover
-      [clinicalTrialId]="clinicalTrial.id"
-    ></cvc-clinical-trial-popover>
+      [clinicalTrialId]="clinicalTrial.id"></cvc-clinical-trial-popover>
   </ng-template>
 </ng-template>
 
@@ -31,7 +29,6 @@
     nz-icon
     nzTheme="twotone"
     [nzTwotoneColor]="'ClinicalTrial' | entityColor"
-    nzType="civic-clinicaltrial"
-  ></i>
+    nzType="civic-clinicaltrial"></i>
   {{ clinicalTrial.nctId }}
 </ng-template>

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Component, Input, OnInit } from '@angular/core'
+import { FormlyFieldConfig } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-form-info-card',
@@ -7,8 +7,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   styleUrls: ['./form-info-card.component.less'],
 })
 export class CvcFormInfoCardComponent implements OnInit {
-  @Input() fieldGroup: FormlyFieldConfig[] | undefined;
-  @Input() affixTo!: HTMLElement;
+  @Input() fieldGroup: FormlyFieldConfig[] | undefined
+  @Input() affixTo!: HTMLElement
 
   constructor() {}
 

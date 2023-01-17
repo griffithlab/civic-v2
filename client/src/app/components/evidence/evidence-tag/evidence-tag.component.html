@@ -15,15 +15,13 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
     nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-  >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
     <cvc-evidence-popover
       *ngIf="enablePopover"
-      [evidenceId]="evidence.id"
-    ></cvc-evidence-popover>
+      [evidenceId]="evidence.id"></cvc-evidence-popover>
   </ng-template>
 </ng-template>
 
@@ -32,7 +30,9 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [flagged]="evidence.flagged" [entityColor]="iconColor">
+  <cvc-icon-badges
+    [flagged]="evidence.flagged"
+    [entityColor]="iconColor">
     <i
       nz-icon
       nzType="civic-evidence"
@@ -41,8 +41,7 @@
         evidence.status === 'REJECTED'
           ? ('Rejected' | entityColor)
           : ('EvidenceItem' | entityColor)
-      "
-    >
+      ">
     </i>
   </cvc-icon-badges>
   {{ evidence.name }}

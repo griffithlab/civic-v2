@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
+import { UntypedFormControl } from '@angular/forms'
 import {
   AcmgCode,
   AcmgCodeTypeaheadGQL,
   AcmgCodeTypeaheadQuery,
   AcmgCodeTypeaheadQueryVariables,
-} from '@app/generated/civic.apollo';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
-import { QueryRef } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { isNonNulled } from 'rxjs-etc';
-import { filter, map } from 'rxjs/operators';
+} from '@app/generated/civic.apollo'
+import { UntilDestroy } from '@ngneat/until-destroy'
+import { FieldType } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
+import { QueryRef } from 'apollo-angular'
+import { Observable } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { filter, map } from 'rxjs/operators'
 
 @UntilDestroy()
 @Component({
@@ -20,30 +20,30 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './acmg-code-select.type.html',
 })
 export class AcmgCodeInputType extends FieldType<any> implements OnInit {
-  searchVal = '';
+  searchVal = ''
 
   private queryRef?: QueryRef<
     AcmgCodeTypeaheadQuery,
     AcmgCodeTypeaheadQueryVariables
-  >;
-  codes$?: Observable<AcmgCode[]>;
+  >
+  codes$?: Observable<AcmgCode[]>
 
   constructor(private acmgCodeGQL: AcmgCodeTypeaheadGQL) {
-    super();
+    super()
   }
 
   ngOnInit(): void {
-    this.queryRef = this.acmgCodeGQL.watch({ code: this.searchVal });
+    this.queryRef = this.acmgCodeGQL.watch({ code: this.searchVal })
     this.codes$ = this.queryRef.valueChanges.pipe(
       map((r) => r.data),
       filter(isNonNulled),
       map(({ acmgCodesTypeahead }) => acmgCodesTypeahead)
-    );
+    )
   }
 
   onSearch(value: string): void {
-    this.searchVal = value;
-    this.queryRef?.refetch({ code: value });
+    this.searchVal = value
+    this.queryRef?.refetch({ code: value })
   }
 }
 export const acmgCodeSelectTypeOption: TypeOption = {
@@ -56,4 +56,4 @@ export const acmgCodeSelectTypeOption: TypeOption = {
       placeholder: 'None specified.',
     },
   },
-};
+}

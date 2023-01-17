@@ -1,6 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'cvc-variant-types-summary',
@@ -8,16 +8,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./variant-types-summary.component.less'],
 })
 export class VariantTypesSummaryComponent implements OnDestroy {
-  variantTypeId?: number;
-  routeSub: Subscription;
+  variantTypeId?: number
+  routeSub: Subscription
 
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.variantTypeId = +params.variantTypeId;
-    });
+      this.variantTypeId = +params.variantTypeId
+    })
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

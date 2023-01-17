@@ -1,20 +1,23 @@
 <ng-container *ngIf="assertion$ | async as assertion">
   <cvc-section-navigation
     [displayName]="assertion.name"
-    [relationsTpl]="assertionRelations"
-  >
+    [relationsTpl]="assertionRelations">
   </cvc-section-navigation>
   <ng-template #assertionRelations>
     <nz-space nzDirection="horizontal">
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem
+      <span
+        nz-typography
+        class="label"
+        *nzSpaceItem
         ><strong>{{ assertion.name }}</strong> Parents:</span
       >
-      <span *nzSpaceItem class="tags">
+      <span
+        *nzSpaceItem
+        class="tags">
         <cvc-molecular-profile-tag
           [molecularProfile]="assertion.molecularProfile"
-          [enablePopover]="false"
-        ></cvc-molecular-profile-tag>
+          [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
     </nz-space>
   </ng-template>
@@ -26,8 +29,7 @@
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Assertion' | entityColor"
-        nzType="civic-assertion"
-      ></i>
+        nzType="civic-assertion"></i>
       {{ assertion.name }}
     </nz-page-header-title>
     <nz-page-header-content>
@@ -36,8 +38,12 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24" nzJustify="center">
-            <div nz-col nzSpan="6">
+          <nz-row
+            nzSpan="24"
+            nzJustify="center">
+            <div
+              nz-col
+              nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>
           </nz-row>

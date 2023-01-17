@@ -7,15 +7,13 @@
   [nzNotFoundContent]="notFound"
   [nzShowArrow]="false"
   [nzFilterOption]="to.filterOption"
-  (nzOnSearch)="to.onSearch($event)"
->
+  (nzOnSearch)="to.onSearch($event)">
   <ng-container *ngrxLet="this.sources$ as sources">
     <nz-option
       *ngFor="let opt of sources"
       nzCustomContent
       [nzLabel]="opt.label"
-      [nzValue]="opt.source"
-    >
+      [nzValue]="opt.source">
       {{ opt.source.citation }} ({{ opt.source.citationId }})
     </nz-option>
   </ng-container>
@@ -24,9 +22,10 @@
 <ng-template #notFound>
   <!-- prompt user to enter search string if none entered, or it is of insufficient length -->
   <ng-container
-    [ngSwitch]="to.searchLength > 0 && to.searchLength >= to.minSearchLength"
-  >
-    <div *ngSwitchCase="false" class="ant-form-item-explain">
+    [ngSwitch]="to.searchLength > 0 && to.searchLength >= to.minSearchLength">
+    <div
+      *ngSwitchCase="false"
+      class="ant-form-item-explain">
       {{ to.prompt }}
     </div>
     <!-- if valid citation id, but no results returned, show loader -->
@@ -35,8 +34,7 @@
       [model]="model"
       (addCitation)="onAddCitation($event)"
       [(sourceType)]="model.sourceType"
-      [(citationId)]="to.searchValue"
-    >
+      [(citationId)]="to.searchValue">
     </cvc-citation-loader>
   </ng-container>
 </ng-template>

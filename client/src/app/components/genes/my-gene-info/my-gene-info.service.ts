@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { NGXLogger } from 'ngx-logger';
+import { Injectable } from '@angular/core'
+import { NGXLogger } from 'ngx-logger'
 
 @Injectable({
   providedIn: 'root',
@@ -21,54 +21,54 @@ export class MyGeneInfoService {
       inoh: null,
       signalink: null,
       ehmn: null,
-    };
-    const pathways = geneInfo.pathway || [];
-    const pathwaysFinal: PathwayRow[] = [];
-    let link;
+    }
+    const pathways = geneInfo.pathway || []
+    const pathwaysFinal: PathwayRow[] = []
+    let link
     Object.keys(pathways).forEach(function (src) {
       if (!Array.isArray(pathways[src])) {
-        pathways[src] = [pathways[src]];
+        pathways[src] = [pathways[src]]
       }
       pathways[src].forEach(function (p: Pathway, i: number) {
-        link = srcMap[src] + pathways[src][i].id;
+        link = srcMap[src] + pathways[src][i].id
         if (srcMap[src] === null) {
-          link = null;
+          link = null
         }
         pathwaysFinal.push({
           name: pathways[src][i].name,
           link: link,
           src: src,
-        });
-      });
-    });
-    geneInfo.pathway = pathwaysFinal;
-    geneInfo.pathwayList = pathwaysFinal.map((p) => p.name);
+        })
+      })
+    })
+    geneInfo.pathway = pathwaysFinal
+    geneInfo.pathwayList = pathwaysFinal.map((p) => p.name)
     if (!Array.isArray(geneInfo.alias) && geneInfo.alias) {
-      geneInfo.alias = [geneInfo.alias];
+      geneInfo.alias = [geneInfo.alias]
     }
     if (!Array.isArray(geneInfo.interpro) && geneInfo.interpro) {
-      geneInfo.interpro = [geneInfo.interpro];
+      geneInfo.interpro = [geneInfo.interpro]
     }
     geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => {
-      return pd.desc;
-    });
-    return geneInfo;
+      return pd.desc
+    })
+    return geneInfo
   }
 }
 
 export interface ProteinDomain {
-  desc: string;
-  id: string;
-  short_desc: string;
+  desc: string
+  id: string
+  short_desc: string
 }
 
 export interface PathwayRow {
-  name: string;
-  link: string | null;
-  src: string | null;
+  name: string
+  link: string | null
+  src: string | null
 }
 
 export interface Pathway {
-  name: string;
-  id: string;
+  name: string
+  id: string
 }

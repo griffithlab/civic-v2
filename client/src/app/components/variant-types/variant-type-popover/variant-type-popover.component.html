@@ -4,15 +4,13 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="linkout"
-    >
+      [nzExtra]="linkout">
       <ng-template #cardTitle>
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'VariantType' | entityColor"
-          nzType="civic-varianttype"
-        ></i>
+          nzType="civic-varianttype"></i>
 
         {{ vt.name }}
       </ng-template>
@@ -20,14 +18,18 @@
         <cvc-link-tag
           *ngIf="vt.soid != 'N/A'"
           [href]="vt.url"
-          tooltip="View on SequenceOntology.org"
-        >
+          tooltip="View on SequenceOntology.org">
           {{ vt.soid }}
         </cvc-link-tag>
       </ng-template>
 
-      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
-        <nz-descriptions-item nzTitle="Variants" nzSpan="2">
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+        <nz-descriptions-item
+          nzTitle="Variants"
+          nzSpan="2">
           {{ vt.variantCount }}
         </nz-descriptions-item>
       </nz-descriptions>

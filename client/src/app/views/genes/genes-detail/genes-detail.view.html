@@ -1,18 +1,18 @@
 <ng-container *ngIf="gene$ | async as gene">
   <cvc-section-navigation [displayName]="gene.name"> </cvc-section-navigation>
-  <div cvcFlaggable [flags]="flagsTotal$ | ngrxPush">
+  <div
+    cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"
-      >
+        [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Gene' | entityColor"
-          nzType="civic-gene"
-        ></i>
+          nzType="civic-gene"></i>
         {{ gene.name }}
       </nz-page-header-title>
 
@@ -26,8 +26,7 @@
         <nz-space
           nzDirection="horizontal"
           nzSize="small"
-          *ngrxLet="viewer$ as viewer"
-        >
+          *ngrxLet="viewer$ as viewer">
           <!-- add revision btn -->
           <span *nzSpaceItem>
             <button
@@ -37,8 +36,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Revise
             </button>
           </span>
@@ -53,8 +51,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Flag
             </button>
           </span>
@@ -64,8 +61,7 @@
               *ngIf="viewer.signedIn && subscribable"
               [viewer]="viewer"
               [subscribableId]="subscribable.id"
-              typename="Gene"
-            >
+              typename="Gene">
             </cvc-entity-subscription-button>
           </span>
         </nz-space>
@@ -76,8 +72,7 @@
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars
-                [subscribable]="subscribable"
-              ></cvc-contributor-avatars>
+                [subscribable]="subscribable"></cvc-contributor-avatars>
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>

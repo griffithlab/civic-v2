@@ -5,9 +5,14 @@
 </ng-container>
 
 <ng-container *ngIf="flags">
-  <nz-ribbon [nzText]="flaggedText" nzPlacement="start" nzColor="#ff3333">
+  <nz-ribbon
+    [nzText]="flaggedText"
+    nzPlacement="start"
+    nzColor="#ff3333">
     <ng-template #flaggedText>
-      <a routerLink="flags" style="color: #fff">
+      <a
+        routerLink="flags"
+        style="color: #fff">
         <i
           nz-icon
           nzType="flag"
@@ -15,8 +20,7 @@
           nz-tooltip
           nzTooltipPlacement="top"
           nzTooltipColor="#FF3333"
-          [nzTooltipTitle]="flaggedTooltip"
-        ></i>
+          [nzTooltipTitle]="flaggedTooltip"></i>
       </a>
     </ng-template>
     <ng-template #flaggedTooltip> {{ flags }} open flags </ng-template>

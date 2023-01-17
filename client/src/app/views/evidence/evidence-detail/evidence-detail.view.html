@@ -1,48 +1,59 @@
 <ng-container *ngIf="evidence$ | ngrxPush as evidence">
   <cvc-section-navigation
     [displayName]="evidence.name"
-    [relationsTpl]="evidenceRelations"
-  >
+    [relationsTpl]="evidenceRelations">
   </cvc-section-navigation>
   <ng-template #evidenceRelations>
     <nz-space nzDirection="horizontal">
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem
+      <span
+        nz-typography
+        class="label"
+        *nzSpaceItem
         ><strong>{{ evidence.name }}</strong> Parents:</span
       >
-      <span class="tags" *nzSpaceItem>
+      <span
+        class="tags"
+        *nzSpaceItem>
         <cvc-molecular-profile-tag
           [molecularProfile]="evidence.molecularProfile"
-          [enablePopover]="false"
-        ></cvc-molecular-profile-tag>
+          [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
     </nz-space>
   </ng-template>
 
-  <div cvcFlaggable [flags]="flagsTotal$ | ngrxPush">
-    <nz-page-header *ngrxLet="viewer$ as viewer " class="site-page-header">
+  <div
+    cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
+    <nz-page-header
+      *ngrxLet="viewer$ as viewer "
+      class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': evidence.flags.totalCount > 0 }"
-      >
+        [ngClass]="{ 'flagged': evidence.flags.totalCount > 0 }">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'EvidenceItem' | entityColor"
-          nzType="civic-evidence"
-        ></i>
+          nzType="civic-evidence"></i>
         {{ evidence.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
       <nz-page-header-tags>
-        <nz-tag [nzColor]="'red'" *ngIf="false">Flagged</nz-tag>
+        <nz-tag
+          [nzColor]="'red'"
+          *ngIf="false"
+          >Flagged</nz-tag
+        >
       </nz-page-header-tags>
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra>
-        <nz-space nzDirection="horizontal" nzSize="small">
+        <nz-space
+          nzDirection="horizontal"
+          nzSize="small">
           <!-- add revision btn -->
           <span *nzSpaceItem>
             <button
@@ -52,8 +63,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Revise
             </button>
           </span>
@@ -68,8 +78,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Flag
             </button>
           </span>
@@ -79,8 +88,7 @@
               *ngIf="viewer.signedIn && subscribable"
               [viewer]="viewer"
               [subscribableId]="subscribable.id"
-              typename="EvidenceItem"
-            >
+              typename="EvidenceItem">
             </cvc-entity-subscription-button>
           </span>
 
@@ -90,8 +98,7 @@
               [viewer]="viewer"
               entityType="EvidenceItem"
               [entityId]="evidence.id"
-              (onReverted)="onRevertCompleted($event)"
-            >
+              (onReverted)="onRevertCompleted($event)">
             </cvc-revert-entity-button>
           </span>
         </nz-space>
@@ -104,50 +111,43 @@
           [nzMessage]="error"
           nzType="error"
           nzCloseable
-          (nzOnClose)="onErrorBannerClose(error)"
-        ></nz-alert>
+          (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
         <nz-alert
           *ngIf="this.successMessage"
           nzBanner
           [nzMessage]="this.successMessage"
           nzType="success"
           nzCloseable
-          (nzOnClose)="onSuccessBannerClose()"
-        ></nz-alert>
+          (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <nz-alert
           *ngIf="this.evidence.status == 'SUBMITTED'"
           nzBanner
           nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor."
-          nzType="warning"
-        ></nz-alert>
+          nzType="warning"></nz-alert>
         <nz-alert
           *ngIf="this.evidence.status == 'REJECTED'"
           nzBanner
           nzMessage="This Evidence Item has been rejected."
-          nzType="error"
-        >
+          nzType="error">
         </nz-alert>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars
-                [subscribable]="subscribable"
-              ></cvc-contributor-avatars>
+                [subscribable]="subscribable"></cvc-contributor-avatars>
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
         <nz-space
           nzDirection="vertical"
-          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'"
-        >
+          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons
               [rejectOnly]="!viewer.canModerate"
               entityType="EvidenceItem"
               [entityId]="evidence.id"
               (onModerated)="onModerateCompleted($event)"
-              [viewer]="viewer"
-            >
+              [viewer]="viewer">
             </cvc-moderate-entity-buttons>
           </span>
           <span *nzSpaceItem> </span>

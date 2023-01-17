@@ -10,14 +10,12 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="variantTypePopover"
     nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-  >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #variantTypePopover>
     <cvc-variant-type-popover
-      [variantTypeId]="variantType.id"
-    ></cvc-variant-type-popover>
+      [variantTypeId]="variantType.id"></cvc-variant-type-popover>
   </ng-template>
 </ng-template>
 
@@ -36,7 +34,6 @@
     nz-icon
     nzType="civic-varianttype"
     nzTheme="twotone"
-    [nzTwotoneColor]="iconColor"
-  ></i>
+    [nzTwotoneColor]="iconColor"></i>
   {{ variantType.name }}
 </ng-template>

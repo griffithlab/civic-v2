@@ -6,8 +6,7 @@
       nz-icon
       nzTheme="twotone"
       [nzTwotoneColor]="'VariantGroup' | entityColor"
-      nzType="civic-variantgroup"
-    ></i>
+      nzType="civic-variantgroup"></i>
     Add New Variant Group
   </nz-page-header-title>
 
@@ -21,8 +20,12 @@
         <router-outlet></router-outlet>
       </div>
       <ng-template #notSignedIn>
-        <nz-row nzSpan="24" nzJustify="center">
-          <div nz-col nzSpan="6">
+        <nz-row
+          nzSpan="24"
+          nzJustify="center">
+          <div
+            nz-col
+            nzSpan="6">
             <cvc-login-prompt></cvc-login-prompt>
           </div>
         </nz-row>

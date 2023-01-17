@@ -6,8 +6,8 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-} from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-plain-tag-overflow',
@@ -16,7 +16,7 @@ import { Maybe } from '@app/generated/civic.apollo';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcPlainTagOverflowComponent implements OnChanges {
-  @Input() tags: Maybe<string[]>;
+  @Input() tags: Maybe<string[]>
 
   // _tags: Maybe<string[]>;
   @Input()
@@ -26,36 +26,36 @@ export class CvcPlainTagOverflowComponent implements OnChanges {
   // }
   // get tags(): Maybe<string[]> { return this._tags }
   @Input()
-  matchingText?: string;
-  @Input() maxDisplayCount: number = 2;
+  matchingText?: string
+  @Input() maxDisplayCount: number = 2
 
-  displayedTags?: string[];
-  hiddenTags?: string[];
-  hiddenCount?: number;
-  matchedHiddenCount: number = 0;
+  displayedTags?: string[]
+  hiddenTags?: string[]
+  hiddenCount?: number
+  matchedHiddenCount: number = 0
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(_: SimpleChanges): void {
-    this.calculateDisplayedTags();
+    this.calculateDisplayedTags()
   }
 
   calculateDisplayedTags() {
-    this.displayedTags = this.tags?.slice(0, this.maxDisplayCount);
-    this.hiddenTags = this.tags?.slice(this.maxDisplayCount);
-    this.hiddenCount = this.hiddenTags?.length;
+    this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
+    this.hiddenTags = this.tags?.slice(this.maxDisplayCount)
+    this.hiddenCount = this.hiddenTags?.length
 
     if (this.matchingText) {
       if (this.hiddenTags) {
-        let text = this.matchingText.toLowerCase();
+        let text = this.matchingText.toLowerCase()
         this.hiddenTags.forEach((t) => {
           if (t.toLowerCase().includes(text)) {
-            this.matchedHiddenCount += 1;
+            this.matchedHiddenCount += 1
           }
-        });
+        })
       }
     } else {
-      this.matchedHiddenCount = 0;
+      this.matchedHiddenCount = 0
     }
   }
   // removed the template (click) emitter for onOverflowClicked, since

@@ -5,7 +5,7 @@ import {
   Maybe,
   NullableReferenceBuildTypeInput,
   ReferenceBuild,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
 export enum ClinvarOptions {
   NotApplicable,
@@ -17,28 +17,28 @@ export function toClinvarInput(
   ids: string[],
   optionValue: ClinvarOptions
 ): ClinvarInput {
-  let na, nf: Maybe<boolean>;
-  let inputIds: Maybe<string[]>;
+  let na, nf: Maybe<boolean>
+  let inputIds: Maybe<string[]>
 
   if (optionValue == ClinvarOptions.Found) {
-    na = undefined;
-    nf = undefined;
-    inputIds = ids;
+    na = undefined
+    nf = undefined
+    inputIds = ids
   } else if (optionValue == ClinvarOptions.NoneFound) {
-    nf = true;
-    na = undefined;
-    inputIds = undefined;
+    nf = true
+    na = undefined
+    inputIds = undefined
   } else {
-    na = true;
-    nf = undefined;
-    inputIds = undefined;
+    na = true
+    nf = undefined
+    inputIds = undefined
   }
 
   return {
     ids: inputIds ? inputIds.map((id) => +id) : undefined,
     noneFound: nf,
     notApplicable: na,
-  };
+  }
 }
 
 export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
@@ -50,14 +50,14 @@ export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
       ),
       start: coord.start ? +coord.start : undefined,
       stop: coord.stop ? +coord.stop : undefined,
-    };
+    }
   } else {
     return {
       chromosome: undefined,
       representativeTranscript: undefined,
       start: undefined,
       stop: undefined,
-    };
+    }
   }
 }
 
@@ -67,23 +67,23 @@ export function toNullableReferenceBuildInput(
   let nRefBuild: NullableReferenceBuildTypeInput = {
     value: undefined,
     unset: undefined,
-  };
-  if (build) {
-    nRefBuild.value = build;
-  } else {
-    nRefBuild.unset = true;
   }
-  return nRefBuild;
+  if (build) {
+    nRefBuild.value = build
+  } else {
+    nRefBuild.unset = true
+  }
+  return nRefBuild
 }
 
 export function undefinedIfEmpty(inVal: Maybe<string>): Maybe<string> {
-  let outVal: Maybe<string>;
+  let outVal: Maybe<string>
   if (inVal && inVal.length > 0) {
-    outVal = inVal;
+    outVal = inVal
   } else {
-    outVal = undefined;
+    outVal = undefined
   }
-  return outVal;
+  return outVal
 }
 
 export const Chromosomes = [
@@ -113,4 +113,4 @@ export const Chromosomes = [
   { value: 'X', label: 'X' },
   { value: 'Y', label: 'Y' },
   { value: 'MT', label: 'MT' },
-];
+]

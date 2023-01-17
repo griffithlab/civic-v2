@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
-import { AssertionsHomePage } from './assertions-home/assertions-home.page';
-import { AssertionsView } from './assertions.view';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { AssertionsHomeModule } from './assertions-home/assertions-home.module'
+import { AssertionsHomePage } from './assertions-home/assertions-home.page'
+import { AssertionsView } from './assertions.view'
 
 const routes: Routes = [
   {
@@ -55,7 +55,7 @@ const routes: Routes = [
         (m) => m.AssertionAddModule
       ),
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), AssertionsHomeModule],

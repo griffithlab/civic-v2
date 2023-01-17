@@ -1,10 +1,10 @@
-import { TherapyInteraction } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { $enum } from 'ts-enum-util';
+import { TherapyInteraction } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { $enum } from 'ts-enum-util'
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
-  return 'Evidence with more than one therapy must specify an interaction type.';
-};
+  return 'Evidence with more than one therapy must specify an interaction type.'
+}
 
 const optionText: { [option: string]: string } = {
   COMBINATION:
@@ -13,7 +13,7 @@ const optionText: { [option: string]: string } = {
     'The therapies listed were used at separate timepoints in the same treatment plan',
   SUBSTITUTES:
     'The therapies listed are often considered to be of the same family, or behave similarly in a treatment setting',
-};
+}
 
 export const therapyInteractionSelectTypeOption = {
   name: 'therapy-interaction-select',
@@ -27,7 +27,7 @@ export const therapyInteractionSelectTypeOption = {
       required: false,
       placeholder: 'Not specified',
       options: $enum(TherapyInteraction).map((value, key) => {
-        return { value: value, label: key };
+        return { value: value, label: key }
       }),
     },
     validation: {
@@ -37,9 +37,9 @@ export const therapyInteractionSelectTypeOption = {
     },
     hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
       if (!m.therapies) {
-        return false;
+        return false
       }
-      return !(m.therapies.length > 1);
+      return !(m.therapies.length > 1)
     },
     expressionProperties: {
       'templateOptions.required': (
@@ -48,17 +48,17 @@ export const therapyInteractionSelectTypeOption = {
         ffc?: FormlyFieldConfig
       ) => {
         if (!m.therapies) {
-          return false;
+          return false
         }
-        return m.therapies.length > 1;
+        return m.therapies.length > 1
       },
       'templateOptions.optionText': (
         m: any,
         st: any,
         ffc?: FormlyFieldConfig
       ) => {
-        return optionText[m.therapyInteractionType];
+        return optionText[m.therapyInteractionType]
       },
     },
   },
-};
+}

@@ -4,16 +4,23 @@
       [nzTitle]="cardTitle"
       [nzExtra]="cardExtra"
       nzBordered="false"
-      id="card-content"
-    ></nz-card>
+      id="card-content"></nz-card>
     <ng-template #cardTitle>
-      <cvc-user-avatar [user]="user" size="default"></cvc-user-avatar>
-      <span nz-typography nzStyle="default" class="display-name">{{
-        user.displayName
-      }}</span>
+      <cvc-user-avatar
+        [user]="user"
+        size="default"></cvc-user-avatar>
+      <span
+        nz-typography
+        nzStyle="default"
+        class="display-name"
+        >{{ user.displayName }}</span
+      >
     </ng-template>
     <ng-template #cardExtra>
-      <i nz-icon nzType="civic-admin"></i> {{ user.role | titlecase }}
+      <i
+        nz-icon
+        nzType="civic-admin"></i>
+      {{ user.role | titlecase }}
     </ng-template>
     <nz-row>
       <nz-col nzSpan="24">
@@ -26,16 +33,17 @@
     </nz-row>
     <nz-row>
       <nz-col nzSpan="24">
-        <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
+        <nz-descriptions
+          nzSize="small"
+          [nzColumn]="2"
+          nzBordered="true">
           <nz-descriptions-item nzTitle="Organizations">
             <cvc-tag-list
-              *ngIf="user.organizations.length > 0; else noOrganizations"
-            >
+              *ngIf="user.organizations.length > 0; else noOrganizations">
               <cvc-organization-tag
                 [enablePopover]="false"
                 *ngFor="let o of user.organizations"
-                [org]="o"
-              ></cvc-organization-tag>
+                [org]="o"></cvc-organization-tag>
             </cvc-tag-list>
           </nz-descriptions-item>
         </nz-descriptions>
@@ -45,13 +53,16 @@
       <nz-divider *ngIf="metadataTemplateRef"></nz-divider>
       <ng-container
         [ngTemplateOutlet]="metadataTemplateRef || null"
-        [ngTemplateOutletContext]="{ $implicit: user }"
-      >
+        [ngTemplateOutletContext]="{ $implicit: user }">
       </ng-container>
     </nz-row>
   </ng-container>
 </div>
 <ng-template #noBio> User has not provided a biography. </ng-template>
 <ng-template #noOrganizations>
-  <span nz-typography nzStyle="secondary">--</span>
+  <span
+    nz-typography
+    nzStyle="secondary"
+    >--</span
+  >
 </ng-template>

@@ -15,8 +15,7 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="assertionPopover"
     nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-  >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -30,7 +29,9 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [flagged]="assertion.flagged" [entityColor]="iconColor">
+  <cvc-icon-badges
+    [flagged]="assertion.flagged"
+    [entityColor]="iconColor">
     <i
       nz-icon
       nzType="civic-assertion"
@@ -39,8 +40,7 @@
         assertion.status === 'REJECTED'
           ? ('Rejected' | entityColor)
           : ('Assertion' | entityColor)
-      "
-    >
+      ">
     </i>
   </cvc-icon-badges>
   {{ assertion.name }}

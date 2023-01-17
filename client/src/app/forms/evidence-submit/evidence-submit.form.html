@@ -28,15 +28,13 @@
   <nz-spin
     nzTip="Loading"
     *nzSpaceItem
-    [nzSpinning]="this.loading || !this.showForm"
-  >
+    [nzSpinning]="this.loading || !this.showForm">
     <form
       nz-form
       *ngIf="this.showForm"
       [formGroup]="formGroup"
       (ngSubmit)="submitEvidence(formModel)"
-      nzLayout="vertical"
-    >
+      nzLayout="vertical">
       <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
       <formly-form
@@ -45,8 +43,7 @@
         [fields]="formFields"
         [model]="formModel"
         [options]="formOptions"
-        (modelChange)="formModel = $event"
-      ></formly-form>
+        (modelChange)="formModel = $event"></formly-form>
     </form>
 
     <ng-template #formMessages>
@@ -59,9 +56,10 @@
           nzType="success"
           nzMessage="Evidence Submitted"
           [nzDescription]="successMessage"
-          nzShowIcon
-        ></nz-alert>
-        <ng-template #successMessage nzSize="small">
+          nzShowIcon></nz-alert>
+        <ng-template
+          #successMessage
+          nzSize="small">
           <p>
             View
             <a routerLink="/evidence/{{this.newId}}/summary">its details</a>.

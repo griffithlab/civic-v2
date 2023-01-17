@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core'
 
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms'
 
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs'
 
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators'
 
 import {
   VariantRevisableFieldsGQL,
@@ -22,56 +22,56 @@ import {
   RevisionStatus,
   VariantDetailGQL,
   RevisionsGQL,
-} from '@app/generated/civic.apollo';
+} from '@app/generated/civic.apollo'
 
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { $enum } from 'ts-enum-util';
-import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { $enum } from 'ts-enum-util'
+import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum'
 import {
   Chromosomes,
   ClinvarOptions,
-} from '@app/forms/config/utilities/input-formatters';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+} from '@app/forms/config/utilities/input-formatters'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 
 interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: string;
-  citation?: string;
+  id?: number
+  sourceType?: SourceSource
+  citationId?: string
+  citation?: string
 }
 
 interface FormGene {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 interface FormVariantType {
-  id: number;
-  name: string;
-  soid: string;
+  id: number
+  name: string
+  soid: string
 }
 
 interface FormModel {
   fields: {
-    id: number;
-    name: string;
-    variantAliases: string[];
-    clinvarStatus: ClinvarOptions;
-    clinvarIds: string[];
-    gene: FormGene;
-    referenceBuild?: ReferenceBuild;
-    ensemblVersion?: number;
-    hgvsDescriptions: string[];
-    variantTypes: FormVariantType[];
-    primaryCoordinates?: CoordinateFieldsFragment;
-    secondaryCoordinates?: CoordinateFieldsFragment;
-    referenceBases: Maybe<string>;
-    variantBases: Maybe<string>;
-    comment?: string;
-    organization: Maybe<Organization>;
-  };
+    id: number
+    name: string
+    variantAliases: string[]
+    clinvarStatus: ClinvarOptions
+    clinvarIds: string[]
+    gene: FormGene
+    referenceBuild?: ReferenceBuild
+    ensemblVersion?: number
+    hgvsDescriptions: string[]
+    variantTypes: FormVariantType[]
+    primaryCoordinates?: CoordinateFieldsFragment
+    secondaryCoordinates?: CoordinateFieldsFragment
+    referenceBases: Maybe<string>
+    variantBases: Maybe<string>
+    comment?: string
+    organization: Maybe<Organization>
+  }
 }
 
 @Component({
@@ -80,30 +80,30 @@ interface FormModel {
   styleUrls: ['./variant-revise.form.less'],
 })
 export class VariantReviseForm implements AfterViewInit, OnDestroy {
-  @Input() variantId!: number;
-  private destroy$!: Subject<void>;
+  @Input() variantId!: number
+  private destroy$!: Subject<void>
 
   suggestRevisionMutator: MutatorWithState<
     SuggestVariantRevisionGQL,
     SuggestVariantRevisionMutation,
     SuggestVariantRevisionMutationVariables
-  >;
+  >
 
-  variantRevisionInput!: SuggestVariantRevisionInput;
+  variantRevisionInput!: SuggestVariantRevisionInput
 
-  success: boolean = false;
-  noNewRevisions: boolean = false;
-  errorMessages: string[] = [];
-  loading: boolean = false;
+  success: boolean = false
+  noNewRevisions: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
-  formModel: Maybe<FormModel>;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formModel: Maybe<FormModel>
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = {}
 
-  formControls!: { [key: string]: AbstractControl };
+  formControls!: { [key: string]: AbstractControl }
 
-  markAsTouched!: () => void;
+  markAsTouched!: () => void
 
   constructor(
     private suggestRevisionGQL: SuggestVariantRevisionGQL,
@@ -112,7 +112,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
     private variantDetailGQL: VariantDetailGQL,
     private revisionsGQL: RevisionsGQL
   ) {
-    this.suggestRevisionMutator = new MutatorWithState(networkErrorService);
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -233,7 +233,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               validation: ['clinvar'],
             },
             hideExpression: (m: any, st: any, ff?: FormlyFieldConfig) => {
-              return ff!.form!.value.clinvarStatus !== ClinvarOptions.Found;
+              return ff!.form!.value.clinvarStatus !== ClinvarOptions.Found
             },
           },
           {
@@ -266,7 +266,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               helpText:
                 'Specify the human genome reference sequence from which these coordinates are obtained.',
               options: $enum(ReferenceBuild).map((value) => {
-                return { value: value, label: formatReferenceBuildEnum(value) };
+                return { value: value, label: formatReferenceBuildEnum(value) }
               }),
             },
           },
@@ -427,11 +427,11 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           },
         ],
       },
-    ];
+    ]
   }
 
   ngOnInit(): void {
-    this.destroy$ = new Subject<void>();
+    this.destroy$ = new Subject<void>()
   }
 
   ngAfterViewInit(): void {
@@ -440,45 +440,45 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
       // response
       ({ data: { variant } }) => {
         if (variant) {
-          this.formModel = this.toFormModel(variant);
+          this.formModel = this.toFormModel(variant)
         }
       },
       // error
       (error) => {
-        console.error('Error retrieving variant.');
-        console.error(error);
+        console.error('Error retrieving variant.')
+        console.error(error)
       },
       // complete
       () => {
         // prompt fields to display any errors that exist in loaded variant
-        this.formGroup.markAllAsTouched();
+        this.formGroup.markAllAsTouched()
         // mark comment field as untouched, we don't want to show an error before the user interacts with the field
         const commentFc: AbstractControl | null =
-          this.formGroup.get('fields.comment');
+          this.formGroup.get('fields.comment')
         if (commentFc) {
-          commentFc.markAsUntouched();
+          commentFc.markAsUntouched()
         }
       }
-    );
+    )
   }
 
   // set value for clinvarStatus select
   getClinvarStatus(ids: string[]): ClinvarOptions {
     if (ids[0] === 'NONE FOUND') {
-      return ClinvarOptions.NoneFound;
+      return ClinvarOptions.NoneFound
     } else if (ids[0] === 'N/A') {
-      return ClinvarOptions.NotApplicable;
+      return ClinvarOptions.NotApplicable
     } else {
-      return ClinvarOptions.Found;
+      return ClinvarOptions.Found
     }
   }
 
   // remove any values that aren't clinvar IDs
   getClinvarIds(ids: string[]): string[] {
     if (ids[0] === 'NONE FOUND' || ids[0] === 'N/A') {
-      return [];
+      return []
     } else {
-      return ids;
+      return ids
     }
   }
 
@@ -493,11 +493,11 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
         comment: this.formModel?.fields.comment,
         organization: this.formModel?.fields.organization,
       },
-    };
+    }
   }
 
   submitRevision(formModel: Maybe<FormModel>): void {
-    let input = this.toRevisionInput(formModel);
+    let input = this.toRevisionInput(formModel)
     if (input) {
       let state = this.suggestRevisionMutator.mutate(
         this.suggestRevisionGQL,
@@ -528,36 +528,36 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               (r) => r.newlyCreated == false
             )
           ) {
-            this.noNewRevisions = true;
-            this.success = false;
+            this.noNewRevisions = true
+            this.success = false
           }
         }
-      );
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
-          this.success = true;
+          this.success = true
         }
-      });
+      })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
         if (errs) {
-          this.errorMessages = errs;
-          this.success = false;
+          this.errorMessages = errs
+          this.success = false
         }
-      });
+      })
 
       state.isSubmitting$
         .pipe(takeUntil(this.destroy$))
         .subscribe((loading) => {
-          this.loading = loading;
-        });
+          this.loading = loading
+        })
     }
   }
 
   toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestVariantRevisionInput> {
     if (model) {
-      const fields = model.fields;
+      const fields = model.fields
       return {
         id: fields.id,
         ...model,
@@ -580,19 +580,19 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           ),
           hgvsDescriptions: fields.hgvsDescriptions,
           variantTypeIds: model.fields.variantTypes.map((vt: any) => {
-            return +vt.id;
+            return +vt.id
           }),
           aliases: model.fields.variantAliases,
         },
         comment: fields.comment == '' ? undefined : fields.comment,
         organizationId: model.fields.organization?.id,
-      };
+      }
     }
-    return undefined;
+    return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

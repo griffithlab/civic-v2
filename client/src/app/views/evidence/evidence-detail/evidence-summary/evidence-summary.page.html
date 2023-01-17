@@ -87,10 +87,8 @@
                 [nzTooltipTitle]="
                   evidence.evidenceLevel | enumTooltip : 'evidenceLevel'
                 ">
-                <strong>{{ evidence.evidenceLevel }}</strong> -
-                {{
-                  evidence.evidenceLevel | enumTooltip : 'evidenceLevelBrief'
-                }}
+                <strong>{{ evidence.evidenceLevel }}</strong> - {{
+                evidence.evidenceLevel | enumTooltip : 'evidenceLevelBrief' }}
               </nz-tag>
             </nz-descriptions-item>
 

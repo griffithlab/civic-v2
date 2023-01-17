@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   AssertionSummaryGQL,
   Maybe,
@@ -8,13 +8,13 @@ import {
   AssertionSummaryFieldsFragment,
   SubscribableInput,
   SubscribableEntities,
-} from '@app/generated/civic.apollo';
-import { QueryRef } from 'apollo-angular';
-import { startWith } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
-import { Observable } from 'rxjs';
-import { AssertionState } from '@app/forms/config/states/assertion.state';
-import { tag } from 'rxjs-spy/cjs/operators';
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { Observable } from 'rxjs'
+import { AssertionState } from '@app/forms/config/states/assertion.state'
+import { tag } from 'rxjs-spy/cjs/operators'
 
 @Component({
   selector: 'cvc-assertion-summary',
@@ -22,41 +22,41 @@ import { tag } from 'rxjs-spy/cjs/operators';
   styleUrls: ['./assertions-summary.page.less'],
 })
 export class AssertionsSummaryPage {
-  @Input() assertionId: Maybe<number>;
+  @Input() assertionId: Maybe<number>
 
-  queryRef: QueryRef<AssertionSummaryQuery, AssertionSummaryQueryVariables>;
-  loading$: Observable<boolean>;
-  assertion$: Observable<Maybe<AssertionSummaryFieldsFragment>>;
+  queryRef: QueryRef<AssertionSummaryQuery, AssertionSummaryQueryVariables>
+  loading$: Observable<boolean>
+  assertion$: Observable<Maybe<AssertionSummaryFieldsFragment>>
 
-  assertionRules = new AssertionState();
+  assertionRules = new AssertionState()
 
-  subscribable: SubscribableInput;
+  subscribable: SubscribableInput
 
   constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
-    var queryAssertionId: number;
+    var queryAssertionId: number
     if (this.assertionId) {
-      queryAssertionId = this.assertionId;
+      queryAssertionId = this.assertionId
     } else {
-      queryAssertionId = +this.route.snapshot.params['assertionId'];
+      queryAssertionId = +this.route.snapshot.params['assertionId']
     }
 
     if (queryAssertionId == undefined) {
       throw new Error(
         'Must pass in an assertion ID as an input or via the route.'
-      );
+      )
     }
 
-    this.queryRef = this.gql.watch({ assertionId: queryAssertionId });
+    this.queryRef = this.gql.watch({ assertionId: queryAssertionId })
 
-    let observable = this.queryRef.valueChanges;
+    let observable = this.queryRef.valueChanges
 
-    this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+    this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-    this.assertion$ = observable.pipe(pluck('data', 'assertion'));
+    this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,
       id: queryAssertionId,
-    };
+    }
   }
 }

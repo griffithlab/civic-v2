@@ -1,8 +1,8 @@
-import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
-import { Subject } from 'rxjs';
-import { EntityState } from '../../states/entity.state';
+import { EvidenceType, Maybe } from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
+import { Subject } from 'rxjs'
+import { EntityState } from '../../states/entity.state'
 
 const optionText: { [option: string]: string } = {
   DIAGNOSTIC:
@@ -17,7 +17,7 @@ const optionText: { [option: string]: string } = {
     "Evidence pertains to a somatic variant's involvement in tumor pathogenesis as described by the Hallmarks of Cancer.",
   FUNCTIONAL:
     'Evidence pertains to a variant that alters biological function from the reference state.',
-};
+}
 
 export const evidenceTypeSelectTypeOption: TypeOption = {
   name: 'evidence-type-select',
@@ -31,16 +31,16 @@ export const evidenceTypeSelectTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to: Maybe<FormlyTemplateOptions> = ffc!.templateOptions!;
-        const st: Maybe<EntityState> = ffc?.options?.formState;
+        const to: Maybe<FormlyTemplateOptions> = ffc!.templateOptions!
+        const st: Maybe<EntityState> = ffc?.options?.formState
         if (st) {
-          to.label = `${st.entityName} Type`;
-          (to.helpText = `Type of clinical outcome associated with the ${st.entityName} statement.`),
-            (to.options = st.getOptionsFromEnums(st.getTypeOptions()));
+          to.label = `${st.entityName} Type`
+          ;(to.helpText = `Type of clinical outcome associated with the ${st.entityName} statement.`),
+            (to.options = st.getOptionsFromEnums(st.getTypeOptions()))
         } else {
           console.warn(
             'entity-type-select requires a formState to populate select options.'
-          );
+          )
         }
       },
     },
@@ -50,8 +50,8 @@ export const evidenceTypeSelectTypeOption: TypeOption = {
         st: any,
         ffc?: FormlyFieldConfig
       ) => {
-        return optionText[m.evidenceType];
+        return optionText[m.evidenceType]
       },
     },
   },
-};
+}

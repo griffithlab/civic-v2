@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
-import { getEntityColor } from '@app/core/utilities/get-entity-color';
-import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
+import { Component, Input, OnInit } from '@angular/core'
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkableEvidence {
-  id: number;
-  name: string;
-  status?: EvidenceStatus;
-  flagged?: boolean;
-  link: string;
+  id: number
+  name: string
+  status?: EvidenceStatus
+  flagged?: boolean
+  link: string
 }
 
 @Component({
@@ -20,31 +20,31 @@ export class CvcEvidenceTagComponent
   extends BaseCloseableTag
   implements OnInit
 {
-  _evidence!: LinkableEvidence;
+  _evidence!: LinkableEvidence
   @Input()
   set evidence(eid: LinkableEvidence) {
     if (!eid) {
       throw new Error(
         'cvc-evidence-tag evidence input requires LinkableEvidence.'
-      );
+      )
     }
-    this._evidence = eid;
+    this._evidence = eid
   }
   get evidence(): LinkableEvidence {
-    return this._evidence;
+    return this._evidence
   }
 
-  @Input() linked: Maybe<boolean> = true;
-  @Input() enablePopover: Maybe<boolean> = true;
+  @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
-  iconColor: string;
+  iconColor: string
 
   constructor() {
-    super();
-    this.iconColor = getEntityColor('EvidenceItem');
+    super()
+    this.iconColor = getEntityColor('EvidenceItem')
   }
 
   idFunction() {
-    return this.evidence.id;
+    return this.evidence.id
   }
 }

@@ -5,8 +5,7 @@
     nzSize="small"
     [placeholder]="placeholderText ? placeholderText : ''"
     [(ngModel)]="inputModel"
-    (ngModelChange)="onModelUpdated()"
-  />
+    (ngModelChange)="onModelUpdated()" />
 </nz-input-group>
 <ng-template #clearTmpl>
   <i
@@ -15,6 +14,5 @@
     nzTheme="fill"
     nzType="close-circle"
     *ngIf="inputModel"
-    (click)="inputModel = undefined; onModelUpdated()"
-  ></i>
+    (click)="inputModel = undefined; onModelUpdated()"></i>
 </ng-template>

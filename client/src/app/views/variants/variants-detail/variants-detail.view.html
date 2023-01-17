@@ -1,16 +1,20 @@
 <ng-container *ngIf="variant$ | ngrxPush as variant">
   <cvc-section-navigation
     [displayName]="variant.gene.name + ' ' + variant.name"
-    [relationsTpl]="variantRelations"
-  >
+    [relationsTpl]="variantRelations">
   </cvc-section-navigation>
   <ng-template #variantRelations>
     <nz-space nzDirection="horizontal">
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem
+      <span
+        nz-typography
+        class="label"
+        *nzSpaceItem
         ><strong>{{ variant.name }}</strong> Parent:</span
       >
-      <span *nzSpaceItem class="tags">
+      <span
+        *nzSpaceItem
+        class="tags">
         <a routerLink="/genes/{{ variant.gene.id }}">
           <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
         </a>
@@ -18,19 +22,19 @@
     </nz-space>
   </ng-template>
 
-  <div cvcFlaggable [flags]="flagsTotal$ | ngrxPush">
+  <div
+    cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ flagged: variant.flags.totalCount > 0 }"
-      >
+        [ngClass]="{ flagged: variant.flags.totalCount > 0 }">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Variant' | entityColor"
-          nzType="civic-variant"
-        ></i>
+          nzType="civic-variant"></i>
         {{ variant.name }}
       </nz-page-header-title>
 
@@ -46,8 +50,7 @@
         <nz-space
           nzDirection="horizontal"
           nzSize="small"
-          *ngrxLet="viewer$ as viewer"
-        >
+          *ngrxLet="viewer$ as viewer">
           <!-- add revision btn -->
           <span *nzSpaceItem>
             <button
@@ -57,8 +60,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Revise
             </button>
           </span>
@@ -73,8 +75,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Flag
             </button>
           </span>
@@ -90,14 +91,12 @@
               nzPopoverTitle="Deprecate Variant"
               nzPopoverTrigger="click"
               [nzPopoverContent]="deprecateVariantForm"
-              nzPopoverPlacement="bottomRight"
-            >
+              nzPopoverPlacement="bottomRight">
               Deprecate
               <ng-template #deprecateVariantForm>
                 <div class="deprecateVariant">
                   <cvc-variant-deprecate-form
-                    [variantId]="variant.id"
-                  ></cvc-variant-deprecate-form>
+                    [variantId]="variant.id"></cvc-variant-deprecate-form>
                 </div>
               </ng-template>
             </button>
@@ -108,8 +107,7 @@
               *ngIf="viewer.signedIn && subscribable"
               [viewer]="viewer"
               [subscribableId]="subscribable.id"
-              typename="Variant"
-            >
+              typename="Variant">
             </cvc-entity-subscription-button>
           </span>
         </nz-space>
@@ -119,23 +117,20 @@
           *ngIf="variant.deprecated"
           nzBanner
           [nzMessage]="deprecationMessageTemplate"
-          nzType="error"
-        ></nz-alert>
+          nzType="error"></nz-alert>
         <ng-template #deprecationMessageTemplate>
-          This Variant has been deprecated for reason:
-          {{ variant.deprecationReason | enumToTitle }}.
+          This Variant has been deprecated for reason: {{
+          variant.deprecationReason | enumToTitle }}.
           <cvc-comment-body
             [commentBodySegments]="
               variant.deprecationComment?.parsedComment || []
-            "
-          ></cvc-comment-body>
+            "></cvc-comment-body>
         </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars
-                [subscribable]="subscribable"
-              ></cvc-contributor-avatars>
+                [subscribable]="subscribable"></cvc-contributor-avatars>
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>

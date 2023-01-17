@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ConfigOption, FormlyModule } from '@ngx-formly/core';
-import { FormCardWrapper } from './form-card.wrapper';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { FormCardDirective } from './form-card.directive';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { ConfigOption, FormlyModule } from '@ngx-formly/core'
+import { FormCardWrapper } from './form-card.wrapper'
+import { ReactiveFormsModule } from '@angular/forms'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { FormCardDirective } from './form-card.directive'
+import { NgxJsonViewerModule } from 'ngx-json-viewer'
 
 const configOption: ConfigOption = {
   wrappers: [
@@ -17,7 +17,7 @@ const configOption: ConfigOption = {
       component: FormCardWrapper,
     },
   ],
-};
+}
 
 @NgModule({
   declarations: [FormCardWrapper, FormCardDirective],

@@ -2,8 +2,7 @@
   <nz-space
     nzDirection="horizontal"
     nzSize="middle"
-    *ngrxLet="unreadCount$ as unreadCount"
-  >
+    *ngrxLet="unreadCount$ as unreadCount">
     <button
       class="add-btn"
       nz-button
@@ -13,10 +12,12 @@
       nzTrigger="click"
       [nzDropdownMenu]="addMenu"
       nzPlacement="bottomRight"
-      *nzSpaceItem
-    >
+      *nzSpaceItem>
       Add
-      <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+      <i
+        nz-icon
+        nzType="caret-down"
+        nzTheme="outline"></i>
     </button>
     <nz-badge
       [nzCount]="unreadCount"
@@ -26,17 +27,18 @@
         color: '#fff1f0',
         boxShadow: '0 0 0 1px #1890ff inset'
       }"
-      *nzSpaceItem
-    >
+      *nzSpaceItem>
       <button
         class="notification-btn"
         nz-button
         nzSize="large"
         nzShape="circle"
         nzType="link"
-        routerLink="/users/{{ viewer.id }}/notifications"
-      >
-        <i nz-icon nzType="bell" nzTheme="outline"></i>
+        routerLink="/users/{{ viewer.id }}/notifications">
+        <i
+          nz-icon
+          nzType="bell"
+          nzTheme="outline"></i>
       </button>
     </nz-badge>
     <button
@@ -48,25 +50,35 @@
       nzTrigger="click"
       [nzDropdownMenu]="userMenu"
       nzPlacement="bottomRight"
-      *nzSpaceItem
-    >
-      <nz-space nzDirection="horizontal" nzSize="small">
+      *nzSpaceItem>
+      <nz-space
+        nzDirection="horizontal"
+        nzSize="small">
         <cvc-user-avatar
           [user]="viewer"
           [size]="22"
           shape="circle"
           [ngClass]="{ 'update-coi': viewer.invalidCoi }"
-          *nzSpaceItem
-        ></cvc-user-avatar>
-        <div class="viewer-name" *nzSpaceItem>{{ viewer.username }}</div>
-        <i nz-icon nzType="caret-down" nzTheme="outline" *nzSpaceItem></i>
+          *nzSpaceItem></cvc-user-avatar>
+        <div
+          class="viewer-name"
+          *nzSpaceItem>
+          {{ viewer.username }}
+        </div>
+        <i
+          nz-icon
+          nzType="caret-down"
+          nzTheme="outline"
+          *nzSpaceItem></i>
       </nz-space>
     </button>
   </nz-space>
 
   <nz-dropdown-menu #userMenu="nzDropdownMenu">
     <ul nz-menu>
-      <li nz-menu-item *ngIf="viewer.invalidCoi">
+      <li
+        nz-menu-item
+        *ngIf="viewer.invalidCoi">
         <button
           (click)="this.coiUpdateModalVisible = true"
           nz-button
@@ -74,22 +86,39 @@
           nzShape="round"
           nzSize="small"
           nzDanger
-          nzBlock
-        >
-          <i nz-icon nzType="exclamation-circle"></i> Please update COI
-          statement
+          nzBlock>
+          <i
+            nz-icon
+            nzType="exclamation-circle"></i>
+          Please update COI statement
         </button>
       </li>
-      <li nz-menu-divider *ngIf="viewer.invalidCoi"></li>
-      <li [routerLink]="['/users', viewer.id]" nz-menu-item>Your Profile</li>
-      <li nz-menu-item href="/admin" *ngIf="viewer.isAdmin">
+      <li
+        nz-menu-divider
+        *ngIf="viewer.invalidCoi"></li>
+      <li
+        [routerLink]="['/users', viewer.id]"
+        nz-menu-item>
+        Your Profile
+      </li>
+      <li
+        nz-menu-item
+        href="/admin"
+        *ngIf="viewer.isAdmin">
         <a href="/admin"> Admin Console </a>
       </li>
-      <li nz-menu-item href="/jobs" *ngIf="viewer.isAdmin">
+      <li
+        nz-menu-item
+        href="/jobs"
+        *ngIf="viewer.isAdmin">
         <a href="/jobs"> Background Workers </a>
       </li>
       <li nz-menu-divider></li>
-      <li nz-menu-item (click)="signOut()">Sign Out</li>
+      <li
+        nz-menu-item
+        (click)="signOut()">
+        Sign Out
+      </li>
     </ul>
   </nz-dropdown-menu>
   <nz-dropdown-menu #addMenu="nzDropdownMenu">
@@ -103,7 +132,9 @@
       <li nz-menu-item>
         <a routerLink="/sources/add"> Source Suggestion </a>
       </li>
-      <li nz-menu-item *ngIf="viewer.isEditor">
+      <li
+        nz-menu-item
+        *ngIf="viewer.isEditor">
         <a (click)="this.addVariantModalVisible = true"> Variant </a>
       </li>
       <li nz-menu-item>
@@ -118,15 +149,13 @@
   [nzContent]="coiModalContent"
   [nzTitle]="coiModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.handleCoiModalCancel()"
->
+  (nzOnCancel)="this.handleCoiModalCancel()">
   <ng-template #coiModalTitle
     ><span>Update your Conflict of Interest Statement</span></ng-template
   >
   <ng-template #coiModalContent>
     <cvc-user-coi-form
-      (coiUpdatedEvent)="this.coiUpdated()"
-    ></cvc-user-coi-form>
+      (coiUpdatedEvent)="this.coiUpdated()"></cvc-user-coi-form>
   </ng-template>
 </nz-modal>
 
@@ -135,8 +164,7 @@
   [nzContent]="variantModalContent"
   [nzTitle]="variantModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.addVariantModalVisible = false"
->
+  (nzOnCancel)="this.addVariantModalVisible = false">
   <ng-template #variantModalTitle><span>Add New Variant</span></ng-template>
   <ng-template #variantModalContent>
     <cvc-variant-submit-form></cvc-variant-submit-form>

@@ -6,8 +6,7 @@
         nzType="info"
         *nzSpaceItem
         [nzMessage]="foundCitationMsg"
-        nzShowIcon
-      >
+        nzShowIcon>
       </nz-alert>
       <ng-template #foundCitationMsg>
         Found citation: <em>{{ foundCitation }}</em>
@@ -18,8 +17,7 @@
         nzType="success"
         *nzSpaceItem
         [nzMessage]="createdMsg"
-        nzShowIcon
-      >
+        nzShowIcon>
       </nz-alert>
       <ng-template #createdMsg>
         '<em>{{ foundCitation }}</em
@@ -39,8 +37,7 @@
         nzBlock
         nzType="primary"
         nzSize="default"
-        *nzSpaceItem
-      >
+        *nzSpaceItem>
         Create&nbsp;'<em>{{ foundCitation }}</em
         >'&nbsp; CIViC Source
       </button>
@@ -54,8 +51,7 @@
         nzBlock
         nzType="primary"
         nzSize="default"
-        *nzSpaceItem
-      >
+        *nzSpaceItem>
         Add Source to List
       </button>
     </ng-container>
@@ -65,15 +61,23 @@
   <!-- source not found, fetch citation? -->
   <nz-space nzDirection="vertical">
     <ng-container *ngIf="showPrompt">
-      <span *nzSpaceItem nz-typography>
-        <i nz-icon nzType="info-circle" nzTheme="twotone"></i>
+      <span
+        *nzSpaceItem
+        nz-typography>
+        <i
+          nz-icon
+          nzType="info-circle"
+          nzTheme="twotone"></i>
         Source not known to CIViC, fetch citation from {{ sourceTypeKey }}?
       </span>
     </ng-container>
 
     <ng-container *ngIf="existenceFail">
       <span *nzSpaceItem>
-        <nz-alert nzType="warning" [nzMessage]="existenceFail" nzShowIcon>
+        <nz-alert
+          nzType="warning"
+          [nzMessage]="existenceFail"
+          nzShowIcon>
         </nz-alert>
         <ng-template #existenceFail>
           Citation not found for {{ sourceTypeKey }}: {{ citationId }}.
@@ -88,8 +92,7 @@
       nz-button
       nzBlock
       nzType="primary"
-      nzSize="default"
-    >
+      nzSize="default">
       Fetch Citation for&nbsp;<strong
         >{{ sourceTypeKey }} {{ citationId }}</strong
       >

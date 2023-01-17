@@ -8,16 +8,14 @@
               nz-button
               [nzType]="includeReadInput ? 'default' : 'primary'"
               nzShape="round"
-              (click)="setIncludeRead(false)"
-            >
+              (click)="setIncludeRead(false)">
               Unread
             </button>
             <button
               nz-button
               [nzType]="includeReadInput ? 'primary' : 'default'"
               nzShape="round"
-              (click)="setIncludeRead(true)"
-            >
+              (click)="setIncludeRead(true)">
               All
             </button>
           </nz-button-group>
@@ -27,11 +25,14 @@
             <cvc-participant-list
               listTitle="Notification Reason"
               [participantList]="notificationTypes"
-              (participantSelectedEvent)="onNotificationReasonSelected($event)"
-            >
-              <ng-template #itemTemplate let-reason>
+              (participantSelectedEvent)="onNotificationReasonSelected($event)">
+              <ng-template
+                #itemTemplate
+                let-reason>
                 <nz-col>
-                  <i nz-icon [nzType]="reason.iconName"></i>
+                  <i
+                    nz-icon
+                    [nzType]="reason.iconName"></i>
                   {{ reason.displayName }}
                 </nz-col>
               </ng-template>
@@ -39,26 +40,29 @@
             <cvc-participant-list
               listTitle="Action"
               [participantList]="(actions$ | ngrxPush) || []"
-              (participantSelectedEvent)="onActionSelected($event)"
-            >
-              <ng-template #itemTemplate let-action>
-                {{ action.id | eventVerbiage : "action-filter" }}
+              (participantSelectedEvent)="onActionSelected($event)">
+              <ng-template
+                #itemTemplate
+                let-action>
+                {{ action.id | eventVerbiage : 'action-filter' }}
               </ng-template>
             </cvc-participant-list>
             <cvc-participant-list
               listTitle="Subject"
               [participantList]="(notificationSubjects$ | ngrxPush) || []"
-              (participantSelectedEvent)="onNotificationSubjectSelected($event)"
-            >
-              <ng-template #itemTemplate let-subject>
+              (participantSelectedEvent)="
+                onNotificationSubjectSelected($event)
+              ">
+              <ng-template
+                #itemTemplate
+                let-subject>
                 <nz-col>
                   <i
                     nz-icon
                     [nzType]="
                       subject.subjectWithCount.subject.__typename
                         | iconNameForSubscribableEntity
-                    "
-                  ></i>
+                    "></i>
 
                   {{ subject.subjectWithCount.subject.name }} ({{
                     subject.subjectWithCount.occuranceCount
@@ -69,9 +73,10 @@
             <cvc-participant-list
               listTitle="User"
               [participantList]="(originatingUsers$ | ngrxPush) || []"
-              (participantSelectedEvent)="onOriginatingUserSelected($event)"
-            >
-              <ng-template #itemTemplate let-user>
+              (participantSelectedEvent)="onOriginatingUserSelected($event)">
+              <ng-template
+                #itemTemplate
+                let-user>
                 <nz-col>
                   {{ user.displayName }}
                 </nz-col>
@@ -80,9 +85,10 @@
             <cvc-participant-list
               listTitle="Organization"
               [participantList]="(organizations$ | ngrxPush) || []"
-              (participantSelectedEvent)="onOrganizationSelected($event)"
-            >
-              <ng-template #itemTemplate let-organization>
+              (participantSelectedEvent)="onOrganizationSelected($event)">
+              <ng-template
+                #itemTemplate
+                let-organization>
                 <nz-col>
                   {{ organization.name }}
                 </nz-col>
@@ -95,49 +101,54 @@
         <nz-card
           nzTitle="Notifications"
           id="card-content"
-          [nzExtra]="bulkOperations"
-        >
+          [nzExtra]="bulkOperations">
           <ng-template #bulkOperations>
             <button
               nz-button
               nzSize="small"
               (click)="bulkMarkRead()"
-              [disabled]="!bulkMarkEnabled"
-            >
-              <i nz-icon nzType="check"></i>Mark as read
+              [disabled]="!bulkMarkEnabled">
+              <i
+                nz-icon
+                nzType="check"></i
+              >Mark as read
             </button>
             <button
               nz-button
               nzSize="small"
               (click)="bulkMarkUnread()"
-              [disabled]="!bulkMarkEnabled"
-            >
-              <i nz-icon nzType="check"></i>Mark as unread
+              [disabled]="!bulkMarkEnabled">
+              <i
+                nz-icon
+                nzType="check"></i
+              >Mark as unread
             </button>
             <button
               nz-button
               nzSize="small"
               (click)="bulkUnsubscribe()"
-              [disabled]="!bulkMarkEnabled"
-            >
-              <i nz-icon nzType="bell"></i>Unsubscribe
+              [disabled]="!bulkMarkEnabled">
+              <i
+                nz-icon
+                nzType="bell"></i
+              >Unsubscribe
             </button>
             Check all
             <label
               nz-checkbox
               [(ngModel)]="allChecked"
               [nzIndeterminate]="someChecked"
-              (nzCheckedChange)="onCheckAllCheckBoxClicked($event)"
-            ></label>
+              (nzCheckedChange)="onCheckAllCheckBoxClicked($event)"></label>
           </ng-template>
           <nz-row [nzGutter]="16">
-            <nz-col nzSpan="24" class="timeline">
+            <nz-col
+              nzSpan="24"
+              class="timeline">
               <nz-timeline *ngIf="notifications.size > 0">
                 <ng-container *ngFor="let item of notifications | keyvalue">
                   <nz-timeline-item
                     [nzDot]="timelineDotTemplate"
-                    [nzColor]="item.key.seen ? 'gray' : 'blue'"
-                  >
+                    [nzColor]="item.key.seen ? 'gray' : 'blue'">
                     <ng-template #timelineDotTemplate>
                       <i
                         nz-icon
@@ -147,14 +158,12 @@
                             : 'notification'
                         "
                         [nzTheme]="item.key.seen ? 'outline' : 'twotone'"
-                        class="item-icon"
-                      ></i>
+                        class="item-icon"></i>
                     </ng-template>
                     <nz-row>
                       <nz-col nzFlex="auto">
                         <cvc-event-timeline-item
-                          [event]="item.key.event"
-                        ></cvc-event-timeline-item>
+                          [event]="item.key.event"></cvc-event-timeline-item>
                       </nz-col>
                       <nz-col nzFlex="50px">
                         <ng-container *ngIf="item.key.seen; else unread">
@@ -164,9 +173,10 @@
                             nz-button
                             nzType="default"
                             nzShape="circle"
-                            (click)="markAsUnread(item.key.id)"
-                          >
-                            <i nz-icon nzType="undo"></i>
+                            (click)="markAsUnread(item.key.id)">
+                            <i
+                              nz-icon
+                              nzType="undo"></i>
                           </button>
                         </ng-container>
                         <ng-template #unread>
@@ -176,9 +186,10 @@
                             nz-button
                             nzType="default"
                             nzShape="circle"
-                            (click)="markAsRead(item.key.id)"
-                          >
-                            <i nz-icon nzType="check"></i>
+                            (click)="markAsRead(item.key.id)">
+                            <i
+                              nz-icon
+                              nzType="check"></i>
                           </button>
                         </ng-template>
                       </nz-col>
@@ -187,8 +198,7 @@
                           *ngIf="
                             item.key.subscription;
                             else noSubscriptionButton
-                          "
-                        >
+                          ">
                           <button
                             nz-tooltip
                             nzTooltipTitle="You received this notification because you are subscribed to {{
@@ -202,9 +212,10 @@
                                 item.key.subscription.subscribable.id,
                                 item.key.subscription.subscribable.__typename
                               )
-                            "
-                          >
-                            <i nz-icon nzType="bell"></i>
+                            ">
+                            <i
+                              nz-icon
+                              nzType="bell"></i>
                           </button>
                         </ng-container>
                         <ng-template #noSubscriptionButton>
@@ -214,9 +225,10 @@
                             nz-button
                             nzType="default"
                             nzShape="circle"
-                            disabled
-                          >
-                            <i nz-icon nzType="bell"></i>
+                            disabled>
+                            <i
+                              nz-icon
+                              nzType="bell"></i>
                           </button>
                         </ng-template>
                         <label
@@ -224,8 +236,7 @@
                           [(ngModel)]="item.value.checked"
                           (nzCheckedChange)="
                             onNotificationCheckBoxClicked(item.key.id, $event)
-                          "
-                        ></label>
+                          "></label>
                       </nz-col>
                     </nz-row>
                   </nz-timeline-item>
@@ -234,15 +245,13 @@
               <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
                 <div
                   nz-list-load-more
-                  *ngIf="pageInfo.hasNextPage && pageInfo.endCursor"
-                >
+                  *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
                   <button
                     nz-button
                     nzType="default"
                     nzSize="small"
                     nzBlock
-                    (click)="fetchMore(pageInfo.endCursor)"
-                  >
+                    (click)="fetchMore(pageInfo.endCursor)">
                     Load More
                   </button>
                 </div>

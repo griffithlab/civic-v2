@@ -1,5 +1,7 @@
 <ng-container *ngIf="molecularProfile$ | ngrxPush as mp">
-  <cvc-section-navigation [displayName]="mp.name" [actionsTpl]="mpActions">
+  <cvc-section-navigation
+    [displayName]="mp.name"
+    [actionsTpl]="mpActions">
   </cvc-section-navigation>
 
   <ng-template #mpActions>
@@ -9,22 +11,27 @@
         [queryParams]="{ molecularProfileId: mp.id }"
         nz-button
         *ngIf="viewer.canCurate"
-        nzSize="small"
-      >
-        <i nz-icon nzType="plus-circle"></i> Add Evidence For This Molecular
-        Profile
+        nzSize="small">
+        <i
+          nz-icon
+          nzType="plus-circle"></i>
+        Add Evidence For This Molecular Profile
       </button>
     </ng-container>
   </ng-template>
 
-  <div cvcFlaggable [flags]="flagsTotal$ | ngrxPush">
+  <div
+    cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ flagged: mp.flags.totalCount > 0 }"
-      >
-        <i nz-icon nzType="civic:molecularprofile"></i> {{ mp.name }}
+        [ngClass]="{ flagged: mp.flags.totalCount > 0 }">
+        <i
+          nz-icon
+          nzType="civic:molecularprofile"></i>
+        {{ mp.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
@@ -39,8 +46,7 @@
         <nz-space
           nzDirection="horizontal"
           nzSize="small"
-          *ngrxLet="viewer$ as viewer"
-        >
+          *ngrxLet="viewer$ as viewer">
           <!-- add revision btn -->
           <span *nzSpaceItem>
             <button
@@ -50,8 +56,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Revise
             </button>
           </span>
@@ -66,8 +71,7 @@
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-            >
+              nzSize="small">
               Flag
             </button>
           </span>
@@ -77,8 +81,7 @@
               *ngIf="viewer.signedIn && subscribable"
               [viewer]="viewer"
               [subscribableId]="subscribable.id"
-              typename="MolecularProfile"
-            >
+              typename="MolecularProfile">
             </cvc-entity-subscription-button>
           </span>
         </nz-space>
@@ -88,8 +91,7 @@
           *ngIf="mp.deprecated"
           nzBanner
           [nzMessage]="deprecationMessageTemplate"
-          nzType="error"
-        ></nz-alert>
+          nzType="error"></nz-alert>
         <ng-template #deprecationMessageTemplate>
           This Molecular Profile has been deprecated because one or more of its
           underlying variants are deprecated
@@ -99,16 +101,14 @@
             {{ v.deprecationReason | enumToTitle }}.
             <cvc-comment-body
               *ngIf="v.deprecationComment"
-              [commentBodySegments]="v.deprecationComment.parsedComment"
-            ></cvc-comment-body>
+              [commentBodySegments]="v.deprecationComment.parsedComment"></cvc-comment-body>
           </ng-container>
         </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars
-                [subscribable]="subscribable"
-              ></cvc-contributor-avatars>
+                [subscribable]="subscribable"></cvc-contributor-avatars>
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>

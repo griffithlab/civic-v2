@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { EventAction } from '@app/generated/civic.apollo';
+import { Pipe, PipeTransform } from '@angular/core'
+import { EventAction } from '@app/generated/civic.apollo'
 
 @Pipe({
   name: 'iconNameForEventAction',
@@ -9,47 +9,47 @@ export class IconNameForEventActionPipe implements PipeTransform {
   transform(a: EventAction): string {
     switch (a) {
       case EventAction.Commented:
-        return 'civic-comment';
+        return 'civic-comment'
       case EventAction.RevisionSuggested:
-        return 'civic-revision';
+        return 'civic-revision'
       case EventAction.RevisionAccepted:
-        return 'civic-revision';
+        return 'civic-revision'
       case EventAction.RevisionRejected:
-        return 'civic-revision';
+        return 'civic-revision'
       case EventAction.RevisionSuperseded:
-        return 'civic-revision';
+        return 'civic-revision'
       case EventAction.Flagged:
-        return 'civic-flag';
+        return 'civic-flag'
       case EventAction.FlagResolved:
-        return 'civic-flag';
+        return 'civic-flag'
       case EventAction.AssertionSubmitted:
-        return 'civic-assertion';
+        return 'civic-assertion'
       case EventAction.AssertionAccepted:
-        return 'civic-assertion';
+        return 'civic-assertion'
       case EventAction.AssertionRejected:
-        return 'civic-assertion';
+        return 'civic-assertion'
       case EventAction.Submitted:
-        return 'civic-evidence';
+        return 'civic-evidence'
       case EventAction.Accepted:
-        return 'civic-evidence';
+        return 'civic-evidence'
       case EventAction.Rejected:
-        return 'civic-evidence';
+        return 'civic-evidence'
       case EventAction.PublicationSuggested:
-        return 'file-add';
+        return 'file-add'
       case EventAction.CuratedSourceSuggestion:
-        return 'file-add';
+        return 'file-add'
       case EventAction.RejectedSourceSuggestion:
-        return 'file-add';
+        return 'file-add'
       case EventAction.RequeuedSourceSuggestion:
-        return 'file-add';
+        return 'file-add'
       case EventAction.Reverted:
-        return 'civic-evidence';
+        return 'civic-evidence'
       case EventAction.AssertionReverted:
-        return 'civic-assertion';
+        return 'civic-assertion'
       case EventAction.DeprecatedVariant:
-        return 'civic-variant';
+        return 'civic-variant'
       case EventAction.DeprecatedMolecularProfile:
-        return 'civic-molecularprofile';
+        return 'civic-molecularprofile'
     }
   }
 }

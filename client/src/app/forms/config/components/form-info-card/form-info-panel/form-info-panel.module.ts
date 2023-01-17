@@ -1,19 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { LetModule, PushModule } from '@ngrx/component';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { FormlyModule } from '@ngx-formly/core';
-import { CvcFormInfoPanelComponent } from './form-info-panel.component';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { NgxJsonViewerModule } from 'ngx-json-viewer'
+import { NzCollapseModule } from 'ng-zorro-antd/collapse'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { LetModule, PushModule } from '@ngrx/component'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzAffixModule } from 'ng-zorro-antd/affix'
+import { FormlyModule } from '@ngx-formly/core'
+import { CvcFormInfoPanelComponent } from './form-info-panel.component'
 
 @NgModule({
   declarations: [CvcFormInfoPanelComponent],
   imports: [
     CommonModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     FormlyModule,
     NzAffixModule,
     NzCollapseModule,

@@ -3,8 +3,7 @@
     *ngFor="let tag of displayedTags"
     [ngClass]="{
       'matched-tag': matchingText && tag.toLowerCase().includes(matchingText)
-    }"
-  >
+    }">
     <nz-tag>{{ tag }}</nz-tag>
   </span>
   <span [ngClass]="{ 'matched-tag': matchedHiddenCount > 0 }">
@@ -15,8 +14,7 @@
       [nzPopoverMouseEnterDelay]="0"
       [nzPopoverContent]="additionalTagPopover"
       nzPopoverPlacement="top"
-      nzPopoverTrigger="hover"
-    >
+      nzPopoverTrigger="hover">
       +<span *ngIf="matchedHiddenCount > 0">
         {{ matchedHiddenCount }}
         of </span
@@ -31,8 +29,7 @@
           [ngClass]="{
             'matched-tag':
               matchingText && tag.toLowerCase().includes(matchingText)
-          }"
-        >
+          }">
           <nz-tag>{{ tag }}</nz-tag>
         </div>
       </cvc-tag-list>

@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'
 import {
   Maybe,
   MolecularProfilePopoverFieldsFragment,
   MolecularProfilePopoverGQL,
-} from '@app/generated/civic.apollo';
-import { Observable } from 'rxjs';
-import { isNonNulled } from 'rxjs-etc';
-import { filter, map } from 'rxjs/operators';
+} from '@app/generated/civic.apollo'
+import { Observable } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-molecular-profile-popover',
@@ -14,9 +14,9 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./molecular-profile-popover.component.less'],
 })
 export class CvcMolecularProfilePopoverComponent implements OnInit {
-  @Input() molecularProfileId!: number;
+  @Input() molecularProfileId!: number
 
-  molecularProfile$?: Observable<Maybe<MolecularProfilePopoverFieldsFragment>>;
+  molecularProfile$?: Observable<Maybe<MolecularProfilePopoverFieldsFragment>>
 
   constructor(private gql: MolecularProfilePopoverGQL) {}
 
@@ -24,7 +24,7 @@ export class CvcMolecularProfilePopoverComponent implements OnInit {
     if (this.molecularProfileId === undefined) {
       throw new Error(
         'Must pass a molecular profile ID into the molecular profile popover component.'
-      );
+      )
     }
 
     this.molecularProfile$ = this.gql
@@ -32,6 +32,6 @@ export class CvcMolecularProfilePopoverComponent implements OnInit {
       .valueChanges.pipe(
         map(({ data }) => data?.molecularProfile),
         filter(isNonNulled)
-      );
+      )
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
+import { Component, OnInit } from '@angular/core'
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
   selector: 'cvc-curation-activity-view',
@@ -7,7 +7,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./curation-activity.view.less'],
 })
 export class CurationActivityView {
-  tabs: RouteableTab[];
+  tabs: RouteableTab[]
   constructor() {
     this.tabs = [
       {
@@ -15,6 +15,6 @@ export class CurationActivityView {
         iconName: 'civic-event',
         tabLabel: 'Timeline',
       },
-    ];
+    ]
   }
 }

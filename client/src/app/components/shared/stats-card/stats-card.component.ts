@@ -1,14 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core'
 
 export interface statsHash {
-  submittedEvidenceItems: number;
-  acceptedEvidenceItems: number;
-  submittedAssertions: number;
-  acceptedAssertions: number;
-  revisions: number;
-  appliedRevisions: number;
-  comments: number;
-  suggestedSources: number;
+  submittedEvidenceItems: number
+  acceptedEvidenceItems: number
+  submittedAssertions: number
+  acceptedAssertions: number
+  revisions: number
+  appliedRevisions: number
+  comments: number
+  suggestedSources: number
 }
 
 @Component({
@@ -17,8 +17,8 @@ export interface statsHash {
   styleUrls: ['./stats-card.component.less'],
 })
 export class CvcStatsCardComponent {
-  @Input() stats!: statsHash;
-  @Input() header!: string;
+  @Input() stats!: statsHash
+  @Input() header!: string
 
   constructor() {}
 }

@@ -1,10 +1,10 @@
-import { AbstractControl } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/models';
+import { AbstractControl } from '@angular/forms'
+import { FormlyFieldConfig } from '@ngx-formly/core'
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const requiredValidationMsgFn = (): string => {
-  return 'Evidence requires that a Variant be specified.';
-};
+  return 'Evidence requires that a Variant be specified.'
+}
 
 export const variantArrayTypeOption: TypeOption = {
   name: 'variant-array',
@@ -29,22 +29,22 @@ export const variantArrayTypeOption: TypeOption = {
           st: any,
           ffc?: FormlyFieldConfig
         ) => {
-          const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
+          const existingSetting = ffc?.parent?.templateOptions?.allowCreate
           if (existingSetting !== undefined) {
-            return existingSetting;
+            return existingSetting
           }
-          return true;
+          return true
         },
       },
     },
     hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
       const geneCtrl: AbstractControl | null = ffc?.form
         ? ffc.form.get('gene')
-        : null;
+        : null
       if (!geneCtrl || !geneCtrl.value || !geneCtrl.value[0]) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     defaultValue: [],
     validation: {
@@ -53,4 +53,4 @@ export const variantArrayTypeOption: TypeOption = {
       },
     },
   },
-};
+}

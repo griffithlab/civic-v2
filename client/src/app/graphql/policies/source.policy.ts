@@ -8,9 +8,9 @@ export const CvcSourcePolicy: TypePolicy = {
     name: {
       read: (_: Maybe<string>, { readField }): Maybe<string> => {
         // return "Source:Citation"
-        const sourceSource: Maybe<SourceSource> =  readField('sourceType')
+        const sourceSource: Maybe<SourceSource> = readField('sourceType')
         let sourceString: string
-        if(!sourceSource) {
+        if (!sourceSource) {
           sourceString = 'UNKNOWN'
         } else {
           sourceString = formatSourceTypeEnum(sourceSource)
@@ -19,7 +19,7 @@ export const CvcSourcePolicy: TypePolicy = {
         const citationId: Maybe<number> = readField('citationId')
 
         return `${sourceString}: ${citation || citationId || 'UNKNOWN'}`
-      }
+      },
     },
   },
 }

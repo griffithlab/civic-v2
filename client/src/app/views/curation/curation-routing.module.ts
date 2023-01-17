@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { CurationActivityView } from './curation-activity/curation-activity.view';
-import { CurationQueuesView } from './curation-queues/curation-queues.view';
-import { CurationView } from './curation.view';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { CurationActivityView } from './curation-activity/curation-activity.view'
+import { CurationQueuesView } from './curation-queues/curation-queues.view'
+import { CurationView } from './curation.view'
 
 const routes: Routes = [
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

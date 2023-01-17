@@ -3,9 +3,9 @@ import {
   Component,
   ViewChild,
   ViewContainerRef,
-} from '@angular/core';
-import { FieldWrapper } from '@ngx-formly/core';
-import { WrapperOption } from '@ngx-formly/core/lib/models';
+} from '@angular/core'
+import { FieldWrapper } from '@ngx-formly/core'
+import { WrapperOption } from '@ngx-formly/core/lib/models'
 
 @Component({
   selector: 'cvc-form-info-wrapper',
@@ -18,4 +18,4 @@ export class CvcFormInfoWrapper extends FieldWrapper {}
 export const CvcFormInfoWrapperOption: WrapperOption = {
   name: 'form-info',
   component: CvcFormInfoWrapper,
-};
+}

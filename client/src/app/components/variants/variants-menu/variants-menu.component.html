@@ -1,16 +1,28 @@
 <ng-container *ngIf="menuVariants$ | ngrxPush as variants">
-  <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra">
+  <nz-card
+    [nzTitle]="cardTitle"
+    [nzExtra]="cardExtra">
     <ng-template #cardTitle>
       <ng-container *ngIf="totalVariants$ | ngrxPush as total">
-        <span nz-typography nzType="secondary">{{ total }} Total</span>
-        <span nz-typography *ngIf="total > variants.length" nzType="secondary"
+        <span
+          nz-typography
+          nzType="secondary"
+          >{{ total }} Total</span
+        >
+        <span
+          nz-typography
+          *ngIf="total > variants.length"
+          nzType="secondary"
           >({{ variants.length }} displayed)</span
         >
       </ng-container>
     </ng-template>
 
     <ng-template #cardExtra>
-      <form nz-form nzLayout="inline" id="variant-filters">
+      <form
+        nz-form
+        nzLayout="inline"
+        id="variant-filters">
         <nz-form-item>
           <nz-form-label>Filter</nz-form-label>
           <nz-form-control>
@@ -18,16 +30,14 @@
               [nzSuffix]="nameInputClearTpl"
               id="name-filter-group"
               [nzCompact]="true"
-              nzSize="small"
-            >
+              nzSize="small">
               <input
                 type="text"
                 nz-input
                 placeholder="Variant Names"
                 name="name-filter"
                 (ngModelChange)="onModelUpdated()"
-                [(ngModel)]="variantNameFilter"
-              />
+                [(ngModel)]="variantNameFilter" />
               <ng-template #nameInputClearTpl>
                 <i
                   nz-icon
@@ -35,8 +45,7 @@
                   nzTheme="fill"
                   nzType="close-circle"
                   *ngIf="variantNameFilter"
-                  (click)="variantNameFilter = undefined; onModelUpdated()"
-                ></i>
+                  (click)="variantNameFilter = undefined; onModelUpdated()"></i>
               </ng-template>
             </nz-input-group>
           </nz-form-control>
@@ -50,24 +59,20 @@
               id="variant-sort-order"
               name="sortBy"
               style="width: 115px"
-              [(ngModel)]="sortBy"
-            >
+              [(ngModel)]="sortBy">
               <nz-option
                 nzValue="NAME"
                 nzLabel="Variant Name"
                 style="width: 100%"
-                selected
-              ></nz-option>
+                selected></nz-option>
               <nz-option
                 nzValue="COORDINATE_START"
                 style="width: 100%"
-                nzLabel="Start Position"
-              ></nz-option>
+                nzLabel="Start Position"></nz-option>
               <nz-option
                 nzValue="COORDINATE_END"
                 style="width: 100%"
-                nzLabel="End Position"
-              ></nz-option>
+                nzLabel="End Position"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -83,14 +88,15 @@
       </nz-col>
     </nz-row>
     <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
+      <nz-row
+        id="load-more-btn"
+        *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
         <button
           nz-button
           nzType="default"
           nzSize="small"
           nzBlock
-          (click)="fetchMore(pageInfo.endCursor)"
-        >
+          (click)="fetchMore(pageInfo.endCursor)">
           Load More
         </button>
       </nz-row>

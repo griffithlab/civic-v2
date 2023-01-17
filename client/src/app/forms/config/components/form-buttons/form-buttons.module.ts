@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcFormButtonsComponent } from './form-buttons.component';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcFormButtonsComponent } from './form-buttons.component'
 
 @NgModule({
   declarations: [CvcFormButtonsComponent],

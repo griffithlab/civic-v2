@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { variantOriginSelectTypeOption } from './variant-origin-select.type';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlySelectModule } from '@ngx-formly/core/select';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { variantOriginSelectTypeOption } from './variant-origin-select.type'
+import { ReactiveFormsModule } from '@angular/forms'
+import { FormlyModule } from '@ngx-formly/core'
+import { FormlySelectModule } from '@ngx-formly/core/select'
 
 @NgModule({
   imports: [

@@ -10,8 +10,7 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="userPopover"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    nzPopoverPlacement="topCenter"
-  >
+    nzPopoverPlacement="topCenter">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -35,7 +34,6 @@
     nz-icon
     [nzType]="icon"
     nzTheme="twotone"
-    [nzTwotoneColor]="user.role | titlecase | entityColor"
-  ></i>
+    [nzTwotoneColor]="user.role | titlecase | entityColor"></i>
   {{ user.displayName }}
 </ng-template>

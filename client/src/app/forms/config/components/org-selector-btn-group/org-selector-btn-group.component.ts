@@ -6,20 +6,17 @@ import {
   Input,
   OnInit,
   Output,
-} from '@angular/core';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
-import { Maybe, Organization } from '@app/generated/civic.apollo';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
+} from '@angular/core'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Maybe, Organization } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { map, tap } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
 import {
   ButtonMutation,
   CvcOrgSelectorBtnDirective,
-} from './org-selector-btn.directive';
+} from './org-selector-btn.directive'
 
 @UntilDestroy()
 @Component({
@@ -28,52 +25,52 @@ import {
   styleUrls: ['./org-selector-btn-group.component.less'],
 })
 export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
-  @Input() selectedOrg!: Maybe<Organization>;
-  @Output() selectedOrgChange = new EventEmitter<Organization>();
+  @Input() selectedOrg!: Maybe<Organization>
+  @Output() selectedOrgChange = new EventEmitter<Organization>()
 
   @ContentChild(CvcOrgSelectorBtnDirective, { static: false })
-  button?: CvcOrgSelectorBtnDirective;
+  button?: CvcOrgSelectorBtnDirective
 
-  organizations$!: Observable<Organization[]>;
-  mostRecentOrg$!: Observable<Maybe<Organization>>;
+  organizations$!: Observable<Organization[]>
+  mostRecentOrg$!: Observable<Maybe<Organization>>
 
-  isDisabled$: Subject<boolean>;
-  isHidden$: Subject<boolean>;
-  buttonClass$: BehaviorSubject<string>;
-  baseButtonClass = 'org-dropdown-btn';
+  isDisabled$: Subject<boolean>
+  isHidden$: Subject<boolean>
+  buttonClass$: BehaviorSubject<string>
+  baseButtonClass = 'org-dropdown-btn'
   constructor(private viewerService: ViewerService) {
-    this.isDisabled$ = new Subject<boolean>();
-    this.isHidden$ = new Subject<boolean>();
-    this.buttonClass$ = new BehaviorSubject<string>('');
+    this.isDisabled$ = new Subject<boolean>()
+    this.isHidden$ = new Subject<boolean>()
+    this.buttonClass$ = new BehaviorSubject<string>('')
   }
 
   selectOrg(org: any): void {
-    this.selectedOrg = org;
-    this.selectedOrgChange.emit(org);
+    this.selectedOrg = org
+    this.selectedOrgChange.emit(org)
   }
 
   refreshViewer() {
     setTimeout(() => {
-      this.viewerService.refetch();
-    }, 2500);
+      this.viewerService.refetch()
+    }, 2500)
   }
 
   ngOnInit() {
     this.organizations$ = this.viewerService.viewer$.pipe(
       map((v: Viewer) => v.organizations)
-    );
+    )
 
     this.mostRecentOrg$ = this.viewerService.viewer$.pipe(
       pluck('mostRecentOrg'),
       tap((org: Maybe<Organization>) => {
         if (org) {
-          this.selectedOrg = org;
-          this.selectedOrgChange.emit(org);
+          this.selectedOrg = org
+          this.selectedOrgChange.emit(org)
         }
       })
-    );
+    )
 
-    this.mostRecentOrg$.pipe(untilDestroyed(this)).subscribe();
+    this.mostRecentOrg$.pipe(untilDestroyed(this)).subscribe()
   }
 
   ngAfterViewInit() {
@@ -85,13 +82,13 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
           .pipe(untilDestroyed(this))
           .subscribe((m: ButtonMutation) => {
             if (m.type === 'class' && typeof m.change === 'string') {
-              this.buttonClass$.next(`${this.baseButtonClass} ${m.change}`);
+              this.buttonClass$.next(`${this.baseButtonClass} ${m.change}`)
             } else if (m.type === 'disabled' && typeof m.change === 'boolean') {
-              this.isDisabled$.next(m.change);
+              this.isDisabled$.next(m.change)
             } else if (m.type === 'hidden' && typeof m.change === 'boolean') {
-              this.isHidden$.next(m.change);
+              this.isHidden$.next(m.change)
             }
-          });
+          })
       }
     }
   }

@@ -4,31 +4,35 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="linkout"
-    >
+      [nzExtra]="linkout">
       <ng-template #cardTitle>
         <i
           nz-icon
           nzType="civic-phenotype"
           nzTheme="twotone"
-          nzTwotoneColor="#2A63B6"
-        ></i>
+          nzTwotoneColor="#2A63B6"></i>
         {{ p.name }}
       </ng-template>
       <ng-template #linkout>
         <cvc-link-tag
           [href]="p.url"
-          tooltip="View in the Human Phenotype Ontology"
-        >
+          tooltip="View in the Human Phenotype Ontology">
           {{ p.hpoId }}
         </cvc-link-tag>
       </ng-template>
 
-      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
-        <nz-descriptions-item nzTitle="Assertions" nzSpan="2">
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+        <nz-descriptions-item
+          nzTitle="Assertions"
+          nzSpan="2">
           {{ p.assertionCount }}
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Evidence" nzSpan="2">
+        <nz-descriptions-item
+          nzTitle="Evidence"
+          nzSpan="2">
           {{ p.evidenceItemCount }}
         </nz-descriptions-item>
       </nz-descriptions>

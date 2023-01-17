@@ -3,8 +3,8 @@ import {
   Component,
   Input,
   OnInit,
-} from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 /**
  * Wraps a set of <cvc-[entity]-tag> elements to apply styles that ensure
  * internal margins between tag rows, and appropriate padding with its parent
@@ -20,7 +20,7 @@ import { Maybe } from '@app/generated/civic.apollo';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcTagListComponent implements OnInit {
-  @Input() size!: Maybe<'xs' | 'sm'>;
+  @Input() size!: Maybe<'xs' | 'sm'>
   constructor() {}
 
   ngOnInit(): void {}

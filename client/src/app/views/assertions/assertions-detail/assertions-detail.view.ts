@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
   AssertionDetailFieldsFragment,
@@ -8,17 +8,14 @@ import {
   SubscribableInput,
   SubscribableEntities,
   EvidenceStatus,
-} from '@app/generated/civic.apollo';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
-import { QueryRef } from 'apollo-angular';
-import { AssertionDetailQuery } from '@app/generated/civic.apollo';
-import { startWith, takeUntil } from 'rxjs/operators';
-import { pluck } from 'rxjs-etc/operators';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
+} from '@app/generated/civic.apollo'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { QueryRef } from 'apollo-angular'
+import { AssertionDetailQuery } from '@app/generated/civic.apollo'
+import { startWith, takeUntil } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
   selector: 'assertions-detail',
@@ -26,19 +23,19 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./assertions-detail.view.less'],
 })
 export class AssertionsDetailView implements OnDestroy {
-  queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>;
+  queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
 
-  assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>;
-  loading$?: Observable<boolean>;
-  commentsTotal$?: Observable<number>;
-  flagsTotal$?: Observable<number>;
-  viewer$: Observable<Viewer>;
+  assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
+  loading$?: Observable<boolean>
+  commentsTotal$?: Observable<number>
+  flagsTotal$?: Observable<number>
+  viewer$: Observable<Viewer>
 
-  paramsSub: Subscription;
-  subscribable?: SubscribableInput;
+  paramsSub: Subscription
+  subscribable?: SubscribableInput
 
-  tabs$: BehaviorSubject<RouteableTab[]>;
-  destroy$ = new Subject<void>();
+  tabs$: BehaviorSubject<RouteableTab[]>
+  destroy$ = new Subject<void>()
   defaultTabs: RouteableTab[] = [
     {
       routeName: 'summary',
@@ -65,34 +62,34 @@ export class AssertionsDetailView implements OnDestroy {
       iconName: 'civic-event',
       tabLabel: 'Events',
     },
-  ];
+  ]
 
-  errors: string[] = [];
-  successMessage: Maybe<string>;
+  errors: string[] = []
+  successMessage: Maybe<string>
 
   constructor(
     private gql: AssertionDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
-    this.tabs$ = new BehaviorSubject(this.defaultTabs);
+    this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
-    this.viewer$ = this.viewerService.viewer$;
+    this.viewer$ = this.viewerService.viewer$
 
     this.paramsSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ assertionId: +params.assertionId });
+      this.queryRef = this.gql.watch({ assertionId: +params.assertionId })
 
-      let observable = this.queryRef.valueChanges;
+      let observable = this.queryRef.valueChanges
 
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.assertion$ = observable.pipe(pluck('data', 'assertion'));
+      this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
       this.commentsTotal$ = this.assertion$.pipe(
         pluck('comments', 'totalCount')
-      );
+      )
 
-      this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'));
+      this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
       this.assertion$
         .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
@@ -104,55 +101,55 @@ export class AssertionsDetailView implements OnDestroy {
                   return {
                     badgeCount: count as number,
                     ...tab,
-                  };
+                  }
                 } else {
-                  return tab;
+                  return tab
                 }
               })
-            );
+            )
           },
-        });
+        })
 
       this.subscribable = {
         id: +params.assertionId,
         entityType: SubscribableEntities.Assertion,
-      };
-    });
+      }
+    })
   }
 
   ngOnDestroy() {
-    this.paramsSub.unsubscribe();
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
+    this.paramsSub.unsubscribe()
+    this.destroy$.next()
+    this.destroy$.unsubscribe()
   }
 
   onRevertCompleted(res: true | string[]) {
     if (res === true) {
-      this.errors = [];
-      this.successMessage = 'Assertion reverted to submitted status.';
-      this.queryRef?.refetch();
+      this.errors = []
+      this.successMessage = 'Assertion reverted to submitted status.'
+      this.queryRef?.refetch()
     } else {
-      this.errors = res;
-      this.successMessage = undefined;
+      this.errors = res
+      this.successMessage = undefined
     }
   }
 
   onErrorBannerClose(err: string) {
-    this.errors = this.errors?.filter((e) => e != err);
+    this.errors = this.errors?.filter((e) => e != err)
   }
 
   onSuccessBannerClose() {
-    this.successMessage = undefined;
+    this.successMessage = undefined
   }
 
   onModerateCompleted(res: EvidenceStatus | string[]) {
     if (Array.isArray(res)) {
-      this.errors = res;
-      this.successMessage = undefined;
+      this.errors = res
+      this.successMessage = undefined
     } else {
-      this.errors = [];
-      this.successMessage = `Assertion successfully ${res}.`;
-      this.queryRef?.refetch();
+      this.errors = []
+      this.successMessage = `Assertion successfully ${res}.`
+      this.queryRef?.refetch()
     }
   }
 }

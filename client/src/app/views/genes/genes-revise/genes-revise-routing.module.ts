@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { GenesReviseView } from './genes-revise.view';
-import { GenesSuggestModule } from './genes-suggest/genes-suggest.module';
-import { GenesSuggestPage } from './genes-suggest/genes-suggest.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { GenesReviseView } from './genes-revise.view'
+import { GenesSuggestModule } from './genes-suggest/genes-suggest.module'
+import { GenesSuggestPage } from './genes-suggest/genes-suggest.page'
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), GenesSuggestModule],

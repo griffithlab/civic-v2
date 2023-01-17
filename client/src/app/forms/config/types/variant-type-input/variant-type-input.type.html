@@ -9,15 +9,13 @@
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
-    (nzOnSearch)="to.onSearch($event)"
-  >
+    (nzOnSearch)="to.onSearch($event)">
     <ng-container *ngrxLet="this.variantTypes$ as variantTypes">
       <nz-option
         *ngFor="let opt of variantTypes"
         nzCustomContent
         nzLabel="{{opt.name}} ({{opt.soid}})"
-        [nzValue]="opt"
-      >
+        [nzValue]="opt">
         {{ opt.name }} ({{opt.soid }})
       </nz-option>
     </ng-container>
@@ -28,6 +26,5 @@
 </ng-container>
 <ng-template #drugListItem>
   <cvc-variant-type-tag
-    [variantType]="formControl.value"
-  ></cvc-variant-type-tag>
+    [variantType]="formControl.value"></cvc-variant-type-tag>
 </ng-template>

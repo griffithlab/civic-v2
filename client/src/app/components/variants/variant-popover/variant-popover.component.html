@@ -4,31 +4,30 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="gene"
-    >
+      [nzExtra]="gene">
       <ng-template #cardTitle>
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Variant' | entityColor"
-          nzType="civic-variant"
-        ></i>
+          nzType="civic-variant"></i>
         {{ variant.name }}
       </ng-template>
       <ng-template #gene>
         <cvc-gene-tag
           [enablePopover]="false"
-          [gene]="variant.gene"
-        ></cvc-gene-tag>
+          [gene]="variant.gene"></cvc-gene-tag>
       </ng-template>
 
-      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
+      <nz-descriptions
+        nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
         <!-- aliases -->
         <nz-descriptions-item
           nzTitle="Aliases"
           nzSpan="2"
-          *ngIf="variant.variantAliases.length > 0"
-        >
+          *ngIf="variant.variantAliases.length > 0">
           <nz-tag *ngFor="let alias of variant.variantAliases">{{
             alias
           }}</nz-tag>
@@ -41,20 +40,20 @@
           *ngIf="
             variant.alleleRegistryId &&
             variant.alleleRegistryId != 'unregistered'
-          "
-        >
+          ">
           <cvc-link-tag
             href="https://reg.genome.network/allele/{{
               variant.alleleRegistryId
             }}.html"
-            tooltip="View on the ClinGen Allele Registry"
-          >
+            tooltip="View on the ClinGen Allele Registry">
             {{ variant.alleleRegistryId }}
           </cvc-link-tag>
         </nz-descriptions-item>
 
         <!-- evidence item count -->
-        <nz-descriptions-item nzTitle="Molecular Profiles" nzSpan="2">
+        <nz-descriptions-item
+          nzTitle="Molecular Profiles"
+          nzSpan="2">
           {{ variant.molecularProfiles.totalCount }}
         </nz-descriptions-item>
       </nz-descriptions>
@@ -63,25 +62,34 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <a routerLink="/variants/{{ variant.id }}/flags" *nzSpaceItem>
+            <a
+              routerLink="/variants/{{ variant.id }}/flags"
+              *nzSpaceItem>
               <nz-tag nzColor="red">
-                <i nz-icon nzType="civic-flag"></i> Flags ({{
-                  variant.flags.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-flag"></i>
+                Flags ({{ variant.flags.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/variants/{{ variant.id }}/revisions" *nzSpaceItem>
+            <a
+              routerLink="/variants/{{ variant.id }}/revisions"
+              *nzSpaceItem>
               <nz-tag nzColor="orange">
-                <i nz-icon nzType="civic-revision"></i> Revisions ({{
-                  variant.revisions.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-revision"></i>
+                Revisions ({{ variant.revisions.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/variants/{{ variant.id }}/comments" *nzSpaceItem>
+            <a
+              routerLink="/variants/{{ variant.id }}/comments"
+              *nzSpaceItem>
               <nz-tag nzColor="blue">
-                <i nz-icon nzType="civic-comment"></i> Comments ({{
-                  variant.comments.totalCount
-                }})
+                <i
+                  nz-icon
+                  nzType="civic-comment"></i>
+                Comments ({{ variant.comments.totalCount }})
               </nz-tag>
             </a>
           </nz-space>

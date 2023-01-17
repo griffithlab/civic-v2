@@ -11,8 +11,7 @@
     [nzPopoverContent]="genePopover"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
     [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)"
-  >
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #genePopover>
@@ -25,13 +24,14 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [flagged]="gene.flagged" [entityColor]="iconColor">
+  <cvc-icon-badges
+    [flagged]="gene.flagged"
+    [entityColor]="iconColor">
     <i
       nz-icon
       nzType="civic-gene"
       nzTheme="twotone"
-      [nzTwotoneColor]="'Gene' | entityColor"
-    ></i>
+      [nzTwotoneColor]="'Gene' | entityColor"></i>
   </cvc-icon-badges>
   <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
   <ng-container *ngIf="this.truncateLongName; else fullName">
