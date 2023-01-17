@@ -5448,9 +5448,7 @@ type Query {
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!
   previewCommentText(commentText: String!): [CommentBodySegment!]!
-  previewMolecularProfileName(
-    structure: MolecularProfileComponentInput
-  ): MolecularProfileNamePreview!
+  previewMolecularProfileName(structure: MolecularProfileComponentInput): MolecularProfileNamePreview!
 
   """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
@@ -5538,10 +5536,7 @@ type Query {
     types: [SearchableEntities!]
   ): [SearchResult!]!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
-  searchGenes(
-    createPermalink: Boolean = false
-    query: GeneSearchFilter!
-  ): AdvancedSearchResult!
+  searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
 
   """
   Find a source by CIViC ID
@@ -5556,11 +5551,7 @@ type Query {
   """
   Given the parameters in a source suggestion, fetch the values to populate the add evidence form
   """
-  sourceSuggestionValues(
-    diseaseId: Int
-    molecularProfileId: Int
-    sourceId: Int
-  ): SourceSuggestionValues!
+  sourceSuggestionValues(diseaseId: Int, molecularProfileId: Int, sourceId: Int): SourceSuggestionValues!
   sourceSuggestions(
     """
     Returns the elements in the list that come after the specified cursor.
