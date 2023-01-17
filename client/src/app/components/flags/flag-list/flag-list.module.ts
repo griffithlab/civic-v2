@@ -11,7 +11,6 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
 import { CvcResolveFlagFormModule } from '@app/forms/flag-resolve/flag-resolve.module'
 import { LetModule, PushModule } from '@ngrx/component'
@@ -31,7 +30,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { FlagListComponent } from './flag-list.component'
 
 @NgModule({
@@ -54,7 +52,6 @@ import { FlagListComponent } from './flag-list.component'
     NzIconModule,
     NzInputModule,
     FormsModule,
-    NgDatePipesModule,
     CvcOrgSelectorBtnGroupModule,
     CvcSourceTagModule,
     CvcUserTagModule,

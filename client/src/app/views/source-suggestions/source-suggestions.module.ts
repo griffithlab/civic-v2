@@ -26,7 +26,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { EvidenceModule } from '../evidence/evidence.module'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
@@ -39,7 +38,7 @@ import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module'
 import { SourceSuggestionsHomeModule } from './source-suggestions-home/source-suggestions-home.module'
 import { SourceSuggestionsRoutingModule } from './source-suggestions-routing.module'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
   declarations: [SourceSuggestionsComponent],
@@ -78,13 +77,13 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
     NzTypographyModule,
     LetModule,
     PushModule,
-    NgDatePipesModule,
     NzInputModule,
     FormsModule,
 
     EvidenceModule,
 
     NzSelectModule,
+    CvcPipesModule
   ],
   exports: [],
 })

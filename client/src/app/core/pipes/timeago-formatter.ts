@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core'
-import { TimeagoFormatter } from 'ngx-timeago'
+import { Injectable, Pipe } from '@angular/core'
 
 const SECONDS_IN_MINUTE = 60
 const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
@@ -23,9 +22,19 @@ const withYearOptions: Intl.DateTimeFormatOptions = {
 }
 const withYearFormatter = new Intl.DateTimeFormat('en-US', withYearOptions)
 
-@Injectable()
-export class CivicTimeagoFormatter extends TimeagoFormatter {
-  format(then: number): string {
+@Pipe({
+  name: 'timeAgo',
+  pure: true
+})
+export class CivicTimeagoFormatter {
+  transform(input: number | string): string {
+    let then: number
+    if (typeof input =='number') {
+      then = input
+    }  else {
+      then = Date.parse(input)
+    }
+
     const now = Date.now()
     const elapsedSeconds = Math.round(Math.abs(now - then) / 1000)
 

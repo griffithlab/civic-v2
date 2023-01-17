@@ -12,7 +12,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
@@ -33,7 +32,6 @@ import { NzInputModule } from 'ng-zorro-antd/input'
 import { FormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
@@ -62,7 +60,6 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzDescriptionsModule,
     NzDividerModule,
     FormsModule,
-    NgDatePipesModule,
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
     CvcSourceTagModule,

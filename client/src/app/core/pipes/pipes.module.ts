@@ -23,6 +23,7 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe'
 import { EntityColorPipe } from './entity-color.pipe'
 import { DevRandomBoolPipe } from './dev-rnd-bool.pipe'
 import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-display.pipe'
+import { CivicTimeagoFormatter } from './timeago-formatter'
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-di
     TypenameToRoutePipe,
     EntityColorPipe,
     DevRandomBoolPipe,
+    CivicTimeagoFormatter
   ],
   imports: [CommonModule],
   exports: [
@@ -76,6 +78,7 @@ import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-di
     TypenameToRoutePipe,
     EntityColorPipe,
     DevRandomBoolPipe,
+    CivicTimeagoFormatter
   ],
   providers: [SourceTypeDisplayPipe],
 })

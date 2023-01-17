@@ -12,7 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { LetModule, PushModule } from '@ngrx/component'
 import { CookieService } from 'ngx-cookie-service'
 import { civicIcons } from '@app/icons-provider.module'
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago'
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger'
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { NZ_I18N } from 'ng-zorro-antd/i18n'
@@ -23,7 +22,6 @@ import { GraphQLModule } from '@app/graphql/graphql.module'
 import { environment } from 'environments/environment'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
-import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter'
 import { CvcFormsModule } from './forms/forms.module'
 import { Observable } from 'rxjs'
 import { AppLoadErrorHandler } from './core/utilities/app-reload-handler'
@@ -56,9 +54,6 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     NzIconModule.forRoot(civicIcons),
     LetModule,
     PushModule,
-    TimeagoModule.forRoot({
-      formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter },
-    }),
     CvcFormsModule,
     CvcNetworkErrorAlertModule,
   ],

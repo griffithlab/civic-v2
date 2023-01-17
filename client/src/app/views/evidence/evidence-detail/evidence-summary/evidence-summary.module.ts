@@ -24,7 +24,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { EvidenceSummaryPage } from './evidence-summary.page'
 
 @NgModule({
@@ -56,7 +55,6 @@ import { EvidenceSummaryPage } from './evidence-summary.page'
     CvcAttributeTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
-    NgDatePipesModule,
   ],
 })
 export class EvidenceSummaryModule {}

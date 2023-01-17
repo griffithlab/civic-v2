@@ -15,7 +15,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module'
 import { CvcOrganizationsTableComponent } from './organizations-table.component'
 
@@ -33,8 +32,6 @@ import { CvcOrganizationsTableComponent } from './organizations-table.component'
     NzIconModule,
     NzTypographyModule,
     NzTagModule,
-
-    NgDatePipesModule,
 
     CvcNoMoreRowsModule,
     CvcTableCountsModule,

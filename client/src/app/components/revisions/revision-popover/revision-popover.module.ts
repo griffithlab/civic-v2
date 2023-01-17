@@ -6,11 +6,9 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -39,7 +37,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CvcVariantGroupTagModule,
     CvcStatusTagModule,
     RevisionListDiffModule,
-    NgDatePipesModule,
   ],
   exports: [CvcRevisionPopoverComponent],
 })

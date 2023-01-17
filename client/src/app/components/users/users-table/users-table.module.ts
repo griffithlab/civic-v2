@@ -9,7 +9,6 @@ import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module'
@@ -22,7 +21,6 @@ import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { CvcUserTagModule } from '../user-tag/user-tag.module'
 import { CvcUsersTableComponent } from './users-table.component'
 
@@ -55,7 +53,6 @@ import { CvcUsersTableComponent } from './users-table.component'
     CvcTagListModule,
     CvcTagOverflowModule,
     CvcUserTagModule,
-    NgDatePipesModule,
   ],
   exports: [CvcUsersTableComponent],
 })

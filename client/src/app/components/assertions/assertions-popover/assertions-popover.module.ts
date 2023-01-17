@@ -12,8 +12,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
-import { NgDatePipesModule } from 'ngx-pipes'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
@@ -41,7 +39,6 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcTherapyTagModule,
     CvcPipesModule,
     CvcStatusTagModule,
-    NgDatePipesModule,
   ],
   exports: [CvcAssertionPopoverComponent],
 })

@@ -13,12 +13,10 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { RouterModule } from '@angular/router'
@@ -35,7 +33,6 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzTypographyModule,
     NzGridModule,
     RouterModule,
-    NgDatePipesModule,
     CvcRevisionTagModule,
     CvcUserTagModule,
     CvcPipesModule,

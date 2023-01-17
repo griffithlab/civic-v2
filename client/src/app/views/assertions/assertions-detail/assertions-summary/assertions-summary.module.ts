@@ -16,8 +16,6 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
-import { NgDatePipesModule } from 'ngx-pipes'
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
@@ -50,7 +48,6 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcAttributeTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
-    NgDatePipesModule,
   ],
   exports: [AssertionsSummaryPage],
 })
