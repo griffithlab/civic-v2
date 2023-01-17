@@ -10,7 +10,6 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcNetworkErrorAlertComponent {
-  // NOTE: #UPDATE - networkErrors service types need some work, causing lots of type errors in the template.
   errors: NetworkErrorsService
   modalVisible: boolean = false
   modalContent!: string

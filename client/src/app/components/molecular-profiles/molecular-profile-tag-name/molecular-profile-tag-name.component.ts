@@ -1,5 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { MolecularProfileSegment } from '@app/generated/civic.apollo'
+import { MolecularProfileTextSegment } from '@app/generated/civic.apollo'
+
+type MpGene = {
+  id: number
+  link: string
+  name: string
+  __typename: "Gene"
+}
+type MpVariant = {
+  id: number
+  link: string
+  name: string
+  __typename: "Variant"
+}
+type MpSegment = MpGene  | MolecularProfileTextSegment | MpVariant
 
 @Component({
   selector: 'cvc-mp-tag-name',
@@ -7,10 +21,7 @@ import { MolecularProfileSegment } from '@app/generated/civic.apollo'
   styleUrls: ['./molecular-profile-tag-name.component.less'],
 })
 export class CvcMolecularProfileTagNameComponent implements OnInit {
-  // NOTE: #UPDATE MolecularPRofileSegment type requires full Gene, Variant so type check fails
-  // when incomplete entitites are proided. Needed to 'any' this one to get the app to compile
-  // @Input() nameSegments!: MolecularProfileSegment[];
-  @Input() nameSegments!: any[]
+  @Input() nameSegments!: MpSegment[];
   @Input() enablePopover: boolean = true
 
   ngOnInit() {
