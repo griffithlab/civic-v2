@@ -5,9 +5,16 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: evidence description -->
         <nz-col [nzSpan]="24">
-          <nz-descriptions nzLayout="vertical" nzSize="small" nzBordered="true">
+          <nz-descriptions
+            nzLayout="vertical"
+            nzSize="small"
+            nzBordered="true">
             <nz-descriptions-item nzTitle="Statement">
-              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="14">
+              <p
+                nz-typography
+                nzEllipsis
+                nzExpandable
+                [nzEllipsisRows]="14">
                 {{ evidence.description }}
               </p>
             </nz-descriptions-item>
@@ -19,8 +26,7 @@
           <nz-descriptions
             nzSize="small"
             [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true"
-          >
+            nzBordered="true">
             <!-- evidence type -->
             <nz-descriptions-item nzTitle="Type">
               <cvc-attribute-tag
@@ -29,8 +35,7 @@
                 nz-tooltip
                 [nzTooltipTitle]="
                   evidence.evidenceType | enumTooltip : 'evidenceType'
-                "
-              >
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -45,8 +50,7 @@
                       : 'evidenceDirection'
                       : evidence.evidenceType
                       : 'EvidenceItem'
-                "
-              >
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -61,8 +65,7 @@
                       : 'significance'
                       : evidence.evidenceType
                       : 'EvidenceItem'
-                "
-              >
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -73,8 +76,7 @@
                 nz-tooltip
                 [nzTooltipTitle]="
                   evidence.variantOrigin | enumTooltip : 'variantOrigin'
-                "
-              >
+                ">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -84,11 +86,10 @@
                 nz-tooltip
                 [nzTooltipTitle]="
                   evidence.evidenceLevel | enumTooltip : 'evidenceLevel'
-                "
-              >
+                ">
                 <strong>{{ evidence.evidenceLevel }}</strong> -
                 {{
-                  evidence.evidenceLevel | enumTooltip : "evidenceLevelBrief"
+                  evidence.evidenceLevel | enumTooltip : 'evidenceLevelBrief'
                 }}
               </nz-tag>
             </nz-descriptions-item>
@@ -99,11 +100,9 @@
                 nz-tooltip
                 [nzTooltipTitle]="
                   evidence.evidenceRating | enumTooltip : 'evidenceRating'
-                "
-              >
+                ">
                 <cvc-evidence-rating
-                  [starRating]="evidence.evidenceRating"
-                ></cvc-evidence-rating>
+                  [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
               </nz-tag>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -112,8 +111,7 @@
           <nz-descriptions
             nzSize="small"
             nzBordered="true"
-            [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
-          >
+            [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- source -->
             <nz-descriptions-item nzTitle="Source">
               <cvc-source-tag [source]="evidence.source"> </cvc-source-tag>
@@ -126,27 +124,27 @@
                 evidence.source.clinicalTrials.length > 1
                   ? 'Clinical Trials'
                   : 'Clinical Trial'
-              "
-            >
+              ">
               <ng-container
                 *ngIf="
                   evidence.source.clinicalTrials &&
                   evidence.source.clinicalTrials.length > 0
-                "
-              >
+                ">
                 <ng-container *ngFor="let t of evidence.source.clinicalTrials">
                   <cvc-clinical-trial-tag
-                    [clinicalTrial]="t"
-                  ></cvc-clinical-trial-tag>
+                    [clinicalTrial]="t"></cvc-clinical-trial-tag>
                 </ng-container>
               </ng-container>
               <ng-container
                 *ngIf="
                   evidence.source.clinicalTrials &&
                   evidence.source.clinicalTrials.length === 0
-                "
-              >
-                <span nz-typography nzType="secondary">None Specified</span>
+                ">
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None Specified</span
+                >
               </ng-container>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -163,8 +161,7 @@
             nzLayout="vertical"
             nzSize="small"
             [nzColumn]="{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true"
-          >
+            nzBordered="true">
             <!-- status -->
             <nz-descriptions-item nzTitle="Status">
               <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
@@ -174,13 +171,16 @@
             <nz-descriptions-item [nzTitle]="submittedTitle">
               by
               <cvc-user-tag
-                [user]="evidence.submissionEvent.originatingUser"
-              ></cvc-user-tag>
+                [user]="
+                  evidence.submissionEvent.originatingUser
+                "></cvc-user-tag>
             </nz-descriptions-item>
             <ng-template #submittedTitle>
               Submitted
-              <span nz-typography nzType="secondary">
-                ({{ evidence.submissionEvent.createdAt | timeago }})
+              <span
+                nz-typography
+                nzType="secondary">
+                ({{ evidence.submissionEvent.createdAt | timeAgo }})
               </span>
             </ng-template>
             <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
@@ -189,35 +189,41 @@
               *ngIf="
                 evidence.rejectionEvent !== null ||
                 evidence.acceptanceEvent !== null
-              "
-            >
+              ">
               <!-- show acceptance only if no rejection event exists -->
               <ng-container [ngSwitch]="evidence.rejectionEvent === null">
                 <nz-descriptions-item
                   *ngSwitchCase="true"
-                  [nzTitle]="acceptedTitle"
-                >
+                  [nzTitle]="acceptedTitle">
                   by
                   <cvc-user-tag
-                    [user]="evidence.acceptanceEvent!.originatingUser"
-                  ></cvc-user-tag>
+                    [user]="
+                      evidence.acceptanceEvent!.originatingUser
+                    "></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #acceptedTitle>
                   Accepted
-                  <span nz-typography nzType="secondary">
-                    ({{ evidence.acceptanceEvent!.createdAt | timeago }})
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ evidence.acceptanceEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
-                <nz-descriptions-item *ngSwitchCase="false" nzTitle="Rejected">
+                <nz-descriptions-item
+                  *ngSwitchCase="false"
+                  nzTitle="Rejected">
                   by
                   <cvc-user-tag
-                    [user]="evidence.rejectionEvent!.originatingUser"
-                  ></cvc-user-tag>
+                    [user]="
+                      evidence.rejectionEvent!.originatingUser
+                    "></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #rejectedTitle>
                   Rejected
-                  <span nz-typography nzType="secondary">
-                    ({{ evidence.rejectionEvent!.createdAt | timeago }})
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ evidence.rejectionEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
               </ng-container>
@@ -230,21 +236,20 @@
           <nz-descriptions
             nzSize="small"
             nzBordered="true"
-            [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
-          >
+            [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- molecular profile -->
             <nz-descriptions-item nzTitle="Molecular Profile">
               <cvc-molecular-profile-tag
                 [molecularProfile]="evidence.molecularProfile"
-                [enablePopover]="true"
-              ></cvc-molecular-profile-tag>
+                [enablePopover]="true"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
             <!-- molecular profile expression -->
             <nz-descriptions-item nzTitle="MP Expression">
               <cvc-mp-tag-name
-                [nameSegments]="evidence.molecularProfile.parsedName"
-              ></cvc-mp-tag-name>
+                [nameSegments]="
+                  evidence.molecularProfile.parsedName
+                "></cvc-mp-tag-name>
             </nz-descriptions-item>
 
             <!-- disease -->
@@ -252,11 +257,13 @@
               <ng-container *ngIf="evidence.disease">
                 <a routerLink="/diseases/{{ evidence.disease.id }}">
                   <cvc-disease-tag
-                    [disease]="evidence.disease"
-                  ></cvc-disease-tag>
+                    [disease]="evidence.disease"></cvc-disease-tag>
                 </a>
               </ng-container>
-              <span *ngIf="!evidence.disease" nz-typography nzType="secondary"
+              <span
+                *ngIf="!evidence.disease"
+                nz-typography
+                nzType="secondary"
                 >N/A</span
               >
             </nz-descriptions-item>
@@ -265,11 +272,9 @@
             <nz-descriptions-item
               [nzTitle]="
                 evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'
-              "
-            >
+              ">
               <ng-container
-                *ngIf="evidence.phenotypes.length > 0; else noPhenotypes"
-              >
+                *ngIf="evidence.phenotypes.length > 0; else noPhenotypes">
                 <cvc-tag-list>
                   <ng-container *ngFor="let ph of evidence.phenotypes">
                     <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
@@ -277,7 +282,11 @@
                 </cvc-tag-list>
               </ng-container>
               <ng-template #noPhenotypes>
-                <span nz-typography nzType="secondary">None Specified</span>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None Specified</span
+                >
               </ng-template>
             </nz-descriptions-item>
 
@@ -285,12 +294,15 @@
             <nz-descriptions-item
               [nzTitle]="
                 evidence.therapies.length > 1 ? 'Therapies' : 'Therapy'
-              "
-            >
+              ">
               <ng-container [ngPlural]="evidence.therapies.length">
                 <!-- no drug -->
                 <ng-template ngPluralCase="=0">
-                  <span nz-typography nzType="secondary">N/A</span>
+                  <span
+                    nz-typography
+                    nzType="secondary"
+                    >N/A</span
+                  >
                 </ng-template>
 
                 <!-- one or more drugs -->
@@ -305,8 +317,7 @@
             </nz-descriptions-item>
             <nz-descriptions-item
               *ngIf="evidence.therapyInteractionType"
-              nzTitle="Therapy Interaction Type"
-            >
+              nzTitle="Therapy Interaction Type">
               {{ evidence.therapyInteractionType | titlecase }}
             </nz-descriptions-item>
           </nz-descriptions>
@@ -318,8 +329,7 @@
     <nz-col [nzSpan]="24">
       <cvc-assertions-table
         [evidenceId]="evidence.id"
-        cvcTitle="{{ evidence.name }} Assertions"
-      >
+        cvcTitle="{{ evidence.name }} Assertions">
       </cvc-assertions-table>
     </nz-col>
   </nz-row>

@@ -7,7 +7,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzListModule } from 'ng-zorro-antd/list';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { NgDatePipesModule } from 'ngx-pipes'
 import { FormsModule } from '@angular/forms';
 import { CvcFlagAddFormModule } from '@app/forms/flag-add/flag-add.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -24,10 +24,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CommonModule,
     FormsModule,
     LetModule, PushModule,
-    TimeagoModule.forChild({
-      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
-    }),
-    NzButtonModule,
+NgDatePipesModule,    NzButtonModule,
     NzFormModule,
     NzRadioModule,
     NzButtonModule,

@@ -26,7 +26,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { NgDatePipesModule } from 'ngx-pipes'
 import { EvidenceModule } from '../evidence/evidence.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
@@ -77,10 +77,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzToolTipModule,
     NzTypographyModule,
     LetModule, PushModule,
-    TimeagoModule.forChild({
-      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
-    }),
-    NzInputModule,
+NgDatePipesModule,    NzInputModule,
     FormsModule,
 
     EvidenceModule,

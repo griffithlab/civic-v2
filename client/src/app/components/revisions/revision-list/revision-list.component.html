@@ -311,7 +311,7 @@
                 *ngIf="revision.resolver !== undefined"
                 [user]="revision.resolver"
               ></cvc-user-tag>
-              {{ revision.resolvedAt | timeago }}
+              {{ revision.resolvedAt | timeAgo }}
             </nz-col>
           </nz-row>
         </ng-container>
@@ -360,7 +360,7 @@
                 <span nz-typography nzType="secondary">Submitted</span>
               </ng-template>
               <span nz-typography nzType="secondary">{{
-                revision.createdAt | timeago
+                revision.createdAt | timeAgo
               }}</span>
             </span>
             <cvc-status-tag

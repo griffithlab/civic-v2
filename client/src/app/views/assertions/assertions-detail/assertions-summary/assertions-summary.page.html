@@ -182,7 +182,7 @@
             <ng-template #submittedTitle>
               Submitted
               <span nz-typography nzType="secondary">
-                ({{ assertion.submissionEvent.createdAt | timeago }})
+                ({{ assertion.submissionEvent.createdAt | timeAgo }})
               </span>
             </ng-template>
 
@@ -208,7 +208,7 @@
                 <ng-template #acceptedTitle>
                   Accepted
                   <span nz-typography nzType="secondary">
-                    ({{ assertion.acceptanceEvent!.createdAt | timeago }})
+                    ({{ assertion.acceptanceEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
 
@@ -216,7 +216,7 @@
                   *ngSwitchCase="false"
                   [nzTitle]="rejectedTitle"
                 >
-                  by {{ assertion.rejectionEvent!.createdAt | timeago }} by
+                  by {{ assertion.rejectionEvent!.createdAt | timeAgo }} by
                   <cvc-user-tag
                     [user]="assertion.rejectionEvent!.originatingUser"
                   ></cvc-user-tag>
@@ -224,7 +224,7 @@
                 <ng-template #rejectedTitle>
                   Rejected
                   <span nz-typography nzType="secondary">
-                    ({{ assertion.rejectionEvent!.createdAt | timeago }})
+                    ({{ assertion.rejectionEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
               </ng-container>
@@ -345,7 +345,7 @@
               ></i>
               <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
                 (last updated
-                {{ assertion.regulatoryApprovalLastUpdated | timeago }})
+                {{ assertion.regulatoryApprovalLastUpdated | timeAgo }})
               </ng-container>
               <ng-container *ngIf="assertion.regulatoryApproval === undefined">
                 <span nz-typography nzType="secondary">N/A</span>
@@ -370,7 +370,7 @@
               ></i>
               <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
                 (last updated
-                {{ assertion.fdaCompanionTestLastUpdated | timeago }})
+                {{ assertion.fdaCompanionTestLastUpdated | timeAgo }})
               </ng-container>
               <ng-container *ngIf="assertion.fdaCompanionTest === undefined">
                 <span nz-typography nzType="secondary">N/A</span>

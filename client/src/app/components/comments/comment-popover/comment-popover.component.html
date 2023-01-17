@@ -40,7 +40,7 @@
               [source]="$any(c.commentable)"></cvc-source-tag>
             <span *ngSwitchDefault>{{ c.commentable.name }}</span>
           </ng-container>
-          {{ c.createdAt | timeago }}
+          {{ c.createdAt | timeAgo }}
         </span>
       </ng-template>
       <nz-row>

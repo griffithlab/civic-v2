@@ -1,6 +1,6 @@
 <nz-comment
   [nzAuthor]="comment.commenter.displayName"
-  [nzDatetime]="comment.createdAt | timeago"
+  [nzDatetime]="comment.createdAt | timeAgo"
 >
   <nz-avatar
     *ngIf="comment.commenter.profileImagePath; else noAvatar"

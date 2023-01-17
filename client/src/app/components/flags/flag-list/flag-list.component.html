@@ -55,7 +55,7 @@
                   *ngIf="flag.resolvingUser !== undefined"
                   [user]="flag.resolvingUser"
                 ></cvc-user-tag>
-                {{ flag.resolvedAt | timeago }}
+                {{ flag.resolvedAt | timeAgo }}
               </nz-col>
             </nz-row>
           </ng-template>
@@ -78,7 +78,7 @@
                 <span nz-typography nzType="secondary">Flagged By</span>
                 <cvc-user-tag [user]="flag.flaggingUser"></cvc-user-tag>
                 <span nz-typography nzType="secondary">{{
-                  flag.createdAt | timeago
+                  flag.createdAt | timeAgo
                 }}</span>
               </span>
               <cvc-status-tag

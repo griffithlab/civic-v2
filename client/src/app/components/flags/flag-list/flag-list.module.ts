@@ -31,7 +31,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { NgDatePipesModule } from 'ngx-pipes'
 import { FlagListComponent } from './flag-list.component';
 
 @NgModule({
@@ -54,10 +54,7 @@ import { FlagListComponent } from './flag-list.component';
     NzIconModule,
     NzInputModule,
     FormsModule,
-    TimeagoModule.forChild({
-      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
-    }),
-    CvcOrgSelectorBtnGroupModule,
+NgDatePipesModule,    CvcOrgSelectorBtnGroupModule,
     CvcSourceTagModule,
     CvcUserTagModule,
     CvcDiseaseTagModule,

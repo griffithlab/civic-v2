@@ -8,7 +8,6 @@ import {
   HttpClientJsonpModule,
   HttpClient,
 } from '@angular/common/http'
-import { NgDatePipesModule } from 'ngx-pipes'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { LetModule, PushModule } from '@ngrx/component'
 import { CookieService } from 'ngx-cookie-service'
@@ -57,7 +56,6 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     NzIconModule.forRoot(civicIcons),
     LetModule,
     PushModule,
-    NgDatePipesModule,
     TimeagoModule.forRoot({
       formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter },
     }),

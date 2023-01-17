@@ -24,7 +24,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 // additional imports
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { NgDatePipesModule } from 'ngx-pipes'
 
 // cvc imports
 import { IconsProviderModule } from '@app/icons-provider.module';
@@ -55,10 +55,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzPopoverModule,
     NzDividerModule,
     LetModule, PushModule,
-    TimeagoModule.forChild({
-      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
-    }),
-  ],
+NgDatePipesModule,  ],
   exports: [],
 })
 export class GenesComponentsModule {}

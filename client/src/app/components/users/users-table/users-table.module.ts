@@ -22,7 +22,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { NgDatePipesModule } from 'ngx-pipes'
 import { CvcUserTagModule } from '../user-tag/user-tag.module';
 import { CvcUsersTableComponent } from './users-table.component';
 
@@ -54,10 +54,7 @@ import { CvcUsersTableComponent } from './users-table.component';
     CvcTagListModule,
     CvcTagOverflowModule,
     CvcUserTagModule,
-    TimeagoModule.forChild({
-      formatter: { useClass: CivicTimeagoFormatter, provide: TimeagoFormatter },
-    }),
-  ],
+NgDatePipesModule,  ],
   exports: [CvcUsersTableComponent],
 })
 export class CvcUsersTableModule {}
