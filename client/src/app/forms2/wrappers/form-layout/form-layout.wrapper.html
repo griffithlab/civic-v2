@@ -1,12 +1,19 @@
+<!-- <div style="height: 600px; overflow: hidden"> -->
 <nz-row [nzGutter]="[8, 8]">
   <!-- FORM COL -->
-  <nz-col [nzSpan]="props.showDevPanel ? 16 : 24" class="form-col">
+  <nz-col
+    [nzSpan]="props.showDevPanel ? 16 : 24"
+    class="form-col">
     <ng-container #fieldComponent> </ng-container>
   </nz-col>
   <!-- FORM STATUS PANEL COL -->
-  <nz-col *ngIf="props.showDevPanel" [nzSpan]="8" class="status-col">
+  <nz-col
+    *ngIf="props.showDevPanel"
+    [nzSpan]="8"
+    class="status-col">
     <cvc-form-debug
-      [cvcForm]="form" [cvcModel]="model"></cvc-form-debug>
+      [cvcForm]="form"
+      [cvcModel]="model"></cvc-form-debug>
   </nz-col>
 </nz-row>
 <!-- <nz-row style="background-color: #EFE">
