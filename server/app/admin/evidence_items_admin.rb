@@ -1,6 +1,6 @@
 Trestle.resource(:evidence_items) do
   collection do
-    EvidenceItem.eager_load(:flags, variant: [:gene]).order(id: :asc)
+    EvidenceItem.eager_load(:flags, molecular_profile: {variants: [:gene]}).order(id: :asc)
   end
 
   remove_action :destroy
@@ -19,8 +19,9 @@ Trestle.resource(:evidence_items) do
   # Customize the table columns shown on the index view.
   table do
     column :id
-    column :gene
-    column :variant
+    column :molecular_profile do |evidence_item|
+      evidence_item.molecular_profile.display_name
+    end
     column :description
     column :evidence_type do |evidence_item|
       status_tag(evidence_item.evidence_type)
@@ -36,16 +37,7 @@ Trestle.resource(:evidence_items) do
     tab :evidence_item do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) do
-          static_field :gene do
-            link_to evidence_item.gene.name, GenesAdmin.instance_path(evidence_item.gene)
-          end
-        end
-        col(sm: 2) do
-          static_field :variant do
-            link_to evidence_item.variant.name, VariantsAdmin.instance_path(evidence_item.variant)
-          end
-        end
+        col(sm: 1) { static_field evidence_item.molecular_profile.display_name }
         col(sm: 2) do
           variant_origins = EvidenceItem.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
           select :variant_origin, variant_origins
