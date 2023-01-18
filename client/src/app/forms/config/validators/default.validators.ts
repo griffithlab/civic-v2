@@ -11,13 +11,13 @@ export const defaultMessages: ValidationMessageOption[] = [
     message: 'This field is required.',
   },
   {
-    name: 'minlength',
+    name: 'minLength',
     message: (_err: any, ffc: FormlyFieldConfig): string => {
       return `This field has a minimum length of ${ffc.templateOptions?.minLength}.`
     },
   },
   {
-    name: 'maxlength',
+    name: 'maxLength',
     message: (_err: any, ffc: FormlyFieldConfig): string => {
       return `This field has a maximum length of ${ffc.templateOptions?.maxLength}.`
     },

@@ -14,7 +14,7 @@ import {
   CvcSelectEntityName,
 } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EntityTagField } from '@app/forms2/mixins/entity-tag-field.mixin'
+import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
   GeneSelectTagGQL,
@@ -50,7 +50,7 @@ const GeneSelectMixin = mixin(
     FieldTypeConfig<CvcGeneSelectFieldProps>,
     Maybe<number | number[]>
   >(),
-  EntityTagField<
+  EntitySelectField<
     GeneSelectTypeaheadQuery,
     GeneSelectTypeaheadQueryVariables,
     GeneSelectTypeaheadFieldsFragment,
@@ -95,7 +95,7 @@ export class CvcGeneSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
-    this.configureEntityTagField({
+    this.configureEntitySelectField({
       // mixin fn
       typeaheadQuery: this.taq,
       typeaheadParam$: undefined,

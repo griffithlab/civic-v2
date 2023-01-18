@@ -140,6 +140,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     this.onSearchMessage$ = new Subject<Maybe<string>>()
     this.onParamName$ = new Subject<Maybe<string>>()
     this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
+    this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
     this.message = 'LOADING'
   }
 

@@ -12,7 +12,7 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EntityTagField } from '@app/forms2/mixins/entity-tag-field.mixin'
+import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import {
   Maybe,
   SourceSelectTagGQL,
@@ -70,7 +70,7 @@ const SourceSelectMixin = mixin(
     FieldTypeConfig<CvcSourceSelectFieldProps>,
     Maybe<number | number[]>
   >(),
-  EntityTagField<
+  EntitySelectField<
     SourceSelectTypeaheadQuery,
     SourceSelectTypeaheadQueryVariables,
     SourceSelectTypeaheadFieldsFragment,
@@ -139,7 +139,7 @@ export class CvcSourceSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
-    this.configureEntityTagField({
+    this.configureEntitySelectField({
       // mixin fn
       typeaheadQuery: this.taq,
       typeaheadParam$: this.sourceType$,

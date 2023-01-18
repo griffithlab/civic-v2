@@ -46,7 +46,7 @@ export type GetSelectOptionsFn<TAF> = (
   tplRefs: QueryList<TemplateRef<any>>
 ) => NzSelectOptionInterface[]
 
-export interface EntityTagFieldOptions<
+export interface EntitySelectFieldOptions<
   TAQ,
   TAV extends EmptyObject,
   TAP,
@@ -76,7 +76,7 @@ export interface EntityTagFieldOptions<
  * TAP = optional typeahead query paramters type
  * */
 
-export function EntityTagField<
+export function EntitySelectField<
   // typeahead query data, vars, fragment
   TAQ extends EmptyObject,
   TAV extends EmptyObject,
@@ -87,11 +87,11 @@ export function EntityTagField<
   // optional additional typeahead query param
   TAP = void
 >() {
-  return function EntityTagFieldConstructor<
+  return function EntitySelectFieldConstructor<
     TBase extends MixinConstructor<FieldType>
   >(Base: TBase) {
     @Injectable()
-    abstract class EntityTagFieldMixin extends Base {
+    abstract class EntitySelectFieldMixin extends Base {
       // BASE FIELD TYPE SOURCE STREAMS
       // need to declare them to reference them here, then base-field creates these
 
@@ -131,8 +131,8 @@ export function EntityTagField<
       queryRef?: QueryRef<TAQ, TAV>
       optionTemplates?: QueryList<TemplateRef<any>>
 
-      configureEntityTagField(
-        options: EntityTagFieldOptions<TAQ, TAV, TAP, TAF, TQ, TV>
+      configureEntitySelectField(
+        options: EntitySelectFieldOptions<TAQ, TAV, TAP, TAF, TQ, TV>
       ): void {
         // attach parent field's option fns to local fns
         this.typeaheadQuery = options.typeaheadQuery
@@ -341,6 +341,6 @@ export function EntityTagField<
       }
     }
 
-    return EntityTagFieldMixin
+    return EntitySelectFieldMixin
   }
 }

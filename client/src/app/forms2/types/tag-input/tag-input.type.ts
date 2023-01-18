@@ -6,7 +6,7 @@ import {
   Type,
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { StringTagField } from '@app/forms2/mixins/string-tag-field.mixin'
+import { StringTagField } from '@app/forms2/mixins/string-input-field.mixin'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {

@@ -5,8 +5,6 @@ export default function evidenceToModelFields(
   eid: RevisableEvidenceFieldsFragment
 ): EvidenceItemFields {
   return {
-    // geneId: 5, // debug
-    // variantId: 1388, // debug
     significance: eid.significance,
     description: eid.description,
     diseaseId: eid.disease?.id,

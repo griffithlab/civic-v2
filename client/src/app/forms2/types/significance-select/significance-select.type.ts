@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-tag-field.mixin'
+import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { EntitySignificance } from '@app/forms2/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo'

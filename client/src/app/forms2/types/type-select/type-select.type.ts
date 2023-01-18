@@ -11,7 +11,7 @@ import {
 import { EntityName, EntityType } from '@app/forms/config/states/entity.state'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-tag-field.mixin'
+import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {

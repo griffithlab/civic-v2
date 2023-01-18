@@ -48,6 +48,7 @@ export function BaseFieldType<
       this.onModelChange$ = this.field.options.fieldChanges.pipe(
         filter((c) => c.field.id === this.field.id), // filter out other fields
         pluck('value')
+        // tag(`${this.field.key} base-field onModelChange$`)
       )
 
       // update state if field has been prepopulated w/ query param or
@@ -59,6 +60,10 @@ export function BaseFieldType<
       } else {
         this.onValueChange$ = new BehaviorSubject<Maybe<V>>(undefined)
       }
+
+      // this.onValueChange$
+      //   .pipe(tag(`${this.field.key} base-field onValueChange$`))
+      //   .subscribe()
 
       // emit value from onValueChange$ for every model change
       this.onModelChange$.pipe(untilDestroyed(this)).subscribe((v) => {

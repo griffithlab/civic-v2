@@ -22,7 +22,6 @@ import { GraphQLModule } from '@app/graphql/graphql.module'
 import { environment } from 'environments/environment'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
-import { CvcFormsModule } from './forms/forms.module'
 import { Observable } from 'rxjs'
 import { AppLoadErrorHandler } from './core/utilities/app-reload-handler'
 
@@ -54,7 +53,6 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     NzIconModule.forRoot(civicIcons),
     LetModule,
     PushModule,
-    CvcFormsModule,
     CvcNetworkErrorAlertModule,
   ],
   providers: [

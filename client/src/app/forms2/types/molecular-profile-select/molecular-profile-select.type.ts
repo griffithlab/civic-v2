@@ -11,7 +11,7 @@ import {
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EntityTagField } from '@app/forms2/mixins/entity-tag-field.mixin'
+import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
   LinkableGeneGQL,
@@ -62,7 +62,7 @@ const MolecularProfileSelectMixin = mixin(
     FieldTypeConfig<CvcMolecularProfileSelectFieldProps>,
     Maybe<number>
   >(),
-  EntityTagField<
+  EntitySelectField<
     MolecularProfileSelectTypeaheadQuery,
     MolecularProfileSelectTypeaheadQueryVariables,
     MolecularProfileSelectTypeaheadFieldsFragment,
@@ -128,7 +128,7 @@ export class CvcMolecularProfileSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEntityTagField({
+    this.configureEntitySelectField({
       typeaheadQuery: this.taq,
       // typeaheadParam$: this.onGeneId$ ? this.onGeneId$ : undefined,
       // typeaheadParamName$: this.onGeneName$ ? this.onGeneName$ : undefined,

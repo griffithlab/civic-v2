@@ -12,7 +12,7 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EntityTagField } from '@app/forms2/mixins/entity-tag-field.mixin'
+import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import {
     PhenotypeSelectTagGQL,
@@ -78,7 +78,7 @@ const PhenotypeSelectMixin = mixin(
     FieldTypeConfig<CvcPhenotypeSelectFieldProps>,
     Maybe<number | number[]>
   >(),
-  EntityTagField<
+  EntitySelectField<
     PhenotypeSelectTypeaheadQuery,
     PhenotypeSelectTypeaheadQueryVariables,
     PhenotypeSelectTypeaheadFieldsFragment,
@@ -148,7 +148,7 @@ export class CvcPhenotypeSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEntityTagField({
+    this.configureEntitySelectField({
       // mixin fn
       typeaheadQuery: this.taq,
       typeaheadParam$: undefined,
