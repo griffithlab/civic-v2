@@ -165,6 +165,10 @@ export class CvcDiseaseSelectField
 
   configureField(): void {
     this.placeholder$.next(this.props.placeholder)
+    // this.configurePlaceholders()
+  }
+
+  configureStateConnections(): void {
     if (!this.state) return
     // connect to onRequiresDisease$
     if (!this.state.requires.requiresDisease$) {
@@ -188,7 +192,7 @@ export class CvcDiseaseSelectField
     }
     if (!this.onRequiresDisease$ || !this.onEntityType$) return
 
-    // watch requiresDisease and entityType to update field
+    // watch requiresDisease and entityType to update field placeholders
     combineLatest([this.onRequiresDisease$, this.onEntityType$])
       .pipe(
         tag(
@@ -198,33 +202,25 @@ export class CvcDiseaseSelectField
       )
       .subscribe(
         ([requiresDisease, entityType]: [boolean, Maybe<EntityType>]) => {
-          if (requiresDisease === undefined || entityType === undefined) return
-          this.configurePlaceholders(requiresDisease, entityType)
+          this.onStateUpdates(requiresDisease, entityType)
         }
       )
-
-    // this.configurePlaceholders()
   }
 
-  configurePlaceholders(
+  onStateUpdates(
     requiresDisease: boolean,
-    entityType: EntityType
+    entityType: Maybe<EntityType>
   ): void {
-    // update field placeholders & required status on state input events
     // diseases are not associated with this entity type
     if (!requiresDisease && entityType) {
       this.props.required = false
       this.props.disabled = true
       // no disease required, entity type specified
-      try {
-        this.props.description = `${formatEvidenceEnum(entityType)} ${
-          this.state!.entityName
-        } does not include associated diseases`
-      } catch (error) {
-        console.log(error)
-      }
+      this.props.description = `${formatEvidenceEnum(entityType)} ${
+        this.state!.entityName
+      } does not include associated diseases`
       this.props.extraType = 'prompt'
-      // TODO: figure out why markForCheck is required here, when identical code in therapy-select does not require it. If this is removed, this description msg is not updated.
+      // TODO: figure out why markForCheck is required here
       this.cdr.markForCheck()
     }
     // if type required, toggle field required property off and show a 'Select Type..' prompt
@@ -238,14 +234,17 @@ export class CvcDiseaseSelectField
       )
       this.props.extraType = 'prompt'
     }
-    // state indicates disease is required, set required, unset disabled, and show the placeholder (state will only return true from requiresDisease$ if entityType provided)
+    // state indicates disease is required, set required, unset disabled,
+    // and show the placeholder (state will only return true from requiresDisease$
+    // if entityType provided)
     if (requiresDisease) {
       this.props.required = true
       this.props.disabled = false
       this.props.description = undefined
       this.props.extraType = undefined
     }
-    // field currently has a value, but state indicates no disease is required, or no type is provided && type is required, so reset field
+    // field currently has a value, but state indicates no disease is required,
+    //  or no type is provided && type is required, so reset field
     if (
       (!requiresDisease && this.formControl.value) ||
       (this.props.requireType && !entityType && this.formControl.value)

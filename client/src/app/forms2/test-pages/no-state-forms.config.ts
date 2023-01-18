@@ -18,16 +18,12 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
   <CvcMolecularProfileSelectFieldConfig>{
     key: 'molecularProfileId',
     type: 'molecular-profile-select',
-    props: {
-      required: true,
-    },
+    props: {},
   },
   <CvcMolecularProfileSelectFieldConfig>{
     key: 'molecularProfileIds',
     type: 'molecular-profile-multi-select',
-    props: {
-      required: true,
-    },
+    props: {},
   },
   {
     wrappers: ['field-grid'],
