@@ -21,9 +21,7 @@
     [nzNotFoundContent]="searchMessages"
     (nzOpenChange)="cvcOnOpenChange.next($event)"
     (nzOnSearch)="cvcOnSearch.next($event)"
-    (ngModelChange)="
-      cvcModelChange && cvcModelChange(cvcFormlyAttributes, $event)
-    ">
+    (ngModelChange)="cvcOnModelChange.next($event)">
   </nz-select>
   <ng-template #searchMessages>
     {{ message }}

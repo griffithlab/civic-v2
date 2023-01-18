@@ -15,7 +15,7 @@ import { evidenceItemSubmitFieldsDefaults } from '../models/evidence-submit.mode
 import { EntityName, BaseState } from './base.state'
 
 export type EvidenceFields = {
-  geneId$: BehaviorSubject<Maybe<number>>
+  molecularProfileId$: BehaviorSubject<Maybe<number>>
   variantId$: BehaviorSubject<Maybe<number>>
   variantOrigin$: BehaviorSubject<Maybe<VariantOrigin>>
   evidenceType$: BehaviorSubject<Maybe<EvidenceType>>
@@ -58,7 +58,9 @@ class EvidenceState extends BaseState {
     const def = evidenceItemSubmitFieldsDefaults
 
     this.fields = {
-      geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
+      molecularProfileId$: new BehaviorSubject<Maybe<number>>(
+        def.molecularProfileId
+      ),
       variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
       evidenceType$: new BehaviorSubject<Maybe<EvidenceType>>(def.evidenceType),
       evidenceLevel$: new BehaviorSubject<Maybe<EvidenceLevel>>(
@@ -67,9 +69,9 @@ class EvidenceState extends BaseState {
       evidenceDirection$: new BehaviorSubject<Maybe<EvidenceDirection>>(
         def.evidenceDirection
       ),
-      significance$: new BehaviorSubject<
-        Maybe<EvidenceSignificance>
-      >(def.significance),
+      significance$: new BehaviorSubject<Maybe<EvidenceSignificance>>(
+        def.significance
+      ),
       variantOrigin$: new BehaviorSubject<Maybe<VariantOrigin>>(
         def.variantOrigin
       ),

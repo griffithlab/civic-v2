@@ -13,7 +13,7 @@
   [cvcDisabled]="props.disabled"
   [cvcLoading]="isLoading$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
-  [cvcModelChange]="props.change">
+  (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 
 <!-- select option templates -->
@@ -32,7 +32,7 @@
           nz-typography
           nzType="secondary"
           [innerHtml]="
-            result.citationId.toString() | highlightTypeahead: searchString
+            result.citationId.toString() | highlightTypeahead : searchString
           "></span>
       </span>
     </ng-template>

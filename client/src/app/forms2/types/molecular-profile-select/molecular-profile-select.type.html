@@ -11,7 +11,7 @@
   [cvcShowError]="showError"
   [cvcLoading]="isLoading$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
-  [cvcModelChange]="props.change">
+  (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 
 <!-- select option templates -->
@@ -34,7 +34,7 @@
               nzType="secondary"
               [innerHtml]="
                 result.molecularProfileAliases.join(', ')
-                  | highlightTypeahead: searchString
+                  | highlightTypeahead : searchString
               "></span
           ></em>
         </ng-container>

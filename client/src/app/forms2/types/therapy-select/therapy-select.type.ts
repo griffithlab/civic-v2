@@ -107,16 +107,16 @@ export class CvcTherapySelectField
   // FieldTypeConfig defaults
   defaultOptions: CvcTherapySelectFieldOptions = {
     props: {
-      entityName: { singular: 'Drug', plural: 'Therapies' },
-      label: 'Drug',
+      entityName: { singular: 'Therapy', plural: 'Therapies' },
+      label: 'Therapy',
       labels: {
-        multi: 'Drug(s)',
+        multi: 'Therapies',
         plural: 'Therapies',
       },
       isMultiSelect: false,
       requireType: true,
       tooltip:
-        'Drug or drug combination which interacts with the specified variant',
+        'Therapy or therapy combination which interacts with the specified variant',
       placeholder: 'Search Therapies',
       requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
         `Select an ${entityName} Type to search associated Therapies`,
@@ -191,7 +191,7 @@ export class CvcTherapySelectField
       .pipe(
         distinctUntilChanged(),
         withLatestFrom(this.onEntityType$),
-        tag('therapy-select onRequiresDrug$'),
+        // tag('therapy-select onRequiresDrug$'),
         untilDestroyed(this)
       )
       .subscribe(([requiresDrug, entityType]: [boolean, Maybe<EntityType>]) => {

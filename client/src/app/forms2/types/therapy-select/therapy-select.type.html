@@ -6,13 +6,13 @@
   [cvcFormControl]="formControl"
   [cvcFormlyAttributes]="field"
   [cvcLoading]="isLoading$ | ngrxPush"
-  [cvcModelChange]="props.change"
   [cvcOptions]="selectOption$ | ngrxPush"
   [cvcPlaceholder]="placeholder$ | ngrxPush"
   [cvcResults]="result$ | ngrxPush"
   [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [cvcShowError]="showError"
-  (cvcOnSearch)="onSearch$.next($event)">
+  (cvcOnSearch)="onSearch$.next($event)"
+  (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 
 <!-- select option templates -->

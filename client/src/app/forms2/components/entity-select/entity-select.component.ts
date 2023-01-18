@@ -25,6 +25,7 @@ import {
   Subject,
   throttleTime,
 } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 
 export type CvcSelectEntityName = { singular: string; plural: string }
 
@@ -101,9 +102,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
 
-  // model update callback fn - ngx-formly convention, implements props.change feature
-  @Input() cvcModelChange?: FormlyAttributeEvent
-
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
 
   // throttle search string output: wait 1/3sec after typing activity ends,
@@ -111,6 +109,8 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Output() cvcOnSearch = new EventEmitter<string>().pipe(
     throttleTime(300, asyncScheduler, { leading: false, trailing: true })
   ) as EventEmitter<string>
+
+  @Output() cvcOnModelChange = new EventEmitter<Maybe<number>>()
 
   // SOURCE STREAMS
   onSearchMessage$: Observable<Maybe<string>>
@@ -144,6 +144,15 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (this.cvcEntityName.singular === 'Molecular Profile') {
+      this.cvcOnModelChange
+        .pipe(
+          tag(
+            `${this.cvcEntityName.singular} entity-select.component cvcOnModelChange`
+          )
+        )
+        .subscribe()
+    }
     // this.cvcOnOpenChange.pipe(tag('entity-select onOpenChange$')).subscribe()
     // this.cvcOnSearch.pipe(tag('entity-select cvcOnSearch$')).subscribe()
     // this.onParamName$.pipe(tag('entity-select onParamName$')).subscribe()

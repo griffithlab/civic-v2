@@ -11,7 +11,6 @@ import {
   evidenceReviseFormInitialModel,
   EvidenceReviseModel,
 } from '@app/forms2/models/evidence-revise.model'
-import { evidenceSubmitFormInitialModel } from '@app/forms2/models/evidence-submit.model'
 import { EvidenceState } from '@app/forms2/states/evidence.state'
 import evidenceToModelFields from '@app/forms2/utilities/evidence-to-model-fields'
 import { EvidenceItemRevisableFieldsGQL } from '@app/generated/civic.apollo'
@@ -29,7 +28,6 @@ import { evidenceReviseFields } from './evidence-revise.form.config'
 })
 export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
   @Input() evidenceId!: number
-  model$: BehaviorSubject<EvidenceReviseModel>
   model?: EvidenceReviseModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
@@ -39,11 +37,8 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
     private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL,
     private cdr: ChangeDetectorRef
   ) {
-    // this.model = evidenceReviseFormInitialModel
+    this.model = evidenceReviseFormInitialModel
     this.form = new UntypedFormGroup({})
-    this.model$ = new BehaviorSubject<EvidenceReviseModel>(
-      evidenceSubmitFormInitialModel
-    )
     this.fields = evidenceReviseFields
     this.options = { formState: new EvidenceState() }
   }

@@ -9,9 +9,9 @@
   [cvcOptions]="selectOption$ | ngrxPush"
   [cvcShowError]="showError"
   [cvcLoading]="isLoading$ | ngrxPush"
-  [cvcModelChange]="props.change"
   (cvcOnOpenChange)="onOpenChange$.next($event)"
-  (cvcOnSearch)="onSearch$.next($event)">
+  (cvcOnSearch)="onSearch$.next($event)"
+  (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 
 <!-- select option templates -->
@@ -31,7 +31,8 @@
               nz-typography
               nzType="secondary"
               [innerHtml]="
-                result.geneAliases.join(', ') | highlightTypeahead: searchString
+                result.geneAliases.join(', ')
+                  | highlightTypeahead : searchString
               "></span
           ></em>
         </ng-container>
