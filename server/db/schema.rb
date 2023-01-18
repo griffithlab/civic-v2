@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_18_160944) do
+ActiveRecord::Schema.define(version: 2023_01_18_161602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -370,7 +370,6 @@ ActiveRecord::Schema.define(version: 2023_01_18_160944) do
     t.text "description", null: false
     t.integer "disease_id"
     t.integer "source_id"
-    t.integer "variant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "rating"
@@ -396,7 +395,6 @@ ActiveRecord::Schema.define(version: 2023_01_18_160944) do
     t.index ["source_id"], name: "index_evidence_items_on_source_id"
     t.index ["status"], name: "index_evidence_items_on_status"
     t.index ["therapy_interaction_type"], name: "index_evidence_items_on_therapy_interaction_type"
-    t.index ["variant_id"], name: "index_evidence_items_on_variant_id"
     t.index ["variant_origin"], name: "index_evidence_items_on_variant_origin"
   end
 
