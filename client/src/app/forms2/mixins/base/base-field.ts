@@ -110,6 +110,7 @@ export function BaseFieldType<
         .subscribe((v) => {
           if (this.stateValueChange$) this.stateValueChange$.next(v)
         })
+      this.configureLabels()
     }
 
     configureLabels(): void {

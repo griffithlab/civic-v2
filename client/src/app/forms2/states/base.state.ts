@@ -18,9 +18,7 @@ import { $enum } from 'ts-enum-util'
 
 export type EntityType = EvidenceType | AssertionType
 
-export type EntitySignificance =
-  | EvidenceSignificance
-  | AssertionSignificance
+export type EntitySignificance = EvidenceSignificance | AssertionSignificance
 
 export type EntityDirection = EvidenceDirection | AssertionDirection
 
@@ -52,15 +50,13 @@ export type EntityFieldSubjectMap = { [key: string]: BehaviorSubject<any> }
 export type NoStateFormOptions = { formState: { formLayout: NzFormLayoutType } }
 
 export interface IEntityState {
+  formReady$: BehaviorSubject<boolean>
   formLayout: NzFormLayoutType
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[]
   getSignificanceOptions: (et: EntityType) => EntitySignificance[]
   getDirectionOptions: (et: EntityType) => EntityDirection[]
-  isValidSignificanceOption: (
-    et: EntityType,
-    cs: EntitySignificance
-  ) => boolean
+  isValidSignificanceOption: (et: EntityType, cs: EntitySignificance) => boolean
   isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
   requiresDrug: (et: EntityType) => boolean
   requiresDisease: (et: EntityType) => boolean
@@ -81,6 +77,7 @@ export interface IEntityState {
 }
 
 class BaseState implements IEntityState {
+  formReady$ = new BehaviorSubject<boolean>(false)
   formLayout: NzFormLayoutType = 'vertical'
   fields: EntityFieldSubjectMap
   enums: EntityFieldSubjectMap

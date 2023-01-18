@@ -31,6 +31,7 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
   model?: EvidenceReviseModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
+  state: EvidenceState
   options: FormlyFormOptions
 
   constructor(
@@ -39,7 +40,8 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
   ) {
     this.form = new UntypedFormGroup({})
     this.fields = evidenceReviseFields
-    this.options = { formState: new EvidenceState() }
+    this.state = new EvidenceState()
+    this.options = { formState: this.state }
   }
 
   ngAfterViewInit(): void {
@@ -63,6 +65,7 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
           console.error(error)
         },
         complete: () => {
+          this.state.formReady$.next(true)
           console.log('evidence item retrieved.')
         },
       })
