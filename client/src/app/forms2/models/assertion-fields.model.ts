@@ -1,6 +1,6 @@
 import {
   AmpLevel,
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
   TherapyInteraction,
@@ -24,7 +24,7 @@ export type AssertionFields = {
   /** List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion */
   clingenCodeIds?: number[]
   /** The Clinical Significance of the Assertion */
-  significance?: AssertionClinicalSignificance
+  significance?: AssertionSignificance
   /** A detailed description of the Assertion including practice guidelines and approved tests. */
   description?: string
   /** The ID of the disease (if applicable) for this Assertion */

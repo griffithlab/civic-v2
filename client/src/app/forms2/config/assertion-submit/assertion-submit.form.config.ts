@@ -80,7 +80,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           //   },
           // },
           // <CvcEntitySignificanceSelectFieldConfig>{
-          //   key: 'clinicalSignficance',
+          //   key: 'assertionSignficance',
           //   type: 'significance-select',
           //   props: {
           //     required: true,

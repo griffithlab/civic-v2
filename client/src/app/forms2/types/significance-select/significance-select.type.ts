@@ -10,7 +10,7 @@ import {
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EnumTagField } from '@app/forms2/mixins/enum-tag-field.mixin'
-import { EntityClinicalSignificance } from '@app/forms2/states/base.state'
+import { EntitySignificance } from '@app/forms2/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
@@ -132,9 +132,9 @@ export interface CvcSignificanceSelectFieldConfig
 const SignificanceSelectMixin = mixin(
   BaseFieldType<
     FieldTypeConfig<CvcSignificanceSelectFieldProps>,
-    Maybe<EntityClinicalSignificance>
+    Maybe<EntitySignificance>
   >(),
-  EnumTagField<EntityClinicalSignificance, CvcInputEnum>()
+  EnumTagField<EntitySignificance, CvcInputEnum>()
 )
 
 @Component({
@@ -146,7 +146,7 @@ export class CvcSignificanceSelectField
   extends SignificanceSelectMixin
   implements AfterViewInit
 {
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EntityClinicalSignificance instead of CvcInputEnum
+  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EntitySignificance instead of CvcInputEnum
   // STATE SOURCE STREAMS
   significanceEnum$: BehaviorSubject<CvcInputEnum[]>
   onTypeSelect$?: BehaviorSubject<Maybe<CvcInputEnum>>

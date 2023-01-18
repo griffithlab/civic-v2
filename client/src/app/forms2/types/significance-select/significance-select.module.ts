@@ -9,7 +9,7 @@ import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-e
 import { CvcAttributeTagModule } from '@app/forms2/components/attribute-tag/attribute-tag.module'
 import { CvcEnumSelectModule } from '@app/forms2/components/enum-select/enum-select.module'
 import {
-  EntityClinicalSignificance,
+  EntitySignificance,
   BaseState,
   EntityType,
 } from '@app/forms2/states/base.state'
@@ -65,7 +65,7 @@ export function significanceOptionValidatorFn(
   opt: any
 ): ValidationErrors | null {
   const st: BaseState = ffc.options?.formState
-  const cs: EntityClinicalSignificance = c.value
+  const cs: EntitySignificance = c.value
   if (!cs || !st) {
     return null
   }

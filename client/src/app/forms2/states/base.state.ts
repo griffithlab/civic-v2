@@ -3,11 +3,11 @@ import {
   InputEnum,
 } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import {
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
   TherapyInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
 } from '@app/generated/civic.apollo'
@@ -18,15 +18,15 @@ import { $enum } from 'ts-enum-util'
 
 export type EntityType = EvidenceType | AssertionType
 
-export type EntityClinicalSignificance =
-  | EvidenceClinicalSignificance
-  | AssertionClinicalSignificance
+export type EntitySignificance =
+  | EvidenceSignificance
+  | AssertionSignificance
 
 export type EntityDirection = EvidenceDirection | AssertionDirection
 
 export type ValidEntity = {
   entityType: EntityType
-  significance: EntityClinicalSignificance[]
+  significance: EntitySignificance[]
   entityDirection: EntityDirection[]
   requiresDisease: boolean
   requiresDrug: boolean
@@ -55,11 +55,11 @@ export interface IEntityState {
   formLayout: NzFormLayoutType
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[]
-  getSignificanceOptions: (et: EntityType) => EntityClinicalSignificance[]
+  getSignificanceOptions: (et: EntityType) => EntitySignificance[]
   getDirectionOptions: (et: EntityType) => EntityDirection[]
   isValidSignificanceOption: (
     et: EntityType,
-    cs: EntityClinicalSignificance
+    cs: EntitySignificance
   ) => boolean
   isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
   requiresDrug: (et: EntityType) => boolean
@@ -70,7 +70,7 @@ export interface IEntityState {
   allowsFdaApproval: (et: EntityType) => boolean
 
   typeOption$: Subject<EntityType[]>
-  significanceOption$: Subject<EntityClinicalSignificance[]>
+  significanceOption$: Subject<EntitySignificance[]>
   directionOption$: Subject<EntityDirection[]>
   requiresDrug$: Subject<boolean>
   requiresDisease$: Subject<boolean>
@@ -91,7 +91,7 @@ class BaseState implements IEntityState {
   pluralNames: Map<EntityName, string>
 
   typeOption$ = new Subject<EntityType[]>()
-  significanceOption$ = new Subject<EntityClinicalSignificance[]>()
+  significanceOption$ = new Subject<EntitySignificance[]>()
   directionOption$ = new Subject<EntityDirection[]>()
   requiresDrug$ = new Subject<boolean>()
   requiresDisease$ = new Subject<boolean>()
@@ -121,7 +121,7 @@ class BaseState implements IEntityState {
     }
   }
 
-  getSignificanceOptions = (et: EntityType): EntityClinicalSignificance[] => {
+  getSignificanceOptions = (et: EntityType): EntitySignificance[] => {
     const state = this.validStates.get(et)
     return state?.significance || []
   }
@@ -132,7 +132,7 @@ class BaseState implements IEntityState {
 
   isValidSignificanceOption = (
     et: EntityType,
-    cs: EntityClinicalSignificance
+    cs: EntitySignificance
   ): boolean => {
     const state = this.validStates.get(et)
     if (!state) {

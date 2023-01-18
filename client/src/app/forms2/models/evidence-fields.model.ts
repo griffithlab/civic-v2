@@ -1,6 +1,6 @@
 import {
   TherapyInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
@@ -11,7 +11,7 @@ export type EvidenceItemFields = {
   // gene, variant included for initial input type development
   geneId?: number
   variantId?: number
-  significance?: EvidenceClinicalSignificance
+  significance?: EvidenceSignificance
   description?: string
   diseaseId?: number
   drugIds?: number[]

@@ -1,5 +1,5 @@
 import {
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
   Maybe,
@@ -25,7 +25,7 @@ class AssertionState extends BaseState {
         def.assertionDirection
       ),
       significance$: new BehaviorSubject<
-        Maybe<AssertionClinicalSignificance>
+        Maybe<AssertionSignificance>
       >(def.significance),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
       drugId$: new BehaviorSubject<Maybe<number>>(def.drugId),
@@ -82,11 +82,11 @@ class AssertionState extends BaseState {
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,
       significance: [
-        AssertionClinicalSignificance.Sensitivityresponse,
-        AssertionClinicalSignificance.Resistance,
-        AssertionClinicalSignificance.AdverseResponse,
-        AssertionClinicalSignificance.ReducedSensitivity,
-        AssertionClinicalSignificance.Na,
+        AssertionSignificance.Sensitivityresponse,
+        AssertionSignificance.Resistance,
+        AssertionSignificance.AdverseResponse,
+        AssertionSignificance.ReducedSensitivity,
+        AssertionSignificance.Na,
       ],
       entityDirection: [
         AssertionDirection.Supports,
@@ -103,8 +103,8 @@ class AssertionState extends BaseState {
     this.validStates.set(AssertionType.Diagnostic, {
       entityType: AssertionType.Diagnostic,
       significance: [
-        AssertionClinicalSignificance.Positive,
-        AssertionClinicalSignificance.Negative,
+        AssertionSignificance.Positive,
+        AssertionSignificance.Negative,
       ],
       entityDirection: [
         AssertionDirection.Supports,
@@ -121,9 +121,9 @@ class AssertionState extends BaseState {
     this.validStates.set(AssertionType.Prognostic, {
       entityType: AssertionType.Prognostic,
       significance: [
-        AssertionClinicalSignificance.BetterOutcome,
-        AssertionClinicalSignificance.PoorOutcome,
-        AssertionClinicalSignificance.Na,
+        AssertionSignificance.BetterOutcome,
+        AssertionSignificance.PoorOutcome,
+        AssertionSignificance.Na,
       ],
       entityDirection: [
         AssertionDirection.Supports,
@@ -140,11 +140,11 @@ class AssertionState extends BaseState {
     this.validStates.set(AssertionType.Predisposing, {
       entityType: AssertionType.Predisposing,
       significance: [
-        AssertionClinicalSignificance.Pathogenic,
-        AssertionClinicalSignificance.LikelyPathogenic,
-        AssertionClinicalSignificance.Benign,
-        AssertionClinicalSignificance.LikelyBenign,
-        AssertionClinicalSignificance.UncertainSignificance,
+        AssertionSignificance.Pathogenic,
+        AssertionSignificance.LikelyPathogenic,
+        AssertionSignificance.Benign,
+        AssertionSignificance.LikelyBenign,
+        AssertionSignificance.UncertainSignificance,
       ],
       entityDirection: [
         AssertionDirection.Supports,
@@ -161,11 +161,11 @@ class AssertionState extends BaseState {
     this.validStates.set(AssertionType.Oncogenic, {
       entityType: AssertionType.Oncogenic,
       significance: [
-        AssertionClinicalSignificance.Oncogenic,
-        AssertionClinicalSignificance.LikelyOncogenic,
-        AssertionClinicalSignificance.Benign,
-        AssertionClinicalSignificance.LikelyBenign,
-        AssertionClinicalSignificance.UncertainSignificance,
+        AssertionSignificance.Oncogenic,
+        AssertionSignificance.LikelyOncogenic,
+        AssertionSignificance.Benign,
+        AssertionSignificance.LikelyBenign,
+        AssertionSignificance.UncertainSignificance,
       ],
       entityDirection: [
         AssertionDirection.Supports,

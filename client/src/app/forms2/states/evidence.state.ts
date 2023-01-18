@@ -1,6 +1,6 @@
 import {
   TherapyInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
@@ -21,7 +21,7 @@ export type EvidenceFields = {
   evidenceType$: BehaviorSubject<Maybe<EvidenceType>>
   evidenceLevel$: BehaviorSubject<Maybe<EvidenceLevel>>
   evidenceDirection$: BehaviorSubject<Maybe<EvidenceDirection>>
-  significance$: BehaviorSubject<Maybe<EvidenceClinicalSignificance>>
+  significance$: BehaviorSubject<Maybe<EvidenceSignificance>>
   diseaseId$: BehaviorSubject<Maybe<number>>
   drugIds$: BehaviorSubject<Maybe<number[]>>
   therapyInteractionType$: BehaviorSubject<Maybe<TherapyInteraction>>
@@ -68,7 +68,7 @@ class EvidenceState extends BaseState {
         def.evidenceDirection
       ),
       significance$: new BehaviorSubject<
-        Maybe<EvidenceClinicalSignificance>
+        Maybe<EvidenceSignificance>
       >(def.significance),
       variantOrigin$: new BehaviorSubject<Maybe<VariantOrigin>>(
         def.variantOrigin
@@ -140,11 +140,11 @@ class EvidenceState extends BaseState {
     this.validStates.set(EvidenceType.Predictive, {
       entityType: EvidenceType.Predictive,
       significance: [
-        EvidenceClinicalSignificance.Sensitivityresponse,
-        EvidenceClinicalSignificance.Resistance,
-        EvidenceClinicalSignificance.AdverseResponse,
-        EvidenceClinicalSignificance.ReducedSensitivity,
-        EvidenceClinicalSignificance.Na,
+        EvidenceSignificance.Sensitivityresponse,
+        EvidenceSignificance.Resistance,
+        EvidenceSignificance.AdverseResponse,
+        EvidenceSignificance.ReducedSensitivity,
+        EvidenceSignificance.Na,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -161,8 +161,8 @@ class EvidenceState extends BaseState {
     this.validStates.set(EvidenceType.Diagnostic, {
       entityType: EvidenceType.Diagnostic,
       significance: [
-        EvidenceClinicalSignificance.Positive,
-        EvidenceClinicalSignificance.Negative,
+        EvidenceSignificance.Positive,
+        EvidenceSignificance.Negative,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -179,9 +179,9 @@ class EvidenceState extends BaseState {
     this.validStates.set(EvidenceType.Prognostic, {
       entityType: EvidenceType.Prognostic,
       significance: [
-        EvidenceClinicalSignificance.BetterOutcome,
-        EvidenceClinicalSignificance.PoorOutcome,
-        EvidenceClinicalSignificance.Na,
+        EvidenceSignificance.BetterOutcome,
+        EvidenceSignificance.PoorOutcome,
+        EvidenceSignificance.Na,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -198,8 +198,8 @@ class EvidenceState extends BaseState {
     this.validStates.set(EvidenceType.Oncogenic, {
       entityType: EvidenceType.Oncogenic,
       significance: [
-        EvidenceClinicalSignificance.Oncogenicity,
-        EvidenceClinicalSignificance.Protectiveness,
+        EvidenceSignificance.Oncogenicity,
+        EvidenceSignificance.Protectiveness,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -216,8 +216,8 @@ class EvidenceState extends BaseState {
     this.validStates.set(EvidenceType.Predisposing, {
       entityType: EvidenceType.Predisposing,
       significance: [
-        EvidenceClinicalSignificance.Predisposition,
-        EvidenceClinicalSignificance.Protectiveness,
+        EvidenceSignificance.Predisposition,
+        EvidenceSignificance.Protectiveness,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -234,12 +234,12 @@ class EvidenceState extends BaseState {
     this.validStates.set(EvidenceType.Functional, {
       entityType: EvidenceType.Functional,
       significance: [
-        EvidenceClinicalSignificance.GainOfFunction,
-        EvidenceClinicalSignificance.LossOfFunction,
-        EvidenceClinicalSignificance.UnalteredFunction,
-        EvidenceClinicalSignificance.Neomorphic,
-        EvidenceClinicalSignificance.DominantNegative,
-        EvidenceClinicalSignificance.Unknown,
+        EvidenceSignificance.GainOfFunction,
+        EvidenceSignificance.LossOfFunction,
+        EvidenceSignificance.UnalteredFunction,
+        EvidenceSignificance.Neomorphic,
+        EvidenceSignificance.DominantNegative,
+        EvidenceSignificance.Unknown,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
