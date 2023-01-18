@@ -214,9 +214,7 @@ export class CvcVariantsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  // NOTE: #UPDATE set data to any here, it's a minor callback and specifying
-  // the correct type will require updating at least a couple of observable types, can update later.
-  trackByIndex(_: number, data: any): number {
-    return data.id
+  trackByIndex(_: number, data: Maybe<BrowseVariantsFieldsFragment>): Maybe<number> {
+    return data?.id;
   }
 }
