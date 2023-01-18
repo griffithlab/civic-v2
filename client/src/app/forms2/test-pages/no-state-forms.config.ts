@@ -1,5 +1,5 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { CvcTherapySelectFieldOptions } from '../types/drug-select/drug-select.type'
+import { CvcTherapySelectFieldOptions } from '../types/therapy-select/therapy-select.type'
 import { CvcGeneSelectFieldConfig } from '../types/gene-select/gene-select.type'
 import { CvcLevelSelectFieldOptions } from '../types/level-select/level-select.type'
 import { CvcOriginSelectFieldOptions } from '../types/origin-select/origin-select.type'
@@ -86,7 +86,7 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
     fieldGroup: [
       <CvcTherapySelectFieldOptions>{
         key: 'drugId',
-        type: 'drug-select',
+        type: 'therapy-select',
         props: {},
       },
       <CvcTherapySelectFieldOptions>{

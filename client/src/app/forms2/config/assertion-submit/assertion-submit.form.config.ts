@@ -1,5 +1,5 @@
 import { assertionSubmitFormInitialModel } from '@app/forms2/models/assertion-submit.model'
-import { CvcTherapySelectFieldConfig } from '@app/forms2/types/drug-select/drug-select.type'
+import { CvcTherapySelectFieldConfig } from '@app/forms2/types/therapy-select/therapy-select.type'
 // import { CvcEntitySignificanceSelectFieldConfig } from '@app/forms2/types/significance-select/significance-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms2/types/type-select/type-select.type'
 import { CvcGeneSelectFieldConfig } from '@app/forms2/types/gene-select/gene-select.type'
@@ -57,7 +57,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           // },
           // <CvcTherapySelectFieldConfig>{
           //   key: 'drugId',
-          //   type: 'drug-select',
+          //   type: 'therapy-select',
           //   props: {
           //     required: true,
           //   },

@@ -1,15 +1,14 @@
 import {
-  Output,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  AddVariantGQL,
   Maybe,
   QuickAddVariantGQL,
   QuickAddVariantMutation,
@@ -150,6 +149,7 @@ export class CvcVariantQuickAddForm {
       {},
       (data) => {
         console.log('variant-quick-add submit data callback', data)
+        if (!data.addVariant) return
         const vid = data.addVariant.variant.id
         this.cvcOnCreate.next(vid)
       }

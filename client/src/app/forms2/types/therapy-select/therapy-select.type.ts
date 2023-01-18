@@ -67,7 +67,7 @@ export interface CvcTherapySelectFieldProps extends FormlyFieldProps {
 // field types in some expressions
 export interface CvcTherapySelectFieldConfig
   extends FormlyFieldConfig<CvcTherapySelectFieldProps> {
-  type: 'drug-select' | 'drug-multi-select' | Type<CvcTherapySelectField>
+  type: 'therapy-select' | 'drug-multi-select' | Type<CvcTherapySelectField>
 }
 
 const TherapySelectMixin = mixin(
@@ -86,9 +86,9 @@ const TherapySelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-drug-select',
-  templateUrl: './drug-select.type.html',
-  styleUrls: ['./drug-select.type.less'],
+  selector: 'cvc-therapy-select',
+  templateUrl: './therapy-select.type.html',
+  styleUrls: ['./therapy-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcTherapySelectField
@@ -191,7 +191,7 @@ export class CvcTherapySelectField
       .pipe(
         distinctUntilChanged(),
         withLatestFrom(this.onEntityType$),
-        tag('drug-select onRequiresDrug$'),
+        tag('therapy-select onRequiresDrug$'),
         untilDestroyed(this)
       )
       .subscribe(([requiresDrug, entityType]: [boolean, Maybe<EntityType>]) => {
@@ -238,7 +238,7 @@ export class CvcTherapySelectField
   }
 
   getTypeaheadResultsFn(r: ApolloQueryResult<TherapySelectTypeaheadQuery>) {
-    return r.data.drugTypeahead
+    return r.data.therapyTypeahead
   }
 
   getTagQueryVarsFn(id: number): TherapySelectTagQueryVariables {
@@ -248,13 +248,13 @@ export class CvcTherapySelectField
   getTagQueryResultsFn(
     r: ApolloQueryResult<TherapySelectTagQuery>
   ): Maybe<TherapySelectTypeaheadFieldsFragment> {
-    return r.data.drug
+    return r.data.therapy
   }
 
   getSelectedItemOptionFn(
-    drug: TherapySelectTypeaheadFieldsFragment
+    therapy: TherapySelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
-    return { value: drug.id, label: drug.name }
+    return { value: therapy.id, label: therapy.name }
   }
 
   getSelectOptionsFn(

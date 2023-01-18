@@ -27,13 +27,14 @@
         nz-typography
         nzType="secondary">
         Aliases:
-        <ng-container *ngIf="result.drugAliases.length > 0; else noAliases">
+        <ng-container *ngIf="result.therapyAliases.length > 0; else noAliases">
           <em>
             <span
               nz-typography
               nzType="secondary"
               [innerHtml]="
-                result.drugAliases.join(', ') | highlightTypeahead: searchString
+                result.therapyAliases.join(', ')
+                  | highlightTypeahead : searchString
               "></span
           ></em>
         </ng-container>
@@ -51,7 +52,7 @@
   let-selected>
   <div class="ant-select-selection-item-content">
     <cvc-entity-tag
-      [cvcCacheId]="'Drug:' + selected.nzValue"
+      [cvcCacheId]="'Therapy:' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
@@ -63,8 +64,8 @@
   #addDrug
   let-searchStr
   let-createMsg>
-  <cvc-drug-quick-add-form
+  <cvc-therapy-quick-add-form
     [cvcSearchString]="searchStr"
     (cvcOnCreate)="onCreate$.next($event)">
-  </cvc-drug-quick-add-form>
+  </cvc-therapy-quick-add-form>
 </ng-template>

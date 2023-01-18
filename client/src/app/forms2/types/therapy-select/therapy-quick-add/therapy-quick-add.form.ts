@@ -1,20 +1,19 @@
 import {
-  Output,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  AddDrugGQL,
-  Drug,
   Maybe,
-  QuickAddDrugGQL,
-  QuickAddDrugMutation,
-  QuickAddDrugMutationVariables,
+  QuickAddTherapyGQL,
+  QuickAddTherapyMutation,
+  QuickAddTherapyMutationVariables,
+  Therapy,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -30,18 +29,18 @@ const drugQuickAddInitialModel: DrugQuickAddModel = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-drug-quick-add-form',
-  templateUrl: './drug-quick-add.form.html',
+  selector: 'cvc-therapy-quick-add-form',
+  templateUrl: './therapy-quick-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcDrugQuickAddForm {
+export class CvcTherapyQuickAddForm {
   @Input()
   set cvcSearchString(str: string) {
     if (!str) return
     this.searchString$.next(str)
   }
 
-  @Output() cvcOnCreate = new EventEmitter<Drug>()
+  @Output() cvcOnCreate = new EventEmitter<Therapy>()
 
   model: DrugQuickAddModel = drugQuickAddInitialModel
   form: UntypedFormGroup = new UntypedFormGroup({})
@@ -49,9 +48,9 @@ export class CvcDrugQuickAddForm {
   options: FormlyFormOptions = {}
 
   queryMutator: MutatorWithState<
-    QuickAddDrugGQL,
-    QuickAddDrugMutation,
-    QuickAddDrugMutationVariables
+    QuickAddTherapyGQL,
+    QuickAddTherapyMutation,
+    QuickAddTherapyMutationVariables
   >
 
   // SOURCE STREAMS
@@ -64,13 +63,13 @@ export class CvcDrugQuickAddForm {
   submitError$: BehaviorSubject<string[]>
 
   addDrugMutator: MutatorWithState<
-    QuickAddDrugGQL,
-    QuickAddDrugMutation,
-    QuickAddDrugMutationVariables
+    QuickAddTherapyGQL,
+    QuickAddTherapyMutation,
+    QuickAddTherapyMutationVariables
   >
 
   constructor(
-    private query: QuickAddDrugGQL,
+    private query: QuickAddTherapyGQL,
     private errors: NetworkErrorsService
   ) {
     this.onSubmit$ = new Subject<DrugQuickAddModel>()
@@ -95,7 +94,6 @@ export class CvcDrugQuickAddForm {
       },
     ]
 
-
     this.searchString$
       .pipe(untilDestroyed(this))
       .subscribe((str: Maybe<string>) => {
@@ -104,7 +102,7 @@ export class CvcDrugQuickAddForm {
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      console.log('drug-quick-add form model submitted.', model)
+      console.log('therapy-quick-add form model submitted.', model)
       this.submitDrug(model)
     })
   }
@@ -123,19 +121,19 @@ export class CvcDrugQuickAddForm {
       },
       {},
       (data) => {
-        console.log('drug-quick-add submit data callback', data)
+        console.log('therapy-quick-add submit data callback', data)
         // const vid = data.addDrug.drug.id
-        this.cvcOnCreate.next(data.addDrug.drug)
+        if (data.addTherapy) this.cvcOnCreate.next(data.addTherapy.therapy)
       }
     )
 
     state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
-      console.log('drug-quick-add submitSuccess$', res)
+      console.log('therapy-quick-add submitSuccess$', res)
       this.submitSuccess$.next(res)
     })
 
     state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
-      console.log('drug-quick-add submitError$', errs)
+      console.log('therapy-quick-add submitError$', errs)
       this.submitError$.next(errs)
       // if (errs) {
       //   this.errorMessages = errs

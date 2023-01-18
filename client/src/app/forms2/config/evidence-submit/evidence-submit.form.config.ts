@@ -1,7 +1,7 @@
 import { evidenceSubmitFormInitialModel } from '@app/forms2/models/evidence-submit.model'
 import { CvcDirectionSelectFieldOptions } from '@app/forms2/types/direction-select/direction-select.type'
 import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
-import { CvcTherapySelectFieldOptions } from '@app/forms2/types/drug-select/drug-select.type'
+import { CvcTherapySelectFieldOptions } from '@app/forms2/types/therapy-select/therapy-select.type'
 import { CvcGeneSelectFieldConfig } from '@app/forms2/types/gene-select/gene-select.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms2/types/interaction-select/interaction-select.type'
 import { CvcLevelSelectFieldOptions } from '@app/forms2/types/level-select/level-select.type'

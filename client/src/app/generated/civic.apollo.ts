@@ -6107,6 +6107,162 @@ export type SuggestVariantRevisionMutationVariables = Exact<{
 
 export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
 
+export type LinkableGeneQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type LinkableGeneQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined };
+
+export type LinkableVariantQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type LinkableVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined };
+
+export type LinkableTherapyQueryVariables = Exact<{
+  therapyId: Scalars['Int'];
+}>;
+
+
+export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
+
+export type DiseaseSelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type DiseaseSelectTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Array<{ __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> }> };
+
+export type DiseaseSelectTagQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DiseaseSelectTagQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined };
+
+export type DiseaseSelectTypeaheadFieldsFragment = { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> };
+
+export type GeneSelectTypeaheadQueryVariables = Exact<{
+  entrezSymbol: Scalars['String'];
+}>;
+
+
+export type GeneSelectTypeaheadQuery = { __typename: 'Query', geneTypeahead: Array<{ __typename: 'Gene', id: number, entrezId: number, name: string, geneAliases: Array<string>, link: string }> };
+
+export type GeneSelectTagQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneSelectTagQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, entrezId: number, name: string, geneAliases: Array<string>, link: string } | undefined };
+
+export type GeneSelectTypeaheadFieldsFragment = { __typename: 'Gene', id: number, entrezId: number, name: string, geneAliases: Array<string>, link: string };
+
+export type MolecularProfileSelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+  geneId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type MolecularProfileSelectTypeaheadQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', nodes: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }> } };
+
+export type MolecularProfileSelectTagQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+}>;
+
+
+export type MolecularProfileSelectTagQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } | undefined };
+
+export type MolecularProfileSelectTypeaheadFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> };
+
+export type PhenotypeSelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type PhenotypeSelectTypeaheadQuery = { __typename: 'Query', phenotypeTypeahead: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }> };
+
+export type PhenotypeSelectTagQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type PhenotypeSelectTagQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string } | undefined };
+
+export type PhenotypeSelectTypeaheadFieldsFragment = { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string };
+
+export type SourceSelectTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['String'];
+  sourceType: SourceSource;
+}>;
+
+
+export type SourceSelectTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource }> };
+
+export type SourceSelectTagQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type SourceSelectTagQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } | undefined };
+
+export type SourceSelectTypeaheadFieldsFragment = { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource };
+
+export type QuickAddTherapyMutationVariables = Exact<{
+  name: Scalars['String'];
+  ncitId?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type QuickAddTherapyMutation = { __typename: 'Mutation', addTherapy?: { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } } | undefined };
+
+export type QuickAddTherapyFieldsFragment = { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } };
+
+export type TherapySelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type TherapySelectTypeaheadQuery = { __typename: 'Query', therapyTypeahead: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }> };
+
+export type TherapySelectTagQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type TherapySelectTagQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } | undefined };
+
+export type TherapySelectTypeaheadFieldsFragment = { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> };
+
+export type QuickAddVariantMutationVariables = Exact<{
+  name: Scalars['String'];
+  geneId: Scalars['Int'];
+}>;
+
+
+export type QuickAddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } } | undefined };
+
+export type QuickAddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } };
+
+export type VariantSelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+  geneId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type VariantSelectTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> } };
+
+export type VariantSelectTagQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantSelectTagQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | undefined };
+
+export type VariantSelectTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } };
+
 export type AssertionDetailQueryVariables = Exact<{
   assertionId: Scalars['Int'];
 }>;
@@ -7805,6 +7961,98 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
+export const DiseaseSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment DiseaseSelectTypeaheadFields on Disease {
+  id
+  name
+  link
+  displayName
+  doid
+  diseaseAliases
+}
+    `;
+export const GeneSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment GeneSelectTypeaheadFields on Gene {
+  id
+  entrezId
+  name
+  geneAliases
+  link
+}
+    `;
+export const MolecularProfileSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment MolecularProfileSelectTypeaheadFields on MolecularProfile {
+  id
+  name
+  link
+  molecularProfileAliases
+}
+    `;
+export const PhenotypeSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment PhenotypeSelectTypeaheadFields on Phenotype {
+  id
+  name
+  link
+  hpoId
+}
+    `;
+export const SourceSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment SourceSelectTypeaheadFields on Source {
+  id
+  name
+  link
+  citation
+  citationId
+  sourceType
+}
+    `;
+export const TherapySelectTypeaheadFieldsFragmentDoc = gql`
+    fragment TherapySelectTypeaheadFields on Therapy {
+  id
+  name
+  link
+  ncitId
+  therapyAliases
+}
+    `;
+export const QuickAddTherapyFieldsFragmentDoc = gql`
+    fragment QuickAddTherapyFields on AddTherapyPayload {
+  new
+  therapy {
+    ...TherapySelectTypeaheadFields
+  }
+}
+    ${TherapySelectTypeaheadFieldsFragmentDoc}`;
+export const QuickAddVariantFieldsFragmentDoc = gql`
+    fragment QuickAddVariantFields on AddVariantPayload {
+  clientMutationId
+  new
+  variant {
+    id
+    name
+    singleVariantMolecularProfileId
+    singleVariantMolecularProfile {
+      id
+      name
+      link
+    }
+  }
+}
+    `;
+export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment VariantSelectTypeaheadFields on Variant {
+  id
+  name
+  link
+  variantAliases
+  singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+  }
+}
+    `;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
@@ -11403,6 +11651,358 @@ export const SuggestVariantRevisionDocument = gql`
   })
   export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
     document = SuggestVariantRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LinkableGeneDocument = gql`
+    query LinkableGene($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkableGeneGQL extends Apollo.Query<LinkableGeneQuery, LinkableGeneQueryVariables> {
+    document = LinkableGeneDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LinkableVariantDocument = gql`
+    query LinkableVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkableVariantGQL extends Apollo.Query<LinkableVariantQuery, LinkableVariantQueryVariables> {
+    document = LinkableVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LinkableTherapyDocument = gql`
+    query LinkableTherapy($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkableTherapyGQL extends Apollo.Query<LinkableTherapyQuery, LinkableTherapyQueryVariables> {
+    document = LinkableTherapyDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiseaseSelectTypeaheadDocument = gql`
+    query DiseaseSelectTypeahead($name: String!) {
+  diseaseTypeahead(queryTerm: $name) {
+    ...DiseaseSelectTypeaheadFields
+  }
+}
+    ${DiseaseSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseaseSelectTypeaheadGQL extends Apollo.Query<DiseaseSelectTypeaheadQuery, DiseaseSelectTypeaheadQueryVariables> {
+    document = DiseaseSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiseaseSelectTagDocument = gql`
+    query DiseaseSelectTag($id: Int!) {
+  disease(id: $id) {
+    ...DiseaseSelectTypeaheadFields
+  }
+}
+    ${DiseaseSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseaseSelectTagGQL extends Apollo.Query<DiseaseSelectTagQuery, DiseaseSelectTagQueryVariables> {
+    document = DiseaseSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneSelectTypeaheadDocument = gql`
+    query GeneSelectTypeahead($entrezSymbol: String!) {
+  geneTypeahead(queryTerm: $entrezSymbol) {
+    ...GeneSelectTypeaheadFields
+  }
+}
+    ${GeneSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneSelectTypeaheadGQL extends Apollo.Query<GeneSelectTypeaheadQuery, GeneSelectTypeaheadQueryVariables> {
+    document = GeneSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneSelectTagDocument = gql`
+    query GeneSelectTag($geneId: Int!) {
+  gene(id: $geneId) {
+    ...GeneSelectTypeaheadFields
+  }
+}
+    ${GeneSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneSelectTagGQL extends Apollo.Query<GeneSelectTagQuery, GeneSelectTagQueryVariables> {
+    document = GeneSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfileSelectTypeaheadDocument = gql`
+    query MolecularProfileSelectTypeahead($name: String!, $geneId: Int) {
+  molecularProfiles(name: $name, geneId: $geneId, first: 25) {
+    nodes {
+      ...MolecularProfileSelectTypeaheadFields
+    }
+  }
+}
+    ${MolecularProfileSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfileSelectTypeaheadGQL extends Apollo.Query<MolecularProfileSelectTypeaheadQuery, MolecularProfileSelectTypeaheadQueryVariables> {
+    document = MolecularProfileSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfileSelectTagDocument = gql`
+    query MolecularProfileSelectTag($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    ...MolecularProfileSelectTypeaheadFields
+  }
+}
+    ${MolecularProfileSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfileSelectTagGQL extends Apollo.Query<MolecularProfileSelectTagQuery, MolecularProfileSelectTagQueryVariables> {
+    document = MolecularProfileSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PhenotypeSelectTypeaheadDocument = gql`
+    query PhenotypeSelectTypeahead($name: String!) {
+  phenotypeTypeahead(queryTerm: $name) {
+    ...PhenotypeSelectTypeaheadFields
+  }
+}
+    ${PhenotypeSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypeSelectTypeaheadGQL extends Apollo.Query<PhenotypeSelectTypeaheadQuery, PhenotypeSelectTypeaheadQueryVariables> {
+    document = PhenotypeSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PhenotypeSelectTagDocument = gql`
+    query PhenotypeSelectTag($id: Int!) {
+  phenotype(id: $id) {
+    ...PhenotypeSelectTypeaheadFields
+  }
+}
+    ${PhenotypeSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypeSelectTagGQL extends Apollo.Query<PhenotypeSelectTagQuery, PhenotypeSelectTagQueryVariables> {
+    document = PhenotypeSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceSelectTypeaheadDocument = gql`
+    query SourceSelectTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceSelectTypeaheadFields
+  }
+}
+    ${SourceSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceSelectTypeaheadGQL extends Apollo.Query<SourceSelectTypeaheadQuery, SourceSelectTypeaheadQueryVariables> {
+    document = SourceSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceSelectTagDocument = gql`
+    query SourceSelectTag($id: Int!) {
+  source(id: $id) {
+    ...SourceSelectTypeaheadFields
+  }
+}
+    ${SourceSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceSelectTagGQL extends Apollo.Query<SourceSelectTagQuery, SourceSelectTagQueryVariables> {
+    document = SourceSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuickAddTherapyDocument = gql`
+    mutation QuickAddTherapy($name: String!, $ncitId: String) {
+  addTherapy(input: {name: $name, ncitId: $ncitId}) {
+    ...QuickAddTherapyFields
+  }
+}
+    ${QuickAddTherapyFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuickAddTherapyGQL extends Apollo.Mutation<QuickAddTherapyMutation, QuickAddTherapyMutationVariables> {
+    document = QuickAddTherapyDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TherapySelectTypeaheadDocument = gql`
+    query TherapySelectTypeahead($name: String!) {
+  therapyTypeahead(queryTerm: $name) {
+    ...TherapySelectTypeaheadFields
+  }
+}
+    ${TherapySelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TherapySelectTypeaheadGQL extends Apollo.Query<TherapySelectTypeaheadQuery, TherapySelectTypeaheadQueryVariables> {
+    document = TherapySelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TherapySelectTagDocument = gql`
+    query TherapySelectTag($id: Int!) {
+  therapy(id: $id) {
+    ...TherapySelectTypeaheadFields
+  }
+}
+    ${TherapySelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TherapySelectTagGQL extends Apollo.Query<TherapySelectTagQuery, TherapySelectTagQueryVariables> {
+    document = TherapySelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuickAddVariantDocument = gql`
+    mutation QuickAddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+    ${AddVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuickAddVariantGQL extends Apollo.Mutation<QuickAddVariantMutation, QuickAddVariantMutationVariables> {
+    document = QuickAddVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantSelectTypeaheadDocument = gql`
+    query VariantSelectTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, geneId: $geneId, first: 50) {
+    nodes {
+      ...VariantSelectTypeaheadFields
+    }
+  }
+}
+    ${VariantSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantSelectTypeaheadGQL extends Apollo.Query<VariantSelectTypeaheadQuery, VariantSelectTypeaheadQueryVariables> {
+    document = VariantSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantSelectTagDocument = gql`
+    query VariantSelectTag($variantId: Int!) {
+  variant(id: $variantId) {
+    ...VariantSelectTypeaheadFields
+  }
+}
+    ${VariantSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantSelectTagGQL extends Apollo.Query<VariantSelectTagQuery, VariantSelectTagQueryVariables> {
+    document = VariantSelectTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

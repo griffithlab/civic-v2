@@ -202,7 +202,7 @@ export class CvcDiseaseSelectField
               console.log(error)
             }
             this.props.extraType = 'prompt'
-            // TODO: figure out why markForCheck is required here, when identical code in drug-select does not require it. If this is removed, this description msg is not updated.
+            // TODO: figure out why markForCheck is required here, when identical code in therapy-select does not require it. If this is removed, this description msg is not updated.
             this.cdr.markForCheck()
           }
           // if type required, toggle field required property off and show a 'Select Type..' prompt

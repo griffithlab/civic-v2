@@ -1,6 +1,6 @@
 import { evidenceReviseFormInitialModel } from '@app/forms2/models/evidence-revise.model'
 import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
-import { CvcTherapySelectFieldOptions } from '@app/forms2/types/drug-select/drug-select.type'
+import { CvcTherapySelectFieldOptions } from '@app/forms2/types/therapy-select/therapy-select.type'
 import { CvcGeneSelectFieldConfig } from '@app/forms2/types/gene-select/gene-select.type'
 import { CvcMolecularProfileSelectFieldConfig } from '@app/forms2/types/molecular-profile-select/molecular-profile-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms2/types/type-select/type-select.type'
@@ -101,7 +101,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           //     label: 'Therapies',
           //   },
           //   fieldArray: <CvcTherapySelectFieldConfig>{
-          //     type: 'drug-select-item',
+          //     type: 'therapy-select-item',
           //     props: {},
           //   },
           // },

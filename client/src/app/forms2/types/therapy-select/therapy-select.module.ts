@@ -21,16 +21,16 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { CvcDrugQuickAddForm } from './drug-quick-add/drug-quick-add.form'
+import { CvcTherapyQuickAddForm } from './therapy-quick-add/therapy-quick-add.form'
 import {
   CvcTherapySelectField,
   CvcTherapySelectFieldOptions,
-} from './drug-select.type'
+} from './therapy-select.type'
 
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'drug-select',
+      name: 'therapy-select',
       wrappers: ['form-field'],
       component: CvcTherapySelectField,
     },
