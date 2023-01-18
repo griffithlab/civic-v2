@@ -9,13 +9,14 @@ import assignFieldConfigDefaultValues from '@app/forms2/utilities/assign-field-d
 import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms2/wrappers/form-layout/form-layout.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
+import { CvcSourceSelectFieldOptions } from '@app/forms2/types/source-select/source-select.type'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Suggest Evidence Item Revision',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -43,6 +44,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
             },
           },
+          <CvcSourceSelectFieldOptions>{
+            key: 'sourceId',
+            type: 'source-select',
+            props: { required: true },
+          },
           <CvcEntityTypeSelectFieldConfig>{
             key: 'evidenceType',
             type: 'type-select',
@@ -55,21 +61,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'drug-multi-select',
             props: {
               required: true,
-            },
-          },
-          <CvcGeneSelectFieldConfig>{
-            key: 'geneId',
-            type: 'gene-select',
-            props: {
-              required: true,
-            },
-          },
-          <CvcVariantSelectFieldOptions>{
-            key: 'variantId',
-            type: 'variant-select',
-            props: {
-              required: true,
-              // requireGene: false
             },
           },
           // <CvcRepeatFieldConfig>{

@@ -35,7 +35,7 @@
     "@ngneat/until-destroy": "^9.1.2",
     "@ngrx/component": "^15.1.0",
     "@ngx-formly/core": "^6.0.4",
-    "@ngx-formly/ng-zorro-antd": "^6.0.4",
+    "@ngx-formly/ng-zorro-antd": "^6.1.0",
     "apollo-angular": "^4.2.0",
     "ng-zorro-antd": "^15.0.1",
     "ngx-cookie-service": "^15.0.0",
