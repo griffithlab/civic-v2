@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { Maybe, VariantOrigin } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -64,7 +64,7 @@ const OriginSelectMixin = mixin(
     FieldTypeConfig<CvcOriginSelectFieldProps>,
     Maybe<VariantOrigin>
   >(),
-  EnumTagField<VariantOrigin, CvcInputEnum>()
+  EnumSelectField<VariantOrigin, CvcInputEnum>()
 )
 
 @Component({
@@ -106,7 +106,7 @@ export class CvcOriginSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEnumTagField({
+    this.configureEnumSelectField({
       optionEnum$: this.originEnum$,
       optionTemplate$: this.optionTemplate$,
       changeDetectorRef: this.cdr,

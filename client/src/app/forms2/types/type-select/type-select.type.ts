@@ -11,7 +11,7 @@ import {
 import { EntityName, EntityType } from '@app/forms/config/states/entity.state'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -60,7 +60,7 @@ const EntityTypeSelectMixin = mixin(
     FieldTypeConfig<CvcEntityTypeSelectFieldProps>,
     Maybe<EntityType>
   >(),
-  EnumTagField<EntityType, CvcInputEnum>()
+  EnumSelectField<EntityType, CvcInputEnum>()
 )
 
 @Component({
@@ -102,7 +102,7 @@ export class CvcEntityTypeSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEnumTagField({
+    this.configureEnumSelectField({
       optionEnum$: this.typeEnums$,
       optionTemplate$: this.optionTemplate$,
       changeDetectorRef: this.cdr,

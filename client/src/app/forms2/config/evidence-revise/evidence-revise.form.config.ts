@@ -39,16 +39,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
             },
           },
-          // <CvcSourceSelectFieldOptions>{
-          //   key: 'sourceId',
-          //   type: 'source-select',
-          //   props: { required: true },
-          // },
-          // <CvcDiseaseSelectFieldOptions>{
-          //   key: 'diseaseId',
-          //   type: 'disease-select',
-          //   props: { required: true },
-          // },
+          <CvcSourceSelectFieldOptions>{
+            key: 'sourceId',
+            type: 'source-select',
+            props: { required: true },
+          },
+          <CvcDiseaseSelectFieldOptions>{
+            key: 'diseaseId',
+            type: 'disease-select',
+            props: { required: true },
+          },
           // <CvcTherapySelectFieldOptions>{
           //   key: 'drugIds',
           //   type: 'drug-multi-select',
@@ -56,13 +56,13 @@ const formFieldConfig: FormlyFieldConfig[] = [
           //     required: true,
           //   },
           // },
-          // <CvcEntityTypeSelectFieldConfig>{
-          //   key: 'evidenceType',
-          //   type: 'type-select',
-          //   props: {
-          //     required: true,
-          //   },
-          // },
+          <CvcEntityTypeSelectFieldConfig>{
+            key: 'evidenceType',
+            type: 'type-select',
+            props: {
+              required: true,
+            },
+          },
           // <CvcRepeatFieldConfig>{
           //   key: 'geneIds',
           //   type: 'repeat-field',

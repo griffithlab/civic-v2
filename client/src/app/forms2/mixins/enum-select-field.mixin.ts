@@ -16,18 +16,18 @@ export type GetSelectOptionsFn<E> = (
   tplRefs: QueryList<TemplateRef<any>>
 ) => NzSelectOptionInterface[]
 
-export interface CvcEnumTagFieldOptions<E> {
+export interface CvcEnumSelectFieldOptions<E> {
   optionEnum$: BehaviorSubject<E[]>
   optionTemplate$?: Observable<TemplateRef<any>[]>
   changeDetectorRef: ChangeDetectorRef
 }
 
-export function EnumTagField<V, E>() {
-  return function EnumTagFieldConstructor<
+export function EnumSelectField<V, E>() {
+  return function EnumSelectFieldConstructor<
     TBase extends MixinConstructor<FieldType>
   >(Base: TBase) {
     @Injectable()
-    abstract class EnumTagFieldMixin extends Base {
+    abstract class EnumSelectFieldMixin extends Base {
       // BASE FIELD SOURCE STREAMS
       // even though they're declared here, the base-field actually instantiates them
       // TODO: figure out if it's possible for this mixin to extend the base field mixin so that its unecessary to declare these here
@@ -48,7 +48,7 @@ export function EnumTagField<V, E>() {
       // OTHER CONFIG OPTIONS
       changeDetectorRef?: ChangeDetectorRef
 
-      configureEnumTagField(options: CvcEnumTagFieldOptions<E>): void {
+      configureEnumSelectField(options: CvcEnumSelectFieldOptions<E>): void {
         // ensure base field configured properly
         if (!this.onValueChange$) {
           console.error(
@@ -64,7 +64,7 @@ export function EnumTagField<V, E>() {
         // CONFIGURE MIXIN
         this.optionEnum$ = options.optionEnum$
         this.changeDetectorRef = options.changeDetectorRef
-        
+
         // set up select options creation
         if (!options.optionTemplate$) {
           // if not provided, create empty array subject - select options will then use the enum value for label
@@ -120,6 +120,6 @@ export function EnumTagField<V, E>() {
       }
     }
 
-    return EnumTagFieldMixin
+    return EnumSelectFieldMixin
   }
 }

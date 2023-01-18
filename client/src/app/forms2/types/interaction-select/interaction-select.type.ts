@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import { TherapyInteraction, Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
@@ -54,7 +54,7 @@ const InteractionSelectMixin = mixin(
     FieldTypeConfig<CvcInteractionSelectFieldProps>,
     Maybe<TherapyInteraction>
   >(),
-  EnumTagField<TherapyInteraction, CvcInputEnum>()
+  EnumSelectField<TherapyInteraction, CvcInputEnum>()
 )
 
 @Component({
@@ -100,7 +100,7 @@ export class CvcInteractionSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEnumTagField({
+    this.configureEnumSelectField({
       optionEnum$: this.interactionEnum$,
       optionTemplate$: this.optionTemplate$,
       changeDetectorRef: this.cdr,

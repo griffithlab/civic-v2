@@ -207,7 +207,6 @@ export function EntitySelectField<
           .pipe(
             filter((r) => !r.loading),
             map((r) => this.getTypeahedResults(r)),
-            // tag(`${this.field.id} entity-tag-field.mixin response$`),
             untilDestroyed(this)
           )
           .subscribe((results: TAF[]) => {
@@ -236,7 +235,6 @@ export function EntitySelectField<
           // attaches the pre-generated option template to a result value.
           this.optionTemplates.changes
             .pipe(
-              // tag(`${this.field.id} optionTemplates.changes`),
               withLatestFrom(this.result$, this.onSearch$),
               untilDestroyed(this)
             )
@@ -297,7 +295,6 @@ export function EntitySelectField<
 
           combineLatestArray(this.getTagQueries(value))
             .pipe(
-              // tag(`${this.field.id} combineLatestArray(queries)`),
               map((queries) => {
                 if (!(queries.length > 0)) return []
                 return queries.map(

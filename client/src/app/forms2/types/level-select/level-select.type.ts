@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { EvidenceLevel, Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -60,7 +60,7 @@ const LevelSelectMixin = mixin(
     FieldTypeConfig<CvcLevelSelectFieldProps>,
     Maybe<EvidenceLevel>
   >(),
-  EnumTagField<EvidenceLevel, CvcInputEnum>()
+  EnumSelectField<EvidenceLevel, CvcInputEnum>()
 )
 
 @Component({
@@ -103,7 +103,7 @@ export class CvcLevelSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEnumTagField({
+    this.configureEnumSelectField({
       optionEnum$: this.levelEnum$,
       optionTemplate$: this.optionTemplate$,
       changeDetectorRef: this.cdr,

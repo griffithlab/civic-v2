@@ -5,7 +5,7 @@ import {
   Type,
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -43,7 +43,7 @@ export interface CvcRatingSelectFieldConfig
 
 const RatingMixin = mixin(
   BaseFieldType<FieldTypeConfig<CvcRatingFieldProps>, Maybe<number>>(),
-  EnumTagField<number, number>()
+  EnumSelectField<number, number>()
 )
 
 @Component({

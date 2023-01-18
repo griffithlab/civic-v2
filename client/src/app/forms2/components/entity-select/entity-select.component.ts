@@ -140,20 +140,11 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     this.onSearchMessage$ = new Subject<Maybe<string>>()
     this.onParamName$ = new Subject<Maybe<string>>()
     this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
-    this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
+    // this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
     this.message = 'LOADING'
   }
 
   ngAfterViewInit(): void {
-    if (this.cvcEntityName.singular === 'Molecular Profile') {
-      this.cvcOnModelChange
-        .pipe(
-          tag(
-            `${this.cvcEntityName.singular} entity-select.component cvcOnModelChange`
-          )
-        )
-        .subscribe()
-    }
     // this.cvcOnOpenChange.pipe(tag('entity-select onOpenChange$')).subscribe()
     // this.cvcOnSearch.pipe(tag('entity-select cvcOnSearch$')).subscribe()
     // this.onParamName$.pipe(tag('entity-select onParamName$')).subscribe()

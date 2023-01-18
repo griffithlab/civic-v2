@@ -11,7 +11,7 @@ import {
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
-import { EnumTagField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
 import { EntityDirection } from '@app/forms2/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo'
@@ -126,7 +126,7 @@ const DirectionSelectMixin = mixin(
     FieldTypeConfig<CvcDirectionSelectFieldProps>,
     Maybe<EntityDirection>
   >(),
-  EnumTagField<EntityDirection, CvcInputEnum>()
+  EnumSelectField<EntityDirection, CvcInputEnum>()
 )
 
 @Component({
@@ -175,7 +175,7 @@ export class CvcDirectionSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureEnumTagField({
+    this.configureEnumSelectField({
       optionEnum$: this.directionEnum$,
       optionTemplate$: this.optionTemplate$,
       changeDetectorRef: this.cdr,
