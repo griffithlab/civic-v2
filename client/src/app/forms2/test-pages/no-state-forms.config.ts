@@ -8,12 +8,27 @@ import { CvcSourceSelectFieldConfig } from '../types/source-select/source-select
 import { CvcBaseInputFieldOptions } from '../types/tag-input/tag-input.type'
 import { CvcVariantSelectFieldConfig } from '../types/variant-select/variant-select.type'
 import { CvcFieldGridWrapperConfig } from '../wrappers/field-grid/field-grid.wrapper'
+import { CvcMolecularProfileSelectFieldConfig } from '../types/molecular-profile-select/molecular-profile-select.type'
 
 export const noStateFormsModel = {
   geneId: undefined,
 }
 
 export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
+  <CvcMolecularProfileSelectFieldConfig>{
+    key: 'molecularProfileId',
+    type: 'molecular-profile-select',
+    props: {
+      required: true,
+    },
+  },
+  <CvcMolecularProfileSelectFieldConfig>{
+    key: 'molecularProfileIds',
+    type: 'molecular-profile-multi-select',
+    props: {
+      required: true,
+    },
+  },
   {
     wrappers: ['field-grid'],
     props: <CvcFieldGridWrapperConfig>{
@@ -29,6 +44,7 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
       <CvcGeneSelectFieldConfig>{
         key: 'geneIds',
         type: 'gene-multi-select',
+        props: {},
       },
     ],
   },
@@ -107,16 +123,12 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
       <CvcLevelSelectFieldOptions>{
         key: 'evidenceLevel',
         type: 'level-select',
-        props: {
-          label: 'Level',
-        },
+        props: {},
       },
       <CvcLevelSelectFieldOptions>{
         key: 'evidenceLevel',
         type: 'level-multi-select',
-        props: {
-          label: 'Levels',
-        },
+        props: {},
       },
     ],
   },

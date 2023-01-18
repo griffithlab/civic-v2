@@ -31,7 +31,7 @@ const typeConfig: ConfigOption = {
       component: CvcMolecularProfileSelectField,
     },
     {
-      name: 'mp-multi-select',
+      name: 'molecular-profile-multi-select',
       wrappers: ['form-field'],
       component: CvcMolecularProfileSelectField,
       defaultOptions: <
@@ -51,7 +51,8 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,
