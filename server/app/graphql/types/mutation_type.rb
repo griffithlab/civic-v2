@@ -51,6 +51,6 @@ module Types
     #non-moderated entity creation
     field :add_disease, mutation: Mutations::AddDisease
     field :add_therapy, mutation: Mutations::AddTherapy
-    field :add_variant, mutation: Mutations::AddVariant
+    field :create_variant, mutation: Mutations::CreateVariant
   end
 end

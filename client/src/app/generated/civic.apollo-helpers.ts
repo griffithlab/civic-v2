@@ -74,13 +74,6 @@ export type AddTherapyPayloadFieldPolicy = {
 	new?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapy?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AddVariantPayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | 'new' | 'variant' | AddVariantPayloadKeySpecifier)[];
-export type AddVariantPayloadFieldPolicy = {
-	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
-	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
-	new?: FieldPolicy<any> | FieldReadFunction<any>,
-	variant?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type AdvancedSearchResultKeySpecifier = ('permalinkId' | 'resultIds' | 'searchEndpoint' | AdvancedSearchResultKeySpecifier)[];
 export type AdvancedSearchResultFieldPolicy = {
 	permalinkId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -558,6 +551,26 @@ export type CreateMolecularProfilePayloadKeySpecifier = ('clientMutationId' | 'm
 export type CreateMolecularProfilePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CreateVariantActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'molecularProfile' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | CreateVariantActivityKeySpecifier)[];
+export type CreateVariantActivityFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CreateVariantPayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | 'new' | 'variant' | CreateVariantPayloadKeySpecifier)[];
+export type CreateVariantPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	new?: FieldPolicy<any> | FieldReadFunction<any>,
+	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DataReleaseKeySpecifier = ('acceptedAndSubmittedVariantsVcf' | 'acceptedVariantsVcf' | 'assertionTsv' | 'evidenceTsv' | 'geneTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
 export type DataReleaseFieldPolicy = {
@@ -1051,15 +1064,15 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'addVariant' | 'createMolecularProfile' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createMolecularProfile' | 'createVariant' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	addDisease?: FieldPolicy<any> | FieldReadFunction<any>,
 	addRemoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	addTherapy?: FieldPolicy<any> | FieldReadFunction<any>,
-	addVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	createVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecateVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	editUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1838,11 +1851,12 @@ export type ValidationErrorsFieldPolicy = {
 	genericErrors?: FieldPolicy<any> | FieldReadFunction<any>,
 	validationErrors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'ensemblVersion' | 'events' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'primaryCoordinates' | 'referenceBases' | 'referenceBuild' | 'revisions' | 'secondaryCoordinates' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantBases' | 'variantTypes' | VariantKeySpecifier)[];
+export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'ensemblVersion' | 'events' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'primaryCoordinates' | 'referenceBases' | 'referenceBuild' | 'revisions' | 'secondaryCoordinates' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantBases' | 'variantTypes' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
 	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1985,10 +1999,6 @@ export type StrictTypedTypePolicies = {
 	AddTherapyPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AddTherapyPayloadKeySpecifier | (() => undefined | AddTherapyPayloadKeySpecifier),
 		fields?: AddTherapyPayloadFieldPolicy,
-	},
-	AddVariantPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | AddVariantPayloadKeySpecifier | (() => undefined | AddVariantPayloadKeySpecifier),
-		fields?: AddVariantPayloadFieldPolicy,
 	},
 	AdvancedSearchResult?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AdvancedSearchResultKeySpecifier | (() => undefined | AdvancedSearchResultKeySpecifier),
@@ -2193,6 +2203,14 @@ export type StrictTypedTypePolicies = {
 	CreateMolecularProfilePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateMolecularProfilePayloadKeySpecifier | (() => undefined | CreateMolecularProfilePayloadKeySpecifier),
 		fields?: CreateMolecularProfilePayloadFieldPolicy,
+	},
+	CreateVariantActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateVariantActivityKeySpecifier | (() => undefined | CreateVariantActivityKeySpecifier),
+		fields?: CreateVariantActivityFieldPolicy,
+	},
+	CreateVariantPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateVariantPayloadKeySpecifier | (() => undefined | CreateVariantPayloadKeySpecifier),
+		fields?: CreateVariantPayloadFieldPolicy,
 	},
 	DataRelease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DataReleaseKeySpecifier | (() => undefined | DataReleaseKeySpecifier),

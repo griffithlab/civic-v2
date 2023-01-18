@@ -25,6 +25,11 @@ class Variant < ApplicationRecord
     class_name: 'DeprecateVariantActivity'
   has_one :deprecating_user, through: :deprecation_activity, source: :user
 
+  has_one :creation_activity,
+    as: :subject,
+    class_name: 'CreateVariantActivity'
+  has_one :creating_user, through: :creation_activity, source: :user
+
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']
 

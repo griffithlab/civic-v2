@@ -4,7 +4,7 @@ module Types::Activities
 
     field :molecular_profiles, [Types::Entities::MolecularProfileType], null: false
 
-    def flag
+    def molecular_profiles
       Loaders::AssociationLoader.for(DeprecateVariantActivity, :linked_molecular_profiles).load(object)
     end
   end

@@ -68,6 +68,24 @@ fragment VariantSummaryFields on Variant {
       profileImagePath(size: 32)
     }
   }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
 }
 
 fragment MyVariantInfoFields on MyVariantInfo {

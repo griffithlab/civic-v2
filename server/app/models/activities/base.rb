@@ -14,6 +14,7 @@ module Activities
     def execute
       create_activity
       call_actions
+      after_actions
       link_activity
       set_verbiage
       after_completed
@@ -25,6 +26,10 @@ module Activities
 
     def call_actions
       raise NotImplementedError.new("Activity must implement call_actions")
+    end
+
+    def after_actions
+      #no op
     end
 
     def linked_entities

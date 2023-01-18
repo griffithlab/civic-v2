@@ -53,7 +53,8 @@ module Types::Interfaces
       Types::Activities::SuggestRevisionSetActivityType,
       Types::Activities::UpdateSourceSuggestionStatusActivityType,
       Types::Activities::RejectRevisionsActivityType,
-      Types::Activities::AcceptRevisionsActivityType
+      Types::Activities::AcceptRevisionsActivityType,
+      Types::Activities::CreateVariantActivityType,
     )
 
     definition_methods do
@@ -85,6 +86,8 @@ module Types::Interfaces
           Types::Activities::RejectRevisionsActivityType
         when AcceptRevisionsActivity
           Types::Activities::AcceptRevisionsActivityType
+        when CreateVariantActivity
+          Types::Activities::CreateVariantActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

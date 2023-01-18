@@ -21,6 +21,7 @@ module Types::Events
     value 'REJECTED_SOURCE_SUGGESTION', value: 'rejected source suggestion'
     value 'DEPRECATED_VARIANT', value: 'deprecated variant'
     value 'DEPRECATED_MOLECULAR_PROFILE', value: 'deprecated molecular profile'
+    value 'VARIANT_CREATED', value: 'variant created'
   end
 end
 
