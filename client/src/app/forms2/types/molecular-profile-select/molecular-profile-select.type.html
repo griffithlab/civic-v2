@@ -1,3 +1,11 @@
+<div>
+  mp-profile-select.type selectOption$:
+  <span *ngIf="selectOption$ | ngrxPush as options; else noOptions">{{
+    options | json
+  }}</span>
+</div>
+<ng-template #noOptions>none</ng-template>
+
 <cvc-entity-select
   [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [cvcCustomTemplate]="selectedTemplate"
