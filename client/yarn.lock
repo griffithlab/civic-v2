@@ -6878,22 +6878,6 @@ ngx-logger@^5.0.7:
     tslib "^2.3.0"
     vlq "^1.0.0"
 
-ngx-pipes@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/ngx-pipes/-/ngx-pipes-3.2.0.tgz#31b946a7dffa7d3452540b103a41b089d08a43f5"
-  integrity sha512-ISfWCtGeaY1XEl4rbwXcBOH+EOq+IVgqjo0Q+4uExfjrcVkAuHe8LjLHJbpDzp80ln3yClNcLwnS5OkcFbwwpA==
-  dependencies:
-    postcss "^8.4.19"
-    tslib "^2.3.0"
-    webpack "^5.75.0"
-
-ngx-timeago@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-timeago/-/ngx-timeago-2.0.0.tgz#b28634b0c2d24549f8f090fd1989efa1ee4f632a"
-  integrity sha512-5kQZeTPCkegEcSooUu3W0BSOwvxEt1q6zjodwEOYoW/FxETC8Bk1zQF1QOPZLS+Nu3GLA+g1oPXMVBonM+CYQQ==
-  dependencies:
-    tslib "^2.0.0"
-
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -8866,6 +8850,11 @@ ts-log@^2.2.3:
   resolved "https://registry.yarnpkg.com/ts-log/-/ts-log-2.2.5.tgz#aef3252f1143d11047e2cb6f7cfaac7408d96623"
   integrity sha512-PGcnJoTBnVGy6yYNFxWVNkdcAuAMstvutN9MgDJIV6L0oG8fB+ZNNy1T+wJzah8RPGor1mZuPQkVfXNDpy9eHA==
 
+ts-mixin-extended@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ts-mixin-extended/-/ts-mixin-extended-1.1.1.tgz#123a088326054cf6bcd36c186112a4c0eba4b4f5"
+  integrity sha512-Q/qdpX/wD/9LWri/kSPYX9XYjUTzlUaJjoO8j3k+Pz+AnL+GmPajSGwpYFQw3vqW0pHTIF58axrM4jRY0OAcuA==
+
 ts-node@~10.9.1:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
@@ -9335,7 +9324,7 @@ webpack-subresource-integrity@5.1.0:
   dependencies:
     typed-assert "^1.0.8"
 
-webpack@5.75.0, webpack@^5.75.0:
+webpack@5.75.0:
   version "5.75.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.75.0.tgz#1e440468647b2505860e94c9ff3e44d5b582c152"
   integrity sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==

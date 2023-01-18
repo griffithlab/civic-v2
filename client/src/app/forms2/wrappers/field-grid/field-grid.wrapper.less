@@ -1,0 +1,52 @@
+@import 'themes/global-variables.less';
+
+.cvc-grid-cols(@columns) {
+  display: grid;
+  grid-template-columns: repeat(@columns, 1fr);
+  gap: @margin-lg;
+}
+
+.field-grid {
+  &.cols-2 {
+    ::ng-deep formly-group:first-of-type {
+      .cvc-grid-cols(2);
+    }
+  }
+
+  &.cols-3 {
+    ::ng-deep formly-group:first-of-type {
+      .cvc-grid-cols(3);
+    }
+  }
+
+  &.cols-4 {
+    ::ng-deep formly-group:first-of-type {
+      .cvc-grid-cols(4);
+    }
+  }
+  // ::ng-deep formly-group:first-of-type {
+  //   display: grid;
+
+  //   // border: 1px solid lightgreen;
+  //   // formly-field {
+  //   //   display: block;
+  //   //   background-color: lightblue;
+  //   // }
+  // }
+  // ::ng-deep formly-field {
+  //   display: grid;
+  //   background-color: lightgreen;
+  // }
+  // &.layout-block {
+  //   ::ng-deep cvc-form-field-wrapper:first-of-type {
+  //     display: block;
+  //     background-color: lightgreen;
+  //   }
+  // }
+  // &.layout-inline {
+  //   ::ng-deep cvc-form-field-wrapper:first-of-type {
+  //     display: inline-block;
+  //     background-color: lightblue;
+  //   }
+  // }
+}

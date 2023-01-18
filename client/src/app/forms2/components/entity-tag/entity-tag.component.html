@@ -1,0 +1,58 @@
+<!-- by default, display tag content within its own nz-tag -->
+<nz-tag
+  *ngIf="cvcContext === 'default'"
+  [nzMode]="cvcMode"
+  (nzOnClose)="cvcOnClose.next($event)">
+  <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+</nz-tag>
+
+<!-- if select-item context, tag is being displayed in a non-multi nz-select,
+so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
+<span
+  *ngIf="cvcContext === 'select-item'"
+  class="select-item">
+  <nz-tag
+    [nzMode]="'closeable'"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <span
+      nz-tooltip
+      nzTooltipTitle="POPUP">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </span>
+  </nz-tag>
+</span>
+
+<!-- in multi-select item form context, tag is being displayed in a multi-mode nz-select,
+so only display the tag contents as it will be wrapped in nz-select's pseudo-tag styles & close btn -->
+<span
+  *ngIf="cvcContext === 'multi-select-item'"
+  class="multi-select-item">
+  <span
+    nz-tooltip
+    nzTooltipTitle="POPUP">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </span>
+</span>
+
+<ng-template #tagContent>
+  <span
+    *ngIf="typename; else noIcon"
+    nz-icon
+    [nzType]="typename | typenameToIcon"
+    nzTheme="twotone"
+    class="tag-icon"
+    [nzTwotoneColor]="typename | entityColor"></span>
+  <ng-container *ngIf="entity; else noEntity">
+    <span
+      class="tag-label"
+      [innerHtml]="entity.name | highlightTypeahead: cvcEmphasize"></span>
+  </ng-container>
+  <ng-template #noIcon>
+    <span
+      nz-icon
+      class="tag-icon"
+      nzType="question-circle"
+      nzTheme="outline"></span>
+  </ng-template>
+</ng-template>
+<ng-template #noEntity>CACHE-MISS ({{ cvcCacheId }})</ng-template>

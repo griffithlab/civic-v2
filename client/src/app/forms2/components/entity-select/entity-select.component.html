@@ -1,0 +1,30 @@
+  <nz-select
+    nzShowSearch
+    nzServerSearch
+    nzAllowClear
+    [class.ng-dirty]="cvcShowError"
+    [formControl]="cvcFormControl"
+    [formlyAttributes]="cvcFormlyAttributes"
+    [nzMode]="cvcSelectMode"
+    [nzPlaceHolder]="cvcPlaceholder || 'Search ' + cvcEntityName.plural"
+    [nzCustomTemplate]="cvcCustomTemplate || null"
+    [nzOptionHeightPx]="30"
+    [nzDisabled]="cvcDisabled"
+    [nzLoading]="cvcLoading"
+    [nzAllowClear]="cvcAllowClear"
+    [nzBorderless]="cvcBorderless"
+    [nzSuffixIcon]="'search'"
+    [nzShowArrow]="cvcShowArrow || true"
+    [nzAutoClearSearchValue]="cvcAutoClearSearchValue"
+    [nzOptions]="cvcOptions || []"
+    [nzDropdownRender]="cvcDropdownExtra || null"
+    [nzNotFoundContent]="searchMessages"
+    (nzOpenChange)="cvcOnOpenChange.next($event)"
+    (nzOnSearch)="cvcOnSearch.next($event)"
+    (ngModelChange)="
+      cvcModelChange && cvcModelChange(cvcFormlyAttributes, $event)
+    ">
+  </nz-select>
+  <ng-template #searchMessages>
+    {{ message }}
+  </ng-template>

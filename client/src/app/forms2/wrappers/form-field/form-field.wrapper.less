@@ -1,0 +1,105 @@
+@import 'themes/global-variables.less';
+
+@helpIconSize: 14px;
+@helpIconColor: #cfcfdf;
+
+.cvc-field-label() {
+  label {
+    // remove label's before/after content
+    &:before,
+    &:after {
+      content: none;
+    }
+    // embolden required labels
+    &.ant-form-item-required {
+      font-weight: bold;
+      &:before {
+        content: none;
+      }
+    }
+  }
+  &.disabled label ::ng-deep span.label {
+    color: @text-color-secondary;
+  }
+  &.error label ::ng-deep span.label {
+    color: @error-color;
+  }
+}
+.cvc-form-field-card() {
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  &.disabled {
+    border: 1px solid #f5f5f5;
+    background-color: #f5f5f5;
+  }
+}
+
+.cvc-form-field-validation,
+.cvc-form-field-description {
+  // ensure consistent height of description, validation message line
+  min-height: 16px;
+  line-height: 1.2;
+  font-size: 95%;
+  margin-top: 4px;
+  .extra-prompt {
+    font-weight: 600;
+  }
+  .extra-description {
+    font-style: oblique;
+  }
+}
+
+.cvc-form-field-validation {
+  font-weight: 600;
+}
+
+nz-form-item.layout-horizontal {
+  ::ng-deep nz-form-label:first-of-type {
+    .cvc-field-label();
+  }
+  .help-tooltip {
+    text-align: right;
+    line-height: 26px;
+    span.icon-tooltip {
+      font-size: @helpIconSize;
+      color: @helpIconColor;
+      cursor: help;
+    }
+    span.icon-spacer {
+      font-size: @helpIconSize;
+      opacity: 0;
+    }
+  }
+}
+
+nz-form-item.layout-vertical {
+  .cvc-form-field-card();
+  ::ng-deep nz-form-label:first-of-type {
+    .cvc-field-label();
+    span.icon-tooltip {
+      padding-left: 3px;
+      // margin-top: -5px;
+      color: @helpIconColor;
+      font-size: @helpIconSize / 4;
+      cursor: help;
+    }
+  }
+
+  margin-bottom: @margin-lg;
+}
+
+nz-form-item.layout-inline {
+  ::ng-deep nz-form-label:first-of-type {
+    .cvc-field-label();
+    margin-right: 6px;
+  }
+  span.icon-tooltip {
+    padding-left: 3px;
+    margin-top: -5px;
+    color: @helpIconColor;
+    font-size: @helpIconSize / 4;
+    cursor: help;
+  }
+}

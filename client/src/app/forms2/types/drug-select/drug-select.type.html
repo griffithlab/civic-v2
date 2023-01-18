@@ -1,0 +1,70 @@
+<cvc-entity-select
+  [cvcAddEntity]="addDrug"
+  [cvcCustomTemplate]="selectedTemplate"
+  [cvcDisabled]="onRequiresDrug$ && !(onRequiresDrug$ | ngrxPush)"
+  [cvcEntityName]="props.entityName"
+  [cvcFormControl]="formControl"
+  [cvcFormlyAttributes]="field"
+  [cvcLoading]="isLoading$ | ngrxPush"
+  [cvcModelChange]="props.change"
+  [cvcOptions]="selectOption$ | ngrxPush"
+  [cvcPlaceholder]="placeholder$ | ngrxPush"
+  [cvcResults]="result$ | ngrxPush"
+  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [cvcShowError]="showError"
+  (cvcOnSearch)="onSearch$.next($event)">
+</cvc-entity-select>
+
+<!-- select option templates -->
+<!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
+<ng-container *ngrxLet="onSearch$ as searchString">
+  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+    <ng-template #optionTemplates>
+      <cvc-entity-tag
+        [cvcCacheId]="result.__typename + ':' + result.id"
+        [cvcEmphasize]="searchString"></cvc-entity-tag>
+      <span
+        nz-typography
+        nzType="secondary">
+        Aliases:
+        <ng-container *ngIf="result.drugAliases.length > 0; else noAliases">
+          <em>
+            <span
+              nz-typography
+              nzType="secondary"
+              [innerHtml]="
+                result.drugAliases.join(', ') | highlightTypeahead: searchString
+              "></span
+          ></em>
+        </ng-container>
+        <ng-template #noAliases>--</ng-template>
+      </span>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<!-- selected option item template -->
+<!-- displays entity tag, specifying context and mode depending on
+    if field is multi-select or single -->
+<ng-template
+  #selectedTemplate
+  let-selected>
+  <div class="ant-select-selection-item-content">
+    <cvc-entity-tag
+      [cvcCacheId]="'Drug:' + selected.nzValue"
+      [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
+      [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+      (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+  </div>
+</ng-template>
+
+<!-- quick-add form template-->
+<ng-template
+  #addDrug
+  let-searchStr
+  let-createMsg>
+  <cvc-drug-quick-add-form
+    [cvcSearchString]="searchStr"
+    (cvcOnCreate)="onCreate$.next($event)">
+  </cvc-drug-quick-add-form>
+</ng-template>

@@ -1,0 +1,100 @@
+<ng-container *ngIf="formControl as fc; else noFormControl">
+  <nz-list nzSize="small">
+    <ng-template
+      #ctrlTemplateRef
+      let-ctrl="ctrl"
+      let-key="key">
+      <!-- form control item -->
+      <nz-list-item *ngIf="!ctrl.controls">
+        <nz-list-item-meta>
+          <nz-list-item-meta-title>
+            {{ key }}
+          </nz-list-item-meta-title>
+          <nz-list-item-meta-description>
+            <span *ngIf="ctrl.value">
+              {{ ctrl.value }}
+            </span>
+            <span
+              *ngIf="!ctrl.value"
+              style="padding: 0px 4px; color: white; background-color: #ccc">
+              undefined
+            </span>
+          </nz-list-item-meta-description>
+        </nz-list-item-meta>
+        <nz-list-item-extra>
+          <cvc-form-status-tag
+            [cvcFormControlStatus]="ctrl.status"></cvc-form-status-tag>
+        </nz-list-item-extra>
+      </nz-list-item>
+
+      <!-- form array/group item -->
+      <nz-list-item *ngIf="ctrl.controls">
+        <nz-card
+          [nzTitle]="key"
+          nzSize="small"
+          style="width: 100%">
+          <nz-list
+            nzSize="small"
+            style="padding: 0">
+            <ng-template
+              *ngFor="let ctrl of ctrl.controls | keyvalue"
+              [ngTemplateOutlet]="ctrlTemplateRef"
+              [ngTemplateOutletContext]="{
+                key: ctrl.key,
+                ctrl: ctrl.value
+              }">
+            </ng-template>
+          </nz-list>
+        </nz-card>
+        <ng-template #cardExtra>
+          <strong>{{ key }}</strong>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+
+  <ng-template
+    *ngFor="let ctrl of fc.controls | keyvalue"
+    [ngTemplateOutlet]="ctrlTemplateRef"
+    [ngTemplateOutletContext]="{
+      key: ctrl.key,
+      ctrl: ctrl.value
+    }"></ng-template>
+</ng-container>
+<ng-template #noFormControl> No AbstractFormControl provided. </ng-template>
+
+<!--
+<form [formGroup]="myForm">
+
+  <div class="form-group">
+
+
+    <ng-template #nodeTemplateRef let-node="node" let-formElement="formElement">
+
+      <div class="node">
+        <div  *ngIf="node.children.length">
+          {{"section [formGroupName]="}} {{ getNodeKey(node) }}
+          <section style="display:block;margin:20px;border:solid 1px blue;padding-bottom: 5px;"
+            [formGroup]="formElement" >
+            <h1>{{ node.key }}</h1>
+            <ng-template *ngFor="let myKey of node.children"
+                  [ngTemplateOutlet]="nodeTemplateRef"
+                  [ngTemplateOutletContext]="{ node: myKey, formElement: formElement.controls[myKey.key] }"> </ng-template>
+          </section>
+          {{"end of section"}}
+        </div>
+        <div  *ngIf="!node.children.length">
+          <label for="{{node.ke}}y">{{node.key}}</label>&nbsp;
+          <input  type="text" id="{{node.key}}" [formControl]="formElement"
+                  class="form-control">
+        </div>
+      </div>
+
+    </ng-template>
+
+    <ng-template *ngFor="let myKey of myKeys"
+                 [ngTemplateOutlet]="nodeTemplateRef"
+                 [ngTemplateOutletContext]="{ node: myKey, formElement: myForm.controls[myKey.key] }">
+    </ng-template>
+  </div>
+</form> -->

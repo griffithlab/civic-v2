@@ -1,0 +1,38 @@
+<!-- by default, display tag content within its own nz-tag -->
+<nz-tag
+  *ngIf="cvcContext === 'default'"
+  [nzMode]="cvcMode"
+  (nzOnClose)="cvcOnClose.next($event)">
+  <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+</nz-tag>
+
+<!-- if select-item context, tag is being displayed in a non-multi nz-select,
+so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
+<span
+  *ngIf="cvcContext === 'select-item'"
+  class="select-item">
+  <nz-tag
+    [nzMode]="'closeable'"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <span
+      nz-tooltip
+      nzTooltipTitle="POPUP">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </span>
+  </nz-tag>
+</span>
+
+<ng-template #tagContent>
+  <span
+    *ngIf="cvcAttrValue"
+    nz-icon
+    [nzType]="cvcAttrValue | evidenceEnumDisplay: 'icon-name'"
+    class="tag-icon"></span>
+  <span
+    class="tag-label"
+    [innerHtml]="
+      cvcAttrValue
+        | evidenceEnumDisplay: 'display-string'
+        | highlightTypeahead: cvcEmphasize
+    "></span>
+</ng-template>

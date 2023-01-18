@@ -1,0 +1,27 @@
+<form
+  *ngIf="model; else loadingModel"
+  nz-form
+  nzLayout="vertical"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit(model)">
+  <formly-form
+    [form]="form"
+    [fields]="fields"
+    [model]="model"
+    [options]="options"
+    (modelChange)="model = $event">
+  </formly-form>
+</form>
+<ng-template #loadingModel> Loading Evidence Item... </ng-template>
+<!-- <nz-row style="background-color: #eef">
+  <nz-col nzSpan="12">
+    <h4>evidence-revise.form.html Model</h4>
+    <ngx-json-viewer [json]="model"></ngx-json-viewer>
+  </nz-col>
+  <nz-col nzSpan="12">
+    <h4>Form</h4>
+    <pre>
+touched: {{ form.touched }}
+    </pre>
+  </nz-col>
+</nz-row> -->

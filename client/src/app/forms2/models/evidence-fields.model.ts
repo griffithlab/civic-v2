@@ -1,0 +1,27 @@
+import {
+  TherapyInteraction,
+  EvidenceClinicalSignificance,
+  EvidenceDirection,
+  EvidenceLevel,
+  EvidenceType,
+  VariantOrigin,
+} from '@app/generated/civic.apollo'
+
+export type EvidenceItemFields = {
+  // gene, variant included for initial input type development
+  geneId?: number
+  variantId?: number
+  significance?: EvidenceClinicalSignificance
+  description?: string
+  diseaseId?: number
+  drugIds?: number[]
+  therapyInteractionType?: TherapyInteraction
+  evidenceDirection?: EvidenceDirection
+  evidenceLevel?: EvidenceLevel
+  evidenceType?: EvidenceType
+  molecularProfileId?: number
+  phenotypeIds?: number[]
+  rating?: number
+  sourceId?: number
+  variantOrigin?: VariantOrigin
+}

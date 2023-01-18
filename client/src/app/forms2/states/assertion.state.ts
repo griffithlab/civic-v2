@@ -1,0 +1,184 @@
+import {
+  AssertionClinicalSignificance,
+  AssertionDirection,
+  AssertionType,
+  Maybe,
+} from '@app/generated/civic.apollo'
+import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { BehaviorSubject } from 'rxjs'
+import { CvcInputEnum } from '../forms2.types'
+import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
+import { EntityName, BaseState } from './base.state'
+
+class AssertionState extends BaseState {
+  constructor() {
+    super(EntityName.ASSERTION)
+    const def = assertionSubmitFieldsDefaults
+
+    this.fields = {
+      geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
+      variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
+      assertionType$: new BehaviorSubject<Maybe<AssertionType>>(
+        def.assertionType
+      ),
+      assertionDirection$: new BehaviorSubject<Maybe<AssertionDirection>>(
+        def.assertionDirection
+      ),
+      significance$: new BehaviorSubject<
+        Maybe<AssertionClinicalSignificance>
+      >(def.significance),
+      diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
+      drugId$: new BehaviorSubject<Maybe<number>>(def.drugId),
+    }
+
+    this.enums = {
+      entityType$: new BehaviorSubject<CvcInputEnum[]>(this.getTypeOptions()),
+      significance$: new BehaviorSubject<CvcInputEnum[]>([]),
+      direction$: new BehaviorSubject<CvcInputEnum[]>([])
+    }
+
+    this.options = {
+      assertionTypeOption$: new BehaviorSubject<NzSelectOptionInterface[]>(
+        this.getOptionsFromEnums(this.getTypeOptions())
+      ),
+      directionOption$: new BehaviorSubject<
+        Maybe<NzSelectOptionInterface[]>
+      >(undefined),
+      significanceOption$: new BehaviorSubject<
+        Maybe<NzSelectOptionInterface[]>
+      >(undefined),
+    }
+
+    this.requires = {
+      requiresDisease$: new BehaviorSubject<boolean>(false),
+      requiresDrug$: new BehaviorSubject<boolean>(false),
+      requiresClingenCodes$: new BehaviorSubject<boolean>(false),
+      requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
+      requiresAmpLevel$: new BehaviorSubject<boolean>(false),
+      allowsFdaApproval$: new BehaviorSubject<boolean>(false),
+    }
+
+    // ASSERTION TYPE SUBSCRIBERS
+    // TODO: determine best way to cleanup & unsubscribe from these subscriptions
+    this.fields.assertionType$.subscribe((at: Maybe<AssertionType>) => {
+      if (!at) return
+      const significanceEnums = this.getSignificanceOptions(at)
+      this.enums.significance$.next(significanceEnums)
+      this.options.significanceOption$.next(
+        this.getOptionsFromEnums(this.getSignificanceOptions(at))
+      )
+      const directionEnums = this.getDirectionOptions(at)
+      this.enums.direction$.next(directionEnums)
+      this.options.directionOption$.next(
+        this.getOptionsFromEnums(this.getDirectionOptions(at))
+      )
+      this.requires.requiresDisease$.next(this.requiresDisease(at))
+      this.requires.requiresDrug$.next(this.requiresDrug(at))
+      this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
+      this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
+      this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
+    })
+
+    this.validStates.set(AssertionType.Predictive, {
+      entityType: AssertionType.Predictive,
+      significance: [
+        AssertionClinicalSignificance.Sensitivityresponse,
+        AssertionClinicalSignificance.Resistance,
+        AssertionClinicalSignificance.AdverseResponse,
+        AssertionClinicalSignificance.ReducedSensitivity,
+        AssertionClinicalSignificance.Na,
+      ],
+      entityDirection: [
+        AssertionDirection.Supports,
+        AssertionDirection.DoesNotSupport,
+      ],
+      requiresDisease: true,
+      requiresDrug: true,
+      requiresClingenCodes: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: true,
+      allowsFdaApproval: true,
+    })
+
+    this.validStates.set(AssertionType.Diagnostic, {
+      entityType: AssertionType.Diagnostic,
+      significance: [
+        AssertionClinicalSignificance.Positive,
+        AssertionClinicalSignificance.Negative,
+      ],
+      entityDirection: [
+        AssertionDirection.Supports,
+        AssertionDirection.DoesNotSupport,
+      ],
+      requiresDisease: true,
+      requiresDrug: false,
+      requiresClingenCodes: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: true,
+      allowsFdaApproval: false,
+    })
+
+    this.validStates.set(AssertionType.Prognostic, {
+      entityType: AssertionType.Prognostic,
+      significance: [
+        AssertionClinicalSignificance.BetterOutcome,
+        AssertionClinicalSignificance.PoorOutcome,
+        AssertionClinicalSignificance.Na,
+      ],
+      entityDirection: [
+        AssertionDirection.Supports,
+        AssertionDirection.DoesNotSupport,
+      ],
+      requiresDisease: true,
+      requiresDrug: false,
+      requiresClingenCodes: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: true,
+      allowsFdaApproval: false,
+    })
+
+    this.validStates.set(AssertionType.Predisposing, {
+      entityType: AssertionType.Predisposing,
+      significance: [
+        AssertionClinicalSignificance.Pathogenic,
+        AssertionClinicalSignificance.LikelyPathogenic,
+        AssertionClinicalSignificance.Benign,
+        AssertionClinicalSignificance.LikelyBenign,
+        AssertionClinicalSignificance.UncertainSignificance,
+      ],
+      entityDirection: [
+        AssertionDirection.Supports,
+        AssertionDirection.DoesNotSupport,
+      ],
+      requiresDisease: true,
+      requiresDrug: false,
+      requiresClingenCodes: false,
+      requiresAcmgCodes: true,
+      requiresAmpLevel: false,
+      allowsFdaApproval: false,
+    })
+
+    this.validStates.set(AssertionType.Oncogenic, {
+      entityType: AssertionType.Oncogenic,
+      significance: [
+        AssertionClinicalSignificance.Oncogenic,
+        AssertionClinicalSignificance.LikelyOncogenic,
+        AssertionClinicalSignificance.Benign,
+        AssertionClinicalSignificance.LikelyBenign,
+        AssertionClinicalSignificance.UncertainSignificance,
+      ],
+      entityDirection: [
+        AssertionDirection.Supports,
+        AssertionDirection.DoesNotSupport,
+      ],
+      requiresDisease: true,
+      requiresDrug: false,
+      requiresClingenCodes: true,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false,
+      allowsFdaApproval: false,
+    })
+  }
+}
+
+export { AssertionState }

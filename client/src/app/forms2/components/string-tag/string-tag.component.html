@@ -1,0 +1,11 @@
+<nz-tag [nzMode]="cvcMode" (nzOnClose)="cvcOnClose.next($event)">
+  <i
+    *ngIf="!cvcLabel"
+    nz-icon
+    nzType="question-circle"
+    nzTheme="outline"></i>
+  <span
+    [innerHtml]="
+      cvcLabel ? (cvcLabel | highlightTypeahead: cvcEmphasize) : '?STRING?'
+    "></span>
+</nz-tag>

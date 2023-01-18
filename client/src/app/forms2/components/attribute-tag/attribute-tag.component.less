@@ -1,0 +1,55 @@
+@import 'themes/global-variables.less';
+
+:host {
+  nz-tag {
+    margin-right: 0;
+    //   padding-left: 4px;
+    //   padding-right: 4px;
+    margin-inline-end: 4px;
+  }
+}
+
+.select-item {
+  nz-tag {
+    background: #f5f5f5;
+    border: 1px solid #f0f0f0;
+    margin: 0;
+    padding: 0 2px 0 0;
+    margin-inline-end: 4px;
+    max-width: 100%;
+    .tag-icon {
+      display: inline-block;
+      padding: 3px 2px 3px 4px;
+      margin: -3px 0 -3px 0;
+    }
+    .tag-label {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      margin: -3px 0 -3px 0;
+      padding: 3px 0 3px 2px;
+      line-height: 1;
+    }
+    ::ng-deep i.ant-tag-close-icon.anticon-close {
+      transition: none;
+      margin-left: 3px;
+    }
+  }
+}
+.multi-select-item {
+  // pull content margins to the edges of the tag, to increase
+  // popover hover area
+  display: inline-block;
+  margin-top: -3px;
+  margin-bottom: -3px;
+  margin-left: -4px;
+  padding-left: 4px;
+  // add space between nz-select's pseudo-tag icon & label
+  .tag-icon::after {
+    content: ' ';
+  }
+}
+
+.typeahead-match {
+  font-weight: bold;
+}

@@ -1,0 +1,26 @@
+<form
+  nz-form
+  nzLayout="vertical"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit(model)">
+  <formly-form
+    [form]="form"
+    [fields]="fields"
+    [model]="model"
+    [options]="options"
+    style="width: 100%"
+    (modelChange)="model = $event">
+  </formly-form>
+</form>
+<!-- <nz-row style="background-color: #eef">
+     <nz-col nzSpan="12">
+     <h4>evidence-submit.form.html Model</h4>
+     <ngx-json-viewer [json]="model"></ngx-json-viewer>
+     </nz-col>
+     <nz-col nzSpan="12">
+     <h4>Form</h4>
+     <pre>
+     touched: {{ form.touched }}
+     </pre>
+     </nz-col>
+     </nz-row> -->

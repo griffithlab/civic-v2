@@ -1,0 +1,27 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CvcEvidenceReviseForm } from './evidence-revise.form';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CvcForms2Module } from '@app/forms2/forms2.module';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { LetModule, PushModule } from '@ngrx/component';
+
+@NgModule({
+  declarations: [
+    CvcEvidenceReviseForm
+  ],
+  imports: [
+    CommonModule,
+    LetModule, PushModule,
+    NzFormModule,
+    NzButtonModule,
+    CvcForms2Module,
+
+    NgxJsonViewerModule, // debug
+  ],
+  exports: [
+    CvcEvidenceReviseForm
+  ]
+})
+export class CvcEvidenceReviseFormModule { }

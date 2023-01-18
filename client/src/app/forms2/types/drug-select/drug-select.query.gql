@@ -1,0 +1,19 @@
+query TherapySelectTypeahead($name: String!) {
+  therapyTypeahead(queryTerm: $name) {
+    ...TherapySelectTypeaheadFields
+  }
+}
+
+query TherapySelectTag($id: Int!) {
+  therapy(id: $id) {
+    ...TherapySelectTypeaheadFields
+  }
+}
+
+fragment TherapySelectTypeaheadFields on Therapy {
+  id
+  name
+  link
+  ncitId
+  therapyAliases
+}

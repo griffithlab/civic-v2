@@ -189,6 +189,16 @@ const routes: Routes = [
           breadcrumb: 'Pages',
         },
       },
+      {
+        path: 'forms2',
+        loadChildren: () =>
+          import('@app/forms2/test-pages/test-pages.module').then(
+            (m) => m.TestPagesModule
+          ),
+        data: {
+          breadcrumb: 'Forms2',
+        },
+      },
     ],
   },
 ]
