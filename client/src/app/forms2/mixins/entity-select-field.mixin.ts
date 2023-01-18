@@ -108,7 +108,7 @@ export function EntitySelectField<
       // PRESENTATION STREAMS
       result$!: BehaviorSubject<TAF[]> // typeahead query results
       isLoading$!: Observable<boolean> // typeahead query loading bool
-      selectOption$!: Subject<Maybe<NzSelectOptionInterface[]>>
+      selectOption$!: BehaviorSubject<Maybe<NzSelectOptionInterface[]>>
 
       // CONFIG OPTIONS
 
@@ -155,7 +155,9 @@ export function EntitySelectField<
         this.result$ = new BehaviorSubject<TAF[]>([])
         this.onTagClose$ = new Subject<MouseEvent>()
         this.onCreate$ = new Subject<TAF>()
-        this.selectOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
+        this.selectOption$ = new BehaviorSubject<
+          Maybe<NzSelectOptionInterface[]>
+        >(undefined)
 
         // set up typeahead watch & fetch calls
         this.response$ = this.onSearch$.pipe(
@@ -165,7 +167,6 @@ export function EntitySelectField<
               ? this.typeaheadParam$
               : of(undefined)
           ),
-          // tag(`${this.field.id} entity-tag-field onSearch$`),
           switchMap(([str, param]: [string, Maybe<TAP>]) => {
             const query = this.getTypeaheadVars(str, param)
 
