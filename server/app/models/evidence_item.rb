@@ -63,10 +63,6 @@ class EvidenceItem < ActiveRecord::Base
     Rails.application.routes.url_helpers.url_for("/evidence/#{self.id}")
   end
 
-  def gene
-    self.variant.gene
-  end
-
   def self.timepoint_query
     ->(x) {
       self.where("evidence_items.status != 'rejected'")
