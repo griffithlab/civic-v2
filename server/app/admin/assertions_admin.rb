@@ -1,6 +1,6 @@
 Trestle.resource(:assertions) do
   collection do
-    Assertion.eager_load(:gene, :variant, :flags).order(id: :asc)
+    Assertion.eager_load(:flags, molecular_profile: {variants: [:gene]}).order(id: :asc)
   end
 
   search do |q|
@@ -23,11 +23,12 @@ Trestle.resource(:assertions) do
   # Customize the table columns shown on the index view.
   table do
     column :id
-    column :gene
-    column :variant
+    column :molecular_profile do |assertion|
+      assertion.molecular_profile.display_name
+    end
     column :summary
-    column :evidence_type do |assertion|
-      status_tag(assertion.evidence_type)
+    column :assertion_type do |assertion|
+      status_tag(assertion.assertion_type)
     end
     column :status do |assertion|
       status_tag(assertion.status)
@@ -40,16 +41,7 @@ Trestle.resource(:assertions) do
     tab :assertion do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) do
-          static_field :gene do
-            link_to assertion.gene.name, GenesAdmin.instance_path(assertion.gene)
-          end
-        end
-        col(sm: 2) do
-          static_field :variant do
-            link_to assertion.variant.name, VariantsAdmin.instance_path(assertion.variant)
-          end
-        end
+        col(sm: 1) { status_field assertion.molecular_profile.display_name }
         col(sm: 2) do
           variant_origins = Assertion.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
           select :variant_origin, variant_origins
@@ -69,8 +61,8 @@ Trestle.resource(:assertions) do
 
       row do
         col(sm: 5) do
-          evidence_types = Assertion.evidence_types.keys.map { |evidence_type| [evidence_type, evidence_type] }
-          select :evidence_type, evidence_types
+          assertion_types = Assertion.assertion_types.keys.map { |assertion_type| [assertion_type, assertion_type] }
+          select :assertion_type, assertion_types
         end
         col(sm: 2) do
           evidence_directions = Assertion.evidence_directions.keys.map { |evidence_direction| [evidence_direction, evidence_direction] }
