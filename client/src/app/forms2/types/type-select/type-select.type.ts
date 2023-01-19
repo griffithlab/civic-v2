@@ -9,6 +9,7 @@ import {
   ViewChildren,
 } from '@angular/core'
 import { EntityName, EntityType } from '@app/forms/config/states/entity.state'
+import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
@@ -44,7 +45,13 @@ export type CvcEntityTypeSelectFieldOptions = Partial<
 
 interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
   label: string
+  labels: {
+    // for multi-select label logic in base-field
+    multi: string
+    plural: string
+  }
   placeholder: string
+  entityName: CvcSelectEntityName
   isMultiSelect: boolean
   description?: string
   tooltip?: string
@@ -73,20 +80,17 @@ export class CvcEntityTypeSelectField
   extends EntityTypeSelectMixin
   implements AfterViewInit
 {
-  //TODO: implement more precise types so specific enum-selects
-  //  like this one can specify their enums, e.g. EntityType instead of CvcInputEnum
   // STATE SOURCE STREAMS
   typeEnums$!: BehaviorSubject<CvcInputEnum[]>
-
-  // LOCAL SOURCE STREAMS
-
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$!: BehaviorSubject<string>
 
   defaultOptions: Partial<FieldTypeConfig<CvcEntityTypeSelectFieldProps>> = {
     props: {
       label: 'ENTITY_NAME Type',
+      labels: {
+        multi: 'Entity(s)',
+        plural: 'Entities',
+      },
+      entityName: { singular: 'Entity', plural: 'Entities' },
       placeholder: 'Select an ENTITY_NAME Type',
       isMultiSelect: false,
     },
@@ -102,12 +106,6 @@ export class CvcEntityTypeSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
-    this.configureEnumSelectField({
-      optionEnum$: this.typeEnums$,
-      optionTemplate$: this.optionTemplate$,
-      changeDetectorRef: this.cdr,
-    })
-
     if (this.state && this.state.formReady$) {
       this.state.formReady$
         .pipe(
@@ -148,7 +146,6 @@ export class CvcEntityTypeSelectField
       'ENTITY_NAME',
       this.state.entityName
     )
-    this.placeholder$ = new BehaviorSubject<string>(this.props.placeholder)
 
     this.props.label = this.props.label.replace(
       'ENTITY_NAME',
@@ -182,7 +179,18 @@ export class CvcEntityTypeSelectField
       // return QueryLists's array of TemplateRefs
       map((ql: QueryList<TemplateRef<any>>) => {
         return ql.map((q) => q)
-      })
+      }),
+      tag('type-select optionTemplate$')
     )
+
+    this.configureEnumSelect()
+  }
+
+  configureEnumSelect() {
+    this.configureEnumSelectField({
+      optionEnum$: this.typeEnums$,
+      optionTemplate$: this.optionTemplate$,
+      changeDetectorRef: this.cdr,
+    })
   }
 }

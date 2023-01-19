@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+} from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import {
   evidenceSubmitFormInitialModel,
@@ -15,17 +20,23 @@ import { evidenceSubmitFields } from './evidence-submit.form.config'
   templateUrl: './evidence-submit.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceSubmitForm implements OnDestroy {
+export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
   model: EvidenceSubmitModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
+  state: EvidenceState
   options: FormlyFormOptions
 
   constructor() {
     this.form = new UntypedFormGroup({})
-    this.model = evidenceSubmitFormInitialModel
     this.fields = evidenceSubmitFields
-    this.options = { formState: new EvidenceState() }
+    this.model = { fields: {} }
+    this.state = new EvidenceState()
+    this.options = { formState: this.state }
+  }
+
+  ngAfterViewInit(): void {
+    this.state.formReady$.next(true)
   }
 
   onSubmit(model: EvidenceSubmitModel) {
