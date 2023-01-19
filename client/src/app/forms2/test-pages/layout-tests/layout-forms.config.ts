@@ -1,15 +1,16 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { CvcTherapySelectFieldOptions } from '../types/therapy-select/therapy-select.type'
-import { CvcGeneSelectFieldConfig } from '../types/gene-select/gene-select.type'
-import { CvcLevelSelectFieldOptions } from '../types/level-select/level-select.type'
-import { CvcOriginSelectFieldOptions } from '../types/origin-select/origin-select.type'
-import { CvcRatingFieldOptions } from '../types/rating/rating.type'
-import { CvcSourceSelectFieldConfig } from '../types/source-select/source-select.type'
-import { CvcBaseInputFieldOptions } from '../types/tag-input/tag-input.type'
-import { CvcVariantSelectFieldConfig } from '../types/variant-select/variant-select.type'
-import { CvcFieldGridWrapperConfig } from '../wrappers/field-grid/field-grid.wrapper'
-import { CvcMolecularProfileSelectFieldConfig } from '../types/molecular-profile-select/molecular-profile-select.type'
-import { CvcDiseaseSelectFieldConfig } from '../types/disease-select/disease-select.type'
+import { CvcTherapySelectFieldOptions } from '../../types/therapy-select/therapy-select.type'
+import { CvcGeneSelectFieldConfig } from '../../types/gene-select/gene-select.type'
+import { CvcLevelSelectFieldOptions } from '../../types/level-select/level-select.type'
+import { CvcOriginSelectFieldOptions } from '../../types/origin-select/origin-select.type'
+import { CvcRatingFieldOptions } from '../../types/rating/rating.type'
+import { CvcSourceSelectFieldConfig } from '../../types/source-select/source-select.type'
+import { CvcBaseInputFieldOptions } from '../../types/tag-input/tag-input.type'
+import { CvcVariantSelectFieldConfig } from '../../types/variant-select/variant-select.type'
+import { CvcFieldGridWrapperConfig } from '../../wrappers/field-grid/field-grid.wrapper'
+import { CvcMolecularProfileSelectFieldConfig } from '../../types/molecular-profile-select/molecular-profile-select.type'
+import { CvcDiseaseSelectFieldConfig } from '../../types/disease-select/disease-select.type'
+import { CvcEntityTypeSelectFieldOptions } from '../../types/type-select/type-select.type'
 
 export const noStateFormsModel = {
   geneId: undefined,
@@ -25,6 +26,26 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
     key: 'molecularProfileIds',
     type: 'molecular-profile-multi-select',
     props: {},
+  },
+  {
+    wrappers: ['field-grid'],
+    props: <CvcFieldGridWrapperConfig>{
+      grid: {
+        cols: 2,
+      },
+    },
+    fieldGroup: [
+      <CvcEntityTypeSelectFieldOptions>{
+        key: 'evidenceType',
+        type: 'type-select',
+        props: {},
+      },
+      <CvcEntityTypeSelectFieldOptions>{
+        key: 'evidenceTypes',
+        type: 'type-multi-select',
+        props: {},
+      },
+    ],
   },
   {
     wrappers: ['field-grid'],

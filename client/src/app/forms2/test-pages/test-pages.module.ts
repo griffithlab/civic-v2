@@ -14,9 +14,9 @@ import { EvidenceSubmitTestModule } from './evidence-submit-test/evidence-submit
 import { EvidenceReviseTestModule } from './evidence-revise-test/evidence-revise-test.module'
 import { AssertionSubmitTestModule } from './assertion-submit-test/assertion-submit-test.module'
 import { AssertionReviseTestModule } from './assertion-revise-test/assertion-revise-test.module'
-import { HorizontalFormTestModule } from './horizontal-form/horizontal-form.module'
-import { InlineFormTestModule } from './inline-form/inline-form.module'
-import { VerticalFormTestModule } from './vertical-form/vertical-form.module'
+import { HorizontalFormTestModule } from './layout-tests/horizontal-form/horizontal-form.module'
+import { InlineFormTestModule } from './layout-tests/inline-form/inline-form.module'
+import { VerticalFormTestModule } from './layout-tests/vertical-form/vertical-form.module'
 import { IconsTestModule } from './icons-test/icons-test.module'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 

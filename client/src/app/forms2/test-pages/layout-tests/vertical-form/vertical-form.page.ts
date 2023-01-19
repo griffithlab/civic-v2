@@ -7,7 +7,7 @@ import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import {
   noStateFormsFieldConfig,
   noStateFormsModel,
-} from '../no-state-forms.config'
+} from '../layout-forms.config'
 
 @Component({
   selector: 'cvc-vertical-form',

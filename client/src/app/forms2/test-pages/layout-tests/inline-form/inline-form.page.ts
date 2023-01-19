@@ -7,14 +7,14 @@ import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import {
   noStateFormsFieldConfig,
   noStateFormsModel,
-} from '../no-state-forms.config'
+} from '../layout-forms.config'
 
 @Component({
-  selector: 'cvc-horizontal-form',
-  templateUrl: './horizontal-form.page.html',
+  selector: 'cvc-inline-form',
+  templateUrl: './inline-form.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HorizontalFormPage implements OnInit {
+export class InlineFormPage implements OnInit {
   model: any
   options: NoStateFormOptions
   form: UntypedFormGroup = new UntypedFormGroup({})
@@ -23,7 +23,7 @@ export class HorizontalFormPage implements OnInit {
 
   constructor() {
     this.model = noStateFormsModel
-    this.formLayout = 'horizontal'
+    this.formLayout = 'inline'
     this.options = { formState: { formLayout: this.formLayout } }
 
     this.fields = [
@@ -31,7 +31,7 @@ export class HorizontalFormPage implements OnInit {
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Horizontal Field Layout, No State',
+          title: 'Inline Field Layout, No State',
         },
         fieldGroup: noStateFormsFieldConfig,
       },
