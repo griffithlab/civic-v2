@@ -17,7 +17,7 @@ import { AssertionReviseTestModule } from './assertion-revise-test/assertion-rev
 import { HorizontalFormTestModule } from './layout-tests/horizontal-form/horizontal-form.module'
 import { InlineFormTestModule } from './layout-tests/inline-form/inline-form.module'
 import { VerticalFormTestModule } from './layout-tests/vertical-form/vertical-form.module'
-import { IconsTestModule } from './icons-test/icons-test.module'
+import { TagsTestModule } from './tags-test/tags-test.module'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 
 @NgModule({
@@ -37,7 +37,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs'
     HorizontalFormTestModule,
     InlineFormTestModule,
     VerticalFormTestModule,
-    IconsTestModule,
+    TagsTestModule,
     CvcPipesModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,

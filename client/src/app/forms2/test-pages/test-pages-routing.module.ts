@@ -5,7 +5,7 @@ import { AssertionSubmitTestPage } from './assertion-submit-test/assertion-submi
 import { EvidenceReviseTestPage } from './evidence-revise-test/evidence-revise-test.page'
 import { EvidenceSubmitTestPage } from './evidence-submit-test/evidence-submit-test.page'
 import { HorizontalFormPage } from './layout-tests/horizontal-form/horizontal-form.page'
-import { IconsTestPage } from './icons-test/icons-test.page'
+import { TagsTestPage } from './tags-test/tags-test.page'
 import { InlineFormPage } from './layout-tests/inline-form/inline-form.page'
 import { VerticalFormPage } from './layout-tests/vertical-form/vertical-form.page'
 import { TestPagesView } from './test-pages.view'
@@ -66,8 +66,8 @@ const routes: Routes = [
         },
       },
       {
-        path: 'icons-test',
-        component: IconsTestPage,
+        path: 'tags-test',
+        component: TagsTestPage,
         data: {
           breadcrumb: 'Horizontal',
         },

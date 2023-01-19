@@ -17,7 +17,7 @@ export class TestPagesView {
     this.tabs = [
       {
         routeName: 'evidence-submit-test',
-        iconName: '',
+        iconName: 'civic-evidence',
         tabLabel: 'Evidence Submit',
       },
       {
@@ -51,9 +51,9 @@ export class TestPagesView {
         tabLabel: 'Horizontal',
       },
       {
-        routeName: 'icons-test',
+        routeName: 'tags-test',
         iconName: '',
-        tabLabel: 'Icons',
+        tabLabel: 'Tags',
       },
     ]
   }
