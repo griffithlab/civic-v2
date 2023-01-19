@@ -8,7 +8,7 @@ export const EntityColors = new Map<string, string>([
   ['Event', '#1db8a9'],
   ['EvidenceItem', '#2a63b6'],
   ['Gene', '#07aff0'],
-  ['Intervention', '#ac3996'],
+  ['Therapy', '#ac3996'],
   ['MolecularProfile', '#33b358'],
   ['Phenotype', '#1db8a9'],
   ['Source', '#f9ba45'],
