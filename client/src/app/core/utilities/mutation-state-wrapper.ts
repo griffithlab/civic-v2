@@ -19,7 +19,6 @@ export class MutatorWithState<
 > {
   constructor(private networkErrorService: NetworkErrorsService) {}
 
-  //TODO - define the data callback in terms of M, not any
   mutate(
     mutation: M,
     vars: V,

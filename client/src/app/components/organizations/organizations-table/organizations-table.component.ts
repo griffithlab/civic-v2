@@ -199,7 +199,7 @@ export class CvcOrganizationsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: any): number {
-    return data.id
+  trackByIndex(_: number, data: Maybe<OrganizationBrowseTableRowFieldsFragment>): Maybe<number> {
+    return data?.id
   }
 }

@@ -191,7 +191,7 @@ export class CvcDiseasesTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: any): number {
-    return data.id
+  trackByIndex(_: number, data: Maybe<BrowseDiseaseRowFieldsFragment>): Maybe<number> {
+    return data?.id
   }
 }

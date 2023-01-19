@@ -262,7 +262,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: any): number {
-    return data.id
+  trackByIndex(_: number, data: Maybe<BrowseSourceSuggestionRowFieldsFragment>): Maybe<number> {
+    return data?.id
   }
 }
