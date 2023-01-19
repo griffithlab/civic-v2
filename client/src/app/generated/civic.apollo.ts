@@ -6128,6 +6128,13 @@ export type LinkableTherapyQueryVariables = Exact<{
 
 export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
 
+export type MpTagQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+}>;
+
+
+export type MpTagQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } | undefined };
+
 export type DiseaseSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -11711,6 +11718,27 @@ export const LinkableTherapyDocument = gql`
   })
   export class LinkableTherapyGQL extends Apollo.Query<LinkableTherapyQuery, LinkableTherapyQueryVariables> {
     document = LinkableTherapyDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MpTagDocument = gql`
+    query MpTag($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    id
+    name
+    link
+    molecularProfileAliases
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MpTagGQL extends Apollo.Query<MpTagQuery, MpTagQueryVariables> {
+    document = MpTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

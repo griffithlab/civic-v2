@@ -1,0 +1,8 @@
+query MpTag($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    id
+    name
+    link
+    molecularProfileAliases
+  }
+}
