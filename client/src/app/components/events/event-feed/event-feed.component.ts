@@ -22,12 +22,14 @@ import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.compone
 import { environment } from "environments/environment";
 import { isNonNulled } from "rxjs-etc";
 import { tag } from "rxjs-spy/cjs/operators";
-import { untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { pluck } from "rxjs-etc/operators";
 
 interface SelectableAction { id: EventAction }
 
 export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displayAll"
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-event-feed',
   templateUrl: './event-feed.component.html',
@@ -98,12 +100,10 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
     )
 
     this.events$ = this.results$
-      .pipe(map(r => r.data),
-        // tag('event-feed events$'),
+      .pipe(pluck('data', 'events', 'edges'),
         filter(isNonNulled),
-        map(({ events }) => {
-          return events.edges.map(e => e.node)
-        }))
+        map((edges) =>  edges.map( e => e.node)),
+      )
 
     this.loading$ = this.results$.pipe(
       map(({ loading }) => loading),
@@ -115,7 +115,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
         map(({ events }) => events.unfilteredCount));
 
     this.unfilteredCount$
-      .pipe(take(1),
+      .pipe(
+        take(1), 
         untilDestroyed(this))
       .subscribe(value => this.originalEventCount = value)
 
