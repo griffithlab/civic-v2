@@ -28,11 +28,6 @@ export function EnumSelectField<V, E>() {
   >(Base: TBase) {
     @Injectable()
     abstract class EnumSelectFieldMixin extends Base {
-      // BASE FIELD SOURCE STREAMS
-      // even though they're declared here, the base-field actually instantiates them
-      // TODO: figure out if it's possible for this mixin to extend the base field mixin so that its unecessary to declare these here
-      onValueChange$?: Subject<V>
-
       // CHILD SOURCE STREAMS
       // config options passed from components that extend this mixin
       optionEnum$?: Subject<E[]>
@@ -49,14 +44,6 @@ export function EnumSelectField<V, E>() {
       changeDetectorRef?: ChangeDetectorRef
 
       configureEnumSelectField(options: CvcEnumSelectFieldOptions<E>): void {
-        // ensure base field configured properly
-        if (!this.onValueChange$) {
-          console.error(
-            `${this.field.id} cannot find onValueChange$ Subject, ensure configureBaseField() has been called before configureEnumTagField() in its AfterViewInit hook.`
-          )
-          return
-        }
-
         // instantiate local observables
         this.selectOption$ = new BehaviorSubject<NzSelectOptionInterface[]>([])
         this.onTagClose$ = new Subject<MouseEvent>()
@@ -75,10 +62,7 @@ export function EnumSelectField<V, E>() {
 
         // emit new select options when option template list updated
         this.optionTemplate$
-          .pipe(
-            withLatestFrom(this.optionEnum$),
-            untilDestroyed(this)
-          )
+          .pipe(withLatestFrom(this.optionEnum$), untilDestroyed(this))
           .subscribe((templatesAndEnums: [TemplateRef<any>[], E[]]) => {
             this.emitSelectOptions(templatesAndEnums)
           })

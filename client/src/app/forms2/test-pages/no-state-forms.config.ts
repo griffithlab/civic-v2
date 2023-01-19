@@ -9,6 +9,7 @@ import { CvcBaseInputFieldOptions } from '../types/tag-input/tag-input.type'
 import { CvcVariantSelectFieldConfig } from '../types/variant-select/variant-select.type'
 import { CvcFieldGridWrapperConfig } from '../wrappers/field-grid/field-grid.wrapper'
 import { CvcMolecularProfileSelectFieldConfig } from '../types/molecular-profile-select/molecular-profile-select.type'
+import { CvcDiseaseSelectFieldConfig } from '../types/disease-select/disease-select.type'
 
 export const noStateFormsModel = {
   geneId: undefined,
@@ -84,6 +85,26 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
       <CvcSourceSelectFieldConfig>{
         key: 'sourceIds',
         type: 'source-multi-select',
+        props: {},
+      },
+    ],
+  },
+  {
+    wrappers: ['field-grid'],
+    props: <CvcFieldGridWrapperConfig>{
+      grid: {
+        cols: 2,
+      },
+    },
+    fieldGroup: [
+      <CvcDiseaseSelectFieldConfig>{
+        key: 'diseaseId',
+        type: 'disease-select',
+        props: {},
+      },
+      <CvcDiseaseSelectFieldConfig>{
+        key: 'diseaseIds',
+        type: 'disease-multi-select',
         props: {},
       },
     ],

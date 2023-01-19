@@ -146,9 +146,8 @@ export class CvcDiseaseSelectField
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
     })
-    this.onModelChange$
-      .pipe(tag('************* disease-select onModelChange$'))
-      .subscribe()
+    // if state formReady exists,listen for parent ready event,
+    // then configure - otherwise configure the field immediately
     if (this.state && this.state.formReady$) {
       this.state.formReady$
         .pipe(
@@ -159,13 +158,14 @@ export class CvcDiseaseSelectField
         .subscribe((_) => {
           this.configureField()
         })
+    } else {
+      this.configureField()
     }
-    // this.configureLabels()
   } // ngAfterViewInit()
 
   configureField(): void {
     this.placeholder$.next(this.props.placeholder)
-    // this.configurePlaceholders()
+    this.configureStateConnections()
   }
 
   configureStateConnections(): void {
@@ -193,23 +193,32 @@ export class CvcDiseaseSelectField
     if (!this.onRequiresDisease$ || !this.onEntityType$) return
 
     // watch requiresDisease and entityType to update field placeholders
-    combineLatest([this.onRequiresDisease$, this.onEntityType$])
+    combineLatest([
+      this.onRequiresDisease$,
+      this.onEntityType$,
+      this.onValueChange$,
+    ])
       .pipe(
-        tag(
-          `${this.field.id} combineLatest([this.onRequiresDisease$, this.onEntityType$])`
-        ),
+        // tag(
+        //   `${this.field.id} combineLatest([this.onRequiresDisease$, this.onEntityType$])`
+        // ),
         untilDestroyed(this)
       )
       .subscribe(
-        ([requiresDisease, entityType]: [boolean, Maybe<EntityType>]) => {
-          this.onStateUpdates(requiresDisease, entityType)
+        ([requiresDisease, entityType, diseaseId]: [
+          boolean,
+          Maybe<EntityType>,
+          Maybe<number | number[]>
+        ]) => {
+          this.onStateUpdates(requiresDisease, entityType, diseaseId)
         }
       )
   }
 
   onStateUpdates(
     requiresDisease: boolean,
-    entityType: Maybe<EntityType>
+    entityType: Maybe<EntityType>,
+    diseaseId: Maybe<number | number[]>
   ): void {
     // diseases are not associated with this entity type
     if (!requiresDisease && entityType) {
@@ -246,7 +255,7 @@ export class CvcDiseaseSelectField
     // field currently has a value, but state indicates no disease is required,
     //  or no type is provided && type is required, so reset field
     if (
-      (!requiresDisease && this.formControl.value) ||
+      (!requiresDisease && diseaseId !== undefined) ||
       (this.props.requireType && !entityType && this.formControl.value)
     ) {
       this.resetField()

@@ -19,7 +19,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map } from 'rxjs'
+import { BehaviorSubject, map, take, filter } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -73,7 +73,8 @@ export class CvcEntityTypeSelectField
   extends EntityTypeSelectMixin
   implements AfterViewInit
 {
-  //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EntityType instead of CvcInputEnum
+  //TODO: implement more precise types so specific enum-selects
+  //  like this one can specify their enums, e.g. EntityType instead of CvcInputEnum
   // STATE SOURCE STREAMS
   typeEnums$!: BehaviorSubject<CvcInputEnum[]>
 
@@ -101,13 +102,28 @@ export class CvcEntityTypeSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
     this.configureEnumSelectField({
       optionEnum$: this.typeEnums$,
       optionTemplate$: this.optionTemplate$,
       changeDetectorRef: this.cdr,
     })
 
+    if (this.state && this.state.formReady$) {
+      this.state.formReady$
+        .pipe(
+          filter((r) => r), // only pass true values
+          take(1), // unsubscribe after 1st emit
+          untilDestroyed(this) // or form destroyed
+        )
+        .subscribe((_) => {
+          this.configureField()
+        })
+    } else {
+      this.configureField()
+    }
+  }
+
+  configureField(): void {
     // update field description on value changes
     this.onValueChange$
       .pipe(untilDestroyed(this))
@@ -120,9 +136,6 @@ export class CvcEntityTypeSelectField
           this.props.extraType = 'description'
         }
       })
-  }
-
-  configureStateConnections(): void {
     if (!this.state) {
       console.error(
         `${this.field.id} requires a form state to configure itself, none was found.`
@@ -171,6 +184,5 @@ export class CvcEntityTypeSelectField
         return ql.map((q) => q)
       })
     )
-
   }
 }

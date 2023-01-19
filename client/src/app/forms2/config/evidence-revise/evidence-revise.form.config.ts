@@ -32,18 +32,18 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'Revise Evidence Item',
         },
         fieldGroup: [
-          <CvcMolecularProfileSelectFieldConfig>{
-            key: 'molecularProfileId',
-            type: 'molecular-profile-select',
-            props: {
-              required: true,
-            },
-          },
-          <CvcSourceSelectFieldOptions>{
-            key: 'sourceId',
-            type: 'source-select',
-            props: { required: true },
-          },
+          // <CvcMolecularProfileSelectFieldConfig>{
+          //   key: 'molecularProfileId',
+          //   type: 'molecular-profile-select',
+          //   props: {
+          //     required: true,
+          //   },
+          // },
+          // <CvcSourceSelectFieldOptions>{
+          //   key: 'sourceId',
+          //   type: 'source-select',
+          //   props: { required: true },
+          // },
           <CvcDiseaseSelectFieldOptions>{
             key: 'diseaseId',
             type: 'disease-select',
