@@ -6128,12 +6128,16 @@ export type LinkableTherapyQueryVariables = Exact<{
 
 export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
 
-export type MpTagQueryVariables = Exact<{
+export type EntityTagsTestQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
+  geneId: Scalars['Int'];
+  variantId: Scalars['Int'];
+  therapyId: Scalars['Int'];
+  diseaseId: Scalars['Int'];
 }>;
 
 
-export type MpTagQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } | undefined };
+export type EntityTagsTestQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
 
 export type DiseaseSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -11723,13 +11727,32 @@ export const LinkableTherapyDocument = gql`
       super(apollo);
     }
   }
-export const MpTagDocument = gql`
-    query MpTag($molecularProfileId: Int!) {
+export const EntityTagsTestDocument = gql`
+    query EntityTagsTest($molecularProfileId: Int!, $geneId: Int!, $variantId: Int!, $therapyId: Int!, $diseaseId: Int!) {
   molecularProfile(id: $molecularProfileId) {
     id
     name
     link
-    molecularProfileAliases
+  }
+  gene(id: $geneId) {
+    id
+    name
+    link
+  }
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+  disease(id: $diseaseId) {
+    id
+    name
+    link
   }
 }
     `;
@@ -11737,8 +11760,8 @@ export const MpTagDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class MpTagGQL extends Apollo.Query<MpTagQuery, MpTagQueryVariables> {
-    document = MpTagDocument;
+  export class EntityTagsTestGQL extends Apollo.Query<EntityTagsTestQuery, EntityTagsTestQueryVariables> {
+    document = EntityTagsTestDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

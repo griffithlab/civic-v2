@@ -1,1 +1,135 @@
-<p>icons-test</p>
+<nz-card nzTitle="Entity Tags & Features">
+  <nz-table
+    #tagTable
+    nzSize="small"
+    [nzShowPagination]="false"
+    [nzData]="(entityTagsData$ | ngrxPush) || []">
+    <thead>
+      <tr>
+        <th nzWidth="150px">Entity</th>
+        <th>Default</th>
+        <th>Popover</th>
+        <th>Closeable</th>
+        <th>Selectable</th>
+        <th>Trucate</th>
+        <th>Group</th>
+        <th>Unlinked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngrxLet="emphasizeStr$ as emphasize">
+        <ng-container *ngFor="let entity of tagTable.data">
+          <ng-container [ngSwitch]="entity.__typename">
+            <tr *ngSwitchCase="'MolecularProfile'">
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngSwitchCase="'Gene'">
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngSwitchCase="'Variant'">
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngSwitchCase="'Therapy'">
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngSwitchCase="'Disease'">
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngSwitchDefault>
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <tr>
+          <td>CACHE MISS</td>
+          <td>
+            <cvc-entity-tag
+              [cvcCacheId]="'FakeTypename:42'"
+              [cvcEmphasize]="emphasize"></cvc-entity-tag>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</nz-card>
+<ng-template #cardExtra>
+  Emphasize:
+  <input
+    nz-input
+    nzSize="small"
+    #emphasizeInput
+    type="text"
+    [ngModel]="emphasizeStr$ | ngrxPush"
+    (ngModelChange)="emphasizeStr$.next(emphasizeInput.value)" />
+</ng-template>

@@ -1,8 +1,33 @@
-query MpTag($molecularProfileId: Int!) {
+query EntityTagsTest(
+  $molecularProfileId: Int!
+  $geneId: Int!
+  $variantId: Int!
+  $therapyId: Int!
+  $diseaseId: Int!
+) {
   molecularProfile(id: $molecularProfileId) {
     id
     name
     link
-    molecularProfileAliases
+  }
+  gene(id: $geneId) {
+    id
+    name
+    link
+  }
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+  disease(id: $diseaseId) {
+    id
+    name
+    link
   }
 }

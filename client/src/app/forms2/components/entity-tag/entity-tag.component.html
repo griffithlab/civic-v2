@@ -35,18 +35,25 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
 </span>
 
 <ng-template #tagContent>
-  <span
-    *ngIf="typename; else noIcon"
-    nz-icon
-    [nzType]="typename | typenameToIcon"
-    nzTheme="twotone"
-    class="tag-icon"
-    [nzTwotoneColor]="typename | entityColor"></span>
-  <ng-container *ngIf="entity; else noEntity">
-    <span
-      class="tag-label"
-      [innerHtml]="entity.name | highlightTypeahead: cvcEmphasize"></span>
+  <ng-container *ngIf="entity; else cacheMiss">
+    <a [routerLink]="entity.link">
+      <span
+        *ngIf="typename; else noIcon"
+        nz-icon
+        [nzType]="typename | typenameToIcon"
+        nzTheme="twotone"
+        class="tag-icon"
+        [nzTwotoneColor]="typename | entityColor"></span>
+      <span
+        class="tag-label"
+        [innerHtml]="entity.name | highlightTypeahead : cvcEmphasize"></span>
+    </a>
   </ng-container>
+
+  <ng-template #cacheMiss>
+    <ng-template [ngTemplateOutlet]="noIcon"></ng-template>
+    CACHE-MISS ({{ cvcCacheId }})
+  </ng-template>
   <ng-template #noIcon>
     <span
       nz-icon
@@ -55,4 +62,3 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
       nzTheme="outline"></span>
   </ng-template>
 </ng-template>
-<ng-template #noEntity>CACHE-MISS ({{ cvcCacheId }})</ng-template>
