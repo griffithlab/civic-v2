@@ -719,6 +719,7 @@ export type BrowseVariant = {
   link: Scalars['String'];
   name: Scalars['String'];
   therapies: Array<Therapy>;
+  variantTypes: Array<LinkableVariantType>;
 };
 
 /** The connection type for BrowseVariant. */
@@ -1152,8 +1153,8 @@ export type DiseasePopover = {
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
   link: Scalars['String'];
+  molecularProfileCount: Scalars['Int'];
   name: Scalars['String'];
-  variantCount: Scalars['Int'];
 };
 
 export type DiseasesSort = {
@@ -1909,6 +1910,13 @@ export type LinkableTherapy = {
 
 export type LinkableVariant = {
   __typename: 'LinkableVariant';
+  id: Scalars['Int'];
+  link: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type LinkableVariantType = {
+  __typename: 'LinkableVariantType';
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -3057,6 +3065,7 @@ export type QueryBrowseVariantsArgs = {
   diseaseName?: InputMaybe<Scalars['String']>;
   entrezSymbol?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<VariantsSort>;
   therapyName?: InputMaybe<Scalars['String']>;
@@ -3064,6 +3073,7 @@ export type QueryBrowseVariantsArgs = {
   variantGroupId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantTypeId?: InputMaybe<Scalars['Int']>;
+  variantTypeName?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -5119,7 +5129,7 @@ export type DiseasePopoverQueryVariables = Exact<{
 }>;
 
 
-export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, link: string } | undefined };
+export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string } | undefined };
 
 export type BrowseDiseasesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5658,6 +5668,8 @@ export type BrowseVariantsQueryVariables = Exact<{
   variantAlias?: InputMaybe<Scalars['String']>;
   variantTypeId?: InputMaybe<Scalars['Int']>;
   variantGroupId?: InputMaybe<Scalars['Int']>;
+  variantTypeName?: InputMaybe<Scalars['String']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<VariantsSort>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -5666,9 +5678,9 @@ export type BrowseVariantsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> } | undefined }> } };
+export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
+export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7449,6 +7461,11 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   aliases {
     name
   }
+  variantTypes {
+    id
+    name
+    link
+  }
 }
     `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
@@ -8932,7 +8949,7 @@ export const DiseasePopoverDocument = gql`
     diseaseAliases
     assertionCount
     evidenceItemCount
-    variantCount
+    molecularProfileCount
     link
   }
 }
@@ -10177,7 +10194,7 @@ export const VariantsMenuDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
@@ -10186,6 +10203,8 @@ export const BrowseVariantsDocument = gql`
     variantAlias: $variantAlias
     variantTypeId: $variantTypeId
     variantGroupId: $variantGroupId
+    variantTypeName: $variantTypeName
+    hasNoVariantType: $hasNoVariantType
     sortBy: $sortBy
     first: $first
     last: $last
