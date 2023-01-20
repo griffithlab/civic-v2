@@ -1,10 +1,15 @@
 <!-- by default, display tag content within its own nz-tag -->
-<nz-tag
+<span
   *ngIf="cvcContext === 'default'"
-  [nzMode]="cvcMode"
-  (nzOnClose)="cvcOnClose.next($event)">
-  <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-</nz-tag>
+  class="default">
+  <nz-tag
+    [nzMode]="cvcMode"
+    [nzChecked]="cvcTagChecked"
+    (nzCheckedChange)="(cvcTagCheckedChange)"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
 
 <!-- if select-item context, tag is being displayed in a non-multi nz-select,
 so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->

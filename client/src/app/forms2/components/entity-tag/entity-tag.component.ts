@@ -3,8 +3,8 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { Subject } from 'rxjs'
 export interface LinkableEntity {
-  id: number,
-  name: string,
+  id: number
+  name: string
   link?: string
 }
 @Component({
@@ -16,16 +16,20 @@ export class CvcEntityTagComponent {
   _cacheId: string = ''
   @Input()
   set cvcCacheId(cacheId: string) {
-    if(!cacheId) return
+    if (!cacheId) return
     this.setLinkableEntity(cacheId)
   }
   get cvcCacheId(): string {
     return this._cacheId
   }
-  @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' = "default"
+  @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =
+    'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
   @Input() cvcEmphasize?: string
   @Output() cvcOnClose: EventEmitter<MouseEvent>
+  @Input() cvcTagChecked: boolean = false
+  @Output() cvcTagCheckedChange: EventEmitter<boolean> =
+    new EventEmitter<boolean>()
 
   typename?: string
   id?: number
@@ -40,8 +44,10 @@ export class CvcEntityTagComponent {
     const [typename, id] = cacheId.split(':')
     this.typename = typename
     this.id = +id
-    if(!this.typename || !this.id) {
-      console.error(`entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`)
+    if (!this.typename || !this.id) {
+      console.error(
+        `entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`
+      )
       return
     }
     // get linkable entity
@@ -62,5 +68,4 @@ export class CvcEntityTagComponent {
     }
     this.entity = entity
   }
-
 }

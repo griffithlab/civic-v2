@@ -10,7 +10,7 @@
         <th>Default</th>
         <th>Popover</th>
         <th>Closeable</th>
-        <th>Selectable</th>
+        <th>Checkable</th>
         <th>Trucate</th>
         <th>Group</th>
         <th>Unlinked</th>
@@ -28,8 +28,18 @@
                   [cvcEmphasize]="emphasize"></cvc-entity-tag>
               </td>
               <td></td>
-              <td></td>
-              <td></td>
+              <td>
+                <cvc-entity-tag
+                  cvcMode="closeable"
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td>
+                <cvc-entity-tag
+                  cvcMode="checkable"
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
               <td></td>
               <td></td>
               <td></td>
