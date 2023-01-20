@@ -20,6 +20,7 @@
   <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
     <ng-template #optionTemplates>
       <cvc-entity-tag
+        [cvcDisableLink]="true"
         [cvcCacheId]="result.__typename + ':' + result.id"
         [cvcEmphasize]="searchString"></cvc-entity-tag>
       <span

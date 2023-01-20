@@ -3,13 +3,11 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core'
-import { Maybe } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
-import { Subject } from 'rxjs'
+import { CvcMolecularProfileTag } from './directives/molecular-profile-tag.directive'
 export interface LinkableEntity {
   id: number
   name: string
@@ -19,6 +17,7 @@ export interface LinkableEntity {
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',
   styleUrls: ['./entity-tag.component.less'],
+  hostDirectives: [{ directive: CvcMolecularProfileTag }],
 })
 export class CvcEntityTagComponent implements OnChanges {
   _cacheId: string = ''
@@ -79,9 +78,17 @@ export class CvcEntityTagComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // disable link for checkable mode
     if (changes.cvcMode) {
       const mode = changes.cvcMode.currentValue
       if (mode === 'checkable') {
+        this.cvcDisableLink = true
+      }
+    }
+    // disable link for select-item, multi-select-item contexts
+    if (changes.cvcContext) {
+      const context = changes.cvcContext.currentValue
+      if (context !== 'default') {
         this.cvcDisableLink = true
       }
     }
