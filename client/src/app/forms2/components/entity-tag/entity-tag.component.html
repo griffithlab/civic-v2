@@ -41,7 +41,15 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
 
 <ng-template #tagContent>
   <ng-container *ngIf="entity; else cacheMiss">
-    <a [routerLink]="entity.link">
+    <span *ngIf="cvcDisableLink">
+      <ng-container [ngTemplateOutlet]="tagLabel"></ng-container>
+    </span>
+    <a
+      *ngIf="!cvcDisableLink"
+      [routerLink]="entity.link">
+      <ng-container [ngTemplateOutlet]="tagLabel"></ng-container>
+    </a>
+    <ng-template #tagLabel>
       <span
         *ngIf="typename; else noIcon"
         nz-icon
@@ -52,7 +60,7 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
       <span
         class="tag-label"
         [innerHtml]="entity.name | highlightTypeahead : cvcEmphasize"></span>
-    </a>
+    </ng-template>
   </ng-container>
 
   <ng-template #cacheMiss>

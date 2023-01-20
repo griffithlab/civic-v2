@@ -52,5 +52,9 @@ export class TagsTestPage implements OnInit {
     )
   }
 
+  tagChecked(event: any): void {
+    console.log(`Tag checked: ${event}`)
+  }
+
   ngOnInit(): void {}
 }

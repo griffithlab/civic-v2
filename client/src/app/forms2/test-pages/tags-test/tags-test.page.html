@@ -37,6 +37,7 @@
               <td>
                 <cvc-entity-tag
                   cvcMode="checkable"
+                  (cvcTagCheckedChange)="tagChecked($event)"
                   [cvcCacheId]="entity.__typename + ':' + entity.id"
                   [cvcEmphasize]="emphasize"></cvc-entity-tag>
               </td>

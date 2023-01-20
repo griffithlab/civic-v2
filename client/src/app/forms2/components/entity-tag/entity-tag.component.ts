@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { Subject } from 'rxjs'
@@ -12,7 +20,7 @@ export interface LinkableEntity {
   templateUrl: './entity-tag.component.html',
   styleUrls: ['./entity-tag.component.less'],
 })
-export class CvcEntityTagComponent {
+export class CvcEntityTagComponent implements OnChanges {
   _cacheId: string = ''
   @Input()
   set cvcCacheId(cacheId: string) {
@@ -26,10 +34,11 @@ export class CvcEntityTagComponent {
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
   @Input() cvcEmphasize?: string
-  @Output() cvcOnClose: EventEmitter<MouseEvent>
+  @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
+  @Output() cvcOnClose: EventEmitter<MouseEvent>
 
   typename?: string
   id?: number
@@ -67,5 +76,14 @@ export class CvcEntityTagComponent {
       return
     }
     this.entity = entity
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cvcMode) {
+      const mode = changes.cvcMode.currentValue
+      if (mode === 'checkable') {
+        this.cvcDisableLink = true
+      }
+    }
   }
 }
