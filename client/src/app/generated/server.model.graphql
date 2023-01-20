@@ -5802,6 +5802,11 @@ type Query {
     first: Int
 
     """
+    Filter variant types by internal CIViC id of a gene
+    """
+    geneId: Int
+
+    """
     Filter variant types by internal CIViC id
     """
     id: Int
@@ -5861,6 +5866,11 @@ type Query {
     """
     name: String
     sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
   ): VariantConnection!
   viewer: User
 }

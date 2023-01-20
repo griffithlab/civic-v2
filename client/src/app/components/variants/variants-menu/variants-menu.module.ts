@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -32,6 +33,7 @@ import { CvcVariantsMenuComponent } from './variants-menu.component';
     CvcPipesModule,
     CvcVariantTagModule,
     CvcTagListModule,
+    CvcVariantTypeTagModule,
   ],
   exports: [CvcVariantsMenuComponent ]
 })

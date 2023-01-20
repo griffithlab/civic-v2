@@ -25403,6 +25403,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "geneId",
+                  "description": "Filter variant types by internal CIViC id of a gene",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": "Sort order for the variant type. Defaults to most recent.",
                   "type": {
@@ -25498,6 +25510,26 @@
                     "kind": "SCALAR",
                     "name": "Int",
                     "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "variantTypeIds",
+                  "description": "A list of CIViC identifiers for variant types",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null,
                   "isDeprecated": false,

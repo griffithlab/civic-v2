@@ -8,7 +8,9 @@ import {
   PageInfo,
   VariantMenuSortColumns,
   SortDirection,
-  VariantConnection
+  VariantConnection,
+  MenuVariantTypeFragment,
+  VariantTypesForGeneGQL
 } from "@app/generated/civic.apollo";
 import { map, debounceTime, pluck, distinctUntilChanged, filter } from 'rxjs/operators'
 import { Observable, Observer, Subject } from 'rxjs';
@@ -17,6 +19,7 @@ import { ApolloQueryResult } from "@apollo/client/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { isNonNulled } from "rxjs-etc";
 import { tag } from "rxjs-spy/cjs/operators";
+import { getEntityColor } from "@app/core/utilities/get-entity-color";
 
 @UntilDestroy()
 @Component({
@@ -29,12 +32,14 @@ export class CvcVariantsMenuComponent implements OnInit {
   @Input() geneName?: string;
 
   menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
+  menuVariantTypes$?: Observable<Maybe<MenuVariantTypeFragment>[]>;
   totalVariants$?: Observable<number>;
   queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
 
   sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
   variantNameFilter: Maybe<string>;
+  variantTypeFilter: Maybe<string>;
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<VariantsMenuQuery>>
@@ -42,8 +47,10 @@ export class CvcVariantsMenuComponent implements OnInit {
   private initialQueryVars!: VariantsMenuQueryVariables
   private pageSize = 50;
 
+  iconColor = getEntityColor('VariantType')
 
-  constructor(private gql: VariantsMenuGQL) { }
+
+  constructor(private gql: VariantsMenuGQL, private variantTypeGql: VariantTypesForGeneGQL) { }
 
   ngOnInit() {
     if (this.geneId === undefined) {
@@ -77,6 +84,14 @@ export class CvcVariantsMenuComponent implements OnInit {
       .pipe(debounceTime(500),
         untilDestroyed(this))
       .subscribe((_) => this.refresh());
+
+    this.menuVariantTypes$ = this.variantTypeGql
+      .watch({geneId: this.geneId})
+      .valueChanges
+      .pipe(
+        map(c => c.data?.variantTypes.edges?.map((e) => e.node)),
+        filter(isNonNulled)
+      )
   }
 
   onModelUpdated() {
@@ -101,6 +116,7 @@ export class CvcVariantsMenuComponent implements OnInit {
     this.queryRef$.refetch({
       geneId: this.geneId,
       variantName: this.variantNameFilter,
+
       sortBy: {
         column: this.sortBy,
         direction: SortDirection.Asc

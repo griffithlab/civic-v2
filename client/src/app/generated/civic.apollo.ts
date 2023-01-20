@@ -3504,6 +3504,7 @@ export type QueryVariantTypesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -3520,6 +3521,7 @@ export type QueryVariantsArgs = {
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantMenuSort>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export enum ReadStatus {
@@ -5648,6 +5650,7 @@ export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, 
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   before?: InputMaybe<Scalars['String']>;
@@ -5657,6 +5660,15 @@ export type VariantsMenuQueryVariables = Exact<{
 
 
 export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean } | undefined }> } };
+
+export type VariantTypesForGeneQueryVariables = Exact<{
+  geneId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type VariantTypesForGeneQuery = { __typename: 'Query', variantTypes: { __typename: 'BrowseVariantTypeConnection', edges: Array<{ __typename: 'BrowseVariantTypeEdge', node?: { __typename: 'BrowseVariantType', id: number, name: string, link: string, displayName: string } | undefined }> } };
+
+export type MenuVariantTypeFragment = { __typename: 'BrowseVariantType', id: number, name: string, link: string, displayName: string };
 
 export type MenuVariantFragment = { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean };
 
@@ -7430,6 +7442,14 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
+}
+    `;
+export const MenuVariantTypeFragmentDoc = gql`
+    fragment menuVariantType on BrowseVariantType {
+  id
+  name
+  displayName: name
+  link
 }
     `;
 export const MenuVariantFragmentDoc = gql`
@@ -10156,10 +10176,11 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($geneId: Int, $variantName: String, $variantTypeIds: [Int!], $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
     geneId: $geneId
     name: $variantName
+    variantTypeIds: $variantTypeIds
     first: $first
     last: $last
     before: $before
@@ -10189,6 +10210,28 @@ export const VariantsMenuDocument = gql`
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypesForGeneDocument = gql`
+    query VariantTypesForGene($geneId: Int) {
+  variantTypes(geneId: $geneId, first: 50) {
+    edges {
+      node {
+        ...menuVariantType
+      }
+    }
+  }
+}
+    ${MenuVariantTypeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypesForGeneGQL extends Apollo.Query<VariantTypesForGeneQuery, VariantTypesForGeneQueryVariables> {
+    document = VariantTypesForGeneDocument;
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

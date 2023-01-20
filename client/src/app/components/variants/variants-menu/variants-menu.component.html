@@ -18,7 +18,7 @@
         nzLayout="inline"
         id="variant-filters">
         <nz-form-item>
-          <nz-form-label>Filter</nz-form-label>
+          <nz-form-label>Name Filter</nz-form-label>
           <nz-form-control>
             <nz-input-group [nzSuffix]="nameInputClearTpl"
               id="name-filter-group"
@@ -39,6 +39,48 @@
                   (click)="variantNameFilter = undefined; onModelUpdated()"></i>
               </ng-template>
             </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Type Filter</nz-form-label>
+          <nz-form-control>
+            <ng-container *ngIf="menuVariantTypes$ | ngrxPush as variantTypes">
+              <nz-select nzAllowClear
+                nzPlaceHolder="Variant Type"
+                nzMode="multiple"
+                [nzCustomTemplate]="variantTypeTemplate">
+                <nz-option *ngFor="let variantType of variantTypes"
+                  [nzLabel]="variantType.name"
+                  [nzValue]="variantType">
+                </nz-option>
+              </nz-select>
+              <ng-template #variantTypeTemplate let-selected>
+                <div class="ant-select-selection-item-content">
+                  <i nz-icon nzType="civic-varianttype" nzTheme="twotone" [nzTwotoneColor]="iconColor"></i>
+                  {{ selected.nzLabel }}
+                </div>
+              </ng-template>
+            </ng-container>
+            <!-- nz-input-group [nzSuffix]="typeInputClearTpl"
+              id="type-filter-group"
+              [nzCompact]="true"
+              nzSize="small">
+              <input type="text"
+                nz-input
+                placeholder="Variant Type"
+                name="name-filter"
+                (ngModelChange)="onModelUpdated()"
+                [(ngModel)]="variantTypeFilter" />
+              <ng-template #typeInputClearTpl>
+                <i nz-icon
+                  class="ant-input-clear-icon"
+                  nzTheme="fill"
+                  nzType="close-circle"
+                  *ngIf="variantTypeFilter"
+                  (click)="variantTypeFilter = undefined; onModelUpdated()"></i>
+              </ng-template>
+            </nz-input-group> -->
+
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
