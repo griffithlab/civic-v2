@@ -3518,6 +3518,7 @@ export type QueryVariantsArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantMenuSort>;
@@ -5651,6 +5652,7 @@ export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   before?: InputMaybe<Scalars['String']>;
@@ -5666,9 +5668,9 @@ export type VariantTypesForGeneQueryVariables = Exact<{
 }>;
 
 
-export type VariantTypesForGeneQuery = { __typename: 'Query', variantTypes: { __typename: 'BrowseVariantTypeConnection', edges: Array<{ __typename: 'BrowseVariantTypeEdge', node?: { __typename: 'BrowseVariantType', id: number, name: string, link: string, displayName: string } | undefined }> } };
+export type VariantTypesForGeneQuery = { __typename: 'Query', variantTypes: { __typename: 'BrowseVariantTypeConnection', edges: Array<{ __typename: 'BrowseVariantTypeEdge', node?: { __typename: 'BrowseVariantType', id: number, name: string, link: string } | undefined }> } };
 
-export type MenuVariantTypeFragment = { __typename: 'BrowseVariantType', id: number, name: string, link: string, displayName: string };
+export type MenuVariantTypeFragment = { __typename: 'BrowseVariantType', id: number, name: string, link: string };
 
 export type MenuVariantFragment = { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean };
 
@@ -7448,7 +7450,6 @@ export const MenuVariantTypeFragmentDoc = gql`
     fragment menuVariantType on BrowseVariantType {
   id
   name
-  displayName: name
   link
 }
     `;
@@ -10176,11 +10177,12 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $variantTypeIds: [Int!], $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($geneId: Int, $variantName: String, $variantTypeIds: [Int!], $hasNoVariantType: Boolean, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
     geneId: $geneId
     name: $variantName
     variantTypeIds: $variantTypeIds
+    hasNoVariantType: $hasNoVariantType
     first: $first
     last: $last
     before: $before
@@ -10231,7 +10233,7 @@ export const VariantTypesForGeneDocument = gql`
   })
   export class VariantTypesForGeneGQL extends Apollo.Query<VariantTypesForGeneQuery, VariantTypesForGeneQueryVariables> {
     document = VariantTypesForGeneDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

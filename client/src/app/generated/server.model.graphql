@@ -5857,6 +5857,11 @@ type Query {
     geneId: Int
 
     """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int

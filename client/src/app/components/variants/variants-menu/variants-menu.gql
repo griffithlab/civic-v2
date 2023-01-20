@@ -2,6 +2,7 @@ query VariantsMenu(
   $geneId: Int,
   $variantName: String,
   $variantTypeIds: [Int!],
+  $hasNoVariantType: Boolean
   $first: Int,
   $last: Int,
   $before: String,
@@ -12,6 +13,7 @@ query VariantsMenu(
     geneId: $geneId,
     name: $variantName,
     variantTypeIds: $variantTypeIds,
+    hasNoVariantType: $hasNoVariantType,
     first: $first,
     last: $last,
     before: $before,

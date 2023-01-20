@@ -25536,6 +25536,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "hasNoVariantType",
+                  "description": "Return Variants lacking an assigned VariantType",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": null,
                   "type": {

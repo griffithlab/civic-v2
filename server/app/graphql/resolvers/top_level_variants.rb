@@ -19,7 +19,19 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
   end
 
   option(:variant_type_ids, type: [GraphQL::Types::Int], description: 'A list of CIViC identifiers for variant types') do  |scope, value|
-    scope.joins(:variant_types).where(variant_types: { id: value })
+    if value.size > 0
+      scope.joins(:variant_types).where(variant_types: { id: value })
+    else
+      scope
+    end
+  end
+
+  option(:has_no_variant_type, type: GraphQL::Types::Boolean, description: "Return Variants lacking an assigned VariantType") do |scope, value|
+    if(value)
+      scope.left_joins(:variant_types).where(variant_types: { id: nil })
+    else
+      scope
+    end
   end
 
   option :sort_by, type: Types::VariantMenuSortType do |scope, value|

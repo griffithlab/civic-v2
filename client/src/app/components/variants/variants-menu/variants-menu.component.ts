@@ -12,13 +12,12 @@ import {
   MenuVariantTypeFragment,
   VariantTypesForGeneGQL
 } from "@app/generated/civic.apollo";
-import { map, debounceTime, pluck, distinctUntilChanged, filter } from 'rxjs/operators'
-import { Observable, Observer, Subject } from 'rxjs';
-import { Apollo, QueryRef } from "apollo-angular";
+import { map, debounceTime, filter } from 'rxjs/operators'
+import { Observable, Subject } from 'rxjs';
+import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { isNonNulled } from "rxjs-etc";
-import { tag } from "rxjs-spy/cjs/operators";
 import { getEntityColor } from "@app/core/utilities/get-entity-color";
 
 @UntilDestroy()
@@ -31,6 +30,7 @@ export class CvcVariantsMenuComponent implements OnInit {
   @Input() geneId?: number;
   @Input() geneName?: string;
 
+
   menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
   menuVariantTypes$?: Observable<Maybe<MenuVariantTypeFragment>[]>;
   totalVariants$?: Observable<number>;
@@ -39,7 +39,8 @@ export class CvcVariantsMenuComponent implements OnInit {
 
   sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
   variantNameFilter: Maybe<string>;
-  variantTypeFilter: Maybe<string>;
+  variantTypeFilter: Maybe<MenuVariantTypeFragment[]> = [];
+  hasNoVariantType: boolean = false
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<VariantsMenuQuery>>
@@ -113,10 +114,12 @@ export class CvcVariantsMenuComponent implements OnInit {
     if (this.geneId === undefined) {
       throw new Error('Must pass a gene id into variant menu component.');
     }
+
     this.queryRef$.refetch({
       geneId: this.geneId,
       variantName: this.variantNameFilter,
-
+      hasNoVariantType: this.hasNoVariantType,
+      variantTypeIds: this.variantTypeFilter?.map(vt => vt.id),
       sortBy: {
         column: this.sortBy,
         direction: SortDirection.Asc
