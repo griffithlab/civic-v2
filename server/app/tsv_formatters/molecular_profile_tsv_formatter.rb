@@ -26,7 +26,7 @@ class MolecularProfileTsvFormatter
 
   def self.row_from_object(mp)
     [
-      mp.display_name,
+      mp.name,
       mp.id,
       mp.description&.squish,
       mp.variants.map(&:id).join(', '),

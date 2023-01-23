@@ -24,7 +24,7 @@ Trestle.resource(:assertions) do
   table do
     column :id
     column :molecular_profile do |assertion|
-      assertion.molecular_profile.display_name
+      assertion.molecular_profile.name
     end
     column :summary
     column :assertion_type do |assertion|
@@ -41,7 +41,7 @@ Trestle.resource(:assertions) do
     tab :assertion do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) { status_field assertion.molecular_profile.display_name }
+        col(sm: 1) { status_field assertion.molecular_profile.name }
         col(sm: 2) do
           variant_origins = Assertion.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
           select :variant_origin, variant_origins
