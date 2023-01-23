@@ -3376,6 +3376,11 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     sortBy: DateSort
   ): CommentConnection!
+
+  """
+  A human readable shorthand name that is commonly used for this profile.
+  """
+  commonName: String
   deprecated: Boolean!
   deprecatedVariants: [Variant!]!
   deprecationEvent: Event
@@ -3485,6 +3490,11 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     state: FlagState
   ): FlagConnection!
+
+  """
+  The human readable full name of this profile, including gene, variant names, and boolean operators.
+  """
+  fullName: String!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -3494,7 +3504,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   molecularProfileScore: Float!
 
   """
-  The human readable name of this profile, including gene and variant names.
+  Returns either the common name of this profile, if it is set, or the full_name otherwise.
   """
   name: String!
 
@@ -3670,6 +3680,11 @@ input MolecularProfileFields {
   List of aliases or alternate names for the MolecularProfile.
   """
   aliases: [String!]!
+
+  """
+  The MolecularProfile's common name.
+  """
+  commonName: NullableStringInput!
 
   """
   The MolecularProfile's description/summary text.

@@ -35,8 +35,12 @@ module Types::BrowseTables
     end
 
     def name
-      Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
-        segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+      if object.common_name
+        object.common_name
+      else
+        Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
+          segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+        end
       end
     end
 

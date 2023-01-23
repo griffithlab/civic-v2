@@ -10,7 +10,11 @@ module Types::Entities
     field :raw_name, String, null: false, 
       description: 'The profile name as stored, with ids rather than names.'
     field :name, String, null: false,
-      description: 'The human readable name of this profile, including gene and variant names.'
+      description: 'Returns either the common name of this profile, if it is set, or the full_name otherwise.'
+    field :full_name, String, null: false,
+      description: 'The human readable full name of this profile, including gene, variant names, and boolean operators.'
+    field :common_name, String, null: true,
+      description: 'A human readable shorthand name that is commonly used for this profile.'
     field :parsed_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false, 
       description: 'The profile name with its constituent parts as objects, suitable for building tags.'
     field :variants, [Types::Entities::VariantType], null: false,
@@ -28,15 +32,21 @@ module Types::Entities
     field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
 
-    def raw_name
-      object.name
-    end
-
     def molecular_profile_score
       object.evidence_score
     end
 
     def name
+      if object.common_name
+        object.common_name
+      else
+        Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
+          segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+        end
+      end
+    end
+
+    def full_name
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
         segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
       end

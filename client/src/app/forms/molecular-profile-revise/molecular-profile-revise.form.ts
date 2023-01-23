@@ -37,6 +37,7 @@ export interface FormSource {
 export interface FormModel {
   fields: {
     id: number;
+    commonName?: string;
     description?: string;
     sources: FormSource[];
     molecularProfileAliases: string[]
@@ -87,6 +88,16 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
             key: 'id',
             type: 'input',
             hide: true,
+          },
+          {
+            key: 'commonName',
+            type: 'cvc-textarea',
+            templateOptions: {
+              label: 'Molecular Profile Common Name',
+              helpText: 'Provide a human readable shorthand name that is commonly used for this molecular profile.',
+              placeholder: 'Enter a common name for this molecular profile.',
+              required: false,
+            },
           },
           {
             key: 'description',
@@ -257,6 +268,7 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
         comment: fields.comment!,
         organizationId: fields.organization?.id,
         fields: {
+          commonName: toNullableString(model.fields.commonName),
           description: toNullableString(model.fields.description),
           sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
           aliases: model.fields.molecularProfileAliases,
