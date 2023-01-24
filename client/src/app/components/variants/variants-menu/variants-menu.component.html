@@ -1,89 +1,140 @@
-<ng-container *ngIf="menuVariants$ | ngrxPush as variants">
-  <nz-card [nzTitle]="cardTitle"
-    [nzExtra]="cardExtra">
+<nz-spin [nzSpinning]="loading$ | ngrxPush">
+  <ng-container *ngIf="menuVariants$ | ngrxPush as variants">
+    <nz-card [nzTitle]="cardTitle"
+      [nzExtra]="cardExtra">
 
-    <ng-template #cardTitle>
-      <ng-container *ngIf="totalVariants$ | ngrxPush as total">
-        <span nz-typography
-          nzType="secondary">{{ total }} Total</span>
-        <span nz-typography
-          *ngIf="total  > variants.length"
-          nzType="secondary">({{ variants.length }} displayed)</span>
-      </ng-container>
+      <ng-template #cardTitle>
+        <ng-container *ngIf="totalVariants$ | ngrxPush as total">
+          <span nz-typography
+            nzType="secondary">{{ total }} Total</span>
+          <span nz-typography
+            *ngIf="total  > variants.length"
+            nzType="secondary">({{ variants.length }} displayed)</span>
+        </ng-container>
 
-    </ng-template>
+      </ng-template>
 
-    <ng-template #cardExtra>
-      <form nz-form
-        nzLayout="inline"
-        id="variant-filters">
-        <nz-form-item>
-          <nz-form-label>Filter</nz-form-label>
-          <nz-form-control>
-            <nz-input-group [nzSuffix]="nameInputClearTpl"
-              id="name-filter-group"
-              [nzCompact]="true"
-              nzSize="small">
-              <input type="text"
-                nz-input
-                placeholder="Variant Names"
-                name="name-filter"
-                (ngModelChange)="onModelUpdated()"
-                [(ngModel)]="variantNameFilter" />
-              <ng-template #nameInputClearTpl>
-                <i nz-icon
-                  class="ant-input-clear-icon"
-                  nzTheme="fill"
-                  nzType="close-circle"
-                  *ngIf="variantNameFilter"
-                  (click)="variantNameFilter = undefined; onModelUpdated()"></i>
-              </ng-template>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Order By</nz-form-label>
-          <nz-form-control>
-            <nz-select (ngModelChange)="onVariantSortOrderChanged($event)"
-              nzSize="small"
-              id="variant-sort-order"
-              name="sortBy"
-              style="width: 115px;"
-              [(ngModel)]="sortBy">
-              <nz-option nzValue="NAME"
-                nzLabel="Variant Name"
-                style="width: 100%"
-                selected></nz-option>
-              <nz-option nzValue="COORDINATE_START"
-                style="width: 100%"
-                nzLabel="Start Position"></nz-option>
-              <nz-option nzValue="COORDINATE_END"
-                style="width: 100%"
-                nzLabel="End Position"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </form>
-    </ng-template>
-    <nz-row>
-      <nz-col nzSpan="24">
-        <cvc-tag-list size="sm">
-          <ng-container *ngFor="let v of variants">
-            <cvc-variant-tag [variant]="v"></cvc-variant-tag>
-          </ng-container>
-        </cvc-tag-list>
-      </nz-col>
-    </nz-row>
-    <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-      <nz-row id="load-more-btn"
-        *ngIf="pageInfo.hasNextPage">
-        <button nz-button
-          nzType="default"
-          nzSize="small"
-          nzBlock
-          (click)="fetchMore(pageInfo.endCursor)">Load More
-        </button>
+      <ng-template #cardExtra>
+        <form nz-form
+          nzLayout="inline"
+          id="variant-filters">
+          <nz-form-item>
+            <nz-form-label>Name Filter</nz-form-label>
+            <nz-form-control>
+              <nz-input-group [nzSuffix]="nameInputClearTpl"
+                id="name-filter-group"
+                [nzCompact]="true"
+                nzSize="small">
+                <input type="text"
+                  nz-input
+                  placeholder="Variant Names"
+                  name="name-filter"
+                  (ngModelChange)="onModelUpdated()"
+                  [(ngModel)]="variantNameFilter" />
+                <ng-template #nameInputClearTpl>
+                  <i nz-icon
+                    class="ant-input-clear-icon"
+                    nzTheme="fill"
+                    nzType="close-circle"
+                    *ngIf="variantNameFilter"
+                    (click)="variantNameFilter = undefined; onModelUpdated()"></i>
+                </ng-template>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Variant Type</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="menuVariantTypes$ | ngrxPush as variantTypes">
+                <nz-select nzAllowClear
+                  nzSize="small"
+                  nzMode="multiple"
+                  style="min-width: 115px;"
+                  [nzDropdownMatchSelectWidth]="false"
+                  nzPlaceHolder="Variant Type"
+                  name="variantTypes"
+                  nzShowSearch
+                  [(ngModel)]="variantTypeFilter"
+                  (ngModelChange)="onModelUpdated()"
+                  [nzCustomTemplate]="variantTypeTemplate">
+                  <nz-option *ngFor="let variantType of variantTypes"
+                    [nzLabel]="variantType.name"
+                    [nzValue]="variantType">
+                  </nz-option>
+                </nz-select>
+                <ng-template #variantTypeTemplate let-selected>
+                  <div class="ant-select-selection-item-content">
+                    <i nz-icon nzType="civic-varianttype" nzTheme="twotone" [nzTwotoneColor]="iconColor"></i>
+                    {{ selected.nzLabel }}
+                  </div>
+                </ng-template>
+              </ng-container>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>
+              No Variant Type
+            </nz-form-label>
+            <nz-form-control>
+              <label nz-checkbox
+                name="noVt"
+                [(ngModel)]="hasNoVariantType"
+                (ngModelChange)="onModelUpdated()">
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Order By</nz-form-label>
+            <nz-form-control>
+              <nz-select (ngModelChange)="onVariantSortOrderChanged($event)"
+                nzSize="small"
+                id="variant-sort-order"
+                name="sortBy"
+                style="width: 115px;"
+                [(ngModel)]="sortBy">
+                <nz-option nzValue="NAME"
+                  nzLabel="Variant Name"
+                  style="width: 100%"
+                  selected></nz-option>
+                <nz-option nzValue="COORDINATE_START"
+                  style="width: 100%"
+                  nzLabel="Start Position"></nz-option>
+                <nz-option nzValue="COORDINATE_END"
+                  style="width: 100%"
+                  nzLabel="End Position"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </ng-template>
+      <nz-row>
+        <nz-col nzSpan="24">
+          <cvc-tag-list size="sm">
+            <ng-container *ngFor="let v of variants">
+              <cvc-variant-tag [variant]="v"></cvc-variant-tag>
+            </ng-container>
+          </cvc-tag-list>
+        </nz-col>
       </nz-row>
-    </ng-container>
-  </nz-card>
-</ng-container>
+      <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+        <nz-row id="load-more-btn"
+          *ngIf="pageInfo.hasNextPage">
+          <button nz-button
+            nzType="default"
+            nzSize="small"
+            style="width: 95%;"
+            (click)="fetchMore(pageInfo.endCursor)">Load More
+          </button>
+          <nz-select 
+            [(ngModel)]="this.pageSize"
+            style="width: 5%;"
+            nzSize="small">
+            <nz-option nzLabel="50" [nzValue]="50"></nz-option>
+            <nz-option nzLabel="100" [nzValue]="100"></nz-option>
+            <nz-option nzLabel="300" [nzValue]="300"></nz-option>
+          </nz-select>
+        </nz-row>
+      </ng-container>
+    </nz-card>
+  </ng-container>
+</nz-spin>
