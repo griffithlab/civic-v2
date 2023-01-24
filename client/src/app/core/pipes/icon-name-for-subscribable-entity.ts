@@ -36,6 +36,9 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case 'MOLECULAR_PROFILE':
       case 'MolecularProfile':
         return 'civic-molecularprofile';
+      case 'SOURCE':
+      case 'Source':
+        return 'civic-source';
       default:
         console.log('String No icon name found for ' + e);
         return 'border-outer';

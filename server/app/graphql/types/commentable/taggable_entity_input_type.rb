@@ -23,6 +23,8 @@ module Types::Commentable
         Revision
       when 'MOLECULAR_PROFILE'
         MolecularProfile
+      when 'SOURCE'
+        Source
       else
         #it was a role
         nil
