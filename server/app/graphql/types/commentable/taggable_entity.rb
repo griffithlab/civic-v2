@@ -8,5 +8,6 @@ module Types::Commentable
     value 'REVISION'
     value 'ROLE'
     value 'MOLECULAR_PROFILE'
+    value 'SOURCE'
   end
 end

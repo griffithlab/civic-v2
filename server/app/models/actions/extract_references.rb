@@ -53,7 +53,7 @@ module Actions
         nil
       end
     end
-    
+
     def self.deprecation_value_for_referenced_entity(item)
       if item.is_a?(Variant) || item.is_a?(MolecularProfile)
         item.deprecated
@@ -72,7 +72,7 @@ module Actions
             display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
             tag_type: tag_type,
             status: status_value_for_referenced_entity(referenced_item),
-            deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
+            deprecated: deprecation_value_for_referenced_entity(referenced_item),
           }
           end
         else
@@ -99,15 +99,17 @@ module Actions
         [Assertion, 'ASSERTION']
       when 'MP'
         [MolecularProfile, 'MOLECULAR_PROFILE']
+      when 'S'
+        [Source, 'SOURCE']
       end
     end
 
     def self.split_regex
-      @split_regex ||= Regexp.new(/\s*(#(?:a|v|g|vg|e|r|mp)(?:id)?\d+)\b/i)
+      @split_regex ||= Regexp.new(/\s*(#(?:a|v|g|vg|e|r|mp|s)(?:id)?\d+)\b/i)
     end
 
     def self.scan_regex
-      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
+      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r|mp|s)(?:id)?(?<id>\d+)\b/i)
     end
   end
 end

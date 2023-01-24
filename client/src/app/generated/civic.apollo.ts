@@ -4389,6 +4389,7 @@ export enum TaggableEntity {
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
   Role = 'ROLE',
+  Source = 'SOURCE',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
