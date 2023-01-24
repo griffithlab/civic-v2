@@ -48,8 +48,8 @@ jobs:
         working-directory: ./server
 
       - name: Commit and push build
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v9
         with:
           add: server/public/*
-          branch: ${{ inputs.branch }}
+          push: origin ${{ inputs.branch }}
           message: Automated frontend build

@@ -1,7 +1,7 @@
 class VariantTsvFormatter
   def self.objects
     Variant.joins(molecular_profiles: [:evidence_items])
-      .includes(:gene, :variant_groups, :variant_types, :hgvs_expressions, :variant_aliases)
+      .includes(:gene, :variant_groups, :variant_types, :hgvs_descriptions, :variant_aliases)
       .where("evidence_items.status = 'accepted'")
       .distinct
   end
@@ -27,7 +27,7 @@ class VariantTsvFormatter
       'stop2',
       'representative_transcript2',
       'variant_types',
-      'hgvs_expressions',
+      'hgvs_descriptions',
       'last_review_date',
       'allele_registry_id',
       'clinvar_ids',
@@ -57,7 +57,7 @@ class VariantTsvFormatter
       variant.stop2,
       variant.representative_transcript2,
       variant.variant_types.map(&:name).join(','),
-      variant.hgvs_expressions.map(&:expression).join(','),
+      variant.hgvs_descriptions.map(&:description).join(','),
       variant.updated_at,
       variant.allele_registry_id,
       variant.clinvar_entries.map(&:clinvar_id).join(','),

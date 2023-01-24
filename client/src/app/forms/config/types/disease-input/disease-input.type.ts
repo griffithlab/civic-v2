@@ -42,7 +42,7 @@ export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit
 
   addDiseaseMutator: MutatorWithState<AddDiseaseGQL, AddDiseaseMutation, AddDiseaseMutationVariables>
 
-  enteredDoid: String = ''
+  enteredDoid: string = ''
   displayAdd$ = new BehaviorSubject<boolean>(false)
 
   constructor(
@@ -107,7 +107,7 @@ export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit
 
   addDisease(diseaseName: string): void {
     if (diseaseName && diseaseName != '') {
-      let doid = +this.enteredDoid ? +this.enteredDoid : undefined
+      let doid = this.enteredDoid ? this.enteredDoid : undefined
       let state = this.addDiseaseMutator.mutate(this.addDiseaseGQL, { name: diseaseName, doid: doid }, {},
         (data) => {
           if(data.addDisease) {

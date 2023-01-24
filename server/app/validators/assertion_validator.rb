@@ -1,50 +1,50 @@
 class AssertionValidator < ActiveModel::Validator
   def validate(record)
-    validator = valid_types[record.evidence_type]
+    validator = valid_types[record.assertion_type]
 
     if validator.blank?
-      record.errors.add :evidence_type, "Invalid assertion type: #{record.assertion_type}"
+      record.errors.add :assertion_type, "Invalid assertion type: #{record.assertion_type}"
       return
     end
 
     if !validator[:significance].include? record.significance
-      record.errors.add :significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.significance}. Valid values: #{validator[:significance].join(', ')}"
+      record.errors.add :significance, "Not a valid clinical significance for #{record.assertion_type} assertion type: #{record.significance}. Valid values: #{validator[:significance].join(', ')}"
     end
 
-    if !validator[:evidence_direction].include? record.evidence_direction
-      record.errors.add :evidence_direction, "Not a valid evidence direction for #{record.evidence_type} evidence type: #{record.evidence_direction}. Valid values: #{validator[:evidence_direction].join(', ')}"
+    if !validator[:assertion_direction].include? record.assertion_direction
+      record.errors.add :assertion_direction, "Not a valid assertion direction for #{record.assertion_type} assertion type: #{record.assertion_direction}. Valid values: #{validator[:assertion_direction].join(', ')}"
     end
 
     if validator[:disease] && !record.disease_id
-      record.errors.add :disease_id, "Disease required for #{record.evidence_type} evidence type"
+      record.errors.add :disease_id, "Disease required for #{record.assertion_type} assertion type"
     elsif !validator[:disease] && record.disease_id
-      record.errors.add :disease_id, "Disease cannot be set for #{record.evidence_type} evidence type"
+      record.errors.add :disease_id, "Disease cannot be set for #{record.assertion_type} assertion type"
     end
 
-    if validator[:drug] && record.drug_ids.blank?
-      record.errors.add :drug_ids, "Therapy required for #{record.evidence_type} evidence type"
-    elsif !validator[:drug] && !record.drug_ids.blank?
-      record.errors.add :drug_ids, "Therapy cannot be set for #{record.evidence_type} evidence type"
+    if validator[:therapy] && record.therapy_ids.blank?
+      record.errors.add :therapy_ids, "Therapy required for #{record.assertion_type} assertion type"
+    elsif !validator[:therapy] && !record.therapy_ids.blank?
+      record.errors.add :therapy_ids, "Therapy cannot be set for #{record.assertion_type} assertion type"
     end
 
-    if record.drug_ids.size > 1 && !record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Multiple therapies set but no therapy interaction type provided"
+    if record.therapy_ids.size > 1 && !record.therapy_interaction_type
+      record.errors.add :therapy_interaction_type, "Multiple therapies set but no therapy interaction type provided"
     end
 
-    if record.drug_ids.size < 2 && record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Therapy interaction type cannot be set unless multiple drugs are specified."
+    if record.therapy_ids.size < 2 && record.therapy_interaction_type
+      record.errors.add :therapy_interaction_type, "Therapy interaction type cannot be set unless multiple therapys are specified."
     end
 
     if !validator[:acmg_codes] && record.acmg_code_ids.size > 0
-      record.errors.add :acmg_code_ids, "Assertions of type #{record.evidence_type} may not have ACMG codes attached."
+      record.errors.add :acmg_code_ids, "Assertions of type #{record.assertion_type} may not have ACMG codes attached."
     end
 
     if !validator[:clingen_codes] && record.clingen_code_ids.size > 0
-      record.errors.add :acmg_code_ids, "Assertions of type #{record.evidence_type} may not have ClinGen/CGC/VICC codes attached."
+      record.errors.add :acmg_code_ids, "Assertions of type #{record.assertion_type} may not have ClinGen/CGC/VICC codes attached."
     end
 
     if !validator[:amp_level] && record.amp_level.present?
-      record.errors.add :amp_level, "Assertions of type #{record.evidence_type} may not have an AMP/ASCO/CAP level attached."
+      record.errors.add :amp_level, "Assertions of type #{record.assertion_type} may not have an AMP/ASCO/CAP level attached."
     end
 
     if !validator[:allow_regulatory_approval] && !record.fda_regulatory_approval.nil?
@@ -69,9 +69,9 @@ class AssertionValidator < ActiveModel::Validator
     @valid_types ||= {
       'Predictive' => {
         significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
-        evidence_direction: ['Supports', 'Does Not Support'],
+        assertion_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: true,
+        therapy: true,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
@@ -79,9 +79,9 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Diagnostic' => {
         significance: ['Positive', 'Negative'],
-        evidence_direction: ['Supports', 'Does Not Support'],
+        assertion_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
@@ -89,9 +89,9 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Prognostic' => {
         significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
-        evidence_direction: ['Supports', 'Does Not Support'],
+        assertion_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
@@ -99,9 +99,9 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Predisposing' => {
         significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
-        evidence_direction: ['Supports'],
+        assertion_direction: ['Supports'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: true,
         amp_level: false,
         clingen_codes: false,
@@ -109,9 +109,9 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Oncogenic' => {
         significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain Significance', 'Likely Benign', 'Benign'],
-        evidence_direction: ['Supports', 'Does Not Support'],
+        assertion_direction: ['Supports'],
         disease: true,
-        drug: false,
+        therapy: false,
         acmg_codes: false,
         amp_level: false,
         clingen_codes: true,

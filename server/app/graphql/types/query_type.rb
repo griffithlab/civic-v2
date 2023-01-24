@@ -142,11 +142,11 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
-    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
+    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
-    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles, max_page_size: 300
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -171,7 +171,7 @@ module Types
     end
 
     def therapy(id: )
-      Drug.find_by(id: id)
+      Therapy.find_by(id: id)
     end
 
     def gene(id: )

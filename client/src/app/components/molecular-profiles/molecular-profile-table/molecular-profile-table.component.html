@@ -95,10 +95,23 @@
           <i nz-icon
             nzType="civic-assertion"></i> Count
         </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.VariantCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Variant Count">
+          <i nz-icon
+            nzType="civic-variant"></i> Count
+        </th>
       </tr>
       <tr class="filter-row">
         <th nzWidth="200px"
           nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="mpNameInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzWidth="100px">
           <cvc-clearable-input-filter [(inputModel)]="aliasInput"
@@ -120,6 +133,8 @@
           <cvc-clearable-input-filter [(inputModel)]="therapyNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
+        <th nzWidth="75px"
+          nzRight></th>
         <th nzWidth="75px"
           nzRight></th>
         <th nzWidth="75px"
@@ -173,6 +188,8 @@
             nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
           <td nzRight
             nzAlign="right">{{ mp.assertionCount | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.variantCount | number }}</td>
         </tr>
       </ng-template>
     </tbody>

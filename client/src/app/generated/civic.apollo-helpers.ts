@@ -181,7 +181,7 @@ export type BrowseGeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseMolecularProfileKeySpecifier = ('aliases' | 'assertionCount' | 'diseases' | 'evidenceItemCount' | 'genes' | 'id' | 'link' | 'molecularProfileScore' | 'name' | 'therapies' | 'variants' | BrowseMolecularProfileKeySpecifier)[];
+export type BrowseMolecularProfileKeySpecifier = ('aliases' | 'assertionCount' | 'diseases' | 'evidenceItemCount' | 'genes' | 'id' | 'link' | 'molecularProfileScore' | 'name' | 'therapies' | 'variantCount' | 'variants' | BrowseMolecularProfileKeySpecifier)[];
 export type BrowseMolecularProfileFieldPolicy = {
 	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -193,6 +193,7 @@ export type BrowseMolecularProfileFieldPolicy = {
 	molecularProfileScore?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapies?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseMolecularProfileConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseMolecularProfileConnectionKeySpecifier)[];
@@ -288,7 +289,7 @@ export type BrowseTherapyEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseVariantKeySpecifier = ('aliases' | 'diseases' | 'geneId' | 'geneLink' | 'geneName' | 'id' | 'link' | 'name' | 'therapies' | BrowseVariantKeySpecifier)[];
+export type BrowseVariantKeySpecifier = ('aliases' | 'diseases' | 'geneId' | 'geneLink' | 'geneName' | 'id' | 'link' | 'name' | 'therapies' | 'variantTypes' | BrowseVariantKeySpecifier)[];
 export type BrowseVariantFieldPolicy = {
 	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -298,7 +299,8 @@ export type BrowseVariantFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	therapies?: FieldPolicy<any> | FieldReadFunction<any>
+	therapies?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseVariantConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseVariantConnectionKeySpecifier)[];
 export type BrowseVariantConnectionFieldPolicy = {
@@ -515,7 +517,7 @@ export type DiseaseFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'link' | 'name' | 'variantCount' | DiseasePopoverKeySpecifier)[];
+export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'name' | DiseasePopoverKeySpecifier)[];
 export type DiseasePopoverFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseAliases?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -525,8 +527,8 @@ export type DiseasePopoverFieldPolicy = {
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
+	molecularProfileCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DownloadableFileKeySpecifier = ('filename' | 'path' | DownloadableFileKeySpecifier)[];
 export type DownloadableFileFieldPolicy = {
@@ -745,6 +747,12 @@ export type LinkableTherapyFieldPolicy = {
 };
 export type LinkableVariantKeySpecifier = ('id' | 'link' | 'name' | LinkableVariantKeySpecifier)[];
 export type LinkableVariantFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LinkableVariantTypeKeySpecifier = ('id' | 'link' | 'name' | LinkableVariantTypeKeySpecifier)[];
+export type LinkableVariantTypeFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1905,6 +1913,10 @@ export type StrictTypedTypePolicies = {
 	LinkableVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkableVariantKeySpecifier | (() => undefined | LinkableVariantKeySpecifier),
 		fields?: LinkableVariantFieldPolicy,
+	},
+	LinkableVariantType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LinkableVariantTypeKeySpecifier | (() => undefined | LinkableVariantTypeKeySpecifier),
+		fields?: LinkableVariantTypeFieldPolicy,
 	},
 	LinkoutData?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkoutDataKeySpecifier | (() => undefined | LinkoutDataKeySpecifier),

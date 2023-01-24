@@ -6,7 +6,6 @@ class Gene < ActiveRecord::Base
   include WithTimepointCounts
 
   has_many :variants
-  has_many :assertions
   has_many :variant_groups
   has_many :source_suggestions
   has_and_belongs_to_many :sources
@@ -34,7 +33,7 @@ class Gene < ActiveRecord::Base
 
   def self.timepoint_query
     ->(x) {
-      self.joins(variants: [:evidence_items])
+      self.joins(variants: { molecular_profiles: [:evidence_items] })
         .group('genes.id')
         .select('genes.id')
         .where("evidence_items.status != 'rejected'")

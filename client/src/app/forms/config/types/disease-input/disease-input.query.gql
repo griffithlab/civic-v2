@@ -8,7 +8,7 @@ query DiseaseTypeahead($name: String!) {
   }
 }
 
-mutation AddDisease($name: String!, $doid: Int) {
+mutation AddDisease($name: String!, $doid: String) {
   addDisease(input: {name: $name, doid: $doid}) {
     ...AddDiseaseFields
   }

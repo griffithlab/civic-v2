@@ -16,6 +16,12 @@ module Types::Queries
       end
 
       def remote_citation(citation_id:, source_type:)
+        source = Source.new(citation_id: citation_id, source_type: source_type)
+        source.validate
+        if source.errors[:citation_id].any?
+          raise GraphQL::ExecutionError, source.errors[:citation_id].join(', ')
+        end
+
         citation = case source_type
         when 'ASCO'
           Scrapers::Asco.get_citation_from_asco_id(citation_id)

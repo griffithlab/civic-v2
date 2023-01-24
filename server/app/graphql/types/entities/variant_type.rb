@@ -113,8 +113,8 @@ module Types::Entities
     end
 
     def hgvs_descriptions
-      Loaders::AssociationLoader.for(Variant, :hgvs_expressions).load(object).then do |hgvs|
-        hgvs.map(&:expression)
+      Loaders::AssociationLoader.for(Variant, :hgvs_descriptions).load(object).then do |hgvs|
+        hgvs.map(&:description)
       end
     end
 

@@ -14,7 +14,7 @@ class InputAdaptors::VariantInputAdaptor
       reference_build: input.reference_build,
       ensembl_version: input.ensembl_version,
       variant_alias_ids: get_alias_ids(),
-      hgvs_expression_ids: get_hgvs_ids(),
+      hgvs_description_ids: get_hgvs_ids(),
       clinvar_entry_ids: get_clinvar_ids(),
       representative_transcript: input.primary_coordinates.representative_transcript,
       chromosome: input.primary_coordinates.chromosome,
@@ -38,11 +38,11 @@ class InputAdaptors::VariantInputAdaptor
 
   def get_hgvs_ids
     input.hgvs_descriptions.map do |hgvs|
-      existing = HgvsExpression.where('expression ILIKE ?', hgvs).first
+      existing = HgvsDescription.where('description ILIKE ?', hgvs).first
       if existing
         existing.id
       else
-        HgvsExpression.create!(expression: hgvs).id
+        HgvsDescription.create!(description: hgvs).id
       end
     end
   end
