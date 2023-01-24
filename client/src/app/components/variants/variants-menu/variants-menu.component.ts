@@ -12,7 +12,7 @@ import {
   MenuVariantTypeFragment,
   VariantTypesForGeneGQL
 } from "@app/generated/civic.apollo";
-import { map, debounceTime, filter } from 'rxjs/operators'
+import { map, debounceTime, filter, pluck, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
@@ -36,6 +36,7 @@ export class CvcVariantsMenuComponent implements OnInit {
   totalVariants$?: Observable<number>;
   queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
+  loading$?: Observable<boolean>;
 
   sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
   variantNameFilter: Maybe<string>;
@@ -46,7 +47,7 @@ export class CvcVariantsMenuComponent implements OnInit {
   private result$!: Observable<ApolloQueryResult<VariantsMenuQuery>>
   connection$!: Observable<VariantConnection>
   private initialQueryVars!: VariantsMenuQueryVariables
-  private pageSize = 50;
+  pageSize = 50;
 
   iconColor = getEntityColor('VariantType')
 
@@ -65,6 +66,12 @@ export class CvcVariantsMenuComponent implements OnInit {
 
     this.queryRef$ = this.gql.watch(this.initialQueryVars);
     this.result$ = this.queryRef$.valueChanges;
+
+    this.loading$ = this.result$.pipe(
+      pluck('loading'),
+      filter(isNonNulled),
+      startWith(true)
+    );
 
     this.connection$ = this.result$
       .pipe(map(r => r.data?.variants),
@@ -102,6 +109,7 @@ export class CvcVariantsMenuComponent implements OnInit {
   onVariantSortOrderChanged(col: VariantMenuSortColumns) {
     let dir = col == VariantMenuSortColumns.CoordinateEnd ? SortDirection.Desc : SortDirection.Asc
     this.queryRef$.refetch({
+      first: this.pageSize,
       sortBy: {
         column: col,
         direction: dir
@@ -120,6 +128,7 @@ export class CvcVariantsMenuComponent implements OnInit {
       variantName: this.variantNameFilter,
       hasNoVariantType: this.hasNoVariantType,
       variantTypeIds: this.variantTypeFilter?.map(vt => vt.id),
+      first: this.pageSize,
       sortBy: {
         column: this.sortBy,
         direction: SortDirection.Asc

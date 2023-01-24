@@ -12,6 +12,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcMolecularProfileTagModule } from '../molecular-profile-tag/molecular-profile-tag.module';
 import { CvcMolecularProfilesMenuComponent } from './molecular-profiles-menu.component';
@@ -29,6 +30,7 @@ import { CvcMolecularProfilesMenuComponent } from './molecular-profiles-menu.com
     NzFormModule,
     NzInputModule,
     NzSelectModule,
+    NzSpinModule,
     NzTypographyModule,
     CvcPipesModule,
     CvcMolecularProfileTagModule,

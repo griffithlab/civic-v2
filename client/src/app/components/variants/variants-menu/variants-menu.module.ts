@@ -14,6 +14,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcVariantsMenuComponent } from './variants-menu.component';
 
@@ -32,6 +33,7 @@ import { CvcVariantsMenuComponent } from './variants-menu.component';
     NzSelectModule,
     NzTypographyModule,
     NzCheckboxModule,
+    NzSpinModule,
     CvcPipesModule,
     CvcVariantTagModule,
     CvcTagListModule,
