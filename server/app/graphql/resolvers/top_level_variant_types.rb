@@ -32,6 +32,10 @@ class Resolvers::TopLevelVariantTypes < GraphQL::Schema::Resolver
     scope.where('display_name ILIKE ?', "%#{value}%")
   end
 
+  option(:gene_id, type: Int, description: 'Filter variant types by internal CIViC id of a gene') do |scope, value|
+    scope.joins(variants: [:gene]).where(gene: {id: value})
+  end
+
   option(:sort_by, type: Types::BrowseTables::VariantTypeSortType, description: 'Sort order for the variant type. Defaults to most recent.') do |scope, value|
     scope.reorder("#{value.column} #{value.direction}")
   end

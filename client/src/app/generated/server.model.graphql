@@ -1208,6 +1208,7 @@ type BrowseVariant {
   link: String!
   name: String!
   therapies: [Therapy!]!
+  variantTypes: [LinkableVariantType!]!
 }
 
 """
@@ -1824,8 +1825,8 @@ type DiseasePopover {
   evidenceItemCount: Int!
   id: Int!
   link: String!
+  molecularProfileCount: Int!
   name: String!
-  variantCount: Int!
 }
 
 input DiseasesSort {
@@ -3157,6 +3158,12 @@ type LinkableTherapy {
 }
 
 type LinkableVariant {
+  id: Int!
+  link: String!
+  name: String!
+}
+
+type LinkableVariantType {
   id: Int!
   link: String!
   name: String!
@@ -4829,6 +4836,7 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+    hasNoVariantType: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -4840,6 +4848,7 @@ type Query {
     variantGroupId: Int
     variantName: String
     variantTypeId: Int
+    variantTypeName: String
   ): BrowseVariantConnection!
 
   """
@@ -5793,6 +5802,11 @@ type Query {
     first: Int
 
     """
+    Filter variant types by internal CIViC id of a gene
+    """
+    geneId: Int
+
+    """
     Filter variant types by internal CIViC id
     """
     id: Int
@@ -5843,6 +5857,11 @@ type Query {
     geneId: Int
 
     """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -5852,6 +5871,11 @@ type Query {
     """
     name: String
     sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
   ): VariantConnection!
   viewer: User
 }
