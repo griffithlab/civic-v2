@@ -13,12 +13,10 @@ class Source < ActiveRecord::Base
 
   enum source_type: ['PubMed', 'ASCO', 'ASH']
 
+  validate :citation_id_format_matches_source_type
+
   def name
     display_name
-  end
-
-  def citation
-    description
   end
 
   def source_url
@@ -57,5 +55,24 @@ class Source < ActiveRecord::Base
           .having('MIN(evidence_items.created_at) >= ?', x)
           .count
       }
+    end
+
+    private
+    def citation_id_format_matches_source_type
+      if source_type == 'PubMed'
+        unless citation_id =~ /\A\d+\z/
+          errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid PubMed ID")
+        end
+      elsif source_type == 'ASCO'
+        unless citation_id =~ /\A\d+\z/
+          errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid ASCO Abstract ID")
+        end
+      elsif source_type == 'ASH'
+        unless citation_id =~ /\A10.1182\/blood[-._;()\/:A-Z0-9]+\z/i
+          errors.add(:citation_id, "#{citation_id} doesn't appear to be a valid ASH Abstract DOI")
+        end
+      else
+        errors.add(:source_type, "Unexpected Source Type: #{source_type}")
+      end
     end
 end

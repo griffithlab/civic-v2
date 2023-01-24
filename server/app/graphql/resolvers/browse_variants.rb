@@ -11,14 +11,21 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
 
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
   option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
-  option(:variant_type_id, type: Int)    { |scope, value| scope.where(int_array_query_for_column('variant_types'), value) }
+  option(:variant_type_id, type: Int)  { |scope, value| scope.where(int_array_query_for_column('variant_type_ids'), value) }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
-  option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
+  option(:therapy_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
   option(:variant_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
   option(:variant_group_id, type: Int) do |scope, value| 
     scope.where(id: Variant.joins(:variant_groups).where('variant_groups.id = ?', value).distinct)
   end
-
+  option(:variant_type_name, type: String) { |scope, value| scope.where(json_name_query_for_column('variant_types'), "%#{value}%") }
+  option(:has_no_variant_type, type: Boolean) do |scope, value|
+    if value
+      scope.where(variant_type_count: 0)
+    else
+      scope
+    end
+  end
 
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column
@@ -26,7 +33,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
       scope.reorder "name #{value.direction}"
     when "entrezSymbol"
       scope.reorder "gene_name #{value.direction}"
-    when "drugName"
+    when "therapyName"
       scope.reorder "drug_names #{value.direction}"
     when "diseaseName"
       scope.reorder "disease_names #{value.direction}"
@@ -43,7 +50,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
     raise 'Must supply a column name' if col.nil?
     "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(id) where id = ?)"
   end
-  
+
   def json_name_query_for_column(col)
     raise 'Must supply a column name' if col.nil?
     "variant_browse_table_rows.id IN (select vb.id FROM variant_browse_table_rows vb, json_array_elements(vb.#{col}) d where d->>'name' ILIKE ?)"

@@ -1,5 +1,5 @@
 import {
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
 } from "@app/generated/civic.apollo";
@@ -10,12 +10,12 @@ class EvidenceState extends EntityState {
     super(EntityName.EVIDENCE);
     this.validStates.set(EvidenceType.Predictive, {
       entityType: EvidenceType.Predictive,
-      clinicalSignificance: [
-        EvidenceClinicalSignificance.Sensitivityresponse,
-        EvidenceClinicalSignificance.Resistance,
-        EvidenceClinicalSignificance.AdverseResponse,
-        EvidenceClinicalSignificance.ReducedSensitivity,
-        EvidenceClinicalSignificance.Na,
+      significance: [
+        EvidenceSignificance.Sensitivityresponse,
+        EvidenceSignificance.Resistance,
+        EvidenceSignificance.AdverseResponse,
+        EvidenceSignificance.ReducedSensitivity,
+        EvidenceSignificance.Na,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -31,9 +31,9 @@ class EvidenceState extends EntityState {
 
     this.validStates.set(EvidenceType.Diagnostic, {
       entityType: EvidenceType.Diagnostic,
-      clinicalSignificance: [
-        EvidenceClinicalSignificance.Positive,
-        EvidenceClinicalSignificance.Negative,
+      significance: [
+        EvidenceSignificance.Positive,
+        EvidenceSignificance.Negative,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -49,10 +49,10 @@ class EvidenceState extends EntityState {
 
     this.validStates.set(EvidenceType.Prognostic, {
       entityType: EvidenceType.Prognostic,
-      clinicalSignificance: [
-        EvidenceClinicalSignificance.BetterOutcome,
-        EvidenceClinicalSignificance.PoorOutcome,
-        EvidenceClinicalSignificance.Na
+      significance: [
+        EvidenceSignificance.BetterOutcome,
+        EvidenceSignificance.PoorOutcome,
+        EvidenceSignificance.Na
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -68,9 +68,9 @@ class EvidenceState extends EntityState {
 
     this.validStates.set(EvidenceType.Oncogenic, {
       entityType: EvidenceType.Oncogenic,
-      clinicalSignificance: [
-        EvidenceClinicalSignificance.Oncogenicity,
-        EvidenceClinicalSignificance.Protectiveness,
+      significance: [
+        EvidenceSignificance.Oncogenicity,
+        EvidenceSignificance.Protectiveness,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -86,9 +86,9 @@ class EvidenceState extends EntityState {
 
     this.validStates.set(EvidenceType.Predisposing, {
       entityType: EvidenceType.Predisposing,
-      clinicalSignificance: [
-        EvidenceClinicalSignificance.Predisposition,
-        EvidenceClinicalSignificance.Protectiveness,
+      significance: [
+        EvidenceSignificance.Predisposition,
+        EvidenceSignificance.Protectiveness,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
@@ -104,13 +104,13 @@ class EvidenceState extends EntityState {
 
     this.validStates.set(EvidenceType.Functional, {
       entityType: EvidenceType.Functional,
-      clinicalSignificance: [
-        EvidenceClinicalSignificance.GainOfFunction,
-        EvidenceClinicalSignificance.LossOfFunction,
-        EvidenceClinicalSignificance.UnalteredFunction,
-        EvidenceClinicalSignificance.Neomorphic,
-        EvidenceClinicalSignificance.DominantNegative,
-        EvidenceClinicalSignificance.Unknown,
+      significance: [
+        EvidenceSignificance.GainOfFunction,
+        EvidenceSignificance.LossOfFunction,
+        EvidenceSignificance.UnalteredFunction,
+        EvidenceSignificance.Neomorphic,
+        EvidenceSignificance.DominantNegative,
+        EvidenceSignificance.Unknown,
       ],
       entityDirection: [
         EvidenceDirection.Supports,

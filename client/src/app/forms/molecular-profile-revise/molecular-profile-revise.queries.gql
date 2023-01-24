@@ -23,6 +23,7 @@ mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevision
       id
     }
     results {
+      newlyCreated
       id
       fieldName
     }

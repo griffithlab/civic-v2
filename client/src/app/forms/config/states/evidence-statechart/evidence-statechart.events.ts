@@ -1,4 +1,4 @@
-import { DrugInteraction, EvidenceDirection, EvidenceLevel, EvidenceType, VariantOrigin } from "@app/generated/civic.apollo";
+import { TherapyInteraction, EvidenceDirection, EvidenceLevel, EvidenceType, VariantOrigin } from "@app/generated/civic.apollo";
 import { EntityType } from "../entity.state";
 
 // to be based on: https://github.com/stefanoslig/xstate-angular/blob/main/apps/conduit/src/app/article-list/%2Bxstate/article-list-machine.events.ts
@@ -39,7 +39,7 @@ export class SetDrug {
 
 export class SetInteraction {
   readonly type = 'SET_INTERACTION';
-  constructor(public interaction: DrugInteraction) {  }
+  constructor(public interaction: TherapyInteraction) {  }
 }
 
 export class SetDirection {

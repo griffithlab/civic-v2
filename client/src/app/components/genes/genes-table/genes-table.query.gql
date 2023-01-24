@@ -1,6 +1,6 @@
 query BrowseGenes(
   $entrezSymbol: String
-  $drugName: String
+  $therapyName: String
   $geneAlias: String
   $diseaseName: String
   $sortBy: GenesSort
@@ -11,7 +11,7 @@ query BrowseGenes(
 ) {
   browseGenes(
     entrezSymbol: $entrezSymbol
-    drugName: $drugName
+    therapyName: $therapyName
     geneAlias: $geneAlias
     diseaseName: $diseaseName
     sortBy: $sortBy
@@ -50,7 +50,7 @@ fragment BrowseGenesFields on BrowseGene {
     id
     link
   }
-  drugs {
+  therapies {
     name
     id
     link

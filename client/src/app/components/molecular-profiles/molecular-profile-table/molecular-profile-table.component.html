@@ -60,18 +60,18 @@
           Diseases
         </th>
         <th nzWidth="180px">
-          Drugs
+          Therapies
         </th>
         <th nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
-          [nzColumnKey]="sortColumns.EvidenceScore"
+          [nzColumnKey]="sortColumns.MolecularProfileScore"
           nz-tooltip
-          nzTooltipTitle="Evidence Score">
+          nzTooltipTitle="Molecular Profile Score">
           <i nz-icon
-            nzType="civic-evidence"></i> Score
+            nzType="civic-molecularprofile"></i> Score
         </th>
         <th nzWidth="75px"
           nzRight
@@ -95,10 +95,23 @@
           <i nz-icon
             nzType="civic-assertion"></i> Count
         </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.VariantCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Variant Count">
+          <i nz-icon
+            nzType="civic-variant"></i> Count
+        </th>
       </tr>
       <tr class="filter-row">
         <th nzWidth="200px"
           nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="mpNameInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzWidth="100px">
           <cvc-clearable-input-filter [(inputModel)]="aliasInput"
@@ -117,9 +130,11 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzWidth="180px">
-          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
+        <th nzWidth="75px"
+          nzRight></th>
         <th nzWidth="75px"
           nzRight></th>
         <th nzWidth="75px"
@@ -162,17 +177,19 @@
               [matchingText]="diseaseNameInput"> </cvc-tag-overflow>
           </td>
           <td>
-            <cvc-tag-overflow tagType="drug"
-              [tags]="mp.drugs"
+            <cvc-tag-overflow tagType="therapy"
+              [tags]="mp.therapies"
               [maxDisplayCount]="1"
-              [matchingText]="drugNameInput"> </cvc-tag-overflow>
+              [matchingText]="therapyNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight
-            nzAlign="right">{{mp.evidenceScore | number }}</td>
+          <td nzRigh
+            nzAlign="right">{{mp.molecularProfileScore | number }}</td>
           <td nzRight
             nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
           <td nzRight
             nzAlign="right">{{ mp.assertionCount | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.variantCount | number }}</td>
         </tr>
       </ng-template>
     </tbody>

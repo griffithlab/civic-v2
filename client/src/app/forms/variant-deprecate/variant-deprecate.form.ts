@@ -75,13 +75,13 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
     let queryRef = this.mpsForVariantGQL.fetch({variantId: this.variantId})
 
     this.mpsToDeprecate$ = queryRef.pipe(
-      map(({data}) => data.variant?.molecularProfiles),
+      map(({data}) => data.molecularProfiles.nodes),
       filter(isNonNulled),
       map((mps) => mps.filter(mp => (mp.evidenceCountsByStatus.submittedCount + mp.evidenceCountsByStatus.acceptedCount) == 0) )
     )
 
     this.mpsWithEvidence$ = queryRef.pipe(
-      map(({data}) => data.variant?.molecularProfiles),
+      map(({data}) => data.molecularProfiles.nodes),
       filter(isNonNulled),
       map((mps) => mps.filter(mp => (mp.evidenceCountsByStatus.submittedCount + mp.evidenceCountsByStatus.acceptedCount) > 0) )
     )

@@ -38,18 +38,18 @@ module Importer
     end
 
     def create_object_from_entry(entry)
-      name = Drug.capitalize_name(entry['name'])
+      name = Therapy.capitalize_name(entry['name'])
       ncit_id = entry['id'].sub('NCIT:', '')
-      drug = ::Drug.where(ncit_id: ncit_id).first_or_initialize
-      drug.name = name
+      therapy = ::Therapy.where(ncit_id: ncit_id).first_or_initialize
+      therapy.name = name
       synonyms = process_synonyms(entry['synonym']).uniq
       synonyms.each do |syn|
-        drug_alias = ::DrugAlias.where(name: syn).first_or_create
-        if !drug.drug_aliases.map{|a| a.name.downcase}.include?(syn.downcase) && !(syn.downcase == drug.name.downcase)
-          drug.drug_aliases << drug_alias
+        therapy_alias = ::TherapyAlias.where(name: syn).first_or_create
+        if !therapy.therapy_aliases.map{|a| a.name.downcase}.include?(syn.downcase) && !(syn.downcase == therapy.name.downcase)
+          therapy.therapy_aliases << therapy_alias
         end
       end
-      drug.save
+      therapy.save
     end
 
     def process_synonyms(synonym_element)
@@ -65,7 +65,7 @@ module Importer
 
     def extract_synonym(value)
       if match_data = value.match(/^"(?<name>.+)" EXACT \[.*\]/)
-        Drug.capitalize_name(match_data[:name])
+        Therapy.capitalize_name(match_data[:name])
       else
         nil
       end

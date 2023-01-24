@@ -14,21 +14,25 @@ module Types::BrowseTables
     end
     class LinkableDisease < LinkableTag
     end
-    class LinkableDrug < LinkableTag
+    class LinkableTherapy < LinkableTag
     end
 
     field :id, Int, null: false
     field :name, String, null: false
     field :diseases, [LinkableDisease], null: false
-    field :drugs, [LinkableDrug], null: false
+    field :therapies, [LinkableTherapy], null: false
     field :genes, [LinkableGene], null: false
     field :variants,[LinkableVariant], null: false
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
+    field :variant_count, Int, null: false
     field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
-    field :evidence_score, Float, null: false
+    field :molecular_profile_score, Float, null: false
 
+    def molecular_profile_score
+      object.evidence_score
+    end
 
     def name
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
@@ -58,10 +62,10 @@ module Types::BrowseTables
         .map { |d| { name: d['name'], id: d['id'], link: "/disease/#{d['id']}"} }
     end
 
-    def drugs
-      Array(object.drugs)
+    def therapies
+      Array(object.therapies)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/drugs/#{d['id']}"} }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"} }
     end
 
     def aliases

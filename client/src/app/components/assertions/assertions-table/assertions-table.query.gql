@@ -4,11 +4,11 @@ query AssertionsBrowse(
   $before: String
   $after: String
   $diseaseName: String
-  $drugName: String
+  $therapyName: String
   $id: Int
   $summary: String
   $assertionDirection: EvidenceDirection
-  $clinicalSignificance: EvidenceClinicalSignificance
+  $significance: EvidenceSignificance
   $assertionType: EvidenceType
   $variantId: Int,
   $molecularProfileId: Int,
@@ -20,7 +20,7 @@ query AssertionsBrowse(
   $userId: Int
   $phenotypeId: Int
   $diseaseId: Int
-  $drugId: Int
+  $therapyId: Int
   $status: EvidenceStatusFilter
 ) {
   assertions(
@@ -29,11 +29,11 @@ query AssertionsBrowse(
     before: $before
     after: $after
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     id: $id
     summary: $summary
     assertionDirection: $assertionDirection
-    clinicalSignificance: $clinicalSignificance
+    significance: $significance
     assertionType: $assertionType
     variantId: $variantId,
     molecularProfileId: $molecularProfileId,
@@ -44,7 +44,7 @@ query AssertionsBrowse(
     organizationId: $organizationId
     userId: $userId
     phenotypeId: $phenotypeId
-    drugId: $drugId
+    therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
   ) {
@@ -81,16 +81,16 @@ fragment AssertionBrowseFields on Assertion {
     name
     link
   }
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   summary
   assertionType
   assertionDirection
-  clinicalSignificance
+  significance
   ampLevel
   evidenceItemsCount
   status

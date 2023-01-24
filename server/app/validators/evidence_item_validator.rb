@@ -7,8 +7,8 @@ class EvidenceItemValidator < ActiveModel::Validator
       return
     end
 
-    if !validator[:clinical_significance].include? record.clinical_significance
-      record.errors.add :clinical_significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.clinical_significance}. Valid values: #{validator[:clinical_significance].join(', ')}"
+    if !validator[:significance].include? record.significance
+      record.errors.add :significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.significance}. Valid values: #{validator[:significance].join(', ')}"
     end
 
     if !validator[:evidence_direction].include? record.evidence_direction
@@ -21,18 +21,18 @@ class EvidenceItemValidator < ActiveModel::Validator
       record.errors.add :disease_id, "Disease cannot be set for #{record.evidence_type} evidence type"
     end
 
-    if validator[:drug] && record.drug_ids.blank?
-      record.errors.add :drug_ids, "Drug(s) required for #{record.evidence_type} evidence type"
-    elsif !validator[:drug] && !record.drug_ids.blank?
-      record.errors.add :drug_ids, "Drug(s) cannot be set for #{record.evidence_type} evidence type"
+    if validator[:therapy] && record.therapy_ids.blank?
+      record.errors.add :therapy_ids, "Therapy required for #{record.evidence_type} evidence type"
+    elsif !validator[:therapy] && !record.therapy_ids.blank?
+      record.errors.add :therapy_ids, "Therapy cannot be set for #{record.evidence_type} evidence type"
     end
 
-    if record.drug_ids.size > 1 && !record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Multiple drugs set but no drug interaction type provided"
+    if record.therapy_ids.size > 1 && !record.therapy_interaction_type
+      record.errors.add :therapy_interaction_type, "Multiple therapies set but no therapy interaction type provided"
     end
 
-    if record.drug_ids.size < 2 && record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Drug interaction type cannot be set unless multiple drugs are specified."
+    if record.therapy_ids.size < 2 && record.therapy_interaction_type
+      record.errors.add :therapy_interaction_type, "Therapy interaction type cannot be set unless multiple therapies are specified."
     end
 
     if record.molecular_profile.deprecated
@@ -43,40 +43,40 @@ class EvidenceItemValidator < ActiveModel::Validator
   def valid_types
     @valid_types ||= {
       'Predictive' => {
-        clinical_significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
+        significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: true,
+        therapy: true,
       },
      'Diagnostic' => {
-        clinical_significance: ['Positive', 'Negative'],
+        significance: ['Positive', 'Negative'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false
+        therapy: false
       },
      'Prognostic' => {
-        clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
+        significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false
+        therapy: false
       },
      'Predisposing' => {
-        clinical_significance: ['Predisposition', 'Protectiveness'],
+        significance: ['Predisposition', 'Protectiveness'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false
+        therapy: false
       },
      'Oncogenic' => {
-        clinical_significance: ['Oncogenicity', 'Protectiveness'],
+        significance: ['Oncogenicity', 'Protectiveness'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
-        drug: false
+        therapy: false
       },
      'Functional' => {
-        clinical_significance: ['Gain of Function', 'Loss of Function', 'Unaltered Function', 'Neomorphic', 'Dominant Negative', 'Unknown'],
+        significance: ['Gain of Function', 'Loss of Function', 'Unaltered Function', 'Neomorphic', 'Dominant Negative', 'Unknown'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: false,
-        drug: false
+        therapy: false
       },
     }
   end

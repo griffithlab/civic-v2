@@ -5,6 +5,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [OrganizationsGroupsComponent],
@@ -13,6 +14,7 @@ import { CvcOrganizationCardModule } from '@app/components/organizations/organiz
     ReactiveComponentModule,
     NzSpaceModule,
     NzGridModule,
+    NzSpinModule,
     CvcOrganizationCardModule,
   ]
 })

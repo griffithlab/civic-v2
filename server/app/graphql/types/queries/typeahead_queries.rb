@@ -6,8 +6,8 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :drug_typeahead, [Types::Entities::DrugType], null: false do
-        description "Retrieve drug typeahead fields for a search term."
+      klass.field :therapy_typeahead, [Types::Entities::TherapyType], null: false do
+        description "Retrieve therapy typeahead fields for a search term."
         argument :query_term, GraphQL::Types::String, required: true
       end
 
@@ -72,14 +72,14 @@ module Types::Queries
         end
       end
 
-      def drug_typeahead(query_term:)
-        results = Drug.where("drugs.name ILIKE ?", "%#{query_term}%")
-          .order("LENGTH(drugs.name) ASC")
+      def therapy_typeahead(query_term:)
+        results = Therapy.where("therapies.name ILIKE ?", "%#{query_term}%")
+          .order("LENGTH(therapies.name) ASC")
           .limit(10)
         if results.size < 10
-          secondary_results = Drug.eager_load(:drug_aliases)
-            .where("drug_aliases.name ILIKE ?", "%#{query_term}%")
-            .order("LENGTH(drugs.name) ASC")
+          secondary_results = Therapy.eager_load(:therapy_aliases)
+            .where("therapy_aliases.name ILIKE ?", "%#{query_term}%")
+            .order("LENGTH(therapies.name) ASC")
             .limit(10-results.size)
 
           return results + secondary_results

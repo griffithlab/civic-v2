@@ -45,8 +45,8 @@ module Types
       argument :id, Int, required: true
     end
 
-    field :drug, Types::Entities::DrugType, null: true do
-      description "Find a drug by CIViC ID"
+    field :therapy, Types::Entities::TherapyType, null: true do
+      description "Find a therapy by CIViC ID"
       argument :id, Int, required: true
     end
 
@@ -142,11 +142,11 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
-    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
+    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
-    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles, max_page_size: 300
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -156,7 +156,7 @@ module Types
 
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
-    field :drugs, resolver: Resolvers::TopLevelDrugs
+    field :therapies, resolver: Resolvers::TopLevelTherapies
 
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
@@ -170,8 +170,8 @@ module Types
       Disease.find_by(id: id)
     end
 
-    def drug(id: )
-      Drug.find_by(id: id)
+    def therapy(id: )
+      Therapy.find_by(id: id)
     end
 
     def gene(id: )

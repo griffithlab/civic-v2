@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v3.2.0
         with:
           ref: release
 
@@ -17,7 +17,7 @@ jobs:
           npx spectaql --target-dir docs/build docs/config.yml
 
       - name: Deploy docs
-        uses: JamesIves/github-pages-deploy-action@4.1.0
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: gh-pages
           folder: docs/build

@@ -6,6 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [OrganizationsMembersComponent],
@@ -15,6 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzGridModule,
     NzSpaceModule,
     NzButtonModule,
+    NzSpinModule,
     CvcUserCardModule,
   ]
 })

@@ -9,7 +9,7 @@ import {
   MolecularProfileMenuGQL,
   MolecularProfileDisplayFilter
 } from "@app/generated/civic.apollo";
-import { map, debounceTime, filter } from 'rxjs/operators'
+import { map, debounceTime, filter, pluck, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
@@ -29,15 +29,16 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
   totalMolecularProfiles$?: Observable<number>;
   queryRef$!: QueryRef<MolecularProfileMenuQuery, MolecularProfileMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
+  loading$?: Observable<boolean>;
 
   mpNameFilter: Maybe<string>;
-  statusFilter: MolecularProfileDisplayFilter = MolecularProfileDisplayFilter.WithAcceptedOrSubmitted;
+  statusFilter: MolecularProfileDisplayFilter = MolecularProfileDisplayFilter.All;
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<MolecularProfileMenuQuery>>
   connection$!: Observable<MolecularProfileConnection>
   private initialQueryVars!: MolecularProfileMenuQueryVariables
-  private pageSize = 50;
+  pageSize = 50;
 
 
   constructor(private gql: MolecularProfileMenuGQL) { }
@@ -55,6 +56,12 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
 
     this.queryRef$ = this.gql.watch(this.initialQueryVars);
     this.result$ = this.queryRef$.valueChanges;
+
+    this.loading$ = this.result$.pipe(
+      pluck('loading'),
+      filter(isNonNulled),
+      startWith(true)
+    );
 
     this.connection$ = this.result$
       .pipe(map(r => r.data?.molecularProfiles),
@@ -83,6 +90,7 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
 
   onMolecularProfileStatusFilterChanged(filter: MolecularProfileDisplayFilter) {
     this.queryRef$.refetch({
+      first: this.pageSize,
       evidenceStatusFilter: filter
     })
   }
@@ -94,6 +102,7 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
     this.queryRef$.refetch({
       geneId: this.geneId,
       mpName: this.mpNameFilter,
+      first: this.pageSize
     });
   }
 

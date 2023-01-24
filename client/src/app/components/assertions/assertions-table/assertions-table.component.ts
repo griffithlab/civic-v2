@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, T
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
-import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -25,7 +25,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
-  @Input() drugId: Maybe<number>
+  @Input() therapyId: Maybe<number>
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -77,11 +77,11 @@ export class CvcAssertionsTableComponent implements OnInit {
   //filters
   aidInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   summaryInput: Maybe<string>
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  SignificanceInput: Maybe<EvidenceSignificance>
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
 
@@ -108,7 +108,7 @@ export class CvcAssertionsTableComponent implements OnInit {
           userId: this.userId,
           phenotypeId: this.phenotypeId,
           diseaseId: this.diseaseId,
-          drugId: this.drugId,
+          therapyId: this.therapyId,
           status: this.status,
         });
 
@@ -209,11 +209,11 @@ export class CvcAssertionsTableComponent implements OnInit {
       id: aid,
       diseaseName: this.diseaseNameInput,
       molecularProfileName: this.molecularProfileNameInput,
-      drugName: this.drugNameInput,
+      therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       assertionType: this.assertionTypeInput ? this.assertionTypeInput : undefined,
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,
-      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
+      significance: this.SignificanceInput ? this.SignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
     })
   }

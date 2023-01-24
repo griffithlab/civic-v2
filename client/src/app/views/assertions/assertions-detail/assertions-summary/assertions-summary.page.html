@@ -49,10 +49,10 @@
             </nz-descriptions-item>
 
             <!-- clinical significance -->
-            <nz-descriptions-item nzTitle="Clinical Significance">
-              <cvc-attribute-tag [cvcAttrValue]="assertion.clinicalSignificance"
+            <nz-descriptions-item nzTitle="Significance">
+              <cvc-attribute-tag [cvcAttrValue]="assertion.significance"
                 nz-tooltip
-                [nzTooltipTitle]="assertion.clinicalSignificance | enumTooltip:'clinicalSignificance':assertion.assertionType:'Assertion'">
+                [nzTooltipTitle]="assertion.significance | enumTooltip:'significance':assertion.assertionType:'Assertion'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -184,8 +184,8 @@
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
 
             <!-- molecular profile -->
-            <nz-descriptions-item nzTitle="Molecular Profile">
-              <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
+            <nz-descriptions-item nzTitle="Molecular Profile Name">
+              <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="true"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
             <!-- molecular profile expression -->
@@ -218,20 +218,20 @@
               </ng-container>
             </nz-descriptions-item>
 
-            <!-- drugs -->
-            <nz-descriptions-item [nzTitle]="assertion.drugs.length > 1 ? 'Drugs' : 'Drug'">
-              <ng-container [ngPlural]="assertion.drugs.length">
-                <!-- no drug -->
+            <!-- therapies -->
+            <nz-descriptions-item [nzTitle]="assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'">
+              <ng-container [ngPlural]="assertion.therapies.length">
+                <!-- no therapy -->
                 <ng-template ngPluralCase="=0">
                   <span nz-typography
                     nzType="secondary">N/A</span>
                 </ng-template>
 
-                <!-- one or more drugs -->
+                <!-- one or more therapies -->
                 <ng-template ngPluralCase="other">
                   <cvc-tag-list>
-                    <ng-container *ngFor="let drug of assertion.drugs">
-                      <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                    <ng-container *ngFor="let therapy of assertion.therapies">
+                      <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
                     </ng-container>
                   </cvc-tag-list>
                 </ng-template>
@@ -239,12 +239,12 @@
 
             </nz-descriptions-item>
 
-            <nz-descriptions-item *ngIf="assertion.drugInteractionType"
-              nzTitle="Drug Interaction Type">
+            <nz-descriptions-item *ngIf="assertion.therapyInteractionType"
+              nzTitle="Therapy Interaction Type">
               <nz-tag>
                 <i nz-icon
-                  [nzType]="assertion.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
-                  class="attribute-icon"></i> {{ assertion.drugInteractionType | titlecase }}
+                  [nzType]="assertion.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i> {{ assertion.therapyInteractionType | titlecase }}
               </nz-tag>
             </nz-descriptions-item>
 
@@ -252,17 +252,20 @@
             <nz-descriptions-item nzTitle="Regulatory Approval"
               nzSpan="1">
               <i nz-icon
-                *ngIf="assertion.regulatoryApproval"
+                *ngIf="assertion.regulatoryApproval === true"
                 [nzType]="'check-circle'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#52c41a'"></i>
               <i nz-icon
-                *ngIf="!assertion.regulatoryApproval"
+                *ngIf="assertion.regulatoryApproval === false"
                 [nzType]="'close-square'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#d93026'"></i>
               <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
                 (last updated {{ assertion.regulatoryApprovalLastUpdated | timeago }})
+              </ng-container>
+              <ng-container *ngIf="assertion.regulatoryApproval === undefined">
+                <span nz-typography nzType="secondary">N/A</span>
               </ng-container>
             </nz-descriptions-item>
 
@@ -270,17 +273,20 @@
             <nz-descriptions-item nzTitle="FDA Companion Test"
               nzSpan="1">
               <i nz-icon
-                *ngIf="assertion.fdaCompanionTest"
+                *ngIf="assertion.fdaCompanionTest === true"
                 [nzType]="'check-circle'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#52c41a'"></i>
               <i nz-icon
-                *ngIf="!assertion.fdaCompanionTest"
+                *ngIf="assertion.fdaCompanionTest === false"
                 [nzType]="'close-square'"
                 [nzTheme]="'twotone'"
                 [nzTwotoneColor]="'#d93026'"></i>
               <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
                 (last updated {{ assertion.fdaCompanionTestLastUpdated | timeago }})
+              </ng-container>
+              <ng-container *ngIf="assertion.fdaCompanionTest=== undefined">
+                <span nz-typography nzType="secondary">N/A</span>
               </ng-container>
             </nz-descriptions-item>
 

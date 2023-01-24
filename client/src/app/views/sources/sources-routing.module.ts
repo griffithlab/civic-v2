@@ -26,6 +26,7 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Submit a Source Suggestion',
         },
+        runGuardsAndResolvers: 'always',
         component: SourceAddPage
       },
       {

@@ -5,8 +5,9 @@ class Mutations::AddDisease < Mutations::BaseMutation
     description: 'The name of the disease.',
     validates: { length: { minimum: 5 } }
 
-  argument :doid, Int, required: false,
-    description: 'The DOID of the disease, if the disease is present in the Disease Ontology.'
+  argument :doid, String, required: false,
+    description: 'The DOID of the disease, if the disease is present in the Disease Ontology.',
+    validates: { format: { with: /\A\d{1,7}\z/ }  }
 
   field :disease, Types::Entities::DiseaseType, null: false,
     description: 'The newly created disease.'

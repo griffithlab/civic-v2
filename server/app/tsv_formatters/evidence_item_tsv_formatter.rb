@@ -1,6 +1,6 @@
 class EvidenceItemTsvFormatter
   def self.objects
-    EvidenceItem.eager_load(:disease, :source, :drugs, :phenotypes, :molecular_profile)
+    EvidenceItem.eager_load(:disease, :source, :therapies, :phenotypes, :molecular_profile)
       .where(status: 'accepted')
   end
 
@@ -12,12 +12,12 @@ class EvidenceItemTsvFormatter
       'disease',
       'doid',
       'phenotypes',
-      'drugs',
-      'drug_interaction_type',
+      'therapies',
+      'therapy_interaction_type',
       'evidence_type',
       'evidence_direction',
       'evidence_level',
-      'clinical_significance',
+      'significance',
       'evidence_statement',
       'citation_id',
       'source_type',
@@ -42,17 +42,17 @@ class EvidenceItemTsvFormatter
       ei.disease.nil? ? "" : ei.disease.name,
       ei.disease.nil? ? "" : ei.disease.doid,
       ei.phenotypes.map(&:hpo_class).join(','),
-      ei.drugs.map(&:name).join(','),
-      ei.drug_interaction_type,
+      ei.therapies.map(&:name).join(','),
+      ei.therapy_interaction_type,
       ei.evidence_type,
       ei.evidence_direction,
       ei.evidence_level,
-      ei.clinical_significance,
+      ei.significance,
       ei.description.gsub("\n", ' '),
       ei.source.citation_id,
       ei.source.source_type,
       ei.source.asco_abstract_id,
-      ei.source.description,
+      ei.source.citation,
       ei.source.clinical_trials.map(&:nct_id).join(','),
       ei.rating,
       ei.status,

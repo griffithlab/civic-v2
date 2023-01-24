@@ -1,4 +1,10 @@
 module Types::BrowseTables
+  class LinkableVariantTypeType < Types::BaseObject
+    field :id, Int, null: false
+    field :name, String, null: false
+    field :link, String, null: false
+  end
+
   class BrowseVariantType < Types::BaseObject
     connection_type_class(Types::Connections::BrowseTableConnection)
 
@@ -9,8 +15,9 @@ module Types::BrowseTables
     field :gene_name, String, null: false
     field :gene_link, String, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
-    field :drugs, [Types::Entities::DrugType], null: false
+    field :therapies, [Types::Entities::TherapyType], null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false
+    field :variant_types, [Types::BrowseTables::LinkableVariantTypeType], null: false
 
     def link
       Rails.application.routes.url_helpers.url_for("/variants/#{object.id}")
@@ -32,10 +39,16 @@ module Types::BrowseTables
         .map { |d| { name: d['name'], id: d['id'], link: "/disease/#{d['id']}" } }
     end
 
-    def drugs
-      Array(object.drugs)
+    def therapies
+      Array(object.therapies)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/drugs/#{d['id']}" } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}" } }
+    end
+
+    def variant_types
+      Array(object.variant_types)
+        .sort_by { |t| t['name'] }
+        .map { |t| { name: t['name'], id: t['id'], link: "/variant-types/#{t['id']}" } }
     end
   end
 end

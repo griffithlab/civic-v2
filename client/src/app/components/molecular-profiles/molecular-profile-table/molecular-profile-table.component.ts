@@ -13,7 +13,7 @@ export interface MolecularProfileTableUserFilters {
   variantNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  drugNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -58,10 +58,11 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   isScrolling: boolean = false
 
   // filters
+  mpNameInput: Maybe<string>
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   aliasInput: Maybe<string>
 
   private initialQueryArgs?: BrowseMolecularProfilesQueryVariables
@@ -158,8 +159,9 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   refresh() {
     this.queryRef
       .refetch({
+        molecularProfileName: this.mpNameInput,
         diseaseName: this.diseaseNameInput,
-        drugName: this.drugNameInput,
+        therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         molecularProfileAlias: this.aliasInput ? this.aliasInput : undefined,
         entrezSymbol: this.geneSymbolInput,

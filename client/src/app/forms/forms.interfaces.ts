@@ -9,11 +9,11 @@ export interface FormSource {
 
 export interface FormDisease {
   id?: number;
-  doid?: number;
+  doid?: string;
   displayName?: string;
 }
 
-export interface FormDrug {
+export interface FormTherapy {
   id: number;
   ncitId?: string;
   name?: string;

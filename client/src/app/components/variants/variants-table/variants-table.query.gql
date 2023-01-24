@@ -2,10 +2,12 @@ query BrowseVariants(
   $variantName: String
   $entrezSymbol: String
   $diseaseName: String
-  $drugName: String
+  $therapyName: String
   $variantAlias: String
   $variantTypeId: Int
   $variantGroupId: Int
+  $variantTypeName: String
+  $hasNoVariantType: Boolean
   $sortBy: VariantsSort
   $first: Int
   $last: Int
@@ -16,10 +18,12 @@ query BrowseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     variantAlias: $variantAlias
     variantTypeId: $variantTypeId
     variantGroupId: $variantGroupId
+    variantTypeName: $variantTypeName
+    hasNoVariantType: $hasNoVariantType
     sortBy: $sortBy
     first: $first
     last: $last
@@ -56,12 +60,17 @@ fragment BrowseVariantsFields on BrowseVariant {
     name
     link
   }
-  drugs {
+  therapies {
     id
     name
     link
   }
   aliases {
     name
+  }
+  variantTypes {
+    id
+    name
+    link
   }
 }

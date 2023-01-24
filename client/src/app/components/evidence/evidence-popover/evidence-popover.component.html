@@ -74,7 +74,7 @@
           <!-- clinical significance -->
           <nz-descriptions-item nzTitle="Clinical Significance"
             nzSpan="2">
-            {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
+            {{ evidence.significance | evidenceEnumDisplay }}
           </nz-descriptions-item>
 
           <!-- evidence rating -->
@@ -92,15 +92,15 @@
             </ng-template>
           </nz-descriptions-item>
 
-          <!-- drugs -->
-          <nz-descriptions-item nzTitle="Drugs"
+          <!-- therapies -->
+          <nz-descriptions-item nzTitle="Therapies"
             nzSpan="2"
-            *ngIf="evidence.drugs.length > 0">
-            <span *ngFor="let drug of evidence.drugs">
-              <cvc-drug-tag [enablePopover]="false" [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
+            *ngIf="evidence.therapies.length > 0">
+            <span *ngFor="let therapy of evidence.therapies">
+              <cvc-therapy-tag [enablePopover]="false" [therapy]="therapy" [truncateLongName]="true"></cvc-therapy-tag>
             </span>
-            <ng-container *ngIf="evidence.drugs.length > 1">
-              {{evidence.drugInteractionType | titlecase }}
+            <ng-container *ngIf="evidence.therapies.length > 1">
+              {{evidence.therapyInteractionType | titlecase }}
             </ng-container>
           </nz-descriptions-item>
 

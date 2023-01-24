@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { Maybe, Organization, SuggestSourceGQL, SuggestSourceInput, SuggestSourceMutation, SuggestSourceMutationVariables } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { FormDisease, FormMolecularProfile, FormSource } from '../forms.interfaces';
 
 interface FormModel {
@@ -24,10 +25,10 @@ interface FormModel {
   templateUrl: './source-submit.form.html',
   styleUrls: ['./source-submit.form.less']
 })
-export class SourceSubmitForm implements OnInit {
+export class SourceSubmitForm implements OnDestroy {
   private destroy$: Subject<void> = new Subject();
 
-  formModel!: FormModel;
+  formModel?: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
@@ -39,13 +40,21 @@ export class SourceSubmitForm implements OnInit {
   loading: boolean = false
   newId?: number
 
+  navigationSubscription?: Subscription;
+
   constructor(
     private suggestSourceGQL: SuggestSourceGQL,
     private errService: NetworkErrorsService,
+    private router: Router
   ) {
 
     this.suggestSourceMutator = new MutatorWithState(errService);
 
+    this.navigationSubscription = router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        this.reset();
+      }
+    })
     this.formFields = [
       {
         key: 'fields',
@@ -96,7 +105,7 @@ export class SourceSubmitForm implements OnInit {
             templateOptions: {
               label: 'Comment',
               helpText: 'Please provide any additional comments you wish to make about this Source Suggestion. This comment will appear as the first comment in this item\'s comment thread.',
-              placeholder: 'Please enter a comment describing your revision.',
+              placeholder: 'Please enter a brief comment describing why this Source should be curated in CIViC.',
               required: true,
               minLength: 10
             },
@@ -118,15 +127,14 @@ export class SourceSubmitForm implements OnInit {
     ]; // formFields[ ]
   } // constructor()
 
-  submitSourceSuggestion(formModel: FormModel): void {
-    console.log(formModel);
+  submitSourceSuggestion(formModel: Maybe<FormModel>): void {
     let input = this.toSubmitInput(formModel);
     if (input) {
       let state = this.suggestSourceMutator.mutate(this.suggestSourceGQL, {
         input: input
       }, {},
         (data) => {
-          this.newId = data.suggestSource.sourceSuggestion.id;
+          this.newId = data.suggestSource?.sourceSuggestion.id;
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -148,6 +156,13 @@ export class SourceSubmitForm implements OnInit {
     }
   }
 
+  reset() {
+    this.success = false
+    this.errorMessages = []
+    this.newId = undefined
+    this.formModel = undefined
+  }
+
   toSubmitInput(model: Maybe<FormModel>): Maybe<SuggestSourceInput> {
     if (model) {
       const fields = model.fields;
@@ -163,9 +178,8 @@ export class SourceSubmitForm implements OnInit {
     return undefined
   }
 
-
-
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.navigationSubscription?.unsubscribe();
   }
 
 }

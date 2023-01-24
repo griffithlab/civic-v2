@@ -37,9 +37,9 @@
 
 <ng-template #tagTemplate let-tag='tag' let-tagType='tagType'>
   <ng-container [ngSwitch]="tagType">
-    <ng-container *ngSwitchCase="'drug'">
-      <cvc-drug-tag [drug]="tag"
-        [truncateLongName]="true"></cvc-drug-tag>
+    <ng-container *ngSwitchCase="'therapy'">
+      <cvc-therapy-tag [therapy]="tag"
+        [truncateLongName]="true"></cvc-therapy-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'disease'">
       <cvc-disease-tag [disease]="tag"
@@ -54,6 +54,9 @@
     </ng-container>
     <ng-container *ngSwitchCase="'variant'">
       <cvc-variant-tag [variant]="tag"></cvc-variant-tag>
+    </ng-container>
+    <ng-container *ngSwitchCase="'variant-type'">
+      <cvc-variant-type-tag [variantType]="tag"></cvc-variant-type-tag>
     </ng-container>
   </ng-container>
 </ng-template>

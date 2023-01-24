@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { Maybe } from "@app/generated/civic.apollo";
 
-export type SupportedPileupTags = 'drug' | 'disease' | 'gene' | 'organization' | 'variant'
+export type SupportedPileupTags = 'therapy' | 'disease' | 'gene' | 'organization' | 'variant' | 'variant-type'
 
 export type TagInfo = {
   id: number

@@ -83,7 +83,8 @@ module AdvancedSearches
         return nil
       end
 
-      matching_ids = ::Assertion.distinct.pluck(:gene_id)
+      matching_ids = ::Assertion.joins(molecular_profile: { variants: :gene }).distinct.pluck('genes.id')
+
 
       if node.has_assertion.value
         base_query.where(id: matching_ids)

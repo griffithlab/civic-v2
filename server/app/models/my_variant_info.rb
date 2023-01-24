@@ -7,7 +7,7 @@ class MyVariantInfo
 
   def response
     Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
-      if hgvs = HgvsExpression.my_gene_info_hgvs(variant)
+      if hgvs = HgvsDescription.my_gene_info_hgvs(variant)
         response = make_request(hgvs)
         parse_response(response, hgvs)
       else
@@ -76,6 +76,7 @@ class MyVariantInfo
       'cadd_consequence': Array(p.dig('cadd', 'consequence')),
       'cadd_detail': Array(p.dig('cadd', 'consdetail')),
       'cadd_score': p.dig('cadd', 'rawscore'),
+      'cadd_phred': p.dig('cadd', 'phred'),
       'fathmm_mkl_prediction': p.dig('dbnsfp', 'fathmm-mkl', 'coding_pred'),
       'fathmm_mkl_score': p.dig('dbnsfp', 'fathmm-mkl', 'coding_score'),
       'fitcons_score': p.dig('dbnsfp', 'integrated', 'fitcons_score'),
@@ -129,6 +130,7 @@ class MyVariantInfo
       'cadd.polyphen.cat',
       'cadd.polyphen.val',
       'cadd.rawscore',
+      'cadd.phred',
       'clinvar.hgvs.coding',
       'clinvar.hgvs.genomic',
       'clinvar.hgvs.non-coding',

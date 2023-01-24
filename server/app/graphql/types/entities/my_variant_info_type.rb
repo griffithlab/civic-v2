@@ -55,6 +55,7 @@ module Types::Entities
     field :cadd_consequence, [String], null: false
     field :cadd_detail, [String], null: false
     field :cadd_score, Float, null: true
+    field :cadd_phred, Float, null: true
     field :fathmm_mkl_prediction, String, null: true
     field :fathmm_mkl_score, Float, null: true
     field :fitcons_score, Float, null: true

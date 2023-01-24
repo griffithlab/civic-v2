@@ -7,16 +7,15 @@ query VariantPopover($variantId: Int!){
 fragment variantPopoverFields on Variant {
   id
   name
-  description
   variantAliases
   alleleRegistryId
-  evidenceItems {
-    totalCount
-  }
   gene {
     id
     name
     link
+  }
+  molecularProfiles {
+    totalCount
   }
   revisions(status: NEW) {
     totalCount

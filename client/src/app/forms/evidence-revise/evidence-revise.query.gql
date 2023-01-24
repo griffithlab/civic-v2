@@ -13,19 +13,19 @@ fragment RevisableEvidenceFields on EvidenceItem {
   }
   variantOrigin
   description
-  clinicalSignificance
+  significance
   disease {
     id
     doid
     name
     displayName
   }
-  drugs {
+  therapies {
     id
     ncitId
     name
   }
-  drugInteractionType
+  therapyInteractionType
   evidenceDirection
   evidenceLevel
   evidenceType
@@ -49,6 +49,9 @@ mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) 
     clientMutationId
     evidenceItem {
       id
+    }
+    results {
+      newlyCreated
     }
   }
 }

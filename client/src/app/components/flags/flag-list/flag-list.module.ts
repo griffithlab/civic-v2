@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
@@ -59,7 +59,7 @@ import { FlagListComponent } from './flag-list.component';
     CvcSourceTagModule,
     CvcUserTagModule,
     CvcDiseaseTagModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcPhenotypeTagModule,
     CvcVariantTagModule,
     CvcVariantTypeTagModule,

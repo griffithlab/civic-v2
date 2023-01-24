@@ -9,8 +9,8 @@ import { EntityState, EntityType } from '../../states/entity.state';
 const optionText: any = {
   'Evidence': {
     'PREDICTIVE': {
-      'SUPPORTS': 'The experiment or study supports this variant\'s response to a drug',
-      'DOES_NOT_SUPPORT': 'The experiment or study does not support, or was inconclusive of an interaction between this variant and a drug'
+      'SUPPORTS': 'The experiment or study supports this variant\'s response to a therapy',
+      'DOES_NOT_SUPPORT': 'The experiment or study does not support, or was inconclusive of an interaction between this variant and a therapy'
     },
     'DIAGNOSTIC': {
       'SUPPORTS': 'The experiment or study supports this variant\'s impact on the diagnosis of disease or subtype',
@@ -22,7 +22,7 @@ const optionText: any = {
     },
     'PREDISPOSING': {
       'SUPPORTS': 'The evidence suggests a pathogenic or a protective role for a germline variant in cancer',
-      'DOES_NOT_SUPPORT': 'The evidence does not support an association between the variant and disease causation.'
+      'DOES_NOT_SUPPORT': 'The evidence supports a benign (for Predisposition) or lack of protective (for Protectiveness) role for a germline variant in cancer.'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
@@ -36,8 +36,8 @@ const optionText: any = {
   },
   'Assertion': {
     'PREDICTIVE': {
-      'SUPPORTS': 'The Assertion and associated Evidence Items support this variant\'s response to a drug',
-      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support, or was inconclusive of an interaction between this variant and a drug'
+      'SUPPORTS': 'The Assertion and associated Evidence Items support this variant\'s response to a therapy',
+      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support, or was inconclusive of an interaction between this variant and a therapy'
     },
     'DIAGNOSTIC': {
       'SUPPORTS': 'The Assertion and associated Evidence Items support this variant\'s impact on the diagnosis of disease or subtype',
@@ -48,16 +48,14 @@ const optionText: any = {
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support a prognostic association between variant and outcome'
     },
     'PREDISPOSING': {
-      'SUPPORTS': 'The assertion suggests a pathogenic or a protective role for a germline variant in cancer',
-      'DOES_NOT_SUPPORT': 'The assertion does not support an association between the variant and disease causation.'
+      'SUPPORTS': 'The Assertion suggests a pathogenic or a protective role for a germline variant in cancer',
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function',
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function',
     },
     'ONCOGENIC': {
-      'SUPPORTS': 'The assertiion supports an oncogenic or protective role for a somatic variant.',
-      'DOES_NOT_SUPPORT': 'The assertion supports a benign (for Oncogenicity) or lack of protective (for Protectiveness) role for a somatic variant in cancer.',
+      'SUPPORTS': 'The Assertion supports an oncogenic or protective role for a somatic variant.',
     },
   }
 }

@@ -10,11 +10,12 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
   name
   description
   molecularProfileAliases
-  evidenceScore
+  molecularProfileScore
   sources {
     id
     citation
     link
+    sourceType
   }
   variants {
     ...VariantMolecularProfileCardFields
@@ -46,10 +47,20 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
 fragment VariantMolecularProfileCardFields on Variant {
   id
   name
+  link
   gene {
       id
       name
       link
+  }
+  molecularProfiles(first: 3) {
+    totalCount
+    nodes {
+      id
+      link
+      name
+      deprecated
+    }
   }
   variantAliases
   clinvarIds

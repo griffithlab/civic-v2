@@ -7,43 +7,6 @@
     <nz-col [nzSpan]="12">
       <!-- left col layout row -->
       <nz-row [nzGutter]="[8,8]">
-        <!-- variant description block-->
-        <nz-col nzSpan="24">
-          <nz-descriptions nzLayout="vertical"
-            nzSize="small"
-            nzBordered="true"
-            [nzColumn]="1">
-
-            <nz-descriptions-item nzTitle="Description">
-              <p *ngIf="variant.description; else noDescription"
-                nz-typography
-                nzEllipsis
-                nzExpandable
-                [nzEllipsisRows]="14">{{ variant.description }}</p>
-
-              <!-- noDescription Tpl -->
-              <ng-template #noDescription>
-                <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
-              </ng-template>
-            </nz-descriptions-item>
-
-            <!-- sources -->
-            <nz-descriptions-item nzTitle="Sources">
-              <ng-container *ngIf="variant.sources.length > 0; else noSources">
-                <cvc-tag-list>
-                  <cvc-source-tag *ngFor="let source of variant.sources"
-                    [source]="source">
-                  </cvc-source-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noSources>
-                <span nz-typography
-                  nzType="secondary">None specified</span>
-              </ng-template>
-            </nz-descriptions-item>
-
-          </nz-descriptions>
-        </nz-col>
 
         <!-- gene attributes block -->
         <nz-col nzSpan="24">
@@ -95,6 +58,10 @@
 
           </nz-descriptions>
         </nz-col>
+        <!-- coordinates -->
+        <nz-col [nzSpan]="24">
+          <cvc-coordinates-card [cvcVariantId]="variant.id"></cvc-coordinates-card>
+        </nz-col>
       </nz-row>
 
     </nz-col>
@@ -117,7 +84,7 @@
 
             <!-- allele reg. id -->
             <nz-descriptions-item nzTitle="Allele Registry ID">
-              <cvc-link-tag *ngIf="variant.alleleRegistryId != 'unregistered'; else noAlleleRegistry"
+              <cvc-link-tag *ngIf="variant.alleleRegistryId && variant.alleleRegistryId != 'unregistered'; else noAlleleRegistry"
                 [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'"
                 tooltip="View on ClinGen Allele Registry">
                 {{ variant.alleleRegistryId }}
@@ -131,7 +98,7 @@
             <!-- clinvar ids-->
             <nz-descriptions-item [nzTitle]="variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'">
               <ng-container *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
-                <cvc-tag-list *ngIf="variant.clinvarIds[0] !== 'N/A' else clinvarNotApplicable">
+                <cvc-tag-list *ngIf="variant.clinvarIds[0] !== 'N/A' && variant.clinvarIds[0] !== 'NONE FOUND' else clinvarNotApplicable">
                   <ng-container *ngFor="let id of variant.clinvarIds">
                     <cvc-link-tag [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id"
                       tooltip="View on ClinVar">
@@ -143,7 +110,7 @@
 
               <ng-template #clinvarNotApplicable>
                 <span nz-typography
-                  nzType="secondary">N/A</span>
+                  nzType="secondary">{{ variant.clinvarIds[0] }}</span>
               </ng-template>
 
               <ng-template #noClinvarIds>
@@ -152,11 +119,13 @@
               </ng-template>
             </nz-descriptions-item>
 
+            <nz-descriptions-item *ngIf="variant.openCravatUrl" nzTitle="OpenCRAVAT">
+              <cvc-link-tag [href]="variant.openCravatUrl" tooltip="View on OpenCRAVAT">
+               Variant Report 
+              </cvc-link-tag>
+            </nz-descriptions-item>
+
           </nz-descriptions>
-        </nz-col>
-        <!-- coordinates -->
-        <nz-col [nzSpan]="24">
-          <cvc-coordinates-card [cvcVariantId]="variant.id"></cvc-coordinates-card>
         </nz-col>
 
         <!-- myvariant info -->

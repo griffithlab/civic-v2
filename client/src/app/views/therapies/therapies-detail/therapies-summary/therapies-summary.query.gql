@@ -1,0 +1,14 @@
+query TherapiesSummary($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    ...TherapiesSummaryFields
+  }
+}
+
+fragment TherapiesSummaryFields on Therapy {
+  id
+  name
+  ncitId
+  therapyUrl
+  therapyAliases
+  link
+}

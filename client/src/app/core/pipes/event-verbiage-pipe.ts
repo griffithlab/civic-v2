@@ -29,7 +29,7 @@ export class EventVerbiagePipe implements PipeTransform {
       case (EventAction.RevisionRejected):
         return 'rejected revision'
       case (EventAction.RevisionSuperseded):
-        return 'accepted superseding revision'
+        return 'closed revision'
       case (EventAction.Flagged):
         return 'opened new flag'
       case (EventAction.FlagResolved):
@@ -76,7 +76,7 @@ export class EventVerbiagePipe implements PipeTransform {
       case (EventAction.RevisionRejected):
         return 'revision rejected'
       case (EventAction.RevisionSuperseded):
-        return 'superseding revision accepted'
+        return 'revision closed'
       case (EventAction.Flagged):
         return 'flag opened'
       case (EventAction.FlagResolved):
@@ -123,7 +123,7 @@ export class EventVerbiagePipe implements PipeTransform {
       case (EventAction.RevisionRejected):
         return (count == 1) ? 'rejected a revision to this entity' : `rejected ${count} revisions on this entity`
       case (EventAction.RevisionSuperseded):
-        return (count == 1) ? 'accepted a superseding revision to this entity' : `accepted ${count} superseding revisions on this entity`
+        return (count == 1) ? 'closed a revision to this entity' : `closed ${count} revisions on this entity`
       case (EventAction.Flagged):
         return (count == 1) ? 'opened new flag on this entity' : `opened ${count} new flags on this entity`
       case (EventAction.FlagResolved):

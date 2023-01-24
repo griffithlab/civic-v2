@@ -15,17 +15,10 @@ GraphiQL::Rails.config.initial_query =  <<~QUERY
     nodes {
       id
       status
-      variant {
-        name
+      molecularProfile {
         id
-        variantTypes {
-          name
-          soid
-        }
-      }
-      gene {
         name
-        id
+        link
       }
       evidenceType
       evidenceLevel
@@ -44,11 +37,11 @@ GraphiQL::Rails.config.initial_query =  <<~QUERY
         diseaseAliases
         displayName
       }
-      drugs {
+      therapies {
         id
         ncitId
         name
-        drugAliases
+        therapyAliases
       }
       source {
         ascoAbstractId
@@ -57,7 +50,7 @@ GraphiQL::Rails.config.initial_query =  <<~QUERY
         sourceType
         title
       }
-      drugInteractionType
+      therapyInteractionType
 
     }
   }

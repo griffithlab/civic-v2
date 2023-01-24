@@ -5,7 +5,7 @@ class CivicStats
       Gene,
       Variant,
       EvidenceItem,
-      Drug,
+      Therapy,
       Disease,
       Source,
       User,

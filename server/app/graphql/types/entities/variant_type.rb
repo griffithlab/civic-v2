@@ -11,10 +11,7 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :description, String, null: true
     field :gene, Types::Entities::GeneType, null: false
-    field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false
-    field :sources, [Types::Entities::SourceType], null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
@@ -34,14 +31,11 @@ module Types::Entities
     field :deprecation_reason, Types::DeprecationReasonType, null: true
     field :deprecation_comment, Types::Entities::CommentType, null: true
     field :deprecation_event, Types::Entities::EventType, null: true
-    field :molecular_profiles, [Types::Entities::MolecularProfileType], null: false
+    field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
+    field :open_cravat_url, String, null: true
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
-    end
-
-    def evidence_items
-      Loaders::AssociationLoader.for(Variant, :evidence_items).load(object)
     end
 
     def variant_types
@@ -119,8 +113,8 @@ module Types::Entities
     end
 
     def hgvs_descriptions
-      Loaders::AssociationLoader.for(Variant, :hgvs_expressions).load(object).then do |hgvs|
-        hgvs.map(&:expression)
+      Loaders::AssociationLoader.for(Variant, :hgvs_descriptions).load(object).then do |hgvs|
+        hgvs.map(&:description)
       end
     end
 

@@ -11,7 +11,7 @@ import { takeWhile, debounceTime, distinctUntilChanged, filter, map, pluck, skip
 
 export interface BrowseGenesTableUserFilters {
   diseaseInput?: Maybe<string>
-  drugInput?: Maybe<string>
+  therapyInput?: Maybe<string>
   nameInput?: Maybe<string>
   aliasInput?: Maybe<string>
 }
@@ -58,7 +58,7 @@ export class CvcGenesTableComponent implements OnInit {
 
   // filters
   diseaseInput: Maybe<string>
-  drugInput: Maybe<string>
+  therapyInput: Maybe<string>
   nameInput: Maybe<string>
   aliasInput: Maybe<string>
 
@@ -151,7 +151,7 @@ export class CvcGenesTableComponent implements OnInit {
         entrezSymbol: this.nameInput,
         geneAlias: this.aliasInput,
         diseaseName: this.diseaseInput,
-        drugName: this.drugInput,
+        therapyName: this.therapyInput,
       })
       .then(() => this.scrollIndex$.next(0));
 

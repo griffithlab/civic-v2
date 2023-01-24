@@ -13,7 +13,7 @@ export interface VariantTableUserFilters {
   variantNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  drugNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
   variantAliasInput?: Maybe<string>
 }
 
@@ -63,8 +63,10 @@ export class CvcVariantsTableComponent implements OnInit {
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   variantAliasInput: Maybe<string>
+  variantTypeNameInput: Maybe<string>
+  hasNoVariantTypeInput: boolean = false
 
   private initialQueryArgs?: BrowseVariantsQueryVariables
 
@@ -82,7 +84,8 @@ export class CvcVariantsTableComponent implements OnInit {
     this.initialQueryArgs = {
       first: this.initialPageSize,
       variantTypeId: this.variantTypeId,
-      variantGroupId: this.variantGroupId
+      variantGroupId: this.variantGroupId,
+      hasNoVariantType: this.hasNoVariantTypeInput,
     }
 
     this.queryRef = this.gql.watch(this.initialQueryArgs)
@@ -162,10 +165,12 @@ export class CvcVariantsTableComponent implements OnInit {
     this.queryRef
       .refetch({
         diseaseName: this.diseaseNameInput,
-        drugName: this.drugNameInput,
+        therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         variantAlias: this.variantAliasInput ? this.variantAliasInput : undefined,
         entrezSymbol: this.geneSymbolInput,
+        variantTypeName: this.variantTypeNameInput ? this.variantTypeNameInput : undefined,
+        hasNoVariantType: this.hasNoVariantTypeInput
       })
       .then(() => this.scrollIndex$.next(0));
 
@@ -175,6 +180,11 @@ export class CvcVariantsTableComponent implements OnInit {
   // virtual scroll helpers
   trackByIndex(_: number, data: BrowseVariantsFieldsFragment): number {
     return data.id;
+  }
+
+  onHasNoVariantTypeInputChange(value: boolean[]) {
+    this.hasNoVariantTypeInput = value[0]
+    this.filterChange$.next()
   }
 
 }

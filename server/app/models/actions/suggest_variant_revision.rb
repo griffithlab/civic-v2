@@ -3,10 +3,8 @@ class Actions::SuggestVariantRevision < Actions::SuggestRevisionSet
     [
       :gene_id,
       :name,
-      :description,
-      :source_ids,
       :variant_alias_ids,
-      :hgvs_expression_ids,
+      :hgvs_description_ids,
       :clinvar_entry_ids,
       :variant_type_ids,
       :reference_build,

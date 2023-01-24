@@ -1,8 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
-  DrugInteraction,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceFieldsFromSourceSuggestionGQL,
   EvidenceLevel,
@@ -13,6 +12,7 @@ import {
   SubmitEvidenceItemInput,
   SubmitEvidenceItemMutation,
   SubmitEvidenceItemMutationVariables,
+  TherapyInteraction,
   VariantOrigin,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
@@ -22,7 +22,7 @@ import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
-import { FormDisease, FormDrug, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
+import { FormDisease, FormTherapy, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 
 interface FormModel {
@@ -35,10 +35,10 @@ interface FormModel {
 
     variantOrigin: VariantOrigin
     disease: FormDisease[]
-    drugs: FormDrug[]
-    drugInteractionType: Maybe<DrugInteraction>
+    therapies: FormTherapy[]
+    therapyInteractionType: Maybe<TherapyInteraction>
 
-    clinicalSignificance: EvidenceClinicalSignificance
+    significance: EvidenceSignificance
     evidenceDirection: EvidenceDirection
     evidenceLevel: EvidenceLevel
     evidenceType: EvidenceType
@@ -100,7 +100,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             type: 'molecular-profile-input',
             templateOptions: {
               label: 'Molecular Profile',
-              helpText: 'lorem ipsum',
+              helpText: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               required: true,
               allowCreate: true,
             },
@@ -162,8 +162,8 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true,
             },
@@ -183,12 +183,12 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'drugs',
-            type: 'drug-array',
+            key: 'therapies',
+            type: 'therapy-array',
           },
           {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select',
+            key: 'therapyInteractionType',
+            type: 'therapy-interaction-select',
           },
           {
             key: 'phenotypes',
@@ -301,7 +301,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         input: input
       }, {},
       (data) => {
-        this.newId = data.submitEvidence.evidenceItem.id;
+        this.newId = data.submitEvidence?.evidenceItem.id;
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -334,13 +334,13 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: +fields.evidenceRating,
-          drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
-          drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
+          therapyIds: fields.therapies.map((dr: FormTherapy) => { return dr.id! }),
+          therapyInteractionType: fmt.toNullableInput(fields.therapies.length > 1 ? fields.therapyInteractionType : undefined)
         },
         comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
         organizationId: model?.fields.organization?.id

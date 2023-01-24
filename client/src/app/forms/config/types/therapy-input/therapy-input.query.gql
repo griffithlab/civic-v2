@@ -1,0 +1,23 @@
+query TherapyTypeahead($name: String!) {
+  therapyTypeahead(queryTerm:$name){
+    id
+    name
+    ncitId
+    therapyAliases
+  }
+}
+
+mutation AddTherapy($name: String!, $ncitId: String) {
+  addTherapy(input: {name: $name, ncitId: $ncitId}) {
+    ...AddTherapyFields
+  }
+}
+
+fragment AddTherapyFields on AddTherapyPayload {
+  new
+  therapy {
+    id
+    ncitId
+    name
+  }
+}
