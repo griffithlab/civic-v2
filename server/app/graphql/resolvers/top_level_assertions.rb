@@ -17,7 +17,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.where("assertions.id = ?", value)
   end
   option(:variant_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the variant.') do |scope, value|
-    scope.where("assertions.variant_id = ?", value)
+    scope.joins(molecular_profile: [:variants]).where("variants.id = ?", value)
   end
   option(:molecular_profile_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the molecular_profile.') do |scope, value|
     scope.where("assertions.molecular_profile_id = ?", value)
@@ -48,7 +48,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.joins(:molecular_profile).where(molecular_profiles: { id: ids })
   end
   option(:variant_name, type: GraphQL::Types::String, description: 'Substring filtering on variant name.') do |scope, value|
-    scope.joins(:variant).where('variants.name ILIKE ?', "%#{value}%")
+    scope.joins(molecular_profile: [:variants]).where('variants.name ILIKE ?', "%#{value}%")
   end
   option(:summary, type: GraphQL::Types::String, description: 'Substring filtering on assertion description.') do |scope, value|
     scope.where("assertions.summary ILIKE ?", "%#{value}%")
