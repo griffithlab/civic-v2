@@ -18,6 +18,7 @@ import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field
 import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms2/wrappers/form-layout/form-layout.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
+import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   // form-layout wrapper embeds the form in an nz-grid row, allowing the form to be placed adjacent to other controls or page elements. Currently, it provides a toggleable dev panel. Could be used to add a preview of the entity being added/edited, or more extensive feedback like lists of similar entities, etc.
@@ -108,7 +109,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               <CvcDirectionSelectFieldOptions>{
                 key: 'evidenceDirection',
                 type: 'direction-select',
-                props: {},
+                props: {
+                  required: true
+                },
               },
             ],
           },
@@ -165,12 +168,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
               <CvcLevelSelectFieldOptions>{
                 key: 'evidenceLevel',
                 type: 'level-select',
-                props: {},
+                props: {
+                  required: true
+                },
               },
               <CvcRatingFieldOptions>{
                 key: 'rating',
                 type: 'rating',
-                props: {},
+                props: {
+                  required: true
+                },
               },
             ],
           },
@@ -185,12 +192,37 @@ const formFieldConfig: FormlyFieldConfig[] = [
               <CvcOriginSelectFieldOptions>{
                 key: 'variantOrigin',
                 type: 'origin-select',
-                props: {},
+                props: {
+                  required: true
+                },
               },
               <CvcPhenotypeSelectFieldOptions>{
                 key: 'phenotypeIds',
                 type: 'phenotype-multi-select',
                 props: {},
+              },
+            ],
+          },
+          {
+            wrappers: ['field-grid'],
+            props: <CvcFieldGridWrapperConfig>{
+              grid: {
+                cols: "1-2",
+              },
+            },
+            fieldGroup: [
+              {
+                key: 'description',
+                type: 'textarea',
+                wrappers: ['form-field'],
+                props: {
+                  tooltip: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
+                  placeholder: 'Enter an Evidence Statement',
+                  extraType: 'description',
+                  description: 'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+                  label: 'Evidence Statement',
+                  required: true,
+                },
               },
             ],
           },
@@ -231,13 +263,13 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
             },
           },
-          //{
-            //key: 'organizationId',
-            //type: 'org-submit-button',
-            //props: {
-              //submitLabel: 'Submit Evidence Item',
-            //},
-          //},
+          {
+            key: 'organizationId',
+            type: 'org-submit-button',
+            props: {
+              submitLabel: 'Submit Evidence Item',
+            },
+          },
         ],
       },
     ],

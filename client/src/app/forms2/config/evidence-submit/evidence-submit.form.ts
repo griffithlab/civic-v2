@@ -57,8 +57,6 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
     console.log(model)
     const input = evidenceFormModelToInput(model)
     if (input) {
-      input.organizationId = 1
-      input.fields.description = {value: "hello" }
       this.mutationState = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {input: input})
     }
   }

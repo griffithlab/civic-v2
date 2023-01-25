@@ -148,14 +148,14 @@
       <span
         *ngSwitchCase="'prompt'"
         class="extra-prompt"
-        >{{ props.description }}</span
-      >
+        [innerHTML]="props.description" >
+      </span>
       <span
         *ngSwitchCase="'description'"
         class="extra-description"
-        >{{ props.description }}</span
-      >
-      <span *ngSwitchDefault>{{ props.description }}</span>
+        [innerHTML]="props.description" >
+      </span>
+      <span *ngSwitchDefault [innerHTML]="props.description"></span>
     </ng-container>
   </div>
 </ng-template>
