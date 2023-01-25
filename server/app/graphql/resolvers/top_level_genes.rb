@@ -7,5 +7,5 @@ class Resolvers::TopLevelGenes < GraphQL::Schema::Resolver
 
   description 'List and filter genes.'
 
-  scope { Gene.joins(variants: [:evidence_items]).order('genes.name ASC').where("evidence_items.status != 'rejected'").distinct }
+  scope { Gene.joins(variants: [molecular_profiles: [:evidence_items]]).order('genes.name ASC').where("evidence_items.status != 'rejected'").distinct }
 end
