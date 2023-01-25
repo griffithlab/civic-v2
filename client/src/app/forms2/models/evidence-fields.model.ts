@@ -14,7 +14,7 @@ export type EvidenceItemFields = {
   significance?: EvidenceSignificance
   description?: string
   diseaseId?: number
-  drugIds?: number[]
+  therapyIds?: number[]
   therapyInteractionType?: TherapyInteraction
   evidenceDirection?: EvidenceDirection
   evidenceLevel?: EvidenceLevel

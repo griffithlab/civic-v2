@@ -67,7 +67,7 @@ export interface CvcTherapySelectFieldProps extends FormlyFieldProps {
 // field types in some expressions
 export interface CvcTherapySelectFieldConfig
   extends FormlyFieldConfig<CvcTherapySelectFieldProps> {
-  type: 'therapy-select' | 'drug-multi-select' | Type<CvcTherapySelectField>
+  type: 'therapy-select' | 'therapy-multi-select' | Type<CvcTherapySelectField>
 }
 
 const TherapySelectMixin = mixin(
@@ -97,7 +97,7 @@ export class CvcTherapySelectField
 {
   // STATE SOURCE STREAMS
   onEntityType$?: Subject<Maybe<EntityType>>
-  onRequiresDrug$?: BehaviorSubject<boolean>
+  onRequiresTherapy$?: BehaviorSubject<boolean>
 
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
@@ -160,13 +160,13 @@ export class CvcTherapySelectField
   configureStateConnections(): void {
     if (!this.state) return
     this.stateEntityName = this.state.entityName
-    // connect to onRequiresDrug$
-    if (!this.state.requires.requiresDrug$) {
+    // connect to onRequiresTherapy$
+    if (!this.state.requires.requiresTherapy$) {
       console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresDrug$ subject to attach.`
+        `${this.field.id} field's form provides a state, but could not find requiresTherapy$ subject to attach.`
       )
     } else {
-      this.onRequiresDrug$ = this.state.requires.requiresDrug$
+      this.onRequiresTherapy$ = this.state.requires.requiresTherapy$
     }
 
     // connect onEntityType$
@@ -185,18 +185,18 @@ export class CvcTherapySelectField
 
   configurePlaceholders(): void {
     this.placeholder$.next(this.props.placeholder)
-    if (!this.onRequiresDrug$ || !this.onEntityType$) return
+    if (!this.onRequiresTherapy$ || !this.onEntityType$) return
     // update field placeholders & required status on state input events
-    this.onRequiresDrug$
+    this.onRequiresTherapy$
       .pipe(
         distinctUntilChanged(),
         withLatestFrom(this.onEntityType$),
-        // tag('therapy-select onRequiresDrug$'),
+        // tag('therapy-select onRequiresTherapy$'),
         untilDestroyed(this)
       )
-      .subscribe(([requiresDrug, entityType]: [boolean, Maybe<EntityType>]) => {
+      .subscribe(([requiresTherapy, entityType]: [boolean, Maybe<EntityType>]) => {
         // therapies are not associated with this entity type
-        if (!requiresDrug && entityType) {
+        if (!requiresTherapy && entityType) {
           this.props.required = false
           this.props.disabled = true
           // no drug required, entity type specified
@@ -216,8 +216,8 @@ export class CvcTherapySelectField
           )
           this.props.extraType = 'prompt'
         }
-        // state indicates drug is required, set required, unset disabled, and show the placeholder (state will only return true from requiresDrug$ if entityType provided)
-        else if (requiresDrug) {
+        // state indicates drug is required, set required, unset disabled, and show the placeholder (state will only return true from requiresTherapy$ if entityType provided)
+        else if (requiresTherapy) {
           this.props.required = true
           this.props.disabled = false
           this.props.description = undefined
@@ -225,7 +225,7 @@ export class CvcTherapySelectField
         }
         // field currently has a value, but state indicates no drug is required, or no type is provided && type is required, so reset field
         else if (
-          (!requiresDrug && this.formControl.value) ||
+          (!requiresTherapy && this.formControl.value) ||
           (this.props.requireType && !entityType && this.formControl.value)
         ) {
           this.resetField()

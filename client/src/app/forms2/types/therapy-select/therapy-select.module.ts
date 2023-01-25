@@ -36,7 +36,7 @@ const typeConfig: ConfigOption = {
     },
     {
       // no label, for use in repeat-field types
-      name: 'drug-multi-select',
+      name: 'therapy-multi-select',
       wrappers: ['form-field'],
       component: CvcTherapySelectField,
       defaultOptions: <CvcTherapySelectFieldOptions>{

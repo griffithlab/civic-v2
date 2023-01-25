@@ -123,7 +123,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               <CvcSignificanceSelectFieldOptions>{
                 key: 'significance',
                 type: 'significance-select',
-                props: {},
+                props: {
+                  required: true
+                },
               },
               <CvcDiseaseSelectFieldOptions>{
                 key: 'diseaseId',
@@ -141,8 +143,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
             fieldGroup: [
               <CvcTherapySelectFieldOptions>{
-                key: 'drugIds',
-                type: 'drug-multi-select',
+                key: 'therapyIds',
+                type: 'therapy-multi-select',
                 props: {},
               },
               <CvcInteractionSelectFieldOptions>{
@@ -229,13 +231,13 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
             },
           },
-          {
-            key: 'organizationId',
-            type: 'org-submit-button',
-            props: {
-              submitLabel: 'Submit Evidence Item',
-            },
-          },
+          //{
+            //key: 'organizationId',
+            //type: 'org-submit-button',
+            //props: {
+              //submitLabel: 'Submit Evidence Item',
+            //},
+          //},
         ],
       },
     ],

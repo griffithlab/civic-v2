@@ -1,17 +1,23 @@
-<form
-  nz-form
-  nzLayout="vertical"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit(model)">
-  <formly-form
-    [form]="form"
-    [fields]="fields"
-    [model]="model"
-    [options]="options"
-    style="width: 100%"
-    (modelChange)="model = $event">
-  </formly-form>
-</form>
+<cvc-form-submission-status-display [mutationState]="this.mutationState" entityType="Evidence Item" [successMessage]="success">
+  <ng-template #success>
+    View your new EID <a href="civicdb.org" >here</a>.
+  </ng-template>
+  <form
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      [options]="options"
+      style="width: 100%"
+      (modelChange)="model = $event">
+    </formly-form>
+    <button type="submit" class="btn btn-primary submit-button">Submit</button>
+  </form>
+</cvc-form-submission-status-display>
 <!-- <nz-row style="background-color: #eef">
      <nz-col nzSpan="12">
      <h4>evidence-submit.form.html Model</h4>

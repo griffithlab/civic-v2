@@ -22,7 +22,7 @@ export type EvidenceFields = {
   evidenceDirection$: BehaviorSubject<Maybe<EvidenceDirection>>
   significance$: BehaviorSubject<Maybe<EvidenceSignificance>>
   diseaseId$: BehaviorSubject<Maybe<number>>
-  drugIds$: BehaviorSubject<Maybe<number[]>>
+  therapyIds$: BehaviorSubject<Maybe<number[]>>
   therapyInteractionType$: BehaviorSubject<Maybe<TherapyInteraction>>
   rating$: BehaviorSubject<Maybe<number>>
   sourceId$: BehaviorSubject<Maybe<number>>
@@ -38,7 +38,7 @@ export type EvidenceEnums = {
 
 export type EvidenceRequires = {
   requiresDisease$: BehaviorSubject<boolean>
-  requiresDrug$: BehaviorSubject<boolean>
+  requiresTherapy$: BehaviorSubject<boolean>
   requiresTherapyInteraction$: BehaviorSubject<boolean>
   requiresClingenCodes$: BehaviorSubject<boolean>
   requiresAcmgCodes$: BehaviorSubject<boolean>
@@ -75,7 +75,7 @@ class EvidenceState extends BaseState {
         def.variantOrigin
       ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
-      drugIds$: new BehaviorSubject<Maybe<number[]>>(def.drugIds),
+      therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
       therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(
         def.therapyInteractionType
       ),
@@ -95,7 +95,7 @@ class EvidenceState extends BaseState {
 
     this.requires = {
       requiresDisease$: new BehaviorSubject<boolean>(false),
-      requiresDrug$: new BehaviorSubject<boolean>(false),
+      requiresTherapy$: new BehaviorSubject<boolean>(false),
       requiresTherapyInteraction$: new BehaviorSubject<boolean>(false),
       requiresClingenCodes$: new BehaviorSubject<boolean>(false),
       requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
@@ -122,13 +122,13 @@ class EvidenceState extends BaseState {
         this.enums.direction$.next(this.getDirectionOptions(et))
 
         this.requires.requiresDisease$.next(this.requiresDisease(et))
-        this.requires.requiresDrug$.next(this.requiresDrug(et))
+        this.requires.requiresTherapy$.next(this.requiresTherapy(et))
         this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(et))
         this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(et))
         this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(et))
       })
 
-    this.fields.drugIds$
+    this.fields.therapyIds$
       .pipe(untilDestroyed(this, 'onDestroy'))
       .subscribe((ids: Maybe<number[]>) => {
         if (!ids) {
@@ -152,7 +152,7 @@ class EvidenceState extends BaseState {
         EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: true,
+      requiresTherapy: true,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
@@ -170,7 +170,7 @@ class EvidenceState extends BaseState {
         EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
@@ -189,7 +189,7 @@ class EvidenceState extends BaseState {
         EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
@@ -207,7 +207,7 @@ class EvidenceState extends BaseState {
         EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
@@ -225,7 +225,7 @@ class EvidenceState extends BaseState {
         EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
@@ -247,7 +247,7 @@ class EvidenceState extends BaseState {
         EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: false,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresAcmgCodes: false,
       requiresClingenCodes: false,
       requiresAmpLevel: false,

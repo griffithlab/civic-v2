@@ -1,7 +1,7 @@
 <cvc-entity-select
   [cvcAddEntity]="addDrug"
   [cvcCustomTemplate]="selectedTemplate"
-  [cvcDisabled]="onRequiresDrug$ && !(onRequiresDrug$ | ngrxPush)"
+  [cvcDisabled]="onRequiresTherapy$ && !(onRequiresTherapy$ | ngrxPush)"
   [cvcEntityName]="props.entityName"
   [cvcFormControl]="formControl"
   [cvcFormlyAttributes]="field"

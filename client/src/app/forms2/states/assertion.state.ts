@@ -51,7 +51,7 @@ class AssertionState extends BaseState {
 
     this.requires = {
       requiresDisease$: new BehaviorSubject<boolean>(false),
-      requiresDrug$: new BehaviorSubject<boolean>(false),
+      requiresTherapy$: new BehaviorSubject<boolean>(false),
       requiresClingenCodes$: new BehaviorSubject<boolean>(false),
       requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
       requiresAmpLevel$: new BehaviorSubject<boolean>(false),
@@ -73,7 +73,7 @@ class AssertionState extends BaseState {
         this.getOptionsFromEnums(this.getDirectionOptions(at))
       )
       this.requires.requiresDisease$.next(this.requiresDisease(at))
-      this.requires.requiresDrug$.next(this.requiresDrug(at))
+      this.requires.requiresTherapy$.next(this.requiresTherapy(at))
       this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
       this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
       this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
@@ -93,7 +93,7 @@ class AssertionState extends BaseState {
         AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: true,
+      requiresTherapy: true,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
@@ -111,7 +111,7 @@ class AssertionState extends BaseState {
         AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
@@ -130,7 +130,7 @@ class AssertionState extends BaseState {
         AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
@@ -151,7 +151,7 @@ class AssertionState extends BaseState {
         AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: true,
       requiresAmpLevel: false,
@@ -172,7 +172,7 @@ class AssertionState extends BaseState {
         AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
-      requiresDrug: false,
+      requiresTherapy: false,
       requiresClingenCodes: true,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,

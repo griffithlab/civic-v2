@@ -5,11 +5,12 @@ import {
   OnDestroy,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import {
-  evidenceSubmitFormInitialModel,
-  EvidenceSubmitModel,
-} from '@app/forms2/models/evidence-submit.model'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { EvidenceSubmitModel, } from '@app/forms2/models/evidence-submit.model'
 import { EvidenceState } from '@app/forms2/states/evidence.state'
+import { evidenceFormModelToInput } from '@app/forms2/utilities/evidence-to-model-fields'
+import { SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { evidenceSubmitFields } from './evidence-submit.form.config'
@@ -27,12 +28,24 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
   state: EvidenceState
   options: FormlyFormOptions
 
-  constructor() {
+  submitEvidenceMutator: MutatorWithState<
+    SubmitEvidenceItemGQL,
+    SubmitEvidenceItemMutation,
+    SubmitEvidenceItemMutationVariables
+  >
+
+  mutationState?: MutationState
+
+  constructor(
+    private submitEvidenceGQL: SubmitEvidenceItemGQL,
+    private networkErrorService: NetworkErrorsService,
+  ) {
     this.form = new UntypedFormGroup({})
     this.fields = evidenceSubmitFields
     this.model = { fields: {} }
     this.state = new EvidenceState()
     this.options = { formState: this.state }
+    this.submitEvidenceMutator = new MutatorWithState(networkErrorService)
   }
 
   ngAfterViewInit(): void {
@@ -42,6 +55,12 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
   onSubmit(model: EvidenceSubmitModel) {
     console.log('------ Evidence Form Submitted ------')
     console.log(model)
+    const input = evidenceFormModelToInput(model)
+    if (input) {
+      input.organizationId = 1
+      input.fields.description = {value: "hello" }
+      this.mutationState = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {input: input})
+    }
   }
 
   ngOnDestroy(): void {

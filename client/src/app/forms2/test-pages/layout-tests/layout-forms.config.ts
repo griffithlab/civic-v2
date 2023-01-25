@@ -146,7 +146,7 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
       },
       <CvcTherapySelectFieldOptions>{
         key: 'drugIds',
-        type: 'drug-multi-select',
+        type: 'therapyk-multi-select',
         props: {},
       },
     ],

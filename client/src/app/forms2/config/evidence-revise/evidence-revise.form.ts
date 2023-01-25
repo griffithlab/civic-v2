@@ -12,13 +12,13 @@ import {
   EvidenceReviseModel,
 } from '@app/forms2/models/evidence-revise.model'
 import { EvidenceState } from '@app/forms2/states/evidence.state'
-import evidenceToModelFields from '@app/forms2/utilities/evidence-to-model-fields'
 import { EvidenceItemRevisableFieldsGQL } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Subject } from 'rxjs'
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject'
 import { evidenceReviseFields } from './evidence-revise.form.config'
+import { evidenceToModelFields } from '@app/forms2/utilities/evidence-to-model-fields'
 
 @UntilDestroy()
 @Component({

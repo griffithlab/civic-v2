@@ -12,7 +12,7 @@ export const evidenceItemSubmitFieldsDefaults = <EvidenceItemFields>{
   significance: undefined,
   description: undefined,
   diseaseId: undefined,
-  drugIds: undefined,
+  therapyIds: undefined,
   therapyInteractionType: undefined,
   evidenceDirection: undefined,
   evidenceLevel: undefined,

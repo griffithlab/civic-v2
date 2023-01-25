@@ -27,7 +27,7 @@ export type ValidEntity = {
   significance: EntitySignificance[]
   entityDirection: EntityDirection[]
   requiresDisease: boolean
-  requiresDrug: boolean
+  requiresTherapy: boolean
   requiresAcmgCodes: boolean
   requiresAmpLevel: boolean
   requiresClingenCodes: boolean
@@ -58,7 +58,7 @@ export interface IEntityState {
   getDirectionOptions: (et: EntityType) => EntityDirection[]
   isValidSignificanceOption: (et: EntityType, cs: EntitySignificance) => boolean
   isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
-  requiresDrug: (et: EntityType) => boolean
+  requiresTherapy: (et: EntityType) => boolean
   requiresDisease: (et: EntityType) => boolean
   requiresAcmgCodes: (et: EntityType) => boolean
   requiresAmpLevel: (et: EntityType) => boolean
@@ -68,7 +68,7 @@ export interface IEntityState {
   typeOption$: Subject<EntityType[]>
   significanceOption$: Subject<EntitySignificance[]>
   directionOption$: Subject<EntityDirection[]>
-  requiresDrug$: Subject<boolean>
+  requiresTherapy$: Subject<boolean>
   requiresDisease$: Subject<boolean>
   requiresAcmgCode$: Subject<boolean>
   requiresAmpLevel$: Subject<boolean>
@@ -90,7 +90,7 @@ class BaseState implements IEntityState {
   typeOption$ = new Subject<EntityType[]>()
   significanceOption$ = new Subject<EntitySignificance[]>()
   directionOption$ = new Subject<EntityDirection[]>()
-  requiresDrug$ = new Subject<boolean>()
+  requiresTherapy$ = new Subject<boolean>()
   requiresDisease$ = new Subject<boolean>()
   requiresAcmgCode$ = new Subject<boolean>()
   requiresAmpLevel$ = new Subject<boolean>()
@@ -151,9 +151,9 @@ class BaseState implements IEntityState {
     return state.entityDirection.includes(ed)
   }
 
-  requiresDrug = (et: EntityType): boolean => {
+  requiresTherapy = (et: EntityType): boolean => {
     const state = this.validStates.get(et)
-    return state !== undefined ? state.requiresDrug : true
+    return state !== undefined ? state.requiresTherapy : true
   }
 
   requiresDisease = (et: EntityType): boolean => {
