@@ -47,12 +47,6 @@ export interface CvcPhenotypeSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   // if true, field disabled when no entity type available
   requireType: boolean
-  labels: {
-    // label if a multi type, showing optional plurality, e.g. 'Variant(s)'
-    multi: string
-    // label if multi type & model value length > 1
-    plural: string
-  }
   placeholders: {
     // default placeholder
     default: string
@@ -112,11 +106,6 @@ export class CvcPhenotypeSelectField
   defaultOptions: CvcPhenotypeSelectFieldOptions = {
     props: {
       entityName: { singular: 'Phenotype', plural: 'Phenotypes' },
-      label: 'Phenotype',
-      labels: {
-        multi: 'Phenotype(s)',
-        plural: 'Phenotypes',
-      },
       isMultiSelect: false,
       requireType: true,
       tooltip: 'Phenotype or phenotype combination which interacts with the specified variant',
@@ -165,7 +154,6 @@ export class CvcPhenotypeSelectField
       changeDetectorRef: this.changeDetectorRef,
     })
     this.configurePlaceholders()
-    this.configureLabels()
   } // ngAfterViewInit()
 
   configureStateConnections(): void {

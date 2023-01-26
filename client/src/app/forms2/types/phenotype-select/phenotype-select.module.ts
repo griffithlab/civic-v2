@@ -32,15 +32,20 @@ const typeConfig: ConfigOption = {
       name: 'phenotype-select',
       wrappers: ['form-field'],
       component: CvcPhenotypeSelectField,
+      defaultOptions: {
+        props: {
+          label: 'Phenotype'
+        }
+      }
     },
     {
-      // no label, for use in repeat-field types
       name: 'phenotype-multi-select',
       wrappers: ['form-field'],
       component: CvcPhenotypeSelectField,
       defaultOptions: <CvcPhenotypeSelectFieldOptions>{
         props: {
           isMultiSelect: true,
+          label: 'Phenotypes'
         },
       },
     },

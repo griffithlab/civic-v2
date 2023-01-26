@@ -31,7 +31,6 @@ export function BaseFieldType<
     // STATE OUTPUT STREAM
     stateValueChange$?: BehaviorSubject<Maybe<V>>
 
-    initialLabel?: string
     constructor() {
       super() // call abstract FieldType's constructor
     }
@@ -110,48 +109,6 @@ export function BaseFieldType<
         .subscribe((v) => {
           if (this.stateValueChange$) this.stateValueChange$.next(v)
         })
-      this.configureLabels()
-    }
-
-    configureLabels(): void {
-      if (typeof this.field.type !== 'string') return
-      if (this.field.type.includes('multi')) {
-        this.initialLabel = this.field.props.labels.multi
-      } else {
-        this.initialLabel = this.field.props.label
-      }
-      // watch value changes to update label
-      if (!this.onValueChange$) return
-      this.onValueChange$.pipe(untilDestroyed(this)).subscribe((value) => {
-        if (typeof this.field.type !== 'string') return
-        // value undefined, set to intial label based on type
-        if (value === undefined) {
-          if (this.field.type.includes('multi')) {
-            this.props.label = this.props.labels.multi
-          } else {
-            this.props.label = this.initialLabel
-          }
-          return
-        }
-        // value is a singular value, set to singular label
-        // (assuming non-multi default initial label will be singular)
-        if (
-          typeof value === 'string' ||
-          typeof value === 'number' ||
-          typeof value === 'boolean'
-        ) {
-          this.props.label = this.initialLabel
-          return
-        }
-        // value is array, set plural or singular depending on length
-        if (value.length > 1) {
-          this.props.label = this.props.labels.plural
-        } else if (value.length === 1) {
-          this.props.label = this.props.entityName.singular
-        } else {
-          this.props.label = this.initialLabel
-        }
-      })
     }
   }
   return BaseFieldType

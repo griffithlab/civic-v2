@@ -34,6 +34,11 @@ const typeConfig: ConfigOption = {
       name: 'source-select',
       wrappers: ['form-field'],
       component: CvcSourceSelectField,
+      defaultOptions: {
+        props: {
+          label: 'Source'
+        }
+      }
     },
     {
       // no label, for use in repeat-field types

@@ -45,11 +45,6 @@ export type CvcEntityTypeSelectFieldOptions = Partial<
 
 interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
   label: string
-  labels: {
-    // for multi-select label logic in base-field
-    multi: string
-    plural: string
-  }
   placeholder: string
   entityName: CvcSelectEntityName
   isMultiSelect: boolean
@@ -86,10 +81,6 @@ export class CvcEntityTypeSelectField
   defaultOptions: Partial<FieldTypeConfig<CvcEntityTypeSelectFieldProps>> = {
     props: {
       label: 'ENTITY_NAME Type',
-      labels: {
-        multi: 'Entity(s)',
-        plural: 'Entities',
-      },
       entityName: { singular: 'Entity', plural: 'Entities' },
       placeholder: 'Select an ENTITY_NAME Type',
       isMultiSelect: false,
@@ -142,6 +133,7 @@ export class CvcEntityTypeSelectField
     }
 
     // set placeholder & label w/ proper entity name
+
     this.props.placeholder = this.props.placeholder.replace(
       'ENTITY_NAME',
       this.state.entityName

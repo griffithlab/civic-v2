@@ -34,6 +34,11 @@ const typeConfig: ConfigOption = {
       wrappers: ['form-field'],
       // wrappers: ['form-field'],
       component: CvcDiseaseSelectField,
+      defaultOptions: {
+        props: {
+          label: 'Disease'
+        }
+      }
     },
     {
       // no label, for use in repeat-field types
@@ -43,6 +48,7 @@ const typeConfig: ConfigOption = {
       defaultOptions: <CvcDiseaseSelectFieldOptions>{
         props: {
           isMultiSelect: true,
+          label: 'Diseases'
         },
       },
     },

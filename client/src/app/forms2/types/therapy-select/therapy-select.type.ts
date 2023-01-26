@@ -51,10 +51,6 @@ export interface CvcTherapySelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
   isMultiSelect: boolean
   requireType: boolean
-  labels: {
-    multi: string
-    plural: string
-  }
   placeholder: string
   requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
   tooltip?: string
@@ -108,11 +104,6 @@ export class CvcTherapySelectField
   defaultOptions: CvcTherapySelectFieldOptions = {
     props: {
       entityName: { singular: 'Therapy', plural: 'Therapies' },
-      label: 'Therapy',
-      labels: {
-        multi: 'Therapies',
-        plural: 'Therapies',
-      },
       isMultiSelect: false,
       requireType: true,
       tooltip:
@@ -154,7 +145,6 @@ export class CvcTherapySelectField
       changeDetectorRef: this.changeDetectorRef,
     })
     this.configurePlaceholders()
-    this.configureLabels()
   } // ngAfterViewInit()
 
   configureStateConnections(): void {

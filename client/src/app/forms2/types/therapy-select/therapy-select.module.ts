@@ -33,6 +33,11 @@ const typeConfig: ConfigOption = {
       name: 'therapy-select',
       wrappers: ['form-field'],
       component: CvcTherapySelectField,
+      defaultOptions: {
+        props: {
+          label: 'Therapy'
+        }
+      }
     },
     {
       // no label, for use in repeat-field types

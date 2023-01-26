@@ -43,10 +43,6 @@ export interface CvcDiseaseSelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
   isMultiSelect: boolean
   requireType: boolean
-  labels: {
-    multi: string
-    plural: string
-  }
   placeholder: string
   requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
   tooltip?: string
@@ -100,18 +96,13 @@ export class CvcDiseaseSelectField
   defaultOptions: CvcDiseaseSelectFieldOptions = {
     props: {
       entityName: { singular: 'Disease', plural: 'Diseases' },
-      label: 'Disease',
       tooltip:
         'Cancer or cancer subtype that is a result of the described variant',
-      labels: {
-        multi: 'Disease(s)',
-        plural: 'Diseases',
-      },
       isMultiSelect: false,
       requireType: true,
       placeholder: 'Search Diseases',
       requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
-        `Select an ${entityName} Type to search associated Disease${
+        `Select an ${entityName} Type in order to select associated Disease${
           isMultiSelect ? '(s)' : ''
         }`,
     },

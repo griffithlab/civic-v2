@@ -37,10 +37,6 @@ import mixin from 'ts-mixin-extended'
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
   isMultiSelect: boolean
-  labels: {
-    multi: string
-    plural: string
-  }
   placeholders: {
     default: string
     contextualFn: (sourceName: string) => string
@@ -103,11 +99,6 @@ export class CvcSourceSelectField
   defaultOptions: CvcSourceSelectFieldOptions = {
     props: {
       entityName: { singular: 'Source', plural: 'Sources' },
-      label: 'Source',
-      labels: {
-        multi: 'Source(s)',
-        plural: 'Sources',
-      },
       isMultiSelect: false,
       tooltip: 'Source(s) that support items, statements or descriptions.',
       placeholders: {
@@ -153,7 +144,6 @@ export class CvcSourceSelectField
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
     })
-    this.configureLabels()
 
     this.sourceType$
       .pipe(withLatestFrom(this.onSearch$), untilDestroyed(this))
