@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { CvcPopoverTemplate } from './popover-template.directive'
 
 @NgModule({
-  declarations: [],
+  declarations: [CvcPopoverTemplate],
   imports: [CommonModule],
-  exports: [],
+  exports: [CvcPopoverTemplate],
 })
 export class EntityTagDirectivesModule {}

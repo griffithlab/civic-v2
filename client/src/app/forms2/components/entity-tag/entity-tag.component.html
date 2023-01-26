@@ -2,14 +2,20 @@
 <span
   *ngIf="cvcContext === 'default'"
   class="default">
-  <nz-tag
-    [nzMode]="cvcMode"
-    [nzChecked]="cvcTagChecked"
-    (nzCheckedChange)="(cvcTagCheckedChange)"
-    (nzOnClose)="cvcOnClose.next($event)">
-    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-  </nz-tag>
+  <span
+    nz-popover
+    [nzPopoverContent]="this.tagTemplate"
+    nzPopoverTrigger="hover">
+    <nz-tag
+      [nzMode]="cvcMode"
+      [nzChecked]="cvcTagChecked"
+      (nzCheckedChange)="(cvcTagCheckedChange)"
+      (nzOnClose)="cvcOnClose.next($event)">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </nz-tag>
+  </span>
 </span>
+
 
 <!-- if select-item context, tag is being displayed in a non-multi nz-select,
 so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
@@ -20,8 +26,9 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
     [nzMode]="'closeable'"
     (nzOnClose)="cvcOnClose.next($event)">
     <span
-      nz-tooltip
-      nzTooltipTitle="POPUP">
+      nz-popover
+      [nzPopoverContent]="this.tagTemplate"
+      nzPopoverTrigger="hover">
       <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
     </span>
   </nz-tag>
@@ -33,8 +40,9 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
   *ngIf="cvcContext === 'multi-select-item'"
   class="multi-select-item">
   <span
-    nz-tooltip
-    nzTooltipTitle="POPUP">
+    nz-popover
+    [nzPopoverContent]="this.tagTemplate"
+    nzPopoverTrigger="hover">
     <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </span>
 </span>
@@ -74,4 +82,12 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
       nzType="question-circle"
       nzTheme="outline"></span>
   </ng-template>
+</ng-template>
+
+<ng-template #foo [cvcPopoverTemplate]="'foo'">
+  <cvc-variant-popover *ngIf="entity" [variantId]="entity.id"></cvc-variant-popover>
+</ng-template>
+
+<ng-template #foo [cvcPopoverTemplate]="'bar'">
+  bar
 </ng-template>

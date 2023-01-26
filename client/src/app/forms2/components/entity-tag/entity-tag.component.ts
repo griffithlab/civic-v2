@@ -1,13 +1,19 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
   OnChanges,
   Output,
+  QueryList,
   SimpleChanges,
+  TemplateRef,
+  ViewChildren,
 } from '@angular/core'
 import { Apollo, gql } from 'apollo-angular'
 import { CvcMolecularProfileTag } from './directives/molecular-profile-tag.directive'
+import { CvcPopoverTemplate } from './directives/popover-template.directive'
+
 export interface LinkableEntity {
   id: number
   name: string
@@ -19,7 +25,7 @@ export interface LinkableEntity {
   styleUrls: ['./entity-tag.component.less'],
   hostDirectives: [{ directive: CvcMolecularProfileTag }],
 })
-export class CvcEntityTagComponent implements OnChanges {
+export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   _cacheId: string = ''
   @Input()
   set cvcCacheId(cacheId: string) {
@@ -35,13 +41,18 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcEmphasize?: string
   @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
+
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
   @Output() cvcOnClose: EventEmitter<MouseEvent>
 
+  @ViewChildren(CvcPopoverTemplate) templateRefs?: QueryList<CvcPopoverTemplate>
+
   typename?: string
   id?: number
   entity?: LinkableEntity
+
+  tagTemplate?: TemplateRef<any>
 
   constructor(private apollo: Apollo) {
     this.cvcOnClose = new EventEmitter<MouseEvent>()
@@ -75,6 +86,10 @@ export class CvcEntityTagComponent implements OnChanges {
       return
     }
     this.entity = entity
+  }
+
+  ngAfterViewInit(): void {
+    this.tagTemplate = this.templateRefs?.find(x => x.name == 'foo')?.template
   }
 
   ngOnChanges(changes: SimpleChanges): void {
