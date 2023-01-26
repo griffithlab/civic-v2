@@ -81,6 +81,10 @@ export class CvcRatingField
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
 
+    if(this.formControl.value) {
+      this.rating$.next(this.formControl.value)
+    }
+
     // provide strings for nz-rate's tooltips
     Object.entries(optionText).map(([_key, val]) => {
       this.props.hoverText.push(val)
