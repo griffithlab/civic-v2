@@ -69,7 +69,7 @@ export class CvcInteractionSelectField
   //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. TherapyInteraction instead of CvcInputEnum
   // STATE SOURCE STREAMS
   interactionEnum$: BehaviorSubject<CvcInputEnum[]>
-  onDrug$?: BehaviorSubject<Maybe<number[]>>
+  onTherapies$?: BehaviorSubject<Maybe<number[]>>
 
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
@@ -79,12 +79,13 @@ export class CvcInteractionSelectField
   // FieldTypeConfig defaults
   defaultOptions: CvcInteractionSelectFieldOptions = {
     props: {
-      label: 'Drug Interaction',
-      placeholder: 'Select Drug Interaction',
+      label: 'Therapy Interaction',
+      placeholder: 'Select Therapy Interaction',
       requireMultipleTherapies: true,
       requireMultipleTherapiesPromptFn: () =>
-        `A single associated drug does not have an Interaction type`,
-      tooltip: 'Characterizes the interaction of a multi-drug treatment',
+        `A single associated therapy does not have an Interaction type`,
+      tooltip: 'Characterizes the interaction of a multi-therapy treatment',
+      extraType: 'prompt'
     },
   }
 
@@ -147,32 +148,36 @@ export class CvcInteractionSelectField
       })
     )
 
-    this.onDrug$ = this.state.fields.drugIds$
+    this.onTherapies$ = this.state.fields.therapyIds$
     if (!this.optionTemplates) {
       console.warn(
-        `${this.field.id} could not find state's fields.drugIds$ to handle its required & disabled states.`
+        `${this.field.id} could not find state's fields.therapyIds$ to handle its required & disabled states.`
       )
     }
 
-    this.onDrug$
+    this.onTherapies$
       .pipe(untilDestroyed(this))
       .subscribe((therapies: Maybe<number[]>) => {
-        if (!therapies) return
-        if (!this.props.requireMultipleTherapies) {
-          this.props.disabled = false
-          return
-        }
-        if (therapies.length <= 1) {
-          this.setPrompt()
+        if (!therapies || therapies.length == 0) {
           this.props.disabled = true
           this.props.required = false
-          if (this.formControl.value !== undefined)
+          this.props.description = 'Interaction type is not applicable when no therapies are selected.'
+          if (this.formControl.value !== undefined){
             this.formControl.setValue(undefined)
+          }
+        } else if (therapies.length == 1) {
+          this.props.description = 'A single associated therapy does not have an Interaction type'
+          this.props.disabled = true
+          this.props.required = false
+          if (this.formControl.value !== undefined) {
+            this.formControl.setValue(undefined)
+          }
         } else {
-          this.resetDescription()
+          this.props.description = 'Select an Interaction Type'
           this.props.disabled = false
           this.props.required = true
         }
+        this.cdr.markForCheck()
       })
 
     // update field description on value changes
@@ -182,17 +187,9 @@ export class CvcInteractionSelectField
         if (interaction) {
           this.props.description = optionText[interaction]
           this.props.extraType = 'description'
+        } else {
+          this.props.extraType = 'prompt'
         }
       })
-  }
-
-  setPrompt() {
-    this.props.description = this.props.requireMultipleTherapiesPromptFn()
-    this.props.extraType = 'prompt'
-  }
-
-  resetDescription() {
-    this.props.description = undefined
-    this.props.extraType = undefined
   }
 }
