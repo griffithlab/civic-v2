@@ -177,11 +177,11 @@ export class CvcTherapySelectField
     this.placeholder$.next(this.props.placeholder)
     if (!this.onRequiresTherapy$ || !this.onEntityType$) return
     // update field placeholders & required status on state input events
-    this.onRequiresTherapy$
-      .pipe(
+    combineLatest([
+      this.onRequiresTherapy$,
+      this.onEntityType$
+    ]).pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.onEntityType$),
-        // tag('therapy-select onRequiresTherapy$'),
         untilDestroyed(this)
       )
       .subscribe(([requiresTherapy, entityType]: [boolean, Maybe<EntityType>]) => {
@@ -194,6 +194,12 @@ export class CvcTherapySelectField
             this.state!.entityName
           } does not include associated therapies`
           this.props.extraType = 'prompt'
+          //TODO: entityType lags one value behind, we get a wrong value and it ends up
+          //triggering the wrong case in the if
+          //is there a reason we dont just subscribe to EntityType change 
+          //and call this.state.requiresTherapy(et). that works reliably w/o combining observables
+          //then markForCheck isnt required (see also the TODO in disease)
+          this.cdr.markForCheck()
         }
         // if type required, toggle field required property off and show a 'Select Type..' prompt
         else if (this.props.requireType && !entityType) {
