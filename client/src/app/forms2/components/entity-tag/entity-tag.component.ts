@@ -7,6 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { Apollo, gql } from 'apollo-angular'
+import { EntityTagPopoverInput, EntityTagTypeWithPopover, ENTITY_TAG_TYPES_WITH_POPOVER } from '../entity-tag-popover/entity-tag-popover.component'
 import { CvcMolecularProfileTag } from './directives/molecular-profile-tag.directive'
 export interface LinkableEntity {
   id: number
@@ -42,9 +43,14 @@ export class CvcEntityTagComponent implements OnChanges {
   typename?: string
   id?: number
   entity?: LinkableEntity
+  popoverInput?: EntityTagPopoverInput
 
   constructor(private apollo: Apollo) {
     this.cvcOnClose = new EventEmitter<MouseEvent>()
+  }
+
+  private hasPopover(entityType: string): entityType is EntityTagTypeWithPopover {
+    return ENTITY_TAG_TYPES_WITH_POPOVER.includes(entityType)
   }
 
   private setLinkableEntity(cacheId: string) {
@@ -52,6 +58,9 @@ export class CvcEntityTagComponent implements OnChanges {
     const [typename, id] = cacheId.split(':')
     this.typename = typename
     this.id = +id
+    if (this.hasPopover(this.typename)) {
+      this.popoverInput = { entityId: this.id, entityType: this.typename }
+    }
     if (!this.typename || !this.id) {
       console.error(
         `entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`
