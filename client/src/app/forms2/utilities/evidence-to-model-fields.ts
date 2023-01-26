@@ -1,7 +1,8 @@
-import { Maybe, RevisableEvidenceFieldsFragment, SubmitEvidenceItemInput } from '@app/generated/civic.apollo'
+import { Maybe, RevisableEvidenceFieldsFragment, SubmitEvidenceItemInput, SuggestEvidenceItemRevisionInput } from '@app/generated/civic.apollo'
 import { EvidenceItemFields } from '../models/evidence-fields.model'
 import { EvidenceSubmitModel } from '../models/evidence-submit.model'
 import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { EvidenceReviseModel } from '../models/evidence-revise.model'
 
 export function evidenceToModelFields(
   eid: RevisableEvidenceFieldsFragment
@@ -21,6 +22,20 @@ export function evidenceToModelFields(
     sourceId: eid.source.id,
     variantOrigin: eid.variantOrigin,
   }
+}
+
+export function evidenceFormModelToReviseInput(eid: number, model: EvidenceReviseModel): Maybe<SuggestEvidenceItemRevisionInput> {
+  let input = evidenceFormModelToInput(model);
+  if (input) {
+    //TODO - handle optional comment here
+    return {
+      id: eid,
+      comment: input.comment!,
+      organizationId: input.organizationId,
+      fields: input.fields,
+    }
+  }
+  return undefined;
 }
 
 export function evidenceFormModelToInput(model: EvidenceSubmitModel): Maybe<SubmitEvidenceItemInput> {

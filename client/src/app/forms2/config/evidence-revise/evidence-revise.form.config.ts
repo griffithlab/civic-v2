@@ -240,7 +240,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: 'Submit Evidence Item',
+              submitLabel: 'Submit Evidence Item Revisions',
             },
           },
         ],
