@@ -43,9 +43,15 @@ class GenerateOpenCravatLink < ApplicationJob
     ref = coords["coordinates"].first["referenceAllele"]
     alt = coords["coordinates"].first["allele"]
 
-    return nil if ref.blank? || alt.blank?
-
     new_start = convert_zero_to_one_based(start, ref, alt)
+
+    if ref.blank?
+      ref = '-'
+    end
+
+    if alt.blank?
+      alt = '-'
+    end
 
     query_params = {
       chrom: "chr#{coords["chromosome"]}",
