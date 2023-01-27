@@ -32,7 +32,7 @@ module Types::Queries
       end
 
       def therapy_popover(id:)
-        Drug.find(id)
+        Therapy.find(id)
       end
 
       def phenotype_popover(id:)
