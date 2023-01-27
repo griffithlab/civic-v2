@@ -38,14 +38,34 @@ class GenerateOpenCravatLink < ApplicationJob
 
   def make_open_cravat_url(coords)
     base_url = "https://run.opencravat.org/webapps/variantreport/index.html?"
-    #TODO how do we want to handle potentially multiple coordinates, this returns an array
+
+    start = coords["coordinates"].first["start"]
+    ref = coords["coordinates"].first["referenceAllele"]
+    alt = coords["coordinates"].first["allele"]
+
+    return nil if ref.blank? || alt.blank?
+
+    new_start = convert_zero_to_one_based(start, ref, alt)
+
     query_params = {
       chrom: "chr#{coords["chromosome"]}",
-      pos: coords["coordinates"].first["start"],
-      ref_base: coords["coordinates"].first["referenceAllele"],
-      alt_base: coords["coordinates"].first["allele"],
+      pos: new_start,
+      ref_base: ref,
+      alt_base: alt,
     }.to_query
 
     base_url + query_params
   end
+
+  #https://www.biostars.org/p/84686/
+  def convert_zero_to_one_based(start, ref, alt)
+    if ref.size == alt.size #SNV
+      start.to_i + 1
+    elsif ref.size > alt.size #DEL
+      start.to_i + 1
+    else #INS
+      start
+    end
+  end
+
 end

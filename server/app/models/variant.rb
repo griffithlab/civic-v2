@@ -30,7 +30,6 @@ class Variant < ApplicationRecord
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']
 
-  after_save :update_allele_registry_id
   after_commit :reindex_mps
 
   validates :reference_bases, format: {
@@ -75,15 +74,12 @@ class Variant < ApplicationRecord
     }
   end
 
-  def update_allele_registry_id
-    SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
-  end
-
   def reindex_mps
     self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 
   def on_revision_accepted
+    SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
     GenerateOpenCravatLink.perform_later(self)
   end
 end
