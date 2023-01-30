@@ -21,6 +21,7 @@ import {
   combineLatest,
   map,
   Observable,
+  shareReplay,
   startWith,
   Subject,
   throttleTime,
@@ -61,6 +62,12 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
     `No ${paramName} ${entityName} found matching "${query}"`,
   emptyParamAll: (entityName, _query, paramName) =>
     `No ${paramName} ${entityName} found`,
+}
+
+type SelectMessageVM = {
+  searchStr: string
+  message: string
+  showAddEntityForm: boolean
 }
 
 @UntilDestroy({ arrayName: 'stateSubscriptions' })
@@ -107,13 +114,15 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // throttle search string output: wait 1/3sec after typing activity ends,
   // quash leading event, emit trailing event so we only get 1 search string
   @Output() cvcOnSearch = new EventEmitter<string>().pipe(
-    throttleTime(300, asyncScheduler, { leading: false, trailing: true })
+    throttleTime(300, asyncScheduler, { leading: false, trailing: true }),
+    shareReplay(1),
+    tag('cvcOnSearch')
   ) as EventEmitter<string>
 
   @Output() cvcOnModelChange = new EventEmitter<Maybe<number>>()
 
   // SOURCE STREAMS
-  onSearchMessage$: Observable<Maybe<string>>
+  onSearchMessage$!: Observable<Maybe<string>>
   onParamName$: Subject<Maybe<string>>
   onOption$: Subject<Maybe<NzSelectOptionInterface[]>>
 
@@ -137,7 +146,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   }
 
   constructor(private cdr: ChangeDetectorRef) {
-    this.onSearchMessage$ = new Subject<Maybe<string>>()
     this.onParamName$ = new Subject<Maybe<string>>()
     this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
     // this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
@@ -166,6 +174,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       this.onParamName$.pipe(startWith(undefined)),
       this.onOption$.pipe(startWith(undefined)),
     ]).pipe(
+      // tag('entity-select onSearchMessage$'),
       map(
         ([isOpen, searchStr, paramName, options]: [
           boolean,

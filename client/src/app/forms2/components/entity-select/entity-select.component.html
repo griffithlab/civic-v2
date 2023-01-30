@@ -25,8 +25,13 @@
 </nz-select>
 <ng-template #searchMessages>
   <ng-container *ngrxLet="onSearchMessage$ as foo">
-  {{ foo }}
-    <ng-container *ngrxLet="cvcOnSearch as searchStr" [ngTemplateOutlet]="this.cvcAddEntity"
-      [ngTemplateOutletContext]="{$implicit: searchStr, createMsg: foo}"></ng-container>
-</ng-container>
+    {{ foo }}
+    <ng-container
+      *ngrxLet="cvcOnSearch as searchStr"
+      [ngTemplateOutlet]="this.cvcAddEntity"
+      [ngTemplateOutletContext]="{
+        $implicit: searchStr,
+        createMsg: foo
+      }"></ng-container>
+  </ng-container>
 </ng-template>
