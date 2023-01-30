@@ -6139,6 +6139,16 @@ export type EntityTagsTestQueryVariables = Exact<{
 
 export type EntityTagsTestQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
 
+export type QuickAddDiseaseMutationVariables = Exact<{
+  name: Scalars['String'];
+  doid?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type QuickAddDiseaseMutation = { __typename: 'Mutation', addDisease?: { __typename: 'AddDiseasePayload', new: boolean, disease: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } } | undefined };
+
+export type QuickAddDiseaseFieldsFragment = { __typename: 'AddDiseasePayload', new: boolean, disease: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } };
+
 export type DiseaseSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -7982,6 +7992,14 @@ export const DiseaseSelectTypeaheadFieldsFragmentDoc = gql`
   diseaseAliases
 }
     `;
+export const QuickAddDiseaseFieldsFragmentDoc = gql`
+    fragment QuickAddDiseaseFields on AddDiseasePayload {
+  new
+  disease {
+    ...DiseaseSelectTypeaheadFields
+  }
+}
+    ${DiseaseSelectTypeaheadFieldsFragmentDoc}`;
 export const GeneSelectTypeaheadFieldsFragmentDoc = gql`
     fragment GeneSelectTypeaheadFields on Gene {
   id
@@ -11762,6 +11780,24 @@ export const EntityTagsTestDocument = gql`
   })
   export class EntityTagsTestGQL extends Apollo.Query<EntityTagsTestQuery, EntityTagsTestQueryVariables> {
     document = EntityTagsTestDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuickAddDiseaseDocument = gql`
+    mutation QuickAddDisease($name: String!, $doid: String) {
+  addDisease(input: {name: $name, doid: $doid}) {
+    ...QuickAddDiseaseFields
+  }
+}
+    ${QuickAddDiseaseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuickAddDiseaseGQL extends Apollo.Mutation<QuickAddDiseaseMutation, QuickAddDiseaseMutationVariables> {
+    document = QuickAddDiseaseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

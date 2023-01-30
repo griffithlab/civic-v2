@@ -1,5 +1,7 @@
 <form
   [formGroup]="form"
+  nz-form
+  nzLayout="horizontal"
   (ngSubmit)="onSubmit$.next(model)">
   <nz-row [nzGutter]="[0, 0]">
     <nz-col nzSpan="24">
@@ -33,7 +35,7 @@
           nz-icon
           nzType="loading"
           nzTheme="outline"></span>
-        Create Therapy&nbsp;<i>{{ searchString$ | ngrxPush }}</i>
+        Create Disease&nbsp;<i>{{ searchString$ | ngrxPush }}</i>
       </button>
     </nz-col>
   </nz-row>
