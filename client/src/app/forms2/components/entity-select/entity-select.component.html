@@ -24,5 +24,9 @@
   (ngModelChange)="cvcOnModelChange.next($event)">
 </nz-select>
 <ng-template #searchMessages>
-  {{ message }}
+  <ng-container *ngrxLet="onSearchMessage$ as foo">
+  {{ foo }}
+    <ng-container *ngrxLet="cvcOnSearch as searchStr" [ngTemplateOutlet]="this.cvcAddEntity"
+      [ngTemplateOutletContext]="{$implicit: searchStr, createMsg: foo}"></ng-container>
+</ng-container>
 </ng-template>

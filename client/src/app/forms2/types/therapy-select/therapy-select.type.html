@@ -1,5 +1,5 @@
 <cvc-entity-select
-  [cvcAddEntity]="addDrug"
+  [cvcAddEntity]="addTherapy"
   [cvcCustomTemplate]="selectedTemplate"
   [cvcDisabled]="onRequiresTherapy$ && !(onRequiresTherapy$ | ngrxPush)"
   [cvcEntityName]="props.entityName"
@@ -62,7 +62,7 @@
 
 <!-- quick-add form template-->
 <ng-template
-  #addDrug
+  #addTherapy
   let-searchStr
   let-createMsg>
   <cvc-therapy-quick-add-form

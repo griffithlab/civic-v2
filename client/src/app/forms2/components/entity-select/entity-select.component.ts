@@ -244,6 +244,17 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           if (
             isOpen &&
             searchStr !== undefined &&
+            searchStr.length > 0 &&
+            options !== undefined &&
+            options.length == 0 &&
+            this.cvcAddEntity !== undefined
+          ) {
+            // User has searched but no results returned
+            return 'SHOW ADD FORM'
+          }
+          if (
+            isOpen &&
+            searchStr !== undefined &&
             searchStr.length === 0 &&
             options !== undefined &&
             options.length === 0
