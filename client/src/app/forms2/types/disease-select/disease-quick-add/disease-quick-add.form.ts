@@ -10,51 +10,51 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   Maybe,
-  QuickAddTherapyGQL,
-  QuickAddTherapyMutation,
-  QuickAddTherapyMutationVariables,
-  Therapy,
+  QuickAddDiseaseGQL,
+  QuickAddDiseaseMutation,
+  QuickAddDiseaseMutationVariables,
+  Disease,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, Subject } from 'rxjs'
 
-type TherapyQuickAddModel = {
+type DiseaseQuickAddModel = {
   name?: string
 }
 
-const therapyQuickAddInitialModel: TherapyQuickAddModel = {
+const diseaseQuickAddInitialModel: DiseaseQuickAddModel = {
   name: undefined,
 }
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-therapy-quick-add-form',
-  templateUrl: './therapy-quick-add.form.html',
+  selector: 'cvc-disease-quick-add-form',
+  templateUrl: './disease-quick-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcTherapyQuickAddForm {
+export class CvcDiseaseQuickAddForm {
   @Input()
   set cvcSearchString(str: string) {
     if (!str) return
     this.searchString$.next(str)
   }
 
-  @Output() cvcOnCreate = new EventEmitter<Therapy>()
+  @Output() cvcOnCreate = new EventEmitter<Disease>()
 
-  model: TherapyQuickAddModel = therapyQuickAddInitialModel
+  model: DiseaseQuickAddModel = diseaseQuickAddInitialModel
   form: UntypedFormGroup = new UntypedFormGroup({})
   fields: FormlyFieldConfig[]
   options: FormlyFormOptions = {}
 
   queryMutator: MutatorWithState<
-    QuickAddTherapyGQL,
-    QuickAddTherapyMutation,
-    QuickAddTherapyMutationVariables
+    QuickAddDiseaseGQL,
+    QuickAddDiseaseMutation,
+    QuickAddDiseaseMutationVariables
   >
 
   // SOURCE STREAMS
-  onSubmit$: Subject<TherapyQuickAddModel>
+  onSubmit$: Subject<DiseaseQuickAddModel>
   searchString$: BehaviorSubject<Maybe<string>>
 
   // PRESENTATION STREAMS
@@ -62,17 +62,17 @@ export class CvcTherapyQuickAddForm {
   submitSuccess$: BehaviorSubject<boolean>
   submitError$: BehaviorSubject<string[]>
 
-  addTherapyMutator: MutatorWithState<
-    QuickAddTherapyGQL,
-    QuickAddTherapyMutation,
-    QuickAddTherapyMutationVariables
+  addDiseaseMutator: MutatorWithState<
+    QuickAddDiseaseGQL,
+    QuickAddDiseaseMutation,
+    QuickAddDiseaseMutationVariables
   >
 
   constructor(
-    private query: QuickAddTherapyGQL,
+    private query: QuickAddDiseaseGQL,
     private errors: NetworkErrorsService
   ) {
-    this.onSubmit$ = new Subject<TherapyQuickAddModel>()
+    this.onSubmit$ = new Subject<DiseaseQuickAddModel>()
     this.searchString$ = new BehaviorSubject<Maybe<string>>(undefined)
 
     this.queryMutator = new MutatorWithState(this.errors)
@@ -80,14 +80,21 @@ export class CvcTherapyQuickAddForm {
     this.submitSuccess$ = new BehaviorSubject<boolean>(false)
     this.submitError$ = new BehaviorSubject<any[]>([])
 
-    this.addTherapyMutator = new MutatorWithState(this.errors)
+    this.addDiseaseMutator = new MutatorWithState(this.errors)
 
     this.fields = [
+      {
+        key: 'doid',
+        type: 'input',
+        props: {
+          label: 'DOID',
+        },
+      },
       {
         key: 'name',
         // type: 'input',
         props: {
-          // label: 'Therapy Name',
+          // label: 'Disease Name',
           hidden: true,
           required: true,
         },
@@ -102,38 +109,38 @@ export class CvcTherapyQuickAddForm {
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      console.log('therapy-quick-add form model submitted.', model)
-      this.submitTherapy(model)
+      console.log('disease-quick-add form model submitted.', model)
+      this.submitDisease(model)
     })
   }
 
-  submitTherapy(model: TherapyQuickAddModel) {
+  submitDisease(model: DiseaseQuickAddModel) {
     if (!model.name) {
       console.error(
-        `therapy-quick-add form submitTherapy requires model with valid name.`
+        `disease-quick-add form submitDisease requires model with valid name.`
       )
       return
     }
-    let state = this.addTherapyMutator.mutate(
+    let state = this.addDiseaseMutator.mutate(
       this.query,
       {
         name: model.name,
       },
       {},
       (data) => {
-        console.log('therapy-quick-add submit data callback', data)
-        // const vid = data.addTherapy.therapy.id
-        if (data.addTherapy) this.cvcOnCreate.next(data.addTherapy.therapy)
+        console.log('disease-quick-add submit data callback', data)
+        // const vid = data.addDisease.disease.id
+        if (data.addDisease) this.cvcOnCreate.next(data.addDisease.disease)
       }
     )
 
     state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
-      console.log('therapy-quick-add submitSuccess$', res)
+      console.log('disease-quick-add submitSuccess$', res)
       this.submitSuccess$.next(res)
     })
 
     state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
-      console.log('therapy-quick-add submitError$', errs)
+      console.log('disease-quick-add submitError$', errs)
       this.submitError$.next(errs)
       // if (errs) {
       //   this.errorMessages = errs

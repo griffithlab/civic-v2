@@ -1,4 +1,5 @@
 <cvc-entity-select
+  [cvcAddEntity]="addDisease"
   [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [cvcCustomTemplate]="selectedTemplate"
   [cvcFormControl]="formControl"
@@ -59,4 +60,15 @@
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
   </div>
+</ng-template>
+
+<!-- quick-add form template-->
+<ng-template
+  #addDisease
+  let-searchStr
+  let-createMsg>
+  <cvc-disease-quick-add-form
+    [cvcSearchString]="searchStr"
+    (cvcOnCreate)="onCreate$.next($event)">
+  </cvc-disease-quick-add-form>
 </ng-template>

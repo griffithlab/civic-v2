@@ -22,6 +22,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcDiseaseQuickAddForm } from './disease-quick-add/disease-quick-add.form'
 import {
   CvcDiseaseSelectField,
   CvcDiseaseSelectFieldOptions,
@@ -36,9 +37,9 @@ const typeConfig: ConfigOption = {
       component: CvcDiseaseSelectField,
       defaultOptions: {
         props: {
-          label: 'Disease'
-        }
-      }
+          label: 'Disease',
+        },
+      },
     },
     {
       // no label, for use in repeat-field types
@@ -48,7 +49,7 @@ const typeConfig: ConfigOption = {
       defaultOptions: <CvcDiseaseSelectFieldOptions>{
         props: {
           isMultiSelect: true,
-          label: 'Diseases'
+          label: 'Diseases',
         },
       },
     },
@@ -56,11 +57,12 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcDiseaseSelectField],
+  declarations: [CvcDiseaseSelectField, CvcDiseaseQuickAddForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,
@@ -81,6 +83,6 @@ const typeConfig: ConfigOption = {
     CvcPipesModule,
     CvcEntityTagModule,
   ],
-  exports: [CvcDiseaseSelectField],
+  exports: [CvcDiseaseSelectField, CvcDiseaseQuickAddForm],
 })
 export class CvcDiseaseSelectModule {}
