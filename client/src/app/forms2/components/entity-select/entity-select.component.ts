@@ -115,8 +115,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // quash leading event, emit trailing event so we only get 1 search string
   @Output() cvcOnSearch = new EventEmitter<string>().pipe(
     throttleTime(300, asyncScheduler, { leading: false, trailing: true }),
-    shareReplay(1),
-    tag('cvcOnSearch')
+    shareReplay(1)
   ) as EventEmitter<string>
 
   @Output() cvcOnModelChange = new EventEmitter<Maybe<number>>()

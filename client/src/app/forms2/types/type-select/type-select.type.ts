@@ -171,8 +171,8 @@ export class CvcEntityTypeSelectField
       // return QueryLists's array of TemplateRefs
       map((ql: QueryList<TemplateRef<any>>) => {
         return ql.map((q) => q)
-      }),
-      tag('type-select optionTemplate$')
+      })
+      // tag('type-select optionTemplate$')
     )
 
     this.configureEnumSelect()
