@@ -6,6 +6,7 @@ import {
   QueryList,
   TemplateRef,
   Type,
+  ViewChild,
   ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -24,6 +25,7 @@ import {
   DiseaseSelectTypeaheadQuery,
   DiseaseSelectTypeaheadQueryVariables,
   Maybe,
+  QuickAddDiseaseMutationVariables,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -48,6 +50,9 @@ export interface CvcDiseaseSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: CvcFormFieldExtraType
+  addFormTitle: string
+  addFormContent?: TemplateRef<any>
+  addFormParams?: QuickAddDiseaseMutationVariables
 }
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
@@ -83,6 +88,9 @@ export class CvcDiseaseSelectField
   extends DiseaseSelectMixin
   implements AfterViewInit
 {
+  @ViewChild('addDisease', { static: true })
+  addForm!: TemplateRef<any>
+
   // STATE SOURCE STREAMS
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresDisease$?: BehaviorSubject<boolean>
@@ -91,6 +99,11 @@ export class CvcDiseaseSelectField
   // LOCAL INTERMEDIATE STREAMS
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<Maybe<string>>
+
+  @ViewChildren('optionTemplates', { read: TemplateRef })
+  optionTemplates?: QueryList<TemplateRef<any>>
+
+  stateEntityName?: string
 
   // FieldTypeConfig defaults
   defaultOptions: CvcDiseaseSelectFieldOptions = {
@@ -105,13 +118,9 @@ export class CvcDiseaseSelectField
         `Select an ${entityName} Type in order to select associated Disease${
           isMultiSelect ? '(s)' : ''
         }`,
+      addFormTitle: 'Add a New Disease',
     },
   }
-
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  stateEntityName?: string
 
   constructor(
     private taq: DiseaseSelectTypeaheadGQL,
@@ -151,6 +160,11 @@ export class CvcDiseaseSelectField
         })
     } else {
       this.configureField()
+    }
+
+    // configure add form props
+    if (this.addForm) {
+      this.field.props.addFormContent = this.addForm
     }
   } // ngAfterViewInit()
 

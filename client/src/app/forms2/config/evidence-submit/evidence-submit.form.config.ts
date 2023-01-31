@@ -110,7 +110,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'evidenceDirection',
                 type: 'direction-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
             ],
@@ -127,12 +127,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'significance',
                 type: 'significance-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
               <CvcDiseaseSelectFieldOptions>{
                 key: 'diseaseId',
-                type: 'disease-select',
+                type: 'disease-select-add',
                 props: {},
               },
             ],
@@ -169,14 +169,14 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'evidenceLevel',
                 type: 'level-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
               <CvcRatingFieldOptions>{
                 key: 'rating',
                 type: 'rating',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
             ],
@@ -193,7 +193,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'variantOrigin',
                 type: 'origin-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
               <CvcPhenotypeSelectFieldOptions>{
@@ -207,7 +207,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['field-grid'],
             props: <CvcFieldGridWrapperConfig>{
               grid: {
-                cols: "1-2",
+                cols: '1-2',
               },
             },
             fieldGroup: [
@@ -216,10 +216,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'textarea',
                 wrappers: ['form-field'],
                 props: {
-                  tooltip: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
+                  tooltip:
+                    'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
                   placeholder: 'Enter an Evidence Statement',
                   extraType: 'description',
-                  description: 'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+                  description:
+                    'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
                   label: 'Evidence Statement',
                   required: true,
                 },
