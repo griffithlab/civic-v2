@@ -1,0 +1,26 @@
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col nzFlex="auto">
+    <ng-container #fieldComponent></ng-container>
+  </nz-col>
+  <nz-col nzFlex="20px">
+    <button
+      type="button"
+      nz-button
+      nzType="primary"
+      nzSize="default"
+      nzShape="circle"
+      nz-popover
+      [disabled]="field.props && field.props.disabled"
+      [nzPopoverTitle]="titleTemplate"
+      [nzPopoverContent]="contentTemplate">
+      <span
+        nz-icon
+        nzType="plus-circle"
+        nzTheme="outline"></span>
+    </button>
+  </nz-col>
+</nz-row>
+<ng-template #titleTemplate>
+  {{ props.addFormTitle }}
+</ng-template>
+<ng-template #contentTemplate> </ng-template>
