@@ -33,6 +33,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
+import { NzTSType } from 'ng-zorro-antd/core/types'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, combineLatest, Subject, filter, take } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
@@ -50,8 +51,8 @@ export interface CvcDiseaseSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: CvcFormFieldExtraType
-  addFormTitle: string
-  addFormContent?: TemplateRef<any>
+  addFormTitle: NzTSType
+  addFormContent?: NzTSType
   addFormParams?: QuickAddDiseaseMutationVariables
 }
 
@@ -88,8 +89,13 @@ export class CvcDiseaseSelectField
   extends DiseaseSelectMixin
   implements AfterViewInit
 {
+  // get template reference to quick-add form for add-entity-form wrapper props
   @ViewChild('addDisease', { static: true })
   addForm!: TemplateRef<any>
+
+  // get option template query list to populate entity-select
+  @ViewChildren('optionTemplates', { read: TemplateRef })
+  optionTemplates?: QueryList<TemplateRef<any>>
 
   // STATE SOURCE STREAMS
   onEntityType$?: Subject<Maybe<EntityType>>
@@ -99,9 +105,6 @@ export class CvcDiseaseSelectField
   // LOCAL INTERMEDIATE STREAMS
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<Maybe<string>>
-
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
 
   stateEntityName?: string
 
