@@ -282,7 +282,13 @@ export function EntitySelectField<
                 // if there is an item, emit from result$, which will trigger
                 // generation of its option in parent field's template
                 this.result$.next([item])
-                this.formControl.setValue(entity.id)
+                if (this.field.props && this.field.props.isMultiSelect) {
+                  const newValue = this.formControl.value
+                  newValue.push(entity.id)
+                  this.formControl.setValue(newValue)
+                } else {
+                  this.formControl.setValue(entity.id)
+                }
                 this.selectOpen$.next(false)
                 this.cdr.detectChanges()
               }
