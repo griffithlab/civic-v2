@@ -35,7 +35,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
           hidden: true,
         },
       },
-      // form-card wraps the form fields in a card, providing a place to put a title, and other controls e.g. form options, status
+      // form-card wraps the form fields in a card, providing a place to put a title,
+      // and other controls e.g. form options, status
       {
         key: 'fields',
         wrappers: ['form-card'],
@@ -43,48 +44,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Evidence Item',
         },
         fieldGroup: [
-          // field-grid wrapper places its fields in a css-grid, allowing for a wider variety of row-level layouts. Currently it provides multi-column layout of 2-4 columns
-          // {
-          //   wrappers: ['field-grid'],
-          //   props: <CvcFieldGridWrapperConfig>{
-          //     grid: {
-          //       cols: 2,
-          //     },
-          //   },
-          //   fieldGroup: [
-          //     <CvcGeneSelectFieldConfig>{
-          //       key: 'geneId',
-          //       type: 'gene-select',
-          //       props: {
-          //         required: true,
-          //       },
-          //     },
-          //     <CvcVariantSelectFieldOptions>{
-          //       key: 'variantId',
-          //       type: 'variant-select',
-          //       props: {
-          //         required: true,
-          //         // requireGene: false
-          //       },
-          //     },
-          //   ],
-          // },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+          <CvcMolecularProfileSelectFieldConfig>{
+            key: 'molecularProfileId',
+            type: 'molecular-profile-select',
+            props: {
+              required: true,
             },
-            fieldGroup: [
-              <CvcMolecularProfileSelectFieldConfig>{
-                key: 'molecularProfileId',
-                type: 'molecular-profile-select',
-                props: {
-                  required: true,
-                },
-              },
-            ],
           },
           <CvcSourceSelectFieldOptions>{
             key: 'sourceId',
@@ -132,7 +97,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               },
               <CvcDiseaseSelectFieldOptions>{
                 key: 'diseaseId',
-                type: 'disease-select-add',
+                type: 'disease-select',
                 props: {},
               },
             ],

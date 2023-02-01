@@ -51,27 +51,6 @@ const typeConfig: ConfigOption = {
         },
       },
     },
-    {
-      name: 'disease-select-add',
-      wrappers: ['form-field', 'add-entity-form'],
-      component: CvcDiseaseSelectField,
-      defaultOptions: <CvcDiseaseSelectFieldOptions>{
-        props: {
-          label: 'Disease',
-        },
-      },
-    },
-    {
-      name: 'disease-multi-select-add',
-      wrappers: ['form-field', 'add-entity-form'],
-      component: CvcDiseaseSelectField,
-      defaultOptions: <CvcDiseaseSelectFieldOptions>{
-        props: {
-          isMultiSelect: true,
-          label: 'Diseases',
-        },
-      },
-    },
   ],
 }
 

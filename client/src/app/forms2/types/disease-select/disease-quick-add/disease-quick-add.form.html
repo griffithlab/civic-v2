@@ -2,7 +2,7 @@
   [formGroup]="form"
   nz-form
   nzLayout="horizontal"
-  (ngSubmit)="submitDisease()">
+  (ngSubmit)="onSubmit$.next(model)">
   <nz-row [nzGutter]="[0, 0]">
     <nz-col nzSpan="24">
       <formly-form

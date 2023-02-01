@@ -10,16 +10,24 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NoStateFormOptions } from '@app/forms2/states/base.state'
 import {
-  Disease,
   Maybe,
   QuickAddDiseaseGQL,
   QuickAddDiseaseMutation,
   QuickAddDiseaseMutationVariables,
+  Disease,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig } from '@ngx-formly/core'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs'
+import { BehaviorSubject, Subject } from 'rxjs'
+
+type DiseaseQuickAddModel = {
+  name?: string
+}
+
+const diseaseQuickAddInitialModel: DiseaseQuickAddModel = {
+  name: undefined,
+}
 
 @UntilDestroy()
 @Component({
@@ -29,15 +37,12 @@ import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs'
 })
 export class CvcDiseaseQuickAddForm {
   @Input()
-  set cvcSearchStr(str: Maybe<string>) {
+  set cvcSearchString(str: string) {
     if (!str) return
-    this.model = { name: str, doid: this.model.doid }
+    this.searchString$.next(str)
   }
-  get cvcSearchStr(): Maybe<string> {
-    return this.model.name
-  }
-  @Output() cvcOnCreate = new EventEmitter<Disease>()
 
+  @Output() cvcOnCreate = new EventEmitter<Disease>()
   model: QuickAddDiseaseMutationVariables
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
@@ -51,7 +56,8 @@ export class CvcDiseaseQuickAddForm {
   >
 
   // SOURCE STREAMS
-  onSubmit$: Subject<QuickAddDiseaseMutationVariables>
+  onSubmit$: Subject<DiseaseQuickAddModel>
+  searchString$: BehaviorSubject<Maybe<string>>
 
   // PRESENTATION STREAMS
   isSubmitting$: BehaviorSubject<boolean>
@@ -74,7 +80,8 @@ export class CvcDiseaseQuickAddForm {
     this.formLayout = 'horizontal'
     this.options = { formState: { formLayout: this.formLayout } }
 
-    this.onSubmit$ = new Subject<QuickAddDiseaseMutationVariables>()
+    this.onSubmit$ = new Subject<DiseaseQuickAddModel>()
+    this.searchString$ = new BehaviorSubject<Maybe<string>>(undefined)
 
     this.queryMutator = new MutatorWithState(this.errors)
     this.isSubmitting$ = new BehaviorSubject<boolean>(false)
@@ -85,33 +92,49 @@ export class CvcDiseaseQuickAddForm {
 
     this.fields = [
       {
-        key: 'name',
-        type: 'input',
-        props: {
-          label: 'Name',
-          required: true,
-        },
-      },
-      {
         key: 'doid',
         type: 'input',
         props: {
           label: 'DOID',
         },
       },
+      {
+        key: 'name',
+        // type: 'input',
+        props: {
+          // label: 'Disease Name',
+          hidden: true,
+          required: true,
+        },
+      },
     ]
+
+    this.searchString$
+      .pipe(untilDestroyed(this))
+      .subscribe((str: Maybe<string>) => {
+        if (!str) return
+        this.model.name = str
+      })
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
       console.log('disease-quick-add form model submitted.', model)
-      this.submitDisease()
+      this.submitDisease(model)
     })
   }
 
-  submitDisease() {
+  submitDisease(model: DiseaseQuickAddModel) {
+    if (!model.name) {
+      console.error(
+        `disease-quick-add form submitDisease requires model with valid name.`
+      )
+      return
+    }
     let state = this.addDiseaseMutator.mutate(
       this.query,
-      this.model,
+      {
+        name: model.name,
+      },
       {},
       (data) => {
         console.log('disease-quick-add submit data callback', data)

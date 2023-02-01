@@ -63,9 +63,12 @@
 </ng-template>
 
 <!-- quick-add form template-->
-<ng-template #addDisease>
+<ng-template
+  #addDisease
+  let-searchStr
+  let-createMsg>
   <cvc-disease-quick-add-form
-    [cvcSearchStr]="onSearch$ | ngrxPush"
+    [cvcSearchString]="searchStr"
     (cvcOnCreate)="onCreate$.next($event)">
   </cvc-disease-quick-add-form>
 </ng-template>
