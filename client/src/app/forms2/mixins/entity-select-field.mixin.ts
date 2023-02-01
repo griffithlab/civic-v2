@@ -267,6 +267,7 @@ export function EntitySelectField<
             .pipe(
               filter((r) => !!r.data),
               finalize(() => {
+                // reset selectOpen to force Input onChanges with subsequent selectOpen emit
                 this.selectOpen$.next(undefined)
               }),
               untilDestroyed(this)
@@ -290,6 +291,7 @@ export function EntitySelectField<
                   this.formControl.setValue(entity.id)
                 }
                 this.selectOpen$.next(false)
+                // force update cycle to close nz-select
                 this.cdr.detectChanges()
               }
             })
