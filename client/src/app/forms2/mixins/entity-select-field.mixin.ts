@@ -17,10 +17,12 @@ import {
   distinctUntilChanged,
   filter,
   from,
+  finalize,
   iif,
   map,
   Observable,
   of,
+  ReplaySubject,
   Subject,
   switchMap,
   withLatestFrom,
@@ -65,6 +67,7 @@ export interface EntitySelectFieldOptions<
   getSelectedItemOptionFn: GetSelectedItemFn<TAF>
   getSelectOptionsFn: GetSelectOptionsFn<TAF>
   changeDetectorRef: ChangeDetectorRef
+  selectOpen$?: ReplaySubject<Maybe<boolean>>
 }
 
 /*
@@ -101,6 +104,7 @@ export function EntitySelectField<
       onHighlightString$!: Subject<string> // emits search string after optionTemplates.changes
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
       onCreate$!: Subject<TAF> // emits entity on create
+      selectOpen$!: ReplaySubject<Maybe<boolean>>
 
       // INTERMEDIATE STREAMS
       response$!: Observable<ApolloQueryResult<TAQ>> // gql query responses
@@ -145,6 +149,8 @@ export function EntitySelectField<
         this.getSelectOptions = options.getSelectOptionsFn
         this.typeaheadParam$ = options.typeaheadParam$
         this.typeaheadParamName$ = options.typeaheadParamName$
+        this.selectOpen$ =
+          options.selectOpen$ || new ReplaySubject<Maybe<boolean>>()
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
@@ -260,6 +266,10 @@ export function EntitySelectField<
             })
             .pipe(
               filter((r) => !!r.data),
+              finalize(() => {
+                // reset selectOpen to force Input onChanges with subsequent selectOpen emit
+                this.selectOpen$.next(undefined)
+              }),
               untilDestroyed(this)
             )
             .subscribe((result) => {
@@ -273,6 +283,16 @@ export function EntitySelectField<
                 // if there is an item, emit from result$, which will trigger
                 // generation of its option in parent field's template
                 this.result$.next([item])
+                if (this.field.props && this.field.props.isMultiSelect) {
+                  const newValue = this.formControl.value
+                  newValue.push(entity.id)
+                  this.formControl.setValue(newValue)
+                } else {
+                  this.formControl.setValue(entity.id)
+                }
+                this.selectOpen$.next(false)
+                // force update cycle to close nz-select
+                this.cdr.detectChanges()
               }
             })
         })

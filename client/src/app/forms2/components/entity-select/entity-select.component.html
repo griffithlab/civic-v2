@@ -19,6 +19,7 @@
   [nzOptions]="cvcOptions || []"
   [nzDropdownRender]="cvcDropdownExtra || null"
   [nzNotFoundContent]="searchMessages"
+  [nzOpen]="cvcSelectOpen"
   (nzOpenChange)="cvcOnOpenChange.next($event)"
   (nzOnSearch)="cvcOnSearch.next($event)"
   (ngModelChange)="cvcOnModelChange.next($event)">

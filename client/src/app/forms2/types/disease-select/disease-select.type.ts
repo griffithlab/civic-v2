@@ -6,6 +6,7 @@ import {
   QueryList,
   TemplateRef,
   Type,
+  ViewChild,
   ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -24,6 +25,7 @@ import {
   DiseaseSelectTypeaheadQuery,
   DiseaseSelectTypeaheadQueryVariables,
   Maybe,
+  QuickAddDiseaseMutationVariables,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -31,8 +33,16 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
+import { NzTSType } from 'ng-zorro-antd/core/types'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, Subject, filter, take } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  Subject,
+  filter,
+  take,
+  ReplaySubject,
+} from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -48,6 +58,9 @@ export interface CvcDiseaseSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: CvcFormFieldExtraType
+  addFormTitle: NzTSType
+  addFormContent?: NzTSType
+  addFormParams?: QuickAddDiseaseMutationVariables
 }
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
@@ -83,14 +96,25 @@ export class CvcDiseaseSelectField
   extends DiseaseSelectMixin
   implements AfterViewInit
 {
+  // get template reference to quick-add form for add-entity-form wrapper props
+  @ViewChild('addDisease', { static: true })
+  addForm!: TemplateRef<any>
+
+  // get option template query list to populate entity-select
+  @ViewChildren('optionTemplates', { read: TemplateRef })
+  optionTemplates?: QueryList<TemplateRef<any>>
+
   // STATE SOURCE STREAMS
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresDisease$?: BehaviorSubject<boolean>
 
+  selectOpen$: ReplaySubject<Maybe<boolean>>
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<Maybe<string>>
+
+  stateEntityName?: string
 
   // FieldTypeConfig defaults
   defaultOptions: CvcDiseaseSelectFieldOptions = {
@@ -105,13 +129,9 @@ export class CvcDiseaseSelectField
         `Select an ${entityName} Type in order to select associated Disease${
           isMultiSelect ? '(s)' : ''
         }`,
+      addFormTitle: 'Add a New Disease',
     },
   }
-
-  @ViewChildren('optionTemplates', { read: TemplateRef })
-  optionTemplates?: QueryList<TemplateRef<any>>
-
-  stateEntityName?: string
 
   constructor(
     private taq: DiseaseSelectTypeaheadGQL,
@@ -120,6 +140,7 @@ export class CvcDiseaseSelectField
   ) {
     super()
     this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.selectOpen$ = new ReplaySubject<Maybe<boolean>>()
   }
 
   ngAfterViewInit(): void {
@@ -136,6 +157,7 @@ export class CvcDiseaseSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
     })
     // if state formReady exists,listen for parent ready event,
     // then configure - otherwise configure the field immediately
@@ -151,6 +173,11 @@ export class CvcDiseaseSelectField
         })
     } else {
       this.configureField()
+    }
+
+    // configure add form props
+    if (this.addForm) {
+      this.field.props.addFormContent = this.addForm
     }
   } // ngAfterViewInit()
 

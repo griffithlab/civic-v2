@@ -26,7 +26,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Evidence Item',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -35,7 +35,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
           hidden: true,
         },
       },
-      // form-card wraps the form fields in a card, providing a place to put a title, and other controls e.g. form options, status
+      // form-card wraps the form fields in a card, providing a place to put a title,
+      // and other controls e.g. form options, status
       {
         key: 'fields',
         wrappers: ['form-card'],
@@ -43,48 +44,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Evidence Item',
         },
         fieldGroup: [
-          // field-grid wrapper places its fields in a css-grid, allowing for a wider variety of row-level layouts. Currently it provides multi-column layout of 2-4 columns
-          // {
-          //   wrappers: ['field-grid'],
-          //   props: <CvcFieldGridWrapperConfig>{
-          //     grid: {
-          //       cols: 2,
-          //     },
-          //   },
-          //   fieldGroup: [
-          //     <CvcGeneSelectFieldConfig>{
-          //       key: 'geneId',
-          //       type: 'gene-select',
-          //       props: {
-          //         required: true,
-          //       },
-          //     },
-          //     <CvcVariantSelectFieldOptions>{
-          //       key: 'variantId',
-          //       type: 'variant-select',
-          //       props: {
-          //         required: true,
-          //         // requireGene: false
-          //       },
-          //     },
-          //   ],
-          // },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+          <CvcMolecularProfileSelectFieldConfig>{
+            key: 'molecularProfileId',
+            type: 'molecular-profile-select',
+            props: {
+              required: true,
             },
-            fieldGroup: [
-              <CvcMolecularProfileSelectFieldConfig>{
-                key: 'molecularProfileId',
-                type: 'molecular-profile-select',
-                props: {
-                  required: true,
-                },
-              },
-            ],
           },
           <CvcSourceSelectFieldOptions>{
             key: 'sourceId',
@@ -110,7 +75,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'evidenceDirection',
                 type: 'direction-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
             ],
@@ -127,7 +92,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'significance',
                 type: 'significance-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
               <CvcDiseaseSelectFieldOptions>{
@@ -169,14 +134,14 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'evidenceLevel',
                 type: 'level-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
               <CvcRatingFieldOptions>{
                 key: 'rating',
                 type: 'rating',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
             ],
@@ -193,7 +158,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 key: 'variantOrigin',
                 type: 'origin-select',
                 props: {
-                  required: true
+                  required: true,
                 },
               },
               <CvcPhenotypeSelectFieldOptions>{
@@ -207,7 +172,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['field-grid'],
             props: <CvcFieldGridWrapperConfig>{
               grid: {
-                cols: "1-2",
+                cols: '1-2',
               },
             },
             fieldGroup: [
@@ -216,10 +181,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'textarea',
                 wrappers: ['form-field'],
                 props: {
-                  tooltip: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
+                  tooltip:
+                    'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
                   placeholder: 'Enter an Evidence Statement',
                   extraType: 'description',
-                  description: 'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+                  description:
+                    'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
                   label: 'Evidence Statement',
                   required: true,
                 },

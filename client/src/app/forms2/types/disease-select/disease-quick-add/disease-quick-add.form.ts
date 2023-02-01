@@ -7,7 +7,11 @@ import {
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
+import { NoStateFormOptions } from '@app/forms2/states/base.state'
 import {
   Maybe,
   QuickAddDiseaseGQL,
@@ -17,6 +21,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject, Subject } from 'rxjs'
 
 type DiseaseQuickAddModel = {
@@ -41,11 +46,11 @@ export class CvcDiseaseQuickAddForm {
   }
 
   @Output() cvcOnCreate = new EventEmitter<Disease>()
-
-  model: DiseaseQuickAddModel = diseaseQuickAddInitialModel
-  form: UntypedFormGroup = new UntypedFormGroup({})
+  model: QuickAddDiseaseMutationVariables
+  form: UntypedFormGroup
   fields: FormlyFieldConfig[]
-  options: FormlyFormOptions = {}
+  options: NoStateFormOptions
+  formLayout: NzFormLayoutType
 
   queryMutator: MutatorWithState<
     QuickAddDiseaseGQL,
@@ -68,10 +73,19 @@ export class CvcDiseaseQuickAddForm {
     QuickAddDiseaseMutationVariables
   >
 
+  mutationState?: MutationState
+  successMessage?: string
+
   constructor(
     private query: QuickAddDiseaseGQL,
     private errors: NetworkErrorsService
   ) {
+    // configure form
+    this.form = new UntypedFormGroup({})
+    this.model = { name: '' }
+    this.formLayout = 'horizontal'
+    this.options = { formState: { formLayout: this.formLayout } }
+
     this.onSubmit$ = new Subject<DiseaseQuickAddModel>()
     this.searchString$ = new BehaviorSubject<Maybe<string>>(undefined)
 
@@ -88,6 +102,11 @@ export class CvcDiseaseQuickAddForm {
         type: 'input',
         props: {
           label: 'DOID',
+          keydown: (k, e) => {
+            if (e.code === 'Tab') {
+              e.stopPropagation()
+            }
+          },
         },
       },
       {
@@ -104,6 +123,7 @@ export class CvcDiseaseQuickAddForm {
     this.searchString$
       .pipe(untilDestroyed(this))
       .subscribe((str: Maybe<string>) => {
+        if (!str) return
         this.model.name = str
       })
 
@@ -121,35 +141,24 @@ export class CvcDiseaseQuickAddForm {
       )
       return
     }
-    let state = this.addDiseaseMutator.mutate(
+    this.mutationState = this.addDiseaseMutator.mutate(
       this.query,
-      {
-        name: model.name,
-      },
+      this.model,
       {},
       (data) => {
         console.log('disease-quick-add submit data callback', data)
-        // const vid = data.addDisease.disease.id
-        if (data.addDisease) this.cvcOnCreate.next(data.addDisease.disease)
+        if (data.addDisease) {
+          if (data.addDisease.new) {
+            this.successMessage = `New Disease ${data.addDisease.disease.name} added.`
+          } else {
+            this.successMessage = `Existing Disease ${data.addDisease.disease.name} with DOID ${data.addDisease.disease.doid} found. `
+          }
+          setTimeout(() => {
+            if (data && data.addDisease)
+              this.cvcOnCreate.next(data.addDisease.disease)
+          }, 1000)
+        }
       }
     )
-
-    state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
-      console.log('disease-quick-add submitSuccess$', res)
-      this.submitSuccess$.next(res)
-    })
-
-    state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
-      console.log('disease-quick-add submitError$', errs)
-      this.submitError$.next(errs)
-      // if (errs) {
-      //   this.errorMessages = errs
-      //   this.success = false
-      // }
-    })
-
-    state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
-      this.isSubmitting$.next(loading)
-    })
   }
 }

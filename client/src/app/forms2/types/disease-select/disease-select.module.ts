@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
 import { LetModule, PushModule } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
@@ -33,16 +34,14 @@ const typeConfig: ConfigOption = {
     {
       name: 'disease-select',
       wrappers: ['form-field'],
-      // wrappers: ['form-field'],
       component: CvcDiseaseSelectField,
-      defaultOptions: {
+      defaultOptions: <CvcDiseaseSelectFieldOptions>{
         props: {
           label: 'Disease',
         },
       },
     },
     {
-      // no label, for use in repeat-field types
       name: 'disease-multi-select',
       wrappers: ['form-field'],
       component: CvcDiseaseSelectField,
@@ -78,6 +77,7 @@ const typeConfig: ConfigOption = {
     NzAutocompleteModule,
     NzTypographyModule,
     NzTagModule,
+    CvcFormSubmissionStatusDisplayModule,
     CvcFormFieldWrapperModule,
     CvcEntitySelectModule,
     CvcPipesModule,

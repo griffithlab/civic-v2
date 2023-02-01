@@ -11,6 +11,7 @@
   [cvcShowError]="showError"
   [cvcDisabled]="onRequiresDisease$ && !(onRequiresDisease$ | ngrxPush)"
   [cvcLoading]="isLoading$ | ngrxPush"
+  [cvcSelectOpen]="selectOpen$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
@@ -29,8 +30,16 @@
       <span
         nz-typography
         nzType="secondary">
-        Aliases:
-        <ng-container *ngIf="result.diseaseAliases.length > 0; else noAliases">
+        <ng-container *ngIf="result.doid">
+          <strong>DOID:</strong>
+          <span
+            [innerHtml]="
+              result.doid | highlightTypeahead : searchString
+            "></span>
+        </ng-container>
+        <ng-container *ngIf="result.diseaseAliases.length > 0">
+          &nbsp;
+          <strong>Aliases: </strong>
           <em>
             <span
               nz-typography
@@ -41,7 +50,6 @@
               "></span
           ></em>
         </ng-container>
-        <ng-template #noAliases>--</ng-template>
       </span>
     </ng-template>
   </ng-container>
