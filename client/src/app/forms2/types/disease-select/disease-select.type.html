@@ -30,12 +30,16 @@
       <span
         nz-typography
         nzType="secondary">
-        <strong>DOID: </strong>
-        <ng-container *ngIf="result.doid; else noValue">
-          {{ result.doid }}
+        <ng-container *ngIf="result.doid">
+          <strong>DOID:</strong>
+          <span
+            [innerHtml]="
+              result.doid | highlightTypeahead : searchString
+            "></span>
         </ng-container>
-        <strong>Aliases: </strong>
-        <ng-container *ngIf="result.diseaseAliases.length > 0; else noValue">
+        <ng-container *ngIf="result.diseaseAliases.length > 0">
+          &nbsp;
+          <strong>Aliases: </strong>
           <em>
             <span
               nz-typography
@@ -46,7 +50,6 @@
               "></span
           ></em>
         </ng-container>
-        <ng-template #noValue>--</ng-template>
       </span>
     </ng-template>
   </ng-container>
