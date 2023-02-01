@@ -75,6 +75,7 @@ module Types::Queries
 
       def therapy_typeahead(query_term:)
         results = Therapy.where("therapies.name ILIKE ?", "%#{query_term}%")
+          .or(Therapy.where("therapies.ncit_id ILIKE ?", "#{query_term}%"))
           .order("LENGTH(therapies.name) ASC")
           .limit(10)
         if results.size < 10

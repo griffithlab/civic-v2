@@ -28,8 +28,15 @@
       <span
         nz-typography
         nzType="secondary">
-        Aliases:
-        <ng-container *ngIf="result.therapyAliases.length > 0; else noAliases">
+        <ng-container *ngIf="result.ncitId">
+          <strong>NCIt ID:</strong>
+          <span
+            [innerHtml]="
+              result.ncitId | highlightTypeahead : searchString
+            "></span>
+        </ng-container>
+        <ng-container *ngIf="result.therapyAliases.length > 0">
+          Aliases:
           <em>
             <span
               nz-typography
@@ -41,7 +48,6 @@
             </span>
           </em>
         </ng-container>
-        <ng-template #noAliases>--</ng-template>
       </span>
     </ng-template>
   </ng-container>
