@@ -11,6 +11,7 @@
   [cvcShowError]="showError"
   [cvcDisabled]="onRequiresDisease$ && !(onRequiresDisease$ | ngrxPush)"
   [cvcLoading]="isLoading$ | ngrxPush"
+  [cvcSelectOpen]="selectOpen$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>

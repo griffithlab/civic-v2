@@ -109,6 +109,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
 
+  @Input() cvcSelectOpen?: boolean = false
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
 
   // throttle search string output: wait 1/3sec after typing activity ends,

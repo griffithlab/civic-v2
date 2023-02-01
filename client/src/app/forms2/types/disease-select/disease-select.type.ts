@@ -35,7 +35,14 @@ import {
 } from '@ngx-formly/core'
 import { NzTSType } from 'ng-zorro-antd/core/types'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, Subject, filter, take } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  Subject,
+  filter,
+  take,
+  ReplaySubject,
+} from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -101,6 +108,7 @@ export class CvcDiseaseSelectField
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresDisease$?: BehaviorSubject<boolean>
 
+  selectOpen$: ReplaySubject<boolean>
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
   // LOCAL PRESENTATION STREAMS
@@ -132,6 +140,7 @@ export class CvcDiseaseSelectField
   ) {
     super()
     this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.selectOpen$ = new ReplaySubject<boolean>()
   }
 
   ngAfterViewInit(): void {
@@ -148,6 +157,7 @@ export class CvcDiseaseSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
     })
     // if state formReady exists,listen for parent ready event,
     // then configure - otherwise configure the field immediately

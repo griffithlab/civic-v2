@@ -21,6 +21,7 @@ import {
   map,
   Observable,
   of,
+  ReplaySubject,
   Subject,
   switchMap,
   withLatestFrom,
@@ -65,6 +66,7 @@ export interface EntitySelectFieldOptions<
   getSelectedItemOptionFn: GetSelectedItemFn<TAF>
   getSelectOptionsFn: GetSelectOptionsFn<TAF>
   changeDetectorRef: ChangeDetectorRef
+  selectOpen$?: ReplaySubject<boolean>
 }
 
 /*
@@ -101,6 +103,7 @@ export function EntitySelectField<
       onHighlightString$!: Subject<string> // emits search string after optionTemplates.changes
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
       onCreate$!: Subject<TAF> // emits entity on create
+      selectOpen$!: ReplaySubject<boolean>
 
       // INTERMEDIATE STREAMS
       response$!: Observable<ApolloQueryResult<TAQ>> // gql query responses
@@ -145,6 +148,7 @@ export function EntitySelectField<
         this.getSelectOptions = options.getSelectOptionsFn
         this.typeaheadParam$ = options.typeaheadParam$
         this.typeaheadParamName$ = options.typeaheadParamName$
+        this.selectOpen$ = options.selectOpen$ || new ReplaySubject<boolean>()
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
@@ -273,6 +277,9 @@ export function EntitySelectField<
                 // if there is an item, emit from result$, which will trigger
                 // generation of its option in parent field's template
                 this.result$.next([item])
+                this.formControl.setValue(entity.id)
+                this.selectOpen$.next(false)
+                // this.cdr.markForCheck()
               }
             })
         })
