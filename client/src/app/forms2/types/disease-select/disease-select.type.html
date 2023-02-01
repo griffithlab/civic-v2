@@ -30,8 +30,12 @@
       <span
         nz-typography
         nzType="secondary">
-        Aliases:
-        <ng-container *ngIf="result.diseaseAliases.length > 0; else noAliases">
+        <strong>DOID: </strong>
+        <ng-container *ngIf="result.doid; else noValue">
+          {{ result.doid }}
+        </ng-container>
+        <strong>Aliases: </strong>
+        <ng-container *ngIf="result.diseaseAliases.length > 0; else noValue">
           <em>
             <span
               nz-typography
@@ -42,7 +46,7 @@
               "></span
           ></em>
         </ng-container>
-        <ng-template #noAliases>--</ng-template>
+        <ng-template #noValue>--</ng-template>
       </span>
     </ng-template>
   </ng-container>
