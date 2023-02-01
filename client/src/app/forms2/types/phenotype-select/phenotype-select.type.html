@@ -23,22 +23,20 @@
         [cvcDisableLink]="true"
         [cvcCacheId]="result.__typename + ':' + result.id"
         [cvcEmphasize]="searchString"></cvc-entity-tag>
-      <!-- <span
-            nz-typography
-            nzType="secondary">
-            Aliases:
-            <ng-container *ngIf="result.phenotypeAliases.length > 0; else noAliases">
-              <em>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  [innerHtml]="
-                    result.phenotypeAliases.join(', ') | highlightTypeahead: searchString
-                  "></span
-              ></em>
-            </ng-container>
-            <ng-template #noAliases>--</ng-template>
-          </span> -->
+      <span
+        nz-typography
+        nzType="secondary">
+        <ng-container *ngIf="result.hpoId">
+          <em>
+            <span
+              nz-typography
+              nzType="secondary"
+              [innerHtml]="
+                result.hpoId | highlightTypeahead : searchString
+              "></span
+          ></em>
+        </ng-container>
+      </span>
     </ng-template>
   </ng-container>
 </ng-container>

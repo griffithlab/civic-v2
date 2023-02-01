@@ -75,7 +75,7 @@ module Types::Queries
 
       def therapy_typeahead(query_term:)
         results = Therapy.where("therapies.name ILIKE ?", "%#{query_term}%")
-          .or(Therapy.where("therapies.ncit_id ILIKE ?", "#{query_term}%"))
+          .or(Therapy.where("therapies.ncit_id ILIKE ?", "%#{query_term}%"))
           .order("LENGTH(therapies.name) ASC")
           .limit(10)
         if results.size < 10
@@ -107,6 +107,7 @@ module Types::Queries
 
       def phenotype_typeahead(query_term:)
         Phenotype.where('hpo_class ILIKE ?', "%#{query_term}%")
+          .or(Phenotype.where('hpo_id ILIKE ?', "%#{query_term}%"))
           .order('hpo_class')
           .limit(10)
       end
