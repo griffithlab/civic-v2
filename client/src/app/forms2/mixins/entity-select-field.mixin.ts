@@ -17,6 +17,7 @@ import {
   distinctUntilChanged,
   filter,
   from,
+  finalize,
   iif,
   map,
   Observable,
@@ -66,7 +67,7 @@ export interface EntitySelectFieldOptions<
   getSelectedItemOptionFn: GetSelectedItemFn<TAF>
   getSelectOptionsFn: GetSelectOptionsFn<TAF>
   changeDetectorRef: ChangeDetectorRef
-  selectOpen$?: ReplaySubject<boolean>
+  selectOpen$?: ReplaySubject<Maybe<boolean>>
 }
 
 /*
@@ -103,7 +104,7 @@ export function EntitySelectField<
       onHighlightString$!: Subject<string> // emits search string after optionTemplates.changes
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
       onCreate$!: Subject<TAF> // emits entity on create
-      selectOpen$!: ReplaySubject<boolean>
+      selectOpen$!: ReplaySubject<Maybe<boolean>>
 
       // INTERMEDIATE STREAMS
       response$!: Observable<ApolloQueryResult<TAQ>> // gql query responses
@@ -148,7 +149,8 @@ export function EntitySelectField<
         this.getSelectOptions = options.getSelectOptionsFn
         this.typeaheadParam$ = options.typeaheadParam$
         this.typeaheadParamName$ = options.typeaheadParamName$
-        this.selectOpen$ = options.selectOpen$ || new ReplaySubject<boolean>()
+        this.selectOpen$ =
+          options.selectOpen$ || new ReplaySubject<Maybe<boolean>>()
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
@@ -264,6 +266,9 @@ export function EntitySelectField<
             })
             .pipe(
               filter((r) => !!r.data),
+              finalize(() => {
+                this.selectOpen$.next(undefined)
+              }),
               untilDestroyed(this)
             )
             .subscribe((result) => {
@@ -279,7 +284,7 @@ export function EntitySelectField<
                 this.result$.next([item])
                 this.formControl.setValue(entity.id)
                 this.selectOpen$.next(false)
-                // this.cdr.markForCheck()
+                this.cdr.detectChanges()
               }
             })
         })

@@ -108,7 +108,7 @@ export class CvcDiseaseSelectField
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresDisease$?: BehaviorSubject<boolean>
 
-  selectOpen$: ReplaySubject<boolean>
+  selectOpen$: ReplaySubject<Maybe<boolean>>
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
   // LOCAL PRESENTATION STREAMS
@@ -140,7 +140,7 @@ export class CvcDiseaseSelectField
   ) {
     super()
     this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.selectOpen$ = new ReplaySubject<boolean>()
+    this.selectOpen$ = new ReplaySubject<Maybe<boolean>>()
   }
 
   ngAfterViewInit(): void {
