@@ -26,10 +26,7 @@ import { BehaviorSubject, Subject } from 'rxjs'
 
 type DiseaseQuickAddModel = {
   name?: string
-}
-
-const diseaseQuickAddInitialModel: DiseaseQuickAddModel = {
-  name: undefined,
+  doid?: string
 }
 
 @UntilDestroy()

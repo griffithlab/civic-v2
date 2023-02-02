@@ -26,7 +26,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcSourceSelectField,
   CvcSourceSelectFieldProps,
-} from './source-select.type'
+} from './source-select.type';
+import { SourceQuickAddForm } from './source-quick-add/source-quick-add.form'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -56,7 +57,7 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcSourceSelectField],
+  declarations: [CvcSourceSelectField, SourceQuickAddForm],
   imports: [
     CommonModule,
     FormsModule,

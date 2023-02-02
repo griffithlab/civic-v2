@@ -6214,6 +6214,21 @@ export type PhenotypeSelectTagQuery = { __typename: 'Query', phenotype?: { __typ
 
 export type PhenotypeSelectTypeaheadFieldsFragment = { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string };
 
+export type SourceAddCheckCitationQueryVariables = Exact<{
+  sourceType: SourceSource;
+  citationId: Scalars['String'];
+}>;
+
+
+export type SourceAddCheckCitationQuery = { __typename: 'Query', remoteCitation?: string | undefined };
+
+export type SourceAddCitationMutationVariables = Exact<{
+  input: AddRemoteCitationInput;
+}>;
+
+
+export type SourceAddCitationMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
+
 export type SourceSelectTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['String'];
   sourceType: SourceSource;
@@ -11944,6 +11959,44 @@ export const PhenotypeSelectTagDocument = gql`
   })
   export class PhenotypeSelectTagGQL extends Apollo.Query<PhenotypeSelectTagQuery, PhenotypeSelectTagQueryVariables> {
     document = PhenotypeSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceAddCheckCitationDocument = gql`
+    query SourceAddCheckCitation($sourceType: SourceSource!, $citationId: String!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceAddCheckCitationGQL extends Apollo.Query<SourceAddCheckCitationQuery, SourceAddCheckCitationQueryVariables> {
+    document = SourceAddCheckCitationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceAddCitationDocument = gql`
+    mutation SourceAddCitation($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      id
+      citationId
+      sourceType
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceAddCitationGQL extends Apollo.Mutation<SourceAddCitationMutation, SourceAddCitationMutationVariables> {
+    document = SourceAddCitationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
