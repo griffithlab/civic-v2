@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -25,6 +26,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 
 type SourceQuickAddModel = {
   citationId?: string
@@ -38,7 +40,7 @@ type SourceQuickAddModel = {
   styleUrls: ['./source-quick-add.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SourceQuickAddForm {
+export class SourceQuickAddForm implements AfterViewInit {
   @Input()
   set cvcSourceType(sourceType: SourceSource) {
     if (!sourceType) return
@@ -113,32 +115,36 @@ export class SourceQuickAddForm {
       },
       {
         key: 'sourceType',
-        type: 'input',
         props: {
-          label: 'Source Type',
-          required: true,
+          hidden: true,
         },
       },
     ]
 
-    this.citationId$
-      .pipe(untilDestroyed(this))
-      .subscribe((id: Maybe<string>) => {
-        if (!id) return
-        this.model = { ...this.model, citationId: id }
-      })
-    this.sourceType$
-      .pipe(untilDestroyed(this))
-      .subscribe((sourceType: SourceSource) => {
-        if (!sourceType) return
-        this.model = { ...this.model, sourceType: sourceType }
-      })
+    // this.citationId$
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe((id: Maybe<string>) => {
+    //     if (!id) return
+    //     this.model = { ...this.model, citationId: id }
+    //   })
+    // this.sourceType$
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe((sourceType: SourceSource) => {
+    //     if (!sourceType) return
+    //     this.model = { ...this.model, sourceType: sourceType }
+    //   })
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
       console.log('disease-quick-add form model submitted.', model)
       this.submitSourceStub()
     })
+  }
+  ngAfterViewInit(): void {
+    console.log('view init')
+    this.form.valueChanges
+      .pipe(tag('source-quick-add form.valueChanges'))
+      .subscribe()
   }
   submitSourceStub() {
     if (

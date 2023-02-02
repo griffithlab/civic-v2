@@ -108,6 +108,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
+  @Input() cvcAddEntityModel: any
 
   @Input() cvcSelectOpen: Maybe<boolean>
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
@@ -165,7 +166,9 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
         ...this.cvcSelectMessages,
       }
     }
-
+    this.cvcFormControl.valueChanges.subscribe((changes) => {
+      console.log(changes)
+    })
     // produce appropriate dropdown messages by combining relevant observables.
     // prime combineLatest with startWith values
     this.onSearchMessage$ = combineLatest([

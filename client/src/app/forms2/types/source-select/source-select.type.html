@@ -17,6 +17,7 @@
   <nz-col nzSpan="21">
     <cvc-entity-select
       [cvcAddEntity]="addSource"
+      [cvcAddEntityModel]="onModel$ | ngrxPush"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
       [cvcFormControl]="formControl"
@@ -77,9 +78,9 @@
 <!-- quick-add form template-->
 <ng-template
   #addSource
-  let-citationId
-  let-sourceType>
+  let-searchStr
+  let-model="model">
   <cvc-source-quick-add
-    [cvcCitationId]="citationId"
-    [cvcSourceType]="sourceType"></cvc-source-quick-add>
+    [cvcCitationId]="model.citationId"
+    [cvcSourceType]="model.sourceType"></cvc-source-quick-add>
 </ng-template>

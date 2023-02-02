@@ -31,7 +31,16 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, Subject, withLatestFrom } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  ReplaySubject,
+  Subject,
+  withLatestFrom,
+} from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
@@ -92,6 +101,8 @@ export class CvcSourceSelectField
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
   sourceTypeName$: BehaviorSubject<string>
+
+  onModel$ = new Observable<any>()
 
   defaultSourceType: SourceSource = SourceSource.Pubmed
 
@@ -164,6 +175,13 @@ export class CvcSourceSelectField
           this.props.placeholders.contextualFn(formatSourceTypeEnum(src))
         )
       })
+
+    this.onModel$ = combineLatest([this.sourceType$, this.onSearch$]).pipe(
+      tag('source-select onModel$'),
+      map(([sourceType, citationId]: [SourceSource, string]) => {
+        return { citationId: citationId, sourceType: sourceType }
+      })
+    )
 
     // replace default placeholder with specific source selected
     // this.onOpenChange$
