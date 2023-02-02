@@ -7,5 +7,6 @@ module Types::BrowseTables
     value "variantCount"
     value "evidenceItemCount"
     value "assertionCount"
+    value "molecularProfileCount"
   end
 end
