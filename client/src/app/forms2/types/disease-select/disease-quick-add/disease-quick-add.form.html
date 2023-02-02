@@ -24,11 +24,6 @@
           nzType="primary"
           [disabled]="!form.valid"
           nzBlock>
-          <span
-            *ngIf="isSubmitting$ | ngrxPush"
-            nz-icon
-            nzType="loading"
-            nzTheme="outline"></span>
           Add Disease&nbsp;
           <ng-container *ngIf="model.name"> "{{ model.name }}" </ng-container>
         </button>

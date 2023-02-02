@@ -1,8 +1,11 @@
-query SourceAddCheckCitation($sourceType: SourceSource!, $citationId: String!) {
+query QuickAddSourceCheckCitation(
+  $sourceType: SourceSource!
+  $citationId: String!
+) {
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
 }
 
-mutation SourceAddCitation($input: AddRemoteCitationInput!) {
+mutation QuickAddSourceRemoteCitation($input: AddRemoteCitationInput!) {
   addRemoteCitation(input: $input) {
     newSource {
       id

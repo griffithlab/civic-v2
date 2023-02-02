@@ -26,8 +26,9 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcSourceSelectField,
   CvcSourceSelectFieldProps,
-} from './source-select.type';
+} from './source-select.type'
 import { SourceQuickAddForm } from './source-quick-add/source-quick-add.form'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -37,9 +38,9 @@ const typeConfig: ConfigOption = {
       component: CvcSourceSelectField,
       defaultOptions: {
         props: {
-          label: 'Source'
-        }
-      }
+          label: 'Source',
+        },
+      },
     },
     {
       // no label, for use in repeat-field types
@@ -62,7 +63,8 @@ const typeConfig: ConfigOption = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,
@@ -80,6 +82,7 @@ const typeConfig: ConfigOption = {
     NzTypographyModule,
     NzDividerModule,
     NzTagModule,
+    CvcFormSubmissionStatusDisplayModule,
     CvcFormFieldWrapperModule,
     CvcEntitySelectModule,
     CvcPipesModule,

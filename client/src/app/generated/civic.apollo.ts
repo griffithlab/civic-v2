@@ -6214,20 +6214,20 @@ export type PhenotypeSelectTagQuery = { __typename: 'Query', phenotype?: { __typ
 
 export type PhenotypeSelectTypeaheadFieldsFragment = { __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string };
 
-export type SourceAddCheckCitationQueryVariables = Exact<{
+export type QuickAddSourceCheckCitationQueryVariables = Exact<{
   sourceType: SourceSource;
   citationId: Scalars['String'];
 }>;
 
 
-export type SourceAddCheckCitationQuery = { __typename: 'Query', remoteCitation?: string | undefined };
+export type QuickAddSourceCheckCitationQuery = { __typename: 'Query', remoteCitation?: string | undefined };
 
-export type SourceAddCitationMutationVariables = Exact<{
+export type QuickAddSourceRemoteCitationMutationVariables = Exact<{
   input: AddRemoteCitationInput;
 }>;
 
 
-export type SourceAddCitationMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
+export type QuickAddSourceRemoteCitationMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
 
 export type SourceSelectTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['String'];
@@ -11964,8 +11964,8 @@ export const PhenotypeSelectTagDocument = gql`
       super(apollo);
     }
   }
-export const SourceAddCheckCitationDocument = gql`
-    query SourceAddCheckCitation($sourceType: SourceSource!, $citationId: String!) {
+export const QuickAddSourceCheckCitationDocument = gql`
+    query QuickAddSourceCheckCitation($sourceType: SourceSource!, $citationId: String!) {
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
 }
     `;
@@ -11973,15 +11973,15 @@ export const SourceAddCheckCitationDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class SourceAddCheckCitationGQL extends Apollo.Query<SourceAddCheckCitationQuery, SourceAddCheckCitationQueryVariables> {
-    document = SourceAddCheckCitationDocument;
+  export class QuickAddSourceCheckCitationGQL extends Apollo.Query<QuickAddSourceCheckCitationQuery, QuickAddSourceCheckCitationQueryVariables> {
+    document = QuickAddSourceCheckCitationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const SourceAddCitationDocument = gql`
-    mutation SourceAddCitation($input: AddRemoteCitationInput!) {
+export const QuickAddSourceRemoteCitationDocument = gql`
+    mutation QuickAddSourceRemoteCitation($input: AddRemoteCitationInput!) {
   addRemoteCitation(input: $input) {
     newSource {
       id
@@ -11995,8 +11995,8 @@ export const SourceAddCitationDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class SourceAddCitationGQL extends Apollo.Mutation<SourceAddCitationMutation, SourceAddCitationMutationVariables> {
-    document = SourceAddCitationDocument;
+  export class QuickAddSourceRemoteCitationGQL extends Apollo.Mutation<QuickAddSourceRemoteCitationMutation, QuickAddSourceRemoteCitationMutationVariables> {
+    document = QuickAddSourceRemoteCitationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

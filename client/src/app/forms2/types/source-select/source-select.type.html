@@ -16,6 +16,7 @@
   </nz-col>
   <nz-col nzSpan="21">
     <cvc-entity-select
+      [cvcAddEntity]="addSource"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
       [cvcFormControl]="formControl"
@@ -74,12 +75,11 @@
 </ng-template>
 
 <!-- quick-add form template-->
-<!-- <ng-template
-     #addDrug
-     let-searchStr
-     let-createMsg>
-     <cvc-therapy-quick-add-form
-     [cvcSearchString]="searchStr"
-     (cvcOnCreate)="onCreate$.next($event)">
-     </cvc-therapy-quick-add-form>
-     </ng-template> -->
+<ng-template
+  #addSource
+  let-citationId
+  let-sourceType>
+  <cvc-source-quick-add
+    [cvcCitationId]="citationId"
+    [cvcSourceType]="sourceType"></cvc-source-quick-add>
+</ng-template>

@@ -23,6 +23,7 @@ export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
     | 'Source Suggestion'
     | 'Revision'
     | 'Molecular Profile'
+    | 'Source'
     | 'Variant'
     | 'Comment'
   @Input() successMessage?: TemplateRef<void>

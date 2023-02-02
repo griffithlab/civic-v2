@@ -49,21 +49,11 @@ export class CvcDiseaseQuickAddForm {
   options: NoStateFormOptions
   formLayout: NzFormLayoutType
 
-  queryMutator: MutatorWithState<
-    QuickAddDiseaseGQL,
-    QuickAddDiseaseMutation,
-    QuickAddDiseaseMutationVariables
-  >
-
   // SOURCE STREAMS
   onSubmit$: Subject<DiseaseQuickAddModel>
   searchString$: BehaviorSubject<Maybe<string>>
 
   // PRESENTATION STREAMS
-  isSubmitting$: BehaviorSubject<boolean>
-  submitSuccess$: BehaviorSubject<boolean>
-  submitError$: BehaviorSubject<string[]>
-
   addDiseaseMutator: MutatorWithState<
     QuickAddDiseaseGQL,
     QuickAddDiseaseMutation,
@@ -85,11 +75,6 @@ export class CvcDiseaseQuickAddForm {
 
     this.onSubmit$ = new Subject<DiseaseQuickAddModel>()
     this.searchString$ = new BehaviorSubject<Maybe<string>>(undefined)
-
-    this.queryMutator = new MutatorWithState(this.errors)
-    this.isSubmitting$ = new BehaviorSubject<boolean>(false)
-    this.submitSuccess$ = new BehaviorSubject<boolean>(false)
-    this.submitError$ = new BehaviorSubject<any[]>([])
 
     this.addDiseaseMutator = new MutatorWithState(this.errors)
 
