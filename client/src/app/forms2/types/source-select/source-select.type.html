@@ -1,20 +1,38 @@
-<cvc-entity-select
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcEntityName]="props.entityName"
-  [cvcPlaceholder]="placeholder$ | ngrxPush"
-  [cvcResults]="result$ | ngrxPush"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcParamName]="sourceTypeName$ | ngrxPush"
-  [cvcDropdownExtra]="sourceTypeSelect"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"
-  [cvcLoading]="isLoading$ | ngrxPush"
-  (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnModelChange)="props.change && props.change(field, $event)">
-</cvc-entity-select>
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col nzSpan="3">
+    <nz-select
+      [ngModel]="sourceType$ | ngrxPush"
+      (ngModelChange)="sourceType$.next($event)">
+      <nz-option
+        nzValue="PUBMED"
+        nzLabel="PubMed"></nz-option>
+      <nz-option
+        nzValue="ASCO"
+        nzLabel="ASCO"></nz-option>
+      <nz-option
+        nzValue="ASH"
+        nzLabel="ASH"></nz-option>
+    </nz-select>
+  </nz-col>
+  <nz-col nzSpan="21">
+    <cvc-entity-select
+      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+      [cvcCustomTemplate]="selectedTemplate"
+      [cvcFormControl]="formControl"
+      [cvcFormlyAttributes]="field"
+      [cvcEntityName]="props.entityName"
+      [cvcPlaceholder]="placeholder$ | ngrxPush"
+      [cvcResults]="result$ | ngrxPush"
+      [cvcOptions]="selectOption$ | ngrxPush"
+      [cvcParamName]="sourceTypeName$ | ngrxPush"
+      [cvcShowError]="showError"
+      [cvcDisabled]="props.disabled"
+      [cvcLoading]="isLoading$ | ngrxPush"
+      (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnModelChange)="props.change && props.change(field, $event)">
+    </cvc-entity-select>
+  </nz-col>
+</nz-row>
 
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
@@ -39,32 +57,6 @@
     </ng-template>
   </ng-container>
 </ng-container>
-
-<!-- source type selector -->
-<ng-template #sourceTypeSelect>
-  <div class="source-type-select">
-    <nz-radio-group
-      nzButtonStyle="solid"
-      [ngModel]="sourceType$ | ngrxPush"
-      (ngModelChange)="sourceType$.next($event)">
-      <label
-        nz-radio-button
-        nzValue="PUBMED"
-        >PubMed</label
-      >
-      <label
-        nz-radio-button
-        nzValue="ASCO"
-        >ASCO</label
-      >
-      <label
-        nz-radio-button
-        nzValue="ASH"
-        >ASH</label
-      >
-    </nz-radio-group>
-  </div>
-</ng-template>
 
 <!-- selected option item template -->
 <!-- displays entity tag, specifying context and mode depending on

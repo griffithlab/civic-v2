@@ -100,7 +100,8 @@ export class CvcSourceSelectField
     props: {
       entityName: { singular: 'Source', plural: 'Sources' },
       isMultiSelect: false,
-      tooltip: 'Source(s) that support items, statements or descriptions.',
+      tooltip:
+        'PubMed, ASCO, or ASH Abstract Source(s) that support items, statements or descriptions.',
       placeholders: {
         default: 'Search PubMed, ASCO, and ASH Sources',
         contextualFn: (sourceName: string) => {
@@ -119,12 +120,14 @@ export class CvcSourceSelectField
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.defaultOptions.props!.placeholders!.default
-    )
     this.sourceType$ = new BehaviorSubject<SourceSource>(this.defaultSourceType)
     this.sourceTypeName$ = new BehaviorSubject<string>(
       formatSourceTypeEnum(this.defaultSourceType)
+    )
+    this.placeholder$ = new BehaviorSubject<string>(
+      this.defaultOptions.props!.placeholders.contextualFn(
+        formatSourceTypeEnum(this.defaultSourceType)
+      )
     )
   }
 
@@ -153,16 +156,25 @@ export class CvcSourceSelectField
         this.sourceTypeName$.next(srcName)
         this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
       })
-    // replace default placeholder with specific source selected
-    this.onOpenChange$
-      .pipe(withLatestFrom(this.sourceTypeName$), untilDestroyed(this))
-      .subscribe(([isOpen, srcName]) => {
-        if (isOpen) {
-          this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
-        } else {
-          this.placeholder$.next(this.props.placeholders.default)
-        }
+
+    this.sourceType$
+      .pipe(untilDestroyed(this))
+      .subscribe((src: SourceSource) => {
+        this.placeholder$.next(
+          this.props.placeholders.contextualFn(formatSourceTypeEnum(src))
+        )
       })
+
+    // replace default placeholder with specific source selected
+    // this.onOpenChange$
+    //   .pipe(withLatestFrom(this.sourceTypeName$), untilDestroyed(this))
+    //   .subscribe(([isOpen, srcName]) => {
+    //     if (isOpen) {
+    //       this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
+    //     } else {
+    //       this.placeholder$.next(this.props.placeholders.default)
+    //     }
+    //   })
   }
 
   getTypeaheadVarsFn(
