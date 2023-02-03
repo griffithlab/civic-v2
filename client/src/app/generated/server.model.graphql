@@ -891,6 +891,7 @@ type BrowseGene implements Flaggable {
   geneAliases: [String!]
   id: Int!
   link: String!
+  molecularProfileCount: Int!
   name: String!
   therapies: [Therapy!]
   variantCount: Int!
@@ -3108,6 +3109,7 @@ enum GenesSortColumns {
   entrezSymbol
   evidenceItemCount
   geneAlias
+  molecularProfileCount
   therapyName
   variantCount
 }
@@ -4525,6 +4527,7 @@ type PhenotypePopover {
   hpoId: String!
   id: Int!
   link: String!
+  molecularProfileCount: Int!
   name: String!
   url: String!
 }
@@ -7295,6 +7298,7 @@ type TherapyPopover {
   evidenceItemCount: Int!
   id: Int!
   link: String!
+  molecularProfileCount: Int!
   name: String!
   ncitId: String
   therapyAliases: [String!]!

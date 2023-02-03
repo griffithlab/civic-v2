@@ -2,6 +2,7 @@ module Types::Popovers
   class PhenotypePopoverType < Types::Entities::PhenotypeType
     field :assertion_count, Int, null: false
     field :evidence_item_count, Int, null: false
+    field :molecular_profile_count, Int, null: false
 
     def assertion_count
       Phenotype.where(id: object.id)
@@ -17,6 +18,15 @@ module Types::Popovers
         .joins(:evidence_items)
         .where("evidence_items.status != 'rejected'")
         .select('evidence_items.id')
+        .distinct
+        .count
+    end
+
+    def molecular_profile_count
+      Phenotype.where(id: object.id)
+        .joins(:evidence_items)
+        .where("evidence_items.status != 'rejected'")
+        .select('evidence_items.molecular_profile_id')
         .distinct
         .count
     end

@@ -60,4 +60,5 @@ fragment BrowseGenesFields on BrowseGene {
   variantCount
   evidenceItemCount
   assertionCount
+  molecularProfileCount
 }

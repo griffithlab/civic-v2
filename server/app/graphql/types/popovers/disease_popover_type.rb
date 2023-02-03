@@ -16,7 +16,7 @@ module Types::Popovers
         .count
     end
 
-    def variant_count
+    def molecular_profile_count
       EvidenceItem
         .where.not(status: 'rejected')
         .where(disease_id: object.id)
