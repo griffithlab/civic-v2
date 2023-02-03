@@ -65,6 +65,7 @@ fragment VariantMolecularProfileCardFields on Variant {
   variantAliases
   clinvarIds
   alleleRegistryId
+  openCravatUrl
   variantTypes {
       id
       link
