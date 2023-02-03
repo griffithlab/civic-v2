@@ -18,6 +18,7 @@ import { FormlyAttributeEvent } from '@ngx-formly/core/lib/models'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   asyncScheduler,
+  BehaviorSubject,
   combineLatest,
   map,
   Observable,
@@ -59,10 +60,10 @@ export type CvcEntitySelectMessageOptions = {
 
 export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
   search: (entityName, query, _paramName) =>
-    `Searching ${entityName} matching "${query}""...`,
+    `Searching ${entityName} matching "${query}"...`,
   searchAll: (entityName, _query, _paramName) => `Listing all ${entityName}...`,
   searchParam: (entityName, query, paramName) =>
-    `Searching ${paramName} ${entityName} matching "${query}""...`,
+    `Searching ${paramName} ${entityName} matching "${query}"...`,
   searchEnterQuery: (entityName, query, paramName) =>
     `Enter a query to search ${paramName} ${entityName}`,
   searchParamAll: (entityName, _query, paramName) =>
@@ -131,16 +132,20 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
   @Output() cvcOnModelChange = new EventEmitter<Maybe<number>>()
 
-  // SOURCE STREAMS
-  notFoundDisplay$!: Observable<NotFoundDisplay>
-  onParamName$: Subject<Maybe<string>>
+  // INPUT STREAMS
+  onParamName$: BehaviorSubject<Maybe<string>>
   onOption$: Subject<Maybe<NzSelectOptionInterface[]>>
+
+  // SOURCE STREAMS
+  onOpenChange$: BehaviorSubject<boolean>
+  notFoundDisplay$!: Observable<NotFoundDisplay>
 
   messageOptions: CvcEntitySelectMessageOptions = cvcDefaultSelectMessageOptions
 
   constructor(private cdr: ChangeDetectorRef) {
-    this.onParamName$ = new Subject<Maybe<string>>()
+    this.onParamName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
+    this.onOpenChange$ = new BehaviorSubject<boolean>(false)
     // this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
     // this.cvcOnOpenChange.pipe(tag('entity-select cvcOnOpenChange')).subscribe()
     // this.cvcOnSearch.pipe(tag('entity-select cvcOnSearch$')).subscribe()
@@ -156,9 +161,10 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
         ...this.cvcSelectMessages,
       }
     }
+
     // emit a notFoundDisplay VM for displaying message, spinner, add form
     this.notFoundDisplay$ = combineLatest([
-      this.cvcOnOpenChange.pipe(startWith(false)),
+      this.onOpenChange$,
       this.cvcOnSearch.pipe(startWith(undefined)),
       this.onParamName$.pipe(startWith(undefined)),
       this.onOption$.pipe(startWith(undefined)),
@@ -182,26 +188,24 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             message: '',
           }
 
-          // INITIALIZATION / RESET
-          // Set the initial message opon select open, after closing
-          if (!isOpen) {
+          // INITIALIZATIAL OPEN
+          if (isOpen && !searchStr && !options) {
             return this.getSelectInitDisplay(entityName, minLength, paramName)
           }
 
           // QUERY ENTERED, SEARCHING
-          if (searchStr !== undefined && searchStr.length > 0) {
+          if (isOpen && searchStr && searchStr.length >= minLength) {
             return this.getSelectSearchingDisplay(
+              searchStr,
               entityName,
               minLength,
-              paramName,
-              options
+              paramName
             )
           }
 
           //
           // NOT FOUND
           //
-
           // this should not return
           return {
             ...display,
@@ -287,19 +291,9 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           // }
           // return 'UNHANDLED SELECT MSG CONDITION!'
         }
-      ),
-      tag(`${this.cvcEntityName.plural} entity-select notFoundDisplay$ emit`)
+      )
+      // tag(`${this.cvcEntityName.plural} entity-select notFoundDisplay$ emit`)
     )
-
-    // // NOTE: would be ideal if select msgs could be set w/o this subscribe, however I could
-    // // not get it working with nz-select's nzNotFound templateRef Input. Might be able to do
-    // // it using @ViewChild, as with the select option templates.
-
-    // if (this.cvcEntityName.singular === 'Source') {
-    //   this.onNotFoundMessageVM$
-    //     .pipe(tag('entity-select onNotFoundMessageVM$'), untilDestroyed(this))
-    //     .subscribe((message) => {})
-    // }
   } // ngAfterViewInit()
 
   getSelectInitDisplay(
@@ -335,16 +329,30 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   }
 
   getSelectSearchingDisplay(
+    searchStr: string,
     entityName: string,
     minLength: number,
-    paramName: Maybe<string>,
-    options: Maybe<NzSelectOptionInterface[]>
+    paramName: Maybe<string>
+    // options: Maybe<NzSelectOptionInterface[]>
   ): NotFoundDisplay {
+    let msgFn: CvcEntitySelectMessageFn = this.messageOptions.searchAll
+    let showSpinner = true
+    if (paramName === undefined) {
+      msgFn =
+        searchStr.length > 0
+          ? this.messageOptions.search
+          : this.messageOptions.searchAll
+    } else {
+      msgFn =
+        searchStr.length > 0
+          ? this.messageOptions.searchParam
+          : this.messageOptions.searchParamAll
+    }
     return {
-      message: 'SEARCHING',
-      showSpinner: true,
+      message: msgFn(entityName, searchStr, paramName),
+      showSpinner: showSpinner,
       showAddForm: false,
-      searchStr: '',
+      searchStr: searchStr,
     }
   }
   ngOnChanges(changes: SimpleChanges): void {

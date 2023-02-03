@@ -56,35 +56,28 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'source-select',
             props: { required: true },
           },
-          // <CvcPhenotypeSelectFieldOptions>{
-          //   key: 'phenotypeIds',
-          //   type: 'phenotype-multi-select',
-          //   props: {},
-          // },
-          // {
-          //   wrappers: ['field-grid'],
-          //   props: <CvcFieldGridWrapperConfig>{
-          //     grid: {
-          //       cols: 2,
-          //     },
-          //   },
-          //   fieldGroup: [
-          //     <CvcEntityTypeSelectFieldConfig>{
-          //       key: 'evidenceType',
-          //       type: 'type-select',
-          //       props: {
-          //         required: true,
-          //       },
-          //     },
-          //     <CvcDirectionSelectFieldOptions>{
-          //       key: 'evidenceDirection',
-          //       type: 'direction-select',
-          //       props: {
-          //         required: true,
-          //       },
-          //     },
-          //   ],
-          // },
+          {
+            wrappers: ['field-grid'],
+            props: <CvcFieldGridWrapperConfig>{
+              grid: {
+                cols: 2,
+              },
+            },
+            fieldGroup: [
+              <CvcEntityTypeSelectFieldConfig>{
+                key: 'evidenceType',
+                type: 'type-select',
+                props: {
+                  required: true,
+                },
+              },
+              <CvcDiseaseSelectFieldOptions>{
+                key: 'diseaseId',
+                type: 'disease-select',
+                props: {},
+              },
+            ],
+          },
           // {
           //   wrappers: ['field-grid'],
           //   props: <CvcFieldGridWrapperConfig>{

@@ -9,7 +9,6 @@
   [cvcOptions]="selectOption$ | ngrxPush"
   [cvcShowError]="showError"
   [cvcLoading]="isLoading$ | ngrxPush"
-  (cvcOnOpenChange)="onOpenChange$.next($event)"
   (cvcOnSearch)="onSearch$.next($event)"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>

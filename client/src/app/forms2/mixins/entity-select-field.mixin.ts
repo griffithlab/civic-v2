@@ -99,7 +99,6 @@ export function EntitySelectField<
       // need to declare them to reference them here, then base-field creates these
 
       // LOCAL SOURCE STREAMS
-      onOpenChange$!: Subject<boolean>
       onSearch$!: Subject<string> // emits on typeahead keypress
       onHighlightString$!: Subject<string> // emits search string after optionTemplates.changes
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
@@ -156,7 +155,6 @@ export function EntitySelectField<
         // since mixins can't(?) have constructors, instantiate stuff here
         this.onSearch$ = new Subject<string>()
         this.onHighlightString$ = new Subject<string>()
-        this.onOpenChange$ = new Subject<boolean>()
         this.isLoading$ = new Observable<boolean>()
         this.result$ = new BehaviorSubject<TAF[]>([])
         this.onTagClose$ = new Subject<MouseEvent>()
