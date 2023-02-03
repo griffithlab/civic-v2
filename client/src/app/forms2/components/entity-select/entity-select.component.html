@@ -10,7 +10,7 @@
   [nzCustomTemplate]="cvcCustomTemplate || null"
   [nzOptionHeightPx]="30"
   [nzDisabled]="cvcDisabled"
-  [nzLoading]="onLoading$ | ngrxPush"
+  [nzLoading]="onLoadingDebounce$ | ngrxPush"
   [nzAllowClear]="cvcAllowClear"
   [nzBorderless]="cvcBorderless"
   [nzSuffixIcon]="'search'"

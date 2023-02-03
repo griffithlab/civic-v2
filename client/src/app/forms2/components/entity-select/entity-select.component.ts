@@ -20,6 +20,7 @@ import {
   asyncScheduler,
   BehaviorSubject,
   combineLatest,
+  debounceTime,
   map,
   Observable,
   ReplaySubject,
@@ -136,6 +137,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // INPUT STREAMS
   onParamName$: BehaviorSubject<Maybe<string>>
   onLoading$: Subject<boolean>
+  onLoadingDebounce$: Observable<boolean>
   onOption$: Subject<Maybe<NzSelectOptionInterface[]>>
 
   // SOURCE STREAMS
@@ -149,6 +151,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
     this.onOpenChange$ = new BehaviorSubject<boolean>(false)
     this.onLoading$ = new Subject<boolean>()
+    this.onLoadingDebounce$ = this.onLoading$.pipe(debounceTime(250))
     // this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
     // this.cvcOnOpenChange.pipe(tag('entity-select cvcOnOpenChange')).subscribe()
     // this.cvcOnSearch.pipe(tag('entity-select cvcOnSearch$')).subscribe()
@@ -171,11 +174,11 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       this.cvcOnSearch.pipe(startWith(undefined)),
       this.onParamName$.pipe(startWith(undefined)),
       this.onOption$.pipe(startWith(undefined)),
-      this.onLoading$.pipe(startWith(false)),
+      this.onLoadingDebounce$.pipe(startWith(false)),
     ]).pipe(
-      // tag(
-      //   `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
-      // ),
+      tag(
+        `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+      ),
       map(
         ([isOpen, searchStr, paramName, options, isLoading]: [
           Maybe<boolean>,
@@ -218,7 +221,13 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           // NOT FOUND
           //
 
-          if (isOpen && searchStr && searchStr.length > minLength && !options) {
+          if (
+            isOpen &&
+            !isLoading &&
+            searchStr &&
+            searchStr.length >= minLength &&
+            !options
+          ) {
             return this.getSelectEmptyDisplay(
               searchStr,
               entityName,
