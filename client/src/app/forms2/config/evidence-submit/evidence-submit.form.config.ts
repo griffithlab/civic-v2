@@ -56,11 +56,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'source-select',
             props: { required: true },
           },
-          <CvcPhenotypeSelectFieldOptions>{
-            key: 'phenotypeIds',
-            type: 'phenotype-multi-select',
-            props: {},
-          },
+          // <CvcPhenotypeSelectFieldOptions>{
+          //   key: 'phenotypeIds',
+          //   type: 'phenotype-multi-select',
+          //   props: {},
+          // },
           // {
           //   wrappers: ['field-grid'],
           //   props: <CvcFieldGridWrapperConfig>{
