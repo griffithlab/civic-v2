@@ -36,11 +36,8 @@ import {
   combineLatest,
   map,
   Observable,
-  ReplaySubject,
-  Subject,
   withLatestFrom,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
@@ -177,22 +174,10 @@ export class CvcSourceSelectField
       })
 
     this.onModel$ = combineLatest([this.sourceType$, this.onSearch$]).pipe(
-      tag('source-select onModel$'),
       map(([sourceType, citationId]: [SourceSource, string]) => {
         return { citationId: citationId, sourceType: sourceType }
       })
     )
-
-    // replace default placeholder with specific source selected
-    // this.onOpenChange$
-    //   .pipe(withLatestFrom(this.sourceTypeName$), untilDestroyed(this))
-    //   .subscribe(([isOpen, srcName]) => {
-    //     if (isOpen) {
-    //       this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
-    //     } else {
-    //       this.placeholder$.next(this.props.placeholders.default)
-    //     }
-    //   })
   }
 
   getTypeaheadVarsFn(

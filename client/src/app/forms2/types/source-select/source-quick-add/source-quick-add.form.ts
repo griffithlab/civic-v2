@@ -54,14 +54,6 @@ export class SourceQuickAddForm implements AfterViewInit {
 
   @Output() cvcOnCreate = new EventEmitter<SourceStub>()
 
-  // export type AddRemoteCitationInput = {
-  //   /** The external id for the source to add. */
-  //   citationId: Scalars['String'];
-  //   /** A unique identifier for the client performing the mutation. */
-  //   clientMutationId?: InputMaybe<Scalars['String']>;
-  //   /** The origin of the external source. */
-  //   sourceType: SourceSource;
-  // };
   model: SourceQuickAddModel
 
   form: UntypedFormGroup
@@ -102,15 +94,8 @@ export class SourceQuickAddForm implements AfterViewInit {
     this.fields = [
       {
         key: 'citationId',
-        type: 'input',
         props: {
-          label: 'citationId',
-          required: true,
-          keydown: (k, e) => {
-            if (e.code === 'Tab') {
-              e.stopPropagation()
-            }
-          },
+          hidden: true,
         },
       },
       {
@@ -120,19 +105,6 @@ export class SourceQuickAddForm implements AfterViewInit {
         },
       },
     ]
-
-    // this.citationId$
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe((id: Maybe<string>) => {
-    //     if (!id) return
-    //     this.model = { ...this.model, citationId: id }
-    //   })
-    // this.sourceType$
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe((sourceType: SourceSource) => {
-    //     if (!sourceType) return
-    //     this.model = { ...this.model, sourceType: sourceType }
-    //   })
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {

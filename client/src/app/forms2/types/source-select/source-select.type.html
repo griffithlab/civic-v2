@@ -18,6 +18,7 @@
     <cvc-entity-select
       [cvcAddEntity]="addSource"
       [cvcAddEntityModel]="onModel$ | ngrxPush"
+      [cvcDropdownExtra]="addSourceBtn"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
       [cvcFormControl]="formControl"
@@ -83,4 +84,9 @@
   <cvc-source-quick-add
     [cvcCitationId]="model.citationId"
     [cvcSourceType]="model.sourceType"></cvc-source-quick-add>
+</ng-template>
+
+<!-- add source button -->
+<ng-template #addSourceBtn>
+  <button type="button">Add a New Source</button>
 </ng-template>

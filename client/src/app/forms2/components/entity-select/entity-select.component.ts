@@ -64,12 +64,6 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
     `No ${paramName} ${entityName} found`,
 }
 
-type SelectMessageVM = {
-  searchStr: string
-  message: string
-  showAddEntityForm: boolean
-}
-
 @UntilDestroy({ arrayName: 'stateSubscriptions' })
 @Component({
   selector: 'cvc-entity-select',
@@ -127,8 +121,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   onParamName$: Subject<Maybe<string>>
   onOption$: Subject<Maybe<NzSelectOptionInterface[]>>
 
-  message: Maybe<string>
-
   messageOptions: CvcEntitySelectMessageOptions = {
     search: (entityName, query, _paramName) =>
       `Searching ${entityName} matching "${query}""...`,
@@ -150,15 +142,13 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     this.onParamName$ = new Subject<Maybe<string>>()
     this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
     // this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
-    this.message = 'LOADING'
-  }
-
-  ngAfterViewInit(): void {
-    // this.cvcOnOpenChange.pipe(tag('entity-select onOpenChange$')).subscribe()
+    this.cvcOnOpenChange.pipe(tag('entity-select cvcOnOpenChange')).subscribe()
     // this.cvcOnSearch.pipe(tag('entity-select cvcOnSearch$')).subscribe()
     // this.onParamName$.pipe(tag('entity-select onParamName$')).subscribe()
     // this.onOption$.pipe(tag('entity-select onOption$')).subscribe()
+  }
 
+  ngAfterViewInit(): void {
     // merge any custom message options from cvcSelectMessages
     if (this.cvcSelectMessages) {
       this.messageOptions = {
@@ -166,21 +156,17 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
         ...this.cvcSelectMessages,
       }
     }
-    this.cvcFormControl.valueChanges.subscribe((changes) => {
-      console.log(changes)
-    })
     // produce appropriate dropdown messages by combining relevant observables.
     // prime combineLatest with startWith values
     this.onSearchMessage$ = combineLatest([
-      this.cvcOnOpenChange.pipe(startWith(false)),
+      this.cvcOnOpenChange.pipe(startWith(undefined)),
       this.cvcOnSearch.pipe(startWith(undefined)),
       this.onParamName$.pipe(startWith(undefined)),
       this.onOption$.pipe(startWith(undefined)),
     ]).pipe(
-      // tag('entity-select onSearchMessage$'),
       map(
         ([isOpen, searchStr, paramName, options]: [
-          boolean,
+          Maybe<boolean>,
           Maybe<string>,
           Maybe<string>,
           Maybe<NzSelectOptionInterface[]>
@@ -322,17 +308,15 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       )
     )
 
-    // NOTE: would be ideal if select msgs could be set w/o this subscribe, however I could
-    // not get it working with nz-select's nzNotFound templateRef Input. Might be able to do
-    // it using @ViewChild, as with the select option templates.
-    this.onSearchMessage$
-      .pipe(
-        // tag('entity-select onSearchMessage$'),
-        untilDestroyed(this)
-      )
-      .subscribe((message) => {
-        this.message = message
-      })
+    // // NOTE: would be ideal if select msgs could be set w/o this subscribe, however I could
+    // // not get it working with nz-select's nzNotFound templateRef Input. Might be able to do
+    // // it using @ViewChild, as with the select option templates.
+
+    if (this.cvcEntityName.singular === 'Source') {
+      this.onSearchMessage$
+        .pipe(tag('entity-select onSearchMessage$'), untilDestroyed(this))
+        .subscribe((message) => {})
+    }
   } // ngAfterViewInit()
 
   getSearchMessage(searchStr: string, paramName?: string): string {
