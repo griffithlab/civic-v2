@@ -16,9 +16,7 @@
   </nz-col>
   <nz-col nzSpan="21">
     <cvc-entity-select
-      [cvcAddEntity]="addSource"
-      [cvcAddEntityModel]="onModel$ | ngrxPush"
-      [cvcDropdownExtra]="addSourceBtn"
+      [cvcMinSearchStrLength]="1"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
       [cvcFormControl]="formControl"
@@ -31,6 +29,8 @@
       [cvcShowError]="showError"
       [cvcDisabled]="props.disabled"
       [cvcLoading]="isLoading$ | ngrxPush"
+      [cvcAddEntity]="addSource"
+      [cvcAddEntityModel]="onModel$ | ngrxPush"
       (cvcOnSearch)="onSearch$.next($event)"
       (cvcOnModelChange)="props.change && props.change(field, $event)">
     </cvc-entity-select>

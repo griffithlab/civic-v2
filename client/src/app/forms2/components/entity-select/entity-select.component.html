@@ -25,14 +25,18 @@
   (ngModelChange)="cvcOnModelChange.next($event)">
 </nz-select>
 <ng-template #searchMessages>
-  <ng-container *ngrxLet="onSearchMessage$ as msg">
-    {{ msg }}
+  <ng-container *ngrxLet="notFoundDisplay$ as display">
+    <span
+      *ngIf="display.showSpinner"
+      nz-icon
+      [nzType]="'loading'"></span>
+    {{ display.message }}
     <ng-container
-      *ngrxLet="cvcOnSearch as searchStr"
+      *ngIf="display.showAddForm"
       [ngTemplateOutlet]="this.cvcAddEntity"
       [ngTemplateOutletContext]="{
-        $implicit: searchStr,
-        createMsg: msg,
+        $implicit: display.searchStr,
+        createMsg: display.message,
         model: cvcAddEntityModel
       }">
     </ng-container>

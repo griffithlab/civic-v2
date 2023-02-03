@@ -56,6 +56,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'source-select',
             props: { required: true },
           },
+          <CvcPhenotypeSelectFieldOptions>{
+            key: 'phenotypeIds',
+            type: 'phenotype-multi-select',
+            props: {},
+          },
           // {
           //   wrappers: ['field-grid'],
           //   props: <CvcFieldGridWrapperConfig>{
@@ -146,6 +151,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           //     },
           //   ],
           // },
+
           // {
           //   wrappers: ['field-grid'],
           //   props: <CvcFieldGridWrapperConfig>{
@@ -168,6 +174,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           //     },
           //   ],
           // },
+
           // {
           //   wrappers: ['field-grid'],
           //   props: <CvcFieldGridWrapperConfig>{

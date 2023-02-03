@@ -38,6 +38,7 @@ import {
   Observable,
   withLatestFrom,
 } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {

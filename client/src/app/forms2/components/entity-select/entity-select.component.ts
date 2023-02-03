@@ -24,11 +24,19 @@ import {
   shareReplay,
   startWith,
   Subject,
+  tap,
   throttleTime,
 } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 
 export type CvcSelectEntityName = { singular: string; plural: string }
+
+type NotFoundDisplay = {
+  message: string
+  searchStr: string
+  showAddForm: boolean
+  showSpinner: boolean
+}
 
 type CvcEntitySelectMessageFn = (
   entityName: string,
@@ -40,7 +48,9 @@ export type CvcEntitySelectMessageOptions = {
   search: CvcEntitySelectMessageFn
   searchAll: CvcEntitySelectMessageFn
   searchParam: CvcEntitySelectMessageFn
+  searchEnterQuery: CvcEntitySelectMessageFn
   searchParamAll: CvcEntitySelectMessageFn
+  searchEnterQueryAll: CvcEntitySelectMessageFn
   empty: CvcEntitySelectMessageFn
   emptyAll: CvcEntitySelectMessageFn
   emptyParam: CvcEntitySelectMessageFn
@@ -53,8 +63,12 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
   searchAll: (entityName, _query, _paramName) => `Listing all ${entityName}...`,
   searchParam: (entityName, query, paramName) =>
     `Searching ${paramName} ${entityName} matching "${query}""...`,
+  searchEnterQuery: (entityName, query, paramName) =>
+    `Enter a query to search ${paramName} ${entityName}`,
   searchParamAll: (entityName, _query, paramName) =>
     `Listing all ${paramName} ${entityName}...`,
+  searchEnterQueryAll: (entityName, _query, _paramName) =>
+    `Enter a query to search ${entityName}`,
   empty: (entityName, query, _paramName) =>
     `No ${entityName} found matching "${query}"`,
   emptyAll: (entityName, _query, _paramName) => `No ${entityName} found.`,
@@ -105,6 +119,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Input() cvcAddEntityModel: any
 
   @Input() cvcSelectOpen: Maybe<boolean>
+  @Input() cvcMinSearchStrLength: number = 0
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
 
   // throttle search string output: wait 1/3sec after typing activity ends,
@@ -117,26 +132,11 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Output() cvcOnModelChange = new EventEmitter<Maybe<number>>()
 
   // SOURCE STREAMS
-  onSearchMessage$!: Observable<Maybe<string>>
+  notFoundDisplay$!: Observable<NotFoundDisplay>
   onParamName$: Subject<Maybe<string>>
   onOption$: Subject<Maybe<NzSelectOptionInterface[]>>
 
-  messageOptions: CvcEntitySelectMessageOptions = {
-    search: (entityName, query, _paramName) =>
-      `Searching ${entityName} matching "${query}""...`,
-    searchAll: (entityName, _query, _paramName) =>
-      `Listing all ${entityName}...`,
-    searchParam: (entityName, query, paramName) =>
-      `Searching ${paramName} ${entityName} matching "${query}""...`,
-    searchParamAll: (entityName, _query, paramName) =>
-      `Listing all ${paramName} ${entityName}...`,
-    empty: (entityName, query) => `No ${entityName} found matching "${query}"`,
-    emptyAll: (entityName, query) => `No ${entityName} found.`,
-    emptyParam: (entityName, query, paramName) =>
-      `No ${paramName} ${entityName} found matching "${query}"`,
-    emptyParamAll: (entityName, _query, paramName) =>
-      `No ${paramName} ${entityName} found`,
-  }
+  messageOptions: CvcEntitySelectMessageOptions = cvcDefaultSelectMessageOptions
 
   constructor(private cdr: ChangeDetectorRef) {
     this.onParamName$ = new Subject<Maybe<string>>()
@@ -156,14 +156,16 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
         ...this.cvcSelectMessages,
       }
     }
-    // produce appropriate dropdown messages by combining relevant observables.
-    // prime combineLatest with startWith values
-    this.onSearchMessage$ = combineLatest([
+    // emit a notFoundDisplay VM for displaying message, spinner, add form
+    this.notFoundDisplay$ = combineLatest([
       this.cvcOnOpenChange.pipe(startWith(undefined)),
       this.cvcOnSearch.pipe(startWith(undefined)),
-      this.onParamName$.pipe(startWith(undefined)),
+      this.onParamName$.pipe(startWith(this.cvcParamName)),
       this.onOption$.pipe(startWith(undefined)),
     ]).pipe(
+      tag(
+        `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+      ),
       map(
         ([isOpen, searchStr, paramName, options]: [
           Maybe<boolean>,
@@ -172,152 +174,208 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           Maybe<NzSelectOptionInterface[]>
         ]) => {
           const plName = this.cvcEntityName.plural
-          if (!isOpen && searchStr === undefined && options === undefined) {
-            // INIT - this msg won't be displayed, but its presence
-            // sometimes prevents an empty dropdown from displaying briefly
-            if (paramName === undefined) {
-              return this.messageOptions.searchAll(plName, searchStr, paramName)
-            } else {
-              return this.messageOptions.searchParamAll(
-                plName,
-                searchStr,
-                paramName
-              )
+          let display = {
+            showSpinner: false,
+            showAddForm: false,
+            searchStr: '',
+            message: '',
+          }
+
+          //
+          // INITIALIZATION / RESET
+          // Set the initial message opon select open, after closing
+          //
+          if (!isOpen) {
+            return this.getSelectOpenDisplay(
+              plName,
+              this.cvcMinSearchStrLength,
+              paramName
+            )
+          }
+          // if (
+          //   !isOpen ||
+          //   (isOpen && searchStr === undefined && options === undefined) ||
+          //   (this.cvcMinSearchStrLength > 0 &&
+          //     searchStr !== undefined &&
+          //     searchStr.length < this.cvcMinSearchStrLength &&
+          //     options !== undefined &&
+          //     options.length === 0)
+          // ) {
+          //   let msgFn: CvcEntitySelectMessageFn = this.messageOptions.searchAll
+          //   let showSpinner = false
+          //   // if no min query length set, queue 'Loading...' msg
+          //   if (this.cvcMinSearchStrLength == 0) {
+          //     showSpinner = true
+          //     if (paramName === undefined) {
+          //       msgFn = this.messageOptions.searchAll
+          //     } else {
+          //       msgFn = this.messageOptions.searchParamAll
+          //     }
+          //   } else if (this.cvcMinSearchStrLength > 0) {
+          //     // else queue 'Enter search str...' msg
+          //     showSpinner = false
+          //     if (paramName === undefined) {
+          //       msgFn = this.messageOptions.searchEnterQueryAll
+          //     } else {
+          //       msgFn = this.messageOptions.searchEnterQuery
+          //     }
+          //   }
+          //   return {
+          //     ...display,
+          //     message: msgFn(plName, searchStr, paramName),
+          //     showSpinner: showSpinner,
+          //   }
+          // }
+
+          //
+          // NOT FOUND
+          //
+          if (isOpen && options !== undefined && options.length === 0) {
+            let msgFn: CvcEntitySelectMessageFn = this.messageOptions.emptyAll
+            if (searchStr && searchStr.length === 0) {
+              if (paramName === undefined) {
+                msgFn = this.messageOptions.emptyAll
+              } else {
+                msgFn = this.messageOptions.emptyParamAll
+              }
+            }
+            return {
+              ...display,
+              message: msgFn(plName, searchStr, paramName),
             }
           }
-          if (isOpen && searchStr === undefined && options === undefined) {
-            // INITIAL CLICK - triggered by onCloseChange event. query hasn't been sent
-            // but to prevent an empty dropbox, the default searchAll msg is displayed
-            if (paramName === undefined) {
-              return this.messageOptions.searchAll(plName, searchStr, paramName)
-            } else {
-              return this.messageOptions.searchParamAll(
-                plName,
-                searchStr,
-                paramName
-              )
-            }
+
+          // this should not return
+          return {
+            ...display,
+            showSpinner: false,
+            showAddForm: false,
+            message: 'UNHANDLED NOT FOUND DISPLAY CONDITION',
           }
-          if (
-            isOpen &&
-            searchStr !== undefined &&
-            searchStr.length === 0 &&
-            options === undefined
-          ) {
-            // INITIAL '' QUERY - nz-select emits an empty string after select opens.
-            // as with the previous condition, no query has been sent but a
-            // blank dropdown doesn't look good so we show the default searchAll msg
-            if (paramName === undefined) {
-              return this.messageOptions.searchAll(plName, searchStr, paramName)
-            } else {
-              return this.messageOptions.searchParamAll(
-                plName,
-                searchStr,
-                paramName
-              )
-            }
-          }
-          if (
-            isOpen &&
-            searchStr !== undefined &&
-            searchStr.length === 0 &&
-            options !== undefined &&
-            options.length > 0
-          ) {
-            // INITIAL '' QUERY RESULTS - initial empty string query results have returned. this
-            // msg will not be displayed, since the select options replace it
-            return 'INITIAL QUERY RESULTS'
-          }
-          if (
-            isOpen &&
-            searchStr !== undefined &&
-            searchStr.length > 0 &&
-            options !== undefined &&
-            options.length > 0
-          ) {
-            // QUERY STR RESULTS - user has entered at least one character, and its query results
-            // have returned. this msg is also not displayed, replaced by select options
-            return 'QUERY STR RESULTS RETURNED'
-          }
-          if (
-            isOpen &&
-            searchStr !== undefined &&
-            searchStr.length > 0 &&
-            options !== undefined &&
-            options.length == 0 &&
-            this.cvcAddEntity !== undefined
-          ) {
-            // User has searched but no results returned
-            return 'SHOW ADD FORM'
-          }
-          if (
-            isOpen &&
-            searchStr !== undefined &&
-            searchStr.length === 0 &&
-            options !== undefined &&
-            options.length === 0
-          ) {
-            // INITIAL QUERY, NO RESULTS - empty string query has returned with no results
-            if (paramName === undefined) {
-              return this.messageOptions.emptyAll(plName, searchStr, paramName)
-            } else {
-              return this.messageOptions.emptyParamAll(
-                plName,
-                searchStr,
-                paramName
-              )
-            }
-          }
-          if (
-            isOpen &&
-            searchStr !== undefined &&
-            searchStr.length > 0 &&
-            options !== undefined &&
-            options.length === 0
-          ) {
-            // STR QUERY, NO RESULTS - string query has returned with no results
-            if (paramName === undefined) {
-              return this.messageOptions.empty(plName, searchStr, paramName)
-            } else {
-              return this.messageOptions.emptyParam(
-                plName,
-                searchStr,
-                paramName
-              )
-            }
-          }
-          if (
-            !isOpen &&
-            searchStr !== undefined &&
-            searchStr.length === 0 &&
-            options !== undefined
-          ) {
-            // SELECT CLOSED - msg not displayed, returning default msg
-            if (paramName === undefined) {
-              return this.messageOptions.searchAll(plName, searchStr, paramName)
-            } else {
-              return this.messageOptions.searchParamAll(
-                plName,
-                searchStr,
-                paramName
-              )
-            }
-          }
-          return 'UNHANDLED SELECT MSG CONDITION!'
+
+          // if (
+          //   isOpen &&
+          //   searchStr !== undefined &&
+          //   searchStr.length > 0 &&
+          //   options !== undefined &&
+          //   options.length > 0
+          // ) {
+          //   // QUERY STR RESULTS - user has entered at least one character, and its query results
+          //   // have returned. this msg is also not displayed, replaced by select options
+          //   return 'QUERY STR RESULTS RETURNED'
+          // }
+          // if (
+          //   isOpen &&
+          //   searchStr !== undefined &&
+          //   searchStr.length > 0 &&
+          //   options !== undefined &&
+          //   options.length == 0 &&
+          //   this.cvcAddEntity !== undefined
+          // ) {
+          //   // User has searched but no results returned
+          //   return 'SHOW ADD FORM'
+          // }
+          // if (
+          //   isOpen &&
+          //   searchStr !== undefined &&
+          //   searchStr.length === 0 &&
+          //   options !== undefined &&
+          //   options.length === 0
+          // ) {
+          //   // INITIAL QUERY, NO RESULTS - empty string query has returned with no results
+          //   if (paramName === undefined) {
+          //     return this.messageOptions.emptyAll(plName, searchStr, paramName)
+          //   } else {
+          //     return this.messageOptions.emptyParamAll(
+          //       plName,
+          //       searchStr,
+          //       paramName
+          //     )
+          //   }
+          // }
+          // if (
+          //   isOpen &&
+          //   searchStr !== undefined &&
+          //   searchStr.length > 0 &&
+          //   options !== undefined &&
+          //   options.length === 0
+          // ) {
+          //   // STR QUERY, NO RESULTS - string query has returned with no results
+          //   if (paramName === undefined) {
+          //     return this.messageOptions.empty(plName, searchStr, paramName)
+          //   } else {
+          //     return this.messageOptions.emptyParam(
+          //       plName,
+          //       searchStr,
+          //       paramName
+          //     )
+          //   }
+          // }
+          // if (
+          //   !isOpen &&
+          //   searchStr !== undefined &&
+          //   searchStr.length === 0 &&
+          //   options !== undefined
+          // ) {
+          //   // SELECT CLOSED - msg not displayed, returning default msg
+          //   if (paramName === undefined) {
+          //     return this.messageOptions.searchAll(plName, searchStr, paramName)
+          //   } else {
+          //     return this.messageOptions.searchParamAll(
+          //       plName,
+          //       searchStr,
+          //       paramName
+          //     )
+          //   }
+          // }
+          // return 'UNHANDLED SELECT MSG CONDITION!'
         }
-      )
+      ),
+      tag(`${this.cvcEntityName.plural} entity-select notFoundDisplay$ emit`)
     )
 
     // // NOTE: would be ideal if select msgs could be set w/o this subscribe, however I could
     // // not get it working with nz-select's nzNotFound templateRef Input. Might be able to do
     // // it using @ViewChild, as with the select option templates.
 
-    if (this.cvcEntityName.singular === 'Source') {
-      this.onSearchMessage$
-        .pipe(tag('entity-select onSearchMessage$'), untilDestroyed(this))
-        .subscribe((message) => {})
-    }
+    // if (this.cvcEntityName.singular === 'Source') {
+    //   this.onNotFoundMessageVM$
+    //     .pipe(tag('entity-select onNotFoundMessageVM$'), untilDestroyed(this))
+    //     .subscribe((message) => {})
+    // }
   } // ngAfterViewInit()
+
+  getSelectOpenDisplay(
+    entityName: string,
+    minSearchLength: number,
+    paramName: Maybe<string>
+  ): NotFoundDisplay {
+    let msgFn: CvcEntitySelectMessageFn = this.messageOptions.searchAll
+    let showSpinner = false
+    // if no min query length set, queue 'Loading...' msg
+    if (minSearchLength == 0) {
+      showSpinner = true
+      if (paramName === undefined) {
+        msgFn = this.messageOptions.searchAll
+      } else {
+        msgFn = this.messageOptions.searchParamAll
+      }
+    } else if (minSearchLength > 0) {
+      // else queue 'Enter search str...' msg
+      showSpinner = false
+      if (paramName === undefined) {
+        msgFn = this.messageOptions.searchEnterQueryAll
+      } else {
+        msgFn = this.messageOptions.searchEnterQuery
+      }
+    }
+    return {
+      message: msgFn(entityName, '', paramName),
+      showSpinner: showSpinner,
+      showAddForm: false,
+      searchStr: '',
+    }
+  }
 
   getSearchMessage(searchStr: string, paramName?: string): string {
     const plName = this.cvcEntityName.plural
