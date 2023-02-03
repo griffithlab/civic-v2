@@ -67,6 +67,7 @@ export interface EntitySelectFieldOptions<
   getSelectedItemOptionFn: GetSelectedItemFn<TAF>
   getSelectOptionsFn: GetSelectOptionsFn<TAF>
   changeDetectorRef: ChangeDetectorRef
+  minSearchStrLength?: number
   selectOpen$?: ReplaySubject<Maybe<boolean>>
 }
 
@@ -128,6 +129,7 @@ export function EntitySelectField<
       getTagQueryResults!: GetTagQueryResultsFn<TQ, TAF>
       getSelectedItemOption!: GetSelectedItemFn<TAF>
       getSelectOptions!: GetSelectOptionsFn<TAF>
+      minSearchStrLength!: number
       cdr!: ChangeDetectorRef // NOTE: would be great to remove this by eliminating subscriptions
 
       // LOCAL REFS
@@ -150,6 +152,7 @@ export function EntitySelectField<
         this.typeaheadParamName$ = options.typeaheadParamName$
         this.selectOpen$ =
           options.selectOpen$ || new ReplaySubject<Maybe<boolean>>()
+        this.minSearchStrLength = options.minSearchStrLength || 0
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
@@ -165,6 +168,14 @@ export function EntitySelectField<
 
         // set up typeahead watch & fetch calls
         this.response$ = this.onSearch$.pipe(
+          // filter search queries of insufficient length
+          filter((str: string) => {
+            if (this.minSearchStrLength === 0) {
+              return true
+            } else {
+              return str.length >= this.minSearchStrLength ? true : false
+            }
+          }),
           // get typeahead param value, or undefined if it doesn't exist
           withLatestFrom(
             this.typeaheadParam$ !== undefined

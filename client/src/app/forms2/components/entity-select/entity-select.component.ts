@@ -44,7 +44,8 @@ type NotFoundDisplay = {
 type CvcEntitySelectMessageFn = (
   entityName: string,
   searchStr: Maybe<string>,
-  paramName?: string
+  paramName?: string,
+  minSearchStrLength?: number
 ) => string
 
 export type CvcEntitySelectMessageOptions = {
@@ -68,10 +69,10 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
     `Searching ${paramName} ${entityName} matching "${query}"...`,
   searchParamAll: (entityName, _query, paramName) =>
     `Listing all ${paramName} ${entityName}...`,
-  searchEnterQuery: (entityName, query, paramName) =>
-    `Enter a query to search ${paramName} ${entityName}`,
-  searchEnterQueryAll: (entityName, _query, _paramName) =>
-    `Enter a query to search ${entityName}`,
+  searchEnterQuery: (entityName, query, paramName, minLength) =>
+    `Enter at least ${minLength} characters to search ${paramName} ${entityName}`,
+  searchEnterQueryAll: (entityName, _query, _paramName, minLength) =>
+    `Enter at least least ${minLength} characters to search ${entityName}`,
   empty: (entityName, query, _paramName) =>
     `No ${entityName} found matching "${query}"`,
   emptyAll: (entityName, _query, _paramName) => `No ${entityName} found.`,
@@ -152,11 +153,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     this.onOpenChange$ = new BehaviorSubject<boolean>(false)
     this.onLoading$ = new Subject<boolean>()
     this.onLoadingDebounce$ = this.onLoading$.pipe(debounceTime(250))
-    // this.onOption$.pipe(tag(`entity-select onOption$`)).subscribe()
-    // this.cvcOnOpenChange.pipe(tag('entity-select cvcOnOpenChange')).subscribe()
-    // this.cvcOnSearch.pipe(tag('entity-select cvcOnSearch$')).subscribe()
-    // this.onParamName$.pipe(tag('entity-select onParamName$')).subscribe()
-    // this.onOption$.pipe(tag('entity-select onOption$')).subscribe()
   }
 
   ngAfterViewInit(): void {
@@ -197,12 +193,16 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             message: '',
           }
 
-          // INITIALIZATIAL OPEN
-          if (isOpen && !searchStr && !options) {
+          // INITIAL LOADING / ENTER QUERY PROMPT
+          if (
+            isOpen &&
+            !options &&
+            (!searchStr || (searchStr && searchStr.length < minLength))
+          ) {
             return this.getSelectInitDisplay(entityName, minLength, paramName)
           }
 
-          // QUERY ENTERED, SEARCHING
+          // QUERY ENTERED, SEARCHING MESSAGE
           if (
             isOpen &&
             isLoading &&
@@ -218,7 +218,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           }
 
           //
-          // NOT FOUND
+          // NOT FOUND MESSAGE / ADD ENTITY FORM
           //
 
           if (
@@ -236,12 +236,12 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             )
           }
 
-          // this should not return
+          //
           return {
-            ...display,
+            searchStr: '',
             showSpinner: false,
             showAddForm: false,
-            message: 'UNHANDLED NOT FOUND DISPLAY CONDITION',
+            message: 'RESETTING SELECT DISPLAY',
           }
         }
       ),
@@ -274,7 +274,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       }
     }
     return {
-      message: msgFn(entityName, '', paramName),
+      message: msgFn(entityName, '', paramName, minLength),
       showSpinner: showSpinner,
       showAddForm: false,
       searchStr: '',

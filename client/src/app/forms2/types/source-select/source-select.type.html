@@ -16,7 +16,7 @@
   </nz-col>
   <nz-col nzSpan="21">
     <cvc-entity-select
-      [cvcMinSearchStrLength]="1"
+      [cvcMinSearchStrLength]="props.minSearchStrLength"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
       [cvcFormControl]="formControl"

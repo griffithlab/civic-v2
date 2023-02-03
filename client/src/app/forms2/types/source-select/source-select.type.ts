@@ -44,6 +44,7 @@ import mixin from 'ts-mixin-extended'
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
   isMultiSelect: boolean
+  minSearchStrLength: number
   placeholders: {
     default: string
     contextualFn: (sourceName: string) => string
@@ -96,10 +97,10 @@ export class CvcSourceSelectField
   // LOCAL SOURCE STREAMS
   // LOCAL INTERMEDIATE STREAMS
   sourceType$: BehaviorSubject<SourceSource>
+
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
   sourceTypeName$: BehaviorSubject<string>
-
   onModel$ = new Observable<any>()
 
   defaultSourceType: SourceSource = SourceSource.Pubmed
@@ -109,6 +110,7 @@ export class CvcSourceSelectField
     props: {
       entityName: { singular: 'Source', plural: 'Sources' },
       isMultiSelect: false,
+      minSearchStrLength: 2,
       tooltip:
         'PubMed, ASCO, or ASH Abstract Source(s) that support items, statements or descriptions.',
       placeholders: {
@@ -155,6 +157,7 @@ export class CvcSourceSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      minSearchStrLength: this.field.props.minSearchStrLength,
     })
 
     this.sourceType$
