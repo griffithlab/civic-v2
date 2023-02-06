@@ -1,3 +1,6 @@
+<ng-container *ngrxLet="formMessageDisplay$ as display">
+  {{ display | json }}
+</ng-container>
 <cvc-form-submission-status-display
   [mutationState]="this.mutationState"
   entityType="Source"

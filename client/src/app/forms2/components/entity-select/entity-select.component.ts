@@ -172,9 +172,9 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       this.onOption$.pipe(startWith(undefined)),
       this.onLoadingDebounce$.pipe(startWith(false)),
     ]).pipe(
-      tag(
-        `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
-      ),
+      // tag(
+      //   `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+      // ),
       map(
         ([isOpen, searchStr, paramName, options, isLoading]: [
           Maybe<boolean>,
@@ -238,8 +238,8 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             message: 'RESETTING SELECT DISPLAY',
           }
         }
-      ),
-      tag(`${this.cvcEntityName.plural} entity-select notFoundDisplay$ emit`)
+      )
+      // tag(`${this.cvcEntityName.plural} entity-select notFoundDisplay$ emit`)
     )
   } // ngAfterViewInit()
 

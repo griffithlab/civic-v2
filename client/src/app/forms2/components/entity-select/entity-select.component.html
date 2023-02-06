@@ -30,7 +30,9 @@
       *ngIf="display.showSpinner"
       nz-icon
       [nzType]="'loading'"></span>
-    {{ display.message }}
+    <ng-container *ngIf="!display.showAddForm">
+      {{ display.message }}
+    </ng-container>
     <ng-container
       *ngIf="display.showAddForm"
       [ngTemplateOutlet]="this.cvcAddEntity"

@@ -4,7 +4,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -25,12 +28,40 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 
 type SourceQuickAddModel = {
   citationId?: string
   sourceType?: SourceSource
+}
+
+// mirrors entity-select's NotFoundDisplay, with showAddForm removed
+type SourceQuickAddDisplay = {
+  message: string
+  searchStr: string
+  showSpinner: boolean
+}
+
+type CvcSourceQuickAddMessageFn = (
+  entityName: string,
+  searchStr: Maybe<string>,
+  paramName?: string
+) => string
+
+export type CvcCvcSourceQuickAddMessageOptions = {
+  empty: CvcSourceQuickAddMessageFn
+  searchCitation: CvcSourceQuickAddMessageFn
+  foundCitation: CvcSourceQuickAddMessageFn
+  noCitation: CvcSourceQuickAddMessageFn
+  sourceAdded: CvcSourceQuickAddMessageFn
 }
 
 @UntilDestroy()
@@ -40,17 +71,9 @@ type SourceQuickAddModel = {
   styleUrls: ['./source-quick-add.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SourceQuickAddForm implements AfterViewInit {
-  @Input()
-  set cvcSourceType(sourceType: SourceSource) {
-    if (!sourceType) return
-    this.model = { ...this.model, sourceType: sourceType }
-  }
-  @Input()
-  set cvcCitationId(citationId: string) {
-    if (!citationId) return
-    this.model = { ...this.model, citationId: citationId }
-  }
+export class SourceQuickAddForm implements OnInit, OnChanges {
+  @Input() cvcSourceType?: SourceSource
+  @Input() cvcCitationId?: string
 
   @Output() cvcOnCreate = new EventEmitter<SourceStub>()
 
@@ -63,8 +86,11 @@ export class SourceQuickAddForm implements AfterViewInit {
 
   // SOURCE STREAMS
   onSubmit$: Subject<SourceQuickAddModel>
-  citationId$: BehaviorSubject<Maybe<string>>
-  sourceType$: ReplaySubject<SourceSource>
+  citationId$: BehaviorSubject<string>
+  sourceType$: BehaviorSubject<SourceSource>
+
+  // PRESENTATION STREAMS
+  formMessageDisplay$!: Observable<SourceQuickAddDisplay>
 
   addSourceStubMutator: MutatorWithState<
     QuickAddSourceRemoteCitationGQL,
@@ -86,8 +112,8 @@ export class SourceQuickAddForm implements AfterViewInit {
     this.options = { formState: { formLayout: this.formLayout } }
 
     this.onSubmit$ = new Subject<SourceQuickAddModel>()
-    this.citationId$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.sourceType$ = new ReplaySubject<SourceSource>()
+    this.citationId$ = new BehaviorSubject<string>('')
+    this.sourceType$ = new BehaviorSubject<SourceSource>(SourceSource.Pubmed)
 
     this.addSourceStubMutator = new MutatorWithState(this.errors)
 
@@ -112,11 +138,27 @@ export class SourceQuickAddForm implements AfterViewInit {
       this.submitSourceStub()
     })
   }
-  ngAfterViewInit(): void {
-    console.log('view init')
+
+  ngOnInit(): void {
+    // DEBUG
     this.form.valueChanges
       .pipe(tag('source-quick-add form.valueChanges'))
       .subscribe()
+
+    // update form display messages
+    this.formMessageDisplay$ = combineLatest([
+      this.sourceType$,
+      this.citationId$,
+    ]).pipe(
+      tag('******** source-quick-add formMessageDisplay$'),
+      map(([sourceType, citationId]: [SourceSource, string]) => {
+        return {
+          message: `sourceType: ${sourceType}; citationId: ${citationId}`,
+          searchStr: citationId,
+          showSpinner: true,
+        }
+      })
+    )
   }
   submitSourceStub() {
     if (
@@ -147,6 +189,14 @@ export class SourceQuickAddForm implements AfterViewInit {
           }
         }
       )
+    }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cvcSourceType) {
+      this.sourceType$.next(changes.cvcSourceType.currentValue)
+    }
+    if (changes.cvcCitationId) {
+      this.citationId$.next(changes.cvcCitationId.currentValue)
     }
   }
 }
