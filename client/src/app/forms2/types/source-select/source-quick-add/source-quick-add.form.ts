@@ -19,6 +19,9 @@ import { NoStateFormOptions } from '@app/forms2/states/base.state'
 import {
   AddRemoteCitationInput,
   Maybe,
+  QuickAddSourceCheckCitationGQL,
+  QuickAddSourceCheckCitationQuery,
+  QuickAddSourceCheckCitationQueryVariables,
   QuickAddSourceRemoteCitationGQL,
   QuickAddSourceRemoteCitationMutation,
   QuickAddSourceRemoteCitationMutationVariables,
@@ -27,15 +30,18 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
+import { QueryRef } from 'apollo-angular'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import {
   BehaviorSubject,
   combineLatest,
+  distinctUntilChanged,
   map,
   Observable,
   ReplaySubject,
   Subject,
 } from 'rxjs'
+import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 
 type SourceQuickAddModel = {
@@ -51,17 +57,15 @@ type SourceQuickAddDisplay = {
 }
 
 type CvcSourceQuickAddMessageFn = (
-  entityName: string,
   searchStr: Maybe<string>,
   paramName?: string
 ) => string
 
-export type CvcCvcSourceQuickAddMessageOptions = {
+export type CvcSourceQuickAddMessageOptions = {
   empty: CvcSourceQuickAddMessageFn
   searchCitation: CvcSourceQuickAddMessageFn
   foundCitation: CvcSourceQuickAddMessageFn
   noCitation: CvcSourceQuickAddMessageFn
-  sourceAdded: CvcSourceQuickAddMessageFn
 }
 
 @UntilDestroy()
@@ -101,8 +105,27 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   mutationState?: MutationState
   successMessage?: string
 
+  messageOptions: CvcSourceQuickAddMessageOptions = {
+    empty: (query, paramName) =>
+      `No ${paramName} Source with a citation ID of "${query}"`,
+    searchCitation: (query, paramName) =>
+      `Searching ${paramName} for a citation ID of "${query}"`,
+    foundCitation: (query, paramName) =>
+      `Found ${paramName} Source with a citation ID of "${query}"`,
+    noCitation: (query, paramName) =>
+      `No ${paramName} Source with a citation ID of "${query}" was found`,
+  }
+
+  queryRef!: QueryRef<
+    QuickAddSourceCheckCitationQuery,
+    QuickAddSourceCheckCitationQueryVariables
+  >
+
+  checkIsLoading$!: Observable<boolean>
+
   constructor(
-    private query: QuickAddSourceRemoteCitationGQL,
+    private checkCitation: QuickAddSourceCheckCitationGQL,
+    private addRemoteCitation: QuickAddSourceRemoteCitationGQL,
     private errors: NetworkErrorsService
   ) {
     // configure form
@@ -140,25 +163,69 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // DEBUG
-    this.form.valueChanges
-      .pipe(tag('source-quick-add form.valueChanges'))
-      .subscribe()
+    // call GQL watch, save queryRef
+    if (
+      this.model.citationId !== undefined &&
+      this.model.sourceType !== undefined
+    ) {
+      this.queryRef = this.checkCitation.watch({
+        citationId: this.model.citationId,
+        sourceType: this.model.sourceType,
+      })
+      this.checkIsLoading$ = this.queryRef.valueChanges.pipe(
+        untilDestroyed(this),
+        pluck('loading'),
+        distinctUntilChanged()
+      )
+    } else {
+      console.error('source-quick-add provided invalid initial model')
+      return
+    }
 
-    // update form display messages
     this.formMessageDisplay$ = combineLatest([
-      this.sourceType$,
-      this.citationId$,
+      this.form.valueChanges,
+      this.checkIsLoading$,
     ]).pipe(
-      tag('******** source-quick-add formMessageDisplay$'),
-      map(([sourceType, citationId]: [SourceSource, string]) => {
+      // tag('******** source-quick-add formMessageDisplay$'),
+      map(([model, loading]: [SourceQuickAddModel, boolean]) => {
+        console.log('model: ', this.model)
         return {
-          message: `sourceType: ${sourceType}; citationId: ${citationId}`,
-          searchStr: citationId,
-          showSpinner: true,
+          message: `sourceType: ${model.sourceType}; citationId: ${model.citationId}`,
+          searchStr: model.citationId || '',
+          showSpinner: loading,
         }
       })
     )
+    // this.form.valueChanges
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe((model: SourceQuickAddModel) => {})
+
+    // this.formMessageDisplay$ = this.form.valueChanges.pipe(
+    //   tag('source-quick-add form.valueChanges'),
+    //   map((model: SourceQuickAddModel) => {
+    //     console.log('model: ', this.model)
+    //     return {
+    //       message: `sourceType: ${model.sourceType}; citationId: ${model.citationId}`,
+    //       searchStr: model.citationId || '',
+    //       showSpinner: true,
+    //     }
+    //   })
+    // )
+    // update form display messages
+    // this.formMessageDisplay$ = combineLatest([
+    //   this.sourceType$,
+    //   this.citationId$,
+    // ]).pipe(
+    //   tag('******** source-quick-add formMessageDisplay$'),
+    //   map(([sourceType, citationId]: [SourceSource, string]) => {
+    //     console.log('model: ', this.model)
+    //     return {
+    //       message: `sourceType: ${sourceType}; citationId: ${citationId}`,
+    //       searchStr: citationId,
+    //       showSpinner: true,
+    //     }
+    //   })
+    // )
   }
   submitSourceStub() {
     if (
@@ -166,7 +233,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
       this.model.sourceType !== undefined
     ) {
       this.mutationState = this.addSourceStubMutator.mutate(
-        this.query,
+        this.addRemoteCitation,
         {
           input: {
             citationId: this.model.citationId,
@@ -193,10 +260,14 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcSourceType) {
-      this.sourceType$.next(changes.cvcSourceType.currentValue)
+      const st = changes.cvcSourceType.currentValue
+      this.sourceType$.next(st)
+      this.model = { ...this.model, sourceType: st }
     }
     if (changes.cvcCitationId) {
-      this.citationId$.next(changes.cvcCitationId.currentValue)
+      const id = changes.cvcCitationId.currentValue
+      this.citationId$.next(id)
+      this.model = { ...this.model, citationId: id }
     }
   }
 }
