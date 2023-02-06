@@ -39,6 +39,7 @@ import {
   map,
   Observable,
   ReplaySubject,
+  startWith,
   Subject,
 } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
@@ -52,13 +53,13 @@ type SourceQuickAddModel = {
 // mirrors entity-select's NotFoundDisplay, with showAddForm removed
 type SourceQuickAddDisplay = {
   message: string
-  searchStr: string
   showSpinner: boolean
 }
 
 type CvcSourceQuickAddMessageFn = (
   searchStr: Maybe<string>,
-  paramName?: string
+  paramName?: string,
+  citation?: string
 ) => string
 
 export type CvcSourceQuickAddMessageOptions = {
@@ -110,8 +111,8 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
       `No ${paramName} Source with a citation ID of "${query}"`,
     searchCitation: (query, paramName) =>
       `Searching ${paramName} for a citation ID of "${query}"`,
-    foundCitation: (query, paramName) =>
-      `Found ${paramName} Source with a citation ID of "${query}"`,
+    foundCitation: (query, paramName, citation) =>
+      `Found ${paramName} citation "${citation}" with ID ${query}`,
     noCitation: (query, paramName) =>
       `No ${paramName} Source with a citation ID of "${query}" was found`,
   }
@@ -122,7 +123,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   >
 
   checkIsLoading$!: Observable<boolean>
-
+  sourceCitation$!: Observable<Maybe<string | boolean>>
   constructor(
     private checkCitation: QuickAddSourceCheckCitationGQL,
     private addRemoteCitation: QuickAddSourceRemoteCitationGQL,
@@ -177,24 +178,78 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
         pluck('loading'),
         distinctUntilChanged()
       )
+
+      this.sourceCitation$ = this.queryRef.valueChanges.pipe(
+        pluck('data', 'remoteCitation'),
+        map((citation: Maybe<string | boolean>) => {
+          return citation ? citation : false
+        })
+      )
     } else {
       console.error('source-quick-add provided invalid initial model')
       return
     }
-
+    // FIXME: combine sourceCitation and checkIsLoading into single observable so that messageDisplay isn't called multiple times during loading
     this.formMessageDisplay$ = combineLatest([
       this.form.valueChanges,
-      this.checkIsLoading$,
+      this.checkIsLoading$.pipe(startWith(false)),
+      this.sourceCitation$.pipe(startWith(undefined)),
     ]).pipe(
-      // tag('******** source-quick-add formMessageDisplay$'),
-      map(([model, loading]: [SourceQuickAddModel, boolean]) => {
-        console.log('model: ', this.model)
-        return {
-          message: `sourceType: ${model.sourceType}; citationId: ${model.citationId}`,
-          searchStr: model.citationId || '',
-          showSpinner: loading,
+      tag('******** source-quick-add formMessageDisplay$'),
+      map(
+        ([model, loading, citation]: [
+          SourceQuickAddModel,
+          boolean,
+          Maybe<string | boolean>
+        ]) => {
+          console.log('model: ', this.model)
+          // initial
+          if (model && !loading && citation === undefined) {
+            return {
+              message: this.messageOptions.searchCitation(
+                model.citationId,
+                model.sourceType
+              ),
+              showSpinner: true,
+            }
+          }
+          // citation search
+          if (model && loading) {
+            return {
+              message: this.messageOptions.searchCitation(
+                model.citationId,
+                model.sourceType
+              ),
+              showSpinner: true,
+            }
+          }
+          // citation found
+          if (model && !loading && typeof citation === 'string') {
+            return {
+              message: this.messageOptions.foundCitation(
+                model.citationId,
+                model.sourceType,
+                citation
+              ),
+              showSpinner: false,
+            }
+          }
+          // citation not found
+          if (model && !loading && citation === false) {
+            return {
+              message: this.messageOptions.noCitation(
+                model.citationId,
+                model.sourceType
+              ),
+              showSpinner: false,
+            }
+          }
+          return {
+            message: 'UNHANDLED MESSAGE STATE',
+            showSpinner: false,
+          }
         }
-      })
+      )
     )
     // this.form.valueChanges
     //   .pipe(untilDestroyed(this))

@@ -1,5 +1,10 @@
 <ng-container *ngrxLet="formMessageDisplay$ as display">
-  {{ display | json }}
+  <span
+    *ngIf="display.showSpinner"
+    nz-icon
+    [nzType]="'loading'"></span
+  >&nbsp;
+  <span>{{ display.message }}</span>
 </ng-container>
 <cvc-form-submission-status-display
   [mutationState]="this.mutationState"
