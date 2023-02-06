@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -10,6 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
+import { ApolloQueryResult } from '@apollo/client/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
   MutationState,
@@ -17,7 +17,6 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NoStateFormOptions } from '@app/forms2/states/base.state'
 import {
-  AddRemoteCitationInput,
   Maybe,
   QuickAddSourceCheckCitationGQL,
   QuickAddSourceCheckCitationQuery,
@@ -32,17 +31,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { QueryRef } from 'apollo-angular'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  Observable,
-  ReplaySubject,
-  startWith,
-  Subject,
-} from 'rxjs'
-import { pluck } from 'rxjs-etc/operators'
+import { BehaviorSubject, map, Observable, startWith, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 
 type SourceQuickAddModel = {
@@ -67,6 +56,12 @@ export type CvcSourceQuickAddMessageOptions = {
   searchCitation: CvcSourceQuickAddMessageFn
   foundCitation: CvcSourceQuickAddMessageFn
   noCitation: CvcSourceQuickAddMessageFn
+}
+
+type CitationCheckResult = {
+  loading: Maybe<boolean>
+  citation: Maybe<string> | null
+  model: SourceQuickAddModel
 }
 
 @UntilDestroy()
@@ -123,7 +118,8 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   >
 
   checkIsLoading$!: Observable<boolean>
-  sourceCitation$!: Observable<Maybe<string | boolean>>
+  sourceCitation$!: Observable<string | boolean>
+  checkResult$!: Observable<CitationCheckResult>
   constructor(
     private checkCitation: QuickAddSourceCheckCitationGQL,
     private addRemoteCitation: QuickAddSourceRemoteCitationGQL,
@@ -173,114 +169,81 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
         citationId: this.model.citationId,
         sourceType: this.model.sourceType,
       })
-      this.checkIsLoading$ = this.queryRef.valueChanges.pipe(
-        untilDestroyed(this),
-        pluck('loading'),
-        distinctUntilChanged()
-      )
 
-      this.sourceCitation$ = this.queryRef.valueChanges.pipe(
-        pluck('data', 'remoteCitation'),
-        map((citation: Maybe<string | boolean>) => {
-          return citation ? citation : false
+      this.checkResult$ = this.queryRef.valueChanges.pipe(
+        map((result: ApolloQueryResult<QuickAddSourceCheckCitationQuery>) => {
+          return {
+            loading: result.loading,
+            citation: result.data ? result.data.remoteCitation : null,
+            model: this.model,
+          }
         })
       )
+
+      this.citationId$.pipe(untilDestroyed(this)).subscribe((id: string) => {
+        if (this.model.sourceType) {
+          this.queryRef.refetch({
+            citationId: id,
+            sourceType: this.model.sourceType,
+          })
+        }
+      })
     } else {
       console.error('source-quick-add provided invalid initial model')
       return
     }
-    // FIXME: combine sourceCitation and checkIsLoading into single observable so that messageDisplay isn't called multiple times during loading
-    this.formMessageDisplay$ = combineLatest([
-      this.form.valueChanges,
-      this.checkIsLoading$.pipe(startWith(false)),
-      this.sourceCitation$.pipe(startWith(undefined)),
-    ]).pipe(
+
+    this.formMessageDisplay$ = this.checkResult$.pipe(
       tag('******** source-quick-add formMessageDisplay$'),
-      map(
-        ([model, loading, citation]: [
-          SourceQuickAddModel,
-          boolean,
-          Maybe<string | boolean>
-        ]) => {
-          console.log('model: ', this.model)
-          // initial
-          if (model && !loading && citation === undefined) {
-            return {
-              message: this.messageOptions.searchCitation(
-                model.citationId,
-                model.sourceType
-              ),
-              showSpinner: true,
-            }
-          }
-          // citation search
-          if (model && loading) {
-            return {
-              message: this.messageOptions.searchCitation(
-                model.citationId,
-                model.sourceType
-              ),
-              showSpinner: true,
-            }
-          }
-          // citation found
-          if (model && !loading && typeof citation === 'string') {
-            return {
-              message: this.messageOptions.foundCitation(
-                model.citationId,
-                model.sourceType,
-                citation
-              ),
-              showSpinner: false,
-            }
-          }
-          // citation not found
-          if (model && !loading && citation === false) {
-            return {
-              message: this.messageOptions.noCitation(
-                model.citationId,
-                model.sourceType
-              ),
-              showSpinner: false,
-            }
-          }
+      map((result: CitationCheckResult) => {
+        const loading = result.loading
+        const citation = result.citation
+        const model = result.model
+
+        // citation search
+        if (loading) {
           return {
-            message: 'UNHANDLED MESSAGE STATE',
+            message: this.messageOptions.searchCitation(
+              model.citationId,
+              model.sourceType
+            ),
+            showSpinner: true,
+          }
+        }
+        // citation found
+        if (!loading && citation !== null) {
+          return {
+            message: this.messageOptions.foundCitation(
+              model.citationId,
+              model.sourceType,
+              citation
+            ),
             showSpinner: false,
           }
         }
-      )
+        // citation not found
+        if (!loading && citation === null) {
+          return {
+            message: this.messageOptions.noCitation(
+              model.citationId,
+              model.sourceType
+            ),
+            showSpinner: false,
+          }
+        }
+        return {
+          message: 'UNHANDLED MESSAGE STATE',
+          showSpinner: false,
+        }
+      }),
+      startWith({
+        message: this.messageOptions.searchCitation(
+          this.model.citationId,
+          this.model.sourceType
+        ),
+        showSpinner: true,
+      })
     )
-    // this.form.valueChanges
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe((model: SourceQuickAddModel) => {})
-
-    // this.formMessageDisplay$ = this.form.valueChanges.pipe(
-    //   tag('source-quick-add form.valueChanges'),
-    //   map((model: SourceQuickAddModel) => {
-    //     console.log('model: ', this.model)
-    //     return {
-    //       message: `sourceType: ${model.sourceType}; citationId: ${model.citationId}`,
-    //       searchStr: model.citationId || '',
-    //       showSpinner: true,
-    //     }
-    //   })
-    // )
-    // update form display messages
-    // this.formMessageDisplay$ = combineLatest([
-    //   this.sourceType$,
-    //   this.citationId$,
-    // ]).pipe(
-    //   tag('******** source-quick-add formMessageDisplay$'),
-    //   map(([sourceType, citationId]: [SourceSource, string]) => {
-    //     console.log('model: ', this.model)
-    //     return {
-    //       message: `sourceType: ${sourceType}; citationId: ${citationId}`,
-    //       searchStr: citationId,
-    //       showSpinner: true,
-    //     }
-    //   })
-    // )
   }
   submitSourceStub() {
     if (

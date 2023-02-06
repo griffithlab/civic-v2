@@ -28,9 +28,10 @@
       </nz-col>
       <nz-col nzSpan="24">
         <button
+          *ngrxLet="checkResult$ as result"
           nz-button
           nzType="primary"
-          [disabled]="!form.valid"
+          [disabled]="result.citation === null"
           nzBlock>
           Add Source
         </button>
