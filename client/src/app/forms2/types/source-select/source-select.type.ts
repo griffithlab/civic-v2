@@ -160,23 +160,17 @@ export class CvcSourceSelectField
       minSearchStrLength: this.field.props.minSearchStrLength,
     })
 
-    this.sourceType$
-      .pipe(withLatestFrom(this.onSearch$), untilDestroyed(this))
-      .subscribe(([src, str]: [SourceSource, string]) => {
-        this.onSearch$.next(str)
-        const srcName = formatSourceTypeEnum(src)
-        this.sourceTypeName$.next(srcName)
-        this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
-      })
-
+    // update sourceTypeName, placeholder, reset field when new sourceType selected
     this.sourceType$
       .pipe(untilDestroyed(this))
       .subscribe((src: SourceSource) => {
-        this.placeholder$.next(
-          this.props.placeholders.contextualFn(formatSourceTypeEnum(src))
-        )
+        const srcName = formatSourceTypeEnum(src)
+        this.sourceTypeName$.next(srcName)
+        this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
+        this.resetField()
       })
 
+    // update model provided to quick-add form when either sourceType or citationId changes
     this.onModel$ = combineLatest([this.sourceType$, this.onSearch$]).pipe(
       map(([sourceType, citationId]: [SourceSource, string]) => {
         return { citationId: citationId, sourceType: sourceType }

@@ -186,12 +186,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           const entityName = this.cvcEntityName.plural
           const minLength = this.cvcMinSearchStrLength
           const hasAddForm = this.cvcAddEntity !== null ? true : false
-          let display = {
-            showSpinner: false,
-            showAddForm: false,
-            searchStr: '',
-            message: '',
-          }
 
           // INITIAL LOADING / ENTER QUERY PROMPT
           if (
