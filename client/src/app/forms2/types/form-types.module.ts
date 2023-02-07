@@ -18,6 +18,7 @@ import { CvcTextareaFieldModule } from './textarea/textarea.module'
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
+import { CvcMolecularProfileBuilderModule } from './molecular-profile-builder/molecular-profile-builder.module'
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { CvcMolecularProfileSelectModule } from './molecular-profile-select/mole
     CvcTextareaFieldModule,
     CvcBaseInputFieldModule,
     CvcPhenotypeSelectModule,
+    CvcMolecularProfileBuilderModule,
     CvcMolecularProfileSelectModule,
   ],
 })

@@ -22,5 +22,6 @@ fragment VariantSelectTypeaheadFields on Variant {
     id
     name
     link
+    molecularProfileAliases
   }
 }
