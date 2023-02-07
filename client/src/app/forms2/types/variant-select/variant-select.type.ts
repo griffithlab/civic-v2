@@ -16,6 +16,8 @@ import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-fiel
 import {
   LinkableGeneGQL,
   Maybe,
+  MolecularProfile,
+  Variant,
   VariantSelectTagGQL,
   VariantSelectTagQuery,
   VariantSelectTagQueryVariables,
@@ -30,6 +32,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
+import { Apollo, gql } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, lastValueFrom } from 'rxjs'
 import mixin from 'ts-mixin-extended'
@@ -46,6 +49,7 @@ export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
   requireGene: boolean // if true, disables field if no geneId, and adjust placeholders, prompts
   requireGenePlaceholderFn: (geneName: string) => string // returns placeholder that includes gene name
   requireGenePrompt: string // prompt displayed if gene unspecified
+  emitMolecularProfileId: boolean
   extraType?: CvcFormFieldExtraType
 }
 
@@ -96,6 +100,7 @@ export class CvcVariantSelectField
       },
       requireGenePrompt: 'Select a Gene to search its Variants',
       isMultiSelect: false,
+      emitMolecularProfileId: false,
       entityName: { singular: 'Variant', plural: 'Variants' },
     },
   }
@@ -107,7 +112,8 @@ export class CvcVariantSelectField
     private taq: VariantSelectTypeaheadGQL,
     private tq: VariantSelectTagGQL,
     private geneQuery: LinkableGeneGQL,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private apollo: Apollo
   ) {
     super()
     this.onGeneName$ = new BehaviorSubject<Maybe<string>>(undefined)
@@ -150,6 +156,53 @@ export class CvcVariantSelectField
       this.onGeneId$.pipe(untilDestroyed(this)).subscribe((gid) => {
         this.onGeneId(gid)
       })
+    }
+    if (this.props.emitMolecularProfileId) {
+      if (!this.state?.fields.variantMolecularProfile$) {
+        console.error(
+          `${this.field.id} emitMolecularProfileId is set, but no emitMolecularProfileId$ subject found on state.`
+        )
+        return
+      }
+      if (this.field.props.isMultiSelect) {
+        console.error(
+          `${this.field.id} emitMolecularProfileId is set, however feature is only applicable to non-multi-select fields.`
+        )
+        return
+      }
+      this.onValueChange$
+        .pipe(untilDestroyed(this))
+        .subscribe((value: Maybe<number | number[]>) => {
+          if (!value || Array.isArray(value)) return
+          const fragment = {
+            id: `Variant:${value}`,
+            fragment: gql`
+              fragment VariantSelectQuery on Variant {
+                id
+                name
+                link
+                variantAliases
+                singleVariantMolecularProfileId
+                singleVariantMolecularProfile {
+                  id
+                  name
+                  link
+                  molecularProfileAliases
+                }
+              }
+            `,
+          }
+          const variant = this.apollo.client.readFragment(fragment) as Variant
+          if (!variant) {
+            console.error(
+              `${this.field.id} could not resolve its Variant from the cache to obtain its singleVariantMolecularProfile`
+            )
+          } else {
+            this.state!.fields.variantMolecularProfile$.next(
+              variant.singleVariantMolecularProfile
+            )
+          }
+        })
     }
   }
 

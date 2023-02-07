@@ -261,6 +261,7 @@ export function EntitySelectField<
               ]) => {
                 const options = this.getSelectOptions(results, tplRefs)
                 this.selectOption$.next(options)
+                // FIXME: remove all onHighlightString$, no longer used.
                 this.onHighlightString$.next(searchStr)
                 this.cdr.detectChanges()
               }

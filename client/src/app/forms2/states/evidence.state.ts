@@ -6,6 +6,7 @@ import {
   EvidenceType,
   Maybe,
   VariantOrigin,
+  MolecularProfile,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { BehaviorSubject } from 'rxjs'
@@ -18,6 +19,7 @@ export type EvidenceFields = {
   molecularProfileId$: BehaviorSubject<Maybe<number>>
   geneId$: BehaviorSubject<Maybe<number>>
   variantId$: BehaviorSubject<Maybe<number>>
+  variantMolecularProfile$: BehaviorSubject<Maybe<MolecularProfile>>
   variantOrigin$: BehaviorSubject<Maybe<VariantOrigin>>
   evidenceType$: BehaviorSubject<Maybe<EvidenceType>>
   evidenceLevel$: BehaviorSubject<Maybe<EvidenceLevel>>
@@ -63,6 +65,9 @@ class EvidenceState extends BaseState {
         def.molecularProfileId
       ),
       variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
+      variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
+        undefined
+      ),
       geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
       evidenceType$: new BehaviorSubject<Maybe<EvidenceType>>(def.evidenceType),
       evidenceLevel$: new BehaviorSubject<Maybe<EvidenceLevel>>(

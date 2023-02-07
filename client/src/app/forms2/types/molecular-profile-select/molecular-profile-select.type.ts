@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
   QueryList,
   TemplateRef,
   Type,
@@ -16,6 +17,7 @@ import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-fiel
 import {
   LinkableGeneGQL,
   Maybe,
+  MolecularProfile,
   MolecularProfileSelectTagGQL,
   MolecularProfileSelectTagQuery,
   MolecularProfileSelectTagQueryVariables,
@@ -30,8 +32,10 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
+import { Apollo, gql } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, lastValueFrom } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcMolecularProfileSelectFieldOptions = Partial<
@@ -47,6 +51,7 @@ export interface CvcMolecularProfileSelectFieldProps extends FormlyFieldProps {
   // requireGenePlaceholderFn: (geneName: string) => string // returns placeholder that includes gene name
   // requireGenePrompt: string // prompt displayed if gene unspecified
   extraType?: CvcFormFieldExtraType
+  watchVariantMolecularProfileId: boolean
 }
 
 export interface CvcMolecularProfileSelectFieldConfig
@@ -80,14 +85,8 @@ const MolecularProfileSelectMixin = mixin(
 })
 export class CvcMolecularProfileSelectField
   extends MolecularProfileSelectMixin
-  implements AfterViewInit
+  implements AfterViewInit, OnInit
 {
-  // STATE SOURCE STREAMS
-  // onGeneId$!: BehaviorSubject<Maybe<number>>
-
-  // LOCAL SOURCE STREAMS
-  // onGeneName$: BehaviorSubject<Maybe<string>>
-
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
 
@@ -96,15 +95,24 @@ export class CvcMolecularProfileSelectField
     props: {
       label: 'Molecular Profile',
       placeholder: 'Search Molecular Profiles',
-      // requireGene: true,
-      // requireGenePlaceholderFn: (geneName: string) => {
-      //   return `Search ${geneName} Molecular Profiles`
-      // },
-      // requireGenePrompt: 'Select a Gene to search its MolecularProfiles',
       isMultiSelect: false,
       entityName: {
         singular: 'Molecular Profile',
         plural: 'Molecular Profiles',
+      },
+      watchVariantMolecularProfileId: false,
+    },
+    expressions: {
+      hide: (field) => {
+        console.log('mp expression.hide: ', field)
+        if (
+          field.props?.watchVariantMolecularProfileId &&
+          field.model?.variantId
+        ) {
+          return false
+        } else {
+          return true
+        }
       },
     },
   }
@@ -115,14 +123,17 @@ export class CvcMolecularProfileSelectField
   constructor(
     private taq: MolecularProfileSelectTypeaheadGQL,
     private tq: MolecularProfileSelectTagGQL,
-    private geneQuery: LinkableGeneGQL,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private apollo: Apollo
   ) {
     super()
-    // this.onGeneName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.placeholder$ = new BehaviorSubject<string>(
       this.defaultOptions.props!.placeholder
     )
+  }
+
+  ngOnInit(): void {
+    console.log('mp-select OnInit', this.field)
   }
 
   ngAfterViewInit(): void {
@@ -130,8 +141,6 @@ export class CvcMolecularProfileSelectField
     this.configureStateConnections() // local fn
     this.configureEntitySelectField({
       typeaheadQuery: this.taq,
-      // typeaheadParam$: this.onGeneId$ ? this.onGeneId$ : undefined,
-      // typeaheadParamName$: this.onGeneName$ ? this.onGeneName$ : undefined,
       tagQuery: this.tq,
       getTypeaheadVarsFn: this.getTypeaheadVarsFn,
       getTypeaheadResultsFn: this.getTypeaheadResultsFn,
@@ -143,22 +152,26 @@ export class CvcMolecularProfileSelectField
     })
 
     this.placeholder$.next(this.props.placeholder)
+    this.onValueChange$.pipe(tag(`${this.field.id} onValueChange$`)).subscribe()
   } // ngAfterViewInit
 
   private configureStateConnections() {
     if (!this.state) return
-    // attach state geneId$ to get gene field value updates
-    if (this.props.requireGene) {
-      if (!this.state?.fields.geneId$) {
+    // subscribe to variant molecular profile id updates if requested
+    if (this.props.watchVariantMolecularProfileId) {
+      if (!this.state.fields.variantMolecularProfile$) {
         console.error(
-          `${this.field.id} requireGene is set, but no geneId$ subject found on state.`
+          `${this.field.id} watchVariantMolecularProfile is set, but no variantMolecularProfile$ subject found on state.`
         )
         return
       }
-      // this.onGeneId$ = this.state.fields.geneId$
-      // this.onGeneId$.pipe(untilDestroyed(this)).subscribe((gid) => {
-      //   this.onGeneId(gid)
-      // })
+      this.state.fields.variantMolecularProfile$
+        .pipe(untilDestroyed(this))
+        .subscribe((mp: MolecularProfile) => {
+          if (!mp) return
+          this.field.formControl.setValue(mp.id)
+          this.result$.next([mp])
+        })
     }
   }
 
@@ -207,42 +220,4 @@ export class CvcMolecularProfileSelectField
       }
     )
   }
-
-  // private onGeneId(gid: Maybe<number>): void {
-  //   // if field config indicates that a geneId is required, and none is provided,
-  //   // set model to undefined (this resets the variant model if gene field is reset)
-  //   // and set placeholder to the 'requires gene' placeholder
-  //   if (!gid && this.props.requireGene) {
-  //     this.resetField()
-  //     this.props.description = this.props.requireGenePrompt
-  //     this.props.extraType = 'prompt'
-  //     this.onGeneName$.next(undefined)
-  //     this.placeholder$.next(this.props.placeholder)
-  //   } else if (gid) {
-  //     this.props.description = undefined
-  //     this.props.extraType = undefined
-  //     // id provided, so fetch its name and update the placeholder string.
-  //     // lastValueFrom is used b/c fetch could return 'loading' events
-  //     lastValueFrom(
-  //       this.geneQuery.fetch({ geneId: gid }, { fetchPolicy: 'cache-first' })
-  //     ).then(({ data }) => {
-  //       if (!data?.gene?.name) {
-  //         console.error(
-  //           `${this.field.id} could not fetch gene name for Gene:${gid}.`
-  //         )
-  //       } else {
-  //         // update placeholder
-  //         if (this.props.requireGene) {
-  //           this.placeholder$.next(
-  //             this.props.requireGenePlaceholderFn(data.gene.name)
-  //           )
-  //         } else {
-  //           this.placeholder$.next(this.props.placeholder)
-  //         }
-  //         // emit gene name for quick-add form Input
-  //         this.onGeneName$.next(data.gene.name)
-  //       }
-  //     })
-  //   }
-  // }
 }

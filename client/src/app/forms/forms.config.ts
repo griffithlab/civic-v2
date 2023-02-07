@@ -6,7 +6,7 @@ import {
 } from './config/validators/default.validators'
 
 export const CvcFormlyConfig: ConfigOption = {
-  extras: { immutable: true },
+  extras: { immutable: true, lazyRender: true },
   validationMessages: defaultMessages,
   validators: defaultValidators,
   extensions: [HasFocusExtension],

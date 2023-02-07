@@ -26,7 +26,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Evidence Item',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -44,13 +44,17 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Evidence Item',
         },
         fieldGroup: [
-          <CvcMolecularProfileSelectFieldConfig>{
+          {
             key: 'molecularProfileId',
-            type: 'molecular-profile-select',
-            props: {
-              required: true,
-            },
+            type: 'molecular-profile-builder',
           },
+          // <CvcMolecularProfileSelectFieldConfig>{
+          //   key: 'molecularProfileId',
+          //   type: 'molecular-profile-select',
+          //   props: {
+          //     required: true,
+          //   },
+          // },
           <CvcSourceSelectFieldOptions>{
             key: 'sourceId',
             type: 'source-select',
