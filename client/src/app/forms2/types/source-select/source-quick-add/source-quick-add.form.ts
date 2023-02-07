@@ -225,7 +225,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
           return {
             message: this.messageOptions.foundCitation(
               model.citationId,
-              model.sourceType,
+              formatSourceTypeEnum(model.sourceType!),
               citation
             ),
             showSpinner: false,
@@ -313,9 +313,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
                 query
               )
             }
-            // this.apollo.client.writeQuery(query)
             setTimeout(() => {
-              console.log('cvcOnCreate')
               const fragment = {
                 id: `Source:${source.id}`,
                 fragment: gql`
@@ -332,7 +330,6 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
               if (newSource !== null) {
                 this.cvcOnCreate.next(newSource)
               }
-              // this.cvcOnCreate.next(data.addRemoteCitation.newSource)
             }, 1000)
           }
         }

@@ -31,6 +31,7 @@
       [cvcLoading]="isLoading$ | ngrxPush"
       [cvcAddEntity]="addSource"
       [cvcAddEntityModel]="onModel$ | ngrxPush"
+      [cvcSelectOpen]="selectOpen$ | ngrxPush"
       (cvcOnSearch)="onSearch$.next($event)"
       (cvcOnModelChange)="props.change && props.change(field, $event)">
     </cvc-entity-select>
