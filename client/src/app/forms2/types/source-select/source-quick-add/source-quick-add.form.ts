@@ -204,7 +204,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
     }
 
     this.formMessageDisplay$ = this.checkResult$.pipe(
-      tag('******** source-quick-add formMessageDisplay$'),
+      // tag('******** source-quick-add formMessageDisplay$'),
       map((result: CitationCheckResult) => {
         const loading = result.loading
         const citation = result.citation
@@ -272,7 +272,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
         (data) => {
           console.log('source-quick-add submit data callback', data)
           if (data.addRemoteCitation) {
-            this.successMessage = `New Source ${data.addRemoteCitation.newSource} added.`
+            this.successMessage = `New Source "${this.citationString}" added.`
             const source = data.addRemoteCitation.newSource
             const sourceType = formatSourceTypeEnum(this.model.sourceType!)
             const citation = this.citationString

@@ -103,6 +103,12 @@ export class CvcSourceSelectField
   sourceTypeName$: BehaviorSubject<string>
   onModel$ = new Observable<any>()
 
+  formLayout$!: Observable<{
+    sourceType: number
+    prefix: boolean
+    select: number
+  }>
+
   defaultSourceType: SourceSource = SourceSource.Pubmed
 
   // FieldTypeConfig defaults
@@ -159,6 +165,17 @@ export class CvcSourceSelectField
       changeDetectorRef: this.changeDetectorRef,
       minSearchStrLength: this.field.props.minSearchStrLength,
     })
+
+    this.formLayout$ = this.onValueChange$.pipe(
+      tag('source-select onValueChange$'),
+      map((value: Maybe<number | number[]>) => {
+        return {
+          sourceType: 4,
+          prefix: value ? true : false,
+          select: value ? 20 : 18,
+        }
+      })
+    )
 
     // update sourceTypeName, placeholder, reset field when new sourceType selected
     this.sourceType$
