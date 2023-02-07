@@ -83,7 +83,8 @@
   let-model="model">
   <cvc-source-quick-add
     [cvcCitationId]="model.citationId"
-    [cvcSourceType]="model.sourceType"></cvc-source-quick-add>
+    [cvcSourceType]="model.sourceType"
+    (cvcOnCreate)="onCreate$.next($event)"></cvc-source-quick-add>
 </ng-template>
 
 <!-- add source button -->

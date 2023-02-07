@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -11,6 +12,7 @@ import {
 import { UntypedFormGroup } from '@angular/forms'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum'
 import {
   MutationState,
   MutatorWithState,
@@ -24,14 +26,16 @@ import {
   QuickAddSourceRemoteCitationGQL,
   QuickAddSourceRemoteCitationMutation,
   QuickAddSourceRemoteCitationMutationVariables,
+  Source,
+  SourceSelectTypeaheadFieldsFragmentDoc,
   SourceSource,
   SourceStub,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { QueryRef } from 'apollo-angular'
+import { Apollo, gql, QueryRef } from 'apollo-angular'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { BehaviorSubject, map, Observable, startWith, Subject } from 'rxjs'
+import { BehaviorSubject, map, Observable, startWith, Subject, tap } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 
 type SourceQuickAddModel = {
@@ -75,7 +79,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   @Input() cvcSourceType?: SourceSource
   @Input() cvcCitationId?: string
 
-  @Output() cvcOnCreate = new EventEmitter<SourceStub>()
+  @Output() cvcOnCreate = new EventEmitter<Source>()
 
   model: SourceQuickAddModel
 
@@ -120,10 +124,13 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   checkIsLoading$!: Observable<boolean>
   sourceCitation$!: Observable<string | boolean>
   checkResult$!: Observable<CitationCheckResult>
+  citationString?: string
   constructor(
     private checkCitation: QuickAddSourceCheckCitationGQL,
     private addRemoteCitation: QuickAddSourceRemoteCitationGQL,
-    private errors: NetworkErrorsService
+    private errors: NetworkErrorsService,
+    private apollo: Apollo,
+    private cdr: ChangeDetectorRef
   ) {
     // configure form
     this.form = new UntypedFormGroup({})
@@ -177,6 +184,9 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
             citation: result.data ? result.data.remoteCitation : null,
             model: this.model,
           }
+        }),
+        tap((result: CitationCheckResult) => {
+          this.citationString = result.citation ? result.citation : undefined
         })
       )
 
@@ -260,16 +270,69 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
         },
         {},
         (data) => {
-          console.log('disease-quick-add submit data callback', data)
+          console.log('source-quick-add submit data callback', data)
           if (data.addRemoteCitation) {
             this.successMessage = `New Source ${data.addRemoteCitation.newSource} added.`
-            setTimeout(() => {
-              if (
-                data &&
-                data.addRemoteCitation &&
-                data.addRemoteCitation.newSource
+            const source = data.addRemoteCitation.newSource
+            const sourceType = formatSourceTypeEnum(this.model.sourceType!)
+            const citation = this.citationString
+              ? this.citationString
+              : 'NO CITATION'
+            const query = {
+              query: gql`
+                query WriteLocalSource($id: Int!) {
+                  source(id: $id) {
+                    id
+                    name
+                    link
+                    citation
+                    citationId
+                    sourceType
+                  }
+                }
+              `,
+              data: {
+                source: {
+                  __typename: 'Source',
+                  id: source.id,
+                  name: `${sourceType}: ${citation}`,
+                  link: `sources/${source.id}`,
+                  citation: citation,
+                  citationId: this.model.citationId,
+                  sourceType: this.model.sourceType,
+                },
+              },
+              variables: {
+                id: source.id,
+              },
+            }
+            const writeResult = this.apollo.client.cache.writeQuery(query)
+            if (!writeResult) {
+              console.error(
+                'source-quick-add.form Source writeQuery failed.',
+                query
               )
-                this.cvcOnCreate.next(data.addRemoteCitation.newSource)
+            }
+            // this.apollo.client.writeQuery(query)
+            setTimeout(() => {
+              console.log('cvcOnCreate')
+              const fragment = {
+                id: `Source:${source.id}`,
+                fragment: gql`
+                  fragment LinkableSource on Source {
+                    id
+                    name
+                    link
+                  }
+                `,
+              }
+              const newSource = this.apollo.client.cache.readFragment(
+                fragment
+              ) as Source
+              if (newSource !== null) {
+                this.cvcOnCreate.next(newSource)
+              }
+              // this.cvcOnCreate.next(data.addRemoteCitation.newSource)
             }, 1000)
           }
         }
