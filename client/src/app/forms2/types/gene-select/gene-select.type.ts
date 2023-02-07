@@ -29,10 +29,11 @@ import {
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { BehaviorSubject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export interface CvcGeneSelectFieldProps extends FormlyFieldProps {
-  placeholder?: string
+  placeholder: string
   isMultiSelect: boolean
   selectMessages?: CvcEntitySelectMessageOptions
   entityName: CvcSelectEntityName
@@ -82,6 +83,8 @@ export class CvcGeneSelectField
     },
   }
 
+  placeholder$: BehaviorSubject<string>
+
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
 
@@ -91,6 +94,9 @@ export class CvcGeneSelectField
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
+    this.placeholder$ = new BehaviorSubject<string>(
+      this.defaultOptions.props!.placeholder
+    )
   }
 
   ngAfterViewInit(): void {
