@@ -16,6 +16,8 @@ import { EntityName, BaseState } from './base.state'
 
 export type EvidenceFields = {
   molecularProfileId$: BehaviorSubject<Maybe<number>>
+  geneId$: BehaviorSubject<Maybe<number>>
+  variantId$: BehaviorSubject<Maybe<number>>
   variantOrigin$: BehaviorSubject<Maybe<VariantOrigin>>
   evidenceType$: BehaviorSubject<Maybe<EvidenceType>>
   evidenceLevel$: BehaviorSubject<Maybe<EvidenceLevel>>
@@ -60,7 +62,8 @@ class EvidenceState extends BaseState {
       molecularProfileId$: new BehaviorSubject<Maybe<number>>(
         def.molecularProfileId
       ),
-      // variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
+      variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
+      geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
       evidenceType$: new BehaviorSubject<Maybe<EvidenceType>>(def.evidenceType),
       evidenceLevel$: new BehaviorSubject<Maybe<EvidenceLevel>>(
         def.evidenceLevel

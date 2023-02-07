@@ -7,7 +7,11 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { Apollo, gql } from 'apollo-angular'
-import { EntityTagPopoverInput, EntityTagTypeWithPopover, ENTITY_TAG_TYPES_WITH_POPOVER } from '../entity-tag-popover/entity-tag-popover.component'
+import {
+  EntityTagPopoverInput,
+  EntityTagTypeWithPopover,
+  ENTITY_TAG_TYPES_WITH_POPOVER,
+} from '../entity-tag-popover/entity-tag-popover.component'
 import { CvcMolecularProfileTag } from './directives/molecular-profile-tag.directive'
 export interface LinkableEntity {
   id: number
@@ -49,7 +53,9 @@ export class CvcEntityTagComponent implements OnChanges {
     this.cvcOnClose = new EventEmitter<MouseEvent>()
   }
 
-  private hasPopover(entityType: string): entityType is EntityTagTypeWithPopover {
+  private hasPopover(
+    entityType: string
+  ): entityType is EntityTagTypeWithPopover {
     return ENTITY_TAG_TYPES_WITH_POPOVER.includes(entityType)
   }
 
