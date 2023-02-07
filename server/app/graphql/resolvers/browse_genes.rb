@@ -30,6 +30,8 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
       scope.order "evidence_item_count #{value.direction}"
     when "assertionCount"
       scope.order "assertion_count #{value.direction}"
+    when "molecularProfileCount"
+      scope.order "molecular_profile_count #{value.direction}"
     end
   end
 

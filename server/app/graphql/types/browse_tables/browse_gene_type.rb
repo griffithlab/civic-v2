@@ -14,6 +14,7 @@ module Types::BrowseTables
     field :variant_count, Int, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
+    field :molecular_profile_count, Int, null: false
 
     def link
       Rails.application.routes.url_helpers.url_for("/genes/#{object.id}")

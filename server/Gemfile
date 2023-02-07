@@ -45,7 +45,7 @@ gem 'trestle-search', '~>0.4.3'
 
 #elasticsearch
 gem 'searchkick', '~> 4.5.0'
-gem 'elasticsearch', '< 7.14'
+gem 'elasticsearch', '~> 7.13.0'
 gem 'typhoeus', '~>1.4.0'
 
 gem 'audited', '~> 4.9'
@@ -54,7 +54,7 @@ gem 'graphiql-rails', '~> 1.8.0'
 
 #user comment rendering
 gem 'rinku', '~> 2.0.6'
-gem 'sanitize', '~> 6.0.0'
+gem 'sanitize', '~> 6.0.1'
 
 #google analytics
 gem 'staccato', '~> 0.5.3'

@@ -61,6 +61,20 @@
         <th nzWidth="75px"
           nzRight
           nzAlign="right"
+          [nzColumnKey]="sortColumns.MolecularProfileCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Molecular Profile Count">
+          <i
+            nz-icon
+            nzType="civic-molecularprofile"></i>
+          Count
+        </th>
+        <th
+          nzWidth="75px"
+          nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.VariantCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
@@ -113,6 +127,7 @@
         <th nzRight></th>
         <th nzRight></th>
         <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -137,14 +152,29 @@
             <cvc-tag-overflow tagType='therapy'
               [maxDisplayCount]="1"
               [tags]="gene.therapies"
-              [matchingText]="therapyInput"> </cvc-tag-overflow>
+              [matchingText]="therapyInput">
+            </cvc-tag-overflow>
           </td>
-          <td nzRight
-            nzAlign="right">{{gene.variantCount}}</td>
-          <td nzRight
-            nzAlign="right">{{gene.evidenceItemCount}}</td>
-          <td nzRight
-            nzAlign="right">{{gene.assertionCount}}</td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.molecularProfileCount }}
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.variantCount }}
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.evidenceItemCount }}
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.assertionCount }}
+          </td>
         </tr>
       </ng-template>
     </tbody>
