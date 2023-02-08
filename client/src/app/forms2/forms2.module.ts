@@ -6,13 +6,14 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { registerCvcExtensions } from './extensions/form-extensions.config'
+import { CvcFormlyConfig2 } from './forms2.options'
 import { CvcFormTypesModule } from './types/form-types.module'
 import { CvcFormWrappersModule } from './wrappers/form-wrappers.module'
 
 @NgModule({
   declarations: [],
   imports: [
-    FormlyModule.forChild(),
+    FormlyModule.forRoot(CvcFormlyConfig2),
     ReactiveFormsModule,
     NzFormModule,
     FormlyNgZorroAntdModule,

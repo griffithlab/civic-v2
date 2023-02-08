@@ -24,6 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { Observable } from 'rxjs'
 import { AppLoadErrorHandler } from './core/utilities/app-reload-handler'
+import { CvcForms2Module } from './forms2/forms2.module'
 
 registerLocaleData(en)
 
@@ -41,16 +42,17 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     HttpClientModule,
     HttpClientXsrfModule,
     HttpClientJsonpModule,
-    LoggerModule.forRoot({
-      timestampFormat: 'mediumTime',
-      level: !environment.production
-        ? NgxLoggerLevel.TRACE
-        : NgxLoggerLevel.OFF,
-      enableSourceMaps: true,
-      serverLogLevel: NgxLoggerLevel.ERROR,
-    }),
+    // LoggerModule.forRoot({
+    //   timestampFormat: 'mediumTime',
+    //   level: !environment.production
+    //     ? NgxLoggerLevel.TRACE
+    //     : NgxLoggerLevel.OFF,
+    //   enableSourceMaps: true,
+    //   serverLogLevel: NgxLoggerLevel.ERROR,
+    // }),
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
+    CvcForms2Module,
     LetModule,
     PushModule,
     CvcNetworkErrorAlertModule,
