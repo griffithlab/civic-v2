@@ -52,12 +52,12 @@ export class CvcMolecularProfileBuilderType
   }
   constructor() {
     super()
-    console.log('mp-profile-builder constructor()', this.field)
+    // console.log('mp-profile-builder constructor()', this.field)
   }
   ngOnInit(): void {
-    console.log('mp-profile-builder OnInit()', this.field)
+    // console.log('mp-profile-builder OnInit()', this.field)
   }
   ngAfterViewInit(): void {
-    console.log('mp-profile-builder AfterViewInit()', this.field)
+    // console.log('mp-profile-builder AfterViewInit()', this.field)
   }
 }

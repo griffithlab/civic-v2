@@ -104,7 +104,6 @@ export class CvcMolecularProfileSelectField
     },
     expressions: {
       hide: (field) => {
-        console.log('mp expression.hide: ', field)
         if (
           field.props?.watchVariantMolecularProfileId &&
           field.model?.variantId

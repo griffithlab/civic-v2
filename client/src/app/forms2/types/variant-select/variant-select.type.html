@@ -1,4 +1,5 @@
 <cvc-entity-select
+  [cvcAddEntity]="addVariant"
   [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [cvcCustomTemplate]="selectedTemplate"
   [cvcFormControl]="formControl"
@@ -61,12 +62,14 @@
 </ng-template>
 
 <!-- quick-add button's popup template -->
-<!-- <ng-template
+<ng-template
   #addVariant
   let-searchStr
   let-createMsg>
   <cvc-variant-quick-add-form
     [cvcSearchString]="searchStr"
+    [cvcGeneId]="onGeneId$ | ngrxPush"
+    [cvcGeneName]="onGeneName$ | ngrxPush"
     (cvcOnCreate)="onCreate$.next($event)">
   </cvc-variant-quick-add-form>
-</ng-template> -->
+</ng-template>

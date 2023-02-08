@@ -1,49 +1,33 @@
-<form
-  [formGroup]="form"
-  (ngSubmit)="onSubmit$.next(model)">
-  <nz-row [nzGutter]="[8, 8]">
-    <nz-col nzSpan="24">
-      <formly-form
-        [form]="form"
-        [fields]="fields"
-        [model]="model"
-        [options]="options"
-        (modelChange)="model = $event">
-      </formly-form>
-    </nz-col>
-    <!-- TODO: handle all mutator states using a state machine or observable chain w/ logic:
-    - initial: plus icon, "Create..." msg on button
-    - submitting: loading spinner, "Creating..." msg on button
-    - submit success: checkmark icon, "Created..." msg on button, 2-3 second pause then emit onCreate to parent
-    - submit error: error icon, "Error Creating..." msg on button, errors displayed
-    -->
-    <nz-col
-      nzSpan="24"
-      *ngIf="!form.valid">
-      <nz-alert
-        nzType="error"
-        nzMessage="Error intializing Create Variant form, missing geneId or variant name."
-        nzShowIcon></nz-alert>
-    </nz-col>
-    <nz-col nzSpan="24">
-      <button
-        nz-button
-        nzType="primary"
-        [disabled]="!form.valid"
-        nzBlock>
-        <span
-          *ngIf="!(isSubmitting$ | ngrxPush)"
-          nz-icon
-          nzType="plus-circle"
-          nzTheme="outline"></span>
-        <span
-          *ngIf="isSubmitting$ | ngrxPush"
-          nz-icon
-          nzType="loading"
-          nzTheme="outline"></span>
-        Create New&nbsp;<strong>{{ geneName$ | ngrxPush }}</strong
-        >&nbsp;Variant&nbsp;<i>{{ searchString$ | ngrxPush }}</i>
-      </button>
-    </nz-col>
-  </nz-row>
-</form>
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  entityType="Variant"
+  [successMessage]="success">
+  <ng-template #success>{{ successMessage }}</ng-template>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit$.next(model)">
+    <nz-row [nzGutter]="[0, 0]">
+      <nz-col nzSpan="24">
+        <formly-form
+          [form]="form"
+          [fields]="fields"
+          [model]="model"
+          [options]="options"
+          (modelChange)="model = $event">
+        </formly-form>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="!form.valid"
+          nzBlock>
+          Add
+          <strong>{{ geneName$ | ngrxPush }}</strong> &nbsp;Variant&nbsp;<i>{{
+            searchString$ | ngrxPush
+          }}</i>
+        </button>
+      </nz-col>
+    </nz-row>
+  </form>
+</cvc-form-submission-status-display>

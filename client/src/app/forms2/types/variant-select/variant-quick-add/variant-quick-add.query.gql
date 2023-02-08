@@ -1,5 +1,5 @@
 mutation QuickAddVariant($name: String!, $geneId: Int!) {
-  addVariant(input: {name: $name, geneId: $geneId}) {
+  addVariant(input: { name: $name, geneId: $geneId }) {
     ...AddVariantFields
   }
 }
@@ -8,13 +8,6 @@ fragment QuickAddVariantFields on AddVariantPayload {
   clientMutationId
   new
   variant {
-    id
-    name
-    singleVariantMolecularProfileId
-    singleVariantMolecularProfile {
-      id
-      name
-      link
-    }
+    ...VariantSelectTypeaheadFields
   }
 }
