@@ -1,7 +1,11 @@
+<ng-container *ngrxLet="formMessageDisplay$ as display">
+  <span>{{ display.message }}</span>
+</ng-container>
 <cvc-form-submission-status-display
   [mutationState]="this.mutationState"
   entityType="Variant"
   [successMessage]="success">
+  <!-- FIXME: network errors (e.g. not logged in err) are not being displayed -->
   <ng-template #success>{{ successMessage }}</ng-template>
   <form
     [formGroup]="form"
@@ -22,7 +26,7 @@
           nzType="primary"
           [disabled]="!form.valid"
           nzBlock>
-          Add
+          Add&nbsp;
           <strong>{{ geneName$ | ngrxPush }}</strong> &nbsp;Variant&nbsp;<i>{{
             searchString$ | ngrxPush
           }}</i>

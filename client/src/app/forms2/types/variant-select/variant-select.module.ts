@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
@@ -51,6 +51,7 @@ const typeConfig: ConfigOption = {
   declarations: [CvcVariantSelectField, CvcVariantQuickAddForm],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     LetModule,
     PushModule,
@@ -73,6 +74,6 @@ const typeConfig: ConfigOption = {
     CvcPipesModule,
     CvcEntityTagModule,
   ],
-  exports: [CvcVariantSelectField, CvcVariantQuickAddForm],
+  exports: [CvcVariantSelectField],
 })
 export class CvcVariantSelectModule {}

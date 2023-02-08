@@ -1,5 +1,6 @@
 <cvc-entity-select
   [cvcAddEntity]="addVariant"
+  [cvcAddEntityModel]="onModel$ | ngrxPush"
   [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [cvcCustomTemplate]="selectedTemplate"
   [cvcFormControl]="formControl"
@@ -9,6 +10,7 @@
   [cvcResults]="result$ | ngrxPush"
   [cvcDisabled]="props.requireGene && !(onGeneId$ | ngrxPush)"
   [cvcOptions]="selectOption$ | ngrxPush"
+  [cvcSelectOpen]="selectOpen$ | ngrxPush"
   [cvcShowError]="showError"
   [cvcLoading]="isLoading$ | ngrxPush"
   [cvcParamName]="onGeneName$ | ngrxPush"
@@ -65,7 +67,7 @@
 <ng-template
   #addVariant
   let-searchStr
-  let-createMsg>
+  let-model="model">
   <cvc-variant-quick-add-form
     [cvcSearchString]="searchStr"
     [cvcGeneId]="onGeneId$ | ngrxPush"
