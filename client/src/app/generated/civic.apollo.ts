@@ -6280,7 +6280,7 @@ export type QuickAddVariantMutationVariables = Exact<{
 
 export type QuickAddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } } | undefined };
 
-export type QuickAddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } };
+export type QuickAddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
 
 export type VariantSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -8067,22 +8067,6 @@ export const QuickAddTherapyFieldsFragmentDoc = gql`
   }
 }
     ${TherapySelectTypeaheadFieldsFragmentDoc}`;
-export const QuickAddVariantFieldsFragmentDoc = gql`
-    fragment QuickAddVariantFields on AddVariantPayload {
-  clientMutationId
-  new
-  variant {
-    id
-    name
-    singleVariantMolecularProfileId
-    singleVariantMolecularProfile {
-      id
-      name
-      link
-    }
-  }
-}
-    `;
 export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
     fragment VariantSelectTypeaheadFields on Variant {
   id
@@ -8098,6 +8082,15 @@ export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
   }
 }
     `;
+export const QuickAddVariantFieldsFragmentDoc = gql`
+    fragment QuickAddVariantFields on AddVariantPayload {
+  clientMutationId
+  new
+  variant {
+    ...VariantSelectTypeaheadFields
+  }
+}
+    ${VariantSelectTypeaheadFieldsFragmentDoc}`;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id

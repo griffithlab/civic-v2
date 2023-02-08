@@ -35,6 +35,7 @@ import {
 import { Apollo, gql } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, lastValueFrom } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcVariantSelectFieldOptions = Partial<
@@ -153,9 +154,11 @@ export class CvcVariantSelectField
         return
       }
       this.onGeneId$ = this.state.fields.geneId$
-      this.onGeneId$.pipe(untilDestroyed(this)).subscribe((gid) => {
-        this.onGeneId(gid)
-      })
+      this.onGeneId$
+        .pipe(tag('variant-select onGeneId$'), untilDestroyed(this))
+        .subscribe((gid) => {
+          this.onGeneId(gid)
+        })
     }
     if (this.props.emitMolecularProfileId) {
       if (!this.state?.fields.variantMolecularProfile$) {
