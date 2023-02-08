@@ -34,7 +34,13 @@ import {
 } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, lastValueFrom } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  lastValueFrom,
+  map,
+  Observable,
+} from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -89,6 +95,7 @@ export class CvcVariantSelectField
 
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
+  onModel$ = new Observable<any>()
 
   // FieldTypeConfig defaults
   defaultOptions: CvcVariantSelectFieldOptions = {
@@ -141,6 +148,13 @@ export class CvcVariantSelectField
     })
 
     this.placeholder$.next(this.props.placeholder)
+
+    // update model provided to quick-add form when either sourceType or citationId changes
+    this.onModel$ = combineLatest([this.onGeneId$, this.onSearch$]).pipe(
+      map(([geneId, name]: [Maybe<number>, string]) => {
+        return { geneId: geneId, name: name }
+      })
+    )
   } // ngAfterViewInit
 
   private configureStateConnections() {
