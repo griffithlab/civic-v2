@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
   QueryList,
   TemplateRef,
   Type,
@@ -15,7 +14,6 @@ import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
-  LinkableGeneGQL,
   Maybe,
   MolecularProfile,
   MolecularProfileSelectTagGQL,
@@ -32,9 +30,9 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { Apollo, gql } from 'apollo-angular'
+import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, lastValueFrom } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -52,6 +50,7 @@ export interface CvcMolecularProfileSelectFieldProps extends FormlyFieldProps {
   // requireGenePrompt: string // prompt displayed if gene unspecified
   extraType?: CvcFormFieldExtraType
   watchVariantMolecularProfileId: boolean
+  minSearchStrLength?: number
 }
 
 export interface CvcMolecularProfileSelectFieldConfig
@@ -85,7 +84,7 @@ const MolecularProfileSelectMixin = mixin(
 })
 export class CvcMolecularProfileSelectField
   extends MolecularProfileSelectMixin
-  implements AfterViewInit, OnInit
+  implements AfterViewInit
 {
   // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
@@ -101,6 +100,7 @@ export class CvcMolecularProfileSelectField
         plural: 'Molecular Profiles',
       },
       watchVariantMolecularProfileId: false,
+      minSearchStrLength: 1,
     },
     expressions: {
       hide: (field) => {
@@ -132,10 +132,6 @@ export class CvcMolecularProfileSelectField
     )
   }
 
-  ngOnInit(): void {
-    console.log('mp-select OnInit', this.field)
-  }
-
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
@@ -153,6 +149,12 @@ export class CvcMolecularProfileSelectField
 
     this.placeholder$.next(this.props.placeholder)
     this.onValueChange$.pipe(tag(`${this.field.id} onValueChange$`)).subscribe()
+
+    if (this.props.watchVariantMolecularProfileId) {
+      this.onTagClose$.pipe(untilDestroyed(this)).subscribe(() => {
+        this.field.hide = true
+      })
+    }
   } // ngAfterViewInit
 
   private configureStateConnections() {
@@ -170,7 +172,10 @@ export class CvcMolecularProfileSelectField
         .subscribe((mp: MolecularProfile) => {
           if (!mp) return
           this.field.formControl.setValue(mp.id)
-          this.result$.next([mp])
+          // this.result$.next([mp])
+          // if (this.options.build) {
+          //   this.options.build(this.field)
+          // }
         })
     }
   }

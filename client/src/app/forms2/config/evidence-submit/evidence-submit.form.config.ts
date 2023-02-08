@@ -45,7 +45,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         },
         fieldGroup: [
           {
-            key: 'molecularProfileId',
+            key: 'molecularProfileBuilder',
             type: 'molecular-profile-builder',
           },
           // <CvcMolecularProfileSelectFieldConfig>{
