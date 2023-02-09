@@ -102,18 +102,6 @@ export class CvcMolecularProfileSelectField
       watchVariantMolecularProfileId: false,
       minSearchStrLength: 1,
     },
-    expressions: {
-      hide: (field) => {
-        if (
-          field.props?.watchVariantMolecularProfileId &&
-          field.model?.variantId
-        ) {
-          return false
-        } else {
-          return true
-        }
-      },
-    },
   }
 
   @ViewChildren('optionTemplates', { read: TemplateRef })

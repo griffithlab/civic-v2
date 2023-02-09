@@ -6,7 +6,10 @@ import {
 } from '@angular/core'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
 import { CvcGeneSelectFieldConfig } from '../gene-select/gene-select.type'
-import { CvcMolecularProfileSelectFieldConfig } from '../molecular-profile-select/molecular-profile-select.type'
+import {
+  CvcMolecularProfileSelectFieldConfig,
+  CvcMolecularProfileSelectFieldOptions,
+} from '../molecular-profile-select/molecular-profile-select.type'
 import { CvcVariantSelectFieldOptions } from '../variant-select/variant-select.type'
 
 @Component({
@@ -24,14 +27,24 @@ export class CvcMolecularProfileBuilderType
       label: 'Molecular Profile Builder',
     },
     fieldGroup: [
-      <CvcGeneSelectFieldConfig>{
+      {
         key: 'geneId',
         type: 'gene-select',
         props: {
           required: true,
         },
+        resetOnHide: false,
+        expressions: {
+          hide: (field: any) => {
+            if (field.model?.molecularProfileId) {
+              return true
+            } else {
+              return false
+            }
+          },
+        },
       },
-      <CvcVariantSelectFieldOptions>{
+      {
         key: 'variantId',
         type: 'variant-select',
         props: {
@@ -39,13 +52,34 @@ export class CvcMolecularProfileBuilderType
           requireGene: true,
           emitMolecularProfileId: true,
         },
+        resetOnHide: false,
+        expressions: {
+          hide: (field: any) => {
+            if (field.model?.molecularProfileId) {
+              return true
+            } else {
+              return false
+            }
+          },
+        },
       },
-      <CvcMolecularProfileSelectFieldConfig>{
+      // FIXME: field options aren't working as expected with expressions attribute,
+      // shouldn't complain about missing properties when using this: <CvcMolecularProfileSelectFieldOptions>{
+      {
         key: 'molecularProfileId',
         type: 'molecular-profile-select',
         props: {
           required: true,
           watchVariantMolecularProfileId: true,
+        },
+        expressions: {
+          hide: (field: any) => {
+            if (field.model?.variantId) {
+              return false
+            } else {
+              return true
+            }
+          },
         },
       },
     ],
