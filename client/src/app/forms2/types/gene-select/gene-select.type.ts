@@ -115,7 +115,7 @@ export class CvcGeneSelectField
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
     })
-    this.onOpenChange$.pipe(tag('gene-select onOpenChange$')).subscribe()
+    // this.onOpenChange$.pipe(tag('gene-select onOpenChange$')).subscribe()
   } // ngAfterViewInit()
 
   getTypeaheadVarsFn(str: string): GeneSelectTypeaheadQueryVariables {

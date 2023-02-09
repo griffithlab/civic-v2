@@ -228,7 +228,7 @@ export function EntitySelectField<
         ) // end this.response$
 
         this.onOpenChange$
-          .pipe(tag('entity-select-field onOpenChange$'), untilDestroyed(this))
+          // .pipe(tag('entity-select-field onOpenChange$'), untilDestroyed(this))
           .subscribe((change: boolean) => {
             if (change) this.onSearch$.next('')
           })
@@ -241,6 +241,12 @@ export function EntitySelectField<
           )
           .subscribe((results: TAF[]) => {
             this.result$.next(results)
+            // if no results, also emit empty array from selectOption$,
+            // as a select field's optionTemplates won't update if this
+            // is the first result, or if the previous result was empty as well
+            if (results.length === 0) {
+              this.selectOption$.next([])
+            }
             this.cdr.detectChanges()
           })
 
@@ -272,6 +278,11 @@ export function EntitySelectField<
                 this.cdr.detectChanges()
               }
             )
+        }
+        if (this.field.key === 'variantId') {
+          this.selectOption$
+            .pipe(tag(`VARIANT mixin selectOption$`))
+            .subscribe()
         }
         // when a new entity is created, execute tag query to cache its
         // LinkableTag object for rendering by the nz-select
