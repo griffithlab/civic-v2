@@ -147,7 +147,7 @@ export class CvcMolecularProfileSelectField
     })
 
     this.placeholder$.next(this.props.placeholder)
-    this.onValueChange$.pipe(tag(`${this.field.id} onValueChange$`)).subscribe()
+    // this.onValueChange$.pipe(tag(`${this.field.id} onValueChange$`)).subscribe()
 
     if (this.props.watchVariantMolecularProfileId) {
       this.onTagClose$.pipe(untilDestroyed(this)).subscribe(() => {

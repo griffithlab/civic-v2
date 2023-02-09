@@ -164,17 +164,24 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       }
     }
 
-    // emit a notFoundDisplay VM for displaying message, spinner, add form
+    this.onOpenChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((change: boolean) => {
+        this.cvcOnOpenChange.next(change)
+      })
+
+    // emit a notFoundDisplay VM for displaying message, spinner, add form.
+    // non Behavior/Replay subjects do not need a startWith here
     this.notFoundDisplay$ = combineLatest([
       this.onOpenChange$,
       this.cvcOnSearch.pipe(startWith(undefined)),
-      this.onParamName$.pipe(startWith(undefined)),
+      this.onParamName$,
       this.onOption$.pipe(startWith(undefined)),
-      this.onLoadingDebounce$.pipe(startWith(false)),
+      this.onLoading$.pipe(startWith(false)),
     ]).pipe(
-      // tag(
-      //   `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
-      // ),
+      tag(
+        `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+      ),
       map(
         ([isOpen, searchStr, paramName, options, isLoading]: [
           Maybe<boolean>,
@@ -239,8 +246,11 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           }
         }
       )
-      // tag(`${this.cvcEntityName.plural} entity-select notFoundDisplay$ emit`)
     )
+    // need to subscribe to to notFoundDisplay here, b/c #searchMessages template
+    // is only displayed when no selectOptions exist. Therefor it is subscribed
+    // and unsubscribed repeatedly and we need it to be subscribed for the field's lifetime
+    this.notFoundDisplay$.pipe(untilDestroyed(this)).subscribe()
   } // ngAfterViewInit()
 
   getSelectInitDisplay(
