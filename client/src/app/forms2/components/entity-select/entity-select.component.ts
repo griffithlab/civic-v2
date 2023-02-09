@@ -23,6 +23,7 @@ import {
   debounceTime,
   map,
   Observable,
+  pairwise,
   ReplaySubject,
   shareReplay,
   startWith,
@@ -145,29 +146,33 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
   messageOptions: CvcEntitySelectMessageOptions = cvcDefaultSelectMessageOptions
   notFoundDisplay!: NotFoundDisplay
+  previousIsOpen: boolean
 
   constructor(private cdr: ChangeDetectorRef) {
     this.onParamName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onOption$ = new BehaviorSubject<NzSelectOptionInterface[]>([])
     this.onOpenChange$ = new BehaviorSubject<boolean>(false)
     this.onLoading$ = new BehaviorSubject<boolean>(false)
-    // this.onOption$.pipe(tag(`VARIANT entity-select onOption$`)).subscribe()
+    this.previousIsOpen = false
   }
 
   ngAfterViewInit(): void {
-    this.notFoundDisplay = {
-      searchStr: '',
-      showSpinner: true,
-      showAddForm: false,
-      message: `Searching ${this.cvcEntityName.plural}...`,
-    }
-
     // merge any custom message options from cvcSelectMessages
     if (this.cvcSelectMessages) {
       this.messageOptions = {
         ...this.messageOptions,
         ...this.cvcSelectMessages,
       }
+    }
+
+    // set initial loading message
+    // FIXME: message should be the same as the initial loading message in the combineLatest map below,
+    // different if there is a paramName, min length set
+    this.notFoundDisplay = {
+      searchStr: '',
+      showSpinner: true,
+      showAddForm: false,
+      message: `Searching ${this.cvcEntityName.plural}...`,
     }
 
     this.onOpenChange$
@@ -186,12 +191,12 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       this.onLoading$,
     ])
       .pipe(
-        // tag(
-        //   `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
-        // ),
+        tag(
+          `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+        ),
         map(
           ([isOpen, searchStr, paramName, options, isLoading]: [
-            Maybe<boolean>,
+            boolean,
             Maybe<string>,
             Maybe<string>,
             NzSelectOptionInterface[],
@@ -201,10 +206,15 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             const minLength = this.cvcMinSearchStrLength
             const hasAddForm = this.cvcAddEntity !== null ? true : false
 
+            const initialOpen = this.previousIsOpen === false && isOpen === true
+            console.log('initialOpen: ', initialOpen)
+
+            this.previousIsOpen = isOpen
+
             // INITIAL LOADING / ENTER QUERY PROMPT
             if (
               isOpen &&
-              !options &&
+              options.length === 0 &&
               (!searchStr || (searchStr && searchStr.length < minLength))
             ) {
               return this.getSelectInitDisplay(entityName, minLength, paramName)
