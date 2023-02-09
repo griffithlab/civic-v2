@@ -6,11 +6,19 @@ import {
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
-import { EvidenceSubmitModel, } from '@app/forms2/models/evidence-submit.model'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
+import { EvidenceSubmitModel } from '@app/forms2/models/evidence-submit.model'
 import { EvidenceState } from '@app/forms2/states/evidence.state'
 import { evidenceFormModelToInput } from '@app/forms2/utilities/evidence-to-model-fields'
-import { SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables } from '@app/generated/civic.apollo'
+import {
+  Maybe,
+  SubmitEvidenceItemGQL,
+  SubmitEvidenceItemMutation,
+  SubmitEvidenceItemMutationVariables,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { evidenceSubmitFields } from './evidence-submit.form.config'
@@ -35,10 +43,11 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
   >
 
   mutationState?: MutationState
+  newEvidenceId: Maybe<number>
 
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
-    private networkErrorService: NetworkErrorsService,
+    private networkErrorService: NetworkErrorsService
   ) {
     this.form = new UntypedFormGroup({})
     this.fields = evidenceSubmitFields
@@ -57,8 +66,17 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
     console.log(model)
     const input = evidenceFormModelToInput(model)
     if (input) {
-      this.mutationState = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {input: input})
+      this.mutationState = this.submitEvidenceMutator.mutate(
+        this.submitEvidenceGQL,
+        { input: input },
+        undefined,
+        this.newId
+      )
     }
+  }
+
+  newId(data: SubmitEvidenceItemMutation) {
+    this.newEvidenceId = data.submitEvidence!.evidenceItem.id
   }
 
   ngOnDestroy(): void {

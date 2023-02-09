@@ -25,6 +25,7 @@ export class CvcMolecularProfileBuilderType
   defaultOptions = {
     props: {
       label: 'Molecular Profile Builder',
+      description: `Enter Molecular Profile's Gene and Variant`,
     },
     fieldGroup: [
       {
@@ -32,6 +33,9 @@ export class CvcMolecularProfileBuilderType
         type: 'gene-select',
         props: {
           required: true,
+          formLayout: 'inline',
+          hideLabel: true,
+          colSpan: 12,
         },
         resetOnHide: false,
         expressions: {
@@ -51,6 +55,9 @@ export class CvcMolecularProfileBuilderType
           required: true,
           requireGene: true,
           emitMolecularProfileId: true,
+          formLayout: 'inline',
+          hideLabel: true,
+          colSpan: 12,
         },
         resetOnHide: false,
         expressions: {
@@ -71,6 +78,14 @@ export class CvcMolecularProfileBuilderType
         props: {
           required: true,
           watchVariantMolecularProfileId: true,
+          formLayout: 'inline',
+          hideLabel: true,
+          colSpan: 24,
+          change: (field: any) => {
+            console.log(field)
+            field.parent.parent.model.molecularProfileId =
+              field.formControl.value
+          },
         },
         expressions: {
           hide: (field: any) => {

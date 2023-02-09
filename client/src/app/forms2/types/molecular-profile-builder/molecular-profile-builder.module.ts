@@ -5,6 +5,7 @@ import { LetModule, PushModule } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -24,6 +25,7 @@ const typeConfig: ConfigOption = {
     LetModule,
     PushModule,
     FormlyModule.forChild(typeConfig),
+    NzGridModule,
     CvcFormFieldWrapperModule,
   ],
   exports: [CvcMolecularProfileBuilderType],

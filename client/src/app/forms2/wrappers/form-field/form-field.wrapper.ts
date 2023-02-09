@@ -74,8 +74,9 @@ export class CvcFormFieldWrapper
       console.error(err)
     }
 
-    if (this.options.formState.formLayout) {
-      this.formLayout = this.options.formState.formLayout
+    if (this.options.formState.formLayout || this.props.formLayout) {
+      this.formLayout =
+        this.props.formLayout || this.options.formState.formLayout
     }
   }
 }
