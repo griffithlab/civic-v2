@@ -128,6 +128,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
         key: 'name',
         hide: true,
         props: {
+          minLength: 3,
           required: true,
         },
       },

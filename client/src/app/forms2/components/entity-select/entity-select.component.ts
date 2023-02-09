@@ -197,7 +197,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
         map(
           ([isOpen, searchStr, paramName, options, isLoading]: [
             boolean,
-            Maybe<string>,
+            string,
             Maybe<string>,
             NzSelectOptionInterface[],
             boolean
@@ -212,11 +212,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             this.previousIsOpen = isOpen
 
             // INITIAL LOADING / ENTER QUERY PROMPT
-            if (
-              isOpen &&
-              options.length === 0 &&
-              (!searchStr || (searchStr && searchStr.length < minLength))
-            ) {
+            if (initialOpen) {
               return this.getSelectInitDisplay(entityName, minLength, paramName)
             }
 
@@ -238,13 +234,12 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             //
             // NOT FOUND MESSAGE / ADD ENTITY FORM
             //
-
+            // [true, '', 'F9', Array(0), false]
             if (
               isOpen &&
               !isLoading &&
-              searchStr &&
               searchStr.length >= minLength &&
-              !options
+              options.length === 0
             ) {
               return this.getSelectEmptyDisplay(
                 searchStr,

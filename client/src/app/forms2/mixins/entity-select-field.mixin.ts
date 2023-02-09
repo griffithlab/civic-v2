@@ -279,11 +279,7 @@ export function EntitySelectField<
               }
             )
         }
-        if (this.field.key === 'variantId') {
-          this.selectOption$
-            .pipe(tag(`VARIANT mixin selectOption$`))
-            .subscribe()
-        }
+
         // when a new entity is created, execute tag query to cache its
         // LinkableTag object for rendering by the nz-select
         this.onCreate$.pipe(untilDestroyed(this)).subscribe((entity: TAF) => {
