@@ -11,6 +11,7 @@
   [cvcDisabled]="onRequiresPhenotype$ && !(onRequiresPhenotype$ | ngrxPush)"
   [cvcLoading]="isLoading$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
+  (cvcOnOpenChange)="onOpenChange$.next($event)"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 
