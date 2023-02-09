@@ -92,6 +92,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
 
   mutationState?: MutationState
   successMessage?: string
+  minNameLength: number
 
   constructor(
     private query: QuickAddVariantGQL,
@@ -111,10 +112,11 @@ export class CvcVariantQuickAddForm implements OnChanges {
     this.formMessageDisplay$ = new BehaviorSubject<VariantQuickAddDisplay>({
       message: 'Variant does not exist, create it?',
     })
-
     this.queryMutator = new MutatorWithState(this.errors)
 
     this.addVariantMutator = new MutatorWithState(this.errors)
+
+    this.minNameLength = 3
 
     this.fields = [
       {
@@ -128,7 +130,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
         key: 'name',
         hide: true,
         props: {
-          minLength: 3,
+          minLength: this.minNameLength,
           required: true,
         },
       },
@@ -143,6 +145,15 @@ export class CvcVariantQuickAddForm implements OnChanges {
       .pipe(untilDestroyed(this))
       .subscribe((str: Maybe<string>) => {
         this.model.name = str
+        if (str !== undefined && str.length < this.minNameLength) {
+          this.formMessageDisplay$.next({
+            message: `New Variant name must be at least ${this.minNameLength} characters.`,
+          })
+        } else {
+          this.formMessageDisplay$.next({
+            message: 'Variant does not exist, create it?',
+          })
+        }
       })
 
     // handle submit events from form
