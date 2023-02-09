@@ -26,9 +26,11 @@ import {
   Subject,
   switchMap,
   withLatestFrom,
+  skip,
 } from 'rxjs'
-import { combineLatestArray } from 'rxjs-etc'
+import { combineLatestArray, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
+import { tag } from 'rxjs-spy/operators'
 import { MixinConstructor } from 'ts-mixin-extended'
 
 export type GetTypeaheadVarsFn<TAV extends EmptyObject, TAP> = (
@@ -100,10 +102,10 @@ export function EntitySelectField<
       // need to declare them to reference them here, then base-field creates these
 
       // LOCAL SOURCE STREAMS
-      onSearch$!: Subject<string> // emits on typeahead keypress
-      onHighlightString$!: Subject<string> // emits search string after optionTemplates.changes
+      onSearch$!: Subject<Maybe<string>> // emits on typeahead keypress
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
       onCreate$!: Subject<TAF> // emits entity on create
+      onOpenChange$!: Subject<boolean>
       selectOpen$!: ReplaySubject<Maybe<boolean>>
 
       // INTERMEDIATE STREAMS
@@ -156,18 +158,25 @@ export function EntitySelectField<
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
-        this.onSearch$ = new Subject<string>()
-        this.onHighlightString$ = new Subject<string>()
+        this.onSearch$ = new Subject<Maybe<string>>()
         this.isLoading$ = new Observable<boolean>()
         this.result$ = new BehaviorSubject<TAF[]>([])
         this.onTagClose$ = new Subject<MouseEvent>()
+        this.onOpenChange$ = new Subject<boolean>()
         this.onCreate$ = new Subject<TAF>()
         this.selectOption$ = new BehaviorSubject<
           Maybe<NzSelectOptionInterface[]>
         >(undefined)
 
+        // if (this.field.key === 'variantId')
+        //   this.selectOption$
+        //     .pipe(tag(`${this.field.key} entity-select-field selectOption$`))
+        //     .subscribe()
+
         // set up typeahead watch & fetch calls
         this.response$ = this.onSearch$.pipe(
+          skip(1), // skip initial empty string sent when nz-select first gets focus
+          filter(isNonNulled),
           // filter search queries of insufficient length
           filter((str: string) => {
             if (this.minSearchStrLength === 0) {
@@ -218,6 +227,12 @@ export function EntitySelectField<
           })
         ) // end this.response$
 
+        this.onOpenChange$
+          .pipe(tag('entity-select-field onOpenChange$'), untilDestroyed(this))
+          .subscribe((change: boolean) => {
+            if (change) this.onSearch$.next('')
+          })
+
         this.response$
           .pipe(
             filter((r) => !r.loading),
@@ -249,20 +264,11 @@ export function EntitySelectField<
           // option template instance, getSelectOptions() generates a NzSelectOption that
           // attaches the pre-generated option template to a result value.
           this.optionTemplates.changes
-            .pipe(
-              withLatestFrom(this.result$, this.onSearch$),
-              untilDestroyed(this)
-            )
+            .pipe(withLatestFrom(this.result$), untilDestroyed(this))
             .subscribe(
-              ([tplRefs, results, searchStr]: [
-                QueryList<TemplateRef<any>>,
-                TAF[],
-                string
-              ]) => {
+              ([tplRefs, results]: [QueryList<TemplateRef<any>>, TAF[]]) => {
                 const options = this.getSelectOptions(results, tplRefs)
                 this.selectOption$.next(options)
-                // FIXME: remove all onHighlightString$, no longer used.
-                this.onHighlightString$.next(searchStr)
                 this.cdr.detectChanges()
               }
             )
@@ -365,7 +371,7 @@ export function EntitySelectField<
         // clear out results (which will trigger a re-render of optionTemplates)
         if (this.result$) this.result$.next([])
         // emit initial search so that options provided to user after clearing a tag
-        if (this.onSearch$) this.onSearch$.next('')
+        // if (this.onSearch$) this.onSearch$.next('')
       }
     }
 

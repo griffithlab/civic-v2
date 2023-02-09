@@ -15,6 +15,7 @@
   [cvcLoading]="isLoading$ | ngrxPush"
   [cvcParamName]="onGeneName$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
+  (cvcOnOpenChange)="onOpenChange$.next($event)"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 

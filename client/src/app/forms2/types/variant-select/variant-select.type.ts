@@ -151,7 +151,7 @@ export class CvcVariantSelectField
 
     // update model provided to quick-add form when either sourceType or citationId changes
     this.onModel$ = combineLatest([this.onGeneId$, this.onSearch$]).pipe(
-      map(([geneId, name]: [Maybe<number>, string]) => {
+      map(([geneId, name]: [Maybe<number>, Maybe<string>]) => {
         return { geneId: geneId, name: name }
       })
     )
@@ -169,7 +169,10 @@ export class CvcVariantSelectField
       }
       this.onGeneId$ = this.state.fields.geneId$
       this.onGeneId$
-        .pipe(tag('variant-select onGeneId$'), untilDestroyed(this))
+        .pipe(
+          // tag('variant-select onGeneId$'),
+          untilDestroyed(this)
+        )
         .subscribe((gid) => {
           this.onGeneId(gid)
         })

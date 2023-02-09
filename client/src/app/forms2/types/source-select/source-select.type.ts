@@ -189,7 +189,7 @@ export class CvcSourceSelectField
 
     // update model provided to quick-add form when either sourceType or citationId changes
     this.onModel$ = combineLatest([this.sourceType$, this.onSearch$]).pipe(
-      map(([sourceType, citationId]: [SourceSource, string]) => {
+      map(([sourceType, citationId]: [SourceSource, Maybe<string>]) => {
         return { citationId: citationId, sourceType: sourceType }
       })
     )
