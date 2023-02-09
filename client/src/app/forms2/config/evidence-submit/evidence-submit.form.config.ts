@@ -197,6 +197,30 @@ const formFieldConfig: FormlyFieldConfig[] = [
           //     },
           //   ],
           // },
+          // {
+          //   wrappers: ['field-grid'],
+          //   props: <CvcFieldGridWrapperConfig>{
+          //     grid: {
+          //       cols: 2,
+          //     },
+          //   },
+          //   fieldGroup: [
+          //     <CvcBaseInputFieldOptions>{
+          //       key: 'baseInputTest',
+          //       type: 'tag-input',
+          //       props: {
+          //         label: 'Input Test',
+          //       },
+          //     },
+          //     <CvcBaseInputFieldOptions>{
+          //       key: 'baseInputTest',
+          //       type: 'tag-multi-input',
+          //       props: {
+          //         label: 'Input Multi Test',
+          //       },
+          //     },
+          //   ],
+          // },
         ],
       },
       {

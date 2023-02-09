@@ -21,6 +21,7 @@ import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   map,
   Observable,
   pairwise,
@@ -188,7 +189,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       this.cvcOnSearch,
       this.onParamName$,
       this.onOption$,
-      this.onLoading$,
+      this.onLoading$.pipe(distinctUntilChanged()),
     ])
       .pipe(
         tag(
@@ -217,12 +218,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             }
 
             // QUERY ENTERED, SEARCHING MESSAGE
-            if (
-              isOpen &&
-              isLoading &&
-              searchStr &&
-              searchStr.length >= minLength
-            ) {
+            if (isLoading && searchStr.length >= minLength) {
               return this.getSelectSearchingDisplay(
                 searchStr,
                 entityName,
