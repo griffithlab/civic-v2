@@ -1,6 +1,10 @@
-<cvc-form-submission-status-display [mutationState]="this.mutationState" entityType="Evidence Item" [successMessage]="success">
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  entityType="Evidence Item"
+  [successMessage]="success">
   <ng-template #success>
-    View your new EID <a href="civicdb.org" >here</a>.
+    View your new EID
+    <a [routerLink]="['/evidence', newEvidenceId, 'summary']">here</a>.
   </ng-template>
   <form
     nz-form
