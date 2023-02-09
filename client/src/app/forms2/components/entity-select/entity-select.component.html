@@ -25,22 +25,20 @@
   (ngModelChange)="cvcOnModelChange.next($event)">
 </nz-select>
 <ng-template #searchMessages>
-  <ng-container *ngrxLet="notFoundDisplay$ as display">
-    <span
-      *ngIf="display.showSpinner"
-      nz-icon
-      [nzType]="'loading'"></span>
-    <ng-container *ngIf="!display.showAddForm">
-      {{ display.message }}
-    </ng-container>
-    <ng-container
-      *ngIf="display.showAddForm"
-      [ngTemplateOutlet]="this.cvcAddEntity"
-      [ngTemplateOutletContext]="{
-        $implicit: display.searchStr,
-        createMsg: display.message,
-        model: cvcAddEntityModel
-      }">
-    </ng-container>
+  <span
+    *ngIf="notFoundDisplay.showSpinner"
+    nz-icon
+    [nzType]="'loading'"></span>
+  <ng-container *ngIf="!notFoundDisplay.showAddForm">
+    {{ notFoundDisplay.message }}
+  </ng-container>
+  <ng-container
+    *ngIf="notFoundDisplay.showAddForm"
+    [ngTemplateOutlet]="this.cvcAddEntity"
+    [ngTemplateOutletContext]="{
+      $implicit: notFoundDisplay.searchStr,
+      createMsg: notFoundDisplay.message,
+      model: cvcAddEntityModel
+    }">
   </ng-container>
 </ng-template>

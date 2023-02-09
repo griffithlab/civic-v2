@@ -137,25 +137,31 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
   // INPUT STREAMS
   onParamName$: BehaviorSubject<Maybe<string>>
-  onLoading$: Subject<boolean>
-  onLoadingDebounce$: Observable<boolean>
-  onOption$: Subject<Maybe<NzSelectOptionInterface[]>>
+  onLoading$: BehaviorSubject<boolean>
+  onOption$: BehaviorSubject<NzSelectOptionInterface[]>
 
   // SOURCE STREAMS
   onOpenChange$: BehaviorSubject<boolean>
-  notFoundDisplay$!: Observable<NotFoundDisplay>
 
   messageOptions: CvcEntitySelectMessageOptions = cvcDefaultSelectMessageOptions
+  notFoundDisplay!: NotFoundDisplay
 
   constructor(private cdr: ChangeDetectorRef) {
     this.onParamName$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.onOption$ = new Subject<Maybe<NzSelectOptionInterface[]>>()
+    this.onOption$ = new BehaviorSubject<NzSelectOptionInterface[]>([])
     this.onOpenChange$ = new BehaviorSubject<boolean>(false)
-    this.onLoading$ = new Subject<boolean>()
-    this.onLoadingDebounce$ = this.onLoading$.pipe(debounceTime(250))
+    this.onLoading$ = new BehaviorSubject<boolean>(false)
+    // this.onOption$.pipe(tag(`VARIANT entity-select onOption$`)).subscribe()
   }
 
   ngAfterViewInit(): void {
+    this.notFoundDisplay = {
+      searchStr: '',
+      showSpinner: true,
+      showAddForm: false,
+      message: `Searching ${this.cvcEntityName.plural}...`,
+    }
+
     // merge any custom message options from cvcSelectMessages
     if (this.cvcSelectMessages) {
       this.messageOptions = {
@@ -172,85 +178,87 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
     // emit a notFoundDisplay VM for displaying message, spinner, add form.
     // non Behavior/Replay subjects do not need a startWith here
-    this.notFoundDisplay$ = combineLatest([
+    combineLatest([
       this.onOpenChange$,
-      this.cvcOnSearch.pipe(startWith(undefined)),
+      this.cvcOnSearch,
       this.onParamName$,
-      this.onOption$.pipe(startWith(undefined)),
-      this.onLoading$.pipe(startWith(false)),
-    ]).pipe(
-      tag(
-        `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
-      ),
-      map(
-        ([isOpen, searchStr, paramName, options, isLoading]: [
-          Maybe<boolean>,
-          Maybe<string>,
-          Maybe<string>,
-          Maybe<NzSelectOptionInterface[]>,
-          boolean
-        ]) => {
-          const entityName = this.cvcEntityName.plural
-          const minLength = this.cvcMinSearchStrLength
-          const hasAddForm = this.cvcAddEntity !== null ? true : false
+      this.onOption$,
+      this.onLoading$,
+    ])
+      .pipe(
+        // tag(
+        //   `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+        // ),
+        map(
+          ([isOpen, searchStr, paramName, options, isLoading]: [
+            Maybe<boolean>,
+            Maybe<string>,
+            Maybe<string>,
+            NzSelectOptionInterface[],
+            boolean
+          ]) => {
+            const entityName = this.cvcEntityName.plural
+            const minLength = this.cvcMinSearchStrLength
+            const hasAddForm = this.cvcAddEntity !== null ? true : false
 
-          // INITIAL LOADING / ENTER QUERY PROMPT
-          if (
-            isOpen &&
-            !options &&
-            (!searchStr || (searchStr && searchStr.length < minLength))
-          ) {
-            return this.getSelectInitDisplay(entityName, minLength, paramName)
+            // INITIAL LOADING / ENTER QUERY PROMPT
+            if (
+              isOpen &&
+              !options &&
+              (!searchStr || (searchStr && searchStr.length < minLength))
+            ) {
+              return this.getSelectInitDisplay(entityName, minLength, paramName)
+            }
+
+            // QUERY ENTERED, SEARCHING MESSAGE
+            if (
+              isOpen &&
+              isLoading &&
+              searchStr &&
+              searchStr.length >= minLength
+            ) {
+              return this.getSelectSearchingDisplay(
+                searchStr,
+                entityName,
+                minLength,
+                paramName
+              )
+            }
+
+            //
+            // NOT FOUND MESSAGE / ADD ENTITY FORM
+            //
+
+            if (
+              isOpen &&
+              !isLoading &&
+              searchStr &&
+              searchStr.length >= minLength &&
+              !options
+            ) {
+              return this.getSelectEmptyDisplay(
+                searchStr,
+                entityName,
+                paramName,
+                hasAddForm
+              )
+            }
+
+            //
+            return {
+              searchStr: '',
+              showSpinner: false,
+              showAddForm: false,
+              message: 'RESETTING SELECT DISPLAY',
+            }
           }
-
-          // QUERY ENTERED, SEARCHING MESSAGE
-          if (
-            isOpen &&
-            isLoading &&
-            searchStr &&
-            searchStr.length >= minLength
-          ) {
-            return this.getSelectSearchingDisplay(
-              searchStr,
-              entityName,
-              minLength,
-              paramName
-            )
-          }
-
-          //
-          // NOT FOUND MESSAGE / ADD ENTITY FORM
-          //
-
-          if (
-            isOpen &&
-            !isLoading &&
-            searchStr &&
-            searchStr.length >= minLength &&
-            !options
-          ) {
-            return this.getSelectEmptyDisplay(
-              searchStr,
-              entityName,
-              paramName,
-              hasAddForm
-            )
-          }
-
-          //
-          return {
-            searchStr: '',
-            showSpinner: false,
-            showAddForm: false,
-            message: 'RESETTING SELECT DISPLAY',
-          }
-        }
+        ),
+        tap((display: NotFoundDisplay) => {
+          this.notFoundDisplay = display
+        }),
+        untilDestroyed(this)
       )
-    )
-    // need to subscribe to to notFoundDisplay here, b/c #searchMessages template
-    // is only displayed when no selectOptions exist. Therefor it is subscribed
-    // and unsubscribed repeatedly and we need it to be subscribed for the field's lifetime
-    this.notFoundDisplay$.pipe(untilDestroyed(this)).subscribe()
+      .subscribe()
   } // ngAfterViewInit()
 
   getSelectInitDisplay(
@@ -344,11 +352,11 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     }
     if (changes.cvcOptions) {
       const options = changes.cvcOptions.currentValue
-      this.onOption$.next(options)
+      if (options !== undefined) this.onOption$.next(options)
     }
     if (changes.cvcLoading) {
       const loading = changes.cvcLoading.currentValue
-      this.onLoading$.next(loading)
+      if (loading !== undefined) this.onLoading$.next(loading)
     }
   }
 }
