@@ -17,7 +17,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { CvcGeneSelectField, CvcGeneSelectFieldProps } from './gene-select.type'
+import {
+  CvcGeneSelectField,
+  CvcGeneSelectFieldConfig,
+  CvcGeneSelectFieldProps,
+} from './gene-select.type'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -30,7 +34,7 @@ const typeConfig: ConfigOption = {
       name: 'gene-multi-select',
       wrappers: ['form-field'],
       component: CvcGeneSelectField,
-      defaultOptions: <Partial<FieldTypeConfig<CvcGeneSelectFieldProps>>>{
+      defaultOptions: <CvcGeneSelectFieldConfig>{
         props: {
           label: 'Genes',
           isMultiSelect: true,
@@ -45,7 +49,8 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,

@@ -5,12 +5,6 @@ import {
   OnInit,
 } from '@angular/core'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
-import { CvcGeneSelectFieldConfig } from '../gene-select/gene-select.type'
-import {
-  CvcMolecularProfileSelectFieldConfig,
-  CvcMolecularProfileSelectFieldOptions,
-} from '../molecular-profile-select/molecular-profile-select.type'
-import { CvcVariantSelectFieldOptions } from '../variant-select/variant-select.type'
 
 @Component({
   selector: 'cvc-molecular-profile-builder',

@@ -33,6 +33,10 @@ import { BehaviorSubject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
+export type CvcGeneSelectFieldOption = Partial<
+  FieldTypeConfig<Partial<CvcGeneSelectFieldProps>>
+>
+
 export interface CvcGeneSelectFieldProps extends FormlyFieldProps {
   placeholder: string
   isMultiSelect: boolean
@@ -73,7 +77,7 @@ export class CvcGeneSelectField
   implements AfterViewInit
 {
   // FieldTypeConfig defaults
-  defaultOptions: Partial<FieldTypeConfig<CvcGeneSelectFieldProps>> = {
+  defaultOptions = {
     props: {
       label: 'Gene',
       placeholder: 'Search Genes',

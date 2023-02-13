@@ -1,4 +1,18 @@
+<form
+  *ngIf="hideMpSelect$ | ngrxPush"
+  nz-form
+  nzLayout="inline"
+  [formGroup]="simpleMpForm">
+  <formly-form
+    [form]="simpleMpForm"
+    [fields]="simpleMpConfig"
+    [model]="simpleMpModel"
+    [options]="simpleMpOptions"
+    (modelChange)="simpleMpFormChange$.next($event)">
+  </formly-form>
+</form>
 <cvc-entity-select
+  *ngIf="!(hideMpSelect$ | ngrxPush)"
   [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
   [cvcCustomTemplate]="selectedTemplate"
   [cvcFormControl]="formControl"
@@ -13,7 +27,6 @@
   (cvcOnSearch)="onSearch$.next($event)"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
-
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
 <ng-container *ngrxLet="onSearch$ as searchString">

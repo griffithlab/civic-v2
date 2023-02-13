@@ -44,8 +44,8 @@ import {
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
-export type CvcVariantSelectFieldOptions = Partial<
-  FieldTypeConfig<CvcVariantSelectFieldProps>
+export type CvcVariantSelectFieldOption = Partial<
+  FieldTypeConfig<Partial<CvcVariantSelectFieldProps>>
 >
 
 export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
@@ -56,7 +56,6 @@ export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
   requireGene: boolean // if true, disables field if no geneId, and adjust placeholders, prompts
   requireGenePlaceholderFn: (geneName: string) => string // returns placeholder that includes gene name
   requireGenePrompt: string // prompt displayed if gene unspecified
-  emitMolecularProfileId: boolean
   extraType?: CvcFormFieldExtraType
 }
 
@@ -98,7 +97,7 @@ export class CvcVariantSelectField
   onModel$ = new Observable<any>()
 
   // FieldTypeConfig defaults
-  defaultOptions: CvcVariantSelectFieldOptions = {
+  defaultOptions = {
     props: {
       label: 'Variant',
       placeholder: 'Search Variants',
@@ -108,7 +107,6 @@ export class CvcVariantSelectField
       },
       requireGenePrompt: 'Select a Gene to search its Variants',
       isMultiSelect: false,
-      emitMolecularProfileId: false,
       entityName: { singular: 'Variant', plural: 'Variants' },
     },
   }
@@ -175,53 +173,6 @@ export class CvcVariantSelectField
         )
         .subscribe((gid) => {
           this.onGeneId(gid)
-        })
-    }
-    if (this.props.emitMolecularProfileId) {
-      if (!this.state?.fields.variantMolecularProfile$) {
-        console.error(
-          `${this.field.id} emitMolecularProfileId is set, but no emitMolecularProfileId$ subject found on state.`
-        )
-        return
-      }
-      if (this.field.props.isMultiSelect) {
-        console.error(
-          `${this.field.id} emitMolecularProfileId is set, however feature is only applicable to non-multi-select fields.`
-        )
-        return
-      }
-      this.onValueChange$
-        .pipe(untilDestroyed(this))
-        .subscribe((value: Maybe<number | number[]>) => {
-          if (!value || Array.isArray(value)) return
-          const fragment = {
-            id: `Variant:${value}`,
-            fragment: gql`
-              fragment VariantSelectQuery on Variant {
-                id
-                name
-                link
-                variantAliases
-                singleVariantMolecularProfileId
-                singleVariantMolecularProfile {
-                  id
-                  name
-                  link
-                  molecularProfileAliases
-                }
-              }
-            `,
-          }
-          const variant = this.apollo.client.readFragment(fragment) as Variant
-          if (!variant) {
-            console.error(
-              `${this.field.id} could not resolve its Variant from the cache to obtain its singleVariantMolecularProfile`
-            )
-          } else {
-            this.state!.fields.variantMolecularProfile$.next(
-              variant.singleVariantMolecularProfile
-            )
-          }
         })
     }
   }
