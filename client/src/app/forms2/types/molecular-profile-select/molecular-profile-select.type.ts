@@ -8,10 +8,13 @@ import {
   Type,
   ViewChildren,
 } from '@angular/core'
+import { UntypedFormGroup } from '@angular/forms'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
+import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
+import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
   Maybe,
@@ -23,18 +26,24 @@ import {
   MolecularProfileSelectTypeaheadGQL,
   MolecularProfileSelectTypeaheadQuery,
   MolecularProfileSelectTypeaheadQueryVariables,
+  Variant,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
   FormlyFieldProps,
+  FormlyFormOptions,
 } from '@ngx-formly/core'
-import { Apollo } from 'apollo-angular'
+import { Apollo, gql } from 'apollo-angular'
+import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs'
+import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
+import { CvcGeneSelectFieldOption } from '../gene-select/gene-select.type'
+import { CvcVariantSelectFieldOption } from '../variant-select/variant-select.type'
 
 export type CvcMolecularProfileSelectFieldOptions = Partial<
   FieldTypeConfig<CvcMolecularProfileSelectFieldProps>
@@ -54,11 +63,21 @@ export interface CvcMolecularProfileSelectFieldProps extends FormlyFieldProps {
 }
 
 export interface CvcMolecularProfileSelectFieldConfig
-  extends FormlyFieldConfig<CvcMolecularProfileSelectFieldProps> {
+  extends FormlyFieldConfig<Partial<CvcMolecularProfileSelectFieldProps>> {
   type:
     | 'molecular-profile-select'
     | 'molecular-profile-multi-select'
     | Type<CvcMolecularProfileSelectField>
+}
+
+type SimpleMpFormModel = {
+  geneId?: number
+  variantId?: number
+}
+
+type SimpleMpFormState = {
+  formLayout: NzFormLayoutType
+  fields: EntityFieldSubjectMap
 }
 
 const MolecularProfileSelectMixin = mixin(
@@ -107,6 +126,26 @@ export class CvcMolecularProfileSelectField
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
 
+  simpleMpModel: SimpleMpFormModel
+  simpleMpForm: UntypedFormGroup
+  simpleMpConfig: FormlyFieldConfig[]
+  simpleMpLayout: NzFormLayoutType
+
+  simpleMpFormState: SimpleMpFormState = {
+    formLayout: 'inline',
+    fields: {
+      geneId$: new BehaviorSubject<Maybe<number>>(undefined),
+      variantId$: new BehaviorSubject<Maybe<number>>(undefined),
+      variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
+        undefined
+      ),
+    },
+  }
+
+  simpleMpOptions: FormlyFormOptions
+  simpleMpFormChange$: BehaviorSubject<Maybe<SimpleMpFormModel>>
+  hideMpSelect$!: Observable<boolean>
+
   constructor(
     private taq: MolecularProfileSelectTypeaheadGQL,
     private tq: MolecularProfileSelectTagGQL,
@@ -114,9 +153,51 @@ export class CvcMolecularProfileSelectField
     private apollo: Apollo
   ) {
     super()
+    // configure form
+    this.simpleMpForm = new UntypedFormGroup({})
+    this.simpleMpModel = { geneId: undefined, variantId: undefined }
+    this.simpleMpLayout = 'inline'
+    this.simpleMpOptions = { formState: this.simpleMpFormState }
+    this.simpleMpFormChange$ = new BehaviorSubject<Maybe<SimpleMpFormModel>>(
+      undefined
+    )
+
     this.placeholder$ = new BehaviorSubject<string>(
       this.defaultOptions.props!.placeholder
     )
+    this.simpleMpConfig = [
+      {
+        wrappers: ['field-grid'],
+        props: <Partial<CvcFormCardWrapperProps>>{
+          grid: {
+            cols: 2,
+          },
+        },
+        fieldGroup: [
+          <CvcGeneSelectFieldOption>{
+            key: 'geneId',
+            type: 'gene-select',
+            props: {
+              required: true,
+              formLayout: 'inline',
+              hideLabel: true,
+            },
+            resetOnHide: false,
+          },
+          <CvcVariantSelectFieldOption>{
+            key: 'variantId',
+            type: 'variant-select',
+            props: {
+              required: true,
+              requireGene: true,
+              formLayout: 'inline',
+              hideLabel: true,
+            },
+            resetOnHide: false,
+          },
+        ],
+      },
+    ]
   }
 
   ngAfterViewInit(): void {
@@ -135,38 +216,61 @@ export class CvcMolecularProfileSelectField
     })
 
     this.placeholder$.next(this.props.placeholder)
-    // this.onValueChange$.pipe(tag(`${this.field.id} onValueChange$`)).subscribe()
 
-    if (this.props.watchVariantMolecularProfileId) {
-      this.onTagClose$.pipe(untilDestroyed(this)).subscribe(() => {
-        this.field.hide = true
+    this.hideMpSelect$ = this.formControl.valueChanges.pipe(
+      map((mpId: Maybe<number>) => !mpId)
+    )
+
+    // populate MP select if variantId received from child form model
+    this.simpleMpFormChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((model: Maybe<SimpleMpFormModel>) => {
+        if (!model?.variantId) return
+        this.onVariantId(model.variantId)
       })
-    }
   } // ngAfterViewInit
 
   private configureStateConnections() {
     if (!this.state) return
-    // subscribe to variant molecular profile id updates if requested
-    if (this.props.watchVariantMolecularProfileId) {
-      if (!this.state.fields.variantMolecularProfile$) {
-        console.error(
-          `${this.field.id} watchVariantMolecularProfile is set, but no variantMolecularProfile$ subject found on state.`
-        )
-        return
-      }
-      this.state.fields.variantMolecularProfile$
-        .pipe(untilDestroyed(this))
-        .subscribe((mp: MolecularProfile) => {
-          if (!mp) return
-          this.field.formControl.setValue(mp.id)
-          // this.result$.next([mp])
-          // if (this.options.build) {
-          //   this.options.build(this.field)
-          // }
-        })
-    }
   }
 
+  onVariantId(variantId: Maybe<number>): void {
+    if (!variantId) return
+    const fragment = {
+      id: `Variant:${variantId}`,
+      fragment: gql`
+        fragment VariantSelectQuery on Variant {
+          id
+          name
+          link
+          variantAliases
+          singleVariantMolecularProfileId
+          singleVariantMolecularProfile {
+            id
+            name
+            link
+            molecularProfileAliases
+          }
+        }
+      `,
+    }
+    let variant
+    try {
+      variant = this.apollo.client.readFragment(fragment) as Variant
+    } catch (err) {
+      console.error(err)
+    }
+    if (!variant) {
+      console.error(
+        `${this.field.id} could not resolve its Variant from the cache to obtain its singleVariantMolecularProfile`
+      )
+    } else {
+      const mp = variant.singleVariantMolecularProfile
+      this.selectOption$.next([{ label: mp.name, value: mp.id }])
+      this.cdr.detectChanges()
+      this.field.formControl.setValue(mp.id)
+    }
+  }
   getTypeaheadVarsFn(str: string, param: Maybe<number>) {
     return {
       name: str,

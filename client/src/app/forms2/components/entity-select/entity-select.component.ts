@@ -192,9 +192,9 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       this.onLoading$.pipe(distinctUntilChanged()),
     ])
       .pipe(
-        tag(
-          `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
-        ),
+        // tag(
+        //   `${this.cvcEntityName.plural} entity-select notFoundDisplay$ combineLatest`
+        // ),
         map(
           ([isOpen, searchStr, paramName, options, isLoading]: [
             boolean,
@@ -208,7 +208,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             const hasAddForm = this.cvcAddEntity !== null ? true : false
 
             const initialOpen = this.previousIsOpen === false && isOpen === true
-            console.log('initialOpen: ', initialOpen)
+            // console.log('initialOpen: ', initialOpen)
 
             this.previousIsOpen = isOpen
 
