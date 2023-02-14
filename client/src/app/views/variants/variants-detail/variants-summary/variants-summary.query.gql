@@ -15,6 +15,7 @@ fragment VariantSummaryFields on Variant {
   variantAliases
   alleleRegistryId
   openCravatUrl
+  maneSelectTranscript
   variantTypes {
     id
     link
