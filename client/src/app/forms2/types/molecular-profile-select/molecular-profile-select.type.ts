@@ -198,25 +198,25 @@ export class CvcMolecularProfileSelectField
           {
             key: 'geneId',
             type: 'gene-select',
+            resetOnHide: false,
             props: {
               hideLabel: true,
               layout: {
                 showExtra: false,
               },
             },
-            resetOnHide: false,
           },
           <CvcVariantSelectFieldOption>{
             key: 'variantId',
             type: 'variant-select',
+            resetOnHide: false,
             props: {
+              hideLabel: true,
               requireGene: true,
               layout: {
                 showExtra: false,
               },
-              hideLabel: true,
             },
-            resetOnHide: false,
           },
         ],
       },
