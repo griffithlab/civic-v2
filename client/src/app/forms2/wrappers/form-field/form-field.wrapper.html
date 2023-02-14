@@ -19,10 +19,11 @@
       <nz-row [nzGutter]="[6, 6]">
         <ng-container *ngIf="props.label && props.hideLabel !== true">
           <nz-form-label
-            *ngIf="wrapper.layout.label as label"
+            *ngrxLet="wrapper.layout.label as label"
             [nzRequired]="props.required"
             [nzFor]="id"
             [nzNoColon]="true"
+            [nzTooltipTitle]="props.tooltip"
             [nzSpan]="label.span ? label.span : null">
             <span
               nz-typography
@@ -31,7 +32,7 @@
           </nz-form-label>
         </ng-container>
         <nz-form-control
-          *ngIf="wrapper.layout.control as control"
+          *ngrxLet="wrapper.layout.control as control"
           [nzExtra]="!showError ? descriptionTpl : undefined"
           [nzValidateStatus]="errorState"
           [nzErrorTip]="errorTpl"
@@ -73,29 +74,21 @@
     }">
     <ng-container *ngIf="props.label && props.hideLabel !== true">
       <nz-form-label
-        *ngIf="wrapper.layout.label as label"
+        *ngrxLet="wrapper.layout.label as label"
         [ngClass]="{ disabled: props.disabled, error: showError }"
         [nzRequired]="props.required"
         [nzFor]="id"
+        [nzTooltipTitle]="props.tooltip"
         [nzNoColon]="true">
         <span
           class="label"
           nz-typography
           nzEllipsis
           [nzContent]="props.label"></span>
-        <span
-          *ngIf="props.tooltip"
-          class="icon-tooltip"
-          nz-icon
-          nzTheme="outline"
-          nzTwotoneColor="#bfbfbf"
-          nzType="info-circle"
-          nz-tooltip
-          [nzTooltipTitle]="props.tooltip"></span>
       </nz-form-label>
     </ng-container>
     <nz-form-control
-      *ngIf="wrapper.layout.control as control"
+      *ngrxLet="wrapper.layout.control as control"
       [nzExtra]="!showError ? descriptionTpl : undefined"
       [nzValidateStatus]="errorState"
       [nzErrorTip]="errorTpl">
@@ -126,7 +119,7 @@
       </nz-form-label>
     </ng-container>
     <nz-form-control
-      *ngIf="wrapper.layout.control as control"
+      *ngrxLet="wrapper.layout.control as control"
       [nzExtra]="!showError ? descriptionTpl : undefined"
       [nzValidateStatus]="errorState"
       [nzErrorTip]="errorTpl">

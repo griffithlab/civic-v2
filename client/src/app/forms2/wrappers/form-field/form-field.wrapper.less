@@ -6,18 +6,28 @@
 .cvc-field-label() {
   label {
     // remove label's before/after content
-    &:before,
-    &:after {
-      content: none;
-    }
+    // &:before,
+    // &:after {
+    //   content: none;
+    // }
     // embolden required labels
     &.ant-form-item-required {
-      font-weight: bold;
+      font-weight: 500;
       &:before {
-        content: none;
+        border: 1px solid red;
+        height: 1em;
+        content: '';
       }
     }
   }
+  .ant-form-item-tooltip {
+    margin-top: -3px;
+    font-size: 9px;
+  }
+  ::ng-deep span.label {
+    padding-right: 4px;
+  }
+
   &.disabled label ::ng-deep span.label {
     color: @text-color-secondary;
   }
@@ -25,6 +35,7 @@
     color: @error-color;
   }
 }
+
 .cvc-form-field-card() {
   background-color: white;
   border: 1px solid #d9d9d9;
