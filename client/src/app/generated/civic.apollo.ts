@@ -6198,6 +6198,28 @@ export type MolecularProfileSelectTagQuery = { __typename: 'Query', molecularPro
 
 export type MolecularProfileSelectTypeaheadFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> };
 
+export type PreviewMolecularProfileName2QueryVariables = Exact<{
+  mpStructure?: InputMaybe<MolecularProfileComponentInput>;
+}>;
+
+
+export type PreviewMolecularProfileName2Query = { __typename: 'Query', previewMolecularProfileName: { __typename: 'MolecularProfileNamePreview', existingMolecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, segments: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }>, deprecatedVariants: Array<{ __typename: 'Variant', id: number, name: string, link: string }> } };
+
+export type CreateMolecularProfile2MutationVariables = Exact<{
+  mpStructure: MolecularProfileComponentInput;
+}>;
+
+
+export type CreateMolecularProfile2Mutation = { __typename: 'Mutation', createMolecularProfile?: { __typename: 'CreateMolecularProfilePayload', molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | undefined };
+
+type PreviewMpName2_Gene_Fragment = { __typename: 'Gene', id: number, name: string, link: string };
+
+type PreviewMpName2_MolecularProfileTextSegment_Fragment = { __typename: 'MolecularProfileTextSegment', text: string };
+
+type PreviewMpName2_Variant_Fragment = { __typename: 'Variant', id: number, name: string, link: string };
+
+export type PreviewMpName2Fragment = PreviewMpName2_Gene_Fragment | PreviewMpName2_MolecularProfileTextSegment_Fragment | PreviewMpName2_Variant_Fragment;
+
 export type PhenotypeSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -8030,6 +8052,24 @@ export const MolecularProfileSelectTypeaheadFieldsFragmentDoc = gql`
   name
   link
   molecularProfileAliases
+}
+    `;
+export const PreviewMpName2FragmentDoc = gql`
+    fragment PreviewMpName2 on MolecularProfileSegment {
+  __typename
+  ... on MolecularProfileTextSegment {
+    text
+  }
+  ... on Gene {
+    id
+    name
+    link
+  }
+  ... on Variant {
+    id
+    name
+    link
+  }
 }
     `;
 export const PhenotypeSelectTypeaheadFieldsFragmentDoc = gql`
@@ -11917,6 +11957,58 @@ export const MolecularProfileSelectTagDocument = gql`
   })
   export class MolecularProfileSelectTagGQL extends Apollo.Query<MolecularProfileSelectTagQuery, MolecularProfileSelectTagQueryVariables> {
     document = MolecularProfileSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PreviewMolecularProfileName2Document = gql`
+    query PreviewMolecularProfileName2($mpStructure: MolecularProfileComponentInput) {
+  previewMolecularProfileName(structure: $mpStructure) {
+    existingMolecularProfile {
+      id
+      name
+      link
+    }
+    segments {
+      ...PreviewMpName2
+    }
+    deprecatedVariants {
+      id
+      name
+      link
+    }
+  }
+}
+    ${PreviewMpName2FragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PreviewMolecularProfileName2GQL extends Apollo.Query<PreviewMolecularProfileName2Query, PreviewMolecularProfileName2QueryVariables> {
+    document = PreviewMolecularProfileName2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateMolecularProfile2Document = gql`
+    mutation CreateMolecularProfile2($mpStructure: MolecularProfileComponentInput!) {
+  createMolecularProfile(input: {structure: $mpStructure}) {
+    molecularProfile {
+      id
+      name
+      link
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateMolecularProfile2GQL extends Apollo.Mutation<CreateMolecularProfile2Mutation, CreateMolecularProfile2MutationVariables> {
+    document = CreateMolecularProfile2Document;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
