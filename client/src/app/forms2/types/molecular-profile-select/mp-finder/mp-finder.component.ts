@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -8,10 +9,11 @@ import { UntypedFormGroup } from '@angular/forms'
 import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
 import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field-grid.wrapper'
 import { MolecularProfile } from '@app/generated/civic.apollo'
+import { untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, Subject } from 'rxjs'
 import { CvcVariantSelectFieldOption } from '../../variant-select/variant-select.type'
 
 type MpFinderModel = {
@@ -30,10 +32,10 @@ type MpFinderState = {
   styleUrls: ['./mp-finder.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MpFinderComponent {
-  @Output() onSelect = new EventEmitter()
+export class MpFinderComponent implements AfterViewInit {
+  @Output() onSelect = new EventEmitter<MolecularProfile>()
 
-  formChange$: BehaviorSubject<Maybe<MpFinderModel>>
+  modelChange$: Subject<MpFinderModel>
   model: MpFinderModel
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
@@ -54,7 +56,7 @@ export class MpFinderComponent {
     this.form = new UntypedFormGroup({})
     this.model = { geneId: undefined, variantId: undefined }
     this.options = { formState: this.finderState }
-    this.formChange$ = new BehaviorSubject<Maybe<MpFinderModel>>(undefined)
+    this.modelChange$ = new Subject<MpFinderModel>()
 
     this.config = [
       {
@@ -91,5 +93,13 @@ export class MpFinderComponent {
         ],
       },
     ]
+  }
+
+  ngAfterViewInit(): void {
+    const mp$ = this.finderState.fields.variantMolecularProfile$
+    if (!mp$) return
+    mp$.pipe(untilDestroyed(this)).subscribe((mp: MolecularProfile) => {
+      this.onSelect.next(mp)
+    })
   }
 }
