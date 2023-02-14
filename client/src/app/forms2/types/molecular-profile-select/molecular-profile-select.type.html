@@ -47,10 +47,9 @@
 <nz-row
   [nzGutter]="[4, 4]"
   *ngIf="showExp$ | ngrxPush as showExp"
-  [@slideMotion]="showExp ? 'enter' : 'leave'"
-  style="min-height: 200px">
+  [@slideMotion]="showExp ? 'enter' : 'leave'">
   <nz-col nzSpan="24">
-    <div>MP EXPRESSION FORM HERE!</div>
+    <cvc-mp-expression-editor></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>
 <!-- select option templates -->
