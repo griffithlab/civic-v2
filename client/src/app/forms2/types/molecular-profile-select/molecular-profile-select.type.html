@@ -1,7 +1,7 @@
 <form
   *ngIf="hideMpSelect$ | ngrxPush"
   nz-form
-  nzLayout="inline"
+  [nzLayout]="simpleMpLayout"
   [formGroup]="simpleMpForm">
   <formly-form
     [form]="simpleMpForm"

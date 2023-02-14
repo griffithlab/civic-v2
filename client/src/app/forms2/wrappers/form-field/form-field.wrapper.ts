@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core'
+import { UntilDestroy } from '@ngneat/until-destroy'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { IndexableObject } from 'ng-zorro-antd/core/types'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
@@ -25,6 +31,7 @@ export interface CvcFormFieldWrapperLayout {
       span: number
     }
   }
+  showExtra: boolean
 }
 
 @Component({
@@ -35,7 +42,7 @@ export interface CvcFormFieldWrapperLayout {
 })
 export class CvcFormFieldWrapper
   extends FieldWrapper<FormlyFieldConfig>
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   formLayout: NzFormLayoutType = 'vertical'
   wrapper!: CvcFormFieldWrapperLayout
@@ -69,14 +76,23 @@ export class CvcFormFieldWrapper
               : undefined),
           },
         },
+        showExtra:
+          this.props.layout?.showExtra !== undefined
+            ? this.props.layout.showExtra
+            : true,
       }
     } catch (err) {
       console.error(err)
     }
 
-    if (this.options.formState.formLayout || this.props.formLayout) {
-      this.formLayout =
-        this.props.formLayout || this.options.formState.formLayout
+    if (this.options.formState.formLayout) {
+      this.formLayout = this.options.formState.formLayout
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.options.formState.formLayout) {
+      this.formLayout = this.options.formState.formLayout
     }
   }
 }

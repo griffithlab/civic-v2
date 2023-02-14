@@ -1,13 +1,19 @@
 <ng-container [ngSwitch]="formLayout">
-  <ng-container *ngSwitchCase="'horizontal'">
+  <div
+    *ngSwitchCase="'horizontal'"
+    class="layout-horizontal">
     <ng-container [ngTemplateOutlet]="horizontalFieldWrapper"></ng-container>
-  </ng-container>
-  <ng-container *ngSwitchCase="'inline'">
+  </div>
+  <div
+    *ngSwitchCase="'inline'"
+    class="layout-inline">
     <ng-container [ngTemplateOutlet]="inlineFieldWrapper"></ng-container>
-  </ng-container>
-  <ng-container *ngSwitchCase="'vertical'">
+  </div>
+  <div
+    *ngSwitchCase="'vertical'"
+    class="layout-vertical">
     <ng-container [ngTemplateOutlet]="verticalFieldWrapper"></ng-container>
-  </ng-container>
+  </div>
 </ng-container>
 
 <ng-template #horizontalFieldWrapper>
@@ -15,52 +21,28 @@
     [nzGutter]="wrapper.layout.item.gutter"
     class="layout-horizontal"
     [ngClass]="{ showBorders: props.showBorders }">
-    <nz-col nzFlex="auto">
-      <nz-row [nzGutter]="[6, 6]">
-        <ng-container *ngIf="props.label && props.hideLabel !== true">
-          <nz-form-label
-            *ngrxLet="wrapper.layout.label as label"
-            [nzRequired]="props.required"
-            [nzFor]="id"
-            [nzNoColon]="true"
-            [nzTooltipTitle]="props.tooltip"
-            [nzSpan]="label.span ? label.span : null">
-            <span
-              nz-typography
-              nzEllipsis
-              [nzContent]="props.label"></span>
-          </nz-form-label>
-        </ng-container>
-        <nz-form-control
-          *ngrxLet="wrapper.layout.control as control"
-          [nzExtra]="!showError ? descriptionTpl : undefined"
-          [nzValidateStatus]="errorState"
-          [nzErrorTip]="errorTpl"
-          [nzSpan]="control.span ? control.span : null">
-          <ng-container #fieldComponent></ng-container>
-        </nz-form-control>
-      </nz-row>
-    </nz-col>
-    <nz-col
-      nzFlex="14px"
-      class="help-tooltip">
-      <span
-        *ngIf="props.tooltip; else iconSpacer"
-        class="icon-tooltip"
-        nz-icon
-        nzTheme="outline"
-        nzType="info-circle"
-        nz-tooltip
-        [nzTooltipTitle]="props.tooltip"></span>
-      <ng-template #iconSpacer>
+    <ng-container *ngIf="props.label && props.hideLabel !== true">
+      <nz-form-label
+        *ngrxLet="wrapper.layout.label as label"
+        [nzRequired]="props.required"
+        [nzFor]="id"
+        [nzNoColon]="true"
+        [nzTooltipTitle]="props.tooltip"
+        [nzSpan]="label.span ? label.span : null">
         <span
-          class="icon-spacer"
-          nz-icon
-          nzTheme="outline"
-          nzTwotoneColor="#FFFFFF"
-          nzType="info-circle"></span>
-      </ng-template>
-    </nz-col>
+          nz-typography
+          nzEllipsis
+          [nzContent]="props.label"></span>
+      </nz-form-label>
+    </ng-container>
+    <nz-form-control
+      *ngrxLet="wrapper.layout.control as control"
+      [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
+      [nzValidateStatus]="errorState"
+      [nzErrorTip]="errorTpl"
+      [nzSpan]="control.span ? control.span : null">
+      <ng-container #fieldComponent></ng-container>
+    </nz-form-control>
   </nz-form-item>
 </ng-template>
 
@@ -89,7 +71,7 @@
     </ng-container>
     <nz-form-control
       *ngrxLet="wrapper.layout.control as control"
-      [nzExtra]="!showError ? descriptionTpl : undefined"
+      [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
       [nzValidateStatus]="errorState"
       [nzErrorTip]="errorTpl">
       <ng-container #fieldComponent></ng-container>
@@ -102,25 +84,19 @@
     <ng-container *ngIf="props.label && props.hideLabel !== true">
       <nz-form-label
         [nzRequired]="props.required"
-        [nzFor]="id">
+        [nzTooltipTitle]="props.tooltip"
+        [nzFor]="id"
+        [nzNoColon]="true">
         <span
+          class="label"
           nz-typography
           nzEllipsis
           [nzContent]="props.label"></span>
-        <span
-          *ngIf="props.tooltip"
-          class="icon-tooltip"
-          nz-icon
-          nzTheme="outline"
-          nzTwotoneColor="#bfbfbf"
-          nzType="info-circle"
-          nz-tooltip
-          [nzTooltipTitle]="props.tooltip"></span>
       </nz-form-label>
     </ng-container>
     <nz-form-control
       *ngrxLet="wrapper.layout.control as control"
-      [nzExtra]="!showError ? descriptionTpl : undefined"
+      [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
       [nzValidateStatus]="errorState"
       [nzErrorTip]="errorTpl">
       <ng-container #fieldComponent></ng-container>

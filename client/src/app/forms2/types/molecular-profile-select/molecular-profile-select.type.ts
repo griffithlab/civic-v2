@@ -156,7 +156,7 @@ export class CvcMolecularProfileSelectField
     // configure form
     this.simpleMpForm = new UntypedFormGroup({})
     this.simpleMpModel = { geneId: undefined, variantId: undefined }
-    this.simpleMpLayout = 'inline'
+    this.simpleMpLayout = 'horizontal'
     this.simpleMpOptions = { formState: this.simpleMpFormState }
     this.simpleMpFormChange$ = new BehaviorSubject<Maybe<SimpleMpFormModel>>(
       undefined
@@ -165,6 +165,7 @@ export class CvcMolecularProfileSelectField
     this.placeholder$ = new BehaviorSubject<string>(
       this.defaultOptions.props!.placeholder
     )
+
     this.simpleMpConfig = [
       {
         wrappers: ['field-grid'],
@@ -174,13 +175,12 @@ export class CvcMolecularProfileSelectField
           },
         },
         fieldGroup: [
-          <CvcGeneSelectFieldOption>{
+          {
             key: 'geneId',
             type: 'gene-select',
             props: {
-              required: true,
-              formLayout: 'inline',
-              hideLabel: true,
+              // formLayout: 'inline',
+              // hideLabel: true,
             },
             resetOnHide: false,
           },
@@ -188,10 +188,12 @@ export class CvcMolecularProfileSelectField
             key: 'variantId',
             type: 'variant-select',
             props: {
-              required: true,
               requireGene: true,
-              formLayout: 'inline',
-              hideLabel: true,
+              layout: {
+                showExtra: false,
+              },
+              // formLayout: 'inline',
+              // hideLabel: true,
             },
             resetOnHide: false,
           },
