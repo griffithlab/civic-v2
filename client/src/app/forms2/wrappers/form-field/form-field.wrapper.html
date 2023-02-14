@@ -40,7 +40,7 @@
       [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
       [nzValidateStatus]="errorState"
       [nzErrorTip]="errorTpl"
-      [nzSpan]="control.span ? control.span : null">
+      [nzSpan]="props.hideLabel ? 24 : control.span ? control.span : null">
       <ng-container #fieldComponent></ng-container>
     </nz-form-control>
   </nz-form-item>

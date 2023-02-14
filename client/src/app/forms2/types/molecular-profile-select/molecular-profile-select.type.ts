@@ -14,6 +14,7 @@ import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
+import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field-grid.wrapper'
 import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
@@ -186,7 +187,7 @@ export class CvcMolecularProfileSelectField
     this.simpleMpConfig = [
       {
         wrappers: ['field-grid'],
-        props: <Partial<CvcFormCardWrapperProps>>{
+        props: <CvcFieldGridWrapperConfig>{
           grid: {
             cols: 2,
           },
@@ -196,8 +197,7 @@ export class CvcMolecularProfileSelectField
             key: 'geneId',
             type: 'gene-select',
             props: {
-              // formLayout: 'inline',
-              // hideLabel: true,
+              hideLabel: true,
               layout: {
                 showExtra: false,
               },
@@ -212,8 +212,7 @@ export class CvcMolecularProfileSelectField
               layout: {
                 showExtra: false,
               },
-              // formLayout: 'inline',
-              // hideLabel: true,
+              hideLabel: true,
             },
             resetOnHide: false,
           },
@@ -239,6 +238,7 @@ export class CvcMolecularProfileSelectField
 
     this.placeholder$.next(this.props.placeholder)
 
+    // only show select if mpId set
     this.onValueChange$
       .pipe(untilDestroyed(this))
       .subscribe((mpId: Maybe<number>) => {
