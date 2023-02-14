@@ -37,6 +37,7 @@ import {
   FormlyFormOptions,
 } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
+import { fadeMotion, slideMotion } from 'ng-zorro-antd/core/animation'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
@@ -107,6 +108,7 @@ const MolecularProfileSelectMixin = mixin(
   selector: '',
   templateUrl: './molecular-profile-select.type.html',
   styleUrls: ['./molecular-profile-select.type.less'],
+  animations: [slideMotion, fadeMotion],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcMolecularProfileSelectField
