@@ -35,14 +35,14 @@
       type="button"
       nz-button
       nzBlock
-      (click)="showExpression = !showExpression">
+      (click)="this.onShowExpClick$.next()">
       EXP
     </button>
   </nz-col>
 </nz-row>
 <nz-row
   [nzGutter]="[4, 4]"
-  *ngIf="showExpression">
+  *ngIf="showExp$ | ngrxPush">
   <nz-col nzSpan="24">
     <div style="height: 300px">MP EXPRESSION FORM HERE!</div>
   </nz-col>
