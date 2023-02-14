@@ -10,7 +10,6 @@
   [nzDropdownMatchSelectWidth]="false">
   <nz-option *ngFor="let o of (option$ | ngrxPush)"
     nzCustomContent
-    [nzLabel]="o.text"
     [nzValue]="o.result">
     <i nz-icon
       [nzType]="iconNameForResult(o.result)"
