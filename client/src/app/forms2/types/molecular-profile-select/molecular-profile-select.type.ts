@@ -114,10 +114,12 @@ export class CvcMolecularProfileSelectField
 {
   // SOURCE STREAMS
   simpleMpFormChange$: BehaviorSubject<Maybe<SimpleMpFormModel>>
+  onShowExpClick$: Subject<void>
 
   // PRESENTATION STREAMS
+  showExp$: Observable<boolean>
   placeholder$: BehaviorSubject<string>
-  hideMpSelect$!: Observable<boolean>
+  hideMpSelect$!: BehaviorSubject<boolean>
 
   showExpression: boolean = false
 
@@ -172,9 +174,14 @@ export class CvcMolecularProfileSelectField
       undefined
     )
 
+    this.onShowExpClick$ = new Subject<void>()
+    this.showExp$ = this.onShowExpClick$.pipe(scan((acc, _) => !acc, false))
+
     this.placeholder$ = new BehaviorSubject<string>(
       this.defaultOptions.props!.placeholder
     )
+
+    this.hideMpSelect$ = new BehaviorSubject<boolean>(true)
 
     this.simpleMpConfig = [
       {
@@ -232,9 +239,11 @@ export class CvcMolecularProfileSelectField
 
     this.placeholder$.next(this.props.placeholder)
 
-    this.hideMpSelect$ = this.formControl.valueChanges.pipe(
-      map((mpId: Maybe<number>) => !mpId)
-    )
+    this.onValueChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((mpId: Maybe<number>) => {
+        this.hideMpSelect$.next(mpId !== undefined ? false : true)
+      })
 
     // populate MP select if variantId received from child form model
     this.simpleMpFormChange$
