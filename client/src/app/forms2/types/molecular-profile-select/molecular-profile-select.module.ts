@@ -23,7 +23,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { LetModule, PushModule } from '@ngrx/component'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
-import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { MpFinderComponent } from './mp-finder/mp-finder.component'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -49,7 +50,7 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcMolecularProfileSelectField, MpExpressionEditorComponent],
+  declarations: [CvcMolecularProfileSelectField, MpExpressionEditorComponent, MpFinderComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
