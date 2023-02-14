@@ -1,7 +1,10 @@
 <nz-row [nzGutter]="[8, 4]">
-  <nz-col nzFlex="auto">
+  <nz-col
+    nzFlex="auto"
+    *ngrxLet="hideMpSelect$ as hideSelect">
     <form
-      *ngIf="hideMpSelect$ | ngrxPush"
+      *ngIf="hideSelect"
+      [@fadeMotion]="hideSelect ? 'enter' : 'leave'"
       nz-form
       [nzLayout]="simpleMpLayout"
       [formGroup]="simpleMpForm">
@@ -14,7 +17,8 @@
       </formly-form>
     </form>
     <cvc-entity-select
-      *ngIf="!(hideMpSelect$ | ngrxPush)"
+      *ngIf="!hideSelect"
+      [@fadeMotion]="hideSelect ? 'leave' : 'enter'"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
       [cvcFormControl]="formControl"
@@ -42,9 +46,11 @@
 </nz-row>
 <nz-row
   [nzGutter]="[4, 4]"
-  *ngIf="showExp$ | ngrxPush">
+  *ngIf="showExp$ | ngrxPush as showExp"
+  [@slideMotion]="showExp ? 'enter' : 'leave'"
+  style="min-height: 200px">
   <nz-col nzSpan="24">
-    <div style="height: 300px">MP EXPRESSION FORM HERE!</div>
+    <div>MP EXPRESSION FORM HERE!</div>
   </nz-col>
 </nz-row>
 <!-- select option templates -->
