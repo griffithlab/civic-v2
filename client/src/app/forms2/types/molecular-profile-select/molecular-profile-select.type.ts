@@ -38,7 +38,14 @@ import {
 import { Apollo, gql } from 'apollo-angular'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs'
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  scan,
+  startWith,
+  Subject,
+} from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
@@ -105,8 +112,14 @@ export class CvcMolecularProfileSelectField
   extends MolecularProfileSelectMixin
   implements AfterViewInit
 {
-  // LOCAL PRESENTATION STREAMS
+  // SOURCE STREAMS
+  simpleMpFormChange$: BehaviorSubject<Maybe<SimpleMpFormModel>>
+
+  // PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
+  hideMpSelect$!: Observable<boolean>
+
+  showExpression: boolean = false
 
   // FieldTypeConfig defaults
   defaultOptions: CvcMolecularProfileSelectFieldOptions = {
@@ -129,10 +142,10 @@ export class CvcMolecularProfileSelectField
   simpleMpModel: SimpleMpFormModel
   simpleMpForm: UntypedFormGroup
   simpleMpConfig: FormlyFieldConfig[]
-  simpleMpLayout: NzFormLayoutType
+  simpleMpLayout: NzFormLayoutType = 'horizontal'
 
   simpleMpFormState: SimpleMpFormState = {
-    formLayout: 'inline',
+    formLayout: this.simpleMpLayout,
     fields: {
       geneId$: new BehaviorSubject<Maybe<number>>(undefined),
       variantId$: new BehaviorSubject<Maybe<number>>(undefined),
@@ -143,8 +156,6 @@ export class CvcMolecularProfileSelectField
   }
 
   simpleMpOptions: FormlyFormOptions
-  simpleMpFormChange$: BehaviorSubject<Maybe<SimpleMpFormModel>>
-  hideMpSelect$!: Observable<boolean>
 
   constructor(
     private taq: MolecularProfileSelectTypeaheadGQL,
@@ -156,7 +167,6 @@ export class CvcMolecularProfileSelectField
     // configure form
     this.simpleMpForm = new UntypedFormGroup({})
     this.simpleMpModel = { geneId: undefined, variantId: undefined }
-    this.simpleMpLayout = 'horizontal'
     this.simpleMpOptions = { formState: this.simpleMpFormState }
     this.simpleMpFormChange$ = new BehaviorSubject<Maybe<SimpleMpFormModel>>(
       undefined
@@ -181,6 +191,9 @@ export class CvcMolecularProfileSelectField
             props: {
               // formLayout: 'inline',
               // hideLabel: true,
+              layout: {
+                showExtra: false,
+              },
             },
             resetOnHide: false,
           },
