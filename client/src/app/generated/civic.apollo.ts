@@ -5440,6 +5440,18 @@ export type RevisionsQuery = { __typename: 'Query', revisions: { __typename: 'Re
 
 export type RevisionFragment = { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, resolvedAt?: any | undefined, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', currentObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }>, addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }>, suggestedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, resolver?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, creationComment?: { __typename: 'Comment', parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, resolutionComment?: { __typename: 'Comment', parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined };
 
+export type RevisionsBrowseQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RevisionsBrowseQuery = { __typename: 'Query', revisions: { __typename: 'RevisionConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'RevisionEdge', cursor: string, node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, resolvedAt?: any | undefined, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', currentObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }>, suggestedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, subject: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined }> } };
+
+export type RevisionBrowseFieldsFragment = { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, resolvedAt?: any | undefined, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', currentObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }>, suggestedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, subject: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
+
 export type ContributorAvatarsQueryVariables = Exact<{
   subscribable: SubscribableInput;
 }>;
@@ -7215,6 +7227,51 @@ export const RevisionFragmentDoc = gql`
     }
   }
   status
+}
+    `;
+export const RevisionBrowseFieldsFragmentDoc = gql`
+    fragment RevisionBrowseFields on Revision {
+  id
+  revisionsetId
+  createdAt
+  resolvedAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  status
+  subject {
+    id
+    name
+    link
+    __typename
+  }
 }
     `;
 export const ContributorFieldsFragmentDoc = gql`
@@ -9643,6 +9700,36 @@ export const RevisionsDocument = gql`
   })
   export class RevisionsGQL extends Apollo.Query<RevisionsQuery, RevisionsQueryVariables> {
     document = RevisionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RevisionsBrowseDocument = gql`
+    query RevisionsBrowse($first: Int, $last: Int, $before: String, $after: String) {
+  revisions(first: $first, last: $last, before: $before, after: $after) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...RevisionBrowseFields
+      }
+    }
+  }
+}
+    ${RevisionBrowseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RevisionsBrowseGQL extends Apollo.Query<RevisionsBrowseQuery, RevisionsBrowseQueryVariables> {
+    document = RevisionsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,0 +1,71 @@
+query RevisionsBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  revisions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...RevisionBrowseFields
+      }
+    }
+  }
+}
+
+fragment RevisionBrowseFields on Revision {
+  id
+  revisionsetId
+  createdAt
+  resolvedAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  status
+  subject {
+    id
+    name
+    link
+    __typename
+  }
+}
