@@ -1,19 +1,18 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter, Output
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
 import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field-grid.wrapper'
-import { MolecularProfile } from '@app/generated/civic.apollo'
-import { untilDestroyed } from '@ngneat/until-destroy'
+import { MolecularProfile, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Apollo, gql } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import { CvcVariantSelectFieldOption } from '../../variant-select/variant-select.type'
 
 type MpFinderModel = {
@@ -32,10 +31,10 @@ type MpFinderState = {
   styleUrls: ['./mp-finder.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MpFinderComponent implements AfterViewInit {
-  @Output() onSelect = new EventEmitter<MolecularProfile>()
+export class MpFinderComponent {
+  @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
 
-  modelChange$: Subject<MpFinderModel>
+  modelChange$ = new BehaviorSubject<Maybe<MpFinderModel>>(undefined)
   model: MpFinderModel
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
@@ -52,11 +51,12 @@ export class MpFinderComponent implements AfterViewInit {
     },
   }
   options: FormlyFormOptions
-  constructor() {
+  constructor(private apollo: Apollo) {
     this.form = new UntypedFormGroup({})
     this.model = { geneId: undefined, variantId: undefined }
     this.options = { formState: this.finderState }
-    this.modelChange$ = new Subject<MpFinderModel>()
+    // this.modelChange$ = new BehaviorSubject<Maybe<MpFinderModel>>(undefined)
+    this.modelChange$.pipe(tag('mp-finder modelChange$')).subscribe()
 
     this.config = [
       {
@@ -95,11 +95,45 @@ export class MpFinderComponent implements AfterViewInit {
     ]
   }
 
-  ngAfterViewInit(): void {
-    const mp$ = this.finderState.fields.variantMolecularProfile$
-    if (!mp$) return
-    mp$.pipe(untilDestroyed(this)).subscribe((mp: MolecularProfile) => {
-      this.onSelect.next(mp)
-    })
+  modelChange(model: Maybe<MpFinderModel>) {
+    if (!model?.variantId) return
+    const mp = this.getMpFromVariantId(model.variantId)
+    if (mp) this.cvcOnSelect.next(mp)
+  }
+
+  getMpFromVariantId(variantId: Maybe<number>): Maybe<MolecularProfile> {
+    if (!variantId) return
+    const fragment = {
+      id: `Variant:${variantId}`,
+      fragment: gql`
+        fragment VariantSelectQuery on Variant {
+          id
+          name
+          link
+          variantAliases
+          singleVariantMolecularProfileId
+          singleVariantMolecularProfile {
+            id
+            name
+            link
+            molecularProfileAliases
+          }
+        }
+      `,
+    }
+    let variant
+    try {
+      variant = this.apollo.client.readFragment(fragment) as Variant
+    } catch (err) {
+      console.error(err)
+    }
+    if (!variant) {
+      console.error(
+        `MpFinderForm could not resolve its Variant from the cache to obtain its singleVariantMolecularProfile`
+      )
+      return
+    } else {
+      return variant.singleVariantMolecularProfile
+    }
   }
 }
