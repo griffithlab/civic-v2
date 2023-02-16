@@ -1,13 +1,19 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import {
+  MpParseError,
+  parseMolecularProfile,
+} from '@app/core/utilities/molecular-profile-parser'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   CreateMolecularProfile2GQL,
@@ -15,6 +21,8 @@ import {
   CreateMolecularProfile2MutationVariables,
   Maybe,
   MolecularProfile,
+  MolecularProfileComponentInput,
+  MolecularProfileSegment,
   PreviewMolecularProfileName2GQL,
   PreviewMolecularProfileName2Query,
   PreviewMolecularProfileName2QueryVariables,
@@ -24,15 +32,29 @@ import {
   QuicksearchQueryVariables,
   Variant,
 } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { until } from 'protractor'
+import {
+  BehaviorSubject,
+  filter,
+  Observable,
+  Subject,
+  map,
+  switchMap,
+  of,
+  from,
+} from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-mp-expression-editor',
   templateUrl: './mp-expression-editor.component.html',
   styleUrls: ['./mp-expression-editor.component.less'],
 })
-export class MpExpressionEditorComponent {
+export class MpExpressionEditorComponent implements AfterViewInit {
   @Output() onSelect = new EventEmitter<MolecularProfile>()
   @Input() allowCreate: boolean = true
 
@@ -52,11 +74,13 @@ export class MpExpressionEditorComponent {
   previewDeprecatedVariants$?: Observable<LinkableVariantType[]>
 
   // SOURCE STREAMS
-  onInputChange$: BehaviorSubject<Maybe<Event>>
+  onInputChange$: BehaviorSubject<Maybe<string>>
   onVariantSelect$: Subject<Variant>
 
   // PRESENTATION STREAMS
-  editorMessage$: BehaviorSubject<string>
+  expressionMessage$: BehaviorSubject<Maybe<string>>
+  expressionError$: BehaviorSubject<Maybe<string>>
+  expressionSegment$: Subject<Maybe<PreviewMpName2Fragment[]>>
   inputValue$: BehaviorSubject<string>
 
   constructor(
@@ -69,9 +93,83 @@ export class MpExpressionEditorComponent {
     this.createMolecularProfileMutator = new MutatorWithState(
       networkErrorService
     )
-    this.onInputChange$ = new BehaviorSubject<Maybe<Event>>(undefined)
+    this.onInputChange$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onVariantSelect$ = new Subject<Variant>()
     this.inputValue$ = new BehaviorSubject<string>('')
-    this.editorMessage$ = new BehaviorSubject<string>('Start constructing a complex molecular profile to preview it here')
+    this.expressionError$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
+      'Start constructing a complex molecular profile to preview it here'
+    )
+    this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
+  }
+
+  onInputChange(event: any): void {
+    console.log(event)
+  }
+
+  ngAfterViewInit(): void {
+    this.onInputChange$
+      .pipe(
+        filter(isNonNulled),
+        filter((input: string) => input.length > 0),
+        map((input: string) => {
+          let res: MpParseError | MolecularProfileComponentInput =
+            parseMolecularProfile(input)
+          if ('errorMessage' in res) {
+            return res.errorMessage
+          } else {
+            return this.previewQueryRef!.refetch({ mpStructure: res })
+          }
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe((res) => {
+        if (typeof res === 'string') {
+          this.expressionMessage$.next(undefined)
+          this.expressionError$.next(res)
+          this.expressionSegment$.next(undefined)
+        } else {
+          res.then(({ data }) => {
+            const segments = data.previewMolecularProfileName.segments
+            this.expressionSegment$.next(segments)
+            this.expressionMessage$.next(undefined)
+            this.expressionError$.next(undefined)
+          })
+        }
+      })
+
+    this.previewQueryRef = this.previewMpGql.watch({})
+    /*     this.typeaheadQueryRef = this.quicksearchGql.watch({
+      query: 'ZZZZ',
+      types: [SearchableEntities.Variant]
+    }) */
+
+    this.previewMpName$ = this.previewQueryRef.valueChanges.pipe(
+      pluck('data', 'previewMolecularProfileName'),
+      filter(isNonNulled),
+      map((data) => data.segments),
+      untilDestroyed(this)
+    )
+
+    this.previewMpAlreadyExists$ = this.previewQueryRef.valueChanges.pipe(
+      pluck('data', 'previewMolecularProfileName'),
+      filter(isNonNulled),
+      map((data) => data.existingMolecularProfile),
+      untilDestroyed(this)
+    )
+
+    this.previewDeprecatedVariants$ = this.previewQueryRef.valueChanges.pipe(
+      pluck('data', 'previewMolecularProfileName'),
+      filter(isNonNulled),
+      map((data) => data.deprecatedVariants),
+      untilDestroyed(this)
+    )
+
+    // this.
+
+    // if (this.formConfig?.formControl?.value) {
+    //   this.selectedMp = this.formConfig?.formControl?.value
+    //   this.displayPreview = true
+    //   this.cdr.detectChanges()
   }
 }

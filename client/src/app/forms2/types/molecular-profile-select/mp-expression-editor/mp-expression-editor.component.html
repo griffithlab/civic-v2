@@ -3,9 +3,22 @@
   <nz-col nzSpan="24">
     <div class="expression-preview">
       <span
+        *ngIf="expressionMessage$ | ngrxPush as message"
         nz-typography
         nzType="secondary">
-        {{ editorMessage$ | ngrxPush }}
+        {{ message }}
+      </span>
+      <span
+        *ngIf="expressionError$ | ngrxPush as error"
+        nz-typography
+        nzType="secondary">
+        {{ error }}
+      </span>
+      <span
+        *ngIf="expressionSegment$ | ngrxPush as segments"
+        nz-typography
+        nzType="secondary">
+        <cvc-mp-tag-name [nameSegments]="segments"></cvc-mp-tag-name>
       </span>
     </div>
   </nz-col>
@@ -16,14 +29,14 @@
       nz-input
       rows="1"
       style="width: 100%"
-      [value]="inputValue$ | ngrxPush"
-      (change)="onInputChange$.next($event)"></textarea>
+      [ngModel]="inputValue$ | ngrxPush"
+      (ngModelChange)="onInputChange$.next($event)"></textarea>
   </nz-col>
 
   <!-- mp-finder form -->
-  <nz-col nzFlex="120px"
-    ><div class="finder-label">Append Variant:</div></nz-col
-  >
+  <nz-col nzFlex="120px">
+    <div class="finder-label">Append Variant:</div>
+  </nz-col>
   <nz-col nzFlex="auto">
     <cvc-mp-finder
       (cvcOnVariantSelect)="onVariantSelect$.next($event)"></cvc-mp-finder>
