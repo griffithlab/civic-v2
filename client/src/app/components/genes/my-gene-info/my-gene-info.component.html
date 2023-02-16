@@ -13,65 +13,50 @@
       <!-- overview tab -->
       <ng-container *ngSwitchCase="0">
         <div class="tab-padding">
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="6" class="key-col">
-              Entrez Symbol:
-            </div>
-            <div nz-col [nzSpan]="18">
+          <nz-descriptions
+            nzSize="small"
+            [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
+            <nz-descriptions-item nzTitle="Entrez Symbol">
               {{ info.symbol }} (ID: {{ info._id }})
-              <strong style="margin-left: 8px;">UniProtKB ID:</strong> {{ info.uniprot['Swiss-Prot'] }}
-            </div>
-          </div>
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="6" class="key-col">
-              Chromosome:
-            </div>
-            <div nz-col [nzSpan]="1">
-              {{ info.genomic_pos_hg19.chr }} 
-            </div>
-            <div nz-col [nzSpan]="2" class="key-col">
-              Strand:
-            </div>
-            <div nz-col [nzSpan]="1">
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="UniProtKB ID">
+              {{ info.uniprot['Swiss-Prot'] }}
+            </nz-descriptions-item>
+          </nz-descriptions>
+          <nz-descriptions
+            nzSize="small"
+            [nzColumn]="{ xxl: 4, xl: 4, lg: 2, md: 2, sm: 1, xs: 1 }">
+            <nz-descriptions-item nzTitle="Chromosome">
+              {{ info.genomic_pos_hg19.chr }}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Strand">
               {{ info.genomic_pos_hg19.strand }}
-            </div>
-            <div nz-col [nzSpan]="2" class="key-col">
-              Start:
-            </div>
-            <div nz-col [nzSpan]="2">
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Start">
               {{ info.genomic_pos_hg19.start }}
-            </div>
-            <div nz-col [nzSpan]="2" class="key-col">
-              Stop:
-            </div>
-            <div nz-col [nzSpan]="2">
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Stop">
               {{ info.genomic_pos_hg19.end }}
-            </div>
-          </div>
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="6" class="key-col">
-              Aliases:
-            </div>
-            <div nz-col [nzSpan]="18">
+            </nz-descriptions-item>
+          </nz-descriptions>
+          <nz-descriptions 
+            nzBordered="true"
+            nzSize="small"
+            [nzColumn]="1">
+            <nz-descriptions-item nzTitle="Aliases">
               {{ info.alias.join(', ') }}
-            </div>
-          </div>
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="6" class="key-col">
-              Protein Domains:
-            </div>
-            <div nz-col [nzSpan]="18">
-              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.interproList.join(', ') }}</p>
-            </div>
-          </div>
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="6" class="key-col">
-              Pathways:
-            </div>
-            <div nz-col [nzSpan]="18">
-              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.pathwayList.join(', ') }}</p>
-            </div>
-          </div>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Protein Domains">
+              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                {{ info.interproList.join(', ') }}
+              </p>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Pathways">
+              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                {{ info.pathwayList.join(', ') }}
+              </p>
+            </nz-descriptions-item>
+          </nz-descriptions>
         </div>
       </ng-container>
 
