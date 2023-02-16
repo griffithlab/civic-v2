@@ -1,6 +1,6 @@
 <nz-row [nzGutter]="[6, 6]">
   <!-- preview, messages, errors -->
-  <nz-col nzSpan="24">
+  <nz-col nzFlex="auto">
     <div class="expression-preview">
       <span
         *ngIf="expressionMessage$ | ngrxPush as message"
@@ -21,6 +21,16 @@
         <cvc-mp-tag-name [nameSegments]="segments"></cvc-mp-tag-name>
       </span>
     </div>
+  </nz-col>
+  <nz-col nzFlex="100px">
+    <button
+      *ngIf="existingMp$ | ngrxPush as mp"
+      (click)="onSelect.next(mp)"
+      type="button"
+      nz-button
+      nzBlock>
+      Select MP
+    </button>
   </nz-col>
 
   <!-- input textarea -->

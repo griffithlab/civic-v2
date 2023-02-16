@@ -102,6 +102,10 @@ export class MpFinderComponent {
     if (!model?.variantId) return
     const variant = this.getSelectedVariant(model.variantId)
     if (variant) {
+      this.model = {
+        geneId: undefined,
+        variantId: undefined
+      }
       this.cvcOnSelect.next(variant.singleVariantMolecularProfile)
       this.cvcOnVariantSelect.next(variant)
     }
