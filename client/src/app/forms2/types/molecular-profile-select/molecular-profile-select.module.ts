@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { MpFinderComponent } from './mp-finder/mp-finder.component'
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -53,6 +54,7 @@ const typeConfig: ConfigOption = {
   declarations: [CvcMolecularProfileSelectField, MpExpressionEditorComponent, MpFinderComponent],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     LetModule,
     PushModule,
@@ -69,7 +71,7 @@ const typeConfig: ConfigOption = {
     NzFormModule,
     NzAutocompleteModule,
     NzTypographyModule,
-
+    CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,
     CvcEntitySelectModule,
     CvcPipesModule,
