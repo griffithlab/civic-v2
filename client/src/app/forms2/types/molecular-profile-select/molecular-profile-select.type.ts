@@ -137,6 +137,9 @@ export class CvcMolecularProfileSelectField
       label: 'Molecular Profile',
       placeholder: 'Search Molecular Profiles',
       isMultiSelect: false,
+      description:
+        'Select a Variant to specify a simple Molecular Profile, or use the Editor to specify a complex Molecular Profile',
+      extraType: 'prompt',
       entityName: {
         singular: 'Molecular Profile',
         plural: 'Molecular Profiles',
@@ -197,7 +200,7 @@ export class CvcMolecularProfileSelectField
       .pipe(filter(isNonNulled), untilDestroyed(this))
       .subscribe((mp: MolecularProfile) => {
         this.selectOption$.next([{ label: mp.name, value: mp.id }])
-        if(this.editorOpen) this.onShowExpClick$.next()
+        if (this.editorOpen) this.onShowExpClick$.next()
         this.cdr.detectChanges()
         this.field.formControl.setValue(mp.id)
       })

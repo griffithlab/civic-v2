@@ -14,7 +14,10 @@ import {
   MpParseError,
   parseMolecularProfile,
 } from '@app/core/utilities/molecular-profile-parser'
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
 import {
   CreateMolecularProfile2GQL,
   CreateMolecularProfile2Mutation,
@@ -57,7 +60,7 @@ import { tag } from 'rxjs-spy/operators'
   styleUrls: ['./mp-expression-editor.component.less'],
 })
 export class MpExpressionEditorComponent implements AfterViewInit {
-  @Output() onSelect = new EventEmitter<MolecularProfile>()
+  @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
   @Input() allowCreate: boolean = true
 
   previewQueryRef?: QueryRef<
@@ -71,6 +74,7 @@ export class MpExpressionEditorComponent implements AfterViewInit {
     CreateMolecularProfile2Mutation,
     CreateMolecularProfile2MutationVariables
   >
+  state?: MutationState
   previewMpName$?: Observable<PreviewMpName2Fragment[]>
   previewMpAlreadyExists$?: Observable<Maybe<LinkableMolecularProfile>>
   previewDeprecatedVariants$?: Observable<LinkableVariantType[]>
@@ -78,6 +82,7 @@ export class MpExpressionEditorComponent implements AfterViewInit {
   // SOURCE STREAMS
   onInputChange$: BehaviorSubject<Maybe<string>>
   onVariantSelect$: Subject<Variant>
+  onCreateNewMp$: Subject<void>
 
   // PRESENTATION STREAMS
   expressionMessage$: BehaviorSubject<Maybe<string>>
@@ -98,6 +103,7 @@ export class MpExpressionEditorComponent implements AfterViewInit {
     )
     this.onInputChange$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onVariantSelect$ = new Subject<Variant>()
+    this.onCreateNewMp$ = new Subject<void>()
     this.inputValue$ = new BehaviorSubject<string>('')
     this.expressionError$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
@@ -138,9 +144,12 @@ export class MpExpressionEditorComponent implements AfterViewInit {
             this.expressionSegment$.next(segments)
             this.expressionMessage$.next(undefined)
             this.expressionError$.next(undefined)
-            const existingMp = data.previewMolecularProfileName.existingMolecularProfile
-            if(existingMp) {
+            const existingMp =
+              data.previewMolecularProfileName.existingMolecularProfile
+            if (existingMp) {
               this.existingMp$.next(existingMp as MolecularProfile)
+            } else {
+              this.existingMp$.next(undefined)
             }
           })
         }
@@ -192,11 +201,27 @@ export class MpExpressionEditorComponent implements AfterViewInit {
       untilDestroyed(this)
     )
 
-    // this.
-
-    // if (this.formConfig?.formControl?.value) {
-    //   this.selectedMp = this.formConfig?.formControl?.value
-    //   this.displayPreview = true
-    //   this.cdr.detectChanges()
+    this.onCreateNewMp$
+      .pipe(withLatestFrom(this.onInputChange$), untilDestroyed(this))
+      .subscribe(([_, input]) => {
+        if (!input || input.length === 0) return
+        let res = parseMolecularProfile(input)
+        if ('errorMessage' in res) return
+        this.state = this.createMolecularProfileMutator.mutate(
+          this.createMolecularProfileGql,
+          { mpStructure: res },
+          {},
+          (data) => {
+            setTimeout(() => {
+              if (data.createMolecularProfile) {
+                this.cvcOnSelect.next(
+                  data.createMolecularProfile
+                    .molecularProfile as MolecularProfile
+                )
+              }
+            }, 1000)
+          }
+        )
+      })
   }
 }

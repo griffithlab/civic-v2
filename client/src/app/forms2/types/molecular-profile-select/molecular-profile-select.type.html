@@ -25,16 +25,18 @@
   <nz-col nzFlex="50px">
     <button
       type="button"
+      nzType="primary"
       nz-button
       nzBlock
       (click)="this.onShowExpClick$.next()">
-      EXP
+      Editor
     </button>
   </nz-col>
   <nz-col
     nzSpan="24"
     *ngIf="showExp$ | ngrxPush as showExp">
-    <cvc-mp-expression-editor (onSelect)="onMpSelect$.next($event)"></cvc-mp-expression-editor>
+    <cvc-mp-expression-editor
+      (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>
 <!-- select option templates -->
