@@ -15,7 +15,6 @@
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Gene">
-              {{revision.linkoutData.diffValue | json}}
               <ng-template #itemTemplate let-item>
                 <cvc-gene-tag [gene]="{id: item.id, name: item.displayName, link: item.link}"></cvc-gene-tag>
               </ng-template>
