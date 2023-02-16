@@ -1,7 +1,9 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter, Output
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
@@ -33,6 +35,7 @@ type MpFinderState = {
 })
 export class MpFinderComponent {
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
+  @Output() cvcOnVariantSelect = new EventEmitter<Variant>()
 
   modelChange$ = new BehaviorSubject<Maybe<MpFinderModel>>(undefined)
   model: MpFinderModel
@@ -97,11 +100,17 @@ export class MpFinderComponent {
 
   modelChange(model: Maybe<MpFinderModel>) {
     if (!model?.variantId) return
-    const mp = this.getMpFromVariantId(model.variantId)
-    if (mp) this.cvcOnSelect.next(mp)
+    const variant = this.getSelectedVariant(model.variantId)
+    if (variant) {
+      this.cvcOnSelect.next(variant.singleVariantMolecularProfile)
+      this.cvcOnVariantSelect.next(variant)
+    }
+
   }
 
-  getMpFromVariantId(variantId: Maybe<number>): Maybe<MolecularProfile> {
+  getSelectedVariant(
+    variantId: Maybe<number>,
+  ): Maybe<Variant> {
     if (!variantId) return
     const fragment = {
       id: `Variant:${variantId}`,
@@ -129,11 +138,10 @@ export class MpFinderComponent {
     }
     if (!variant) {
       console.error(
-        `MpFinderForm could not resolve its Variant from the cache to obtain its singleVariantMolecularProfile`
+        `MpFinderForm could not resolve its Variant from the cache`
       )
       return
-    } else {
-      return variant.singleVariantMolecularProfile
     }
+      return variant
   }
 }

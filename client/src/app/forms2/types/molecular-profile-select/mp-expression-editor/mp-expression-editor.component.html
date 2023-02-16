@@ -1,1 +1,31 @@
-<p>mp-expression-editor works!</p>
+<nz-row [nzGutter]="[6, 6]">
+  <!-- preview, messages, errors -->
+  <nz-col nzSpan="24">
+    <div class="expression-preview">
+      <span
+        nz-typography
+        nzType="secondary">
+        {{ editorMessage$ | ngrxPush }}
+      </span>
+    </div>
+  </nz-col>
+
+  <!-- input textarea -->
+  <nz-col nzSpan="24">
+    <textarea
+      nz-input
+      rows="1"
+      style="width: 100%"
+      [value]="inputValue$ | ngrxPush"
+      (change)="onInputChange$.next($event)"></textarea>
+  </nz-col>
+
+  <!-- mp-finder form -->
+  <nz-col nzFlex="120px"
+    ><div class="finder-label">Append Variant:</div></nz-col
+  >
+  <nz-col nzFlex="auto">
+    <cvc-mp-finder
+      (cvcOnVariantSelect)="onVariantSelect$.next($event)"></cvc-mp-finder>
+  </nz-col>
+</nz-row>
