@@ -48,6 +48,7 @@ import {
   scan,
   startWith,
   Subject,
+  tap,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -128,6 +129,8 @@ export class CvcMolecularProfileSelectField
 
   showExpression: boolean = false
 
+  editorOpen: boolean = false
+
   // FieldTypeConfig defaults
   defaultOptions: CvcMolecularProfileSelectFieldOptions = {
     props: {
@@ -155,7 +158,10 @@ export class CvcMolecularProfileSelectField
     super()
     this.onMpSelect$ = new BehaviorSubject<Maybe<MolecularProfile>>(undefined)
     this.onShowExpClick$ = new Subject<void>()
-    this.showExp$ = this.onShowExpClick$.pipe(scan((acc, _) => !acc, false))
+    this.showExp$ = this.onShowExpClick$.pipe(
+      scan((acc, _) => !acc, false),
+      tap((open) => (this.editorOpen = open))
+    )
     this.placeholder$ = new BehaviorSubject<string>(
       this.defaultOptions.props!.placeholder
     )
@@ -191,6 +197,7 @@ export class CvcMolecularProfileSelectField
       .pipe(filter(isNonNulled), untilDestroyed(this))
       .subscribe((mp: MolecularProfile) => {
         this.selectOption$.next([{ label: mp.name, value: mp.id }])
+        if(this.editorOpen) this.onShowExpClick$.next()
         this.cdr.detectChanges()
         this.field.formControl.setValue(mp.id)
       })

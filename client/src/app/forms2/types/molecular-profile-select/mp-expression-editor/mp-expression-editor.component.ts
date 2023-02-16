@@ -44,9 +44,11 @@ import {
   switchMap,
   of,
   from,
+  withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
+import { tag } from 'rxjs-spy/operators'
 
 @UntilDestroy()
 @Component({
@@ -81,6 +83,7 @@ export class MpExpressionEditorComponent implements AfterViewInit {
   expressionMessage$: BehaviorSubject<Maybe<string>>
   expressionError$: BehaviorSubject<Maybe<string>>
   expressionSegment$: Subject<Maybe<PreviewMpName2Fragment[]>>
+  existingMp$: Subject<Maybe<MolecularProfile>>
   inputValue$: BehaviorSubject<string>
 
   constructor(
@@ -101,6 +104,7 @@ export class MpExpressionEditorComponent implements AfterViewInit {
       'Start constructing a complex molecular profile to preview it here'
     )
     this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
+    this.existingMp$ = new Subject<Maybe<MolecularProfile>>()
   }
 
   onInputChange(event: any): void {
@@ -134,8 +138,31 @@ export class MpExpressionEditorComponent implements AfterViewInit {
             this.expressionSegment$.next(segments)
             this.expressionMessage$.next(undefined)
             this.expressionError$.next(undefined)
+            const existingMp = data.previewMolecularProfileName.existingMolecularProfile
+            if(existingMp) {
+              this.existingMp$.next(existingMp as MolecularProfile)
+            }
           })
         }
+      })
+
+    this.onVariantSelect$
+      .pipe(
+        withLatestFrom(this.onInputChange$),
+        map(([variant, input]) => {
+          if (!input || input.length == 0) {
+            return `#VID${variant.id}`
+          } else {
+            return `${input} #VID${variant.id}`
+          }
+        }),
+        tag('onVariantSelect$'),
+        untilDestroyed(this)
+      )
+      .subscribe((input) => {
+        this.inputValue$.next(input)
+        this.onInputChange$.next(input)
+        // this.cdr.detectChanges()
       })
 
     this.previewQueryRef = this.previewMpGql.watch({})

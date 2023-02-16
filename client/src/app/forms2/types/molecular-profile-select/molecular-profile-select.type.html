@@ -34,7 +34,7 @@
   <nz-col
     nzSpan="24"
     *ngIf="showExp$ | ngrxPush as showExp">
-    <cvc-mp-expression-editor></cvc-mp-expression-editor>
+    <cvc-mp-expression-editor (onSelect)="onMpSelect$.next($event)"></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>
 <!-- select option templates -->
