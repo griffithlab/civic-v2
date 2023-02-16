@@ -7789,6 +7789,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   link: String!
+  maneSelectTranscript: String
   molecularProfiles(
     """
     Returns the elements in the list that come after the specified cursor.
