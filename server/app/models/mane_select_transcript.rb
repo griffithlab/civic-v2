@@ -7,8 +7,10 @@ class ManeSelectTranscript
 
   def mane_select_transcript
     Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
-      transcripts = get_allele_registry_transcripts(variant)
-      transcripts.find{ |t| t.key?('MANE') && t['MANE']['maneStatus'] == 'MANE Select' }['MANE']['nucleotide']['Ensembl']['hgvs']
+      if variant.allele_registry_id
+        transcripts = get_allele_registry_transcripts(variant)
+        transcripts.find{ |t| t.key?('MANE') && t['MANE']['maneStatus'] == 'MANE Select' }['MANE']['nucleotide']['Ensembl']['hgvs']
+      end
     end
   end
 
