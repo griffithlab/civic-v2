@@ -1,4 +1,4 @@
-<nz-row [nzGutter]="[8, 4]">
+<nz-row [nzGutter]="[8, 12]">
   <nz-col
     nzFlex="auto"
     *ngrxLet="hideMpSelect$ as hideSelect">
@@ -31,11 +31,9 @@
       EXP
     </button>
   </nz-col>
-</nz-row>
-<nz-row
-  [nzGutter]="[4, 4]"
-  *ngIf="showExp$ | ngrxPush as showExp">
-  <nz-col nzSpan="24">
+  <nz-col
+    nzSpan="24"
+    *ngIf="showExp$ | ngrxPush as showExp">
     <cvc-mp-expression-editor></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>

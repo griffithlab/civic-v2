@@ -21,7 +21,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { LetModule, PushModule } from '@ngrx/component'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { MpFinderComponent } from './mp-finder/mp-finder.component'
