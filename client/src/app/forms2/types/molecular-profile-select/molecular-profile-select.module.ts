@@ -26,6 +26,7 @@ import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expressio
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { MpFinderComponent } from './mp-finder/mp-finder.component'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -71,6 +72,7 @@ const typeConfig: ConfigOption = {
     NzFormModule,
     NzAutocompleteModule,
     NzTypographyModule,
+    CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,
     CvcEntitySelectModule,

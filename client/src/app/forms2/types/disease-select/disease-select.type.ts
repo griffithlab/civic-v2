@@ -126,7 +126,7 @@ export class CvcDiseaseSelectField
       requireType: true,
       placeholder: 'Search Diseases',
       requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
-        `Select an ${entityName} Type in order to select associated Disease${
+        `Select an ${entityName} Type to select an associated Disease${
           isMultiSelect ? '(s)' : ''
         }`,
       addFormTitle: 'Add a New Disease',

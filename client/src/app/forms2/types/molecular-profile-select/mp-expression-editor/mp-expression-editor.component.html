@@ -1,54 +1,73 @@
-<nz-row [nzGutter]="[6, 6]">
-  <!-- preview, messages, errors -->
-  <nz-col nzFlex="auto">
-    <div class="expression-preview">
-      <span
-        *ngIf="expressionMessage$ | ngrxPush as message"
-        nz-typography
-        nzType="secondary">
-        {{ message }}
-      </span>
-      <span
-        *ngIf="expressionError$ | ngrxPush as error"
-        nz-typography
-        nzType="secondary">
-        {{ error }}
-      </span>
-      <span
-        *ngIf="expressionSegment$ | ngrxPush as segments"
-        nz-typography
-        nzType="secondary">
-        <cvc-mp-tag-name [nameSegments]="segments"></cvc-mp-tag-name>
-      </span>
-    </div>
-  </nz-col>
-  <nz-col nzFlex="100px">
-    <button
-      *ngIf="existingMp$ | ngrxPush as mp"
-      (click)="onSelect.next(mp)"
-      type="button"
-      nz-button
-      nzBlock>
-      Select MP
-    </button>
-  </nz-col>
+<cvc-form-submission-status-display
+  [mutationState]="state"
+  entityType="Molecular Profile"
+  [successMessage]="success">
+  <ng-template #success>Added new Molecular Profile</ng-template>
+  <nz-row [nzGutter]="[6, 6]">
+    <!-- preview, messages, errors -->
+    <nz-col nzFlex="auto">
+      <div class="expression-preview">
+        <span
+          *ngIf="expressionMessage$ | ngrxPush as message"
+          nz-typography
+          nzType="secondary">
+          {{ message }}
+        </span>
+        <span
+          *ngIf="expressionError$ | ngrxPush as error"
+          nz-typography
+          nzType="secondary">
+          {{ error }}
+        </span>
+        <span
+          *ngIf="expressionSegment$ | ngrxPush as segments"
+          nz-typography
+          nzType="secondary">
+          <cvc-mp-tag-name [nameSegments]="segments"></cvc-mp-tag-name>
+        </span>
+      </div>
+    </nz-col>
+    <nz-col nzFlex="100px">
+      <button
+        *ngIf="existingMp$ | ngrxPush as mp"
+        (click)="cvcOnSelect.next(mp)"
+        [disabled]="(expressionError$ | ngrxPush)"
+        type="button"
+        nz-button
+        nzType="primary"
+        nzBlock>
+        Select MP
+      </button>
+      <button
+        *ngIf="!(existingMp$ | ngrxPush) "
+        [disabled]="(expressionError$ | ngrxPush) || !(expressionSegment$ | ngrxPush)"
+        (click)="onCreateNewMp$.next()"
+        type="button"
+        nz-button
+        nzType="primary"
+        nzBlock>
+        Add MP
+      </button>
+    </nz-col>
 
-  <!-- input textarea -->
-  <nz-col nzSpan="24">
-    <textarea
-      nz-input
-      rows="1"
-      style="width: 100%"
-      [ngModel]="inputValue$ | ngrxPush"
-      (ngModelChange)="onInputChange$.next($event)"></textarea>
-  </nz-col>
+    <!-- input textarea -->
+    <nz-col nzSpan="24">
+      <textarea
+        nz-input
+        rows="1"
+        style="width: 100%"
+        placeholder="Enter #VID[id] and boolean tokens to construct a Molecular Profile expression."
+        [ngModel]="inputValue$ | ngrxPush"
+        (ngModelChange)="onInputChange$.next($event)"></textarea>
+    </nz-col>
 
-  <!-- mp-finder form -->
-  <nz-col nzFlex="120px">
-    <div class="finder-label">Append Variant:</div>
-  </nz-col>
-  <nz-col nzFlex="auto">
-    <cvc-mp-finder
-      (cvcOnVariantSelect)="onVariantSelect$.next($event)"></cvc-mp-finder>
-  </nz-col>
-</nz-row>
+    <!-- mp-finder form -->
+    <nz-col nzFlex="150px">
+      <div class="finder-label">Append Variant ID:</div>
+    </nz-col>
+    <nz-col nzFlex="auto">
+      <cvc-mp-finder
+        (cvcOnVariantSelect)="onVariantSelect$.next($event)"></cvc-mp-finder>
+    </nz-col>
+  </nz-row>
+</cvc-form-submission-status-display>
