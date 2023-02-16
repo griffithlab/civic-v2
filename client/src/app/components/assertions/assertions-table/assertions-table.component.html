@@ -47,8 +47,7 @@
           [nzSortFn]="true">
           AID
         </th>
-        <th nzWidth="320px"
-          nzLeft>
+        <th nzWidth="320px">
           Molecular Profile
         </th>
         <th nzWidth="250px"
@@ -127,7 +126,7 @@
           <cvc-clearable-input-filter [(inputModel)]="aidInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th nzLeft>
+        <th>
           <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
@@ -271,7 +270,7 @@
           <td nzLeft>
             <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
           </td>
-          <td nzLeft>
+          <td>
             <cvc-molecular-profile-tag [molecularProfile]="aid.molecularProfile" [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>

@@ -24,4 +24,7 @@ fragment revisionPopover on Revision {
   linkoutData {
     name
   }
+  creationComment {
+    comment
+  }
 }

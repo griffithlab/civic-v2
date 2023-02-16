@@ -6,6 +6,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [CvcMyGeneInfoComponent],
@@ -17,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzGridModule,
     NzTableModule,
     NzTypographyModule,
+    NzDescriptionsModule,
   ],
   exports: [CvcMyGeneInfoComponent]
 })
