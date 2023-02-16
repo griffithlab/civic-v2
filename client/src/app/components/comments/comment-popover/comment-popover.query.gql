@@ -15,7 +15,6 @@ fragment commentPopover on Comment {
     id
     displayName
     role
-    profileImagePath(size: 32)
   }
   commentable {
     id

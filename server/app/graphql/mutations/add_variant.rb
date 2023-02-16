@@ -28,12 +28,13 @@ class Mutations::AddVariant < Mutations::BaseMutation
   end
 
   def resolve(name:, gene_id:)
-    existing_variant = Variant.where(gene_id: gene_id)
-      .where('name ILIKE ?', name)
+    existing_variant = Variant.joins(:variant_aliases).where(gene_id: gene_id)
+      .where('variants.name ILIKE ?', name)
+      .or(Variant.joins(:variant_aliases).where(gene_id: gene_id).where('variant_aliases.name ILIKE ?', name))
       .first
 
     if existing_variant.present?
-      return { 
+      return {
         variant: existing_variant,
         new: false,
         molecular_profile: existing_variant.single_variant_molecular_profile
