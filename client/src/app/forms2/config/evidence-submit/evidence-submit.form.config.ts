@@ -17,12 +17,12 @@ import { CvcFormLayoutWrapperProps } from '@app/forms2/wrappers/form-layout/form
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
-  // form-layout wrapper embeds the form in an nz-grid row, allowing the form to be placed adjacent to other controls or page elements. Currently, it provides a toggleable dev panel. Could be used to add a preview of the entity being added/edited, or more extensive feedback like lists of similar entities, etc.
   {
+    // form-layout contains the form itself and and a hideable dev panel
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Evidence Item',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -31,8 +31,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
           hidden: true,
         },
       },
-      // form-card wraps the form fields in a card, providing a place to put a title,
-      // and other controls e.g. form options, status
+
+      // form-card wraps the form fields in a card, providing a
+      // place to put a title, and other controls e.g. form options, status
       {
         key: 'fields',
         wrappers: ['form-card'],

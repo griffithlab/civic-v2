@@ -82,16 +82,6 @@ export interface CvcMolecularProfileSelectFieldConfig
     | Type<CvcMolecularProfileSelectField>
 }
 
-type SimpleMpFormModel = {
-  geneId?: number
-  variantId?: number
-}
-
-type SimpleMpFormState = {
-  formLayout: NzFormLayoutType
-  fields: EntityFieldSubjectMap
-}
-
 const MolecularProfileSelectMixin = mixin(
   BaseFieldType<
     FieldTypeConfig<CvcMolecularProfileSelectFieldProps>,
