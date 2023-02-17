@@ -1,6 +1,9 @@
 <nz-row [nzGutter]="[6, 6]">
-  <nz-col nzSpan="4">
+  <nz-col nzFlex="100px">
     <nz-select
+      nzSize="default"
+      nzBlock
+      [nzOptionHeightPx]="28"
       [ngModel]="sourceType$ | ngrxPush"
       (ngModelChange)="sourceType$.next($event)">
       <nz-option
@@ -15,7 +18,7 @@
     </nz-select>
   </nz-col>
   <nz-col
-    nzSpan="2"
+    nzFlex="80px"
     class="prefix">
     <ng-container [ngSwitch]="sourceType$ | ngrxPush">
       <div *ngSwitchCase="'PUBMED'">PMID:</div>
@@ -23,7 +26,7 @@
       <div *ngSwitchCase="'ASH'">doi.org/</div>
     </ng-container>
   </nz-col>
-  <nz-col nzSpan="18">
+  <nz-col nzFlex="auto">
     <cvc-entity-select
       [cvcMinSearchStrLength]="props.minSearchStrLength"
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"

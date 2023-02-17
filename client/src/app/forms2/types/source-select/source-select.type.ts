@@ -51,6 +51,7 @@ export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
   }
   tooltip?: string
   description?: string
+  extraType?: string
 }
 
 export interface CvcSourceSelectFieldConfig
@@ -125,6 +126,8 @@ export class CvcSourceSelectField
           return `Search ${sourceName} Sources`
         },
       },
+      // description: 'Choose  Source type and enter its ID to select an existing Source or add a Source',
+      extraType: 'prompt'
     },
   }
 

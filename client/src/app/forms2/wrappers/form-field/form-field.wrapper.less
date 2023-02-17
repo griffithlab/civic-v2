@@ -1,9 +1,10 @@
-@import 'themes/global-variables.less';
+@import 'themes/default.less';
 
 @helpIconSize: 14px;
 @helpIconColor: #cfcfdf;
 
 .layout-vertical ::ng-deep nz-form-item:first-of-type {
+  flex-wrap: nowrap;
   flex-direction: column;
 }
 
@@ -26,23 +27,22 @@
     padding: inherit;
   }
 }
+
 .cvc-field-label() {
   label {
-    // remove label's before/after content
-    // &:before,
-    // &:after {
-    //   content: none;
-    // }
     // embolden required labels
     &.ant-form-item-required {
       font-weight: 500;
+
       &:before {
-        border: 1px solid red;
+        border: 1px solid @error-color;
         height: 1em;
         content: '';
       }
+
     }
   }
+
   ::ng-deep span.label {
     padding-right: 4px;
   }
@@ -50,7 +50,12 @@
   &.disabled label ::ng-deep span.label {
     color: @text-color-secondary;
   }
+
   &.error label ::ng-deep span.label {
+    color: @error-color;
+  }
+
+  &.valid label ::ng-deep span.label {
     color: @error-color;
   }
 }
@@ -67,18 +72,18 @@
 }
 
 .cvc-form-field-validation,
-.cvc-form-field-description {
-  // ensure consistent height of description, validation message line
-  min-height: 16px;
-  line-height: 1.2;
-  font-size: 95%;
-  margin-top: 4px;
-  .extra-prompt {
-    font-weight: 600;
-  }
-  .extra-description {
-    font-style: oblique;
-  }
+.form-field-description {
+  // // ensure consistent height of description, validation message line
+  // min-height: 16px;
+  // line-height: 1.2;
+  // font-size: 95%;
+  // margin-top: 4px;
+  // .extra-prompt {
+  //   font-weight: 600;
+  // }
+  // .extra-description {
+  //   font-style: oblique;
+  // }
 }
 
 .cvc-form-field-validation {
