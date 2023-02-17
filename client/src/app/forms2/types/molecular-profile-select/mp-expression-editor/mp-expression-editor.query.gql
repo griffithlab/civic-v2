@@ -1,4 +1,4 @@
-# previously previewMolecularProfileName
+# previously: previewMolecularProfileName
 query PreviewMolecularProfileName2(
   $mpStructure: MolecularProfileComponentInput
 ) {
@@ -19,7 +19,17 @@ query PreviewMolecularProfileName2(
   }
 }
 
-# previously createMolecularProfile
+query MpExpressionEditorPrepopulate($mpId: Int!) {
+  molecularProfile(id: $mpId) {
+    id
+    parsedName {
+      ...MolecularProfileParsedName
+    }
+    rawName
+  }
+}
+
+# previously: createMolecularProfile
 mutation CreateMolecularProfile2(
   $mpStructure: MolecularProfileComponentInput!
 ) {
@@ -32,7 +42,7 @@ mutation CreateMolecularProfile2(
   }
 }
 
-# previously previewMpName
+# previously: previewMpName
 fragment PreviewMpName2 on MolecularProfileSegment {
   __typename
   ... on MolecularProfileTextSegment {
