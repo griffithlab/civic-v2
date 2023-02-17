@@ -45,6 +45,7 @@ import {
   filter,
   map,
   Observable,
+  ReplaySubject,
   scan,
   startWith,
   Subject,
@@ -110,6 +111,7 @@ export class CvcMolecularProfileSelectField
 {
   // SOURCE STREAMS
   onMpSelect$: BehaviorSubject<Maybe<MolecularProfile>>
+  onMpId$: ReplaySubject<Maybe<number>>
   onShowExpClick$: Subject<void>
 
   // PRESENTATION STREAMS
@@ -150,6 +152,7 @@ export class CvcMolecularProfileSelectField
   ) {
     super()
     this.onMpSelect$ = new BehaviorSubject<Maybe<MolecularProfile>>(undefined)
+    this.onMpId$ = new ReplaySubject<Maybe<number>>()
     this.onShowExpClick$ = new Subject<void>()
     this.showExp$ = this.onShowExpClick$.pipe(
       scan((acc, _) => !acc, false),
@@ -178,11 +181,12 @@ export class CvcMolecularProfileSelectField
 
     this.placeholder$.next(this.props.placeholder)
 
-    // only show select if mpId set
+    // only show select if mpId set, emit mpId from onMpId$ subject
     this.onValueChange$
       .pipe(untilDestroyed(this))
       .subscribe((mpId: Maybe<number>) => {
         this.hideMpSelect$.next(mpId !== undefined ? false : true)
+        this.onMpId$.next(mpId)
       })
 
     // populate MP select if variantId received from child form model

@@ -4,8 +4,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component'
@@ -25,7 +26,7 @@ import {
   Maybe,
   MolecularProfile,
   MolecularProfileComponentInput,
-  MolecularProfileSegment,
+  MpExpressionEditorPrepopulateGQL,
   PreviewMolecularProfileName2GQL,
   PreviewMolecularProfileName2Query,
   PreviewMolecularProfileName2QueryVariables,
@@ -37,16 +38,13 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { until } from 'protractor'
 import {
   BehaviorSubject,
   filter,
+  lastValueFrom,
+  map,
   Observable,
   Subject,
-  map,
-  switchMap,
-  of,
-  from,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
@@ -59,9 +57,9 @@ import { tag } from 'rxjs-spy/operators'
   templateUrl: './mp-expression-editor.component.html',
   styleUrls: ['./mp-expression-editor.component.less'],
 })
-export class MpExpressionEditorComponent implements AfterViewInit {
+export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
+  @Input() cvcPrepopulateWithId: Maybe<number>
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
-  @Input() allowCreate: boolean = true
 
   previewQueryRef?: QueryRef<
     PreviewMolecularProfileName2Query,
@@ -91,15 +89,20 @@ export class MpExpressionEditorComponent implements AfterViewInit {
   existingMp$: Subject<Maybe<MolecularProfile>>
   inputValue$: BehaviorSubject<string>
 
+  expressionMessages = {
+    initial:
+      'Start constructing a complex molecular profile to preview it here',
+  }
+
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
-    private quicksearchGql: QuicksearchGQL,
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
+    private mpEditorPrepopulate: MpExpressionEditorPrepopulateGQL,
     private networkErrorService: NetworkErrorsService,
     private cdr: ChangeDetectorRef
   ) {
     this.createMolecularProfileMutator = new MutatorWithState(
-      networkErrorService
+      this.networkErrorService
     )
     this.onInputChange$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onVariantSelect$ = new Subject<Variant>()
@@ -107,14 +110,10 @@ export class MpExpressionEditorComponent implements AfterViewInit {
     this.inputValue$ = new BehaviorSubject<string>('')
     this.expressionError$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
-      'Start constructing a complex molecular profile to preview it here'
+      this.expressionMessages.initial
     )
     this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
     this.existingMp$ = new Subject<Maybe<MolecularProfile>>()
-  }
-
-  onInputChange(event: any): void {
-    console.log(event)
   }
 
   ngAfterViewInit(): void {
@@ -165,7 +164,7 @@ export class MpExpressionEditorComponent implements AfterViewInit {
             return `${input} #VID${variant.id}`
           }
         }),
-        tag('onVariantSelect$'),
+        // tag('onVariantSelect$'),
         untilDestroyed(this)
       )
       .subscribe((input) => {
@@ -223,5 +222,41 @@ export class MpExpressionEditorComponent implements AfterViewInit {
           }
         )
       })
+  }
+
+  prepopulateMp(mpId: Maybe<number>) {
+    if (!mpId) {
+      this.expressionSegment$.next(undefined)
+      this.expressionMessage$.next(this.expressionMessages.initial)
+      this.inputValue$.next('')
+      return
+    }
+
+    lastValueFrom(
+      this.mpEditorPrepopulate.fetch(
+        { mpId: mpId },
+        { fetchPolicy: 'cache-first' }
+      )
+    ).then(({ data }) => {
+      if (!data?.molecularProfile?.id) {
+        console.error(
+          `MpExpressionEditor could not fetch MolecalarProfile:${mpId} to prepulate editor fields.`
+        )
+        return
+      }
+
+      const input = data.molecularProfile.rawName
+        .replace(/#GID(\d+)/g, '')
+        .trim()
+      this.inputValue$.next(input)
+      this.onInputChange$.next(input)
+    })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cvcPrepopulateWithId) {
+      const id = changes.cvcPrepopulateWithId.currentValue
+      this.prepopulateMp(id)
+    }
   }
 }

@@ -6205,6 +6205,13 @@ export type PreviewMolecularProfileName2QueryVariables = Exact<{
 
 export type PreviewMolecularProfileName2Query = { __typename: 'Query', previewMolecularProfileName: { __typename: 'MolecularProfileNamePreview', existingMolecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, segments: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }>, deprecatedVariants: Array<{ __typename: 'Variant', id: number, name: string, link: string }> } };
 
+export type MpExpressionEditorPrepopulateQueryVariables = Exact<{
+  mpId: Scalars['Int'];
+}>;
+
+
+export type MpExpressionEditorPrepopulateQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, rawName: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> } | undefined };
+
 export type CreateMolecularProfile2MutationVariables = Exact<{
   mpStructure: MolecularProfileComponentInput;
 }>;
@@ -11987,6 +11994,28 @@ export const PreviewMolecularProfileName2Document = gql`
   })
   export class PreviewMolecularProfileName2GQL extends Apollo.Query<PreviewMolecularProfileName2Query, PreviewMolecularProfileName2QueryVariables> {
     document = PreviewMolecularProfileName2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MpExpressionEditorPrepopulateDocument = gql`
+    query MpExpressionEditorPrepopulate($mpId: Int!) {
+  molecularProfile(id: $mpId) {
+    id
+    parsedName {
+      ...MolecularProfileParsedName
+    }
+    rawName
+  }
+}
+    ${MolecularProfileParsedNameFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MpExpressionEditorPrepopulateGQL extends Apollo.Query<MpExpressionEditorPrepopulateQuery, MpExpressionEditorPrepopulateQueryVariables> {
+    document = MpExpressionEditorPrepopulateDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
