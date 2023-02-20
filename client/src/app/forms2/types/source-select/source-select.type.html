@@ -1,5 +1,5 @@
 <nz-row [nzGutter]="[6, 6]">
-  <nz-col nzFlex="100px">
+  <nz-col nzFlex="80px">
     <nz-select
       nzSize="default"
       nzBlock
@@ -18,7 +18,7 @@
     </nz-select>
   </nz-col>
   <nz-col
-    nzFlex="80px"
+    nzFlex="1 1 auto"
     class="prefix">
     <ng-container [ngSwitch]="sourceType$ | ngrxPush">
       <div *ngSwitchCase="'PUBMED'">PMID:</div>

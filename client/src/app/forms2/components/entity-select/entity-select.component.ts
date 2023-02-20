@@ -107,9 +107,10 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Input() cvcShowError: boolean = false
   @Input() cvcDisabled?: boolean = false
   @Input() cvcAllowClear: boolean = true
-  @Input() cvcBorderless?: boolean = false
-  @Input() cvcShowArrow?: boolean
+  @Input() cvcBorderless: boolean = false
+  @Input() cvcShowArrow: boolean = false
   @Input() cvcAutoClearSearchValue: boolean = true
+  @Input() cvcSuffixIcon: string | null = 'search'
 
   // custom template for field value render
   @Input() cvcCustomTemplate?: TemplateRef<any> | null = null

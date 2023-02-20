@@ -1,6 +1,6 @@
 <nz-row [nzGutter]="[8, 12]">
   <nz-col
-    nzFlex="auto"
+    nzFlex="10%"
     *ngrxLet="hideMpSelect$ as hideSelect">
     <cvc-mp-finder
       *ngIf="hideSelect"
@@ -15,25 +15,34 @@
       [cvcPlaceholder]="(placeholder$ | ngrxPush)!"
       [cvcResults]="result$ | ngrxPush"
       [cvcDisabled]="props.disabled"
+      [cvcAllowClear]="false"
       [cvcOptions]="selectOption$ | ngrxPush"
       [cvcShowError]="showError"
       [cvcLoading]="isLoading$ | ngrxPush"
+      [cvcBorderless]="true"
+      [cvcSuffixIcon]="null"
+      [cvcShowArrow]="false"
       (cvcOnSearch)="onSearch$.next($event)"
       (cvcOnModelChange)="props.change && props.change(field, $event)">
     </cvc-entity-select>
   </nz-col>
-  <nz-col nzFlex="50px">
+  <nz-col nzFlex="auto">
     <button
       type="button"
-      nzType="primary"
+      nzType="link"
       nz-button
-      nzBlock
+      class="expression-button"
       (click)="this.onShowExpClick$.next()">
-      Editor
+      <span
+        nz-icon
+        [ngClass]="{ 'show': (showExp$ | ngrxPush), 'hide': !(showExp$ | ngrxPush) }"
+        [nzType]="'caret-right'"></span
+      >Editor
     </button>
   </nz-col>
   <nz-col
     nzSpan="24"
+    class="editor-drawer"
     *ngIf="showExp$ | ngrxPush as showExp">
     <cvc-mp-expression-editor
       [cvcPrepopulateWithId]="onMpId$ | ngrxPush"
