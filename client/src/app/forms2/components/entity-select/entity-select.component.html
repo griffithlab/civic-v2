@@ -14,8 +14,8 @@
   [nzLoading]="cvcLoading"
   [nzAllowClear]="cvcAllowClear"
   [nzBorderless]="cvcBorderless"
-  [nzSuffixIcon]="'search'"
-  [nzShowArrow]="cvcShowArrow || true"
+  [nzSuffixIcon]="cvcSuffixIcon"
+  [nzShowArrow]="cvcShowArrow"
   [nzAutoClearSearchValue]="cvcAutoClearSearchValue"
   [nzOptions]="cvcOptions || []"
   [nzDropdownRender]="cvcDropdownExtra || null"
@@ -25,14 +25,17 @@
   (nzOnSearch)="cvcOnSearch.next($event)"
   (ngModelChange)="cvcOnModelChange.next($event)">
 </nz-select>
+
 <ng-template #searchMessages>
   <span
     *ngIf="notFoundDisplay.showSpinner"
     nz-icon
     [nzType]="'loading'"></span>
+
   <ng-container *ngIf="!notFoundDisplay.showAddForm">
     {{ notFoundDisplay.message }}
   </ng-container>
+
   <ng-container
     *ngIf="notFoundDisplay.showAddForm"
     [ngTemplateOutlet]="this.cvcAddEntity"
