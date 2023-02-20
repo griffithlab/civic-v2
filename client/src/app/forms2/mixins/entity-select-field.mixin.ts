@@ -359,10 +359,6 @@ export function EntitySelectField<
               this.selectOption$.next(options)
             })
         }
-        if(!this.field.hooks) return
-        this.field.hooks.onDestroy = (field) => {
-          console.log(`${this.field.key} hooks.onDestroy()`)
-        }
       } // configureDisplayEntityTag()
 
       getTagQueries(

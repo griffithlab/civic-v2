@@ -60,6 +60,7 @@ import { tag } from 'rxjs-spy/operators'
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
+  @Output() cvcOnEditPrepopulated = new EventEmitter<boolean>()
 
   previewQueryRef?: QueryRef<
     PreviewMolecularProfileName2Query,
@@ -124,6 +125,9 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         map((input: string) => {
           let res: MpParseError | MolecularProfileComponentInput =
             parseMolecularProfile(input)
+          if(this.cvcPrepopulateWithId !== undefined) {
+            this.cvcOnEditPrepopulated.next(true)
+          }
           if ('errorMessage' in res) {
             return res.errorMessage
           } else {

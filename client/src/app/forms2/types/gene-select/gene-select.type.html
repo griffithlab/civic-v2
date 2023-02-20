@@ -4,7 +4,7 @@
   [cvcCustomTemplate]="selectedTemplate"
   [cvcFormControl]="formControl"
   [cvcFormlyAttributes]="field"
-  [cvcPlaceholder]="(placeholder$ | ngrxPush)!"
+  [cvcPlaceholder]="props.placeholder"
   [cvcEntityName]="props.entityName"
   [cvcResults]="result$ | ngrxPush"
   [cvcOptions]="selectOption$ | ngrxPush"
