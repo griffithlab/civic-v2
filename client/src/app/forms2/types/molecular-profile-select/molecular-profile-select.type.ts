@@ -8,14 +8,10 @@ import {
   Type,
   ViewChildren,
 } from '@angular/core'
-import { UntypedFormGroup } from '@angular/forms'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
-import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
-import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field-grid.wrapper'
-import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
   Maybe,
@@ -27,36 +23,27 @@ import {
   MolecularProfileSelectTypeaheadGQL,
   MolecularProfileSelectTypeaheadQuery,
   MolecularProfileSelectTypeaheadQueryVariables,
-  Variant,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
   FormlyFieldProps,
-  FormlyFormOptions,
 } from '@ngx-formly/core'
-import { Apollo, gql } from 'apollo-angular'
+import { Apollo } from 'apollo-angular'
 import { fadeMotion, slideMotion } from 'ng-zorro-antd/core/animation'
-import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
   filter,
-  map,
   Observable,
   ReplaySubject,
   scan,
-  startWith,
   Subject,
   tap,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
-import { CvcGeneSelectFieldOption } from '../gene-select/gene-select.type'
-import { CvcVariantSelectFieldOption } from '../variant-select/variant-select.type'
 
 export type CvcMolecularProfileSelectFieldOptions = Partial<
   FieldTypeConfig<CvcMolecularProfileSelectFieldProps>
@@ -67,11 +54,8 @@ export interface CvcMolecularProfileSelectFieldProps extends FormlyFieldProps {
   entityName: CvcSelectEntityName
   placeholder: string
   tooltip?: string
-  // requireGene: boolean // if true, disables field if no geneId, and adjust placeholders, prompts
-  // requireGenePlaceholderFn: (geneName: string) => string // returns placeholder that includes gene name
-  // requireGenePrompt: string // prompt displayed if gene unspecified
+  description?: string
   extraType?: CvcFormFieldExtraType
-  watchVariantMolecularProfileId: boolean
   minSearchStrLength?: number
 }
 
@@ -98,6 +82,11 @@ const MolecularProfileSelectMixin = mixin(
   >()
 )
 
+type SelectDisplayModel = {
+  showFinder: boolean
+  showSelect: boolean
+}
+
 @Component({
   selector: '',
   templateUrl: './molecular-profile-select.type.html',
@@ -113,11 +102,11 @@ export class CvcMolecularProfileSelectField
   onMpSelect$: BehaviorSubject<Maybe<MolecularProfile>>
   onMpId$: ReplaySubject<Maybe<number>>
   onShowExpClick$: Subject<void>
+  onEditPrepopulated$: BehaviorSubject<boolean>
 
   // PRESENTATION STREAMS
   showExp$: Observable<boolean>
-  placeholder$: BehaviorSubject<string>
-  hideMpSelect$!: BehaviorSubject<boolean>
+  selectDisplay$!: BehaviorSubject<SelectDisplayModel>
 
   showExpression: boolean = false
 
@@ -130,16 +119,17 @@ export class CvcMolecularProfileSelectField
       placeholder: 'Search Molecular Profiles',
       isMultiSelect: false,
       description:
-        'Select a Variant to specify a simple Molecular Profile, or use the Editor to specify a complex Molecular Profile',
+        'Select a Gene and Variant to specify a simple Molecular Profile, or use the Editor to specify a complex Molecular Profile',
       extraType: 'prompt',
       entityName: {
         singular: 'Molecular Profile',
         plural: 'Molecular Profiles',
       },
-      watchVariantMolecularProfileId: false,
       minSearchStrLength: 1,
     },
   }
+
+  initialDescription!: Maybe<string>
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
@@ -158,10 +148,11 @@ export class CvcMolecularProfileSelectField
       scan((acc, _) => !acc, false),
       tap((open) => (this.editorOpen = open))
     )
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.defaultOptions.props!.placeholder
-    )
-    this.hideMpSelect$ = new BehaviorSubject<boolean>(true)
+    this.selectDisplay$ = new BehaviorSubject<SelectDisplayModel>({
+      showFinder: true,
+      showSelect: false,
+    })
+    this.onEditPrepopulated$ = new BehaviorSubject<boolean>(false)
   }
 
   ngAfterViewInit(): void {
@@ -179,14 +170,23 @@ export class CvcMolecularProfileSelectField
       changeDetectorRef: this.changeDetectorRef,
     })
 
-    this.placeholder$.next(this.props.placeholder)
+    this.initialDescription = this.props.description
 
     // only show select if mpId set, emit mpId from onMpId$ subject
     this.onValueChange$
       .pipe(untilDestroyed(this))
       .subscribe((mpId: Maybe<number>) => {
-        this.hideMpSelect$.next(mpId !== undefined ? false : true)
+        const showSelect = mpId !== undefined
+        this.selectDisplay$.next({
+          showFinder: !showSelect,
+          showSelect: showSelect,
+        })
         this.onMpId$.next(mpId)
+        if (mpId) {
+          this.props.description = undefined
+        } else {
+          this.props.description = this.initialDescription
+        }
       })
 
     // populate MP select if variantId received from child form model

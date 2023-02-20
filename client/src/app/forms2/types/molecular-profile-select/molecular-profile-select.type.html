@@ -1,32 +1,43 @@
 <nz-row [nzGutter]="[8, 12]">
-  <nz-col
-    nzFlex="10%"
-    *ngrxLet="hideMpSelect$ as hideSelect">
-    <cvc-mp-finder
-      *ngIf="hideSelect"
-      (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-finder>
-    <cvc-entity-select
-      *ngIf="!hideSelect"
-      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-      [cvcCustomTemplate]="selectedTemplate"
-      [cvcFormControl]="formControl"
-      [cvcFormlyAttributes]="field"
-      [cvcEntityName]="props.entityName"
-      [cvcPlaceholder]="(placeholder$ | ngrxPush)!"
-      [cvcResults]="result$ | ngrxPush"
-      [cvcDisabled]="props.disabled"
-      [cvcAllowClear]="false"
-      [cvcOptions]="selectOption$ | ngrxPush"
-      [cvcShowError]="showError"
-      [cvcLoading]="isLoading$ | ngrxPush"
-      [cvcBorderless]="true"
-      [cvcSuffixIcon]="null"
-      [cvcShowArrow]="false"
-      (cvcOnSearch)="onSearch$.next($event)"
-      (cvcOnModelChange)="props.change && props.change(field, $event)">
-    </cvc-entity-select>
-  </nz-col>
   <nz-col nzFlex="auto">
+    <ng-container *ngrxLet="selectDisplay$ as display">
+      <cvc-mp-finder
+        *ngIf="display.showFinder && !editorOpen"
+        (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-finder>
+      <ng-container *ngIf="!display.showSelect && editorOpen">
+        <div class="editor-message">
+          <span
+            nz-typography
+            nzType="secondary">
+            <i>
+              Use the expression editor below to specify a Molecular Profile
+            </i>
+          </span>
+        </div>
+      </ng-container>
+      <cvc-entity-select
+        *ngIf="display.showSelect"
+        [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+        [cvcCustomTemplate]="selectedTemplate"
+        [cvcFormControl]="formControl"
+        [cvcFormlyAttributes]="field"
+        [cvcEntityName]="props.entityName"
+        [cvcPlaceholder]="props.placeholder"
+        [cvcResults]="result$ | ngrxPush"
+        [cvcDisabled]="props.disabled"
+        [cvcAllowClear]="false"
+        [cvcOptions]="selectOption$ | ngrxPush"
+        [cvcShowError]="showError"
+        [cvcLoading]="isLoading$ | ngrxPush"
+        [cvcBorderless]="true"
+        [cvcSuffixIcon]="null"
+        [cvcShowArrow]="false"
+        (cvcOnSearch)="onSearch$.next($event)"
+        (cvcOnModelChange)="props.change && props.change(field, $event)">
+      </cvc-entity-select>
+    </ng-container>
+  </nz-col>
+  <nz-col nzFlex="80px">
     <button
       type="button"
       nzType="link"
@@ -35,7 +46,10 @@
       (click)="this.onShowExpClick$.next()">
       <span
         nz-icon
-        [ngClass]="{ 'show': (showExp$ | ngrxPush), 'hide': !(showExp$ | ngrxPush) }"
+        [ngClass]="{
+          show: (showExp$ | ngrxPush),
+          hide: !(showExp$ | ngrxPush)
+        }"
         [nzType]="'caret-right'"></span
       >Editor
     </button>
@@ -46,6 +60,7 @@
     *ngIf="showExp$ | ngrxPush as showExp">
     <cvc-mp-expression-editor
       [cvcPrepopulateWithId]="onMpId$ | ngrxPush"
+      (cvcOnEditPrepopulated)="onEditPrepopulated$.next($event)"
       (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>

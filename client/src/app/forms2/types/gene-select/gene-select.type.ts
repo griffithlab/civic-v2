@@ -88,8 +88,6 @@ export class CvcGeneSelectField
     },
   }
 
-  placeholder$: BehaviorSubject<string>
-
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
 
@@ -99,9 +97,6 @@ export class CvcGeneSelectField
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.defaultOptions.props!.placeholder
-    )
   }
 
   ngAfterViewInit(): void {
