@@ -235,7 +235,7 @@ export function EntitySelectField<
 
         this.response$
           .pipe(
-            filter((r) => !r.loading),
+            filter((r) => r.data !== undefined),
             map((r) => this.getTypeahedResults(r)),
             untilDestroyed(this)
           )
@@ -358,6 +358,10 @@ export function EntitySelectField<
               }
               this.selectOption$.next(options)
             })
+        }
+        if(!this.field.hooks) return
+        this.field.hooks.onDestroy = (field) => {
+          console.log(`${this.field.key} hooks.onDestroy()`)
         }
       } // configureDisplayEntityTag()
 

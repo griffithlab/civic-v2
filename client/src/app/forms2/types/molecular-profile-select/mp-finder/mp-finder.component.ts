@@ -58,8 +58,6 @@ export class MpFinderComponent {
     this.form = new UntypedFormGroup({})
     this.model = { geneId: undefined, variantId: undefined }
     this.options = { formState: this.finderState }
-    // this.modelChange$ = new BehaviorSubject<Maybe<MpFinderModel>>(undefined)
-    this.modelChange$.pipe(tag('mp-finder modelChange$')).subscribe()
 
     this.config = [
       {
@@ -79,7 +77,6 @@ export class MpFinderComponent {
                 showExtra: false,
               },
             },
-            resetOnHide: false,
           },
           <CvcVariantSelectFieldOption>{
             key: 'variantId',
@@ -91,7 +88,6 @@ export class MpFinderComponent {
               },
               hideLabel: true,
             },
-            resetOnHide: false,
           },
         ],
       },
