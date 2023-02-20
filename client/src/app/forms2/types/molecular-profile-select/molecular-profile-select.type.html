@@ -29,7 +29,7 @@
         [cvcOptions]="selectOption$ | ngrxPush"
         [cvcShowError]="showError"
         [cvcLoading]="isLoading$ | ngrxPush"
-        [cvcBorderless]="true"
+        [cvcBorderless]="false"
         [cvcSuffixIcon]="null"
         [cvcShowArrow]="false"
         (cvcOnSearch)="onSearch$.next($event)"

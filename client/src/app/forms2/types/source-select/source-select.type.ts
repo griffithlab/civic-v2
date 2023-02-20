@@ -104,11 +104,7 @@ export class CvcSourceSelectField
   sourceTypeName$: BehaviorSubject<string>
   onModel$ = new Observable<any>()
 
-  formLayout$!: Observable<{
-    sourceType: number
-    prefix: boolean
-    select: number
-  }>
+  showTypeSelect$: Observable<boolean>
 
   defaultSourceType: SourceSource = SourceSource.Pubmed
 
@@ -127,7 +123,7 @@ export class CvcSourceSelectField
         },
       },
       // description: 'Choose  Source type and enter its ID to select an existing Source or add a Source',
-      extraType: 'prompt'
+      extraType: 'prompt',
     },
   }
 
@@ -149,6 +145,7 @@ export class CvcSourceSelectField
         formatSourceTypeEnum(this.defaultSourceType)
       )
     )
+    this.showTypeSelect$ = new Observable<boolean>()
   }
 
   ngAfterViewInit(): void {
@@ -169,14 +166,10 @@ export class CvcSourceSelectField
       minSearchStrLength: this.field.props.minSearchStrLength,
     })
 
-    this.formLayout$ = this.onValueChange$.pipe(
-      tag('source-select onValueChange$'),
-      map((value: Maybe<number | number[]>) => {
-        return {
-          sourceType: 4,
-          prefix: value ? true : false,
-          select: value ? 20 : 18,
-        }
+    this.showTypeSelect$ = this.onValueChange$.pipe(
+      map((value) => {
+        if (!value || (value && Array.isArray(value))) return true
+        else return false
       })
     )
 
