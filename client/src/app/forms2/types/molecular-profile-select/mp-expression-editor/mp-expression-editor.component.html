@@ -5,6 +5,9 @@
   <ng-template #success>Added new Molecular Profile</ng-template>
   <nz-row [nzGutter]="[6, 6]">
     <!-- preview, messages, errors -->
+    <nz-col nzFlex="100px">
+      <div class="finder-label">Preview:</div>
+    </nz-col>
     <nz-col nzFlex="auto">
       <div
         class="expression-preview"
@@ -53,9 +56,13 @@
         Add MP
       </button>
     </nz-col>
-
+  </nz-row>
+  <nz-row [nzGutter]="[6, 6]">
     <!-- input textarea -->
-    <nz-col nzSpan="24">
+    <nz-col nzFlex="100px">
+      <div class="finder-label">Editor:</div>
+    </nz-col>
+    <nz-col nzFlex="auto">
       <textarea
         nz-input
         rows="1"
@@ -64,10 +71,11 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
-
+  </nz-row>
+  <nz-row [nzGutter]="[6, 6]">
     <!-- mp-finder form -->
-    <nz-col nzFlex="150px">
-      <div class="finder-label">Append Variant ID:</div>
+    <nz-col nzFlex="100px">
+      <div class="finder-label">Append #VID:</div>
     </nz-col>
     <nz-col nzFlex="auto">
       <cvc-mp-finder
