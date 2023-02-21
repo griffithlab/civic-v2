@@ -59,6 +59,9 @@ import {
   civicEventFullcolor,
   civicEventOutline,
   civicEventTwotone,
+  civicEvidenceitemFullcolor,
+  civicEvidenceitemOutline,
+  civicEvidenceitemTwotone,
   civicEvidenceFullcolor,
   civicEvidenceOutline,
   civicEvidenceTwotone,
@@ -158,6 +161,8 @@ const iconLiterals = [
   civicEventTwotone,
   civicEvidenceOutline,
   civicEvidenceTwotone,
+  civicEvidenceitemOutline,
+  civicEvidenceitemTwotone,
   civicFlagOutline,
   civicFlagTwotone,
   civicFunctionalOutline,
@@ -222,6 +227,7 @@ export const fullColorIcons: CivicIconLiteral[] = [
   civicDiseaseFullcolor,
   civicEditorFullcolor,
   civicEventFullcolor,
+  civicEvidenceitemFullcolor,
   civicEvidenceFullcolor,
   civicFlagFullcolor,
   civicGeneFullcolor,
@@ -256,6 +262,7 @@ export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
     }
     defs.push(def)
   })
+  console.log(defs)
   return defs
 }
 
