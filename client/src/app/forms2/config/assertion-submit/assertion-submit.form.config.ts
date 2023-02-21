@@ -27,13 +27,21 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Assertion',
         },
         fieldGroup: [
-          <CvcGeneSelectFieldConfig>{
-            key: 'geneId',
-            type: 'gene-select',
+          {
+            key: 'evidenceIds',
+            type: 'evidence-multi-select',
             props: {
               required: true,
+              isMultiSelect: true
             },
           },
+          // <CvcGeneSelectFieldConfig>{
+          //   key: 'geneId',
+          //   type: 'gene-select',
+          //   props: {
+          //     required: true,
+          //   },
+          // },
 
           // <CvcVariantSelectFieldConfig>{
           //   key: 'variantId',

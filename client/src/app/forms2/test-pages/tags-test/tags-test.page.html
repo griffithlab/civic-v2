@@ -20,6 +20,31 @@
       <ng-container *ngrxLet="emphasizeStr$ as emphasize">
         <ng-container *ngFor="let entity of tagTable.data">
           <ng-container [ngSwitch]="entity.__typename">
+            <tr *ngSwitchCase="'EvidenceItem'">
+              <td>{{ entity.__typename }}</td>
+              <td>
+                <cvc-entity-tag
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td>
+                <cvc-entity-tag
+                  cvcMode="closeable"
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td>
+                <cvc-entity-tag
+                  cvcMode="checkable"
+                  (cvcTagCheckedChange)="tagChecked($event)"
+                  [cvcCacheId]="entity.__typename + ':' + entity.id"
+                  [cvcEmphasize]="emphasize"></cvc-entity-tag>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
             <tr *ngSwitchCase="'MolecularProfile'">
               <td>{{ entity.__typename }}</td>
               <td>

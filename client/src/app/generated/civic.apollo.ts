@@ -6134,10 +6134,11 @@ export type EntityTagsTestQueryVariables = Exact<{
   variantId: Scalars['Int'];
   therapyId: Scalars['Int'];
   diseaseId: Scalars['Int'];
+  eid: Scalars['Int'];
 }>;
 
 
-export type EntityTagsTestQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
+export type EntityTagsTestQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, link: string } | undefined, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
 
 export type QuickAddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
@@ -6164,6 +6165,22 @@ export type DiseaseSelectTagQueryVariables = Exact<{
 export type DiseaseSelectTagQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined };
 
 export type DiseaseSelectTypeaheadFieldsFragment = { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> };
+
+export type EvidenceSelectTypeaheadQueryVariables = Exact<{
+  eid: Scalars['Int'];
+}>;
+
+
+export type EvidenceSelectTypeaheadQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', nodes: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, status: EvidenceStatus }> } };
+
+export type EvidenceSelectTagQueryVariables = Exact<{
+  eid: Scalars['Int'];
+}>;
+
+
+export type EvidenceSelectTagQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, status: EvidenceStatus } | undefined };
+
+export type EvidenceSelectTypeaheadFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, status: EvidenceStatus };
 
 export type GeneSelectTypeaheadQueryVariables = Exact<{
   entrezSymbol: Scalars['String'];
@@ -8044,6 +8061,20 @@ export const QuickAddDiseaseFieldsFragmentDoc = gql`
   }
 }
     ${DiseaseSelectTypeaheadFieldsFragmentDoc}`;
+export const EvidenceSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment EvidenceSelectTypeaheadFields on EvidenceItem {
+  id
+  name
+  link
+  evidenceType
+  evidenceDirection
+  evidenceLevel
+  evidenceRating
+  significance
+  variantOrigin
+  status
+}
+    `;
 export const GeneSelectTypeaheadFieldsFragmentDoc = gql`
     fragment GeneSelectTypeaheadFields on Gene {
   id
@@ -11802,7 +11833,12 @@ export const LinkableTherapyDocument = gql`
     }
   }
 export const EntityTagsTestDocument = gql`
-    query EntityTagsTest($molecularProfileId: Int!, $geneId: Int!, $variantId: Int!, $therapyId: Int!, $diseaseId: Int!) {
+    query EntityTagsTest($molecularProfileId: Int!, $geneId: Int!, $variantId: Int!, $therapyId: Int!, $diseaseId: Int!, $eid: Int!) {
+  evidenceItem(id: $eid) {
+    id
+    name
+    link
+  }
   molecularProfile(id: $molecularProfileId) {
     id
     name
@@ -11890,6 +11926,44 @@ export const DiseaseSelectTagDocument = gql`
   })
   export class DiseaseSelectTagGQL extends Apollo.Query<DiseaseSelectTagQuery, DiseaseSelectTagQueryVariables> {
     document = DiseaseSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceSelectTypeaheadDocument = gql`
+    query EvidenceSelectTypeahead($eid: Int!) {
+  evidenceItems(id: $eid) {
+    nodes {
+      ...EvidenceSelectTypeaheadFields
+    }
+  }
+}
+    ${EvidenceSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceSelectTypeaheadGQL extends Apollo.Query<EvidenceSelectTypeaheadQuery, EvidenceSelectTypeaheadQueryVariables> {
+    document = EvidenceSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceSelectTagDocument = gql`
+    query EvidenceSelectTag($eid: Int!) {
+  evidenceItem(id: $eid) {
+    ...EvidenceSelectTypeaheadFields
+  }
+}
+    ${EvidenceSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceSelectTagGQL extends Apollo.Query<EvidenceSelectTagQuery, EvidenceSelectTagQueryVariables> {
+    document = EvidenceSelectTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

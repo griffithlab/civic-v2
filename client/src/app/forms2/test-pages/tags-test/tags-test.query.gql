@@ -4,7 +4,13 @@ query EntityTagsTest(
   $variantId: Int!
   $therapyId: Int!
   $diseaseId: Int!
+  $eid: Int!
 ) {
+  evidenceItem(id: $eid) {
+    id
+    name
+    link
+  }
   molecularProfile(id: $molecularProfileId) {
     id
     name
