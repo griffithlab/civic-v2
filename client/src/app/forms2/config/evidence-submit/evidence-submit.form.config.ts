@@ -11,7 +11,6 @@ import { CvcSourceSelectFieldOptions } from '@app/forms2/types/source-select/sou
 import { CvcTherapySelectFieldOptions } from '@app/forms2/types/therapy-select/therapy-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms2/types/type-select/type-select.type'
 import assignFieldConfigDefaultValues from '@app/forms2/utilities/assign-field-default-values'
-import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field-grid.wrapper'
 import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms2/wrappers/form-layout/form-layout.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
@@ -41,182 +40,97 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Evidence Item',
         },
         fieldGroup: [
-              {
-                key: 'molecularProfileId',
-                type: 'molecular-profile-select',
-                props: {
-                  required: true,
-                  tooltip: 'TEST TEST TEST TEST',
-                  helpText: 'This is the description of a molecular profile.',
-                  watchVariantMolecularProfileId: true,
-                },
-              },
-              <CvcSourceSelectFieldOptions>{
-                key: 'sourceId',
-                type: 'source-select',
-                props: { required: true },
-              },
-          // {
-          //   wrappers: ['field-grid'],
-          //   props: <CvcFieldGridWrapperConfig>{
-          //     grid: {
-          //       cols: 2,
-          //     },
-          //   },
-          //   fieldGroup: [
-          //     {
-          //       key: 'molecularProfileId',
-          //       type: 'molecular-profile-select',
-          //       props: {
-          //         required: true,
-          //         tooltip: 'TEST TEST TEST TEST',
-          //         helpText: 'This is the description of a molecular profile.',
-          //         watchVariantMolecularProfileId: true,
-          //       },
-          //     },
-          //     <CvcSourceSelectFieldOptions>{
-          //       key: 'sourceId',
-          //       type: 'source-select',
-          //       props: { required: true },
-          //     },
-          //   ],
-          // },
           {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+            key: 'molecularProfileId',
+            type: 'molecular-profile-select',
+            props: {
+              required: true,
+              tooltip: 'TEST TEST TEST TEST',
+              helpText: 'This is the description of a molecular profile.',
+              watchVariantMolecularProfileId: true,
             },
-            fieldGroup: [
-              <CvcEntityTypeSelectFieldConfig>{
-                key: 'evidenceType',
-                type: 'type-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcDirectionSelectFieldOptions>{
-                key: 'evidenceDirection',
-                type: 'direction-select',
-                props: {
-                  required: true,
-                },
-              },
-            ],
+          },
+          <CvcSourceSelectFieldOptions>{
+            key: 'sourceId',
+            type: 'source-select',
+            props: { required: true },
+          },
+          <CvcEntityTypeSelectFieldConfig>{
+            key: 'evidenceType',
+            type: 'type-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcDirectionSelectFieldOptions>{
+            key: 'evidenceDirection',
+            type: 'direction-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcSignificanceSelectFieldOptions>{
+            key: 'significance',
+            type: 'significance-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcDiseaseSelectFieldOptions>{
+            key: 'diseaseId',
+            type: 'disease-select',
+            props: {},
+          },
+          <CvcTherapySelectFieldOptions>{
+            key: 'therapyIds',
+            type: 'therapy-multi-select',
+            props: {},
+          },
+          <CvcInteractionSelectFieldOptions>{
+            key: 'therapyInteractionType',
+            type: 'interaction-select',
+            props: {},
+          },
+          <CvcLevelSelectFieldOptions>{
+            key: 'evidenceLevel',
+            type: 'level-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcRatingFieldOptions>{
+            key: 'rating',
+            type: 'rating',
+            props: {
+              required: true,
+            },
+          },
+          <CvcOriginSelectFieldOptions>{
+            key: 'variantOrigin',
+            type: 'origin-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcPhenotypeSelectFieldOptions>{
+            key: 'phenotypeIds',
+            type: 'phenotype-multi-select',
+            props: {},
           },
           {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+            key: 'description',
+            type: 'textarea',
+            wrappers: ['form-field'],
+            props: {
+              tooltip:
+                'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
+              placeholder: 'Enter an Evidence Statement',
+              extraType: 'description',
+              description:
+                'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+              label: 'Evidence Statement',
+              required: true,
             },
-            fieldGroup: [
-              <CvcSignificanceSelectFieldOptions>{
-                key: 'significance',
-                type: 'significance-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcDiseaseSelectFieldOptions>{
-                key: 'diseaseId',
-                type: 'disease-select',
-                props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
-              <CvcTherapySelectFieldOptions>{
-                key: 'therapyIds',
-                type: 'therapy-multi-select',
-                props: {},
-              },
-              <CvcInteractionSelectFieldOptions>{
-                key: 'therapyInteractionType',
-                type: 'interaction-select',
-                props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
-              <CvcLevelSelectFieldOptions>{
-                key: 'evidenceLevel',
-                type: 'level-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcRatingFieldOptions>{
-                key: 'rating',
-                type: 'rating',
-                props: {
-                  required: true,
-                },
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
-              <CvcOriginSelectFieldOptions>{
-                key: 'variantOrigin',
-                type: 'origin-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcPhenotypeSelectFieldOptions>{
-                key: 'phenotypeIds',
-                type: 'phenotype-multi-select',
-                props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: '1-2',
-              },
-            },
-            fieldGroup: [
-              {
-                key: 'description',
-                type: 'textarea',
-                wrappers: ['form-field'],
-                props: {
-                  tooltip:
-                    'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
-                  placeholder: 'Enter an Evidence Statement',
-                  extraType: 'description',
-                  description:
-                    'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
-                  label: 'Evidence Statement',
-                  required: true,
-                },
-              },
-            ],
           },
         ],
       },
