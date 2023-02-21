@@ -6,7 +6,9 @@
   <nz-row [nzGutter]="[6, 6]">
     <!-- preview, messages, errors -->
     <nz-col nzFlex="auto">
-      <div class="expression-preview">
+      <div
+        class="expression-preview"
+        [ngClass]="{ active: (expressionSegment$ | ngrxPush) !== undefined }">
         <span
           *ngIf="expressionMessage$ | ngrxPush as message"
           nz-typography
@@ -31,7 +33,7 @@
       <button
         *ngIf="existingMp$ | ngrxPush as mp"
         (click)="cvcOnSelect.next(mp)"
-        [disabled]="(expressionError$ | ngrxPush)"
+        [disabled]="expressionError$ | ngrxPush"
         type="button"
         nz-button
         nzType="primary"
@@ -39,8 +41,10 @@
         Select MP
       </button>
       <button
-        *ngIf="!(existingMp$ | ngrxPush) "
-        [disabled]="(expressionError$ | ngrxPush) || !(expressionSegment$ | ngrxPush)"
+        *ngIf="!(existingMp$ | ngrxPush)"
+        [disabled]="
+          (expressionError$ | ngrxPush) || !(expressionSegment$ | ngrxPush)
+        "
         (click)="onCreateNewMp$.next()"
         type="button"
         nz-button

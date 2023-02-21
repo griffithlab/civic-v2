@@ -41,14 +41,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Evidence Item',
         },
         fieldGroup: [
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
               {
                 key: 'molecularProfileId',
                 type: 'molecular-profile-select',
@@ -64,8 +56,31 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'source-select',
                 props: { required: true },
               },
-            ],
-          },
+          // {
+          //   wrappers: ['field-grid'],
+          //   props: <CvcFieldGridWrapperConfig>{
+          //     grid: {
+          //       cols: 2,
+          //     },
+          //   },
+          //   fieldGroup: [
+          //     {
+          //       key: 'molecularProfileId',
+          //       type: 'molecular-profile-select',
+          //       props: {
+          //         required: true,
+          //         tooltip: 'TEST TEST TEST TEST',
+          //         helpText: 'This is the description of a molecular profile.',
+          //         watchVariantMolecularProfileId: true,
+          //       },
+          //     },
+          //     <CvcSourceSelectFieldOptions>{
+          //       key: 'sourceId',
+          //       type: 'source-select',
+          //       props: { required: true },
+          //     },
+          //   ],
+          // },
           {
             wrappers: ['field-grid'],
             props: <CvcFieldGridWrapperConfig>{

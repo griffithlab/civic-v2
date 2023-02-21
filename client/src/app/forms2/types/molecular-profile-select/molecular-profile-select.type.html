@@ -1,20 +1,23 @@
 <nz-row [nzGutter]="[8, 12]">
-  <nz-col nzFlex="auto">
+  <nz-col
+    nzFlex="auto">
     <ng-container *ngrxLet="selectDisplay$ as display">
       <cvc-mp-finder
         *ngIf="display.showFinder && !editorOpen"
         (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-finder>
-      <ng-container *ngIf="!display.showSelect && editorOpen">
-        <div class="editor-message">
-          <span
-            nz-typography
-            nzType="secondary">
-            <i>
-              Use the expression editor below to specify a Molecular Profile
-            </i>
-          </span>
-        </div>
-      </ng-container>
+
+      <div
+        class="editor-message"
+        *ngIf="!display.showSelect && editorOpen">
+        &nbsp;
+        <span
+          nz-typography
+          nzEllipsis
+          nzType="secondary">
+          <i> Select a Molecular Profile with the expression editor </i>
+        </span>
+      </div>
+
       <cvc-entity-select
         *ngIf="display.showSelect"
         [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
@@ -29,7 +32,7 @@
         [cvcOptions]="selectOption$ | ngrxPush"
         [cvcShowError]="showError"
         [cvcLoading]="isLoading$ | ngrxPush"
-        [cvcBorderless]="false"
+        [cvcBorderless]="true"
         [cvcSuffixIcon]="null"
         [cvcShowArrow]="false"
         (cvcOnSearch)="onSearch$.next($event)"
@@ -37,11 +40,11 @@
       </cvc-entity-select>
     </ng-container>
   </nz-col>
-  <nz-col nzFlex="80px">
+  <nz-col nzFlex="50px">
     <button
       type="button"
-      nzType="link"
       nz-button
+      nzBlock
       class="expression-button"
       (click)="this.onShowExpClick$.next()">
       <span
