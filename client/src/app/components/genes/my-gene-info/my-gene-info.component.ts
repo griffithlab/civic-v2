@@ -1,8 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core'
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs'
 
-import { NGXLogger } from 'ngx-logger'
-
 import { MyGeneInfoService } from './my-gene-info.service'
 
 @Component({
@@ -18,8 +16,7 @@ export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   tabIndex: any
 
   constructor(
-    private infoService: MyGeneInfoService,
-    private logger: NGXLogger
+   private infoService: MyGeneInfoService,
   ) {
     this.tabIndex = 0
   }
@@ -30,7 +27,7 @@ export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if (this.geneInfo) {
-      this.info = this.infoService.parse(this.geneInfo)
+      this.info = this.infoService.parse(JSON.parse(String(this.geneInfo)))
     }
   }
 

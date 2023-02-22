@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core'
-import { NGXLogger } from 'ngx-logger'
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyGeneInfoService {
-  constructor(private logger: NGXLogger) {}
+  constructor() {}
 
   parse(geneInfo: any): any {
     const srcMap: { [key: string]: string | null } = {
