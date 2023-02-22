@@ -34,6 +34,7 @@ import {
   Observable,
   ReplaySubject,
   scan,
+  startWith,
   Subject,
   tap,
 } from 'rxjs'
@@ -125,6 +126,7 @@ export class CvcEvidenceSelectField
 
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
+      startWith(true),
       scan((acc, _) => !acc, false),
     )
   }

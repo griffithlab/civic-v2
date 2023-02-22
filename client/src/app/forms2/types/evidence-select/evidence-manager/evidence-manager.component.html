@@ -1,30 +1,37 @@
-<nz-table
-  [nzData]="(rowData$ | ngrxPush) || []"
-  [nzFrontPagination]="false"
-  [nzLoading]="isLoading$ | ngrxPush"
-  (nzCheckedChange)="onCheckedChange$.next($event)"
-  (nzQueryParams)="onParamsChange$.next($event)">
-  <thead>
-    <tr>
-      <th
-        nzColumnKey="id"
-        [nzSortFn]="true">
-       EID
-      </th>
-      <th
-        nzColumnKey="gene">
-        MP
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of (rowData$ | ngrxPush)">
-      <td>
-        <cvc-entity-tag [cvcCacheId]="'EvidenceItem:' + data.id"></cvc-entity-tag>
-      </td>
-      <td>
-        <cvc-entity-tag [cvcCacheId]="'MolecularProfile:' + data.molecularProfile.id"></cvc-entity-tag>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+<nz-card
+  [nzTitle]="cardTitle"
+  nzSize="small">
+  <nz-table
+    [nzData]="(rowData$ | ngrxPush) || []"
+    [nzFrontPagination]="false"
+    [nzLoading]="isLoading$ | ngrxPush"
+    nzSize="small"
+    (nzCheckedChange)="onCheckedChange$.next($event)"
+    (nzQueryParams)="onParamsChange$.next($event)">
+    <thead>
+      <tr class="col-header-row">
+        <th
+          nzColumnKey="id"
+          [nzSortFn]="true">
+          Item
+        </th>
+        <th nzColumnKey="gene">Molecular Profile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of rowData$ | ngrxPush">
+        <td>
+          <cvc-entity-tag
+            [cvcCacheId]="'EvidenceItem:' + data.id"></cvc-entity-tag>
+        </td>
+        <td>
+          <cvc-entity-tag
+            [cvcCacheId]="
+              'MolecularProfile:' + data.molecularProfile.id
+            "></cvc-entity-tag>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<ng-template #cardTitle> Evidence Manager </ng-template>
