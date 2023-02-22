@@ -41,7 +41,7 @@
     *ngIf="showMgr$ | ngrxPush as showMgr">
     <cvc-evidence-manager
       (cvcSelectedIdsChange)="
-        onSelectedIds$.next($event)
+        onEidSelect$.next($event)
       "></cvc-evidence-manager>
   </nz-col>
 </nz-row>

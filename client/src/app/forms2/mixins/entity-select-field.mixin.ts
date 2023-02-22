@@ -323,7 +323,10 @@ export function EntitySelectField<
         this.onTagClose$.pipe(untilDestroyed(this)).subscribe((_) => {
           this.resetField()
         })
-
+        // FIXME: this code needs to run after the field's value is updated by any means
+        // other than the select, otherwise its tags won't be added to the options model
+        // This is why tags fail to display when they are added by creation or just updating the model value with the evidence-manager or mp-editor
+        //
         // if a prepopulated form value exists,
         // use tagQuery to create select option(s) for it so that nz-select's tags render
         if (this.formControl.value) {

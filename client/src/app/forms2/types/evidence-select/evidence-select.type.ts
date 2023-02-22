@@ -22,6 +22,7 @@ import {
   EvidenceSelectTypeaheadQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
+import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
@@ -86,10 +87,9 @@ export class CvcEvidenceSelectField
   implements AfterViewInit
 {
   // SOURCE STREAMS
-  onEidSelect$: BehaviorSubject<Maybe<EvidenceItem | EvidenceItem[]>>
+  onEidSelect$: Subject<number[]>
   onEid$: ReplaySubject<Maybe<number | number[]>>
   onShowMgrClick$: Subject<void>
-  onSelectedIds$: Subject<number[]>
 
   // PRESENTATION STREAMS
   showMgr$: Observable<boolean>
@@ -121,12 +121,8 @@ export class CvcEvidenceSelectField
     private apollo: Apollo
   ) {
     super()
-    this.onEidSelect$ = new BehaviorSubject<
-      Maybe<EvidenceItem | EvidenceItem[]>
-    >(undefined)
     this.onEid$ = new ReplaySubject<Maybe<number | number[]>>()
-    this.onSelectedIds$ = new Subject<number[]>()
-    this.onSelectedIds$.pipe(tag('evidence-select onSelectedId$')).subscribe()
+    this.onEidSelect$ = new Subject<number[] >()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       startWith(true),
@@ -146,6 +142,9 @@ export class CvcEvidenceSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+    })
+    this.onEidSelect$.pipe(untilDestroyed(this)).subscribe((ids) => {
+      this.formControl.setValue(ids)
     })
   }
   private configureStateConnections() {

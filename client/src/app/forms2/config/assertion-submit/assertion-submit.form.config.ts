@@ -11,7 +11,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Assertion',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
