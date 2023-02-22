@@ -52,7 +52,7 @@
         <nz-descriptions-item nzTitle="Revision Date">
           {{ r.createdAt | timeago }}
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Creation Comment">
+        <nz-descriptions-item *ngIf="r.creationComment" nzTitle="Creation Comment">
           {{ r.creationComment.comment }}
         </nz-descriptions-item>
       </nz-descriptions>
