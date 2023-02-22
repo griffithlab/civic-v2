@@ -9,8 +9,6 @@ import {
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
-  EvidenceItem,
-  EvidenceItemConnection,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
@@ -18,8 +16,9 @@ import {
   EvidenceType,
   PageInfo,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { UntilDestroy } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
+import { NzSafeAny } from 'ng-zorro-antd/core/types'
 import {
   NzTableFilterFn,
   NzTableFilterList,
@@ -43,7 +42,6 @@ import {
 } from 'rxjs'
 import { combineLatestObject, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 
 type EvidenceManagerConnection = {
   totalCount: number
@@ -52,59 +50,41 @@ type EvidenceManagerConnection = {
   nodes: EvidenceManagerFieldsFragment[]
 }
 
-type ColumnType =
-  | 'tag'
-  | 'tags'
-  | 'enum'
-  | 'string'
-  | 'number'
-  | 'select'
+type RowDataExtra = {
+  evidenceItem: { id: number; name: string; link: string }
+  selected?: boolean
+}
+type RowData = EvidenceManagerFieldsFragment & RowDataExtra
 
-type ColumnConfigBase = {
+type ColType = 'tag' | 'tags' | 'enum' | 'string' | 'number' | 'select'
+
+type ColKey = keyof RowData
+
+type ColConfig = {
   name: string
-  type: ColumnType
-  key: keyof EvidenceManagerFieldsFragment | ColumnType | 'evidenceItem'
+  type: ColType
+  key: ColKey
+  width?: string
   hide: boolean
-  sort?: {
-    sortDirections: NzTableSortOrder[]
-    sortOrder?: NzTableSortOrder | null
-    sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
-  }
   filter?: {
     listOfFilter: NzTableFilterList
     filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
     filterMultiple: boolean
   }
-  select: {
+  select?: {
     selected: boolean
     indeterminate: boolean
-    selectRow: Subject<Event>
-    selectCol: Subject<Event>
   }
-}
-
-type EntityColumn = Omit<ColumnConfigBase, 'select'>
-type EntitiesColumn = Omit<ColumnConfigBase, 'select'>
-type EnumColumn = Omit<ColumnConfigBase, 'select'>
-type StringColumn = Omit<ColumnConfigBase, 'select'>
-type NumberColumn = Omit<ColumnConfigBase, 'select'>
-type SelectColumn = ColumnConfigBase
-
-type ColumnConfig =
-  | EntityColumn
-  | EntitiesColumn
-  | EnumColumn
-  | StringColumn
-  | NumberColumn
-  | SelectColumn
-
-type RowData = EvidenceManagerFieldsFragment & {
-  evidenceItem: { id: number; name: string; link: string }
+  sort?: {
+    sortDirections: NzTableSortOrder[]
+    sortOrder?: NzTableSortOrder | null
+    sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
+  }
 }
 
 type TableData = {
   rows: RowData[]
-  cols: ColumnConfig[]
+  cols: ColConfig[]
 }
 
 @UntilDestroy()
@@ -121,14 +101,14 @@ export class CvcEvidenceManagerComponent implements OnInit {
   @Input() cvcQueryVariables?: Partial<EvidenceManagerQueryVariables>
 
   // SOURCE STREAMS
-  onRowChecked$: Subject<Event>
-  onColChecked$: Subject<Event>
+  onRowChecked$: Subject<boolean>
+  onColChecked$: Subject<boolean>
   onParamsChange$: ReplaySubject<NzTableQueryParams>
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
-  col$: BehaviorSubject<ColumnConfig[]>
+  col$: BehaviorSubject<ColConfig[]>
   row$?: Observable<RowData[]>
 
   // PRESENTION STREAMS
@@ -138,56 +118,73 @@ export class CvcEvidenceManagerComponent implements OnInit {
 
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
-  defaultColumns: ColumnConfig[]
+  defaultColumns: ColConfig[]
+
+  colSelectOptions!: Array<{
+    text: string
+    onSelect(...args: NzSafeAny[]): NzSafeAny
+  }>
+
+  allSelected: boolean = false
+  allIndeterminate: boolean = false
 
   constructor(private gql: EvidenceManagerGQL) {
-    this.onRowChecked$ = new Subject<Event>()
-    this.onColChecked$ = new Subject<Event>()
+    this.onRowChecked$ = new Subject<boolean>()
+    this.onColChecked$ = new Subject<boolean>()
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
+    this.colSelectOptions = [
+      {
+        text: 'Select All',
+        onSelect: () => {
+          this.onColChecked$.next(true)
+        },
+      },
+    ]
+
     this.defaultColumns = [
-      <SelectColumn>{
+      {
         name: 'Select',
         type: 'select',
-        key: 'select',
         hide: false,
+        key: 'selected',
+        width: '40px',
         select: {
           selected: false,
           indeterminate: false,
-          selectRow: this.onRowChecked$,
-          selectCol: this.onColChecked$,
         },
       },
-      <EntityColumn>{
+      {
         name: 'Status',
         type: 'enum',
         key: 'status',
-        hide: false,
+        hide: true,
       },
-      <EntityColumn>{
+      {
         name: 'Evidence Item',
         type: 'tag',
         key: 'evidenceItem',
         hide: false,
       },
-      <EntityColumn>{
+      {
         name: 'Molecular Profile',
         type: 'tag',
         key: 'molecularProfile',
         hide: false,
       },
-      <EntityColumn>{
+      {
         name: 'Disease',
         type: 'tag',
         key: 'disease',
         hide: false,
       },
-      <EntityColumn>{
+      {
         name: 'Therapies',
         type: 'tags',
         key: 'therapies',
         hide: false,
       },
     ]
+
     this.queryResult$ = this.onParamsChange$.pipe(
       switchMap((params: NzTableQueryParams) => {
         const query = this.getQueryVars(params)
@@ -245,19 +242,13 @@ export class CvcEvidenceManagerComponent implements OnInit {
       }),
       startWith([])
     )
-    this.col$ = new BehaviorSubject<ColumnConfig[]>(this.defaultColumns)
+    this.col$ = new BehaviorSubject<ColConfig[]>(this.defaultColumns)
 
     this.tableData$ = combineLatestObject({
       rows: this.row$,
       cols: this.col$,
     })
-    // this.tableData$.pipe(tag('evidence-manager tableData$')).subscribe((data: TableData) => {
-    //   console.log(data)
-    //   return {
-    //     rows: data.rows,
-    //     cols: data.cols
-    //   }
-    // })
+
     // this.responseMeta$ = this.queryResult$.pipe(
     //   pluck('data', 'evidenceItems'),
     //   map((connection) => {

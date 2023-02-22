@@ -3,6 +3,7 @@
   nzSize="small">
   <nz-table
     #virtualTable
+    #rowSelectionTable
     *ngrxLet="tableData$ as data"
     [nzData]="data.rows"
     [nzScroll]="{ x: '800px', y: '200px' }"
@@ -15,7 +16,16 @@
     <thead>
       <tr class="col-header-row">
         <ng-container *ngFor="let col of data.cols">
-          <ng-container [ngSwitch]="col.key">
+          <ng-container
+            *ngIf="!col.hide"
+            [ngSwitch]="col.type">
+            <th
+              *ngSwitchCase="'select'"
+              [nzWidth]="col.width || null"
+              [nzShowCheckbox]="false"
+              [nzChecked]="allSelected"
+              [nzIndeterminate]="allIndeterminate"
+              (nzCheckedChange)="onColChecked$.next($event)"></th>
             <th
               *ngSwitchDefault
               nzColumnKey="col.key">
@@ -31,7 +41,14 @@
         let-row>
         <tr class="data-row">
           <ng-container *ngFor="let col of data.cols">
-            <ng-container [ngSwitch]="col.type">
+            <ng-container
+              *ngIf="!col.hide"
+              [ngSwitch]="col.type">
+              <td
+                *ngSwitchCase="'select'"
+                [nzChecked]="false"
+                (nzCheckedChange)="onRowChecked$.next($event)"></td>
+
               <td *ngSwitchCase="'tag'">
                 <cvc-entity-tag
                   *ngrxLet="row[col.key] as entity"
@@ -39,6 +56,7 @@
                     entity.__typename + ':' + entity.id
                   "></cvc-entity-tag>
               </td>
+
               <td *ngSwitchCase="'tags'">
                 <cvc-entity-tag
                   *ngFor="let entity of row[col.key]"
@@ -46,15 +64,19 @@
                     entity.__typename + ':' + entity.id
                   "></cvc-entity-tag>
               </td>
+
               <td *ngSwitchCase="'enum'">
                 {{ row[col.key] }}
               </td>
+
               <td *ngSwitchCase="'string'">
                 {{ row[col.key] }}
               </td>
+
               <td *ngSwitchCase="'number'">
                 {{ row[col.key] }}
               </td>
+
               <td *ngSwitchDefault>?{{ row[col.key] }}?</td>
             </ng-container>
           </ng-container>
