@@ -16,7 +16,7 @@ import {
   EvidenceType,
   PageInfo,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy } from '@ngneat/until-destroy'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { NzSafeAny } from 'ng-zorro-antd/core/types'
 import {
@@ -28,6 +28,7 @@ import {
 } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
+  combineLatest,
   defer,
   distinctUntilChanged,
   filter,
@@ -39,6 +40,7 @@ import {
   startWith,
   Subject,
   switchMap,
+  withLatestFrom,
 } from 'rxjs'
 import { combineLatestObject, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -87,6 +89,11 @@ type TableData = {
   cols: ColConfig[]
 }
 
+type RowSelection = {
+  selected: boolean
+  id: number
+}
+
 @UntilDestroy()
 @Component({
   selector: 'cvc-evidence-manager',
@@ -101,8 +108,8 @@ export class CvcEvidenceManagerComponent implements OnInit {
   @Input() cvcQueryVariables?: Partial<EvidenceManagerQueryVariables>
 
   // SOURCE STREAMS
-  onRowChecked$: Subject<boolean>
-  onColChecked$: Subject<boolean>
+  onRowSelected$: Subject<RowSelection>
+  onAllSelected$: Subject<boolean>
   onParamsChange$: ReplaySubject<NzTableQueryParams>
 
   // INTERMEDIATE STREAMS
@@ -110,6 +117,7 @@ export class CvcEvidenceManagerComponent implements OnInit {
   connection$: Observable<EvidenceManagerConnection>
   col$: BehaviorSubject<ColConfig[]>
   row$?: Observable<RowData[]>
+  selectedRow$: BehaviorSubject<number[]>
 
   // PRESENTION STREAMS
   tableData$: Observable<TableData>
@@ -129,14 +137,15 @@ export class CvcEvidenceManagerComponent implements OnInit {
   allIndeterminate: boolean = false
 
   constructor(private gql: EvidenceManagerGQL) {
-    this.onRowChecked$ = new Subject<boolean>()
-    this.onColChecked$ = new Subject<boolean>()
+    this.selectedRow$ = new BehaviorSubject<number[]>([])
+    this.onRowSelected$ = new Subject<RowSelection>()
+    this.onAllSelected$ = new Subject<boolean>()
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
     this.colSelectOptions = [
       {
         text: 'Select All',
         onSelect: () => {
-          this.onColChecked$.next(true)
+          this.onAllSelected$.next(true)
         },
       },
     ]
@@ -185,6 +194,17 @@ export class CvcEvidenceManagerComponent implements OnInit {
       },
     ]
 
+    this.onRowSelected$
+      .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
+      .subscribe(([event, selected]: [RowSelection, number[]]) => {
+        if (event.selected) {
+          selected.push(event.id)
+          this.selectedRow$.next(selected)
+        } else {
+          this.selectedRow$.next(selected.filter(id => id === event.id))
+        }
+      })
+
     this.queryResult$ = this.onParamsChange$.pipe(
       switchMap((params: NzTableQueryParams) => {
         const query = this.getQueryVars(params)
@@ -224,19 +244,21 @@ export class CvcEvidenceManagerComponent implements OnInit {
     ) // end this.queryResult$
 
     this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
-    this.row$ = this.connection$.pipe(
-      pluck('nodes'),
-      filter(isNonNulled),
-      map((nodes) => {
-        return nodes.map((node) => {
+    this.row$ = combineLatest([
+      this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
+      this.selectedRow$,
+    ]).pipe(
+      map(([rows, selected]: [EvidenceManagerFieldsFragment[], number[]]) => {
+        return rows.map((row) => {
           return {
-            ...node,
+            ...row,
             evidenceItem: {
               __typename: 'EvidenceItem',
-              id: node.id,
-              name: node.name,
-              link: node.link,
+              id: row.id,
+              name: row.name,
+              link: row.link,
             },
+            selected: selected.includes(row.id),
           }
         })
       }),

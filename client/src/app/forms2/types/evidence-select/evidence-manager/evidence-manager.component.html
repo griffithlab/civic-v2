@@ -25,7 +25,7 @@
               [nzShowCheckbox]="false"
               [nzChecked]="allSelected"
               [nzIndeterminate]="allIndeterminate"
-              (nzCheckedChange)="onColChecked$.next($event)"></th>
+              (nzCheckedChange)="onAllSelected$.next($event)"></th>
             <th
               *ngSwitchDefault
               nzColumnKey="col.key">
@@ -46,8 +46,8 @@
               [ngSwitch]="col.type">
               <td
                 *ngSwitchCase="'select'"
-                [nzChecked]="false"
-                (nzCheckedChange)="onRowChecked$.next($event)"></td>
+                [nzChecked]="row.selected"
+                (nzCheckedChange)="onRowSelected$.next({ id: row.id, selected: $event })"></td>
 
               <td *ngSwitchCase="'tag'">
                 <cvc-entity-tag
