@@ -1814,6 +1814,7 @@ type Disease {
   doid: String
   id: Int!
   link: String!
+  myDiseaseInfo: MyDiseaseInfo
   name: String!
 }
 
@@ -1827,6 +1828,7 @@ type DiseasePopover {
   id: Int!
   link: String!
   molecularProfileCount: Int!
+  myDiseaseInfo: MyDiseaseInfo
   name: String!
 }
 
@@ -4030,6 +4032,19 @@ type Mutation {
     """
     input: UpdateSourceSuggestionStatusInput!
   ): UpdateSourceSuggestionStatusPayload
+}
+
+type MyDiseaseInfo {
+  diseaseOntologyExactSynonyms: [String!]!
+  diseaseOntologyRelatedSynonyms: [String!]!
+  doDef: String
+  doDefCitations: [String!]!
+  icd10: String
+  icdo: String
+  mesh: String
+  mondoDef: String
+  ncit: String
+  omim: String
 }
 
 type MyVariantInfo {
