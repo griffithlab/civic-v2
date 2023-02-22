@@ -205,4 +205,7 @@ export class CvcEvidenceManagerComponent implements OnInit {
       this.onParamsChange$.next(queryVars)
     }
   }
+  trackByIndex( _: number, data: EvidenceManagerFieldsFragment): number {
+    return data.id;
+  }
 }

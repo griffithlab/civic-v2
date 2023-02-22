@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
+import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { LetModule, PushModule } from '@ngrx/component'
@@ -13,8 +15,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
 import {
-    CvcEvidenceSelectField,
-    CvcEvidenceSelectFieldProps
+  CvcEvidenceSelectField,
+  CvcEvidenceSelectFieldProps,
 } from './evidence-select.type'
 
 const typeConfig: ConfigOption = {
@@ -52,6 +54,8 @@ const typeConfig: ConfigOption = {
     NzTableModule,
     NzCardModule,
 
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
     CvcPipesModule,
     CvcEntityTagModule,
     CvcEntitySelectModule,
