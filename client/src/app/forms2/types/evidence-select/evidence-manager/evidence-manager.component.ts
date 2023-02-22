@@ -44,6 +44,7 @@ import {
 } from 'rxjs'
 import { combineLatestObject, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
+import { tag } from 'rxjs-spy/operators'
 
 type EvidenceManagerConnection = {
   totalCount: number
@@ -117,7 +118,7 @@ export class CvcEvidenceManagerComponent implements OnInit {
   connection$: Observable<EvidenceManagerConnection>
   col$: BehaviorSubject<ColConfig[]>
   row$?: Observable<RowData[]>
-  selectedRow$: BehaviorSubject<number[]>
+  selectedRow$: BehaviorSubject<Set<number>>
 
   // PRESENTION STREAMS
   tableData$: Observable<TableData>
@@ -137,7 +138,7 @@ export class CvcEvidenceManagerComponent implements OnInit {
   allIndeterminate: boolean = false
 
   constructor(private gql: EvidenceManagerGQL) {
-    this.selectedRow$ = new BehaviorSubject<number[]>([])
+    this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onAllSelected$ = new Subject<boolean>()
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
@@ -195,14 +196,19 @@ export class CvcEvidenceManagerComponent implements OnInit {
     ]
 
     this.onRowSelected$
-      .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
-      .subscribe(([event, selected]: [RowSelection, number[]]) => {
+      .pipe(
+        withLatestFrom(this.selectedRow$),
+        tag('onRowSelected$'),
+        untilDestroyed(this)
+      )
+      .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
         if (event.selected) {
-          selected.push(event.id)
-          this.selectedRow$.next(selected)
+          selected.add(event.id)
         } else {
-          this.selectedRow$.next(selected.filter(id => id === event.id))
+          selected.delete(event.id)
         }
+        this.selectedRow$.next(selected)
+        this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
     this.queryResult$ = this.onParamsChange$.pipe(
@@ -248,20 +254,22 @@ export class CvcEvidenceManagerComponent implements OnInit {
       this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
       this.selectedRow$,
     ]).pipe(
-      map(([rows, selected]: [EvidenceManagerFieldsFragment[], number[]]) => {
-        return rows.map((row) => {
-          return {
-            ...row,
-            evidenceItem: {
-              __typename: 'EvidenceItem',
-              id: row.id,
-              name: row.name,
-              link: row.link,
-            },
-            selected: selected.includes(row.id),
-          }
-        })
-      }),
+      map(
+        ([rows, selected]: [EvidenceManagerFieldsFragment[], Set<number>]) => {
+          return rows.map((row) => {
+            return {
+              ...row,
+              evidenceItem: {
+                __typename: 'EvidenceItem',
+                id: row.id,
+                name: row.name,
+                link: row.link,
+              },
+              selected: selected.has(row.id),
+            }
+          })
+        }
+      ),
       startWith([])
     )
     this.col$ = new BehaviorSubject<ColConfig[]>(this.defaultColumns)

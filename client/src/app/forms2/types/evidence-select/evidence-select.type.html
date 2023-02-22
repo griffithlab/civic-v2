@@ -31,15 +31,18 @@
           show: (showMgr$ | ngrxPush),
           hide: !(showMgr$ | ngrxPush)
         }"
-        [nzType]="'caret-right'"></span
-      >Manager
+        [nzType]="'caret-right'"></span>
+      Manager
     </button>
   </nz-col>
   <nz-col
     nzSpan="24"
     class="manager-drawer"
     *ngIf="showMgr$ | ngrxPush as showMgr">
-    <cvc-evidence-manager></cvc-evidence-manager>
+    <cvc-evidence-manager
+      (cvcSelectedIdsChange)="
+        onSelectedIds$.next($event)
+      "></cvc-evidence-manager>
   </nz-col>
 </nz-row>
 <!-- select option templates -->

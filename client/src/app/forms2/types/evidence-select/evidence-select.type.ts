@@ -38,6 +38,7 @@ import {
   Subject,
   tap,
 } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
@@ -88,6 +89,7 @@ export class CvcEvidenceSelectField
   onEidSelect$: BehaviorSubject<Maybe<EvidenceItem | EvidenceItem[]>>
   onEid$: ReplaySubject<Maybe<number | number[]>>
   onShowMgrClick$: Subject<void>
+  onSelectedIds$: Subject<number[]>
 
   // PRESENTATION STREAMS
   showMgr$: Observable<boolean>
@@ -123,7 +125,8 @@ export class CvcEvidenceSelectField
       Maybe<EvidenceItem | EvidenceItem[]>
     >(undefined)
     this.onEid$ = new ReplaySubject<Maybe<number | number[]>>()
-
+    this.onSelectedIds$ = new Subject<number[]>()
+    this.onSelectedIds$.pipe(tag('evidence-select onSelectedId$')).subscribe()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       startWith(true),
