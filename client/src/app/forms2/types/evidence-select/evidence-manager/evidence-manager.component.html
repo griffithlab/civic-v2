@@ -5,7 +5,7 @@
     #virtualTable
     *ngrxLet="tableData$ as data"
     [nzData]="data.rows"
-    [nzScroll]="{ x: '100px', y: '500px' }"
+    [nzScroll]="{ x: '800px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzVirtualItemSize]="29"
     [nzFrontPagination]="false"
@@ -29,7 +29,6 @@
         let-row>
         <tr class="data-row">
           <td *ngFor="let col of data.cols">
-            <!-- eid col -->
             <ng-container [ngSwitch]="col.key">
               <ng-container *ngSwitchCase="'id'">
                 <cvc-entity-tag
