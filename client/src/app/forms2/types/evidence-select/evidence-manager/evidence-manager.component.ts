@@ -9,6 +9,7 @@ import {
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
+  EvidenceItemConnection,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
@@ -16,25 +17,57 @@ import {
   EvidenceType,
   PageInfo,
 } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { NzTableQueryParams } from 'ng-zorro-antd/table'
 import {
+  NzTableFilterFn,
+  NzTableFilterList,
+  NzTableQueryParams,
+  NzTableSortFn,
+  NzTableSortOrder,
+} from 'ng-zorro-antd/table'
+import {
+  BehaviorSubject,
   defer,
   distinctUntilChanged,
+  filter,
   from,
   iif,
   map,
   Observable,
   ReplaySubject,
+  startWith,
   switchMap,
 } from 'rxjs'
+import { combineLatestObject, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
+import { tag } from 'rxjs-spy/operators'
 
-type ResponseMeta = {
+type EvidenceManagerConnection = {
   totalCount: number
-  pageCount: number,
+  pageCount: number
   pageInfo: PageInfo
+  nodes: EvidenceManagerFieldsFragment[]
 }
+
+interface ColumnConfig {
+  name: string
+  key: keyof EvidenceManagerFieldsFragment
+  hidden?: boolean
+  sortOrder?: NzTableSortOrder | null
+  sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
+  listOfFilter?: NzTableFilterList
+  filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
+  filterMultiple?: boolean
+  sortDirections?: NzTableSortOrder[]
+}
+
+type TableData = {
+  rows: EvidenceManagerFieldsFragment[]
+  cols: ColumnConfig[]
+}
+
+@UntilDestroy()
 @Component({
   selector: 'cvc-evidence-manager',
   templateUrl: './evidence-manager.component.html',
@@ -53,22 +86,44 @@ export class CvcEvidenceManagerComponent implements OnInit {
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
+  connection$: Observable<EvidenceManagerConnection>
+  col$: BehaviorSubject<ColumnConfig[]>
+  row$?: Observable<EvidenceManagerFieldsFragment[]>
+  tableData$: Observable<TableData>
 
   // PRESENTTION STREAMS
-  rowData$?: Observable<EvidenceManagerFieldsFragment[]>
-  responseMeta$?: Observable<ResponseMeta>
+  // tableData$: Observable<TableData[]>
 
-  isLoading$?: Observable<boolean>
+  loading$!: Observable<boolean>
 
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
+
+  defaultColumns: ColumnConfig[] = [
+    {
+      name: 'Status',
+      key: 'status',
+    },
+    {
+      name: 'Evidence Item',
+      key: 'id',
+    },
+    {
+      name: 'Molecular Profile',
+      key: 'molecularProfile',
+    },
+    {
+      name: 'Disease',
+      key: 'disease',
+    },
+    {
+      name: 'Therapies',
+      key: 'therapies',
+    },
+  ]
 
   constructor(private gql: EvidenceManagerGQL) {
     this.onCheckedChange$ = new ReplaySubject<Event>()
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
-  }
-
-  ngOnInit(): void {
-    this.queryRef = this.gql.watch({ ...this.cvcQueryVariables })
     this.queryResult$ = this.onParamsChange$.pipe(
       switchMap((params: NzTableQueryParams) => {
         const query = this.getQueryVars(params)
@@ -78,11 +133,11 @@ export class CvcEvidenceManagerComponent implements OnInit {
           // calls watch() to create queryReft,
           // returns observable from initial watch() query
           this.queryRef = this.gql.watch(query)
-          // emit loading events from isLoading$
-          this.isLoading$ = this.queryRef.valueChanges.pipe(
+
+          // emit loading events
+          this.loading$ = this.queryRef.valueChanges.pipe(
             pluck('loading'),
-            distinctUntilChanged()
-          )
+            distinctUntilChanged())
 
           return this.queryRef.valueChanges
         }
@@ -104,22 +159,40 @@ export class CvcEvidenceManagerComponent implements OnInit {
           defer(() => fetchQuery(query)) // false
         )
       })
-    ) // end this.response$
+    ) // end this.queryResult$
 
-    this.rowData$ = this.queryResult$.pipe(
-      pluck('data', 'evidenceItems', 'nodes')
+    this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
+    this.row$ = this.connection$.pipe(
+      pluck('nodes'),
+      filter(isNonNulled),
+      startWith([])
     )
-    this.responseMeta$ = this.queryResult$.pipe(
-      pluck('data', 'evidenceItems'),
-      map((connection) => {
-        return {
-          totalCount: connection.totalCount,
-          pageCount: connection.pageCount,
-          pageInfo: connection.pageInfo
-        }
-      })
-    )
+    this.col$ = new BehaviorSubject<ColumnConfig[]>(this.defaultColumns)
+
+    this.tableData$ = combineLatestObject({
+      rows: this.row$,
+      cols: this.col$,
+    })
+    // this.tableData$.pipe(tag('evidence-manager tableData$')).subscribe((data: TableData) => {
+    //   console.log(data)
+    //   return {
+    //     rows: data.rows,
+    //     cols: data.cols
+    //   }
+    // })
+    // this.responseMeta$ = this.queryResult$.pipe(
+    //   pluck('data', 'evidenceItems'),
+    //   map((connection) => {
+    //     return {
+    //       totalCount: connection.totalCount,
+    //       pageCount: connection.pageCount,
+    //       pageInfo: connection.pageInfo,
+    //     }
+    //   })
+    // )
   }
+
+  ngOnInit(): void {}
 
   getQueryVars(params: NzTableQueryParams): EvidenceManagerQueryVariables {
     return { evidenceType: EvidenceType.Predictive }

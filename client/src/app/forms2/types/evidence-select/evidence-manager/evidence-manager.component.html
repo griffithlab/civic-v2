@@ -2,36 +2,64 @@
   [nzTitle]="cardTitle"
   nzSize="small">
   <nz-table
-    [nzData]="(rowData$ | ngrxPush) || []"
+    *ngrxLet="tableData$ as data"
+    [nzData]="data.rows"
     [nzFrontPagination]="false"
-    [nzLoading]="isLoading$ | ngrxPush"
+    [nzLoading]="loading$ | ngrxPush"
     nzSize="small"
     (nzCheckedChange)="onCheckedChange$.next($event)"
     (nzQueryParams)="onParamsChange$.next($event)">
     <thead>
       <tr class="col-header-row">
         <th
-          nzColumnKey="id"
-          [nzSortFn]="true">
-          Item
+          *ngFor="let col of data.cols"
+          nzColumnKey="col.key"
+          [nzSortFn]="col.sortFn || null">
+          {{ col.name }}
         </th>
-        <th nzColumnKey="gene">Molecular Profile</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of rowData$ | ngrxPush">
-        <td>
-          <cvc-entity-tag
-            [cvcCacheId]="'EvidenceItem:' + data.id"></cvc-entity-tag>
-        </td>
-        <td>
-          <cvc-entity-tag
-            [cvcCacheId]="
-              'MolecularProfile:' + data.molecularProfile.id
-            "></cvc-entity-tag>
+      <tr
+        *ngFor="let row of data.rows"
+        class="data-row">
+        <td *ngFor="let col of data.cols">
+          <!-- eid col -->
+          <ng-container [ngSwitch]="col.key">
+            <ng-container *ngSwitchCase="'id'">
+              <cvc-entity-tag
+                [cvcCacheId]="'EvidenceItem:' + row.id"></cvc-entity-tag>
+            </ng-container>
+            <ng-container *ngSwitchCase="'molecularProfile'">
+              <cvc-entity-tag
+                [cvcCacheId]="
+                  'MolecularProfile:' + row.molecularProfile.id
+                "></cvc-entity-tag>
+            </ng-container>
+            <ng-container *ngSwitchCase="'disease'">
+              <cvc-entity-tag
+                *ngIf="row.disease; else emptyCell"
+                [cvcCacheId]="'Disease:' + row.disease.id"></cvc-entity-tag>
+            </ng-container>
+            <ng-container *ngSwitchCase="'therapies'">
+              <cvc-entity-tag
+                *ngFor="let therapy of row.therapies; else: emptyCell"
+                [cvcCacheId]="'Therapy:' + therapy.id"></cvc-entity-tag>
+            </ng-container>
+            <span *ngSwitchDefault>
+              {{ row[col.key] }}
+            </span>
+          </ng-container>
         </td>
       </tr>
     </tbody>
   </nz-table>
 </nz-card>
+<ng-template #emptyCell
+  ><span
+    nz-typeography
+    nzType="secondary"
+    >--</span
+  ></ng-template
+>
 <ng-template #cardTitle> Evidence Manager </ng-template>
