@@ -7,20 +7,22 @@
     [nzData]="data.rows"
     [nzScroll]="{ x: '800px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
-    [nzVirtualItemSize]="29"
+    [nzVirtualItemSize]="28"
     [nzFrontPagination]="false"
     [nzLoading]="loading$ | ngrxPush"
     nzSize="small"
-    (nzCheckedChange)="onCheckedChange$.next($event)"
     (nzQueryParams)="onParamsChange$.next($event)">
     <thead>
       <tr class="col-header-row">
-        <th
-          *ngFor="let col of data.cols"
-          nzColumnKey="col.key"
-          [nzSortFn]="col.sortFn || null">
-          {{ col.name }}
-        </th>
+        <ng-container *ngFor="let col of data.cols">
+          <ng-container [ngSwitch]="col.key">
+            <th
+              *ngSwitchDefault
+              nzColumnKey="col.key">
+              {{ col.name }}
+            </th>
+          </ng-container>
+        </ng-container>
       </tr>
     </thead>
     <tbody>
@@ -28,33 +30,34 @@
         nz-virtual-scroll
         let-row>
         <tr class="data-row">
-          <td *ngFor="let col of data.cols">
-            <ng-container [ngSwitch]="col.key">
-              <ng-container *ngSwitchCase="'id'">
+          <ng-container *ngFor="let col of data.cols">
+            <ng-container [ngSwitch]="col.type">
+              <td *ngSwitchCase="'tag'">
                 <cvc-entity-tag
-                  [cvcCacheId]="'EvidenceItem:' + row.id"></cvc-entity-tag>
-              </ng-container>
-              <ng-container *ngSwitchCase="'molecularProfile'">
-                <cvc-entity-tag
+                  *ngrxLet="row[col.key] as entity"
                   [cvcCacheId]="
-                    'MolecularProfile:' + row.molecularProfile.id
+                    entity.__typename + ':' + entity.id
                   "></cvc-entity-tag>
-              </ng-container>
-              <ng-container *ngSwitchCase="'disease'">
+              </td>
+              <td *ngSwitchCase="'tags'">
                 <cvc-entity-tag
-                  *ngIf="row.disease; else emptyCell"
-                  [cvcCacheId]="'Disease:' + row.disease.id"></cvc-entity-tag>
-              </ng-container>
-              <ng-container *ngSwitchCase="'therapies'">
-                <cvc-entity-tag
-                  *ngFor="let therapy of row.therapies; else: emptyCell"
-                  [cvcCacheId]="'Therapy:' + therapy.id"></cvc-entity-tag>
-              </ng-container>
-              <span *ngSwitchDefault>
+                  *ngFor="let entity of row[col.key]"
+                  [cvcCacheId]="
+                    entity.__typename + ':' + entity.id
+                  "></cvc-entity-tag>
+              </td>
+              <td *ngSwitchCase="'enum'">
                 {{ row[col.key] }}
-              </span>
+              </td>
+              <td *ngSwitchCase="'string'">
+                {{ row[col.key] }}
+              </td>
+              <td *ngSwitchCase="'number'">
+                {{ row[col.key] }}
+              </td>
+              <td *ngSwitchDefault>?{{ row[col.key] }}?</td>
             </ng-container>
-          </td>
+          </ng-container>
         </tr>
       </ng-template>
     </tbody>

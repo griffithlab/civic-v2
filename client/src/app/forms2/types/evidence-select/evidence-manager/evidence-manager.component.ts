@@ -9,6 +9,7 @@ import {
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
+  EvidenceItem,
   EvidenceItemConnection,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
@@ -37,6 +38,7 @@ import {
   Observable,
   ReplaySubject,
   startWith,
+  Subject,
   switchMap,
 } from 'rxjs'
 import { combineLatestObject, isNonNulled } from 'rxjs-etc'
@@ -50,20 +52,58 @@ type EvidenceManagerConnection = {
   nodes: EvidenceManagerFieldsFragment[]
 }
 
-interface ColumnConfig {
+type ColumnType =
+  | 'tag'
+  | 'tags'
+  | 'enum'
+  | 'string'
+  | 'number'
+  | 'select'
+
+type ColumnConfigBase = {
   name: string
-  key: keyof EvidenceManagerFieldsFragment
-  hidden?: boolean
-  sortOrder?: NzTableSortOrder | null
-  sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
-  listOfFilter?: NzTableFilterList
-  filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
-  filterMultiple?: boolean
-  sortDirections?: NzTableSortOrder[]
+  type: ColumnType
+  key: keyof EvidenceManagerFieldsFragment | ColumnType | 'evidenceItem'
+  hide: boolean
+  sort?: {
+    sortDirections: NzTableSortOrder[]
+    sortOrder?: NzTableSortOrder | null
+    sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
+  }
+  filter?: {
+    listOfFilter: NzTableFilterList
+    filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
+    filterMultiple: boolean
+  }
+  select: {
+    selected: boolean
+    indeterminate: boolean
+    selectRow: Subject<Event>
+    selectCol: Subject<Event>
+  }
+}
+
+type EntityColumn = Omit<ColumnConfigBase, 'select'>
+type EntitiesColumn = Omit<ColumnConfigBase, 'select'>
+type EnumColumn = Omit<ColumnConfigBase, 'select'>
+type StringColumn = Omit<ColumnConfigBase, 'select'>
+type NumberColumn = Omit<ColumnConfigBase, 'select'>
+type SelectColumn = ColumnConfigBase
+
+type ColumnConfig =
+  | EntityColumn
+  | EntitiesColumn
+  | EnumColumn
+  | StringColumn
+  | NumberColumn
+  | SelectColumn
+
+type RowData = EvidenceManagerFieldsFragment & {
+  evidenceItem: { id: number; name: string; link: string }
 }
 
 type TableData = {
-  rows: EvidenceManagerFieldsFragment[]
+  rows: RowData[]
   cols: ColumnConfig[]
 }
 
@@ -81,49 +121,73 @@ export class CvcEvidenceManagerComponent implements OnInit {
   @Input() cvcQueryVariables?: Partial<EvidenceManagerQueryVariables>
 
   // SOURCE STREAMS
-  onCheckedChange$: ReplaySubject<Event>
+  onRowChecked$: Subject<Event>
+  onColChecked$: Subject<Event>
   onParamsChange$: ReplaySubject<NzTableQueryParams>
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
   col$: BehaviorSubject<ColumnConfig[]>
-  row$?: Observable<EvidenceManagerFieldsFragment[]>
-  tableData$: Observable<TableData>
+  row$?: Observable<RowData[]>
 
-  // PRESENTTION STREAMS
-  // tableData$: Observable<TableData[]>
+  // PRESENTION STREAMS
+  tableData$: Observable<TableData>
 
   loading$!: Observable<boolean>
 
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
-  defaultColumns: ColumnConfig[] = [
-    {
-      name: 'Status',
-      key: 'status',
-    },
-    {
-      name: 'Evidence Item',
-      key: 'id',
-    },
-    {
-      name: 'Molecular Profile',
-      key: 'molecularProfile',
-    },
-    {
-      name: 'Disease',
-      key: 'disease',
-    },
-    {
-      name: 'Therapies',
-      key: 'therapies',
-    },
-  ]
+  defaultColumns: ColumnConfig[]
 
   constructor(private gql: EvidenceManagerGQL) {
-    this.onCheckedChange$ = new ReplaySubject<Event>()
+    this.onRowChecked$ = new Subject<Event>()
+    this.onColChecked$ = new Subject<Event>()
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
+    this.defaultColumns = [
+      <SelectColumn>{
+        name: 'Select',
+        type: 'select',
+        key: 'select',
+        hide: false,
+        select: {
+          selected: false,
+          indeterminate: false,
+          selectRow: this.onRowChecked$,
+          selectCol: this.onColChecked$,
+        },
+      },
+      <EntityColumn>{
+        name: 'Status',
+        type: 'enum',
+        key: 'status',
+        hide: false,
+      },
+      <EntityColumn>{
+        name: 'Evidence Item',
+        type: 'tag',
+        key: 'evidenceItem',
+        hide: false,
+      },
+      <EntityColumn>{
+        name: 'Molecular Profile',
+        type: 'tag',
+        key: 'molecularProfile',
+        hide: false,
+      },
+      <EntityColumn>{
+        name: 'Disease',
+        type: 'tag',
+        key: 'disease',
+        hide: false,
+      },
+      <EntityColumn>{
+        name: 'Therapies',
+        type: 'tags',
+        key: 'therapies',
+        hide: false,
+      },
+    ]
     this.queryResult$ = this.onParamsChange$.pipe(
       switchMap((params: NzTableQueryParams) => {
         const query = this.getQueryVars(params)
@@ -137,7 +201,8 @@ export class CvcEvidenceManagerComponent implements OnInit {
           // emit loading events
           this.loading$ = this.queryRef.valueChanges.pipe(
             pluck('loading'),
-            distinctUntilChanged())
+            distinctUntilChanged()
+          )
 
           return this.queryRef.valueChanges
         }
@@ -165,6 +230,19 @@ export class CvcEvidenceManagerComponent implements OnInit {
     this.row$ = this.connection$.pipe(
       pluck('nodes'),
       filter(isNonNulled),
+      map((nodes) => {
+        return nodes.map((node) => {
+          return {
+            ...node,
+            evidenceItem: {
+              __typename: 'EvidenceItem',
+              id: node.id,
+              name: node.name,
+              link: node.link,
+            },
+          }
+        })
+      }),
       startWith([])
     )
     this.col$ = new BehaviorSubject<ColumnConfig[]>(this.defaultColumns)
@@ -205,7 +283,7 @@ export class CvcEvidenceManagerComponent implements OnInit {
       this.onParamsChange$.next(queryVars)
     }
   }
-  trackByIndex( _: number, data: EvidenceManagerFieldsFragment): number {
-    return data.id;
+  trackByIndex(_: number, data: EvidenceManagerFieldsFragment): number {
+    return data.id
   }
 }
