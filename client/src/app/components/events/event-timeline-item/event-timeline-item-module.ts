@@ -23,6 +23,8 @@ import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { RouterModule } from '@angular/router';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { CvcEvidencePopoverModule } from '@app/components/evidence/evidence-popover/evidence-popover.module';
 
 @NgModule({
   declarations: [CvcEventTimelineItemComponent],
@@ -34,6 +36,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzToolTipModule,
     NzTypographyModule,
     NzGridModule,
+    NzCollapseModule,
     RouterModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     CvcRevisionTagModule,
@@ -49,6 +52,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcSourceTagModule,
     CvcVariantGroupTagModule,
     CvcMolecularProfileTagModule,
+    CvcEvidencePopoverModule
   ],
   exports: [CvcEventTimelineItemComponent]
 })

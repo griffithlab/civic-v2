@@ -12,6 +12,9 @@ import { EventDisplayOption } from '../event-feed/event-feed.component';
 export class CvcEventTimelineItemComponent implements OnInit {
   @Input() event!: EventFeedNodeFragment;
   @Input() tagDisplay: EventDisplayOption = "displayAll"
+
+  panelActive = false
+
   constructor() { }
 
   ngOnInit(): void {

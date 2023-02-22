@@ -63,12 +63,12 @@ module Types::Revisions
     end
 
     def resolution_comment
-      Loaders::AssociationLoader.for(Revision, :comments).load(object).then do |comments|
-        if (comments.count > 1)
-            comments.last
-        else
-          nil
+      if object.status != 'new'
+        Loaders::AssociationLoader.for(Revision, :comments).load(object).then do |comments|
+          comments.last
         end
+      else
+        nil
       end
     end
 
