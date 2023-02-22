@@ -5,6 +5,7 @@ import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/enti
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { LetModule, PushModule } from '@ngrx/component'
 import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
+import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -44,6 +45,7 @@ const typeConfig: ConfigOption = {
     PushModule,
     FormlyModule.forChild(typeConfig),
 
+    NzButtonModule,
     NzFormModule,
     NzIconModule,
     NzGridModule,

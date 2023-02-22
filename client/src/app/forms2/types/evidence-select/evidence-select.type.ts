@@ -86,7 +86,7 @@ export class CvcEvidenceSelectField
   // SOURCE STREAMS
   onEidSelect$: BehaviorSubject<Maybe<EvidenceItem | EvidenceItem[]>>
   onEid$: ReplaySubject<Maybe<number | number[]>>
-  onShowMgrClick$: Observable<void>
+  onShowMgrClick$: Subject<void>
 
   // PRESENTATION STREAMS
   showMgr$: Observable<boolean>
@@ -126,7 +126,6 @@ export class CvcEvidenceSelectField
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       scan((acc, _) => !acc, false),
-      tap((open) => (this.mgrOpen = open))
     )
   }
   ngAfterViewInit(): void {

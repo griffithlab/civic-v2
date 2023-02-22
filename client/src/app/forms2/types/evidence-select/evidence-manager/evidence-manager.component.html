@@ -7,34 +7,24 @@
   <thead>
     <tr>
       <th
-        nzColumnKey="name"
+        nzColumnKey="id"
         [nzSortFn]="true">
-        Name
-      </th>
-      <!-- <th
-            nzColumnKey="gender"
-            [nzFilters]="filterGender"
-            [nzFilterFn]="true">
-            Gender
-          </th> -->
-      <th
-        nzColumnKey="gender"
-        [nzFilterFn]="true">
-        Gender
+       EID
       </th>
       <th
-        nzColumnKey="email"
-        [nzSortFn]="true">
-        Email
+        nzColumnKey="gene">
+        MP
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of (rowData$ | ngrxPush)">
-      <td>ROW</td>
-    <!-- <td>{{ data.name.first }} {{ data.name.last }}</td>
-          <td>{{ data.gender }}</td>
-          <td>{{ data.email }}</td> -->
+      <td>
+        <cvc-entity-tag [cvcCacheId]="'EvidenceItem:' + data.id"></cvc-entity-tag>
+      </td>
+      <td>
+        <cvc-entity-tag [cvcCacheId]="'MolecularProfile:' + data.molecularProfile.id"></cvc-entity-tag>
+      </td>
     </tr>
   </tbody>
 </nz-table>

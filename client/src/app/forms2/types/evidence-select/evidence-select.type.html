@@ -1,20 +1,47 @@
-<cvc-entity-select
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcMinSearchStrLength]="props.minSearchStrLength"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcEntityName]="props.entityName"
-  [cvcPlaceholder]="props.placeholder"
-  [cvcResults]="result$ | ngrxPush"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcDisabled]="props.disabled"
-  [cvcLoading]="isLoading$ | ngrxPush"
-  [cvcSelectOpen]="selectOpen$ | ngrxPush"
-  (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnModelChange)="props.change && props.change(field, $event)">
-</cvc-entity-select>
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col nzFlex="auto">
+    <cvc-entity-select
+      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+      [cvcMinSearchStrLength]="props.minSearchStrLength"
+      [cvcCustomTemplate]="selectedTemplate"
+      [cvcFormControl]="formControl"
+      [cvcFormlyAttributes]="field"
+      [cvcEntityName]="props.entityName"
+      [cvcPlaceholder]="props.placeholder"
+      [cvcResults]="result$ | ngrxPush"
+      [cvcOptions]="selectOption$ | ngrxPush"
+      [cvcShowError]="showError"
+      [cvcDisabled]="props.disabled"
+      [cvcLoading]="isLoading$ | ngrxPush"
+      [cvcSelectOpen]="selectOpen$ | ngrxPush"
+      (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnModelChange)="props.change && props.change(field, $event)">
+    </cvc-entity-select>
+  </nz-col>
+  <nz-col nzFlex="50px">
+    <button
+      type="button"
+      nz-button
+      nzBlock
+      class="expression-button"
+      (click)="this.onShowMgrClick$.next()">
+      <span
+        nz-icon
+        [ngClass]="{
+          show: (showMgr$ | ngrxPush),
+          hide: !(showMgr$ | ngrxPush)
+        }"
+        [nzType]="'caret-right'"></span
+      >Manager
+    </button>
+  </nz-col>
+  <nz-col
+    nzSpan="24"
+    class="manager-drawer"
+    *ngIf="showMgr$ | ngrxPush as showMgr">
+    <cvc-evidence-manager></cvc-evidence-manager>
+  </nz-col>
+</nz-row>
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
 <ng-container *ngrxLet="onSearch$ as searchString">
