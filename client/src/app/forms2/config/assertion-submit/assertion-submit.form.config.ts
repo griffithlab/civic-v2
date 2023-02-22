@@ -32,7 +32,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'evidence-multi-select',
             props: {
               required: true,
-              isMultiSelect: true
+              isMultiSelect: true,
+              colSpan: 24
             },
           },
           // <CvcGeneSelectFieldConfig>{

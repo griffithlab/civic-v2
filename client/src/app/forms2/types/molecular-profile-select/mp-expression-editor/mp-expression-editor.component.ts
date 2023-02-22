@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -56,6 +57,7 @@ import { tag } from 'rxjs-spy/operators'
   selector: 'cvc-mp-expression-editor',
   templateUrl: './mp-expression-editor.component.html',
   styleUrls: ['./mp-expression-editor.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
@@ -100,7 +102,6 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
     private mpEditorPrepopulate: MpExpressionEditorPrepopulateGQL,
     private networkErrorService: NetworkErrorsService,
-    private cdr: ChangeDetectorRef
   ) {
     this.createMolecularProfileMutator = new MutatorWithState(
       this.networkErrorService

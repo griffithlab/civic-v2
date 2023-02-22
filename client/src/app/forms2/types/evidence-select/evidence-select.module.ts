@@ -1,16 +1,20 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import {
-  CvcEvidenceSelectField,
-  CvcEvidenceSelectFieldProps,
-} from './evidence-select.type'
-import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
-import { NzGridModule } from 'ng-zorro-antd/grid'
-import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
+import { NgModule } from '@angular/core'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
+import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { LetModule, PushModule } from '@ngrx/component'
 import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzTableModule } from 'ng-zorro-antd/table'
+import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
+import {
+    CvcEvidenceSelectField,
+    CvcEvidenceSelectFieldProps
+} from './evidence-select.type'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -33,14 +37,19 @@ const typeConfig: ConfigOption = {
   ],
 }
 @NgModule({
-  declarations: [CvcEvidenceSelectField],
+  declarations: [CvcEvidenceSelectField, CvcEvidenceManagerComponent],
   imports: [
     CommonModule,
     LetModule,
     PushModule,
     FormlyModule.forChild(typeConfig),
+
+    NzFormModule,
     NzIconModule,
     NzGridModule,
+    NzTableModule,
+    NzCardModule,
+
     CvcPipesModule,
     CvcEntityTagModule,
     CvcEntitySelectModule,

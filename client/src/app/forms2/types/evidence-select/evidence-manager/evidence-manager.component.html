@@ -1,0 +1,40 @@
+<nz-table
+  [nzData]="(rowData$ | ngrxPush) || []"
+  [nzFrontPagination]="false"
+  [nzLoading]="isLoading$ | ngrxPush"
+  (nzCheckedChange)="onCheckedChange$.next($event)"
+  (nzQueryParams)="onParamsChange$.next($event)">
+  <thead>
+    <tr>
+      <th
+        nzColumnKey="name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <!-- <th
+            nzColumnKey="gender"
+            [nzFilters]="filterGender"
+            [nzFilterFn]="true">
+            Gender
+          </th> -->
+      <th
+        nzColumnKey="gender"
+        [nzFilterFn]="true">
+        Gender
+      </th>
+      <th
+        nzColumnKey="email"
+        [nzSortFn]="true">
+        Email
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of (rowData$ | ngrxPush)">
+      <td>ROW</td>
+    <!-- <td>{{ data.name.first }} {{ data.name.last }}</td>
+          <td>{{ data.gender }}</td>
+          <td>{{ data.email }}</td> -->
+    </tr>
+  </tbody>
+</nz-table>

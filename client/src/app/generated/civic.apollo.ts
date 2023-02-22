@@ -6166,6 +6166,41 @@ export type DiseaseSelectTagQuery = { __typename: 'Query', disease?: { __typenam
 
 export type DiseaseSelectTypeaheadFieldsFragment = { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> };
 
+export type EvidenceManagerQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  diseaseName?: InputMaybe<Scalars['String']>;
+  therapyName?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  evidenceLevel?: InputMaybe<EvidenceLevel>;
+  evidenceDirection?: InputMaybe<EvidenceDirection>;
+  significance?: InputMaybe<EvidenceSignificance>;
+  evidenceType?: InputMaybe<EvidenceType>;
+  rating?: InputMaybe<Scalars['Int']>;
+  variantOrigin?: InputMaybe<VariantOrigin>;
+  variantId?: InputMaybe<Scalars['Int']>;
+  molecularProfileId?: InputMaybe<Scalars['Int']>;
+  assertionId?: InputMaybe<Scalars['Int']>;
+  organizationId?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<EvidenceSort>;
+  phenotypeId?: InputMaybe<Scalars['Int']>;
+  diseaseId?: InputMaybe<Scalars['Int']>;
+  therapyId?: InputMaybe<Scalars['Int']>;
+  sourceId?: InputMaybe<Scalars['Int']>;
+  clinicalTrialId?: InputMaybe<Scalars['Int']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<EvidenceStatusFilter>;
+}>;
+
+
+export type EvidenceManagerQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, nodes: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, flagged: boolean, therapyInteractionType?: TherapyInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> } }> } };
+
+export type EvidenceManagerFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, flagged: boolean, therapyInteractionType?: TherapyInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> } };
+
 export type EvidenceSelectTypeaheadQueryVariables = Exact<{
   eid: Scalars['Int'];
 }>;
@@ -8061,6 +8096,41 @@ export const QuickAddDiseaseFieldsFragmentDoc = gql`
   }
 }
     ${DiseaseSelectTypeaheadFieldsFragmentDoc}`;
+export const EvidenceManagerFieldsFragmentDoc = gql`
+    fragment EvidenceManagerFields on EvidenceItem {
+  id
+  name
+  link
+  disease {
+    id
+    name
+    link
+  }
+  therapies {
+    id
+    name
+    link
+  }
+  molecularProfile {
+    id
+    name
+    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
+  }
+  status
+  flagged
+  therapyInteractionType
+  description
+  evidenceType
+  evidenceDirection
+  evidenceLevel
+  evidenceRating
+  significance
+  variantOrigin
+}
+    ${MolecularProfileParsedNameFragmentDoc}`;
 export const EvidenceSelectTypeaheadFieldsFragmentDoc = gql`
     fragment EvidenceSelectTypeaheadFields on EvidenceItem {
   id
@@ -11926,6 +11996,62 @@ export const DiseaseSelectTagDocument = gql`
   })
   export class DiseaseSelectTagGQL extends Apollo.Query<DiseaseSelectTagQuery, DiseaseSelectTagQueryVariables> {
     document = DiseaseSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceManagerDocument = gql`
+    query EvidenceManager($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $significance: EvidenceSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
+  evidenceItems(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    diseaseName: $diseaseName
+    therapyName: $therapyName
+    id: $id
+    description: $description
+    evidenceLevel: $evidenceLevel
+    evidenceDirection: $evidenceDirection
+    significance: $significance
+    evidenceType: $evidenceType
+    evidenceRating: $rating
+    variantOrigin: $variantOrigin
+    variantId: $variantId
+    molecularProfileId: $molecularProfileId
+    assertionId: $assertionId
+    organizationId: $organizationId
+    userId: $userId
+    phenotypeId: $phenotypeId
+    diseaseId: $diseaseId
+    therapyId: $therapyId
+    sourceId: $sourceId
+    clinicalTrialId: $clinicalTrialId
+    molecularProfileName: $molecularProfileName
+    status: $status
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    nodes {
+      ...EvidenceManagerFields
+    }
+  }
+}
+    ${EvidenceManagerFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceManagerGQL extends Apollo.Query<EvidenceManagerQuery, EvidenceManagerQueryVariables> {
+    document = EvidenceManagerDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
