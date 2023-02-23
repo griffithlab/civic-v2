@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -104,7 +105,7 @@ type RowSelection = {
   styleUrls: ['./evidence-manager.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceManagerComponent implements OnInit {
+export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
@@ -335,10 +336,17 @@ export class CvcEvidenceManagerComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // disable link for checkable mode
     if (changes.cvcQueryVariables) {
       const queryVars = changes.cvcQueryVariables.currentValue
       this.onParamsChange$.next(queryVars)
+    }
+    if (changes.cvcSelectedIds) {
+      const ids = changes.cvcSelectedIds.currentValue
+      const idSet: Set<number> = new Set()
+      if (ids !== undefined) {
+        ids.forEach((id: number) => idSet.add(id))
+      }
+      this.selectedRow$.next(idSet)
     }
   }
   trackByIndex(_: number, data: EvidenceManagerFieldsFragment): number {

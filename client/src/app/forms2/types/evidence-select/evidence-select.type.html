@@ -25,7 +25,7 @@
       type="button"
       nz-button
       nzBlock
-      class="expression-button"
+      class="manager-button"
       (click)="this.onShowMgrClick$.next()">
       <span
         nz-icon
@@ -40,8 +40,9 @@
   <nz-col
     nzSpan="24"
     class="manager-drawer"
-    *ngIf="showMgr$ | ngrxPush as showMgr">
+    *ngIf="showMgr$ | ngrxPush">
     <cvc-evidence-manager
+      [cvcSelectedIds]="onEid$ | ngrxPush"
       (cvcSelectedIdsChange)="onPopulate$.next($event)"></cvc-evidence-manager>
   </nz-col>
 </nz-row>

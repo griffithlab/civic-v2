@@ -21,6 +21,7 @@ import {
   EvidenceSelectTypeaheadQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
+import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
@@ -28,7 +29,14 @@ import {
 } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { Observable, ReplaySubject, scan, startWith, Subject } from 'rxjs'
+import {
+  Observable,
+  ReplaySubject,
+  scan,
+  startWith,
+  Subject,
+  withLatestFrom,
+} from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
@@ -76,7 +84,7 @@ export class CvcEvidenceSelectField
   implements AfterViewInit
 {
   // SOURCE STREAMS
-  onEid$: ReplaySubject<Maybe<number | number[]>>
+  onEid$: ReplaySubject<Maybe<number[]>>
   onShowMgrClick$: Subject<void>
 
   // PRESENTATION STREAMS
@@ -109,10 +117,9 @@ export class CvcEvidenceSelectField
     private apollo: Apollo
   ) {
     super()
-    this.onEid$ = new ReplaySubject<Maybe<number | number[]>>()
+    this.onEid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
-      startWith(true),
       scan((acc, _) => !acc, false)
     )
   }
@@ -132,6 +139,27 @@ export class CvcEvidenceSelectField
       selectOpen$: this.selectOpen$,
       selectComponent: this.selectComponent,
     })
+    if (this.formControl.value) {
+      this.onEid$.next(this.formControl.value)
+    }
+    this.onValueChange$
+      .pipe(withLatestFrom(this.onEid$), untilDestroyed(this))
+      .subscribe(([current, old]) => {
+        if (current === old) return
+        if (
+          Array.isArray(current) &&
+          Array.isArray(old) &&
+          !this.arraysContainSame(current, old)
+        ) {
+          this.onEid$.next(current)
+        }
+      })
+  }
+
+  private arraysContainSame(a: number[], b: number[]) {
+    a = Array.isArray(a) ? a : [a]
+    b = Array.isArray(b) ? b : [b]
+    return a.length === b.length && a.every((el) => b.includes(el))
   }
 
   private configureStateConnections() {
