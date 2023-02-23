@@ -2,20 +2,7 @@
   <ng-container *ngIf="disease$ | ngrxPush as disease">
     <nz-row [nzGutter]="[8,16]">
       <nz-col [nzSpan]="24">
-       <!-- disease aliases -->
-        <nz-descriptions nzSize="small"
-          [nzColumn]="2"
-          nzBordered="true">
-          <nz-descriptions-item nzTitle="Aliases">
-            <ng-container *ngIf="disease.diseaseAliases.length > 0; else noAliases">
-              {{ disease.diseaseAliases.join(", ") }}
-            </ng-container>
-            <ng-template #noAliases>
-              <span nz-typography
-                nzType="secondary">None specified.</span>
-            </ng-template>
-          </nz-descriptions-item>
-        </nz-descriptions>
+        <cvc-my-disease-info [diseaseInfo]="disease.myDiseaseInfo"></cvc-my-disease-info>
       </nz-col>
       <!-- disease evidence table -->
       <nz-col [nzSpan]="24">

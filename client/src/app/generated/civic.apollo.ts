@@ -1141,6 +1141,7 @@ export type Disease = {
   doid?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
+  myDiseaseInfo?: Maybe<MyDiseaseInfo>;
   name: Scalars['String'];
 };
 
@@ -1155,6 +1156,7 @@ export type DiseasePopover = {
   id: Scalars['Int'];
   link: Scalars['String'];
   molecularProfileCount: Scalars['Int'];
+  myDiseaseInfo?: Maybe<MyDiseaseInfo>;
   name: Scalars['String'];
 };
 
@@ -2446,6 +2448,20 @@ export type MutationUpdateNotificationStatusArgs = {
 
 export type MutationUpdateSourceSuggestionStatusArgs = {
   input: UpdateSourceSuggestionStatusInput;
+};
+
+export type MyDiseaseInfo = {
+  __typename: 'MyDiseaseInfo';
+  diseaseOntologyExactSynonyms: Array<Scalars['String']>;
+  diseaseOntologyRelatedSynonyms: Array<Scalars['String']>;
+  doDef?: Maybe<Scalars['String']>;
+  doDefCitations: Array<Scalars['String']>;
+  icd10?: Maybe<Scalars['String']>;
+  icdo?: Maybe<Scalars['String']>;
+  mesh?: Maybe<Scalars['String']>;
+  mondoDef?: Maybe<Scalars['String']>;
+  ncit?: Maybe<Scalars['String']>;
+  omim?: Maybe<Scalars['String']>;
 };
 
 export type MyVariantInfo = {
@@ -6192,9 +6208,11 @@ export type DiseasesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
+export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit?: string | undefined, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined } | undefined };
 
-export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string };
+export type MyDiseaseInfoFieldsFragment = { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit?: string | undefined, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined };
+
+export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit?: string | undefined, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined };
 
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -7984,6 +8002,20 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MolecularProfileParsedNameFragmentDoc}`;
+export const MyDiseaseInfoFieldsFragmentDoc = gql`
+    fragment MyDiseaseInfoFields on MyDiseaseInfo {
+  diseaseOntologyExactSynonyms
+  diseaseOntologyRelatedSynonyms
+  mesh
+  icdo
+  icd10
+  ncit
+  omim
+  doDef
+  doDefCitations
+  mondoDef
+}
+    `;
 export const DiseasesSummaryFieldsFragmentDoc = gql`
     fragment DiseasesSummaryFields on Disease {
   id
@@ -7993,8 +8025,11 @@ export const DiseasesSummaryFieldsFragmentDoc = gql`
   displayName
   diseaseAliases
   link
+  myDiseaseInfo {
+    ...MyDiseaseInfoFields
+  }
 }
-    `;
+    ${MyDiseaseInfoFieldsFragmentDoc}`;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id

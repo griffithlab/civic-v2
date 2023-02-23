@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DiseaseDetailGQL, DiseasesSummaryFieldsFragment, DiseasesSummaryQuery, DiseasesSummaryQueryVariables, Maybe } from '@app/generated/civic.apollo';
+import { DiseaseDetailGQL, DiseasesSummaryFieldsFragment, DiseasesSummaryGQL, DiseasesSummaryQuery, DiseasesSummaryQueryVariables, Maybe } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular/query-ref';
 import { Observable, Subscription } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
@@ -17,7 +17,7 @@ export class DiseasesSummaryComponent implements OnDestroy {
   queryRef?: QueryRef<DiseasesSummaryQuery, DiseasesSummaryQueryVariables>
   disease$?: Observable<Maybe<DiseasesSummaryFieldsFragment>>
 
-  constructor(private route: ActivatedRoute, private gql: DiseaseDetailGQL) {
+  constructor(private route: ActivatedRoute, private gql: DiseasesSummaryGQL) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.diseaseId = +params.diseaseId;
       this.queryRef = this.gql
