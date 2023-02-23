@@ -1,10 +1,11 @@
-query EvidenceItemRevisableFields($evidenceId: Int!) {
+
+query EvidenceItemRevisableFields2($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
-    ...RevisableEvidenceFields
+    ...RevisableEvidenceFields2
   }
 }
 
-fragment RevisableEvidenceFields on EvidenceItem {
+fragment RevisableEvidenceFields2 on EvidenceItem {
   id
   molecularProfile {
     ...MolecularProfileSelectTypeaheadFields
@@ -31,7 +32,7 @@ fragment RevisableEvidenceFields on EvidenceItem {
   }
 }
 
-mutation SuggestEvidenceItemRevision(
+mutation SuggestEvidenceItemRevision2(
   $input: SuggestEvidenceItemRevisionInput!
 ) {
   suggestEvidenceItemRevision(input: $input) {
