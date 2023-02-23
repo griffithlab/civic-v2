@@ -280,9 +280,11 @@ export function EntitySelectField<
           // option template instance, getSelectOptions() generates a NzSelectOption that
           // attaches the pre-generated option template to a result value.
           this.optionTemplates.changes
-            .pipe(withLatestFrom(this.result$),
-                  tag('entity-select mixin optionTemplates'),
-                  untilDestroyed(this))
+            .pipe(
+              withLatestFrom(this.result$),
+              tag('entity-select mixin optionTemplates'),
+              untilDestroyed(this)
+            )
             .subscribe(
               ([tplRefs, results]: [QueryList<TemplateRef<any>>, TAF[]]) => {
                 const options = this.getSelectOptions(results, tplRefs)
@@ -291,7 +293,7 @@ export function EntitySelectField<
               }
             )
         }
-        // this.result$.pipe(tag('entity-select result$')).subscribe()
+
         this.onPopulate$
           .pipe(
             filter(isNonNulled),
@@ -302,9 +304,9 @@ export function EntitySelectField<
               queries.map((query) => this.getTagQueryResults(query))
             ),
             tap((results: Maybe<TAF>[]) => {
+              // send tag query results to result$, this will cause
+              // parent select fields to generate selectOptions for them
               this.result$.next(results as TAF[])
-              this.cdr.markForCheck()
-              this.cdr.detectChanges()
             }),
             untilDestroyed(this)
           )
@@ -317,57 +319,13 @@ export function EntitySelectField<
             } else {
               newValue = options[0]!.id
             }
-
             this.formControl.setValue(newValue)
+            // if onPopulate$ is called from a quick-add form in the select dropdown,
+            // this will close it and cause nz-select to display the new tag
+            this.selectOpen$.next(false)
           })
-        // .subscribe((value: <CvcEntitySelectFieldModel>) => {})
 
-        // when a new entity is created, execute tag query to cache its
-        // LinkableTag object for rendering by the nz-select
-        this.onCreate$.pipe(untilDestroyed(this)).subscribe((entity: TAF) => {
-          this.tagQuery
-            .fetch(this.getTagQueryVars(entity.id), {
-              fetchPolicy: 'cache-first',
-            })
-            .pipe(
-              filter((r) => !!r.data),
-              finalize(() => {
-                // reset selectOpen to force Input onChanges with subsequent selectOpen emit
-                this.selectOpen$.next(undefined)
-              }),
-              untilDestroyed(this)
-            )
-            .subscribe((result) => {
-              const item = this.getTagQueryResults(result)
-              if (!item) {
-                // if no item, create a baseline select option to display a generic tag
-                this.selectOption$.next([
-                  { label: entity.name, value: entity.id },
-                ])
-              } else {
-                // if there is an item, emit from result$, which will trigger
-                // generation of its option in parent field's template
-                this.result$.next([item])
-                if (this.field.props && this.field.props.isMultiSelect) {
-                  const newValue = this.formControl.value
-                  newValue.push(entity.id)
-                  this.formControl.setValue(newValue)
-                } else {
-                  this.formControl.setValue(entity.id)
-                }
-                this.selectOpen$.next(false)
-                // force update cycle to close nz-select
-                this.cdr.detectChanges()
-              }
-            })
-        })
-
-        // FIXME: this code needs to run after the field's value is updated by any means
-        // other than the select, otherwise its tags won't be added to the options model
-        // This is why tags fail to display when they are added by creation or just updating the model value with the evidence-manager or mp-editor
-        //
-        // if a prepopulated form value exists,
-        // use tagQuery to create select option(s) for it so that nz-select's tags render
+        // if a model value exists on init, prepopulate tags
         if (this.formControl.value) {
           const value = this.formControl.value
           if (Object.keys(value).length > 0 && value.constructor === Object) {
@@ -377,29 +335,7 @@ export function EntitySelectField<
             )
             return
           }
-
-          combineLatestArray(this.getTagQueries(value))
-            .pipe(
-              map((queries) => {
-                if (!(queries.length > 0)) return []
-                return queries.map(
-                  (result: ApolloQueryResult<TQ>): NzSelectOptionInterface => {
-                    const item = this.getTagQueryResults(result)
-                    return this.getSelectedItemOption(item!)
-                  }
-                )
-              }),
-              untilDestroyed(this)
-            )
-            .subscribe((options) => {
-              if (!options || !options.every((o) => typeof o !== 'undefined')) {
-                console.error(
-                  `${this.field.id} prepopulate select options error: one or more requests failed.`,
-                  options
-                )
-              }
-              this.selectOption$.next(options)
-            })
+          this.onPopulate$.next(value)
         }
 
         this.onTagClose$.pipe(untilDestroyed(this)).subscribe((_) => {
