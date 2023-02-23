@@ -18,7 +18,7 @@ export const assertionSubmitFieldsDefaults = <AssertionFields>{
   significance: undefined,
   description: undefined,
   diseaseId: undefined,
-  drugIds: [],
+  therapyIds: [],
   therapyInteractionType: undefined,
   evidenceItemIds: [],
   fdaCompanionTest: undefined,

@@ -19,6 +19,7 @@ import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
 import { CvcMolecularProfileBuilderModule } from './molecular-profile-builder/molecular-profile-builder.module'
+import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { CvcMolecularProfileBuilderModule } from './molecular-profile-builder/mo
     CvcPhenotypeSelectModule,
     CvcMolecularProfileBuilderModule,
     CvcMolecularProfileSelectModule,
+    CvcAmpCategorySelectModule
   ],
 })
 export class CvcFormTypesModule {}

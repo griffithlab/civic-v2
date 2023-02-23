@@ -43,7 +43,6 @@ export type EvidenceEnums = {
 export type EvidenceRequires = {
   requiresDisease$: BehaviorSubject<boolean>
   requiresTherapy$: BehaviorSubject<boolean>
-  requiresTherapyInteraction$: BehaviorSubject<boolean>
   requiresClingenCodes$: BehaviorSubject<boolean>
   requiresAcmgCodes$: BehaviorSubject<boolean>
   requiresAmpLevel$: BehaviorSubject<boolean>
@@ -104,7 +103,6 @@ class EvidenceState extends BaseState {
     this.requires = {
       requiresDisease$: new BehaviorSubject<boolean>(false),
       requiresTherapy$: new BehaviorSubject<boolean>(false),
-      requiresTherapyInteraction$: new BehaviorSubject<boolean>(false),
       requiresClingenCodes$: new BehaviorSubject<boolean>(false),
       requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
       requiresAmpLevel$: new BehaviorSubject<boolean>(false),
@@ -134,16 +132,6 @@ class EvidenceState extends BaseState {
         this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(et))
         this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(et))
         this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(et))
-      })
-
-    this.fields.therapyIds$
-      .pipe(untilDestroyed(this, 'onDestroy'))
-      .subscribe((ids: Maybe<number[]>) => {
-        if (!ids) {
-          this.requires.requiresTherapyInteraction$.next(false)
-        } else {
-          this.requires.requiresTherapyInteraction$.next(ids.length > 1)
-        }
       })
 
     this.validStates.set(EvidenceType.Predictive, {
