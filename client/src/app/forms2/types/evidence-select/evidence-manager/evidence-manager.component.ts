@@ -86,6 +86,10 @@ type ColConfig = {
     sortOrder?: NzTableSortOrder | null
     sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
   }
+  fixed?: {
+    left?: boolean
+    right?: boolean
+  }
 }
 
 type TableData = {
@@ -175,6 +179,9 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           selected: false,
           indeterminate: false,
         },
+        fixed: {
+          left: true
+        }
       },
       {
         name: 'Status',
@@ -187,6 +194,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
         type: 'tag',
         key: 'evidenceItem',
         hide: false,
+        width: '100px'
       },
       {
         name: 'Molecular Profile',

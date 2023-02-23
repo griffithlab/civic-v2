@@ -4,13 +4,11 @@
   <nz-table
     #virtualTable
     #rowSelectionTable
-
     cvcTableScroller
     (cvcTableScrollerOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
-
     *ngrxLet="tableData$ as data"
     [nzData]="data.rows"
     [nzScroll]="{ x: '800px', y: '200px' }"
@@ -30,6 +28,8 @@
             <th
               *ngSwitchCase="'select'"
               [nzWidth]="col.width || null"
+              [nzLeft]="col.fixed?.left || false"
+              [nzRight]="col.fixed?.right || false"
               [nzShowCheckbox]="false"
               [nzChecked]="allSelected"
               [nzIndeterminate]="allIndeterminate"
@@ -54,10 +54,19 @@
               [ngSwitch]="col.type">
               <td
                 *ngSwitchCase="'select'"
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false"
                 [nzChecked]="row.selected"
-                (nzCheckedChange)="onRowSelected$.next({ id: row.id, selected: $event })"></td>
+                (nzCheckedChange)="
+                  onRowSelected$.next({ id: row.id, selected: $event })
+                "
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false"></td>
 
-              <td *ngSwitchCase="'tag'">
+              <td
+                *ngSwitchCase="'tag'"
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false">
                 <cvc-entity-tag
                   *ngrxLet="row[col.key] as entity"
                   [cvcCacheId]="
@@ -65,7 +74,10 @@
                   "></cvc-entity-tag>
               </td>
 
-              <td *ngSwitchCase="'tags'">
+              <td
+                *ngSwitchCase="'tags'"
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false">
                 <cvc-entity-tag
                   *ngFor="let entity of row[col.key]"
                   [cvcCacheId]="
@@ -73,15 +85,24 @@
                   "></cvc-entity-tag>
               </td>
 
-              <td *ngSwitchCase="'enum'">
+              <td
+                *ngSwitchCase="'enum'"
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false">
                 {{ row[col.key] }}
               </td>
 
-              <td *ngSwitchCase="'string'">
+              <td
+                *ngSwitchCase="'string'"
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false">
                 {{ row[col.key] }}
               </td>
 
-              <td *ngSwitchCase="'number'">
+              <td
+                *ngSwitchCase="'number'"
+                [nzLeft]="col.fixed?.left || false"
+                [nzRight]="col.fixed?.right || false">
                 {{ row[col.key] }}
               </td>
 
