@@ -508,7 +508,7 @@ export type DeprecateVariantPayloadFieldPolicy = {
 	newlyDeprecatedMolecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DiseaseKeySpecifier = ('diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'id' | 'link' | 'name' | DiseaseKeySpecifier)[];
+export type DiseaseKeySpecifier = ('diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'id' | 'link' | 'myDiseaseInfo' | 'name' | DiseaseKeySpecifier)[];
 export type DiseaseFieldPolicy = {
 	diseaseAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -516,9 +516,10 @@ export type DiseaseFieldPolicy = {
 	doid?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	myDiseaseInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'name' | DiseasePopoverKeySpecifier)[];
+export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'myDiseaseInfo' | 'name' | DiseasePopoverKeySpecifier)[];
 export type DiseasePopoverFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseAliases?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -529,6 +530,7 @@ export type DiseasePopoverFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfileCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	myDiseaseInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DownloadableFileKeySpecifier = ('filename' | 'path' | DownloadableFileKeySpecifier)[];
@@ -875,6 +877,19 @@ export type MutationFieldPolicy = {
 	updateCoi?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateNotificationStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateSourceSuggestionStatus?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MyDiseaseInfoKeySpecifier = ('diseaseOntologyExactSynonyms' | 'diseaseOntologyRelatedSynonyms' | 'doDef' | 'doDefCitations' | 'icd10' | 'icdo' | 'mesh' | 'mondoDef' | 'ncit' | 'omim' | MyDiseaseInfoKeySpecifier)[];
+export type MyDiseaseInfoFieldPolicy = {
+	diseaseOntologyExactSynonyms?: FieldPolicy<any> | FieldReadFunction<any>,
+	diseaseOntologyRelatedSynonyms?: FieldPolicy<any> | FieldReadFunction<any>,
+	doDef?: FieldPolicy<any> | FieldReadFunction<any>,
+	doDefCitations?: FieldPolicy<any> | FieldReadFunction<any>,
+	icd10?: FieldPolicy<any> | FieldReadFunction<any>,
+	icdo?: FieldPolicy<any> | FieldReadFunction<any>,
+	mesh?: FieldPolicy<any> | FieldReadFunction<any>,
+	mondoDef?: FieldPolicy<any> | FieldReadFunction<any>,
+	ncit?: FieldPolicy<any> | FieldReadFunction<any>,
+	omim?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MyVariantInfoKeySpecifier = ('caddConsequence' | 'caddDetail' | 'caddPhred' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'myVariantInfoId' | 'phastcons30way' | 'phastcons100way' | 'phyloP30way' | 'phyloP100way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact' | MyVariantInfoKeySpecifier)[];
 export type MyVariantInfoFieldPolicy = {
@@ -1969,6 +1984,10 @@ export type StrictTypedTypePolicies = {
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,
+	},
+	MyDiseaseInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MyDiseaseInfoKeySpecifier | (() => undefined | MyDiseaseInfoKeySpecifier),
+		fields?: MyDiseaseInfoFieldPolicy,
 	},
 	MyVariantInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MyVariantInfoKeySpecifier | (() => undefined | MyVariantInfoKeySpecifier),

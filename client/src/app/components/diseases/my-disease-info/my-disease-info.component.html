@@ -1,0 +1,94 @@
+<ng-container *ngIf="diseaseInfo">
+  <nz-card nzTitle="MyDiseaseInfo">
+    <nz-card-tab>
+      <nz-tabset nzSize="small" [nzAnimated]="true">
+        <nz-tab (nzClick)="tabIndex.next(0)" nzTitle="Disease Ontology"> </nz-tab>
+        <nz-tab (nzClick)="tabIndex.next(1)" nzTitle="Mondo"> </nz-tab>
+      </nz-tabset>
+    </nz-card-tab>
+    <ng-container [ngSwitch]="tabIndex | async">
+      <!-- DO tab -->
+      <ng-container *ngSwitchCase="0">
+        <div class="tab-padding">
+          <nz-row [nzGutter]="8">
+            <nz-col [nzSpan]="12">
+              <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="1">
+                <nz-descriptions-item nzTitle="Definition">
+                  <ng-container *ngIf="diseaseInfo.doDef; else noValue">
+                    {{diseaseInfo.doDef}}
+                  </ng-container>
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Citations">
+                  <ng-container *ngIf="diseaseInfo.doDefCitations.length > 0; else noValue">
+                    <cvc-tag-list>
+                      <cvc-link-tag *ngFor="let url of diseaseInfo.doDefCitations; let i = index" [href]="url">Source {{ i + 1 }}</cvc-link-tag>
+                    </cvc-tag-list>
+                  </ng-container>
+                </nz-descriptions-item>
+              </nz-descriptions>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="2">
+                <nz-descriptions-item nzTitle="Exact Synonyms" *ngIf="diseaseInfo.diseaseOntologyExactSynonyms.length > 0"
+                  [nzSpan]="2">
+                  <cvc-tag-list>
+                    <nz-tag *ngFor="let a of diseaseInfo.diseaseOntologyExactSynonyms">
+                      {{ a }}
+                    </nz-tag>
+                  </cvc-tag-list>
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Related Synonyms" *ngIf="diseaseInfo.diseaseOntologyRelatedSynonyms.length > 0"
+                  [nzSpan]="2">
+                  <cvc-tag-list>
+                    <nz-tag *ngFor="let a of diseaseInfo.diseaseOntologyRelatedSynonyms">
+                      {{ a }}
+                    </nz-tag>
+                  </cvc-tag-list>
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="External Identifiers" [nzSpan]="2">
+                  <cvc-tag-list>
+                    <cvc-link-tag *ngIf="diseaseInfo.mesh" [href]="'https://meshb.nlm.nih.gov/record/ui?ui=' + diseaseInfo.mesh"
+                      tooltip="'View in MeSH">
+                      MeSH:{{diseaseInfo.mesh}}
+                    </cvc-link-tag>
+                    <cvc-link-tag *ngIf="diseaseInfo.ncit"
+                      [href]="'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' + diseaseInfo.ncit"
+                      tooltip="View in NCI Thesaurus">
+                      NCIt:{{diseaseInfo.ncit}}
+                    </cvc-link-tag>
+                    <cvc-link-tag *ngIf="diseaseInfo.omim" [href]="'https://www.omim.org/entry/' + diseaseInfo.omim"
+                      tooltip="View on OMIM">
+                      OMIM:{{diseaseInfo.omim}}
+                    </cvc-link-tag>
+                  </cvc-tag-list>
+                </nz-descriptions-item>
+                <nz-descriptions-item *ngIf="diseaseInfo.icd10" nzTitle="ICD - 10">
+                  {{diseaseInfo.icd10}}
+                </nz-descriptions-item>
+                <nz-descriptions-item *ngIf="diseaseInfo.icdo" nzTitle="ICD - O">
+                  {{diseaseInfo.icdo}}
+                </nz-descriptions-item>
+              </nz-descriptions>
+            </nz-col>
+          </nz-row>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <div class="tab-padding">
+          <nz-row [nzGutter]="8">
+            <nz-col [nzSpan]="12">
+              <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="2">
+                <nz-descriptions-item nzTitle="Definition">
+                  <ng-container *ngIf="diseaseInfo.mondoDef; else noValue">
+                    {{diseaseInfo.mondoDef}}
+                  </ng-container>
+                </nz-descriptions-item>
+              </nz-descriptions>
+            </nz-col>
+          </nz-row>
+        </div>
+      </ng-container>
+    </ng-container>
+  </nz-card>
+</ng-container>
+<ng-template #noValue><span nz-typography nzType="secondary">Not Found</span></ng-template>
