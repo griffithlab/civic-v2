@@ -10,8 +10,8 @@
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
-    *ngrxLet="tableData$ as data"
-    [nzData]="data.rows"
+    *ngrxLet="row$ as data"
+    [nzData]="data || []"
     [nzScroll]="{ x: '1024px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzVirtualItemSize]="28"
@@ -21,104 +21,197 @@
     nzSize="small"
     (nzQueryParams)="onParamsChange$.next($event)">
     <thead>
-      <tr class="col-header-row">
-        <ng-container *ngFor="let col of data.cols">
-          <ng-container
-            *ngIf="!col.hide"
-            [ngSwitch]="col.type">
-            <th
-              *ngSwitchCase="'select'"
-              nzLeft
-              [nzWidth]="col.width || null"
-              [nzShowCheckbox]="false"
-              [nzChecked]="allSelected"
-              [nzIndeterminate]="allIndeterminate"
-              (nzCheckedChange)="onAllSelected$.next($event)"></th>
-            <th
-              *ngSwitchCase="'primary'"
-              nzLeft
-              [nzWidth]="col.width || null"
-              [nzColumnKey]="col.key">
-              {{ col.name }}
-            </th>
-            <th
-              *ngSwitchCase="'attribute'"
-              nzRight
-              [nzWidth]="col.width || null"
-              [nzColumnKey]="col.key">
-              {{ col.name }}
-            </th>
-            <th
-              *ngSwitchDefault
-              [nzWidth]="col.width || null"
-              [nzColumnKey]="col.key">
-              {{ col.name }}
-            </th>
-          </ng-container>
-        </ng-container>
+      <tr
+        class="col-header-row"
+        *ngrxLet="col$ as cols">
+        <th
+          *ngIf="!cols.selected.hide"
+          nzLeft
+          [nzWidth]="cols.selected.width"
+          [nzShowCheckbox]="false"
+          [nzChecked]="allSelected"
+          [nzIndeterminate]="allIndeterminate"
+          (nzCheckedChange)="onAllSelected$.next($event)"></th>
+        <th
+          *ngIf="!cols.id.hide"
+          nzLeft
+          [nzWidth]="cols.id.width"
+          nzColumnKey="id">
+          {{ cols.id.name }}
+        </th>
+        <th
+          *ngIf="!cols.evidenceItem.hide"
+          nzLeft
+          [nzWidth]="cols.evidenceItem.width"
+          nzColumnKey="evidenceItem">
+          {{ cols.evidenceItem.name }}
+        </th>
+        <th
+          *ngIf="!cols.molecularProfile.hide"
+          [nzWidth]="cols.molecularProfile.width"
+          nzColumnKey="molecularProfile">
+          {{ cols.molecularProfile.name }}
+        </th>
+        <th
+          *ngIf="!cols.disease.hide"
+          [nzWidth]="cols.disease.width"
+          nzColumnKey="disease">
+          {{ cols.disease.name }}
+        </th>
+        <th
+          *ngIf="!cols.therapies.hide"
+          [nzWidth]="cols.therapies.width"
+          nzColumnKey="therapies">
+          {{ cols.therapies.name }}
+        </th>
+        <!-- TODO: INTERACTION TYPE -->
+        <!-- TODO: DESCRIPTION -->
+        <th
+          *ngIf="!cols.evidenceLevel.hide"
+          nzRight
+          [nzWidth]="cols.evidenceLevel.width"
+          nzColumnKey="evidenceLevel">
+          {{ cols.evidenceLevel.name }}
+        </th>
+        <th
+          *ngIf="!cols.evidenceType.hide"
+          nzRight
+          [nzWidth]="cols.evidenceType.width"
+          nzColumnKey="evidenceType">
+          {{ cols.evidenceType.name }}
+        </th>
+        <th
+          *ngIf="!cols.evidenceDirection.hide"
+          nzRight
+          [nzWidth]="cols.evidenceDirection.width"
+          nzColumnKey="evidenceDirection">
+          {{ cols.evidenceDirection.name }}
+        </th>
+        <th
+          *ngIf="!cols.significance.hide"
+          nzRight
+          [nzWidth]="cols.significance.width"
+          nzColumnKey="significance">
+          {{ cols.significance.name }}
+        </th>
+        <th
+          *ngIf="!cols.variantOrigin.hide"
+          nzRight
+          [nzWidth]="cols.variantOrigin.width"
+          nzColumnKey="variantOrigin">
+          {{ cols.variantOrigin.name }}
+        </th>
+        <th
+          *ngIf="!cols.evidenceRating.hide"
+          nzRight
+          [nzWidth]="cols.evidenceRating.width"
+          nzColumnKey="evidenceRating">
+          {{ cols.evidenceRating.name }}
+        </th>
       </tr>
     </thead>
     <tbody>
       <ng-template
         nz-virtual-scroll
         let-row>
-        <tr class="data-row">
-          <ng-container *ngFor="let col of data.cols">
-            <ng-container
-              *ngIf="!col.hide"
-              [ngSwitch]="col.type">
-              <td
-                *ngSwitchCase="'select'"
-                nzLeft
-                [nzChecked]="row.selected"
-                (nzCheckedChange)="
-                  onRowSelected$.next({ id: row.id, selected: $event })
-                "></td>
+        <tr
+          class="data-row"
+          *ngrxLet="col$ as cols">
+          <td
+            *ngIf="!cols.selected.hide"
+            nzLeft
+            [nzChecked]="row.selected"
+            (nzCheckedChange)="
+              onRowSelected$.next({ id: row.id, selected: $event })
+            "></td>
 
-              <td *ngSwitchCase="'primary'" nzLeft>
-                <cvc-entity-tag
-                  *ngrxLet="row[col.key] as entity"
-                  [cvcCacheId]="
-                    entity.__typename + ':' + entity.id
-                  "></cvc-entity-tag>
-              </td>
+          <td
+            *ngIf="!cols.id.hide"
+            nzLeft>
+            {{ row.id }}
+          </td>
 
-              <td *ngSwitchCase="'tag'">
-                <cvc-entity-tag
-                  *ngrxLet="row[col.key] as entity"
-                  [cvcCacheId]="
-                    entity.__typename + ':' + entity.id
-                  "></cvc-entity-tag>
-              </td>
+          <td
+            *ngIf="!cols.evidenceItem.hide"
+            nzLeft>
+            <cvc-entity-tag
+              [cvcCacheId]="
+                'EvidenceItem' + ':' + row.evidenceItem.id
+              "></cvc-entity-tag>
+          </td>
 
-              <td *ngSwitchCase="'tags'">
-                <cvc-entity-tag
-                  *ngFor="let entity of row[col.key]"
-                  [cvcCacheId]="
-                    entity.__typename + ':' + entity.id
-                  "></cvc-entity-tag>
-              </td>
+          <td *ngIf="!cols.molecularProfile.hide">
+            <cvc-entity-tag
+              [cvcCacheId]="
+                'MolecularProfile' + ':' + row.molecularProfile.id
+              "></cvc-entity-tag>
+          </td>
 
-              <td *ngSwitchCase="'attribute'" nzRight>
-                <cvc-attribute-tag
-                  [cvcAttrValue]="row[col.key]"
-                  [cvcShowLabel]="false"
-                  [cvcTooltip]="
-                    row[col.key] | evidenceEnumDisplay
-                  "></cvc-attribute-tag>
-              </td>
+          <td *ngIf="!cols.disease.hide">
+            <cvc-entity-tag
+              [cvcCacheId]="'Disease' + ':' + row.disease.id"></cvc-entity-tag>
+          </td>
 
-              <td *ngSwitchCase="'string'">
-                {{ row[col.key] }}
-              </td>
+          <td *ngIf="!cols.therapies.hide">
+            <cvc-entity-tag
+              *ngFor="let therapy of row.therapies"
+              [cvcCacheId]="'Therapy' + ':' + therapy.id"></cvc-entity-tag>
+          </td>
 
-              <td *ngSwitchCase="'number'">
-                {{ row[col.key] }}
-              </td>
+          <td *ngIf="!cols.evidenceLevel.hide"
+            nzRight>
+            {{ row.evidenceLevel  }}
+          </td>
 
-              <td *ngSwitchDefault>?{{ row[col.key] }}?</td>
-            </ng-container>
-          </ng-container>
+          <td *ngIf="!cols.evidenceType.hide"
+            nzRight>
+            <cvc-attribute-tag
+              [cvcAttrValue]="row.evidenceType"
+              [cvcShowLabel]="false"
+              [cvcTooltip]="
+                row.evidenceType | evidenceEnumDisplay
+              "></cvc-attribute-tag>
+          </td>
+
+          <td *ngIf="!cols.evidenceDirection.hide"
+            nzRight>
+            <cvc-attribute-tag
+              [cvcAttrValue]="row.evidenceDirection"
+              [cvcShowLabel]="false"
+              [cvcTooltip]="
+                row.evidenceDirection | evidenceEnumDisplay
+              "></cvc-attribute-tag>
+          </td>
+
+          <td *ngIf="!cols.significance.hide"
+            nzRight>
+            <cvc-attribute-tag
+              [cvcAttrValue]="row.significance"
+              [cvcShowLabel]="false"
+              [cvcTooltip]="
+                row.significance | evidenceEnumDisplay
+              "></cvc-attribute-tag>
+          </td>
+
+          <td *ngIf="!cols.variantOrigin.hide"
+            nzRight>
+            <cvc-attribute-tag
+              [cvcAttrValue]="row.variantOrigin"
+              [cvcShowLabel]="false"
+              [cvcTooltip]="
+                row.variantOrigin | evidenceEnumDisplay
+              "></cvc-attribute-tag>
+          </td>
+
+          <td *ngIf="!cols.evidenceRating.hide"
+            nzRight>
+            <cvc-attribute-tag
+              [cvcAttrValue]="row.evidenceRating"
+              [cvcShowLabel]="false"
+              [cvcTooltip]="
+                row.evidenceRating | evidenceEnumDisplay
+              "></cvc-attribute-tag>
+          </td>
         </tr>
       </ng-template>
     </tbody>

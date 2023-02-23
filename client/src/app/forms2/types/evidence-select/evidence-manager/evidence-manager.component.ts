@@ -44,7 +44,7 @@ import {
   Subject,
   switchMap,
   withLatestFrom,
-  take
+  take,
 } from 'rxjs'
 import { combineLatestObject, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -59,19 +59,29 @@ type EvidenceManagerConnection = {
 
 type RowDataExtra = {
   evidenceItem: { id: number; name: string; link: string }
-  selected?: boolean
+  selected: boolean
 }
-type RowData = EvidenceManagerFieldsFragment & RowDataExtra
-
-type ColType = 'tag' | 'tags' | 'primary' | 'attribute' | 'string' | 'number' | 'select'
+type RowData = Pick<
+  EvidenceManagerFieldsFragment,
+  | 'id'
+  | 'status'
+  | 'molecularProfile'
+  | 'disease'
+  | 'therapies'
+  | 'evidenceType'
+  | 'evidenceLevel'
+  | 'evidenceRating'
+  | 'evidenceDirection'
+  | 'significance'
+  | 'variantOrigin'
+> &
+  RowDataExtra
 
 type ColKey = keyof RowData
 
 type ColConfig = {
   name: string
-  type: ColType
-  key: ColKey
-  width?: string
+  width: string
   hide?: boolean
   filter?: {
     listOfFilter: NzTableFilterList
@@ -89,9 +99,8 @@ type ColConfig = {
   }
 }
 
-type TableData = {
-  rows: RowData[]
-  cols: ColConfig[]
+type ColumnsModel = {
+  [key in ColKey]: ColConfig
 }
 
 type RowSelection = {
@@ -120,12 +129,11 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
-  col$: BehaviorSubject<ColConfig[]>
+  col$: BehaviorSubject<ColumnsModel>
   row$?: Observable<RowData[]>
   selectedRow$: BehaviorSubject<Set<number>>
 
   // PRESENTION STREAMS
-  tableData$: Observable<TableData>
   loading$!: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -134,7 +142,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
 
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
-  defaultColumns: ColConfig[]
+  initialColumns: ColumnsModel
 
   colSelectOptions!: Array<{
     text: string
@@ -156,82 +164,68 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
-    this.colSelectOptions = [
-      {
-        text: 'Select All',
-        onSelect: () => {
-          this.onAllSelected$.next(true)
-        },
-      },
-    ]
 
-    this.defaultColumns = [
-      {
+    this.initialColumns = {
+      selected: {
         name: 'Select',
-        type: 'select',
         hide: false,
-        key: 'selected',
         width: '40px',
         select: {
           selected: false,
           indeterminate: false,
         },
       },
-      {
-        name: 'Status',
-        type: 'string',
-        key: 'status',
+      id: {
+        name: 'ID',
+        width: '20px',
         hide: true,
       },
-      {
+      status: {
+        name: 'Status',
+        width: '40px',
+        hide: true,
+      },
+      evidenceItem: {
         name: 'Evidence Item',
-        type: 'primary',
-        key: 'evidenceItem',
         width: '100px',
       },
-      {
+      molecularProfile: {
         name: 'Molecular Profile',
-        type: 'tag',
-        key: 'molecularProfile',
-        width: '250px'
-      },
-      {
-        name: 'Disease',
-        type: 'tag',
-        key: 'disease',
         width: '250px',
       },
-      {
+      disease: {
+        name: 'Disease',
+        width: '250px',
+      },
+      therapies: {
         name: 'Therapies',
-        type: 'tags',
-        key: 'therapies',
         width: '200px',
       },
-      {
+      evidenceType: {
         name: 'ET',
-        type: 'attribute',
-        key: 'evidenceType',
         width: '40px',
       },
-      // {
-      //   name: 'EL',
-      //   type: 'string',
-      //   key: 'evidenceLevel',
-      //   width: '40px',
-      // },
-      {
+      evidenceDirection: {
+        name: 'ED',
+        width: '40px',
+      },
+      evidenceLevel: {
+        name: 'EL',
+        width: '40px',
+      },
+      evidenceRating: {
+        name: 'ER',
+        width: '40px',
+      },
+      significance: {
         name: 'SI',
-        type: 'attribute',
-        key: 'significance',
         width: '40px',
       },
-      {
+      variantOrigin: {
         name: 'VO',
-        type: 'attribute',
-        key: 'variantOrigin',
         width: '40px',
       },
-    ]
+    }
 
     this.onRowSelected$
       .pipe(
@@ -313,14 +307,9 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           })
         }
       ),
-      startWith([]),
+      startWith([])
     )
-    this.col$ = new BehaviorSubject<ColConfig[]>(this.defaultColumns)
-
-    this.tableData$ = combineLatestObject({
-      rows: this.row$,
-      cols: this.col$,
-    })
+    this.col$ = new BehaviorSubject<ColumnsModel>(this.initialColumns)
 
     // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
@@ -374,7 +363,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       this.selectedRow$.next(idSet)
     }
   }
-  trackByIndex(_: number, data: EvidenceManagerFieldsFragment): number {
+  trackByIndex(_: number, data: RowData): number {
     return data.id
   }
 }
