@@ -206,7 +206,7 @@ export function EntitySelectField<
 
             // helper functions for iif operator:
             const watchQuery = (query: TAV) => {
-              // calls watch() to create queryReft,
+              // calls watch() to create queryRef,
               // returns observable from initial watch() query
               this.queryRef = this.typeaheadQuery.watch(query)
               // emit loading events from isLoading$
@@ -238,7 +238,6 @@ export function EntitySelectField<
         ) // end this.response$
 
         this.onOpenChange$
-          // .pipe(tag('entity-select-field onOpenChange$'), untilDestroyed(this))
           .subscribe((change: boolean) => {
             if (change) this.onSearch$.next('')
           })

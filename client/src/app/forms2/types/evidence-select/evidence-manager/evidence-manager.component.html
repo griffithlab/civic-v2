@@ -4,12 +4,20 @@
   <nz-table
     #virtualTable
     #rowSelectionTable
+
+    cvcTableScroller
+    (cvcTableScrollerOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollerQueryRef]="queryRef"
+    [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
+
     *ngrxLet="tableData$ as data"
     [nzData]="data.rows"
     [nzScroll]="{ x: '800px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzVirtualItemSize]="28"
     [nzFrontPagination]="false"
+    [nzShowPagination]="false"
     [nzLoading]="loading$ | ngrxPush"
     nzSize="small"
     (nzQueryParams)="onParamsChange$.next($event)">

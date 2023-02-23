@@ -25,27 +25,27 @@ export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 
 @UntilDestroy()
 @Directive({
-  selector: '[cvcTableScroll]',
+  selector: '[cvcTableScroller]',
 })
-export class TableScrollDirective implements AfterViewInit {
-  @Output() cvcTableScrollOnScroll = new EventEmitter<ScrollEvent>()
+export class TableScrollerDirective implements AfterViewInit {
+  @Output() cvcTableScrollerOnScroll = new EventEmitter<ScrollEvent>()
 
   // TargetHeight defines the height from the end of the viewport's
   // currently rendered rows that a 'bottom' scroll event will be emitted
-  @Input() cvcTableScrollTargetHeight: number = 140
+  @Input() cvcTableScrollerTargetHeight: number = 140
 
-  @Input() cvcTableScrollQueryRef: Maybe<QueryRef<any, any>>
-  @Input() cvcTableScrollPageInfo: Maybe<PageInfo>
-  @Input() cvcTableScrollFetchCount: Maybe<number> = 25
+  @Input() cvcTableScrollerQueryRef: Maybe<QueryRef<any, any>>
+  @Input() cvcTableScrollerPageInfo: Maybe<PageInfo>
+  @Input() cvcTableScrollerFetchCount: Maybe<number> = 25
 
   // call viewport scrollToIndex with provided index value
   @Input()
-  set cvcTableScrollToIndex(n: number) {
+  set cvcTableScrollerToIndex(n: number) {
     if (n !== undefined) this.scrollToIndex(n)
   }
 
   @Input()
-  set cvcTableScrollToOffset(o: number) {
+  set cvcTableScrollerToOffset(o: number) {
     if (o !== undefined) this.scrollToIndex(o)
   }
   // OnLoadMore events will only be sent in onLoadThrottleTime ms intervals
@@ -75,7 +75,7 @@ export class TableScrollDirective implements AfterViewInit {
       this.rendered$ = this.viewport.renderedRangeStream
     } else {
       throw new Error(
-        'cvcTableScroll directive could not obtain reference to host cdkVirtualScrollViewport.'
+        'cvcTableScroller directive could not obtain reference to host cdkVirtualScrollViewport.'
       )
     }
 
@@ -100,13 +100,13 @@ export class TableScrollDirective implements AfterViewInit {
           leading: true,
           trailing: true,
         }),
-        tap((_) => this.cvcTableScrollOnScroll.next('scroll')),
+        tap((_) => this.cvcTableScrollerOnScroll.next('scroll')),
         // wait debounceTime ms after last 'scroll' event to emit
         debounceTime(this.onScrollDebounceTime),
         untilDestroyed(this)
       )
       .subscribe((_) => {
-        this.cvcTableScrollOnScroll.next('stop')
+        this.cvcTableScrollerOnScroll.next('stop')
       })
 
     // emit load more events from OnLoadMore
@@ -121,16 +121,16 @@ export class TableScrollDirective implements AfterViewInit {
         pairwise(),
         // pass only down scroll && bottom offsets within target height
         filter(([offset1, offset2]) => {
-          return offset2 < offset1 && offset2 < this.cvcTableScrollTargetHeight
+          return offset2 < offset1 && offset2 < this.cvcTableScrollerTargetHeight
         }),
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
         untilDestroyed(this)
       )
       .subscribe((_) => {
-        this.cvcTableScrollOnScroll.next('bottom')
+        this.cvcTableScrollerOnScroll.next('bottom')
         try {
-          this.loadMore(this.cvcTableScrollPageInfo)
+          this.loadMore(this.cvcTableScrollerPageInfo)
         } catch (e) {
           console.error(e)
         }
@@ -138,7 +138,7 @@ export class TableScrollDirective implements AfterViewInit {
   }
 
   loadMore(pi: Maybe<PageInfo>) {
-    const queryRef = this.cvcTableScrollQueryRef
+    const queryRef = this.cvcTableScrollerQueryRef
     if (!pi && queryRef)
       throw new Error(
         `table-scroll directive requires PageInfo to use provided QueryRef.`
@@ -149,7 +149,7 @@ export class TableScrollDirective implements AfterViewInit {
       )
     if (pi && queryRef) {
       const [fetchCount, hasNextPage, endCursor] = [
-        this.cvcTableScrollFetchCount,
+        this.cvcTableScrollerFetchCount,
         pi.hasNextPage,
         pi.endCursor,
       ]

@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
+import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { LetModule, PushModule } from '@ngrx/component'
@@ -14,6 +16,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
+import { TableScrollerDirective } from './evidence-manager/table-scroller.directive'
 import {
   CvcEvidenceSelectField,
   CvcEvidenceSelectFieldProps,
@@ -40,7 +43,7 @@ const typeConfig: ConfigOption = {
   ],
 }
 @NgModule({
-  declarations: [CvcEvidenceSelectField, CvcEvidenceManagerComponent],
+  declarations: [CvcEvidenceSelectField, CvcEvidenceManagerComponent, TableScrollerDirective],
   imports: [
     CommonModule,
     LetModule,
@@ -54,8 +57,7 @@ const typeConfig: ConfigOption = {
     NzTableModule,
     NzCardModule,
 
-    CvcAutoHeightCardModule,
-    CvcAutoHeightTableModule,
+    CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcEntityTagModule,
     CvcEntitySelectModule,

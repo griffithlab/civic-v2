@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -8,6 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
@@ -122,8 +124,11 @@ export class CvcEvidenceManagerComponent implements OnInit {
 
   // PRESENTION STREAMS
   tableData$: Observable<TableData>
-
   loading$!: Observable<boolean>
+  noMoreRows$: BehaviorSubject<boolean>
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  scrollIndex$: Subject<number>
+  pageInfo$!: Observable<PageInfo>
 
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
@@ -137,11 +142,18 @@ export class CvcEvidenceManagerComponent implements OnInit {
   allSelected: boolean = false
   allIndeterminate: boolean = false
 
-  constructor(private gql: EvidenceManagerGQL) {
+  // need a static var for scrolling state b/c sub/unsub in
+  // virtual scroll rows degrades performance
+  isScrolling = false
+
+  constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onAllSelected$ = new Subject<boolean>()
+    this.scrollIndex$ = new Subject<number>()
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.colSelectOptions = [
       {
         text: 'Select All',
@@ -250,6 +262,11 @@ export class CvcEvidenceManagerComponent implements OnInit {
     ) // end this.queryResult$
 
     this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
+    // provided to table-scroll directive for fetchMore queries
+    this.pageInfo$ = this.connection$.pipe(
+      pluck('pageInfo'),
+      filter(isNonNulled)
+    )
     this.row$ = combineLatest([
       this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
       this.selectedRow$,
@@ -279,16 +296,36 @@ export class CvcEvidenceManagerComponent implements OnInit {
       cols: this.col$,
     })
 
-    // this.responseMeta$ = this.queryResult$.pipe(
-    //   pluck('data', 'evidenceItems'),
-    //   map((connection) => {
-    //     return {
-    //       totalCount: connection.totalCount,
-    //       pageCount: connection.pageCount,
-    //       pageInfo: connection.pageInfo,
-    //     }
-    //   })
-    // )
+    // for every onScrolled event, convert to bool & set isScrolling
+    this.scrollEvent$
+      .pipe(
+        map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+        distinctUntilChanged(),
+        untilDestroyed(this)
+      )
+      .subscribe((e) => {
+        this.isScrolling = e
+        this.cdr.detectChanges()
+      })
+
+    // emit event from noMoreRow$ if hasNextPage false
+    this.scrollEvent$
+      .pipe(
+        filter((e) => e === 'bottom'),
+        withLatestFrom(this.pageInfo$),
+        map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
+        untilDestroyed(this)
+      )
+      .subscribe((pageInfo: PageInfo) => {
+        if (!pageInfo.hasNextPage) {
+          this.noMoreRows$.next(true)
+          this.cdr.detectChanges()
+
+          // need to send a followup 'false' here or else
+          // ng won't interpret subsequent 'true' events as changes
+          setInterval(() => this.noMoreRows$.next(false))
+        }
+      })
   }
 
   ngOnInit(): void {}
