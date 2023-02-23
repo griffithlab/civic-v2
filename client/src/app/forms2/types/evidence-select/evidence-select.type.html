@@ -1,5 +1,11 @@
 <nz-row [nzGutter]="[6, 6]">
   <nz-col nzFlex="auto">
+    <pre>
+selectOption$:
+{{ selectOption$ | ngrxPush | json }}
+result$:
+{{ result$ | ngrxPush | json }}
+    </pre>
     <cvc-entity-select
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcMinSearchStrLength]="props.minSearchStrLength"
@@ -15,6 +21,8 @@
       [cvcLoading]="isLoading$ | ngrxPush"
       [cvcSelectOpen]="selectOpen$ | ngrxPush"
       (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnOpenChange)="onOpenChange$.next($event)"
+      (cvcSelectComponent)="selectComponent = $event"
       (cvcOnModelChange)="props.change && props.change(field, $event)">
     </cvc-entity-select>
   </nz-col>
@@ -40,9 +48,7 @@
     class="manager-drawer"
     *ngIf="showMgr$ | ngrxPush as showMgr">
     <cvc-evidence-manager
-      (cvcSelectedIdsChange)="
-        onEidSelect$.next($event)
-      "></cvc-evidence-manager>
+      (cvcSelectedIdsChange)="onPopulate$.next($event)"></cvc-evidence-manager>
   </nz-col>
 </nz-row>
 <!-- select option templates -->

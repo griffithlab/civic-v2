@@ -10,23 +10,27 @@ import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Query, QueryRef } from 'apollo-angular'
 import { EmptyObject } from 'apollo-angular/types'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import {
+  NzSelectComponent,
+  NzSelectOptionInterface,
+} from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
   defer,
   distinctUntilChanged,
   filter,
-  from,
   finalize,
+  from,
   iif,
   map,
   Observable,
   of,
   ReplaySubject,
+  skip,
   Subject,
   switchMap,
+  tap,
   withLatestFrom,
-  skip,
 } from 'rxjs'
 import { combineLatestArray, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -50,6 +54,8 @@ export type GetSelectOptionsFn<TAF> = (
   tplRefs: QueryList<TemplateRef<any>>
 ) => NzSelectOptionInterface[]
 
+export type CvcEntitySelectFieldModel = Maybe<number | number[]>
+
 export interface EntitySelectFieldOptions<
   TAQ,
   TAV extends EmptyObject,
@@ -71,6 +77,7 @@ export interface EntitySelectFieldOptions<
   changeDetectorRef: ChangeDetectorRef
   minSearchStrLength?: number
   selectOpen$?: ReplaySubject<Maybe<boolean>>
+  selectComponent: NzSelectComponent
 }
 
 /*
@@ -104,7 +111,9 @@ export function EntitySelectField<
       // LOCAL SOURCE STREAMS
       onSearch$!: Subject<Maybe<string>> // emits on typeahead keypress
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
+      // DEPRECATED: onPopulate$ should replace onCreate
       onCreate$!: Subject<TAF> // emits entity on create
+      onPopulate$!: Subject<CvcEntitySelectFieldModel> // fetches tag record & populates options for ids
       onOpenChange$!: Subject<boolean>
       selectOpen$!: ReplaySubject<Maybe<boolean>>
 
@@ -136,7 +145,9 @@ export function EntitySelectField<
 
       // LOCAL REFS
       queryRef?: QueryRef<TAQ, TAV>
+      tagQueryRef?: QueryRef<TQ, TV>
       optionTemplates?: QueryList<TemplateRef<any>>
+      selectComponent!: NzSelectComponent
 
       configureEntitySelectField(
         options: EntitySelectFieldOptions<TAQ, TAV, TAP, TAF, TQ, TV>
@@ -154,6 +165,7 @@ export function EntitySelectField<
         this.typeaheadParamName$ = options.typeaheadParamName$
         this.selectOpen$ =
           options.selectOpen$ || new ReplaySubject<Maybe<boolean>>()
+        this.selectComponent = options.selectComponent
         this.minSearchStrLength = options.minSearchStrLength || 0
         this.cdr = options.changeDetectorRef
 
@@ -161,6 +173,7 @@ export function EntitySelectField<
         this.onSearch$ = new Subject<Maybe<string>>()
         this.isLoading$ = new Observable<boolean>()
         this.result$ = new BehaviorSubject<TAF[]>([])
+        this.onPopulate$ = new Subject<CvcEntitySelectFieldModel>()
         this.onTagClose$ = new Subject<MouseEvent>()
         this.onOpenChange$ = new Subject<boolean>()
         this.onCreate$ = new Subject<TAF>()
@@ -207,7 +220,7 @@ export function EntitySelectField<
 
               return this.queryRef.valueChanges
             }
-            const fetchQuery = (query: TAV) => {
+            const refetchQuery = (query: TAV) => {
               // returns observable from the queryRef created with
               // watchQuery(). Since refetch() returns a promise, we convert it
               // to an observable with the from() operator
@@ -216,13 +229,13 @@ export function EntitySelectField<
 
             // This iif operator prevents double-calling the API:
             // If queryRef doesn't exist, create it with watchQuery observable.
-            // If it does, refetch with fetchQuery observable.
+            // If it does, refetch with refetchQuery observable.
             // Using defer() ensures functions are not called until
             // values are emitted - otherwise they'll be called on subscribe.
             return iif(
               () => this.queryRef === undefined, // predicate
               defer(() => watchQuery(query)), // true
-              defer(() => fetchQuery(query)) // false
+              defer(() => refetchQuery(query)) // false
             )
           })
         ) // end this.response$
@@ -279,6 +292,35 @@ export function EntitySelectField<
               }
             )
         }
+        this.result$.pipe(tag('entity-select result$')).subscribe()
+        this.onPopulate$
+          .pipe(
+            filter(isNonNulled),
+            switchMap((value: CvcEntitySelectFieldModel) => {
+              return combineLatestArray(this.getTagQueries(value))
+            }),
+            map((queries) =>
+              queries.map((query) => this.getTagQueryResults(query))
+            ),
+            tap((results: Maybe<TAF>[]) => {
+              this.result$.next(results as TAF[])
+              this.cdr.markForCheck()
+              this.cdr.detectChanges()
+            }),
+            untilDestroyed(this)
+          )
+          .subscribe((options) => {
+            let newValue: CvcEntitySelectFieldModel
+            if (this.field.props && this.field.props.isMultiSelect) {
+              const arrValue: number[] = []
+              options.forEach((opt) => arrValue.push(opt?.id || undefined))
+              newValue = arrValue
+            } else {
+              newValue = options[0]!.id
+            }
+            this.formControl.setValue(newValue)
+          })
+        // .subscribe((value: <CvcEntitySelectFieldModel>) => {})
 
         // when a new entity is created, execute tag query to cache its
         // LinkableTag object for rendering by the nz-select
@@ -320,9 +362,6 @@ export function EntitySelectField<
             })
         })
 
-        this.onTagClose$.pipe(untilDestroyed(this)).subscribe((_) => {
-          this.resetField()
-        })
         // FIXME: this code needs to run after the field's value is updated by any means
         // other than the select, otherwise its tags won't be added to the options model
         // This is why tags fail to display when they are added by creation or just updating the model value with the evidence-manager or mp-editor
@@ -362,13 +401,17 @@ export function EntitySelectField<
               this.selectOption$.next(options)
             })
         }
+
+        this.onTagClose$.pipe(untilDestroyed(this)).subscribe((_) => {
+          this.resetField()
+        })
       } // configureDisplayEntityTag()
 
       getTagQueries(
-        ids: number | number[]
+        ids: CvcEntitySelectFieldModel
       ): Observable<ApolloQueryResult<TQ>>[] {
         if (typeof ids === 'number') ids = [ids]
-        const queries = ids.map((id) =>
+        const queries = ids!.map((id) =>
           this.tagQuery
             .fetch(this.getTagQueryVars(id), { fetchPolicy: 'cache-first' })
             .pipe(filter((r) => !!r.data))

@@ -34,7 +34,7 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzTSType } from 'ng-zorro-antd/core/types'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { NzSelectComponent, NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
   combineLatest,
@@ -104,6 +104,7 @@ export class CvcDiseaseSelectField
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
 
+
   // STATE SOURCE STREAMS
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresDisease$?: BehaviorSubject<boolean>
@@ -158,6 +159,7 @@ export class CvcDiseaseSelectField
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
       selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent
     })
     // if state formReady exists,listen for parent ready event,
     // then configure - otherwise configure the field immediately

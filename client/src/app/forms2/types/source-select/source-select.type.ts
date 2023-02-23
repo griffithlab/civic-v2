@@ -163,6 +163,8 @@ export class CvcSourceSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
       minSearchStrLength: this.field.props.minSearchStrLength,
     })
 

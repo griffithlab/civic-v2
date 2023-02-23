@@ -113,6 +113,8 @@ export class CvcGeneSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent
     })
     // this.onOpenChange$.pipe(tag('gene-select onOpenChange$')).subscribe()
   } // ngAfterViewInit()

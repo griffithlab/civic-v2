@@ -3,19 +3,24 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
   TemplateRef,
+  ViewChild,
 } from '@angular/core'
 import { UntypedFormControl } from '@angular/forms'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyAttributeEvent } from '@ngx-formly/core/lib/models'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import {
+  NzSelectComponent,
+  NzSelectOptionInterface,
+} from 'ng-zorro-antd/select'
 import {
   asyncScheduler,
   BehaviorSubject,
@@ -137,6 +142,9 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   ) as EventEmitter<string>
 
   @Output() cvcOnModelChange = new EventEmitter<Maybe<number>>()
+  @Output() cvcSelectComponent = new EventEmitter<NzSelectComponent>()
+
+  @ViewChild(NzSelectComponent) nzSelectComponent?: NzSelectComponent
 
   // INPUT STREAMS
   onParamName$: BehaviorSubject<Maybe<string>>
@@ -167,9 +175,19 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       }
     }
 
+    // emit reference to nzSelect, required by entity-select.mixin
+    if (!this.nzSelectComponent) {
+      console.error(
+        `${this.cvcEntityName.singular} entity-select could not gain reference to its nzSelectComponent, aborting AfterViewInit()`
+      )
+      return
+    }
+    this.cvcSelectComponent.next(this.nzSelectComponent)
+
     // set initial loading message
-    // FIXME: message should be the same as the initial loading message in the combineLatest map below,
-    // different if there is a paramName, min length set
+    // FIXME: select's initial loading message flickers between the
+    // generic 'Searching...' set below, and the very next loading message.
+    // Should have everything needed to apply the correct initial msg fn here instead.
     this.notFoundDisplay = {
       searchStr: '',
       showSpinner: true,

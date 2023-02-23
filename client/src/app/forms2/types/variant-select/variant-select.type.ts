@@ -143,6 +143,8 @@ export class CvcVariantSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent
     })
 
     this.placeholder$.next(this.props.placeholder)

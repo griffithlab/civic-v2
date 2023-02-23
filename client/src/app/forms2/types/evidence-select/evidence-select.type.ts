@@ -1,45 +1,40 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  QueryList,
-  TemplateRef,
-  Type,
-  ViewChildren,
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    QueryList,
+    TemplateRef,
+    Type,
+    ViewChildren
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import {
-  EvidenceItem,
-  EvidenceSelectTagGQL,
-  EvidenceSelectTagQuery,
-  EvidenceSelectTagQueryVariables,
-  EvidenceSelectTypeaheadFieldsFragment,
-  EvidenceSelectTypeaheadGQL,
-  EvidenceSelectTypeaheadQuery,
-  EvidenceSelectTypeaheadQueryVariables,
-  Maybe,
+    EvidenceSelectTagGQL,
+    EvidenceSelectTagQuery,
+    EvidenceSelectTagQueryVariables,
+    EvidenceSelectTypeaheadFieldsFragment,
+    EvidenceSelectTypeaheadGQL,
+    EvidenceSelectTypeaheadQuery,
+    EvidenceSelectTypeaheadQueryVariables,
+    Maybe
 } from '@app/generated/civic.apollo'
-import { untilDestroyed } from '@ngneat/until-destroy'
 import {
-  FieldTypeConfig,
-  FormlyFieldConfig,
-  FormlyFieldProps,
+    FieldTypeConfig,
+    FormlyFieldConfig,
+    FormlyFieldProps
 } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
-  BehaviorSubject,
-  Observable,
-  ReplaySubject,
-  scan,
-  startWith,
-  Subject,
-  tap,
+    Observable,
+    ReplaySubject,
+    scan,
+    startWith,
+    Subject
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
@@ -87,7 +82,6 @@ export class CvcEvidenceSelectField
   implements AfterViewInit
 {
   // SOURCE STREAMS
-  onEidSelect$: Subject<number[]>
   onEid$: ReplaySubject<Maybe<number | number[]>>
   onShowMgrClick$: Subject<void>
 
@@ -122,7 +116,6 @@ export class CvcEvidenceSelectField
   ) {
     super()
     this.onEid$ = new ReplaySubject<Maybe<number | number[]>>()
-    this.onEidSelect$ = new Subject<number[] >()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       startWith(true),
@@ -142,9 +135,8 @@ export class CvcEvidenceSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
-    })
-    this.onEidSelect$.pipe(untilDestroyed(this)).subscribe((ids) => {
-      this.formControl.setValue(ids)
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent
     })
   }
   private configureStateConnections() {
