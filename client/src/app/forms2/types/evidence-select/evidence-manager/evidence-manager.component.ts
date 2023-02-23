@@ -44,6 +44,7 @@ import {
   Subject,
   switchMap,
   withLatestFrom,
+  take
 } from 'rxjs'
 import { combineLatestObject, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -62,7 +63,7 @@ type RowDataExtra = {
 }
 type RowData = EvidenceManagerFieldsFragment & RowDataExtra
 
-type ColType = 'tag' | 'tags' | 'enum' | 'string' | 'number' | 'select'
+type ColType = 'tag' | 'tags' | 'primary' | 'attribute' | 'string' | 'number' | 'select'
 
 type ColKey = keyof RowData
 
@@ -71,7 +72,7 @@ type ColConfig = {
   type: ColType
   key: ColKey
   width?: string
-  hide: boolean
+  hide?: boolean
   filter?: {
     listOfFilter: NzTableFilterList
     filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
@@ -85,10 +86,6 @@ type ColConfig = {
     sortDirections: NzTableSortOrder[]
     sortOrder?: NzTableSortOrder | null
     sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
-  }
-  fixed?: {
-    left?: boolean
-    right?: boolean
   }
 }
 
@@ -179,40 +176,60 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           selected: false,
           indeterminate: false,
         },
-        fixed: {
-          left: true
-        }
       },
       {
         name: 'Status',
-        type: 'enum',
+        type: 'string',
         key: 'status',
         hide: true,
       },
       {
         name: 'Evidence Item',
-        type: 'tag',
+        type: 'primary',
         key: 'evidenceItem',
-        hide: false,
-        width: '100px'
+        width: '100px',
       },
       {
         name: 'Molecular Profile',
         type: 'tag',
         key: 'molecularProfile',
-        hide: false,
+        width: '250px'
       },
       {
         name: 'Disease',
         type: 'tag',
         key: 'disease',
-        hide: false,
+        width: '250px',
       },
       {
         name: 'Therapies',
         type: 'tags',
         key: 'therapies',
-        hide: false,
+        width: '200px',
+      },
+      {
+        name: 'ET',
+        type: 'attribute',
+        key: 'evidenceType',
+        width: '40px',
+      },
+      // {
+      //   name: 'EL',
+      //   type: 'string',
+      //   key: 'evidenceLevel',
+      //   width: '40px',
+      // },
+      {
+        name: 'SI',
+        type: 'attribute',
+        key: 'significance',
+        width: '40px',
+      },
+      {
+        name: 'VO',
+        type: 'attribute',
+        key: 'variantOrigin',
+        width: '40px',
       },
     ]
 
@@ -296,7 +313,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           })
         }
       ),
-      startWith([])
+      startWith([]),
     )
     this.col$ = new BehaviorSubject<ColConfig[]>(this.defaultColumns)
 

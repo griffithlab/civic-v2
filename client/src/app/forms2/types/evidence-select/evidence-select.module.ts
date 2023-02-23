@@ -5,6 +5,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module'
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module'
+import { CvcAttributeTagModule } from '@app/forms2/components/attribute-tag/attribute-tag.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { LetModule, PushModule } from '@ngrx/component'
@@ -60,6 +61,7 @@ const typeConfig: ConfigOption = {
     CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcEntityTagModule,
+    CvcAttributeTagModule,
     CvcEntitySelectModule,
   ],
   exports: [CvcEvidenceSelectField],

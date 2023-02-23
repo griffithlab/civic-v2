@@ -120,9 +120,11 @@ export class CvcEvidenceSelectField
     this.onEid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
+      startWith(true),
       scan((acc, _) => !acc, false)
     )
   }
+
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn

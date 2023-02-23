@@ -3,6 +3,7 @@
   nzSize="small">
   <nz-table
     #virtualTable
+    #columnTable
     #rowSelectionTable
     cvcTableScroller
     (cvcTableScrollerOnScroll)="scrollEvent$.next($event)"
@@ -11,7 +12,7 @@
     [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
     *ngrxLet="tableData$ as data"
     [nzData]="data.rows"
-    [nzScroll]="{ x: '800px', y: '200px' }"
+    [nzScroll]="{ x: '1024px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzVirtualItemSize]="28"
     [nzFrontPagination]="false"
@@ -27,16 +28,30 @@
             [ngSwitch]="col.type">
             <th
               *ngSwitchCase="'select'"
+              nzLeft
               [nzWidth]="col.width || null"
-              [nzLeft]="col.fixed?.left || false"
-              [nzRight]="col.fixed?.right || false"
               [nzShowCheckbox]="false"
               [nzChecked]="allSelected"
               [nzIndeterminate]="allIndeterminate"
               (nzCheckedChange)="onAllSelected$.next($event)"></th>
             <th
+              *ngSwitchCase="'primary'"
+              nzLeft
+              [nzWidth]="col.width || null"
+              [nzColumnKey]="col.key">
+              {{ col.name }}
+            </th>
+            <th
+              *ngSwitchCase="'attribute'"
+              nzRight
+              [nzWidth]="col.width || null"
+              [nzColumnKey]="col.key">
+              {{ col.name }}
+            </th>
+            <th
               *ngSwitchDefault
-              nzColumnKey="col.key">
+              [nzWidth]="col.width || null"
+              [nzColumnKey]="col.key">
               {{ col.name }}
             </th>
           </ng-container>
@@ -54,19 +69,13 @@
               [ngSwitch]="col.type">
               <td
                 *ngSwitchCase="'select'"
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false"
+                nzLeft
                 [nzChecked]="row.selected"
                 (nzCheckedChange)="
                   onRowSelected$.next({ id: row.id, selected: $event })
-                "
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false"></td>
+                "></td>
 
-              <td
-                *ngSwitchCase="'tag'"
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false">
+              <td *ngSwitchCase="'primary'" nzLeft>
                 <cvc-entity-tag
                   *ngrxLet="row[col.key] as entity"
                   [cvcCacheId]="
@@ -74,10 +83,15 @@
                   "></cvc-entity-tag>
               </td>
 
-              <td
-                *ngSwitchCase="'tags'"
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false">
+              <td *ngSwitchCase="'tag'">
+                <cvc-entity-tag
+                  *ngrxLet="row[col.key] as entity"
+                  [cvcCacheId]="
+                    entity.__typename + ':' + entity.id
+                  "></cvc-entity-tag>
+              </td>
+
+              <td *ngSwitchCase="'tags'">
                 <cvc-entity-tag
                   *ngFor="let entity of row[col.key]"
                   [cvcCacheId]="
@@ -85,24 +99,20 @@
                   "></cvc-entity-tag>
               </td>
 
-              <td
-                *ngSwitchCase="'enum'"
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false">
+              <td *ngSwitchCase="'attribute'" nzRight>
+                <cvc-attribute-tag
+                  [cvcAttrValue]="row[col.key]"
+                  [cvcShowLabel]="false"
+                  [cvcTooltip]="
+                    row[col.key] | evidenceEnumDisplay
+                  "></cvc-attribute-tag>
+              </td>
+
+              <td *ngSwitchCase="'string'">
                 {{ row[col.key] }}
               </td>
 
-              <td
-                *ngSwitchCase="'string'"
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false">
-                {{ row[col.key] }}
-              </td>
-
-              <td
-                *ngSwitchCase="'number'"
-                [nzLeft]="col.fixed?.left || false"
-                [nzRight]="col.fixed?.right || false">
+              <td *ngSwitchCase="'number'">
                 {{ row[col.key] }}
               </td>
 

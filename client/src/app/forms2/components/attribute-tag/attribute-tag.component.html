@@ -3,7 +3,11 @@
   *ngIf="cvcContext === 'default'"
   [nzMode]="cvcMode"
   (nzOnClose)="cvcOnClose.next($event)">
-  <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  <span
+    nz-tooltip
+    [nzTooltipTitle]="cvcTooltip">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </span>
 </nz-tag>
 
 <!-- if select-item context, tag is being displayed in a non-multi nz-select,
@@ -16,7 +20,7 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
     (nzOnClose)="cvcOnClose.next($event)">
     <span
       nz-tooltip
-      nzTooltipTitle="POPUP">
+      [nzTooltipTitle]="cvcTooltip">
       <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
     </span>
   </nz-tag>
@@ -26,13 +30,14 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <span
     *ngIf="cvcAttrValue"
     nz-icon
-    [nzType]="cvcAttrValue | evidenceEnumDisplay: 'icon-name'"
+    [nzType]="cvcAttrValue | evidenceEnumDisplay : 'icon-name'"
     class="tag-icon"></span>
   <span
+    *ngIf="cvcShowLabel"
     class="tag-label"
     [innerHtml]="
       cvcAttrValue
-        | evidenceEnumDisplay: 'display-string'
-        | highlightTypeahead: cvcEmphasize
+        | evidenceEnumDisplay : 'display-string'
+        | highlightTypeahead : cvcEmphasize
     "></span>
 </ng-template>
