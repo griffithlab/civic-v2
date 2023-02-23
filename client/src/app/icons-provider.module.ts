@@ -262,7 +262,6 @@ export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
     }
     defs.push(def)
   })
-  console.log(defs)
   return defs
 }
 

@@ -16,6 +16,7 @@ import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
+  Maybe,
   TherapySelectTagGQL,
   TherapySelectTagQuery,
   TherapySelectTagQueryVariables,
@@ -23,7 +24,6 @@ import {
   TherapySelectTypeaheadGQL,
   TherapySelectTypeaheadQuery,
   TherapySelectTypeaheadQueryVariables,
-  Maybe,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -37,9 +37,7 @@ import {
   combineLatest,
   distinctUntilChanged,
   Subject,
-  withLatestFrom,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcTherapySelectFieldOptions = Partial<

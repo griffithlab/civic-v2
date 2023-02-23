@@ -16,6 +16,7 @@ import {
 } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
+  combineLatest,
   defer,
   distinctUntilChanged,
   filter,
@@ -27,6 +28,7 @@ import {
   of,
   ReplaySubject,
   skip,
+  startWith,
   Subject,
   switchMap,
   tap,
@@ -170,7 +172,7 @@ export function EntitySelectField<
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
-        this.onSearch$ = new Subject<Maybe<string>>()
+        this.onSearch$ = new BehaviorSubject<Maybe<string>>(undefined)
         this.isLoading$ = new Observable<boolean>()
         this.result$ = new BehaviorSubject<TAF[]>([])
         this.onPopulate$ = new Subject<CvcEntitySelectFieldModel>()
@@ -180,11 +182,6 @@ export function EntitySelectField<
         this.selectOption$ = new BehaviorSubject<
           Maybe<NzSelectOptionInterface[]>
         >(undefined)
-
-        // if (this.field.key === 'variantId')
-        //   this.selectOption$
-        //     .pipe(tag(`${this.field.key} entity-select-field selectOption$`))
-        //     .subscribe()
 
         // set up typeahead watch & fetch calls
         this.response$ = this.onSearch$.pipe(
@@ -283,7 +280,9 @@ export function EntitySelectField<
           // option template instance, getSelectOptions() generates a NzSelectOption that
           // attaches the pre-generated option template to a result value.
           this.optionTemplates.changes
-            .pipe(withLatestFrom(this.result$), untilDestroyed(this))
+            .pipe(withLatestFrom(this.result$),
+                  tag('entity-select mixin optionTemplates'),
+                  untilDestroyed(this))
             .subscribe(
               ([tplRefs, results]: [QueryList<TemplateRef<any>>, TAF[]]) => {
                 const options = this.getSelectOptions(results, tplRefs)
@@ -292,7 +291,7 @@ export function EntitySelectField<
               }
             )
         }
-        this.result$.pipe(tag('entity-select result$')).subscribe()
+        // this.result$.pipe(tag('entity-select result$')).subscribe()
         this.onPopulate$
           .pipe(
             filter(isNonNulled),
@@ -318,6 +317,7 @@ export function EntitySelectField<
             } else {
               newValue = options[0]!.id
             }
+
             this.formControl.setValue(newValue)
           })
         // .subscribe((value: <CvcEntitySelectFieldModel>) => {})

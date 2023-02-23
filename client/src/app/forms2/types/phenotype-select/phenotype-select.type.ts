@@ -9,12 +9,12 @@ import {
   ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import {
+  Maybe,
   PhenotypeSelectTagGQL,
   PhenotypeSelectTagQuery,
   PhenotypeSelectTagQueryVariables,
@@ -22,17 +22,14 @@ import {
   PhenotypeSelectTypeaheadGQL,
   PhenotypeSelectTypeaheadQuery,
   PhenotypeSelectTypeaheadQueryVariables,
-  Maybe,
 } from '@app/generated/civic.apollo'
-import { untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
+import { BehaviorSubject, Subject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcPhenotypeSelectFieldOptions = Partial<

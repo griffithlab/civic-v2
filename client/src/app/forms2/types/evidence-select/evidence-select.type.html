@@ -1,11 +1,5 @@
 <nz-row [nzGutter]="[6, 6]">
   <nz-col nzFlex="auto">
-    <pre>
-selectOption$:
-{{ selectOption$ | ngrxPush | json }}
-result$:
-{{ result$ | ngrxPush | json }}
-    </pre>
     <cvc-entity-select
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcMinSearchStrLength]="props.minSearchStrLength"

@@ -1,40 +1,34 @@
 import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    QueryList,
-    TemplateRef,
-    Type,
-    ViewChildren
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  QueryList,
+  TemplateRef,
+  Type,
+  ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import {
-    EvidenceSelectTagGQL,
-    EvidenceSelectTagQuery,
-    EvidenceSelectTagQueryVariables,
-    EvidenceSelectTypeaheadFieldsFragment,
-    EvidenceSelectTypeaheadGQL,
-    EvidenceSelectTypeaheadQuery,
-    EvidenceSelectTypeaheadQueryVariables,
-    Maybe
+  EvidenceSelectTagGQL,
+  EvidenceSelectTagQuery,
+  EvidenceSelectTagQueryVariables,
+  EvidenceSelectTypeaheadFieldsFragment,
+  EvidenceSelectTypeaheadGQL,
+  EvidenceSelectTypeaheadQuery,
+  EvidenceSelectTypeaheadQueryVariables,
+  Maybe,
 } from '@app/generated/civic.apollo'
 import {
-    FieldTypeConfig,
-    FormlyFieldConfig,
-    FormlyFieldProps
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyFieldProps,
 } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import {
-    Observable,
-    ReplaySubject,
-    scan,
-    startWith,
-    Subject
-} from 'rxjs'
+import { Observable, ReplaySubject, scan, startWith, Subject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
@@ -119,7 +113,7 @@ export class CvcEvidenceSelectField
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       startWith(true),
-      scan((acc, _) => !acc, false),
+      scan((acc, _) => !acc, false)
     )
   }
   ngAfterViewInit(): void {
@@ -136,12 +130,14 @@ export class CvcEvidenceSelectField
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
       selectOpen$: this.selectOpen$,
-      selectComponent: this.selectComponent
+      selectComponent: this.selectComponent,
     })
   }
+
   private configureStateConnections() {
     if (!this.state) return
   }
+
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {
     return {
       eid: +id,
@@ -173,10 +169,7 @@ export class CvcEvidenceSelectField
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (
-        evidenceItem: EvidenceSelectTypeaheadFieldsFragment,
-        index: number
-      ) => {
+      (evidenceItem: EvidenceSelectTypeaheadFieldsFragment, index: number) => {
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || `EID${evidenceItem.id}`,
           value: evidenceItem.id,
