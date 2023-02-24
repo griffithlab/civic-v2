@@ -22,10 +22,8 @@
     [nzLoading]="loading$ | ngrxPush"
     nzSize="small"
     (nzQueryParams)="onParamsChange$.next($event)">
-    <thead>
-      <tr
-        class="col-header-row"
-        *ngrxLet="col$ as cols">
+    <thead *ngrxLet="col$ as cols">
+      <tr class="col-header-row">
         <th
           *ngIf="!cols.selected.hide"
           nzAlign="left"
@@ -34,9 +32,7 @@
           [nzShowCheckbox]="false"
           [nzChecked]="allSelected"
           [nzIndeterminate]="allIndeterminate"
-          (nzCheckedChange)="onAllSelected$.next($event)">
-          Evidence Item
-        </th>
+          (nzCheckedChange)="onAllSelected$.next($event)"></th>
         <th
           *ngIf="!cols.id.hide"
           [nzWidth]="cols.id.width"
@@ -46,25 +42,29 @@
         <th
           *ngIf="!cols.evidenceItem.hide"
           [nzWidth]="cols.evidenceItem.width"
-          nzColumnKey="evidenceItem">
+          nzColumnKey="evidenceItem"
+          [nzShowSort]="cols.evidenceItem.showSort">
           {{ cols.evidenceItem.name }}
         </th>
         <th
           *ngIf="!cols.molecularProfile.hide"
           [nzWidth]="cols.molecularProfile.width"
-          nzColumnKey="molecularProfile">
+          nzColumnKey="molecularProfile"
+          [nzShowSort]="true">
           {{ cols.molecularProfile.name }}
         </th>
         <th
           *ngIf="!cols.disease.hide"
           [nzWidth]="cols.disease.width"
-          nzColumnKey="disease">
+          nzColumnKey="disease"
+          [nzShowSort]="true">
           {{ cols.disease.name }}
         </th>
         <th
           *ngIf="!cols.therapies.hide"
           [nzWidth]="cols.therapies.width"
-          nzColumnKey="therapies">
+          nzColumnKey="therapies"
+          [nzShowSort]="true">
           {{ cols.therapies.name }}
         </th>
         <!-- TODO: INTERACTION TYPE -->
@@ -72,39 +72,126 @@
         <th
           *ngIf="!cols.evidenceLevel.hide"
           [nzWidth]="cols.evidenceLevel.width"
-          nzColumnKey="evidenceLevel">
+          nzColumnKey="evidenceLevel"
+          [nzShowSort]="true">
           {{ cols.evidenceLevel.name }}
         </th>
         <th
           *ngIf="!cols.evidenceType.hide"
           [nzWidth]="cols.evidenceType.width"
-          nzColumnKey="evidenceType">
+          nzColumnKey="evidenceType"
+          [nzShowSort]="true">
           {{ cols.evidenceType.name }}
         </th>
         <th
           *ngIf="!cols.evidenceDirection.hide"
           [nzWidth]="cols.evidenceDirection.width"
-          nzColumnKey="evidenceDirection">
+          nzColumnKey="evidenceDirection"
+          [nzShowSort]="true">
           {{ cols.evidenceDirection.name }}
         </th>
         <th
           *ngIf="!cols.significance.hide"
           [nzWidth]="cols.significance.width"
-          nzColumnKey="significance">
+          nzColumnKey="significance"
+          [nzShowSort]="true">
           {{ cols.significance.name }}
         </th>
         <th
           *ngIf="!cols.variantOrigin.hide"
           [nzWidth]="cols.variantOrigin.width"
-          nzColumnKey="variantOrigin">
+          nzColumnKey="variantOrigin"
+          [nzShowSort]="true">
           {{ cols.variantOrigin.name }}
         </th>
         <th
           *ngIf="!cols.evidenceRating.hide"
           [nzWidth]="cols.evidenceRating.width"
-          nzColumnKey="evidenceRating">
+          nzColumnKey="evidenceRating"
+          [nzShowSort]="true">
           {{ cols.evidenceRating.name }}
         </th>
+      </tr>
+      <tr class="filter-row">
+        <th
+          *ngIf="!cols.selected.hide"
+          nzColumnKey="selected"
+          nzLeft
+          [nzWidth]="cols.selected.width"></th>
+        <th
+          *ngIf="!cols.id.hide"
+          nzColumnKey="id"
+          [nzWidth]="cols.id.width">
+          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+        </th>
+        <th
+          *ngIf="!cols.evidenceItem.hide"
+          nzColumnKey="evidenceItem"
+          [nzWidth]="cols.evidenceItem.width">
+          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+        </th>
+        <th
+          *ngIf="!cols.molecularProfile.hide"
+          nzColumnKey="molecularProfile"
+          [nzWidth]="cols.molecularProfile.width">
+          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+        </th>
+        <th
+          *ngIf="!cols.disease.hide"
+          nzColumnKey="disease"
+          [nzWidth]="cols.disease.width">
+          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+        </th>
+        <th
+          *ngIf="!cols.therapies.hide"
+          nzColumnKey="therapies"
+          [nzWidth]="cols.therapies.width">
+          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+        </th>
+        <!-- TODO: INTERACTION TYPE -->
+        <!-- TODO: DESCRIPTION -->
+        <th
+          *ngIf="!cols.evidenceLevel.hide"
+          nzColumnKey="evidenceLevel"
+          class="attribute-filter"
+          [nzWidth]="cols.evidenceLevel.width"
+          nzAlign="center"
+          [nzShowFilter]="true"></th>
+        <th
+          *ngIf="!cols.evidenceType.hide"
+          nzColumnKey="evidenceType"
+          class="attribute-filter"
+          [nzWidth]="cols.evidenceType.width"
+          nzAlign="center"
+          [nzShowFilter]="true"></th>
+        <th
+          *ngIf="!cols.evidenceDirection.hide"
+          nzColumnKey="evidenceDirection"
+          class="attribute-filter"
+          [nzWidth]="cols.evidenceDirection.width"
+          nzAlign="center"
+          [nzShowFilter]="true"></th>
+        <th
+          *ngIf="!cols.significance.hide"
+          nzColumnKey="significance"
+          class="attribute-filter"
+          [nzWidth]="cols.significance.width"
+          nzAlign="center"
+          [nzShowFilter]="true"></th>
+        <th
+          *ngIf="!cols.variantOrigin.hide"
+          nzColumnKey="variantOrigin"
+          class="attribute-filter"
+          [nzWidth]="cols.variantOrigin.width"
+          nzAlign="center"
+          [nzShowFilter]="true"></th>
+        <th
+          *ngIf="!cols.evidenceRating.hide"
+          nzColumnKey="evidenceRating"
+          class="attribute-filter"
+          [nzWidth]="cols.evidenceRating.width"
+          nzAlign="center"
+          [nzShowFilter]="true"></th>
       </tr>
     </thead>
     <tbody>
@@ -121,12 +208,7 @@
             nzAlign="left"
             (nzCheckedChange)="
               onRowSelected$.next({ id: row.id, selected: $event })
-            ">
-            <cvc-entity-tag
-              [cvcCacheId]="
-                'EvidenceItem' + ':' + row.evidenceItem.id
-              "></cvc-entity-tag>
-          </td>
+            "></td>
 
           <td *ngIf="!cols.id.hide">
             {{ row.id }}
@@ -157,11 +239,15 @@
               [cvcCacheId]="'Therapy' + ':' + therapy.id"></cvc-entity-tag>
           </td>
 
-          <td *ngIf="!cols.evidenceLevel.hide">
+          <td
+            *ngIf="!cols.evidenceLevel.hide"
+            nzAlign="center">
             {{ row.evidenceLevel }}
           </td>
 
-          <td *ngIf="!cols.evidenceType.hide">
+          <td
+            *ngIf="!cols.evidenceType.hide"
+            nzAlign="center">
             <cvc-attribute-tag
               [cvcAttrValue]="row.evidenceType"
               [cvcShowLabel]="false"
@@ -170,7 +256,9 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.evidenceDirection.hide">
+          <td
+            *ngIf="!cols.evidenceDirection.hide"
+            nzAlign="center">
             <cvc-attribute-tag
               [cvcAttrValue]="row.evidenceDirection"
               [cvcShowLabel]="false"
@@ -179,7 +267,9 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.significance.hide">
+          <td
+            *ngIf="!cols.significance.hide"
+            nzAlign="center">
             <cvc-attribute-tag
               [cvcAttrValue]="row.significance"
               [cvcShowLabel]="false"
@@ -188,7 +278,9 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.variantOrigin.hide">
+          <td
+            *ngIf="!cols.variantOrigin.hide"
+            nzAlign="center">
             <cvc-attribute-tag
               [cvcAttrValue]="row.variantOrigin"
               [cvcShowLabel]="false"
@@ -197,7 +289,9 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.evidenceRating.hide">
+          <td
+            *ngIf="!cols.evidenceRating.hide"
+            nzAlign="center">
             {{ row.evidenceRating }}
           </td>
         </tr>
@@ -205,13 +299,31 @@
     </tbody>
   </nz-table>
 </nz-card>
-<ng-template #emptyCell
-  ><span
+
+<ng-template #columnFilterInput>
+  <nz-input-group
+    [nzSuffix]="suffixIconSearch"
+    nzSize="small">
+    <input
+      nz-input
+      placeholder="" />
+  </nz-input-group>
+  <ng-template #suffixIconSearch>
+    <span
+      nz-icon
+      nzType="search"
+      style="color: #ddd"></span>
+  </ng-template>
+</ng-template>
+
+<ng-template #emptyCell>
+  <span
     nz-typeography
-    nzType="secondary"
-    >--</span
-  ></ng-template
->
+    nzType="secondary">
+    --
+  </span>
+</ng-template>
+
 <ng-template #cardTitle>
   <span>Use checkboxes to select or deselect EIDs</span>
   <ng-container *ngIf="queryError$ | ngrxPush as err">
@@ -239,7 +351,7 @@
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-<!-- <nz-tag
+  <!-- <nz-tag
     *ngIf="loading$ | ngrxPush"
     nzColor="processing">
     <i

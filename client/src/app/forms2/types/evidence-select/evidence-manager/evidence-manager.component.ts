@@ -92,15 +92,11 @@ type ColConfig = {
   width: string
   hide?: boolean
   filter?: {
+    showFilter: boolean
     listOfFilter: NzTableFilterList
-    filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
     filterMultiple: boolean
   }
-  sort?: {
-    sortDirections: NzTableSortOrder[]
-    sortOrder?: NzTableSortOrder | null
-    sortFn?: NzTableSortFn<EvidenceManagerFieldsFragment> | null
-  }
+  showSort?: boolean
 }
 
 type ColumnsModel = {
@@ -182,11 +178,11 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       selected: {
         name: 'Select',
         hide: false,
-        width: '120px',
+        width: '30px',
       },
       id: {
         name: 'ID',
-        width: '20px',
+        width: '30px',
         hide: true,
       },
       status: {
@@ -196,8 +192,8 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       },
       evidenceItem: {
         name: 'Evidence Item',
-        width: '100px',
-        hide: true,
+        width: '120px',
+        showSort: true
       },
       molecularProfile: {
         name: 'Molecular Profile',
@@ -251,7 +247,6 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       })
 
     this.onParamsChange$.pipe(tag('onParamsChange$')).subscribe()
-    this.onScrollFetch$.pipe(tag('onScrollFetch$')).subscribe()
 
     this.queryResult$ = combineLatest([
       this.onParamsChange$,
@@ -307,7 +302,6 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           return {}
         }
       }),
-      tag('queryError$')
     )
 
     this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))

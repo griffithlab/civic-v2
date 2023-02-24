@@ -26,8 +26,13 @@ tr.col-header-row
   text-align: right;
 }
 
-tr.filter-row th.ant-table-cell {
-  padding: 3px 4px;
+tr.filter-row th {
+  &.ant-table-cell {
+    padding: 3px 4px;
+  }
+  &.attribute-filter {
+  padding-right: 16px;
+  }
 }
 
 tr.data-row td.ant-table-cell {

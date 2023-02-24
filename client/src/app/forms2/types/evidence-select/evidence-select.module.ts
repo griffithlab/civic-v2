@@ -15,6 +15,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
@@ -55,6 +56,7 @@ const typeConfig: ConfigOption = {
 
     NzButtonModule,
     NzFormModule,
+    NzInputModule,
     NzIconModule,
     NzGridModule,
     NzTableModule,
