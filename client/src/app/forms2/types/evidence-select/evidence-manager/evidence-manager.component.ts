@@ -216,6 +216,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       evidenceRating: {
         name: 'ER',
         width: '40px',
+        hide: false
       },
       significance: {
         name: 'SI',

@@ -34,14 +34,12 @@
           (nzCheckedChange)="onAllSelected$.next($event)"></th>
         <th
           *ngIf="!cols.id.hide"
-          nzLeft
           [nzWidth]="cols.id.width"
           nzColumnKey="id">
           {{ cols.id.name }}
         </th>
         <th
           *ngIf="!cols.evidenceItem.hide"
-          nzLeft
           [nzWidth]="cols.evidenceItem.width"
           nzColumnKey="evidenceItem">
           {{ cols.evidenceItem.name }}
@@ -68,42 +66,36 @@
         <!-- TODO: DESCRIPTION -->
         <th
           *ngIf="!cols.evidenceLevel.hide"
-          nzRight
           [nzWidth]="cols.evidenceLevel.width"
           nzColumnKey="evidenceLevel">
           {{ cols.evidenceLevel.name }}
         </th>
         <th
           *ngIf="!cols.evidenceType.hide"
-          nzRight
           [nzWidth]="cols.evidenceType.width"
           nzColumnKey="evidenceType">
           {{ cols.evidenceType.name }}
         </th>
         <th
           *ngIf="!cols.evidenceDirection.hide"
-          nzRight
           [nzWidth]="cols.evidenceDirection.width"
           nzColumnKey="evidenceDirection">
           {{ cols.evidenceDirection.name }}
         </th>
         <th
           *ngIf="!cols.significance.hide"
-          nzRight
           [nzWidth]="cols.significance.width"
           nzColumnKey="significance">
           {{ cols.significance.name }}
         </th>
         <th
           *ngIf="!cols.variantOrigin.hide"
-          nzRight
           [nzWidth]="cols.variantOrigin.width"
           nzColumnKey="variantOrigin">
           {{ cols.variantOrigin.name }}
         </th>
         <th
           *ngIf="!cols.evidenceRating.hide"
-          nzRight
           [nzWidth]="cols.evidenceRating.width"
           nzColumnKey="evidenceRating">
           {{ cols.evidenceRating.name }}
@@ -125,15 +117,11 @@
               onRowSelected$.next({ id: row.id, selected: $event })
             "></td>
 
-          <td
-            *ngIf="!cols.id.hide"
-            nzLeft>
+          <td *ngIf="!cols.id.hide">
             {{ row.id }}
           </td>
 
-          <td
-            *ngIf="!cols.evidenceItem.hide"
-            nzLeft>
+          <td *ngIf="!cols.evidenceItem.hide">
             <cvc-entity-tag
               [cvcCacheId]="
                 'EvidenceItem' + ':' + row.evidenceItem.id
@@ -158,13 +146,11 @@
               [cvcCacheId]="'Therapy' + ':' + therapy.id"></cvc-entity-tag>
           </td>
 
-          <td *ngIf="!cols.evidenceLevel.hide"
-            nzRight>
-            {{ row.evidenceLevel  }}
+          <td *ngIf="!cols.evidenceLevel.hide">
+            {{ row.evidenceLevel }}
           </td>
 
-          <td *ngIf="!cols.evidenceType.hide"
-            nzRight>
+          <td *ngIf="!cols.evidenceType.hide">
             <cvc-attribute-tag
               [cvcAttrValue]="row.evidenceType"
               [cvcShowLabel]="false"
@@ -173,8 +159,7 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.evidenceDirection.hide"
-            nzRight>
+          <td *ngIf="!cols.evidenceDirection.hide">
             <cvc-attribute-tag
               [cvcAttrValue]="row.evidenceDirection"
               [cvcShowLabel]="false"
@@ -183,8 +168,7 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.significance.hide"
-            nzRight>
+          <td *ngIf="!cols.significance.hide">
             <cvc-attribute-tag
               [cvcAttrValue]="row.significance"
               [cvcShowLabel]="false"
@@ -193,8 +177,7 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.variantOrigin.hide"
-            nzRight>
+          <td *ngIf="!cols.variantOrigin.hide">
             <cvc-attribute-tag
               [cvcAttrValue]="row.variantOrigin"
               [cvcShowLabel]="false"
@@ -203,14 +186,8 @@
               "></cvc-attribute-tag>
           </td>
 
-          <td *ngIf="!cols.evidenceRating.hide"
-            nzRight>
-            <cvc-attribute-tag
-              [cvcAttrValue]="row.evidenceRating"
-              [cvcShowLabel]="false"
-              [cvcTooltip]="
-                row.evidenceRating | evidenceEnumDisplay
-              "></cvc-attribute-tag>
+          <td *ngIf="!cols.evidenceRating.hide">
+            {{ row.evidenceRating }}
           </td>
         </tr>
       </ng-template>
