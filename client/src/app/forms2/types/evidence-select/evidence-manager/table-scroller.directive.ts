@@ -22,6 +22,7 @@ import {
 } from 'rxjs/operators'
 
 export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
+export type ScrollFetch = { first?: number; after?: string }
 
 @UntilDestroy()
 @Directive({
@@ -29,14 +30,14 @@ export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 })
 export class TableScrollerDirective implements AfterViewInit {
   @Output() cvcTableScrollerOnScroll = new EventEmitter<ScrollEvent>()
+  @Output() cvcTableScrollerOnFetch = new EventEmitter<ScrollFetch>()
 
   // TargetHeight defines the height from the end of the viewport's
   // currently rendered rows that a 'bottom' scroll event will be emitted
   @Input() cvcTableScrollerTargetHeight: number = 140
-
   @Input() cvcTableScrollerQueryRef: Maybe<QueryRef<any, any>>
   @Input() cvcTableScrollerPageInfo: Maybe<PageInfo>
-  @Input() cvcTableScrollerFetchCount: Maybe<number> = 25
+  @Input() cvcTableScrollerFetchCount: Maybe<number> = 50
 
   // call viewport scrollToIndex with provided index value
   @Input()
@@ -64,9 +65,7 @@ export class TableScrollerDirective implements AfterViewInit {
   // observable of all rowsRendered events from viewport
   private rendered$?: Observable<any>
 
-  constructor(private host: NzTableComponent<any>) {
-    console.log('table-scroll.directive constructor()')
-  }
+  constructor(private host: NzTableComponent<any>) {}
 
   ngAfterViewInit() {
     if (this.host && this.host.cdkVirtualScrollViewport) {
@@ -121,7 +120,9 @@ export class TableScrollerDirective implements AfterViewInit {
         pairwise(),
         // pass only down scroll && bottom offsets within target height
         filter(([offset1, offset2]) => {
-          return offset2 < offset1 && offset2 < this.cvcTableScrollerTargetHeight
+          return (
+            offset2 < offset1 && offset2 < this.cvcTableScrollerTargetHeight
+          )
         }),
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
@@ -155,11 +156,9 @@ export class TableScrollerDirective implements AfterViewInit {
       ]
       if (fetchCount && endCursor) {
         if (hasNextPage) {
-          queryRef.fetchMore({
-            variables: {
-              first: fetchCount,
-              after: endCursor,
-            },
+          this.cvcTableScrollerOnFetch.next({
+            first: fetchCount,
+            after: endCursor,
           })
         } else {
           return

@@ -1,5 +1,6 @@
 <nz-card
   [nzTitle]="cardTitle"
+  [nzExtra]="extraTemplate"
   nzSize="small">
   <nz-table
     #virtualTable
@@ -7,6 +8,7 @@
     #rowSelectionTable
     cvcTableScroller
     (cvcTableScrollerOnScroll)="scrollEvent$.next($event)"
+    (cvcTableScrollerOnFetch)="onScrollFetch$.next($event)"
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
@@ -210,4 +212,41 @@
     >--</span
   ></ng-template
 >
-<ng-template #cardTitle>Use checkboxes to select or deselect EIDs</ng-template>
+<ng-template #cardTitle>
+  <span>Use checkboxes to select or deselect EIDs</span>
+  <ng-container *ngIf="queryError$ | ngrxPush as err">
+    <nz-tag
+      nzColor="error"
+      *ngIf="err.errors"
+      style="margin-left: 12px">
+      <span
+        nz-tooltip
+        [nzTooltipTitle]="queryError"
+        [nzTooltipTitleContext]="{ $implicit: err.errors }"
+        style="cursor: help">
+        Query Error
+      </span>
+    </nz-tag>
+    <ng-template
+      #queryError
+      let-errors>
+      <div *ngFor="let error of errors">
+        {{ error.message }}
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
+<!-- card's extra template -->
+<ng-template #extraTemplate>
+<!-- <nz-tag
+    *ngIf="loading$ | ngrxPush"
+    nzColor="processing">
+    <i
+      nz-icon
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
+  </nz-tag> -->
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+</ng-template>

@@ -16,6 +16,8 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
 import { TableScrollerDirective } from './evidence-manager/table-scroller.directive'
 import {
@@ -57,6 +59,8 @@ const typeConfig: ConfigOption = {
     NzGridModule,
     NzTableModule,
     NzCardModule,
+    NzTagModule,
+    NzToolTipModule,
 
     CvcNoMoreRowsModule,
     CvcPipesModule,

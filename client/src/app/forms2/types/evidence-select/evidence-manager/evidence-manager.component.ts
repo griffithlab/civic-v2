@@ -9,7 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
+import { ApolloError, ApolloQueryResult } from '@apollo/client/core'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
   EvidenceManagerFieldsFragment,
@@ -17,10 +17,12 @@ import {
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
   EvidenceType,
+  Maybe,
   PageInfo,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
+import { GraphQLError } from 'graphql'
 import { NzSafeAny } from 'ng-zorro-antd/core/types'
 import {
   NzTableFilterFn,
@@ -31,6 +33,7 @@ import {
 } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   defer,
   distinctUntilChanged,
@@ -39,16 +42,21 @@ import {
   iif,
   map,
   Observable,
+  of,
   ReplaySubject,
+  shareReplay,
   startWith,
   Subject,
   switchMap,
+  takeUntil,
+  takeWhile,
+  throwError,
   withLatestFrom,
-  take,
 } from 'rxjs'
-import { combineLatestObject, isNonNulled } from 'rxjs-etc'
+import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
+import { ScrollFetch } from './table-scroller.directive'
 
 type EvidenceManagerConnection = {
   totalCount: number
@@ -104,6 +112,11 @@ type RowSelection = {
   id: number
 }
 
+type QueryError = {
+  error?: ApolloError
+  errors?: ReadonlyArray<GraphQLError>
+}
+
 @UntilDestroy()
 @Component({
   selector: 'cvc-evidence-manager',
@@ -121,6 +134,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   onRowSelected$: Subject<RowSelection>
   onAllSelected$: Subject<boolean>
   onParamsChange$: ReplaySubject<NzTableQueryParams>
+  onScrollFetch$: BehaviorSubject<ScrollFetch>
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
@@ -135,6 +149,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   scrollEvent$: BehaviorSubject<ScrollEvent>
   scrollIndex$: Subject<number>
   pageInfo$!: Observable<PageInfo>
+  queryError$: Observable<Maybe<QueryError>>
 
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
@@ -156,10 +171,12 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onAllSelected$ = new Subject<boolean>()
+    this.onScrollFetch$ = new BehaviorSubject<ScrollFetch>({})
+    this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
     this.scrollIndex$ = new Subject<number>()
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
-    this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.queryError$ = new Observable<QueryError>()
 
     this.initialColumns = {
       selected: {
@@ -180,7 +197,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       evidenceItem: {
         name: 'Evidence Item',
         width: '100px',
-        hide: true
+        hide: true,
       },
       molecularProfile: {
         name: 'Molecular Profile',
@@ -209,7 +226,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       evidenceRating: {
         name: 'ER',
         width: '40px',
-        hide: false
+        hide: false,
       },
       significance: {
         name: 'SI',
@@ -222,11 +239,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     }
 
     this.onRowSelected$
-      .pipe(
-        withLatestFrom(this.selectedRow$),
-        tag('onRowSelected$'),
-        untilDestroyed(this)
-      )
+      .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
       .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
         if (event.selected) {
           selected.add(event.id)
@@ -237,9 +250,15 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    this.queryResult$ = this.onParamsChange$.pipe(
-      switchMap((params: NzTableQueryParams) => {
-        const query = this.getQueryVars(params)
+    this.onParamsChange$.pipe(tag('onParamsChange$')).subscribe()
+    this.onScrollFetch$.pipe(tag('onScrollFetch$')).subscribe()
+
+    this.queryResult$ = combineLatest([
+      this.onParamsChange$,
+      this.onScrollFetch$,
+    ]).pipe(
+      switchMap(([params, fetch]: [NzTableQueryParams, ScrollFetch]) => {
+        const query = this.getQueryVars(params, fetch)
 
         // helper functions for iif operator:
         const watchQuery = (query: EvidenceManagerQueryVariables) => {
@@ -272,15 +291,34 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           defer(() => watchQuery(query)), // true
           defer(() => fetchQuery(query)) // false
         )
-      })
+      }),
+      // tag('evidence-manager queryResult$ end'),
+      shareReplay()
     ) // end this.queryResult$
 
+    this.queryError$ = this.queryResult$.pipe(
+      map((result) => {
+        if (result.errors || result.error) {
+          return {
+            errors: result.errors,
+            error: result.error,
+          }
+        } else {
+          return {}
+        }
+      }),
+      tag('queryError$')
+    )
+
     this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
+
     // provided to table-scroll directive for fetchMore queries
     this.pageInfo$ = this.connection$.pipe(
       pluck('pageInfo'),
       filter(isNonNulled)
     )
+
+    // add additional row attributes for column data not included response
     this.row$ = combineLatest([
       this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
       this.selectedRow$,
@@ -339,8 +377,11 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
-  getQueryVars(params: NzTableQueryParams): EvidenceManagerQueryVariables {
-    return { evidenceType: EvidenceType.Predictive }
+  getQueryVars(
+    params: NzTableQueryParams,
+    fetch: ScrollFetch
+  ): EvidenceManagerQueryVariables {
+    return { evidenceType: EvidenceType.Predictive, ...params, ...fetch }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

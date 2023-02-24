@@ -281,7 +281,7 @@ export function EntitySelectField<
           this.optionTemplates.changes
             .pipe(
               withLatestFrom(this.result$),
-              tag('entity-select mixin optionTemplates'),
+              // tag('entity-select mixin optionTemplates'),
               untilDestroyed(this)
             )
             .subscribe(
