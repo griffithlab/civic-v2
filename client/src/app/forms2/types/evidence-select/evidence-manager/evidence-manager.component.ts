@@ -88,10 +88,6 @@ type ColConfig = {
     filterFn?: NzTableFilterFn<EvidenceManagerFieldsFragment> | null
     filterMultiple: boolean
   }
-  select?: {
-    selected: boolean
-    indeterminate: boolean
-  }
   sort?: {
     sortDirections: NzTableSortOrder[]
     sortOrder?: NzTableSortOrder | null
@@ -169,11 +165,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       selected: {
         name: 'Select',
         hide: false,
-        width: '40px',
-        select: {
-          selected: false,
-          indeterminate: false,
-        },
+        width: '120px',
       },
       id: {
         name: 'ID',
@@ -188,6 +180,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       evidenceItem: {
         name: 'Evidence Item',
         width: '100px',
+        hide: true
       },
       molecularProfile: {
         name: 'Molecular Profile',

@@ -26,12 +26,15 @@
         *ngrxLet="col$ as cols">
         <th
           *ngIf="!cols.selected.hide"
+          nzAlign="left"
           nzLeft
           [nzWidth]="cols.selected.width"
           [nzShowCheckbox]="false"
           [nzChecked]="allSelected"
           [nzIndeterminate]="allIndeterminate"
-          (nzCheckedChange)="onAllSelected$.next($event)"></th>
+          (nzCheckedChange)="onAllSelected$.next($event)">
+          Evidence Item
+        </th>
         <th
           *ngIf="!cols.id.hide"
           [nzWidth]="cols.id.width"
@@ -113,9 +116,15 @@
             *ngIf="!cols.selected.hide"
             nzLeft
             [nzChecked]="row.selected"
+            nzAlign="left"
             (nzCheckedChange)="
               onRowSelected$.next({ id: row.id, selected: $event })
-            "></td>
+            ">
+            <cvc-entity-tag
+              [cvcCacheId]="
+                'EvidenceItem' + ':' + row.evidenceItem.id
+              "></cvc-entity-tag>
+          </td>
 
           <td *ngIf="!cols.id.hide">
             {{ row.id }}
