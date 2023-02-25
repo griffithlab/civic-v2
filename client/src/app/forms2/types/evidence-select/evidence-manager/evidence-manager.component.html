@@ -29,8 +29,7 @@
           nzAlign="left"
           nzLeft
           [nzWidth]="cols.selected.width"
-          [nzShowCheckbox]="false"
-          (nzCheckedChange)="onAllSelected$.next($event)"></th>
+          [nzShowCheckbox]="false"></th>
         <th
           *ngIf="!cols.id.hide"
           [nzWidth]="cols.id.width"
@@ -377,39 +376,98 @@
 
 <ng-template #cardTitle>
   <span>Use checkboxes to select or deselect EIDs</span>
-  <ng-container *ngIf="queryError$ | ngrxPush as err">
-    <nz-tag
-      nzColor="error"
-      *ngIf="err.errors"
-      style="margin-left: 12px">
-      <span
-        nz-tooltip
-        [nzTooltipTitle]="queryError"
-        [nzTooltipTitleContext]="{ $implicit: err.errors }"
-        style="cursor: help">
-        Query Error
-      </span>
-    </nz-tag>
-    <ng-template
-      #queryError
-      let-errors>
-      <div *ngFor="let error of errors">
-        {{ error.message }}
-      </div>
-    </ng-template>
-  </ng-container>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag
-    *ngIf="(loading$ | ngrxPush) && isFetchMoreQuery"
-    nzColor="processing">
-    <i
-      nz-icon
-      nzType="sync"
-      nzSpin></i>
-    <span>Loading…</span>
-  </nz-tag>
-  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  <nz-row [nzGutter]="8">
+    <!-- loading, no more rows, and error tags -->
+    <nz-col nzFlex="auto">
+      <ng-container *ngIf="requestError$ | ngrxPush as errors">
+        <!-- loading more rows -->
+        <ng-container *ngIf="!errors?.query">
+          <nz-tag
+            *ngIf="(loading$ | ngrxPush) && isFetchMoreQuery"
+            nzColor="processing">
+            <i
+              nz-icon
+              nzType="sync"
+              nzSpin></i>
+            <span>Loading…</span>
+          </nz-tag>
+          <!-- no more rows to load -->
+          <cvc-no-more-rows
+            [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+        </ng-container>
+        <!-- request & network errors -->
+        <ng-container *ngIf="errors">
+          <nz-tag
+            *ngIf="errors.query"
+            nzColor="error"
+            style="margin-left: 12px">
+            <span
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"></span>
+            <span
+              nz-tooltip
+              [nzTooltipTitle]="queryError"
+              [nzTooltipTitleContext]="{ $implicit: errors.query }"
+              style="cursor: help">
+              Query Error{{ errors.query!.length > 1 ? 's' : '' }}
+            </span>
+          </nz-tag>
+          <nz-tag
+            *ngIf="errors.network"
+            nzColor="error"
+            style="margin-left: 12px">
+            <span
+              nz-tooltip
+              [nzTooltipTitle]="queryError"
+              [nzTooltipTitleContext]="{ $implicit: errors.network }"
+              style="cursor: help">
+              <span nz-typography>
+                <strong>
+                  Network Error{{ errors.query!.length > 1 ? 's' : '' }}
+                </strong>
+              </span>
+            </span>
+          </nz-tag>
+          <ng-template
+            #queryError
+            let-errors>
+            <div *ngFor="let error of errors">
+              {{ error.message }}
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </nz-col>
+    <!-- table preferences -->
+    <nz-col
+      nzFlex="35px"
+      class="preferences-button">
+      <button
+        nz-button
+        nz-popover
+        nzPopoverTitle="Visible Columns"
+        [nzPopoverContent]="prefsPopover"
+        [nzPopoverTrigger]="'click'"
+        type="button"
+        nzType="default"
+        nzSize="small">
+        <span
+          nz-icon
+          nzType="setting"
+          nzTheme="outline"></span>
+      </button>
+      <ng-template #prefsPopover>
+        <div class="prefs-popover">
+          <nz-checkbox-group
+            [ngModel]="colOption$ | ngrxPush"
+            (ngModelChange)="onPreference$.next($event)"></nz-checkbox-group>
+        </div>
+      </ng-template>
+    </nz-col>
+  </nz-row>
 </ng-template>
