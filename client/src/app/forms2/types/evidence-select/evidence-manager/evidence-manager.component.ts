@@ -10,15 +10,25 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { ApolloError, ApolloQueryResult } from '@apollo/client/core'
-import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import {
+  formatEvidenceEnum,
+  InputEnum,
+} from '@app/core/utilities/enum-formatters/format-evidence-enum'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { CvcInputEnum } from '@app/forms2/forms2.types'
+import {
+  EvidenceDirection,
+  EvidenceLevel,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
+  EvidenceSignificance,
+  EvidenceStatusFilter,
   EvidenceType,
   Maybe,
   PageInfo,
+  VariantOrigin,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -38,6 +48,7 @@ import {
   defer,
   distinctUntilChanged,
   filter,
+  finalize,
   from,
   iif,
   map,
@@ -52,10 +63,12 @@ import {
   takeWhile,
   throwError,
   withLatestFrom,
+  tap,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
+import { $enum, EnumWrapper } from 'ts-enum-util'
 import { ScrollFetch } from './table-scroller.directive'
 
 type EvidenceManagerConnection = {
@@ -64,6 +77,8 @@ type EvidenceManagerConnection = {
   pageInfo: PageInfo
   nodes: EvidenceManagerFieldsFragment[]
 }
+
+type FilterOption = { text: string; value: any; byDefault?: boolean }
 
 type RowDataExtra = {
   evidenceItem: { id: number; name: string; link: string }
@@ -76,6 +91,8 @@ type RowData = Pick<
   | 'molecularProfile'
   | 'disease'
   | 'therapies'
+  | 'therapyInteractionType'
+  | 'description'
   | 'evidenceType'
   | 'evidenceLevel'
   | 'evidenceRating'
@@ -92,9 +109,8 @@ type ColConfig = {
   width: string
   hide?: boolean
   filter?: {
-    showFilter: boolean
-    listOfFilter: NzTableFilterList
-    filterMultiple: boolean
+    options: FilterOption[]
+    multiple: boolean
   }
   showSort?: boolean
 }
@@ -156,9 +172,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     onSelect(...args: NzSafeAny[]): NzSafeAny
   }>
 
-  allSelected: boolean = false
-  allIndeterminate: boolean = false
-
+  isFetchMoreQuery = false
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
   isScrolling = false
@@ -193,7 +207,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       evidenceItem: {
         name: 'Evidence Item',
         width: '120px',
-        showSort: true
+        showSort: true,
       },
       molecularProfile: {
         name: 'Molecular Profile',
@@ -207,30 +221,64 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
         name: 'Therapies',
         width: '200px',
       },
+      therapyInteractionType: {
+        name: 'IT',
+        width: '30px',
+      },
+      description: {
+        name: 'DESC',
+        width: '40px',
+      },
       evidenceType: {
         name: 'ET',
         width: '40px',
+        filter: {
+          options: this.getAttributeFilters($enum(EvidenceType)),
+          multiple: false,
+        },
       },
       evidenceDirection: {
         name: 'ED',
         width: '40px',
+        filter: {
+          options: this.getAttributeFilters($enum(EvidenceDirection)),
+          multiple: false,
+        },
       },
       evidenceLevel: {
         name: 'EL',
         width: '40px',
+        filter: {
+          options: this.getAttributeFilters($enum(EvidenceLevel)),
+          multiple: false,
+        },
+      },
+      significance: {
+        name: 'SI',
+        width: '40px',
+        filter: {
+          options: this.getAttributeFilters($enum(EvidenceSignificance)),
+          multiple: false,
+        },
+      },
+      variantOrigin: {
+        name: 'VO',
+        width: '40px',
+        filter: {
+          options: this.getAttributeFilters($enum(VariantOrigin)),
+          multiple: false,
+        },
       },
       evidenceRating: {
         name: 'ER',
         width: '40px',
         hide: false,
-      },
-      significance: {
-        name: 'SI',
-        width: '40px',
-      },
-      variantOrigin: {
-        name: 'VO',
-        width: '40px',
+        filter: {
+          options: [1, 2, 3, 4, 5].map((n) => {
+            return { value: n, text: n.toString() }
+          }),
+          multiple: false,
+        },
       },
     }
 
@@ -246,7 +294,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    this.onParamsChange$.pipe(tag('onParamsChange$')).subscribe()
+    // this.onParamsChange$.pipe(tag('onParamsChange$')).subscribe()
 
     this.queryResult$ = combineLatest([
       this.onParamsChange$,
@@ -254,9 +302,9 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     ]).pipe(
       switchMap(([params, fetch]: [NzTableQueryParams, ScrollFetch]) => {
         const query = this.getQueryVars(params, fetch)
-
         // helper functions for iif operator:
         const watchQuery = (query: EvidenceManagerQueryVariables) => {
+          this.isFetchMoreQuery = false
           // calls watch() to create queryReft,
           // returns observable from initial watch() query
           this.queryRef = this.gql.watch(query)
@@ -270,6 +318,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           return this.queryRef.valueChanges
         }
         const fetchQuery = (query: EvidenceManagerQueryVariables) => {
+          this.isFetchMoreQuery = true
           // returns observable from the queryRef created with
           // watchQuery(). Since refetch() returns a promise, we convert it
           // to an observable with the from() operator
@@ -287,7 +336,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
           defer(() => fetchQuery(query)) // false
         )
       }),
-      // tag('evidence-manager queryResult$ end'),
+      tag('evidence-manager queryResult$ end'),
       shareReplay()
     ) // end this.queryResult$
 
@@ -301,7 +350,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
         } else {
           return {}
         }
-      }),
+      })
     )
 
     this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
@@ -370,6 +419,20 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {}
+
+  getAttributeFilters(
+    attrEnums: EnumWrapper,
+    byDefault?: CvcInputEnum
+  ): FilterOption[] {
+    const filters = attrEnums.getValues().map((value) => {
+      return {
+        text: formatEvidenceEnum(value),
+        value: value,
+        byDefault: byDefault === value,
+      }
+    })
+    return filters
+  }
 
   getQueryVars(
     params: NzTableQueryParams,
