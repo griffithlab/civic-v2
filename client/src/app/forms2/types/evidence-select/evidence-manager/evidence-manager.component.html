@@ -8,7 +8,7 @@
     #rowSelectionTable
     cvcTableScroller
     (cvcTableScrollerOnScroll)="scrollEvent$.next($event)"
-    (cvcTableScrollerOnFetch)="onScrollFetch$.next($event)"
+    (cvcTableScrollerOnFetch)="onFetch$.next($event)"
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
@@ -213,7 +213,7 @@
           nzAlign="center"
           [nzShowFilter]="true"
           [nzFilters]="cols.evidenceLevel.filter!.options"
-          [nzFilterMultiple]="cols.evidenceType.filter!.multiple"
+          [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.evidenceType.hide"
@@ -223,7 +223,7 @@
           nzAlign="center"
           [nzShowFilter]="true"
           [nzFilters]="cols.evidenceType.filter!.options"
-          [nzFilterMultiple]="cols.evidenceType.filter!.multiple"
+          [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.evidenceDirection.hide"
@@ -233,7 +233,7 @@
           nzAlign="center"
           [nzShowFilter]="true"
           [nzFilters]="cols.evidenceDirection.filter!.options"
-          [nzFilterMultiple]="cols.evidenceType.filter!.multiple"
+          [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.significance.hide"
@@ -243,7 +243,7 @@
           nzAlign="center"
           [nzShowFilter]="true"
           [nzFilters]="cols.significance.filter!.options"
-          [nzFilterMultiple]="cols.evidenceType.filter!.multiple"
+          [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.variantOrigin.hide"
@@ -253,7 +253,7 @@
           nzAlign="center"
           [nzShowFilter]="true"
           [nzFilters]="cols.variantOrigin.filter!.options"
-          [nzFilterMultiple]="cols.evidenceType.filter!.multiple"
+          [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.evidenceRating.hide"
@@ -263,10 +263,11 @@
           nzAlign="center"
           [nzShowFilter]="true"
           [nzFilters]="cols.evidenceRating.filter!.options"
-          [nzFilterMultiple]="cols.evidenceType.filter!.multiple"
+          [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
           [nzFilterFn]="true"></th>
       </tr>
     </thead>
+
     <tbody>
       <ng-template
         nz-virtual-scroll
@@ -382,21 +383,36 @@
   let-columnKey
   let-options="options">
   <nz-input-group
-    [nzSuffix]="suffixIconSearch"
+    [nzSuffix]="suffixIcon"
     nzSize="small">
+    <!--  -->
     <input
+      #filterInput
       nz-input
-      placeholder=""
-      [ngModel]="options[0].value"
+      [placeholder]="options[0].text"
+      [ngModel]="options[0].value || ''"
       (ngModelChange)="
         onCustomFilter$.next({ key: columnKey, value: $event })
       " />
   </nz-input-group>
-  <ng-template #suffixIconSearch>
+
+  <!-- input suffic icon tpl - magnifying glass if unset, clear icon if set  -->
+  <ng-template #suffixIcon>
     <span
+      *ngIf="!filterInput.value"
       nz-icon
       nzType="search"
       style="color: #ddd"></span>
+    <span
+      *ngIf="filterInput.value"
+      nz-icon
+      class="ant-input-clear-icon"
+      nzTheme="fill"
+      nzType="close-circle"
+      (click)="
+        filterInput.value = '';
+        onCustomFilter$.next({ key: columnKey, value: '' })
+      "></span>
   </ng-template>
 </ng-template>
 
@@ -412,12 +428,12 @@
   <span>Use checkboxes to select or deselect EIDs</span>
 </ng-template>
 
-<!-- card's extra template -->
+<!-- card's extra template - loading/error indicators & prefs button-->
 <ng-template #extraTemplate>
   <nz-row [nzGutter]="8">
     <!-- loading, no more rows, and error tags -->
     <nz-col nzFlex="auto">
-      <ng-container *ngIf="requestError$ | ngrxPush as errors">
+      <ng-container *ngrxLet="requestError$ as errors">
         <!-- loading more rows -->
         <ng-container *ngIf="!errors?.query">
           <nz-tag
@@ -429,10 +445,12 @@
               nzSpin></i>
             <span>Loading…</span>
           </nz-tag>
+
           <!-- no more rows to load -->
           <cvc-no-more-rows
             [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
         </ng-container>
+
         <!-- request & network errors -->
         <ng-container *ngIf="errors">
           <nz-tag
@@ -477,28 +495,39 @@
         </ng-container>
       </ng-container>
     </nz-col>
-    <!-- table preferences -->
-    <nz-col
-      nzFlex="35px"
-      class="preferences-button">
-      <button
-        nz-button
-        nz-popover
-        nzPopoverTitle="Visible Columns"
-        [nzPopoverContent]="prefsPopover"
-        [nzPopoverTrigger]="'click'"
-        type="button"
-        nzType="default"
-        nzSize="small">
-        <span
-          nz-icon
-          nzType="setting"
-          nzTheme="outline"></span>
-      </button>
+
+    <!-- card button row -->
+    <nz-col nzFlex="35px">
+      <nz-button-group>
+        <button
+          nz-button
+          type="button"
+          nzType="default"
+          nzSize="small">
+          <span
+            nz-icon
+            nzType="retweet"
+            nzTheme="outline"></span>
+        </button>
+        <button
+          nz-button
+          nz-popover
+          nzPopoverTitle="Visible Columns"
+          [nzPopoverContent]="prefsPopover"
+          [nzPopoverTrigger]="'click'"
+          type="button"
+          nzType="default"
+          nzSize="small">
+          <span
+            nz-icon
+            nzType="setting"
+            nzTheme="outline"></span>
+        </button>
+      </nz-button-group>
       <ng-template #prefsPopover>
         <div class="prefs-popover">
           <nz-checkbox-group
-            [ngModel]="colOption$ | ngrxPush"
+            [ngModel]="preferenceUpdate$ | ngrxPush"
             (ngModelChange)="onPreference$.next($event)"></nz-checkbox-group>
         </div>
       </ng-template>
