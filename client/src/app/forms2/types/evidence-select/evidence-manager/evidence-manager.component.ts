@@ -20,9 +20,11 @@ import {
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
   EvidenceSignificance,
+  EvidenceSortColumns,
   EvidenceType,
   Maybe,
   PageInfo,
+  SortDirection,
   VariantOrigin,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -81,6 +83,8 @@ export type RowData = Pick<
 > &
   RowDataExtra
 
+export type QueryParamKey = keyof EvidenceManagerQueryVariables
+
 export type RowDataExtra = {
   // need evidence object for entity-tag in colum
   evidenceItem: { id: number; name: string; link: string }
@@ -109,11 +113,16 @@ type TableConfig = {
 }
 
 type ColumnPrefsOption = { label: string; value: string; checked?: boolean }
-type ColumnPrefsOptionsModel = ColumnPrefsOption[]
+type ColumnPrefsModel = ColumnPrefsOption[]
 
 type RowSelection = {
   selected: boolean
   id: number
+}
+
+type QuerySortParams = {
+  column: any
+  direction: SortDirection
 }
 
 type RequestError = {
@@ -138,13 +147,13 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   onQuery$: ReplaySubject<NzTableQueryParams>
   onCustomFilter$: ReplaySubject<CustomFilter>
   onFetch$: BehaviorSubject<ScrollFetch>
-  onPreference$: Subject<ColumnPrefsOptionsModel>
+  onPreference$: Subject<ColumnPrefsModel>
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
   selectedRow$: BehaviorSubject<Set<number>>
-  preferenceUpdate$: Observable<ColumnPrefsOptionsModel>
+  preferenceUpdate$: Observable<ColumnPrefsModel>
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<TableConfig>
@@ -184,6 +193,27 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   // virtual scroll rows degrades performance
   isScrolling = false
 
+  columnKeyToSortColumnMap: { [key in ColKey]?: EvidenceSortColumns } = {
+    description: EvidenceSortColumns.Description,
+    disease: EvidenceSortColumns.DiseaseName,
+    evidenceDirection: EvidenceSortColumns.EvidenceDirection,
+    evidenceLevel: EvidenceSortColumns.EvidenceLevel,
+    evidenceRating: EvidenceSortColumns.EvidenceRating,
+    evidenceType: EvidenceSortColumns.EvidenceType,
+    id: EvidenceSortColumns.Id,
+    significance: EvidenceSortColumns.Significance,
+    status: EvidenceSortColumns.Status,
+    therapies: EvidenceSortColumns.TherapyName,
+    variantOrigin: EvidenceSortColumns.VariantOrigin,
+  }
+
+  columnKeyToFilterParamMap: {
+    [key in ColKey]?: Pick<
+      EvidenceManagerQueryVariables,
+      'molecularProfileName'
+    >
+  } = {}
+
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.onRowSelected$ = new Subject<RowSelection>()
@@ -194,7 +224,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Observable<RequestError>()
-    this.onPreference$ = new Subject<ColumnPrefsOptionsModel>()
+    this.onPreference$ = new Subject<ColumnPrefsModel>()
 
     this.managerTableConfig = {
       selected: {
@@ -410,14 +440,14 @@ export class CvcEvidenceManagerComponent implements OnChanges {
 
     // nz-checkbox-groups, used in table prefs, requires a slightly different model
     this.preferenceUpdate$ = this.col$.pipe(
-      map((cols) => this.getColOptionsFromModel(cols))
+      map((cols) => this.getColPrefsFromConfig(cols))
     )
 
-    // upate col$ when preferences change
+    // update col$ when preferences change
     this.onPreference$
       .pipe(
         withLatestFrom(this.col$),
-        map(([options, cols]) => this.updateColModelFromOptions(cols, options)),
+        map(([options, cols]) => this.updateConfigFromPrefs(cols, options)),
         untilDestroyed(this)
       )
       .subscribe((cols) => {
@@ -497,13 +527,43 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   getQueryVars(
     params: NzTableQueryParams,
     fetch: ScrollFetch
-  ): EvidenceManagerQueryVariables {
-    return { evidenceType: EvidenceType.Predictive, ...params, ...fetch }
+  ): EvidenceManagerQueryVariables | {} {
+    const filters = this.getQueryFilterParams(params)
+
+    const queryVars = {
+      evidenceType: EvidenceType.Predictive,
+      sortBy: this.getQuerySortParams(params),
+      ...filters,
+      ...fetch,
+    }
+    return queryVars
   }
 
-  updateColModelFromOptions(
+  getQuerySortParams(params: NzTableQueryParams): Maybe<QuerySortParams> {
+    const colParams = params.sort
+    const queryParam = colParams.find((p) => p.value !== null)
+    if (!queryParam) return
+    return {
+      column: this.getSortColumnFromKey(queryParam.key as ColKey),
+      direction:
+        queryParam.value === 'ascend'
+          ? SortDirection.Asc
+          : SortDirection.Desc || undefined,
+    }
+  }
+
+  getQueryFilterParams(params: NzTableQueryParams): EvidenceManagerQueryVariables {
+    let filters: { [key in QueryParamKey]?: any } = {}
+    // create an object with any specified filter attributes
+    params.filter.forEach((f) => {
+      filters[f.key as QueryParamKey] = f.value !== null ? f.value : undefined
+    })
+    return filters
+  }
+
+  updateConfigFromPrefs(
     cols: TableConfig,
-    options: ColumnPrefsOptionsModel
+    options: ColumnPrefsModel
   ): TableConfig {
     const objKeys = Object.keys(cols) as Array<keyof typeof cols>
     objKeys.forEach((k) => {
@@ -513,18 +573,22 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     return { ...cols }
   }
 
-  getColOptionsFromModel(cols: TableConfig): ColumnPrefsOptionsModel {
-    let options: ColumnPrefsOptionsModel = []
+  getColPrefsFromConfig(cols: TableConfig): ColumnPrefsModel {
+    let options: ColumnPrefsModel = []
     const objKeys = Object.keys(cols) as Array<keyof typeof cols>
-    objKeys.forEach((k) => {
-      if (this.omittedFromPrefs.find((c) => c === cols[k].key)) return
+    objKeys.forEach((key) => {
+      if (this.omittedFromPrefs.find((c) => c === cols[key].key)) return
       options.push({
-        label: cols[k].tooltip || cols[k].name,
-        value: k,
-        checked: !cols[k].hide,
+        label: cols[key].tooltip || cols[key].name,
+        value: key,
+        checked: !cols[key].hide,
       })
     })
     return options
+  }
+
+  getSortColumnFromKey(key: ColKey): Maybe<EvidenceSortColumns> {
+    return this.columnKeyToSortColumnMap[key]
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -541,6 +605,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       this.selectedRow$.next(idSet)
     }
   }
+
   trackByIndex(_: number, data: RowData): number {
     return data.id
   }
