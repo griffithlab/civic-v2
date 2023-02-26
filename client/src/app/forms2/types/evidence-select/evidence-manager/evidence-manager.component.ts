@@ -1,51 +1,52 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core'
 import { ApolloError, ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-    EvidenceDirection,
-    EvidenceLevel,
-    EvidenceManagerFieldsFragment,
-    EvidenceManagerGQL,
-    EvidenceManagerQuery,
-    EvidenceManagerQueryVariables,
-    EvidenceSignificance,
-    EvidenceType,
-    Maybe,
-    PageInfo,
-    VariantOrigin
+  EvidenceDirection,
+  EvidenceLevel,
+  EvidenceManagerFieldsFragment,
+  EvidenceManagerGQL,
+  EvidenceManagerQuery,
+  EvidenceManagerQueryVariables,
+  EvidenceSignificance,
+  EvidenceType,
+  Maybe,
+  PageInfo,
+  VariantOrigin,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { GraphQLError } from 'graphql'
-import { NzTableQueryParams } from 'ng-zorro-antd/table'
+import { NzSafeAny } from 'ng-zorro-antd/core/types'
+import { NzTableFilterValue, NzTableQueryParams } from 'ng-zorro-antd/table'
 import {
-    BehaviorSubject,
-    combineLatest,
-    defer,
-    distinctUntilChanged,
-    filter,
-    from,
-    iif,
-    map,
-    Observable,
-    ReplaySubject,
-    shareReplay,
-    startWith,
-    Subject,
-    switchMap,
-    withLatestFrom
+  BehaviorSubject,
+  combineLatest,
+  defer,
+  distinctUntilChanged,
+  filter,
+  from,
+  iif,
+  map,
+  Observable,
+  ReplaySubject,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+  withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -60,7 +61,7 @@ export type EvidenceManagerConnection = {
   nodes: EvidenceManagerFieldsFragment[]
 }
 
-export type FilterOption = { text: string; value: any; byDefault?: boolean }
+type CustomFilter = { key: string; value: NzTableFilterValue }
 
 // choose table columns from its query fragment & combine with options extra data
 export type RowData = Pick<
@@ -87,7 +88,10 @@ export type RowDataExtra = {
 }
 export type ColKey = keyof RowData
 
+export type FilterOption = { text: string; value: any; byDefault?: boolean }
+
 type ColConfig = {
+  key: ColKey
   name: string
   width: string
   hide?: boolean
@@ -121,7 +125,7 @@ type RequestError = {
   styleUrls: ['./evidence-manager.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
+export class CvcEvidenceManagerComponent implements OnChanges {
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
@@ -129,19 +133,20 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
 
   // SOURCE STREAMS
   onRowSelected$: Subject<RowSelection>
-  onParamsChange$: ReplaySubject<NzTableQueryParams>
+  onQuery$: ReplaySubject<NzTableQueryParams>
+  onCustomFilter$: ReplaySubject<CustomFilter>
   onScrollFetch$: BehaviorSubject<ScrollFetch>
   onPreference$: Subject<ColumnOptionsModel>
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
-  col$: BehaviorSubject<ColumnsModel>
-  row$?: Observable<RowData[]>
   selectedRow$: BehaviorSubject<Set<number>>
   colOption$: Observable<ColumnOptionsModel>
 
   // PRESENTION STREAMS
+  col$: BehaviorSubject<ColumnsModel>
+  row$?: Observable<RowData[]>
   loading$!: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
   pageInfo$!: Observable<PageInfo>
@@ -150,12 +155,19 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   scrollIndex$: Subject<number>
   requestError$: Observable<Maybe<RequestError>>
 
+  // apollo query ref
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
-  initialColumns: ColumnsModel
+  // default column configuration array
+  columnConfig: ColumnsModel
+  customFilterTextOption: FilterOption = {
+    text: 'Name',
+    value: '',
+    byDefault: true,
+  }
 
-  // toggles which loading indicator gets displayed,
-  // full-table initial or card header loading tag
+  // toggles which loading indicator gets displayed:
+  // either the full-table initial loading spinner or card header loading tag
   isFetchMoreQuery = false
 
   // need a static var for scrolling state b/c sub/unsub in
@@ -166,56 +178,87 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onScrollFetch$ = new BehaviorSubject<ScrollFetch>({})
-    this.onParamsChange$ = new ReplaySubject<NzTableQueryParams>()
+    this.onQuery$ = new ReplaySubject<NzTableQueryParams>()
+    this.onCustomFilter$ = new ReplaySubject<CustomFilter>()
     this.scrollIndex$ = new Subject<number>()
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Observable<RequestError>()
     this.onPreference$ = new Subject<ColumnOptionsModel>()
 
-    this.initialColumns = {
+    this.columnConfig = {
       selected: {
         name: 'Select',
+        key: 'selected',
         hide: false,
         width: '30px',
       },
       id: {
         name: 'ID',
+        key: 'id',
         width: '30px',
         hide: true,
+        filter: {
+          options: [this.customFilterTextOption],
+          multiple: false,
+        },
       },
       status: {
         name: 'Status',
+        key: 'status',
         width: '40px',
         hide: true,
       },
       evidenceItem: {
         name: 'Evidence Item',
+        key: 'evidenceItem',
         width: '120px',
         showSort: true,
+        filter: {
+          options: [this.customFilterTextOption],
+          multiple: false,
+        },
       },
       molecularProfile: {
         name: 'Molecular Profile',
+        key: 'molecularProfile',
         width: '250px',
+        filter: {
+          options: [this.customFilterTextOption],
+          multiple: false,
+        },
       },
       disease: {
         name: 'Disease',
+        key: 'disease',
         width: '250px',
+        filter: {
+          options: [this.customFilterTextOption],
+          multiple: false,
+        },
       },
       therapies: {
         name: 'Therapies',
+        key: 'therapies',
         width: '200px',
+        filter: {
+          options: [this.customFilterTextOption],
+          multiple: false,
+        },
       },
       therapyInteractionType: {
         name: 'IT',
+        key: 'therapyInteractionType',
         width: '30px',
       },
       description: {
         name: 'DESC',
+        key: 'description',
         width: '40px',
       },
       evidenceType: {
         name: 'ET',
+        key: 'evidenceType',
         width: '40px',
         filter: {
           options: this.getAttributeFilters($enum(EvidenceType)),
@@ -224,6 +267,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       },
       evidenceDirection: {
         name: 'ED',
+        key: 'evidenceDirection',
         width: '40px',
         filter: {
           options: this.getAttributeFilters($enum(EvidenceDirection)),
@@ -232,6 +276,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       },
       evidenceLevel: {
         name: 'EL',
+        key: 'evidenceLevel',
         width: '40px',
         filter: {
           options: this.getAttributeFilters($enum(EvidenceLevel)),
@@ -240,6 +285,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       },
       significance: {
         name: 'SI',
+        key: 'significance',
         width: '40px',
         filter: {
           options: this.getAttributeFilters($enum(EvidenceSignificance)),
@@ -248,6 +294,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       },
       variantOrigin: {
         name: 'VO',
+        key: 'variantOrigin',
         width: '40px',
         filter: {
           options: this.getAttributeFilters($enum(VariantOrigin)),
@@ -256,6 +303,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       },
       evidenceRating: {
         name: 'ER',
+        key: 'evidenceRating',
         width: '40px',
         hide: false,
         filter: {
@@ -279,10 +327,29 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    // this.onParamsChange$.pipe(tag('onParamsChange$')).subscribe()
+    // merge custom filter events w/ current query params, emit new onQuery$ event
+    this.onCustomFilter$
+      .pipe(
+        withLatestFrom(this.onQuery$),
+        map(([newFilter, params]) => {
+          let filters = params.filter
+          const currentIndex = filters.findIndex((f) => f.key === newFilter.key)
+          if (currentIndex !== -1) {
+            filters[currentIndex].value = newFilter.value
+          } else {
+            filters.push(newFilter)
+          }
+          return { ...params, filter: [...filters] }
+        }),
+        untilDestroyed(this),
+        tag('onCustomFilter$')
+      )
+      .subscribe((params) => {
+        this.onQuery$.next(params)
+      })
 
     this.queryResult$ = combineLatest([
-      this.onParamsChange$,
+      this.onQuery$.pipe(tag('queryResult$ onQuery$')),
       this.onScrollFetch$,
     ]).pipe(
       switchMap(([params, fetch]: [NzTableQueryParams, ScrollFetch]) => {
@@ -326,7 +393,6 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     ) // end this.queryResult$
 
     this.requestError$ = this.queryResult$.pipe(
-      tag('requestError$'),
       map((result) => {
         if (result.errors || result.error) {
           return {
@@ -348,7 +414,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     )
 
     // tables uses col$ to provide column-level configuration th, td
-    this.col$ = new BehaviorSubject<ColumnsModel>(this.initialColumns)
+    this.col$ = new BehaviorSubject<ColumnsModel>(this.columnConfig)
 
     // nz-checkbox-groups, used in table prefs, requires a slightly different model
     this.colOption$ = this.col$.pipe(
@@ -356,13 +422,15 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
     )
 
     // upate col$ when preferences change
-    this.onPreference$.pipe(
-      withLatestFrom(this.col$),
-      map(([options, cols]) => this.updateColModelFromOptions(cols, options)),
-      untilDestroyed(this)
-    ).subscribe((cols)=> {
-      this.col$.next(cols)
-    })
+    this.onPreference$
+      .pipe(
+        withLatestFrom(this.col$),
+        map(([options, cols]) => this.updateColModelFromOptions(cols, options)),
+        untilDestroyed(this)
+      )
+      .subscribe((cols) => {
+        this.col$.next(cols)
+      })
 
     // add any additional row attributes as desired, for column data not included response
     this.row$ = combineLatest([
@@ -420,8 +488,6 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
       })
   }
 
-  ngOnInit(): void {}
-
   getAttributeFilters(
     attrEnums: EnumWrapper,
     byDefault?: CvcInputEnum
@@ -471,7 +537,7 @@ export class CvcEvidenceManagerComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcQueryVariables) {
       const queryVars = changes.cvcQueryVariables.currentValue
-      this.onParamsChange$.next(queryVars)
+      this.onQuery$.next(queryVars)
     }
     if (changes.cvcSelectedIds) {
       const ids = changes.cvcSelectedIds.currentValue

@@ -21,7 +21,7 @@
     [nzShowPagination]="false"
     [nzLoading]="(loading$ | ngrxPush) && !isFetchMoreQuery"
     nzSize="small"
-    (nzQueryParams)="onParamsChange$.next($event)">
+    (nzQueryParams)="onQuery$.next($event)">
     <thead *ngrxLet="col$ as cols">
       <tr class="col-header-row">
         <th
@@ -138,32 +138,58 @@
         <th
           *ngIf="!cols.id.hide"
           nzColumnKey="id"
-          [nzWidth]="cols.id.width">
-          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
-        </th>
+          [nzWidth]="cols.id.width"></th>
         <th
           *ngIf="!cols.evidenceItem.hide"
           nzColumnKey="evidenceItem"
           [nzWidth]="cols.evidenceItem.width">
-          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              columnFilterInput;
+              context: {
+                $implicit: 'evidenceItem',
+                options: cols.evidenceItem.filter!.options
+              }
+            "></ng-container>
         </th>
         <th
           *ngIf="!cols.molecularProfile.hide"
           nzColumnKey="molecularProfile"
           [nzWidth]="cols.molecularProfile.width">
-          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              columnFilterInput;
+              context: {
+                $implicit: 'molecularProfile',
+                options: cols.molecularProfile.filter!.options
+              }
+            "></ng-container>
         </th>
         <th
           *ngIf="!cols.disease.hide"
           nzColumnKey="disease"
           [nzWidth]="cols.disease.width">
-          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              columnFilterInput;
+              context: {
+                $implicit: 'disease',
+                options: cols.disease.filter!.options
+              }
+            "></ng-container>
         </th>
         <th
           *ngIf="!cols.therapies.hide"
           nzColumnKey="therapies"
           [nzWidth]="cols.therapies.width">
-          <ng-container *ngTemplateOutlet="columnFilterInput"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              columnFilterInput;
+              context: {
+                $implicit: 'therapies',
+                options: cols.therapies.filter!.options
+              }
+            "></ng-container>
         </th>
         <th
           *ngIf="!cols.therapyInteractionType.hide"
@@ -350,13 +376,21 @@
   </nz-table>
 </nz-card>
 
-<ng-template #columnFilterInput>
+<!-- col header input for typeahead filter -->
+<ng-template
+  #columnFilterInput
+  let-columnKey
+  let-options="options">
   <nz-input-group
     [nzSuffix]="suffixIconSearch"
     nzSize="small">
     <input
       nz-input
-      placeholder="" />
+      placeholder=""
+      [ngModel]="options[0].value"
+      (ngModelChange)="
+        onCustomFilter$.next({ key: columnKey, value: $event })
+      " />
   </nz-input-group>
   <ng-template #suffixIconSearch>
     <span
