@@ -162,18 +162,18 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   onPreference$: Subject<ColumnPrefsModel>
 
   // INTERMEDIATE STREAMS
-  queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
-  queryChange$!: Observable<ApolloQueryResult<EvidenceManagerQuery>>
-  connection$!: Observable<EvidenceManagerConnection>
+  queryResult$: Subject<ApolloQueryResult<EvidenceManagerQuery>>
+  connection$: Observable<EvidenceManagerConnection>
   selectedRow$: BehaviorSubject<Set<number>>
   preferenceUpdate$!: Observable<ColumnPrefsModel>
 
   // PRESENTION STREAMS
-  col$!: BehaviorSubject<TableConfig>
+  col$: BehaviorSubject<TableConfig>
   row$?: Observable<RowData[]>
-  loading$!: Observable<boolean>
+  loading$: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
   requestError$: Observable<Maybe<RequestError>>
+  isFetchMore$: Subject<boolean>
 
   // passed to tableScroller
   pageInfo$!: Observable<PageInfo>
@@ -197,10 +197,6 @@ export class CvcEvidenceManagerComponent implements OnChanges {
 
   // hide these columns in preferences checkbox list to prevent changes
   omittedFromPrefs: ColKey[] = ['selected', 'id']
-
-  // toggles which loading indicator gets displayed:
-  // either the full-table initial loading spinner or card header loading tag
-  isFetchMoreQuery = false
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
@@ -239,11 +235,13 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onPreference$ = new Subject<ColumnPrefsModel>()
 
+    this.queryResult$ = new Subject<ApolloQueryResult<EvidenceManagerQuery>>()
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollIndex$ = new Subject<number>()
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Observable<RequestError>()
+    this.isFetchMore$ = new BehaviorSubject<boolean>(false)
 
     this.managerTableConfig = {
       selected: {
@@ -447,44 +445,90 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         this.onQuery$.next(queryParams)
       })
 
-    // perform queries on query param or tableScroller onFetch updates
     this.onQuery$
-      .pipe(
-        shareReplay(), // share last cached value to new subscribers
-        untilDestroyed(this)
-      )
+      .pipe(untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
-
-        const watchQuery = () => {
-          this.isFetchMoreQuery = false
+        // if there's no query ref, create one w/ watch()
+        // and emit valueChanges from queryResult$.
+        // if query ref exists, call refetch or fetchMore,
+        // depending on the params.query setting
+        if (!this.queryRef) {
+          this.isFetchMore$.next(false)
           this.queryRef = this.gql.watch(queryVars)
-          this.loading$ = this.queryRef.valueChanges.pipe(
-            pluck('loading'),
-            distinctUntilChanged()
-          )
-          this.configureTableObservables(this.queryRef.valueChanges)
-        }
-
-        const fetchQuery = (params: CvcTableQueryParams) => {
-          const qr = this.queryRef!
+          this.queryRef.valueChanges
+            .pipe(untilDestroyed(this))
+            .subscribe((results) => {
+              this.queryResult$.next(results)
+            })
+        } else {
           if (params.query === 'refetch') {
-            this.isFetchMoreQuery = false
-            qr.refetch(queryVars)
+            this.isFetchMore$.next(false)
+            this.queryRef.refetch(queryVars)
           } else {
-            this.isFetchMoreQuery = true
-            qr.fetchMore({ variables: queryVars })
+            this.isFetchMore$.next(true)
+            this.queryRef.fetchMore({ variables: queryVars })
           }
-          return qr.valueChanges
         }
-        if (this.queryRef !== undefined) fetchQuery(params)
-        else watchQuery()
-      }) // end this.queryResult$
+      })
 
-    // tables uses col$ to provide column-level configuration th, td
+    this.loading$ = this.queryResult$.pipe(
+      pluck('loading'),
+      distinctUntilChanged()
+    )
+
+    // entity page info & nodes
+    this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
+
+    // provided to table-scroll directive for fetchMore queries
+    this.pageInfo$ = this.connection$.pipe(
+      pluck('pageInfo'),
+      filter(isNonNulled)
+    )
+
+    // add any additional row attributes as desired, for column data not included response
+    this.row$ = combineLatest([
+      this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
+      this.selectedRow$,
+    ]).pipe(
+      map(
+        ([rows, selected]: [EvidenceManagerFieldsFragment[], Set<number>]) => {
+          return rows.map((row) => {
+            return {
+              ...row,
+              evidenceItem: {
+                __typename: 'EvidenceItem',
+                id: row.id,
+                name: row.name,
+                link: row.link,
+              },
+              selected: selected.has(row.id),
+            }
+          })
+        }
+      ),
+      startWith([])
+    )
+
+    // emit network & query errors for error tag display
+    this.requestError$ = this.queryResult$.pipe(
+      map((result) => {
+        if (result.errors || result.error) {
+          return {
+            query: result.errors,
+            network: result.error,
+          }
+        } else return
+      })
+    )
+
+    // col$ provide column-level configuration for table header, and row cells.
+    // Preferences feature subscribes to col$ to generate its options, and updates
+    // col$ to apply preferences changes
     this.col$ = new BehaviorSubject<TableConfig>(this.managerTableConfig)
 
     // nz-checkbox-groups, used in table prefs, requires a slightly different model
+    // than col$, this map function converts from col config to nz-checkbox-group array
     this.preferenceUpdate$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromConfig(cols))
     )

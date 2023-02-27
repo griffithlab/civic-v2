@@ -19,7 +19,7 @@
     [nzVirtualItemSize]="28"
     [nzFrontPagination]="false"
     [nzShowPagination]="false"
-    [nzLoading]="(loading$ | ngrxPush) && !isFetchMoreQuery"
+    [nzLoading]="(loading$ | ngrxPush) && !(isFetchMore$ | ngrxPush)"
     nzSize="small"
     (nzQueryParams)="onTableQueryParams$.next($event)">
     <thead *ngrxLet="col$ as cols">
@@ -445,7 +445,7 @@
         <!-- loading more rows -->
         <ng-container *ngIf="!errors?.query">
           <nz-tag
-            *ngIf="(loading$ | ngrxPush) && isFetchMoreQuery"
+            *ngIf="(loading$ | ngrxPush) && (isFetchMore$ | ngrxPush)"
             nzColor="processing">
             <i
               nz-icon
