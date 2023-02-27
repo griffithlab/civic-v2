@@ -11,7 +11,7 @@
     (cvcTableScrollerOnFetch)="onFetch$.next($event)"
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
-    [cvcTableScrollerToIndex]="(scrollIndex$ | ngrxPush)!"
+    [cvcTableScrollerToIndex]="(scrollToIndex$ | ngrxPush)!"
     *ngrxLet="row$ as data"
     [nzData]="data || []"
     [nzScroll]="{ x: '1024px', y: '200px' }"

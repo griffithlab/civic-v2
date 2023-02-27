@@ -179,7 +179,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   // passed to tableScroller
   pageInfo$!: Observable<PageInfo>
   scrollEvent$: BehaviorSubject<ScrollEvent>
-  scrollIndex$: Subject<number> // TODO: implement scroll-to-index
+  scrollToIndex$: Subject<number> // TODO: implement scroll-to-index
 
   // apollo query ref
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
@@ -238,7 +238,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
 
     this.queryResult$ = new Subject<ApolloQueryResult<EvidenceManagerQuery>>()
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
-    this.scrollIndex$ = new Subject<number>()
+    this.scrollToIndex$ = new Subject<number>()
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Subject<RequestError>()
@@ -458,8 +458,9 @@ export class CvcEvidenceManagerComponent implements OnChanges {
           this.isFetchMore$.next(false)
           this.queryRef = this.gql.watch(queryVars)
           // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
-          // errors, so this extra requestError$ stuff below is required to get errors from
-          // those functions' .then() promises. see: https://github.com/apollographql/apollo-client/issues/6857
+          // errors, so this extra requestError$ stuff below is required, using
+          // those functions' .then() promises to catch and forward those errors.
+          // see: https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
             .subscribe((result) => {
@@ -476,6 +477,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
                 this.requestError$.next(this.getRequestErrors(result))
               }
             })
+            this.scrollToIndex$.next(0)
           } else {
             this.isFetchMore$.next(true)
             this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
