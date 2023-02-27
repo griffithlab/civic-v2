@@ -1,4 +1,5 @@
 import { assertionSubmitFormInitialModel } from '@app/forms2/models/assertion-submit.model'
+import { CvcAcmgCodeSelectFieldOptions } from '@app/forms2/types/acmg-code-select/acmg-code-select.type'
 import { CvcAmpCategorySelectFieldOptions } from '@app/forms2/types/amp-category-select/amp-category-select.type'
 import { CvcDirectionSelectFieldOptions } from '@app/forms2/types/direction-select/direction-select.type'
 import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
@@ -98,9 +99,14 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'amp-category-select',
             props: {}
           },
+          <CvcAcmgCodeSelectFieldOptions>{
+            key: 'acmgCodeIds',
+            type: 'acmg-code-multi-select',
+            props: {},
+          },
           {
             key: 'summary',
-            type: 'input',
+            type: 'textarea',
             wrappers: ['form-field'],
             props: {
               tooltip:
@@ -120,6 +126,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Statement',
               label: 'Assertion Statement',
               required: true,
+              rows: 5 
             },
           },
         ],

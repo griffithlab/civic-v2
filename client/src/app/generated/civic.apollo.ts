@@ -6139,6 +6139,15 @@ export type EntityTagsTestQueryVariables = Exact<{
 
 export type EntityTagsTestQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined };
 
+export type AcmgCodeSelectTypeaheadQueryVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+
+export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string }> };
+
+export type AcmgCodeSelectTypeaheadFieldsFragment = { __typename: 'AcmgCode', id: number, code: string, description: string };
+
 export type QuickAddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
   doid?: InputMaybe<Scalars['String']>;
@@ -8026,6 +8035,13 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
+export const AcmgCodeSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
+  id
+  code
+  description
+}
+    `;
 export const DiseaseSelectTypeaheadFieldsFragmentDoc = gql`
     fragment DiseaseSelectTypeaheadFields on Disease {
   id
@@ -11836,6 +11852,24 @@ export const EntityTagsTestDocument = gql`
   })
   export class EntityTagsTestGQL extends Apollo.Query<EntityTagsTestQuery, EntityTagsTestQueryVariables> {
     document = EntityTagsTestDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AcmgCodeSelectTypeaheadDocument = gql`
+    query AcmgCodeSelectTypeahead($code: String!) {
+  acmgCodesTypeahead(queryTerm: $code) {
+    ...AcmgCodeSelectTypeaheadFields
+  }
+}
+    ${AcmgCodeSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcmgCodeSelectTypeaheadGQL extends Apollo.Query<AcmgCodeSelectTypeaheadQuery, AcmgCodeSelectTypeaheadQueryVariables> {
+    document = AcmgCodeSelectTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

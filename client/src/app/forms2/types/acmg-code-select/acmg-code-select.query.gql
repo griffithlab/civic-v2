@@ -1,0 +1,11 @@
+query AcmgCodeSelectTypeahead($code: String!) {
+  acmgCodesTypeahead(queryTerm: $code) {
+    ...AcmgCodeSelectTypeaheadFields
+  }
+}
+
+fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
+  id
+  code
+  description
+}

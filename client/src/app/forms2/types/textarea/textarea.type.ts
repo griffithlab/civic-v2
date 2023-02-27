@@ -25,6 +25,7 @@ const TextareaMixin = mixin(
   template: `
     <textarea
       nz-input
+      [rows]="props.rows ? props.rows : 2"
       [formControl]="formControl"
       [formlyAttributes]="field"></textarea>
   `,
