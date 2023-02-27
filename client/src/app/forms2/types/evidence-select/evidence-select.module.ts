@@ -6,6 +6,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAttributeTagModule } from '@app/forms2/components/attribute-tag/attribute-tag.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
+import { CvcTableCounts2Module } from '@app/forms2/components/tables/table-counts/table-counts.module'
 import { LetModule, PushModule } from '@ngrx/component'
 import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -23,8 +24,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcEvidenceManagerComponent } from './evidence-manager/evidence-manager.component'
 import { TableScrollerDirective } from './evidence-manager/table-scroller.directive'
 import {
-    CvcEvidenceSelectField,
-    CvcEvidenceSelectFieldProps
+  CvcEvidenceSelectField,
+  CvcEvidenceSelectFieldProps,
 } from './evidence-select.type'
 
 const typeConfig: ConfigOption = {
@@ -49,7 +50,11 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcEvidenceSelectField, CvcEvidenceManagerComponent, TableScrollerDirective],
+  declarations: [
+    CvcEvidenceSelectField,
+    CvcEvidenceManagerComponent,
+    TableScrollerDirective,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -71,6 +76,7 @@ const typeConfig: ConfigOption = {
     NzPopoverModule,
 
     CvcNoMoreRowsModule,
+    CvcTableCounts2Module,
     CvcPipesModule,
     CvcEntityTagModule,
     CvcAttributeTagModule,

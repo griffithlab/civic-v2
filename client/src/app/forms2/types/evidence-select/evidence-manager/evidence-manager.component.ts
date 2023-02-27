@@ -34,23 +34,18 @@ import { NzTableFilterValue, NzTableQueryParams } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
-  defer,
   distinctUntilChanged,
   filter,
-  from,
-  iif,
   map,
   Observable,
   ReplaySubject,
   shareReplay,
   startWith,
   Subject,
-  switchMap,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -60,9 +55,6 @@ export type EvidenceManagerConnection = {
   pageInfo: PageInfo
   nodes: EvidenceManagerFieldsFragment[]
 }
-
-// filter option for text typeahead input filters
-type CustomFilter = { key: string; value: NzTableFilterValue }
 
 // choose table columns from its query fragment & combine with options extra data
 export type RowData = Pick<
@@ -83,18 +75,28 @@ export type RowData = Pick<
 > &
   RowDataExtra
 
-export type QueryParamKey = keyof EvidenceManagerQueryVariables
-
+// additional columns added to row data for table templates, logic
 export type RowDataExtra = {
   // need evidence object for entity-tag in colum
   evidenceItem: { id: number; name: string; link: string }
   // additional boolean column to handle row selected state
   selected: boolean
 }
-export type ColKey = keyof RowData
 
+export type ColKey = keyof RowData
+// used in selection events
+type RowSelection = {
+  selected: boolean
+  id: number
+}
+
+// filter option for text typeahead input filters
+type CustomFilter = { key: string; value: NzTableFilterValue }
+
+// NzTableQueryParam's filter object, typed for easier reference
 export type FilterOption = { text: string; value: any; byDefault?: boolean }
 
+// config object for table's columns in TableConfig array
 type ColConfig = {
   key: ColKey
   tooltip?: string
@@ -112,18 +114,27 @@ type TableConfig = {
   [key in ColKey]: ColConfig
 }
 
+// types to drive the preferences panel
 type ColumnPrefsOption = { label: string; value: string; checked?: boolean }
 type ColumnPrefsModel = ColumnPrefsOption[]
 
-type RowSelection = {
-  selected: boolean
-  id: number
+export type QueryParamKey = keyof EvidenceManagerQueryVariables
+// gql query vars sort params
+type QuerySortParams = {
+  sortBy: {
+    column: any
+    direction: SortDirection
+  }
 }
 
-type QuerySortParams = {
-  column: any
-  direction: SortDirection
-}
+type QueryType = 'fetch' | 'refetch'
+
+// version of NzTableQueryParams modified for relay pagination,
+// replaces 'pageIndex' and 'pageSize' w/ 'first' and 'after'
+export type CvcTableQueryParams = Omit<
+  NzTableQueryParams,
+  'pageIndex' | 'pageSize'
+> & { fetchMore?: { first?: number; after?: string }; query: QueryType }
 
 type RequestError = {
   network?: ApolloError
@@ -138,25 +149,27 @@ type RequestError = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceManagerComponent implements OnChanges {
-  @Input() cvcQueryVariables?: Partial<EvidenceManagerQueryVariables>
+  @Input() cvcTableQueryParams?: Partial<NzTableQueryParams>
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
   // SOURCE STREAMS
-  onRowSelected$: Subject<RowSelection>
-  onQuery$: ReplaySubject<NzTableQueryParams>
+  onTableQueryParams$: ReplaySubject<NzTableQueryParams>
   onCustomFilter$: ReplaySubject<CustomFilter>
   onFetch$: BehaviorSubject<ScrollFetch>
+  onQuery$: ReplaySubject<CvcTableQueryParams>
+  onRowSelected$: Subject<RowSelection>
   onPreference$: Subject<ColumnPrefsModel>
 
   // INTERMEDIATE STREAMS
   queryResult$?: Observable<ApolloQueryResult<EvidenceManagerQuery>>
-  connection$: Observable<EvidenceManagerConnection>
+  queryChange$!: Observable<ApolloQueryResult<EvidenceManagerQuery>>
+  connection$!: Observable<EvidenceManagerConnection>
   selectedRow$: BehaviorSubject<Set<number>>
-  preferenceUpdate$: Observable<ColumnPrefsModel>
+  preferenceUpdate$!: Observable<ColumnPrefsModel>
 
   // PRESENTION STREAMS
-  col$: BehaviorSubject<TableConfig>
+  col$!: BehaviorSubject<TableConfig>
   row$?: Observable<RowData[]>
   loading$!: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
@@ -208,23 +221,29 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   }
 
   columnKeyToFilterParamMap: {
-    [key in ColKey]?: Pick<
+    [key in ColKey]?: keyof Pick<
       EvidenceManagerQueryVariables,
-      'molecularProfileName'
+      'molecularProfileName' | 'diseaseName' | 'therapyName'
     >
-  } = {}
+  } = {
+    molecularProfile: 'molecularProfileName',
+    disease: 'diseaseName',
+    therapies: 'therapyName',
+  }
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
-    this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
-    this.onRowSelected$ = new Subject<RowSelection>()
-    this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
-    this.onQuery$ = new ReplaySubject<NzTableQueryParams>()
+    this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>()
     this.onCustomFilter$ = new ReplaySubject<CustomFilter>()
+    this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
+    this.onQuery$ = new ReplaySubject<CvcTableQueryParams>()
+    this.onRowSelected$ = new Subject<RowSelection>()
+    this.onPreference$ = new Subject<ColumnPrefsModel>()
+
+    this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollIndex$ = new Subject<number>()
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Observable<RequestError>()
-    this.onPreference$ = new Subject<ColumnPrefsModel>()
 
     this.managerTableConfig = {
       selected: {
@@ -299,7 +318,10 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         key: 'evidenceType',
         width: '40px',
         filter: {
-          options: this.getAttributeFilters($enum(EvidenceType)),
+          options: this.getAttributeFilters(
+            $enum(EvidenceType),
+            EvidenceType.Predictive
+          ),
         },
       },
       evidenceDirection: {
@@ -371,6 +393,14 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       .pipe(
         withLatestFrom(this.onQuery$),
         map(([newFilter, params]) => {
+          // convert newFilter key to its corresponding query param
+          // e.g. 'molecularProfile' to 'molecularProfileName'
+          const mappedKey =
+            this.columnKeyToFilterParamMap[newFilter.key as ColKey]
+          newFilter.key = mappedKey ? mappedKey : newFilter.key
+
+          // check if new filter already exists in filters array,
+          // update it if does, add it if it does not
           let filters = params.filter
           const currentIndex = filters.findIndex((f) => f.key === newFilter.key)
           if (currentIndex !== -1) {
@@ -384,56 +414,72 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         // tag('onCustomFilter$')
       )
       .subscribe((params) => {
+        params.query = 'refetch'
         this.onQuery$.next(params)
       })
 
+    // add query type to params from table's filter updates &
+    // component Input updates, emit from onQuery$
+    this.onTableQueryParams$
+      .pipe(untilDestroyed(this))
+      .subscribe((tableParams) => {
+        // omit unused pageIndex, pageSize attributes
+        let { pageIndex, pageSize, ...params } = tableParams
+
+        const queryParams: CvcTableQueryParams = {
+          ...params,
+          query: 'refetch',
+        }
+        this.onQuery$.next(queryParams)
+      })
+
+    // add query type to last onQueryparams, merge tablescroller onFetch, emit onQuery$
+    this.onFetch$
+      .pipe(withLatestFrom(this.onQuery$), untilDestroyed(this))
+      .subscribe(([fetchParams, lastQuery]) => {
+        const queryParams: CvcTableQueryParams = {
+          ...lastQuery,
+          query: 'fetch',
+          fetchMore: {
+            ...fetchParams,
+          },
+        }
+        this.onQuery$.next(queryParams)
+      })
+
     // perform queries on query param or tableScroller onFetch updates
-    this.queryResult$ = combineLatest([this.onQuery$, this.onFetch$]).pipe(
-      switchMap(([params, fetch]: [NzTableQueryParams, ScrollFetch]) => {
-        const queryVars = this.getQueryVars(params, fetch)
-        const watchQuery = (query: EvidenceManagerQueryVariables) => {
+    this.onQuery$
+      .pipe(
+        shareReplay(), // share last cached value to new subscribers
+        untilDestroyed(this)
+      )
+      .subscribe((params: CvcTableQueryParams) => {
+        const queryVars = this.getQueryVars(params)
+
+        const watchQuery = () => {
           this.isFetchMoreQuery = false
-          this.queryRef = this.gql.watch(query)
+          this.queryRef = this.gql.watch(queryVars)
           this.loading$ = this.queryRef.valueChanges.pipe(
             pluck('loading'),
             distinctUntilChanged()
           )
-          return this.queryRef.valueChanges
-        }
-        const fetchQuery = (query: EvidenceManagerQueryVariables) => {
-          this.isFetchMoreQuery = true
-          return from(this.queryRef!.refetch(query))
+          this.configureTableObservables(this.queryRef.valueChanges)
         }
 
-        return iif(
-          () => this.queryRef === undefined, // predicate
-          defer(() => watchQuery(queryVars)), // true
-          defer(() => fetchQuery(queryVars)) // false
-        )
-      }),
-      shareReplay() // share last cached value to new subscribers
-    ) // end this.queryResult$
-
-    // emit network & query errors for error tag display
-    this.requestError$ = this.queryResult$.pipe(
-      map((result) => {
-        if (result.errors || result.error) {
-          return {
-            query: result.errors,
-            network: result.error,
+        const fetchQuery = (params: CvcTableQueryParams) => {
+          const qr = this.queryRef!
+          if (params.query === 'refetch') {
+            this.isFetchMoreQuery = false
+            qr.refetch(queryVars)
+          } else {
+            this.isFetchMoreQuery = true
+            qr.fetchMore({ variables: queryVars })
           }
-        } else return
-      })
-    )
-
-    // entity page info & nodes
-    this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
-
-    // provided to table-scroll directive for fetchMore queries
-    this.pageInfo$ = this.connection$.pipe(
-      pluck('pageInfo'),
-      filter(isNonNulled)
-    )
+          return qr.valueChanges
+        }
+        if (this.queryRef !== undefined) fetchQuery(params)
+        else watchQuery()
+      }) // end this.queryResult$
 
     // tables uses col$ to provide column-level configuration th, td
     this.col$ = new BehaviorSubject<TableConfig>(this.managerTableConfig)
@@ -453,30 +499,6 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       .subscribe((cols) => {
         this.col$.next(cols)
       })
-
-    // add any additional row attributes as desired, for column data not included response
-    this.row$ = combineLatest([
-      this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
-      this.selectedRow$,
-    ]).pipe(
-      map(
-        ([rows, selected]: [EvidenceManagerFieldsFragment[], Set<number>]) => {
-          return rows.map((row) => {
-            return {
-              ...row,
-              evidenceItem: {
-                __typename: 'EvidenceItem',
-                id: row.id,
-                name: row.name,
-                link: row.link,
-              },
-              selected: selected.has(row.id),
-            }
-          })
-        }
-      ),
-      startWith([])
-    )
 
     // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
@@ -510,6 +532,55 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       })
   }
 
+  configureTableObservables(
+    valueChanges: Observable<ApolloQueryResult<EvidenceManagerQuery>>
+  ): void {
+    // emit network & query errors for error tag display
+    this.requestError$ = valueChanges.pipe(
+      map((result) => {
+        if (result.errors || result.error) {
+          return {
+            query: result.errors,
+            network: result.error,
+          }
+        } else return
+      })
+    )
+
+    // entity page info & nodes
+    this.connection$ = valueChanges.pipe(pluck('data', 'evidenceItems'))
+
+    // provided to table-scroll directive for fetchMore queries
+    this.pageInfo$ = this.connection$.pipe(
+      pluck('pageInfo'),
+      filter(isNonNulled)
+    )
+
+    // add any additional row attributes as desired, for column data not included response
+    this.row$ = combineLatest([
+      this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
+      this.selectedRow$,
+    ]).pipe(
+      map(
+        ([rows, selected]: [EvidenceManagerFieldsFragment[], Set<number>]) => {
+          return rows.map((row) => {
+            return {
+              ...row,
+              evidenceItem: {
+                __typename: 'EvidenceItem',
+                id: row.id,
+                name: row.name,
+                link: row.link,
+              },
+              selected: selected.has(row.id),
+            }
+          })
+        }
+      ),
+      startWith([])
+    )
+  }
+
   getAttributeFilters(
     attrEnums: EnumWrapper,
     byDefault?: CvcInputEnum
@@ -525,34 +596,36 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   }
 
   getQueryVars(
-    params: NzTableQueryParams,
-    fetch: ScrollFetch
+    params: CvcTableQueryParams
   ): EvidenceManagerQueryVariables | {} {
     const filters = this.getQueryFilterParams(params)
-
+    const sort = this.getQuerySortParams(params)
     const queryVars = {
-      evidenceType: EvidenceType.Predictive,
-      sortBy: this.getQuerySortParams(params),
+      ...sort,
       ...filters,
-      ...fetch,
+      ...params.fetchMore,
     }
     return queryVars
   }
 
-  getQuerySortParams(params: NzTableQueryParams): Maybe<QuerySortParams> {
+  getQuerySortParams(params: CvcTableQueryParams): Maybe<QuerySortParams> {
     const colParams = params.sort
     const queryParam = colParams.find((p) => p.value !== null)
     if (!queryParam) return
     return {
-      column: this.getSortColumnFromKey(queryParam.key as ColKey),
-      direction:
-        queryParam.value === 'ascend'
-          ? SortDirection.Asc
-          : SortDirection.Desc || undefined,
+      sortBy: {
+        column: this.getSortColumnFromKey(queryParam.key as ColKey),
+        direction:
+          queryParam.value === 'ascend'
+            ? SortDirection.Asc
+            : SortDirection.Desc || undefined,
+      },
     }
   }
 
-  getQueryFilterParams(params: NzTableQueryParams): EvidenceManagerQueryVariables {
+  getQueryFilterParams(
+    params: CvcTableQueryParams
+  ): EvidenceManagerQueryVariables {
     let filters: { [key in QueryParamKey]?: any } = {}
     // create an object with any specified filter attributes
     params.filter.forEach((f) => {
@@ -592,9 +665,9 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cvcQueryVariables) {
-      const queryVars = changes.cvcQueryVariables.currentValue
-      this.onQuery$.next(queryVars)
+    if (changes.cvcTableQueryParams) {
+      const queryParams = changes.cvcTableQueryParams.currentValue
+      this.onTableQueryParams$.next(queryParams)
     }
     if (changes.cvcSelectedIds) {
       const ids = changes.cvcSelectedIds.currentValue

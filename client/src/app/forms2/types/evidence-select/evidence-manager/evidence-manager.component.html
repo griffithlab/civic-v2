@@ -21,7 +21,7 @@
     [nzShowPagination]="false"
     [nzLoading]="(loading$ | ngrxPush) && !isFetchMoreQuery"
     nzSize="small"
-    (nzQueryParams)="onQuery$.next($event)">
+    (nzQueryParams)="onTableQueryParams$.next($event)">
     <thead *ngrxLet="col$ as cols">
       <tr class="col-header-row">
         <th
@@ -425,7 +425,15 @@
 </ng-template>
 
 <ng-template #cardTitle>
-  <span>Use checkboxes to select or deselect EIDs</span>
+  <nz-row>
+    <nz-col>
+      <span>Use checkboxes to select or deselect EIDs</span>
+    </nz-col>
+    <nz-col>
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+    </nz-col>
+  </nz-row>
 </ng-template>
 
 <!-- card's extra template - loading/error indicators & prefs button-->
