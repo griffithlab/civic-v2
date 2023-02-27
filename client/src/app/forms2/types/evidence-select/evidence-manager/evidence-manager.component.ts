@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -6,7 +7,10 @@ import {
   Input,
   OnChanges,
   Output,
+  QueryList,
   SimpleChanges,
+  TemplateRef,
+  ViewChildren,
 } from '@angular/core'
 import { ApolloError, ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
@@ -30,18 +34,26 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { GraphQLError } from 'graphql'
-import { NzTableFilterValue, NzTableQueryParams } from 'ng-zorro-antd/table'
+import {
+  NzTableFilterValue,
+  NzTableQueryParams,
+  NzTableSortOrder,
+  NzThAddOnComponent,
+} from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
   distinctUntilChanged,
   filter,
+  from,
   map,
   Observable,
+  of,
   ReplaySubject,
   shareReplay,
   startWith,
   Subject,
+  tap,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
@@ -109,6 +121,9 @@ type ColConfig = {
     multiple?: boolean
   }
   showSort?: boolean
+  // NOTE: evidenceItems query appears to support single-col sort only.
+  // If multiple ColConfigs provide a sortOrder, only the last will b
+  sortOrder?: NzTableSortOrder
 }
 
 type TableConfig = {
@@ -120,6 +135,7 @@ type ColumnPrefsOption = { label: string; value: string; checked?: boolean }
 type ColumnPrefsModel = ColumnPrefsOption[]
 
 export type QueryParamKey = keyof EvidenceManagerQueryVariables
+
 // gql query vars sort params
 type QuerySortParams = {
   sortBy: {
@@ -128,7 +144,7 @@ type QuerySortParams = {
   }
 }
 
-type QueryType = 'fetch' | 'refetch'
+type QueryType = 'fetchMore' | 'refetch'
 
 // version of NzTableQueryParams modified for relay pagination,
 // replaces 'pageIndex' and 'pageSize' w/ 'first' and 'after'
@@ -149,10 +165,14 @@ type RequestError = {
   styleUrls: ['./evidence-manager.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceManagerComponent implements OnChanges {
+export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableQueryParams?: Partial<NzTableQueryParams>
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
+
+  @ViewChildren('enumTableFilter') tableFilterRefs?: QueryList<
+    TemplateRef<NzThAddOnComponent<any>>
+  >
 
   // SOURCE STREAMS
   onTableQueryParams$: ReplaySubject<NzTableQueryParams>
@@ -161,12 +181,16 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   onQuery$: ReplaySubject<CvcTableQueryParams>
   onRowSelected$: Subject<RowSelection>
   onPreference$: Subject<ColumnPrefsModel>
+  onResetFilter$: Subject<void>
 
   // INTERMEDIATE STREAMS
   queryResult$: Subject<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
   selectedRow$: BehaviorSubject<Set<number>>
   preferenceUpdate$!: Observable<ColumnPrefsModel>
+  tableFilterRef$: ReplaySubject<
+    QueryList<TemplateRef<NzThAddOnComponent<CvcInputEnum>>>
+  >
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<TableConfig>
@@ -177,7 +201,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   isFetchMore$: Subject<boolean>
 
   // passed to tableScroller
-  pageInfo$!: Observable<PageInfo>
+  pageInfo$: Observable<PageInfo>
   scrollEvent$: BehaviorSubject<ScrollEvent>
   scrollToIndex$: Subject<number> // TODO: implement scroll-to-index
 
@@ -186,15 +210,6 @@ export class CvcEvidenceManagerComponent implements OnChanges {
 
   // initial column configurations
   managerTableConfig: TableConfig
-
-  // the entity name text filters integrate w/ the nz-table filter options,
-  // by using a single-element filter array. 'value' is the input model value
-  // and 'text' will be its placeholder text. This filter option can be used to
-  // specify an input w/o a placeholder
-  nameFilterNoPlaceholder: FilterOption = {
-    text: '',
-    value: '',
-  }
 
   // hide these columns in preferences checkbox list to prevent changes
   omittedFromPrefs: ColKey[] = ['selected', 'id']
@@ -235,6 +250,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     this.onQuery$ = new ReplaySubject<CvcTableQueryParams>()
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onPreference$ = new Subject<ColumnPrefsModel>()
+    this.onResetFilter$ = new Subject<void>()
 
     this.queryResult$ = new Subject<ApolloQueryResult<EvidenceManagerQuery>>()
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
@@ -244,6 +260,18 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     this.requestError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
 
+    this.tableFilterRef$ = new ReplaySubject<
+      QueryList<TemplateRef<NzThAddOnComponent<any>>>
+    >()
+
+    // the entity name text filters integrate w/ the nz-table filter options
+    // by using a single-element filter array. 'value' is the input model value
+    // and 'text' will be its placeholder text. This filter option can be used to
+    // specify an input w/o a placeholder
+    const nameFilterNoPlaceholder: FilterOption = {
+      text: '',
+      value: '',
+    }
     this.managerTableConfig = {
       selected: {
         name: 'Select',
@@ -257,7 +285,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         width: '30px',
         hide: true,
         filter: {
-          options: [this.nameFilterNoPlaceholder],
+          options: [nameFilterNoPlaceholder],
         },
       },
       status: {
@@ -301,7 +329,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       },
       therapyInteractionType: {
         name: 'IT',
-        tooltip: 'Therapy Interaction Type',
+        tooltip: 'Interaction Type',
         key: 'therapyInteractionType',
         width: '30px',
       },
@@ -386,14 +414,16 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    // merge custom filter events w/ current query params, emit new onQuery$ event
-    // when custom filter components emit updates
+    // merge custom filter updates w/ latest query params, trigger new refetch query
     this.onCustomFilter$
       .pipe(
         withLatestFrom(this.onQuery$),
         map(([newFilter, params]) => {
           // convert newFilter key to its corresponding query param
           // e.g. 'molecularProfile' to 'molecularProfileName'
+          // FIXME: wanted to avoid coercing key to ColKey below, but
+          // wasn't able to get ColumnKeyToFilterParamMap's type specified
+          // in a way that worked
           const mappedKey =
             this.columnKeyToFilterParamMap[newFilter.key as ColKey]
           newFilter.key = mappedKey ? mappedKey : newFilter.key
@@ -417,14 +447,14 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         this.onQuery$.next(params)
       })
 
-    // add query type to params from table's filter updates &
-    // component Input updates, emit from onQuery$
+    // trigger refetch query when nz-table emits a filter/sort update
     this.onTableQueryParams$
       .pipe(untilDestroyed(this))
       .subscribe((tableParams) => {
         // omit unused pageIndex, pageSize attributes
         let { pageIndex, pageSize, ...params } = tableParams
 
+        // add query type attribute
         const queryParams: CvcTableQueryParams = {
           ...params,
           query: 'refetch',
@@ -432,13 +462,14 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         this.onQuery$.next(queryParams)
       })
 
-    // add query type to last onQueryparams, merge tablescroller onFetch, emit onQuery$
+    // merge tablescroller onFetch w/ latest query params,
+    // then trigger new fetchMore query
     this.onFetch$
       .pipe(withLatestFrom(this.onQuery$), untilDestroyed(this))
       .subscribe(([fetchParams, lastQuery]) => {
         const queryParams: CvcTableQueryParams = {
           ...lastQuery,
-          query: 'fetch',
+          query: 'fetchMore',
           fetchMore: {
             ...fetchParams,
           },
@@ -456,15 +487,21 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         // depending on the params.query setting
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
+          this.scrollToIndex$.next(0)
           this.queryRef = this.gql.watch(queryVars)
           // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
           // errors, so this extra requestError$ stuff below is required, using
-          // those functions' .then() promises to catch and forward those errors.
-          // see: https://github.com/apollographql/apollo-client/issues/6857
+          // those functions then() promises to catch and forward any errors.
+          // bug report: https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
-            .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
+            .pipe(
+              // tag('queryRef.valueChanges'),
+              untilDestroyed(this)
+            )
             .subscribe((result) => {
               this.queryResult$.next(result)
+              // not sure if this is needed like fetch/refetch,
+              // queryRef.valueChanges should be emitting errors
               if (result.error || result.errors) {
                 this.requestError$.next(this.getRequestErrors(result))
               }
@@ -494,7 +531,6 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       distinctUntilChanged()
     )
 
-    // entity page info & nodes
     this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
 
     // provided to table-scroll directive for fetchMore queries
@@ -503,7 +539,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       filter(isNonNulled)
     )
 
-    // add any additional row attributes as desired, for column data not included response
+    // emit rows from query responses after appending a 'selected' column
     this.row$ = combineLatest([
       this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
       this.selectedRow$,
@@ -526,9 +562,6 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       ),
       startWith([])
     )
-
-    // emit network & query errors for error tag display
-    this.requestError$.pipe(tag('requestError$ end'))
 
     // col$ provide column-level configuration for table header, and row cells.
     // Preferences feature subscribes to col$ to generate its options, and updates
@@ -581,6 +614,45 @@ export class CvcEvidenceManagerComponent implements OnChanges {
           // ng won't interpret subsequent 'true' events as changes
           setInterval(() => this.noMoreRows$.next(false))
         }
+      })
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.tableFilterRefs) {
+      console.error(
+        'evidence-manager could not get reference to its #enumTableFilter templates, cannot initialize onResetFilter$.'
+      )
+      return
+    }
+
+    // reset table with initial table column configuration
+    // FIXME: refreshes table rows, but doesn't reset filter option panels, despite
+    // updating with col$ w/ default config. Col$ includes the filter's options w/ defaults.
+    // Most likely bug w/ nz-table's filter options working w/ server-side filtering?
+    // Might need to implement all filters with nz-custom-filter to get access to its
+    // reset function, manually reset them
+    // NOTE: according to this issue, the table needs to use *ngFor to format the columns,
+    // as I initially did, for the filters to be properly be reset:
+    // https://github.com/NG-ZORRO/ng-zorro-antd/issues/5304
+    // referring to this demo: https://ng.ant.design/components/table/en#components-table-demo-reset-filter
+    this.onResetFilter$
+      .pipe(
+        withLatestFrom(
+          of(this.managerTableConfig),
+          of(this.tableFilterRefs.toArray())
+        ),
+        untilDestroyed(this)
+      )
+      .subscribe(([_, config, refs]) => {
+        console.log('-------tablefilterrefs')
+        console.log(refs)
+        // const tableParams = this.getTableParamsFromTableConfig(config)
+        const nzTableParams = this.getNzTableParamsFromTableConfig(config)
+        refs.forEach((ref) => {
+          console.log(ref)
+        })
+        this.col$.next({ ...this.managerTableConfig })
+        this.onTableQueryParams$.next(nzTableParams)
       })
   }
 
@@ -646,6 +718,66 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     return filters
   }
 
+  // export interface NzTableQueryParams {
+  //     query: QueryType;
+  //     sort: Array<{
+  //         key: string;
+  //         value: NzTableSortOrder;
+  //     }>;
+  //     filter: Array<{
+  //         key: string;
+  //         value: NzTableFilterValue;
+  //     }>;
+  // }
+
+  // converts TableConfig objects to table query params,
+  // used by onResetFilter$ to reset table to initial state
+  getTableParamsFromTableConfig(cols: TableConfig): CvcTableQueryParams {
+    const objKeys = Object.keys(cols) as Array<keyof typeof cols>
+    let params: CvcTableQueryParams = {
+      query: 'refetch',
+      sort: [],
+      filter: [],
+    }
+    objKeys.forEach((k) => {
+      if (cols[k].showSort && cols[k].sortOrder) {
+        params.sort.push({ key: cols[k].key, value: cols[k].sortOrder! })
+      }
+      if (cols[k].filter?.options) {
+        const filterDefault = cols[k].filter!.options.find(
+          (opt) => opt.byDefault == true
+        )
+        if (filterDefault) {
+          params.filter.push({ key: cols[k].key, value: filterDefault.value })
+        }
+      }
+    })
+    return params
+  }
+
+  getNzTableParamsFromTableConfig(cols: TableConfig): NzTableQueryParams {
+    const objKeys = Object.keys(cols) as Array<keyof typeof cols>
+    let params: NzTableQueryParams = {
+      pageIndex: 0,
+      pageSize: 0,
+      sort: [],
+      filter: [],
+    }
+    objKeys.forEach((k) => {
+      if (cols[k].showSort && cols[k].sortOrder) {
+        params.sort.push({ key: cols[k].key, value: cols[k].sortOrder! })
+      }
+      if (cols[k].filter?.options) {
+        const filterDefault = cols[k].filter!.options.find(
+          (opt) => opt.byDefault == true
+        )
+        if (filterDefault) {
+          params.filter.push({ key: cols[k].key, value: filterDefault.value })
+        }
+      }
+    })
+    return params
+  }
   updateConfigFromPrefs(
     cols: TableConfig,
     options: ColumnPrefsModel

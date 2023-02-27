@@ -217,6 +217,7 @@
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.evidenceType.hide"
+          #enumTableFilter
           nzColumnKey="evidenceType"
           class="attribute-filter"
           [nzWidth]="cols.evidenceType.width"
@@ -227,6 +228,7 @@
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.evidenceDirection.hide"
+          #enumTableFilter
           nzColumnKey="evidenceDirection"
           class="attribute-filter"
           [nzWidth]="cols.evidenceDirection.width"
@@ -237,6 +239,7 @@
           [nzFilterFn]="true"></th>
         <th
           *ngIf="!cols.significance.hide"
+          #enumTableFilter
           nzColumnKey="significance"
           class="attribute-filter"
           [nzWidth]="cols.significance.width"
@@ -375,6 +378,12 @@
       </ng-template>
     </tbody>
   </nz-table>
+<!-- <nz-row>
+    <nz-col>
+      <p>col$:</p>
+      <pre>{{ col$ | ngrxPush| json  }}</pre>
+    </nz-col>
+  </nz-row> -->
 </nz-card>
 
 <!-- col header input for typeahead filter -->
@@ -430,8 +439,8 @@
       <span>Use checkboxes to select or deselect EIDs</span>
     </nz-col>
     <nz-col>
-    <cvc-table-counts
-      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+      <cvc-table-counts
+        [cvcTableCountsConnection]="connection$"></cvc-table-counts>
     </nz-col>
   </nz-row>
 </ng-template>
@@ -511,7 +520,8 @@
           nz-button
           type="button"
           nzType="default"
-          nzSize="small">
+          nzSize="small"
+          (click)="onResetFilter$.next()">
           <span
             nz-icon
             nzType="retweet"

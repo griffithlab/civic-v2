@@ -143,7 +143,7 @@ export function EntitySelectField<
       getSelectedItemOption!: GetSelectedItemFn<TAF>
       getSelectOptions!: GetSelectOptionsFn<TAF>
       minSearchStrLength!: number
-      cdr!: ChangeDetectorRef // NOTE: would be great to remove this by eliminating subscriptions
+      cdr!: ChangeDetectorRef // NOTE: would be great to remove this
 
       // LOCAL REFS
       queryRef?: QueryRef<TAQ, TAV>
