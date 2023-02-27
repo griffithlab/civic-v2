@@ -46,6 +46,7 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
+import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -172,7 +173,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
   row$?: Observable<RowData[]>
   loading$: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
-  requestError$: Observable<Maybe<RequestError>>
+  requestError$: Subject<RequestError>
   isFetchMore$: Subject<boolean>
 
   // passed to tableScroller
@@ -240,7 +241,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     this.scrollIndex$ = new Subject<number>()
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
-    this.requestError$ = new Observable<RequestError>()
+    this.requestError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
 
     this.managerTableConfig = {
@@ -456,18 +457,32 @@ export class CvcEvidenceManagerComponent implements OnChanges {
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
           this.queryRef = this.gql.watch(queryVars)
+          // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
+          // errors, so this extra requestError$ stuff below is required to get errors from
+          // those functions' .then() promises. see: https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
-            .pipe(untilDestroyed(this))
-            .subscribe((results) => {
-              this.queryResult$.next(results)
+            .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
+            .subscribe((result) => {
+              this.queryResult$.next(result)
+              if (result.error || result.errors) {
+                this.requestError$.next(this.getRequestErrors(result))
+              }
             })
         } else {
           if (params.query === 'refetch') {
             this.isFetchMore$.next(false)
-            this.queryRef.refetch(queryVars)
+            this.queryRef.refetch(queryVars).then((result) => {
+              if (result.error || result.errors) {
+                this.requestError$.next(this.getRequestErrors(result))
+              }
+            })
           } else {
             this.isFetchMore$.next(true)
-            this.queryRef.fetchMore({ variables: queryVars })
+            this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
+              if (result.error || result.errors) {
+                this.requestError$.next(this.getRequestErrors(result))
+              }
+            })
           }
         }
       })
@@ -511,16 +526,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     )
 
     // emit network & query errors for error tag display
-    this.requestError$ = this.queryResult$.pipe(
-      map((result) => {
-        if (result.errors || result.error) {
-          return {
-            query: result.errors,
-            network: result.error,
-          }
-        } else return
-      })
-    )
+    this.requestError$.pipe(tag('requestError$ end'))
 
     // col$ provide column-level configuration for table header, and row cells.
     // Preferences feature subscribes to col$ to generate its options, and updates
@@ -528,7 +534,7 @@ export class CvcEvidenceManagerComponent implements OnChanges {
     this.col$ = new BehaviorSubject<TableConfig>(this.managerTableConfig)
 
     // nz-checkbox-groups, used in table prefs, requires a slightly different model
-    // than col$, this map function converts from col config to nz-checkbox-group array
+    // than col$, this map function munges col config array to nz-checkbox-group array
     this.preferenceUpdate$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromConfig(cols))
     )
@@ -576,53 +582,13 @@ export class CvcEvidenceManagerComponent implements OnChanges {
       })
   }
 
-  configureTableObservables(
-    valueChanges: Observable<ApolloQueryResult<EvidenceManagerQuery>>
-  ): void {
-    // emit network & query errors for error tag display
-    this.requestError$ = valueChanges.pipe(
-      map((result) => {
-        if (result.errors || result.error) {
-          return {
-            query: result.errors,
-            network: result.error,
-          }
-        } else return
-      })
-    )
-
-    // entity page info & nodes
-    this.connection$ = valueChanges.pipe(pluck('data', 'evidenceItems'))
-
-    // provided to table-scroll directive for fetchMore queries
-    this.pageInfo$ = this.connection$.pipe(
-      pluck('pageInfo'),
-      filter(isNonNulled)
-    )
-
-    // add any additional row attributes as desired, for column data not included response
-    this.row$ = combineLatest([
-      this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
-      this.selectedRow$,
-    ]).pipe(
-      map(
-        ([rows, selected]: [EvidenceManagerFieldsFragment[], Set<number>]) => {
-          return rows.map((row) => {
-            return {
-              ...row,
-              evidenceItem: {
-                __typename: 'EvidenceItem',
-                id: row.id,
-                name: row.name,
-                link: row.link,
-              },
-              selected: selected.has(row.id),
-            }
-          })
-        }
-      ),
-      startWith([])
-    )
+  getRequestErrors(
+    result: ApolloQueryResult<EvidenceManagerQuery>
+  ): RequestError {
+    return {
+      query: result.errors,
+      network: result.error,
+    }
   }
 
   getAttributeFilters(
