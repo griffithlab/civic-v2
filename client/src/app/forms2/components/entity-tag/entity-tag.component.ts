@@ -17,6 +17,7 @@ export interface LinkableEntity {
   id: number
   name: string
   link?: string
+  tooltip?: string
 }
 @Component({
   selector: 'cvc-entity-tag',
@@ -40,6 +41,7 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcEmphasize?: string
   @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
+  @Input() cvcHasTooltip: boolean = false
   
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
@@ -89,7 +91,19 @@ export class CvcEntityTagComponent implements OnChanges {
           }
         `,
       }
-    } else {
+    } else if(this.cvcHasTooltip) {
+      fragment = {
+        id: `${typename}:${id}`,
+        fragment: gql`
+          fragment Linkable${typename}Entity on ${typename} {
+            id
+            name
+            tooltip
+          }
+        `,
+      }
+    }
+    else{
       fragment = {
         id: `${typename}:${id}`,
         fragment: gql`

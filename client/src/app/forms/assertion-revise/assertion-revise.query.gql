@@ -42,6 +42,7 @@ fragment RevisableAssertionFields on Assertion {
     name
     code
     description
+    tooltip
   }
   clingenCodes {
     id

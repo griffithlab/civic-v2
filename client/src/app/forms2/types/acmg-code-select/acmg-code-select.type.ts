@@ -32,7 +32,7 @@ import {
     FormlyFieldProps
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs'
+import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -48,14 +48,8 @@ export interface CvcAcmgCodeSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   // if true, field disabled when no entity type available
   requireType: boolean
-  placeholders: {
-    // default placeholder
-    default: string
-    // default placeholder for multi-selects
-    multiDefault: string
-    // placeholder if evidence/assertion type required & field disabled
-    requireTypePrompt: string
-  },
+  placeholder: string
+  requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) => string
   tooltip?: string
   description?: string
   extraType?: string
@@ -98,7 +92,7 @@ export class CvcAcmgCodeSelectField
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresAcmgCode$?: BehaviorSubject<boolean>
 
-  placeholder$: BehaviorSubject<string>
+  placeholder$: BehaviorSubject<Maybe<string>>
 
   // FieldTypeConfig defaults
   defaultOptions: CvcAcmgCodeSelectFieldOptions = {
@@ -109,11 +103,9 @@ export class CvcAcmgCodeSelectField
       tooltip: 'TODO',
       // TODO: implement labels/placeholders w/ string replacement using typescript
       // template strings: https://www.codevscolor.com/typescript-template-string
-      placeholders: {
-        default: 'Search ACMG/AMP Code(s)',
-        multiDefault: 'Select ACMG/AMP Code(s)',
-        requireTypePrompt: 'Select an ENTITY_NAME Type to search ACMG/AMP Code(s)',
-      },
+      placeholder: 'Search ACMG/AMP Codes',
+      requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
+        `Select an ${entityName} Type to search associated ACMG Code(s)`,
       description: 'TODO',
       extraType: 'description'
     },
@@ -130,9 +122,7 @@ export class CvcAcmgCodeSelectField
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.defaultOptions.props!.placeholders!.default
-    )
+    this.placeholder$ = new BehaviorSubject<Maybe<string>>(undefined)
   }
 
   ngAfterViewInit(): void {
@@ -156,9 +146,80 @@ export class CvcAcmgCodeSelectField
 
   configureStateConnections(): void {
     if (!this.state) return
+    this.stateEntityName = this.state.entityName
+    // connect to onRequiresAcmgCode$
+    if (!this.state.requires.requiresAcmgCodes$) {
+      console.warn(
+        `${this.field.id} field's form provides a state, but could not find requiresAcmgCodes$ subject to attach.`
+      )
+    } else {
+      this.onRequiresAcmgCode$ = this.state.requires.requiresAcmgCodes$
+    }
+
+    // connect onEntityType$
+    if (this.props.requireType) {
+      const etName = `${this.stateEntityName.toLowerCase()}Type$`
+      if (!this.state.fields[etName]) {
+        console.error(
+          `${this.field.id} requireType is true, however form state does not provide Subject ${etName}.`
+        )
+      } else {
+        this.onEntityType$ = this.state.fields[etName]
+        // this.onEntityType$.pipe(tag(`${this.field.id} onEntityType$`)).subscribe()
+      }
+    }
   }
 
   configurePlaceholders(): void {
+    this.placeholder$.next(this.props.placeholders)
+    if (!this.onRequiresAcmgCode$ || !this.onEntityType$) return
+    // update field placeholders & required status on state input events
+    combineLatest([
+      this.onRequiresAcmgCode$,
+      this.onEntityType$
+    ]).pipe(
+        distinctUntilChanged(),
+        untilDestroyed(this)
+      )
+      .subscribe(([requiresAcmgCode, entityType]: [boolean, Maybe<EntityType>]) => {
+        // ACMG Codes are not associated with this entity type
+        if (!requiresAcmgCode && entityType) {
+          this.props.required = false
+          this.props.disabled = true
+          // no ACMG Code required, entity type specified
+          this.props.description = `${formatEvidenceEnum(entityType)} ${
+            this.state!.entityName
+          } does not include associated ACMG/AMP Code(s)`
+          this.props.extraType = 'prompt'
+          this.resetField()
+          this.cdr.markForCheck()
+        }
+        // if type required, toggle field required property off and show a 'Select Type..' prompt
+        else if (this.props.requireType && !entityType) {
+          this.props.required = false
+          this.props.disabled = true
+          // no ACMG Code required, entity type not specified
+          this.props.description = this.props.requireTypePromptFn(
+            this.state!.entityName,
+            this.props.isMultiSelect
+          )
+          this.props.extraType = 'prompt'
+        }
+        // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresAcmgCode$ if entityType provided)
+        else if (requiresAcmgCode) {
+          this.props.required = true
+          this.props.disabled = false
+          this.props.description = undefined
+          this.props.extraType = undefined
+        }
+        // field currently has a value, but state indicates no ACMG Code is required, or no type is provided && type is required, so reset field
+        else if (
+          (!requiresAcmgCode && this.formControl.value) ||
+          (this.props.requireType && !entityType && this.formControl.value)
+        ) {
+          this.resetField()
+        }
+      })
   }
 
   getTypeaheadVarsFn(str: string): AcmgCodeSelectTypeaheadQueryVariables {

@@ -15,4 +15,5 @@ fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   code
   name
   description
+  tooltip
 }
