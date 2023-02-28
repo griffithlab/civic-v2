@@ -12,9 +12,13 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
+import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { StringSelectField } from '@app/forms2/mixins/string-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import {
+  AcmgCodeSelectTagGQL,
+  AcmgCodeSelectTagQuery,
+    AcmgCodeSelectTagQueryVariables,
     AcmgCodeSelectTypeaheadFieldsFragment,
     AcmgCodeSelectTypeaheadGQL,
     AcmgCodeSelectTypeaheadQuery,
@@ -60,7 +64,7 @@ export interface CvcAcmgCodeSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcAcmgCOdeSelectFieldConfig
+export interface CvcAcmgCodeSelectFieldConfig
   extends FormlyFieldConfig<CvcAcmgCodeSelectFieldProps> {
   type: 'acmg-code-select' | 'acmg-code-multi-select' | Type<CvcAcmgCodeSelectField>
 }
@@ -70,10 +74,12 @@ const AcmgCodeSelectMixin = mixin(
     FieldTypeConfig<CvcAcmgCodeSelectFieldProps>,
     Maybe<number | number[]>
   >(),
-  StringSelectField<
+  EntitySelectField<
     AcmgCodeSelectTypeaheadQuery,
     AcmgCodeSelectTypeaheadQueryVariables,
     AcmgCodeSelectTypeaheadFieldsFragment,
+    AcmgCodeSelectTagQuery,
+    AcmgCodeSelectTagQueryVariables,
     Maybe<number | number[]>
   >()
 )
@@ -92,9 +98,6 @@ export class CvcAcmgCodeSelectField
   onEntityType$?: Subject<Maybe<EntityType>>
   onRequiresAcmgCode$?: BehaviorSubject<boolean>
 
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
   placeholder$: BehaviorSubject<string>
 
   // FieldTypeConfig defaults
@@ -123,6 +126,7 @@ export class CvcAcmgCodeSelectField
 
   constructor(
     private taq: AcmgCodeSelectTypeaheadGQL,
+    private tq: AcmgCodeSelectTagGQL,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
@@ -134,12 +138,15 @@ export class CvcAcmgCodeSelectField
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
-    this.configureStringSelectField({
+    this.configureEntitySelectField({
       // mixin fn
       typeaheadQuery: this.taq,
       typeaheadParam$: undefined,
+      tagQuery: this.tq,
       getTypeaheadVarsFn: this.getTypeaheadVarsFn,
       getTypeaheadResultsFn: this.getTypeaheadResultsFn,
+      getTagQueryVarsFn: this.getTagQueryVarsFn,
+      getTagQueryResultsFn: this.getTagQueryResultsFn,
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
@@ -162,10 +169,19 @@ export class CvcAcmgCodeSelectField
     return r.data.acmgCodesTypeahead
   }
 
+  getTagQueryResultsFn(
+    r: ApolloQueryResult<AcmgCodeSelectTagQuery>
+  ): Maybe<AcmgCodeSelectTypeaheadFieldsFragment> {
+    return r.data.acmgCode
+  }
+
+  getTagQueryVarsFn(id: number): AcmgCodeSelectTagQueryVariables {
+    return { id: id }
+  }
+
   getSelectedItemOptionFn(
     acmgCode: AcmgCodeSelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
-    console.log(acmgCode)
     return { value: acmgCode.id, label: acmgCode.code }
   }
 

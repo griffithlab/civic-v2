@@ -55,6 +55,7 @@ type AcmgCode {
   code: String!
   description: String!
   id: Int!
+  name: String!
 }
 
 """
@@ -4542,6 +4543,11 @@ enum PhenotypeSortColumns {
 }
 
 type Query {
+  """
+  Find an ACMG code by CIViC ID
+  """
+  acmgCode(id: Int!): AcmgCode
+
   """
   Retrieve ACMG Code options as a typeahead
   """

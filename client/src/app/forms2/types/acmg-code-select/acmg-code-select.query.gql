@@ -4,8 +4,15 @@ query AcmgCodeSelectTypeahead($code: String!) {
   }
 }
 
+query AcmgCodeSelectTag($id: Int!) {
+  acmgCode(id: $id) {
+    ...AcmgCodeSelectTypeaheadFields
+  }
+}
+
 fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
   code
+  name
   description
 }

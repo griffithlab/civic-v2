@@ -40,6 +40,7 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcEmphasize?: string
   @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
+  
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
   @Output() cvcOnClose: EventEmitter<MouseEvent>
@@ -59,6 +60,8 @@ export class CvcEntityTagComponent implements OnChanges {
     return ENTITY_TAG_TYPES_WITH_POPOVER.includes(entityType)
   }
 
+  //FIXME: If you set this before you set the disable link input
+  //you will not get the correct cache fragment
   private setLinkableEntity(cacheId: string) {
     this._cacheId = cacheId
     const [typename, id] = cacheId.split(':')
@@ -74,15 +77,30 @@ export class CvcEntityTagComponent implements OnChanges {
       return
     }
     // get linkable entity
-    const fragment = {
-      id: `${typename}:${id}`,
-      fragment: gql`
-        fragment Linkable${typename}Entity on ${typename} {
-          id
-          name
-          link
-        }
-      `,
+    let fragment = undefined
+    if(!this.cvcDisableLink) {
+      fragment = {
+        id: `${typename}:${id}`,
+        fragment: gql`
+          fragment Linkable${typename}Entity on ${typename} {
+            id
+            name
+            link
+          }
+        `,
+      }
+    } else {
+      fragment = {
+        id: `${typename}:${id}`,
+        fragment: gql`
+          fragment Linkable${typename}Entity on ${typename} {
+            id
+            name
+          }
+        `,
+      }
+
+
     }
     const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
     if (!entity) {
