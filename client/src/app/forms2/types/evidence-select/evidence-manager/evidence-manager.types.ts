@@ -55,6 +55,7 @@ export type EvidenceManagerColType =
   | 'select'
   | 'select-tag'
   | 'entity-tag'
+  | 'enum-tag'
   | 'entity-proxy-tag'
   | 'entity-multi-tag'
   | 'enum'
@@ -77,7 +78,7 @@ export type CvcTableFilterOption = {
 type BaseColumn = {
   key: EvidenceManagerColKey
   type: EvidenceManagerColType
-  name: string
+  label: string
   width: string
   tooltip?: string
   hidden?: boolean
@@ -154,10 +155,29 @@ type DefaultColumn = {
   type: 'default'
 }
 
-type EntityTagColumn = {}
+type TagColumn = {
+  showTag: true
+  tag: {
+    truncateLabel: boolean
+    showLabel: boolean
+  }
+}
+
+type EntityTagColumn = {
+  cacheIdFn?: () => string
+}
+
+type EnumTagColumn = {
+  formatLabelFn?: () => string
+  formatIconFn?: () => string
+}
 
 type EntityMultiTagColumn = {
-  maxTags: number
+  groupTags: true
+  tagGroup: {
+    maxTags: number
+    truncateLabels?: boolean
+  }
 }
 
 // for displaying an entity tag from a different column
@@ -184,6 +204,7 @@ type ColumnConfigOption =
   | SelectTagColumnType
   | EntityTagColumnType
   | EntityMultiTagColumnType
+  | EnumTagColumnType
   | EntityProxyTagColumnType
 
 // displays a checkbox for the table's select feature
@@ -211,6 +232,11 @@ export type EntityProxyTagColumnType = (EntityProxyColumn &
   SortColumn &
   StringFilterColumn &
   BaseColumn) & { type: 'entity-proxy-tag' }
+
+export type EnumTagColumnType = (EnumTagColumn &
+  SortColumn &
+  OptionFilterColumn &
+  BaseColumn) & { type: 'enum-tag' }
 
 // types to drive the preferences panel
 export type ColumnPrefsOption = {
