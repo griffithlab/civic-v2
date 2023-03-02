@@ -60,103 +60,9 @@ import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
+import { CustomFilter, CvcTableQueryParams, EvidenceManagerConnection, EvidenceManagerRowData, TableConfig, RowSelection, ColumnPrefsModel, RequestError, ColKey, FilterOption, QuerySortParams, QueryParamKey } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
-export type EvidenceManagerConnection = {
-  totalCount: number
-  pageCount: number
-  pageInfo: PageInfo
-  nodes: EvidenceManagerFieldsFragment[]
-}
-
-// choose table columns from its query fragment & combine with options extra data
-export type RowData = Pick<
-  EvidenceManagerFieldsFragment,
-  | 'id'
-  | 'status'
-  | 'molecularProfile'
-  | 'disease'
-  | 'therapies'
-  | 'therapyInteractionType'
-  | 'description'
-  | 'evidenceType'
-  | 'evidenceLevel'
-  | 'evidenceRating'
-  | 'evidenceDirection'
-  | 'significance'
-  | 'variantOrigin'
-> &
-  RowDataExtra
-
-// additional columns added to row data for table templates, logic
-export type RowDataExtra = {
-  // need evidence object for entity-tag in colum
-  evidenceItem: { id: number; name: string; link: string }
-  // additional boolean column to handle row selected state
-  selected: boolean
-}
-
-export type ColKey = keyof RowData
-// used in selection events
-type RowSelection = {
-  selected: boolean
-  id: number
-}
-
-// filter option for text typeahead input filters
-type CustomFilter = { key: string; value: NzTableFilterValue }
-
-// NzTableQueryParam's filter object, typed for easier reference
-export type FilterOption = { text: string; value: any; byDefault?: boolean }
-
-// config object for table's columns in TableConfig array
-type ColConfig = {
-  key: ColKey
-  tooltip?: string
-  name: string
-  width: string
-  hide?: boolean
-  filter?: {
-    options: FilterOption[]
-    multiple?: boolean
-  }
-  showSort?: boolean
-  // NOTE: evidenceItems query appears to support single-col sort only.
-  // If multiple ColConfigs provide a sortOrder, only the last will b
-  sortOrder?: NzTableSortOrder
-}
-
-type TableConfig = {
-  [key in ColKey]: ColConfig
-}
-
-// types to drive the preferences panel
-type ColumnPrefsOption = { label: string; value: string; checked?: boolean }
-type ColumnPrefsModel = ColumnPrefsOption[]
-
-export type QueryParamKey = keyof EvidenceManagerQueryVariables
-
-// gql query vars sort params
-type QuerySortParams = {
-  sortBy: {
-    column: any
-    direction: SortDirection
-  }
-}
-
-type QueryType = 'fetchMore' | 'refetch'
-
-// version of NzTableQueryParams modified for relay pagination,
-// replaces 'pageIndex' and 'pageSize' w/ 'first' and 'after'
-export type CvcTableQueryParams = Omit<
-  NzTableQueryParams,
-  'pageIndex' | 'pageSize'
-> & { fetchMore?: { first?: number; after?: string }; query: QueryType }
-
-type RequestError = {
-  network?: ApolloError
-  query?: ReadonlyArray<GraphQLError>
-}
 
 @UntilDestroy()
 @Component({
@@ -194,7 +100,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<TableConfig>
-  row$?: Observable<RowData[]>
+  row$?: Observable<EvidenceManagerRowData[]>
   loading$: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
   requestError$: Subject<RequestError>
@@ -823,7 +729,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  trackByIndex(_: number, data: RowData): number {
+  trackByIndex(_: number, data: EvidenceManagerRowData): number {
     return data.id
   }
 }
