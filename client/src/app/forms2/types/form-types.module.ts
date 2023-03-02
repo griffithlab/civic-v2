@@ -21,6 +21,7 @@ import { CvcMolecularProfileSelectModule } from './molecular-profile-select/mole
 import { CvcMolecularProfileBuilderModule } from './molecular-profile-builder/molecular-profile-builder.module'
 import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
 import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
+import { CvcClingenCodeSelectModule } from './clingen-code-select/clingen-code-select.module'
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.mod
     CvcMolecularProfileSelectModule,
     CvcAmpCategorySelectModule,
     CvcAcmgCodeSelectModule,
+    CvcClingenCodeSelectModule,
   ],
 })
 export class CvcFormTypesModule {}

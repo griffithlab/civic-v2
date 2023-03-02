@@ -16,14 +16,14 @@ import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { StringSelectField } from '@app/forms2/mixins/string-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import {
-  AcmgCodeSelectTagGQL,
-  AcmgCodeSelectTagQuery,
-    AcmgCodeSelectTagQueryVariables,
-    AcmgCodeSelectTypeaheadFieldsFragment,
-    AcmgCodeSelectTypeaheadGQL,
-    AcmgCodeSelectTypeaheadQuery,
-    AcmgCodeSelectTypeaheadQueryVariables,
-    Maybe,
+  ClingenCodeSelectTagGQL,
+  ClingenCodeSelectTagQuery,
+  ClingenCodeSelectTagQueryVariables,
+  ClingenCodeSelectTypeaheadFieldsFragment,
+  ClingenCodeSelectTypeaheadGQL,
+  ClingenCodeSelectTypeaheadQuery,
+  ClingenCodeSelectTypeaheadQueryVariables,
+  Maybe,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -36,12 +36,12 @@ import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'r
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
-export type CvcAcmgCodeSelectFieldOptions = Partial<
-  FieldTypeConfig<CvcAcmgCodeSelectFieldProps>
+export type CvcClingenCodeSelectFieldOptions = Partial<
+  FieldTypeConfig<CvcClingenCodeSelectFieldProps>
 >
 // TODO: finish implementing updated props interface w/ labels, placeholders groups,
 // and multiMax limits, multiDefault placeholder
-export interface CvcAcmgCodeSelectFieldProps extends FormlyFieldProps {
+export interface CvcClingenCodeSelectFieldProps extends FormlyFieldProps {
   // entity names, singular & plural
   entityName: CvcSelectEntityName
   // if true, field is a multi-select & its model value should be an array
@@ -58,54 +58,54 @@ export interface CvcAcmgCodeSelectFieldProps extends FormlyFieldProps {
 // NOTE: any multi-select field must have the string 'multi' in its type name,
 // as UI logic (currently in base-field) depends on its presence to differentiate
 // field types in some expressions
-export interface CvcAcmgCodeSelectFieldConfig
-  extends FormlyFieldConfig<CvcAcmgCodeSelectFieldProps> {
-  type: 'acmg-code-select' | 'acmg-code-multi-select' | Type<CvcAcmgCodeSelectField>
+export interface CvcClingenCodeSelectFieldConfig
+  extends FormlyFieldConfig<CvcClingenCodeSelectFieldProps> {
+  type: 'clingen-code-select' | 'clingen-code-multi-select' | Type<CvcClingenCodeSelectField>
 }
 
-const AcmgCodeSelectMixin = mixin(
+const ClingenCodeSelectMixin = mixin(
   BaseFieldType<
-    FieldTypeConfig<CvcAcmgCodeSelectFieldProps>,
+    FieldTypeConfig<CvcClingenCodeSelectFieldProps>,
     Maybe<number | number[]>
   >(),
   EntitySelectField<
-    AcmgCodeSelectTypeaheadQuery,
-    AcmgCodeSelectTypeaheadQueryVariables,
-    AcmgCodeSelectTypeaheadFieldsFragment,
-    AcmgCodeSelectTagQuery,
-    AcmgCodeSelectTagQueryVariables,
+    ClingenCodeSelectTypeaheadQuery,
+    ClingenCodeSelectTypeaheadQueryVariables,
+    ClingenCodeSelectTypeaheadFieldsFragment,
+    ClingenCodeSelectTagQuery,
+    ClingenCodeSelectTagQueryVariables,
     Maybe<number | number[]>
   >()
 )
 
 @Component({
-  selector: 'cvc-acmg-code-select',
-  templateUrl: './acmg-code-select.type.html',
-  styleUrls: ['./acmg-code-select.type.less'],
+  selector: 'cvc-clingen-code-select',
+  templateUrl: './clingen-code-select.type.html',
+  styleUrls: ['./clingen-code-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcAcmgCodeSelectField
-  extends AcmgCodeSelectMixin
+export class CvcClingenCodeSelectField
+  extends ClingenCodeSelectMixin
   implements AfterViewInit
 {
   // STATE SOURCE STREAMS
   onEntityType$?: Subject<Maybe<EntityType>>
-  onRequiresAcmgCode$?: BehaviorSubject<boolean>
+  onRequiresClingenCode$?: BehaviorSubject<boolean>
 
   placeholder$: BehaviorSubject<Maybe<string>>
 
   // FieldTypeConfig defaults
-  defaultOptions: CvcAcmgCodeSelectFieldOptions = {
+  defaultOptions: CvcClingenCodeSelectFieldOptions = {
     props: {
-      entityName: { singular: 'ACMG/AMP Code', plural: 'ACMG/AMP Codes' },
+      entityName: { singular: 'ClinGen/CGC/VICC Code', plural: 'ClinGen/CGC/VICC Codes' },
       isMultiSelect: false,
       requireType: true,
-      tooltip: 'If applicable, please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP.',
+      tooltip: 'If applicable, please provide evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity).',
       // TODO: implement labels/placeholders w/ string replacement using typescript
       // template strings: https://www.codevscolor.com/typescript-template-string
-      placeholder: 'Search ACMG/AMP Codes',
+      placeholder: 'Search ClinGen/CGC/VICC Codes',
       requireTypePromptFn: (entityName: string, isMultiSelect?: boolean) =>
-        `Select an ${entityName} Type to search associated ACMG Code(s)`,
+        `Select an ${entityName} Type to search associated ClinGen Code(s)`,
     },
   }
 
@@ -115,8 +115,8 @@ export class CvcAcmgCodeSelectField
   stateEntityName?: string
 
   constructor(
-    private taq: AcmgCodeSelectTypeaheadGQL,
-    private tq: AcmgCodeSelectTagGQL,
+    private taq: ClingenCodeSelectTypeaheadGQL,
+    private tq: ClingenCodeSelectTagGQL,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
@@ -145,13 +145,13 @@ export class CvcAcmgCodeSelectField
   configureStateConnections(): void {
     if (!this.state) return
     this.stateEntityName = this.state.entityName
-    // connect to onRequiresAcmgCode$
-    if (!this.state.requires.requiresAcmgCodes$) {
+    // connect to onRequiresClingenCode$
+    if (!this.state.requires.requiresClingenCodes$) {
       console.warn(
-        `${this.field.id} field's form provides a state, but could not find requiresAcmgCodes$ subject to attach.`
+        `${this.field.id} field's form provides a state, but could not find requiresClingenCodes$ subject to attach.`
       )
     } else {
-      this.onRequiresAcmgCode$ = this.state.requires.requiresAcmgCodes$
+      this.onRequiresClingenCode$ = this.state.requires.requiresClingenCodes$
     }
 
     // connect onEntityType$
@@ -170,24 +170,24 @@ export class CvcAcmgCodeSelectField
 
   configurePlaceholders(): void {
     this.placeholder$.next(this.props.placeholders)
-    if (!this.onRequiresAcmgCode$ || !this.onEntityType$) return
+    if (!this.onRequiresClingenCode$ || !this.onEntityType$) return
     // update field placeholders & required status on state input events
     combineLatest([
-      this.onRequiresAcmgCode$,
+      this.onRequiresClingenCode$,
       this.onEntityType$
     ]).pipe(
         distinctUntilChanged(),
         untilDestroyed(this)
       )
-      .subscribe(([requiresAcmgCode, entityType]: [boolean, Maybe<EntityType>]) => {
-        // ACMG Codes are not associated with this entity type
-        if (!requiresAcmgCode && entityType) {
+      .subscribe(([requiresClingenCode, entityType]: [boolean, Maybe<EntityType>]) => {
+        // ClinGen Codes are not associated with this entity type
+        if (!requiresClingenCode && entityType) {
           this.props.required = false
           this.props.disabled = true
-          // no ACMG Code required, entity type specified
+          // no ClinGen Code required, entity type specified
           this.props.description = `${formatEvidenceEnum(entityType)} ${
             this.state!.entityName
-          } does not include associated ACMG/AMP Code(s)`
+          } does not include associated ClinGen/CGC/VICC Code(s)`
           this.props.extraType = 'prompt'
           this.resetField()
           this.cdr.markForCheck()
@@ -196,23 +196,23 @@ export class CvcAcmgCodeSelectField
         else if (this.props.requireType && !entityType) {
           this.props.required = false
           this.props.disabled = true
-          // no ACMG Code required, entity type not specified
+          // no ClinGen Code required, entity type not specified
           this.props.description = this.props.requireTypePromptFn(
             this.state!.entityName,
             this.props.isMultiSelect
           )
           this.props.extraType = 'prompt'
         }
-        // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresAcmgCode$ if entityType provided)
-        else if (requiresAcmgCode) {
+        // state indicates ClinGen Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresClinGenCode$ if entityType provided)
+        else if (requiresClingenCode) {
           this.props.required = true
           this.props.disabled = false
-          this.props.description = 'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>.',
+          this.props.description = 'Please provide the evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity) in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Horak et. al. 2022.</a>.'
           this.props.extraType = 'description'
         }
-        // field currently has a value, but state indicates no ACMG Code is required, or no type is provided && type is required, so reset field
+        // field currently has a value, but state indicates no ClinGen Code is required, or no type is provided && type is required, so reset field
         else if (
-          (!requiresAcmgCode && this.formControl.value) ||
+          (!requiresClingenCode && this.formControl.value) ||
           (this.props.requireType && !entityType && this.formControl.value)
         ) {
           this.resetField()
@@ -220,40 +220,39 @@ export class CvcAcmgCodeSelectField
       })
   }
 
-  getTypeaheadVarsFn(str: string): AcmgCodeSelectTypeaheadQueryVariables {
+  getTypeaheadVarsFn(str: string): ClingenCodeSelectTypeaheadQueryVariables {
     return { code: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<AcmgCodeSelectTypeaheadQuery>) {
-    return r.data.acmgCodesTypeahead
+  getTypeaheadResultsFn(r: ApolloQueryResult<ClingenCodeSelectTypeaheadQuery>) {
+    return r.data.clingenCodesTypeahead
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<AcmgCodeSelectTagQuery>
-  ): Maybe<AcmgCodeSelectTypeaheadFieldsFragment> {
-    return r.data.acmgCode
+    r: ApolloQueryResult<ClingenCodeSelectTagQuery>
+  ): Maybe<ClingenCodeSelectTypeaheadFieldsFragment> {
+    return r.data.clingenCode
   }
 
-  getTagQueryVarsFn(id: number): AcmgCodeSelectTagQueryVariables {
+  getTagQueryVarsFn(id: number): ClingenCodeSelectTagQueryVariables {
     return { id: id }
   }
 
   getSelectedItemOptionFn(
-    acmgCode: AcmgCodeSelectTypeaheadFieldsFragment
+    clingenCode: ClingenCodeSelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
-    return { value: acmgCode.id, label: acmgCode.code }
+    return { value: clingenCode.id, label: clingenCode.code }
   }
 
   getSelectOptionsFn(
-    results: AcmgCodeSelectTypeaheadFieldsFragment[],
+    results: ClingenCodeSelectTypeaheadFieldsFragment[],
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (acmgCode: AcmgCodeSelectTypeaheadFieldsFragment, index: number) => {
-        console.log(acmgCode)
+      (clingenCode: ClingenCodeSelectTypeaheadFieldsFragment, index: number) => {
         return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || acmgCode.code,
-          value: acmgCode.id,
+          label: tplRefs.get(index) || clingenCode.code,
+          value: clingenCode.id,
         }
       }
     )

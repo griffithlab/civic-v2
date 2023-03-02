@@ -48,6 +48,8 @@ fragment RevisableAssertionFields on Assertion {
     id
     code
     description
+    name
+    tooltip
   }
   nccnGuideline {
     id

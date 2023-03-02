@@ -120,6 +120,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :clingen_code, Types::Entities::ClingenCodeType, null: true do
+      description "Find a ClinGen code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :countries, [Types::Entities::CountryType], null: false do
       description 'Fetch a list of countries for user profiles.'
     end
@@ -314,6 +319,10 @@ module Types
 
     def acmg_code(id:)
       AcmgCode.find(id)
+    end
+
+    def clingen_code(id:)
+      ClingenCode.find(id)
     end
 
     def countries

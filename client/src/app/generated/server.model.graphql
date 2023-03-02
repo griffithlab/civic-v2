@@ -1402,6 +1402,8 @@ type ClingenCode {
   code: String!
   description: String!
   id: Int!
+  name: String!
+  tooltip: String!
 }
 
 type ClinicalTrial {
@@ -4849,6 +4851,11 @@ type Query {
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
+
+  """
+  Find a ClinGen code by CIViC ID
+  """
+  clingenCode(id: Int!): ClingenCode
 
   """
   Retrieve Clingen Code options as a typeahead
