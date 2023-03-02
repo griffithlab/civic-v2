@@ -12,57 +12,55 @@ import {
   TemplateRef,
   ViewChildren,
 } from '@angular/core'
-import { ApolloError, ApolloQueryResult } from '@apollo/client/core'
+import { ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-  EvidenceDirection,
-  EvidenceLevel,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
-  EvidenceSignificance,
   EvidenceSortColumns,
-  EvidenceType,
   Maybe,
   PageInfo,
   SortDirection,
-  VariantOrigin,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { GraphQLError } from 'graphql'
-import {
-  NzTableFilterValue,
-  NzTableQueryParams,
-  NzTableSortOrder,
-  NzThAddOnComponent,
-} from 'ng-zorro-antd/table'
+import { NzTableQueryParams, NzThAddOnComponent } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
   distinctUntilChanged,
   filter,
-  from,
   map,
   Observable,
   of,
   ReplaySubject,
-  shareReplay,
   startWith,
   Subject,
-  tap,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
-import { $enum, EnumWrapper } from 'ts-enum-util'
-import { CustomFilter, CvcTableQueryParams, EvidenceManagerConnection, EvidenceManagerRowData, TableConfig, RowSelection, ColumnPrefsModel, RequestError, ColKey, FilterOption, QuerySortParams, QueryParamKey } from './evidence-manager.types'
+import { EnumWrapper } from 'ts-enum-util'
+import { evidenceManagerConfig } from './evidence-manager.config'
+import {
+  ColKey,
+  ColumnPrefsModel,
+  CustomFilter,
+  CvcTableQueryParams,
+  EvidenceManagerConnection,
+  EvidenceManagerRowData,
+  FilterOption,
+  QueryParamKey,
+  QuerySortParams,
+  RequestError,
+  RowSelection,
+  TableConfig,
+} from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
-
 
 @UntilDestroy()
 @Component({
@@ -115,7 +113,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
   // initial column configurations
-  managerTableConfig: TableConfig
+  managerTableConfig: TableConfig = evidenceManagerConfig
 
   // hide these columns in preferences checkbox list to prevent changes
   omittedFromPrefs: ColKey[] = ['selected', 'id']
@@ -169,143 +167,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.tableFilterRef$ = new ReplaySubject<
       QueryList<TemplateRef<NzThAddOnComponent<any>>>
     >()
-
-    // the entity name text filters integrate w/ the nz-table filter options
-    // by using a single-element filter array. 'value' is the input model value
-    // and 'text' will be its placeholder text. This filter option can be used to
-    // specify an input w/o a placeholder
-    const nameFilterNoPlaceholder: FilterOption = {
-      text: '',
-      value: '',
-    }
-    this.managerTableConfig = {
-      selected: {
-        name: 'Select',
-        key: 'selected',
-        hide: false,
-        width: '30px',
-      },
-      id: {
-        name: 'ID',
-        key: 'id',
-        width: '30px',
-        hide: true,
-        filter: {
-          options: [nameFilterNoPlaceholder],
-        },
-      },
-      status: {
-        name: 'Status',
-        key: 'status',
-        width: '40px',
-        hide: true,
-      },
-      evidenceItem: {
-        name: 'Evidence Item',
-        key: 'evidenceItem',
-        width: '110px',
-        showSort: true,
-        filter: {
-          options: [{ text: 'Search IDs', value: '' }],
-        },
-      },
-      molecularProfile: {
-        name: 'Molecular Profile',
-        key: 'molecularProfile',
-        width: '250px',
-        filter: {
-          options: [{ text: 'Search MP Names', value: '' }],
-        },
-      },
-      disease: {
-        name: 'Disease',
-        key: 'disease',
-        width: '250px',
-        filter: {
-          options: [{ text: 'Search Disease Names', value: '' }],
-        },
-      },
-      therapies: {
-        name: 'Therapies',
-        key: 'therapies',
-        width: '200px',
-        filter: {
-          options: [{ text: 'Search Therapy Names', value: '' }],
-        },
-      },
-      therapyInteractionType: {
-        name: 'IT',
-        tooltip: 'Interaction Type',
-        key: 'therapyInteractionType',
-        width: '30px',
-      },
-      description: {
-        name: 'DESC',
-        tooltip: 'Evidence Description',
-        key: 'description',
-        width: '40px',
-      },
-      evidenceType: {
-        name: 'ET',
-        tooltip: 'Evidence Type',
-        key: 'evidenceType',
-        width: '40px',
-        filter: {
-          options: this.getAttributeFilters(
-            $enum(EvidenceType),
-            EvidenceType.Predictive
-          ),
-        },
-      },
-      evidenceDirection: {
-        name: 'ED',
-        tooltip: 'Evidence Direction',
-        key: 'evidenceDirection',
-        width: '40px',
-        filter: {
-          options: this.getAttributeFilters($enum(EvidenceDirection)),
-        },
-      },
-      evidenceLevel: {
-        name: 'EL',
-        tooltip: 'Evidence Level',
-        key: 'evidenceLevel',
-        width: '40px',
-        filter: {
-          options: this.getAttributeFilters($enum(EvidenceLevel)),
-        },
-      },
-      significance: {
-        name: 'SI',
-        tooltip: 'Significance',
-        key: 'significance',
-        width: '40px',
-        filter: {
-          options: this.getAttributeFilters($enum(EvidenceSignificance)),
-        },
-      },
-      variantOrigin: {
-        name: 'VO',
-        tooltip: 'Variant Origin',
-        key: 'variantOrigin',
-        width: '40px',
-        filter: {
-          options: this.getAttributeFilters($enum(VariantOrigin)),
-        },
-      },
-      evidenceRating: {
-        name: 'ER',
-        tooltip: 'Evidence Rating',
-        key: 'evidenceRating',
-        width: '40px',
-        hide: false,
-        filter: {
-          options: [1, 2, 3, 4, 5].map((n) => {
-            return { value: n, text: `${n} stars` }
-          }),
-        },
-      },
-    }
 
     // update row records, emit new selected ids when row selected
     this.onRowSelected$
@@ -571,20 +432,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  getAttributeFilters(
-    attrEnums: EnumWrapper,
-    byDefault?: CvcInputEnum
-  ): FilterOption[] {
-    const filters = attrEnums.getValues().map((value) => {
-      return {
-        text: formatEvidenceEnum(value),
-        value: value,
-        byDefault: byDefault === value,
-      }
-    })
-    return filters
-  }
-
   getQueryVars(
     params: CvcTableQueryParams
   ): EvidenceManagerQueryVariables | {} {
@@ -623,18 +470,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     })
     return filters
   }
-
-  // export interface NzTableQueryParams {
-  //     query: QueryType;
-  //     sort: Array<{
-  //         key: string;
-  //         value: NzTableSortOrder;
-  //     }>;
-  //     filter: Array<{
-  //         key: string;
-  //         value: NzTableFilterValue;
-  //     }>;
-  // }
 
   // converts TableConfig objects to table query params,
   // used by onResetFilter$ to reset table to initial state
