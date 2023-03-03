@@ -98,18 +98,6 @@ interface SelectionColumn {
   }
 }
 
-interface SelectionTagColumn {
-  entityKey: EvidenceManagerColKey
-  checkbox: {
-    th: {
-      showCheckbox?: boolean
-    }
-    td: {
-      showCheckbox?: boolean
-    }
-  }
-}
-
 interface FixedColumn {
   fixed: {
     left?: string | boolean
@@ -180,7 +168,7 @@ export interface SelectColumnType
 // for a single row on either side to be fixed)
 export interface SelectTagColumnType
   extends BaseColumn,
-    SelectionTagColumn,
+    SelectionColumn,
     TagColumn,
     EntityTagColumn {
   type: 'select-tag'

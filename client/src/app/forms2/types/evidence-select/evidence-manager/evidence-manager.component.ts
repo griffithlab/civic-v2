@@ -1,64 +1,64 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output,
-    QueryList,
-    SimpleChanges,
-    TemplateRef,
-    ViewChildren
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  QueryList,
+  SimpleChanges,
+  TemplateRef,
+  ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-    EvidenceManagerFieldsFragment,
-    EvidenceManagerGQL,
-    EvidenceManagerQuery,
-    EvidenceManagerQueryVariables,
-    EvidenceSortColumns,
-    EvidenceType,
-    Maybe,
-    PageInfo,
-    SortDirection
+  EvidenceManagerFieldsFragment,
+  EvidenceManagerGQL,
+  EvidenceManagerQuery,
+  EvidenceManagerQueryVariables,
+  EvidenceSortColumns,
+  EvidenceType,
+  Maybe,
+  PageInfo,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { NzTableQueryParams, NzThAddOnComponent } from 'ng-zorro-antd/table'
 import {
-    BehaviorSubject,
-    combineLatest,
-    distinctUntilChanged,
-    filter,
-    map,
-    Observable,
-    of,
-    ReplaySubject,
-    startWith,
-    Subject,
-    withLatestFrom
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  of,
+  ReplaySubject,
+  startWith,
+  Subject,
+  withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
-    ColumnPrefsModel,
-    colTypeGuards,
-    CustomFilter,
-    CvcTableQueryParams,
-    EvidenceManagerColKey,
-    EvidenceManagerConnection,
-    EvidenceManagerRowData,
-    EvidenceManagerTableConfig,
-    QueryParamKey,
-    QuerySortParams,
-    RequestError,
-    RowSelection
+  ColumnPrefsModel,
+  colTypeGuards,
+  CustomFilter,
+  CvcTableQueryParams,
+  EvidenceManagerColKey,
+  EvidenceManagerConnection,
+  EvidenceManagerRowData,
+  EvidenceManagerTableConfig,
+  QueryParamKey,
+  QuerySortParams,
+  RequestError,
+  RowSelection,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -139,6 +139,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     variantOrigin: EvidenceSortColumns.VariantOrigin,
   }
 
+  // entity browse query vars include filter vars for values
+  // not part of the evidence row model, this maps between
+  // the columnKey and entity browse query field
   columnKeyToFilterParamMap: {
     [key in EvidenceManagerColKey]?: keyof Pick<
       EvidenceManagerQueryVariables,

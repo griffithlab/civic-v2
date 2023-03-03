@@ -25,332 +25,87 @@
     <!-- subscribe to cols$ for table config updates -->
     <thead *ngrxLet="col$ as cols">
       <tr class="col-header-row">
-        <!-- iterate through table's column options -->
         <ng-container *ngFor="let col of cols">
-          <!-- if col visible, display header cell based on column option type -->
           <ng-container *ngIf="!col.hidden">
-            <!-- SELECT COL - LABEL -->
-            <!-- <th
-                          *ngSwitchCase="
-                            col | guardType : colGuards.isSelectCol as selectCol
-                          "
-                          [nzWidth]="selectCol.width"
-                          [nzShowCheckbox]="selectCol.checkbox.th.showCheckbox"> -->
-            <th *ngIf="col | guardType : colGuards.isSelectCol as selectCol">
-              SEL: {{ selectCol.label }}
-            </th>
-            <!-- ENTITY TAG COL - LABEL -->
+            <!-- SELECT HEADER -->
             <th
-              *ngIf="
-                col | guardType : colGuards.isEntityTagCol as entityTagCol
-              ">
-              ENT: {{ entityTagCol.label }}
+              *ngIf="col | guardType : colGuards.isSelectCol as opt"
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixed.left || false"
+              [nzRight]="opt.fixed.right || false"
+              [nzShowCheckbox]="opt.checkbox.th.showCheckbox"></th>
+            <!-- ENTITY TAG HEADER -->
+            <th *ngIf="col | guardType : colGuards.isEntityTagCol as opt">
+              {{ opt.label }}
             </th>
           </ng-container>
         </ng-container>
       </tr>
       <tr class="filter-row">
         <ng-container *ngFor="let col of cols">
-          <!-- SELECT COLUMN - FILTER -->
-          <ng-container
-            *ngIf="!col.hidden"
-            [ngSwitch]="col">
-            <th
-              *ngSwitchCase="
-                col | guardType : colGuards.isSelectCol as selectCol
-              "></th>
-          </ng-container>
-
-          <!-- DEFAULT COLUMN - FILTER -->
           <ng-container *ngIf="!col.hidden">
+            <!-- SELECT FILTER -->
             <th
-              *ngSwitchDefault
-              [nzWidth]="col.width">
-              FILTER
+              *ngIf="col | guardType : colGuards.isSelectCol as opt"
+              [nzLeft]="opt.fixed.left || false"
+              [nzRight]="opt.fixed.right || false"
+              [nzWidth]="opt.width">
+              &nbsp;
+            </th>
+            <!-- ENTITY TAG FILTER -->
+            <th *ngIf="col | guardType : colGuards.isEntityTagCol as opt">
+              &nbsp;
+            </th>
+            <th
+              *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
+              [nzColumnKey]="opt.key"
+              [nzWidth]="opt.width">
+              <ng-container
+                *ngTemplateOutlet="
+                  columnFilterInput;
+                  context: {
+                    $implicit: opt.key,
+                    options: opt.filter.options
+                  }
+                "></ng-container>
             </th>
           </ng-container>
         </ng-container>
-        <!--
-            <th
-              *ngIf="!cols.selected.hide"
-              nzColumnKey="selected"
-              nzLeft
-              [nzWidth]="cols.selected.width"></th>
-            <th
-              *ngIf="!cols.id.hide"
-              nzColumnKey="id"
-              [nzWidth]="cols.id.width"></th>
-            <th
-              *ngIf="!cols.evidenceItem.hide"
-              nzColumnKey="evidenceItem"
-              [nzWidth]="cols.evidenceItem.width">
-              <ng-container
-                *ngTemplateOutlet="
-                  columnFilterInput;
-                  context: {
-                    $implicit: 'evidenceItem',
-                    options: cols.evidenceItem.filter!.options
-                  }
-                "></ng-container>
-            </th>
-            <th
-              *ngIf="!cols.molecularProfile.hide"
-              nzColumnKey="molecularProfile"
-              [nzWidth]="cols.molecularProfile.width">
-              <ng-container
-                *ngTemplateOutlet="
-                  columnFilterInput;
-                  context: {
-                    $implicit: 'molecularProfile',
-                    options: cols.molecularProfile.filter!.options
-                  }
-                "></ng-container>
-            </th>
-            <th
-              *ngIf="!cols.disease.hide"
-              nzColumnKey="disease"
-              [nzWidth]="cols.disease.width">
-              <ng-container
-                *ngTemplateOutlet="
-                  columnFilterInput;
-                  context: {
-                    $implicit: 'disease',
-                    options: cols.disease.filter!.options
-                  }
-                "></ng-container>
-            </th>
-            <th
-              *ngIf="!cols.therapies.hide"
-              nzColumnKey="therapies"
-              [nzWidth]="cols.therapies.width">
-              <ng-container
-                *ngTemplateOutlet="
-                  columnFilterInput;
-                  context: {
-                    $implicit: 'therapies',
-                    options: cols.therapies.filter!.options
-                  }
-                "></ng-container>
-            </th>
-            <th
-              *ngIf="!cols.therapyInteractionType.hide"
-              nzColumnKey="therapyInteractionType"
-              class="attribute-filter"
-              [nzWidth]="cols.therapyInteractionType.width"
-              [nzShowFilter]="true"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.description.hide"
-              nzColumnKey="description"
-              class="attribute-filter"
-              [nzWidth]="cols.description.width"
-              [nzShowFilter]="true"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.evidenceLevel.hide"
-              nzColumnKey="evidenceLevel"
-              class="attribute-filter"
-              [nzWidth]="cols.evidenceLevel.width"
-              nzAlign="center"
-              [nzShowFilter]="true"
-              [nzFilters]="cols.evidenceLevel.filter!.options"
-              [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.evidenceType.hide"
-              #enumTableFilter
-              nzColumnKey="evidenceType"
-              class="attribute-filter"
-              [nzWidth]="cols.evidenceType.width"
-              nzAlign="center"
-              [nzShowFilter]="true"
-              [nzFilters]="cols.evidenceType.filter!.options"
-              [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.evidenceDirection.hide"
-              #enumTableFilter
-              nzColumnKey="evidenceDirection"
-              class="attribute-filter"
-              [nzWidth]="cols.evidenceDirection.width"
-              nzAlign="center"
-              [nzShowFilter]="true"
-              [nzFilters]="cols.evidenceDirection.filter!.options"
-              [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.significance.hide"
-              #enumTableFilter
-              nzColumnKey="significance"
-              class="attribute-filter"
-              [nzWidth]="cols.significance.width"
-              nzAlign="center"
-              [nzShowFilter]="true"
-              [nzFilters]="cols.significance.filter!.options"
-              [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.variantOrigin.hide"
-              nzColumnKey="variantOrigin"
-              class="attribute-filter"
-              [nzWidth]="cols.variantOrigin.width"
-              nzAlign="center"
-              [nzShowFilter]="true"
-              [nzFilters]="cols.variantOrigin.filter!.options"
-              [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
-              [nzFilterFn]="true"></th>
-            <th
-              *ngIf="!cols.evidenceRating.hide"
-              nzColumnKey="evidenceRating"
-              class="attribute-filter"
-              [nzWidth]="cols.evidenceRating.width"
-              nzAlign="center"
-              [nzShowFilter]="true"
-              [nzFilters]="cols.evidenceRating.filter!.options"
-              [nzFilterMultiple]="cols.evidenceType.filter!.multiple || false"
-              [nzFilterFn]="true"></th>
-           -->
       </tr>
     </thead>
 
-    <tbody>
+    <tbody *ngrxLet="col$ as cols">
       <ng-template
         nz-virtual-scroll
         let-row>
-        <tr
-          class="data-row"
-          *ngrxLet="col$ as cols">
-          <!-- iterate through table's column options -->
+        <tr class="data-row">
           <ng-container *ngFor="let col of cols">
-            <!-- if col visible, display header cell based on column option type -->
             <ng-container *ngIf="!col.hidden">
-              <!-- SELECT COL - LABEL -->
-              <!-- <th
-                          *ngSwitchCase="
-                            col | guardType : colGuards.isSelectCol as selectCol
-                          "
-                          [nzWidth]="selectCol.width"
-                          [nzShowCheckbox]="selectCol.checkbox.th.showCheckbox"> -->
-              <td *ngIf="col | guardType : colGuards.isSelectCol as selectCol">
-                SEL: {{ row.selected | json }}
-              </td>
-              <!-- ENTITY TAG COL - LABEL -->
+              <!-- SELECT CONTENT -->
+              <td
+                *ngIf="col | guardType : colGuards.isSelectCol as opt"
+                [nzChecked]="row.selected"
+                (nzCheckedChange)="
+                  onRowSelected$.next({ id: row.id, selected: $event })
+                "
+                [nzLeft]="opt.fixed.left || false"
+                [nzRight]="opt.fixed.right || false"></td>
+              <!-- ENTITY TAG CONTENT -->
               <td
                 *ngIf="
-                  col | guardType : colGuards.isEntityTagCol as entityTagCol
+                  col | guardType : colGuards.isEntityTagCol as opt
                 ">
-                {{ row.name }}
+                <cvc-entity-tag
+                  [cvcCacheId]="
+                    row[opt.key].__typename + ':' + row[opt.key].id
+                  "></cvc-entity-tag>
               </td>
             </ng-container>
           </ng-container>
-          <!--
-          <td
-            *ngIf="!cols.selected.hide"
-            nzLeft
-            [nzChecked]="row.selected"
-            nzAlign="left"
-            (nzCheckedChange)="
-              onRowSelected$.next({ id: row.id, selected: $event })
-            "></td>
-
-          <td *ngIf="!cols.id.hide">
-            {{ row.id }}
-          </td>
-
-          <td *ngIf="!cols.evidenceItem.hide">
-            <cvc-entity-tag
-              [cvcCacheId]="
-                'EvidenceItem' + ':' + row.evidenceItem.id
-              "></cvc-entity-tag>
-          </td>
-
-          <td *ngIf="!cols.molecularProfile.hide">
-            <cvc-entity-tag
-              [cvcCacheId]="
-                'MolecularProfile' + ':' + row.molecularProfile.id
-              "></cvc-entity-tag>
-          </td>
-
-          <td *ngIf="!cols.disease.hide">
-            <cvc-entity-tag
-              [cvcCacheId]="'Disease' + ':' + row.disease.id"></cvc-entity-tag>
-          </td>
-
-          <td *ngIf="!cols.therapies.hide">
-            <cvc-entity-tag
-              *ngFor="let therapy of row.therapies"
-              [cvcCacheId]="'Therapy' + ':' + therapy.id"></cvc-entity-tag>
-          </td>
-
-          <td *ngIf="!cols.therapyInteractionType.hide">IT</td>
-
-          <td *ngIf="!cols.description.hide">DESC</td>
-          <td
-            *ngIf="!cols.evidenceLevel.hide"
-            nzAlign="center">
-            {{ row.evidenceLevel }}
-          </td>
-
-          <td
-            *ngIf="!cols.evidenceType.hide"
-            nzAlign="center">
-            <cvc-attribute-tag
-              [cvcAttrValue]="row.evidenceType"
-              [cvcShowLabel]="false"
-              [cvcTooltip]="
-                row.evidenceType | evidenceEnumDisplay
-              "></cvc-attribute-tag>
-          </td>
-
-          <td
-            *ngIf="!cols.evidenceDirection.hide"
-            nzAlign="center">
-            <cvc-attribute-tag
-              [cvcAttrValue]="row.evidenceDirection"
-              [cvcShowLabel]="false"
-              [cvcTooltip]="
-                row.evidenceDirection | evidenceEnumDisplay
-              "></cvc-attribute-tag>
-          </td>
-
-          <td
-            *ngIf="!cols.significance.hide"
-            nzAlign="center">
-            <cvc-attribute-tag
-              [cvcAttrValue]="row.significance"
-              [cvcShowLabel]="false"
-              [cvcTooltip]="
-                row.significance | evidenceEnumDisplay
-              "></cvc-attribute-tag>
-          </td>
-
-          <td
-            *ngIf="!cols.variantOrigin.hide"
-            nzAlign="center">
-            <cvc-attribute-tag
-              [cvcAttrValue]="row.variantOrigin"
-              [cvcShowLabel]="false"
-              [cvcTooltip]="
-                row.variantOrigin | evidenceEnumDisplay
-              "></cvc-attribute-tag>
-          </td>
-
-          <td
-            *ngIf="!cols.evidenceRating.hide"
-            nzAlign="center">
-            {{ row.evidenceRating }}
-          </td>
-         -->
         </tr>
       </ng-template>
     </tbody>
   </nz-table>
-  <!-- <nz-row>
-    <nz-col>
-      <p>col$:</p>
-      <pre>{{ col$ | ngrxPush| json  }}</pre>
-    </nz-col>
-  </nz-row> -->
 </nz-card>
 
 <!-- col header input for typeahead filter -->
