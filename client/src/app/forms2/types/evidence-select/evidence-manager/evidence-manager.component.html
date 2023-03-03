@@ -22,7 +22,7 @@
     [nzLoading]="(loading$ | ngrxPush) && !(isFetchMore$ | ngrxPush)"
     nzSize="small"
     (nzQueryParams)="onTableQueryParams$.next($event)">
-    <!-- subscribe to cols$ for table config updates -->
+    <!-- col$ provide col config defaults and query param, table prefs updates -->
     <thead *ngrxLet="col$ as cols">
       <tr class="col-header-row">
         <ng-container *ngFor="let col of cols">
@@ -30,12 +30,18 @@
             <!-- SELECT HEADER -->
             <th
               *ngIf="col | guardType : colGuards.isSelectCol as opt"
+              [nzShowCheckbox]="opt.checkbox.th.showCheckbox"
               [nzWidth]="opt.width"
-              [nzLeft]="opt.fixed.left || false"
-              [nzRight]="opt.fixed.right || false"
-              [nzShowCheckbox]="opt.checkbox.th.showCheckbox"></th>
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false"></th>
+
             <!-- ENTITY TAG HEADER -->
-            <th *ngIf="col | guardType : colGuards.isEntityTagCol as opt">
+            <th
+              *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
+              [nzColumnKey]="opt.key"
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false">
               {{ opt.label }}
             </th>
           </ng-container>
@@ -47,19 +53,20 @@
             <!-- SELECT FILTER -->
             <th
               *ngIf="col | guardType : colGuards.isSelectCol as opt"
-              [nzLeft]="opt.fixed.left || false"
-              [nzRight]="opt.fixed.right || false"
-              [nzWidth]="opt.width">
+              [nzColumnKey]="opt.key"
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false">
               &nbsp;
             </th>
+
             <!-- ENTITY TAG FILTER -->
-            <th *ngIf="col | guardType : colGuards.isEntityTagCol as opt">
-              &nbsp;
-            </th>
             <th
               *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
               [nzColumnKey]="opt.key"
-              [nzWidth]="opt.width">
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false">
               <ng-container
                 *ngTemplateOutlet="
                   columnFilterInput;
@@ -81,24 +88,33 @@
         <tr class="data-row">
           <ng-container *ngFor="let col of cols">
             <ng-container *ngIf="!col.hidden">
-              <!-- SELECT CONTENT -->
+              <!-- SELECT CELL -->
               <td
                 *ngIf="col | guardType : colGuards.isSelectCol as opt"
                 [nzChecked]="row.selected"
                 (nzCheckedChange)="
                   onRowSelected$.next({ id: row.id, selected: $event })
                 "
-                [nzLeft]="opt.fixed.left || false"
-                [nzRight]="opt.fixed.right || false"></td>
-              <!-- ENTITY TAG CONTENT -->
+                [nzLeft]="opt.fixedLeft || false"
+                [nzRight]="opt.fixedRight || false"></td>
+
+              <!-- ENTITY TAG CELL -->
               <td
-                *ngIf="
-                  col | guardType : colGuards.isEntityTagCol as opt
-                ">
+                *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
+                [nzLeft]="opt.fixedLeft || false"
+                [nzRight]="opt.fixedRight || false">
                 <cvc-entity-tag
+                  *ngIf="!opt.tagGroup; else multiTag"
                   [cvcCacheId]="
                     row[opt.key].__typename + ':' + row[opt.key].id
                   "></cvc-entity-tag>
+                <ng-template #multiTag>
+                  <cvc-entity-tag
+                    *ngFor="let entity of row[opt.key]"
+                    [cvcCacheId]="
+                      entity.__typename + ':' + entity.id
+                    "></cvc-entity-tag>
+                </ng-template>
               </td>
             </ng-container>
           </ng-container>
@@ -116,11 +132,10 @@
   <nz-input-group
     [nzSuffix]="suffixIcon"
     nzSize="small">
-    <!--  -->
     <input
       #filterInput
       nz-input
-      [placeholder]="options[0].text"
+      [placeholder]="options[0].key"
       [ngModel]="options[0].value || ''"
       (ngModelChange)="
         onCustomFilter$.next({ key: columnKey, value: $event })
@@ -156,7 +171,7 @@
 </ng-template>
 
 <ng-template #cardTitle>
-  <nz-row>
+  <nz-row [nzGutter]="[6, 6]">
     <nz-col>
       <span>Use checkboxes to select or deselect EIDs</span>
     </nz-col>

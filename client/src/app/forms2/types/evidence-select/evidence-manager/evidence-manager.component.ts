@@ -182,9 +182,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'Select',
         type: 'select',
         width: '30px',
-        fixed: {
-          left: true,
-        },
+        fixedLeft: true,
         checkbox: {
           th: {
             showCheckbox: false,
@@ -195,27 +193,38 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           },
         },
       },
-      // {
-      //   hidden: true,
-      //   label: 'ID',
-      //   type: 'default',
-      //   key: 'id',
-      //   width: '30px',
-      // },
-      // {
-      //   hidden: true,
-      //   label: 'Status',
-      //   key: 'status',
-      //   width: '40px',
-      // },
       {
+        hidden: true,
         key: 'id',
+        label: 'ID',
+        type: 'string',
+        width: '30px'
+      },
+      {
+        hidden: true,
+        key: 'status',
+        label: 'Status',
+        type: 'string',
+        width: '50px'
+      },
+      {
+        key: 'evidenceItem',
         label: 'Evidence Item',
         type: 'entity-tag',
         width: '250px',
         sort: [],
         filter: {
           options: [{ key: 'Search EIDs', value: '' }],
+        },
+      },
+      {
+        key: 'molecularProfile',
+        label: 'Molecular Profile',
+        type: 'entity-tag',
+        width: '250px',
+        sort: [],
+        filter: {
+          options: [{ key: 'Search MP Names', value: '' }],
         },
       },
       {

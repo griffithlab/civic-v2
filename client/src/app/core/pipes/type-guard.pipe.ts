@@ -10,7 +10,6 @@ export class GuardTypePipe implements PipeTransform {
     value: A,
     typeGuard: TypeGuard<A, B>
   ): B | undefined {
-    console.log(value)
     return typeGuard(value) ? value : undefined
   }
 }

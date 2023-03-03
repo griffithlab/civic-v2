@@ -99,10 +99,8 @@ interface SelectionColumn {
 }
 
 interface FixedColumn {
-  fixed: {
-    left?: string | boolean
-    right?: string | boolean
-  }
+  fixedLeft?: string | boolean
+  fixedRight?: string | boolean
 }
 
 interface FilterColumn {
@@ -179,7 +177,8 @@ export interface EntityTagColumnType
     TagColumn,
     EntityTagColumn,
     SortColumn,
-    FilterColumn {
+    FilterColumn,
+    Partial<FixedColumn> {
   type: 'entity-tag'
 }
 
