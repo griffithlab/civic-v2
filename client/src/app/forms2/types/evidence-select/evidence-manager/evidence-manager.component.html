@@ -4,12 +4,10 @@
   nzSize="small">
   <nz-table
     #virtualTable
-    #columnTable
-    #rowSelectionTable
     *ngrxLet="row$ as data"
     [nzData]="data || []"
     cvcTableScroller
-    (cvcTableScrollerOnScroll)="scrollEvent$.next($event)"
+    (cvcTableScrollerOnScroll)="onScroll$.next($event)"
     (cvcTableScrollerOnFetch)="onFetch$.next($event)"
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
@@ -17,10 +15,10 @@
     [nzScroll]="{ x: '1024px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzVirtualItemSize]="28"
+    [nzSize]="'small'"
     [nzFrontPagination]="false"
     [nzShowPagination]="false"
     [nzLoading]="(loading$ | ngrxPush) && !(isFetchMore$ | ngrxPush)"
-    nzSize="small"
     (nzQueryParams)="onTableQueryParams$.next($event)">
     <!-- col$ provide col config defaults and query param, table prefs updates -->
     <thead *ngrxLet="col$ as cols">
@@ -47,6 +45,7 @@
           </ng-container>
         </ng-container>
       </tr>
+
       <tr class="filter-row">
         <ng-container *ngFor="let col of cols">
           <ng-container *ngIf="!col.hidden">
@@ -108,6 +107,8 @@
                   [cvcCacheId]="
                     row[opt.key].__typename + ':' + row[opt.key].id
                   "></cvc-entity-tag>
+
+                <!-- TODO: wrap in new entity-tag-list -->
                 <ng-template #multiTag>
                   <cvc-entity-tag
                     *ngFor="let entity of row[opt.key]"
@@ -129,6 +130,7 @@
   #columnFilterInput
   let-columnKey
   let-options="options">
+  <!-- input updates onCustomFilter -->
   <nz-input-group
     [nzSuffix]="suffixIcon"
     nzSize="small">

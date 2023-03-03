@@ -106,7 +106,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // passed to tableScroller
   pageInfo$: Observable<PageInfo>
-  scrollEvent$: BehaviorSubject<ScrollEvent>
+  onScroll$: BehaviorSubject<ScrollEvent>
   scrollToIndex$: Subject<number> // TODO: implement scroll-to-index
 
   // apollo query ref
@@ -167,7 +167,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.queryResult$ = new Subject<ApolloQueryResult<EvidenceManagerQuery>>()
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollToIndex$ = new Subject<number>()
-    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
@@ -211,10 +211,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'evidenceItem',
         label: 'Evidence Item',
         type: 'entity-tag',
-        width: '250px',
+        width: '100px',
+        fixedLeft: true,
         sort: [],
         filter: {
-          options: [{ key: 'Search EIDs', value: '' }],
+          options: [{ key: '', value: '' }],
         },
       },
       {
@@ -357,8 +358,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           this.scrollToIndex$.next(0)
           this.queryRef = this.gql.watch(queryVars)
           // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
-          // errors, so this extra requestError$ stuff below is required, using
-          // those functions then() promises to catch and forward any errors.
+          // errors, so this extra requestError$ stuff below is required to catch and forward any errors.
           // bug report: https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(
@@ -367,8 +367,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             )
             .subscribe((result) => {
               this.queryResult$.next(result)
-              // not sure if this is needed like fetch/refetch,
-              // queryRef.valueChanges should be emitting errors
+              // queryRef.valueChanges should be emitting errors,
+              // but updating requestError$ just in case
               if (result.error || result.errors) {
                 this.requestError$.next(this.getRequestErrors(result))
               }
@@ -455,7 +455,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     // for every onScrolled event, convert to bool & set isScrolling
-    this.scrollEvent$
+    this.onScroll$
       .pipe(
         map((e: ScrollEvent) => (e === 'stop' ? false : true)),
         distinctUntilChanged(),
@@ -467,7 +467,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     // emit event from noMoreRow$ if hasNextPage false
-    this.scrollEvent$
+    this.onScroll$
       .pipe(
         filter((e) => e === 'bottom'),
         withLatestFrom(this.pageInfo$),
