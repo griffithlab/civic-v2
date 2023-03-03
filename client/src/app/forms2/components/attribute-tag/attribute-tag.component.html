@@ -28,7 +28,7 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
 
 <ng-template #tagContent>
   <span
-    *ngIf="cvcAttrValue"
+    *ngIf="cvcAttrValue && cvcShowIcon"
     nz-icon
     [nzType]="cvcAttrValue | evidenceEnumDisplay : 'icon-name'"
     class="tag-icon"></span>

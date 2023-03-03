@@ -17,6 +17,8 @@ import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-e
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
+    EvidenceDirection,
+    EvidenceLevel,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
@@ -29,7 +31,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { NzTableQueryParams, NzThAddOnComponent } from 'ng-zorro-antd/table'
+import { NzTableFilterList, NzTableQueryParams, NzThAddOnComponent } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
@@ -215,7 +217,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedLeft: true,
         sort: [],
         filter: {
-          options: [{ key: '', value: '' }],
+          options: [{ text: '', value: '' }],
         },
       },
       {
@@ -225,7 +227,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: [],
         filter: {
-          options: [{ key: 'Search MP Names', value: '' }],
+          options: [{ text: 'Search MP Names', value: '' }],
         },
       },
       {
@@ -235,7 +237,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: [],
         filter: {
-          options: [{ key: 'Search Disease Names', value: '' }],
+          options: [{ text: 'Search Disease Names', value: '' }],
         },
       },
       {
@@ -248,7 +250,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
         sort: [],
         filter: {
-          options: [{ key: 'Search Therapy Names', value: '' }],
+          options: [{ text: 'Search Therapy Names', value: '' }],
         },
       },
       {
@@ -257,11 +259,42 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Evidence Type',
         type: 'enum-tag',
         width: '45px',
+        fixedRight: true,
         sort: [],
         filter: {
           options: this.getAttributeFilters(
             $enum(EvidenceType),
             EvidenceType.Predictive
+          ),
+        },
+      },
+      {
+        key: 'evidenceLevel',
+        label: 'EL',
+        tooltip: 'Evidence Level',
+        type: 'enum-tag',
+        width: '45px',
+        fixedRight: true,
+        sort: [],
+        filter: {
+          options: this.getAttributeFilters(
+            $enum(EvidenceLevel)
+          ),
+        },
+        showLabel: true,
+        showIcon: false
+      },
+      {
+        key: 'evidenceDirection',
+        label: 'ED',
+        tooltip: 'Evidence Direction',
+        type: 'enum-tag',
+        width: '45px',
+        fixedRight: true,
+        sort: [],
+        filter: {
+          options: this.getAttributeFilters(
+            $enum(EvidenceDirection)
           ),
         },
       },
@@ -529,10 +562,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   getAttributeFilters(
     attrEnums: EnumWrapper,
     byDefault?: CvcInputEnum
-  ): NzTableQueryParams['filter'] {
+  ): NzTableFilterList {
     const filters = attrEnums.getValues().map((value) => {
       return {
-        key: formatEvidenceEnum(value),
+        text: formatEvidenceEnum(value),
         value: value,
         byDefault: byDefault === value,
       }

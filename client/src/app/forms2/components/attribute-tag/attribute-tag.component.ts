@@ -18,7 +18,7 @@ export class CvcAttributeTagComponent {
   @Input() cvcAttrValue!: InputEnum
   @Input() cvcShowLabel: boolean = true
   @Input() cvcTooltip?: string
-  @Input() showIcon: boolean = true
+  @Input() cvcShowIcon: boolean = true
   @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'

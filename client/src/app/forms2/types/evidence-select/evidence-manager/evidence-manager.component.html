@@ -42,6 +42,16 @@
               [nzRight]="opt.fixedRight || false">
               {{ opt.label }}
             </th>
+
+            <!-- ENUM TAG HEADER -->
+            <th
+              *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
+              [nzColumnKey]="opt.key"
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false">
+              {{ opt.label }}
+            </th>
           </ng-container>
         </ng-container>
       </tr>
@@ -75,6 +85,20 @@
                   }
                 "></ng-container>
             </th>
+
+            <!-- ENUM TAG FILTER -->
+            <th
+              #enumTableFilter
+              *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
+              nzColumnKey="evidenceType"
+              class="attribute-filter"
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false"
+              [nzShowFilter]="true"
+              [nzFilters]="opt.filter.options"
+              [nzFilterMultiple]="false"
+              [nzFilterFn]="true"></th>
           </ng-container>
         </ng-container>
       </tr>
@@ -117,6 +141,21 @@
                     "></cvc-entity-tag>
                 </ng-template>
               </td>
+
+              <!-- ENUM TAG CELL -->
+              <td
+                *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
+                nzAlign="center"
+                [nzLeft]="opt.fixedLeft || false"
+                [nzRight]="opt.fixedRight || false">
+                <cvc-attribute-tag
+                  [cvcAttrValue]="row[opt.key]"
+                  [cvcShowLabel]="opt.showLabel ?? false"
+                  [cvcShowIcon]="opt.showIcon ?? true"
+                  [cvcTooltip]="
+                    row[opt.key] | evidenceEnumDisplay
+                  "></cvc-attribute-tag>
+              </td>
             </ng-container>
           </ng-container>
         </tr>
@@ -137,7 +176,7 @@
     <input
       #filterInput
       nz-input
-      [placeholder]="options[0].key"
+      [placeholder]="options[0].text"
       [ngModel]="options[0].value || ''"
       (ngModelChange)="
         onCustomFilter$.next({ key: columnKey, value: $event })

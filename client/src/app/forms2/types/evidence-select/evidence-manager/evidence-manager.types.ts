@@ -1,14 +1,13 @@
 import { ApolloError } from '@apollo/client/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
-  EvidenceManagerFieldsFragment,
-  EvidenceManagerQueryVariables,
-  PageInfo,
-  SortDirection,
+    EvidenceManagerFieldsFragment,
+    EvidenceManagerQueryVariables,
+    PageInfo,
+    SortDirection
 } from '@app/generated/civic.apollo'
 import { GraphQLError } from 'graphql'
-import { NzAlign } from 'ng-zorro-antd/grid'
-import { NzTableFilterValue, NzTableQueryParams } from 'ng-zorro-antd/table'
+import { NzTableFilterList, NzTableFilterValue, NzTableQueryParams } from 'ng-zorro-antd/table'
 import { Subject } from 'rxjs'
 
 // apollo connection that provides table row data & metadata
@@ -83,7 +82,7 @@ interface SortColumn {
 }
 
 interface AlignedColumn {
-  align: NzAlign
+  align: 'left' | 'center' | 'right' | null
 }
 
 interface SelectionColumn {
@@ -105,7 +104,7 @@ interface FixedColumn {
 
 interface FilterColumn {
   filter: {
-    options: NzTableQueryParams['filter']
+    options: NzTableFilterList
   }
 }
 
@@ -118,8 +117,8 @@ interface EntityTagColumn {
 // displays row[key] value with attribute-tag component,
 // or generic tag if icon/label provided
 interface EnumTagColumn {
-  formatLabel?: () => string | string
-  formatIcon?: () => string | string
+  showLabel?: boolean
+  showIcon?: boolean
 }
 
 interface TagColumn {
@@ -178,7 +177,7 @@ export interface EntityTagColumnType
     EntityTagColumn,
     SortColumn,
     FilterColumn,
-    Partial<FixedColumn> {
+    FixedColumn {
   type: 'entity-tag'
 }
 
@@ -187,7 +186,8 @@ export interface EnumTagColumnType
     TagColumn,
     EnumTagColumn,
     SortColumn,
-    FilterColumn {
+    FilterColumn,
+    FixedColumn {
   type: 'enum-tag'
 }
 
