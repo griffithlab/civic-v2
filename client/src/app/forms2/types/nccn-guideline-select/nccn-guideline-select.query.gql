@@ -1,0 +1,16 @@
+query NccnGuidelineSelectTypeahead($name: String!) {
+  nccnGuidelinesTypeahead(queryTerm: $name) {
+    ...NccnGuidelineSelectTypeaheadFields
+  }
+}
+
+query NccnGuidelineSelectTag($id: Int!) {
+  nccnGuideline(id: $id) {
+    ...NccnGuidelineSelectTypeaheadFields
+  }
+}
+
+fragment NccnGuidelineSelectTypeaheadFields on NccnGuideline {
+  id
+  name
+}

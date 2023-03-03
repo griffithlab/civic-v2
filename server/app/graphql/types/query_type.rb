@@ -125,6 +125,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
+      description "Find a NCCN Guideline by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :countries, [Types::Entities::CountryType], null: false do
       description 'Fetch a list of countries for user profiles.'
     end
@@ -323,6 +328,10 @@ module Types
 
     def clingen_code(id:)
       ClingenCode.find(id)
+    end
+
+    def nccn_guideline(id:)
+      NccnGuideline.find(id)
     end
 
     def countries

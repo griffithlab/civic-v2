@@ -5322,6 +5322,11 @@ type Query {
   ): MolecularProfileConnection!
 
   """
+  Find a NCCN Guideline by CIViC ID
+  """
+  nccnGuideline(id: Int!): NccnGuideline
+
+  """
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!

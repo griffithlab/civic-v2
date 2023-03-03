@@ -2878,6 +2878,8 @@ export type Query = {
   molecularProfile?: Maybe<MolecularProfile>;
   /** List and filter molecular profiles. */
   molecularProfiles: MolecularProfileConnection;
+  /** Find a NCCN Guideline by CIViC ID */
+  nccnGuideline?: Maybe<NccnGuideline>;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
@@ -3253,6 +3255,11 @@ export type QueryMolecularProfilesArgs = {
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   variantId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryNccnGuidelineArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -6278,6 +6285,22 @@ type PreviewMpName2_Variant_Fragment = { __typename: 'Variant', id: number, name
 
 export type PreviewMpName2Fragment = PreviewMpName2_Gene_Fragment | PreviewMpName2_MolecularProfileTextSegment_Fragment | PreviewMpName2_Variant_Fragment;
 
+export type NccnGuidelineSelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type NccnGuidelineSelectTypeaheadQuery = { __typename: 'Query', nccnGuidelinesTypeahead: Array<{ __typename: 'NccnGuideline', id: number, name: string }> };
+
+export type NccnGuidelineSelectTagQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type NccnGuidelineSelectTagQuery = { __typename: 'Query', nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined };
+
+export type NccnGuidelineSelectTypeaheadFieldsFragment = { __typename: 'NccnGuideline', id: number, name: string };
+
 export type PhenotypeSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -8150,6 +8173,12 @@ export const PreviewMpName2FragmentDoc = gql`
     name
     link
   }
+}
+    `;
+export const NccnGuidelineSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment NccnGuidelineSelectTypeaheadFields on NccnGuideline {
+  id
+  name
 }
     `;
 export const PhenotypeSelectTypeaheadFieldsFragmentDoc = gql`
@@ -12187,6 +12216,42 @@ export const CreateMolecularProfile2Document = gql`
   })
   export class CreateMolecularProfile2GQL extends Apollo.Mutation<CreateMolecularProfile2Mutation, CreateMolecularProfile2MutationVariables> {
     document = CreateMolecularProfile2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const NccnGuidelineSelectTypeaheadDocument = gql`
+    query NccnGuidelineSelectTypeahead($name: String!) {
+  nccnGuidelinesTypeahead(queryTerm: $name) {
+    ...NccnGuidelineSelectTypeaheadFields
+  }
+}
+    ${NccnGuidelineSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class NccnGuidelineSelectTypeaheadGQL extends Apollo.Query<NccnGuidelineSelectTypeaheadQuery, NccnGuidelineSelectTypeaheadQueryVariables> {
+    document = NccnGuidelineSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const NccnGuidelineSelectTagDocument = gql`
+    query NccnGuidelineSelectTag($id: Int!) {
+  nccnGuideline(id: $id) {
+    ...NccnGuidelineSelectTypeaheadFields
+  }
+}
+    ${NccnGuidelineSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class NccnGuidelineSelectTagGQL extends Apollo.Query<NccnGuidelineSelectTagQuery, NccnGuidelineSelectTagQueryVariables> {
+    document = NccnGuidelineSelectTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

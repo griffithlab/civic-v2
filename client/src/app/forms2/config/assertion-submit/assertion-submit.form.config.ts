@@ -5,6 +5,7 @@ import { CvcClingenCodeSelectFieldOptions } from '@app/forms2/types/clingen-code
 import { CvcDirectionSelectFieldOptions } from '@app/forms2/types/direction-select/direction-select.type'
 import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms2/types/interaction-select/interaction-select.type'
+import { CvcNccnGuidelineSelectFieldOptions } from '@app/forms2/types/nccn-guideline-select/nccn-guideline-select.type'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms2/types/org-submit-button/org-submit-button.type'
 import { CvcOriginSelectFieldOptions } from '@app/forms2/types/origin-select/origin-select.type'
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms2/types/phenotype-select/phenotype-select.type'
@@ -108,6 +109,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
           <CvcClingenCodeSelectFieldOptions>{
             key: 'clingenCodeIds',
             type: 'clingen-code-multi-select',
+            props: {},
+          },
+          <CvcNccnGuidelineSelectFieldOptions>{
+            key: 'nccnGuidelineId',
+            type: 'nccn-guideline-select',
             props: {},
           },
           {
