@@ -25,12 +25,14 @@ import { DevRandomBoolPipe } from './dev-rnd-bool.pipe'
 import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-display.pipe'
 import { CivicTimeagoFormatter } from './timeago-formatter'
 import { TypenameToIconPipe } from './typename-to-icon.pipe'
+import { GuardTypePipe } from './type-guard.pipe'
 
 @NgModule({
   declarations: [
     AmpFormatPipe,
     CamelCaseToWordPipe,
     ColorNameForStatusPipe,
+    GuardTypePipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
     EventVerbiagePipe,
@@ -69,6 +71,7 @@ import { TypenameToIconPipe } from './typename-to-icon.pipe'
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
     IfEmptyPipe,
+    GuardTypePipe,
     PluckPipe,
     PrepositionForSubjectPipe,
     ReferenceBuildDisplayPipe,

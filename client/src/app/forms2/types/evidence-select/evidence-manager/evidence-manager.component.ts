@@ -1,64 +1,64 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  QueryList,
-  SimpleChanges,
-  TemplateRef,
-  ViewChildren,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    QueryList,
+    SimpleChanges,
+    TemplateRef,
+    ViewChildren
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-  EvidenceManagerFieldsFragment,
-  EvidenceManagerGQL,
-  EvidenceManagerQuery,
-  EvidenceManagerQueryVariables,
-  EvidenceSortColumns,
-  EvidenceType,
-  Maybe,
-  PageInfo,
-  SortDirection,
+    EvidenceManagerFieldsFragment,
+    EvidenceManagerGQL,
+    EvidenceManagerQuery,
+    EvidenceManagerQueryVariables,
+    EvidenceSortColumns,
+    EvidenceType,
+    Maybe,
+    PageInfo,
+    SortDirection
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { NzTableQueryParams, NzThAddOnComponent } from 'ng-zorro-antd/table'
 import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  filter,
-  map,
-  Observable,
-  of,
-  ReplaySubject,
-  startWith,
-  Subject,
-  withLatestFrom,
+    BehaviorSubject,
+    combineLatest,
+    distinctUntilChanged,
+    filter,
+    map,
+    Observable,
+    of,
+    ReplaySubject,
+    startWith,
+    Subject,
+    withLatestFrom
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
-  ColumnPrefsModel,
-  CustomFilter,
-  CvcTableFilterOption,
-  CvcTableQueryParams,
-  EvidenceManagerColKey,
-  EvidenceManagerConnection,
-  EvidenceManagerRowData,
-  EvidenceManagerTableConfig,
-  QueryParamKey,
-  QuerySortParams,
-  RequestError,
-  RowSelection,
+    ColumnPrefsModel,
+    colTypeGuards,
+    CustomFilter,
+    CvcTableQueryParams,
+    EvidenceManagerColKey,
+    EvidenceManagerConnection,
+    EvidenceManagerRowData,
+    EvidenceManagerTableConfig,
+    QueryParamKey,
+    QuerySortParams,
+    RequestError,
+    RowSelection
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -150,6 +150,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     therapies: 'therapyName',
   }
 
+  colGuards = colTypeGuards
+
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
     this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>()
     this.onCustomFilter$ = new ReplaySubject<CustomFilter>()
@@ -177,11 +179,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'Select',
         type: 'select',
         width: '30px',
-        fixColumn: true,
         fixed: {
           left: true,
         },
-        showSelect: true,
         checkbox: {
           th: {
             showCheckbox: false,
@@ -208,13 +208,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       {
         key: 'id',
         label: 'Evidence Item',
-        type: 'entity-proxy-tag',
-        entityProxyKey: 'evidenceItem',
+        type: 'entity-tag',
         width: '250px',
-        showSort: true,
-        showFilter: true,
+        sort: [],
         filter: {
-          options: [{ text: 'Search EIDs', value: '' }],
+          options: [{ key: 'Search EIDs', value: '' }],
         },
       },
       {
@@ -222,25 +220,22 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'entity-tag',
         label: 'Disease',
         width: '250px',
-        showSort: true,
-        showFilter: true,
+        sort: [],
         filter: {
-          options: [{ text: 'Search Disease Names', value: '' }],
+          options: [{ key: 'Search Disease Names', value: '' }],
         },
       },
       {
         key: 'therapies',
         label: 'Therapies',
-        type: 'entity-multi-tag',
+        type: 'entity-tag',
         width: '350px',
-        groupTags: true,
         tagGroup: {
           maxTags: 2,
         },
-        showSort: true,
-        showFilter: true,
+        sort: [],
         filter: {
-          options: [{ text: 'Search Disease Names', value: '' }],
+          options: [{ key: 'Search Therapy Names', value: '' }],
         },
       },
       {
@@ -249,8 +244,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Evidence Type',
         type: 'enum-tag',
         width: '45px',
-        showSort: true,
-        showFilter: true,
+        sort: [],
         filter: {
           options: this.getAttributeFilters(
             $enum(EvidenceType),
@@ -523,10 +517,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   getAttributeFilters(
     attrEnums: EnumWrapper,
     byDefault?: CvcInputEnum
-  ): CvcTableFilterOption[] {
+  ): NzTableQueryParams['filter'] {
     const filters = attrEnums.getValues().map((value) => {
       return {
-        text: formatEvidenceEnum(value),
+        key: formatEvidenceEnum(value),
         value: value,
         byDefault: byDefault === value,
       }
