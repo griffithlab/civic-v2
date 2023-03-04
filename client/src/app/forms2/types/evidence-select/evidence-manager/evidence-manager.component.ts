@@ -18,6 +18,8 @@ import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
   EvidenceDirection,
+  EvidenceItem,
+  EvidenceItemConnection,
   EvidenceLevel,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
@@ -99,8 +101,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
 
   // INTERMEDIATE STREAMS
-  queryResult$: Subject<ApolloQueryResult<EvidenceManagerQuery>>
-  connection$: Observable<EvidenceManagerConnection>
+  queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
+  connection$: Observable<EvidenceItemConnection>
   selectedRow$: BehaviorSubject<Set<number>>
   updatePreferenceOptions$!: Observable<ColumnPrefsModel>
   tableFilterRef$: ReplaySubject<
@@ -109,7 +111,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
-  row$?: Observable<EvidenceManagerRowData[]>
+  row$?: Observable<Maybe<EvidenceManagerRowData>[]>
   loading$: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
   requestError$: Subject<RequestError>
@@ -175,7 +177,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onResetFilter$ = new Subject<void>()
     this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
 
-    this.queryResult$ = new Subject<ApolloQueryResult<EvidenceManagerQuery>>()
+    this.queryResult$ = new ReplaySubject<
+      ApolloQueryResult<EvidenceManagerQuery>
+    >()
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollToIndex$ = new Subject<number>()
     this.requestError$ = new Subject<RequestError>()
@@ -414,10 +418,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.onQuery$
-      .pipe(
-        tag('>>>>>>>>>>>>> onQuery$'),
-        untilDestroyed(this)
-      )
+      .pipe(tag('>>>>>>>>>>>>> onQuery$'), untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         // if there's no query ref, create one w/ watch()
@@ -437,6 +438,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               untilDestroyed(this)
             )
             .subscribe((result) => {
+              // this.queryResult$.pipe(tag('<<<<<<<<< queryResult$')).subscribe()
               this.queryResult$.next(result)
               // queryRef.valueChanges should be emitting errors,
               // but updating requestError$ just in case
@@ -454,6 +456,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             })
             this.scrollToIndex$.next(0)
           } else {
+            // FIXME: fetchMore results are not being appended to row$, for some reason.
+            // Probably replacing rather than appending row$ somewhere? or that rows$
+            // gets its data from response 'nodes' instead of 'edges' as the other
+            // tables do?
             this.isFetchMore$.next(true)
             this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
               if (result.error || result.errors) {
@@ -465,11 +471,16 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.loading$ = this.queryResult$.pipe(
+      tag('<<<<<<<<< queryResult$'),
       pluck('loading'),
       distinctUntilChanged()
     )
 
-    this.connection$ = this.queryResult$.pipe(pluck('data', 'evidenceItems'))
+    // FIXME: why is this cast to EvidenceItemConnection required here?
+    this.connection$ = this.queryResult$.pipe(
+      pluck('data', 'evidenceItems'),
+      filter(isNonNulled)
+    ) as Observable<EvidenceItemConnection>
 
     // provided to table-scroll directive for fetchMore queries
     this.pageInfo$ = this.connection$.pipe(
@@ -479,25 +490,29 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     // emit rows from query responses after appending a 'selected' column
     this.row$ = combineLatest([
-      this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
+      // this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
+      this.connection$.pipe(
+        pluck('edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node)),
+      ),
       this.selectedRow$,
     ]).pipe(
-      map(
-        ([rows, selected]: [EvidenceManagerFieldsFragment[], Set<number>]) => {
-          return rows.map((row) => {
-            return {
-              ...row,
-              evidenceItem: {
-                __typename: 'EvidenceItem',
-                id: row.id,
-                name: row.name,
-                link: row.link,
-              },
-              selected: selected.has(row.id),
-            }
-          })
-        }
-      ),
+      map(([rows, selected]: [Maybe<EvidenceItem>[], Set<number>]) => {
+        return rows.map((row) => {
+          if(!row) return
+          return {
+            ...row,
+            evidenceItem: {
+              __typename: 'EvidenceItem',
+              id: row.id,
+              name: row.name,
+              link: row.link,
+            },
+            selected: selected.has(row.id),
+          }
+        })
+      }),
       startWith([])
     )
 
@@ -732,7 +747,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  trackByIndex(_: number, data: EvidenceManagerRowData): number {
-    return data.id
+  trackByIndex(_: number, data: Maybe<EvidenceManagerRowData>): Maybe<number> {
+    return data?.id
   }
 }

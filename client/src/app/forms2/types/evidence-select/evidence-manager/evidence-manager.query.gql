@@ -64,6 +64,12 @@ query EvidenceManager(
       startCursor
       endCursor
     }
+    edges {
+      cursor
+      node {
+        ...EvidenceManagerFields
+      }
+    }
     nodes {
       ...EvidenceManagerFields
     }

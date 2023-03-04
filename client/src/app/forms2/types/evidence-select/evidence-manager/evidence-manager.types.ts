@@ -3,7 +3,9 @@ import { ApolloError } from '@apollo/client/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
   EvidenceManagerFieldsFragment,
+  EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
+  Maybe,
   PageInfo,
   SortDirection,
 } from '@app/generated/civic.apollo'
@@ -15,13 +17,20 @@ import {
 } from 'ng-zorro-antd/table'
 import { Subject } from 'rxjs'
 
-// apollo connection that provides table row data & metadata
-export type EvidenceManagerConnection = {
-  totalCount: number
-  pageCount: number
-  pageInfo: PageInfo
-  nodes: EvidenceManagerFieldsFragment[]
+
+export type EvidenceManagerEdge = {
+  cursor: string
+  node?: Maybe<EvidenceManagerFieldsFragment>
 }
+
+// apollo connection that provides table row data & metadata
+export type EvidenceManagerConnection = EvidenceManagerQuery['evidenceItems']
+// export type EvidenceManagerConnection = {
+//   totalCount: number
+//   pageCount: number
+//   pageInfo: PageInfo
+//   nodes: EvidenceManagerFieldsFragment[]
+// }
 
 // additional columns added to row data for table templates, logic
 type EvidenceManagerRowDataExtra = {

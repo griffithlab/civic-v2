@@ -8,7 +8,6 @@ import {
 } from '@angular/core'
 import { Maybe, PageInfo } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { filter, map } from 'rxjs/operators'
 
 export type TableCountsInfo = {
@@ -17,7 +16,8 @@ export type TableCountsInfo = {
 }
 
 export type EntityConnection = {
-  nodes: Array<object>
+  edges: Array<EntityEdge>
+  nodes?: Array<object>
   pageCount: number
   filteredCount?: number
   totalCount?: number
@@ -43,13 +43,12 @@ export class TableCountsComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableCountsInfo$ = this.cvcTableCountsConnection.pipe(
-      // tag('tableCountsInfo$'),
       filter((c) => c.totalCount != undefined || c.filteredCount != undefined),
       map((c: EntityConnection) => {
         console.log(c)
         const fc = c.filteredCount
         const tc = c.totalCount
-        const nodes = c.nodes
+        const edges = c.edges
         // Need to provide either filtered count or total count
         if (fc == undefined && tc == undefined) {
           console.log(
@@ -59,7 +58,7 @@ export class TableCountsComponent implements OnInit {
         // If no filtered count, set filtered count to total count
         const filteredCount = fc == undefined ? tc : fc
         return {
-          edgeCount: nodes.length,
+          edgeCount: edges.length,
           filteredCount: filteredCount,
         }
       })
