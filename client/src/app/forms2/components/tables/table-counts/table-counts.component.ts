@@ -43,7 +43,7 @@ export class TableCountsComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableCountsInfo$ = this.cvcTableCountsConnection.pipe(
-      tag('tableCountsInfo$'),
+      // tag('tableCountsInfo$'),
       filter((c) => c.totalCount != undefined || c.filteredCount != undefined),
       map((c: EntityConnection) => {
         console.log(c)

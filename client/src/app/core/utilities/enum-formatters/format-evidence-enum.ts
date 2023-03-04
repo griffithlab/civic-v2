@@ -24,6 +24,7 @@ export type InputEnum =
   | TherapyInteraction
 
 export function formatEvidenceEnum(value: InputEnum): string {
+  if (typeof value === 'number') return value
   let str: string[]
   if (value === 'NA') {
     str = ['N/A']

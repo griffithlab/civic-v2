@@ -16,11 +16,20 @@ export class EvidenceEnumDisplayPipe implements PipeTransform {
     value: Maybe<InputEnum>,
     context: EnumOutputStyle = 'display-string'
   ): string {
-    if (value === undefined) return ''
+    if (value === undefined || value === null ) return ''
+    if (typeof value === 'number') return value
     if (context === 'display-string') {
+      // return single character values w/o formatting,
+      // handles rating ([1..5]), level ([A..B])
+      if (value.length === 1) {
+        return value
+      }
       return formatEvidenceEnum(value)
       // return this.formatString(value)
     } else {
+      if (value.toString().length === 1) {
+        return 'tag'
+      }
       return `civic-${value.replace(/_/g, '').toLowerCase()}`
     }
   }

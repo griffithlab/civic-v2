@@ -59,6 +59,7 @@
       <tr class="filter-row">
         <ng-container *ngFor="let col of cols">
           <ng-container *ngIf="!col.hidden">
+
             <!-- SELECT FILTER -->
             <th
               *ngIf="col | guardType : colGuards.isSelectCol as opt"
@@ -90,7 +91,7 @@
             <th
               #enumTableFilter
               *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
-              nzColumnKey="evidenceType"
+              [nzColumnKey]="col.key"
               class="attribute-filter"
               [nzWidth]="opt.width"
               [nzLeft]="opt.fixedLeft || false"
@@ -99,6 +100,7 @@
               [nzFilters]="opt.filter.options"
               [nzFilterMultiple]="false"
               [nzFilterFn]="true"></th>
+
           </ng-container>
         </ng-container>
       </tr>
@@ -149,6 +151,7 @@
                 [nzLeft]="opt.fixedLeft || false"
                 [nzRight]="opt.fixedRight || false">
                 <cvc-attribute-tag
+                  *ngIf="row[opt.key]; else emptyCell"
                   [cvcAttrValue]="row[opt.key]"
                   [cvcShowLabel]="opt.showLabel ?? false"
                   [cvcShowIcon]="opt.showIcon ?? true"
@@ -323,8 +326,8 @@
       <ng-template #prefsPopover>
         <div class="prefs-popover">
           <nz-checkbox-group
-            [ngModel]="preferenceUpdate$ | ngrxPush"
-            (ngModelChange)="onPreference$.next($event)"></nz-checkbox-group>
+            [ngModel]="updatePreferenceOptions$ | ngrxPush"
+            (ngModelChange)="onPreferenceChange$.next($event)"></nz-checkbox-group>
         </div>
       </ng-template>
     </nz-col>

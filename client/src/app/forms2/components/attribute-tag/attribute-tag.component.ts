@@ -16,9 +16,9 @@ import { InputEnum } from '@app/core/utilities/enum-formatters/format-evidence-e
 })
 export class CvcAttributeTagComponent {
   @Input() cvcAttrValue!: InputEnum
-  @Input() cvcShowLabel: boolean = true
+  @Input() cvcShowLabel: boolean | string = true
+  @Input() cvcShowIcon: boolean | string = true
   @Input() cvcTooltip?: string
-  @Input() cvcShowIcon: boolean = true
   @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'

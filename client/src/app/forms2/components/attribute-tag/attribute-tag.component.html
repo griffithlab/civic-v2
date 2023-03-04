@@ -30,7 +30,7 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <span
     *ngIf="cvcAttrValue && cvcShowIcon"
     nz-icon
-    [nzType]="cvcAttrValue | evidenceEnumDisplay : 'icon-name'"
+    [nzType]="cvcShowIcon === true ? (cvcAttrValue | evidenceEnumDisplay : 'icon-name') : cvcShowIcon"
     class="tag-icon"></span>
   <span
     *ngIf="cvcShowLabel"

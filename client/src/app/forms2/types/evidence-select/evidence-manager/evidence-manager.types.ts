@@ -1,13 +1,18 @@
+import { TemplateRef } from '@angular/core'
 import { ApolloError } from '@apollo/client/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
-    EvidenceManagerFieldsFragment,
-    EvidenceManagerQueryVariables,
-    PageInfo,
-    SortDirection
+  EvidenceManagerFieldsFragment,
+  EvidenceManagerQueryVariables,
+  PageInfo,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import { GraphQLError } from 'graphql'
-import { NzTableFilterList, NzTableFilterValue, NzTableQueryParams } from 'ng-zorro-antd/table'
+import {
+  NzTableFilterList,
+  NzTableFilterValue,
+  NzTableQueryParams,
+} from 'ng-zorro-antd/table'
 import { Subject } from 'rxjs'
 
 // apollo connection that provides table row data & metadata
@@ -51,16 +56,13 @@ export type EvidenceManagerColType =
   | 'select' // select column, displays checkboxes for row selection
   | 'select-tag' // select + entity tags next to checkboxes
   | 'entity-tag' // display col value with entity-tag
-  | 'entity-proxy-tag' // display entity tag using entity data in another column
-  | 'entity-multi-tag' // display multiple tags wrapped with tag-group
   | 'enum-tag' // display cell data w/ attribute-tag
-  | 'enum' // display enum value using generic tag component or simple string
-  | 'string' // short strings, e.g. labels, counts
+  | 'default' // short strings, e.g. labels, counts
+  | 'template' // displays specified template reference
   // TODO: need to implement the following column types when refactoring this code to work w/ all entity types
   | 'text' // long strings or simple sanitized HTML, e.g. descriptions, summaries
   | 'actions' // action buttons e.g. suggest source, approve revision
   | 'time' // displays timestamp w/ timeago pipe
-  | 'template' // displays a templateRef w/ row.col[i] value context for quick custom column types
 
 // array of column configs, will be rendered left-to-right in array order
 export type EvidenceManagerTableConfig = ColumnConfigOption[]
@@ -71,35 +73,35 @@ interface BaseColumn {
   label: string
   width: string
   tooltip?: string
+  emphasize?: boolean
   hidden?: boolean
+  context?: EvidenceManagerColKey
+  align?: 'left' | 'center' | 'right' | null
 }
 
-interface SortColumn {
+export interface SortColumn {
   // NOTE: table queries don't universally support multi-col sort,
   // so if multiple columns options specify a default sort, only the
-  // final will be applied in getQuerySortParams()
+  // last column to populate its sort array will affect sorting
   sort: NzTableFilterValue['sort']
-}
-
-interface AlignedColumn {
-  align: 'left' | 'center' | 'right' | null
 }
 
 interface SelectionColumn {
   checkbox: {
     th: {
       showCheckbox: boolean
+      checkedChange?: Subject<RowSelection> // TODO(?): apply checked updates to all rows
     }
     td: {
       showCheckbox: boolean
-      checkedChange: Subject<RowSelection>
+      checkedChange: Subject<RowSelection> // apply select changes to row
     }
   }
 }
 
 interface FixedColumn {
-  fixedLeft?: string | boolean
-  fixedRight?: string | boolean
+  fixedLeft: true
+  fixedRight: true
 }
 
 interface FilterColumn {
@@ -108,17 +110,19 @@ interface FilterColumn {
   }
 }
 
-// if cacheIdFn provided, will fetch entity from cache
-// instead of using row[key] entity for cell model
+// use context to use another column's entity object to display tag
 interface EntityTagColumn {
-  cacheIdFn?: () => string
+  statusCol: EvidenceManagerColKey // will display tag status if status colKey provided
 }
 
-// displays row[key] value with attribute-tag component,
-// or generic tag if icon/label provided
+// displays row[key] value with attribute-tag component.
+// toggle icon off w/ showIcon to render enums that
+// evidenceDisplayEnum won't work with. toggle showLabel off
+// for a little mini-tag w/ just the icon.
+// If showIcon is a string, that string will be provided to icon's nzType
 interface EnumTagColumn {
   showLabel?: boolean
-  showIcon?: boolean
+  showIcon?: boolean | string
 }
 
 interface TagColumn {
@@ -132,25 +136,27 @@ interface TagColumn {
   }
 }
 
+// with 'context', one may provide another column key to
+// provide its data as $implicit context to ref template
+interface TemplateColumn {
+  template: {
+    reference: TemplateRef<any>
+    context?: EvidenceManagerColKey
+  }
+}
+
 type ColumnConfigOption =
   | SelectColumnType
-  | SelectTagColumnType
   | EntityTagColumnType
   | EnumTagColumnType
   | DefaultColumnType
+  | TemplateColumnType
 
 export interface DefaultColumnType
   extends BaseColumn,
     Partial<SortColumn>,
     Partial<FilterColumn>,
-    Partial<FixedColumn>,
-    Partial<AlignedColumn> {}
-
-export interface TagColumnType
-  extends BaseColumn,
-    TagColumn,
-    SortColumn,
-    FilterColumn {}
+    Partial<FixedColumn> {}
 
 // displays a checkbox for the table's select feature
 export interface SelectColumnType
@@ -160,15 +166,13 @@ export interface SelectColumnType
   type: 'select'
 }
 
-// displays a checkbox next to the row entity tag, in same column
-// (a hack to work around nz-table's column fix bug that only allows
-// for a single row on either side to be fixed)
-export interface SelectTagColumnType
+export interface TemplateColumnType
   extends BaseColumn,
-    SelectionColumn,
-    TagColumn,
-    EntityTagColumn {
-  type: 'select-tag'
+    Partial<SortColumn>,
+    Partial<FilterColumn>,
+    Partial<FixedColumn>,
+    TemplateColumn {
+  type: 'template'
 }
 
 export interface EntityTagColumnType
@@ -228,12 +232,6 @@ export const isSelectColumn: TypeGuard<ColumnConfigOption, SelectColumnType> = (
   option: ColumnConfigOption
 ): option is SelectColumnType => option.type === 'select'
 
-export const isSelectTagColumn: TypeGuard<
-  ColumnConfigOption,
-  SelectTagColumnType
-> = (option: ColumnConfigOption): option is SelectTagColumnType =>
-  option.type === 'select-tag'
-
 export const isEntityTagColumn: TypeGuard<
   ColumnConfigOption,
   EntityTagColumnType
@@ -246,9 +244,22 @@ export const isEnumTagColumn: TypeGuard<
 > = (option: ColumnConfigOption): option is EnumTagColumnType =>
   option.type === 'enum-tag'
 
+export const isDefaultColumn: TypeGuard<
+  ColumnConfigOption,
+  DefaultColumnType
+> = (option: ColumnConfigOption): option is DefaultColumnType =>
+  option.type === 'default'
+
+export const isSortColumn: TypeGuard<any, SortColumn> = (
+  int: SortColumn
+): int is SortColumn => int.sort !== undefined
+
+export const isFilterColumn: TypeGuard<any, FilterColumn> = (
+  int: FilterColumn
+): int is FilterColumn => int.filter !== undefined
+
 export const colTypeGuards = {
   isSelectCol: isSelectColumn,
-  isSelectTagCol: isSelectTagColumn,
   isEntityTagCol: isEntityTagColumn,
   isEnumTagCol: isEnumTagColumn,
 }

@@ -17,12 +17,13 @@ import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-e
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-    EvidenceDirection,
-    EvidenceLevel,
+  EvidenceDirection,
+  EvidenceLevel,
   EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
+  EvidenceSignificance,
   EvidenceSortColumns,
   EvidenceType,
   Maybe,
@@ -31,7 +32,11 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { NzTableFilterList, NzTableQueryParams, NzThAddOnComponent } from 'ng-zorro-antd/table'
+import {
+  NzTableFilterList,
+  NzTableQueryParams,
+  NzThAddOnComponent,
+} from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
@@ -47,6 +52,7 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
+import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
   ColumnPrefsModel,
@@ -61,6 +67,8 @@ import {
   QuerySortParams,
   RequestError,
   RowSelection,
+  isSortColumn,
+  isFilterColumn,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -86,14 +94,15 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   onFetch$: BehaviorSubject<ScrollFetch>
   onQuery$: ReplaySubject<CvcTableQueryParams>
   onRowSelected$: Subject<RowSelection>
-  onPreference$: Subject<ColumnPrefsModel>
+  onPreferenceChange$: Subject<ColumnPrefsModel>
   onResetFilter$: Subject<void>
+  onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
 
   // INTERMEDIATE STREAMS
   queryResult$: Subject<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceManagerConnection>
   selectedRow$: BehaviorSubject<Set<number>>
-  preferenceUpdate$!: Observable<ColumnPrefsModel>
+  updatePreferenceOptions$!: Observable<ColumnPrefsModel>
   tableFilterRef$: ReplaySubject<
     QueryList<TemplateRef<NzThAddOnComponent<CvcInputEnum>>>
   >
@@ -108,17 +117,16 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // passed to tableScroller
   pageInfo$: Observable<PageInfo>
-  onScroll$: BehaviorSubject<ScrollEvent>
-  scrollToIndex$: Subject<number> // TODO: implement scroll-to-index
+  scrollToIndex$: Subject<number>
 
   // apollo query ref
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
   // initial column configurations
-  // managerEvidenceManagerTableConfig: EvidenceManagerTableConfig = evidenceManagerConfig
-  managerEvidenceManagerTableConfig: EvidenceManagerTableConfig
+  managerTableConfig: EvidenceManagerTableConfig
 
-  // hide these columns in preferences checkbox list to prevent changes
+  // colum keys included here will be hidden in preference panel, preventing
+  // defaults from being changed by the user
   omittedFromPrefs: EvidenceManagerColKey[] = ['selected', 'id']
 
   // need a static var for scrolling state b/c sub/unsub in
@@ -163,22 +171,22 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
     this.onQuery$ = new ReplaySubject<CvcTableQueryParams>()
     this.onRowSelected$ = new Subject<RowSelection>()
-    this.onPreference$ = new Subject<ColumnPrefsModel>()
+    this.onPreferenceChange$ = new Subject<ColumnPrefsModel>()
     this.onResetFilter$ = new Subject<void>()
+    this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
 
     this.queryResult$ = new Subject<ApolloQueryResult<EvidenceManagerQuery>>()
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollToIndex$ = new Subject<number>()
-    this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.requestError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
 
     this.tableFilterRef$ = new ReplaySubject<
       QueryList<TemplateRef<NzThAddOnComponent<any>>>
     >()
 
-    this.managerEvidenceManagerTableConfig = [
+    this.managerTableConfig = [
       {
         key: 'selected',
         label: 'Select',
@@ -199,15 +207,15 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         hidden: true,
         key: 'id',
         label: 'ID',
-        type: 'string',
-        width: '30px'
+        type: 'default',
+        width: '30px',
       },
       {
         hidden: true,
         key: 'status',
         label: 'Status',
-        type: 'string',
-        width: '50px'
+        type: 'default',
+        width: '50px',
       },
       {
         key: 'evidenceItem',
@@ -217,7 +225,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedLeft: true,
         sort: [],
         filter: {
-          options: [{ text: '', value: '' }],
+          options: [{ text: 'Filter EIDs', value: '' }],
         },
       },
       {
@@ -227,7 +235,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: [],
         filter: {
-          options: [{ text: 'Search MP Names', value: '' }],
+          options: [{ text: 'Filter MP Names', value: '' }],
         },
       },
       {
@@ -237,7 +245,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: [],
         filter: {
-          options: [{ text: 'Search Disease Names', value: '' }],
+          options: [{ text: 'Filter Disease Names', value: '' }],
         },
       },
       {
@@ -250,7 +258,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
         sort: [],
         filter: {
-          options: [{ text: 'Search Therapy Names', value: '' }],
+          options: [{ text: 'Filter Therapy Names', value: '' }],
         },
       },
       {
@@ -277,12 +285,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedRight: true,
         sort: [],
         filter: {
-          options: this.getAttributeFilters(
-            $enum(EvidenceLevel)
-          ),
+          options: this.getAttributeFilters($enum(EvidenceLevel)),
         },
         showLabel: true,
-        showIcon: false
+        showIcon: false,
       },
       {
         key: 'evidenceDirection',
@@ -293,14 +299,41 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedRight: true,
         sort: [],
         filter: {
-          options: this.getAttributeFilters(
-            $enum(EvidenceDirection)
-          ),
+          options: this.getAttributeFilters($enum(EvidenceDirection)),
+        },
+      },
+      {
+        key: 'significance',
+        label: 'SI',
+        tooltip: 'Significance',
+        type: 'enum-tag',
+        width: '45px',
+        fixedRight: true,
+        sort: [],
+        filter: {
+          options: this.getAttributeFilters($enum(EvidenceSignificance)),
+        },
+      },
+      {
+        key: 'evidenceRating',
+        label: 'ER',
+        tooltip: 'Evidence Rating',
+        type: 'enum-tag',
+        width: '45px',
+        fixedRight: true,
+        sort: [],
+        showIcon: 'star',
+        showLabel: true,
+        filter: {
+          options: [1, 2, 3, 4, 5].map((n) => {
+            return { value: n, text: `${n} stars` }
+          }),
         },
       },
     ]
 
-    // update row records, emit new selected ids when row selected
+    // when row select, get old selected rows, emit updated rows
+    // & output new selected ids array
     this.onRowSelected$
       .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
       .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
@@ -313,7 +346,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    // merge custom filter updates w/ latest query params, trigger new refetch query
+    // when custom filters change, merge w/ latest query params,
+    // then trigger new refetch query
     this.onCustomFilter$
       .pipe(
         withLatestFrom(this.onQuery$),
@@ -322,7 +356,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           // e.g. 'molecularProfile' to 'molecularProfileName'
           // FIXME: wanted to avoid coercing key to EvidenceManagerColKey below, but
           // wasn't able to get ColumnKeyToFilterParamMap's type specified
-          // in a way that worked
+          // in a way that worked NOTE: maybe an actual Map would preserve types better
           const mappedKey =
             this.columnKeyToFilterParamMap[
               newFilter.key as EvidenceManagerColKey
@@ -348,9 +382,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         this.onQuery$.next(params)
       })
 
-    // trigger refetch query when nz-table emits a filter/sort update
+    // when nz-table emits event from nzTableQueryChanges,
+    // trigger refetch query with updated filter, sort params
     this.onTableQueryParams$
-      .pipe(untilDestroyed(this))
+      .pipe(tag('onTableQueryParam$'), untilDestroyed(this))
       .subscribe((tableParams) => {
         // omit unused pageIndex, pageSize attributes
         let { pageIndex, pageSize, ...params } = tableParams
@@ -379,7 +414,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.onQuery$
-      .pipe(untilDestroyed(this))
+      .pipe(
+        tag('>>>>>>>>>>>>> onQuery$'),
+        untilDestroyed(this)
+      )
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         // if there's no query ref, create one w/ watch()
@@ -463,30 +501,29 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       startWith([])
     )
 
-    // col$ provide column-level configuration for table header, and row cells.
-    // Preferences feature subscribes to col$ to generate its options, and updates
-    // col$ to apply preferences changes
+    // col$ provide column-level configuration in nz-table's thead and tbody elements.
+    // Preference panel has a bidirectional link w/ cols$, subscribing to its updates
+    // to generate its options with updatePreferenceOption$, and updating
+    // col$ when those options change, via onPreferenceChange$
     this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
-      this.managerEvidenceManagerTableConfig
+      this.managerTableConfig
     )
 
-    // nz-checkbox-groups, used in table prefs, requires a slightly different model
-    // than col$, this map function munges col config array to nz-checkbox-group array
-    this.preferenceUpdate$ = this.col$.pipe(
+    this.updatePreferenceOptions$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromConfig(cols))
     )
 
-    // update col$ when preferences change
-    this.onPreference$
+    this.onPreferenceChange$
       .pipe(
         withLatestFrom(this.col$),
-        map(([options, cols]) => this.updateConfigFromPrefs(cols, options)),
+        map(([options, cols]) => this.getConfigFromColPrefs(cols, options)),
         untilDestroyed(this)
       )
       .subscribe((cols) => {
         this.col$.next(cols)
       })
 
+    // TODO: consolidate these two onScroll$ subscriptions
     // for every onScrolled event, convert to bool & set isScrolling
     this.onScroll$
       .pipe(
@@ -540,21 +577,17 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onResetFilter$
       .pipe(
         withLatestFrom(
-          of(this.managerEvidenceManagerTableConfig),
+          of(this.managerTableConfig),
           of(this.tableFilterRefs.toArray())
         ),
         untilDestroyed(this)
       )
       .subscribe(([_, config, refs]) => {
-        console.log('-------tablefilterrefs')
-        console.log(refs)
-        // const tableParams = this.getTableParamsFromEvidenceManagerTableConfig(config)
-        const nzTableParams =
-          this.getNzTableParamsFromEvidenceManagerTableConfig(config)
+        const nzTableParams = this.getNzTableParamsFromTableConfig(config)
         refs.forEach((ref) => {
           console.log(ref)
         })
-        this.col$.next({ ...this.managerEvidenceManagerTableConfig })
+        this.col$.next({ ...this.managerTableConfig })
         this.onTableQueryParams$.next(nzTableParams)
       })
   }
@@ -623,81 +656,60 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return filters
   }
 
-  // converts EvidenceManagerTableConfig objects to table query params,
-  // used by onResetFilter$ to reset table to initial state
-  getTableParamsFromEvidenceManagerTableConfig(
-    cols: EvidenceManagerTableConfig
-  ): CvcTableQueryParams {
-    const objKeys = Object.keys(cols) as Array<keyof typeof cols>
-    let params: CvcTableQueryParams = {
-      query: 'refetch',
-      sort: [],
-      filter: [],
-    }
-    // objKeys.forEach((k) => {
-    //   if (cols[k].showSort && cols[k].sortOrder) {
-    //     params.sort.push({ key: cols[k].key, value: cols[k].sortOrder! })
-    //   }
-    //   if (cols[k].filter?.options) {
-    //     const filterDefault = cols[k].filter!.options.find(
-    //       (opt) => opt.byDefault == true
-    //     )
-    //     if (filterDefault) {
-    //       params.filter.push({ key: cols[k].key, value: filterDefault.value })
-    //     }
-    //   }
-    // })
-    return params
-  }
-
-  getNzTableParamsFromEvidenceManagerTableConfig(
+  getNzTableParamsFromTableConfig(
     cols: EvidenceManagerTableConfig
   ): NzTableQueryParams {
-    const objKeys = Object.keys(cols) as Array<keyof typeof cols>
     let params: NzTableQueryParams = {
       pageIndex: 0,
       pageSize: 0,
       sort: [],
       filter: [],
     }
-    // objKeys.forEach((k) => {
-    //   if (cols[k].showSort && cols[k].sortOrder) {
-    //     params.sort.push({ key: cols[k].key, value: cols[k].sortOrder! })
-    //   }
-    //   if (cols[k].filter?.options) {
-    //     const filterDefault = cols[k].filter!.options.find(
-    //       (opt) => opt.byDefault == true
-    //     )
-    //     if (filterDefault) {
-    //       params.filter.push({ key: cols[k].key, value: filterDefault.value })
-    //     }
-    //   }
-    // })
+    cols.forEach((col) => {
+      const isSort = isSortColumn(col)
+      const isFilter = isFilterColumn(col)
+      // copy any sort options
+      if (isSort) {
+        params.sort.push(col.sort)
+      }
+      // find default options, add to filter array
+      if (isFilter) {
+        const filterDefault = col.filter.options.find(
+          (opt) => opt.byDefault == true
+        )
+        if (filterDefault) {
+          params.filter.push({ key: col.key, value: filterDefault.value })
+        }
+      }
+    })
     return params
   }
-  updateConfigFromPrefs(
+
+  getConfigFromColPrefs(
     cols: EvidenceManagerTableConfig,
     options: ColumnPrefsModel
   ): EvidenceManagerTableConfig {
-    const objKeys = Object.keys(cols) as Array<keyof typeof cols>
-    // objKeys.forEach((k) => {
-    //   const option = options.find((option) => option.value === k)
-    //   cols[k].hide = !option!.checked
-    // })
+    // const objKeys = Object.keys(cols) as Array<keyof typeof cols>
+    cols.forEach((col) => {
+      const option = options.find((option) => option.value === col.key)
+      if (option?.checked) {
+        col.hidden = option.checked
+      }
+    })
     return { ...cols }
   }
 
   getColPrefsFromConfig(cols: EvidenceManagerTableConfig): ColumnPrefsModel {
     let options: ColumnPrefsModel = []
-    const objKeys = Object.keys(cols) as Array<keyof typeof cols>
-    // objKeys.forEach((key) => {
-    //   if (this.omittedFromPrefs.find((c) => c === cols[key].key)) return
-    //   options.push({
-    //     label: cols[key].tooltip || cols[key].name,
-    //     value: key,
-    //     checked: !cols[key].hide,
-    //   })
-    // })
+    // const objKeys = Object.keys(cols) as Array<keyof typeof cols>
+    cols.forEach((col) => {
+      if (this.omittedFromPrefs.find((c) => c === col.key)) return
+      options.push({
+        label: col.tooltip || col.label,
+        value: col.key,
+        checked: !col.hidden,
+      })
+    })
     return options
   }
 
