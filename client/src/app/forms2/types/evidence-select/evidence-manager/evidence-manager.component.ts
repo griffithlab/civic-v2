@@ -644,8 +644,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   getQuerySortParams(params: CvcTableQueryParams): Maybe<QuerySortParams> {
-    const colParams = params.sort
-    const queryParam = colParams.find((p) => p.value !== null)
+    const colSort = params.sort
+    const queryParam = colSort.find((p) => p.value !== null)
     if (!queryParam) return
     return {
       sortBy: {

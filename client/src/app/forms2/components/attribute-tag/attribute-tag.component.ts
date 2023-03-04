@@ -23,6 +23,9 @@ export class CvcAttributeTagComponent {
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
   @Input() cvcEmphasize?: string
+  @Input() cvcIconColor: string = '#595959'
+  @Input() cvcLabelColor: string = '#434343'
+  @Input() cvcIconTheme: 'outline' | 'fill' | 'twotone' = 'outline'
 
   @Output() cvcOnClose: EventEmitter<MouseEvent>
   constructor() {

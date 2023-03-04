@@ -31,6 +31,9 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
     *ngIf="cvcAttrValue && cvcShowIcon"
     nz-icon
     [nzType]="cvcShowIcon === true ? (cvcAttrValue | evidenceEnumDisplay : 'icon-name') : cvcShowIcon"
+    [nzTwotoneColor]="cvcIconColor"
+    [nzTheme]="cvcIconTheme"
+    [attr.style]="'color: ' + cvcIconColor"
     class="tag-icon"></span>
   <span
     *ngIf="cvcShowLabel"
