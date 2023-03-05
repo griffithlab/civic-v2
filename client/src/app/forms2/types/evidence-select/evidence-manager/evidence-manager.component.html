@@ -80,15 +80,19 @@
               [nzWidth]="opt.width"
               [nzAlign]="opt.align ?? 'left'"
               [nzLeft]="opt.fixedLeft || false"
-              [nzRight]="opt.fixedRight || false">
-              <ng-container
-                *ngTemplateOutlet="
-                  columnFilterInput;
-                  context: {
-                    $implicit: opt.key,
-                    filter: opt.filter
-                  }
-                "></ng-container>
+              [nzRight]="opt.fixedRight || false"
+              [nzShowSort]="true"
+              [nzSortFn]="true">
+              <ng-container *ngIf="opt.inputFilter as filter">
+                <ng-container
+                  *ngTemplateOutlet="
+                    columnFilterInput;
+                    context: {
+                      $implicit: opt.key,
+                      filter: filter
+                    }
+                  "></ng-container>
+              </ng-container>
             </th>
 
             <!-- ENUM TAG FILTER -->
@@ -195,8 +199,8 @@
       <input
         #filterInput
         nz-input
-        [placeholder]="filter.options[0].text"
-        [ngModel]="filter.options[0].value || ''"
+        [placeholder]="filter.placeholder"
+        [ngModel]="filter.defaultValue"
         (ngModelChange)="
           onCustomFilter$.next({ key: columnKey, value: $event })
         " />
@@ -226,31 +230,15 @@
     <nz-input-number-group nzSize="small">
       <nz-input-number
         #filterInput
-        [nzPlaceHolder]="filter.options[0].text"
-        [ngModel]="filter.options[0].value || null"
+        [nzPlaceHolder]="filter.placeholder"
+        [ngModel]="filter.defaultValue"
+        style="width: 100%;"
         (ngModelChange)="
           onCustomFilter$.next({ key: columnKey, value: $event })
         "
         [nzMin]="1"
         [nzStep]="1"></nz-input-number>
     </nz-input-number-group>
-    <!-- <ng-template #suffixIcon>
-          <span
-            *ngIf="!filterInput.value"
-            nz-icon
-            nzType="search"
-            style="color: #ddd"></span>
-          <span
-            *ngIf="filterInput.value"
-            nz-icon
-            class="ant-input-clear-icon"
-            nzTheme="fill"
-            nzType="close-circle"
-            (click)="
-              filterInput.value = '';
-              onCustomFilter$.next({ key: columnKey, value: '' })
-            "></span>
-        </ng-template> -->
   </ng-template>
 </ng-template>
 

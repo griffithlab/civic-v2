@@ -17,7 +17,6 @@ import {
 } from 'ng-zorro-antd/table'
 import { Subject } from 'rxjs'
 
-
 export type EvidenceManagerEdge = {
   cursor: string
   node?: Maybe<EvidenceManagerFieldsFragment>
@@ -113,16 +112,24 @@ interface FixedColumn {
   fixedRight: true
 }
 
+// implements nz-table filters
 interface FilterColumn {
   filter: {
-    type?: 'number' | 'string'
     options: NzTableFilterList
   }
 }
 
-// use context to use another column's entity object to display tag
-interface EntityTagColumn {
+// implements custom filters
+interface InputFilterColumn {
+  inputFilter: {
+    type?: string
+    placeholder?: string
+    defaultValue: any
+  }
 }
+
+// use context to use another column's entity object to display tag
+interface EntityTagColumn {}
 
 // displays row[key] value with attribute-tag component.
 // toggle icon off w/ showIcon to render enums that
@@ -149,8 +156,10 @@ interface TagColumn {
 // provide its data as $implicit context to ref template
 interface TemplateColumn {
   template: {
-    reference: TemplateRef<any>
-    context?: EvidenceManagerColKey
+    reference: Subject<{
+      ref: TemplateRef<any>
+      context: EvidenceManagerColKey
+    }>
   }
 }
 
@@ -189,6 +198,7 @@ export interface EntityTagColumnType
     TagColumn,
     EntityTagColumn,
     SortColumn,
+    InputFilterColumn,
     FilterColumn,
     FixedColumn {
   type: 'entity-tag'

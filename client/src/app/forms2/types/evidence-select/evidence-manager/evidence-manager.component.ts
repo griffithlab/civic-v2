@@ -231,10 +231,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         context: 'evidenceItem',
         fixedLeft: true,
         sort: [],
-        filter: {
-          type: 'number',
-          options: [{ text: 'EID', value: null }],
+        inputFilter: {
+          type: 'numeric',
+          placeholder: 'EID',
+          defaultValue: null
         },
+        // filter: {
+        //   options: [{ text: 'EID', value: null }],
+        // },
       },
       {
         key: 'molecularProfile',
@@ -242,8 +246,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'entity-tag',
         width: '250px',
         sort: [],
-        filter: {
-          options: [{ text: 'Filter MP Names', value: null }],
+        inputFilter: {
+          placeholder: 'Filter Therapy Names',
+          defaultValue: null
         },
       },
       {
@@ -252,8 +257,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'Disease',
         width: '250px',
         sort: [],
-        filter: {
-          options: [{ text: 'Filter Disease Names', value: null }],
+        inputFilter: {
+          placeholder: 'Filter Disease Names',
+          defaultValue: null
         },
       },
       {
@@ -265,8 +271,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           maxTags: 2,
         },
         sort: [],
-        filter: {
-          options: [{ text: 'Filter Therapy Names', value: null }],
+        inputFilter: {
+          placeholder: 'Filter Therapy Names',
+          defaultValue: null
         },
       },
       {
