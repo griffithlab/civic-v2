@@ -45,7 +45,6 @@ export class TableCountsComponent implements OnInit {
     this.tableCountsInfo$ = this.cvcTableCountsConnection.pipe(
       filter((c) => c.totalCount != undefined || c.filteredCount != undefined),
       map((c: EntityConnection) => {
-        console.log(c)
         const fc = c.filteredCount
         const tc = c.totalCount
         const edges = c.edges

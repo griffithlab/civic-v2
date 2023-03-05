@@ -12,7 +12,7 @@
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollerToIndex]="(scrollToIndex$ | ngrxPush)!"
-    [nzScroll]="{ x: '1024px', y: '200px' }"
+    [nzScroll]="{ x: '800px', y: '200px' }"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzVirtualItemSize]="28"
     [nzSize]="'small'"
@@ -30,6 +30,7 @@
               *ngIf="col | guardType : colGuards.isSelectCol as opt"
               [nzShowCheckbox]="opt.checkbox.th.showCheckbox"
               [nzWidth]="opt.width"
+              [nzAlign]="opt.align ?? 'left'"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false"></th>
 
@@ -37,6 +38,7 @@
             <th
               *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
               [nzColumnKey]="opt.key"
+              [nzAlign]="opt.align ?? 'left'"
               [nzWidth]="opt.width"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
@@ -47,6 +49,7 @@
             <th
               *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
               [nzColumnKey]="opt.key"
+              [nzAlign]="opt.align ?? 'left'"
               [nzWidth]="opt.width"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
@@ -59,11 +62,11 @@
       <tr class="filter-row">
         <ng-container *ngFor="let col of cols">
           <ng-container *ngIf="!col.hidden">
-
             <!-- SELECT FILTER -->
             <th
               *ngIf="col | guardType : colGuards.isSelectCol as opt"
               [nzColumnKey]="opt.key"
+              [nzAlign]="opt.align ?? 'left'"
               [nzWidth]="opt.width"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
@@ -75,6 +78,7 @@
               *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
               [nzColumnKey]="opt.key"
               [nzWidth]="opt.width"
+              [nzAlign]="opt.align ?? 'left'"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
               <ng-container
@@ -94,13 +98,15 @@
               [nzColumnKey]="col.key"
               class="attribute-filter"
               [nzWidth]="opt.width"
+              [nzAlign]="opt.align ?? 'left'"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false"
+              [nzShowSort]="true"
+              [nzSortFn]="true"
               [nzShowFilter]="true"
               [nzFilters]="opt.filter.options"
               [nzFilterMultiple]="false"
               [nzFilterFn]="true"></th>
-
           </ng-container>
         </ng-container>
       </tr>
@@ -120,12 +126,14 @@
                 (nzCheckedChange)="
                   onRowSelected$.next({ id: row.id, selected: $event })
                 "
+                [nzAlign]="opt.align ?? 'left'"
                 [nzLeft]="opt.fixedLeft || false"
                 [nzRight]="opt.fixedRight || false"></td>
 
               <!-- ENTITY TAG CELL -->
               <td
                 *ngIf="col | guardType : colGuards.isEntityTagCol as opt"
+                [nzAlign]="opt.align ?? 'left'"
                 [nzLeft]="opt.fixedLeft || false"
                 [nzRight]="opt.fixedRight || false">
                 <cvc-entity-tag
@@ -148,6 +156,7 @@
               <td
                 *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
                 nzAlign="center"
+                [nzAlign]="opt.align ?? 'left'"
                 [nzLeft]="opt.fixedLeft || false"
                 [nzRight]="opt.fixedRight || false">
                 <cvc-attribute-tag
@@ -229,26 +238,25 @@
 <!-- card's extra template - loading/error indicators & prefs button-->
 <ng-template #extraTemplate>
   <nz-row [nzGutter]="8">
+    <nz-col nzFlex="auto" >
+      <!-- loading more rows -->
+      <nz-tag
+        *ngIf="(loading$ | ngrxPush) && (isFetchMore$ | ngrxPush)"
+        nzColor="processing">
+        <i
+          nz-icon
+          nzType="sync"
+          nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+
+      <!-- no more rows to load -->
+      <cvc-no-more-rows
+        [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+    </nz-col>
     <!-- loading, no more rows, and error tags -->
     <nz-col nzFlex="auto">
       <ng-container *ngrxLet="requestError$ as errors">
-        <!-- loading more rows -->
-        <ng-container *ngIf="!errors?.query">
-          <nz-tag
-            *ngIf="(loading$ | ngrxPush) && (isFetchMore$ | ngrxPush)"
-            nzColor="processing">
-            <i
-              nz-icon
-              nzType="sync"
-              nzSpin></i>
-            <span>Loading…</span>
-          </nz-tag>
-
-          <!-- no more rows to load -->
-          <cvc-no-more-rows
-            [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
-        </ng-container>
-
         <!-- request & network errors -->
         <ng-container *ngIf="errors">
           <nz-tag
@@ -327,7 +335,9 @@
         <div class="prefs-popover">
           <nz-checkbox-group
             [ngModel]="updatePreferenceOptions$ | ngrxPush"
-            (ngModelChange)="onPreferenceChange$.next($event)"></nz-checkbox-group>
+            (ngModelChange)="
+              onPreferenceChange$.next($event)
+            "></nz-checkbox-group>
         </div>
       </ng-template>
     </nz-col>

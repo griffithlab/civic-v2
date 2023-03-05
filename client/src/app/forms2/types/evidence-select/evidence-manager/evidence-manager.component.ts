@@ -184,6 +184,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.scrollToIndex$ = new Subject<number>()
     this.requestError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
+    this.isFetchMore$.pipe(tag('isFetchMore$')).subscribe()
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
 
     this.tableFilterRef$ = new ReplaySubject<
@@ -271,6 +272,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Evidence Type',
         type: 'enum-tag',
         width: '45px',
+        align: 'center',
         fixedRight: true,
         sort: [],
         filter: {
@@ -286,6 +288,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Evidence Level',
         type: 'enum-tag',
         width: '45px',
+        align: 'center',
         fixedRight: true,
         sort: [],
         filter: {
@@ -300,6 +303,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Evidence Direction',
         type: 'enum-tag',
         width: '45px',
+        align: 'center',
         fixedRight: true,
         sort: [],
         filter: {
@@ -311,6 +315,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'SI',
         tooltip: 'Significance',
         type: 'enum-tag',
+        align: 'center',
         width: '45px',
         fixedRight: true,
         sort: [],
@@ -324,6 +329,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Evidence Rating',
         type: 'enum-tag',
         width: '45px',
+        align: 'center',
         fixedRight: true,
         sort: [],
         showIcon: 'star',
@@ -389,7 +395,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // when nz-table emits event from nzTableQueryChanges,
     // trigger refetch query with updated filter, sort params
     this.onTableQueryParams$
-      .pipe(tag('onTableQueryParam$'), untilDestroyed(this))
+      .pipe(
+        // tag('onTableQueryParam$'),
+        untilDestroyed(this))
       .subscribe((tableParams) => {
         // omit unused pageIndex, pageSize attributes
         let { pageIndex, pageSize, ...params } = tableParams
@@ -418,7 +426,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.onQuery$
-      .pipe(tag('>>>>>>>>>>>>> onQuery$'), untilDestroyed(this))
+      .pipe(
+        // tag('>>>>>>>>>>>>> onQuery$'),
+        untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         // if there's no query ref, create one w/ watch()
@@ -471,8 +481,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.loading$ = this.queryResult$.pipe(
-      tag('<<<<<<<<< queryResult$'),
+      // tag('<<<<<<<<< queryResult$'),
       pluck('loading'),
+      tag('.......... loading$'),
       distinctUntilChanged()
     )
 
