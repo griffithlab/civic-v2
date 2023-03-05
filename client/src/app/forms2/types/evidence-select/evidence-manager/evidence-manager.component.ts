@@ -157,12 +157,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   columnKeyToFilterParamMap: {
     [key in EvidenceManagerColKey]?: keyof Pick<
       EvidenceManagerQueryVariables,
-      'molecularProfileName' | 'diseaseName' | 'therapyName'
+      'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
     >
   } = {
     molecularProfile: 'molecularProfileName',
     disease: 'diseaseName',
     therapies: 'therapyName',
+    evidenceItem: 'id',
   }
 
   colGuards = colTypeGuards
@@ -223,14 +224,16 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '50px',
       },
       {
-        key: 'evidenceItem',
+        key: 'id',
         label: 'Evidence Item',
         type: 'entity-tag',
         width: '100px',
+        context: 'evidenceItem',
         fixedLeft: true,
         sort: [],
         filter: {
-          options: [{ text: 'Filter EIDs', value: '' }],
+          type: 'number',
+          options: [{ text: 'EID', value: null }],
         },
       },
       {
@@ -240,7 +243,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: [],
         filter: {
-          options: [{ text: 'Filter MP Names', value: '' }],
+          options: [{ text: 'Filter MP Names', value: null }],
         },
       },
       {
@@ -250,7 +253,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: [],
         filter: {
-          options: [{ text: 'Filter Disease Names', value: '' }],
+          options: [{ text: 'Filter Disease Names', value: null }],
         },
       },
       {
@@ -263,7 +266,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
         sort: [],
         filter: {
-          options: [{ text: 'Filter Therapy Names', value: '' }],
+          options: [{ text: 'Filter Therapy Names', value: null }],
         },
       },
       {
@@ -373,6 +376,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             ]
           newFilter.key = mappedKey ? mappedKey : newFilter.key
 
+          // convert empty string values to null
+          newFilter.value = newFilter.value === '' ? null : newFilter.value
+
           // check if new filter already exists in filters array,
           // update it if does, add it if it does not
           let filters = params.filter
@@ -397,7 +403,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onTableQueryParams$
       .pipe(
         // tag('onTableQueryParam$'),
-        untilDestroyed(this))
+        untilDestroyed(this)
+      )
       .subscribe((tableParams) => {
         // omit unused pageIndex, pageSize attributes
         let { pageIndex, pageSize, ...params } = tableParams
@@ -428,7 +435,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onQuery$
       .pipe(
         // tag('>>>>>>>>>>>>> onQuery$'),
-        untilDestroyed(this))
+        untilDestroyed(this)
+      )
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         // if there's no query ref, create one w/ watch()
@@ -459,12 +467,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         } else {
           if (params.query === 'refetch') {
             this.isFetchMore$.next(false)
+            this.scrollToIndex$.next(0)
             this.queryRef.refetch(queryVars).then((result) => {
               if (result.error || result.errors) {
                 this.requestError$.next(this.getRequestErrors(result))
               }
             })
-            this.scrollToIndex$.next(0)
           } else {
             // FIXME: fetchMore results are not being appended to row$, for some reason.
             // Probably replacing rather than appending row$ somewhere? or that rows$
@@ -505,13 +513,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       this.connection$.pipe(
         pluck('edges'),
         filter(isNonNulled),
-        map((edges) => edges.map((e) => e.node)),
+        map((edges) => edges.map((e) => e.node))
       ),
       this.selectedRow$,
     ]).pipe(
       map(([rows, selected]: [Maybe<EvidenceItem>[], Set<number>]) => {
         return rows.map((row) => {
-          if(!row) return
+          if (!row) return
           return {
             ...row,
             evidenceItem: {

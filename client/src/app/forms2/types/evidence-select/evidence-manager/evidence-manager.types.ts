@@ -115,13 +115,13 @@ interface FixedColumn {
 
 interface FilterColumn {
   filter: {
+    type?: 'number' | 'string'
     options: NzTableFilterList
   }
 }
 
 // use context to use another column's entity object to display tag
 interface EntityTagColumn {
-  statusCol: EvidenceManagerColKey // will display tag status if status colKey provided
 }
 
 // displays row[key] value with attribute-tag component.

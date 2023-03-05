@@ -86,7 +86,7 @@
                   columnFilterInput;
                   context: {
                     $implicit: opt.key,
-                    options: opt.filter.options
+                    filter: opt.filter
                   }
                 "></ng-container>
             </th>
@@ -136,20 +136,22 @@
                 [nzAlign]="opt.align ?? 'left'"
                 [nzLeft]="opt.fixedLeft || false"
                 [nzRight]="opt.fixedRight || false">
-                <cvc-entity-tag
-                  *ngIf="!opt.tagGroup; else multiTag"
-                  [cvcCacheId]="
-                    row[opt.key].__typename + ':' + row[opt.key].id
-                  "></cvc-entity-tag>
-
-                <!-- TODO: wrap in new entity-tag-list -->
-                <ng-template #multiTag>
+                <ng-container *ngIf="opt.context || opt.key as colKey">
                   <cvc-entity-tag
-                    *ngFor="let entity of row[opt.key]"
+                    *ngIf="!opt.tagGroup; else multiTag"
                     [cvcCacheId]="
-                      entity.__typename + ':' + entity.id
+                      row[colKey].__typename + ':' + row[colKey].id
                     "></cvc-entity-tag>
-                </ng-template>
+
+                  <!-- TODO: wrap in new entity-tag-list -->
+                  <ng-template #multiTag>
+                    <cvc-entity-tag
+                      *ngFor="let entity of row[colKey]"
+                      [cvcCacheId]="
+                        entity.__typename + ':' + entity.id
+                      "></cvc-entity-tag>
+                  </ng-template>
+                </ng-container>
               </td>
 
               <!-- ENUM TAG CELL -->
@@ -180,38 +182,75 @@
 <ng-template
   #columnFilterInput
   let-columnKey
-  let-options="options">
+  let-filter="filter">
   <!-- input updates onCustomFilter -->
-  <nz-input-group
-    [nzSuffix]="suffixIcon"
-    nzSize="small">
-    <input
-      #filterInput
-      nz-input
-      [placeholder]="options[0].text"
-      [ngModel]="options[0].value || ''"
-      (ngModelChange)="
-        onCustomFilter$.next({ key: columnKey, value: $event })
-      " />
-  </nz-input-group>
+  <ng-container
+    *ngIf="
+      filter.type === undefined || filter.type === 'string';
+      else numericInput
+    ">
+    <nz-input-group
+      [nzSuffix]="suffixIcon"
+      nzSize="small">
+      <input
+        #filterInput
+        nz-input
+        [placeholder]="filter.options[0].text"
+        [ngModel]="filter.options[0].value || ''"
+        (ngModelChange)="
+          onCustomFilter$.next({ key: columnKey, value: $event })
+        " />
+    </nz-input-group>
 
-  <!-- input suffic icon tpl - magnifying glass if unset, clear icon if set  -->
-  <ng-template #suffixIcon>
-    <span
-      *ngIf="!filterInput.value"
-      nz-icon
-      nzType="search"
-      style="color: #ddd"></span>
-    <span
-      *ngIf="filterInput.value"
-      nz-icon
-      class="ant-input-clear-icon"
-      nzTheme="fill"
-      nzType="close-circle"
-      (click)="
-        filterInput.value = '';
-        onCustomFilter$.next({ key: columnKey, value: '' })
-      "></span>
+    <!-- input suffic icon tpl - magnifying glass if unset, clear icon if set  -->
+    <ng-template #suffixIcon>
+      <span
+        *ngIf="!filterInput.value"
+        nz-icon
+        nzType="search"
+        style="color: #ddd"></span>
+      <span
+        *ngIf="filterInput.value"
+        nz-icon
+        class="ant-input-clear-icon"
+        nzTheme="fill"
+        nzType="close-circle"
+        (click)="
+          filterInput.value = '';
+          onCustomFilter$.next({ key: columnKey, value: '' })
+        "></span>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #numericInput>
+    <nz-input-number-group nzSize="small">
+      <nz-input-number
+        #filterInput
+        [nzPlaceHolder]="filter.options[0].text"
+        [ngModel]="filter.options[0].value || null"
+        (ngModelChange)="
+          onCustomFilter$.next({ key: columnKey, value: $event })
+        "
+        [nzMin]="1"
+        [nzStep]="1"></nz-input-number>
+    </nz-input-number-group>
+    <!-- <ng-template #suffixIcon>
+          <span
+            *ngIf="!filterInput.value"
+            nz-icon
+            nzType="search"
+            style="color: #ddd"></span>
+          <span
+            *ngIf="filterInput.value"
+            nz-icon
+            class="ant-input-clear-icon"
+            nzTheme="fill"
+            nzType="close-circle"
+            (click)="
+              filterInput.value = '';
+              onCustomFilter$.next({ key: columnKey, value: '' })
+            "></span>
+        </ng-template> -->
   </ng-template>
 </ng-template>
 
@@ -238,7 +277,7 @@
 <!-- card's extra template - loading/error indicators & prefs button-->
 <ng-template #extraTemplate>
   <nz-row [nzGutter]="8">
-    <nz-col nzFlex="auto" >
+    <nz-col nzFlex="auto">
       <!-- loading more rows -->
       <nz-tag
         *ngIf="(loading$ | ngrxPush) && (isFetchMore$ | ngrxPush)"

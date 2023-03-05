@@ -16,6 +16,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
@@ -66,6 +67,7 @@ const typeConfig: ConfigOption = {
     NzFormModule,
     NzCheckboxModule,
     NzInputModule,
+    NzInputNumberModule,
     NzIconModule,
     NzGridModule,
     NzTableModule,
