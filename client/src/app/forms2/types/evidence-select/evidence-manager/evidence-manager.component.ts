@@ -659,9 +659,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       .subscribe(([_, config]) => {
         const nzTableParams = this.getNzTableParamsFromTableConfig(config)
         this.col$.next([...this.managerTableConfig])
-        this.cdr.detectChanges()
-        this.cdr.markForCheck()
-        // this.onTableQueryParams$.next(nzTableParams)
+        this.onTableQueryParams$.next(nzTableParams)
       })
   }
 
@@ -767,16 +765,19 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   getConfigFromColPrefs(
     cols: EvidenceManagerTableConfig,
-    options: ColumnPrefsModel
+    prefs: ColumnPrefsModel
   ): EvidenceManagerTableConfig {
     // const objKeys = Object.keys(cols) as Array<keyof typeof cols>
     cols.forEach((col) => {
-      const option = options.find((option) => option.value === col.key)
-      if (option?.checked) {
-        col.hidden = option.checked
+      if (this.omittedFromPrefs.find((c) => c === col.key)) return
+      const pref = prefs.find((pref) => pref.value === col.key)
+      if (pref?.checked) {
+        col.hidden = false
+      } else {
+        col.hidden = true
       }
     })
-    return { ...cols }
+    return [ ...cols ]
   }
 
   getColPrefsFromConfig(cols: EvidenceManagerTableConfig): ColumnPrefsModel {
