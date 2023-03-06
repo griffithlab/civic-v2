@@ -309,6 +309,10 @@ export const hasFilterOptions: TypeGuard<any, FilterColumn> = (
   int: FilterColumn
 ): int is FilterColumn => int.filter !== undefined
 
+export const hasInputFilterOptions: TypeGuard<any, InputFilterColumn> = (
+  int: InputFilterColumn
+): int is InputFilterColumn => int.inputFilter !== undefined
+
 export const hasTextOptions: TypeGuard<any, TextColumn> = (
   int: TextColumn
 ): int is TextColumn => int.text !== undefined

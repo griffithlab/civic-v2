@@ -49,8 +49,10 @@ import {
   Observable,
   of,
   ReplaySubject,
+  shareReplay,
   startWith,
   Subject,
+  take,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
@@ -72,6 +74,7 @@ import {
   RowSelection,
   hasSortOptions,
   hasFilterOptions,
+  hasInputFilterOptions,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -109,6 +112,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   tableFilterRef$: ReplaySubject<
     QueryList<TemplateRef<NzThAddOnComponent<CvcInputEnum>>>
   >
+  defaultTableQueryParams$: Observable<NzTableQueryParams>
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
@@ -171,7 +175,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
     this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>(1)
-    this.onTableQueryParams$.pipe(tag('TQ >>>>> onTableQueryParam$')).subscribe()
+    this.onTableQueryParams$
+      .pipe(tag('TQ >>>>> onTableQueryParam$'))
+      .subscribe()
+
+    this.defaultTableQueryParams$ = this.onTableQueryParams$.pipe(take(1))
 
     this.onCustomFilter$ = new ReplaySubject<CustomFilter>(1)
     this.onCustomFilter$.pipe(tag('CF >>>>> onCustomFilter$')).subscribe()
@@ -308,7 +316,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           type: 'string',
           placeholder: 'Search Descriptions',
           defaultValue: null,
-        }
+        },
       },
       {
         key: 'evidenceType',
@@ -568,7 +576,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               id: row.id,
               name: row.name,
               link: row.link,
-              status: row.status
+              status: row.status,
             },
             selected: selected.has(row.id),
           }
@@ -653,12 +661,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onResetFilter$
       .pipe(
         withLatestFrom(
-          of(this.managerTableConfig),
-          of(this.tableFilterRefs.toArray())
+          this.defaultTableQueryParams$,
+          of(this.managerTableConfig)
         ),
         untilDestroyed(this)
       )
-      .subscribe(([_, config, refs]) => {
+      .subscribe(([_, params, config]) => {
         const nzTableParams = this.getNzTableParamsFromTableConfig(config)
         // refs.forEach((ref) => {
         //   console.log(ref)
@@ -744,18 +752,25 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     cols.forEach((col) => {
       const isSort = hasSortOptions(col)
       const isFilter = hasFilterOptions(col)
+      const isInputFilter = hasInputFilterOptions(col)
       // copy any sort options
       if (isSort) {
         params.sort.push(col.sort)
       }
       // find default options, add to filter array
       if (isFilter) {
-        const filterDefault = col.filter.options.find(
-          (opt) => opt.byDefault == true
-        )
-        if (filterDefault) {
-          params.filter.push({ key: col.key, value: filterDefault.value })
-        }
+        const def = col.filter.options.find((opt) => opt.byDefault == true)
+        params.filter.push({
+          key: col.key,
+          value: def !== undefined ? def.value : null,
+        })
+      }
+      if (isInputFilter) {
+        const value = col.inputFilter.defaultValue
+        params.filter.push({
+          key: col.key,
+          value: value !== undefined ? value : null,
+        })
       }
     })
     return params

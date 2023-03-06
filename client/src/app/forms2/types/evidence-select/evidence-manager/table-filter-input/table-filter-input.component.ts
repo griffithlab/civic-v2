@@ -11,5 +11,4 @@ export class TableFilterInputComponent {
 
   @Input() cvcInputType: 'default' | 'numeric' = 'default'
   @Input() cvcPlaceholder?: string
-  constructor() {}
 }
