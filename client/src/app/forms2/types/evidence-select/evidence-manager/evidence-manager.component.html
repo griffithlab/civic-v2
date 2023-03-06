@@ -41,13 +41,26 @@
               [nzAlign]="opt.align ?? 'left'"
               [nzWidth]="opt.width"
               [nzLeft]="opt.fixedLeft || false"
-              [nzRight]="opt.fixedRight || false">
+              [nzRight]="opt.fixedRight || false"
+              [nzShowSort]="true"
+              [nzSortFn]="true">
               {{ opt.label }}
             </th>
 
             <!-- ENUM TAG HEADER -->
             <th
               *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
+              [nzColumnKey]="opt.key"
+              [nzAlign]="opt.align ?? 'left'"
+              [nzWidth]="opt.width"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false">
+              {{ opt.label }}
+            </th>
+
+            <!-- TEXT TAG HEADER -->
+            <th
+              *ngIf="col | guardType : colGuards.isTextTagCol as opt"
               [nzColumnKey]="opt.key"
               [nzAlign]="opt.align ?? 'left'"
               [nzWidth]="opt.width"
@@ -80,26 +93,21 @@
               [nzWidth]="opt.width"
               [nzAlign]="opt.align ?? 'left'"
               [nzLeft]="opt.fixedLeft || false"
-              [nzRight]="opt.fixedRight || false"
-              [nzShowSort]="true"
-              [nzSortFn]="true">
-              <ng-container *ngIf="opt.inputFilter as filter">
-                <ng-container
-                  *ngTemplateOutlet="
-                    columnFilterInput;
-                    context: {
-                      $implicit: opt.key,
-                      filter: filter
-                    }
-                  "></ng-container>
-              </ng-container>
+              [nzRight]="opt.fixedRight || false">
+              <cvc-table-filter-input
+                [cvcPlaceholder]="opt.inputFilter.placeholder"
+                [cvcModel]="opt.inputFilter.defaultValue"
+                (cvcModelChange)="
+                  onCustomFilter$.next({ key: opt.key, value: $event })
+                ">
+              </cvc-table-filter-input>
             </th>
 
             <!-- ENUM TAG FILTER -->
             <th
               #enumTableFilter
               *ngIf="col | guardType : colGuards.isEnumTagCol as opt"
-              [nzColumnKey]="col.key"
+              [nzColumnKey]="opt.key"
               class="attribute-filter"
               [nzWidth]="opt.width"
               [nzAlign]="opt.align ?? 'left'"
@@ -111,6 +119,40 @@
               [nzFilters]="opt.filter.options"
               [nzFilterMultiple]="false"
               [nzFilterFn]="true"></th>
+
+            <!-- TEXT TAG FILTER -->
+            <th
+              #enumTableFilter
+              *ngIf="col | guardType : colGuards.isTextTagCol as opt"
+              [nzColumnKey]="opt.key"
+              class="attribute-filter"
+              [nzWidth]="opt.width"
+              [nzAlign]="opt.align ?? 'left'"
+              [nzLeft]="opt.fixedLeft || false"
+              [nzRight]="opt.fixedRight || false"
+              nzCustomFilter
+              [nzFilterFn]="true">
+              <nz-filter-trigger
+                [nzDropdownMenu]="filterMenu"
+                [nzActive]="(onCustomFilter$ | ngrxPush)?.value !== null">
+                <span
+                  nz-icon
+                  nzType="search"></span>
+              </nz-filter-trigger>
+              <nz-dropdown-menu #filterMenu="nzDropdownMenu">
+                <div class="ant-table-filter-dropdown">
+                  <div class="custom-input-dropdown">
+                    <cvc-table-filter-input
+                      [cvcPlaceholder]="opt.inputFilter.placeholder"
+                      [cvcModel]="opt.inputFilter.defaultValue"
+                      (cvcModelChange)="
+                        onCustomFilter$.next({ key: opt.key, value: $event })
+                      ">
+                    </cvc-table-filter-input>
+                  </div>
+                </div>
+              </nz-dropdown-menu>
+            </th>
           </ng-container>
         </ng-container>
       </tr>
@@ -174,6 +216,24 @@
                     row[opt.key] | evidenceEnumDisplay
                   "></cvc-attribute-tag>
               </td>
+
+              <!-- TEXT TAG CELL -->
+              <td
+                *ngIf="col | guardType : colGuards.isTextTagCol as opt"
+                nzAlign="center"
+                [nzAlign]="opt.align ?? 'left'"
+                [nzLeft]="opt.fixedLeft || false"
+                [nzRight]="opt.fixedRight || false">
+                <!-- TODO: show filter text emphasized in tooltip text -->
+                <nz-tag
+                  nz-tooltip
+                  [nzTooltipTitle]="row[opt.key]">
+                  <span
+                    nz-icon
+                    nzType="align-left"
+                    nzTheme="outline"></span>
+                </nz-tag>
+              </td>
             </ng-container>
           </ng-container>
         </tr>
@@ -182,7 +242,7 @@
   </nz-table>
 </nz-card>
 
-<!-- col header input for typeahead filter -->
+<!-- string/number input custom filter -->
 <ng-template
   #columnFilterInput
   let-columnKey
@@ -232,7 +292,7 @@
         #filterInput
         [nzPlaceHolder]="filter.placeholder"
         [ngModel]="filter.defaultValue"
-        style="width: 100%;"
+        style="width: 100%"
         (ngModelChange)="
           onCustomFilter$.next({ key: columnKey, value: $event })
         "

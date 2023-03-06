@@ -12,6 +12,7 @@ import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -27,7 +28,8 @@ import { TableScrollerDirective } from './evidence-manager/table-scroller.direct
 import {
   CvcEvidenceSelectField,
   CvcEvidenceSelectFieldProps,
-} from './evidence-select.type'
+} from './evidence-select.type';
+import { TableFilterInputComponent } from './evidence-manager/table-filter-input/table-filter-input.component'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -55,6 +57,7 @@ const typeConfig: ConfigOption = {
     CvcEvidenceSelectField,
     CvcEvidenceManagerComponent,
     TableScrollerDirective,
+    TableFilterInputComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +79,7 @@ const typeConfig: ConfigOption = {
     NzToolTipModule,
     NzTypographyModule,
     NzPopoverModule,
+    NzDropDownModule,
 
     CvcNoMoreRowsModule,
     CvcTableCounts2Module,

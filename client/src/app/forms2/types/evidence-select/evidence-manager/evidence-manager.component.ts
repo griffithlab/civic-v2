@@ -31,6 +31,7 @@ import {
   Maybe,
   PageInfo,
   SortDirection,
+  TherapyInteraction,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -69,8 +70,8 @@ import {
   QuerySortParams,
   RequestError,
   RowSelection,
-  isSortColumn,
-  isFilterColumn,
+  hasSortOptions,
+  hasFilterOptions,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -170,9 +171,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
     this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>()
+    this.onTableQueryParams$.pipe(tag('TQ >>>>> onTableQueryParam$')).subscribe()
+
     this.onCustomFilter$ = new ReplaySubject<CustomFilter>()
+    this.onCustomFilter$.pipe(tag('CF >>>>> onCustomFilter$')).subscribe()
+
     this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
     this.onQuery$ = new ReplaySubject<CvcTableQueryParams>()
+    // this.onQuery$.pipe(tag('OQ >>>>> onQuery$')).subscribe()
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onPreferenceChange$ = new Subject<ColumnPrefsModel>()
     this.onResetFilter$ = new Subject<void>()
@@ -185,7 +191,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.scrollToIndex$ = new Subject<number>()
     this.requestError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
-    this.isFetchMore$.pipe(tag('isFetchMore$')).subscribe()
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
 
     this.tableFilterRef$ = new ReplaySubject<
@@ -227,14 +232,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'id',
         label: 'Evidence Item',
         type: 'entity-tag',
-        width: '100px',
+        width: '120px',
         context: 'evidenceItem',
         fixedLeft: true,
         sort: [],
         inputFilter: {
           type: 'numeric',
           placeholder: 'EID',
-          defaultValue: null
+          defaultValue: null,
         },
         // filter: {
         //   options: [{ text: 'EID', value: null }],
@@ -248,7 +253,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         sort: [],
         inputFilter: {
           placeholder: 'Filter Therapy Names',
-          defaultValue: null
+          defaultValue: null,
         },
       },
       {
@@ -259,7 +264,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         sort: [],
         inputFilter: {
           placeholder: 'Filter Disease Names',
-          defaultValue: null
+          defaultValue: null,
         },
       },
       {
@@ -273,8 +278,37 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         sort: [],
         inputFilter: {
           placeholder: 'Filter Therapy Names',
-          defaultValue: null
+          defaultValue: null,
         },
+      },
+      {
+        key: 'therapyInteractionType',
+        label: 'INT',
+        tooltip: 'Therapy Interaction Type',
+        type: 'enum-tag',
+        width: '45px',
+        align: 'center',
+        sort: [],
+        filter: {
+          options: this.getAttributeFilters(
+            $enum(TherapyInteraction),
+            EvidenceType.Predictive
+          ),
+        },
+      },
+      {
+        key: 'description',
+        label: 'DESC',
+        tooltip: 'Evidence Description',
+        type: 'text-tag',
+        width: '45px',
+        align: 'center',
+        fixedRight: true,
+        inputFilter: {
+          type: 'string',
+          placeholder: 'Search Descriptions',
+          defaultValue: null,
+        }
       },
       {
         key: 'evidenceType',
@@ -498,7 +532,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.loading$ = this.queryResult$.pipe(
       // tag('<<<<<<<<< queryResult$'),
       pluck('loading'),
-      tag('.......... loading$'),
+      // tag('.......... loading$'),
       distinctUntilChanged()
     )
 
@@ -534,6 +568,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               id: row.id,
               name: row.name,
               link: row.link,
+              status: row.status
             },
             selected: selected.has(row.id),
           }
@@ -707,8 +742,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       filter: [],
     }
     cols.forEach((col) => {
-      const isSort = isSortColumn(col)
-      const isFilter = isFilterColumn(col)
+      const isSort = hasSortOptions(col)
+      const isFilter = hasFilterOptions(col)
       // copy any sort options
       if (isSort) {
         params.sort.push(col.sort)

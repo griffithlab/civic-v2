@@ -1,0 +1,42 @@
+<!-- input updates onCustomFilter -->
+<ng-container *ngIf="cvcInputType === 'default'; else numericInput">
+  <nz-input-group
+    [nzSuffix]="suffixIcon"
+    nzSize="small">
+    <input
+      #filterInput
+      nz-input
+      [placeholder]="cvcPlaceholder"
+      [ngModel]="cvcModel"
+      (ngModelChange)="cvcModelChange.next($event)" />
+  </nz-input-group>
+
+  <!-- input suffic icon tpl - magnifying glass if unset, clear icon if set  -->
+  <ng-template #suffixIcon>
+    <span
+      *ngIf="!filterInput.value"
+      nz-icon
+      nzType="search"
+      style="color: #ddd"></span>
+    <span
+      *ngIf="filterInput.value"
+      nz-icon
+      class="ant-input-clear-icon"
+      nzTheme="fill"
+      nzType="close-circle"
+      (click)="filterInput.value = ''; cvcModelChange.next(null)"></span>
+  </ng-template>
+</ng-container>
+
+<ng-template #numericInput>
+  <nz-input-number-group nzSize="small">
+    <nz-input-number
+      #filterInput
+      [nzPlaceHolder]="cvcPlaceholder ?? ''"
+      [ngModel]="cvcModel"
+      (ngModelChange)="cvcModelChange.next($event)"
+      [nzMin]="1"
+      [nzStep]="1"
+      style="width: 100%"></nz-input-number>
+  </nz-input-number-group>
+</ng-template>

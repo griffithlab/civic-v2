@@ -2,6 +2,7 @@ import { TemplateRef } from '@angular/core'
 import { ApolloError } from '@apollo/client/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
+  EvidenceItem,
   EvidenceManagerFieldsFragment,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
@@ -34,7 +35,7 @@ export type EvidenceManagerConnection = EvidenceManagerQuery['evidenceItems']
 // additional columns added to row data for table templates, logic
 type EvidenceManagerRowDataExtra = {
   // need evidence object for entity tag in selectEntity column
-  evidenceItem: { id: number; name: string; link: string }
+  evidenceItem: Pick<EvidenceItem, 'id' | 'name' | 'link' | 'status'>
   // additional boolean column to handle row selected state
   selected: boolean
 }
@@ -67,10 +68,7 @@ export type EvidenceManagerColType =
   | 'enum-tag' // display cell data w/ attribute-tag
   | 'default' // short strings, e.g. labels, counts
   | 'template' // displays specified template reference
-  // TODO: need to implement the following column types when refactoring this code to work w/ all entity types
-  | 'text' // long strings or simple sanitized HTML, e.g. descriptions, summaries
-  | 'actions' // action buttons e.g. suggest source, approve revision
-  | 'time' // displays timestamp w/ timeago pipe
+  | 'text-tag' // long strings or simple sanitized HTML, e.g. descriptions, summaries
 
 // array of column configs, will be rendered left-to-right in array order
 export type EvidenceManagerTableConfig = ColumnConfigOption[]
@@ -119,17 +117,23 @@ interface FilterColumn {
   }
 }
 
-// implements custom filters
 interface InputFilterColumn {
   inputFilter: {
+    defaultValue: any
     type?: string
     placeholder?: string
-    defaultValue: any
   }
 }
 
 // use context to use another column's entity object to display tag
 interface EntityTagColumn {}
+
+interface TextColumn {
+  text: {
+    showIcon?: string | boolean
+    showText?: boolean
+  }
+}
 
 // displays row[key] value with attribute-tag component.
 // toggle icon off w/ showIcon to render enums that
@@ -168,6 +172,7 @@ type ColumnConfigOption =
   | EntityTagColumnType
   | EnumTagColumnType
   | DefaultColumnType
+  | TextColumnType
   | TemplateColumnType
 
 export interface DefaultColumnType
@@ -214,6 +219,15 @@ export interface EnumTagColumnType
   type: 'enum-tag'
 }
 
+export interface TextColumnType
+  extends BaseColumn,
+    TextColumn,
+    SortColumn,
+    InputFilterColumn,
+    FixedColumn {
+  type: 'text-tag'
+}
+
 // types to drive the preferences panel
 export type ColumnPrefsOption = {
   label: string
@@ -246,7 +260,14 @@ export type RequestError = {
   query?: ReadonlyArray<GraphQLError>
 }
 
-// type guards for TypeGuard pipe
+// Type guard fns for TypeGuard pipe. Required to simplify the construction of
+// generic template logic, a kludge to prevent *ngFor from getting clobbered
+export const isDefaultColumn: TypeGuard<
+  ColumnConfigOption,
+  DefaultColumnType
+> = (option: ColumnConfigOption): option is DefaultColumnType =>
+  option.type === 'default'
+
 export const isSelectColumn: TypeGuard<ColumnConfigOption, SelectColumnType> = (
   option: ColumnConfigOption
 ): option is SelectColumnType => option.type === 'select'
@@ -263,28 +284,37 @@ export const isEnumTagColumn: TypeGuard<
 > = (option: ColumnConfigOption): option is EnumTagColumnType =>
   option.type === 'enum-tag'
 
-export const isDefaultColumn: TypeGuard<
-  ColumnConfigOption,
-  DefaultColumnType
-> = (option: ColumnConfigOption): option is DefaultColumnType =>
-  option.type === 'default'
-
-export const isSortColumn: TypeGuard<any, SortColumn> = (
-  int: SortColumn
-): int is SortColumn => int.sort !== undefined
-
-export const isFilterColumn: TypeGuard<any, FilterColumn> = (
-  int: FilterColumn
-): int is FilterColumn => int.filter !== undefined
+export const isTextColumn: TypeGuard<ColumnConfigOption, TextColumnType> = (
+  option: ColumnConfigOption
+): option is TextColumnType => option.type === 'text-tag'
 
 export const colTypeGuards = {
   isSelectCol: isSelectColumn,
   isEntityTagCol: isEntityTagColumn,
   isEnumTagCol: isEnumTagColumn,
+  isTextTagCol: isTextColumn,
 }
 
+// These guard attributes on col options, currently not used
+// in the TypeGuard pipe,  but in logic that handles column options.
+// FIXME(?): I had hoped that the discriminated union type ColumnOptionType
+// above would have made guard functions like this unecessary, but I was unable to
+// write some of the generic cols/prefs handling functions w/o them. Not
+// sure if this is bc the types are not constructed properly.
+export const hasSortOptions: TypeGuard<any, SortColumn> = (
+  int: SortColumn
+): int is SortColumn => int.sort !== undefined
+
+export const hasFilterOptions: TypeGuard<any, FilterColumn> = (
+  int: FilterColumn
+): int is FilterColumn => int.filter !== undefined
+
+export const hasTextOptions: TypeGuard<any, TextColumn> = (
+  int: TextColumn
+): int is TextColumn => int.text !== undefined
+
 // version of NzTableQueryParams modified for relay pagination,
-// replaces 'pageIndex' and 'pageSize' w/ 'first' and 'after'
+// replaces 'pageIndex' and 'pageSize' w/ 'fetchMore' options
 export type CvcTableQueryParams = Omit<
   NzTableQueryParams,
   'pageIndex' | 'pageSize'
