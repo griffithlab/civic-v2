@@ -170,14 +170,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   colGuards = colTypeGuards
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
-    this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>()
+    this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>(1)
     this.onTableQueryParams$.pipe(tag('TQ >>>>> onTableQueryParam$')).subscribe()
 
-    this.onCustomFilter$ = new ReplaySubject<CustomFilter>()
+    this.onCustomFilter$ = new ReplaySubject<CustomFilter>(1)
     this.onCustomFilter$.pipe(tag('CF >>>>> onCustomFilter$')).subscribe()
 
     this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
-    this.onQuery$ = new ReplaySubject<CvcTableQueryParams>()
+    this.onQuery$ = new ReplaySubject<CvcTableQueryParams>(1)
     // this.onQuery$.pipe(tag('OQ >>>>> onQuery$')).subscribe()
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onPreferenceChange$ = new Subject<ColumnPrefsModel>()
@@ -186,7 +186,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     this.queryResult$ = new ReplaySubject<
       ApolloQueryResult<EvidenceManagerQuery>
-    >()
+    >(1)
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollToIndex$ = new Subject<number>()
     this.requestError$ = new Subject<RequestError>()
@@ -195,7 +195,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     this.tableFilterRef$ = new ReplaySubject<
       QueryList<TemplateRef<NzThAddOnComponent<any>>>
-    >()
+    >(1)
 
     this.managerTableConfig = [
       {
@@ -232,7 +232,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'id',
         label: 'Evidence Item',
         type: 'entity-tag',
-        width: '120px',
+        width: '110px',
         context: 'evidenceItem',
         fixedLeft: true,
         sort: [],
@@ -660,9 +660,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       )
       .subscribe(([_, config, refs]) => {
         const nzTableParams = this.getNzTableParamsFromTableConfig(config)
-        refs.forEach((ref) => {
-          console.log(ref)
-        })
+        // refs.forEach((ref) => {
+        //   console.log(ref)
+        // })
         this.col$.next({ ...this.managerTableConfig })
         this.onTableQueryParams$.next(nzTableParams)
       })

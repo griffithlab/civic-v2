@@ -132,9 +132,13 @@
               [nzRight]="opt.fixedRight || false"
               nzCustomFilter
               [nzFilterFn]="true">
+              <!-- FIXME: Seems excessive to have two subscriptions here, however if structural
+                   directives like ngrxLet or ngIf are used on filter-trigger or a containing div,
+                   the trigger and icon aren't rendered until onCustomFilter$ emits.
+              -->
               <nz-filter-trigger
                 [nzDropdownMenu]="filterMenu"
-                [nzActive]="(onCustomFilter$ | ngrxPush)?.value !== null">
+                [nzActive]="(onCustomFilter$ | ngrxPush)?.key === 'description' && (onCustomFilter$ | ngrxPush)?.value !== null">
                 <span
                   nz-icon
                   nzType="search"></span>
