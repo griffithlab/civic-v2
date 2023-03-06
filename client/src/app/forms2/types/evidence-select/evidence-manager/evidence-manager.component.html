@@ -43,7 +43,8 @@
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false"
               [nzShowSort]="true"
-              [nzSortFn]="true">
+              [nzSortFn]="true"
+              [nzSortOrder]="opt.sortDefault || null">
               {{ opt.label }}
             </th>
 
@@ -115,6 +116,7 @@
               [nzRight]="opt.fixedRight || false"
               [nzShowSort]="true"
               [nzSortFn]="true"
+              [nzSortOrder]="opt.sortDefault || null"
               [nzShowFilter]="true"
               [nzFilters]="opt.filter.options"
               [nzFilterMultiple]="false"
@@ -138,7 +140,10 @@
               -->
               <nz-filter-trigger
                 [nzDropdownMenu]="filterMenu"
-                [nzActive]="(onCustomFilter$ | ngrxPush)?.key === 'description' && (onCustomFilter$ | ngrxPush)?.value !== null">
+                [nzActive]="
+                  (onCustomFilter$ | ngrxPush)?.key === 'description' &&
+                  (onCustomFilter$ | ngrxPush)?.value !== null
+                ">
                 <span
                   nz-icon
                   nzType="search"></span>

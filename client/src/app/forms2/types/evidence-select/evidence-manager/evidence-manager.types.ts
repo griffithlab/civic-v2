@@ -90,6 +90,7 @@ export interface SortColumn {
   // so if multiple columns options specify a default sort, only the
   // last column to populate its sort array will affect sorting
   sort: NzTableFilterValue['sort']
+  sortDefault?: string
 }
 
 interface SelectionColumn {
@@ -301,9 +302,9 @@ export const colTypeGuards = {
 // above would have made guard functions like this unecessary, but I was unable to
 // write some of the generic cols/prefs handling functions w/o them. Not
 // sure if this is bc the types are not constructed properly.
-export const hasSortOptions: TypeGuard<any, SortColumn> = (
+export const hasSortDefault: TypeGuard<any, SortColumn> = (
   int: SortColumn
-): int is SortColumn => int.sort !== undefined
+): int is SortColumn => int.sortDefault !== undefined
 
 export const hasFilterOptions: TypeGuard<any, FilterColumn> = (
   int: FilterColumn

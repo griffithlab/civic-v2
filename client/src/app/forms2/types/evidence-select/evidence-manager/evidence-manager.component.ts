@@ -72,7 +72,7 @@ import {
   QuerySortParams,
   RequestError,
   RowSelection,
-  hasSortOptions,
+  hasSortDefault,
   hasFilterOptions,
   hasInputFilterOptions,
 } from './evidence-manager.types'
@@ -243,7 +243,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '110px',
         context: 'evidenceItem',
         fixedLeft: true,
-        sort: [],
         inputFilter: {
           type: 'numeric',
           placeholder: 'EID',
@@ -258,7 +257,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'Molecular Profile',
         type: 'entity-tag',
         width: '250px',
-        sort: [],
         inputFilter: {
           placeholder: 'Filter Therapy Names',
           defaultValue: null,
@@ -269,7 +267,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'entity-tag',
         label: 'Disease',
         width: '250px',
-        sort: [],
         inputFilter: {
           placeholder: 'Filter Disease Names',
           defaultValue: null,
@@ -283,7 +280,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tagGroup: {
           maxTags: 2,
         },
-        sort: [],
         inputFilter: {
           placeholder: 'Filter Therapy Names',
           defaultValue: null,
@@ -296,7 +292,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'enum-tag',
         width: '45px',
         align: 'center',
-        sort: [],
         filter: {
           options: this.getAttributeFilters(
             $enum(TherapyInteraction),
@@ -326,7 +321,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
-        sort: [],
         filter: {
           options: this.getAttributeFilters(
             $enum(EvidenceType),
@@ -342,7 +336,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
-        sort: [],
         filter: {
           options: this.getAttributeFilters($enum(EvidenceLevel)),
         },
@@ -357,7 +350,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
-        sort: [],
         filter: {
           options: this.getAttributeFilters($enum(EvidenceDirection)),
         },
@@ -370,7 +362,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         align: 'center',
         width: '45px',
         fixedRight: true,
-        sort: [],
         filter: {
           options: this.getAttributeFilters($enum(EvidenceSignificance)),
         },
@@ -383,9 +374,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
-        sort: [],
         showIcon: 'star',
         showLabel: true,
+        sortDefault: 'descend',
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {
             return { value: n, text: `${n} stars` }
@@ -592,10 +583,15 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
       this.managerTableConfig
     )
+    this.col$.pipe(tag('col$')).subscribe()
 
     this.updatePreferenceOptions$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromConfig(cols))
     )
+
+    this.updatePreferenceOptions$
+      .pipe(tag('updatePreferenceOption$'))
+      .subscribe()
 
     this.onPreferenceChange$
       .pipe(
@@ -659,20 +655,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // https://github.com/NG-ZORRO/ng-zorro-antd/issues/5304
     // referring to this demo: https://ng.ant.design/components/table/en#components-table-demo-reset-filter
     this.onResetFilter$
-      .pipe(
-        withLatestFrom(
-          this.defaultTableQueryParams$,
-          of(this.managerTableConfig)
-        ),
-        untilDestroyed(this)
-      )
-      .subscribe(([_, params, config]) => {
+      .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
+      .subscribe(([_, config]) => {
         const nzTableParams = this.getNzTableParamsFromTableConfig(config)
-        // refs.forEach((ref) => {
-        //   console.log(ref)
-        // })
-        this.col$.next({ ...this.managerTableConfig })
-        this.onTableQueryParams$.next(nzTableParams)
+        this.col$.next([...this.managerTableConfig])
+        this.cdr.detectChanges()
+        this.cdr.markForCheck()
+        // this.onTableQueryParams$.next(nzTableParams)
       })
   }
 
@@ -750,12 +739,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       filter: [],
     }
     cols.forEach((col) => {
-      const isSort = hasSortOptions(col)
+      const isSort = hasSortDefault(col)
       const isFilter = hasFilterOptions(col)
       const isInputFilter = hasInputFilterOptions(col)
       // copy any sort options
-      if (isSort) {
-        params.sort.push(col.sort)
+      if (isSort && col.sortDefault !== undefined) {
+        params.sort.push({ key: col.key, value: col.sortDefault })
       }
       // find default options, add to filter array
       if (isFilter) {
@@ -792,7 +781,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   getColPrefsFromConfig(cols: EvidenceManagerTableConfig): ColumnPrefsModel {
     let options: ColumnPrefsModel = []
-    // const objKeys = Object.keys(cols) as Array<keyof typeof cols>
     cols.forEach((col) => {
       if (this.omittedFromPrefs.find((c) => c === col.key)) return
       options.push({
