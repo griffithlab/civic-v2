@@ -57,6 +57,18 @@
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
               {{ opt.label }}
+              <span
+                nz-tooltip
+                [nzTooltipTitle]="debugTooltip"
+                [nzTooltipTitleContext]="opt.filter"
+                nz-icon
+                nzType="bug"
+                nzTheme="outline"></span>
+              <ng-template
+                #debugTooltip
+                let-filter>
+                <pre>{{ opt.filter.options | json }}</pre>
+              </ng-template>
             </th>
 
             <!-- TEXT TAG HEADER -->

@@ -21,7 +21,6 @@ import {
   EvidenceItem,
   EvidenceItemConnection,
   EvidenceLevel,
-  EvidenceManagerFieldsFragment,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
@@ -49,7 +48,6 @@ import {
   Observable,
   of,
   ReplaySubject,
-  shareReplay,
   startWith,
   Subject,
   take,
@@ -60,21 +58,20 @@ import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
-  ColumnPrefsModel,
   colTypeGuards,
+  ColumnPrefsModel,
   CustomFilter,
   CvcTableQueryParams,
   EvidenceManagerColKey,
-  EvidenceManagerConnection,
   EvidenceManagerRowData,
   EvidenceManagerTableConfig,
+  hasFilterOptions,
+  hasInputFilterOptions,
+  hasSortDefault,
   QueryParamKey,
   QuerySortParams,
   RequestError,
   RowSelection,
-  hasSortDefault,
-  hasFilterOptions,
-  hasInputFilterOptions,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -91,7 +88,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
   @ViewChildren('enumTableFilter') tableFilterRefs?: QueryList<
-    TemplateRef<NzThAddOnComponent<any>>
+    NzThAddOnComponent<any>
   >
 
   // SOURCE STREAMS
@@ -654,10 +651,26 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // as I initially did, for the filters to be properly be reset:
     // https://github.com/NG-ZORRO/ng-zorro-antd/issues/5304
     // referring to this demo: https://ng.ant.design/components/table/en#components-table-demo-reset-filter
+    // NOTE 2: refactoring to col$ doesn't work either, on a closer reading it appears that
+    // server-side sort/filter does not work with the built-in sort/filter, so
+    // I will have to implement all of these filters and sorts as custom
     this.onResetFilter$
-      .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
-      .subscribe(([_, config]) => {
+      .pipe(
+        withLatestFrom(
+          of(this.managerTableConfig),
+          of(this.tableFilterRefs.toArray())
+        ),
+        untilDestroyed(this)
+      )
+      .subscribe(([_, config, refs]) => {
         const nzTableParams = this.getNzTableParamsFromTableConfig(config)
+        refs.forEach((r) => {
+          const filter = nzTableParams.filter.find(
+            (f) => f.key === r.nzColumnKey
+          )
+          console.log(filter?.value)
+          if (filter) r.onFilterValueChange(filter.value)
+        })
         this.col$.next([...this.managerTableConfig])
         this.onTableQueryParams$.next(nzTableParams)
       })
@@ -777,7 +790,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         col.hidden = true
       }
     })
-    return [ ...cols ]
+    return [...cols]
   }
 
   getColPrefsFromConfig(cols: EvidenceManagerTableConfig): ColumnPrefsModel {
