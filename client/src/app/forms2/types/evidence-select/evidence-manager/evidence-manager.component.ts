@@ -45,9 +45,11 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  merge,
   Observable,
   of,
   ReplaySubject,
+  shareReplay,
   startWith,
   Subject,
   take,
@@ -101,16 +103,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
 
   // INTERMEDIATE STREAMS
-  tableParamChange$: Observable<any>
-  onFetch$: BehaviorSubject<ScrollFetch>
+  onFetch$: Subject<ScrollFetch>
   queryRequest$: Subject<CvcTableQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceItemConnection>
   selectedRow$: BehaviorSubject<Set<number>>
   updatePreferenceOptions$!: Observable<ColumnPrefsModel>
-  tableFilterRef$: ReplaySubject<
-    QueryList<TemplateRef<NzThAddOnComponent<CvcInputEnum>>>
-  >
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
@@ -179,7 +177,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.sortChanges = []
     this.filterChanges = []
 
-    this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
+    this.onFetch$ = new Subject<ScrollFetch>()
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onPreferenceChange$ = new Subject<ColumnPrefsModel>()
     this.onResetFilter$ = new Subject<void>()
@@ -195,10 +193,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.queryError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
-
-    this.tableFilterRef$ = new ReplaySubject<
-      QueryList<TemplateRef<NzThAddOnComponent<any>>>
-    >(1)
 
     this.managerTableConfig = [
       {
@@ -425,59 +419,47 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       }
     })
 
-    this.tableParamChange$ = combineLatest([
-      combineLatest(this.sortChanges).pipe(
-        filter((changes) => {
-          // filter any sort changes with more than two specified columns,
-          // since we don't support multi-sort yet
-          return changes.filter((change) => change.value !== null).length <= 1
-        })
-      ),
-      combineLatest(this.filterChanges),
-    ]).pipe(
-      map(([sort, filter]) => {
-        return { sort: sort, filter: filter }
+    // create combined observables from sort & filter Subject arrays
+    const filterChange$ = combineLatest(this.filterChanges)
+    // filter any sort changes w/ more than two columns set, as we do not support multi-sort
+    const sortChange$ = combineLatest(this.sortChanges).pipe(
+      filter((changes) => {
+        return changes.filter((change) => change.value !== null).length <= 1
       })
     )
-    this.tableParamChange$.pipe(tag('tableParamChange$')).subscribe()
 
-    // when row select, get old selected rows, emit updated rows
-    // & output new selected ids array
-    this.onRowSelected$
-      .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
-      .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
-        if (event.selected) {
-          selected.add(event.id)
-        } else {
-          selected.delete(event.id)
-        }
-        this.selectedRow$.next(selected)
-        this.cvcSelectedIdsChange.next(Array.from(selected))
-      })
-
-    // merge tablescroller onFetch w/ latest query params,
-    // then trigger new fetchMore query
-    this.onFetch$
-      .pipe(withLatestFrom(this.queryRequest$), untilDestroyed(this))
-      .subscribe(([fetchParams, lastQuery]) => {
+    // observe all sort and filter changes, convert to refetch queryParams
+    const refetch$: Observable<CvcTableQueryParams> = combineLatest([sortChange$, filterChange$]).pipe(
+      map(([sorts, filters]) => {
         const queryParams: CvcTableQueryParams = {
-          ...lastQuery,
+          query: 'refetch',
+          sort: sorts,
+          filter: filters,
+        }
+        return queryParams
+      })
+    )
+
+    // observe onFetch events, convert to fetchMore queryParams
+    const fetchMore$: Observable<CvcTableQueryParams> = this.onFetch$.pipe(
+      map((fetchParams) => {
+        return {
           query: 'fetchMore',
           fetchMore: {
             ...fetchParams,
           },
-        }
-        this.queryRequest$.next(queryParams)
+        } as CvcTableQueryParams
       })
+    )
 
-    this.queryRequest$
-      .pipe(tag('>>>>>>>>>>>>> queryRequest$'), untilDestroyed(this))
+    // merge table refetch and scroller fetchMore events, issue queries for each
+    merge(
+      refetch$,
+      fetchMore$
+    )
+      .pipe(untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
-        // if there's no query ref, create one w/ watch()
-        // and emit valueChanges from queryResult$.
-        // if query ref exists, call refetch or fetchMore,
-        // depending on the params.query setting
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
           this.scrollToIndex$.next(0)
@@ -509,10 +491,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               }
             })
           } else {
-            // FIXME: fetchMore results are not being appended to row$, for some reason.
-            // Probably replacing rather than appending row$ somewhere? or that rows$
-            // gets its data from response 'nodes' instead of 'edges' as the other
-            // tables do?
             this.isFetchMore$.next(true)
             this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
               if (result.error || result.errors) {
@@ -524,13 +502,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.loading$ = this.queryResult$.pipe(
-      // tag('<<<<<<<<< queryResult$'),
       pluck('loading'),
-      // tag('.......... loading$'),
       distinctUntilChanged()
     )
 
-    // FIXME: why is this cast to EvidenceItemConnection required here?
     this.connection$ = this.queryResult$.pipe(
       pluck('data', 'evidenceItems'),
       filter(isNonNulled)
@@ -584,6 +559,20 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       map((cols) => this.getColPrefsFromConfig(cols))
     )
 
+    // when row select, get old selected rows, emit updated rows
+    // & output new selected ids array
+    this.onRowSelected$
+      .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
+      .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
+        if (event.selected) {
+          selected.add(event.id)
+        } else {
+          selected.delete(event.id)
+        }
+        this.selectedRow$.next(selected)
+        this.cvcSelectedIdsChange.next(Array.from(selected))
+      })
+
     // this.updatePreferenceOptions$
     //   .pipe(tag('updatePreferenceOption$'))
     //   .subscribe()
@@ -591,7 +580,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onPreferenceChange$
       .pipe(
         withLatestFrom(this.col$),
-        map(([options, cols]) => this.getConfigFromColPrefs(cols, options)),
+        map(([prefs, cols]) => this.getConfigFromColPrefs(prefs, cols)),
         untilDestroyed(this)
       )
       .subscribe((cols) => {
@@ -656,20 +645,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       .pipe(
         withLatestFrom(
           of(this.managerTableConfig),
-          of(this.tableFilterRefs.toArray())
         ),
         untilDestroyed(this)
       )
-      .subscribe(([_, config, refs]) => {
-        const nzTableParams = this.getNzTableParamsFromTableConfig(config)
-        refs.forEach((r) => {
-          const filter = nzTableParams.filter.find(
-            (f) => f.key === r.nzColumnKey
-          )
-          console.log(filter?.value)
-          if (filter) r.onFilterValueChange(filter.value)
-        })
-        this.col$.next([...this.managerTableConfig])
+      .subscribe(([_, config]) => {
+        const newConfig: EvidenceManagerTableConfig = []
+        this.managerTableConfig.forEach((c) => newConfig.push({...c}))
+        this.col$.next(newConfig)
         // this.onTableQueryParams$.next(nzTableParams)
       })
   }
@@ -711,6 +693,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   getQuerySortParams(params: CvcTableQueryParams): Maybe<QuerySortParams> {
+    if (!params.sort) return
     const colSort = params.sort
     const queryParam = colSort.find((p) => p.value !== null)
     if (!queryParam) return
@@ -729,7 +712,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   getQueryFilterParams(
     params: CvcTableQueryParams
-  ): EvidenceManagerQueryVariables {
+  ): Maybe<EvidenceManagerQueryVariables> {
+    if (!params.filter) return
     let filters: { [key in QueryParamKey]?: any } = {}
     // create an object with any specified filter attributes
     params.filter.forEach((f) => {
@@ -767,10 +751,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   getConfigFromColPrefs(
-    cols: EvidenceManagerTableConfig,
-    prefs: ColumnPrefsModel
+    prefs: ColumnPrefsModel,
+    cols: EvidenceManagerTableConfig
   ): EvidenceManagerTableConfig {
-    // const objKeys = Object.keys(cols) as Array<keyof typeof cols>
     cols.forEach((col) => {
       if (this.omittedFromPrefs.find((c) => c === col.key)) return
       const pref = prefs.find((pref) => pref.value === col.key)

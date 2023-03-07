@@ -135,12 +135,14 @@
               (nzSortOrderChange)="
                 opt.sort!.changes!.next({ key: opt.key, value: $event })
               "
-              [nzFilters]="opt.filter.options"
-              [nzFilterMultiple]="false"
-              [nzFilterFn]="true"
-              (nzFilterChange)="
-                opt.filter.changes!.next({ key: opt.key, value: $event })
-              "></th>
+              nzCustomFilter
+              [nzFilterFn]="true">
+              <nz-filter-trigger [nzDropdownMenu]="filterMenu">
+                <span
+                  nz-icon
+                  nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
 
             <!-- TEXT TAG FILTER -->
             <th
@@ -154,9 +156,15 @@
               [nzRight]="opt.fixedRight || false"
               nzCustomFilter
               [nzFilterFn]="true">
-              <!-- FIXME: Seems excessive to have two subscriptions here, however if structural
+              <!-- FIXME: (previous nzActive implementation) Seems excessive to
+                   have two subscriptions here, however if structural
                    directives like ngrxLet or ngIf are used on filter-trigger or a containing div,
                    the trigger and icon aren't rendered until onFilterChange$ emits.
+                   <nz-filter-trigger ...
+                   [nzActive]="
+                  (onCustomFilter$ | ngrxPush)?.key === 'description' &&
+                  (onCustomFilter$ | ngrxPush)?.value !== null
+                "></nz-filter-trigger>
               -->
               <nz-filter-trigger [nzDropdownMenu]="filterMenu">
                 <span
@@ -174,7 +182,10 @@
                         opt.filter.options[0] && opt.filter.options[0].value
                       "
                       (cvcModelChange)="
-                        opt.filter.changes!.next({ key: opt.key, value: $event })
+                        opt.filter.changes!.next({
+                          key: opt.key,
+                          value: $event
+                        })
                       ">
                     </cvc-table-filter-input>
                   </div>
