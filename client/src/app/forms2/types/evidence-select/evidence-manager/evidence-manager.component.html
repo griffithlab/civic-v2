@@ -18,8 +18,7 @@
     [nzSize]="'small'"
     [nzFrontPagination]="false"
     [nzShowPagination]="false"
-    [nzLoading]="(loading$ | ngrxPush) && !(isFetchMore$ | ngrxPush)"
-    (nzQueryParams)="onTableQueryParams$.next($event)">
+    [nzLoading]="(loading$ | ngrxPush) && !(isFetchMore$ | ngrxPush)">
     <!-- col$ provide col config defaults and query param, table prefs updates -->
     <thead *ngrxLet="col$ as cols">
       <tr class="col-header-row">
@@ -42,9 +41,12 @@
               [nzWidth]="opt.width"
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false"
-              [nzShowSort]="true"
+              [nzShowSort]="opt.sort !== undefined"
               [nzSortFn]="true"
-              [nzSortOrder]="opt.sort?.default || null">
+              [nzSortOrder]="opt.sort?.default || null"
+              (nzSortOrderChange)="
+                opt.sort!.changes!.next({ key: opt.key, value: $event })
+              ">
               {{ opt.label }}
             </th>
 
@@ -108,14 +110,11 @@
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
               <cvc-table-filter-input
-                [cvcPlaceholder]="
-                  opt.filter.options[0] && opt.filter.options[0].key
-                "
-                [cvcModel]="
-                  opt.filter.options[0] && opt.filter.options[0].value
-                "
+                *ngIf="opt.filter as filter"
+                [cvcPlaceholder]="opt.filter.options[0].key"
+                [cvcModel]="opt.filter.options[0].value"
                 (cvcModelChange)="
-                  onFilterChange$.next({ key: opt.key, value: $event })
+                  filter.changes!.next({ key: opt.key, value: $event })
                 ">
               </cvc-table-filter-input>
             </th>
@@ -133,10 +132,15 @@
               [nzShowSort]="true"
               [nzSortFn]="true"
               [nzSortOrder]="opt.sort?.default || null"
-              [nzShowFilter]="true"
+              (nzSortOrderChange)="
+                opt.sort!.changes!.next({ key: opt.key, value: $event })
+              "
               [nzFilters]="opt.filter.options"
               [nzFilterMultiple]="false"
-              [nzFilterFn]="true"></th>
+              [nzFilterFn]="true"
+              (nzFilterChange)="
+                opt.filter.changes!.next({ key: opt.key, value: $event })
+              "></th>
 
             <!-- TEXT TAG FILTER -->
             <th
@@ -154,12 +158,7 @@
                    directives like ngrxLet or ngIf are used on filter-trigger or a containing div,
                    the trigger and icon aren't rendered until onFilterChange$ emits.
               -->
-              <nz-filter-trigger
-                [nzDropdownMenu]="filterMenu"
-                [nzActive]="
-                  (onFilterChange$ | ngrxPush)?.key === 'description' &&
-                  (onFilterChange$ | ngrxPush)?.value !== null
-                ">
+              <nz-filter-trigger [nzDropdownMenu]="filterMenu">
                 <span
                   nz-icon
                   nzType="search"></span>
@@ -175,7 +174,7 @@
                         opt.filter.options[0] && opt.filter.options[0].value
                       "
                       (cvcModelChange)="
-                        onFilterChange$.next({ key: opt.key, value: $event })
+                        opt.filter.changes!.next({ key: opt.key, value: $event })
                       ">
                     </cvc-table-filter-input>
                   </div>
@@ -290,8 +289,8 @@
         nz-input
         [placeholder]="filter.placeholder"
         [ngModel]="filter.defaultValue"
-        (ngModelChange)="
-          onFilterChange$.next({ key: columnKey, value: $event })
+        (nzFilterChange)="
+          filter.changes.next({ key: filter.key, value: $event })
         " />
     </nz-input-group>
 
@@ -310,7 +309,7 @@
         nzType="close-circle"
         (click)="
           filterInput.value = '';
-          onFilterChange$.next({ key: columnKey, value: '' })
+          filter.changes.next({ key: filter.key, value: null })
         "></span>
     </ng-template>
   </ng-container>
@@ -323,7 +322,7 @@
         [ngModel]="filter.defaultValue"
         style="width: 100%"
         (ngModelChange)="
-          onFilterChange$.next({ key: columnKey, value: $event })
+          filter.changes.next({ key: filter.key, value: $event })
         "
         [nzMin]="1"
         [nzStep]="1"></nz-input-number>

@@ -60,7 +60,8 @@ import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
   colTypeGuards,
   ColumnPrefsModel,
-  CustomFilter,
+  CvcFilterChange,
+  CvcSortChange,
   CvcTableQueryParams,
   EvidenceManagerColKey,
   EvidenceManagerRowData,
@@ -91,15 +92,16 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   >
 
   // SOURCE STREAMS
-  onTableQueryParams$: ReplaySubject<NzTableQueryParams>
-  onFilterChange$: ReplaySubject<CustomFilter>
-  // onSortChange$: ReplaySubject<{ key: EvidenceManagerColKey, value: }>
+  sortChanges: Observable<CvcSortChange>[]
+  filterChanges: Observable<CvcFilterChange>[]
+
   onRowSelected$: Subject<RowSelection>
   onPreferenceChange$: Subject<ColumnPrefsModel>
   onResetFilter$: Subject<void>
   onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
 
   // INTERMEDIATE STREAMS
+  tableParamChange$: Observable<any>
   onFetch$: BehaviorSubject<ScrollFetch>
   queryRequest$: Subject<CvcTableQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
@@ -109,7 +111,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   tableFilterRef$: ReplaySubject<
     QueryList<TemplateRef<NzThAddOnComponent<CvcInputEnum>>>
   >
-  defaultTableQueryParams$: Observable<NzTableQueryParams>
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
@@ -171,15 +172,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   colGuards = colTypeGuards
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
-    this.onTableQueryParams$ = new ReplaySubject<NzTableQueryParams>(1)
-    this.onTableQueryParams$
-      .pipe(tag('TQ >>>>> onTableQueryParam$'))
-      .subscribe()
+    // this.onTableQueryParams$
+    //   .pipe(tag('TQ >>>>> onTableQueryParam$'))
+    //   .subscribe()
 
-    this.defaultTableQueryParams$ = this.onTableQueryParams$.pipe(take(1))
-
-    this.onFilterChange$ = new ReplaySubject<CustomFilter>(1)
-    this.onFilterChange$.pipe(tag('CF >>>>> onFilterChange$')).subscribe()
+    this.sortChanges = []
+    this.filterChanges = []
 
     this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
     this.onRowSelected$ = new Subject<RowSelection>()
@@ -240,6 +238,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '110px',
         context: 'evidenceItem',
         fixedLeft: true,
+        sort: {},
         filter: {
           options: [{ key: 'EID', value: null }],
         },
@@ -249,6 +248,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'Molecular Profile',
         type: 'entity-tag',
         width: '250px',
+        sort: {},
         filter: {
           options: [
             {
@@ -263,6 +263,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'entity-tag',
         label: 'Disease',
         width: '250px',
+        sort: {},
         filter: {
           options: [
             {
@@ -277,6 +278,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'Therapies',
         type: 'entity-tag',
         width: '350px',
+        sort: {},
         tagGroup: {
           maxTags: 2,
         },
@@ -296,6 +298,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'enum-tag',
         width: '45px',
         align: 'center',
+        sort: {},
         filter: {
           options: this.getAttributeFilters(
             $enum(TherapyInteraction),
@@ -323,6 +326,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
+        sort: {},
         filter: {
           options: this.getAttributeFilters(
             $enum(EvidenceType),
@@ -338,6 +342,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
+        sort: {},
         filter: {
           options: this.getAttributeFilters($enum(EvidenceLevel)),
         },
@@ -352,6 +357,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
+        sort: {},
         filter: {
           options: this.getAttributeFilters($enum(EvidenceDirection)),
         },
@@ -364,6 +370,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         align: 'center',
         width: '45px',
         fixedRight: true,
+        sort: {},
         filter: {
           options: this.getAttributeFilters($enum(EvidenceSignificance)),
         },
@@ -378,6 +385,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedRight: true,
         showIcon: 'star',
         showLabel: true,
+        sort: {
+          default: 'descend',
+        },
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {
             return { value: n, text: `${n} stars` }
@@ -385,6 +395,51 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
       },
     ]
+
+    // create filter & sort Subjects
+    this.managerTableConfig.forEach((opt, i) => {
+      if (hasSortOptions(opt)) {
+        const change$ = new Subject<CvcSortChange>()
+        opt.sort.changes = change$
+        this.sortChanges.push(
+          change$.pipe(
+            startWith({
+              key: opt.key,
+              value: opt.sort.default ?? null,
+            })
+            // tag(`sortChanges Subject ${i}`)
+          )
+        )
+      }
+      if (hasFilterOptions(opt)) {
+        const defaultValue = opt.filter.options.find((o) => o.byDefault)?.value
+        const change$ = new Subject<CvcFilterChange>()
+        opt.filter.changes = change$
+
+        this.filterChanges.push(
+          change$.pipe(
+            startWith({ key: opt.key, value: defaultValue ?? null })
+            // tag(`sortFilter Subject ${i}`)
+          )
+        )
+      }
+    })
+
+    this.tableParamChange$ = combineLatest([
+      combineLatest(this.sortChanges).pipe(
+        filter((changes) => {
+          // filter any sort changes with more than two specified columns,
+          // since we don't support multi-sort yet
+          return changes.filter((change) => change.value !== null).length <= 1
+        })
+      ),
+      combineLatest(this.filterChanges),
+    ]).pipe(
+      map(([sort, filter]) => {
+        return { sort: sort, filter: filter }
+      })
+    )
+    this.tableParamChange$.pipe(tag('tableParamChange$')).subscribe()
 
     // when row select, get old selected rows, emit updated rows
     // & output new selected ids array
@@ -398,64 +453,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         }
         this.selectedRow$.next(selected)
         this.cvcSelectedIdsChange.next(Array.from(selected))
-      })
-
-    // when custom filters change, merge w/ latest query params,
-    // then trigger new refetch query
-    this.onFilterChange$
-      .pipe(
-        withLatestFrom(this.queryRequest$),
-        map(([newFilter, params]) => {
-          // convert newFilter key to its corresponding query param
-          // e.g. 'molecularProfile' to 'molecularProfileName'
-          // FIXME: wanted to avoid coercing key to EvidenceManagerColKey below, but
-          // wasn't able to get ColumnKeyToFilterParamMap's type specified
-          // in a way that worked NOTE: maybe an actual Map would preserve types better
-          const mappedKey =
-            this.columnKeyToFilterParamMap[
-              newFilter.key as EvidenceManagerColKey
-            ]
-          newFilter.key = mappedKey ? mappedKey : newFilter.key
-
-          // convert empty string values to null
-          newFilter.value = newFilter.value === '' ? null : newFilter.value
-
-          // check if new filter already exists in filters array,
-          // update it if does, add it if it does not
-          let filters = params.filter
-          const currentIndex = filters.findIndex((f) => f.key === newFilter.key)
-          if (currentIndex !== -1) {
-            filters[currentIndex].value = newFilter.value
-          } else {
-            filters.push(newFilter)
-          }
-          return { ...params, filter: [...filters] }
-        }),
-        untilDestroyed(this)
-        // tag('onFilterChange$')
-      )
-      .subscribe((params) => {
-        params.query = 'refetch'
-        this.queryRequest$.next(params)
-      })
-
-    // when nz-table emits event from nzTableQueryChanges,
-    // trigger refetch query with updated filter, sort params
-    this.onTableQueryParams$
-      .pipe(
-        // tag('onTableQueryParam$'),
-        untilDestroyed(this)
-      )
-      .subscribe((tableParams) => {
-        // omit unused pageIndex, pageSize attributes
-        let { pageIndex, pageSize, ...params } = tableParams
-
-        // add query type attribute
-        const queryParams: CvcTableQueryParams = {
-          ...params,
-          query: 'refetch',
-        }
-        this.queryRequest$.next(queryParams)
       })
 
     // merge tablescroller onFetch w/ latest query params,
@@ -474,10 +471,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.queryRequest$
-      .pipe(
-        // tag('>>>>>>>>>>>>> queryRequest$'),
-        untilDestroyed(this)
-      )
+      .pipe(tag('>>>>>>>>>>>>> queryRequest$'), untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         // if there's no query ref, create one w/ watch()
@@ -590,9 +584,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       map((cols) => this.getColPrefsFromConfig(cols))
     )
 
-    this.updatePreferenceOptions$
-      .pipe(tag('updatePreferenceOption$'))
-      .subscribe()
+    // this.updatePreferenceOptions$
+    //   .pipe(tag('updatePreferenceOption$'))
+    //   .subscribe()
 
     this.onPreferenceChange$
       .pipe(
@@ -676,7 +670,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           if (filter) r.onFilterValueChange(filter.value)
         })
         this.col$.next([...this.managerTableConfig])
-        this.onTableQueryParams$.next(nzTableParams)
+        // this.onTableQueryParams$.next(nzTableParams)
       })
   }
 
@@ -809,7 +803,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcTableQueryParams) {
       const queryParams = changes.cvcTableQueryParams.currentValue
-      this.onTableQueryParams$.next(queryParams)
+      // this.onTableQueryParams$.next(queryParams)
     }
     if (changes.cvcSelectedIds) {
       const ids = changes.cvcSelectedIds.currentValue

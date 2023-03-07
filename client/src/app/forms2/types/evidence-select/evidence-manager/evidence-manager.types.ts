@@ -91,6 +91,7 @@ interface BaseColumn {
 interface FilterOptions {
   filter: {
     options: NzTableFilterList // options displayed in filter dropdown
+    changes?: Subject<CvcFilterChange>
   }
 }
 
@@ -99,13 +100,16 @@ interface FilterOptions {
 // That option's key will used as the input placeholder, value will set its default.
 interface InputFilterOptions {
   filter: {
-    options: [{ key: string; value: string | number | null }] // key = placeholder, value = default
+    // key = placeholder, value = default
+    options: [{ key: string; value: string | number | null }]
+    changes?: Subject<CvcFilterChange>
   }
 }
 
 export interface SortOptions {
-  sort?: {
+  sort: {
     default?: NzTableSortOrder
+    changes?: Subject<CvcSortChange>
   }
 }
 
@@ -128,9 +132,9 @@ interface FixedOptions {
 }
 
 // use context to use another column's entity object to display tag
-interface EntityTagColumn {}
+interface EntityTagOptions {}
 
-interface TextColumn {
+interface TextTagOptions {
   text?: {}
 }
 
@@ -139,12 +143,12 @@ interface TextColumn {
 // evidenceDisplayEnum won't work with. toggle showLabel off
 // for a little mini-tag w/ just the icon.
 // If showIcon is a string, that string will be provided to icon's nzType
-interface EnumTagColumn {
+interface EnumTagOptions {
   showLabel?: boolean
   showIcon?: boolean | string
 }
 
-interface TagColumn {
+interface TagOptions {
   tag?: {
     truncateLabel: boolean
     showLabel: boolean
@@ -157,10 +161,10 @@ interface TagColumn {
 
 type ColumnConfigOption =
   | SelectColumnType
-  | EntityTagColumnType
-  | EnumTagColumnType
+  | EntityTagOptionsType
+  | EnumTagOptionsType
   | DefaultColumnType
-  | TextColumnType
+  | TextTagOptionsType
 
 export interface DefaultColumnType extends BaseColumn, FixedOptions {
   type: 'default'
@@ -174,30 +178,30 @@ export interface SelectColumnType
   type: 'select'
 }
 
-export interface EntityTagColumnType
+export interface EntityTagOptionsType
   extends BaseColumn,
-    TagColumn,
-    EntityTagColumn,
-    SortOptions,
-    InputFilterOptions,
+    TagOptions,
+    EntityTagOptions,
+    Partial<SortOptions>,
+    Partial<InputFilterOptions>,
     FixedOptions {
   type: 'entity-tag'
 }
 
-export interface EnumTagColumnType
+export interface EnumTagOptionsType
   extends BaseColumn,
-    TagColumn,
-    EnumTagColumn,
-    SortOptions,
+    TagOptions,
+    EnumTagOptions,
+    Partial<SortOptions>,
     FilterOptions,
     FixedOptions {
   type: 'enum-tag'
 }
 
-export interface TextColumnType
+export interface TextTagOptionsType
   extends BaseColumn,
-    TextColumn,
-    SortOptions,
+    TextTagOptions,
+    Partial<SortOptions>,
     InputFilterOptions,
     FixedOptions {
   type: 'text-tag'
@@ -247,27 +251,29 @@ export const isSelectColumn: TypeGuard<ColumnConfigOption, SelectColumnType> = (
   option: ColumnConfigOption
 ): option is SelectColumnType => option.type === 'select'
 
-export const isEntityTagColumn: TypeGuard<
+export const isEntityTagOptions: TypeGuard<
   ColumnConfigOption,
-  EntityTagColumnType
-> = (option: ColumnConfigOption): option is EntityTagColumnType =>
+  EntityTagOptionsType
+> = (option: ColumnConfigOption): option is EntityTagOptionsType =>
   option.type === 'entity-tag'
 
-export const isEnumTagColumn: TypeGuard<
+export const isEnumTagOptions: TypeGuard<
   ColumnConfigOption,
-  EnumTagColumnType
-> = (option: ColumnConfigOption): option is EnumTagColumnType =>
+  EnumTagOptionsType
+> = (option: ColumnConfigOption): option is EnumTagOptionsType =>
   option.type === 'enum-tag'
 
-export const isTextColumn: TypeGuard<ColumnConfigOption, TextColumnType> = (
-  option: ColumnConfigOption
-): option is TextColumnType => option.type === 'text-tag'
+export const isTextTagOptions: TypeGuard<
+  ColumnConfigOption,
+  TextTagOptionsType
+> = (option: ColumnConfigOption): option is TextTagOptionsType =>
+  option.type === 'text-tag'
 
 export const colTypeGuards = {
   isSelectCol: isSelectColumn,
-  isEntityTagCol: isEntityTagColumn,
-  isEnumTagCol: isEnumTagColumn,
-  isTextTagCol: isTextColumn,
+  isEntityTagCol: isEntityTagOptions,
+  isEnumTagCol: isEnumTagOptions,
+  isTextTagCol: isTextTagOptions,
 }
 
 // These guard attributes on col options, currently not used
@@ -284,9 +290,9 @@ export const hasFilterOptions: TypeGuard<any, FilterOptions> = (
   int: FilterOptions
 ): int is FilterOptions => int.filter !== undefined
 
-export const hasTextOptions: TypeGuard<any, TextColumn> = (
-  int: TextColumn
-): int is TextColumn => int.text !== undefined
+export const hasTextOptions: TypeGuard<any, TextTagOptions> = (
+  int: TextTagOptions
+): int is TextTagOptions => int.text !== undefined
 
 // version of NzTableQueryParams modified for relay pagination,
 // replaces 'pageIndex' and 'pageSize' w/ 'fetchMore' options
@@ -296,4 +302,5 @@ export type CvcTableQueryParams = Omit<
 > & { fetchMore?: { first?: number; after?: string }; query: QueryType }
 
 // filter option for text typeahead input filters
-export type CustomFilter = { key: string; value: NzTableFilterValue }
+export type CvcFilterChange = { key: string; value: NzTableFilterValue }
+export type CvcSortChange = { key: string; value: NzTableSortOrder }
