@@ -66,8 +66,7 @@ import {
   EvidenceManagerRowData,
   EvidenceManagerTableConfig,
   hasFilterOptions,
-  hasInputFilterOptions,
-  hasSortDefault,
+  hasSortOptions,
   QueryParamKey,
   QuerySortParams,
   RequestError,
@@ -93,15 +92,16 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // SOURCE STREAMS
   onTableQueryParams$: ReplaySubject<NzTableQueryParams>
-  onCustomFilter$: ReplaySubject<CustomFilter>
-  onFetch$: BehaviorSubject<ScrollFetch>
-  onQuery$: ReplaySubject<CvcTableQueryParams>
+  onFilterChange$: ReplaySubject<CustomFilter>
+  // onSortChange$: ReplaySubject<{ key: EvidenceManagerColKey, value: }>
   onRowSelected$: Subject<RowSelection>
   onPreferenceChange$: Subject<ColumnPrefsModel>
   onResetFilter$: Subject<void>
   onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
 
   // INTERMEDIATE STREAMS
+  onFetch$: BehaviorSubject<ScrollFetch>
+  queryRequest$: Subject<CvcTableQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceItemConnection>
   selectedRow$: BehaviorSubject<Set<number>>
@@ -116,7 +116,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   row$?: Observable<Maybe<EvidenceManagerRowData>[]>
   loading$: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
-  requestError$: Subject<RequestError>
+  queryError$: Subject<RequestError>
   isFetchMore$: Subject<boolean>
 
   // passed to tableScroller
@@ -178,23 +178,23 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     this.defaultTableQueryParams$ = this.onTableQueryParams$.pipe(take(1))
 
-    this.onCustomFilter$ = new ReplaySubject<CustomFilter>(1)
-    this.onCustomFilter$.pipe(tag('CF >>>>> onCustomFilter$')).subscribe()
+    this.onFilterChange$ = new ReplaySubject<CustomFilter>(1)
+    this.onFilterChange$.pipe(tag('CF >>>>> onFilterChange$')).subscribe()
 
     this.onFetch$ = new BehaviorSubject<ScrollFetch>({})
-    this.onQuery$ = new ReplaySubject<CvcTableQueryParams>(1)
-    // this.onQuery$.pipe(tag('OQ >>>>> onQuery$')).subscribe()
     this.onRowSelected$ = new Subject<RowSelection>()
     this.onPreferenceChange$ = new Subject<ColumnPrefsModel>()
     this.onResetFilter$ = new Subject<void>()
     this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
 
+    this.queryRequest$ = new Subject<CvcTableQueryParams>()
+    // this.queryRequest$.pipe(tag('OQ >>>>> queryRequest$')).subscribe()
     this.queryResult$ = new ReplaySubject<
       ApolloQueryResult<EvidenceManagerQuery>
     >(1)
     this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollToIndex$ = new Subject<number>()
-    this.requestError$ = new Subject<RequestError>()
+    this.queryError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
 
@@ -240,23 +240,22 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '110px',
         context: 'evidenceItem',
         fixedLeft: true,
-        inputFilter: {
-          type: 'numeric',
-          placeholder: 'EID',
-          defaultValue: null,
+        filter: {
+          options: [{ key: 'EID', value: null }],
         },
-        // filter: {
-        //   options: [{ text: 'EID', value: null }],
-        // },
       },
       {
         key: 'molecularProfile',
         label: 'Molecular Profile',
         type: 'entity-tag',
         width: '250px',
-        inputFilter: {
-          placeholder: 'Filter Therapy Names',
-          defaultValue: null,
+        filter: {
+          options: [
+            {
+              key: 'Filter Therapy Names',
+              value: null,
+            },
+          ],
         },
       },
       {
@@ -264,9 +263,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'entity-tag',
         label: 'Disease',
         width: '250px',
-        inputFilter: {
-          placeholder: 'Filter Disease Names',
-          defaultValue: null,
+        filter: {
+          options: [
+            {
+              key: 'Filter Disease Names',
+              value: null,
+            },
+          ],
         },
       },
       {
@@ -277,9 +280,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tagGroup: {
           maxTags: 2,
         },
-        inputFilter: {
-          placeholder: 'Filter Therapy Names',
-          defaultValue: null,
+        filter: {
+          options: [
+            {
+              key: 'Filter Therapy Names',
+              value: null,
+            },
+          ],
         },
       },
       {
@@ -304,10 +311,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '45px',
         align: 'center',
         fixedRight: true,
-        inputFilter: {
-          type: 'string',
-          placeholder: 'Search Descriptions',
-          defaultValue: null,
+        filter: {
+          options: [{ key: 'Search Descriptions', value: null }],
         },
       },
       {
@@ -373,7 +378,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedRight: true,
         showIcon: 'star',
         showLabel: true,
-        sortDefault: 'descend',
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {
             return { value: n, text: `${n} stars` }
@@ -398,9 +402,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     // when custom filters change, merge w/ latest query params,
     // then trigger new refetch query
-    this.onCustomFilter$
+    this.onFilterChange$
       .pipe(
-        withLatestFrom(this.onQuery$),
+        withLatestFrom(this.queryRequest$),
         map(([newFilter, params]) => {
           // convert newFilter key to its corresponding query param
           // e.g. 'molecularProfile' to 'molecularProfileName'
@@ -428,11 +432,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           return { ...params, filter: [...filters] }
         }),
         untilDestroyed(this)
-        // tag('onCustomFilter$')
+        // tag('onFilterChange$')
       )
       .subscribe((params) => {
         params.query = 'refetch'
-        this.onQuery$.next(params)
+        this.queryRequest$.next(params)
       })
 
     // when nz-table emits event from nzTableQueryChanges,
@@ -451,13 +455,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           ...params,
           query: 'refetch',
         }
-        this.onQuery$.next(queryParams)
+        this.queryRequest$.next(queryParams)
       })
 
     // merge tablescroller onFetch w/ latest query params,
     // then trigger new fetchMore query
     this.onFetch$
-      .pipe(withLatestFrom(this.onQuery$), untilDestroyed(this))
+      .pipe(withLatestFrom(this.queryRequest$), untilDestroyed(this))
       .subscribe(([fetchParams, lastQuery]) => {
         const queryParams: CvcTableQueryParams = {
           ...lastQuery,
@@ -466,12 +470,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             ...fetchParams,
           },
         }
-        this.onQuery$.next(queryParams)
+        this.queryRequest$.next(queryParams)
       })
 
-    this.onQuery$
+    this.queryRequest$
       .pipe(
-        // tag('>>>>>>>>>>>>> onQuery$'),
+        // tag('>>>>>>>>>>>>> queryRequest$'),
         untilDestroyed(this)
       )
       .subscribe((params: CvcTableQueryParams) => {
@@ -485,7 +489,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           this.scrollToIndex$.next(0)
           this.queryRef = this.gql.watch(queryVars)
           // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
-          // errors, so this extra requestError$ stuff below is required to catch and forward any errors.
+          // errors, so this extra queryError$ stuff below is required to catch and forward any errors.
           // bug report: https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(
@@ -496,9 +500,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               // this.queryResult$.pipe(tag('<<<<<<<<< queryResult$')).subscribe()
               this.queryResult$.next(result)
               // queryRef.valueChanges should be emitting errors,
-              // but updating requestError$ just in case
+              // but updating queryError$ just in case
               if (result.error || result.errors) {
-                this.requestError$.next(this.getRequestErrors(result))
+                this.queryError$.next(this.getRequestErrors(result))
               }
             })
         } else {
@@ -507,7 +511,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             this.scrollToIndex$.next(0)
             this.queryRef.refetch(queryVars).then((result) => {
               if (result.error || result.errors) {
-                this.requestError$.next(this.getRequestErrors(result))
+                this.queryError$.next(this.getRequestErrors(result))
               }
             })
           } else {
@@ -518,7 +522,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             this.isFetchMore$.next(true)
             this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
               if (result.error || result.errors) {
-                this.requestError$.next(this.getRequestErrors(result))
+                this.queryError$.next(this.getRequestErrors(result))
               }
             })
           }
@@ -750,12 +754,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       filter: [],
     }
     cols.forEach((col) => {
-      const isSort = hasSortDefault(col)
+      const isSort = hasSortOptions(col)
       const isFilter = hasFilterOptions(col)
-      const isInputFilter = hasInputFilterOptions(col)
       // copy any sort options
-      if (isSort && col.sortDefault !== undefined) {
-        params.sort.push({ key: col.key, value: col.sortDefault })
+      if (isSort && col.sort?.default !== undefined) {
+        params.sort.push({ key: col.key, value: col.sort.default })
       }
       // find default options, add to filter array
       if (isFilter) {
@@ -763,13 +766,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         params.filter.push({
           key: col.key,
           value: def !== undefined ? def.value : null,
-        })
-      }
-      if (isInputFilter) {
-        const value = col.inputFilter.defaultValue
-        params.filter.push({
-          key: col.key,
-          value: value !== undefined ? value : null,
         })
       }
     })

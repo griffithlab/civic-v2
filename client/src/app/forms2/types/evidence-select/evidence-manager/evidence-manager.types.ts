@@ -12,9 +12,12 @@ import {
 } from '@app/generated/civic.apollo'
 import { GraphQLError } from 'graphql'
 import {
+  NzTableFilterFn,
   NzTableFilterList,
   NzTableFilterValue,
   NzTableQueryParams,
+  NzTableSortFn,
+  NzTableSortOrder,
 } from 'ng-zorro-antd/table'
 import { Subject } from 'rxjs'
 
@@ -67,7 +70,6 @@ export type EvidenceManagerColType =
   | 'entity-tag' // display col value with entity-tag
   | 'enum-tag' // display cell data w/ attribute-tag
   | 'default' // short strings, e.g. labels, counts
-  | 'template' // displays specified template reference
   | 'text-tag' // long strings or simple sanitized HTML, e.g. descriptions, summaries
 
 // array of column configs, will be rendered left-to-right in array order
@@ -76,24 +78,38 @@ export type EvidenceManagerTableConfig = ColumnConfigOption[]
 interface BaseColumn {
   key: EvidenceManagerColKey
   type: EvidenceManagerColType
-  label: string
-  width: string
-  tooltip?: string
-  emphasize?: boolean
-  hidden?: boolean
-  context?: EvidenceManagerColKey
-  align?: 'left' | 'center' | 'right' | null
+  label: string // displayed in col header
+  width: string // passed to th nzWidth, use px: '30px'
+  tooltip?: string // label tooltip
+  emphasize?: boolean // emphasize filter values in string, tags?
+  hidden?: boolean // toggle column visibilitiy
+  context?: EvidenceManagerColKey // specify another row key as source for cell context data
+  align?: 'left' | 'center' | 'right' | null // passed to td/td nzAlign
 }
 
-export interface SortColumn {
-  // NOTE: table queries don't universally support multi-col sort,
-  // so if multiple columns options specify a default sort, only the
-  // last column to populate its sort array will affect sorting
-  sort: NzTableFilterValue['sort']
-  sortDefault?: string
+// implements nz-table filters
+interface FilterOptions {
+  filter: {
+    options: NzTableFilterList // options displayed in filter dropdown
+  }
 }
 
-interface SelectionColumn {
+// string/number input filter
+// NOTE: same as FilterOptions, except it uses only a single NzTableFilterList option.
+// That option's key will used as the input placeholder, value will set its default.
+interface InputFilterOptions {
+  filter: {
+    options: [{ key: string; value: string | number | null }] // key = placeholder, value = default
+  }
+}
+
+export interface SortOptions {
+  sort?: {
+    default?: NzTableSortOrder
+  }
+}
+
+interface SelectionOptions {
   checkbox: {
     th: {
       showCheckbox: boolean
@@ -106,34 +122,16 @@ interface SelectionColumn {
   }
 }
 
-interface FixedColumn {
-  fixedLeft: true
-  fixedRight: true
-}
-
-// implements nz-table filters
-interface FilterColumn {
-  filter: {
-    options: NzTableFilterList
-  }
-}
-
-interface InputFilterColumn {
-  inputFilter: {
-    defaultValue: any
-    type?: string
-    placeholder?: string
-  }
+interface FixedOptions {
+  fixedLeft?: true
+  fixedRight?: true
 }
 
 // use context to use another column's entity object to display tag
 interface EntityTagColumn {}
 
 interface TextColumn {
-  text: {
-    showIcon?: string | boolean
-    showText?: boolean
-  }
+  text?: {}
 }
 
 // displays row[key] value with attribute-tag component.
@@ -147,7 +145,7 @@ interface EnumTagColumn {
 }
 
 interface TagColumn {
-  tag: {
+  tag?: {
     truncateLabel: boolean
     showLabel: boolean
   }
@@ -157,56 +155,32 @@ interface TagColumn {
   }
 }
 
-// with 'context', one may provide another column key to
-// provide its data as $implicit context to ref template
-interface TemplateColumn {
-  template: {
-    reference: Subject<{
-      ref: TemplateRef<any>
-      context: EvidenceManagerColKey
-    }>
-  }
-}
-
 type ColumnConfigOption =
   | SelectColumnType
   | EntityTagColumnType
   | EnumTagColumnType
   | DefaultColumnType
   | TextColumnType
-  | TemplateColumnType
 
-export interface DefaultColumnType
-  extends BaseColumn,
-    Partial<SortColumn>,
-    Partial<FilterColumn>,
-    Partial<FixedColumn> {}
+export interface DefaultColumnType extends BaseColumn, FixedOptions {
+  type: 'default'
+}
 
 // displays a checkbox for the table's select feature
 export interface SelectColumnType
   extends BaseColumn,
-    SelectionColumn,
-    FixedColumn {
+    SelectionOptions,
+    FixedOptions {
   type: 'select'
-}
-
-export interface TemplateColumnType
-  extends BaseColumn,
-    Partial<SortColumn>,
-    Partial<FilterColumn>,
-    Partial<FixedColumn>,
-    TemplateColumn {
-  type: 'template'
 }
 
 export interface EntityTagColumnType
   extends BaseColumn,
     TagColumn,
     EntityTagColumn,
-    SortColumn,
-    InputFilterColumn,
-    FilterColumn,
-    FixedColumn {
+    SortOptions,
+    InputFilterOptions,
+    FixedOptions {
   type: 'entity-tag'
 }
 
@@ -214,18 +188,18 @@ export interface EnumTagColumnType
   extends BaseColumn,
     TagColumn,
     EnumTagColumn,
-    SortColumn,
-    FilterColumn,
-    FixedColumn {
+    SortOptions,
+    FilterOptions,
+    FixedOptions {
   type: 'enum-tag'
 }
 
 export interface TextColumnType
   extends BaseColumn,
     TextColumn,
-    SortColumn,
-    InputFilterColumn,
-    FixedColumn {
+    SortOptions,
+    InputFilterOptions,
+    FixedOptions {
   type: 'text-tag'
 }
 
@@ -302,17 +276,13 @@ export const colTypeGuards = {
 // above would have made guard functions like this unecessary, but I was unable to
 // write some of the generic cols/prefs handling functions w/o them. Not
 // sure if this is bc the types are not constructed properly.
-export const hasSortDefault: TypeGuard<any, SortColumn> = (
-  int: SortColumn
-): int is SortColumn => int.sortDefault !== undefined
+export const hasSortOptions: TypeGuard<any, SortOptions> = (
+  int: SortOptions
+): int is SortOptions => int.sort !== undefined
 
-export const hasFilterOptions: TypeGuard<any, FilterColumn> = (
-  int: FilterColumn
-): int is FilterColumn => int.filter !== undefined
-
-export const hasInputFilterOptions: TypeGuard<any, InputFilterColumn> = (
-  int: InputFilterColumn
-): int is InputFilterColumn => int.inputFilter !== undefined
+export const hasFilterOptions: TypeGuard<any, FilterOptions> = (
+  int: FilterOptions
+): int is FilterOptions => int.filter !== undefined
 
 export const hasTextOptions: TypeGuard<any, TextColumn> = (
   int: TextColumn
