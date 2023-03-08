@@ -294,9 +294,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         align: 'center',
         sort: {},
         filter: {
-          options: this.getAttributeFilters(
-            $enum(TherapyInteraction),
-          ),
+          options: this.getAttributeFilters($enum(TherapyInteraction)),
         },
       },
       {
@@ -392,29 +390,22 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // create filter & sort Subjects
     this.managerTableConfig.forEach((opt, i) => {
       if (hasSortOptions(opt)) {
-        const change$ = new Subject<CvcSortChange>()
+        const change$ = new BehaviorSubject<CvcSortChange>({
+          key: opt.key,
+          value: opt.sort.default ?? null,
+        })
         opt.sort.changes = change$
-        this.sortChanges.push(
-          change$.pipe(
-            startWith({
-              key: opt.key,
-              value: opt.sort.default ?? null,
-            }),
-            tag(`sortChanges Subject ${i}`)
-          )
-        )
+        this.sortChanges.push(change$.pipe(tag(`sortChanges Subject ${i}`)))
       }
       if (hasFilterOptions(opt)) {
         const defaultValue = opt.filter.options.find((o) => o.byDefault)?.value
-        const change$ = new Subject<CvcFilterChange>()
+        const change$ = new BehaviorSubject<CvcFilterChange>({
+          key: opt.key,
+          value: defaultValue ?? null,
+        })
         opt.filter.changes = change$
 
-        this.filterChanges.push(
-          change$.pipe(
-            startWith({ key: opt.key, value: defaultValue ?? null }),
-            tag(`sortFilter Subject ${i}`)
-          )
-        )
+        this.filterChanges.push(change$.pipe(tag(`sortFilter Subject ${i}`)))
       }
     })
 
@@ -428,7 +419,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     // observe all sort and filter changes, convert to refetch queryParams
-    const refetch$: Observable<CvcTableQueryParams> = combineLatest([sortChange$, filterChange$]).pipe(
+    const refetch$: Observable<CvcTableQueryParams> = combineLatest([
+      sortChange$,
+      filterChange$,
+    ]).pipe(
       map(([sorts, filters]) => {
         const queryParams: CvcTableQueryParams = {
           query: 'refetch',
@@ -452,10 +446,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     // merge table refetch and scroller fetchMore events, issue queries for each
-    merge(
-      refetch$,
-      fetchMore$
-    )
+    merge(refetch$, fetchMore$)
       .pipe(untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
@@ -641,15 +632,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // server-side sort/filter does not work with the built-in sort/filter, so
     // I will have to implement all of these filters and sorts as custom
     this.onResetFilter$
-      .pipe(
-        withLatestFrom(
-          of(this.managerTableConfig),
-        ),
-        untilDestroyed(this)
-      )
+      .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
       .subscribe(([_, config]) => {
         const newConfig: EvidenceManagerTableConfig = []
-        this.managerTableConfig.forEach((c) => newConfig.push({...c}))
+        this.managerTableConfig.forEach((c) => newConfig.push({ ...c }))
         this.col$.next(newConfig)
         // this.onTableQueryParams$.next(nzTableParams)
       })

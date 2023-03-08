@@ -138,7 +138,9 @@
               nzCustomFilter
               [nzShowFilter]="opt.filter !== undefined"
               [nzFilterFn]="true">
-              <nz-filter-trigger [nzDropdownMenu]="enumFilterMenu">
+              <nz-filter-trigger
+                [nzDropdownMenu]="enumFilterMenu"
+                [nzActive]="(opt.filter.changes | ngrxPush)?.value !== null">
                 <span
                   nz-icon
                   nzType="filter"
