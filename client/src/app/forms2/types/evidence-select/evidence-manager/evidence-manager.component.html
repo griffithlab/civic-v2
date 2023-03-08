@@ -59,18 +59,18 @@
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
               {{ opt.label }}
-              <span
-                nz-tooltip
-                [nzTooltipTitle]="debugTooltip"
-                [nzTooltipTitleContext]="opt.filter"
-                nz-icon
-                nzType="bug"
-                nzTheme="outline"></span>
-              <ng-template
-                #debugTooltip
-                let-filter>
-                <pre>{{ opt.filter.options | json }}</pre>
-              </ng-template>
+              <!-- <span
+                            nz-tooltip
+                            [nzTooltipTitle]="debugTooltip"
+                            [nzTooltipTitleContext]="opt.filter"
+                            nz-icon
+                            nzType="bug"
+                            nzTheme="outline"></span>
+                          <ng-template
+                            #debugTooltip
+                            let-filter>
+                            <pre>{{ opt.filter.options | json }}</pre>
+                          </ng-template> -->
             </th>
 
             <!-- TEXT TAG HEADER -->
@@ -172,17 +172,9 @@
               [nzRight]="opt.fixedRight || false"
               nzCustomFilter
               [nzFilterFn]="true">
-              <!-- FIXME: (previous nzActive implementation) Seems excessive to
-                   have two subscriptions here, however if structural
-                   directives like ngrxLet or ngIf are used on filter-trigger or a containing div,
-                   the trigger and icon aren't rendered until onFilterChange$ emits.
-                   <nz-filter-trigger ...
-                   [nzActive]="
-                  (onCustomFilter$ | ngrxPush)?.key === 'description' &&
-                  (onCustomFilter$ | ngrxPush)?.value !== null
-                "></nz-filter-trigger>
-              -->
-              <nz-filter-trigger [nzDropdownMenu]="textTagFilterMenu">
+              <nz-filter-trigger
+                [nzDropdownMenu]="textTagFilterMenu"
+                [nzActive]="(opt.filter.changes | ngrxPush)?.value !== null">
                 <span
                   nz-icon
                   nzType="search"></span>
@@ -370,10 +362,6 @@
     <nz-col>
       <span>Use checkboxes to select or deselect EIDs</span>
     </nz-col>
-    <nz-col>
-      <cvc-table-counts
-        [cvcTableCountsConnection]="connection$"></cvc-table-counts>
-    </nz-col>
   </nz-row>
 </ng-template>
 
@@ -442,6 +430,10 @@
           </ng-template>
         </ng-container>
       </ng-container>
+    </nz-col>
+    <nz-col nzFlex="auto">
+      <cvc-table-counts
+        [cvcTableCountsConnection]="connection$"></cvc-table-counts>
     </nz-col>
 
     <!-- card button row -->

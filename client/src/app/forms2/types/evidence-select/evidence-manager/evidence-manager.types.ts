@@ -150,8 +150,8 @@ interface EnumTagOptions {
 
 interface TagOptions {
   tag?: {
-    truncateLabel: boolean
-    showLabel: boolean
+    truncateLabel?: boolean
+    showLabel?: boolean
   }
   tagGroup?: {
     maxTags: number

@@ -9,9 +9,10 @@
         value: filter.value
       })
     ">
-    {{ filter.text }}
+    <cvc-attribute-tag
+      [cvcAttrValue]="filter.value"></cvc-attribute-tag>
   </li>
-  <li style="padding: 3px;">
+  <li style="padding: 3px">
     <button
       nz-button
       nzType="primary"
