@@ -13,6 +13,9 @@ import { InputEnum } from '@app/core/utilities/enum-formatters/format-evidence-e
   templateUrl: './attribute-tag.component.html',
   styleUrls: ['./attribute-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.full-width]': `cvcFullWidth === true`,
+  }
 })
 export class CvcAttributeTagComponent {
   @Input() cvcAttrValue!: InputEnum
@@ -26,6 +29,7 @@ export class CvcAttributeTagComponent {
   @Input() cvcIconColor: string = '#595959'
   @Input() cvcLabelColor: string = '#434343'
   @Input() cvcIconTheme: 'outline' | 'fill' | 'twotone' = 'outline'
+  @Input() cvcFullWidth: boolean = false
 
   @Output() cvcOnClose: EventEmitter<MouseEvent>
   constructor() {

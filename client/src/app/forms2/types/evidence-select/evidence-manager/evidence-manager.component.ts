@@ -232,6 +232,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '110px',
         context: 'evidenceItem',
         fixedLeft: true,
+        tag: {
+          fullWidth: true
+        },
         sort: {},
         filter: {
           options: [{ key: 'EID', value: null }],
@@ -290,7 +293,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'INT',
         tooltip: 'Therapy Interaction Type',
         type: 'enum-tag',
-        width: '45px',
+        width: '40px',
         align: 'center',
         sort: {},
         filter: {
@@ -302,7 +305,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'DESC',
         tooltip: 'Evidence Description',
         type: 'text-tag',
-        width: '45px',
+        width: '40px',
         align: 'center',
         fixedRight: true,
         filter: {
@@ -314,7 +317,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'ET',
         tooltip: 'Evidence Type',
         type: 'enum-tag',
-        width: '45px',
+        width: '40px',
         align: 'center',
         fixedRight: true,
         sort: {},
@@ -330,7 +333,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'EL',
         tooltip: 'Evidence Level',
         type: 'enum-tag',
-        width: '45px',
+        width: '40px',
         align: 'center',
         fixedRight: true,
         sort: {},
@@ -345,7 +348,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'ED',
         tooltip: 'Evidence Direction',
         type: 'enum-tag',
-        width: '45px',
+        width: '40px',
         align: 'center',
         fixedRight: true,
         sort: {},
@@ -359,7 +362,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tooltip: 'Significance',
         type: 'enum-tag',
         align: 'center',
-        width: '45px',
+        width: '40px',
         fixedRight: true,
         sort: {},
         filter: {
@@ -371,7 +374,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'ER',
         tooltip: 'Evidence Rating',
         type: 'enum-tag',
-        width: '45px',
+        width: '40px',
         align: 'center',
         fixedRight: true,
         showIcon: 'star',

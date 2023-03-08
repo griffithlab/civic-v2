@@ -152,6 +152,7 @@ interface TagOptions {
   tag?: {
     truncateLabel?: boolean
     showLabel?: boolean
+    fullWidth?: boolean
   }
   tagGroup?: {
     maxTags: number

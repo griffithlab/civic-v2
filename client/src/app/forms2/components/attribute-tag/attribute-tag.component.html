@@ -1,6 +1,7 @@
 <!-- by default, display tag content within its own nz-tag -->
 <nz-tag
   *ngIf="cvcContext === 'default'"
+  class="default"
   [nzMode]="cvcMode"
   (nzOnClose)="cvcOnClose.next($event)">
   <span

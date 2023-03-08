@@ -30,8 +30,11 @@ tr.filter-row th {
   &.ant-table-cell {
     padding: 3px 4px;
   }
-  &.attribute-filter {
-  padding-right: 16px;
+  nz-filter-trigger {
+    ::ng-deep span.ant-dropdown-trigger {
+      margin-left: 0;
+      padding-right: 12px;
+    }
   }
 }
 

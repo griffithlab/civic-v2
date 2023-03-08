@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -12,7 +13,6 @@ import {
   EntityTagTypeWithPopover,
   ENTITY_TAG_TYPES_WITH_POPOVER,
 } from '../entity-tag-popover/entity-tag-popover.component'
-import { CvcMolecularProfileTag } from './directives/molecular-profile-tag.directive'
 export interface LinkableEntity {
   id: number
   name: string
@@ -22,7 +22,20 @@ export interface LinkableEntity {
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',
   styleUrls: ['./entity-tag.component.less'],
-  hostDirectives: [{ directive: CvcMolecularProfileTag }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.full-width]': `cvcFullWidth === true`,
+    '[class.clip-label]': `cvcClipLabel !== undefined`,
+    '[class.clip-label-100]': `cvcClipLabel === '150px'`,
+    '[class.clip-label-125]': `cvcClipLabel === '125px'`,
+    '[class.clip-label-150]': `cvcClipLabel === '150px'`,
+    '[class.clip-label-175]': `cvcClipLabel === '175px'`,
+    '[class.clip-label-200]': `cvcClipLabel === '200px'`,
+    '[class.clip-label-250]': `cvcClipLabel === '250px'`,
+    '[class.clip-label-300]': `cvcClipLabel === '300px'`,
+    '[class.clip-label-400]': `cvcClipLabel === '400px'`,
+    '[class.clip-label-500]': `cvcClipLabel === '500px'`,
+  },
 })
 export class CvcEntityTagComponent implements OnChanges {
   _cacheId: string = ''
@@ -40,6 +53,17 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcEmphasize?: string
   @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
+  @Input() cvcFullWidth: boolean = false
+  @Input() cvcClipLabel?:
+    | '100px'
+    | '125px'
+    | '150px'
+    | '175px'
+    | '200px'
+    | '250px'
+    | '300px'
+    | '400px'
+    | '500px'
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
   @Output() cvcOnClose: EventEmitter<MouseEvent>

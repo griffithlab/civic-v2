@@ -59,18 +59,6 @@
               [nzLeft]="opt.fixedLeft || false"
               [nzRight]="opt.fixedRight || false">
               {{ opt.label }}
-              <!-- <span
-                            nz-tooltip
-                            [nzTooltipTitle]="debugTooltip"
-                            [nzTooltipTitleContext]="opt.filter"
-                            nz-icon
-                            nzType="bug"
-                            nzTheme="outline"></span>
-                          <ng-template
-                            #debugTooltip
-                            let-filter>
-                            <pre>{{ opt.filter.options | json }}</pre>
-                          </ng-template> -->
             </th>
 
             <!-- TEXT TAG HEADER -->
@@ -232,8 +220,10 @@
                 <ng-container *ngIf="opt.context || opt.key as colKey">
                   <cvc-entity-tag
                     *ngIf="!opt.tagGroup; else multiTag"
-                    [cvcCacheId]="
-                      row[colKey].__typename + ':' + row[colKey].id
+                    cvcClipLabel="150px"
+                    [cvcCacheId]="row[colKey].__typename + ':' + row[colKey].id"
+                    [cvcFullWidth]="
+                      opt.tag?.fullWidth ?? false
                     "></cvc-entity-tag>
 
                   <!-- TODO: wrap in new entity-tag-list -->
@@ -256,6 +246,7 @@
                 [nzRight]="opt.fixedRight || false">
                 <cvc-attribute-tag
                   *ngIf="row[opt.key]; else emptyCell"
+                  [cvcFullWidth]="true"
                   [cvcAttrValue]="row[opt.key]"
                   [cvcShowLabel]="opt.showLabel ?? false"
                   [cvcShowIcon]="opt.showIcon ?? true"

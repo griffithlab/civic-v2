@@ -2,6 +2,57 @@
 @import 'themes/default.less';
 
 :host {
+  &.clip-label {
+    .tag-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  &.clip-label-100 {
+    .tag-label {
+      max-width: 100px;
+    }
+  }
+  &.clip-label-125 {
+    .tag-label {
+      max-width: 125px;
+    }
+  }
+  &.clip-label-150 {
+    .tag-label {
+      max-width: 150px;
+    }
+  }
+  &.clip-label-200 {
+    .tag-label {
+      max-width: 200px;
+    }
+  }
+  &.clip-label-250 {
+    .tag-label {
+      max-width: 250px;
+    }
+  }
+  &.clip-label-300 {
+    .tag-label {
+      max-width: 300px;
+    }
+  }
+  &.clip-label-400 {
+    .tag-label {
+      max-width: 300px;
+    }
+  }
+  &.clip-label-500 {
+    .tag-label {
+      max-width: 500px;
+    }
+  }
+  &.full-width {
+    nz-tag {
+      width: 100%;
+    }
+  }
   nz-tag {
     margin-right: 0;
     //   padding-left: 4px;
@@ -55,7 +106,7 @@
       display: inline-block;
       margin: 0;
       padding: 0;
-      margin: -3px 0 -3px 0;
+      margin: -3px 0 -4px 0;
       padding: 3px 3px 3px 2px;
       line-height: 1;
     }
