@@ -11,4 +11,15 @@
     ">
     {{ filter.text }}
   </li>
+  <li style="padding: 3px;">
+    <button
+      nz-button
+      nzType="primary"
+      nzBlock
+      nzSize="small"
+      (click)="cvcOptionChange.next({ key: cvcColumnKey, value: null })"
+      [disabled]="cvcOption?.value === null">
+      Reset
+    </button>
+  </li>
 </ul>

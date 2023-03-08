@@ -139,6 +139,7 @@
               [nzShowFilter]="opt.filter !== undefined"
               [nzFilterFn]="true">
               <nz-filter-trigger
+                #enumTagFilterTrigger
                 [nzDropdownMenu]="enumFilterMenu"
                 [nzActive]="(opt.filter.changes | ngrxPush)?.value !== null">
                 <span
@@ -151,7 +152,10 @@
                   [cvcColumnKey]="opt.key"
                   [cvcFilterOptions]="opt.filter.options"
                   [cvcOption]="opt.filter.changes | ngrxPush"
-                  (cvcOptionChange)="opt.filter.changes!.next($event)">
+                  (cvcOptionChange)="
+                    opt.filter.changes!.next($event);
+                    enumTagFilterTrigger.nzVisible = false
+                  ">
                 </cvc-enum-filter-menu>
               </nz-dropdown-menu>
             </th>

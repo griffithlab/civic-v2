@@ -390,22 +390,19 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // create filter & sort Subjects
     this.managerTableConfig.forEach((opt, i) => {
       if (hasSortOptions(opt)) {
-        const change$ = new BehaviorSubject<CvcSortChange>({
+        opt.sort.changes = new BehaviorSubject<CvcSortChange>({
           key: opt.key,
           value: opt.sort.default ?? null,
         })
-        opt.sort.changes = change$
-        this.sortChanges.push(change$.pipe(tag(`sortChanges Subject ${i}`)))
+        this.sortChanges.push(opt.sort.changes)
       }
       if (hasFilterOptions(opt)) {
         const defaultValue = opt.filter.options.find((o) => o.byDefault)?.value
-        const change$ = new BehaviorSubject<CvcFilterChange>({
+        opt.filter.changes = new BehaviorSubject<CvcFilterChange>({
           key: opt.key,
           value: defaultValue ?? null,
         })
-        opt.filter.changes = change$
-
-        this.filterChanges.push(change$.pipe(tag(`sortFilter Subject ${i}`)))
+        this.filterChanges.push(opt.filter.changes)
       }
     })
 
