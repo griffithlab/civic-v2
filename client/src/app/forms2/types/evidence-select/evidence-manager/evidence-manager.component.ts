@@ -296,7 +296,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         filter: {
           options: this.getAttributeFilters(
             $enum(TherapyInteraction),
-            EvidenceType.Predictive
           ),
         },
       },
@@ -380,7 +379,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         showIcon: 'star',
         showLabel: true,
         sort: {
-          default: 'descend',
+          // default: 'descend',
         },
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {
@@ -400,8 +399,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             startWith({
               key: opt.key,
               value: opt.sort.default ?? null,
-            })
-            // tag(`sortChanges Subject ${i}`)
+            }),
+            tag(`sortChanges Subject ${i}`)
           )
         )
       }
@@ -412,8 +411,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
         this.filterChanges.push(
           change$.pipe(
-            startWith({ key: opt.key, value: defaultValue ?? null })
-            // tag(`sortFilter Subject ${i}`)
+            startWith({ key: opt.key, value: defaultValue ?? null }),
+            tag(`sortFilter Subject ${i}`)
           )
         )
       }
@@ -781,6 +780,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   getSortColumnFromKey(key: EvidenceManagerColKey): Maybe<EvidenceSortColumns> {
     return this.columnKeyToSortColumnMap[key]
+  }
+
+  menuClick(item: any): void {
+    console.log(item)
   }
 
   ngOnChanges(changes: SimpleChanges): void {

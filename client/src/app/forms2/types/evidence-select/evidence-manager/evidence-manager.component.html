@@ -136,12 +136,42 @@
                 opt.sort!.changes!.next({ key: opt.key, value: $event })
               "
               nzCustomFilter
+              [nzShowFilter]="opt.filter !== undefined"
               [nzFilterFn]="true">
-              <nz-filter-trigger [nzDropdownMenu]="filterMenu">
+              <nz-filter-trigger [nzDropdownMenu]="enumFilterMenu">
                 <span
                   nz-icon
-                  nzType="search"></span>
+                  nzType="filter"
+                  nzTheme="fill"></span>
               </nz-filter-trigger>
+              <nz-dropdown-menu #enumFilterMenu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li
+                    nz-menu-item
+                    *ngFor="let f of opt.filter.options"
+                    (click)="
+                      opt.filter.changes!.next({
+                        key: opt.key,
+                        value: f.value
+                      })
+                    ">
+                    {{ f.text }}
+                  </li>
+                </ul>
+                <!-- <div
+                                  class="ant-table-filter-dropdown"
+                                  *ngrxLet="opt.filter.changes as change">
+                                  <ul nz-menu>
+                                    <ng-container *ngFor="let filter of opt.filter.options">
+                                      <li
+                                        nz-menu-item
+                                        [nzSelected]="filter.value === change!.value">
+                                        {{ filter.text }}
+                                      </li>
+                                    </ng-container>
+                                  </ul>
+                                </div> -->
+              </nz-dropdown-menu>
             </th>
 
             <!-- TEXT TAG FILTER -->
@@ -166,12 +196,12 @@
                   (onCustomFilter$ | ngrxPush)?.value !== null
                 "></nz-filter-trigger>
               -->
-              <nz-filter-trigger [nzDropdownMenu]="filterMenu">
+              <nz-filter-trigger [nzDropdownMenu]="textTagFilterMenu">
                 <span
                   nz-icon
                   nzType="search"></span>
               </nz-filter-trigger>
-              <nz-dropdown-menu #filterMenu="nzDropdownMenu">
+              <nz-dropdown-menu #textTagFilterMenu="nzDropdownMenu">
                 <div class="ant-table-filter-dropdown">
                   <div class="custom-input-dropdown">
                     <cvc-table-filter-input
