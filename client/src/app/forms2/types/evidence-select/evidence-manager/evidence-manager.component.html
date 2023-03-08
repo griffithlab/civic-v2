@@ -43,7 +43,7 @@
               [nzRight]="opt.fixedRight || false"
               [nzShowSort]="opt.sort !== undefined"
               [nzSortFn]="true"
-              [nzSortOrder]="opt.sort?.default || null"
+              [nzSortOrder]="(opt.sort!.changes | ngrxPush)?.value || null"
               (nzSortOrderChange)="
                 opt.sort!.changes!.next({ key: opt.key, value: $event })
               ">
@@ -119,7 +119,7 @@
               [nzRight]="opt.fixedRight || false"
               [nzShowSort]="true"
               [nzSortFn]="true"
-              [nzSortOrder]="opt.sort?.default || null"
+              [nzSortOrder]="(opt.sort!.changes | ngrxPush)?.value || null"
               (nzSortOrderChange)="
                 opt.sort!.changes!.next({ key: opt.key, value: $event })
               "

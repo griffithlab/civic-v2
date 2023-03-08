@@ -37,6 +37,7 @@ import {
   Subject,
   withLatestFrom,
 } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
@@ -118,6 +119,7 @@ export class CvcEvidenceSelectField
   ) {
     super()
     this.onEid$ = new ReplaySubject<Maybe<number[]>>()
+    this.onEid$.pipe(tag('onEid$')).subscribe()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       startWith(true),

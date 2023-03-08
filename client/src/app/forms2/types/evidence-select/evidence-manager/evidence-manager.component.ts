@@ -42,6 +42,7 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -53,6 +54,7 @@ import {
   startWith,
   Subject,
   take,
+  throttleTime,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
@@ -233,7 +235,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         context: 'evidenceItem',
         fixedLeft: true,
         tag: {
-          fullWidth: true
+          fullWidth: true,
         },
         sort: {},
         filter: {
@@ -397,7 +399,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           key: opt.key,
           value: opt.sort.default ?? null,
         })
-        this.sortChanges.push(opt.sort.changes)
+        this.sortChanges.push(
+          // opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
+          opt.sort.changes
+        )
       }
       if (hasFilterOptions(opt)) {
         const defaultValue = opt.filter.options.find((o) => o.byDefault)?.value
@@ -405,7 +410,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           key: opt.key,
           value: defaultValue ?? null,
         })
-        this.filterChanges.push(opt.filter.changes)
+        this.filterChanges.push(
+          // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
+          opt.filter.changes
+        )
       }
     })
 
@@ -446,8 +454,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     // merge table refetch and scroller fetchMore events, issue queries for each
+    // NOTE: onResetFilter causes every col sort & filter to emit an update event that ends up here.
+    // The debounceTime operator ensures that only one event makes it through to an apollo query.
     merge(refetch$, fetchMore$)
-      .pipe(untilDestroyed(this))
+      .pipe(
+        debounceTime(50),
+        // tag('>>>>> QUERY'),
+        untilDestroyed(this)
+      )
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
@@ -474,8 +488,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         } else {
           if (params.query === 'refetch') {
             this.isFetchMore$.next(false)
-            this.scrollToIndex$.next(0)
             this.queryRef.refetch(queryVars).then((result) => {
+              this.scrollToIndex$.next(0)
               if (result.error || result.errors) {
                 this.queryError$.next(this.getRequestErrors(result))
               }
@@ -618,26 +632,28 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       return
     }
 
-    // reset table with initial table column configuration
-    // FIXME: refreshes table rows, but doesn't reset filter option panels, despite
-    // updating with col$ w/ default config. Col$ includes the filter's options w/ defaults.
-    // Most likely bug w/ nz-table's filter options working w/ server-side filtering?
-    // Might need to implement all filters with nz-custom-filter to get access to its
-    // reset function, manually reset them
-    // NOTE: according to this issue, the table needs to use *ngFor to format the columns,
-    // as I initially did, for the filters to be properly be reset:
-    // https://github.com/NG-ZORRO/ng-zorro-antd/issues/5304
-    // referring to this demo: https://ng.ant.design/components/table/en#components-table-demo-reset-filter
-    // NOTE 2: refactoring to col$ doesn't work either, on a closer reading it appears that
-    // server-side sort/filter does not work with the built-in sort/filter, so
-    // I will have to implement all of these filters and sorts as custom
     this.onResetFilter$
       .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
       .subscribe(([_, config]) => {
         const newConfig: EvidenceManagerTableConfig = []
-        this.managerTableConfig.forEach((c) => newConfig.push({ ...c }))
+        this.managerTableConfig.forEach((c) => {
+          if (hasSortOptions(c)) {
+            const reset = { key: c.key, value: c.sort.default ?? null }
+            if (c.sort.changes) {
+              c.sort.changes.next(reset)
+            }
+          }
+          if (hasFilterOptions(c)) {
+            const defVal = c.filter.options.find(
+              (opt) => opt.byDefault == true
+            )?.value
+            if (c.filter.changes) {
+              c.filter.changes.next({ key: c.key, value: defVal || null })
+            }
+          }
+          newConfig.push(c)
+        })
         this.col$.next(newConfig)
-        // this.onTableQueryParams$.next(nzTableParams)
       })
   }
 
