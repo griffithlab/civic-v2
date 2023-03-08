@@ -1,0 +1,14 @@
+<ul nz-menu>
+  <li
+    nz-menu-item
+    *ngFor="let filter of cvcFilterOptions"
+    [nzSelected]="cvcOption?.value === filter.value"
+    (click)="
+      cvcOptionChange.next({
+        key: cvcColumnKey,
+        value: filter.value
+      })
+    ">
+    {{ filter.text }}
+  </li>
+</ul>

@@ -782,10 +782,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return this.columnKeyToSortColumnMap[key]
   }
 
-  menuClick(item: any): void {
-    console.log(item)
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcTableQueryParams) {
       const queryParams = changes.cvcTableQueryParams.currentValue

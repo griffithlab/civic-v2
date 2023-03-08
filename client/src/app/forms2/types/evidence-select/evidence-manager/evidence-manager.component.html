@@ -145,32 +145,12 @@
                   nzTheme="fill"></span>
               </nz-filter-trigger>
               <nz-dropdown-menu #enumFilterMenu="nzDropdownMenu">
-                <ul nz-menu>
-                  <li
-                    nz-menu-item
-                    *ngFor="let f of opt.filter.options"
-                    (click)="
-                      opt.filter.changes!.next({
-                        key: opt.key,
-                        value: f.value
-                      })
-                    ">
-                    {{ f.text }}
-                  </li>
-                </ul>
-                <!-- <div
-                                  class="ant-table-filter-dropdown"
-                                  *ngrxLet="opt.filter.changes as change">
-                                  <ul nz-menu>
-                                    <ng-container *ngFor="let filter of opt.filter.options">
-                                      <li
-                                        nz-menu-item
-                                        [nzSelected]="filter.value === change!.value">
-                                        {{ filter.text }}
-                                      </li>
-                                    </ng-container>
-                                  </ul>
-                                </div> -->
+                <cvc-enum-filter-menu
+                  [cvcColumnKey]="opt.key"
+                  [cvcFilterOptions]="opt.filter.options"
+                  [cvcOption]="opt.filter.changes | ngrxPush"
+                  (cvcOptionChange)="opt.filter.changes!.next($event)">
+                </cvc-enum-filter-menu>
               </nz-dropdown-menu>
             </th>
 
