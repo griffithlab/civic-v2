@@ -34,7 +34,7 @@
       #filterInput
       [nzPlaceHolder]="cvcPlaceholder ?? ''"
       [ngModel]="cvcModel"
-      (ngModelChange)="cvcModelChange.next($event)"
+      (ngModelChange)="cvcModelChange.next($event === '' ? null : $event)"
       [nzMin]="1"
       [nzStep]="1"
       style="width: 100%"></nz-input-number>

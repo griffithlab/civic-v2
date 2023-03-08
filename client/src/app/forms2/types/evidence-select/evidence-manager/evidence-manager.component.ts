@@ -240,6 +240,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         sort: {},
         filter: {
           options: [{ key: 'EID', value: null }],
+          inputType: 'numeric'
         },
       },
       {

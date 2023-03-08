@@ -99,6 +99,7 @@
               [nzRight]="opt.fixedRight || false">
               <cvc-table-filter-input
                 *ngIf="opt.filter as filter"
+                [cvcInputType]="opt.filter.inputType"
                 [cvcPlaceholder]="opt.filter.options[0].key"
                 [cvcModel]="opt.filter.options[0].value"
                 (cvcModelChange)="
@@ -288,7 +289,7 @@
   <!-- input updates onFilterChange -->
   <ng-container
     *ngIf="
-      filter.type === undefined || filter.type === 'string';
+      filter.inputType === undefined || filter.inputType === 'default';
       else numericInput
     ">
     <nz-input-group

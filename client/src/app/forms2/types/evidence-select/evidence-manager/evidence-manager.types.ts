@@ -100,7 +100,7 @@ interface FilterOptions {
 // That option's key will used as the input placeholder, value will set its default.
 interface InputFilterOptions {
   filter: {
-    // key = placeholder, value = default
+    inputType?: 'default' | 'numeric'
     options: [{ key: string; value: string | number | null }]
     changes?: Subject<CvcFilterChange>
   }
