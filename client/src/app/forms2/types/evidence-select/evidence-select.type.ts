@@ -119,7 +119,6 @@ export class CvcEvidenceSelectField
   ) {
     super()
     this.onEid$ = new ReplaySubject<Maybe<number[]>>()
-    this.onEid$.pipe(tag('onEid$')).subscribe()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
       startWith(true),
@@ -143,20 +142,17 @@ export class CvcEvidenceSelectField
       selectOpen$: this.selectOpen$,
       selectComponent: this.selectComponent,
     })
-    if (this.formControl.value) {
-      this.onEid$.next(this.formControl.value)
-    }
+
+    // if form value exists on init, emit it so evidence manager will be updated
+    this.onEid$.next(this.formControl.value)
     this.onValueChange$
-      .pipe(withLatestFrom(this.onEid$), untilDestroyed(this))
+      .pipe(
+        tag('evidence-select onValueChange$'),
+        withLatestFrom(this.onEid$),
+        untilDestroyed(this)
+      )
       .subscribe(([current, old]) => {
-        if (current === old) return
-        if (
-          Array.isArray(current) &&
-          Array.isArray(old) &&
-          !this.arraysContainSame(current, old)
-        ) {
-          this.onEid$.next(current)
-        }
+        if(Array.isArray(current)) this.onEid$.next(current)
       })
   }
 
