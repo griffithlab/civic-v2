@@ -28,7 +28,6 @@ class MyChemInfo
     if p['hits'] && p['hits'].size == 1
       data = p['hits'][0]
 
-      binding.pry
       return {
         'chebi_id': data.dig('chebi', 'id'),
         'chebi_definition': data.dig('chebi', 'definition'),
