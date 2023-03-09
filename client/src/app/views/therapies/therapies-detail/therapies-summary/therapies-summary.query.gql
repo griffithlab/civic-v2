@@ -11,4 +11,29 @@ fragment TherapiesSummaryFields on Therapy {
   therapyUrl
   therapyAliases
   link
+  myChemInfo {
+    ...MyChemInfoFields
+  }
+}
+
+fragment MyChemInfoFields on MyChemInfo {
+    chebiId
+    chebiDefinition
+    fdaEpcCodes {
+      code
+      description
+    }
+    fdaMoaCodes {
+      code
+      description
+    }
+    firstApproval
+    chemblMoleculeType
+    chemblId
+    pubchemCid
+    pharmgkbId
+    rxnorm
+    inchikey
+    drugbankId
+    indications
 }
