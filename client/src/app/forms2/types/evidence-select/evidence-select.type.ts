@@ -12,6 +12,7 @@ import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import {
+  AssertionFields,
   EvidenceSelectTagGQL,
   EvidenceSelectTagQuery,
   EvidenceSelectTagQueryVariables,
@@ -20,6 +21,7 @@ import {
   EvidenceSelectTypeaheadQuery,
   EvidenceSelectTypeaheadQueryVariables,
   Maybe,
+  SubmitAssertionMutationVariables,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -29,16 +31,23 @@ import {
 } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import { NzTableFilterList } from 'ng-zorro-antd/table'
 import {
+  combineLatest,
+  map,
   Observable,
+  of,
   ReplaySubject,
   scan,
+  shareReplay,
   startWith,
   Subject,
+  switchMap,
   withLatestFrom,
 } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
+import { EvidenceManagerRowData } from './evidence-manager/evidence-manager.types'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
   FieldTypeConfig<CvcEvidenceSelectFieldProps>
@@ -59,6 +68,11 @@ export interface CvcEvidenceSelectFieldConfig
     | 'evidence-select'
     | 'evidence-multi-select'
     | Type<CvcEvidenceSelectField>
+}
+
+type FieldChange = {
+  key: keyof AssertionFields
+  value: SubmitAssertionMutationVariables | null
 }
 
 const EvidenceSelectMixin = mixin(
@@ -91,6 +105,9 @@ export class CvcEvidenceSelectField
   // PRESENTATION STREAMS
   showMgr$: Observable<boolean>
 
+  synchronizedFields$: Observable<FieldChange>[] = []
+  tableFilterChange$!: Observable<NzTableFilterList>
+
   mgrOpen: boolean = false
 
   defaultOptions: CvcEvidenceSelectFieldOptions = {
@@ -107,6 +124,39 @@ export class CvcEvidenceSelectField
       minSearchStrLength: 1,
     },
   }
+
+  // list of manager table columns that should be kept
+  // synchronized with field values
+  // NOTE: evidence-manager table filters do not filter by ID -
+  // except for 'id' (EID) - and entity columns are filtered by name.
+  // Therefore the manager will use the provided entity ids to fetch their
+  // entity names from the cache, and filter by those names. In the
+  // case of multiple ids (e.g. Therapies), the name associated with the
+  // first id in the array will be used.
+  // FIXME: currently using these assertion submit form fields, however a
+  // more generic solution will be required for this field to be used
+  // in other forms.
+  synchronizedFieldToColMap = new Map<
+    keyof AssertionFields,
+    keyof Omit<EvidenceManagerRowData, 'id' | 'status'>
+  >([
+    ['molecularProfileId', 'molecularProfile'],
+    ['diseaseId', 'disease'],
+    ['therapyIds', 'therapies'],
+    ['assertionType', 'evidenceType'],
+    ['assertionDirection', 'evidenceDirection'],
+    ['significance', 'significance'],
+  ])
+
+  // list of manager table columns to be visible/hidden
+  // in sync with the required state of their fields
+  disabledFieldToColMap = new Map<
+    keyof AssertionFields,
+    keyof EvidenceManagerRowData
+  >([
+    ['diseaseId', 'disease'],
+    ['therapyIds', 'therapies'],
+  ])
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
@@ -152,7 +202,7 @@ export class CvcEvidenceSelectField
         untilDestroyed(this)
       )
       .subscribe(([current, old]) => {
-        if(Array.isArray(current)) this.onEid$.next(current)
+        if (Array.isArray(current)) this.onEid$.next(current)
       })
   }
 
@@ -164,6 +214,43 @@ export class CvcEvidenceSelectField
 
   private configureStateConnections() {
     if (!this.state) return
+    // for each synchronized field, find its state.${field}$ stream,
+    // add it to the synchronized fields array
+    this.synchronizedFieldToColMap.forEach((column, field) => {
+      if (!this.state) return
+      // console.log(f,c)
+      const stream = this.state.fields[`${field}$`]
+      if (!stream) return
+      this.synchronizedFields$.push(
+        stream.pipe(
+          switchMap((v) => {
+            return of({ key: field, value: v ?? null })
+          }),
+          startWith({ key: field, value: null })
+        )
+      )
+    })
+
+    // combine synchronized fields streams into tableFilterChange$, convert
+    // FieldChange object to NzTableFilter. provides a NzTableFilterList
+    // to evidence-manager's cvcTableFilters Input
+    this.tableFilterChange$ = combineLatest(this.synchronizedFields$).pipe(
+      map((fields) => {
+        const newFilters: NzTableFilterList = []
+        fields.forEach((field) => {
+          const colKey = this.synchronizedFieldToColMap.get(field.key)
+          if (colKey) {
+            newFilters.push({
+              text: colKey,
+              value: field.value,
+            })
+          }
+        })
+        return [...newFilters]
+      }),
+    ),
+    shareReplay(1),
+    tag('tableFilterChange$')
   }
 
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {

@@ -221,7 +221,7 @@
                 <ng-container *ngIf="opt.context || opt.key as colKey">
                   <cvc-entity-tag
                     *ngIf="!opt.tagGroup; else multiTag"
-                    cvcClipLabel="150px"
+                    [cvcClipLabel]="opt.tag?.clipLabel"
                     [cvcCacheId]="row[colKey].__typename + ':' + row[colKey].id"
                     [cvcFullWidth]="
                       opt.tag?.fullWidth ?? false
@@ -231,6 +231,7 @@
                   <ng-template #multiTag>
                     <cvc-entity-tag
                       *ngFor="let entity of row[colKey]"
+                      [cvcClipLabel]="opt.tag?.clipLabel"
                       [cvcCacheId]="
                         entity.__typename + ':' + entity.id
                       "></cvc-entity-tag>
@@ -266,6 +267,7 @@
                 <!-- TODO: show filter text emphasized in tooltip text -->
                 <nz-tag
                   nz-tooltip
+                  style="width: 100%"
                   [nzTooltipTitle]="row[opt.key]">
                   <span
                     nz-icon
@@ -460,7 +462,7 @@
       <ng-template #prefsPopover>
         <div class="prefs-popover">
           <nz-checkbox-group
-            [ngModel]="updatePreferenceOptions$ | ngrxPush"
+            [ngModel]="setPreference$ | ngrxPush"
             (ngModelChange)="
               onPreferenceChange$.next($event)
             "></nz-checkbox-group>

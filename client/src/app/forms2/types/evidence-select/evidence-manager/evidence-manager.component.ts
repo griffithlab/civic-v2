@@ -87,7 +87,7 @@ import { ScrollFetch } from './table-scroller.directive'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
-  @Input() cvcTableQueryParams?: Partial<NzTableQueryParams>
+  @Input() cvcTableFilters?: NzTableFilterList
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
@@ -96,21 +96,23 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   >
 
   // SOURCE STREAMS
-  sortChanges: Observable<CvcSortChange>[]
-  filterChanges: Observable<CvcFilterChange>[]
-
+  sortChanges$: Observable<CvcSortChange>[]
+  filterChanges$: Observable<CvcFilterChange>[]
   onRowSelected$: Subject<RowSelection>
+  onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
   onPreferenceChange$: Subject<ColumnPrefsModel>
   onResetFilter$: Subject<void>
-  onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
+
+  // @Input STREAMS
+  onSetTableFilter$: BehaviorSubject<NzTableFilterList>
+  onSetSelectedRow$: BehaviorSubject<Set<number>>
 
   // INTERMEDIATE STREAMS
   onFetch$: Subject<ScrollFetch>
+  setPreference$!: Observable<ColumnPrefsModel>
   queryRequest$: Subject<CvcTableQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceItemConnection>
-  selectedRow$: BehaviorSubject<Set<number>>
-  updatePreferenceOptions$!: Observable<ColumnPrefsModel>
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
@@ -172,12 +174,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   colGuards = colTypeGuards
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
+    this.onSetTableFilter$ = new BehaviorSubject<NzTableFilterList>([])
+    this.onSetTableFilter$.pipe(tag('onSetTableFilter$')).subscribe()
     // this.onTableQueryParams$
     //   .pipe(tag('TQ >>>>> onTableQueryParam$'))
     //   .subscribe()
 
-    this.sortChanges = []
-    this.filterChanges = []
+    this.sortChanges$ = []
+    this.filterChanges$ = []
 
     this.onFetch$ = new Subject<ScrollFetch>()
     this.onRowSelected$ = new Subject<RowSelection>()
@@ -190,7 +194,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.queryResult$ = new ReplaySubject<
       ApolloQueryResult<EvidenceManagerQuery>
     >(1)
-    this.selectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
+    this.onSetSelectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
     this.scrollToIndex$ = new Subject<number>()
     this.queryError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
@@ -201,7 +205,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'selected',
         label: 'Select',
         type: 'select',
-        width: '30px',
+        width: '25px',
+        align: 'center',
         fixedLeft: true,
         checkbox: {
           th: {
@@ -229,9 +234,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       },
       {
         key: 'id',
-        label: 'Evidence Item',
+        label: 'Evidence',
         type: 'entity-tag',
-        width: '110px',
+        width: '95px',
         context: 'evidenceItem',
         fixedLeft: true,
         tag: {
@@ -240,15 +245,18 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         sort: {},
         filter: {
           options: [{ key: 'EID', value: null }],
-          inputType: 'numeric'
+          inputType: 'numeric',
         },
       },
       {
         key: 'molecularProfile',
         label: 'Molecular Profile',
         type: 'entity-tag',
-        width: '250px',
+        width: '240px',
         sort: {},
+        tag: {
+          clipLabel: '200px',
+        },
         filter: {
           options: [
             {
@@ -262,8 +270,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'disease',
         type: 'entity-tag',
         label: 'Disease',
-        width: '250px',
+        width: '240px',
         sort: {},
+        tag: {
+          clipLabel: '200px',
+        },
         filter: {
           options: [
             {
@@ -277,10 +288,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'therapies',
         label: 'Therapies',
         type: 'entity-tag',
-        width: '350px',
+        width: '250px',
         sort: {},
         tagGroup: {
           maxTags: 2,
+          clipLabels: '150px',
         },
         filter: {
           options: [
@@ -305,7 +317,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       },
       {
         key: 'description',
-        label: 'DESC',
+        label: 'DSC',
         tooltip: 'Evidence Description',
         type: 'text-tag',
         width: '40px',
@@ -400,7 +412,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           key: opt.key,
           value: opt.sort.default ?? null,
         })
-        this.sortChanges.push(
+        this.sortChanges$.push(
           // opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
           opt.sort.changes
         )
@@ -411,7 +423,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           key: opt.key,
           value: defaultValue ?? null,
         })
-        this.filterChanges.push(
+        this.filterChanges$.push(
           // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
           opt.filter.changes
         )
@@ -419,9 +431,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     })
 
     // create combined observables from sort & filter Subject arrays
-    const filterChange$ = combineLatest(this.filterChanges)
+    const filterChange$ = combineLatest(this.filterChanges$)
     // filter any sort changes w/ more than two columns set, as we do not support multi-sort
-    const sortChange$ = combineLatest(this.sortChanges).pipe(
+    const sortChange$ = combineLatest(this.sortChanges$).pipe(
       filter((changes) => {
         return changes.filter((change) => change.value !== null).length <= 1
       })
@@ -530,7 +542,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         filter(isNonNulled),
         map((edges) => edges.map((e) => e.node))
       ),
-      this.selectedRow$,
+      this.onSetSelectedRow$,
     ]).pipe(
       map(([rows, selected]: [Maybe<EvidenceItem>[], Set<number>]) => {
         return rows.map((row) => {
@@ -553,33 +565,33 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     // col$ provide column-level configuration in nz-table's thead and tbody elements.
     // Preference panel has a bidirectional link w/ cols$, subscribing to its updates
-    // to generate its options with updatePreferenceOption$, and updating
+    // to generate its options with setPreference$, and updating
     // col$ when those options change, via onPreferenceChange$
     this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
       this.managerTableConfig
     )
     this.col$.pipe(tag('col$')).subscribe()
 
-    this.updatePreferenceOptions$ = this.col$.pipe(
+    this.setPreference$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromConfig(cols))
     )
 
     // when row select, get old selected rows, emit updated rows
     // & output new selected ids array
     this.onRowSelected$
-      .pipe(withLatestFrom(this.selectedRow$), untilDestroyed(this))
+      .pipe(withLatestFrom(this.onSetSelectedRow$), untilDestroyed(this))
       .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
         if (event.selected) {
           selected.add(event.id)
         } else {
           selected.delete(event.id)
         }
-        this.selectedRow$.next(selected)
+        this.onSetSelectedRow$.next(selected)
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    // this.updatePreferenceOptions$
-    //   .pipe(tag('updatePreferenceOption$'))
+    // this.setPreference$
+    //   .pipe(tag('setPreference$'))
     //   .subscribe()
 
     this.onPreferenceChange$
@@ -637,7 +649,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
       .subscribe(([_, config]) => {
         const newConfig: EvidenceManagerTableConfig = []
-        this.managerTableConfig.forEach((c) => {
+        config.forEach((c) => {
           if (hasSortOptions(c)) {
             const reset = { key: c.key, value: c.sort.default ?? null }
             if (c.sort.changes) {
@@ -785,22 +797,23 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return this.columnKeyToSortColumnMap[key]
   }
 
+  trackByIndex(_: number, data: Maybe<EvidenceManagerRowData>): Maybe<number> {
+    return data?.id
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cvcTableQueryParams) {
-      const queryParams = changes.cvcTableQueryParams.currentValue
-      // this.onTableQueryParams$.next(queryParams)
+    if (changes.cvcTableFilters) {
+      const filters = changes.cvcTableQueryParams.currentValue
+      this.onSetTableFilter$.next(filters)
     }
+
     if (changes.cvcSelectedIds) {
       const ids = changes.cvcSelectedIds.currentValue
       const idSet: Set<number> = new Set()
       if (ids !== undefined) {
         ids.forEach((id: number) => idSet.add(id))
       }
-      this.selectedRow$.next(idSet)
+      this.onSetSelectedRow$.next(idSet)
     }
-  }
-
-  trackByIndex(_: number, data: Maybe<EvidenceManagerRowData>): Maybe<number> {
-    return data?.id
   }
 }

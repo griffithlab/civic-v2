@@ -1,15 +1,17 @@
 <!-- by default, display tag content within its own nz-tag -->
-<nz-tag
+<span
   *ngIf="cvcContext === 'default'"
-  class="default"
-  [nzMode]="cvcMode"
-  (nzOnClose)="cvcOnClose.next($event)">
-  <span
-    nz-tooltip
-    [nzTooltipTitle]="cvcTooltip">
-    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-  </span>
-</nz-tag>
+  class="default">
+  <nz-tag
+    [nzMode]="cvcMode"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <span
+      nz-tooltip
+      [nzTooltipTitle]="cvcTooltip">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </span>
+  </nz-tag>
+</span>
 
 <!-- if select-item context, tag is being displayed in a non-multi nz-select,
 so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
@@ -31,7 +33,11 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <span
     *ngIf="cvcAttrValue && cvcShowIcon"
     nz-icon
-    [nzType]="cvcShowIcon === true ? (cvcAttrValue | evidenceEnumDisplay : 'icon-name') : cvcShowIcon"
+    [nzType]="
+      cvcShowIcon === true
+        ? (cvcAttrValue | evidenceEnumDisplay : 'icon-name')
+        : cvcShowIcon
+    "
     [nzTwotoneColor]="cvcIconColor"
     [nzTheme]="cvcIconTheme"
     [attr.style]="'color: ' + cvcIconColor"

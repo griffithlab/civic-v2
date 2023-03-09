@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+} from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import {
   assertionSubmitFormInitialModel,
@@ -15,22 +20,28 @@ import { assertionSubmitFields } from './assertion-submit.form.config'
   templateUrl: './assertion-submit.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcAssertionSubmitForm implements OnDestroy {
+export class CvcAssertionSubmitForm implements OnDestroy, AfterViewInit {
   model: AssertionSubmitModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
+  state: AssertionState
   options: FormlyFormOptions
 
   constructor() {
     this.form = new UntypedFormGroup({})
     this.model = assertionSubmitFormInitialModel
     this.fields = assertionSubmitFields
-    this.options = { formState: new AssertionState() }
+    this.state = new AssertionState()
+    this.options = { formState: this.state }
   }
 
   onSubmit(model: AssertionSubmitModel) {
     console.log('------ Assertion Form Submitted ------')
     console.log(model)
+  }
+
+  ngAfterViewInit(): void {
+    this.state.formReady$.next(true)
   }
 
   ngOnDestroy(): void {

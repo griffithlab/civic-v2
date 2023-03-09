@@ -84,7 +84,7 @@ interface BaseColumn {
   emphasize?: boolean // emphasize filter values in string, tags?
   hidden?: boolean // toggle column visibilitiy
   context?: EvidenceManagerColKey // specify another row key as source for cell context data
-  align?: 'left' | 'center' | 'right' | null // passed to td/td nzAlign
+  align?: 'left' | 'center' | 'right' | null // passed to th/td nzAlign
 }
 
 // implements nz-table filters
@@ -150,13 +150,33 @@ interface EnumTagOptions {
 
 interface TagOptions {
   tag?: {
-    truncateLabel?: boolean
+    clipLabel?:
+    | '100px'
+    | '125px'
+    | '150px'
+    | '175px'
+    | '200px'
+    | '250px'
+    | '300px'
+    | '400px'
+    | '500px'
+
     showLabel?: boolean
     fullWidth?: boolean
   }
   tagGroup?: {
     maxTags: number
-    truncateLabels?: boolean
+    clipLabels?:
+    | '100px'
+    | '125px'
+    | '150px'
+    | '175px'
+    | '200px'
+    | '250px'
+    | '300px'
+    | '400px'
+    | '500px'
+
   }
 }
 
