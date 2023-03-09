@@ -51,10 +51,10 @@
                       tooltip="'View in MeSH">
                       MeSH:{{diseaseInfo.mesh}}
                     </cvc-link-tag>
-                    <cvc-link-tag *ngIf="diseaseInfo.ncit"
-                      [href]="'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' + diseaseInfo.ncit"
+                    <cvc-link-tag *ngFor="let ncit of diseaseInfo.ncit"
+                      [href]="'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' + ncit"
                       tooltip="View in NCI Thesaurus">
-                      NCIt:{{diseaseInfo.ncit}}
+                      NCIt:{{ncit}}
                     </cvc-link-tag>
                     <cvc-link-tag *ngIf="diseaseInfo.omim" [href]="'https://www.omim.org/entry/' + diseaseInfo.omim"
                       tooltip="View on OMIM">

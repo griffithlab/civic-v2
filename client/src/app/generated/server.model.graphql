@@ -4043,7 +4043,7 @@ type MyDiseaseInfo {
   icdo: String
   mesh: String
   mondoDef: String
-  ncit: String
+  ncit: [String!]!
   omim: String
 }
 

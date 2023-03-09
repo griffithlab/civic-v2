@@ -38,7 +38,7 @@ class MyDiseaseInfo
         'mesh': data.dig('xrefs', 'mesh'),
         'icdo': data.dig('xrefs', 'icdo'),
         'icd10': data.dig('xrefs', 'icd10'),
-        'ncit': data.dig('xrefs', 'ncit'),
+        'ncit': Array(data.dig('xrefs', 'ncit')),
         'omim': data.dig('xrefs', 'omim'),
         'do_def': do_def,
         'do_def_citations': do_def_citations,
