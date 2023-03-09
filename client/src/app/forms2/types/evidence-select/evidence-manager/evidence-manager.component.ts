@@ -242,10 +242,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         tag: {
           fullWidth: true,
         },
-        sort: {},
+        sort: {
+          default: 'ascend',
+        },
         filter: {
-          options: [{ key: 'EID', value: null }],
           inputType: 'numeric',
+          options: [{ key: 'EID', value: null }],
         },
       },
       {
@@ -258,6 +260,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           clipLabel: '200px',
         },
         filter: {
+          inputType: 'default',
           options: [
             {
               key: 'Filter Therapy Names',
@@ -276,6 +279,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           clipLabel: '200px',
         },
         filter: {
+          inputType: 'default',
           options: [
             {
               key: 'Filter Disease Names',
@@ -295,6 +299,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           clipLabels: '150px',
         },
         filter: {
+          inputType: 'default',
           options: [
             {
               key: 'Filter Therapy Names',
@@ -338,8 +343,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         sort: {},
         filter: {
           options: this.getAttributeFilters(
-            $enum(EvidenceType),
-            EvidenceType.Predictive
+            $enum(EvidenceType)
+            // EvidenceType.Predictive
           ),
         },
       },
@@ -355,8 +360,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         filter: {
           options: this.getAttributeFilters($enum(EvidenceLevel)),
         },
-        showLabel: true,
-        showIcon: false,
+        // showLabel: true,
+        showIcon: true,
       },
       {
         key: 'evidenceDirection',
@@ -394,9 +399,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         fixedRight: true,
         showIcon: 'star',
         showLabel: true,
-        sort: {
-          // default: 'descend',
-        },
+        sort: {},
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {
             return { value: n, text: `${n} stars` }
@@ -413,8 +416,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           value: opt.sort.default ?? null,
         })
         this.sortChanges$.push(
-          // opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
-          opt.sort.changes
+          opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
+          // opt.sort.changes
         )
       }
       if (hasFilterOptions(opt)) {
@@ -424,8 +427,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           value: defaultValue ?? null,
         })
         this.filterChanges$.push(
-          // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
-          opt.filter.changes
+          opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
+          // opt.filter.changes
         )
       }
     })
@@ -479,7 +482,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
-          this.scrollToIndex$.next(0)
+          this.queryError$.next({})
           this.queryRef = this.gql.watch(queryVars)
           // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
           // errors, so this extra queryError$ stuff below is required to catch and forward any errors.
@@ -499,14 +502,20 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               }
             })
         } else {
+          // clear errors
+          this.queryError$.next({})
           if (params.query === 'refetch') {
             this.isFetchMore$.next(false)
-            this.queryRef.refetch(queryVars).then((result) => {
-              this.scrollToIndex$.next(0)
-              if (result.error || result.errors) {
-                this.queryError$.next(this.getRequestErrors(result))
-              }
-            })
+            this.queryRef
+              .refetch(queryVars)
+              .then((result) => {
+                if (result.error || result.errors) {
+                  this.queryError$.next(this.getRequestErrors(result))
+                }
+              })
+              .then(() => {
+                this.scrollToIndex$.next(0)
+              })
           } else {
             this.isFetchMore$.next(true)
             this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
@@ -570,7 +579,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
       this.managerTableConfig
     )
-    this.col$.pipe(tag('col$')).subscribe()
+    // this.col$.pipe(tag('col$')).subscribe()
 
     this.setPreference$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromConfig(cols))
@@ -711,11 +720,18 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     const colSort = params.sort
     const queryParam = colSort.find((p) => p.value !== null)
     if (!queryParam) return
+    // return {
+    //   sortBy: {
+    //     column: this.getSortColumnFromKey('id' as EvidenceManagerColKey),
+    //     direction: SortDirection.Asc,
+    //   },
+    // }
+    const column = this.getSortColumnFromKey(
+      queryParam.key as EvidenceManagerColKey
+    )
     return {
       sortBy: {
-        column: this.getSortColumnFromKey(
-          queryParam.key as EvidenceManagerColKey
-        ),
+        column: column,
         direction:
           queryParam.value === 'ascend'
             ? SortDirection.Asc

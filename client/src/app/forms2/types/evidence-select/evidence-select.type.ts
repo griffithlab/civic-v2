@@ -226,7 +226,8 @@ export class CvcEvidenceSelectField
           switchMap((v) => {
             return of({ key: field, value: v ?? null })
           }),
-          startWith({ key: field, value: null })
+          startWith({ key: field, value: null }),
+          // tag(`synchronizedFields$ ${field} stream`)
         )
       )
     })

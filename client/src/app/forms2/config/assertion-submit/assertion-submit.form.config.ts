@@ -51,7 +51,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            key: 'evidenceIds',
+            key: 'evidenceItemIds',
             type: 'evidence-multi-select',
             props: {
               required: true,

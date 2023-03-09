@@ -20,10 +20,20 @@
     padding: 0 2px 0 0;
     margin-inline-end: 4px;
     max-width: 100%;
-    .tag-icon {
+    .tag-icon,
+    .tag-icon-large {
       display: inline-block;
+    }
+    .tag-icon {
       padding: 3px 2px 3px 4px;
       margin: -3px 0 -3px 0;
+    }
+    .tag-icon-large {
+      padding: 3px 2px 3px 4px;
+      margin: -3px 0 -3px 0;
+      ::ng-deep svg {
+        transform: scale(1.25,1.25);
+      }
     }
     .tag-label {
       display: inline-block;

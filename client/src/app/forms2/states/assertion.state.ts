@@ -24,6 +24,7 @@ class AssertionState extends BaseState {
       assertionDirection$: new BehaviorSubject<Maybe<AssertionDirection>>(
         def.assertionDirection
       ),
+      evidenceItemIds$: new BehaviorSubject<Maybe<number[]>>(def.evidenceItemIds),
       significance$: new BehaviorSubject<
         Maybe<AssertionSignificance>
       >(def.significance),

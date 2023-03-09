@@ -6,7 +6,8 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core'
-import { InputEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
+import { CvcInputEnum } from '@app/forms2/forms2.types'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-attribute-tag',
@@ -18,7 +19,7 @@ import { InputEnum } from '@app/core/utilities/enum-formatters/format-evidence-e
   }
 })
 export class CvcAttributeTagComponent {
-  @Input() cvcAttrValue!: InputEnum
+  @Input() cvcAttrValue: Maybe<CvcInputEnum>
   @Input() cvcShowLabel: boolean | string = true
   @Input() cvcShowIcon: boolean | string = true
   @Input() cvcTooltip?: string
@@ -26,7 +27,7 @@ export class CvcAttributeTagComponent {
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
   @Input() cvcEmphasize?: string
-  @Input() cvcIconColor: string = '#595959'
+  @Input() cvcIconColor: string = '#797979'
   @Input() cvcLabelColor: string = '#434343'
   @Input() cvcIconTheme: 'outline' | 'fill' | 'twotone' = 'outline'
   @Input() cvcFullWidth: boolean = false
