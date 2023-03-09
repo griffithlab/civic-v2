@@ -16,6 +16,7 @@ import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-hei
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { TherapiesSummaryComponent } from './therapies-summary.component';
+import { CvcMyChemInfoModule } from '@app/components/therapies/my-chem-info/my-chem-info.module';
 
 @NgModule({
   declarations: [TherapiesSummaryComponent],
@@ -35,6 +36,7 @@ import { TherapiesSummaryComponent } from './therapies-summary.component';
     CvcPipesModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
+    CvcMyChemInfoModule,
 
     NgxJsonViewerModule,
   ]

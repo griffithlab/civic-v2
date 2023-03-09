@@ -5,7 +5,7 @@ module Types::Entities
     field :mesh, String, null: true 
     field :icdo, String, null: true
     field :icd10, String, null: true
-    field :ncit, String, null: true
+    field :ncit, [String], null: false
     field :omim, String, null: true
     field :do_def, String, null: true
     field :do_def_citations, [String], null: false

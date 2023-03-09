@@ -641,6 +641,11 @@ export type EvidenceItemsByStatusFieldPolicy = {
 	rejectedCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	submittedCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type FdaCodeKeySpecifier = ('code' | 'description' | FdaCodeKeySpecifier)[];
+export type FdaCodeFieldPolicy = {
+	code?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FieldNameKeySpecifier = ('displayName' | 'name' | FieldNameKeySpecifier)[];
 export type FieldNameFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -877,6 +882,22 @@ export type MutationFieldPolicy = {
 	updateCoi?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateNotificationStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateSourceSuggestionStatus?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MyChemInfoKeySpecifier = ('chebiDefinition' | 'chebiId' | 'chemblId' | 'chemblMoleculeType' | 'drugbankId' | 'fdaEpcCodes' | 'fdaMoaCodes' | 'firstApproval' | 'inchikey' | 'indications' | 'pharmgkbId' | 'pubchemCid' | 'rxnorm' | MyChemInfoKeySpecifier)[];
+export type MyChemInfoFieldPolicy = {
+	chebiDefinition?: FieldPolicy<any> | FieldReadFunction<any>,
+	chebiId?: FieldPolicy<any> | FieldReadFunction<any>,
+	chemblId?: FieldPolicy<any> | FieldReadFunction<any>,
+	chemblMoleculeType?: FieldPolicy<any> | FieldReadFunction<any>,
+	drugbankId?: FieldPolicy<any> | FieldReadFunction<any>,
+	fdaEpcCodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	fdaMoaCodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	firstApproval?: FieldPolicy<any> | FieldReadFunction<any>,
+	inchikey?: FieldPolicy<any> | FieldReadFunction<any>,
+	indications?: FieldPolicy<any> | FieldReadFunction<any>,
+	pharmgkbId?: FieldPolicy<any> | FieldReadFunction<any>,
+	pubchemCid?: FieldPolicy<any> | FieldReadFunction<any>,
+	rxnorm?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MyDiseaseInfoKeySpecifier = ('diseaseOntologyExactSynonyms' | 'diseaseOntologyRelatedSynonyms' | 'doDef' | 'doDefCitations' | 'icd10' | 'icdo' | 'mesh' | 'mondoDef' | 'ncit' | 'omim' | MyDiseaseInfoKeySpecifier)[];
 export type MyDiseaseInfoFieldPolicy = {
@@ -1384,22 +1405,24 @@ export type SuggestVariantRevisionPayloadFieldPolicy = {
 	results?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TherapyKeySpecifier = ('id' | 'link' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyKeySpecifier)[];
+export type TherapyKeySpecifier = ('id' | 'link' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyKeySpecifier)[];
 export type TherapyFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	myChemInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapyAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapyUrl?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TherapyPopoverKeySpecifier = ('assertionCount' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyPopoverKeySpecifier)[];
+export type TherapyPopoverKeySpecifier = ('assertionCount' | 'evidenceItemCount' | 'id' | 'link' | 'molecularProfileCount' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyPopoverKeySpecifier)[];
 export type TherapyPopoverFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfileCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	myChemInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapyAliases?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1877,6 +1900,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | EvidenceItemsByStatusKeySpecifier | (() => undefined | EvidenceItemsByStatusKeySpecifier),
 		fields?: EvidenceItemsByStatusFieldPolicy,
 	},
+	FdaCode?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FdaCodeKeySpecifier | (() => undefined | FdaCodeKeySpecifier),
+		fields?: FdaCodeFieldPolicy,
+	},
 	FieldName?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FieldNameKeySpecifier | (() => undefined | FieldNameKeySpecifier),
 		fields?: FieldNameFieldPolicy,
@@ -1984,6 +2011,10 @@ export type StrictTypedTypePolicies = {
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,
+	},
+	MyChemInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MyChemInfoKeySpecifier | (() => undefined | MyChemInfoKeySpecifier),
+		fields?: MyChemInfoFieldPolicy,
 	},
 	MyDiseaseInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MyDiseaseInfoKeySpecifier | (() => undefined | MyDiseaseInfoKeySpecifier),
