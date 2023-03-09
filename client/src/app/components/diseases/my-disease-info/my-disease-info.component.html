@@ -48,7 +48,7 @@
                 <nz-descriptions-item nzTitle="External Identifiers" [nzSpan]="2">
                   <cvc-tag-list>
                     <cvc-link-tag *ngIf="diseaseInfo.mesh" [href]="'https://meshb.nlm.nih.gov/record/ui?ui=' + diseaseInfo.mesh"
-                      tooltip="'View in MeSH">
+                      tooltip="View in MeSH">
                       MeSH:{{diseaseInfo.mesh}}
                     </cvc-link-tag>
                     <cvc-link-tag *ngFor="let ncit of diseaseInfo.ncit"

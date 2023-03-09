@@ -2526,6 +2526,11 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
+type FdaCode {
+  code: String!
+  description: String!
+}
+
 type FieldName {
   """
   The user facing representation of the field name.
@@ -4032,6 +4037,22 @@ type Mutation {
     """
     input: UpdateSourceSuggestionStatusInput!
   ): UpdateSourceSuggestionStatusPayload
+}
+
+type MyChemInfo {
+  chebiDefinition: String
+  chebiId: String
+  chemblId: String
+  chemblMoleculeType: String
+  drugbankId: String
+  fdaEpcCodes: [FdaCode!]!
+  fdaMoaCodes: [FdaCode!]!
+  firstApproval: String
+  inchikey: String
+  indications: [String!]!
+  pharmgkbId: String
+  pubchemCid: String
+  rxnorm: String
 }
 
 type MyDiseaseInfo {
@@ -7295,6 +7316,7 @@ input TaggableEntityInput {
 type Therapy {
   id: Int!
   link: String!
+  myChemInfo: MyChemInfo
   name: String!
   ncitId: String
   therapyAliases: [String!]!
@@ -7313,6 +7335,7 @@ type TherapyPopover {
   id: Int!
   link: String!
   molecularProfileCount: Int!
+  myChemInfo: MyChemInfo
   name: String!
   ncitId: String
   therapyAliases: [String!]!
