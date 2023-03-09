@@ -69,6 +69,48 @@ export const civicGainoffunctionOutline: {
   name: 'gainoffunctionOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 960c247.5 0 448-200.5 448-448S759.5 64 512 64 64 264.5 64 512s200.5 448 448 448zm0-809.3c199.6 0 361.3 161.7 361.3 361.3S711.6 873.3 512 873.3 150.7 711.6 150.7 512 312.4 150.7 512 150.7zm57.8 570.8V512h121c19.3 0 28.9-23.3 15.4-37L527.4 296.1c-8.5-8.5-22.2-8.5-30.7 0L317.8 475c-13.7 13.7-4 37 15.4 37h121v209.5c0 11.9 9.8 21.7 21.7 21.7h72.3c11.9 0 21.6-9.7 21.6-21.7z"/></svg>`
 };
+export const civicLevelaOutline: {
+  name: 'levelaOutline';
+  data: string;
+} = {
+  name: 'levelaOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM605.9 722.9h109.2L559.2 301.1h-95.6L308.9 722.9h108.7l24.3-78.8h139.4l24.6 78.8zm-94.5-303.6 45.5 146.3h-90.7l45.2-146.3z"/></svg>`
+};
+export const civicLevelbOutline: {
+  name: 'levelbOutline';
+  data: string;
+} = {
+  name: 'levelbOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM519.8 722.9c91.7-.7 155.6-33.9 155.6-124.9 0-44.2-22.9-78.4-68.4-90.4 40.5-15.2 59.4-48.2 59.4-90.1 0-88.6-77.7-116.5-166.3-116.5H348.6v421.9h171.2zm-69.5-343.6c50.1 0 80.7-2.6 99.4 11.8 19.4 14.9 21.5 56.6 1.2 73.7C532.8 480 500.4 477 450.4 477v-97.7zm71.3 164.3c35 .2 52.4 17.9 52.4 53 0 58.6-65.6 48.1-123.7 48.1V543.6h71.3z"/></svg>`
+};
+export const civicLevelcOutline: {
+  name: 'levelcOutline';
+  data: string;
+} = {
+  name: 'levelcOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM587 580.1c-1.5 45.5-24 69-73.3 69-67.2 0-75.3-58-75.3-125.5 0-35.9-1.4-88.5 18.5-120.5 24.6-39.6 87.9-33.1 111.3-11.6 12.2 11.2 18.6 29.7 19.4 55.3H689C680.2 348.5 611.3 295 512.6 295c-70.8 0-127.1 34.8-156 97.2-39.3 84.7-50.2 336.6 157.2 336.6 96.7 0 170.1-53.7 174.4-148.6H587z"/></svg>`
+};
+export const civicLeveldOutline: {
+  name: 'leveldOutline';
+  data: string;
+} = {
+  name: 'leveldOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM485.1 722.9c223.5-1.2 252.1-308.7 97.6-396.5-54.1-30.7-85.5-25.4-236.4-25.4v421.9h138.8zM574 502.7c0 31.2 1.2 78.1-23.5 110.8-26.8 35.6-62.3 31.1-102.6 31.1v-265c46.1 0 126.1-10.7 126.1 123.1z"/></svg>`
+};
+export const civicLeveleOutline: {
+  name: 'leveleOutline';
+  data: string;
+} = {
+  name: 'leveleOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM628 468.5H468.1v-89h189.5V301H366.4v421.9H657v-78.2H468.1V543.9H628v-75.4z"/></svg>`
+};
+export const civicLevelfOutline: {
+  name: 'levelfOutline';
+  data: string;
+} = {
+  name: 'levelfOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM636.6 476.6h-164v-97.1h180.5V301H370.9v421.9h101.7v-168h164v-78.3z"/></svg>`
+};
 export const civicLikelybenignOutline: {
   name: 'likelybenignOutline';
   data: string;
@@ -780,6 +822,12 @@ export type CivicIcon =
   | 'dominantnegativeOutline'
   | 'functionalOutline'
   | 'gainoffunctionOutline'
+  | 'levelaOutline'
+  | 'levelbOutline'
+  | 'levelcOutline'
+  | 'leveldOutline'
+  | 'leveleOutline'
+  | 'levelfOutline'
   | 'likelybenignOutline'
   | 'likelypathogenicOutline'
   | 'lossoffunctionOutline'
@@ -891,6 +939,12 @@ export const CivicIcon = {
   dominantnegativeOutline: 'dominantnegativeOutline' as CivicIcon,
   functionalOutline: 'functionalOutline' as CivicIcon,
   gainoffunctionOutline: 'gainoffunctionOutline' as CivicIcon,
+  levelaOutline: 'levelaOutline' as CivicIcon,
+  levelbOutline: 'levelbOutline' as CivicIcon,
+  levelcOutline: 'levelcOutline' as CivicIcon,
+  leveldOutline: 'leveldOutline' as CivicIcon,
+  leveleOutline: 'leveleOutline' as CivicIcon,
+  levelfOutline: 'levelfOutline' as CivicIcon,
   likelybenignOutline: 'likelybenignOutline' as CivicIcon,
   likelypathogenicOutline: 'likelypathogenicOutline' as CivicIcon,
   lossoffunctionOutline: 'lossoffunctionOutline' as CivicIcon,
@@ -1010,6 +1064,12 @@ export const completeIconSet = [
   civicDominantnegativeOutline,
   civicFunctionalOutline,
   civicGainoffunctionOutline,
+  civicLevelaOutline,
+  civicLevelbOutline,
+  civicLevelcOutline,
+  civicLeveldOutline,
+  civicLeveleOutline,
+  civicLevelfOutline,
   civicLikelybenignOutline,
   civicLikelypathogenicOutline,
   civicLossoffunctionOutline,
