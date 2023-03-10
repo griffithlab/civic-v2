@@ -137,7 +137,7 @@ export const civicNaOutline: {
   data: string;
 } = {
   name: 'naOutline',
-  data: `<svg viewBox="0 0 1024 1024"><path d="M512 64C264.5 64 64 264.5 64 512s200.5 448 448 448 448-200.5 448-448S759.5 64 512 64zm0 809.3c-199.6 0-361.3-161.7-361.3-361.3S312.4 150.7 512 150.7 873.3 312.4 873.3 512 711.6 873.3 512 873.3zm183.9-473.7L583.5 512l112.4 112.4c8.5 8.5 8.5 22.2 0 30.7l-40.8 40.8c-8.5 8.5-22.2 8.5-30.7 0L512 583.5 399.6 695.9c-8.5 8.5-22.2 8.5-30.7 0l-40.8-40.8c-8.5-8.5-8.5-22.2 0-30.7L440.5 512 328.1 399.6c-8.5-8.5-8.5-22.2 0-30.7l40.8-40.8c8.5-8.5 22.2-8.5 30.7 0L512 440.5l112.4-112.4c8.5-8.5 22.2-8.5 30.7 0l40.8 40.8c8.5 8.5 8.5 22.2 0 30.7z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M401.4 701.3h-96.8L161.4 449.9v251.4H64v-404h97.4l142.9 251.4V297.3h97.1v404zM575.7 280 437.8 718.6h79.6L655.6 280h-79.9zm270.7 345.8H713l-23.3 75.5h-104l148.2-404h91.6l149.3 404H870l-23.6-75.5zm-110.1-75.2h86.8l-43.6-140.1-43.2 140.1z"/></svg>`
 };
 export const civicNegativeOutline: {
   name: 'negativeOutline';
@@ -229,6 +229,41 @@ export const civicRaregermlineOutline: {
 } = {
   name: 'raregermlineOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 400.5c61.9 0 111.9 49.9 111.9 111.5s-50 111.5-111.9 111.5S400.1 573.6 400.1 512s50-111.5 111.9-111.5zm-111.9-161c0 61.6 50.1 111.5 111.9 111.5s111.9-49.9 111.9-111.5S573.9 128 512 128s-111.9 49.9-111.9 111.5zm0 545c0 61.6 50.1 111.5 111.9 111.5s111.9-49.9 111.9-111.5S573.9 673 512 673s-111.9 49.9-111.9 111.5z"/></svg>`
+};
+export const civicRating1Outline: {
+  name: 'rating1Outline';
+  data: string;
+} = {
+  name: 'rating1Outline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="m512 288-72.8 147.4-162.8 23.7 117.8 114.8L366.4 736 512 659.5l145.6 76.4-27.8-162.1L747.6 459l-162.8-23.7L512 288z"/></svg>`
+};
+export const civicRating2Outline: {
+  name: 'rating2Outline';
+  data: string;
+} = {
+  name: 'rating2Outline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="m737.3 108.8-64 129.7L530 259.3l103.6 101L609.1 503l128.1-67.3L865.3 503l-24.5-142.6 103.6-101-143.2-20.8-63.9-129.8zM222.7 614.7 79.5 635.6l103.6 101-24.5 142.6 128.1-67.3 128.1 67.3-24.5-142.6 103.6-101-143.2-20.8-64-129.7-64 129.6z"/></svg>`
+};
+export const civicRating3Outline: {
+  name: 'rating3Outline';
+  data: string;
+} = {
+  name: 'rating3Outline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="m512 107-58.2 117.9-130.2 18.9 94.2 91.9-22.3 129.7L512 404.2l116.5 61.2-22.3-129.7 94.2-91.8L570.2 225 512 107zm265.6 369-58.2 117.9-130.2 18.9 94.2 91.9-22.3 129.7 116.5-61.2 116.5 61.2-22.3-129.7 94.2-91.8L835.8 594l-58.2-118zM188.2 593.9 58 612.9l94.2 91.8-22.3 129.7 116.5-61.2 116.5 61.2-22.3-129.7 94.2-91.9-130.2-18.9L246.4 476l-58.2 117.9z"/></svg>`
+};
+export const civicRating4Outline: {
+  name: 'rating4Outline';
+  data: string;
+} = {
+  name: 'rating4Outline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="m777.6 85.1-52.4 106.1-117.2 17 84.8 82.7-20 116.7 104.8-55.1 104.8 55-20-116.7 84.8-82.6-117.2-17-52.4-106.1zM194 191.3l-117.2 17 84.8 82.6-20 116.7 104.8-55 104.8 55.1-20-116.7 84.8-82.7-117.2-17-52.4-106.2L194 191.3zm583.6 425-52.4 106.1-117.2 17 84.8 82.7-20 116.7 104.8-55.1 104.8 55-20-116.7 84.8-82.6-117.2-17-52.4-106.1zM194 722.5l-117.2 17 84.8 82.6-20 116.7 104.8-55 104.8 55.1-20-116.7 84.8-82.7-117.2-17-52.4-106.1L194 722.5z"/></svg>`
+};
+export const civicRating5Outline: {
+  name: 'rating5Outline';
+  data: string;
+} = {
+  name: 'rating5Outline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M512 359.7 462.5 460l-110.6 16 80.1 78.1-19 110.2 99-52 99 52-18.9-110.2 80.1-78L561.5 460 512 359.7zM777.6 94.1l-49.5 100.3-110.7 16.1 80.1 78.1-18.9 110.2 99-52 99 52-18.9-110.2 80.1-78-110.7-16.1-49.5-100.4zM196.9 194.3 86.2 210.4l80.1 78-18.9 110.2 99-52 99 52-18.9-110.2 80.1-78.1-110.7-16.1-49.5-100.1-49.5 100.2zm580.7 431-49.5 100.3-110.7 16.1 80.1 78.1L678.6 930l99-52 99 52-18.9-110.2 80.1-78-110.7-16.1-49.5-100.4zM196.9 725.5 86.2 741.6l80.1 78-18.9 110.2 99-52 99 52-18.9-110.2 80.1-78.1-110.7-16.1-49.5-100.3-49.5 100.4z"/></svg>`
 };
 export const civicReducedsensitivityOutline: {
   name: 'reducedsensitivityOutline';
@@ -845,6 +880,11 @@ export type CivicIcon =
   | 'prognosticOutline'
   | 'protectivenessOutline'
   | 'raregermlineOutline'
+  | 'rating1Outline'
+  | 'rating2Outline'
+  | 'rating3Outline'
+  | 'rating4Outline'
+  | 'rating5Outline'
   | 'reducedsensitivityOutline'
   | 'resistanceOutline'
   | 'sensitivityresponseOutline'
@@ -962,6 +1002,11 @@ export const CivicIcon = {
   prognosticOutline: 'prognosticOutline' as CivicIcon,
   protectivenessOutline: 'protectivenessOutline' as CivicIcon,
   raregermlineOutline: 'raregermlineOutline' as CivicIcon,
+  rating1Outline: 'rating1Outline' as CivicIcon,
+  rating2Outline: 'rating2Outline' as CivicIcon,
+  rating3Outline: 'rating3Outline' as CivicIcon,
+  rating4Outline: 'rating4Outline' as CivicIcon,
+  rating5Outline: 'rating5Outline' as CivicIcon,
   reducedsensitivityOutline: 'reducedsensitivityOutline' as CivicIcon,
   resistanceOutline: 'resistanceOutline' as CivicIcon,
   sensitivityresponseOutline: 'sensitivityresponseOutline' as CivicIcon,
@@ -1087,6 +1132,11 @@ export const completeIconSet = [
   civicPrognosticOutline,
   civicProtectivenessOutline,
   civicRaregermlineOutline,
+  civicRating1Outline,
+  civicRating2Outline,
+  civicRating3Outline,
+  civicRating4Outline,
+  civicRating5Outline,
   civicReducedsensitivityOutline,
   civicResistanceOutline,
   civicSensitivityresponseOutline,

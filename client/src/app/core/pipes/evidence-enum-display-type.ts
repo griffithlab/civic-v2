@@ -14,6 +14,13 @@ export const EvidenceLevelLabelMap = new Map<EvidenceLevel, string>([
   [EvidenceLevel.D, 'Preclinical evidence'],
   [EvidenceLevel.E, 'Inferential association'],
 ])
+export const EvidenceRatingLabelMap = new Map<number, string>([
+  [1, 'One Star'],
+  [2, 'Two Stars'],
+  [3, 'Three Stars'],
+  [4, 'Four Stars'],
+  [5, 'Five Stars'],
+])
 @Pipe({
   name: 'evidenceEnumDisplay',
   pure: true,
@@ -26,7 +33,10 @@ export class EvidenceEnumDisplayPipe implements PipeTransform {
     if (value === undefined || value === null) return ''
     if (context === 'display-string') {
       // if number, evidence rating - convert to string, return
-      if (typeof value === 'number') return value.toString()
+      if (typeof value === 'number') {
+        const label = EvidenceRatingLabelMap.get(value)
+        return label || value.toString()
+      }
       // single character strings will be evidence levels, return level description
       if (value.length === 1) {
         const label = EvidenceLevelLabelMap.get(value as EvidenceLevel)
@@ -35,7 +45,7 @@ export class EvidenceEnumDisplayPipe implements PipeTransform {
       return formatEvidenceEnum(value)
     } else {
       if (typeof value === 'number') {
-        return 'star' // numbers will be evidence ratings
+        return `civic-rating${value}` // numbers will be evidence ratings
       } else if(value.length === 1) { // single char strings are evidence levels
         return `civic-level${value.toLowerCase()}`
       }

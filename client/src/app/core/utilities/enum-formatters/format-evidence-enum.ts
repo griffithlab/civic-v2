@@ -27,7 +27,7 @@ export function formatEvidenceEnum(value: InputEnum): string {
   if (typeof value === 'number') return value
   let str: string[]
   if (value === 'NA') {
-    str = ['N/A']
+    str = ['Not Applicable']
   } else if (value === 'SENSITIVITYRESPONSE') {
     str = ['Sensitivity', '/', 'Response']
   } else {
