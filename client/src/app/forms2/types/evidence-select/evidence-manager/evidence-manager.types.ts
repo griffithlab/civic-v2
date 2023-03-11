@@ -1,6 +1,7 @@
 import { TemplateRef } from '@angular/core'
 import { ApolloError } from '@apollo/client/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
+import { CvcTagLabelMax } from '@app/forms2/components/entity-tag/entity-tag.component'
 import {
   EvidenceItem,
   EvidenceManagerFieldsFragment,
@@ -150,33 +151,10 @@ interface EnumTagOptions {
 
 interface TagOptions {
   tag?: {
-    clipLabel?:
-    | '100px'
-    | '125px'
-    | '150px'
-    | '175px'
-    | '200px'
-    | '250px'
-    | '300px'
-    | '400px'
-    | '500px'
-
     showLabel?: boolean
+    truncateLabel?: CvcTagLabelMax
     fullWidth?: boolean
-  }
-  tagGroup?: {
-    maxTags: number
-    clipLabels?:
-    | '100px'
-    | '125px'
-    | '150px'
-    | '175px'
-    | '200px'
-    | '250px'
-    | '300px'
-    | '400px'
-    | '500px'
-
+    maxTags?: number // max tags if value is tag array
   }
 }
 

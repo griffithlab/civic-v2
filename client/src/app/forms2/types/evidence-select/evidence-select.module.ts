@@ -31,6 +31,7 @@ import {
 } from './evidence-select.type';
 import { TableFilterInputComponent } from './evidence-manager/table-filter-input/table-filter-input.component';
 import { EnumFilterMenuComponent } from './evidence-manager/enum-filter-menu/enum-filter-menu.component'
+import { CvcEmptyValueModule } from '@app/forms2/components/empty-value/empty-value.module'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -83,6 +84,7 @@ const typeConfig: ConfigOption = {
     NzPopoverModule,
     NzDropDownModule,
 
+    CvcEmptyValueModule,
     CvcNoMoreRowsModule,
     CvcTableCounts2Module,
     CvcPipesModule,

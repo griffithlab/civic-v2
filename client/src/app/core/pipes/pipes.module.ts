@@ -26,6 +26,7 @@ import { TherapyInteractionEnumDisplayPipe } from './therapy-interaction-enum-di
 import { CivicTimeagoFormatter } from './timeago-formatter'
 import { TypenameToIconPipe } from './typename-to-icon.pipe'
 import { GuardTypePipe } from './type-guard.pipe'
+import { IsArrayPipe } from './is-array.pipe'
 
 @NgModule({
   declarations: [
@@ -55,10 +56,12 @@ import { GuardTypePipe } from './type-guard.pipe'
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
     TypenameToIconPipe,
+    IsArrayPipe,
   ],
   imports: [CommonModule],
   exports: [
     AmpFormatPipe,
+    IsArrayPipe,
     CamelCaseToWordPipe,
     ColorNameForStatusPipe,
     TherapyInteractionEnumDisplayPipe,

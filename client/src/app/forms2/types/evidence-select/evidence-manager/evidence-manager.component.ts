@@ -257,7 +257,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '240px',
         sort: {},
         tag: {
-          clipLabel: '200px',
+          truncateLabel: '200px',
         },
         filter: {
           inputType: 'default',
@@ -276,7 +276,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '240px',
         sort: {},
         tag: {
-          clipLabel: '200px',
+          truncateLabel: '200px',
         },
         filter: {
           inputType: 'default',
@@ -294,9 +294,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'entity-tag',
         width: '250px',
         sort: {},
-        tagGroup: {
+        tag: {
           maxTags: 2,
-          clipLabels: '150px',
+          truncateLabel: '150px',
         },
         filter: {
           inputType: 'default',
@@ -397,8 +397,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '40px',
         align: 'center',
         fixedRight: true,
-        showIcon: 'star',
-        showLabel: true,
         sort: {},
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {

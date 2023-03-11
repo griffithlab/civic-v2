@@ -18,6 +18,20 @@ export interface LinkableEntity {
   name: string
   link?: string
 }
+
+export type CvcTagLabelMax =
+  | '50px'
+  | '750px'
+  | '100px'
+  | '125px'
+  | '150px'
+  | '175px'
+  | '200px'
+  | '250px'
+  | '300px'
+  | '400px'
+  | '500px'
+
 @Component({
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',
@@ -25,16 +39,18 @@ export interface LinkableEntity {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.full-width]': `cvcFullWidth === true`,
-    '[class.clip-label]': `cvcClipLabel !== undefined`,
-    '[class.clip-label-100]': `cvcClipLabel === '150px'`,
-    '[class.clip-label-125]': `cvcClipLabel === '125px'`,
-    '[class.clip-label-150]': `cvcClipLabel === '150px'`,
-    '[class.clip-label-175]': `cvcClipLabel === '175px'`,
-    '[class.clip-label-200]': `cvcClipLabel === '200px'`,
-    '[class.clip-label-250]': `cvcClipLabel === '250px'`,
-    '[class.clip-label-300]': `cvcClipLabel === '300px'`,
-    '[class.clip-label-400]': `cvcClipLabel === '400px'`,
-    '[class.clip-label-500]': `cvcClipLabel === '500px'`,
+    '[class.label-max]': `cvcTruncateLabel !== undefined`,
+    '[class.label-max-50]': `cvcTruncateLabel === '50px'`,
+    '[class.label-max-75]': `cvcTruncateLabel === '75px'`,
+    '[class.label-max-100]': `cvcTruncateLabel === '100px'`,
+    '[class.label-max-125]': `cvcTruncateLabel === '125px'`,
+    '[class.label-max-150]': `cvcTruncateLabel === '150px'`,
+    '[class.label-max-175]': `cvcTruncateLabel === '175px'`,
+    '[class.label-max-200]': `cvcTruncateLabel === '200px'`,
+    '[class.label-max-250]': `cvcTruncateLabel === '250px'`,
+    '[class.label-max-300]': `cvcTruncateLabel === '300px'`,
+    '[class.label-max-400]': `cvcTruncateLabel === '400px'`,
+    '[class.label-max-500]': `cvcTruncateLabel === '500px'`,
   },
 })
 export class CvcEntityTagComponent implements OnChanges {
@@ -54,16 +70,7 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
   @Input() cvcFullWidth: boolean = false
-  @Input() cvcClipLabel?:
-    | '100px'
-    | '125px'
-    | '150px'
-    | '175px'
-    | '200px'
-    | '250px'
-    | '300px'
-    | '400px'
-    | '500px'
+  @Input() cvcTruncateLabel?: CvcTagLabelMax
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
   @Output() cvcOnClose: EventEmitter<MouseEvent>
