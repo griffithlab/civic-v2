@@ -63,6 +63,7 @@ import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
   colTypeGuards,
+  ColumnConfigOption,
   ColumnPrefsModel,
   CvcFilterChange,
   CvcSortChange,
@@ -76,6 +77,7 @@ import {
   QuerySortParams,
   RequestError,
   RowSelection,
+  SelectColumnType,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -87,7 +89,7 @@ import { ScrollFetch } from './table-scroller.directive'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
-  @Input() cvcTableFilters?: NzTableFilterList
+  @Input() cvcTableFilters?: CvcFilterChange[]
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
@@ -104,7 +106,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   onResetFilter$: Subject<void>
 
   // @Input STREAMS
-  onSetTableFilter$: BehaviorSubject<NzTableFilterList>
+  onSetTableFilter$: BehaviorSubject<CvcFilterChange[]>
   onSetSelectedRow$: BehaviorSubject<Set<number>>
 
   // INTERMEDIATE STREAMS
@@ -174,8 +176,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   colGuards = colTypeGuards
 
   constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
-    this.onSetTableFilter$ = new BehaviorSubject<NzTableFilterList>([])
-    this.onSetTableFilter$.pipe(tag('onSetTableFilter$')).subscribe()
     // this.onTableQueryParams$
     //   .pipe(tag('TQ >>>>> onTableQueryParam$'))
     //   .subscribe()
@@ -415,8 +415,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           value: opt.sort.default ?? null,
         })
         this.sortChanges$.push(
-          opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
-          // opt.sort.changes
+          // opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
+          opt.sort.changes
         )
       }
       if (hasFilterOptions(opt)) {
@@ -426,20 +426,36 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           value: defaultValue ?? null,
         })
         this.filterChanges$.push(
-          opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
-          // opt.filter.changes
+          // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
+          opt.filter.changes
         )
       }
     })
 
-    // create combined observables from sort & filter Subject arrays
+    // emit all filters when any is updated
     const filterChange$ = combineLatest(this.filterChanges$)
-    // filter any sort changes w/ more than two columns set, as we do not support multi-sort
     const sortChange$ = combineLatest(this.sortChanges$).pipe(
+      // with nz-table's multi-sort feature toggled off, it sometimes emit two
+      // events with every sort change: one that is the new sort change, and
+      // another that resets the previous col's sort. Here, this filters
+      // out those second events to pass on to queries
       filter((changes) => {
         return changes.filter((change) => change.value !== null).length <= 1
       })
     )
+
+    this.onSetTableFilter$ = new BehaviorSubject<CvcFilterChange[]>([])
+    this.onSetTableFilter$
+      .pipe(tag('onSetTableFilter$'))
+      .subscribe((filters) => {
+        const cols = this.col$.getValue()
+        filters.forEach((filter) => {
+          const col = cols.find((col) => col.key === filter.key)
+          if (hasFilterOptions(col)) {
+            col.filter.changes!.next(filter)
+          }
+        })
+      })
 
     // observe all sort and filter changes, convert to refetch queryParams
     const refetch$: Observable<CvcTableQueryParams> = combineLatest([
@@ -818,7 +834,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcTableFilters) {
-      const filters = changes.cvcTableFilters.currentValue
+      const filters: CvcFilterChange[] = changes.cvcTableFilters.currentValue
       this.onSetTableFilter$.next(filters)
     }
 

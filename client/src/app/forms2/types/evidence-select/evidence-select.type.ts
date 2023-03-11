@@ -47,7 +47,7 @@ import {
 } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
-import { EvidenceManagerRowData } from './evidence-manager/evidence-manager.types'
+import { CvcFilterChange, EvidenceManagerRowData } from './evidence-manager/evidence-manager.types'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
   FieldTypeConfig<CvcEvidenceSelectFieldProps>
@@ -106,7 +106,7 @@ export class CvcEvidenceSelectField
   showMgr$: Observable<boolean>
 
   synchronizedFields$: Observable<FieldChange>[] = []
-  tableFilterChange$!: Observable<NzTableFilterList>
+  tableFilterChange$!: Observable<CvcFilterChange[]>
 
   mgrOpen: boolean = false
 
@@ -237,12 +237,12 @@ export class CvcEvidenceSelectField
     // to evidence-manager's cvcTableFilters Input
     this.tableFilterChange$ = combineLatest(this.synchronizedFields$).pipe(
       map((fields) => {
-        const newFilters: NzTableFilterList = []
+        const newFilters: CvcFilterChange[] = []
         fields.forEach((field) => {
           const colKey = this.synchronizedFieldToColMap.get(field.key)
           if (colKey) {
             newFilters.push({
-              text: colKey,
+              key: colKey,
               value: field.value,
             })
           }

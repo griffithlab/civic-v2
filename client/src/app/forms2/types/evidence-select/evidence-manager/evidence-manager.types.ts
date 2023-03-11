@@ -158,7 +158,7 @@ interface TagOptions {
   }
 }
 
-type ColumnConfigOption =
+export type ColumnConfigOption =
   | SelectColumnType
   | EntityTagOptionsType
   | EnumTagOptionsType
