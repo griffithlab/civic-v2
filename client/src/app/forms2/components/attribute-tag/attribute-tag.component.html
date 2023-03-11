@@ -41,13 +41,17 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
     [nzTwotoneColor]="cvcIconColor"
     [nzTheme]="cvcIconTheme"
     [attr.style]="'color: ' + cvcIconColor"
-    [ngClass]="{ 'tag-icon': cvcShowLabel, 'tag-icon-large': !cvcShowLabel }"></span>
+    [ngClass]="{
+      'tag-icon': cvcShowLabel,
+      'tag-icon-large': !cvcShowLabel
+    }"></span>
   <span
     *ngIf="cvcShowLabel"
     class="tag-label"
     [innerHtml]="
       cvcAttrValue
-        | evidenceEnumDisplay : 'display-string'
+        | evidenceEnumDisplay
+          : (cvcShowLabel === 'display-string' ? cvcShowLabel : 'short-string')
         | highlightTypeahead : cvcEmphasize
     "></span>
 </ng-template>

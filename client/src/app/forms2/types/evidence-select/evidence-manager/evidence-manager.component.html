@@ -294,8 +294,8 @@
                   *ngIf="row[enumTagCell.key]; else emptyValue"
                   [cvcFullWidth]="true"
                   [cvcAttrValue]="row[enumTagCell.key]"
-                  [cvcShowLabel]="enumTagCell.showLabel ?? false"
-                  [cvcShowIcon]="enumTagCell.showIcon ?? true"
+                  [cvcShowLabel]="enumTagCell.tag?.showLabel ?? false"
+                  [cvcShowIcon]="enumTagCell.tag?.showIcon ?? true"
                   [cvcTooltip]="
                     row[enumTagCell.key] | evidenceEnumDisplay
                   "></cvc-attribute-tag>

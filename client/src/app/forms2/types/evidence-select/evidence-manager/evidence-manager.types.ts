@@ -1,5 +1,6 @@
 import { TemplateRef } from '@angular/core'
 import { ApolloError } from '@apollo/client/core'
+import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcTagLabelMax } from '@app/forms2/components/entity-tag/entity-tag.component'
 import {
@@ -145,13 +146,12 @@ interface TextTagOptions {
 // for a little mini-tag w/ just the icon.
 // If showIcon is a string, that string will be provided to icon's nzType
 interface EnumTagOptions {
-  showLabel?: boolean
-  showIcon?: boolean | string
 }
 
 interface TagOptions {
   tag?: {
-    showLabel?: boolean
+    showLabel?: EnumOutputStyle | boolean
+    showIcon?: string | boolean
     truncateLabel?: CvcTagLabelMax
     fullWidth?: boolean
     maxTags?: number // max tags if value is tag array

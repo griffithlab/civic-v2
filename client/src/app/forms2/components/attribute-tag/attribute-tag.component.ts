@@ -6,6 +6,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core'
+import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { Maybe } from '@app/generated/civic.apollo'
 
@@ -20,7 +21,7 @@ import { Maybe } from '@app/generated/civic.apollo'
 })
 export class CvcAttributeTagComponent {
   @Input() cvcAttrValue: Maybe<CvcInputEnum>
-  @Input() cvcShowLabel: boolean | string = true
+  @Input() cvcShowLabel: boolean | EnumOutputStyle = 'display-string'
   @Input() cvcShowIcon: boolean | string = true
   @Input() cvcTooltip?: string
   @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =

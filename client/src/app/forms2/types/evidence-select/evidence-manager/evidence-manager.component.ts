@@ -360,8 +360,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         filter: {
           options: this.getAttributeFilters($enum(EvidenceLevel)),
         },
-        // showLabel: true,
-        showIcon: true,
       },
       {
         key: 'evidenceDirection',
@@ -394,9 +392,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         label: 'ER',
         tooltip: 'Evidence Rating',
         type: 'enum-tag',
-        width: '40px',
+        width: '45px',
         align: 'center',
         fixedRight: true,
+        tag: {
+          showLabel: 'short-string',
+        },
         sort: {},
         filter: {
           options: [1, 2, 3, 4, 5].map((n) => {
@@ -817,7 +818,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcTableFilters) {
-      const filters = changes.cvcTableQueryParams.currentValue
+      const filters = changes.cvcTableFilters.currentValue
       this.onSetTableFilter$.next(filters)
     }
 
