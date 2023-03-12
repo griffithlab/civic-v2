@@ -163,10 +163,7 @@ export class CvcEvidenceSelectField
 
   // list of manager table columns to be visible/hidden
   // in sync with the required state of their fields
-  requiredFieldToColMap = new Map<
-    keyof EvidenceManagerRowData,
-    string
-  >([
+  requiredFieldToColMap = new Map<keyof EvidenceManagerRowData, string>([
     ['disease', 'requiresDisease$'],
     ['therapies', 'requiresTherapy$'],
   ])
@@ -209,10 +206,7 @@ export class CvcEvidenceSelectField
     // if form value exists on init, emit it so evidence manager will be updated
     this.onEid$.next(this.formControl.value)
     this.onValueChange$
-      .pipe(
-        withLatestFrom(this.onEid$),
-        untilDestroyed(this)
-      )
+      .pipe(withLatestFrom(this.onEid$), untilDestroyed(this))
       .subscribe(([current, old]) => {
         if (Array.isArray(current)) this.onEid$.next(current)
       })
@@ -237,7 +231,7 @@ export class CvcEvidenceSelectField
         stream.pipe(
           switchMap((v) => {
             return of({ key: field, value: v ?? null })
-          }),
+          })
           // tag(`synchronizedFields$ ${field} stream`)
         )
       )
@@ -274,20 +268,18 @@ export class CvcEvidenceSelectField
         })
         return [...newFilters]
       }),
-      shareReplay(1),
+      shareReplay(1)
     )
 
     this.tablePrefsChange$ = combineLatest(this.synchronizedRequired$).pipe(
       map((changes) => {
         const newPrefs: Partial<ColumnPrefsOption>[] = []
         changes.forEach((change) => {
-          const colKey = this.requiredFieldToColMap.get(change.key)
-          if (colKey) {
-            newPrefs.push({
-              value: colKey,
-              checked: change.required,
-            })
-          }
+          // const colKey = this.requiredFieldToColMap.get(change.key)
+          newPrefs.push({
+            value: change.key,
+            checked: change.required,
+          })
         })
         return [...newPrefs]
       }),

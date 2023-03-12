@@ -59,7 +59,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {},
           },
           <CvcTherapySelectFieldConfig>{
-            key: 'drugId',
+            key: 'therapyId',
             type: 'therapy-select',
             props: {
               required: true,

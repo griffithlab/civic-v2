@@ -109,7 +109,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   filterChanges$: Observable<CvcFilterChange>[]
   onRowSelected$: Subject<RowSelection>
   onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
-  onPreferenceChange$: Subject<ColumnPrefsModel>
+  onPreferenceChange$: BehaviorSubject<ColumnPrefsModel>
   onResetFilter$: Subject<void>
 
   // @Input STREAMS
@@ -190,7 +190,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     this.onFetch$ = new Subject<ScrollFetch>()
     this.onRowSelected$ = new Subject<RowSelection>()
-    this.onPreferenceChange$ = new Subject<ColumnPrefsModel>()
+    this.onPreferenceChange$ = new BehaviorSubject<ColumnPrefsModel>([])
     this.onResetFilter$ = new Subject<void>()
     this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
 
@@ -450,53 +450,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
     )
 
-    this.onSetTableFilter$ = new BehaviorSubject<CvcFilterChange[]>([])
-    this.onSetTableFilter$
-      .pipe(
-        // tag('onSetTableFilter$'),
-        untilDestroyed(this)
-      )
-      .subscribe((filters) => {
-        const cols = this.col$.getValue()
-        filters.forEach((filter) => {
-          const col = cols.find((col) => col.key === filter.key)
-          if (hasFilterOptions(col)) {
-            col.filter.changes!.next(filter)
-          }
-        })
-      })
-
-    // onSetTablePref$: BehaviorSubject<ColumnPrefsOption[]>
-    this.onSetTablePref$ = new BehaviorSubject<ColumnPrefsOption[]>([])
-    this.onSetTablePref$
-      .pipe(
-        withLatestFrom(this.onPreferenceChange$),
-        map(([newPrefs, currentModel]) => {
-          // merge new col prefs w/ current prefs
-          const newModel: ColumnPrefsModel = []
-          newPrefs.forEach((colPref) => {
-            let pref = currentModel.find((p) => p.value === colPref.value)
-            if (pref) {
-              newModel.push({ ...pref, ...colPref })
-            } else {
-              newModel.push(colPref)
-            }
-          })
-          return newModel
-        }),
-        tag('onSetTablePref$'),
-        untilDestroyed(this)
-      )
-      .subscribe((preferences) => {
-        this.onPreferenceChange$.next(preferences)
-        // const cols = this.col$.getValue()
-        // filters.forEach((filter) => {
-        //   const col = cols.find((col) => col.key === filter.key)
-        //   if (hasFilterOptions(col)) {
-        //     col.filter.changes!.next(filter)
-        //   }
-        // })
-      })
     // observe all sort and filter changes, convert to refetch queryParams
     const refetch$: Observable<CvcTableQueryParams> = combineLatest([
       sortChange$,
@@ -636,6 +589,64 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
     // this.col$.pipe(tag('col$')).subscribe()
 
+    this.onPreferenceChange$
+      .pipe(
+        withLatestFrom(this.col$),
+        map(([prefs, cols]) => this.getTableConfigFromColPrefs(prefs, cols)),
+        tag('onPreferenChange$'),
+        untilDestroyed(this)
+      )
+      .subscribe((cols) => {
+        this.col$.next(cols)
+      })
+
+    this.onSetTableFilter$ = new BehaviorSubject<CvcFilterChange[]>([])
+    this.onSetTableFilter$
+      .pipe(
+        // tag('onSetTableFilter$'),
+        untilDestroyed(this)
+      )
+      .subscribe((filters) => {
+        const cols = this.col$.getValue()
+        filters.forEach((filter) => {
+          const col = cols.find((col) => col.key === filter.key)
+          if (hasFilterOptions(col)) {
+            col.filter.changes!.next(filter)
+          }
+        })
+      })
+
+    // onSetTablePref$: BehaviorSubject<ColumnPrefsOption[]>
+    this.onSetTablePref$ = new BehaviorSubject<ColumnPrefsOption[]>([])
+    this.onSetTablePref$
+      .pipe(
+        withLatestFrom(this.onPreferenceChange$),
+        map(([newPrefs, currentModel]) => {
+          // merge new col prefs w/ current prefs
+          const newModel: ColumnPrefsModel = []
+          newPrefs.forEach((colPref) => {
+            let pref = currentModel.find((p) => p.value === colPref.value)
+            if (pref) {
+              newModel.push({ ...pref, ...colPref })
+            } else {
+              newModel.push(colPref)
+            }
+          })
+          return newModel
+        }),
+        tag('onSetTablePref$'),
+        untilDestroyed(this)
+      )
+      .subscribe((preferences) => {
+        this.onPreferenceChange$.next(preferences)
+        // const cols = this.col$.getValue()
+        // filters.forEach((filter) => {
+        //   const col = cols.find((col) => col.key === filter.key)
+        //   if (hasFilterOptions(col)) {
+        //     col.filter.changes!.next(filter)
+        //   }
+        // })
+      })
     this.setPreference$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromTableConfig(cols))
     )
@@ -657,17 +668,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // this.setPreference$
     //   .pipe(tag('setPreference$'))
     //   .subscribe()
-
-    this.onPreferenceChange$
-      .pipe(
-        withLatestFrom(this.col$),
-        map(([prefs, cols]) => this.getTableConfigFromColPrefs(prefs, cols)),
-        tag('onPreferenChange$'),
-        untilDestroyed(this)
-      )
-      .subscribe((cols) => {
-        this.col$.next(cols)
-      })
 
     // TODO: consolidate these two onScroll$ subscriptions
     // for every onScrolled event, convert to bool & set isScrolling
@@ -853,16 +853,16 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     cols.forEach((col) => {
       if (this.omittedFromPrefs.find((c) => c === col.key)) return
       const pref = prefs.find((pref) => pref.value === col.key)
-      if (pref?.checked) {
-        col.hidden = false
-      } else {
-        col.hidden = true
+      if (pref) {
+        col.hidden = pref?.checked ? false : true
       }
     })
     return [...cols]
   }
 
-  getColPrefsFromTableConfig(cols: EvidenceManagerTableConfig): ColumnPrefsModel {
+  getColPrefsFromTableConfig(
+    cols: EvidenceManagerTableConfig
+  ): ColumnPrefsModel {
     let options: ColumnPrefsModel = []
     cols.forEach((col) => {
       if (this.omittedFromPrefs.find((c) => c === col.key)) return
@@ -875,7 +875,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return options
   }
 
-  getSortColumnFromColKey(key: EvidenceManagerColKey): Maybe<EvidenceSortColumns> {
+  getSortColumnFromColKey(
+    key: EvidenceManagerColKey
+  ): Maybe<EvidenceSortColumns> {
     return this.columnKeyToSortColumnMap[key]
   }
 

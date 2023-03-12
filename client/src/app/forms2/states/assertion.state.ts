@@ -55,7 +55,7 @@ class AssertionState extends BaseState {
 
     this.requires = {
       requiresDisease$: new BehaviorSubject<boolean>(false),
-      requiresTherapies$: new BehaviorSubject<boolean>(false),
+      requiresTherapy$: new BehaviorSubject<boolean>(false),
       requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
       requiresClingenCodes$: new BehaviorSubject<boolean>(false),
       requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
