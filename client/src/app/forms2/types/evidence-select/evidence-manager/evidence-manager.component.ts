@@ -81,6 +81,11 @@ import {
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
+type ConvertedQueryVar = keyof Pick<
+  EvidenceManagerQueryVariables,
+  'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
+>
+
 @UntilDestroy()
 @Component({
   selector: 'cvc-evidence-manager',
@@ -160,12 +165,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // entity browse query vars include filter vars for values
   // not part of the evidence row model, this maps between
-  // the columnKey and entity browse query field
-  columnKeyToFilterParamMap: {
-    [key in EvidenceManagerColKey]?: keyof Pick<
-      EvidenceManagerQueryVariables,
-      'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
-    >
+  // the columnKey and entity browse query variable
+  columnKeyToQueryVariableMap: {
+    [key in EvidenceManagerColKey]?: ConvertedQueryVar
   } = {
     molecularProfile: 'molecularProfileName',
     disease: 'diseaseName',
@@ -446,7 +448,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     this.onSetTableFilter$ = new BehaviorSubject<CvcFilterChange[]>([])
     this.onSetTableFilter$
-      .pipe(tag('onSetTableFilter$'))
+      .pipe(tag('onSetTableFilter$'), untilDestroyed(this))
       .subscribe((filters) => {
         const cols = this.col$.getValue()
         filters.forEach((filter) => {
@@ -757,14 +759,24 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   getQueryFilterParams(
     params: CvcTableQueryParams
-  ): Maybe<EvidenceManagerQueryVariables> {
-    if (!params.filter) return
-    let filters: { [key in QueryParamKey]?: any } = {}
-    // create an object with any specified filter attributes
+  ): EvidenceManagerQueryVariables {
+    let queryVars: EvidenceManagerQueryVariables = {}
+    if (!params.filter) return queryVars
     params.filter.forEach((f) => {
-      filters[f.key as QueryParamKey] = f.value !== null ? f.value : undefined
+      // handle any filter column keys that must be converted to a different
+      // query variable (e.g. 'disease' -> 'diseaseName' )
+      const queryVar: Maybe<ConvertedQueryVar> =
+        this.columnKeyToQueryVariableMap[f.key as EvidenceManagerColKey]
+      const key = queryVar
+        ? queryVar
+        : (f.key as keyof EvidenceManagerQueryVariables)
+
+      // convert null values to undefined (nz-table prefers 'null' for its
+      // filter and sort types to indicate unset, query vars need undefined)
+      // convert any empty strings to undefined
+      queryVars[key] = f.value === null || f.value === '' ? undefined : f.value
     })
-    return filters
+    return queryVars
   }
 
   getNzTableParamsFromTableConfig(
