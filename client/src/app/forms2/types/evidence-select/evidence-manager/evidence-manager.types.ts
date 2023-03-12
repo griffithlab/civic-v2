@@ -98,11 +98,16 @@ interface FilterOptions {
 }
 
 // string/number input filter
-// NOTE: same as FilterOptions, except it uses only a single NzTableFilterList option.
-// That option's key will used as the input placeholder, value will set its default.
+// NOTE: uses only a single NzTableFilterList option. Its key will used
+// as the input placeholder, value will set its default. If col will be
+// filterable via cvcTableParams, and additionally will need to set input
+// value to an entity name, given an id (e.g. col 'disease',
+// query var 'diseaseName', given 'diseaseId'), a typename will need
+// to be provided to build the cache query.
 interface InputFilterOptions {
   filter: {
-    inputType?: 'default' | 'numeric'
+    inputType: 'default' | 'numeric'
+    typename?: string,
     options: [{ key: string; value: string | number | null }]
     changes?: Subject<CvcFilterChange>
   }
@@ -182,7 +187,7 @@ export interface EntityTagOptionsType
     TagOptions,
     EntityTagOptions,
     Partial<SortOptions>,
-    Partial<InputFilterOptions>,
+    InputFilterOptions,
     FixedOptions {
   type: 'entity-tag'
 }
@@ -288,6 +293,10 @@ export const hasSortOptions: TypeGuard<any, SortOptions> = (
 export const hasFilterOptions: TypeGuard<any, FilterOptions> = (
   int: FilterOptions
 ): int is FilterOptions => int.filter !== undefined
+
+export const hasInputFilterOptions: TypeGuard<any, InputFilterOptions> = (
+  int: InputFilterOptions
+): int is InputFilterOptions => int.filter.inputType !== undefined
 
 export const hasTextOptions: TypeGuard<any, TextTagOptions> = (
   int: TextTagOptions

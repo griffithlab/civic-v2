@@ -9,12 +9,12 @@ import {
   Output,
   QueryList,
   SimpleChanges,
-  TemplateRef,
   ViewChildren,
 } from '@angular/core'
-import { ApolloQueryResult } from '@apollo/client/core'
+import { ApolloQueryResult, gql } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { LinkableEntity } from '@app/forms2/components/entity-tag/entity-tag.component'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
   EvidenceDirection,
@@ -33,7 +33,7 @@ import {
   TherapyInteraction,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { QueryRef } from 'apollo-angular'
+import { Apollo, QueryRef } from 'apollo-angular'
 import {
   NzTableFilterList,
   NzTableQueryParams,
@@ -50,11 +50,8 @@ import {
   Observable,
   of,
   ReplaySubject,
-  shareReplay,
   startWith,
   Subject,
-  take,
-  throttleTime,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
@@ -63,7 +60,6 @@ import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
   colTypeGuards,
-  ColumnConfigOption,
   ColumnPrefsModel,
   ColumnPrefsOption,
   CvcFilterChange,
@@ -73,12 +69,11 @@ import {
   EvidenceManagerRowData,
   EvidenceManagerTableConfig,
   hasFilterOptions,
+  hasInputFilterOptions,
   hasSortOptions,
-  QueryParamKey,
   QuerySortParams,
   RequestError,
   RowSelection,
-  SelectColumnType,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
 
@@ -180,7 +175,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   colGuards = colTypeGuards
 
-  constructor(private gql: EvidenceManagerGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private queryGQL: EvidenceManagerGQL,
+    private apollo: Apollo,
+    private cdr: ChangeDetectorRef
+  ) {
     // this.onTableQueryParams$
     //   .pipe(tag('TQ >>>>> onTableQueryParam$'))
     //   .subscribe()
@@ -285,6 +284,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
         filter: {
           inputType: 'default',
+          typename: 'Disease',
           options: [
             {
               key: 'Filter Disease Names',
@@ -335,6 +335,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         align: 'center',
         fixedRight: true,
         filter: {
+          inputType: 'default',
           options: [{ key: 'Search Descriptions', value: null }],
         },
       },
@@ -491,8 +492,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
           this.queryError$.next({})
-          this.queryRef = this.gql.watch(queryVars)
-          // NOTE: refetch and fetchMore results from valueChanges do not include network or gql
+          this.queryRef = this.queryGQL.watch(queryVars)
+          // NOTE: refetch and fetchMore results from valueChanges do not include network or queryGQL
           // errors, so this extra queryError$ stuff below is required to catch and forward any errors.
           // bug report: https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
@@ -610,7 +611,42 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         const cols = this.col$.getValue()
         filters.forEach((filter) => {
           const col = cols.find((col) => col.key === filter.key)
-          if (hasFilterOptions(col)) {
+          if (hasInputFilterOptions(col)) {
+            const currentOption = col.filter.options[0]
+            if (filter.value === null) {
+              col.filter.options = [{ ...currentOption, value: null }]
+              col.filter.changes!.next(filter)
+              return
+            }
+            const typename = col.filter.typename
+            if (!typename) {
+              console.error(
+                `evidence-manager requires column config '${col.key}' provide a typename for cvcTablePrefs Input to set its filter`
+              )
+              return
+            }
+            const id = filter.value
+            const fragment = {
+              id: `${typename}:${id}`,
+              fragment: gql`
+                fragment Linkable${typename}Entity on ${typename} {
+                  id
+                  name
+                  link
+                }`,
+            }
+            const entity = this.apollo.client.readFragment(
+              fragment
+            ) as LinkableEntity
+            if (!entity) {
+              console.error(
+                `evidence-manager onSetTableFilter$ could not find cached entity ${typename}:${id} to populate col ${filter.key} input filter`
+              )
+              return
+            }
+            col.filter.options = [{ ...currentOption, value: entity.name }]
+            col.filter.changes!.next({ ...filter, value: entity.name })
+          } else if (hasFilterOptions(col)) {
             col.filter.changes!.next(filter)
           }
         })

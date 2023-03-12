@@ -62,7 +62,6 @@ class AssertionState extends BaseState {
       requiresAmpLevel$: new BehaviorSubject<boolean>(false),
       allowsFdaApproval$: new BehaviorSubject<boolean>(false),
     }
-    this.requires.requiresDisease$.pipe(tag('requiresDisease$')).subscribe()
     // ASSERTION TYPE SUBSCRIBERS
     // TODO: determine best way to cleanup & unsubscribe from these subscriptions
     this.fields.assertionType$.subscribe((at: Maybe<AssertionType>) => {

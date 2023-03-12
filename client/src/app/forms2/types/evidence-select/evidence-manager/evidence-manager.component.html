@@ -187,11 +187,9 @@
                   <div class="custom-input-dropdown">
                     <cvc-table-filter-input
                       [cvcPlaceholder]="
-                        textTagCol.filter.options[0] &&
                         textTagCol.filter.options[0].key
                       "
                       [cvcModel]="
-                        textTagCol.filter.options[0] &&
                         textTagCol.filter.options[0].value
                       "
                       (cvcModelChange)="
@@ -246,7 +244,8 @@
                         (row[colKey] | isArray) ? entityTagList : entityTag;
                         context: {
                           $implicit: row[colKey],
-                          config: entityTagCol
+                          config: entityTagCol,
+                          filter: (entityTagCol.filter.changes | ngrxPush)?.value
                         }
                       ">
                     </ng-container>
@@ -255,14 +254,19 @@
                     <ng-template
                       #entityTagList
                       let-data
-                      let-config="config">
+                      let-config="config"
+                      let-filter="filter">
                       <ng-container *ngIf="data.length > 0; else emptyValue">
                         <!-- TODO: implement forms2 tag list component -->
                         <ng-container *ngFor="let entity of data">
                           <ng-container
                             *ngTemplateOutlet="
                               entityTag;
-                              context: { $implicit: entity, config: config }
+                              context: {
+                                $implicit: entity,
+                                config: config,
+                                filter: filter
+                              }
                             "></ng-container>
                         </ng-container>
                       </ng-container>
@@ -272,10 +276,12 @@
                     <ng-template
                       #entityTag
                       let-data
-                      let-config="config">
+                      let-config="config"
+                      let-filter="filter">
                       <cvc-entity-tag
                         [cvcTruncateLabel]="config.tag?.truncateLabel"
                         [cvcCacheId]="data.__typename + ':' + data.id"
+                        [cvcEmphasize]="filter"
                         [cvcFullWidth]="
                           config.tag?.fullWidth ?? false
                         "></cvc-entity-tag>

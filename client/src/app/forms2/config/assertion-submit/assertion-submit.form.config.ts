@@ -44,7 +44,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 plural: 'Assertions'
               }
             },
-            defaultValue: AssertionType.Prognostic
+            // defaultValue: AssertionType.Prognostic
           },
           <CvcSignificanceSelectFieldOptions>{
             key: 'significance',
