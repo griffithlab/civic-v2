@@ -6,6 +6,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import { CvcInputEnum } from '../forms2.types'
 import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
 import { EntityName, BaseState } from './base.state'
@@ -24,10 +25,12 @@ class AssertionState extends BaseState {
       assertionDirection$: new BehaviorSubject<Maybe<AssertionDirection>>(
         def.assertionDirection
       ),
-      evidenceItemIds$: new BehaviorSubject<Maybe<number[]>>(def.evidenceItemIds),
-      significance$: new BehaviorSubject<
-        Maybe<AssertionSignificance>
-      >(def.significance),
+      evidenceItemIds$: new BehaviorSubject<Maybe<number[]>>(
+        def.evidenceItemIds
+      ),
+      significance$: new BehaviorSubject<Maybe<AssertionSignificance>>(
+        def.significance
+      ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
       drugId$: new BehaviorSubject<Maybe<number>>(def.drugId),
     }
@@ -35,16 +38,16 @@ class AssertionState extends BaseState {
     this.enums = {
       entityType$: new BehaviorSubject<CvcInputEnum[]>(this.getTypeOptions()),
       significance$: new BehaviorSubject<CvcInputEnum[]>([]),
-      direction$: new BehaviorSubject<CvcInputEnum[]>([])
+      direction$: new BehaviorSubject<CvcInputEnum[]>([]),
     }
 
     this.options = {
       assertionTypeOption$: new BehaviorSubject<NzSelectOptionInterface[]>(
         this.getOptionsFromEnums(this.getTypeOptions())
       ),
-      directionOption$: new BehaviorSubject<
-        Maybe<NzSelectOptionInterface[]>
-      >(undefined),
+      directionOption$: new BehaviorSubject<Maybe<NzSelectOptionInterface[]>>(
+        undefined
+      ),
       significanceOption$: new BehaviorSubject<
         Maybe<NzSelectOptionInterface[]>
       >(undefined),
@@ -52,17 +55,27 @@ class AssertionState extends BaseState {
 
     this.requires = {
       requiresDisease$: new BehaviorSubject<boolean>(false),
-      requiresTherapy$: new BehaviorSubject<boolean>(false),
+      requiresTherapies$: new BehaviorSubject<boolean>(false),
+      requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
       requiresClingenCodes$: new BehaviorSubject<boolean>(false),
       requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
       requiresAmpLevel$: new BehaviorSubject<boolean>(false),
       allowsFdaApproval$: new BehaviorSubject<boolean>(false),
     }
-
+    this.requires.requiresDisease$.pipe(tag('requiresDisease$')).subscribe()
     // ASSERTION TYPE SUBSCRIBERS
     // TODO: determine best way to cleanup & unsubscribe from these subscriptions
     this.fields.assertionType$.subscribe((at: Maybe<AssertionType>) => {
-      if (!at) return
+      if (!at) {
+        // set all 'requires' fields to false, non-type enums to []
+        Object.entries(this.requires).forEach(([key, value]) => {
+          value.next(false)
+        })
+        this.enums.significance$.next([])
+        this.enums.direction$.next([])
+        return
+      }
+
       const significanceEnums = this.getSignificanceOptions(at)
       this.enums.significance$.next(significanceEnums)
       this.options.significanceOption$.next(

@@ -47,7 +47,12 @@ import {
 } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
-import { CvcFilterChange, EvidenceManagerRowData } from './evidence-manager/evidence-manager.types'
+import {
+  ColumnPrefsModel,
+  ColumnPrefsOption,
+  CvcFilterChange,
+  EvidenceManagerRowData,
+} from './evidence-manager/evidence-manager.types'
 
 export type CvcEvidenceSelectFieldOptions = Partial<
   FieldTypeConfig<CvcEvidenceSelectFieldProps>
@@ -73,6 +78,11 @@ export interface CvcEvidenceSelectFieldConfig
 type FieldChange = {
   key: keyof AssertionFields
   value: SubmitAssertionMutationVariables | null
+}
+
+type RequiredChange = {
+  key: keyof EvidenceManagerRowData
+  required: boolean
 }
 
 const EvidenceSelectMixin = mixin(
@@ -106,7 +116,10 @@ export class CvcEvidenceSelectField
   showMgr$: Observable<boolean>
 
   synchronizedFields$: Observable<FieldChange>[] = []
+  synchronizedRequired$: Observable<RequiredChange>[] = []
+
   tableFilterChange$!: Observable<CvcFilterChange[]>
+  tablePrefsChange$!: Observable<Partial<ColumnPrefsOption>[]>
 
   mgrOpen: boolean = false
 
@@ -150,12 +163,12 @@ export class CvcEvidenceSelectField
 
   // list of manager table columns to be visible/hidden
   // in sync with the required state of their fields
-  disabledFieldToColMap = new Map<
-    keyof AssertionFields,
-    keyof EvidenceManagerRowData
+  requiredFieldToColMap = new Map<
+    keyof EvidenceManagerRowData,
+    string
   >([
-    ['diseaseId', 'disease'],
-    ['therapyIds', 'therapies'],
+    ['disease', 'requiresDisease$'],
+    ['therapies', 'requiresTherapy$'],
   ])
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
@@ -197,7 +210,6 @@ export class CvcEvidenceSelectField
     this.onEid$.next(this.formControl.value)
     this.onValueChange$
       .pipe(
-        tag('evidence-select onValueChange$'),
         withLatestFrom(this.onEid$),
         untilDestroyed(this)
       )
@@ -226,8 +238,21 @@ export class CvcEvidenceSelectField
           switchMap((v) => {
             return of({ key: field, value: v ?? null })
           }),
-          startWith({ key: field, value: null }),
           // tag(`synchronizedFields$ ${field} stream`)
+        )
+      )
+    })
+
+    this.requiredFieldToColMap.forEach((requires, field) => {
+      if (!this.state) return
+      const stream = this.state.requires[requires]
+      if (!stream) return
+      this.synchronizedRequired$.push(
+        stream.pipe(
+          switchMap((v) => {
+            return of({ key: field, required: v })
+          }),
+          tag(`synchronizedRequired$ ${field} stream`)
         )
       )
     })
@@ -249,9 +274,26 @@ export class CvcEvidenceSelectField
         })
         return [...newFilters]
       }),
-    ),
-    shareReplay(1),
-    tag('tableFilterChange$')
+      shareReplay(1),
+    )
+
+    this.tablePrefsChange$ = combineLatest(this.synchronizedRequired$).pipe(
+      map((changes) => {
+        const newPrefs: Partial<ColumnPrefsOption>[] = []
+        changes.forEach((change) => {
+          const colKey = this.requiredFieldToColMap.get(change.key)
+          if (colKey) {
+            newPrefs.push({
+              value: colKey,
+              checked: change.required,
+            })
+          }
+        })
+        return [...newPrefs]
+      }),
+      shareReplay(1),
+      tag('tablePrefsChange$')
+    )
   }
 
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {

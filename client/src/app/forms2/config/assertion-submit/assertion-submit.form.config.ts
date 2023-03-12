@@ -1,6 +1,9 @@
 import { assertionSubmitFormInitialModel } from '@app/forms2/models/assertion-submit.model'
+import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
 import { CvcGeneSelectFieldConfig } from '@app/forms2/types/gene-select/gene-select.type'
+import { CvcInteractionSelectFieldOptions } from '@app/forms2/types/interaction-select/interaction-select.type'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms2/types/org-submit-button/org-submit-button.type'
+import { CvcSignificanceSelectFieldOptions } from '@app/forms2/types/significance-select/significance-select.type'
 import { CvcTherapySelectFieldConfig } from '@app/forms2/types/therapy-select/therapy-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms2/types/type-select/type-select.type'
 import assignFieldConfigDefaultValues from '@app/forms2/utilities/assign-field-default-values'
@@ -43,12 +46,29 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
             defaultValue: AssertionType.Prognostic
           },
+          <CvcSignificanceSelectFieldOptions>{
+            key: 'significance',
+            type: 'significance-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcDiseaseSelectFieldOptions>{
+            key: 'diseaseId',
+            type: 'disease-select',
+            props: {},
+          },
           <CvcTherapySelectFieldConfig>{
             key: 'drugId',
             type: 'therapy-select',
             props: {
               required: true,
             },
+          },
+          <CvcInteractionSelectFieldOptions>{
+            key: 'therapyInteractionType',
+            type: 'interaction-select',
+            props: {},
           },
           {
             key: 'evidenceItemIds',
@@ -59,16 +79,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
               colSpan: 24
             },
           },
-
-          // <CvcTherapySelectFieldConfig>{
-          //   key: 'drugIds',
-          //   type: 'drug-multi-select',
-          //   props: {
-          //     required: true,
-          //     label: 'Therapies'
-          //   },
-          // },
-
           // <CvcEntityTypeSelectFieldConfig>{
           //   key: 'assertionType',
           //   type: 'type-select',

@@ -44,7 +44,10 @@
     <cvc-evidence-manager
       [cvcSelectedIds]="onEid$ | ngrxPush"
       (cvcSelectedIdsChange)="onPopulate$.next($event)"
-      [cvcTableFilters]="tableFilterChange$ | ngrxPush"></cvc-evidence-manager>
+      [cvcTableFilters]="tableFilterChange$ | ngrxPush"
+      [cvcTablePreferences]="
+        tablePrefsChange$ | ngrxPush
+      "></cvc-evidence-manager>
   </nz-col>
 </nz-row>
 <!-- select option templates -->
