@@ -1,15 +1,14 @@
 import {
-  AssertionSignificance,
   AssertionDirection,
+  AssertionSignificance,
   AssertionType,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { CvcInputEnum } from '../forms2.types'
 import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
-import { EntityName, BaseState } from './base.state'
+import { BaseState, EntityName } from './base.state'
 
 class AssertionState extends BaseState {
   constructor() {
@@ -17,8 +16,6 @@ class AssertionState extends BaseState {
     const def = assertionSubmitFieldsDefaults
 
     this.fields = {
-      geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
-      variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
       assertionType$: new BehaviorSubject<Maybe<AssertionType>>(
         def.assertionType
       ),
@@ -32,7 +29,7 @@ class AssertionState extends BaseState {
         def.significance
       ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
-      drugId$: new BehaviorSubject<Maybe<number>>(def.drugId),
+      therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
     }
 
     this.enums = {

@@ -9,9 +9,7 @@ import {
 
 export type AssertionFields = {
   // gene, variant drug included for initial input type development
-  geneId?: number
-  variantId?: number
-  drugId?: number
+  therapyIds?: number[]
 
   /** List of CIViC IDs for the ACMG/AMP codes associated with this Assertion */
   acmgCodeIds?: number[]
