@@ -10,14 +10,8 @@ import { CvcFilterChange } from '../evidence-manager.types'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnumFilterMenuComponent {
-  // NzTableFilterList = Array<{
-  //     text: string;
-  //     value: NzSafeAny;
-  //     byDefault?: boolean;
-  // }>
   @Input() cvcColumnKey!: string
   @Input() cvcFilterOptions!: NzTableFilterList
-  // export type CvcFilterChange = { key: string; value: NzTableFilterValue }
   @Input() cvcOption: Maybe<CvcFilterChange>
   @Output() cvcOptionChange = new EventEmitter<CvcFilterChange>
 }

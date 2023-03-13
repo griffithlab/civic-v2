@@ -24,9 +24,10 @@ export class CvcAttributeTagComponent {
   @Input() cvcShowLabel: boolean | EnumOutputStyle = 'display-string'
   @Input() cvcShowIcon: boolean | string = true
   @Input() cvcTooltip?: string
-  @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =
+  @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' | 'menu-item' =
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
+  @Input() cvcChecked: boolean = false
   @Input() cvcEmphasize?: string
   @Input() cvcIconColor: string = '#797979'
   @Input() cvcLabelColor: string = '#434343'

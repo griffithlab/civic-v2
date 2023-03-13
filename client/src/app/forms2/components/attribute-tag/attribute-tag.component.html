@@ -13,6 +13,17 @@
   </nz-tag>
 </span>
 
+<!-- menu item tags display selected state with nzChecked -->
+<span
+  *ngIf="cvcContext === 'menu-item'"
+  class="menu-item">
+  <nz-tag
+    [nzMode]="'checkable'"
+    [nzChecked]="cvcChecked">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
+
 <!-- if select-item context, tag is being displayed in a non-multi nz-select,
 so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
 <span
@@ -42,8 +53,8 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
     [nzTheme]="cvcIconTheme"
     [attr.style]="'color: ' + cvcIconColor"
     [ngClass]="{
-      'tag-icon': cvcShowLabel,
-      'tag-icon-large': !cvcShowLabel
+      'tag-icon': cvcShowLabel === true,
+      'tag-icon-large': cvcShowLabel === undefined || cvcShowLabel === false
     }"></span>
   <span
     *ngIf="cvcShowLabel"

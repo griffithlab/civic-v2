@@ -121,8 +121,6 @@ export class CvcEvidenceSelectField
   tableFilterChange$!: Observable<CvcFilterChange[]>
   tablePrefsChange$!: Observable<Partial<ColumnPrefsOption>[]>
 
-  mgrOpen: boolean = false
-
   defaultOptions: CvcEvidenceSelectFieldOptions = {
     props: {
       label: 'Evidence Items',
@@ -138,17 +136,15 @@ export class CvcEvidenceSelectField
     },
   }
 
-  // list of manager table columns that should be kept
-  // synchronized with field values
-  // NOTE: evidence-manager table filters do not filter by ID -
-  // except for 'id' (EID) - and entity columns are filtered by name.
-  // Therefore the manager will use the provided entity ids to fetch their
-  // entity names from the cache, and filter by those names. In the
-  // case of multiple ids (e.g. Therapies), the name associated with the
-  // first id in the array will be used.
-  // FIXME: currently using these assertion submit form fields, however a
+  // list of manager table columns that should be kept synchronized with field values
+
+  // NOTE: evidence-manager table filters do not filter by entity ID (except for
+  // 'id' (EID)). Instead, entity columns are filtered by their entity name. Therefore
+  // the manager will use the provided entity ids to fetch their entity names
+  // from the cache, and set the column filter to that name.
+  // FIXME: currently using these assertion form fields, however a
   // more generic solution will be required for this field to be used
-  // in other forms.
+  // in other forms for different field/column mappings.
   synchronizedFieldToColMap = new Map<
     keyof AssertionFields,
     keyof Omit<EvidenceManagerRowData, 'id' | 'status'>
@@ -181,7 +177,7 @@ export class CvcEvidenceSelectField
     this.onEid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
-      // startWith(true),
+      startWith(true),
       scan((acc, _) => !acc, false)
     )
   }

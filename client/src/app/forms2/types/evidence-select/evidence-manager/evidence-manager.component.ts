@@ -95,10 +95,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
-  @ViewChildren('enumTableFilter') tableFilterRefs?: QueryList<
-    NzThAddOnComponent<any>
-  >
-
   // SOURCE STREAMS
   sortChanges$: Observable<CvcSortChange>[]
   filterChanges$: Observable<CvcFilterChange>[]
@@ -305,6 +301,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
         filter: {
           inputType: 'default',
+          typename: 'Therapy',
           options: [
             {
               key: 'Filter Therapy Names',
@@ -445,7 +442,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       // with nz-table's multi-sort feature toggled off, it sometimes emit two
       // events with every sort change: one that is the new sort change, and
       // another that resets the previous col's sort. Here, this filters
-      // out those second events to pass on to queries
+      // out those reset events
       filter((changes) => {
         return changes.filter((change) => change.value !== null).length <= 1
       })
@@ -480,19 +477,17 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     // merge table refetch and scroller fetchMore events, issue queries for each
     // NOTE: onResetFilter causes every col sort & filter to emit an update event that ends up here.
-    // The debounceTime operator ensures that only one event makes it through to an apollo query.
+    // The debounceTime operator ensures that only one event makes it through to emit a query.
     merge(refetch$, fetchMore$)
-      .pipe(
-        debounceTime(50),
-        // tag('>>>>> QUERY'),
-        untilDestroyed(this)
-      )
+      .pipe(debounceTime(50), tag('>>>>> QUERY'), untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
           this.queryError$.next({})
           this.queryRef = this.queryGQL.watch(queryVars)
+          // this.queryResult$.pipe(tag('<<<<<<<<< queryResult$')).subscribe()
+
           // NOTE: refetch and fetchMore results from valueChanges do not include network or queryGQL
           // errors, so this extra queryError$ stuff below is required to catch and forward any errors.
           // bug report: https://github.com/apollographql/apollo-client/issues/6857
@@ -502,7 +497,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               untilDestroyed(this)
             )
             .subscribe((result) => {
-              // this.queryResult$.pipe(tag('<<<<<<<<< queryResult$')).subscribe()
               this.queryResult$.next(result)
               // queryRef.valueChanges should be emitting errors,
               // but updating queryError$ just in case
@@ -578,7 +572,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           }
         })
       }),
-      startWith([])
+      // startWith([]),
+      tag('row$')
     )
 
     // col$ provide column-level configuration in nz-table's thead and tbody elements.
@@ -594,7 +589,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       .pipe(
         withLatestFrom(this.col$),
         map(([prefs, cols]) => this.getTableConfigFromColPrefs(prefs, cols)),
-        tag('onPreferenChange$'),
+        // tag('onPreferenChange$'),
         untilDestroyed(this)
       )
       .subscribe((cols) => {
@@ -670,19 +665,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           })
           return newModel
         }),
-        tag('onSetTablePref$'),
+        // tag('onSetTablePref$'),
         untilDestroyed(this)
       )
       .subscribe((preferences) => {
         this.onPreferenceChange$.next(preferences)
-        // const cols = this.col$.getValue()
-        // filters.forEach((filter) => {
-        //   const col = cols.find((col) => col.key === filter.key)
-        //   if (hasFilterOptions(col)) {
-        //     col.filter.changes!.next(filter)
-        //   }
-        // })
       })
+
+    // update preferences options whenever col options change
     this.setPreference$ = this.col$.pipe(
       map((cols) => this.getColPrefsFromTableConfig(cols))
     )
@@ -739,12 +729,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (!this.tableFilterRefs) {
-      console.error(
-        'evidence-manager could not get reference to its #enumTableFilter templates, cannot initialize onResetFilter$.'
-      )
-      return
-    }
 
     this.onResetFilter$
       .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
