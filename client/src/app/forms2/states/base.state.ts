@@ -50,7 +50,7 @@ export type EntityFieldSubjectMap = { [key: string]: BehaviorSubject<any> }
 export type NoStateFormOptions = { formState: { formLayout: NzFormLayoutType } }
 
 export interface IEntityState {
-  formReady$: BehaviorSubject<boolean>
+  formReady$: Subject<boolean>
   formLayout: NzFormLayoutType
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[]
@@ -77,7 +77,7 @@ export interface IEntityState {
 }
 
 class BaseState implements IEntityState {
-  formReady$ = new BehaviorSubject<boolean>(false)
+  formReady$ = new Subject<boolean>()
   formLayout: NzFormLayoutType = 'vertical'
   fields: EntityFieldSubjectMap
   enums: EntityFieldSubjectMap

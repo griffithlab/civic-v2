@@ -7,9 +7,7 @@ import {
   Input,
   OnChanges,
   Output,
-  QueryList,
   SimpleChanges,
-  ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult, gql } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
@@ -34,11 +32,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, QueryRef } from 'apollo-angular'
-import {
-  NzTableFilterList,
-  NzTableQueryParams,
-  NzThAddOnComponent,
-} from 'ng-zorro-antd/table'
+import { NzTableFilterList, NzTableQueryParams } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
@@ -50,7 +44,6 @@ import {
   Observable,
   of,
   ReplaySubject,
-  startWith,
   Subject,
   withLatestFrom,
 } from 'rxjs'
@@ -82,6 +75,11 @@ type ConvertedQueryVar = keyof Pick<
   'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
 >
 
+export type EvidenceManagerSettings = {
+  filters: CvcFilterChange[]
+  preferences: Partial<ColumnPrefsOption>[]
+}
+
 @UntilDestroy()
 @Component({
   selector: 'cvc-evidence-manager',
@@ -90,8 +88,7 @@ type ConvertedQueryVar = keyof Pick<
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
-  @Input() cvcTableFilters?: CvcFilterChange[]
-  @Input() cvcTablePreferences?: Partial<ColumnPrefsOption>[]
+  @Input() cvcTableSettings?: EvidenceManagerSettings
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
@@ -105,7 +102,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // @Input STREAMS
   onSetTableFilter$: BehaviorSubject<CvcFilterChange[]>
-  onSetTablePref$: BehaviorSubject<ColumnPrefsOption[]>
+  onSetTablePref$: BehaviorSubject<Partial<ColumnPrefsOption>[]>
   onSetSelectedRow$: BehaviorSubject<Set<number>>
 
   // INTERMEDIATE STREAMS
@@ -412,7 +409,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     ]
 
     // create filter & sort Subjects
-    this.managerTableConfig.forEach((opt, i) => {
+    this.managerTableConfig.forEach((opt) => {
       if (hasSortOptions(opt)) {
         opt.sort.changes = new BehaviorSubject<CvcSortChange>({
           key: opt.key,
@@ -476,10 +473,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     // merge table refetch and scroller fetchMore events, issue queries for each
-    // NOTE: onResetFilter causes every col sort & filter to emit an update event that ends up here.
-    // The debounceTime operator ensures that only one event makes it through to emit a query.
+    // NOTE: onResetFilter causes every col sort & filter to emit an update
+    // event that ends up here. The debounceTime operator ensures that only one
+    // event makes it through to emit a query.
     merge(refetch$, fetchMore$)
-      .pipe(debounceTime(50), tag('>>>>> QUERY'), untilDestroyed(this))
+      .pipe(debounceTime(50),
+            // tag('>>>>> QUERY'),
+            untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
@@ -488,9 +488,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           this.queryRef = this.queryGQL.watch(queryVars)
           // this.queryResult$.pipe(tag('<<<<<<<<< queryResult$')).subscribe()
 
-          // NOTE: refetch and fetchMore results from valueChanges do not include network or queryGQL
-          // errors, so this extra queryError$ stuff below is required to catch and forward any errors.
-          // bug report: https://github.com/apollographql/apollo-client/issues/6857
+          // NOTE: refetch and fetchMore results from valueChanges do not
+          // include network or queryGQL errors, so this extra queryError$ stuff
+          // below is required to catch and forward any errors. bug report:
+          // https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(
               // tag('queryRef.valueChanges'),
@@ -572,24 +573,27 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           }
         })
       }),
-      // startWith([]),
-      tag('row$')
+      // tag('row$')
     )
 
-    // col$ provide column-level configuration in nz-table's thead and tbody elements.
-    // Preference panel has a bidirectional link w/ cols$, subscribing to its updates
-    // to generate its options with setPreference$, and updating
+    // col$ provide column-level configuration in nz-table's thead and tbody
+    // elements. Preference panel has a bidirectional link w/ cols$, subscribing
+    // to its updates to generate its options with setPreference$, and updating
     // col$ when those options change, via onPreferenceChange$
     this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
       this.managerTableConfig
     )
-    // this.col$.pipe(tag('col$')).subscribe()
 
+    // update preferences options whenever col options change
+    this.setPreference$ = this.col$.pipe(
+      map((cols) => this.getColPrefsFromTableConfig(cols))
+    )
+
+    // update columns when preferences changed (called by prefs panel)
     this.onPreferenceChange$
       .pipe(
         withLatestFrom(this.col$),
         map(([prefs, cols]) => this.getTableConfigFromColPrefs(prefs, cols)),
-        // tag('onPreferenChange$'),
         untilDestroyed(this)
       )
       .subscribe((cols) => {
@@ -597,61 +601,42 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
 
     this.onSetTableFilter$ = new BehaviorSubject<CvcFilterChange[]>([])
-    this.onSetTableFilter$
-      .pipe(
-        // tag('onSetTableFilter$'),
-        untilDestroyed(this)
-      )
-      .subscribe((filters) => {
-        const cols = this.col$.getValue()
-        filters.forEach((filter) => {
-          const col = cols.find((col) => col.key === filter.key)
-          if (hasInputFilterOptions(col)) {
-            const currentOption = col.filter.options[0]
-            if (filter.value === null) {
-              col.filter.options = [{ ...currentOption, value: null }]
-              col.filter.changes!.next(filter)
-              return
-            }
-            const typename = col.filter.typename
-            if (!typename) {
-              console.error(
-                `evidence-manager requires column config '${col.key}' provide a typename for cvcTablePrefs Input to set its filter`
-              )
-              return
-            }
-            const id = filter.value
-            const fragment = {
-              id: `${typename}:${id}`,
-              fragment: gql`
-                fragment Linkable${typename}Entity on ${typename} {
-                  id
-                  name
-                  link
-                }`,
-            }
-            const entity = this.apollo.client.readFragment(
-              fragment
-            ) as LinkableEntity
-            if (!entity) {
-              console.error(
-                `evidence-manager onSetTableFilter$ could not find cached entity ${typename}:${id} to populate col ${filter.key} input filter`
-              )
-              return
-            }
-            col.filter.options = [{ ...currentOption, value: entity.name }]
-            col.filter.changes!.next({ ...filter, value: entity.name })
-          } else if (hasFilterOptions(col)) {
+    this.onSetTableFilter$.pipe(untilDestroyed(this)).subscribe((filters) => {
+      const cols = this.col$.getValue()
+      filters.forEach((filter) => {
+        const col = cols.find((col) => col.key === filter.key)
+        // if column has an input filter, update its single option value to
+        // update the typeahead field value. Since we just have an entity ID,
+        // we need to get its name value from the cache to populate the input
+        if (hasInputFilterOptions(col)) {
+          const currentOption = col.filter.options[0]
+          if (filter.value === null) {
+            col.filter.options = [{ ...currentOption, value: null }]
             col.filter.changes!.next(filter)
+            return
           }
-        })
+          const id = filter.value
+          const typename = col.filter.typename
+          if (!typename) {
+            console.error(
+              `evidence-manager requires column config '${col.key}' provide a typename for cvcTablePrefs Input to set its filter`
+            )
+            return
+          }
+          const entityName = this.getEntityName(typename, id)
+          if (!entityName) return
+          col.filter.options = [{ ...currentOption, value: entityName }]
+          col.filter.changes!.next({ ...filter, value: entityName })
+        } else if (hasFilterOptions(col)) {
+          col.filter.changes!.next(filter)
+        }
       })
+    })
 
-    // onSetTablePref$: BehaviorSubject<ColumnPrefsOption[]>
-    this.onSetTablePref$ = new BehaviorSubject<ColumnPrefsOption[]>([])
+    this.onSetTablePref$ = new BehaviorSubject<Partial<ColumnPrefsOption>[]>([])
     this.onSetTablePref$
       .pipe(
-        withLatestFrom(this.onPreferenceChange$),
+        withLatestFrom(this.setPreference$),
         map(([newPrefs, currentModel]) => {
           // merge new col prefs w/ current prefs
           const newModel: ColumnPrefsModel = []
@@ -660,22 +645,18 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             if (pref) {
               newModel.push({ ...pref, ...colPref })
             } else {
-              newModel.push(colPref)
+              console.warn(
+                `evidence-manager onSetTablePref$ received updated preferences for column '${colPref.value}', but a column with that key could not be found.`
+              )
             }
           })
           return newModel
         }),
-        // tag('onSetTablePref$'),
         untilDestroyed(this)
       )
       .subscribe((preferences) => {
         this.onPreferenceChange$.next(preferences)
       })
-
-    // update preferences options whenever col options change
-    this.setPreference$ = this.col$.pipe(
-      map((cols) => this.getColPrefsFromTableConfig(cols))
-    )
 
     // when row select, get old selected rows, emit updated rows
     // & output new selected ids array
@@ -691,12 +672,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         this.cvcSelectedIdsChange.next(Array.from(selected))
       })
 
-    // this.setPreference$
-    //   .pipe(tag('setPreference$'))
-    //   .subscribe()
-
-    // TODO: consolidate these two onScroll$ subscriptions
-    // for every onScrolled event, convert to bool & set isScrolling
+    // TODO: consolidate these two onScroll$ subscriptions for every onScrolled
+    // event, convert to bool & set isScrolling
     this.onScroll$
       .pipe(
         map((e: ScrollEvent) => (e === 'stop' ? false : true)),
@@ -729,7 +706,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
     this.onResetFilter$
       .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
       .subscribe(([_, config]) => {
@@ -796,12 +772,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     const colSort = params.sort
     const queryParam = colSort.find((p) => p.value !== null)
     if (!queryParam) return
-    // return {
-    //   sortBy: {
-    //     column: this.getSortColumnFromColKey('id' as EvidenceManagerColKey),
-    //     direction: SortDirection.Asc,
-    //   },
-    // }
     const column = this.getSortColumnFromColKey(
       queryParam.key as EvidenceManagerColKey
     )
@@ -901,22 +871,38 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return this.columnKeyToSortColumnMap[key]
   }
 
+  getEntityName(typename: string, id: number): Maybe<string> {
+    const fragment = {
+      id: `${typename}:${id}`,
+      fragment: gql`
+                fragment Linkable${typename}Entity on ${typename} {
+                  id
+                  name
+                  link
+                }`,
+    }
+    const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
+    if (!entity) {
+      console.error(
+        `evidence-manager onSetTableFilter$ could not find cached entity ${typename}:${id} to populate input filter`
+      )
+      return
+    }
+    return entity.name
+  }
+
   trackByIndex(_: number, data: Maybe<EvidenceManagerRowData>): Maybe<number> {
     return data?.id
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cvcTableFilters) {
-      const filters: CvcFilterChange[] = changes.cvcTableFilters.currentValue
-      if (!filters) return
-      this.onSetTableFilter$.next(filters)
-    }
-
-    if (changes.cvcTablePreferences) {
-      const colPrefs: ColumnPrefsOption[] =
-        changes.cvcTablePreferences.currentValue
-      if (!colPrefs) return
-      this.onSetTablePref$.next(colPrefs)
+    if (changes.cvcTableSettings) {
+      const settings: EvidenceManagerSettings =
+        changes.cvcTableSettings.currentValue
+      if (settings !== undefined) {
+        this.onSetTableFilter$.next(settings.filters)
+        this.onSetTablePref$.next(settings.preferences)
+      }
     }
 
     if (changes.cvcSelectedIds) {

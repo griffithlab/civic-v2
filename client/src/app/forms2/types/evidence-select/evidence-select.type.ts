@@ -11,6 +11,7 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
+import { waitUntil } from '@app/forms2/utilities/operators/waitUntil'
 import {
   AssertionFields,
   EvidenceSelectTagGQL,
@@ -31,15 +32,14 @@ import {
 } from '@ngx-formly/core'
 import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { NzTableFilterList } from 'ng-zorro-antd/table'
 import {
   combineLatest,
+  debounceTime,
   map,
   Observable,
   of,
   ReplaySubject,
   scan,
-  shareReplay,
   startWith,
   Subject,
   switchMap,
@@ -47,8 +47,8 @@ import {
 } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
+import { EvidenceManagerSettings } from './evidence-manager/evidence-manager.component'
 import {
-  ColumnPrefsModel,
   ColumnPrefsOption,
   CvcFilterChange,
   EvidenceManagerRowData,
@@ -115,11 +115,17 @@ export class CvcEvidenceSelectField
   // PRESENTATION STREAMS
   showMgr$: Observable<boolean>
 
+  // arrays containing field value change, field required change streams
   synchronizedFields$: Observable<FieldChange>[] = []
   synchronizedRequired$: Observable<RequiredChange>[] = []
 
-  tableFilterChange$!: Observable<CvcFilterChange[]>
-  tablePrefsChange$!: Observable<Partial<ColumnPrefsOption>[]>
+  // emits all synchronized field changes when any updated
+  onFieldsChange$!: Observable<CvcFilterChange[]>
+  // emits all synchronized field required changes when any updated
+  onRequiredChange$!: Observable<Partial<ColumnPrefsOption>[]>
+
+  // munges field, required streams into table settings formatted config obj
+  tableSettingsChange$!: Observable<EvidenceManagerSettings>
 
   defaultOptions: CvcEvidenceSelectFieldOptions = {
     props: {
@@ -216,41 +222,40 @@ export class CvcEvidenceSelectField
 
   private configureStateConnections() {
     if (!this.state) return
-    // for each synchronized field, find its state.${field}$ stream,
+
+    // for each synchronized field specified, find its state.field stream,
     // add it to the synchronized fields array
     this.synchronizedFieldToColMap.forEach((column, field) => {
-      if (!this.state) return
       // console.log(f,c)
-      const stream = this.state.fields[`${field}$`]
+      const stream = this.state!.fields[`${field}$`]
       if (!stream) return
       this.synchronizedFields$.push(
         stream.pipe(
           switchMap((v) => {
             return of({ key: field, value: v ?? null })
-          })
+          }),
           // tag(`synchronizedFields$ ${field} stream`)
         )
       )
     })
 
+    // for each synchronized field specified, find its state.requires stream,
+    // add it to the synchronized synchronizedRequired array
     this.requiredFieldToColMap.forEach((requires, field) => {
-      if (!this.state) return
-      const stream = this.state.requires[requires]
+      const stream = this.state!.requires[requires]
       if (!stream) return
       this.synchronizedRequired$.push(
         stream.pipe(
           switchMap((v) => {
             return of({ key: field, required: v })
           }),
-          tag(`synchronizedRequired$ ${field} stream`)
+          // tag(`synchronizedRequired$ ${field} stream`)
         )
       )
     })
 
-    // combine synchronized fields streams into tableFilterChange$, convert
-    // FieldChange object to NzTableFilter. provides a NzTableFilterList
-    // to evidence-manager's cvcTableFilters Input
-    this.tableFilterChange$ = combineLatest(this.synchronizedFields$).pipe(
+    // combine all synchronized requireds updates, emit table filter changes array
+    this.onFieldsChange$ = combineLatest(this.synchronizedFields$).pipe(
       map((fields) => {
         const newFilters: CvcFilterChange[] = []
         fields.forEach((field) => {
@@ -262,25 +267,35 @@ export class CvcEvidenceSelectField
             })
           }
         })
-        return [...newFilters]
+        return newFilters
       }),
-      shareReplay(1)
+      // tag('onFieldsChange$')
     )
 
-    this.tablePrefsChange$ = combineLatest(this.synchronizedRequired$).pipe(
-      map((changes) => {
+    // combine all synchronized requireds updates, emit table prefs array
+    this.onRequiredChange$ = combineLatest(this.synchronizedRequired$).pipe(
+      map((fields) => {
         const newPrefs: Partial<ColumnPrefsOption>[] = []
-        changes.forEach((change) => {
-          // const colKey = this.requiredFieldToColMap.get(change.key)
+        fields.forEach((change) => {
           newPrefs.push({
             value: change.key,
             checked: change.required,
           })
         })
-        return [...newPrefs]
+        return newPrefs
       }),
-      shareReplay(1),
-      tag('tablePrefsChange$')
+      // tag('onRequiredsChange$')
+    )
+
+    this.tableSettingsChange$ = combineLatest([
+      this.onFieldsChange$,
+      this.onRequiredChange$,
+    ]).pipe(
+      map(([filters, prefs]) => {
+        return { filters: filters, preferences: prefs }
+      }),
+      waitUntil(this.state.formReady$),
+      debounceTime(100),
     )
   }
 

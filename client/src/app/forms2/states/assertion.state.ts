@@ -3,6 +3,7 @@ import {
   AssertionSignificance,
   AssertionType,
   Maybe,
+  TherapyInteraction,
 } from '@app/generated/civic.apollo'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject } from 'rxjs'
@@ -29,13 +30,17 @@ class AssertionState extends BaseState {
         def.significance
       ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
-      therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
+      therapyId$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
+      therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(def.therapyInteractionType),
     }
 
     this.enums = {
       entityType$: new BehaviorSubject<CvcInputEnum[]>(this.getTypeOptions()),
       significance$: new BehaviorSubject<CvcInputEnum[]>([]),
       direction$: new BehaviorSubject<CvcInputEnum[]>([]),
+      interaction$: new BehaviorSubject<CvcInputEnum[]>(
+        this.getInteractionOptions()
+      ),
     }
 
     this.options = {

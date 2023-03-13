@@ -4,8 +4,7 @@
   nzSize="small">
   <nz-table
     #virtualTable
-    *ngrxLet="row$ as data"
-    [nzData]="data || []"
+    [nzData]="(row$ | ngrxPush) || []"
     cvcTableScroller
     (cvcTableScrollerOnScroll)="onScroll$.next($event)"
     (cvcTableScrollerOnFetch)="onFetch$.next($event)"

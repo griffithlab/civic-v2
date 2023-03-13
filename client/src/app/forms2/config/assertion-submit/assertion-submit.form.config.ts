@@ -33,7 +33,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'New Assertion',
         },
         fieldGroup: [
-
           <CvcEntityTypeSelectFieldConfig>{
             key: 'assertionType',
             type: 'type-select',
@@ -44,7 +43,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 plural: 'Assertions'
               }
             },
-            // defaultValue: AssertionType.Prognostic
           },
           <CvcSignificanceSelectFieldOptions>{
             key: 'significance',
