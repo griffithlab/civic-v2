@@ -107,7 +107,7 @@ interface FilterOptions {
 interface InputFilterOptions {
   filter: {
     inputType: 'default' | 'numeric'
-    typename?: string,
+    typename?: string
     options: [{ key: string; value: string | number | null }]
     changes?: Subject<CvcFilterChange>
   }
@@ -139,7 +139,9 @@ interface FixedOptions {
 }
 
 // use context to use another column's entity object to display tag
-interface EntityTagOptions {}
+interface EntityTagOptions {
+  showStatus?: boolean // display tag status indicator styles
+}
 
 interface TextTagOptions {
   text?: {}
@@ -150,8 +152,7 @@ interface TextTagOptions {
 // evidenceDisplayEnum won't work with. toggle showLabel off
 // for a little mini-tag w/ just the icon.
 // If showIcon is a string, that string will be provided to icon's nzType
-interface EnumTagOptions {
-}
+interface EnumTagOptions {}
 
 interface TagOptions {
   tag?: {

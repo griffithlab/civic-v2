@@ -238,6 +238,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '95px',
         context: 'evidenceItem',
         fixedLeft: true,
+        showStatus: true,
         tag: {
           fullWidth: true,
         },
@@ -317,7 +318,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'enum-tag',
         width: '40px',
         align: 'center',
-        fixedRight: true,
         sort: {},
         filter: {
           options: this.getAttributeFilters($enum(TherapyInteraction)),

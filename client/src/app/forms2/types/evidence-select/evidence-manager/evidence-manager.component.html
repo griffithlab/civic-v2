@@ -229,10 +229,11 @@
                 [nzAlign]="entityTagCol.align ?? 'left'"
                 [nzLeft]="entityTagCol.fixedLeft || false"
                 [nzRight]="entityTagCol.fixedRight || false">
-                <!-- set any provided context as colKey, else use col.key -->
+                <!-- set a context, if provided, as colKey, else use col.key -->
                 <ng-container
                   *ngIf="entityTagCol.context || entityTagCol.key as colKey">
                   <ng-container *ngIf="row[colKey]; else emptyValue">
+
                     <!-- if value array, display w/ tag list template, else single tag -->
                     <ng-container
                       *ngTemplateOutlet="
@@ -278,6 +279,7 @@
                         [cvcTruncateLabel]="config.tag?.truncateLabel"
                         [cvcCacheId]="data.__typename + ':' + data.id"
                         [cvcEmphasize]="filter"
+                        [cvcStatus]="config.showStatus === true ? data.status : undefined"
                         [cvcFullWidth]="
                           config.tag?.fullWidth ?? false
                         "></cvc-entity-tag>
