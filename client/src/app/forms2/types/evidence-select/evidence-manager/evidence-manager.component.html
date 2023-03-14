@@ -185,12 +185,8 @@
                 <div class="ant-table-filter-dropdown">
                   <div class="custom-input-dropdown">
                     <cvc-table-filter-input
-                      [cvcPlaceholder]="
-                        textTagCol.filter.options[0].key
-                      "
-                      [cvcModel]="
-                        textTagCol.filter.options[0].value
-                      "
+                      [cvcPlaceholder]="textTagCol.filter.options[0].key"
+                      [cvcModel]="textTagCol.filter.options[0].value"
                       (cvcModelChange)="
                         textTagCol.filter.changes!.next({
                           key: textTagCol.key,
@@ -244,7 +240,8 @@
                         context: {
                           $implicit: row[colKey],
                           config: entityTagCol,
-                          filter: (entityTagCol.filter.changes | ngrxPush)?.value
+                          filter: (entityTagCol.filter.changes | ngrxPush)
+                            ?.value
                         }
                       ">
                     </ng-container>
@@ -299,11 +296,8 @@
                   *ngIf="row[enumTagCell.key]; else emptyValue"
                   [cvcFullWidth]="true"
                   [cvcAttrValue]="row[enumTagCell.key]"
-                  [cvcShowLabel]="enumTagCell.tag?.showLabel ?? false"
-                  [cvcShowIcon]="enumTagCell.tag?.showIcon ?? true"
-                  [cvcTooltip]="
-                    row[enumTagCell.key] | evidenceEnumDisplay
-                  "></cvc-attribute-tag>
+                  [cvcTooltip]="row[enumTagCell.key] | evidenceEnumDisplay"
+                  cvcContext="compact"></cvc-attribute-tag>
               </td>
 
               <!-- TEXT TAG CELL -->

@@ -39,7 +39,7 @@ export class EvidenceEnumDisplayPipe implements PipeTransform {
     }
     if (context === 'icon-name') {
       if (typeof value === 'number') {
-        return `star` // numbers will be evidence ratings
+        return `civic-rating${value}` // numbers will be evidence ratings
       } else if (value.length === 1) {
         // single char strings are evidence levels
         return `civic-level${value.toLowerCase()}`
