@@ -3,7 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChange,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
@@ -17,15 +20,20 @@ import { Maybe } from '@app/generated/civic.apollo'
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.full-width]': `cvcFullWidth === true`,
-  }
+  },
 })
-export class CvcAttributeTagComponent {
+export class CvcAttributeTagComponent implements OnChanges {
   @Input() cvcAttrValue: Maybe<CvcInputEnum>
   @Input() cvcShowLabel: boolean | EnumOutputStyle = 'display-string'
   @Input() cvcShowIcon: boolean | string = true
+  @Input() cvcZoomIcon: boolean = false
   @Input() cvcTooltip?: string
-  @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' | 'menu-item' =
-    'default'
+  @Input() cvcContext:
+    | 'default'
+    | 'select-item'
+    | 'multi-select-item'
+    | 'menu-item'
+    | 'compact' = 'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
   @Input() cvcChecked: boolean = false
   @Input() cvcEmphasize?: string
@@ -34,8 +42,18 @@ export class CvcAttributeTagComponent {
   @Input() cvcIconTheme: 'outline' | 'fill' | 'twotone' = 'outline'
   @Input() cvcFullWidth: boolean = false
 
-  @Output() cvcOnClose: EventEmitter<MouseEvent>
-  constructor() {
-    this.cvcOnClose = new EventEmitter<MouseEvent>()
+  @Output() cvcOnClose: EventEmitter<MouseEvent> =
+    new EventEmitter<MouseEvent>()
+  constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cvcContext) {
+      switch (changes.cvcContext.currentValue) {
+        case 'compact':
+          this.cvcShowIcon = true
+          this.cvcShowLabel = false
+          this.cvcZoomIcon = true
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-@import 'themes/global-variables.less';
+@import 'themes/default.less';
 
 :host {
   &.full-width {
@@ -53,15 +53,22 @@
 .menu-item {
   .default();
   nz-tag {
-    border: 1px solid red;
-    .tag-icon {
-        color: @text-color-inverse;
-    }
-    &-checked {
-      border: 1px solid red;
-      .tag-icon {
-        color: @text-color-inverse;
+    // border: @border-width-base @border-style-base @border-color-base;
+    background-color: white;
+    &.ant-tag-checkable {
+      border: @border-width-base @border-style-base @border-color-base;
+      &:active {
+        background-color: @primary-1;
       }
+    }
+    &:not(&.ant-tag-checkable-checked):hover {
+      color: @text-color;
+      border-color: @primary-6;
+    }
+    &.ant-tag-checkable-checked {
+      border: transparent;
+      background-color: #ffffff;
+      color: @text-color;
     }
   }
 }

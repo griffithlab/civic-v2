@@ -40,8 +40,19 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   </nz-tag>
 </span>
 
+<!-- compact context only shows the icon, currently used in table cells -->
+<span
+  *ngIf="cvcContext === 'compact'"
+  class="menu-item">
+  <nz-tag
+    [nzMode]="'default'"
+    [nzChecked]="cvcChecked">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
+
 <ng-template #tagContent>
-  <span
+  <i
     *ngIf="cvcAttrValue && cvcShowIcon"
     nz-icon
     [nzType]="
@@ -52,10 +63,10 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
     [nzTwotoneColor]="cvcIconColor"
     [nzTheme]="cvcIconTheme"
     [attr.style]="'color: ' + cvcIconColor"
+    class="tag-icon"
     [ngClass]="{
-      'tag-icon': cvcShowLabel === true,
-      'tag-icon-large': cvcShowLabel === undefined || cvcShowLabel === false
-    }"></span>
+      'tag-icon-large': cvcZoomIcon === true
+    }"></i>
   <span
     *ngIf="cvcShowLabel"
     class="tag-label"
