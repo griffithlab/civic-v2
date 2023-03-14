@@ -138,6 +138,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   // virtual scroll rows degrades performance
   isScrolling = false
 
+  // used in getSortColFromColKey, seems like it shouldn't be necessary but I
+  // was trying to avoid <any>s
   columnKeyToSortColumnMap: {
     [key in EvidenceManagerColKey]?: EvidenceSortColumns
   } = {
@@ -258,6 +260,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         },
         filter: {
           inputType: 'default',
+          typename: 'MolecularProfile',
           options: [
             {
               key: 'Filter Therapy Names',
@@ -477,9 +480,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // event that ends up here. The debounceTime operator ensures that only one
     // event makes it through to emit a query.
     merge(refetch$, fetchMore$)
-      .pipe(debounceTime(50),
-            // tag('>>>>> QUERY'),
-            untilDestroyed(this))
+      .pipe(
+        debounceTime(50),
+        // tag('>>>>> QUERY'),
+        untilDestroyed(this)
+      )
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
@@ -572,7 +577,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             selected: selected.has(row.id),
           }
         })
-      }),
+      })
       // tag('row$')
     )
 
@@ -610,14 +615,29 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         // we need to get its name value from the cache to populate the input
         if (hasInputFilterOptions(col)) {
           const currentOption = col.filter.options[0]
+          // if filter value null reset input filter
           if (filter.value === null) {
             col.filter.options = [{ ...currentOption, value: null }]
             col.filter.changes!.next(filter)
             return
+          } else if (Array.isArray(filter.value) && filter.value.length === 0) {
+            col.filter.options = [{ ...currentOption, value: null }]
+            col.filter.changes!.next({...filter, value: null})
+            return
           }
-          const id = filter.value
+
+          let id: Maybe<number>
+
+          // if this is an array of ids, just take the 1st one
+          if (Array.isArray(filter.value)) {
+            if (filter.value.length > 0) {
+              id = filter.value[0]
+            }
+          } else {
+            id = filter.value
+          }
           const typename = col.filter.typename
-          if (!typename) {
+          if (!typename || !id) {
             console.error(
               `evidence-manager requires column config '${col.key}' provide a typename for cvcTablePrefs Input to set its filter`
             )

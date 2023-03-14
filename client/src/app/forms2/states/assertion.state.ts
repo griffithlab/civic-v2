@@ -5,8 +5,10 @@ import {
   Maybe,
   TherapyInteraction,
 } from '@app/generated/civic.apollo'
+import { untilDestroyed } from '@ngneat/until-destroy'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import { CvcInputEnum } from '../forms2.types'
 import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
 import { BaseState, EntityName } from './base.state'
@@ -29,9 +31,14 @@ class AssertionState extends BaseState {
       significance$: new BehaviorSubject<Maybe<AssertionSignificance>>(
         def.significance
       ),
+      molecularProfileId$: new BehaviorSubject<Maybe<number>>(
+        def.molecularProfileId
+      ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
-      therapyId$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
-      therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(def.therapyInteractionType),
+      therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
+      therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(
+        def.therapyInteractionType
+      ),
     }
 
     this.enums = {
@@ -64,35 +71,50 @@ class AssertionState extends BaseState {
       requiresAmpLevel$: new BehaviorSubject<boolean>(false),
       allowsFdaApproval$: new BehaviorSubject<boolean>(false),
     }
+
     // ASSERTION TYPE SUBSCRIBERS
     // TODO: determine best way to cleanup & unsubscribe from these subscriptions
-    this.fields.assertionType$.subscribe((at: Maybe<AssertionType>) => {
-      if (!at) {
-        // set all 'requires' fields to false, non-type enums to []
-        Object.entries(this.requires).forEach(([key, value]) => {
-          value.next(false)
-        })
-        this.enums.significance$.next([])
-        this.enums.direction$.next([])
-        return
-      }
+    this.fields.assertionType$
+      .pipe(untilDestroyed(this, 'onDestroy'))
+      .subscribe((at: Maybe<AssertionType>) => {
+        if (!at) {
+          // set all 'requires' fields to false, non-type enums to []
+          Object.entries(this.requires).forEach(([key, value]) => {
+            value.next(false)
+          })
+          this.enums.significance$.next([])
+          this.enums.direction$.next([])
+          return
+        }
 
-      const significanceEnums = this.getSignificanceOptions(at)
-      this.enums.significance$.next(significanceEnums)
-      this.options.significanceOption$.next(
-        this.getOptionsFromEnums(this.getSignificanceOptions(at))
-      )
-      const directionEnums = this.getDirectionOptions(at)
-      this.enums.direction$.next(directionEnums)
-      this.options.directionOption$.next(
-        this.getOptionsFromEnums(this.getDirectionOptions(at))
-      )
-      this.requires.requiresDisease$.next(this.requiresDisease(at))
-      this.requires.requiresTherapy$.next(this.requiresTherapy(at))
-      this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
-      this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
-      this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
-    })
+        const significanceEnums = this.getSignificanceOptions(at)
+        this.enums.significance$.next(significanceEnums)
+        this.options.significanceOption$.next(
+          this.getOptionsFromEnums(this.getSignificanceOptions(at))
+        )
+        const directionEnums = this.getDirectionOptions(at)
+        this.enums.direction$.next(directionEnums)
+        this.options.directionOption$.next(
+          this.getOptionsFromEnums(this.getDirectionOptions(at))
+        )
+        this.requires.requiresDisease$.next(this.requiresDisease(at))
+        this.requires.requiresTherapy$.next(this.requiresTherapy(at))
+        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
+        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
+        this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
+      })
+
+    // handle requiresTherapyInteractionType
+    this.fields.therapyIds$
+      .pipe(
+        untilDestroyed(this, 'onDestroy'))
+      .subscribe((ids: Maybe<number[]>) => {
+        if (ids === undefined || ids === null) {
+          this.requires.requiresTherapyInteraction$.next(false)
+        } else {
+          this.requires.requiresTherapyInteraction$.next(ids.length > 1)
+        }
+      })
 
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,

@@ -40,6 +40,7 @@ import {
   of,
   ReplaySubject,
   scan,
+  shareReplay,
   startWith,
   Subject,
   switchMap,
@@ -148,9 +149,6 @@ export class CvcEvidenceSelectField
   // 'id' (EID)). Instead, entity columns are filtered by their entity name. Therefore
   // the manager will use the provided entity ids to fetch their entity names
   // from the cache, and set the column filter to that name.
-  // FIXME: currently using these assertion form fields, however a
-  // more generic solution will be required for this field to be used
-  // in other forms for different field/column mappings.
   synchronizedFieldToColMap = new Map<
     keyof AssertionFields,
     keyof Omit<EvidenceManagerRowData, 'id' | 'status'>
@@ -168,6 +166,7 @@ export class CvcEvidenceSelectField
   requiredFieldToColMap = new Map<keyof EvidenceManagerRowData, string>([
     ['disease', 'requiresDisease$'],
     ['therapies', 'requiresTherapy$'],
+    // ['therapyInteractionType', 'requiresTherapyInteractionType$'],
   ])
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
@@ -226,14 +225,14 @@ export class CvcEvidenceSelectField
     // for each synchronized field specified, find its state.field stream,
     // add it to the synchronized fields array
     this.synchronizedFieldToColMap.forEach((column, field) => {
-      // console.log(f,c)
+      // console.log('column', column, 'field', field)
       const stream = this.state!.fields[`${field}$`]
       if (!stream) return
       this.synchronizedFields$.push(
         stream.pipe(
-          switchMap((v) => {
-            return of({ key: field, value: v ?? null })
-          }),
+          map((v) => {
+            return { key: field, value: v ?? null }
+          })
           // tag(`synchronizedFields$ ${field} stream`)
         )
       )
@@ -242,14 +241,15 @@ export class CvcEvidenceSelectField
     // for each synchronized field specified, find its state.requires stream,
     // add it to the synchronized synchronizedRequired array
     this.requiredFieldToColMap.forEach((requires, field) => {
+      console.log('requires', requires, 'field', field)
       const stream = this.state!.requires[requires]
       if (!stream) return
       this.synchronizedRequired$.push(
         stream.pipe(
-          switchMap((v) => {
-            return of({ key: field, required: v })
+          map((v) => {
+            return { key: field, required: v }
           }),
-          // tag(`synchronizedRequired$ ${field} stream`)
+          tag(`synchronizedRequired$ ${field} stream`)
         )
       )
     })
@@ -268,7 +268,7 @@ export class CvcEvidenceSelectField
           }
         })
         return newFilters
-      }),
+      })
       // tag('onFieldsChange$')
     )
 
@@ -284,7 +284,7 @@ export class CvcEvidenceSelectField
         })
         return newPrefs
       }),
-      // tag('onRequiredsChange$')
+      tag(`onRequiredChange$ stream`)
     )
 
     this.tableSettingsChange$ = combineLatest([
@@ -296,6 +296,8 @@ export class CvcEvidenceSelectField
       }),
       waitUntil(this.state.formReady$),
       debounceTime(100),
+      tag('tableSettingsChange$'),
+      shareReplay(1)
     )
   }
 

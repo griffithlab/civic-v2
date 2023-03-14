@@ -2,6 +2,7 @@ import { assertionSubmitFormInitialModel } from '@app/forms2/models/assertion-su
 import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
 import { CvcGeneSelectFieldConfig } from '@app/forms2/types/gene-select/gene-select.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms2/types/interaction-select/interaction-select.type'
+import { CvcMolecularProfileSelectFieldOptions } from '@app/forms2/types/molecular-profile-select/molecular-profile-select.type'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms2/types/org-submit-button/org-submit-button.type'
 import { CvcSignificanceSelectFieldOptions } from '@app/forms2/types/significance-select/significance-select.type'
 import { CvcTherapySelectFieldConfig } from '@app/forms2/types/therapy-select/therapy-select.type'
@@ -17,7 +18,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Assertion',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -44,6 +45,13 @@ const formFieldConfig: FormlyFieldConfig[] = [
               }
             },
           },
+          <CvcMolecularProfileSelectFieldOptions>{
+            key: 'molecularProfileId',
+            type: 'molecular-profile-select',
+            props: {
+              required: true,
+            },
+          },
           <CvcSignificanceSelectFieldOptions>{
             key: 'significance',
             type: 'significance-select',
@@ -57,8 +65,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {},
           },
           <CvcTherapySelectFieldConfig>{
-            key: 'therapyId',
-            type: 'therapy-select',
+            key: 'therapyIds',
+            type: 'therapy-multi-select',
             props: {
               required: true,
             },
