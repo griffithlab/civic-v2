@@ -20,11 +20,9 @@ export class CvcEntityCollectionTagComponent {
 
   config?: CvcEntityTagListConfig
   entities: LinkableEntity[]
-  hiddenEntities: LinkableEntity[]
 
   constructor() {
     this.entities = []
-    this.hiddenEntities = []
   }
 
   setEntities(entities: LinkableEntity[]) {
@@ -34,10 +32,6 @@ export class CvcEntityCollectionTagComponent {
       this.entities = []
       return
     }
-    if(max === 0) {
-      this.hiddenEntities = []
-    }
-    this.entities = entities.slice(0, max)
-    this.hiddenEntities = entities.slice(max, entities.length)
+    this.entities = entities
   }
 }

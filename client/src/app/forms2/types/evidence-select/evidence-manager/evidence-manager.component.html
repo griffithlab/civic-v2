@@ -264,32 +264,40 @@
                   let-config="config"
                   let-emphasize="emphasize">
                   <ng-container *ngIf="data.length > 0; else emptyValue">
+                    <!-- display full size tags up to maxTags length -->
                     <cvc-entity-tag-list
                       [cvcTagTemplate]="entityTag"
                       [cvcTagListConfig]="{
-                        tagList: data,
+                        tagList: data.slice(0, config.tag.maxTags),
                         tag: config.tag,
                         showPopover: !isScrolling,
                         status:
                           config.showStatus === true ? data.status : undefined,
                         emphasize: emphasize
                       }">
-                      <!-- <ng-container *ngFor="let entity of data">
-                                            <ng-container
-                                              *ngTemplateOutlet="
-                                                entityTag;
-                                                context: {
-                                                  $implicit: entity,
-                                                  config: config,
-                                                  emphasize: emphasize
-                                                }
-                                              "></ng-container>
-                                          </ng-container> -->
                     </cvc-entity-tag-list>
+
+                    <!-- display any additional entities in entity-collection tag -->
+                    <ng-container
+                      *ngIf="data.slice(config.tag.maxTags, data.length).length > 0">
+                      <cvc-entity-collection-tag
+                        [cvcCollectionTagConfig]="{
+                          tagList: data.slice(config.tag.maxTags, data.length),
+                          tag: config.tag,
+                          showPopover: !isScrolling,
+                          status:
+                            config.showStatus === true
+                              ? data.status
+                              : undefined,
+                          emphasize: emphasize
+                        }"
+                        [cvcTagTemplate]="entityTag"
+                        [cvcShowCountMax]="1"></cvc-entity-collection-tag>
+                    </ng-container>
                   </ng-container>
                 </ng-template>
 
-                <!-- single entity tag template -->
+                <!-- entity tag template -->
                 <ng-template
                   #entityTag
                   let-data

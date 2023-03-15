@@ -10,21 +10,3 @@
       }
     "></ng-container>
 </ng-container>
-
-<!-- show entity collection tag if config prepared -->
-<ng-container *ngIf="tagCollectionConfig !== undefined">
-  <cvc-entity-collection-tag
-    [cvcCollectionTagConfig]="tagCollectionConfig"
-    [cvcTagTemplate]="cvcTagTemplate"
-    [cvcShowCountMax]="1"></cvc-entity-collection-tag>
-</ng-container>
-
-<span
-  nz-icon
-  nzType="bug"
-  nz-tooltip
-  [nzTooltipTitle]="debugTmpl">
-  <ng-template #debugTmpl>
-    <pre>{{ tagCollectionConfig | json }}</pre>
-  </ng-template></span
->

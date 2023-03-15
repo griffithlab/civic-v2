@@ -32,14 +32,14 @@
         class="entity-count"
         nz-typography
         nzType="secondary">
-        <strong>{{ hiddenEntities.length }}</strong>
+        <strong>{{ entities.length }}</strong>
       </span>
       <span
         class="entity-icon"
         nz-icon
-        [nzType]="hiddenEntities[0].__typename | typenameToIcon"
+        [nzType]="entities[0].__typename | typenameToIcon"
         nzTheme="twotone"
-        [nzTwotoneColor]="hiddenEntities[0].__typename | entityColor"></span>
+        [nzTwotoneColor]="entities[0].__typename | entityColor"></span>
     </nz-tag>
   </ng-template>
 </div>
