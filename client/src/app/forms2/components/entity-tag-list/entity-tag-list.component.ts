@@ -1,4 +1,9 @@
-import { Component, Input, TemplateRef } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+} from '@angular/core'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
@@ -29,10 +34,11 @@ export interface CvcEntityTagListContext {
   selector: 'cvc-entity-tag-list',
   templateUrl: './entity-tag-list.component.html',
   styleUrls: ['./entity-tag-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntityTagListComponent {
   @Input() set cvcTagListConfig(config: CvcEntityTagListConfig) {
-    if(!config || !config.tagList || !config.tag) return
+    if (!config || !config.tagList || !config.tag) return
     this.config = config
     this.setEntities(config.tagList, config.tag)
   }
@@ -40,12 +46,11 @@ export class EntityTagListComponent {
   @Input() cvcShowCountMax: number = 5
 
   config?: CvcEntityTagListConfig
+  tagCollectionConfig?: CvcEntityTagListConfig
   entities: LinkableEntity[]
-  hiddenEntities: LinkableEntity[]
 
   constructor() {
     this.entities = []
-    this.hiddenEntities = []
   }
 
   setEntities(entities: LinkableEntity[], context: CvcEntityTagListContext) {
@@ -59,11 +64,17 @@ export class EntityTagListComponent {
     const length = entities.length
     if (!entities || length === 0 || max === 0) {
       this.entities = []
-      this.hiddenEntities = []
       return
     }
     this.entities = entities.slice(0, max)
-    this.hiddenEntities = entities.slice(max, entities.length)
+    const overflow = entities.slice(max, entities.length)
+    if (overflow.length > 0) {
+      this.tagCollectionConfig = {
+        ...this.config,
+        tagList: entities.slice(max, entities.length),
+        tag: context,
+      }
+    }
   }
   // ngOnChanges(changes: SimpleChanges) {
   //   // watching cvcTemplateContext Input here to kick off entity list init,

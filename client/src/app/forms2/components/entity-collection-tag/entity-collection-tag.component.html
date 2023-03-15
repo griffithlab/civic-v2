@@ -1,0 +1,45 @@
+<!-- display icon for each hidden entity if entity count < cvcShowCountMax -->
+<div
+  class="entity-icon-group"
+  *ngIf="config !== undefined">
+  <nz-tag>
+    <span
+      class="plus-sign"
+      nz-typography
+      nzType="secondary">
+      <strong>+</strong>
+    </span>
+    <span
+      *ngFor="let entity of entities"
+      class="entity-icon"
+      nz-icon
+      [nzType]="entity.__typename | typenameToIcon"
+      nzTheme="twotone"
+      [nzTwotoneColor]="entity.__typename | entityColor"></span>
+  </nz-tag>
+
+  <!-- show entity count if hidden entity count > cvcShowCountMax -->
+  <ng-template #showCount>
+    <nz-tag *ngSwitchCase="false">
+      <!-- plus icon -->
+      <span
+        class="plus-sign"
+        nz-typography
+        nzType="secondary">
+        <strong>+</strong>
+      </span>
+      <span
+        class="entity-count"
+        nz-typography
+        nzType="secondary">
+        <strong>{{ hiddenEntities.length }}</strong>
+      </span>
+      <span
+        class="entity-icon"
+        nz-icon
+        [nzType]="hiddenEntities[0].__typename | typenameToIcon"
+        nzTheme="twotone"
+        [nzTwotoneColor]="hiddenEntities[0].__typename | entityColor"></span>
+    </nz-tag>
+  </ng-template>
+</div>
