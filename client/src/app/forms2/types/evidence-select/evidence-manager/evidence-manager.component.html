@@ -285,8 +285,9 @@
                       let-filter="filter">
                       <cvc-entity-tag
                         [cvcTruncateLabel]="config.tag?.truncateLabel"
-                        [cvcCacheId]="data.__typename + ':' + data.id"
+                        [cvcLinkableEntity]="data"
                         [cvcEmphasize]="filter"
+                        [cvcShowPopover]="!isScrolling"
                         [cvcStatus]="
                           config.showStatus === true ? data.status : undefined
                         "
@@ -308,7 +309,7 @@
                   *ngIf="row[enumTagCell.key]; else emptyValue"
                   [cvcFullWidth]="true"
                   [cvcAttrValue]="row[enumTagCell.key]"
-                  [cvcTooltip]="row[enumTagCell.key] | evidenceEnumDisplay"
+                  [cvcTooltip]="!isScrolling && row[enumTagCell.key] | evidenceEnumDisplay"
                   cvcContext="compact"></cvc-attribute-tag>
               </td>
 

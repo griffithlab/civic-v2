@@ -7,18 +7,31 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core'
-import { EvidenceStatus, FlagState, Maybe, RevisionStatus } from '@app/generated/civic.apollo'
+import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
+import {
+  EvidenceStatus,
+  FlagState,
+  Maybe,
+  RevisionStatus,
+} from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import {
   EntityTagPopoverInput,
   EntityTagTypeWithPopover,
   ENTITY_TAG_TYPES_WITH_POPOVER,
 } from '../entity-tag-popover/entity-tag-popover.component'
-export interface LinkableEntity {
+
+export type LinkableEntity = {
+  __typename: string
   id: number
   name: string
   link?: string
 }
+
+export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
+  entity: any
+): entity is LinkableEntity =>
+  entity !== undefined && entity.__typename && entity.id && entity.name
 
 export type CvcTagLabelMax =
   | '50px'
@@ -66,14 +79,15 @@ export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
   },
 })
 export class CvcEntityTagComponent implements OnChanges {
-  _cacheId: string = ''
+  @Input()
+  set cvcLinkableEntity(entity: Maybe<LinkableEntity>) {
+    if (!entity) return
+    this.setLinkableEntity(entity)
+  }
   @Input()
   set cvcCacheId(cacheId: string) {
     if (!cacheId) return
-    this.setLinkableEntity(cacheId)
-  }
-  get cvcCacheId(): string {
-    return this._cacheId
+    this.setCachedLinkableEntity(cacheId)
   }
   @Input() cvcStatus: Maybe<CvcEntityTagStatus>
   @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =
@@ -83,6 +97,7 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcDisableLink: boolean = false
   @Input() cvcTagChecked: boolean = false
   @Input() cvcFullWidth: boolean = false
+  @Input() cvcShowPopover: boolean = false
   @Input() cvcTruncateLabel?: CvcTagLabelMax
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
@@ -103,14 +118,18 @@ export class CvcEntityTagComponent implements OnChanges {
     return ENTITY_TAG_TYPES_WITH_POPOVER.includes(entityType)
   }
 
-  private setLinkableEntity(cacheId: string) {
-    this._cacheId = cacheId
+  private setLinkableEntity(entity: LinkableEntity): void {
+    if (!isLinkableEntity(entity)) return
+    this.typename = entity.__typename
+    this.id = entity.id
+    this.entity = entity
+    this.setPopoverInput(entity)
+  }
+
+  private setCachedLinkableEntity(cacheId: string): void {
     const [typename, id] = cacheId.split(':')
     this.typename = typename
     this.id = +id
-    if (this.hasPopover(this.typename)) {
-      this.popoverInput = { entityId: this.id, entityType: this.typename }
-    }
     if (!this.typename || !this.id) {
       console.error(
         `entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`
@@ -128,14 +147,22 @@ export class CvcEntityTagComponent implements OnChanges {
         }
       `,
     }
-    const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
-    if (!entity) {
+    const entity = this.apollo.client.readFragment(fragment)
+    if (!isLinkableEntity(entity)) {
       console.error(`entity-tag could not find cached entity ${cacheId}`)
       return
     }
+    this.setPopoverInput(entity)
     this.entity = entity
   }
 
+  private setPopoverInput(entity: LinkableEntity) {
+    if (isLinkableEntity(entity) && this.hasPopover(entity.__typename)) {
+      this.popoverInput = { entityId: entity.id, entityType: entity.__typename }
+    }
+  }
+
+  // ngOnChanges(changes: SimpleChanges): void {
   ngOnChanges(changes: SimpleChanges): void {
     // disable link for checkable mode
     if (changes.cvcMode) {

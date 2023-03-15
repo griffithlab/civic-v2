@@ -7,7 +7,14 @@
     [nzChecked]="cvcTagChecked"
     (nzCheckedChange)="(cvcTagCheckedChange)"
     (nzOnClose)="cvcOnClose.next($event)">
-    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    <span
+      nz-popover
+      nzPopoverTrigger="hover"
+      [nzPopoverContent]="
+        cvcShowPopover && this.popoverInput ? popoverContent : undefined
+      ">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </span>
   </nz-tag>
 </span>
 
@@ -28,8 +35,9 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   </nz-tag>
 </span>
 
-<!-- in multi-select item form context, tag is being displayed in a multi-mode nz-select,
-so only display the tag contents as it will be wrapped in nz-select's pseudo-tag styles & close btn -->
+<!-- in multi-select item form context, tag is being displayed in a multi-mode
+nz-select, so display only the tag contents as it will be wrapped in nz-select's
+pseudo-tag styles & close btn -->
 <span
   *ngIf="cvcContext === 'multi-select-item'"
   class="multi-select-item">
@@ -41,10 +49,7 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
   </span>
 </span>
 
-<ng-template #popoverContent>
-  <cvc-entity-tag-popover *ngIf="this.popoverInput" [entity]="this.popoverInput"></cvc-entity-tag-popover>
-</ng-template>
-
+<!-- tag contents, just the tag icon and label, used by the context templates above-->
 <ng-template #tagContent>
   <ng-container *ngIf="entity; else cacheMiss">
     <span *ngIf="cvcDisableLink">
@@ -69,6 +74,7 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
     </ng-template>
   </ng-container>
 
+  <!-- displayed if cache id query fails -->
   <ng-template #cacheMiss>
     <ng-template [ngTemplateOutlet]="noIcon"></ng-template>
     CACHE-MISS ({{ cvcCacheId }})
@@ -80,4 +86,10 @@ so only display the tag contents as it will be wrapped in nz-select's pseudo-tag
       nzType="question-circle"
       nzTheme="outline"></span>
   </ng-template>
+</ng-template>
+
+<ng-template #popoverContent>
+  <cvc-entity-tag-popover
+    *ngIf="this.popoverInput"
+    [entity]="this.popoverInput"></cvc-entity-tag-popover>
 </ng-template>
