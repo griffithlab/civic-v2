@@ -1,15 +1,15 @@
-<!-- by default, display tag content within its own nz-tag -->
+<!-- by default, display tag content within its own nz-tag. Supports most nz-tag
+features, more precise control than using cvcContext -->
 <span
   *ngIf="cvcContext === 'default'"
   class="default">
   <nz-tag
     [nzMode]="cvcMode"
+    nz-tooltip
+    [nzTooltipTitle]="cvcTooltip"
+    [nzChecked]="cvcChecked"
     (nzOnClose)="cvcOnClose.next($event)">
-    <span
-      nz-tooltip
-      [nzTooltipTitle]="cvcTooltip">
-      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-    </span>
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </nz-tag>
 </span>
 
@@ -32,21 +32,18 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <nz-tag
     [nzMode]="'closeable'"
     (nzOnClose)="cvcOnClose.next($event)">
-    <span
-      nz-tooltip
-      [nzTooltipTitle]="cvcTooltip">
-      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-    </span>
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </nz-tag>
 </span>
 
 <!-- compact context only shows the icon, currently used in table cells -->
 <span
   *ngIf="cvcContext === 'compact'"
-  class="menu-item">
+  class="compact">
   <nz-tag
     [nzMode]="'default'"
-    [nzChecked]="cvcChecked">
+    nz-tooltip
+    [nzTooltipTitle]="cvcTooltip">
     <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </nz-tag>
 </span>

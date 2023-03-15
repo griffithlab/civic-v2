@@ -55,5 +55,8 @@ export class CvcAttributeTagComponent implements OnChanges {
           this.cvcZoomIcon = true
       }
     }
+    if(changes.cvcTooltip) {
+      console.log(changes.cvcTooltip.currentValue)
+    }
   }
 }

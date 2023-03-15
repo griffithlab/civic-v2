@@ -51,7 +51,12 @@
                   value: $event
                 })
               ">
-              {{ entityTagCol.label }}
+              <span
+                class="col-header-label"
+                nz-tooltip
+                [nzTooltipTitle]="entityTagCol.tooltip">
+                {{ entityTagCol.label }}
+              </span>
             </th>
 
             <!-- ENUM TAG HEADER -->
@@ -61,7 +66,9 @@
               [nzAlign]="enumTagCol.align ?? 'left'"
               [nzWidth]="enumTagCol.width"
               [nzLeft]="enumTagCol.fixedLeft || false"
-              [nzRight]="enumTagCol.fixedRight || false">
+              [nzRight]="enumTagCol.fixedRight || false"
+              nz-tooltip
+              [nzTooltipTitle]="enumTagCol.tooltip">
               {{ enumTagCol.label }}
             </th>
 
@@ -72,7 +79,9 @@
               [nzAlign]="textTagCol.align ?? 'left'"
               [nzWidth]="textTagCol.width"
               [nzLeft]="textTagCol.fixedLeft || false"
-              [nzRight]="textTagCol.fixedRight || false">
+              [nzRight]="textTagCol.fixedRight || false"
+              nz-tooltip
+              [nzTooltipTitle]="textTagCol.tooltip">
               {{ textTagCol.label }}
             </th>
           </ng-container>
@@ -233,7 +242,6 @@
                 <ng-container
                   *ngIf="entityTagCol.context || entityTagCol.key as colKey">
                   <ng-container *ngIf="row[colKey]; else emptyValue">
-
                     <!-- if value array, display w/ tag list template, else single tag -->
                     <ng-container
                       *ngTemplateOutlet="
@@ -279,7 +287,9 @@
                         [cvcTruncateLabel]="config.tag?.truncateLabel"
                         [cvcCacheId]="data.__typename + ':' + data.id"
                         [cvcEmphasize]="filter"
-                        [cvcStatus]="config.showStatus === true ? data.status : undefined"
+                        [cvcStatus]="
+                          config.showStatus === true ? data.status : undefined
+                        "
                         [cvcFullWidth]="
                           config.tag?.fullWidth ?? false
                         "></cvc-entity-tag>
@@ -311,8 +321,8 @@
                 <!-- TODO: show filter text emphasized in tooltip text -->
                 <nz-tag
                   nz-tooltip
-                  style="width: 100%"
-                  [nzTooltipTitle]="row[textTagCol.key]">
+                  [nzTooltipTitle]="row[textTagCol.key]"
+                  style="width: 100%">
                   <span
                     nz-icon
                     nzType="align-left"
