@@ -43,7 +43,6 @@ export class EntityTagListComponent {
     this.setEntities(config.tagList, config.tag)
   }
   @Input() cvcTagTemplate!: TemplateRef<any>
-  @Input() cvcShowCountMax: number = 5
 
   config?: CvcEntityTagListConfig
   tagCollectionConfig?: CvcEntityTagListConfig
@@ -54,38 +53,12 @@ export class EntityTagListComponent {
   }
 
   setEntities(entities: LinkableEntity[], context: CvcEntityTagListContext) {
-    // console.log(
-    //   'entity-tag-list setEntities entities:',
-    //   entities,
-    //   'context',
-    //   context
-    // )
     const max = context.maxTags
     const length = entities.length
     if (!entities || length === 0 || max === 0) {
       this.entities = []
       return
     }
-    this.entities = entities.slice(0, max)
-    const overflow = entities.slice(max, entities.length)
-    if (overflow.length > 0) {
-      this.tagCollectionConfig = {
-        ...this.config,
-        tagList: entities.slice(max, entities.length),
-        tag: context,
-      }
-    }
+    this.entities = entities
   }
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // watching cvcTemplateContext Input here to kick off entity list init,
-  //   // since it is is reliably triggered on changes when rendered within
-  //   // cdkScrollable's *cdkVirtualFor
-  //   if (changes.cvcTemplateContext) {
-  //     console.log(
-  //       'entity-tag-list entity cacheIds:',
-  //       this.cvcLinkableEntities.map((e) => `${e.__typename}:${e.id}`)
-  //     )
-  //     this.setEntities(this.cvcLinkableEntities)
-  //   }
-  // }
 }

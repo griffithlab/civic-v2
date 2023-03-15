@@ -294,9 +294,8 @@
                               : undefined,
                           emphasize: emphasize
                         }"
-                        [cvcTagTemplate]="
-                          entityTag
-                        "></cvc-entity-collection-tag>
+                        [cvcTagTemplate]="entityTag"
+                        [cvcShowFullLabels]="true"></cvc-entity-collection-tag>
                     </ng-container>
                   </ng-container>
                 </ng-template>
@@ -361,7 +360,7 @@
                   *ngIf="row[textTagCol.key]; else emptyTextTagCell"
                   nz-tooltip
                   [nzTooltipTitle]="row[textTagCol.key]"
-                  style="width: 100%">
+                  style="width: 100%; cursor: help; color: #595959">
                   <span
                     nz-icon
                     nzType="align-left"
@@ -406,7 +405,7 @@
         " />
     </nz-input-group>
 
-    <!-- input suffic icon tpl - magnifying glass if unset, clear icon if set  -->
+    <!-- input suffix icon tpl - magnifying glass if unset, clear icon if set  -->
     <ng-template #suffixIcon>
       <span
         *ngIf="!filterInput.value"

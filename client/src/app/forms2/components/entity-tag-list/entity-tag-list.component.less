@@ -1,6 +1,11 @@
 @import 'themes/default.less';
 
 :host {
-  // display: inline-block;
+  display: inline-block;
+  margin-bottom: -4px; // adjusts bottom margin to account for extra tag-container bottom margin gap
 }
 
+.tag-container {
+  display: inline-block;
+  margin-bottom: 4px; // adds a gap between tag rows, if the list wraps
+}

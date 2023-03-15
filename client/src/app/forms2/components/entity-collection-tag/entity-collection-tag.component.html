@@ -1,4 +1,8 @@
-<nz-tag>
+<nz-tag
+  nz-popover
+  [nzPopoverContent]="tagListPopover"
+  nzPopoverPlacement="top"
+  nzPopoverTrigger="hover">
   <!-- plus icon -->
   <span
     class="plus-sign"
@@ -33,5 +37,23 @@
       nzTheme="twotone"
       [nzTwotoneColor]="entities[0].__typename | entityColor"></span>
   </ng-template>
-
 </nz-tag>
+
+<ng-template #tagListPopover>
+  <div class="popover-container">
+    <cvc-entity-tag-list
+      *ngIf="config; else noConfig"
+      [cvcTagTemplate]="cvcTagTemplate"
+      [cvcTagListConfig]="{
+        tagList: entities,
+        tag: config.tag,
+        showPopover: config.showPopover,
+        status: config.status,
+        emphasize: config.emphasize
+      }">
+    </cvc-entity-tag-list>
+  </div>
+  <ng-template #noConfig>
+    Invalid config specified for entity-tag-list.
+  </ng-template>
+</ng-template>

@@ -1,12 +1,14 @@
 <!-- show full tags for non-hidden entities -->
-<ng-container *ngFor="let entity of this.entities">
-  <ng-container
-    *ngTemplateOutlet="
-      cvcTagTemplate;
-      context: {
-        $implicit: entity,
-        config: config,
-        emphasize: config?.emphasize
-      }
-    "></ng-container>
+<ng-container *ngFor="let entity of entities">
+  <span class="tag-container">
+    <ng-container
+      *ngTemplateOutlet="
+        cvcTagTemplate;
+        context: {
+          $implicit: entity,
+          config: config,
+          emphasize: config?.emphasize
+        }
+      "></ng-container>
+  </span>
 </ng-container>
