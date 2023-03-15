@@ -2087,10 +2087,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@ngx-formly/ng-zorro-antd@^6.0.4":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-6.1.0.tgz#df0accf0326972d9f1463a086c0533df12c55835"
-  integrity sha512-9hoe1SUsYRUbRP72sR3XxwtvqZteDx98+Wg9pMYus7EFP4F5ApDYG8d9eHdugTx3o3BQAjTFP+fDHGcWKi5VQg==
+"@ngx-formly/ng-zorro-antd@^6.1.0":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-6.1.3.tgz#df398a07cd1f7a0731611cc0cfdca6b58e01e129"
+  integrity sha512-zqTEmxgRu2r3iroa4zhp3gci3yGVeIVR+E66bZLyr/fglDN+7d6ZwfRab3YU7jA0ufV5ZVtU7P5UeOiN63FqfQ==
   dependencies:
     tslib "^2.0.0"
 
@@ -2234,6 +2234,13 @@
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
+
+"@tinkoff/ng-polymorpheus@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@tinkoff/ng-polymorpheus/-/ng-polymorpheus-4.0.10.tgz#373fe145b8b82497e8f3e1972898c6cb03f8601b"
+  integrity sha512-BxHSwj9CertJ3qiamZ52NTpsKn81EZHjDwiph8mXiEeKXpuPaDn6e5wmTWdW8mYexLPtBsxmCRvZ9vapw4F1kA==
+  dependencies:
+    tslib "^2.0.0"
 
 "@tootallnate/once@2":
   version "2.0.0"

@@ -297,7 +297,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '250px',
         sort: {},
         tag: {
-          maxTags: 2,
+          maxTags: 1,
           truncateLabel: '150px',
         },
         filter: {

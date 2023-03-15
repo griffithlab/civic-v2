@@ -249,54 +249,64 @@
                         context: {
                           $implicit: row[colKey],
                           config: entityTagCol,
-                          filter: (entityTagCol.filter.changes | ngrxPush)
+                          emphasize: (entityTagCol.filter.changes | ngrxPush)
                             ?.value
                         }
                       ">
                     </ng-container>
-
-                    <!-- tag list -->
-                    <ng-template
-                      #entityTagList
-                      let-data
-                      let-config="config"
-                      let-filter="filter">
-                      <ng-container *ngIf="data.length > 0; else emptyValue">
-                        <!-- TODO: implement forms2 tag list component -->
-                        <ng-container *ngFor="let entity of data">
-                          <ng-container
-                            *ngTemplateOutlet="
-                              entityTag;
-                              context: {
-                                $implicit: entity,
-                                config: config,
-                                filter: filter
-                              }
-                            "></ng-container>
-                        </ng-container>
-                      </ng-container>
-                    </ng-template>
-
-                    <!-- single tag -->
-                    <ng-template
-                      #entityTag
-                      let-data
-                      let-config="config"
-                      let-filter="filter">
-                      <cvc-entity-tag
-                        [cvcTruncateLabel]="config.tag?.truncateLabel"
-                        [cvcLinkableEntity]="data"
-                        [cvcEmphasize]="filter"
-                        [cvcShowPopover]="!isScrolling"
-                        [cvcStatus]="
-                          config.showStatus === true ? data.status : undefined
-                        "
-                        [cvcFullWidth]="
-                          config.tag?.fullWidth ?? false
-                        "></cvc-entity-tag>
-                    </ng-template>
                   </ng-container>
                 </ng-container>
+
+                <!-- entity tag list template -->
+                <ng-template
+                  #entityTagList
+                  let-data
+                  let-config="config"
+                  let-emphasize="emphasize">
+                  <ng-container *ngIf="data.length > 0; else emptyValue">
+                    <cvc-entity-tag-list
+                      [cvcTagTemplate]="entityTag"
+                      [cvcTagListConfig]="{
+                        tagList: data,
+                        tag: config.tag,
+                        showPopover: !isScrolling,
+                        status:
+                          config.showStatus === true ? data.status : undefined,
+                        emphasize: emphasize
+                      }">
+                      <!-- <ng-container *ngFor="let entity of data">
+                                            <ng-container
+                                              *ngTemplateOutlet="
+                                                entityTag;
+                                                context: {
+                                                  $implicit: entity,
+                                                  config: config,
+                                                  emphasize: emphasize
+                                                }
+                                              "></ng-container>
+                                          </ng-container> -->
+                    </cvc-entity-tag-list>
+                  </ng-container>
+                </ng-template>
+
+                <!-- single entity tag template -->
+                <ng-template
+                  #entityTag
+                  let-data
+                  let-config="config"
+                  let-emphasize="emphasize">
+                  <cvc-entity-tag
+                    [cvcTruncateLabel]="config.tag?.truncateLabel"
+                    [cvcLinkableEntity]="data"
+                    [cvcEmphasize]="emphasize"
+                    [cvcShowPopover]="!isScrolling"
+                    [cvcStatus]="
+                      config.showStatus === true ? data.status : undefined
+                    "
+                    [cvcFullWidth]="
+                      config.tag?.fullWidth ?? false
+                    "></cvc-entity-tag>
+                </ng-template>
               </td>
 
               <!-- ENUM TAG CELL -->
@@ -309,7 +319,9 @@
                   *ngIf="row[enumTagCell.key]; else emptyValue"
                   [cvcFullWidth]="true"
                   [cvcAttrValue]="row[enumTagCell.key]"
-                  [cvcTooltip]="!isScrolling && row[enumTagCell.key] | evidenceEnumDisplay"
+                  [cvcTooltip]="
+                    !isScrolling && row[enumTagCell.key] | evidenceEnumDisplay
+                  "
                   cvcContext="compact"></cvc-attribute-tag>
               </td>
 

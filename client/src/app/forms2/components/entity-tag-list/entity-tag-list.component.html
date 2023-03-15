@@ -1,0 +1,62 @@
+<!-- show full tags for non-hidden entities -->
+<ng-container *ngFor="let entity of this.entities">
+  <ng-container
+    *ngTemplateOutlet="
+      cvcTagTemplate;
+      context: {
+        $implicit: entity,
+        config: config,
+        emphasize: config?.emphasize
+      }
+    "></ng-container>
+</ng-container>
+
+<!-- if hidden entities exist, show entity collection tag -->
+<ng-container *ngIf="hiddenEntities.length > 0">
+  <!-- display icon for each hidden entity if entity count < cvcShowCountMax -->
+  <div class="entity-icon-group">
+    <ng-container
+      *ngIf="hiddenEntities.length <= cvcShowCountMax; else showCount">
+      <nz-tag>
+        <span
+          class="plus-sign"
+          nz-typography
+          nzType="secondary">
+          <strong>+</strong>
+        </span>
+        <span
+          *ngFor="let entity of hiddenEntities"
+          class="entity-icon"
+          nz-icon
+          [nzType]="entity.__typename | typenameToIcon"
+          nzTheme="twotone"
+          [nzTwotoneColor]="entity.__typename | entityColor"></span>
+      </nz-tag>
+    </ng-container>
+
+    <!-- show entity count if hidden entity count > cvcShowCountMax -->
+    <ng-template #showCount>
+      <nz-tag *ngSwitchCase="false">
+        <!-- plus icon -->
+        <span
+          class="plus-sign"
+          nz-typography
+          nzType="secondary">
+          <strong>+</strong>
+        </span>
+        <span
+          class="entity-count"
+          nz-typography
+          nzType="secondary">
+          <strong>{{ hiddenEntities.length }}</strong>
+        </span>
+        <span
+          class="entity-icon"
+          nz-icon
+          [nzType]="hiddenEntities[0].__typename | typenameToIcon"
+          nzTheme="twotone"
+          [nzTwotoneColor]="hiddenEntities[0].__typename | entityColor"></span>
+      </nz-tag>
+    </ng-template>
+  </div>
+</ng-container>

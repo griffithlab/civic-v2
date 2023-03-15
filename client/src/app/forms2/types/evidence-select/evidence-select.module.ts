@@ -32,6 +32,7 @@ import {
 import { TableFilterInputComponent } from './evidence-manager/table-filter-input/table-filter-input.component';
 import { EnumFilterMenuComponent } from './evidence-manager/enum-filter-menu/enum-filter-menu.component'
 import { CvcEmptyValueModule } from '@app/forms2/components/empty-value/empty-value.module'
+import { CvcEntityTagListModule } from '@app/forms2/components/entity-tag-list/entity-tag-list.module'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -91,6 +92,7 @@ const typeConfig: ConfigOption = {
     CvcEntityTagModule,
     CvcAttributeTagModule,
     CvcEntitySelectModule,
+    CvcEntityTagListModule,
   ],
   exports: [CvcEvidenceSelectField],
 })
