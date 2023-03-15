@@ -68,7 +68,7 @@ class HgvsDescription < ActiveRecord::Base
       :insertion
     elsif variant.reference_bases.size == 1 && variant.variant_bases.size == 1
       :substitution
-    elsif variant.reference_bases.size > 1 && variant.variant_bases.size > 1
+    elsif variant.reference_bases.size >= 1 && variant.variant_bases.size >= 1
       :indel
     else
       nil
