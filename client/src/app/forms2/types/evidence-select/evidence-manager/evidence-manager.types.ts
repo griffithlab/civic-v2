@@ -2,6 +2,7 @@ import { TemplateRef } from '@angular/core'
 import { ApolloError } from '@apollo/client/core'
 import { EnumOutputStyle } from '@app/core/pipes/evidence-enum-display-type'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
+import { CvcEmptyValueCategory } from '@app/forms2/components/empty-value/empty-value.component'
 import { CvcTagLabelMax } from '@app/forms2/components/entity-tag/entity-tag.component'
 import {
   EvidenceItem,
@@ -87,6 +88,7 @@ interface BaseColumn {
   hidden?: boolean // toggle column visibilitiy
   context?: EvidenceManagerColKey // specify another row key as source for cell context data
   align?: 'left' | 'center' | 'right' | null // passed to th/td nzAlign
+  emptyValueCategory?: CvcEmptyValueCategory // passed to cvc-empty-value component
 }
 
 // implements nz-table filters

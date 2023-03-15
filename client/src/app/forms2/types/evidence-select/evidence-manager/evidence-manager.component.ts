@@ -49,7 +49,6 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
   colTypeGuards,
@@ -294,10 +293,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         key: 'therapies',
         label: 'Therapies',
         type: 'entity-tag',
-        width: '250px',
+        width: '275px',
         sort: {},
         tag: {
-          maxTags: 1,
+          maxTags: 2,
           truncateLabel: '150px',
         },
         filter: {
@@ -318,6 +317,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         type: 'enum-tag',
         width: '40px',
         align: 'center',
+        emptyValueCategory: 'not-applicable',
         sort: {},
         filter: {
           options: this.getAttributeFilters($enum(TherapyInteraction)),
@@ -331,6 +331,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         width: '40px',
         align: 'center',
         fixedRight: true,
+        emptyValueCategory: 'unspecified',
         filter: {
           inputType: 'default',
           options: [{ key: 'Search Descriptions', value: null }],
@@ -622,7 +623,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
             return
           } else if (Array.isArray(filter.value) && filter.value.length === 0) {
             col.filter.options = [{ ...currentOption, value: null }]
-            col.filter.changes!.next({...filter, value: null})
+            col.filter.changes!.next({ ...filter, value: null })
             return
           }
 

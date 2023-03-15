@@ -241,7 +241,7 @@
                 <!-- set a context, if provided, as colKey, else use col.key -->
                 <ng-container
                   *ngIf="entityTagCol.context || entityTagCol.key as colKey">
-                  <ng-container *ngIf="row[colKey]; else emptyValue">
+                  <ng-container *ngIf="row[colKey]; else emptyEntityTagCell">
                     <!-- if value array, display w/ tag list template, else single tag -->
                     <ng-container
                       *ngTemplateOutlet="
@@ -263,7 +263,8 @@
                   let-data
                   let-config="config"
                   let-emphasize="emphasize">
-                  <ng-container *ngIf="data.length > 0; else emptyValue">
+                  <ng-container
+                    *ngIf="data.length > 0; else emptyEntityTagCell">
                     <!-- display full size tags up to maxTags length -->
                     <cvc-entity-tag-list
                       [cvcTagTemplate]="entityTag"
@@ -279,7 +280,9 @@
 
                     <!-- display any additional entities in entity-collection tag -->
                     <ng-container
-                      *ngIf="data.slice(config.tag.maxTags, data.length).length > 0">
+                      *ngIf="
+                        data.slice(config.tag.maxTags, data.length).length > 0
+                      ">
                       <cvc-entity-collection-tag
                         [cvcCollectionTagConfig]="{
                           tagList: data.slice(config.tag.maxTags, data.length),
@@ -291,8 +294,9 @@
                               : undefined,
                           emphasize: emphasize
                         }"
-                        [cvcTagTemplate]="entityTag"
-                        [cvcShowCountMax]="1"></cvc-entity-collection-tag>
+                        [cvcTagTemplate]="
+                          entityTag
+                        "></cvc-entity-collection-tag>
                     </ng-container>
                   </ng-container>
                 </ng-template>
@@ -315,22 +319,35 @@
                       config.tag?.fullWidth ?? false
                     "></cvc-entity-tag>
                 </ng-template>
+
+                <ng-template #emptyEntityTagCell>
+                  <cvc-empty-value
+                    [cvcEmptyCategory]="
+                      entityTagCol.emptyValueCategory || 'unspecified'
+                    "></cvc-empty-value>
+                </ng-template>
               </td>
 
               <!-- ENUM TAG CELL -->
               <td
-                *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCell"
-                [nzAlign]="enumTagCell.align ?? 'left'"
-                [nzLeft]="enumTagCell.fixedLeft || false"
-                [nzRight]="enumTagCell.fixedRight || false">
+                *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+                [nzAlign]="enumTagCol.align ?? 'left'"
+                [nzLeft]="enumTagCol.fixedLeft || false"
+                [nzRight]="enumTagCol.fixedRight || false">
                 <cvc-attribute-tag
-                  *ngIf="row[enumTagCell.key]; else emptyValue"
+                  *ngIf="row[enumTagCol.key]; else emptyEnumTagCell"
                   [cvcFullWidth]="true"
-                  [cvcAttrValue]="row[enumTagCell.key]"
+                  [cvcAttrValue]="row[enumTagCol.key]"
                   [cvcTooltip]="
-                    !isScrolling && row[enumTagCell.key] | evidenceEnumDisplay
+                    !isScrolling && row[enumTagCol.key] | evidenceEnumDisplay
                   "
                   cvcContext="compact"></cvc-attribute-tag>
+                <ng-template #emptyEnumTagCell>
+                  <cvc-empty-value
+                    [cvcEmptyCategory]="
+                      enumTagCol.emptyValueCategory || 'unspecified'
+                    "></cvc-empty-value>
+                </ng-template>
               </td>
 
               <!-- TEXT TAG CELL -->
@@ -341,6 +358,7 @@
                 [nzRight]="textTagCol.fixedRight || false">
                 <!-- TODO: show filter text emphasized in tooltip text -->
                 <nz-tag
+                  *ngIf="row[textTagCol.key]; else emptyTextTagCell"
                   nz-tooltip
                   [nzTooltipTitle]="row[textTagCol.key]"
                   style="width: 100%">
@@ -349,6 +367,12 @@
                     nzType="align-left"
                     nzTheme="outline"></span>
                 </nz-tag>
+                <ng-template #emptyTextTagCell>
+                  <cvc-empty-value
+                    [cvcEmptyCategory]="
+                      textTagCol.emptyValueCategory || 'unspecified'
+                    "></cvc-empty-value>
+                </ng-template>
               </td>
             </ng-container>
           </ng-container>
@@ -416,10 +440,6 @@
         [nzStep]="1"></nz-input-number>
     </nz-input-number-group>
   </ng-template>
-</ng-template>
-
-<ng-template #emptyValue>
-  <cvc-empty-value cvcEmptyType="not-applicable"></cvc-empty-value>
 </ng-template>
 
 <ng-template #cardTitle>

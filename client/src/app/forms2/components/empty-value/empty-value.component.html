@@ -1,21 +1,27 @@
-<ng-container [ngSwitch]="cvcEmptyType">
+<ng-container [ngSwitch]="cvcEmptyCategory">
   <span
     *ngSwitchCase="'not-applicable'"
-    class="empty-symbol not-applicable">
+    class="empty-symbol not-applicable"
+    nz-tooltip
+    nzTooltipTitle="Value is not applicable">
     N/A
   </span>
   <span
     *ngSwitchCase="'unspecified'"
     nz-tooltip
     nzTooltipTitle="Unspecified"
-    class="empty-symbol unspecified">
+    class="empty-symbol unspecified"
+    nz-tooltip
+    nzTooltipTitle="Value is unspecified">
     &ndash;&nbsp;&ndash;
   </span>
   <span
     *ngSwitchCase="'invalid'"
     nz-tooltip
     nzTooltipTitle="INVALID"
-    class="empty-symbol invalid">
+    class="empty-symbol invalid"
+    nz-tooltip
+    nzTooltipTitle="Value is invalid">
     !?
   </span>
 </ng-container>

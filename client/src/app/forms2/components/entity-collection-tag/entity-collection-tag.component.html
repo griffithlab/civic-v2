@@ -1,14 +1,14 @@
-<!-- display icon for each hidden entity if entity count < cvcShowCountMax -->
-<div
-  class="entity-icon-group"
-  *ngIf="config !== undefined">
-  <nz-tag>
-    <span
-      class="plus-sign"
-      nz-typography
-      nzType="secondary">
-      <strong>+</strong>
-    </span>
+<nz-tag>
+  <!-- plus icon -->
+  <span
+    class="plus-sign"
+    nz-typography
+    nzType="secondary">
+    <strong>+</strong>
+  </span>
+
+  <!-- show all icons if count < max icons -->
+  <ng-container *ngIf="entities.length <= cvcShowMaxIcons; else showCount">
     <span
       *ngFor="let entity of entities"
       class="entity-icon"
@@ -16,30 +16,22 @@
       [nzType]="entity.__typename | typenameToIcon"
       nzTheme="twotone"
       [nzTwotoneColor]="entity.__typename | entityColor"></span>
-  </nz-tag>
+  </ng-container>
 
-  <!-- show entity count if hidden entity count > cvcShowCountMax -->
+  <!-- otherwise, show a count w/ a single representative icon -->
   <ng-template #showCount>
-    <nz-tag *ngSwitchCase="false">
-      <!-- plus icon -->
-      <span
-        class="plus-sign"
-        nz-typography
-        nzType="secondary">
-        <strong>+</strong>
-      </span>
-      <span
-        class="entity-count"
-        nz-typography
-        nzType="secondary">
-        <strong>{{ entities.length }}</strong>
-      </span>
-      <span
-        class="entity-icon"
-        nz-icon
-        [nzType]="entities[0].__typename | typenameToIcon"
-        nzTheme="twotone"
-        [nzTwotoneColor]="entities[0].__typename | entityColor"></span>
-    </nz-tag>
+    <span
+      class="entity-count"
+      nz-typography
+      nzType="secondary">
+      <strong>{{ entities.length }}</strong>
+    </span>
+    <span
+      class="entity-icon"
+      nz-icon
+      [nzType]="entities[0].__typename | typenameToIcon"
+      nzTheme="twotone"
+      [nzTwotoneColor]="entities[0].__typename | entityColor"></span>
   </ng-template>
-</div>
+
+</nz-tag>

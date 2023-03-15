@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core'
-import { CvcEntityTagListConfig, CvcEntityTagListContext } from '../entity-tag-list/entity-tag-list.component'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+} from '@angular/core'
+import { CvcEntityTagListConfig } from '../entity-tag-list/entity-tag-list.component'
 import { LinkableEntity } from '../entity-tag/entity-tag.component'
 
 @Component({
@@ -15,7 +20,7 @@ export class CvcEntityCollectionTagComponent {
     this.setEntities(config.tagList)
   }
   @Input() cvcTagTemplate!: TemplateRef<any>
-  @Input() cvcShowCountMax: number = 5
+  @Input() cvcShowMaxIcons: number = 5
   @Input() cvcShowPopovers: boolean = false
 
   config?: CvcEntityTagListConfig
@@ -26,7 +31,7 @@ export class CvcEntityCollectionTagComponent {
   }
 
   setEntities(entities: LinkableEntity[]) {
-    const max = this.cvcShowCountMax
+    const max = this.cvcShowMaxIcons
     const length = entities.length
     if (!entities || length === 0) {
       this.entities = []
