@@ -26,11 +26,9 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <nz-tag
     [nzMode]="'closeable'"
     (nzOnClose)="cvcOnClose.next($event)">
-    <span
-      nz-popover
-      nzPopoverTrigger="hover"
-      [nzPopoverContent]="this.popoverInput ? popoverContent : undefined">
-      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    <span *ngIf="entity && entity.tooltip; else noTooltip"
+      nz-tooltip [nzTooltipTitle]="entity.tooltip">
+        <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
     </span>
   </nz-tag>
 </span>
@@ -41,13 +39,20 @@ pseudo-tag styles & close btn -->
 <span
   *ngIf="cvcContext === 'multi-select-item'"
   class="multi-select-item">
+  <span *ngIf="entity && entity.tooltip; else noTooltip"
+    nz-tooltip [nzTooltipTitle]="entity.tooltip">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </span>
+</span>
+
+<ng-template #noTooltip>
   <span
     nz-popover
     nzPopoverTrigger="hover"
     [nzPopoverContent]="this.popoverInput ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </span>
-</span>
+</ng-template>
 
 <!-- tag contents, just the tag icon and label, used by the context templates above-->
 <ng-template #tagContent>

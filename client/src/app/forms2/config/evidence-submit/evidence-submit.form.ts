@@ -62,21 +62,15 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
   }
 
   onSubmit(model: EvidenceSubmitModel) {
-    console.log('------ Evidence Form Submitted ------')
-    console.log(model)
     const input = evidenceFormModelToInput(model)
     if (input) {
       this.mutationState = this.submitEvidenceMutator.mutate(
         this.submitEvidenceGQL,
         { input: input },
         undefined,
-        this.newId
+        (data) => { this.newEvidenceId = data.submitEvidence?.evidenceItem.id }
       )
     }
-  }
-
-  newId(data: SubmitEvidenceItemMutation) {
-    this.newEvidenceId = data.submitEvidence!.evidenceItem.id
   }
 
   ngOnDestroy(): void {

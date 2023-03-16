@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 import {
@@ -22,7 +21,6 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 export class GenesSummaryPage implements OnDestroy {
   gene$?: Observable<Maybe<GeneSummaryFieldsFragment>>
   loading$?: Observable<boolean>
-  myGeneInfo$?: Observable<any>
   viewer$?: Observable<Viewer>
 
   subscribableEntity?: SubscribableInput
@@ -47,11 +45,6 @@ export class GenesSummaryPage implements OnDestroy {
 
       this.gene$ = observable.pipe(pluck('data', 'gene'))
       this.loading$ = observable.pipe(pluck('loading'))
-
-      this.myGeneInfo$ = this.gene$.pipe(
-        pluck('myGeneInfoDetails'),
-        map((info) => JSON.parse(String(info)))
-      )
     })
   }
 

@@ -8,8 +8,9 @@ import {
 } from '@app/generated/civic.apollo'
 
 export type AssertionFields = {
-  // gene, variant drug included for initial input type development
-  therapyIds?: number[]
+  // gene, variant included for initial input type development
+  geneId?: number
+  variantId?: number
 
   /** List of CIViC IDs for the ACMG/AMP codes associated with this Assertion */
   acmgCodeIds?: number[]
@@ -28,7 +29,7 @@ export type AssertionFields = {
   /** The ID of the disease (if applicable) for this Assertion */
   diseaseId?: number
   /** List of IDs of CIViC Drug entries for this Assertion. An empty list indicates none. */
-  drugIds?: number[]
+  therapyIds?: number[]
   /** Drug interaction type for cases where more than one drug ID is provided. */
   therapyInteractionType?: TherapyInteraction
   /** IDs of evidence items that are included in this Assertion. */

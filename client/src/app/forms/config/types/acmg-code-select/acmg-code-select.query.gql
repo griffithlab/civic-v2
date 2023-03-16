@@ -3,5 +3,7 @@ query AcmgCodeTypeahead($code: String!) {
     id
     code
     description
+    name
+    tooltip
   }
 }

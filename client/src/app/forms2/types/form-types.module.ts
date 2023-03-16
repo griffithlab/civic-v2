@@ -7,7 +7,6 @@ import { CvcEvidenceSelectFieldModule } from './evidence-select/evidence-select.
 import { CvcGeneSelectModule } from './gene-select/gene-select.module'
 import { CvcInteractionSelectModule } from './interaction-select/interaction-select.module'
 import { CvcLevelSelectModule } from './level-select/level-select.module'
-import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
 import { CvcOrgSubmitButtonTypeModule } from './org-submit-button/org-submit-button.type.module'
 import { CvcOriginSelectModule } from './origin-select/origin-select.module'
 import { CvcPhenotypeSelectModule } from './phenotype-select/phenotype-select.module'
@@ -19,6 +18,11 @@ import { CvcTextareaFieldModule } from './textarea/textarea.module'
 import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
+import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
+import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
+import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
+import { CvcClingenCodeSelectModule } from './clingen-code-select/clingen-code-select.module'
+import { CvcNccnGuidelineSelectModule } from './nccn-guideline-select/nccn-guideline-select.module'
 
 @NgModule({
   imports: [
@@ -42,6 +46,10 @@ import { CvcVariantSelectModule } from './variant-select/variant-select.module'
     CvcPhenotypeSelectModule,
     CvcMolecularProfileSelectModule,
     CvcEvidenceSelectFieldModule,
+    CvcAmpCategorySelectModule,
+    CvcAcmgCodeSelectModule,
+    CvcClingenCodeSelectModule,
+    CvcNccnGuidelineSelectModule,
   ],
 })
 export class CvcFormTypesModule {}

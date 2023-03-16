@@ -108,7 +108,7 @@ class AssertionValidator < ActiveModel::Validator
         allow_regulatory_approval: false,
       },
      'Oncogenic' => {
-       significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain', 'Likely Benign', 'Benign'],
+       significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain Significance', 'Likely Benign', 'Benign'],
         assertion_direction: ['Supports'],
         disease: true,
         therapy: false,

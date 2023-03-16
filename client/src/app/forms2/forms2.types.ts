@@ -10,6 +10,7 @@ import {
   Maybe,
   SourceSource,
   VariantOrigin,
+  AmpLevel,
 } from '@app/generated/civic.apollo'
 
 export type CvcInputEnum =
@@ -23,6 +24,7 @@ export type CvcInputEnum =
   | SourceSource
   | EvidenceLevel
   | TherapyInteraction
+  | AmpLevel
 
 export type CvcFieldModelValue = Maybe<
   string | number | boolean | string[] | number[]

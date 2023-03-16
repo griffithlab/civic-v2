@@ -3,6 +3,8 @@ import {
   AssertionSignificance,
   AssertionType,
   Maybe,
+  MolecularProfile,
+  VariantOrigin,
   TherapyInteraction,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
@@ -11,14 +13,53 @@ import { BehaviorSubject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import { CvcInputEnum } from '../forms2.types'
 import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
-import { BaseState, EntityName } from './base.state'
+import { EntityName, BaseState } from './base.state'
+import { EvidenceRequires } from './evidence.state'
+
+export type AssertionFields = {
+  molecularProfileId$: BehaviorSubject<Maybe<number>>
+  evidenceItemIds$: BehaviorSubject<Maybe<number[]>>
+  geneId$: BehaviorSubject<Maybe<number>>
+  variantId$: BehaviorSubject<Maybe<number>>
+  variantMolecularProfile$: BehaviorSubject<Maybe<MolecularProfile>>
+  variantOrigin$: BehaviorSubject<Maybe<VariantOrigin>>
+  assertionType$: BehaviorSubject<Maybe<AssertionType>>
+  assertionDirection$: BehaviorSubject<Maybe<AssertionDirection>>
+  significance$: BehaviorSubject<Maybe<AssertionSignificance>>
+  diseaseId$: BehaviorSubject<Maybe<number>>
+  therapyIds$: BehaviorSubject<Maybe<number[]>>
+  therapyInteractionType$: BehaviorSubject<Maybe<TherapyInteraction>>
+  phenotypeIds$: BehaviorSubject<Maybe<number[]>>
+}
+
+export type AssertionEnums = {
+  entityType$: BehaviorSubject<CvcInputEnum[]>
+  significance$: BehaviorSubject<CvcInputEnum[]>
+  direction$: BehaviorSubject<CvcInputEnum[]>
+  interaction$: BehaviorSubject<CvcInputEnum[]>
+}
 
 class AssertionState extends BaseState {
+  fields: AssertionFields
+  enums: AssertionEnums
+  requires: EvidenceRequires
+
   constructor() {
     super(EntityName.ASSERTION)
     const def = assertionSubmitFieldsDefaults
 
     this.fields = {
+      molecularProfileId$: new BehaviorSubject<Maybe<number>>(
+        def.molecularProfileId
+      ),
+      variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
+        undefined
+      ),
+      geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
+      variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
+      variantOrigin$: new BehaviorSubject<Maybe<VariantOrigin>>(
+        def.variantOrigin
+      ),
       assertionType$: new BehaviorSubject<Maybe<AssertionType>>(
         def.assertionType
       ),
@@ -31,14 +72,12 @@ class AssertionState extends BaseState {
       significance$: new BehaviorSubject<Maybe<AssertionSignificance>>(
         def.significance
       ),
-      molecularProfileId$: new BehaviorSubject<Maybe<number>>(
-        def.molecularProfileId
-      ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
       therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
       therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(
         def.therapyInteractionType
       ),
+      phenotypeIds$: new BehaviorSubject<Maybe<number[]>>(def.phenotypeIds),
     }
 
     this.enums = {
@@ -73,11 +112,10 @@ class AssertionState extends BaseState {
     }
 
     // ASSERTION TYPE SUBSCRIBERS
-    // TODO: determine best way to cleanup & unsubscribe from these subscriptions
     this.fields.assertionType$
-      .pipe(untilDestroyed(this, 'onDestroy'))
-      .subscribe((at: Maybe<AssertionType>) => {
-        if (!at) {
+    .pipe(untilDestroyed(this, 'onDestroy'))
+    .subscribe((at: Maybe<AssertionType>) => {
+      if (!at) {
           // set all 'requires' fields to false, non-type enums to []
           Object.entries(this.requires).forEach(([key, value]) => {
             value.next(false)
@@ -85,34 +123,33 @@ class AssertionState extends BaseState {
           this.enums.significance$.next([])
           this.enums.direction$.next([])
           return
-        }
+      }
+      const significanceEnums = this.getSignificanceOptions(at)
+      this.enums.significance$.next(significanceEnums)
+      this.options.significanceOption$.next(
+        this.getOptionsFromEnums(this.getSignificanceOptions(at))
+      )
+      const directionEnums = this.getDirectionOptions(at)
+      this.enums.direction$.next(directionEnums)
+      this.options.directionOption$.next(
+        this.getOptionsFromEnums(this.getDirectionOptions(at))
+      )
+      this.requires.requiresDisease$.next(this.requiresDisease(at))
+      this.requires.requiresTherapy$.next(this.requiresTherapy(at))
+      this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
+      this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
+      this.requires.requiresAmpLevel$.next(this.requiresAmpLevel(at))
+      this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
+    })
 
-        const significanceEnums = this.getSignificanceOptions(at)
-        this.enums.significance$.next(significanceEnums)
-        this.options.significanceOption$.next(
-          this.getOptionsFromEnums(this.getSignificanceOptions(at))
-        )
-        const directionEnums = this.getDirectionOptions(at)
-        this.enums.direction$.next(directionEnums)
-        this.options.directionOption$.next(
-          this.getOptionsFromEnums(this.getDirectionOptions(at))
-        )
-        this.requires.requiresDisease$.next(this.requiresDisease(at))
-        this.requires.requiresTherapy$.next(this.requiresTherapy(at))
-        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
-        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
-        this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
-      })
-
-    // handle requiresTherapyInteractionType
     this.fields.therapyIds$
       .pipe(
         untilDestroyed(this, 'onDestroy'))
       .subscribe((ids: Maybe<number[]>) => {
         if (ids === undefined || ids === null) {
-          this.requires.requiresTherapyInteraction$.next(false)
+          this.requires.requiresTherapyInteractionType$.next(false)
         } else {
-          this.requires.requiresTherapyInteraction$.next(ids.length > 1)
+          this.requires.requiresTherapyInteractionType$.next(ids.length > 1)
         }
       })
 
@@ -185,7 +222,6 @@ class AssertionState extends BaseState {
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresTherapy: false,
@@ -206,7 +242,6 @@ class AssertionState extends BaseState {
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresTherapy: false,

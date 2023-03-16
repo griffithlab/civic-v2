@@ -175,7 +175,8 @@ export class CvcSourceSelectField
         const srcName = formatSourceTypeEnum(src)
         this.sourceTypeName$.next(srcName)
         this.placeholder$.next(this.props.placeholders.contextualFn(srcName))
-        this.resetField()
+        //FIXME
+        //this.resetField()
       })
 
     // update model provided to quick-add form when either sourceType or citationId changes

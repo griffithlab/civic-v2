@@ -179,51 +179,45 @@ export class CvcTherapySelectField
     // update field placeholders & required status on state input events
     combineLatest([this.onRequiresTherapy$, this.onEntityType$])
       .pipe(distinctUntilChanged(), untilDestroyed(this))
-      .subscribe(
-        ([requiresTherapy, entityType]: [boolean, Maybe<EntityType>]) => {
-          // therapies are not associated with this entity type
-          if (!requiresTherapy && entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no drug required, entity type specified
-            this.props.description = `${formatEvidenceEnum(entityType)} ${
-              this.state!.entityName
-            } does not include associated therapies`
-            this.props.extraType = 'prompt'
-            //TODO: entityType lags one value behind, we get a wrong value and it ends up
-            //triggering the wrong case in the if
-            //is there a reason we dont just subscribe to EntityType change
-            //and call this.state.requiresTherapy(et). that works reliably w/o combining observables
-            //then markForCheck isnt required (see also the TODO in disease)
-            this.cdr.markForCheck()
-          }
-          // if type required, toggle field required property off and show a 'Select Type..' prompt
-          else if (this.props.requireType && !entityType) {
-            this.props.required = false
-            this.props.disabled = true
-            // no drug required, entity type not specified
-            this.props.description = this.props.requireTypePromptFn(
-              this.state!.entityName,
-              this.props.isMultiSelect
-            )
-            this.props.extraType = 'prompt'
-          }
-          // state indicates drug is required, set required, unset disabled, and show the placeholder (state will only return true from requiresTherapy$ if entityType provided)
-          else if (requiresTherapy) {
-            this.props.required = true
-            this.props.disabled = false
-            this.props.description = undefined
-            this.props.extraType = undefined
-          }
-          // field currently has a value, but state indicates no drug is required, or no type is provided && type is required, so reset field
-          else if (
-            (!requiresTherapy && this.formControl.value) ||
-            (this.props.requireType && !entityType && this.formControl.value)
-          ) {
-            this.resetField()
-          }
+      .subscribe(([requiresTherapy, entityType]: [boolean, Maybe<EntityType>]) => {
+        // therapies are not associated with this entity type
+        if (!requiresTherapy && entityType) {
+          this.props.required = false
+          this.props.disabled = true
+          // no drug required, entity type specified
+          this.props.description = `${formatEvidenceEnum(entityType)} ${
+            this.state!.entityName
+          } does not include associated therapies`
+          this.props.extraType = 'prompt'
+          this.resetField()
+          this.cdr.markForCheck()
         }
-      )
+        // if type required, toggle field required property off and show a 'Select Type..' prompt
+        else if (this.props.requireType && !entityType) {
+          this.props.required = false
+          this.props.disabled = true
+          // no drug required, entity type not specified
+          this.props.description = this.props.requireTypePromptFn(
+            this.state!.entityName,
+            this.props.isMultiSelect
+          )
+          this.props.extraType = 'prompt'
+        }
+        // state indicates drug is required, set required, unset disabled, and show the placeholder (state will only return true from requiresTherapy$ if entityType provided)
+        else if (requiresTherapy) {
+          this.props.required = true
+          this.props.disabled = false
+          this.props.description = undefined
+          this.props.extraType = undefined
+        }
+        // field currently has a value, but state indicates no drug is required, or no type is provided && type is required, so reset field
+        else if (
+          (!requiresTherapy && this.formControl.value) ||
+          (this.props.requireType && !entityType && this.formControl.value)
+        ) {
+          this.resetField()
+        }
+      })
   }
 
   getTypeaheadVarsFn(str: string): TherapySelectTypeaheadQueryVariables {

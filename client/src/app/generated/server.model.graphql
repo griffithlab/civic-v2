@@ -55,6 +55,8 @@ type AcmgCode {
   code: String!
   description: String!
   id: Int!
+  name: String!
+  tooltip: String!
 }
 
 """
@@ -1400,6 +1402,8 @@ type ClingenCode {
   code: String!
   description: String!
   id: Int!
+  name: String!
+  tooltip: String!
 }
 
 type ClinicalTrial {
@@ -1964,6 +1968,7 @@ enum EventAction {
   REVISION_SUGGESTED
   REVISION_SUPERSEDED
   SUBMITTED
+  VARIANT_CREATED
 }
 
 """
@@ -4543,6 +4548,11 @@ enum PhenotypeSortColumns {
 
 type Query {
   """
+  Find an ACMG code by CIViC ID
+  """
+  acmgCode(id: Int!): AcmgCode
+
+  """
   Retrieve ACMG Code options as a typeahead
   """
   acmgCodesTypeahead(queryTerm: String!): [AcmgCode!]!
@@ -4841,6 +4851,11 @@ type Query {
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
+
+  """
+  Find a ClinGen code by CIViC ID
+  """
+  clingenCode(id: Int!): ClingenCode
 
   """
   Retrieve Clingen Code options as a typeahead
@@ -5305,6 +5320,11 @@ type Query {
     """
     variantId: Int
   ): MolecularProfileConnection!
+
+  """
+  Find a NCCN Guideline by CIViC ID
+  """
+  nccnGuideline(id: Int!): NccnGuideline
 
   """
   Retrieve NCCN Guideline options as a typeahead

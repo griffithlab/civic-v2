@@ -3,5 +3,7 @@ query ClingenCodeTypeahead($code: String!) {
     id
     code
     description
+    name
+    tooltip
   }
 }

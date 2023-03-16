@@ -66,6 +66,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'deprecated variant'
       case EventAction.DeprecatedMolecularProfile:
         return 'deprecated molecular profile'
+      default:
+        return a
     }
   }
 
@@ -113,6 +115,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'variant deprecated'
       case EventAction.DeprecatedMolecularProfile:
         return 'molecular profile deprecated'
+      default:
+        return a
     }
   }
 
@@ -174,6 +178,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'deprecated this variant'
       case EventAction.DeprecatedMolecularProfile:
         return 'deprecated this molecular profile'
+      default:
+        return a
     }
   }
 }
