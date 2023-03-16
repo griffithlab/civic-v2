@@ -31,14 +31,7 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import {
-  BehaviorSubject,
-  combineLatest,
-  map,
-  Observable,
-  withLatestFrom,
-} from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export interface CvcSourceSelectFieldProps extends FormlyFieldProps {
@@ -163,6 +156,8 @@ export class CvcSourceSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
       minSearchStrLength: this.field.props.minSearchStrLength,
     })
 

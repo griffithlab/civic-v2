@@ -1,10 +1,28 @@
-<!-- by default, display tag content within its own nz-tag -->
-<nz-tag
+<!-- by default, display tag content within its own nz-tag. Supports most nz-tag
+features, more precise control than using cvcContext -->
+<span
   *ngIf="cvcContext === 'default'"
-  [nzMode]="cvcMode"
-  (nzOnClose)="cvcOnClose.next($event)">
-  <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-</nz-tag>
+  class="default">
+  <nz-tag
+    [nzMode]="cvcMode"
+    nz-tooltip
+    [nzTooltipTitle]="cvcTooltip"
+    [nzChecked]="cvcChecked"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
+
+<!-- menu item tags display selected state with nzChecked -->
+<span
+  *ngIf="cvcContext === 'menu-item'"
+  class="menu-item">
+  <nz-tag
+    [nzMode]="'checkable'"
+    [nzChecked]="cvcChecked">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
 
 <!-- if select-item context, tag is being displayed in a non-multi nz-select,
 so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
@@ -14,25 +32,45 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <nz-tag
     [nzMode]="'closeable'"
     (nzOnClose)="cvcOnClose.next($event)">
-    <span
-      nz-tooltip
-      nzTooltipTitle="POPUP">
-      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
-    </span>
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </nz-tag>
+</span>
+
+<!-- compact context only shows the icon, currently used in table cells -->
+<span
+  *ngIf="cvcContext === 'compact'"
+  class="compact">
+  <nz-tag
+    [nzMode]="'default'"
+    nz-tooltip
+    [nzTooltipTitle]="cvcTooltip">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </nz-tag>
 </span>
 
 <ng-template #tagContent>
-  <span
-    *ngIf="cvcAttrValue"
+  <i
+    *ngIf="cvcAttrValue && cvcShowIcon"
     nz-icon
-    [nzType]="cvcAttrValue | evidenceEnumDisplay: 'icon-name'"
-    class="tag-icon"></span>
+    [nzType]="
+      cvcShowIcon === true
+        ? (cvcAttrValue | evidenceEnumDisplay : 'icon-name')
+        : cvcShowIcon
+    "
+    [nzTwotoneColor]="cvcIconColor"
+    [nzTheme]="cvcIconTheme"
+    [attr.style]="'color: ' + cvcIconColor"
+    class="tag-icon"
+    [ngClass]="{
+      'tag-icon-large': cvcZoomIcon === true
+    }"></i>
   <span
+    *ngIf="cvcShowLabel"
     class="tag-label"
     [innerHtml]="
       cvcAttrValue
-        | evidenceEnumDisplay: 'display-string'
-        | highlightTypeahead: cvcEmphasize
+        | evidenceEnumDisplay
+          : (cvcShowLabel === 'display-string' ? cvcShowLabel : 'short-string')
+        | highlightTypeahead : cvcEmphasize
     "></span>
 </ng-template>

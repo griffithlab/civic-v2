@@ -42,7 +42,7 @@ export class CvcDiseaseQuickAddForm {
     this.searchString$.next(str)
   }
 
-  @Output() cvcOnCreate = new EventEmitter<Disease>()
+  @Output() cvcOnCreate = new EventEmitter<number>()
   model: QuickAddDiseaseMutationVariables
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
@@ -137,7 +137,7 @@ export class CvcDiseaseQuickAddForm {
           }
           setTimeout(() => {
             if (data && data.addDisease)
-              this.cvcOnCreate.next(data.addDisease.disease)
+              this.cvcOnCreate.next(data.addDisease.disease.id)
           }, 1000)
         }
       }

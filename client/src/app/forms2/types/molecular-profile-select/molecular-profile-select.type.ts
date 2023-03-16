@@ -168,6 +168,8 @@ export class CvcMolecularProfileSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
     })
 
     this.initialDescription = this.props.description

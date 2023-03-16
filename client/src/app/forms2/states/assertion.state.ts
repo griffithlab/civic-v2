@@ -1,6 +1,6 @@
 import {
-  AssertionSignificance,
   AssertionDirection,
+  AssertionSignificance,
   AssertionType,
   Maybe,
   MolecularProfile,
@@ -10,6 +10,7 @@ import {
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import { CvcInputEnum } from '../forms2.types'
 import { assertionSubmitFieldsDefaults } from '../models/assertion-submit.model'
 import { EntityName, BaseState } from './base.state'
@@ -17,6 +18,7 @@ import { EvidenceRequires } from './evidence.state'
 
 export type AssertionFields = {
   molecularProfileId$: BehaviorSubject<Maybe<number>>
+  evidenceItemIds$: BehaviorSubject<Maybe<number[]>>
   geneId$: BehaviorSubject<Maybe<number>>
   variantId$: BehaviorSubject<Maybe<number>>
   variantMolecularProfile$: BehaviorSubject<Maybe<MolecularProfile>>
@@ -64,9 +66,12 @@ class AssertionState extends BaseState {
       assertionDirection$: new BehaviorSubject<Maybe<AssertionDirection>>(
         def.assertionDirection
       ),
-      significance$: new BehaviorSubject<
-        Maybe<AssertionSignificance>
-      >(def.significance),
+      evidenceItemIds$: new BehaviorSubject<Maybe<number[]>>(
+        def.evidenceItemIds
+      ),
+      significance$: new BehaviorSubject<Maybe<AssertionSignificance>>(
+        def.significance
+      ),
       diseaseId$: new BehaviorSubject<Maybe<number>>(def.diseaseId),
       therapyIds$: new BehaviorSubject<Maybe<number[]>>(def.therapyIds),
       therapyInteractionType$: new BehaviorSubject<Maybe<TherapyInteraction>>(
@@ -88,9 +93,9 @@ class AssertionState extends BaseState {
       assertionTypeOption$: new BehaviorSubject<NzSelectOptionInterface[]>(
         this.getOptionsFromEnums(this.getTypeOptions())
       ),
-      directionOption$: new BehaviorSubject<
-        Maybe<NzSelectOptionInterface[]>
-      >(undefined),
+      directionOption$: new BehaviorSubject<Maybe<NzSelectOptionInterface[]>>(
+        undefined
+      ),
       significanceOption$: new BehaviorSubject<
         Maybe<NzSelectOptionInterface[]>
       >(undefined),
@@ -99,6 +104,7 @@ class AssertionState extends BaseState {
     this.requires = {
       requiresDisease$: new BehaviorSubject<boolean>(false),
       requiresTherapy$: new BehaviorSubject<boolean>(false),
+      requiresTherapyInteractionType$: new BehaviorSubject<boolean>(false),
       requiresClingenCodes$: new BehaviorSubject<boolean>(false),
       requiresAcmgCodes$: new BehaviorSubject<boolean>(false),
       requiresAmpLevel$: new BehaviorSubject<boolean>(false),
@@ -135,6 +141,17 @@ class AssertionState extends BaseState {
       this.requires.requiresAmpLevel$.next(this.requiresAmpLevel(at))
       this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
     })
+
+    this.fields.therapyIds$
+      .pipe(
+        untilDestroyed(this, 'onDestroy'))
+      .subscribe((ids: Maybe<number[]>) => {
+        if (ids === undefined || ids === null) {
+          this.requires.requiresTherapyInteractionType$.next(false)
+        } else {
+          this.requires.requiresTherapyInteractionType$.next(ids.length > 1)
+        }
+      })
 
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,

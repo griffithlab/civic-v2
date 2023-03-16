@@ -16,8 +16,6 @@ import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-fiel
 import {
   LinkableGeneGQL,
   Maybe,
-  MolecularProfile,
-  Variant,
   VariantSelectTagGQL,
   VariantSelectTagQuery,
   VariantSelectTagQueryVariables,
@@ -32,7 +30,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { Apollo, gql } from 'apollo-angular'
+import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
@@ -41,7 +39,6 @@ import {
   map,
   Observable,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcVariantSelectFieldOption = Partial<
@@ -143,6 +140,8 @@ export class CvcVariantSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
     })
 
     this.placeholder$.next(this.props.placeholder)

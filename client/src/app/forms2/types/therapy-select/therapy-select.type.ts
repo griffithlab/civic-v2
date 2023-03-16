@@ -16,6 +16,7 @@ import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-field.wrapper'
 import {
+  Maybe,
   TherapySelectTagGQL,
   TherapySelectTagQuery,
   TherapySelectTagQueryVariables,
@@ -23,7 +24,6 @@ import {
   TherapySelectTypeaheadGQL,
   TherapySelectTypeaheadQuery,
   TherapySelectTypeaheadQueryVariables,
-  Maybe,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -37,9 +37,7 @@ import {
   combineLatest,
   distinctUntilChanged,
   Subject,
-  withLatestFrom,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcTherapySelectFieldOptions = Partial<
@@ -143,6 +141,8 @@ export class CvcTherapySelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
     })
     this.configurePlaceholders()
   } // ngAfterViewInit()
@@ -177,13 +177,8 @@ export class CvcTherapySelectField
     this.placeholder$.next(this.props.placeholder)
     if (!this.onRequiresTherapy$ || !this.onEntityType$) return
     // update field placeholders & required status on state input events
-    combineLatest([
-      this.onRequiresTherapy$,
-      this.onEntityType$
-    ]).pipe(
-        distinctUntilChanged(),
-        untilDestroyed(this)
-      )
+    combineLatest([this.onRequiresTherapy$, this.onEntityType$])
+      .pipe(distinctUntilChanged(), untilDestroyed(this))
       .subscribe(([requiresTherapy, entityType]: [boolean, Maybe<EntityType>]) => {
         // therapies are not associated with this entity type
         if (!requiresTherapy && entityType) {

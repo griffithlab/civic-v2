@@ -79,7 +79,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
   @Input() cvcSourceType?: SourceSource
   @Input() cvcCitationId?: string
 
-  @Output() cvcOnCreate = new EventEmitter<Source>()
+  @Output() cvcOnCreate = new EventEmitter<number>()
 
   model: SourceQuickAddModel
 
@@ -328,7 +328,7 @@ export class SourceQuickAddForm implements OnInit, OnChanges {
                 fragment
               ) as Source
               if (newSource !== null) {
-                this.cvcOnCreate.next(newSource)
+                this.cvcOnCreate.next(newSource.id)
               }
             }, 1000)
           }

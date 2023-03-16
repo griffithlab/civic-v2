@@ -15,6 +15,7 @@ import { CvcEntityTypeSelectFieldConfig } from '@app/forms2/types/type-select/ty
 import assignFieldConfigDefaultValues from '@app/forms2/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms2/wrappers/form-layout/form-layout.wrapper'
+import { AssertionType } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
@@ -115,6 +116,15 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'nccnGuidelineId',
             type: 'nccn-guideline-select',
             props: {},
+          },
+          {
+            key: 'evidenceItemIds',
+            type: 'evidence-multi-select',
+            props: {
+              required: true,
+              isMultiSelect: true,
+              colSpan: 24
+            },
           },
           {
             key: 'summary',

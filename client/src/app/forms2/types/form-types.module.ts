@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcBaseInputFieldModule } from './tag-input/tag-input.module'
 import { CvcCheckboxModule } from './checkbox/checkbox.module'
 import { CvcDirectionSelectModule } from './direction-select/direction-select.module'
 import { CvcDiseaseSelectModule } from './disease-select/disease-select.module'
-import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
+import { CvcEvidenceSelectFieldModule } from './evidence-select/evidence-select.module'
 import { CvcGeneSelectModule } from './gene-select/gene-select.module'
 import { CvcInteractionSelectModule } from './interaction-select/interaction-select.module'
 import { CvcLevelSelectModule } from './level-select/level-select.module'
@@ -14,11 +13,12 @@ import { CvcPhenotypeSelectModule } from './phenotype-select/phenotype-select.mo
 import { CvcRatingModule } from './rating/rating.module'
 import { CvcSignificanceSelectModule } from './significance-select/significance-select.module'
 import { CvcSourceSelectModule } from './source-select/source-select.module'
+import { CvcBaseInputFieldModule } from './tag-input/tag-input.module'
 import { CvcTextareaFieldModule } from './textarea/textarea.module'
+import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
-import { CvcMolecularProfileBuilderModule } from './molecular-profile-builder/molecular-profile-builder.module'
 import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
 import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
 import { CvcClingenCodeSelectModule } from './clingen-code-select/clingen-code-select.module'
@@ -44,8 +44,8 @@ import { CvcNccnGuidelineSelectModule } from './nccn-guideline-select/nccn-guide
     CvcTextareaFieldModule,
     CvcBaseInputFieldModule,
     CvcPhenotypeSelectModule,
-    CvcMolecularProfileBuilderModule,
     CvcMolecularProfileSelectModule,
+    CvcEvidenceSelectFieldModule,
     CvcAmpCategorySelectModule,
     CvcAcmgCodeSelectModule,
     CvcClingenCodeSelectModule,

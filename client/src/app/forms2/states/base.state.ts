@@ -1,6 +1,5 @@
 import {
   formatEvidenceEnum,
-  InputEnum,
 } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import {
   AssertionSignificance,
@@ -15,6 +14,7 @@ import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, Subject } from 'rxjs'
 import { $enum } from 'ts-enum-util'
+import { CvcInputEnum } from '../forms2.types'
 
 export type EntityType = EvidenceType | AssertionType
 
@@ -50,7 +50,7 @@ export type EntityFieldSubjectMap = { [key: string]: BehaviorSubject<any> }
 export type NoStateFormOptions = { formState: { formLayout: NzFormLayoutType } }
 
 export interface IEntityState {
-  formReady$: BehaviorSubject<boolean>
+  formReady$: Subject<boolean>
   formLayout: NzFormLayoutType
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[]
@@ -77,7 +77,7 @@ export interface IEntityState {
 }
 
 class BaseState implements IEntityState {
-  formReady$ = new BehaviorSubject<boolean>(false)
+  formReady$ = new Subject<boolean>()
   formLayout: NzFormLayoutType = 'vertical'
   fields: EntityFieldSubjectMap
   enums: EntityFieldSubjectMap
@@ -181,7 +181,7 @@ class BaseState implements IEntityState {
     return state !== undefined ? state.allowsFdaApproval : true
   }
 
-  getOptionsFromEnums = (e: InputEnum[]): NzSelectOptionInterface[] => {
+  getOptionsFromEnums = (e: CvcInputEnum[]): NzSelectOptionInterface[] => {
     if (e.length === 0) {
       return []
     }

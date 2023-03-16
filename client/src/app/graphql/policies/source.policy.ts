@@ -11,14 +11,14 @@ export const CvcSourcePolicy: TypePolicy = {
         const sourceSource: Maybe<SourceSource> = readField('sourceType')
         let sourceString: string
         if (!sourceSource) {
-          sourceString = 'UNKNOWN'
+          sourceString = '?UNDEFINED?'
         } else {
           sourceString = formatSourceTypeEnum(sourceSource)
         }
         const citation: Maybe<string> = readField('citation')
         const citationId: Maybe<number> = readField('citationId')
 
-        return `${sourceString}: ${citation || citationId || 'UNKNOWN'}`
+        return `${sourceString}: ${citation || citationId || '?UNDEFINED?'}`
       },
     },
   },

@@ -1,6 +1,7 @@
 <nz-card
   [nzTitle]="props.title"
   [nzExtra]="cardExtra">
+
   <nz-row [nzGutter]="[6, 6]">
     <nz-col
       *ngFor="let field of field.fieldGroup"
@@ -9,6 +10,6 @@
     </nz-col>
   </nz-row>
 
-  <!-- <ng-container #fieldComponent></ng-container> -->
 </nz-card>
+
 <ng-template #cardExtra> </ng-template>

@@ -129,6 +129,7 @@ export class CvcNccnGuidelineSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectComponent: this.selectComponent,
     })
   } // ngAfterViewInit()
 

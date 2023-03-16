@@ -138,6 +138,7 @@ export class CvcAcmgCodeSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectComponent: this.selectComponent,
     })
     this.configurePlaceholders()
   } // ngAfterViewInit()

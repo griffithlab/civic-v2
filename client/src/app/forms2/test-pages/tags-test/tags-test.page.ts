@@ -32,6 +32,7 @@ export class TagsTestPage implements OnInit {
     variantId: 2,
     therapyId: 16,
     diseaseId: 2198,
+    eid: 123,
   }
   // entityTagsData$: Observable<EntityTagsTestQuery>
   entityTagsData$: Observable<LinkableEntityData[]>

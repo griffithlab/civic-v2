@@ -10,23 +10,29 @@ import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType } from '@ngx-formly/core'
 import { Query, QueryRef } from 'apollo-angular'
 import { EmptyObject } from 'apollo-angular/types'
-import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
+import {
+  NzSelectComponent,
+  NzSelectOptionInterface,
+} from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
+  combineLatest,
   defer,
   distinctUntilChanged,
   filter,
-  from,
   finalize,
+  from,
   iif,
   map,
   Observable,
   of,
   ReplaySubject,
+  skip,
+  startWith,
   Subject,
   switchMap,
+  tap,
   withLatestFrom,
-  skip,
 } from 'rxjs'
 import { combineLatestArray, isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
@@ -50,6 +56,8 @@ export type GetSelectOptionsFn<TAF> = (
   tplRefs: QueryList<TemplateRef<any>>
 ) => NzSelectOptionInterface[]
 
+export type CvcEntitySelectFieldModel = Maybe<number | number[]>
+
 export interface EntitySelectFieldOptions<
   TAQ,
   TAV extends EmptyObject,
@@ -71,6 +79,7 @@ export interface EntitySelectFieldOptions<
   changeDetectorRef: ChangeDetectorRef
   minSearchStrLength?: number
   selectOpen$?: ReplaySubject<Maybe<boolean>>
+  selectComponent: NzSelectComponent
 }
 
 /*
@@ -104,7 +113,9 @@ export function EntitySelectField<
       // LOCAL SOURCE STREAMS
       onSearch$!: Subject<Maybe<string>> // emits on typeahead keypress
       onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
+      // DEPRECATED: onPopulate$ should replace onCreate
       onCreate$!: Subject<TAF> // emits entity on create
+      onPopulate$!: Subject<CvcEntitySelectFieldModel> // fetches tag record & populates options for ids
       onOpenChange$!: Subject<boolean>
       selectOpen$!: ReplaySubject<Maybe<boolean>>
 
@@ -132,11 +143,13 @@ export function EntitySelectField<
       getSelectedItemOption!: GetSelectedItemFn<TAF>
       getSelectOptions!: GetSelectOptionsFn<TAF>
       minSearchStrLength!: number
-      cdr!: ChangeDetectorRef // NOTE: would be great to remove this by eliminating subscriptions
+      cdr!: ChangeDetectorRef // NOTE: would be great to remove this
 
       // LOCAL REFS
       queryRef?: QueryRef<TAQ, TAV>
+      tagQueryRef?: QueryRef<TQ, TV>
       optionTemplates?: QueryList<TemplateRef<any>>
+      selectComponent!: NzSelectComponent
 
       configureEntitySelectField(
         options: EntitySelectFieldOptions<TAQ, TAV, TAP, TAF, TQ, TV>
@@ -154,24 +167,21 @@ export function EntitySelectField<
         this.typeaheadParamName$ = options.typeaheadParamName$
         this.selectOpen$ =
           options.selectOpen$ || new ReplaySubject<Maybe<boolean>>()
+        this.selectComponent = options.selectComponent
         this.minSearchStrLength = options.minSearchStrLength || 0
         this.cdr = options.changeDetectorRef
 
         // since mixins can't(?) have constructors, instantiate stuff here
-        this.onSearch$ = new Subject<Maybe<string>>()
+        this.onSearch$ = new BehaviorSubject<Maybe<string>>(undefined)
         this.isLoading$ = new Observable<boolean>()
         this.result$ = new BehaviorSubject<TAF[]>([])
+        this.onPopulate$ = new Subject<CvcEntitySelectFieldModel>()
         this.onTagClose$ = new Subject<MouseEvent>()
         this.onOpenChange$ = new Subject<boolean>()
         this.onCreate$ = new Subject<TAF>()
         this.selectOption$ = new BehaviorSubject<
           Maybe<NzSelectOptionInterface[]>
         >(undefined)
-
-        // if (this.field.key === 'variantId')
-        //   this.selectOption$
-        //     .pipe(tag(`${this.field.key} entity-select-field selectOption$`))
-        //     .subscribe()
 
         // set up typeahead watch & fetch calls
         this.response$ = this.onSearch$.pipe(
@@ -196,7 +206,7 @@ export function EntitySelectField<
 
             // helper functions for iif operator:
             const watchQuery = (query: TAV) => {
-              // calls watch() to create queryReft,
+              // calls watch() to create queryRef,
               // returns observable from initial watch() query
               this.queryRef = this.typeaheadQuery.watch(query)
               // emit loading events from isLoading$
@@ -207,7 +217,7 @@ export function EntitySelectField<
 
               return this.queryRef.valueChanges
             }
-            const fetchQuery = (query: TAV) => {
+            const refetchQuery = (query: TAV) => {
               // returns observable from the queryRef created with
               // watchQuery(). Since refetch() returns a promise, we convert it
               // to an observable with the from() operator
@@ -216,19 +226,18 @@ export function EntitySelectField<
 
             // This iif operator prevents double-calling the API:
             // If queryRef doesn't exist, create it with watchQuery observable.
-            // If it does, refetch with fetchQuery observable.
+            // If it does, refetch with refetchQuery observable.
             // Using defer() ensures functions are not called until
             // values are emitted - otherwise they'll be called on subscribe.
             return iif(
               () => this.queryRef === undefined, // predicate
               defer(() => watchQuery(query)), // true
-              defer(() => fetchQuery(query)) // false
+              defer(() => refetchQuery(query)) // false
             )
           })
         ) // end this.response$
 
         this.onOpenChange$
-          // .pipe(tag('entity-select-field onOpenChange$'), untilDestroyed(this))
           .subscribe((change: boolean) => {
             if (change) this.onSearch$.next('')
           })
@@ -270,7 +279,11 @@ export function EntitySelectField<
           // option template instance, getSelectOptions() generates a NzSelectOption that
           // attaches the pre-generated option template to a result value.
           this.optionTemplates.changes
-            .pipe(withLatestFrom(this.result$), untilDestroyed(this))
+            .pipe(
+              withLatestFrom(this.result$),
+              // tag('entity-select mixin optionTemplates'),
+              untilDestroyed(this)
+            )
             .subscribe(
               ([tplRefs, results]: [QueryList<TemplateRef<any>>, TAF[]]) => {
                 const options = this.getSelectOptions(results, tplRefs)
@@ -280,52 +293,38 @@ export function EntitySelectField<
             )
         }
 
-        // when a new entity is created, execute tag query to cache its
-        // LinkableTag object for rendering by the nz-select
-        this.onCreate$.pipe(untilDestroyed(this)).subscribe((entity: TAF) => {
-          this.tagQuery
-            .fetch(this.getTagQueryVars(entity.id), {
-              fetchPolicy: 'cache-first',
-            })
-            .pipe(
-              filter((r) => !!r.data),
-              finalize(() => {
-                // reset selectOpen to force Input onChanges with subsequent selectOpen emit
-                this.selectOpen$.next(undefined)
-              }),
-              untilDestroyed(this)
-            )
-            .subscribe((result) => {
-              const item = this.getTagQueryResults(result)
-              if (!item) {
-                // if no item, create a baseline select option to display a generic tag
-                this.selectOption$.next([
-                  { label: entity.name, value: entity.id },
-                ])
-              } else {
-                // if there is an item, emit from result$, which will trigger
-                // generation of its option in parent field's template
-                this.result$.next([item])
-                if (this.field.props && this.field.props.isMultiSelect) {
-                  const newValue = this.formControl.value
-                  newValue.push(entity.id)
-                  this.formControl.setValue(newValue)
-                } else {
-                  this.formControl.setValue(entity.id)
-                }
-                this.selectOpen$.next(false)
-                // force update cycle to close nz-select
-                this.cdr.detectChanges()
-              }
-            })
-        })
+        this.onPopulate$
+          .pipe(
+            filter(isNonNulled),
+            switchMap((value: CvcEntitySelectFieldModel) => {
+              return combineLatestArray(this.getTagQueries(value))
+            }),
+            map((queries) =>
+              queries.map((query) => this.getTagQueryResults(query))
+            ),
+            tap((results: Maybe<TAF>[]) => {
+              // send tag query results to result$, this will cause
+              // parent select fields to generate selectOptions for them
+              this.result$.next(results as TAF[])
+            }),
+            untilDestroyed(this)
+          )
+          .subscribe((options) => {
+            let newValue: CvcEntitySelectFieldModel
+            if (this.field.props && this.field.props.isMultiSelect) {
+              const arrValue: number[] = []
+              options.forEach((opt) => arrValue.push(opt?.id || undefined))
+              newValue = arrValue
+            } else {
+              newValue = options[0]!.id
+            }
+            this.formControl.setValue(newValue)
+            // if onPopulate$ is called from a quick-add form in the select dropdown,
+            // this will close it and cause nz-select to display the new tag
+            this.selectOpen$.next(false)
+          })
 
-        this.onTagClose$.pipe(untilDestroyed(this)).subscribe((_) => {
-          this.resetField()
-        })
-
-        // if a prepopulated form value exists,
-        // use tagQuery to create select option(s) for it so that nz-select's tags render
+        // if a model value exists on init, prepopulate tags
         if (this.formControl.value) {
           const value = this.formControl.value
           if (Object.keys(value).length > 0 && value.constructor === Object) {
@@ -335,37 +334,19 @@ export function EntitySelectField<
             )
             return
           }
-
-          combineLatestArray(this.getTagQueries(value))
-            .pipe(
-              map((queries) => {
-                if (!(queries.length > 0)) return []
-                return queries.map(
-                  (result: ApolloQueryResult<TQ>): NzSelectOptionInterface => {
-                    const item = this.getTagQueryResults(result)
-                    return this.getSelectedItemOption(item!)
-                  }
-                )
-              }),
-              untilDestroyed(this)
-            )
-            .subscribe((options) => {
-              if (!options || !options.every((o) => typeof o !== 'undefined')) {
-                console.error(
-                  `${this.field.id} prepopulate select options error: one or more requests failed.`,
-                  options
-                )
-              }
-              this.selectOption$.next(options)
-            })
+          this.onPopulate$.next(value)
         }
+
+        this.onTagClose$.pipe(untilDestroyed(this)).subscribe((_) => {
+          this.resetField()
+        })
       } // configureDisplayEntityTag()
 
       getTagQueries(
-        ids: number | number[]
+        ids: CvcEntitySelectFieldModel
       ): Observable<ApolloQueryResult<TQ>>[] {
         if (typeof ids === 'number') ids = [ids]
-        const queries = ids.map((id) =>
+        const queries = ids!.map((id) =>
           this.tagQuery
             .fetch(this.getTagQueryVars(id), { fetchPolicy: 'cache-first' })
             .pipe(filter((r) => !!r.data))

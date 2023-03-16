@@ -41,7 +41,7 @@
                 result.variantAliases.join(', ')
                   | highlightTypeahead : searchString
               "></span
-          ></em>
+            ></em>
         </ng-container>
         <ng-template #noAliases>--</ng-template>
       </span>
@@ -73,6 +73,6 @@
     [cvcSearchString]="searchStr"
     [cvcGeneId]="onGeneId$ | ngrxPush"
     [cvcGeneName]="onGeneName$ | ngrxPush"
-    (cvcOnCreate)="onCreate$.next($event)">
+    (cvcOnCreate)="onPopulate$.next($event)">
   </cvc-variant-quick-add-form>
 </ng-template>

@@ -7,39 +7,27 @@ query EvidenceItemRevisableFields($evidenceId: Int!) {
 fragment RevisableEvidenceFields on EvidenceItem {
   id
   molecularProfile {
-    id
-    name
-    link
+    ...MolecularProfileSelectTypeaheadFields
   }
   variantOrigin
   description
   significance
   disease {
-    id
-    doid
-    name
-    displayName
+    ...DiseaseSelectTypeaheadFields
   }
   therapies {
-    id
-    ncitId
-    name
+    ...TherapySelectTypeaheadFields
   }
   therapyInteractionType
   evidenceDirection
   evidenceLevel
   evidenceType
   phenotypes {
-    id
-    hpoId
-    name
+    ...PhenotypeSelectTypeaheadFields
   }
   evidenceRating
   source {
-    id
-    sourceType
-    citationId
-    citation
+    ...SourceSelectTypeaheadFields
   }
 }
 

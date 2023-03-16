@@ -1,38 +1,35 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    QueryList,
-    TemplateRef,
-    Type,
-    ViewChildren
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  QueryList,
+  TemplateRef,
+  Type,
+  ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms2/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms2/states/base.state'
 import {
-    PhenotypeSelectTagGQL,
-    PhenotypeSelectTagQuery,
-    PhenotypeSelectTagQueryVariables,
-    PhenotypeSelectTypeaheadFieldsFragment,
-    PhenotypeSelectTypeaheadGQL,
-    PhenotypeSelectTypeaheadQuery,
-    PhenotypeSelectTypeaheadQueryVariables,
-    Maybe
+  Maybe,
+  PhenotypeSelectTagGQL,
+  PhenotypeSelectTagQuery,
+  PhenotypeSelectTagQueryVariables,
+  PhenotypeSelectTypeaheadFieldsFragment,
+  PhenotypeSelectTypeaheadGQL,
+  PhenotypeSelectTypeaheadQuery,
+  PhenotypeSelectTypeaheadQueryVariables,
 } from '@app/generated/civic.apollo'
-import { untilDestroyed } from '@ngneat/until-destroy'
 import {
-    FieldTypeConfig,
-    FormlyFieldConfig,
-    FormlyFieldProps
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
+import { BehaviorSubject, Subject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcPhenotypeSelectFieldOptions = Partial<
@@ -54,7 +51,7 @@ export interface CvcPhenotypeSelectFieldProps extends FormlyFieldProps {
     multiDefault: string
     // placeholder if evidence/assertion type required & field disabled
     requireTypePrompt: string
-  },
+  }
   tooltip?: string
   description?: string
   extraType?: string
@@ -65,7 +62,10 @@ export interface CvcPhenotypeSelectFieldProps extends FormlyFieldProps {
 // field types in some expressions
 export interface CvcPhenotypeSelectFieldConfig
   extends FormlyFieldConfig<CvcPhenotypeSelectFieldProps> {
-  type: 'phenotype-select' | 'phenotype-multi-select' | Type<CvcPhenotypeSelectField>
+  type:
+    | 'phenotype-select'
+    | 'phenotype-multi-select'
+    | Type<CvcPhenotypeSelectField>
 }
 
 const PhenotypeSelectMixin = mixin(
@@ -108,7 +108,8 @@ export class CvcPhenotypeSelectField
       entityName: { singular: 'Phenotype', plural: 'Phenotypes' },
       isMultiSelect: false,
       requireType: true,
-      tooltip: 'Phenotype or phenotype combination which interacts with the specified variant',
+      tooltip:
+        'Phenotype or phenotype combination which interacts with the specified variant',
       // TODO: implement labels/placeholders w/ string replacement using typescript
       // template strings: https://www.codevscolor.com/typescript-template-string
       placeholders: {
@@ -116,8 +117,9 @@ export class CvcPhenotypeSelectField
         multiDefault: 'Select Phenotype(s) (max MULTI_MAX)',
         requireTypePrompt: 'Select an ENTITY_NAME Type to search Phenotypes',
       },
-      description: 'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes</a>, including <a href="https://hpo.jax.org/app/browse/term/HP:0003674" target="_blank">age of onset</a>.',
-      extraType: 'description'
+      description:
+        'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes</a>, including <a href="https://hpo.jax.org/app/browse/term/HP:0003674" target="_blank">age of onset</a>.',
+      extraType: 'description',
     },
   }
 
@@ -152,6 +154,8 @@ export class CvcPhenotypeSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
     })
     this.configurePlaceholders()
   } // ngAfterViewInit()
@@ -160,8 +164,7 @@ export class CvcPhenotypeSelectField
     if (!this.state) return
   }
 
-  configurePlaceholders(): void {
-  }
+  configurePlaceholders(): void {}
 
   getTypeaheadVarsFn(str: string): PhenotypeSelectTypeaheadQueryVariables {
     return { name: str }

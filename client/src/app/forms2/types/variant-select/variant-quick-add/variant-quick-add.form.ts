@@ -60,8 +60,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
     this.searchString$.next(str)
   }
 
-  @Output() cvcOnCreate =
-    new EventEmitter<VariantSelectTypeaheadFieldsFragment>()
+  @Output() cvcOnCreate = new EventEmitter<number>()
 
   model: Partial<QuickAddVariantMutationVariables>
   form: UntypedFormGroup
@@ -186,7 +185,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
           if (data && data.addVariant) {
             const variant = data.addVariant
               .variant as VariantSelectTypeaheadFieldsFragment
-            this.cvcOnCreate.next(variant)
+            this.cvcOnCreate.next(variant.id)
           }
         }, 1000)
       }

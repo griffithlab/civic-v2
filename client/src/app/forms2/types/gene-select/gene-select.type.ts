@@ -29,8 +29,6 @@ import {
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcGeneSelectFieldOption = Partial<
@@ -113,6 +111,8 @@ export class CvcGeneSelectField
       getSelectedItemOptionFn: this.getSelectedItemOptionFn,
       getSelectOptionsFn: this.getSelectOptionsFn,
       changeDetectorRef: this.changeDetectorRef,
+      selectOpen$: this.selectOpen$,
+      selectComponent: this.selectComponent,
     })
     // this.onOpenChange$.pipe(tag('gene-select onOpenChange$')).subscribe()
   } // ngAfterViewInit()

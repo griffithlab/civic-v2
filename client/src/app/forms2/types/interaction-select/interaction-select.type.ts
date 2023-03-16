@@ -1,11 +1,11 @@
 import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    QueryList,
-    TemplateRef,
-    Type,
-    ViewChildren
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  QueryList,
+  TemplateRef,
+  Type,
+  ViewChildren,
 } from '@angular/core'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
@@ -14,9 +14,9 @@ import { CvcFormFieldExtraType } from '@app/forms2/wrappers/form-field/form-fiel
 import { TherapyInteraction, Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
-    FieldTypeConfig,
-    FormlyFieldConfig,
-    FormlyFieldProps
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyFieldProps,
 } from '@ngx-formly/core'
 import { BehaviorSubject, map } from 'rxjs'
 import mixin from 'ts-mixin-extended'
@@ -85,7 +85,7 @@ export class CvcInteractionSelectField
       requireMultipleTherapiesPromptFn: () =>
         `A single associated therapy does not have an Interaction type`,
       tooltip: 'Characterizes the interaction of a multi-therapy treatment',
-      extraType: 'prompt'
+      extraType: 'prompt',
     },
   }
 
@@ -161,12 +161,14 @@ export class CvcInteractionSelectField
         if (!therapies || therapies.length == 0) {
           this.props.disabled = true
           this.props.required = false
-          this.props.description = 'Interaction type is not applicable when no therapies are selected.'
-          if (this.formControl.value !== undefined){
+          this.props.description =
+            'Interaction type is not applicable when no therapies are selected.'
+          if (this.formControl.value !== undefined) {
             this.formControl.setValue(undefined)
           }
         } else if (therapies.length == 1) {
-          this.props.description = 'A single associated therapy does not have an Interaction type'
+          this.props.description =
+            'A single associated therapy does not have an Interaction type'
           this.props.disabled = true
           this.props.required = false
           if (this.formControl.value !== undefined) {

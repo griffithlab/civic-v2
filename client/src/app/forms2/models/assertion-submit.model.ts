@@ -5,11 +5,9 @@ export interface AssertionSubmitModel extends FormSubmitBaseModel {
   fields: AssertionFields
 }
 
-export const assertionSubmitFieldsDefaults = <AssertionFields>{
+export const assertionSubmitFieldsDefaults: AssertionFields = {
   // gene, variant drug, included for initial input type development
-  geneId: undefined,
-  variantId: undefined,
-  drugId: undefined,
+  molecularProfileId: undefined,
   acmgCodeIds: [],
   ampLevel: undefined,
   assertionDirection: undefined,
@@ -23,7 +21,6 @@ export const assertionSubmitFieldsDefaults = <AssertionFields>{
   evidenceItemIds: [],
   fdaCompanionTest: undefined,
   fdaRegulatoryApproval: undefined,
-  molecularProfileId: undefined,
   nccnGuidelineId: undefined,
   nccnGuidelineVersion: undefined,
   phenotypeIds: [],

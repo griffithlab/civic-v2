@@ -1,32 +1,31 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import {
-  CvcMolecularProfileSelectField,
-  CvcMolecularProfileSelectFieldProps,
-} from './molecular-profile-select.type'
-import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
-import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
+import { NgModule } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
+import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
-import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { LetModule, PushModule } from '@ngrx/component'
+import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
+import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { NzButtonModule } from 'ng-zorro-antd/button'
-import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { LetModule, PushModule } from '@ngrx/component'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import {
+    CvcMolecularProfileSelectField,
+    CvcMolecularProfileSelectFieldProps
+} from './molecular-profile-select.type'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
-import { NzCardModule } from 'ng-zorro-antd/card';
 import { MpFinderComponent } from './mp-finder/mp-finder.component'
-import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
-import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 
 const typeConfig: ConfigOption = {
   types: [

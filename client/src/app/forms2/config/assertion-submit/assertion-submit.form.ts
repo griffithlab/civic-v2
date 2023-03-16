@@ -19,8 +19,8 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
   model: AssertionSubmitModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
-  options: FormlyFormOptions
   state: AssertionState
+  options: FormlyFormOptions
 
   constructor() {
     this.form = new UntypedFormGroup({})
@@ -30,13 +30,18 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
     this.options = { formState: this.state}
   }
 
-  ngAfterViewInit(): void {
-    this.state.formReady$.next(true)
-  }
-
   onSubmit(model: AssertionSubmitModel) {
     console.log('------ Assertion Form Submitted ------')
     console.log(model)
+  }
+
+  ngAfterViewInit(): void {
+    // FIXME: need a better way to know when the form fields have all
+    // initialized, instead of relying on a setTimeout like this. Probably need
+    // to refactor some of the field/form init to orchestrate some init in the
+    // form component, so that it knows how many fields and when they are all
+    // ready to be connected.
+    setTimeout(() => this.state.formReady$.next(true), 1000)
   }
 
   ngOnDestroy(): void {

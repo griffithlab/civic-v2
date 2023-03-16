@@ -40,7 +40,7 @@ export class CvcTherapyQuickAddForm {
     this.searchString$.next(str)
   }
 
-  @Output() cvcOnCreate = new EventEmitter<Therapy>()
+  @Output() cvcOnCreate = new EventEmitter<number>()
 
   model: TherapyQuickAddModel = therapyQuickAddInitialModel
   form: UntypedFormGroup = new UntypedFormGroup({})
@@ -123,7 +123,7 @@ export class CvcTherapyQuickAddForm {
       (data) => {
         console.log('therapy-quick-add submit data callback', data)
         // const vid = data.addTherapy.therapy.id
-        if (data.addTherapy) this.cvcOnCreate.next(data.addTherapy.therapy)
+        if (data.addTherapy) this.cvcOnCreate.next(data.addTherapy.therapy.id)
       }
     )
 

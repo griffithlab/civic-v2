@@ -64,7 +64,9 @@ export class TableScrollDirective implements AfterViewInit {
   // observable of all rowsRendered events from viewport
   private rendered$?: Observable<any>
 
-  constructor(private host: NzTableComponent<any>) {}
+  constructor(private host: NzTableComponent<any>) {
+    console.log('table-scroll.directive constructor()')
+  }
 
   ngAfterViewInit() {
     if (this.host && this.host.cdkVirtualScrollViewport) {
