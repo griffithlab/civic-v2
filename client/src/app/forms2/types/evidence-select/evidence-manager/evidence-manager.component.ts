@@ -91,25 +91,27 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
-  // SOURCE STREAMS
-  sortChanges$: Observable<CvcSortChange>[]
-  filterChanges$: Observable<CvcFilterChange>[]
-  onRowSelected$: Subject<RowSelection>
-  onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
-  onPreferenceChange$: BehaviorSubject<ColumnPrefsModel>
-  onResetFilter$: Subject<void>
-
-  // @Input STREAMS
+  // SOURCE @Input STREAMS
   onSetTableFilter$: BehaviorSubject<CvcFilterChange[]>
   onSetTablePref$: BehaviorSubject<Partial<ColumnPrefsOption>[]>
   onSetSelectedRow$: BehaviorSubject<Set<number>>
 
+  // SOURCE STREAMS
+  onRowSelected$: Subject<RowSelection>
+  onPreferenceChange$: BehaviorSubject<ColumnPrefsModel>
+  onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
+  onFetchMore$: Subject<ScrollFetch>
+  onResetFilter$: Subject<void>
+  onSortChanges: Observable<CvcSortChange>[]
+  onFilterChanges: Observable<CvcFilterChange>[]
+
   // INTERMEDIATE STREAMS
-  onFetch$: Subject<ScrollFetch>
-  setPreference$!: Observable<ColumnPrefsModel>
   queryRequest$: Subject<CvcTableQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
   connection$: Observable<EvidenceItemConnection>
+  refetch$: Observable<CvcTableQueryParams>
+  fetchMore$: Observable<CvcTableQueryParams>
+  setPreference$!: Observable<ColumnPrefsModel>
 
   // PRESENTION STREAMS
   col$: BehaviorSubject<EvidenceManagerTableConfig>
@@ -174,29 +176,23 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     private apollo: Apollo,
     private cdr: ChangeDetectorRef
   ) {
-    // this.onTableQueryParams$
-    //   .pipe(tag('TQ >>>>> onTableQueryParam$'))
-    //   .subscribe()
-
-    this.sortChanges$ = []
-    this.filterChanges$ = []
-
-    this.onFetch$ = new Subject<ScrollFetch>()
-    this.onRowSelected$ = new Subject<RowSelection>()
+    this.onFetchMore$ = new Subject<ScrollFetch>()
     this.onPreferenceChange$ = new BehaviorSubject<ColumnPrefsModel>([])
     this.onResetFilter$ = new Subject<void>()
+    this.onRowSelected$ = new Subject<RowSelection>()
     this.onScroll$ = new BehaviorSubject<ScrollEvent>('stop')
-
+    this.onSetSelectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
+    this.queryError$ = new Subject<RequestError>()
     this.queryRequest$ = new Subject<CvcTableQueryParams>()
-    // this.queryRequest$.pipe(tag('OQ >>>>> queryRequest$')).subscribe()
     this.queryResult$ = new ReplaySubject<
       ApolloQueryResult<EvidenceManagerQuery>
     >(1)
-    this.onSetSelectedRow$ = new BehaviorSubject<Set<number>>(new Set<number>())
-    this.scrollToIndex$ = new Subject<number>()
-    this.queryError$ = new Subject<RequestError>()
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollToIndex$ = new Subject<number>()
+
+    this.onSortChanges = []
+    this.onFilterChanges = []
 
     this.managerTableConfig = [
       {
@@ -419,7 +415,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           key: opt.key,
           value: opt.sort.default ?? null,
         })
-        this.sortChanges$.push(
+        this.onSortChanges.push(
           // opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
           opt.sort.changes
         )
@@ -430,7 +426,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           key: opt.key,
           value: defaultValue ?? null,
         })
-        this.filterChanges$.push(
+        this.onFilterChanges.push(
           // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
           opt.filter.changes
         )
@@ -438,8 +434,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     })
 
     // emit all filters when any is updated
-    const filterChange$ = combineLatest(this.filterChanges$)
-    const sortChange$ = combineLatest(this.sortChanges$).pipe(
+    const filterChange$ = combineLatest(this.onFilterChanges)
+    const sortChange$ = combineLatest(this.onSortChanges).pipe(
       // with nz-table's multi-sort feature toggled off, it sometimes emit two
       // events with every sort change: one that is the new sort change, and
       // another that resets the previous col's sort. Here, this filters
@@ -450,10 +446,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     // observe all sort and filter changes, convert to refetch queryParams
-    const refetch$: Observable<CvcTableQueryParams> = combineLatest([
-      sortChange$,
-      filterChange$,
-    ]).pipe(
+    this.refetch$ = combineLatest([sortChange$, filterChange$]).pipe(
       map(([sorts, filters]) => {
         const queryParams: CvcTableQueryParams = {
           query: 'refetch',
@@ -465,7 +458,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     // observe onFetch events, convert to fetchMore queryParams
-    const fetchMore$: Observable<CvcTableQueryParams> = this.onFetch$.pipe(
+    this.fetchMore$ = this.onFetchMore$.pipe(
       map((fetchParams) => {
         return {
           query: 'fetchMore',
@@ -480,19 +473,14 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // NOTE: onResetFilter causes every col sort & filter to emit an update
     // event that ends up here. The debounceTime operator ensures that only one
     // event makes it through to emit a query.
-    merge(refetch$, fetchMore$)
-      .pipe(
-        debounceTime(50),
-        // tag('>>>>> QUERY'),
-        untilDestroyed(this)
-      )
+    merge(this.refetch$, this.fetchMore$)
+      .pipe(debounceTime(50), untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
           this.isFetchMore$.next(false)
           this.queryError$.next({})
           this.queryRef = this.queryGQL.watch(queryVars)
-          // this.queryResult$.pipe(tag('<<<<<<<<< queryResult$')).subscribe()
 
           // NOTE: refetch and fetchMore results from valueChanges do not
           // include network or queryGQL errors, so this extra queryError$ stuff
@@ -555,7 +543,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
     // emit rows from query responses after appending a 'selected' column
     this.row$ = combineLatest([
-      // this.connection$.pipe(pluck('nodes'), filter(isNonNulled)),
       this.connection$.pipe(
         pluck('edges'),
         filter(isNonNulled),
@@ -579,7 +566,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           }
         })
       })
-      // tag('row$')
     )
 
     // col$ provide column-level configuration in nz-table's thead and tbody
@@ -679,8 +665,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         this.onPreferenceChange$.next(preferences)
       })
 
-    // when row select, get old selected rows, emit updated rows
-    // & output new selected ids array
+    // when row select, get old selected rows, emit updated rows & output new
+    // selected ids array
     this.onRowSelected$
       .pipe(withLatestFrom(this.onSetSelectedRow$), untilDestroyed(this))
       .subscribe(([event, selected]: [RowSelection, Set<number>]) => {

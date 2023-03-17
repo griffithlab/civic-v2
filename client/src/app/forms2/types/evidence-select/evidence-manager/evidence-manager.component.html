@@ -7,7 +7,7 @@
     [nzData]="(row$ | ngrxPush) || []"
     cvcTableScroller
     (cvcTableScrollerOnScroll)="onScroll$.next($event)"
-    (cvcTableScrollerOnFetch)="onFetch$.next($event)"
+    (cvcTableScrollerOnFetch)="onFetchMore$.next($event)"
     [cvcTableScrollerQueryRef]="queryRef"
     [cvcTableScrollerPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollerToIndex]="(scrollToIndex$ | ngrxPush)!"

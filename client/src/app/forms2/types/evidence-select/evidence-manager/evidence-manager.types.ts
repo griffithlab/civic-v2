@@ -69,7 +69,6 @@ export type EvidenceManagerRowData = Pick<
 export type EvidenceManagerColKey = keyof EvidenceManagerRowData
 export type EvidenceManagerColType =
   | 'select' // select column, displays checkboxes for row selection
-  | 'select-tag' // select + entity tags next to checkboxes
   | 'entity-tag' // display col value with entity-tag
   | 'enum-tag' // display cell data w/ attribute-tag
   | 'default' // short strings, e.g. labels, counts
@@ -91,7 +90,7 @@ interface BaseColumn {
   emptyValueCategory?: CvcEmptyValueCategory // passed to cvc-empty-value component
 }
 
-// implements nz-table filters
+// options list and changes stream for col filters
 interface FilterOptions {
   filter: {
     options: NzTableFilterList // options displayed in filter dropdown
@@ -115,6 +114,7 @@ interface InputFilterOptions {
   }
 }
 
+// default sort order & changes stream for col filters
 export interface SortOptions {
   sort: {
     default?: NzTableSortOrder
@@ -122,6 +122,8 @@ export interface SortOptions {
   }
 }
 
+// checkbox display & changes stream for selection col's
+// header and row cells
 interface SelectionOptions {
   checkbox: {
     th: {
@@ -135,26 +137,11 @@ interface SelectionOptions {
   }
 }
 
+// passed to nz-tables fixedLeft/Right inputs
 interface FixedOptions {
   fixedLeft?: true
   fixedRight?: true
 }
-
-// use context to use another column's entity object to display tag
-interface EntityTagOptions {
-  showStatus?: boolean // display tag status indicator styles
-}
-
-interface TextTagOptions {
-  text?: {}
-}
-
-// displays row[key] value with attribute-tag component.
-// toggle icon off w/ showIcon to render enums that
-// evidenceDisplayEnum won't work with. toggle showLabel off
-// for a little mini-tag w/ just the icon.
-// If showIcon is a string, that string will be provided to icon's nzType
-interface EnumTagOptions {}
 
 interface TagOptions {
   tag?: {
@@ -165,6 +152,26 @@ interface TagOptions {
     maxTags?: number // max tags if value is tag array
   }
 }
+
+// most entity tag cols can be customized using TagOptions.
+// if showStatus set to true, tag will display status styles.
+// NOTE: use BaseColumn's 'context' option if it's necessary
+// to render an entity tag in a column whos row[colKey] data
+// is not a LinkableEntity, e.g. evidence-manager table's 'id' col
+interface EntityTagOptions {
+  showStatus?: boolean // display tag status indicator styles
+}
+
+interface TextTagOptions {
+  text?: {}
+}
+
+// displays row[key] value with attribute-tag component.
+// NOTE: use TagOptions for different cvc-attribute-tag displays in enum-tag cols:
+// - toggle showLabel off for a little mini-tag w/ just the icon.
+// - if attribute-tag cannot automatically pick the correct icon,
+// set showIcon to the name of any nz-icon, and the tag will display that
+interface EnumTagOptions {}
 
 export type ColumnConfigOption =
   | SelectColumnType
