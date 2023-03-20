@@ -47,33 +47,39 @@ const formFieldConfig: FormlyFieldConfig[] = [
               tooltip: 'TEST TEST TEST TEST',
               helpText: 'This is the description of a molecular profile.',
               watchVariantMolecularProfileId: true,
+              colSpan: 16,
             },
           },
-          <CvcEntityTypeSelectFieldConfig>{
+          {
             key: 'assertionType',
             type: 'type-select',
             props: {
               required: true,
+              colSpan: 8,
             },
           },
-          <CvcDirectionSelectFieldOptions>{
+          {
             key: 'assertionDirection',
             type: 'direction-select',
             props: {
               required: true,
+              colSpan: 8,
             },
           },
-          <CvcSignificanceSelectFieldOptions>{
+          {
             key: 'significance',
             type: 'significance-select',
             props: {
               required: true,
+              colSpan: 8,
             },
           },
-          <CvcDiseaseSelectFieldOptions>{
+          {
             key: 'diseaseId',
             type: 'disease-select',
-            props: {},
+            props: {
+              colSpan: 8,
+            },
           },
           <CvcTherapySelectFieldOptions>{
             key: 'therapyIds',
@@ -100,7 +106,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           <CvcAmpCategorySelectFieldOptions>{
             key: 'ampLevel',
             type: 'amp-category-select',
-            props: {}
+            props: {},
           },
           <CvcAcmgCodeSelectFieldOptions>{
             key: 'acmgCodeIds',
@@ -123,7 +129,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               required: true,
               isMultiSelect: true,
-              colSpan: 24
+              colSpan: 24,
             },
           },
           {
@@ -131,8 +137,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'textarea',
             wrappers: ['form-field'],
             props: {
-              tooltip:
-                'A short, one sentence summary of the Assertion',
+              tooltip: 'A short, one sentence summary of the Assertion',
               placeholder: 'Enter an Assertion Summary',
               label: 'Assertion Summary',
               required: true,
@@ -148,7 +153,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Statement',
               label: 'Assertion Statement',
               required: true,
-              rows: 5 
+              rows: 5,
             },
           },
         ],
