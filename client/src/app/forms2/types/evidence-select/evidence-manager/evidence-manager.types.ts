@@ -9,6 +9,7 @@ import {
   EvidenceManagerFieldsFragment,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
+  EvidenceSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
@@ -66,7 +67,18 @@ export type EvidenceManagerRowData = Pick<
 > &
   EvidenceManagerRowDataExtra
 
+// list of columns that require conversion from their column key
+// to a filter query variable. e.g. 'disease' -> 'diseaseName'
+export type ConvertedQueryVar = keyof Pick<
+  EvidenceManagerQueryVariables,
+  'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
+>
+
+// convenience type for various map keys
 export type EvidenceManagerColKey = keyof EvidenceManagerRowData
+
+// each col type has different settings for nz-table features, e.g. filter/sort
+// and cvc-evidence-manager features, e.g. entity-tag display options
 export type EvidenceManagerColType =
   | 'select' // select column, displays checkboxes for row selection
   | 'entity-tag' // display col value with entity-tag
@@ -74,10 +86,18 @@ export type EvidenceManagerColType =
   | 'default' // short strings, e.g. labels, counts
   | 'text-tag' // long strings or simple sanitized HTML, e.g. descriptions, summaries
 
-// array of column configs, will be rendered left-to-right in array order
-export type EvidenceManagerTableConfig = ColumnConfigOption[]
+export type EvidenceManagerColSortMap = {
+  [key in EvidenceManagerColKey]?: EvidenceSortColumns
+}
 
-interface BaseColumn {
+export type EvidenceManagerColQueryMap =  {
+    [key in EvidenceManagerColKey]?: ConvertedQueryVar
+  }
+
+// array of column configs, will be rendered left-to-right in array order
+export type EvidenceManagerTableConfig = ColumnConfig[]
+
+interface BaseColumnConfig {
   key: EvidenceManagerColKey
   type: EvidenceManagerColType
   label: string // displayed in col header
@@ -91,7 +111,7 @@ interface BaseColumn {
 }
 
 // options list and changes stream for col filters
-interface FilterOptions {
+interface FilterConfig {
   filter: {
     options: NzTableFilterList // options displayed in filter dropdown
     changes?: Subject<CvcFilterChange>
@@ -105,7 +125,7 @@ interface FilterOptions {
 // value to an entity name, given an id (e.g. col 'disease',
 // query var 'diseaseName', given 'diseaseId'), a typename will need
 // to be provided to build the cache query.
-interface InputFilterOptions {
+interface InputFilterConfig {
   filter: {
     inputType: 'default' | 'numeric'
     typename?: string
@@ -115,7 +135,7 @@ interface InputFilterOptions {
 }
 
 // default sort order & changes stream for col filters
-export interface SortOptions {
+export interface SortConfig {
   sort: {
     default?: NzTableSortOrder
     changes?: Subject<CvcSortChange>
@@ -124,7 +144,7 @@ export interface SortOptions {
 
 // checkbox display & changes stream for selection col's
 // header and row cells
-interface SelectionOptions {
+interface SelectionConfig {
   checkbox: {
     th: {
       showCheckbox: boolean
@@ -132,18 +152,18 @@ interface SelectionOptions {
     }
     td: {
       showCheckbox: boolean
-      checkedChange: Subject<RowSelection> // apply select changes to row
+      checkedChange?: Subject<RowSelection> // apply select changes to row
     }
   }
 }
 
 // passed to nz-tables fixedLeft/Right inputs
-interface FixedOptions {
+interface FixedConfig {
   fixedLeft?: true
   fixedRight?: true
 }
 
-interface TagOptions {
+interface TagConfig {
   tag?: {
     showLabel?: EnumOutputStyle | boolean
     showIcon?: string | boolean
@@ -153,71 +173,71 @@ interface TagOptions {
   }
 }
 
-// most entity tag cols can be customized using TagOptions.
+// most entity tag cols can be customized using TagConfig.
 // if showStatus set to true, tag will display status styles.
-// NOTE: use BaseColumn's 'context' option if it's necessary
+// NOTE: use BaseColumnConfig's 'context' option if it's necessary
 // to render an entity tag in a column whos row[colKey] data
 // is not a LinkableEntity, e.g. evidence-manager table's 'id' col
-interface EntityTagOptions {
+interface EntityTagConfig {
   showStatus?: boolean // display tag status indicator styles
 }
 
-interface TextTagOptions {
+interface TextTagConfig {
   text?: {}
 }
 
 // displays row[key] value with attribute-tag component.
-// NOTE: use TagOptions for different cvc-attribute-tag displays in enum-tag cols:
+// NOTE: use TagConfig for different cvc-attribute-tag displays in enum-tag cols:
 // - toggle showLabel off for a little mini-tag w/ just the icon.
 // - if attribute-tag cannot automatically pick the correct icon,
 // set showIcon to the name of any nz-icon, and the tag will display that
-interface EnumTagOptions {}
+interface EnumTagConfig {}
 
-export type ColumnConfigOption =
+export type ColumnConfig =
   | SelectColumnType
-  | EntityTagOptionsType
-  | EnumTagOptionsType
+  | EntityTagType
+  | EnumTagType
   | DefaultColumnType
-  | TextTagOptionsType
+  | TextTagType
 
-export interface DefaultColumnType extends BaseColumn, FixedOptions {
+export interface DefaultColumnType extends BaseColumnConfig, FixedConfig {
   type: 'default'
 }
 
 // displays a checkbox for the table's select feature
 export interface SelectColumnType
-  extends BaseColumn,
-    SelectionOptions,
-    FixedOptions {
+  extends BaseColumnConfig,
+    SelectionConfig,
+    FixedConfig {
   type: 'select'
 }
 
-export interface EntityTagOptionsType
-  extends BaseColumn,
-    TagOptions,
-    EntityTagOptions,
-    Partial<SortOptions>,
-    InputFilterOptions,
-    FixedOptions {
+export interface EntityTagType
+  extends BaseColumnConfig,
+    TagConfig,
+    EntityTagConfig,
+    Partial<SortConfig>,
+    InputFilterConfig,
+    FixedConfig {
   type: 'entity-tag'
 }
 
-export interface EnumTagOptionsType
-  extends BaseColumn,
-    TagOptions,
-    EnumTagOptions,
-    Partial<SortOptions>,
-    FilterOptions,
-    FixedOptions {
+export interface EnumTagType
+  extends BaseColumnConfig,
+    TagConfig,
+    EnumTagConfig,
+    Partial<SortConfig>,
+    FilterConfig,
+    FixedConfig {
   type: 'enum-tag'
 }
 
-export interface TextTagOptionsType
-  extends BaseColumn,
-    TextTagOptions,
-    Partial<SortOptions>,
-    InputFilterOptions,
-    FixedOptions {
+export interface TextTagType
+  extends BaseColumnConfig,
+    TextTagConfig,
+    Partial<SortConfig>,
+    InputFilterConfig,
+    FixedConfig {
   type: 'text-tag'
 }
 
@@ -256,31 +276,31 @@ export type RequestError = {
 // Type guard fns for TypeGuard pipe. Required to simplify the construction of
 // generic template logic, a kludge to prevent *ngFor from getting clobbered
 export const isDefaultColumn: TypeGuard<
-  ColumnConfigOption,
+  ColumnConfig,
   DefaultColumnType
-> = (option: ColumnConfigOption): option is DefaultColumnType =>
+> = (option: ColumnConfig): option is DefaultColumnType =>
   option.type === 'default'
 
-export const isSelectColumn: TypeGuard<ColumnConfigOption, SelectColumnType> = (
-  option: ColumnConfigOption
+export const isSelectColumn: TypeGuard<ColumnConfig, SelectColumnType> = (
+  option: ColumnConfig
 ): option is SelectColumnType => option.type === 'select'
 
 export const isEntityTagOptions: TypeGuard<
-  ColumnConfigOption,
-  EntityTagOptionsType
-> = (option: ColumnConfigOption): option is EntityTagOptionsType =>
+  ColumnConfig,
+  EntityTagType
+> = (option: ColumnConfig): option is EntityTagType =>
   option.type === 'entity-tag'
 
 export const isEnumTagOptions: TypeGuard<
-  ColumnConfigOption,
-  EnumTagOptionsType
-> = (option: ColumnConfigOption): option is EnumTagOptionsType =>
+  ColumnConfig,
+  EnumTagType
+> = (option: ColumnConfig): option is EnumTagType =>
   option.type === 'enum-tag'
 
 export const isTextTagOptions: TypeGuard<
-  ColumnConfigOption,
-  TextTagOptionsType
-> = (option: ColumnConfigOption): option is TextTagOptionsType =>
+  ColumnConfig,
+  TextTagType
+> = (option: ColumnConfig): option is TextTagType =>
   option.type === 'text-tag'
 
 export const colTypeGuards = {
@@ -296,21 +316,21 @@ export const colTypeGuards = {
 // above would have made guard functions like this unecessary, but I was unable to
 // write some of the generic cols/prefs handling functions w/o them. Not
 // sure if this is bc the types are not constructed properly.
-export const hasSortOptions: TypeGuard<any, SortOptions> = (
-  int: SortOptions
-): int is SortOptions => int.sort !== undefined
+export const hasSortOptions: TypeGuard<any, SortConfig> = (
+  int: SortConfig
+): int is SortConfig => int.sort !== undefined
 
-export const hasFilterOptions: TypeGuard<any, FilterOptions> = (
-  int: FilterOptions
-): int is FilterOptions => int.filter !== undefined
+export const hasFilterOptions: TypeGuard<any, FilterConfig> = (
+  int: FilterConfig
+): int is FilterConfig => int.filter !== undefined
 
-export const hasInputFilterOptions: TypeGuard<any, InputFilterOptions> = (
-  int: InputFilterOptions
-): int is InputFilterOptions => int.filter.inputType !== undefined
+export const hasInputFilterOptions: TypeGuard<any, InputFilterConfig> = (
+  int: InputFilterConfig
+): int is InputFilterConfig => int.filter.inputType !== undefined
 
-export const hasTextOptions: TypeGuard<any, TextTagOptions> = (
-  int: TextTagOptions
-): int is TextTagOptions => int.text !== undefined
+export const hasTextOptions: TypeGuard<any, TextTagConfig> = (
+  int: TextTagConfig
+): int is TextTagConfig => int.text !== undefined
 
 // version of NzTableQueryParams modified for relay pagination,
 // replaces 'pageIndex' and 'pageSize' w/ 'fetchMore' options

@@ -10,29 +10,21 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { ApolloQueryResult, gql } from '@apollo/client/core'
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { LinkableEntity } from '@app/forms2/components/entity-tag/entity-tag.component'
-import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-  EvidenceDirection,
   EvidenceItem,
   EvidenceItemConnection,
-  EvidenceLevel,
   EvidenceManagerGQL,
   EvidenceManagerQuery,
   EvidenceManagerQueryVariables,
-  EvidenceSignificance,
   EvidenceSortColumns,
-  EvidenceType,
   Maybe,
   PageInfo,
   SortDirection,
-  TherapyInteraction,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, QueryRef } from 'apollo-angular'
-import { NzTableFilterList, NzTableQueryParams } from 'ng-zorro-antd/table'
 import {
   BehaviorSubject,
   combineLatest,
@@ -49,13 +41,18 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
-import { $enum, EnumWrapper } from 'ts-enum-util'
+import {
+  columnKeyToQueryVariableMap,
+  columnKeyToSortColumnMap,
+  EvidenceManagerConfig,
+  omittedFromPrefs,
+} from './evidence-manager.config'
 import {
   colTypeGuards,
   ColumnPrefsModel,
   ColumnPrefsOption,
+  ConvertedQueryVar,
   CvcFilterChange,
-  CvcSortChange,
   CvcTableQueryParams,
   EvidenceManagerColKey,
   EvidenceManagerRowData,
@@ -68,11 +65,6 @@ import {
   RowSelection,
 } from './evidence-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
-
-type ConvertedQueryVar = keyof Pick<
-  EvidenceManagerQueryVariables,
-  'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
->
 
 export type EvidenceManagerSettings = {
   filters: CvcFilterChange[]
@@ -102,8 +94,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   onScroll$: BehaviorSubject<ScrollEvent> // emitted from tableScroller directive
   onFetchMore$: Subject<ScrollFetch>
   onResetFilter$: Subject<void>
-  onSortChanges: Observable<CvcSortChange>[]
-  onFilterChanges: Observable<CvcFilterChange>[]
 
   // INTERMEDIATE STREAMS
   queryRequest$: Subject<CvcTableQueryParams>
@@ -128,46 +118,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   // apollo query ref
   queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
 
-  // initial column configurations
-  managerTableConfig: EvidenceManagerTableConfig
-
-  // colum keys included here will be hidden in preference panel, preventing
-  // defaults from being changed by the user
-  omittedFromPrefs: EvidenceManagerColKey[] = ['selected', 'id']
+  // column configuration
+  tableConfig: EvidenceManagerConfig
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
   isScrolling = false
-
-  // used in getSortColFromColKey, seems like it shouldn't be necessary but I
-  // was trying to avoid <any>s
-  columnKeyToSortColumnMap: {
-    [key in EvidenceManagerColKey]?: EvidenceSortColumns
-  } = {
-    description: EvidenceSortColumns.Description,
-    disease: EvidenceSortColumns.DiseaseName,
-    evidenceDirection: EvidenceSortColumns.EvidenceDirection,
-    evidenceLevel: EvidenceSortColumns.EvidenceLevel,
-    evidenceRating: EvidenceSortColumns.EvidenceRating,
-    evidenceType: EvidenceSortColumns.EvidenceType,
-    id: EvidenceSortColumns.Id,
-    significance: EvidenceSortColumns.Significance,
-    status: EvidenceSortColumns.Status,
-    therapies: EvidenceSortColumns.TherapyName,
-    variantOrigin: EvidenceSortColumns.VariantOrigin,
-  }
-
-  // entity browse query vars include filter vars for values
-  // not part of the evidence row model, this maps between
-  // the columnKey and entity browse query variable
-  columnKeyToQueryVariableMap: {
-    [key in EvidenceManagerColKey]?: ConvertedQueryVar
-  } = {
-    molecularProfile: 'molecularProfileName',
-    disease: 'diseaseName',
-    therapies: 'therapyName',
-    evidenceItem: 'id',
-  }
 
   colGuards = colTypeGuards
 
@@ -191,252 +147,12 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollToIndex$ = new Subject<number>()
 
-    this.onSortChanges = []
-    this.onFilterChanges = []
-
-    this.managerTableConfig = [
-      {
-        key: 'selected',
-        label: 'Select',
-        type: 'select',
-        width: '25px',
-        align: 'center',
-        fixedLeft: true,
-        checkbox: {
-          th: {
-            showCheckbox: false,
-          },
-          td: {
-            showCheckbox: true,
-            checkedChange: this.onRowSelected$,
-          },
-        },
-      },
-      {
-        hidden: true,
-        key: 'id',
-        label: 'ID',
-        type: 'default',
-        width: '30px',
-      },
-      {
-        hidden: true,
-        key: 'status',
-        label: 'Status',
-        type: 'default',
-        width: '50px',
-      },
-      {
-        key: 'id',
-        label: 'Evidence',
-        type: 'entity-tag',
-        width: '95px',
-        context: 'evidenceItem',
-        fixedLeft: true,
-        showStatus: true,
-        tag: {
-          fullWidth: true,
-        },
-        sort: {
-          default: 'ascend',
-        },
-        filter: {
-          inputType: 'numeric',
-          options: [{ key: 'EID', value: null }],
-        },
-      },
-      {
-        key: 'molecularProfile',
-        label: 'Molecular Profile',
-        type: 'entity-tag',
-        width: '240px',
-        sort: {},
-        tag: {
-          truncateLabel: '200px',
-        },
-        filter: {
-          inputType: 'default',
-          typename: 'MolecularProfile',
-          options: [
-            {
-              key: 'Filter Therapy Names',
-              value: null,
-            },
-          ],
-        },
-      },
-      {
-        key: 'disease',
-        type: 'entity-tag',
-        label: 'Disease',
-        width: '240px',
-        sort: {},
-        tag: {
-          truncateLabel: '200px',
-        },
-        filter: {
-          inputType: 'default',
-          typename: 'Disease',
-          options: [
-            {
-              key: 'Filter Disease Names',
-              value: null,
-            },
-          ],
-        },
-      },
-      {
-        key: 'therapies',
-        label: 'Therapies',
-        type: 'entity-tag',
-        width: '275px',
-        sort: {},
-        tag: {
-          maxTags: 2,
-          truncateLabel: '150px',
-        },
-        filter: {
-          inputType: 'default',
-          typename: 'Therapy',
-          options: [
-            {
-              key: 'Filter Therapy Names',
-              value: null,
-            },
-          ],
-        },
-      },
-      {
-        key: 'therapyInteractionType',
-        label: 'INT',
-        tooltip: 'Therapy Interaction Type',
-        type: 'enum-tag',
-        width: '40px',
-        align: 'center',
-        emptyValueCategory: 'not-applicable',
-        sort: {},
-        filter: {
-          options: this.getAttributeFilters($enum(TherapyInteraction)),
-        },
-      },
-      {
-        key: 'description',
-        label: 'DSC',
-        tooltip: 'Evidence Description',
-        type: 'text-tag',
-        width: '40px',
-        align: 'center',
-        fixedRight: true,
-        emptyValueCategory: 'unspecified',
-        filter: {
-          inputType: 'default',
-          options: [{ key: 'Search Descriptions', value: null }],
-        },
-      },
-      {
-        key: 'evidenceType',
-        label: 'ET',
-        tooltip: 'Evidence Type',
-        type: 'enum-tag',
-        width: '40px',
-        align: 'center',
-        fixedRight: true,
-        sort: {},
-        filter: {
-          options: this.getAttributeFilters(
-            $enum(EvidenceType)
-            // EvidenceType.Predictive
-          ),
-        },
-      },
-      {
-        key: 'evidenceLevel',
-        label: 'EL',
-        tooltip: 'Evidence Level',
-        type: 'enum-tag',
-        width: '40px',
-        align: 'center',
-        fixedRight: true,
-        sort: {},
-        filter: {
-          options: this.getAttributeFilters($enum(EvidenceLevel)),
-        },
-      },
-      {
-        key: 'evidenceDirection',
-        label: 'ED',
-        tooltip: 'Evidence Direction',
-        type: 'enum-tag',
-        width: '40px',
-        align: 'center',
-        fixedRight: true,
-        sort: {},
-        filter: {
-          options: this.getAttributeFilters($enum(EvidenceDirection)),
-        },
-      },
-      {
-        key: 'significance',
-        label: 'SI',
-        tooltip: 'Significance',
-        type: 'enum-tag',
-        align: 'center',
-        width: '40px',
-        fixedRight: true,
-        sort: {},
-        filter: {
-          options: this.getAttributeFilters($enum(EvidenceSignificance)),
-        },
-      },
-      {
-        key: 'evidenceRating',
-        label: 'ER',
-        tooltip: 'Evidence Rating',
-        type: 'enum-tag',
-        width: '45px',
-        align: 'center',
-        fixedRight: true,
-        tag: {
-          showLabel: 'short-string',
-        },
-        sort: {},
-        filter: {
-          options: [1, 2, 3, 4, 5].map((n) => {
-            return { value: n, text: `${n} stars` }
-          }),
-        },
-      },
-    ]
-
-    // create filter & sort Subjects
-    this.managerTableConfig.forEach((opt) => {
-      if (hasSortOptions(opt)) {
-        opt.sort.changes = new BehaviorSubject<CvcSortChange>({
-          key: opt.key,
-          value: opt.sort.default ?? null,
-        })
-        this.onSortChanges.push(
-          // opt.sort.changes.pipe(tag(`${opt.key} sort changes`))
-          opt.sort.changes
-        )
-      }
-      if (hasFilterOptions(opt)) {
-        const defaultValue = opt.filter.options.find((o) => o.byDefault)?.value
-        opt.filter.changes = new BehaviorSubject<CvcFilterChange>({
-          key: opt.key,
-          value: defaultValue ?? null,
-        })
-        this.onFilterChanges.push(
-          // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
-          opt.filter.changes
-        )
-      }
-    })
+    this.tableConfig = new EvidenceManagerConfig()
 
     // emit all filters when any is updated
-    const filterChange$ = combineLatest(this.onFilterChanges)
-    const sortChange$ = combineLatest(this.onSortChanges).pipe(
-      // with nz-table's multi-sort feature toggled off, it sometimes emit two
+    const filterChange$ = combineLatest(this.tableConfig.getFilterStreams())
+    const sortChange$ = combineLatest(this.tableConfig.getSortStreams()).pipe(
+      // with nz-table's multi-sort feature toggled off, it may emit two
       // events with every sort change: one that is the new sort change, and
       // another that resets the previous col's sort. Here, this filters
       // out those reset events
@@ -573,7 +289,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // to its updates to generate its options with setPreference$, and updating
     // col$ when those options change, via onPreferenceChange$
     this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
-      this.managerTableConfig
+      this.tableConfig.get()
     )
 
     // update preferences options whenever col options change
@@ -592,6 +308,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         this.col$.next(cols)
       })
 
+    // emit filter stream updates from OnChanges' cvcTableSettings changes
     this.onSetTableFilter$ = new BehaviorSubject<CvcFilterChange[]>([])
     this.onSetTableFilter$.pipe(untilDestroyed(this)).subscribe((filters) => {
       const cols = this.col$.getValue()
@@ -640,6 +357,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
     })
 
+    // emit prefs updates from OnChanges' cvcTableSettings changes
     this.onSetTablePref$ = new BehaviorSubject<Partial<ColumnPrefsOption>[]>([])
     this.onSetTablePref$
       .pipe(
@@ -665,8 +383,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         this.onPreferenceChange$.next(preferences)
       })
 
-    // when row select, get old selected rows, emit updated rows & output new
-    // selected ids array
+    // emit updated row$, emit updated cvcSelectedIds when row checkbox changes
     this.onRowSelected$
       .pipe(withLatestFrom(this.onSetSelectedRow$), untilDestroyed(this))
       .subscribe(([event, selected]: [RowSelection, Set<number>]) => {
@@ -713,8 +430,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // resets column config to default, emits reset events from all column
+    // sort/filter streams
     this.onResetFilter$
-      .pipe(withLatestFrom(of(this.managerTableConfig)), untilDestroyed(this))
+      .pipe(withLatestFrom(of(this.tableConfig.get())), untilDestroyed(this))
       .subscribe(([_, config]) => {
         const newConfig: EvidenceManagerTableConfig = []
         config.forEach((c) => {
@@ -736,29 +455,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         })
         this.col$.next(newConfig)
       })
-  }
-
-  getAttributeFilters(
-    attrEnums: EnumWrapper,
-    byDefault?: CvcInputEnum
-  ): NzTableFilterList {
-    const filters = attrEnums.getValues().map((value) => {
-      return {
-        text: formatEvidenceEnum(value),
-        value: value,
-        byDefault: byDefault === value,
-      }
-    })
-    return filters
-  }
-
-  getRequestErrors(
-    result: ApolloQueryResult<EvidenceManagerQuery>
-  ): RequestError {
-    return {
-      query: result.errors,
-      network: result.error,
-    }
   }
 
   getQueryVars(
@@ -802,7 +498,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       // handle any filter column keys that must be converted to a different
       // query variable (e.g. 'disease' -> 'diseaseName' )
       const queryVar: Maybe<ConvertedQueryVar> =
-        this.columnKeyToQueryVariableMap[f.key as EvidenceManagerColKey]
+        columnKeyToQueryVariableMap[f.key as EvidenceManagerColKey]
       const key = queryVar
         ? queryVar
         : (f.key as keyof EvidenceManagerQueryVariables)
@@ -815,40 +511,25 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     return queryVars
   }
 
-  getNzTableParamsFromTableConfig(
-    cols: EvidenceManagerTableConfig
-  ): NzTableQueryParams {
-    let params: NzTableQueryParams = {
-      pageIndex: 0,
-      pageSize: 0,
-      sort: [],
-      filter: [],
+  // helper fn for queryError$, transforms ApollQueryResult errors into custom
+  // error object
+  getRequestErrors(
+    result: ApolloQueryResult<EvidenceManagerQuery>
+  ): RequestError {
+    return {
+      query: result.errors,
+      network: result.error,
     }
-    cols.forEach((col) => {
-      const isSort = hasSortOptions(col)
-      const isFilter = hasFilterOptions(col)
-      // copy any sort options
-      if (isSort && col.sort?.default !== undefined) {
-        params.sort.push({ key: col.key, value: col.sort.default })
-      }
-      // find default options, add to filter array
-      if (isFilter) {
-        const def = col.filter.options.find((opt) => opt.byDefault == true)
-        params.filter.push({
-          key: col.key,
-          value: def !== undefined ? def.value : null,
-        })
-      }
-    })
-    return params
   }
 
+  // onPreferencesChange$ helper fn, returns a new column config array
+  // updated with col.hidden prefs settings
   getTableConfigFromColPrefs(
     prefs: ColumnPrefsModel,
     cols: EvidenceManagerTableConfig
   ): EvidenceManagerTableConfig {
     cols.forEach((col) => {
-      if (this.omittedFromPrefs.find((c) => c === col.key)) return
+      if (omittedFromPrefs.find((c) => c === col.key)) return
       const pref = prefs.find((pref) => pref.value === col.key)
       if (pref) {
         col.hidden = pref?.checked ? false : true
@@ -862,7 +543,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   ): ColumnPrefsModel {
     let options: ColumnPrefsModel = []
     cols.forEach((col) => {
-      if (this.omittedFromPrefs.find((c) => c === col.key)) return
+      if (omittedFromPrefs.find((c) => c === col.key)) return
       options.push({
         label: col.tooltip || col.label,
         value: col.key,
@@ -875,7 +556,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   getSortColumnFromColKey(
     key: EvidenceManagerColKey
   ): Maybe<EvidenceSortColumns> {
-    return this.columnKeyToSortColumnMap[key]
+    return columnKeyToSortColumnMap[key]
   }
 
   getEntityName(typename: string, id: number): Maybe<string> {
