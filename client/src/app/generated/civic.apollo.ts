@@ -6443,6 +6443,26 @@ export type TherapySelectTagQuery = { __typename: 'Query', therapy?: { __typenam
 
 export type TherapySelectTypeaheadFieldsFragment = { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> };
 
+export type VariantManagerQueryVariables = Exact<{
+  variantName?: InputMaybe<Scalars['String']>;
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  diseaseName?: InputMaybe<Scalars['String']>;
+  therapyName?: InputMaybe<Scalars['String']>;
+  variantAlias?: InputMaybe<Scalars['String']>;
+  variantTypeId?: InputMaybe<Scalars['Int']>;
+  variantGroupId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<VariantsSort>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> } | undefined }> } };
+
+export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
+
 export type QuickAddVariantMutationVariables = Exact<{
   name: Scalars['String'];
   geneId: Scalars['Int'];
@@ -8357,6 +8377,29 @@ export const QuickAddTherapyFieldsFragmentDoc = gql`
   }
 }
     ${TherapySelectTypeaheadFieldsFragmentDoc}`;
+export const VariantManagerFieldsFragmentDoc = gql`
+    fragment VariantManagerFields on BrowseVariant {
+  id
+  name
+  link
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  therapies {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+}
+    `;
 export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
     fragment VariantSelectTypeaheadFields on Variant {
   id
@@ -12704,6 +12747,51 @@ export const TherapySelectTagDocument = gql`
   })
   export class TherapySelectTagGQL extends Apollo.Query<TherapySelectTagQuery, TherapySelectTagQueryVariables> {
     document = TherapySelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantManagerDocument = gql`
+    query VariantManager($variantName: String, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseVariants(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    therapyName: $therapyName
+    variantAlias: $variantAlias
+    variantTypeId: $variantTypeId
+    variantGroupId: $variantGroupId
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...BrowseVariantsFields
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    ${BrowseVariantsFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantManagerGQL extends Apollo.Query<VariantManagerQuery, VariantManagerQueryVariables> {
+    document = VariantManagerDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
