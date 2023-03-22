@@ -36,6 +36,11 @@ export class TestPagesView {
         tabLabel: 'Assertion Revise',
       },
       {
+        routeName: 'variantgroup-revise-test',
+        iconName: '',
+        tabLabel: 'VG Revise',
+      },
+      {
         routeName: 'vertical-form',
         iconName: '',
         tabLabel: 'Vertical',

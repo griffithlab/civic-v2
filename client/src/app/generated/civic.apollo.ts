@@ -6170,6 +6170,13 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+export type SuggestVariantGroupRevision2MutationVariables = Exact<{
+  input: SuggestVariantGroupRevisionInput;
+}>;
+
+
+export type SuggestVariantGroupRevision2Mutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+
 export type EntityTagsTestQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
   geneId: Scalars['Int'];
@@ -12128,6 +12135,32 @@ export const SuggestEvidenceItemRevision2Document = gql`
   })
   export class SuggestEvidenceItemRevision2GQL extends Apollo.Mutation<SuggestEvidenceItemRevision2Mutation, SuggestEvidenceItemRevision2MutationVariables> {
     document = SuggestEvidenceItemRevision2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestVariantGroupRevision2Document = gql`
+    mutation SuggestVariantGroupRevision2($input: SuggestVariantGroupRevisionInput!) {
+  suggestVariantGroupRevision(input: $input) {
+    clientMutationId
+    variantGroup {
+      id
+    }
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestVariantGroupRevision2GQL extends Apollo.Mutation<SuggestVariantGroupRevision2Mutation, SuggestVariantGroupRevision2MutationVariables> {
+    document = SuggestVariantGroupRevision2Document;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

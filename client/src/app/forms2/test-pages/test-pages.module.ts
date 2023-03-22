@@ -19,6 +19,7 @@ import { InlineFormTestModule } from './layout-tests/inline-form/inline-form.mod
 import { VerticalFormTestModule } from './layout-tests/vertical-form/vertical-form.module'
 import { TagsTestModule } from './tags-test/tags-test.module'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
+import { VariantgroupReviseTestModule } from './variantgroup-revise-test/variantgroup-revise-test.module'
 
 @NgModule({
   declarations: [TestPagesView],
@@ -41,6 +42,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs'
     CvcPipesModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
+    VariantgroupReviseTestModule,
   ],
   exports: [TestPagesView],
 })
