@@ -97,12 +97,19 @@ export const civicLossoffunctionOutline: {
   name: 'lossoffunctionOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M512 64C264.5 64 64 264.5 64 512s200.5 448 448 448 448-200.5 448-448S759.5 64 512 64zm0 809.3c-199.6 0-361.3-161.7-361.3-361.3S312.4 150.7 512 150.7 873.3 312.4 873.3 512 711.6 873.3 512 873.3zm-57.8-570.8V512h-121c-19.3 0-28.9 23.3-15.4 37l178.8 178.8c8.5 8.5 22.2 8.5 30.7 0L706.2 549c13.7-13.7 4-37-15.4-37h-121V302.5c0-11.9-9.8-21.7-21.7-21.7h-72.3c-11.9 0-21.6 9.7-21.6 21.7z"/></svg>`
 };
+export const civicMixedOutline: {
+  name: 'mixedOutline';
+  data: string;
+} = {
+  name: 'mixedOutline',
+  data: `<svg viewBox="64 64 896 896"><ellipse cx="239.9" cy="512" rx="111.9" ry="111.5"/><path d="M239.9 192c26.6 0 47.9 21.3 47.9 47.5S266.5 287 239.9 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 128 128 177.9 128 239.5S178.1 351 239.9 351s111.9-49.9 111.9-111.5S301.8 128 239.9 128zm0 609c26.6 0 47.9 21.3 47.9 47.5S266.5 832 239.9 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 673 128 722.9 128 784.5S178.1 896 239.9 896s111.9-49.9 111.9-111.5S301.8 673 239.9 673z"/><ellipse cx="784.1" cy="512" rx="111.9" ry="111.5"/><path d="M784.1 192c26.6 0 47.9 21.3 47.9 47.5S810.7 287 784.1 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 351 784.1 351 896 301.1 896 239.5 845.9 128 784.1 128zm0 609c26.6 0 47.9 21.3 47.9 47.5S810.7 832 784.1 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 896 784.1 896 896 846.1 896 784.5 845.9 673 784.1 673zM512 464.5c26.6 0 47.9 21.3 47.9 47.5s-21.3 47.5-47.9 47.5c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5s50 111.5 111.9 111.5S623.9 573.6 623.9 512 573.8 400.5 512 400.5z"/><ellipse cx="512" cy="239.5" rx="111.9" ry="111.5"/><ellipse cx="512" cy="784.5" rx="111.9" ry="111.5"/></svg>`
+};
 export const civicNaOutline: {
   name: 'naOutline';
   data: string;
 } = {
   name: 'naOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M512 64C264.5 64 64 264.5 64 512s200.5 448 448 448 448-200.5 448-448S759.5 64 512 64zm0 809.3c-199.6 0-361.3-161.7-361.3-361.3S312.4 150.7 512 150.7 873.3 312.4 873.3 512 711.6 873.3 512 873.3zm183.9-473.7L583.5 512l112.4 112.4c8.5 8.5 8.5 22.2 0 30.7l-40.8 40.8c-8.5 8.5-22.2 8.5-30.7 0L512 583.5 399.6 695.9c-8.5 8.5-22.2 8.5-30.7 0l-40.8-40.8c-8.5-8.5-8.5-22.2 0-30.7L440.5 512 328.1 399.6c-8.5-8.5-8.5-22.2 0-30.7l40.8-40.8c8.5-8.5 22.2-8.5 30.7 0L512 440.5l112.4-112.4c8.5-8.5 22.2-8.5 30.7 0l40.8 40.8c8.5 8.5 8.5 22.2 0 30.7z"/></svg>`
+  data: `<svg viewBox="64 64 896 896"><path d="M401.4 701.3h-96.8L161.4 449.9v251.4H64v-404h97.4l142.9 251.4V297.3h97.1v404zM575.7 280L437.8 718.6h79.6L655.6 280h-79.9zm270.7 345.8H713l-23.3 75.5h-104l148.2-404h91.6l149.3 404H870l-23.6-75.5zm-110.1-75.2h86.8l-43.6-140.1-43.2 140.1z"/></svg>`
 };
 export const civicNegativeOutline: {
   name: 'negativeOutline';
@@ -116,7 +123,7 @@ export const civicNeomorphicOutline: {
   data: string;
 } = {
   name: 'neomorphicOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M556.4 253.9l57 57-432.7 432.7c-11.1 11.1-11.1 29 0 40.1l58.9 58.9c11.1 11.1 29 11.1 40.1 0l432.7-432.7 57 57c26.5 26.5 71.7 7.7 71.7-29.7v-213c0-23.2-18.8-42-42-42h-213c-37.4 0-56.2 45.3-29.7 71.7z"/></svg>`
+  data: `<svg viewBox="64 64 896 896"><path d="M556.4 237.9l57 57-432.7 432.7c-11.1 11.1-11.1 29 0 40.1l58.9 58.9c11.1 11.1 29 11.1 40.1 0l432.7-432.7 57 57c26.5 26.5 71.7 7.7 71.7-29.7v-213c0-23.2-18.8-42-42-42h-213c-37.4 0-56.2 45.3-29.7 71.7z"/></svg>`
 };
 export const civicOncogenicityOutline: {
   name: 'oncogenicityOutline';
@@ -230,13 +237,6 @@ export const civicSequentialOutline: {
   name: 'sequentialOutline',
   data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="128"/><path d="M320 512c0 70.7-57.3 128-128 128S64 582.7 64 512s57.3-128 128-128 128 57.3 128 128zm512-60c33.1 0 60 26.9 60 60s-26.9 60-60 60-60-26.9-60-60 26.9-60 60-60m0-68c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
 };
-export const civicSignificanceunknownOutline: {
-  name: 'significanceunknownOutline';
-  data: string;
-} = {
-  name: 'significanceunknownOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M512.6 167.7c-107.3 0-176.9 44-231.5 122.4-9.9 14.2-6.8 33.7 7 44.2l58 44c14 10.6 33.8 8.1 44.7-5.6 33.7-42.2 58.7-66.5 111.3-66.5 41.4 0 92.5 26.6 92.5 66.7 0 30.3-25 45.9-65.9 68.8C481.1 468.4 418 501.6 418 584.8V598c0 17.8 14.5 32.3 32.3 32.3h97.5c17.8 0 32.3-14.5 32.3-32.3v-7.8c0-57.6 168.5-60 168.5-216 0-117.4-121.8-206.5-236-206.5zM499.2 670c-51.4 0-93.2 41.8-93.2 93.2 0 51.4 41.8 93.2 93.2 93.2s93.2-41.8 93.2-93.2-41.9-93.2-93.2-93.2z"/></svg>`
-};
 export const civicSomaticOutline: {
   name: 'somaticOutline';
   data: string;
@@ -347,6 +347,13 @@ export const civicEvidenceFullcolor: {
   data: string;
 } = {
   name: 'evidenceFullcolor',
+  data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#FEEEE1"/><path fill="#F68F37" d="M195.2 195.2c-175 175-175 458.6 0 633.6s458.6 175 633.6 0 175-458.6 0-633.6-458.6-174.9-633.6 0zM476 137.7V476H137.7c17-179 159.4-321.3 338.3-338.3zM137.7 548H476v338.3c-179-17-321.3-159.4-338.3-338.3zM548 886.3V548h338.3c-17 179-159.4 321.3-338.3 338.3zM886.3 476H548V137.7c179 17 321.3 159.4 338.3 338.3z"/></svg>`
+};
+export const civicEvidenceitemFullcolor: {
+  name: 'evidenceitemFullcolor';
+  data: string;
+} = {
+  name: 'evidenceitemFullcolor',
   data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#FEEEE1"/><path fill="#F68F37" d="M195.2 195.2c-175 175-175 458.6 0 633.6s458.6 175 633.6 0 175-458.6 0-633.6-458.6-174.9-633.6 0zM476 137.7V476H137.7c17-179 159.4-321.3 338.3-338.3zM137.7 548H476v338.3c-179-17-321.3-159.4-338.3-338.3zM548 886.3V548h338.3c-17 179-159.4 321.3-338.3 338.3zM886.3 476H548V137.7c179 17 321.3 159.4 338.3 338.3z"/></svg>`
 };
 export const civicFlagFullcolor: {
@@ -791,6 +798,7 @@ export const CivicIcon = {
   likelyoncogenicOutline: 'likelyoncogenicOutline',
   likelypathogenicOutline: 'likelypathogenicOutline',
   lossoffunctionOutline: 'lossoffunctionOutline',
+  mixedOutline: 'mixedOutline',
   naOutline: 'naOutline',
   negativeOutline: 'negativeOutline',
   neomorphicOutline: 'neomorphicOutline',
@@ -810,7 +818,6 @@ export const CivicIcon = {
   resistanceOutline: 'resistanceOutline',
   sensitivityresponseOutline: 'sensitivityresponseOutline',
   sequentialOutline: 'sequentialOutline',
-  significanceunknownOutline: 'significanceunknownOutline',
   somaticOutline: 'somaticOutline',
   substitutesOutline: 'substitutesOutline',
   supportsOutline: 'supportsOutline',
@@ -827,6 +834,7 @@ export const CivicIcon = {
   editorFullcolor: 'editorFullcolor',
   eventFullcolor: 'eventFullcolor',
   evidenceFullcolor: 'evidenceFullcolor',
+  evidenceitemFullcolor: 'evidenceitemFullcolor',
   flagFullcolor: 'flagFullcolor',
   geneFullcolor: 'geneFullcolor',
   interventionFullcolor: 'interventionFullcolor',
