@@ -32,7 +32,7 @@ export type LinkableEntity = {
 export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
   entity: any
 ): entity is LinkableEntity =>
-  entity !== undefined && entity.__typename && entity.id && entity.name
+  entity !== undefined && entity.__typename && entity.id && entity.name !== undefined
 
 export type CvcTagLabelMax =
   | '50px'
