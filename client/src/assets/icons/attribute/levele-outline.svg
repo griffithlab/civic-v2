@@ -2,7 +2,7 @@
 <!-- Generator: Adobe Illustrator 27.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-<path fill="#666666" d="M401.4,701.3h-96.8L161.4,449.9v251.4H64v-404h97.4l142.9,251.4V297.3h97.1V701.3z M575.7,280L437.8,718.6
-	h79.6L655.6,280H575.7z M846.4,625.8H713l-23.3,75.5h-104l148.2-404h91.6l149.3,404H870L846.4,625.8z M736.3,550.6h86.8l-43.6-140.1
-	L736.3,550.6z"/>
+<g>
+	<path fill="#666666" d="M730,574.9H438.1v198h342.6v122H286v-738h493.7v123H438.1v176H730V574.9z"/>
+</g>
 </svg>
