@@ -71,10 +71,13 @@
           <!-- representative transcript -->
           <nz-descriptions-item nzTitle="Transcript"
             nzColumn="5">
-            <cvc-link-tag tooltip="View on Ensembl"
+            <cvc-link-tag *ngIf="coords.representativeTranscript" tooltip="View on Ensembl"
               [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
               {{ coords.representativeTranscript }}
             </cvc-link-tag>
+            <ng-container *ngIf="!coords.representativeTranscript">
+              --
+            </ng-container>
           </nz-descriptions-item>
 
         </nz-descriptions>
@@ -110,10 +113,13 @@
           <!-- representative transcript -->
           <nz-descriptions-item nzTitle="Transcript"
             nzColumn="5">
-            <cvc-link-tag tooltip="View on Ensembl"
+            <cvc-link-tag *ngIf="coords.representativeTranscript" tooltip="View on Ensembl"
               [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
               {{ coords.representativeTranscript }}
             </cvc-link-tag>
+            <ng-container *ngIf="!coords.representativeTranscript">
+              --
+            </ng-container>
           </nz-descriptions-item>
 
         </nz-descriptions>
