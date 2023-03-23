@@ -5271,9 +5271,9 @@ type Query {
   ): FlagConnection!
 
   """
-  Find a gene by CIViC ID
+  Find a single gene by CIViC ID or Entrez symbol
   """
-  gene(id: Int!): Gene
+  gene(entrezSymbol: String, id: Int): Gene
 
   """
   Retrieve gene typeahead fields for a search term.

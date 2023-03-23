@@ -2909,7 +2909,7 @@ export type Query = {
   flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
-  /** Find a gene by CIViC ID */
+  /** Find a single gene by CIViC ID or Entrez symbol */
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
@@ -3256,7 +3256,8 @@ export type QueryFlagsArgs = {
 
 
 export type QueryGeneArgs = {
-  id: Scalars['Int'];
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 
