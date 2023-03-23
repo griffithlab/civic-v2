@@ -1141,6 +1141,7 @@ export type Disease = {
   doid?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
+  myDiseaseInfo?: Maybe<MyDiseaseInfo>;
   name: Scalars['String'];
 };
 
@@ -1155,6 +1156,7 @@ export type DiseasePopover = {
   id: Scalars['Int'];
   link: Scalars['String'];
   molecularProfileCount: Scalars['Int'];
+  myDiseaseInfo?: Maybe<MyDiseaseInfo>;
   name: Scalars['String'];
 };
 
@@ -1575,6 +1577,12 @@ export enum EvidenceType {
   Predisposing = 'PREDISPOSING',
   Prognostic = 'PROGNOSTIC'
 }
+
+export type FdaCode = {
+  __typename: 'FdaCode';
+  code: Scalars['String'];
+  description: Scalars['String'];
+};
 
 export type FieldName = {
   __typename: 'FieldName';
@@ -2448,6 +2456,37 @@ export type MutationUpdateSourceSuggestionStatusArgs = {
   input: UpdateSourceSuggestionStatusInput;
 };
 
+export type MyChemInfo = {
+  __typename: 'MyChemInfo';
+  chebiDefinition?: Maybe<Scalars['String']>;
+  chebiId?: Maybe<Scalars['String']>;
+  chemblId?: Maybe<Scalars['String']>;
+  chemblMoleculeType?: Maybe<Scalars['String']>;
+  drugbankId?: Maybe<Scalars['String']>;
+  fdaEpcCodes: Array<FdaCode>;
+  fdaMoaCodes: Array<FdaCode>;
+  firstApproval?: Maybe<Scalars['String']>;
+  inchikey?: Maybe<Scalars['String']>;
+  indications: Array<Scalars['String']>;
+  pharmgkbId?: Maybe<Scalars['String']>;
+  pubchemCid?: Maybe<Scalars['String']>;
+  rxnorm?: Maybe<Scalars['String']>;
+};
+
+export type MyDiseaseInfo = {
+  __typename: 'MyDiseaseInfo';
+  diseaseOntologyExactSynonyms: Array<Scalars['String']>;
+  diseaseOntologyRelatedSynonyms: Array<Scalars['String']>;
+  doDef?: Maybe<Scalars['String']>;
+  doDefCitations: Array<Scalars['String']>;
+  icd10?: Maybe<Scalars['String']>;
+  icdo?: Maybe<Scalars['String']>;
+  mesh?: Maybe<Scalars['String']>;
+  mondoDef?: Maybe<Scalars['String']>;
+  ncit: Array<Scalars['String']>;
+  omim?: Maybe<Scalars['String']>;
+};
+
 export type MyVariantInfo = {
   __typename: 'MyVariantInfo';
   caddConsequence: Array<Scalars['String']>;
@@ -2870,7 +2909,7 @@ export type Query = {
   flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
-  /** Find a gene by CIViC ID */
+  /** Find a single gene by CIViC ID or Entrez symbol */
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
@@ -3216,7 +3255,8 @@ export type QueryFlagsArgs = {
 
 
 export type QueryGeneArgs = {
-  id: Scalars['Int'];
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -4415,6 +4455,7 @@ export type Therapy = {
   __typename: 'Therapy';
   id: Scalars['Int'];
   link: Scalars['String'];
+  myChemInfo?: Maybe<MyChemInfo>;
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
   therapyAliases: Array<Scalars['String']>;
@@ -4434,6 +4475,7 @@ export type TherapyPopover = {
   id: Scalars['Int'];
   link: Scalars['String'];
   molecularProfileCount: Scalars['Int'];
+  myChemInfo?: Maybe<MyChemInfo>;
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
   therapyAliases: Array<Scalars['String']>;
@@ -6181,9 +6223,11 @@ export type DiseasesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
+export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined } | undefined };
 
-export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string };
+export type MyDiseaseInfoFieldsFragment = { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined };
+
+export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined };
 
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -6324,9 +6368,11 @@ export type TherapiesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string } | undefined };
+export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined } | undefined };
 
-export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string };
+export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined };
+
+export type MyChemInfoFieldsFragment = { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> };
 
 export type UserDetailQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -7968,6 +8014,20 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MolecularProfileParsedNameFragmentDoc}`;
+export const MyDiseaseInfoFieldsFragmentDoc = gql`
+    fragment MyDiseaseInfoFields on MyDiseaseInfo {
+  diseaseOntologyExactSynonyms
+  diseaseOntologyRelatedSynonyms
+  mesh
+  icdo
+  icd10
+  ncit
+  omim
+  doDef
+  doDefCitations
+  mondoDef
+}
+    `;
 export const DiseasesSummaryFieldsFragmentDoc = gql`
     fragment DiseasesSummaryFields on Disease {
   id
@@ -7977,8 +8037,11 @@ export const DiseasesSummaryFieldsFragmentDoc = gql`
   displayName
   diseaseAliases
   link
+  myDiseaseInfo {
+    ...MyDiseaseInfoFields
+  }
 }
-    `;
+    ${MyDiseaseInfoFieldsFragmentDoc}`;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id
@@ -8452,6 +8515,29 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   }
 }
     `;
+export const MyChemInfoFieldsFragmentDoc = gql`
+    fragment MyChemInfoFields on MyChemInfo {
+  chebiId
+  chebiDefinition
+  fdaEpcCodes {
+    code
+    description
+  }
+  fdaMoaCodes {
+    code
+    description
+  }
+  firstApproval
+  chemblMoleculeType
+  chemblId
+  pubchemCid
+  pharmgkbId
+  rxnorm
+  inchikey
+  drugbankId
+  indications
+}
+    `;
 export const TherapiesSummaryFieldsFragmentDoc = gql`
     fragment TherapiesSummaryFields on Therapy {
   id
@@ -8460,8 +8546,11 @@ export const TherapiesSummaryFieldsFragmentDoc = gql`
   therapyUrl
   therapyAliases
   link
+  myChemInfo {
+    ...MyChemInfoFields
+  }
 }
-    `;
+    ${MyChemInfoFieldsFragmentDoc}`;
 export const UserDetailFieldsFragmentDoc = gql`
     fragment UserDetailFields on User {
   id

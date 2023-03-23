@@ -1814,6 +1814,7 @@ type Disease {
   doid: String
   id: Int!
   link: String!
+  myDiseaseInfo: MyDiseaseInfo
   name: String!
 }
 
@@ -1827,6 +1828,7 @@ type DiseasePopover {
   id: Int!
   link: String!
   molecularProfileCount: Int!
+  myDiseaseInfo: MyDiseaseInfo
   name: String!
 }
 
@@ -2522,6 +2524,11 @@ enum EvidenceType {
   PREDICTIVE
   PREDISPOSING
   PROGNOSTIC
+}
+
+type FdaCode {
+  code: String!
+  description: String!
 }
 
 type FieldName {
@@ -4032,6 +4039,35 @@ type Mutation {
   ): UpdateSourceSuggestionStatusPayload
 }
 
+type MyChemInfo {
+  chebiDefinition: String
+  chebiId: String
+  chemblId: String
+  chemblMoleculeType: String
+  drugbankId: String
+  fdaEpcCodes: [FdaCode!]!
+  fdaMoaCodes: [FdaCode!]!
+  firstApproval: String
+  inchikey: String
+  indications: [String!]!
+  pharmgkbId: String
+  pubchemCid: String
+  rxnorm: String
+}
+
+type MyDiseaseInfo {
+  diseaseOntologyExactSynonyms: [String!]!
+  diseaseOntologyRelatedSynonyms: [String!]!
+  doDef: String
+  doDefCitations: [String!]!
+  icd10: String
+  icdo: String
+  mesh: String
+  mondoDef: String
+  ncit: [String!]!
+  omim: String
+}
+
 type MyVariantInfo {
   caddConsequence: [String!]!
   caddDetail: [String!]!
@@ -5234,9 +5270,9 @@ type Query {
   ): FlagConnection!
 
   """
-  Find a gene by CIViC ID
+  Find a single gene by CIViC ID or Entrez symbol
   """
-  gene(id: Int!): Gene
+  gene(entrezSymbol: String, id: Int): Gene
 
   """
   Retrieve gene typeahead fields for a search term.
@@ -7280,6 +7316,7 @@ input TaggableEntityInput {
 type Therapy {
   id: Int!
   link: String!
+  myChemInfo: MyChemInfo
   name: String!
   ncitId: String
   therapyAliases: [String!]!
@@ -7298,6 +7335,7 @@ type TherapyPopover {
   id: Int!
   link: String!
   molecularProfileCount: Int!
+  myChemInfo: MyChemInfo
   name: String!
   ncitId: String
   therapyAliases: [String!]!
