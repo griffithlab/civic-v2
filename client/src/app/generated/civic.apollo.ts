@@ -6170,6 +6170,15 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+export type VariantGroupRevisableFields2QueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupRevisableFields2Query = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', name: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> } | undefined };
+
+export type VariantGroupRevisableFields2Fragment = { __typename: 'VariantGroup', name: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> };
+
 export type SuggestVariantGroupRevision2MutationVariables = Exact<{
   input: SuggestVariantGroupRevisionInput;
 }>;
@@ -8268,6 +8277,31 @@ ${DiseaseSelectTypeaheadFieldsFragmentDoc}
 ${TherapySelectTypeaheadFieldsFragmentDoc}
 ${PhenotypeSelectTypeaheadFieldsFragmentDoc}
 ${SourceSelectTypeaheadFieldsFragmentDoc}`;
+export const VariantGroupRevisableFields2FragmentDoc = gql`
+    fragment VariantGroupRevisableFields2 on VariantGroup {
+  name
+  variants {
+    edges {
+      cursor
+      node {
+        id
+        name
+        link
+      }
+    }
+    nodes {
+      id
+      name
+      link
+    }
+  }
+  sources {
+    id
+    name
+    link
+  }
+}
+    `;
 export const AcmgCodeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
@@ -12135,6 +12169,24 @@ export const SuggestEvidenceItemRevision2Document = gql`
   })
   export class SuggestEvidenceItemRevision2GQL extends Apollo.Mutation<SuggestEvidenceItemRevision2Mutation, SuggestEvidenceItemRevision2MutationVariables> {
     document = SuggestEvidenceItemRevision2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupRevisableFields2Document = gql`
+    query VariantGroupRevisableFields2($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupRevisableFields2
+  }
+}
+    ${VariantGroupRevisableFields2FragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupRevisableFields2GQL extends Apollo.Query<VariantGroupRevisableFields2Query, VariantGroupRevisableFields2QueryVariables> {
+    document = VariantGroupRevisableFields2Document;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

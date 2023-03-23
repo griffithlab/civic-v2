@@ -1,3 +1,33 @@
+query VariantGroupRevisableFields2($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupRevisableFields2
+  }
+}
+
+fragment VariantGroupRevisableFields2 on VariantGroup {
+  name
+  variants {
+    edges {
+      cursor
+      node {
+        id
+        name
+        link
+      }
+    }
+    nodes {
+      id
+      name
+      link
+    }
+  }
+  sources {
+    id
+    name
+    link
+  }
+}
+
 mutation SuggestVariantGroupRevision2(
   $input: SuggestVariantGroupRevisionInput!
 ) {

@@ -1,24 +1,33 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import {
+    MutationState,
+    MutatorWithState
+} from '@app/core/utilities/mutation-state-wrapper'
 import { EvidenceReviseModel } from '@app/forms2/models/evidence-revise.model'
 import { EvidenceState } from '@app/forms2/states/evidence.state'
-import { EvidenceItemRevisableFieldsGQL, SuggestEvidenceItemRevisionGQL, SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables } from '@app/generated/civic.apollo'
+import {
+    evidenceFormModelToReviseInput,
+    evidenceToModelFields
+} from '@app/forms2/utilities/evidence-to-model-fields'
+import {
+    EvidenceItemRevisableFields2GQL,
+    SuggestEvidenceItemRevision2GQL,
+    SuggestEvidenceItemRevisionGQL,
+    SuggestEvidenceItemRevisionMutation,
+    SuggestEvidenceItemRevisionMutationVariables
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { Subject } from 'rxjs'
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject'
 import { evidenceReviseFields } from './evidence-revise.form.config'
-import { evidenceFormModelToReviseInput, evidenceToModelFields } from '@app/forms2/utilities/evidence-to-model-fields'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
-import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 
 @UntilDestroy()
 @Component({
@@ -43,8 +52,8 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
   mutationState?: MutationState
 
   constructor(
-    private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL,
-    private submiteRevisionsGQL: SuggestEvidenceItemRevisionGQL,
+    private revisableFieldsGQL: EvidenceItemRevisableFields2GQL,
+    private submitRevisionsGQL: SuggestEvidenceItemRevision2GQL,
     private networkErrorService: NetworkErrorsService,
     private cdr: ChangeDetectorRef
   ) {
@@ -85,10 +94,15 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
   onSubmit(model: EvidenceReviseModel) {
     console.log('------ Evidence Revise Form Submitted ------')
     console.log(model)
-    if(!this.evidenceId) {return}
+    if (!this.evidenceId) {
+      return
+    }
     let input = evidenceFormModelToReviseInput(this.evidenceId, model)
     if (input) {
-      this.mutationState = this.reviseEvidenceMutator.mutate(this.submiteRevisionsGQL, { input: input})
+      this.mutationState = this.reviseEvidenceMutator.mutate(
+        this.submitRevisionsGQL,
+        { input: input }
+      )
     }
   }
 
