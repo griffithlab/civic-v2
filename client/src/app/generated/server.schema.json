@@ -6434,6 +6434,22 @@
               "deprecationReason": null
             },
             {
+              "name": "exclusive",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [],
@@ -9497,12 +9513,6 @@
             },
             {
               "name": "DEPRECATED_MOLECULAR_PROFILE",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "VARIANT_CREATED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

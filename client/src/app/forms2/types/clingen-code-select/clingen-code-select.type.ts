@@ -94,6 +94,11 @@ export class CvcClingenCodeSelectField
 
   placeholder$: BehaviorSubject<Maybe<string>>
 
+  exclusiveCodes = new Set<number>();
+  previousDescription?: string
+  previousDescriptionType?: string
+  exclusiveSelected = false
+
   // FieldTypeConfig defaults
   defaultOptions: CvcClingenCodeSelectFieldOptions = {
     props: {
@@ -141,6 +146,28 @@ export class CvcClingenCodeSelectField
       selectComponent: this.selectComponent,
     })
     this.configurePlaceholders()
+
+    this.onValueChange$.pipe(
+      untilDestroyed(this)
+    ).subscribe(codes => {
+      if (codes && Array.isArray(codes) && codes.length > 1) {
+        const selectedExclusiveCode = codes.find(c => this.exclusiveCodes.has(c))
+        if (selectedExclusiveCode) {
+          this.previousDescription = this.props.description
+          this.previousDescriptionType = this.props.extraType
+          this.props.description = 'You have selected N/A which precludes selecting any other codes. Please remove it if you wish to select additional codes.'
+          this.exclusiveSelected = true
+          this.formControl.setValue([selectedExclusiveCode])
+        } else {
+          this.exclusiveSelected = false
+        }
+      } 
+      if(this.previousDescription && !this.exclusiveSelected) {
+          this.props.description = this.previousDescription
+          this.props.extraType = this.previousDescriptionType
+      }
+      this.cdr.detectChanges()
+    })
   } // ngAfterViewInit()
 
   configureStateConnections(): void {
@@ -226,6 +253,11 @@ export class CvcClingenCodeSelectField
   }
 
   getTypeaheadResultsFn(r: ApolloQueryResult<ClingenCodeSelectTypeaheadQuery>) {
+    r.data.clingenCodesTypeahead.forEach(c => {
+      if (c.exclusive) {
+        this.exclusiveCodes.add(c.id)
+      }
+    })
     return r.data.clingenCodesTypeahead
   }
 

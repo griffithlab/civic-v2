@@ -16,4 +16,5 @@ fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
   name
   description
   tooltip
+  exclusive
 }

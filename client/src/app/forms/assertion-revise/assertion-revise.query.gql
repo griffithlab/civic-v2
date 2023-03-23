@@ -50,6 +50,7 @@ fragment RevisableAssertionFields on Assertion {
     description
     name
     tooltip
+    exclusive
   }
   nccnGuideline {
     id

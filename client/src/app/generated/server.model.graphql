@@ -1401,6 +1401,7 @@ type CivicTimepointStats {
 type ClingenCode {
   code: String!
   description: String!
+  exclusive: Boolean!
   id: Int!
   name: String!
   tooltip: String!
@@ -1968,7 +1969,6 @@ enum EventAction {
   REVISION_SUGGESTED
   REVISION_SUPERSEDED
   SUBMITTED
-  VARIANT_CREATED
 }
 
 """
