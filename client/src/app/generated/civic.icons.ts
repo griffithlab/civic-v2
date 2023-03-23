@@ -475,11 +475,11 @@ export const civicSourceFullcolor: {
   name: 'sourceFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><path fill="#FEF5E3" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z"/><path fill="#F9BA45" d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 320c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
 };
-export const civicTherapyFullcolor: {
-  name: 'therapyFullcolor';
+export const civicInterventionFullcolor: {
+  name: 'interventionFullcolor';
   data: string;
 } = {
-  name: 'therapyFullcolor',
+  name: 'interventionFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><ellipse transform="rotate(-45.001 511.997 512.008)" fill="#F3E1EF" cx="512" cy="512" rx="416" ry="412"/><path fill="#AC3996" d="m353.2 404.1-158-158c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l158 158c-19.7 13.4-37.1 30.6-50.9 50.9zm327.4 523.1c228.3-92.6 339.9-353.7 246.6-583.8-103.8-256-411.9-356.2-645.7-215.7-17 10.2-22.6 32.4-12.3 49.4 10.2 17 32.4 22.6 49.4 12.3 70.6-42.4 154.8-60.5 237.1-50.9 308.2 35.8 446 415.5 222.2 639.3-223.8 223.8-602.4 86-639.2-220.8-9.8-81.9 7.3-165 49.3-236.1 10.1-17.1 4.4-39.2-12.7-49.3-17.1-10.1-39.2-4.4-49.3 12.7C77.2 367 55.2 465.6 67.2 565.6c35.1 293.1 340.3 472.3 613.4 361.6zm-32.8-551c-66.3-66.3-169-74-243.7-23.1l133.4 133.4c22.7 22.7 6.3 61.5-25.5 61.5-20 0-12.1 2.8-158.8-143.9-50.9 74.7-43.2 177.4 23.1 243.7 75 75 196.5 75 271.5 0s74.9-196.6 0-271.6z"/></svg>`
 };
 export const civicUserFullcolor: {
@@ -643,11 +643,11 @@ export const civicSourceOutline: {
   name: 'sourceOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 320c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
 };
-export const civicTherapyOutline: {
-  name: 'therapyOutline';
+export const civicInterventionOutline: {
+  name: 'interventionOutline';
   data: string;
 } = {
-  name: 'therapyOutline',
+  name: 'interventionOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="m353.2 404.1-158-158c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l158 158c-19.7 13.4-37.1 30.6-50.9 50.9zm327.4 523.1c228.3-92.6 339.9-353.7 246.6-583.8-103.8-256-411.9-356.2-645.7-215.7-17 10.2-22.6 32.4-12.3 49.4 10.2 17 32.4 22.6 49.4 12.3 70.6-42.4 154.8-60.5 237.1-50.9 308.2 35.8 446 415.5 222.2 639.3-223.8 223.8-602.4 86-639.2-220.8-9.8-81.9 7.3-165 49.3-236.1 10.1-17.1 4.4-39.2-12.7-49.3-17.1-10.1-39.2-4.4-49.3 12.7C77.2 367 55.2 465.6 67.2 565.6c35.1 293.1 340.3 472.3 613.4 361.6zm-32.8-551c-66.3-66.3-169-74-243.7-23.1l133.4 133.4c22.7 22.7 6.3 61.5-25.5 61.5-20 0-12.1 2.8-158.8-143.9-50.9 74.7-43.2 177.4 23.1 243.7 75 75 196.5 75 271.5 0s74.9-196.6 0-271.6z"/></svg>`
 };
 export const civicUserOutline: {
@@ -811,11 +811,11 @@ export const civicSourceTwotone: {
   name: 'sourceTwotone',
   data: `<svg viewBox="0 0 1024 1024"><path fill="#E6E6E6" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z"/><path fill="#333" d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 320c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
 };
-export const civicTherapyTwotone: {
-  name: 'therapyTwotone';
+export const civicInterventionTwotone: {
+  name: 'interventionTwotone';
   data: string;
 } = {
-  name: 'therapyTwotone',
+  name: 'interventionTwotone',
   data: `<svg viewBox="0 0 1024 1024"><ellipse transform="rotate(-45.001 511.997 512.008)" fill="#E6E6E6" cx="512" cy="512" rx="416" ry="412"/><path fill="#333" d="m353.2 404.1-158-158c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l158 158c-19.7 13.4-37.1 30.6-50.9 50.9zm327.4 523.1c228.3-92.6 339.9-353.7 246.6-583.8-103.8-256-411.9-356.2-645.7-215.7-17 10.2-22.6 32.4-12.3 49.4 10.2 17 32.4 22.6 49.4 12.3 70.6-42.4 154.8-60.5 237.1-50.9 308.2 35.8 446 415.5 222.2 639.3-223.8 223.8-602.4 86-639.2-220.8-9.8-81.9 7.3-165 49.3-236.1 10.1-17.1 4.4-39.2-12.7-49.3-17.1-10.1-39.2-4.4-49.3 12.7C77.2 367 55.2 465.6 67.2 565.6c35.1 293.1 340.3 472.3 613.4 361.6zm-32.8-551c-66.3-66.3-169-74-243.7-23.1l133.4 133.4c22.7 22.7 6.3 61.5-25.5 61.5-20 0-12.1 2.8-158.8-143.9-50.9 74.7-43.2 177.4 23.1 243.7 75 75 196.5 75 271.5 0s74.9-196.6 0-271.6z"/></svg>`
 };
 export const civicUserTwotone: {
@@ -915,7 +915,7 @@ export type CivicIcon =
   | 'queueFullcolor'
   | 'revisionFullcolor'
   | 'sourceFullcolor'
-  | 'therapyFullcolor'
+  | 'interventionFullcolor'
   | 'userFullcolor'
   | 'variant'
   | 'variantgroupFullcolor'
@@ -939,7 +939,7 @@ export type CivicIcon =
   | 'queueOutline'
   | 'revisionOutline'
   | 'sourceOutline'
-  | 'therapyOutline'
+  | 'interventionOutline'
   | 'userOutline'
   | 'variantOutline'
   | 'variantgroupOutline'
@@ -963,7 +963,7 @@ export type CivicIcon =
   | 'queueTwotone'
   | 'revisionTwotone'
   | 'sourceTwotone'
-  | 'therapyTwotone'
+  | 'interventionTwotone'
   | 'userTwotone'
   | 'variantTwotone'
   | 'variantgroupTwotone'
@@ -1037,7 +1037,7 @@ export const CivicIcon = {
   queueFullcolor: 'queueFullcolor' as CivicIcon,
   revisionFullcolor: 'revisionFullcolor' as CivicIcon,
   sourceFullcolor: 'sourceFullcolor' as CivicIcon,
-  therapyFullcolor: 'therapyFullcolor' as CivicIcon,
+  interventionFullcolor: 'interventionFullcolor' as CivicIcon,
   userFullcolor: 'userFullcolor' as CivicIcon,
   variant: 'variant' as CivicIcon,
   variantgroupFullcolor: 'variantgroupFullcolor' as CivicIcon,
@@ -1061,7 +1061,7 @@ export const CivicIcon = {
   queueOutline: 'queueOutline' as CivicIcon,
   revisionOutline: 'revisionOutline' as CivicIcon,
   sourceOutline: 'sourceOutline' as CivicIcon,
-  therapyOutline: 'therapyOutline' as CivicIcon,
+  interventionOutline: 'interventionOutline' as CivicIcon,
   userOutline: 'userOutline' as CivicIcon,
   variantOutline: 'variantOutline' as CivicIcon,
   variantgroupOutline: 'variantgroupOutline' as CivicIcon,
@@ -1085,7 +1085,7 @@ export const CivicIcon = {
   queueTwotone: 'queueTwotone' as CivicIcon,
   revisionTwotone: 'revisionTwotone' as CivicIcon,
   sourceTwotone: 'sourceTwotone' as CivicIcon,
-  therapyTwotone: 'therapyTwotone' as CivicIcon,
+  interventionTwotone: 'interventionTwotone' as CivicIcon,
   userTwotone: 'userTwotone' as CivicIcon,
   variantTwotone: 'variantTwotone' as CivicIcon,
   variantgroupTwotone: 'variantgroupTwotone' as CivicIcon,
@@ -1167,7 +1167,7 @@ export const completeIconSet = [
   civicQueueFullcolor,
   civicRevisionFullcolor,
   civicSourceFullcolor,
-  civicTherapyFullcolor,
+  civicInterventionFullcolor,
   civicUserFullcolor,
   civicVariant,
   civicVariantgroupFullcolor,
@@ -1191,7 +1191,7 @@ export const completeIconSet = [
   civicQueueOutline,
   civicRevisionOutline,
   civicSourceOutline,
-  civicTherapyOutline,
+  civicInterventionOutline,
   civicUserOutline,
   civicVariantOutline,
   civicVariantgroupOutline,
@@ -1215,7 +1215,7 @@ export const completeIconSet = [
   civicQueueTwotone,
   civicRevisionTwotone,
   civicSourceTwotone,
-  civicTherapyTwotone,
+  civicInterventionTwotone,
   civicUserTwotone,
   civicVariantTwotone,
   civicVariantgroupTwotone,
