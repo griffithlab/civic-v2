@@ -1,18 +1,23 @@
-import { NgModule } from '@angular/core';
-import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
-import { IconDefinition, ThemeType } from '@ant-design/icons-angular';
+import { NgModule } from '@angular/core'
+import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon'
+import { IconDefinition, ThemeType } from '@ant-design/icons-angular'
 
-import { camelToKebab } from '@app/core/utilities/camel-to-kebab';
+import { camelToKebab } from '@app/core/utilities/camel-to-kebab'
 
-import { MenuFoldOutline, MenuUnfoldOutline, FormOutline, DashboardOutline } from '@ant-design/icons-angular/icons';
+import {
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  FormOutline,
+  DashboardOutline,
+} from '@ant-design/icons-angular/icons'
 
 // NZ icons used in base app components
 const icons = [
   MenuFoldOutline,
   MenuUnfoldOutline,
   DashboardOutline,
-  FormOutline
-];
+  FormOutline,
+]
 
 import {
   CivicIconLiteral,
@@ -54,11 +59,12 @@ import {
   civicEventFullcolor,
   civicEventOutline,
   civicEventTwotone,
+  civicEvidenceitemFullcolor,
+  civicEvidenceitemOutline,
+  civicEvidenceitemTwotone,
   civicEvidenceFullcolor,
   civicEvidenceOutline,
   civicEvidenceTwotone,
-  civicEvidenceitemOutline,
-  civicEvidenceitemTwotone,
   civicFlagFullcolor,
   civicFlagOutline,
   civicFlagTwotone,
@@ -80,8 +86,8 @@ import {
   civicNegativeOutline,
   civicNeomorphicOutline,
   civicOncogenictypeOutline,
-  civicOncogenicityOutline,
   civicOncogenicsignificanceOutline,
+  civicOncogenicityOutline,
   civicOrganizationFullcolor,
   civicOrganizationOutline,
   civicOrganizationTwotone,
@@ -93,6 +99,7 @@ import {
   civicPositiveOutline,
   civicPredictiveOutline,
   civicPredisposingOutline,
+  civicPredispositionOutline,
   civicPrognosticOutline,
   civicProtectivenessOutline,
   civicRaregermlineOutline,
@@ -103,7 +110,6 @@ import {
   civicRevisionTwotone,
   civicSensitivityresponseOutline,
   civicSequentialOutline,
-  civicSignificanceunknownOutline,
   civicSomaticOutline,
   civicSourceFullcolor,
   civicSourceOutline,
@@ -125,8 +131,7 @@ import {
   civicVarianttypeFullcolor,
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
-  civicLikelyoncogenicOutline,
-} from '@app/generated/civic.icons';
+} from '@app/generated/civic.icons'
 
 const iconLiterals = [
   civicAdminOutline,
@@ -158,8 +163,8 @@ const iconLiterals = [
   civicEventOutline,
   civicEventTwotone,
   civicEvidenceOutline,
-  civicEvidenceitemOutline,
   civicEvidenceTwotone,
+  civicEvidenceitemOutline,
   civicEvidenceitemTwotone,
   civicFlagOutline,
   civicFlagTwotone,
@@ -178,9 +183,8 @@ const iconLiterals = [
   civicNegativeOutline,
   civicNeomorphicOutline,
   civicOncogenictypeOutline,
-  civicOncogenicityOutline,
   civicOncogenicsignificanceOutline,
-  civicLikelyoncogenicOutline,
+  civicOncogenicityOutline,
   civicOrganizationOutline,
   civicOrganizationTwotone,
   civicPathogenicOutline,
@@ -190,6 +194,7 @@ const iconLiterals = [
   civicPositiveOutline,
   civicPredictiveOutline,
   civicPredisposingOutline,
+  civicPredispositionOutline,
   civicPrognosticOutline,
   civicProtectivenessOutline,
   civicRaregermlineOutline,
@@ -199,7 +204,6 @@ const iconLiterals = [
   civicRevisionTwotone,
   civicSensitivityresponseOutline,
   civicSequentialOutline,
-  civicSignificanceunknownOutline,
   civicSomaticOutline,
   civicSourceOutline,
   civicSourceTwotone,
@@ -216,7 +220,7 @@ const iconLiterals = [
   civicVariantgroupTwotone,
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
-];
+]
 
 export const fullColorIcons: CivicIconLiteral[] = [
   civicAdminFullcolor,
@@ -229,6 +233,7 @@ export const fullColorIcons: CivicIconLiteral[] = [
   civicDiseaseFullcolor,
   civicEditorFullcolor,
   civicEventFullcolor,
+  civicEvidenceitemFullcolor,
   civicEvidenceFullcolor,
   civicFlagFullcolor,
   civicGeneFullcolor,
@@ -242,46 +247,43 @@ export const fullColorIcons: CivicIconLiteral[] = [
   civicVariant,
   civicVariantgroupFullcolor,
   civicVarianttypeFullcolor,
-];
+]
 
-export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals);
+export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals)
 
 @NgModule({
   imports: [NzIconModule],
   exports: [NzIconModule],
-  providers: [
-    { provide: NZ_ICONS, useValue: icons },
-  ]
+  providers: [{ provide: NZ_ICONS, useValue: icons }],
 })
-
-export class IconsProviderModule { }
+export class IconsProviderModule {}
 
 export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
-  const defs: any[] = [];
+  const defs: any[] = []
   icons.forEach((icon: CivicIconLiteral): void => {
     const def: IconDefinition = {
       name: getName(icon.name),
       theme: getTheme(icon.name),
-      icon: icon.data
+      icon: icon.data,
     }
-    defs.push(def);
-  });
-  return defs;
+    defs.push(def)
+  })
+  return defs
 }
 
 // remove theme, prepend namespace
 export function getName(name: string): string {
-  const regex = /Outline|Fill|TwoTone/i;
-  return 'civic-' + camelToKebab(name.replace(regex, ''));
+  const regex = /Outline|Fill|TwoTone/i
+  return 'civic-' + camelToKebab(name.replace(regex, ''))
 }
 
 export function getTheme(name: string): ThemeType | undefined {
   if (name.includes('Twotone')) {
-    return 'twotone';
+    return 'twotone'
   } else if (name.includes('Outline')) {
-    return 'outline';
-  } else if (name.includes('Fill')){
-    return 'fill';
+    return 'outline'
+  } else if (name.includes('Fill')) {
+    return 'fill'
   } else {
     return
   }
