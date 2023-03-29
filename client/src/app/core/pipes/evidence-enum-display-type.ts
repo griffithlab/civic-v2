@@ -9,12 +9,22 @@ export type EnumOutputStyle = 'display-string' | 'icon-name'
   pure: true
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
-  transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string') : string {
+  transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string', propertyType?: 'clinical-significance' | 'type' ) : string {
     if(value === undefined) return ''
     if (context === 'display-string') {
       return formatEvidenceEnum(value);
       // return this.formatString(value)
     } else {
+      // console.log(value)
+      // console.log(propertyType)
+      if(propertyType == 'type' && value == "ONCOGENIC") {
+        console.log('civic-oncogenictype')
+        return 'civic-oncogenictype'
+      }
+      if(propertyType == 'clinical-significance' && value == "ONCOGENIC") {
+        console.log('civic-oncogenicsignificance')
+        return 'civic-oncogenicsignificance'
+      }
       return `civic-${value.replace(/_/g, '').toLowerCase()}`
     }
   }

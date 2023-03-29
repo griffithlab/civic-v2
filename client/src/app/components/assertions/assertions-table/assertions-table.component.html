@@ -27,7 +27,7 @@
   <nz-table #virtualTable
     nzSize="small"
     [nzData]="row$ | ngrxPush"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
@@ -327,7 +327,7 @@
               nzTooltipPlacement="top"
               [nzTooltipTitle]="!isScrolling ? (aid.assertionType | evidenceEnumDisplay) : ''">
               <i nz-icon
-                [nzType]="aid.assertionType | evidenceEnumDisplay: 'icon-name'"
+                [nzType]="aid.assertionType | evidenceEnumDisplay: 'icon-name':'type'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
