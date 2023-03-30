@@ -8,7 +8,7 @@ import { AssertionRevisableFieldsGQL, Maybe, SuggestAssertionRevisionGQL, Sugges
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { assertionReviseFields } from './assertion-revise.form.config'
-import { assertionToModelFields } from '@app/forms2/utilities/assertion-to-model-fields'
+import { assertionFormModelToReviseInput, assertionToModelFields } from '@app/forms2/utilities/assertion-to-model-fields'
 
 @UntilDestroy()
 @Component({
@@ -48,8 +48,11 @@ export class CvcAssertionReviseForm implements AfterViewInit, OnDestroy {
   }
 
   onSubmit(model: AssertionReviseModel) {
-    console.log('------ Assertion Form Submitted ------')
-    console.log(model)
+    if(!this.assertionId) { return }
+    let input = assertionFormModelToReviseInput(this.assertionId, model)
+    if (input) {
+      this.mutationState = this.reviseAssertionMutator.mutate(this.submitRevisionsGQL, {input: input })
+    }
   }
 
   ngAfterViewInit(): void {

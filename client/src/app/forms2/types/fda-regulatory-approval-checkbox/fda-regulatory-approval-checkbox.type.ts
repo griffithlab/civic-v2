@@ -65,7 +65,6 @@ export class CvcFdaRegulatoryApprovalCheckboxField extends FdaRegulatoryApproval
     this.state?.requires.allowsFdaApproval$.pipe(
       untilDestroyed(this)
     ).subscribe((allow: Maybe<boolean>) => {
-      console.log(allow)
       if(allow) {
         this.props.disabled = false
         this.props.extraType = 'description'

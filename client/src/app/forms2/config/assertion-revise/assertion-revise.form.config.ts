@@ -1,5 +1,4 @@
 import { assertionReviseFormInitialModel } from '@app/forms2/models/assertion-revise.model'
-import { assertionSubmitFormInitialModel } from '@app/forms2/models/assertion-submit.model'
 import { CvcAcmgCodeSelectFieldOptions } from '@app/forms2/types/acmg-code-select/acmg-code-select.type'
 import { CvcAmpCategorySelectFieldOptions } from '@app/forms2/types/amp-category-select/amp-category-select.type'
 import { CvcClingenCodeSelectFieldOptions } from '@app/forms2/types/clingen-code-select/clingen-code-select.type'
@@ -179,7 +178,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'textarea',
             props: {
               label: 'Comment',
-              // required: true,
+              required: true,
             },
           },
           <CvcOrgSubmitButtonFieldConfig>{

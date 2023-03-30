@@ -1,16 +1,25 @@
-<form
-  [formGroup]="form"
-  nz-form
-  nzLayout="vertical"
-  (ngSubmit)="onSubmit(model)">
-  <formly-form
-    [form]="form"
-    [fields]="fields"
-    [model]="model"
-    [options]="options"
-    (modelChange)="model = $event">
-  </formly-form>
-</form>
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  entityType="Assertion"
+  [successMessage]="success">
+  <ng-template #success>
+    View your submitted Assertion 
+    <a [routerLink]="['/assertions', newAssertionId, 'summary']">here</a>.
+  </ng-template>
+  <form
+    [formGroup]="form"
+    nz-form
+    nzLayout="vertical"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      [options]="options"
+      (modelChange)="model = $event">
+    </formly-form>
+  </form>
+</cvc-form-submission-status-display>
 <!-- <nz-row style="background-color: #eef">
   <nz-col nzSpan="12">
     <h4>assertion-submit.form.html Model</h4>
