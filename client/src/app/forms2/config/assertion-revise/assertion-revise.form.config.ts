@@ -26,7 +26,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Revisions',
-      showDevPanel: true,
+      showDevPanel: false,
     },
     fieldGroup: [
       {
