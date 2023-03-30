@@ -68,6 +68,7 @@ import {
   RowSelection,
 } from './variant-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
+import { tag } from 'rxjs-spy/operators'
 
 export type VariantManagerSettings = {
   filters: CvcFilterChange[]
@@ -193,7 +194,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
     // event that ends up here. The debounceTime operator ensures that only one
     // event makes it through to emit a query.
     merge(this.refetch$, this.fetchMore$)
-      .pipe(debounceTime(50), untilDestroyed(this))
+      .pipe(debounceTime(50), tag('variant-manager: merge(refetch$, fetchMore$)'), untilDestroyed(this))
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
@@ -207,7 +208,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
           // https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(
-              // tag('queryRef.valueChanges'),
+              tag('variant-manager: queryRef.valueChanges'),
               untilDestroyed(this)
             )
             .subscribe((result) => {
@@ -250,7 +251,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
     )
 
     this.connection$ = this.queryResult$.pipe(
-      pluck('data', 'evidenceItems'),
+      pluck('data', 'browseVariants'),
       filter(isNonNulled)
     ) as Observable<BrowseVariantConnection>
 
@@ -475,6 +476,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
       ...filters,
       ...params.fetchMore,
     }
+    console.log(JSON.stringify(queryVars))
     return queryVars
   }
 

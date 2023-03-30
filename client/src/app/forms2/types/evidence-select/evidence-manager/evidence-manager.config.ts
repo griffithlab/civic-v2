@@ -194,6 +194,7 @@ export class EvidenceManagerConfig {
         align: 'center',
         fixedRight: true,
         emptyValueCategory: 'unspecified',
+        sort: {},
         filter: {
           inputType: 'default',
           options: [{ key: 'Search Descriptions', value: null }],

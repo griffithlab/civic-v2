@@ -4,7 +4,10 @@
     class="empty-symbol not-applicable"
     nz-tooltip
     nzTooltipTitle="Value is not applicable">
-    N/A
+    <ng-container [ngSwitch]="cvcDisplayMode">
+      <ng-container *ngSwitchCase="'small'"> N/A </ng-container>
+      <ng-container *ngSwitchDefault> Not applicable </ng-container>
+    </ng-container>
   </span>
   <span
     *ngSwitchCase="'unspecified'"
@@ -13,7 +16,12 @@
     class="empty-symbol unspecified"
     nz-tooltip
     nzTooltipTitle="Value is unspecified">
-    &ndash;&nbsp;&ndash;
+    <ng-container [ngSwitch]="cvcDisplayMode">
+      <ng-container *ngSwitchCase="'small'">
+        &ndash;&nbsp;&ndash;
+      </ng-container>
+      <ng-container *ngSwitchDefault>Not specified</ng-container>
+    </ng-container>
   </span>
   <span
     *ngSwitchCase="'invalid'"
@@ -21,7 +29,10 @@
     nzTooltipTitle="INVALID"
     class="empty-symbol invalid"
     nz-tooltip
-    nzTooltipTitle="Value is invalid">
-    !?
+    nzTooltipTitle="Error: value requires specification">
+    <ng-container [ngSwitch]="cvcDisplayMode">
+      <ng-container *ngSwitchCase="'small'">!?</ng-container>
+      <ng-container *ngSwitchDefault>Unspecified</ng-container>
+    </ng-container>
   </span>
 </ng-container>

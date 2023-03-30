@@ -10,5 +10,5 @@ export type CvcEmptyValueCategory = 'not-applicable' | 'unspecified' | 'invalid'
 export class EmptyValueComponent {
   @Input() cvcEmptyCategory: CvcEmptyValueCategory =
     'not-applicable'
-  @Input() cvcDisplayMode: 'symbol' | 'description' = 'symbol'
+  @Input() cvcDisplayMode: 'default' | 'small' = 'default'
 }

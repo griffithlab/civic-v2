@@ -467,6 +467,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       ...filters,
       ...params.fetchMore,
     }
+    console.log(JSON.stringify(queryVars))
     return queryVars
   }
 

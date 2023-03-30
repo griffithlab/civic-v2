@@ -23,11 +23,18 @@ import {
   hasSortOptions,
 } from './variant-manager.types'
 
+// export enum VariantsSortColumns {
+//   DiseaseName = 'diseaseName',
+//   EntrezSymbol = 'entrezSymbol',
+//   TherapyName = 'therapyName',
+//   VariantName = 'variantName'
+// }
+
 export const columnKeyToSortColumnMap: VariantManagerColSortMap = {
   diseases: VariantsSortColumns.DiseaseName,
   gene: VariantsSortColumns.EntrezSymbol,
   therapies: VariantsSortColumns.TherapyName,
-  variant: VariantsSortColumns.VariantName,
+  id: VariantsSortColumns.VariantName,
 }
 
 // entity browse query vars include filter vars for values
@@ -55,216 +62,69 @@ export class VariantManagerConfig {
     this.filterStreams = []
 
     this.config = this.configureColumnStreams([
-      // {
-      //   key: 'selected',
-      //   label: 'Select',
-      //   type: 'select',
-      //   width: '25px',
-      //   align: 'center',
-      //   fixedLeft: true,
-      //   checkbox: {
-      //     th: {
-      //       showCheckbox: false,
-      //     },
-      //     td: {
-      //       showCheckbox: true,
-      //     },
-      //   },
-      // },
-      // {
-      //   hidden: true,
-      //   key: 'id',
-      //   label: 'ID',
-      //   type: 'default',
-      //   width: '30px',
-      // },
-      // {
-      //   hidden: true,
-      //   key: 'status',
-      //   label: 'Status',
-      //   type: 'default',
-      //   width: '50px',
-      // },
-      // {
-      //   key: 'id',
-      //   label: 'Variant',
-      //   type: 'entity-tag',
-      //   width: '95px',
-      //   context: 'evidenceItem',
-      //   fixedLeft: true,
-      //   showStatus: true,
-      //   tag: {
-      //     fullWidth: true,
-      //   },
-      //   sort: {
-      //     default: 'ascend',
-      //   },
-      //   filter: {
-      //     inputType: 'numeric',
-      //     options: [{ key: 'EID', value: null }],
-      //   },
-      // },
-      // {
-      //   key: 'molecularProfile',
-      //   label: 'Molecular Profile',
-      //   type: 'entity-tag',
-      //   width: '240px',
-      //   sort: {},
-      //   tag: {
-      //     truncateLabel: '200px',
-      //   },
-      //   filter: {
-      //     inputType: 'default',
-      //     typename: 'MolecularProfile',
-      //     options: [
-      //       {
-      //         key: 'Filter Therapy Names',
-      //         value: null,
-      //       },
-      //     ],
-      //   },
-      // },
-      // {
-      //   key: 'disease',
-      //   type: 'entity-tag',
-      //   label: 'Disease',
-      //   width: '240px',
-      //   sort: {},
-      //   tag: {
-      //     truncateLabel: '200px',
-      //   },
-      //   filter: {
-      //     inputType: 'default',
-      //     typename: 'Disease',
-      //     options: [
-      //       {
-      //         key: 'Filter Disease Names',
-      //         value: null,
-      //       },
-      //     ],
-      //   },
-      // },
-      // {
-      //   key: 'therapies',
-      //   label: 'Therapies',
-      //   type: 'entity-tag',
-      //   width: '275px',
-      //   sort: {},
-      //   tag: {
-      //     maxTags: 2,
-      //     truncateLabel: '150px',
-      //   },
-      //   filter: {
-      //     inputType: 'default',
-      //     typename: 'Therapy',
-      //     options: [
-      //       {
-      //         key: 'Filter Therapy Names',
-      //         value: null,
-      //       },
-      //     ],
-      //   },
-      // },
-      // {
-      //   key: 'therapyInteractionType',
-      //   label: 'INT',
-      //   tooltip: 'Therapy Interaction Type',
-      //   type: 'enum-tag',
-      //   width: '40px',
-      //   align: 'center',
-      //   emptyValueCategory: 'not-applicable',
-      //   sort: {},
-      //   filter: {
-      //     options: this.getAttributeFilters($enum(TherapyInteraction)),
-      //   },
-      // },
-      // {
-      //   key: 'description',
-      //   label: 'DSC',
-      //   tooltip: 'Evidence Description',
-      //   type: 'text-tag',
-      //   width: '40px',
-      //   align: 'center',
-      //   fixedRight: true,
-      //   emptyValueCategory: 'unspecified',
-      //   filter: {
-      //     inputType: 'default',
-      //     options: [{ key: 'Search Descriptions', value: null }],
-      //   },
-      // },
-      // {
-      //   key: 'evidenceType',
-      //   label: 'ET',
-      //   tooltip: 'Evidence Type',
-      //   type: 'enum-tag',
-      //   width: '40px',
-      //   align: 'center',
-      //   fixedRight: true,
-      //   sort: {},
-      //   filter: {
-      //     options: this.getAttributeFilters(
-      //       $enum(EvidenceType)
-      //       // EvidenceType.Predictive
-      //     ),
-      //   },
-      // },
-      // {
-      //   key: 'evidenceLevel',
-      //   label: 'EL',
-      //   tooltip: 'Evidence Level',
-      //   type: 'enum-tag',
-      //   width: '40px',
-      //   align: 'center',
-      //   fixedRight: true,
-      //   sort: {},
-      //   filter: {
-      //     options: this.getAttributeFilters($enum(EvidenceLevel)),
-      //   },
-      // },
-      // {
-      //   key: 'evidenceDirection',
-      //   label: 'ED',
-      //   tooltip: 'Evidence Direction',
-      //   type: 'enum-tag',
-      //   width: '40px',
-      //   align: 'center',
-      //   fixedRight: true,
-      //   sort: {},
-      //   filter: {
-      //     options: this.getAttributeFilters($enum(EvidenceDirection)),
-      //   },
-      // },
-      // {
-      //   key: 'significance',
-      //   label: 'SI',
-      //   tooltip: 'Significance',
-      //   type: 'enum-tag',
-      //   align: 'center',
-      //   width: '40px',
-      //   fixedRight: true,
-      //   sort: {},
-      //   filter: {
-      //     options: this.getAttributeFilters($enum(EvidenceSignificance)),
-      //   },
-      // },
-      // {
-      //   key: 'evidenceRating',
-      //   label: 'ER',
-      //   tooltip: 'Evidence Rating',
-      //   type: 'enum-tag',
-      //   width: '45px',
-      //   align: 'center',
-      //   fixedRight: true,
-      //   tag: {
-      //     showLabel: 'short-string',
-      //   },
-      //   sort: {},
-      //   filter: {
-      //     options: [1, 2, 3, 4, 5].map((n) => {
-      //       return { value: n, text: `${n} stars` }
-      //     }),
-      //   },
-      // },
+      {
+        key: 'selected',
+        label: 'Select',
+        type: 'select',
+        width: '25px',
+        align: 'center',
+        fixedLeft: true,
+        checkbox: {
+          th: {
+            showCheckbox: false,
+          },
+          td: {
+            showCheckbox: true,
+          },
+        },
+      },
+      {
+        hidden: true,
+        key: 'id',
+        label: 'ID',
+        type: 'default',
+        width: '30px',
+      },
+      {
+        key: 'id',
+        label: 'Variant',
+        type: 'entity-tag',
+        width: '95px',
+        context: 'variant',
+        fixedLeft: true,
+        showStatus: true,
+        tag: {
+          fullWidth: true,
+        },
+        sort: {
+          default: 'ascend',
+        },
+        filter: {
+          inputType: 'numeric',
+          options: [{ key: 'EID', value: null }],
+        },
+      },
+      {
+        key: 'therapies',
+        label: 'Therapies',
+        type: 'entity-tag',
+        width: '275px',
+        sort: {},
+        tag: {
+          maxTags: 2,
+          truncateLabel: '150px',
+        },
+        filter: {
+          inputType: 'default',
+          typename: 'Therapy',
+          options: [
+            {
+              key: 'Filter Therapy Names',
+              value: null,
+            },
+          ],
+        },
+      },
     ])
   }
 

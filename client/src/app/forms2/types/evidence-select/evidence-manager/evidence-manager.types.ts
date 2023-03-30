@@ -216,7 +216,7 @@ export interface EntityTagType
   extends BaseColumnConfig,
     TagConfig,
     EntityTagConfig,
-    Partial<SortConfig>,
+    SortConfig,
     InputFilterConfig,
     FixedConfig {
   type: 'entity-tag'
@@ -226,7 +226,7 @@ export interface EnumTagType
   extends BaseColumnConfig,
     TagConfig,
     EnumTagConfig,
-    Partial<SortConfig>,
+    SortConfig,
     FilterConfig,
     FixedConfig {
   type: 'enum-tag'
@@ -235,7 +235,7 @@ export interface EnumTagType
 export interface TextTagType
   extends BaseColumnConfig,
     TextTagConfig,
-    Partial<SortConfig>,
+    SortConfig,
     InputFilterConfig,
     FixedConfig {
   type: 'text-tag'

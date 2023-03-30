@@ -95,7 +95,6 @@ const typeConfig: ConfigOption = {
     NzInputModule,
     NzModalModule,
     NzSelectModule,
-    NzSpaceModule,
     NzTypographyModule,
     NzButtonModule,
     NzCardModule,

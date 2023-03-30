@@ -1,23 +1,53 @@
-<cvc-entity-select
-  [cvcAddEntity]="addVariant"
-  [cvcAddEntityModel]="onModel$ | ngrxPush"
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcEntityName]="props.entityName"
-  [cvcPlaceholder]="(placeholder$ | ngrxPush)!"
-  [cvcResults]="result$ | ngrxPush"
-  [cvcDisabled]="props.requireGene && !(onGeneId$ | ngrxPush)"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcSelectOpen]="selectOpen$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcLoading]="isLoading$ | ngrxPush"
-  [cvcParamName]="onGeneName$ | ngrxPush"
-  (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnOpenChange)="onOpenChange$.next($event)"
-  (cvcOnModelChange)="props.change && props.change(field, $event)">
-</cvc-entity-select>
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col nzFlex="auto">
+    <cvc-entity-select
+      [cvcAddEntity]="addVariant"
+      [cvcAddEntityModel]="onModel$ | ngrxPush"
+      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+      [cvcCustomTemplate]="selectedTemplate"
+      [cvcFormControl]="formControl"
+      [cvcFormlyAttributes]="field"
+      [cvcEntityName]="props.entityName"
+      [cvcPlaceholder]="props.placeholder"
+      [cvcResults]="result$ | ngrxPush"
+      [cvcDisabled]="props.requireGene && !(onGeneId$ | ngrxPush)"
+      [cvcOptions]="selectOption$ | ngrxPush"
+      [cvcSelectOpen]="selectOpen$ | ngrxPush"
+      [cvcShowError]="showError"
+      [cvcLoading]="isLoading$ | ngrxPush"
+      [cvcParamName]="onGeneName$ | ngrxPush"
+      (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnOpenChange)="onOpenChange$.next($event)"
+      (cvcOnModelChange)="props.change && props.change(field, $event)">
+    </cvc-entity-select>
+  </nz-col>
+  <nz-col *ngIf="props.showManagerBtn" nzFlex="50px">
+    <button
+      type="button"
+      nz-button
+      nzBlock
+      class="manager-button"
+      (click)="this.onShowMgrClick$.next()">
+      <span
+        nz-icon
+        [ngClass]="{
+          show: (showMgr$ | ngrxPush),
+          hide: !(showMgr$ | ngrxPush)
+        }"
+        [nzType]="'caret-right'"></span>
+      Manager
+    </button>
+  </nz-col>
+  <nz-col
+    nzSpan="24"
+    class="manager-drawer"
+    *ngIf="showMgr$ | ngrxPush">
+    <cvc-variant-manager
+      [cvcSelectedIds]="onVid$ | ngrxPush"
+      (cvcSelectedIdsChange)="onPopulate$.next($event)"
+      ></cvc-variant-manager>
+  </nz-col>
+</nz-row>
 
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
@@ -41,7 +71,7 @@
                 result.variantAliases.join(', ')
                   | highlightTypeahead : searchString
               "></span
-            ></em>
+          ></em>
         </ng-container>
         <ng-template #noAliases>--</ng-template>
       </span>

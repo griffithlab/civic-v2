@@ -39,6 +39,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
               colSpan: 24,
               requireGene: false,
+              showManagerBtn: true,
             },
           },
         ],
