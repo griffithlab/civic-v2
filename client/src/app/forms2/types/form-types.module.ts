@@ -23,6 +23,9 @@ import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-s
 import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
 import { CvcClingenCodeSelectModule } from './clingen-code-select/clingen-code-select.module'
 import { CvcNccnGuidelineSelectModule } from './nccn-guideline-select/nccn-guideline-select.module'
+import { CvcNccnGuidelineVersionFieldModule } from './nccn-guideline-version-input/nccn-guideline-version-input.module'
+import { CvcCvcFdaRegulatoryApprovalCheckboxFieldModule } from './fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.module'
+import { CvcCvcFdaCompanionTestCheckboxFieldModule } from './fda-companion-test-checkbox/fda-companion-test-checkbox.module'
 
 @NgModule({
   imports: [
@@ -50,6 +53,9 @@ import { CvcNccnGuidelineSelectModule } from './nccn-guideline-select/nccn-guide
     CvcAcmgCodeSelectModule,
     CvcClingenCodeSelectModule,
     CvcNccnGuidelineSelectModule,
+    CvcNccnGuidelineVersionFieldModule,
+    CvcCvcFdaRegulatoryApprovalCheckboxFieldModule,
+    CvcCvcFdaCompanionTestCheckboxFieldModule
   ],
 })
 export class CvcFormTypesModule {}

@@ -30,6 +30,9 @@ export type AssertionFields = {
   therapyIds$: BehaviorSubject<Maybe<number[]>>
   therapyInteractionType$: BehaviorSubject<Maybe<TherapyInteraction>>
   phenotypeIds$: BehaviorSubject<Maybe<number[]>>
+  nccnGuidelineId$: BehaviorSubject<Maybe<number>>
+  fdaRegulatoryApproval$: BehaviorSubject<Maybe<boolean>>
+  fdaCompanionTest$: BehaviorSubject<Maybe<boolean>>
 }
 
 export type AssertionEnums = {
@@ -78,6 +81,9 @@ class AssertionState extends BaseState {
         def.therapyInteractionType
       ),
       phenotypeIds$: new BehaviorSubject<Maybe<number[]>>(def.phenotypeIds),
+      nccnGuidelineId$: new BehaviorSubject(def.nccnGuidelineId),
+      fdaRegulatoryApproval$: new BehaviorSubject(def.fdaRegulatoryApproval),
+      fdaCompanionTest$: new BehaviorSubject(def.fdaCompanionTest) 
     }
 
     this.enums = {
