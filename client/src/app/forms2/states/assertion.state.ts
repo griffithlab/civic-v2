@@ -6,6 +6,7 @@ import {
   MolecularProfile,
   VariantOrigin,
   TherapyInteraction,
+  AmpLevel,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
@@ -33,6 +34,10 @@ export type AssertionFields = {
   nccnGuidelineId$: BehaviorSubject<Maybe<number>>
   fdaRegulatoryApproval$: BehaviorSubject<Maybe<boolean>>
   fdaCompanionTest$: BehaviorSubject<Maybe<boolean>>
+  ampLevel$: BehaviorSubject<Maybe<AmpLevel>>
+  acmgCodeIds$: BehaviorSubject<Maybe<number[]>>
+  clingenCodeIds$: BehaviorSubject<Maybe<number[]>>
+  nccnGuidelineVersion$: BehaviorSubject<Maybe<string>>
 }
 
 export type AssertionEnums = {
@@ -58,8 +63,8 @@ class AssertionState extends BaseState {
       variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
         undefined
       ),
-      geneId$: new BehaviorSubject<Maybe<number>>(def.geneId),
-      variantId$: new BehaviorSubject<Maybe<number>>(def.variantId),
+      geneId$: new BehaviorSubject<Maybe<number>>(undefined),
+      variantId$: new BehaviorSubject<Maybe<number>>(undefined),
       variantOrigin$: new BehaviorSubject<Maybe<VariantOrigin>>(
         def.variantOrigin
       ),
@@ -83,7 +88,11 @@ class AssertionState extends BaseState {
       phenotypeIds$: new BehaviorSubject<Maybe<number[]>>(def.phenotypeIds),
       nccnGuidelineId$: new BehaviorSubject(def.nccnGuidelineId),
       fdaRegulatoryApproval$: new BehaviorSubject(def.fdaRegulatoryApproval),
-      fdaCompanionTest$: new BehaviorSubject(def.fdaCompanionTest) 
+      fdaCompanionTest$: new BehaviorSubject(def.fdaCompanionTest), 
+      ampLevel$: new BehaviorSubject<Maybe<AmpLevel>>(def.ampLevel),
+      acmgCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.acmgCodeIds),
+      clingenCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.clingenCodeIds),
+      nccnGuidelineVersion$: new BehaviorSubject<Maybe<string>>(def.nccnGuidelineVersion)
     }
 
     this.enums = {
@@ -130,16 +139,9 @@ class AssertionState extends BaseState {
           this.enums.direction$.next([])
           return
       }
-      const significanceEnums = this.getSignificanceOptions(at)
-      this.enums.significance$.next(significanceEnums)
-      this.options.significanceOption$.next(
-        this.getOptionsFromEnums(this.getSignificanceOptions(at))
-      )
-      const directionEnums = this.getDirectionOptions(at)
-      this.enums.direction$.next(directionEnums)
-      this.options.directionOption$.next(
-        this.getOptionsFromEnums(this.getDirectionOptions(at))
-      )
+      this.enums.significance$.next(this.getSignificanceOptions(at))
+      this.enums.direction$.next(this.getDirectionOptions(at))
+
       this.requires.requiresDisease$.next(this.requiresDisease(at))
       this.requires.requiresTherapy$.next(this.requiresTherapy(at))
       this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))

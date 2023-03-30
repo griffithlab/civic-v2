@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy, Type, AfterViewInit } from '@angula
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field';
 import { Maybe } from '@app/generated/civic.apollo';
 import { untilDestroyed } from '@ngneat/until-destroy';
-import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
+import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field';
-import { startWith } from 'rxjs';
+import { filter, take } from 'rxjs';
 import mixin from 'ts-mixin-extended'
 
 export type CvcFdaRegulatoryApprovalCheckboxFieldOptions = Partial<
@@ -46,15 +46,33 @@ export class CvcFdaRegulatoryApprovalCheckboxField extends FdaRegulatoryApproval
 
     if(!this.state) { return }
 
-    this.state.requires.allowsFdaApproval$.pipe(
-      startWith(undefined), untilDestroyed(this)
+    if(this.state.formReady$) {
+      this.state.formReady$
+      .pipe(
+        filter((r) => r), // only pass true values
+        take(1), // unsubscribe after 1st emit
+        untilDestroyed(this) // or form destroyed
+      )
+      .subscribe((_) => {
+        this.configureField()
+      })
+    } else {
+      this.configureField()
+    }
+  }
+
+  configureField() {
+    this.state?.requires.allowsFdaApproval$.pipe(
+      untilDestroyed(this)
     ).subscribe((allow: Maybe<boolean>) => {
       console.log(allow)
       if(allow) {
         this.props.disabled = false
         this.props.extraType = 'description'
         this.props.description = this.defaultDescription
-        this.formControl.setValue(false)
+        if(this.formControl.value === undefined) {
+          this.formControl.setValue(false)
+        }
       } else {
         this.props.disabled = true
         this.props.description = 'FDA Regulatory Approval does not apply to this Assertion Type'

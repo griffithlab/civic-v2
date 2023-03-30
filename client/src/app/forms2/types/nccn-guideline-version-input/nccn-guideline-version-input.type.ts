@@ -5,7 +5,7 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
-import { startWith } from 'rxjs'
+import { filter, startWith, take } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcNccnGuidelineVersionFieldOptions = Partial<
@@ -59,8 +59,24 @@ export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin impl
   
   ngAfterViewInit(): void {
     this.configureBaseField()
+    if(this.state && this.state.formReady$) {
+      this.state.formReady$
+        .pipe(
+          filter((r) => r), // only pass true values
+          take(1), // unsubscribe after 1st emit
+          untilDestroyed(this) // or form destroyed
+        )
+        .subscribe((_) => {
+          this.configureField()
+        })
+    } else {
+      this.configureField()
+    }
+  }
+
+  configureField() {
     this.state?.fields.nccnGuidelineId$
-      .pipe(startWith(undefined), untilDestroyed(this))
+      .pipe(untilDestroyed(this))
       .subscribe((guideline: Maybe<number>) => {
         if(guideline) {
           this.props.disabled = false

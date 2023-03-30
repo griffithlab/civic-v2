@@ -66,8 +66,6 @@ export interface IEntityState {
   allowsFdaApproval: (et: EntityType) => boolean
 
   typeOption$: Subject<EntityType[]>
-  significanceOption$: Subject<EntitySignificance[]>
-  directionOption$: Subject<EntityDirection[]>
   requiresTherapy$: Subject<boolean>
   requiresDisease$: Subject<boolean>
   requiresAcmgCode$: Subject<boolean>
@@ -88,8 +86,6 @@ class BaseState implements IEntityState {
   pluralNames: Map<EntityName, string>
 
   typeOption$ = new Subject<EntityType[]>()
-  significanceOption$ = new Subject<EntitySignificance[]>()
-  directionOption$ = new Subject<EntityDirection[]>()
   requiresTherapy$ = new Subject<boolean>()
   requiresDisease$ = new Subject<boolean>()
   requiresAcmgCode$ = new Subject<boolean>()

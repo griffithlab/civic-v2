@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy, Type, AfterViewInit } from '@angula
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field';
 import { Maybe } from '@app/generated/civic.apollo';
 import { untilDestroyed } from '@ngneat/until-destroy';
-import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
+import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field';
-import { startWith } from 'rxjs';
+import { filter, take } from 'rxjs';
 import mixin from 'ts-mixin-extended'
 
 export type CvcFdaCompanionTestCheckboxFieldOptions = Partial<
@@ -43,22 +43,41 @@ export class CvcFdaCompanionTestCheckboxField extends FdaCompanionTestMixin impl
 
   ngAfterViewInit(): void {
     this.configureBaseField()
-
     if(!this.state) { return }
 
-    this.state.fields.fdaRegulatoryApproval$.pipe(
-      startWith(undefined), untilDestroyed(this)
+    if(this.state.formReady$) {
+      this.state.formReady$
+        .pipe(
+          filter((r) => r), // only pass true values
+          take(1), // unsubscribe after 1st emit
+          untilDestroyed(this) // or form destroyed
+        )
+        .subscribe((_) => {
+          this.configureField()
+        })
+    } else {
+      this.configureField()
+    }
+
+  }
+
+  configureField() {
+    this.state?.fields.fdaRegulatoryApproval$.pipe(
+      untilDestroyed(this)
     ).subscribe((approval: Maybe<boolean>) => {
       if(approval) {
         this.props.disabled = false
         this.props.extraType = 'description'
         this.props.description = this.defaultDescription
-        this.formControl.setValue(false)
+        if(this.formControl.value === undefined) {
+          this.formControl.setValue(false)
+        }
       } else {
         this.props.disabled = true
         this.props.description = 'FDA Companion Test only applies when Regulatory Approval is selected'
         this.formControl.setValue(undefined)
       }
     })
+
   }
 }

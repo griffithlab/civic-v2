@@ -23,7 +23,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Revise Evidence Item',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -37,7 +37,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'New Evidence Item',
+          title: 'Revise Evidence Item',
         },
         fieldGroup: [
           // field-grid wrapper places its fields in a css-grid, allowing for a wider variety of row-level layouts. Currently it provides multi-column layout of 2-4 columns

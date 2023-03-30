@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
   QueryList,
   TemplateRef,
   Type,
@@ -22,6 +23,7 @@ import {
   FormlyFieldProps,
 } from '@ngx-formly/core'
 import { BehaviorSubject, map, withLatestFrom } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 const optionText: any = {
