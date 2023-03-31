@@ -36,6 +36,16 @@ export class TestPagesView {
         tabLabel: 'Assertion Revise',
       },
       {
+        routeName: 'gene-revise-test',
+        iconName: '',
+        tabLabel: 'Gene Revise',
+      },
+      {
+        routeName: 'mp-revise-test',
+        iconName: '',
+        tabLabel: 'MP Revise',
+      },
+      {
         routeName: 'vertical-form',
         iconName: '',
         tabLabel: 'Vertical',

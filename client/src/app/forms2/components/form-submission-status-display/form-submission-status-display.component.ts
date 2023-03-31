@@ -26,6 +26,7 @@ export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
     | 'Source'
     | 'Variant'
     | 'Comment'
+    | 'Gene'
   @Input() successMessage?: TemplateRef<void>
 
   ngOnInit(): void {}
