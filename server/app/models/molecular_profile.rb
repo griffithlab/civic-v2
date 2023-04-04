@@ -22,6 +22,10 @@ class MolecularProfile < ActiveRecord::Base
 
   validates :name, presence: true
 
+  validates_uniqueness_of :name,
+    conditions: -> { where(deprecated: false) },
+    message: 'must be unique'
+
   searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
   scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
 
