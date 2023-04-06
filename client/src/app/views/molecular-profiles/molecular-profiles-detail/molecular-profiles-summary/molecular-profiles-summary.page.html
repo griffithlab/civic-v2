@@ -3,50 +3,50 @@
   <nz-row [nzGutter]="[8,16]">
     <!-- molecular profile attributes block -->
     <nz-col [nzSpan]="24">
-
       <nz-row [nzGutter]="[8,8]">
         <nz-col [nzSpan]="24">
-
-          <nz-descriptions nzSize="small"
+          <nz-descriptions
+            nzSize="small"
             nzBordered="true"
             [nzColumn]="1"
             nzLayout="vertical">
-            <nz-descriptions-item nzTitle="MP Expression"
+            <nz-descriptions-item
+              nzTitle="MP Expression"
               [nzSpan]="1">
               <cvc-mp-tag-name [nameSegments]="mp.parsedName"></cvc-mp-tag-name>
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
         <nz-col [nzSpan]="24">
-          <nz-descriptions nzSize="small"
+          <nz-descriptions
+            nzSize="small"
             nzBordered="true"
             [nzColumn]="2"
             nzLayout="vertical">
-
             <nz-descriptions-item nzTitle="Description">
-              <p *ngIf="mp.description; else noDescription"
+              <p
+                *ngIf="mp.description; else noDescription"
                 nz-typography
                 nzEllipsis
                 nzExpandable
-                [nzEllipsisRows]="14">{{ mp.description }}</p>
+                [nzEllipsisRows]="14">
+                {{ mp.description }}
+              </p>
 
               <ng-template #noDescription>
-                <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
+                <cvc-empty-revisable notification="No description provided">
+                </cvc-empty-revisable>
               </ng-template>
             </nz-descriptions-item>
 
             <nz-descriptions-item nzTitle="Sources">
-              <ng-container *ngIf="mp.sources.length > 0; else noSources">
-                <cvc-tag-list>
-                  <cvc-source-tag *ngFor="let source of mp.sources"
-                    [source]="source">
-                  </cvc-source-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noSources>
-                <span nz-typography
-                  nzType="secondary">None specified</span>
-              </ng-template>
+              <cvc-tag-list
+                *ngIf="mp.sources.length > 0; else valueUnspecified">
+                <cvc-source-tag
+                  *ngFor="let source of mp.sources"
+                  [source]="source">
+                </cvc-source-tag>
+              </cvc-tag-list>
             </nz-descriptions-item>
 
             <!-- CIViC Score-->
@@ -56,19 +56,14 @@
 
             <!-- aliases -->
             <nz-descriptions-item nzTitle="Aliases">
-              <ng-container *ngIf="mp.molecularProfileAliases.length > 0; else noAliases">
-                <cvc-tag-list>
-                  <nz-tag *ngFor="let alias of mp.molecularProfileAliases">{{ alias }}</nz-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noAliases>
-                <span nz-typography
-                  nzType="secondary">None specified</span>
-              </ng-template>
+              <cvc-tag-list
+                *ngIf="mp.molecularProfileAliases.length > 0; else valueUnspecified">
+                <nz-tag *ngFor="let alias of mp.molecularProfileAliases"
+                  >{{ alias }}</nz-tag
+                >
+              </cvc-tag-list>
             </nz-descriptions-item>
-
           </nz-descriptions>
-
         </nz-col>
       </nz-row>
     </nz-col>
@@ -77,15 +72,20 @@
     <nz-col nzSpan="24">
       <nz-card nzTitle="MP Variants">
         <nz-row [nzGutter]="[8,8]">
-          <nz-col nzSpan="24" *ngFor="let v of mp.variants">
-            <cvc-mp-variant-card [variant]="v" [currentMolecularProfileId]="mp.id"></cvc-mp-variant-card>
+          <nz-col
+            nzSpan="24"
+            *ngFor="let v of mp.variants">
+            <cvc-mp-variant-card
+              [variant]="v"
+              [currentMolecularProfileId]="mp.id"></cvc-mp-variant-card>
           </nz-col>
         </nz-row>
       </nz-card>
     </nz-col>
     <!-- evidence table -->
     <nz-col nzSpan="24">
-      <cvc-evidence-table [molecularProfileId]="mp.id"
+      <cvc-evidence-table
+        [molecularProfileId]="mp.id"
         [displayMolecularProfile]="false"
         cvcHeight="300px"
         cvcTitle="Evidence">
@@ -95,10 +95,17 @@
     <!-- assertions table -->
 
     <nz-col nzSpan="24">
-      <cvc-assertions-table [molecularProfileId]="mp.id"
+      <cvc-assertions-table
+        [molecularProfileId]="mp.id"
         cvcHeight="200px"
         cvcTitle="{{mp.name}} Assertions">
       </cvc-assertions-table>
     </nz-col>
   </nz-row>
 </ng-container>
+<ng-template #valueNotApplicable>
+  <cvc-empty-value cvcEmptyCategory="not-applicable"></cvc-empty-value>
+</ng-template>
+<ng-template #valueUnspecified>
+  <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+</ng-template>
