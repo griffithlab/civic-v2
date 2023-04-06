@@ -26,5 +26,5 @@
   </ng-template>
 </ng-container>
 <ng-template #nccnItem>
-  <nz-tag>{{formControl.value.name}}</nz-tag>
+  <nz-tag nzMode="closeable" (nzOnClose)="formControl.setValue(undefined)">{{formControl.value.name}}</nz-tag>
 </ng-template>
