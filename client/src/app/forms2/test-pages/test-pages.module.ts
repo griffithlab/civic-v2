@@ -21,6 +21,7 @@ import { TagsTestModule } from './tags-test/tags-test.module'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { GeneReviseTestModule } from './gene-revise-test/gene-revise-test.module'
 import { MolecularProfileReviseTestModule } from './molecular-profile-revise-test/molecular-profile-revise-test.module'
+import { VariantReviseTestModule } from './variant-revise-test/variant-revise-test.module'
 
 @NgModule({
   declarations: [TestPagesView],
@@ -38,6 +39,7 @@ import { MolecularProfileReviseTestModule } from './molecular-profile-revise-tes
     MolecularProfileReviseTestModule,
     AssertionSubmitTestModule,
     AssertionReviseTestModule,
+    VariantReviseTestModule,
     HorizontalFormTestModule,
     InlineFormTestModule,
     VerticalFormTestModule,

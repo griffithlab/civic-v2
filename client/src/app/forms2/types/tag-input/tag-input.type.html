@@ -6,7 +6,7 @@
     (cvcOnClose)="tagClosed(tag)"></cvc-string-tag>
     <input nz-input 
       (keydown.enter)="onEnter($event)" 
-      placeholder="Enter Alias and hit Return" />
+      [placeholder]="this.props.placeholder" />
 </div>
 
 <input hidden nz-input [formControl]="formControl" [formlyAttributes]="field"/>

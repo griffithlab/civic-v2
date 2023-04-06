@@ -52,6 +52,7 @@ export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
     },
     props: {
       label: 'Enter value',
+      placeholder: 'Enter value and hit Return'
     },
   }
   

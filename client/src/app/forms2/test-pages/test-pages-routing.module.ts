@@ -11,6 +11,7 @@ import { VerticalFormPage } from './layout-tests/vertical-form/vertical-form.pag
 import { TestPagesView } from './test-pages.view'
 import { GeneReviseTestPage } from './gene-revise-test/gene-revise-test.page'
 import { MolecularProfileReviseTestPage } from './molecular-profile-revise-test/molecular-profile-revise-test.page'
+import { VariantReviseTestPage } from './variant-revise-test/variant-revise-test.page'
 
 const routes: Routes = [
   {
@@ -58,6 +59,13 @@ const routes: Routes = [
         component: MolecularProfileReviseTestPage,
         data: {
           breadcrumb: 'MP Revise Test',
+        },
+      },
+      {
+        path: 'variant-revise-test',
+        component: VariantReviseTestPage,
+        data: {
+          breadcrumb: 'Variant Revise Test',
         },
       },
       {

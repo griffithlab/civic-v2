@@ -46,6 +46,11 @@ export class TestPagesView {
         tabLabel: 'MP Revise',
       },
       {
+        routeName: 'variant-revise-test',
+        iconName: '',
+        tabLabel: 'Variant Revise',
+      },
+      {
         routeName: 'vertical-form',
         iconName: '',
         tabLabel: 'Vertical',
