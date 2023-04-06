@@ -20,7 +20,7 @@ export const nccnVersionInputTypeOption: TypeOption = {
       }
     },
     hideExpression:  (m: any, st: any, ffc?: FormlyFieldConfig) => {
-      return !m.nccnGuideline;
+      return !m.nccnGuideline && !m.nccnGuidelineVersion;
     },
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
