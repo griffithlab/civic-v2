@@ -16,14 +16,13 @@ import {
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, startWith, take, takeUntil } from 'rxjs/operators';
 import { TagLinkableOrganization } from "@app/components/organizations/organization-tag/organization-tag.component";
 import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.component";
 import { environment } from "environments/environment";
 import { isNonNulled } from "rxjs-etc";
-import { tag } from "rxjs-spy/cjs/operators";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { pluck } from "rxjs-etc/operators";
+import { filter, map, takeUntil, distinctUntilChanged, take } from "rxjs/operators";
 
 interface SelectableAction { id: EventAction }
 
@@ -87,7 +86,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
         .watch(this.initialQueryVars, { fetchPolicy: 'no-cache', pollInterval: 30000 })
         .valueChanges
         .pipe(
-          map(({ data }) => data.events.unfilteredCount),
+          filter(isNonNulled),
+          map(({ data }) => data?.events?.unfilteredCount),
           takeUntil(this.destroy$)
         )
     }
@@ -122,14 +122,17 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     if (this.showFilters) {
       this.participants$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events.uniqueParticipants)
       )
 
       this.organizations$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events.participatingOrganizations)
       )
 
       this.actions$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events?.eventTypes?.map((et) => { return { id: et } }) || [])
       )
     }
