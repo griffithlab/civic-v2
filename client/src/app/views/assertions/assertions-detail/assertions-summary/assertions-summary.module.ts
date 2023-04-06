@@ -23,6 +23,7 @@ import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attr
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
+import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-value.module';
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -38,6 +39,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     NzIconModule,
     NzDescriptionsModule,
     NzToolTipModule,
+    CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,
     CvcUserTagModule,
