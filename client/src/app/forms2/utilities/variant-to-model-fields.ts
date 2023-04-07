@@ -1,4 +1,4 @@
-import { Maybe, RevisableVariantFieldsFragment, SuggestVariantRevisionInput } from "@app/generated/civic.apollo";
+import { ClinvarInput, Maybe, RevisableVariantFieldsFragment, SuggestVariantRevisionInput } from "@app/generated/civic.apollo";
 import * as fmt from '@app/forms/config/utilities/input-formatters'
 import { VariantReviseModel } from "../models/variant-revise.model";
 import { VariantFields } from "../models/variant-fields.model";
@@ -38,7 +38,7 @@ export function variantFormModelToReviseInput(vid: number, model: VariantReviseM
       name: fields.name,
       aliases: fields.aliases || [],
       hgvsDescriptions: fields.hgvsDescriptions || [],
-      clinvarIds: {ids: [] }, //fields.clinvarIds || [], //fmt.toClinvarInput?
+      clinvarIds: clinvarHelper(fields.clinvarIds || []),
       variantTypeIds: fields.variantTypeIds || [],
       referenceBuild: fmt.toNullableInput(fields.referenceBuild),
       ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
@@ -60,5 +60,15 @@ export function variantFormModelToReviseInput(vid: number, model: VariantReviseM
     },
     organizationId: model.organizationId,
     comment: model.comment!
+  }
+}
+
+let clinvarHelper = (ids: string[]) : ClinvarInput => {
+  if(ids[0] == 'NONE FOUND') {
+    return { noneFound: true }
+  } else if (ids[0] == "NA") {
+    return { notApplicable: true }
+  } else {
+    return { ids: ids.map(id => +id) }
   }
 }
