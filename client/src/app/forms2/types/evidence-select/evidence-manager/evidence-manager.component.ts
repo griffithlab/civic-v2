@@ -467,7 +467,6 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       ...filters,
       ...params.fetchMore,
     }
-    console.log(JSON.stringify(queryVars))
     return queryVars
   }
 
@@ -590,7 +589,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         changes.cvcTableSettings.currentValue
       if (settings !== undefined) {
         this.onSetTableFilter$.next(settings.filters)
-        this.onSetTablePref$.next(settings.preferences)
+        // NOTE: uncomment next line to re-link table column visibility & field disabled states
+        // this.onSetTablePref$.next(settings.preferences)
       }
     }
 

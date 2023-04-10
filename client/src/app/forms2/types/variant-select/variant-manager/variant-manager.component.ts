@@ -597,14 +597,15 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes.cvcTableSettings) {
-    //   const settings: VariantManagerSettings =
-    //     changes.cvcTableSettings.currentValue
-    //   if (settings !== undefined) {
-    //     this.onSetTableFilter$.next(settings.filters)
-    //     this.onSetTablePref$.next(settings.preferences)
-    //   }
-    // }
+    if (changes.cvcTableSettings) {
+      const settings: VariantManagerSettings =
+        changes.cvcTableSettings.currentValue
+      if (settings !== undefined) {
+        this.onSetTableFilter$.next(settings.filters)
+        // NOTE: uncomment next line to re-link table column visibility & field disabled states
+        // this.onSetTablePref$.next(settings.preferences)
+      }
+    }
 
     if (changes.cvcSelectedIds) {
       const ids = changes.cvcSelectedIds.currentValue

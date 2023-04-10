@@ -7,6 +7,7 @@ import {
 import { AssertionState } from '@app/forms2/states/assertion.state'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { tag } from 'rxjs-spy/operators'
 import { assertionSubmitFields } from './assertion-submit.form.config'
 
 @UntilDestroy()
@@ -41,6 +42,7 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
     // to refactor some of the field/form init to orchestrate some init in the
     // form component, so that it knows how many fields and when they are all
     // ready to be connected.
+    this.state.formReady$.pipe(tag('formReady')).subscribe()
     setTimeout(() => this.state.formReady$.next(true), 1000)
   }
 
