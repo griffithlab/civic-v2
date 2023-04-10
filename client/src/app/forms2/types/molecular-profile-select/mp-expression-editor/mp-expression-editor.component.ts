@@ -143,17 +143,23 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
           this.expressionError$.next(res)
           this.expressionSegment$.next(undefined)
         } else {
-          res.then(({ data }) => {
-            const segments = data.previewMolecularProfileName.segments
-            this.expressionSegment$.next(segments)
-            this.expressionMessage$.next(undefined)
-            this.expressionError$.next(undefined)
-            const existingMp =
-              data.previewMolecularProfileName.existingMolecularProfile
-            if (existingMp) {
-              this.existingMp$.next(existingMp as MolecularProfile)
+          res.then(({ data, errors }) => {
+            if(errors) {
+              this.expressionMessage$.next(undefined)
+              this.expressionError$.next(errors.map(e => e.message).join("\n"))
+              this.expressionSegment$.next(undefined)
             } else {
-              this.existingMp$.next(undefined)
+              const segments = data.previewMolecularProfileName.segments
+              this.expressionSegment$.next(segments)
+              this.expressionMessage$.next(undefined)
+              this.expressionError$.next(undefined)
+              const existingMp =
+                data.previewMolecularProfileName.existingMolecularProfile
+              if (existingMp) {
+                this.existingMp$.next(existingMp as MolecularProfile)
+              } else {
+                this.existingMp$.next(undefined)
+              }
             }
           })
         }
