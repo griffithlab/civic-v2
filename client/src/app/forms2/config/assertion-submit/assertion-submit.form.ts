@@ -1,10 +1,14 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   assertionSubmitFormInitialModel,
   AssertionSubmitModel,
 } from '@app/forms2/models/assertion-submit.model'
 import { AssertionState } from '@app/forms2/states/assertion.state'
+import { assertionFormModelToInput } from '@app/forms2/utilities/assertion-to-model-fields'
+import { SubmitAssertionGQL, SubmitAssertionMutation, SubmitAssertionMutationVariables } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { tag } from 'rxjs-spy/operators'
@@ -23,27 +27,43 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
   state: AssertionState
   options: FormlyFormOptions
 
-  constructor() {
+  submitAssertionMutator: MutatorWithState<
+    SubmitAssertionGQL,
+    SubmitAssertionMutation,
+    SubmitAssertionMutationVariables
+  >
+
+  mutationState?: MutationState
+  newAssertionId?: number
+  
+
+  constructor(
+    private submitAssertionGQL: SubmitAssertionGQL,
+    private networkErrorService: NetworkErrorsService
+  ) {
     this.form = new UntypedFormGroup({})
     this.model = assertionSubmitFormInitialModel
     this.fields = assertionSubmitFields
     this.state = new AssertionState()
     this.options = { formState: this.state}
+
+    this.submitAssertionMutator = new MutatorWithState(networkErrorService)
   }
 
   onSubmit(model: AssertionSubmitModel) {
-    console.log('------ Assertion Form Submitted ------')
-    console.log(model)
+    let input = assertionFormModelToInput(model)
+    if(input) {
+      this.mutationState = this.submitAssertionMutator.mutate(
+        this.submitAssertionGQL,
+        {input: input},
+        undefined,
+        (data) => { this.newAssertionId = data.submitAssertion?.assertion.id }
+      )
+    }
   }
 
   ngAfterViewInit(): void {
-    // FIXME: need a better way to know when the form fields have all
-    // initialized, instead of relying on a setTimeout like this. Probably need
-    // to refactor some of the field/form init to orchestrate some init in the
-    // form component, so that it knows how many fields and when they are all
-    // ready to be connected.
-    this.state.formReady$.pipe(tag('formReady')).subscribe()
-    setTimeout(() => this.state.formReady$.next(true), 1000)
+    this.state.formReady$.next(true)
   }
 
   ngOnDestroy(): void {

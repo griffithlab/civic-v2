@@ -5,5 +5,6 @@ query ClingenCodeTypeahead($code: String!) {
     description
     name
     tooltip
+    exclusive
   }
 }

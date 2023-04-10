@@ -190,6 +190,7 @@ export class CvcTherapySelectField
           } does not include associated therapies`
           this.props.extraType = 'prompt'
           this.resetField()
+        console.log("HERE")
           this.cdr.markForCheck()
         }
         // if type required, toggle field required property off and show a 'Select Type..' prompt
@@ -216,6 +217,7 @@ export class CvcTherapySelectField
           (this.props.requireType && !entityType && this.formControl.value)
         ) {
           this.resetField()
+        console.log("HERE2")
         }
       })
   }

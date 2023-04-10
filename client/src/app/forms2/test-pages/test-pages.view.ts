@@ -39,6 +39,21 @@ export class TestPagesView {
         routeName: 'variantgroup-revise-test',
         iconName: '',
         tabLabel: 'VG Revise',
+      }
+        routeName: 'gene-revise-test',
+        iconName: '',
+        tabLabel: 'Gene Revise',
+      },
+      {
+        routeName: 'mp-revise-test',
+        iconName: '',
+        tabLabel: 'MP Revise',
+      },
+      {
+        routeName: 'variant-revise-test',
+        iconName: '',
+        tabLabel: 'Variant Revise',
+
       },
       {
         routeName: 'vertical-form',

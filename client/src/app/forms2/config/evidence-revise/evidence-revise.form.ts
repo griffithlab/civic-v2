@@ -92,11 +92,10 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
   }
 
   onSubmit(model: EvidenceReviseModel) {
-    console.log('------ Evidence Revise Form Submitted ------')
-    console.log(model)
     if (!this.evidenceId) {
       return
     }
+
     let input = evidenceFormModelToReviseInput(this.evidenceId, model)
     if (input) {
       this.mutationState = this.reviseEvidenceMutator.mutate(

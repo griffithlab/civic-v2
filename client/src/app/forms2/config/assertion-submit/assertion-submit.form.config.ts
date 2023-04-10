@@ -2,8 +2,13 @@ import { assertionSubmitFormInitialModel } from '@app/forms2/models/assertion-su
 import { CvcAcmgCodeSelectFieldOptions } from '@app/forms2/types/acmg-code-select/acmg-code-select.type'
 import { CvcAmpCategorySelectFieldOptions } from '@app/forms2/types/amp-category-select/amp-category-select.type'
 import { CvcClingenCodeSelectFieldOptions } from '@app/forms2/types/clingen-code-select/clingen-code-select.type'
+import { CvcDirectionSelectFieldOptions } from '@app/forms2/types/direction-select/direction-select.type'
+import { CvcDiseaseSelectFieldOptions } from '@app/forms2/types/disease-select/disease-select.type'
+import { CvcFdaCompanionTestCheckboxFieldOptions } from '@app/forms2/types/fda-companion-test-checkbox/fda-companion-test-checkbox.type'
+import { CvcFdaRegulatoryApprovalCheckboxFieldOptions } from '@app/forms2/types/fda-regulatory-approval-checkbox/fda-regulatory-approval-checkbox.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms2/types/interaction-select/interaction-select.type'
 import { CvcNccnGuidelineSelectFieldOptions } from '@app/forms2/types/nccn-guideline-select/nccn-guideline-select.type'
+import { CvcNccnGuidelineVersionFieldOptions } from '@app/forms2/types/nccn-guideline-version-input/nccn-guideline-version-input.type'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms2/types/org-submit-button/org-submit-button.type'
 import { CvcOriginSelectFieldOptions } from '@app/forms2/types/origin-select/origin-select.type'
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms2/types/phenotype-select/phenotype-select.type'
@@ -117,6 +122,21 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'nccnGuidelineId',
             type: 'nccn-guideline-select',
             props: {},
+          },
+          <CvcNccnGuidelineVersionFieldOptions>{
+            key: 'nccnGuidelineVersion',
+            type: 'nccn-guideline-version-input',
+            props: {}
+          },
+          <CvcFdaRegulatoryApprovalCheckboxFieldOptions>{
+            key: 'fdaRegulatoryApproval',
+            type: 'fda-regulatory-approval-checkbox',
+            props: {}
+          },
+          <CvcFdaCompanionTestCheckboxFieldOptions>{
+            key: 'fdaCompanionTest',
+            type: 'fda-companion-test-checkbox',
+            props: {}
           },
           {
             key: 'evidenceItemIds',

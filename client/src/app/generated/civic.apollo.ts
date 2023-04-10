@@ -842,6 +842,7 @@ export type ClingenCode = {
   __typename: 'ClingenCode';
   code: Scalars['String'];
   description: Scalars['String'];
+  exclusive: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
   tooltip: Scalars['String'];
@@ -1254,8 +1255,7 @@ export enum EventAction {
   RevisionRejected = 'REVISION_REJECTED',
   RevisionSuggested = 'REVISION_SUGGESTED',
   RevisionSuperseded = 'REVISION_SUPERSEDED',
-  Submitted = 'SUBMITTED',
-  VariantCreated = 'VARIANT_CREATED'
+  Submitted = 'SUBMITTED'
 }
 
 /** The connection type for Event. */
@@ -5712,9 +5712,9 @@ export type AssertionRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
+export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
 
-export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
+export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
 
 export type SuggestAssertionRevisionMutationVariables = Exact<{
   input: SuggestAssertionRevisionInput;
@@ -5800,7 +5800,7 @@ export type ClingenCodeTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type ClingenCodeTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string }> };
+export type ClingenCodeTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }> };
 
 export type DiseaseTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -6115,24 +6115,6 @@ export type SubmitVariantGroupMutationVariables = Exact<{
 
 export type SubmitVariantGroupMutation = { __typename: 'Mutation', submitVariantGroup?: { __typename: 'SubmitVariantGroupPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number } } | undefined };
 
-export type VariantRevisableFieldsQueryVariables = Exact<{
-  variantId: Scalars['Int'];
-}>;
-
-
-export type VariantRevisableFieldsQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
-
-export type RevisableVariantFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
-
-export type CoordinateFieldsFragment = { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined };
-
-export type SuggestVariantRevisionMutationVariables = Exact<{
-  input: SuggestVariantRevisionInput;
-}>;
-
-
-export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
-
 export type LinkableGeneQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -6170,6 +6152,7 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+
 export type VariantGroupRevisableFields2QueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
 }>;
@@ -6185,6 +6168,25 @@ export type SuggestVariantGroupRevision2MutationVariables = Exact<{
 
 
 export type SuggestVariantGroupRevision2Mutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+
+export type VariantRevisableFieldsQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantRevisableFieldsQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
+
+export type RevisableVariantFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
+
+export type CoordinateFieldsFragment = { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined };
+
+export type SuggestVariantRevisionMutationVariables = Exact<{
+  input: SuggestVariantRevisionInput;
+}>;
+
+
+export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
+
 
 export type EntityTagsTestQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
@@ -6219,16 +6221,16 @@ export type ClingenCodeSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string }> };
+export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean }> };
 
 export type ClingenCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string } | undefined };
+export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean } | undefined };
 
-export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string };
+export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean };
 
 export type QuickAddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
@@ -6505,6 +6507,22 @@ export type VariantSelectTagQueryVariables = Exact<{
 export type VariantSelectTagQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | undefined };
 
 export type VariantSelectTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } };
+
+export type VariantTypeSelectTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type VariantTypeSelectTypeaheadQuery = { __typename: 'Query', variantTypeTypeahead: Array<{ __typename: 'VariantType', id: number, name: string, link: string, soid: string }> };
+
+export type VariantTypeSelectTagQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type VariantTypeSelectTagQuery = { __typename: 'Query', variantType?: { __typename: 'VariantType', id: number, name: string, link: string, soid: string } | undefined };
+
+export type VariantTypeSelectTypeaheadFieldsFragment = { __typename: 'VariantType', id: number, name: string, link: string, soid: string };
 
 export type AssertionDetailQueryVariables = Exact<{
   assertionId: Scalars['Int'];
@@ -7898,6 +7916,7 @@ export const RevisableAssertionFieldsFragmentDoc = gql`
     description
     name
     tooltip
+    exclusive
   }
   nccnGuideline {
     id
@@ -8208,6 +8227,38 @@ export const SubmittableVariantGroupFieldsFragmentDoc = gql`
   }
 }
     `;
+export const RevisableEvidenceFields2FragmentDoc = gql`
+    fragment RevisableEvidenceFields2 on EvidenceItem {
+  id
+  molecularProfile {
+    ...MolecularProfileSelectTypeaheadFields
+  }
+  variantOrigin
+  description
+  significance
+  disease {
+    ...DiseaseSelectTypeaheadFields
+  }
+  therapies {
+    ...TherapySelectTypeaheadFields
+  }
+  therapyInteractionType
+  evidenceDirection
+  evidenceLevel
+  evidenceType
+  phenotypes {
+    ...PhenotypeSelectTypeaheadFields
+  }
+  evidenceRating
+  source {
+    ...SourceSelectTypeaheadFields
+  }
+}
+    ${MolecularProfileSelectTypeaheadFieldsFragmentDoc}
+${DiseaseSelectTypeaheadFieldsFragmentDoc}
+${TherapySelectTypeaheadFieldsFragmentDoc}
+${PhenotypeSelectTypeaheadFieldsFragmentDoc}
+${SourceSelectTypeaheadFieldsFragmentDoc}`;
 export const CoordinateFieldsFragmentDoc = gql`
     fragment CoordinateFields on Coordinate {
   chromosome
@@ -8245,6 +8296,7 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
+
 export const RevisableEvidenceFields2FragmentDoc = gql`
     fragment RevisableEvidenceFields2 on EvidenceItem {
   id
@@ -8318,6 +8370,7 @@ export const ClingenCodeSelectTypeaheadFieldsFragmentDoc = gql`
   name
   description
   tooltip
+  exclusive
 }
     `;
 export const QuickAddDiseaseFieldsFragmentDoc = gql`
@@ -8465,6 +8518,14 @@ export const QuickAddVariantFieldsFragmentDoc = gql`
   }
 }
     ${VariantSelectTypeaheadFieldsFragmentDoc}`;
+export const VariantTypeSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment VariantTypeSelectTypeaheadFields on VariantType {
+  id
+  name
+  link
+  soid
+}
+    `;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
@@ -11158,6 +11219,7 @@ export const ClingenCodeTypeaheadDocument = gql`
     description
     name
     tooltip
+    exclusive
   }
 }
     `;
@@ -11981,97 +12043,6 @@ export const SubmitVariantGroupDocument = gql`
       super(apollo);
     }
   }
-export const VariantRevisableFieldsDocument = gql`
-    query VariantRevisableFields($variantId: Int!) {
-  variant(id: $variantId) {
-    ...RevisableVariantFields
-  }
-}
-    ${RevisableVariantFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantRevisableFieldsGQL extends Apollo.Query<VariantRevisableFieldsQuery, VariantRevisableFieldsQueryVariables> {
-    document = VariantRevisableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestVariantRevisionDocument = gql`
-    mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
-  suggestVariantRevision(input: $input) {
-    clientMutationId
-    variant {
-      id
-      revisions {
-        totalCount
-        edges {
-          node {
-            id
-            revisionsetId
-            createdAt
-            fieldName
-            currentValue
-            suggestedValue
-            linkoutData {
-              name
-              diffValue {
-                ... on ObjectFieldDiff {
-                  addedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  removedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  keptObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                }
-                ... on ScalarFieldDiff {
-                  left
-                  right
-                }
-              }
-            }
-            revisor {
-              id
-              name
-            }
-            status
-          }
-        }
-      }
-    }
-    results {
-      id
-      fieldName
-      newlyCreated
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
-    document = SuggestVariantRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const LinkableGeneDocument = gql`
     query LinkableGene($geneId: Int!) {
   gene(id: $geneId) {
@@ -12174,6 +12145,7 @@ export const SuggestEvidenceItemRevision2Document = gql`
       super(apollo);
     }
   }
+
 export const VariantGroupRevisableFields2Document = gql`
     query VariantGroupRevisableFields2($variantGroupId: Int!) {
   variantGroup(id: $variantGroupId) {
@@ -12182,16 +12154,31 @@ export const VariantGroupRevisableFields2Document = gql`
 }
     ${VariantGroupRevisableFields2FragmentDoc}`;
 
+export const VariantRevisableFieldsDocument = gql`
+    query VariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    ...RevisableVariantFields
+  }
+}
+    ${RevisableVariantFieldsFragmentDoc}`;
+
+
   @Injectable({
     providedIn: 'root'
   })
+
   export class VariantGroupRevisableFields2GQL extends Apollo.Query<VariantGroupRevisableFields2Query, VariantGroupRevisableFields2QueryVariables> {
     document = VariantGroupRevisableFields2Document;
+
+  export class VariantRevisableFieldsGQL extends Apollo.Query<VariantRevisableFieldsQuery, VariantRevisableFieldsQueryVariables> {
+    document = VariantRevisableFieldsDocument;
+
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
+
 export const SuggestVariantGroupRevision2Document = gql`
     mutation SuggestVariantGroupRevision2($input: SuggestVariantGroupRevisionInput!) {
   suggestVariantGroupRevision(input: $input) {
@@ -12203,6 +12190,19 @@ export const SuggestVariantGroupRevision2Document = gql`
       newlyCreated
       id
       fieldName
+
+export const SuggestVariantRevisionDocument = gql`
+    mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
+  suggestVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+    }
+    results {
+      id
+      fieldName
+      newlyCreated
+
     }
   }
 }
@@ -12211,8 +12211,13 @@ export const SuggestVariantGroupRevision2Document = gql`
   @Injectable({
     providedIn: 'root'
   })
+
   export class SuggestVariantGroupRevision2GQL extends Apollo.Mutation<SuggestVariantGroupRevision2Mutation, SuggestVariantGroupRevision2MutationVariables> {
     document = SuggestVariantGroupRevision2Document;
+
+  export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
+    document = SuggestVariantRevisionDocument;
+
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -12933,6 +12938,42 @@ export const VariantSelectTagDocument = gql`
   })
   export class VariantSelectTagGQL extends Apollo.Query<VariantSelectTagQuery, VariantSelectTagQueryVariables> {
     document = VariantSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypeSelectTypeaheadDocument = gql`
+    query VariantTypeSelectTypeahead($name: String!) {
+  variantTypeTypeahead(queryTerm: $name) {
+    ...VariantTypeSelectTypeaheadFields
+  }
+}
+    ${VariantTypeSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypeSelectTypeaheadGQL extends Apollo.Query<VariantTypeSelectTypeaheadQuery, VariantTypeSelectTypeaheadQueryVariables> {
+    document = VariantTypeSelectTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypeSelectTagDocument = gql`
+    query VariantTypeSelectTag($id: Int!) {
+  variantType(id: $id) {
+    ...VariantTypeSelectTypeaheadFields
+  }
+}
+    ${VariantTypeSelectTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypeSelectTagGQL extends Apollo.Query<VariantTypeSelectTagQuery, VariantTypeSelectTagQueryVariables> {
+    document = VariantTypeSelectTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,23 +1,12 @@
-<cvc-string-tag
-  *ngIf="tagLabel$ | ngrxPush as tagLabel"
-  [cvcMode]="'closeable'"
-  [cvcLabel]="tagLabel"
-  (cvcOnClose)="onTagClose$.next($event)"></cvc-string-tag>
+<div>
+  <cvc-string-tag
+    *ngFor="let tag of tags$ | ngrxPush"
+    [cvcMode]="'closeable'"
+    [cvcLabel]="tag"
+    (cvcOnClose)="tagClosed(tag)"></cvc-string-tag>
+    <input nz-input 
+      (keydown.enter)="onEnter($event)" 
+      [placeholder]="this.props.placeholder" />
+</div>
 
-<ng-container *ngIf="!(tagLabel$ | ngrxPush)">
-  <input
-    *ngIf="props.type !== 'number'; else numberTmp"
-    nz-input
-    #baseInputTxt
-    [formControl]="formControl"
-    (keydown.enter)="baseInputTxt.blur()"
-    [type]="props.type || 'text'"
-    [formlyAttributes]="field" />
-  <ng-template #numberTmp>
-    <nz-input-number
-      #baseInputNum
-      (keydown.enter)="baseInputNum.blur()"
-      [formControl]="formControl"
-      [formlyAttributes]="field"></nz-input-number>
-  </ng-template>
-</ng-container>
+<input hidden nz-input [formControl]="formControl" [formlyAttributes]="field"/>

@@ -10,6 +10,7 @@ import {
   TherapyInteraction,
   VariantOrigin,
   AmpLevel,
+  ReferenceBuild,
 } from '@app/generated/civic.apollo'
 
 export type InputEnum =
@@ -24,6 +25,7 @@ export type InputEnum =
   | EvidenceLevel
   | TherapyInteraction
   | AmpLevel
+  | ReferenceBuild
 
 export function formatEvidenceEnum(value: InputEnum): string {
   if (typeof value === 'number' || typeof value === 'boolean') return value

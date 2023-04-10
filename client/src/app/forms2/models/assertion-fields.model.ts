@@ -8,10 +8,6 @@ import {
 } from '@app/generated/civic.apollo'
 
 export type AssertionFields = {
-  // gene, variant included for initial input type development
-  geneId?: number
-  variantId?: number
-
   /** List of CIViC IDs for the ACMG/AMP codes associated with this Assertion */
   acmgCodeIds?: number[]
   /** The AMP/ASCO/CAP Category for this assertion. */

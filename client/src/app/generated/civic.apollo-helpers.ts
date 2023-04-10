@@ -378,10 +378,11 @@ export type CivicTimepointStatsFieldPolicy = {
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ClingenCodeKeySpecifier = ('code' | 'description' | 'id' | 'name' | 'tooltip' | ClingenCodeKeySpecifier)[];
+export type ClingenCodeKeySpecifier = ('code' | 'description' | 'exclusive' | 'id' | 'name' | 'tooltip' | ClingenCodeKeySpecifier)[];
 export type ClingenCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	exclusive?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	tooltip?: FieldPolicy<any> | FieldReadFunction<any>

@@ -40,7 +40,7 @@ export interface CvcGeneSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   selectMessages?: CvcEntitySelectMessageOptions
   entityName: CvcSelectEntityName
-  helpText?: string
+  description?: string
   extraType?: CvcFormFieldExtraType
 }
 
@@ -81,8 +81,8 @@ export class CvcGeneSelectField
       placeholder: 'Search Genes',
       isMultiSelect: false,
       entityName: { singular: 'Gene', plural: 'Genes' },
-      helpText:
-        'Entrez Gene (e.g. BRAF). Gene must be known to the Entrez database.',
+      description:
+        'Entrez Gene Symbol',
     },
   }
 
