@@ -19,6 +19,7 @@ import { InlineFormTestModule } from './layout-tests/inline-form/inline-form.mod
 import { VerticalFormTestModule } from './layout-tests/vertical-form/vertical-form.module'
 import { TagsTestModule } from './tags-test/tags-test.module'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
+import { VariantgroupReviseTestModule } from './variantgroup-revise-test/variantgroup-revise-test.module'
 import { GeneReviseTestModule } from './gene-revise-test/gene-revise-test.module'
 import { MolecularProfileReviseTestModule } from './molecular-profile-revise-test/molecular-profile-revise-test.module'
 import { VariantReviseTestModule } from './variant-revise-test/variant-revise-test.module'
@@ -47,6 +48,7 @@ import { VariantReviseTestModule } from './variant-revise-test/variant-revise-te
     CvcPipesModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
+    VariantgroupReviseTestModule,
   ],
   exports: [TestPagesView],
 })

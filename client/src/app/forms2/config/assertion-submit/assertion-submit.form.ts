@@ -11,6 +11,7 @@ import { assertionFormModelToInput } from '@app/forms2/utilities/assertion-to-mo
 import { SubmitAssertionGQL, SubmitAssertionMutation, SubmitAssertionMutationVariables } from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { tag } from 'rxjs-spy/operators'
 import { assertionSubmitFields } from './assertion-submit.form.config'
 
 @UntilDestroy()

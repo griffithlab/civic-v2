@@ -240,7 +240,7 @@ export class CvcEvidenceSelectField
     // for each synchronized field specified, find its state.requires stream,
     // add it to the synchronized synchronizedRequired array
     this.requiredFieldToColMap.forEach((requires, field) => {
-      console.log('requires', requires, 'field', field)
+      // console.log('requires', requires, 'field', field)
       const stream = this.state!.requires[requires]
       if (!stream) return
       this.synchronizedRequired$.push(
@@ -248,7 +248,7 @@ export class CvcEvidenceSelectField
           map((v) => {
             return { key: field, required: v }
           }),
-          tag(`synchronizedRequired$ ${field} stream`)
+          // tag(`synchronizedRequired$ ${field} stream`)
         )
       )
     })
@@ -283,7 +283,7 @@ export class CvcEvidenceSelectField
         })
         return newPrefs
       }),
-      tag(`onRequiredChange$ stream`)
+      // tag(`onRequiredChange$ stream`)
     )
 
     this.tableSettingsChange$ = combineLatest([
@@ -293,9 +293,9 @@ export class CvcEvidenceSelectField
       map(([filters, prefs]) => {
         return { filters: filters, preferences: prefs }
       }),
-      waitUntil(this.state.formReady$),
-      debounceTime(100),
+      // waitUntil(this.state.formReady$),
       tag('tableSettingsChange$'),
+      debounceTime(100),
       shareReplay(1)
     )
   }

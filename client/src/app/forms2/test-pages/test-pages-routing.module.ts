@@ -9,6 +9,8 @@ import { TagsTestPage } from './tags-test/tags-test.page'
 import { InlineFormPage } from './layout-tests/inline-form/inline-form.page'
 import { VerticalFormPage } from './layout-tests/vertical-form/vertical-form.page'
 import { TestPagesView } from './test-pages.view'
+
+import { VariantgroupReviseTestPage } from './variantgroup-revise-test/variantgroup-revise-test.page'
 import { GeneReviseTestPage } from './gene-revise-test/gene-revise-test.page'
 import { MolecularProfileReviseTestPage } from './molecular-profile-revise-test/molecular-profile-revise-test.page'
 import { VariantReviseTestPage } from './variant-revise-test/variant-revise-test.page'
@@ -45,6 +47,13 @@ const routes: Routes = [
         component: AssertionReviseTestPage,
         data: {
           breadcrumb: 'Assertion Revise Test',
+        },
+      },
+      {
+        path: 'variantgroup-revise-test',
+        component: VariantgroupReviseTestPage,
+        data: {
+          breadcrumb: 'Variant Group Revise Test',
         },
       },
       {

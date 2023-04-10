@@ -53,7 +53,7 @@ export const civicDominantnegativeOutline: {
   data: string;
 } = {
   name: 'dominantnegativeOutline',
-  data: `<svg viewBox="0 0 1024 1024"><path d="m556.4 253.9 57 57-301.8 301.8-57-57c-26.5-26.5-71.7-7.7-71.7 29.7v213c0 23.2 18.8 42 42 42h213c37.4 0 56.2-45.2 29.7-71.7l-57-57 301.8-301.8 57 57c26.5 26.5 71.7 7.7 71.7-29.7v-213c0-23.2-18.8-42-42-42h-213c-37.4 0-56.2 45.3-29.7 71.7z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M433.9 664.9c37.4 0 56.2 45.2 29.7 71.7L313 887.2c-16.4 16.4-43 16.4-59.4 0L103 736.6c-26.5-26.5-7.7-71.7 29.7-71.7h80.6V150c0-15.7 12.7-28.3 28.3-28.3h83.3c15.7 0 28.3 12.7 28.3 28.3v514.9h80.7zm457.4 0h-80.6V150c0-15.7-12.7-28.3-28.3-28.3h-83.3c-15.7 0-28.3 12.7-28.3 28.3v514.9h-80.6c-37.4 0-56.2 45.2-29.7 71.7L711 887.2c16.4 16.4 43 16.4 59.4 0L921 736.6c26.4-26.5 7.7-71.7-29.7-71.7z"/></svg>`
 };
 export const civicFunctionalOutline: {
   name: 'functionalOutline';
@@ -104,19 +104,19 @@ export const civicLeveleOutline: {
   name: 'leveleOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M730 574.9H438.1v198h342.6v122H286v-738h493.7v123H438.1v176H730v119z"/></svg>`
 };
-export const civicLevelfOutline: {
-  name: 'levelfOutline';
-  data: string;
-} = {
-  name: 'levelfOutline',
-  data: `<svg viewBox="0 0 1024 1024"><path d="M896 824c0 39.8-32.2 72-72 72H200c-39.8 0-72-32.2-72-72V200c0-39.8 32.2-72 72-72h624c39.8 0 72 32.2 72 72v624zM636.6 476.6h-164v-97.1h180.5V301H370.9v421.9h101.7v-168h164v-78.3z"/></svg>`
-};
 export const civicLikelybenignOutline: {
   name: 'likelybenignOutline';
   data: string;
 } = {
   name: 'likelybenignOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M868.6 786.3H155.4c-15.1 0-27.4 12.3-27.4 27.4v54.9c0 15.1 12.3 27.4 27.4 27.4h713.1c15.1 0 27.4-12.3 27.4-27.4v-54.9c.1-15.1-12.2-27.4-27.3-27.4zM749.7 566.9H274.3c-10.1 0-18.3 12.3-18.3 27.4v54.9c0 15.1 8.2 27.4 18.3 27.4h475.4c10.1 0 18.3-12.3 18.3-27.4v-54.9c0-15.2-8.2-27.4-18.3-27.4zm118.9-219.5H155.4c-15.1 0-27.4 12.3-27.4 27.4v54.9c0 15.1 12.3 27.4 27.4 27.4h713.1c15.1 0 27.4-12.3 27.4-27.4v-54.9c.1-15.1-12.2-27.4-27.3-27.4zM749.7 128H274.3c-10.1 0-18.3 12.3-18.3 27.4v54.9c0 15.1 8.2 27.4 18.3 27.4h475.4c10.1 0 18.3-12.3 18.3-27.4v-54.9c0-15.1-8.2-27.4-18.3-27.4z"/></svg>`
+};
+export const civicLikelyoncogenicOutline: {
+  name: 'likelyoncogenicOutline';
+  data: string;
+} = {
+  name: 'likelyoncogenicOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M832 240v184H600V240h232m-408 0v184H192V240h232m408 360v184H600V600h232m-408 0v184H192V600h232m436-424H572c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-408 0H164c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm408 360H572c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V572c0-19.9-16.1-36-36-36zm-408 0H164c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V572c0-19.9-16.1-36-36-36z"/></svg>`
 };
 export const civicLikelypathogenicOutline: {
   name: 'likelypathogenicOutline';
@@ -131,6 +131,13 @@ export const civicLossoffunctionOutline: {
 } = {
   name: 'lossoffunctionOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 64C264.5 64 64 264.5 64 512s200.5 448 448 448 448-200.5 448-448S759.5 64 512 64zm0 809.3c-199.6 0-361.3-161.7-361.3-361.3S312.4 150.7 512 150.7 873.3 312.4 873.3 512 711.6 873.3 512 873.3zm-57.8-570.8V512h-121c-19.3 0-28.9 23.3-15.4 37l178.8 178.8c8.5 8.5 22.2 8.5 30.7 0L706.2 549c13.7-13.7 4-37-15.4-37h-121V302.5c0-11.9-9.8-21.7-21.7-21.7h-72.3c-11.9 0-21.6 9.7-21.6 21.7z"/></svg>`
+};
+export const civicMixedOutline: {
+  name: 'mixedOutline';
+  data: string;
+} = {
+  name: 'mixedOutline',
+  data: `<svg viewBox="0 0 1024 1024"><ellipse cx="239.9" cy="512" rx="111.9" ry="111.5"/><path d="M239.9 192c26.6 0 47.9 21.3 47.9 47.5S266.5 287 239.9 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 128 128 177.9 128 239.5S178.1 351 239.9 351s111.9-49.9 111.9-111.5S301.8 128 239.9 128zM239.9 737c26.6 0 47.9 21.3 47.9 47.5S266.5 832 239.9 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 673 128 722.9 128 784.5S178.1 896 239.9 896s111.9-49.9 111.9-111.5S301.8 673 239.9 673z"/><ellipse cx="784.1" cy="512" rx="111.9" ry="111.5"/><path d="M784.1 192c26.6 0 47.9 21.3 47.9 47.5S810.7 287 784.1 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 351 784.1 351 896 301.1 896 239.5 845.9 128 784.1 128zM784.1 737c26.6 0 47.9 21.3 47.9 47.5S810.7 832 784.1 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 896 784.1 896 896 846.1 896 784.5 845.9 673 784.1 673zM512 464.5c26.6 0 47.9 21.3 47.9 47.5s-21.3 47.5-47.9 47.5c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5s50 111.5 111.9 111.5S623.9 573.6 623.9 512 573.8 400.5 512 400.5z"/><ellipse cx="512" cy="239.5" rx="111.9" ry="111.5"/><ellipse cx="512" cy="784.5" rx="111.9" ry="111.5"/></svg>`
 };
 export const civicNaOutline: {
   name: 'naOutline';
@@ -151,7 +158,7 @@ export const civicNeomorphicOutline: {
   data: string;
 } = {
   name: 'neomorphicOutline',
-  data: `<svg viewBox="0 0 1024 1024"><path d="M960 512c0 247.5-200.6 448-448 448S64 759.5 64 512C64 264.7 264.6 64 512 64s448 200.7 448 448zm-448 90.3c-45.9 0-83.1 37.2-83.1 83.1 0 45.9 37.2 83.1 83.1 83.1s83.1-37.2 83.1-83.1c0-45.9-37.2-83.1-83.1-83.1zm-78.9-298.7 13.4 245.7c.6 11.5 10.1 20.5 21.6 20.5h87.7c11.5 0 21-9 21.6-20.5l13.4-245.7c.7-12.4-9.2-22.9-21.6-22.9H454.7c-12.4.1-22.3 10.5-21.6 22.9z"/></svg>`
+  data: `<svg viewBox="0 0 1008 1008"><path d="m556.4 237.9 57 57-432.7 432.7c-11.1 11.1-11.1 29 0 40.1l58.9 58.9c11.1 11.1 29 11.1 40.1 0l432.7-432.7 57 57c26.5 26.5 71.7 7.7 71.7-29.7v-213c0-23.2-18.8-42-42-42h-213c-37.4 0-56.2 45.3-29.7 71.7z"/></svg>`
 };
 export const civicOncogenicOutline: {
   name: 'oncogenicOutline';
@@ -166,6 +173,20 @@ export const civicOncogenicityOutline: {
 } = {
   name: 'oncogenicityOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 265.9C373.9 265.9 262 376 262 512s111.9 246.1 250 246.1S762 648 762 512 650.1 265.9 512 265.9zm-75.7 382.7c-18 18-27.7 31.7-49.6 31.7-38 0-57.5-46.3-30.4-73.4l19.2-19.1c16.8-16.8 44-16.8 60.8.1s16.8 43.9 0 60.7zm-30.5-199.7c-21.6 0-30.3-12.5-49.6-31.8-16.8-16.8-16.8-44 .1-60.8 16.8-16.8 44-16.8 60.8.1l19.1 19.2c27.3 27.1 7.5 73.3-30.4 73.3zm181.9-73.5 19.2-19.1c16.8-16.8 44-16.8 60.8.1s16.8 44-.1 60.8c-18 18-27.7 31.7-49.6 31.7-37.9-.1-57.4-46.4-30.3-73.5zm49.6 304.9c-21.6 0-30.3-12.5-49.6-31.8-16.8-16.8-16.8-44 .1-60.8 16.8-16.8 44-16.8 60.8.1l19.1 19.2c27.2 27.2 7.5 73.3-30.4 73.3zm95.9-346.5c-38 0-57.5-46.3-30.4-73.4l65.5-65.4c16.8-16.8 44-16.8 60.8 0s16.8 44 0 60.8c-68.6 68.4-72.6 78-95.9 78zm65.4 507.8c-23.4 0-27.5-9.6-95.8-78.1-16.8-16.8-16.8-44 0-60.8 16.8-16.8 44-16.8 60.8 0l65.4 65.5c27.2 27.2 7.6 73.4-30.4 73.4zm-573.2 0c-38 0-57.5-46.3-30.4-73.4l65.5-65.4c16.8-16.8 44-16.8 60.8 0 16.8 16.8 16.8 44 0 60.8-68.6 68.5-72.6 78-95.9 78zm65.4-507.8c-23.4 0-27.5-9.6-95.8-78.1-16.8-16.8-16.8-44 0-60.8 16.8-16.8 44-16.8 60.8 0l65.4 65.5c27.1 27.2 7.5 73.4-30.4 73.4z"/></svg>`
+};
+export const civicOncogenicsignificanceOutline: {
+  name: 'oncogenicsignificanceOutline';
+  data: string;
+} = {
+  name: 'oncogenicsignificanceOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M288 240v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm244 304v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm244-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zM288 480v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm516-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36z"/></svg>`
+};
+export const civicOncogenictypeOutline: {
+  name: 'oncogenictypeOutline';
+  data: string;
+} = {
+  name: 'oncogenictypeOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="m855.4 511.9 77.9-76.3c23.2-22 12.4-61.1-18.1-68.4l-106.2-27 30-105.1c8.5-30.2-20-58.7-50.3-50.3l-105.1 29.9-27.1-106.2c-7.2-30-46.7-41-68.3-18.1L512 169l-76.2-78.5c-21.4-22.6-61.1-12.3-68.3 18.1l-27.1 106.2-105.1-29.9c-30.2-8.5-58.7 20.1-50.3 50.3l30 105-106.2 27.1c-30.5 7.3-41.3 46.4-18.1 68.4l77.9 76.3-77.9 76.3c-23.2 22-12.4 61.1 18.1 68.4L215 683.6l-30 105.1c-8.5 30.2 20 58.7 50.3 50.3l105-30 27.1 106.2c7.5 31.5 46.9 40.7 68.3 18.1l76.2-78 76.2 78c21.2 22.9 61 12.7 68.3-18.1L683.7 809l105.1 29.9c30.2 8.5 58.7-20.1 50.3-50.3l-30.1-105 106.2-27.1c30.5-7.3 41.3-46.4 18.1-68.4l-77.9-76.2z"/></svg>`
 };
 export const civicPathogenicOutline: {
   name: 'pathogenicOutline';
@@ -862,15 +883,18 @@ export type CivicIcon =
   | 'levelcOutline'
   | 'leveldOutline'
   | 'leveleOutline'
-  | 'levelfOutline'
   | 'likelybenignOutline'
+  | 'likelyoncogenicOutline'
   | 'likelypathogenicOutline'
   | 'lossoffunctionOutline'
+  | 'mixedOutline'
   | 'naOutline'
   | 'negativeOutline'
   | 'neomorphicOutline'
   | 'oncogenicOutline'
   | 'oncogenicityOutline'
+  | 'oncogenicsignificanceOutline'
+  | 'oncogenictypeOutline'
   | 'pathogenicOutline'
   | 'pooroutcomeOutline'
   | 'positiveOutline'
@@ -984,15 +1008,18 @@ export const CivicIcon = {
   levelcOutline: 'levelcOutline' as CivicIcon,
   leveldOutline: 'leveldOutline' as CivicIcon,
   leveleOutline: 'leveleOutline' as CivicIcon,
-  levelfOutline: 'levelfOutline' as CivicIcon,
   likelybenignOutline: 'likelybenignOutline' as CivicIcon,
+  likelyoncogenicOutline: 'likelyoncogenicOutline' as CivicIcon,
   likelypathogenicOutline: 'likelypathogenicOutline' as CivicIcon,
   lossoffunctionOutline: 'lossoffunctionOutline' as CivicIcon,
+  mixedOutline: 'mixedOutline' as CivicIcon,
   naOutline: 'naOutline' as CivicIcon,
   negativeOutline: 'negativeOutline' as CivicIcon,
   neomorphicOutline: 'neomorphicOutline' as CivicIcon,
   oncogenicOutline: 'oncogenicOutline' as CivicIcon,
   oncogenicityOutline: 'oncogenicityOutline' as CivicIcon,
+  oncogenicsignificanceOutline: 'oncogenicsignificanceOutline' as CivicIcon,
+  oncogenictypeOutline: 'oncogenictypeOutline' as CivicIcon,
   pathogenicOutline: 'pathogenicOutline' as CivicIcon,
   pooroutcomeOutline: 'pooroutcomeOutline' as CivicIcon,
   positiveOutline: 'positiveOutline' as CivicIcon,
@@ -1114,15 +1141,18 @@ export const completeIconSet = [
   civicLevelcOutline,
   civicLeveldOutline,
   civicLeveleOutline,
-  civicLevelfOutline,
   civicLikelybenignOutline,
+  civicLikelyoncogenicOutline,
   civicLikelypathogenicOutline,
   civicLossoffunctionOutline,
+  civicMixedOutline,
   civicNaOutline,
   civicNegativeOutline,
   civicNeomorphicOutline,
   civicOncogenicOutline,
   civicOncogenicityOutline,
+  civicOncogenicsignificanceOutline,
+  civicOncogenictypeOutline,
   civicPathogenicOutline,
   civicPooroutcomeOutline,
   civicPositiveOutline,

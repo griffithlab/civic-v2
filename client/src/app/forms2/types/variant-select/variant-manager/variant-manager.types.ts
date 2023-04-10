@@ -6,13 +6,16 @@ import { CvcEmptyValueCategory } from '@app/forms2/components/empty-value/empty-
 import { CvcTagLabelMax } from '@app/forms2/components/entity-tag/entity-tag.component'
 import {
   EvidenceItem,
-  EvidenceManagerFieldsFragment,
-  EvidenceManagerQuery,
-  EvidenceManagerQueryVariables,
+  VariantManagerFieldsFragment,
+  VariantManagerQuery,
+  VariantManagerQueryVariables,
   EvidenceSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
+  BrowseVariant,
+  VariantsSortColumns,
+  Gene,
 } from '@app/generated/civic.apollo'
 import { GraphQLError } from 'graphql'
 import {
@@ -25,87 +28,87 @@ import {
 } from 'ng-zorro-antd/table'
 import { Subject } from 'rxjs'
 
-export type EvidenceManagerEdge = {
+export type VariantManagerEdge = {
   cursor: string
-  node?: Maybe<EvidenceManagerFieldsFragment>
+  node?: Maybe<VariantManagerFieldsFragment>
 }
 
 // apollo connection that provides table row data & metadata
-export type EvidenceManagerConnection = EvidenceManagerQuery['evidenceItems']
-// export type EvidenceManagerConnection = {
+export type VariantManagerConnection = VariantManagerQuery['browseVariants']
+// export type VariantManagerConnection = {
 //   totalCount: number
 //   pageCount: number
 //   pageInfo: PageInfo
-//   nodes: EvidenceManagerFieldsFragment[]
+//   nodes: VariantManagerFieldsFragment[]
 // }
 
 // additional columns added to row data for table templates, logic
-type EvidenceManagerRowDataExtra = {
+type VariantManagerRowDataExtra = {
+  variant: Pick<BrowseVariant, 'id' | 'name' | 'link'>,
   // need evidence object for entity tag in selectEntity column
-  evidenceItem: Pick<EvidenceItem, 'id' | 'name' | 'link' | 'status'>
+  gene: Pick<Gene, 'id' | 'name' | 'link'>
   // additional boolean column to handle row selected state
   selected: boolean
 }
 
 // choose table columns from response connection node
 // & combine with options extra data
-export type EvidenceManagerRowData = Pick<
-  EvidenceManagerFieldsFragment,
+export type VariantManagerRowData = Pick<
+  VariantManagerFieldsFragment,
   | 'id'
-  | 'status'
-  | 'molecularProfile'
-  | 'disease'
+  | 'name'
+  | 'geneId'
+  | 'geneName'
+  | 'geneLink'
+  | 'diseases'
   | 'therapies'
-  | 'therapyInteractionType'
-  | 'description'
-  | 'evidenceType'
-  | 'evidenceLevel'
-  | 'evidenceRating'
-  | 'evidenceDirection'
-  | 'significance'
-  | 'variantOrigin'
+  | 'aliases'
 > &
-  EvidenceManagerRowDataExtra
+  VariantManagerRowDataExtra
 
 // list of columns that require conversion from their column key
 // to a filter query variable. e.g. 'disease' -> 'diseaseName'
 export type ConvertedQueryVar = keyof Pick<
-  EvidenceManagerQueryVariables,
-  'molecularProfileName' | 'diseaseName' | 'therapyName' | 'id'
+  VariantManagerQueryVariables,
+  | 'variantName'
+  | 'variantAlias'
+  | 'diseaseName'
+  | 'therapyName'
+  | 'entrezSymbol'
 >
 
 // convenience type for various map keys
-export type EvidenceManagerColKey = keyof EvidenceManagerRowData
+export type VariantManagerColKey = keyof VariantManagerRowData
 
 // each col type has different settings for nz-table features, e.g. filter/sort
-// and cvc-evidence-manager features, e.g. entity-tag display options
-export type EvidenceManagerColType =
+// and cvc-variant-manager features, e.g. entity-tag display options
+export type VariantManagerColType =
   | 'select' // select column, displays checkboxes for row selection
   | 'entity-tag' // display col value with entity-tag
   | 'enum-tag' // display cell data w/ attribute-tag
   | 'default' // short strings, e.g. labels, counts
   | 'text-tag' // long strings or simple sanitized HTML, e.g. descriptions, summaries
 
-export type EvidenceManagerColSortMap = {
-  [key in EvidenceManagerColKey]?: EvidenceSortColumns
+export type VariantManagerColSortMap = {
+  [key in VariantManagerColKey]?: VariantsSortColumns
 }
 
-export type EvidenceManagerColQueryMap =  {
-    [key in EvidenceManagerColKey]?: ConvertedQueryVar
-  }
+export type VariantManagerColQueryMap = {
+  [key in VariantManagerColKey]?: ConvertedQueryVar
+}
 
 // array of column configs, will be rendered left-to-right in array order
-export type EvidenceManagerTableConfig = ColumnConfig[]
+export type VariantManagerTableConfig = ColumnConfig[]
 
 interface BaseColumnConfig {
-  key: EvidenceManagerColKey
-  type: EvidenceManagerColType
+  key: VariantManagerColKey
+  type: VariantManagerColType
   label: string // displayed in col header
   width: string // passed to th nzWidth, use px: '30px'
   tooltip?: string // label tooltip
   emphasize?: boolean // emphasize filter values in string, tags?
   hidden?: boolean // toggle column visibilitiy
-  context?: EvidenceManagerColKey // specify another row key as source for cell context data
+  context?: VariantManagerColKey // specify another row key as source for cell context data
   align?: 'left' | 'center' | 'right' | null // passed to th/td nzAlign
   emptyValueCategory?: CvcEmptyValueCategory // passed to cvc-empty-value component
 }
@@ -177,7 +180,7 @@ interface TagConfig {
 // if showStatus set to true, tag will display status styles.
 // NOTE: use BaseColumnConfig's 'context' option if it's necessary
 // to render an entity tag in a column whos row[colKey] data
-// is not a LinkableEntity, e.g. evidence-manager table's 'id' col
+// is not a LinkableEntity, e.g. variant-manager table's 'id' col
 interface EntityTagConfig {
   showStatus?: boolean // display tag status indicator styles
 }
@@ -250,7 +253,7 @@ export type ColumnPrefsOption = {
 
 export type ColumnPrefsModel = ColumnPrefsOption[]
 
-export type QueryParamKey = keyof EvidenceManagerQueryVariables
+export type QueryParamKey = keyof VariantManagerQueryVariables
 
 // gql query vars sort params
 export type QuerySortParams = {
@@ -275,33 +278,25 @@ export type RequestError = {
 
 // Type guard fns for TypeGuard pipe. Required to simplify the construction of
 // generic template logic, a kludge to prevent *ngFor from getting clobbered
-export const isDefaultColumn: TypeGuard<
-  ColumnConfig,
-  DefaultColumnType
-> = (option: ColumnConfig): option is DefaultColumnType =>
-  option.type === 'default'
+export const isDefaultColumn: TypeGuard<ColumnConfig, DefaultColumnType> = (
+  option: ColumnConfig
+): option is DefaultColumnType => option.type === 'default'
 
 export const isSelectColumn: TypeGuard<ColumnConfig, SelectColumnType> = (
   option: ColumnConfig
 ): option is SelectColumnType => option.type === 'select'
 
-export const isEntityTagOptions: TypeGuard<
-  ColumnConfig,
-  EntityTagType
-> = (option: ColumnConfig): option is EntityTagType =>
-  option.type === 'entity-tag'
+export const isEntityTagOptions: TypeGuard<ColumnConfig, EntityTagType> = (
+  option: ColumnConfig
+): option is EntityTagType => option.type === 'entity-tag'
 
-export const isEnumTagOptions: TypeGuard<
-  ColumnConfig,
-  EnumTagType
-> = (option: ColumnConfig): option is EnumTagType =>
-  option.type === 'enum-tag'
+export const isEnumTagOptions: TypeGuard<ColumnConfig, EnumTagType> = (
+  option: ColumnConfig
+): option is EnumTagType => option.type === 'enum-tag'
 
-export const isTextTagOptions: TypeGuard<
-  ColumnConfig,
-  TextTagType
-> = (option: ColumnConfig): option is TextTagType =>
-  option.type === 'text-tag'
+export const isTextTagOptions: TypeGuard<ColumnConfig, TextTagType> = (
+  option: ColumnConfig
+): option is TextTagType => option.type === 'text-tag'
 
 export const colTypeGuards = {
   isSelectCol: isSelectColumn,

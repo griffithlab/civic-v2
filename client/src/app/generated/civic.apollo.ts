@@ -6152,6 +6152,23 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+
+export type VariantGroupRevisableFields2QueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupRevisableFields2Query = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', name: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> } | undefined };
+
+export type VariantGroupRevisableFields2Fragment = { __typename: 'VariantGroup', name: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> };
+
+export type SuggestVariantGroupRevision2MutationVariables = Exact<{
+  input: SuggestVariantGroupRevisionInput;
+}>;
+
+
+export type SuggestVariantGroupRevision2Mutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+
 export type VariantRevisableFieldsQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -6169,6 +6186,7 @@ export type SuggestVariantRevisionMutationVariables = Exact<{
 
 
 export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
+
 
 export type EntityTagsTestQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
@@ -6442,6 +6460,26 @@ export type TherapySelectTagQueryVariables = Exact<{
 export type TherapySelectTagQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> } | undefined };
 
 export type TherapySelectTypeaheadFieldsFragment = { __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> };
+
+export type VariantManagerQueryVariables = Exact<{
+  variantName?: InputMaybe<Scalars['String']>;
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  diseaseName?: InputMaybe<Scalars['String']>;
+  therapyName?: InputMaybe<Scalars['String']>;
+  variantAlias?: InputMaybe<Scalars['String']>;
+  variantTypeId?: InputMaybe<Scalars['Int']>;
+  variantGroupId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<VariantsSort>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> } | undefined }> } };
+
+export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
 
 export type QuickAddVariantMutationVariables = Exact<{
   name: Scalars['String'];
@@ -8258,6 +8296,64 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
+
+export const RevisableEvidenceFields2FragmentDoc = gql`
+    fragment RevisableEvidenceFields2 on EvidenceItem {
+  id
+  molecularProfile {
+    ...MolecularProfileSelectTypeaheadFields
+  }
+  variantOrigin
+  description
+  significance
+  disease {
+    ...DiseaseSelectTypeaheadFields
+  }
+  therapies {
+    ...TherapySelectTypeaheadFields
+  }
+  therapyInteractionType
+  evidenceDirection
+  evidenceLevel
+  evidenceType
+  phenotypes {
+    ...PhenotypeSelectTypeaheadFields
+  }
+  evidenceRating
+  source {
+    ...SourceSelectTypeaheadFields
+  }
+}
+    ${MolecularProfileSelectTypeaheadFieldsFragmentDoc}
+${DiseaseSelectTypeaheadFieldsFragmentDoc}
+${TherapySelectTypeaheadFieldsFragmentDoc}
+${PhenotypeSelectTypeaheadFieldsFragmentDoc}
+${SourceSelectTypeaheadFieldsFragmentDoc}`;
+export const VariantGroupRevisableFields2FragmentDoc = gql`
+    fragment VariantGroupRevisableFields2 on VariantGroup {
+  name
+  variants {
+    edges {
+      cursor
+      node {
+        id
+        name
+        link
+      }
+    }
+    nodes {
+      id
+      name
+      link
+    }
+  }
+  sources {
+    id
+    name
+    link
+  }
+}
+    `;
 export const AcmgCodeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
@@ -8375,6 +8471,29 @@ export const QuickAddTherapyFieldsFragmentDoc = gql`
   }
 }
     ${TherapySelectTypeaheadFieldsFragmentDoc}`;
+export const VariantManagerFieldsFragmentDoc = gql`
+    fragment VariantManagerFields on BrowseVariant {
+  id
+  name
+  link
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  therapies {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+}
+    `;
 export const VariantSelectTypeaheadFieldsFragmentDoc = gql`
     fragment VariantSelectTypeaheadFields on Variant {
   id
@@ -12026,6 +12145,15 @@ export const SuggestEvidenceItemRevision2Document = gql`
       super(apollo);
     }
   }
+
+export const VariantGroupRevisableFields2Document = gql`
+    query VariantGroupRevisableFields2($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupRevisableFields2
+  }
+}
+    ${VariantGroupRevisableFields2FragmentDoc}`;
+
 export const VariantRevisableFieldsDocument = gql`
     query VariantRevisableFields($variantId: Int!) {
   variant(id: $variantId) {
@@ -12034,16 +12162,35 @@ export const VariantRevisableFieldsDocument = gql`
 }
     ${RevisableVariantFieldsFragmentDoc}`;
 
+
   @Injectable({
     providedIn: 'root'
   })
+
+  export class VariantGroupRevisableFields2GQL extends Apollo.Query<VariantGroupRevisableFields2Query, VariantGroupRevisableFields2QueryVariables> {
+    document = VariantGroupRevisableFields2Document;
+
   export class VariantRevisableFieldsGQL extends Apollo.Query<VariantRevisableFieldsQuery, VariantRevisableFieldsQueryVariables> {
     document = VariantRevisableFieldsDocument;
+
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
+
+export const SuggestVariantGroupRevision2Document = gql`
+    mutation SuggestVariantGroupRevision2($input: SuggestVariantGroupRevisionInput!) {
+  suggestVariantGroupRevision(input: $input) {
+    clientMutationId
+    variantGroup {
+      id
+    }
+    results {
+      newlyCreated
+      id
+      fieldName
+
 export const SuggestVariantRevisionDocument = gql`
     mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
   suggestVariantRevision(input: $input) {
@@ -12055,6 +12202,7 @@ export const SuggestVariantRevisionDocument = gql`
       id
       fieldName
       newlyCreated
+
     }
   }
 }
@@ -12063,8 +12211,13 @@ export const SuggestVariantRevisionDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
+
+  export class SuggestVariantGroupRevision2GQL extends Apollo.Mutation<SuggestVariantGroupRevision2Mutation, SuggestVariantGroupRevision2MutationVariables> {
+    document = SuggestVariantGroupRevision2Document;
+
   export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
     document = SuggestVariantRevisionDocument;
+
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -12684,6 +12837,51 @@ export const TherapySelectTagDocument = gql`
   })
   export class TherapySelectTagGQL extends Apollo.Query<TherapySelectTagQuery, TherapySelectTagQueryVariables> {
     document = TherapySelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantManagerDocument = gql`
+    query VariantManager($variantName: String, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseVariants(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    therapyName: $therapyName
+    variantAlias: $variantAlias
+    variantTypeId: $variantTypeId
+    variantGroupId: $variantGroupId
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...BrowseVariantsFields
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    ${BrowseVariantsFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantManagerGQL extends Apollo.Query<VariantManagerQuery, VariantManagerQueryVariables> {
+    document = VariantManagerDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

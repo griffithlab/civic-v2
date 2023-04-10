@@ -38,6 +38,11 @@ import {
   lastValueFrom,
   map,
   Observable,
+  ReplaySubject,
+  startWith,
+  Subject,
+  scan,
+  withLatestFrom,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
@@ -53,7 +58,8 @@ export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
   requireGene: boolean // if true, disables field if no geneId, and adjust placeholders, prompts
   requireGenePlaceholderFn: (geneName: string) => string // returns placeholder that includes gene name
   requireGenePrompt: string // prompt displayed if gene unspecified
-  extraType?: CvcFormFieldExtraType
+  extraType?: CvcFormFieldExtraType // stores display type for msg beneath select component
+  showManagerBtn?: boolean // show manager button
 }
 
 export interface CvcVariantSelectFieldConfig
@@ -87,9 +93,13 @@ export class CvcVariantSelectField
   onGeneId$!: BehaviorSubject<Maybe<number>>
 
   // LOCAL SOURCE STREAMS
+  onVid$: ReplaySubject<Maybe<number[]>>
+  onShowMgrClick$: Subject<void>
   onGeneName$: BehaviorSubject<Maybe<string>>
 
   // LOCAL PRESENTATION STREAMS
+  showMgr$: Observable<boolean>
+  // TODO: remove placeholder$ subject, just set props.placeholder as with evidence-select
   placeholder$: BehaviorSubject<string>
   onModel$ = new Observable<any>()
 
@@ -105,6 +115,7 @@ export class CvcVariantSelectField
       requireGenePrompt: 'Select a Gene to search its Variants',
       isMultiSelect: false,
       entityName: { singular: 'Variant', plural: 'Variants' },
+      showManagerBtn: false,
     },
   }
 
@@ -122,6 +133,12 @@ export class CvcVariantSelectField
     this.onGeneName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.placeholder$ = new BehaviorSubject<string>(
       this.defaultOptions.props!.placeholder
+    )
+    this.onVid$ = new ReplaySubject<Maybe<number[]>>()
+    this.onShowMgrClick$ = new Subject<void>()
+    this.showMgr$ = this.onShowMgrClick$.pipe(
+      // startWith(true),
+      scan((acc, _) => !acc, false)
     )
   }
 
@@ -146,12 +163,22 @@ export class CvcVariantSelectField
 
     this.placeholder$.next(this.props.placeholder)
 
+    // if form value exists on init, emit it so evidence manager will be updated
+    this.onVid$.next(this.formControl.value)
+
     // update model provided to quick-add form when either sourceType or citationId changes
     this.onModel$ = combineLatest([this.onGeneId$, this.onSearch$]).pipe(
       map(([geneId, name]: [Maybe<number>, Maybe<string>]) => {
         return { geneId: geneId, name: name }
       })
     )
+
+    // emit value, to update variant-manager selection
+    this.onValueChange$
+      .pipe(withLatestFrom(this.onVid$), untilDestroyed(this))
+      .subscribe(([current, old]) => {
+        if (Array.isArray(current)) this.onVid$.next(current)
+      })
   } // ngAfterViewInit
 
   private configureStateConnections() {

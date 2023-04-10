@@ -15,13 +15,16 @@ import { LinkableEntity } from '@app/forms2/components/entity-tag/entity-tag.com
 import {
   EvidenceItem,
   EvidenceItemConnection,
-  EvidenceManagerGQL,
-  EvidenceManagerQuery,
-  EvidenceManagerQueryVariables,
+  VariantManagerGQL,
+  VariantManagerQuery,
+  VariantManagerQueryVariables,
   EvidenceSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
+  BrowseVariant,
+  BrowseVariantConnection,
+  VariantsSortColumns,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Apollo, QueryRef } from 'apollo-angular'
@@ -44,9 +47,9 @@ import { pluck } from 'rxjs-etc/operators'
 import {
   columnKeyToQueryVariableMap,
   columnKeyToSortColumnMap,
-  EvidenceManagerConfig,
+  VariantManagerConfig,
   omittedFromPrefs,
-} from './evidence-manager.config'
+} from './variant-manager.config'
 import {
   colTypeGuards,
   ColumnPrefsModel,
@@ -54,32 +57,33 @@ import {
   ConvertedQueryVar,
   CvcFilterChange,
   CvcTableQueryParams,
-  EvidenceManagerColKey,
-  EvidenceManagerRowData,
-  EvidenceManagerTableConfig,
+  VariantManagerColKey,
+  VariantManagerRowData,
+  VariantManagerTableConfig,
   hasFilterOptions,
   hasInputFilterOptions,
   hasSortOptions,
   QuerySortParams,
   RequestError,
   RowSelection,
-} from './evidence-manager.types'
+} from './variant-manager.types'
 import { ScrollFetch } from './table-scroller.directive'
+import { tag } from 'rxjs-spy/operators'
 
-export type EvidenceManagerSettings = {
+export type VariantManagerSettings = {
   filters: CvcFilterChange[]
   preferences: Partial<ColumnPrefsOption>[]
 }
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-evidence-manager',
-  templateUrl: './evidence-manager.component.html',
-  styleUrls: ['./evidence-manager.component.less'],
+  selector: 'cvc-variant-manager',
+  templateUrl: './variant-manager.component.html',
+  styleUrls: ['./variant-manager.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
-  @Input() cvcTableSettings?: EvidenceManagerSettings
+export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
+  @Input() cvcTableSettings?: VariantManagerSettings
   @Input() cvcSelectedIds?: number[]
   @Output() cvcSelectedIdsChange = new EventEmitter<number[]>()
 
@@ -97,15 +101,15 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   // INTERMEDIATE STREAMS
   queryRequest$: Subject<CvcTableQueryParams>
-  queryResult$: ReplaySubject<ApolloQueryResult<EvidenceManagerQuery>>
-  connection$: Observable<EvidenceItemConnection>
+  queryResult$: ReplaySubject<ApolloQueryResult<VariantManagerQuery>>
+  connection$: Observable<BrowseVariantConnection>
   refetch$: Observable<CvcTableQueryParams>
   fetchMore$: Observable<CvcTableQueryParams>
   setPreference$!: Observable<ColumnPrefsModel>
 
   // PRESENTION STREAMS
-  col$: BehaviorSubject<EvidenceManagerTableConfig>
-  row$?: Observable<Maybe<EvidenceManagerRowData>[]>
+  col$: BehaviorSubject<VariantManagerTableConfig>
+  row$?: Observable<Maybe<VariantManagerRowData>[]>
   loading$: Observable<boolean>
   noMoreRows$: BehaviorSubject<boolean>
   queryError$: Subject<RequestError>
@@ -116,10 +120,10 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   scrollToIndex$: Subject<number>
 
   // apollo query ref
-  queryRef?: QueryRef<EvidenceManagerQuery, EvidenceManagerQueryVariables>
+  queryRef?: QueryRef<VariantManagerQuery, VariantManagerQueryVariables>
 
   // column configuration
-  tableConfig: EvidenceManagerConfig
+  tableConfig: VariantManagerConfig
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
@@ -128,7 +132,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   colGuards = colTypeGuards
 
   constructor(
-    private queryGQL: EvidenceManagerGQL,
+    private queryGQL: VariantManagerGQL,
     private apollo: Apollo,
     private cdr: ChangeDetectorRef
   ) {
@@ -141,13 +145,13 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.queryError$ = new Subject<RequestError>()
     this.queryRequest$ = new Subject<CvcTableQueryParams>()
     this.queryResult$ = new ReplaySubject<
-      ApolloQueryResult<EvidenceManagerQuery>
+      ApolloQueryResult<VariantManagerQuery>
     >(1)
     this.isFetchMore$ = new BehaviorSubject<boolean>(false)
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollToIndex$ = new Subject<number>()
 
-    this.tableConfig = new EvidenceManagerConfig()
+    this.tableConfig = new VariantManagerConfig()
 
     // emit all filters when any is updated
     const filterChange$ = combineLatest(this.tableConfig.getFilterStreams())
@@ -160,9 +164,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
         return changes.filter((change) => change.value !== null).length <= 1
       })
     )
+    // filterChange$.pipe(tag('filterChange$')).subscribe()
 
-    // observe all sort and filter changes, convert to refetch queryParams
+    // combine sort and filter changes, convert to refetch queryParams
     this.refetch$ = combineLatest([sortChange$, filterChange$]).pipe(
+      // tag('variant-manager: refetch$'),
       map(([sorts, filters]) => {
         const queryParams: CvcTableQueryParams = {
           query: 'refetch',
@@ -190,7 +196,11 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // event that ends up here. The debounceTime operator ensures that only one
     // event makes it through to emit a query.
     merge(this.refetch$, this.fetchMore$)
-      .pipe(debounceTime(50), untilDestroyed(this))
+      .pipe(
+        debounceTime(50),
+        // tag('variant-manager: merge(refetch$, fetchMore$)'),
+        untilDestroyed(this)
+      )
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
@@ -204,7 +214,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           // https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(
-              // tag('queryRef.valueChanges'),
+              // tag('variant-manager: queryRef.valueChanges'),
               untilDestroyed(this)
             )
             .subscribe((result) => {
@@ -247,9 +257,9 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     )
 
     this.connection$ = this.queryResult$.pipe(
-      pluck('data', 'evidenceItems'),
+      pluck('data', 'browseVariants'),
       filter(isNonNulled)
-    ) as Observable<EvidenceItemConnection>
+    ) as Observable<BrowseVariantConnection>
 
     // provided to table-scroll directive for fetchMore queries
     this.pageInfo$ = this.connection$.pipe(
@@ -266,17 +276,22 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       ),
       this.onSetSelectedRow$,
     ]).pipe(
-      map(([rows, selected]: [Maybe<EvidenceItem>[], Set<number>]) => {
+      map(([rows, selected]: [Maybe<BrowseVariant>[], Set<number>]) => {
         return rows.map((row) => {
           if (!row) return
           return {
             ...row,
-            evidenceItem: {
-              __typename: 'EvidenceItem',
+            variant: {
+              __typename: 'Variant',
               id: row.id,
               name: row.name,
               link: row.link,
-              status: row.status,
+            },
+            gene: {
+              __typename: 'Gene',
+              id: row.geneId,
+              name: row.geneName,
+              link: row.geneLink,
             },
             selected: selected.has(row.id),
           }
@@ -288,7 +303,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     // elements. Preference panel has a bidirectional link w/ cols$, subscribing
     // to its updates to generate its options with setPreference$, and updating
     // col$ when those options change, via onPreferenceChange$
-    this.col$ = new BehaviorSubject<EvidenceManagerTableConfig>(
+    this.col$ = new BehaviorSubject<VariantManagerTableConfig>(
       this.tableConfig.get()
     )
 
@@ -343,7 +358,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
           const typename = col.filter.typename
           if (!typename || !id) {
             console.error(
-              `evidence-manager requires column config '${col.key}' provide a typename for cvcTablePrefs Input to set its filter`
+              `variant-manager requires column config '${col.key}' provide a typename for cvcTablePrefs Input to set its filter`
             )
             return
           }
@@ -371,7 +386,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
               newModel.push({ ...pref, ...colPref })
             } else {
               console.warn(
-                `evidence-manager onSetTablePref$ received updated preferences for column '${colPref.value}', but a column with that key could not be found.`
+                `variant-manager onSetTablePref$ received updated preferences for column '${colPref.value}', but a column with that key could not be found.`
               )
             }
           })
@@ -435,7 +450,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     this.onResetFilter$
       .pipe(withLatestFrom(of(this.tableConfig.get())), untilDestroyed(this))
       .subscribe(([_, config]) => {
-        const newConfig: EvidenceManagerTableConfig = []
+        const newConfig: VariantManagerTableConfig = []
         config.forEach((c) => {
           if (hasSortOptions(c)) {
             const reset = { key: c.key, value: c.sort.default ?? null }
@@ -457,9 +472,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       })
   }
 
-  getQueryVars(
-    params: CvcTableQueryParams
-  ): EvidenceManagerQueryVariables | {} {
+  getQueryVars(params: CvcTableQueryParams): VariantManagerQueryVariables | {} {
     const filters = this.getQueryFilterParams(params)
     const sort = this.getQuerySortParams(params)
     const queryVars = {
@@ -476,7 +489,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     const queryParam = colSort.find((p) => p.value !== null)
     if (!queryParam) return
     const column = this.getSortColumnFromColKey(
-      queryParam.key as EvidenceManagerColKey
+      queryParam.key as VariantManagerColKey
     )
     return {
       sortBy: {
@@ -491,17 +504,17 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
 
   getQueryFilterParams(
     params: CvcTableQueryParams
-  ): EvidenceManagerQueryVariables {
-    let queryVars: EvidenceManagerQueryVariables = {}
+  ): VariantManagerQueryVariables {
+    let queryVars: VariantManagerQueryVariables = {}
     if (!params.filter) return queryVars
     params.filter.forEach((f) => {
       // handle any filter column keys that must be converted to a different
       // query variable (e.g. 'disease' -> 'diseaseName' )
       const queryVar: Maybe<ConvertedQueryVar> =
-        columnKeyToQueryVariableMap[f.key as EvidenceManagerColKey]
+        columnKeyToQueryVariableMap[f.key as VariantManagerColKey]
       const key = queryVar
         ? queryVar
-        : (f.key as keyof EvidenceManagerQueryVariables)
+        : (f.key as keyof VariantManagerQueryVariables)
 
       // convert null values to undefined (nz-table prefers 'null' for its
       // filter and sort types to indicate unset, query vars need undefined)
@@ -514,7 +527,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   // helper fn for queryError$, transforms ApollQueryResult errors into custom
   // error object
   getRequestErrors(
-    result: ApolloQueryResult<EvidenceManagerQuery>
+    result: ApolloQueryResult<VariantManagerQuery>
   ): RequestError {
     return {
       query: result.errors,
@@ -526,8 +539,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   // updated with col.hidden prefs settings
   getTableConfigFromColPrefs(
     prefs: ColumnPrefsModel,
-    cols: EvidenceManagerTableConfig
-  ): EvidenceManagerTableConfig {
+    cols: VariantManagerTableConfig
+  ): VariantManagerTableConfig {
     cols.forEach((col) => {
       if (omittedFromPrefs.find((c) => c === col.key)) return
       const pref = prefs.find((pref) => pref.value === col.key)
@@ -539,7 +552,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   getColPrefsFromTableConfig(
-    cols: EvidenceManagerTableConfig
+    cols: VariantManagerTableConfig
   ): ColumnPrefsModel {
     let options: ColumnPrefsModel = []
     cols.forEach((col) => {
@@ -554,8 +567,8 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   }
 
   getSortColumnFromColKey(
-    key: EvidenceManagerColKey
-  ): Maybe<EvidenceSortColumns> {
+    key: VariantManagerColKey
+  ): Maybe<VariantsSortColumns> {
     return columnKeyToSortColumnMap[key]
   }
 
@@ -572,20 +585,20 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
     const entity = this.apollo.client.readFragment(fragment) as LinkableEntity
     if (!entity) {
       console.error(
-        `evidence-manager onSetTableFilter$ could not find cached entity ${typename}:${id} to populate input filter`
+        `variant-manager onSetTableFilter$ could not find cached entity ${typename}:${id} to populate input filter`
       )
       return
     }
     return entity.name
   }
 
-  trackByIndex(_: number, data: Maybe<EvidenceManagerRowData>): Maybe<number> {
+  trackByIndex(_: number, data: Maybe<VariantManagerRowData>): Maybe<number> {
     return data?.id
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cvcTableSettings) {
-      const settings: EvidenceManagerSettings =
+      const settings: VariantManagerSettings =
         changes.cvcTableSettings.currentValue
       if (settings !== undefined) {
         this.onSetTableFilter$.next(settings.filters)

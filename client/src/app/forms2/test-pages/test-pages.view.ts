@@ -36,6 +36,10 @@ export class TestPagesView {
         tabLabel: 'Assertion Revise',
       },
       {
+        routeName: 'variantgroup-revise-test',
+        iconName: '',
+        tabLabel: 'VG Revise',
+      }
         routeName: 'gene-revise-test',
         iconName: '',
         tabLabel: 'Gene Revise',
@@ -49,6 +53,7 @@ export class TestPagesView {
         routeName: 'variant-revise-test',
         iconName: '',
         tabLabel: 'Variant Revise',
+
       },
       {
         routeName: 'vertical-form',
