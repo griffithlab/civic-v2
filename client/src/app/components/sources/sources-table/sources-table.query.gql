@@ -57,4 +57,5 @@ fragment BrowseSourceRowFields on BrowseSource {
   citation
   displayType
   link
+  openAccess
 }

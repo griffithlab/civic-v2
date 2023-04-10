@@ -1083,6 +1083,7 @@ type BrowseSource {
   journal: String
   link: String!
   name: String
+  openAccess: Boolean!
   publicationYear: Int
   sourceSuggestionCount: Int!
   sourceType: SourceSource!
@@ -6345,6 +6346,7 @@ type Source implements Commentable & EventSubject {
   lastCommentEvent: Event
   link: String!
   name: String!
+  openAccess: Boolean!
   pmcId: String
   publicationDate: String
   publicationDay: Int
@@ -6453,6 +6455,7 @@ type SourcePopover implements Commentable & EventSubject {
   lastCommentEvent: Event
   link: String!
   name: String!
+  openAccess: Boolean!
   pmcId: String
   publicationDate: String
   publicationDay: Int
