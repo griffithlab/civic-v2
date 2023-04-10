@@ -92,13 +92,13 @@ export class VariantManagerConfig {
         key: 'variant',
         label: 'Variant',
         type: 'entity-tag',
-        width: '160px',
+        width: '215px',
         context: 'variant',
         fixedLeft: true,
         showStatus: true,
         tag: {
           fullWidth: true,
-          truncateLabel: '175px',
+          truncateLabel: '200px',
         },
         sort: {
           default: 'ascend',

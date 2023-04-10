@@ -322,7 +322,7 @@
                 <ng-template #emptyEntityTagCell>
                   <cvc-empty-value
                     [cvcEmptyCategory]="
-                      entityTagCol.emptyValueCategory || 'unspecified'
+                      entityTagCol.emptyValueCategory || 'not-applicable'
                     "></cvc-empty-value>
                 </ng-template>
               </td>
@@ -345,7 +345,9 @@
                   <cvc-empty-value
                     [cvcEmptyCategory]="
                       enumTagCol.emptyValueCategory || 'unspecified'
-                    "></cvc-empty-value>
+                    "
+                    cvcDisplayMode="small">
+                  </cvc-empty-value>
                 </ng-template>
               </td>
 
