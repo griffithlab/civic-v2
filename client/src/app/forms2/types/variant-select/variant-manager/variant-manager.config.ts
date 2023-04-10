@@ -11,6 +11,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { NzTableFilterList } from 'ng-zorro-antd/table'
 import { BehaviorSubject, Observable } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import { $enum, EnumWrapper } from 'ts-enum-util'
 import {
   CvcFilterChange,
@@ -34,7 +35,7 @@ export const columnKeyToSortColumnMap: VariantManagerColSortMap = {
   diseases: VariantsSortColumns.DiseaseName,
   gene: VariantsSortColumns.EntrezSymbol,
   therapies: VariantsSortColumns.TherapyName,
-  id: VariantsSortColumns.VariantName,
+  variant: VariantsSortColumns.VariantName,
 }
 
 // entity browse query vars include filter vars for values
@@ -86,7 +87,7 @@ export class VariantManagerConfig {
         width: '30px',
       },
       {
-        key: 'id',
+        key: 'variant',
         label: 'Variant',
         type: 'entity-tag',
         width: '95px',
@@ -100,8 +101,8 @@ export class VariantManagerConfig {
           default: 'ascend',
         },
         filter: {
-          inputType: 'numeric',
-          options: [{ key: 'EID', value: null }],
+          inputType: 'default',
+          options: [{ key: 'Filter Variant Name', value: null }],
         },
       },
       {
@@ -153,6 +154,7 @@ export class VariantManagerConfig {
     })
     return filters
   }
+
   private configureColumnStreams(
     config: VariantManagerTableConfig
   ): VariantManagerTableConfig {
@@ -176,7 +178,7 @@ export class VariantManagerConfig {
         })
         this.filterStreams.push(
           // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
-          col.filter.changes
+          col.filter.changes.pipe(tag(`${col.key} filter changes`))
         )
       }
     })

@@ -164,9 +164,11 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
         return changes.filter((change) => change.value !== null).length <= 1
       })
     )
+    filterChange$.pipe(tag('filterChange$')).subscribe()
 
-    // observe all sort and filter changes, convert to refetch queryParams
+    // combine sort and filter changes, convert to refetch queryParams
     this.refetch$ = combineLatest([sortChange$, filterChange$]).pipe(
+      tag('variant-manager: refetch$'),
       map(([sorts, filters]) => {
         const queryParams: CvcTableQueryParams = {
           query: 'refetch',
@@ -194,7 +196,11 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
     // event that ends up here. The debounceTime operator ensures that only one
     // event makes it through to emit a query.
     merge(this.refetch$, this.fetchMore$)
-      .pipe(debounceTime(50), tag('variant-manager: merge(refetch$, fetchMore$)'), untilDestroyed(this))
+      .pipe(
+        debounceTime(50),
+        tag('variant-manager: merge(refetch$, fetchMore$)'),
+        untilDestroyed(this)
+      )
       .subscribe((params: CvcTableQueryParams) => {
         const queryVars = this.getQueryVars(params)
         if (!this.queryRef) {
@@ -208,7 +214,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
           // https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
             .pipe(
-              tag('variant-manager: queryRef.valueChanges'),
+              // tag('variant-manager: queryRef.valueChanges'),
               untilDestroyed(this)
             )
             .subscribe((result) => {
@@ -466,9 +472,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
       })
   }
 
-  getQueryVars(
-    params: CvcTableQueryParams
-  ): VariantManagerQueryVariables | {} {
+  getQueryVars(params: CvcTableQueryParams): VariantManagerQueryVariables | {} {
     const filters = this.getQueryFilterParams(params)
     const sort = this.getQuerySortParams(params)
     const queryVars = {
@@ -594,14 +598,14 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cvcTableSettings) {
-      const settings: VariantManagerSettings =
-        changes.cvcTableSettings.currentValue
-      if (settings !== undefined) {
-        this.onSetTableFilter$.next(settings.filters)
-        this.onSetTablePref$.next(settings.preferences)
-      }
-    }
+    // if (changes.cvcTableSettings) {
+    //   const settings: VariantManagerSettings =
+    //     changes.cvcTableSettings.currentValue
+    //   if (settings !== undefined) {
+    //     this.onSetTableFilter$.next(settings.filters)
+    //     this.onSetTablePref$.next(settings.preferences)
+    //   }
+    // }
 
     if (changes.cvcSelectedIds) {
       const ids = changes.cvcSelectedIds.currentValue
