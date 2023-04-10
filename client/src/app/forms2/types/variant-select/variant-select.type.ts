@@ -42,6 +42,7 @@ import {
   startWith,
   Subject,
   scan,
+  withLatestFrom,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
@@ -162,12 +163,22 @@ export class CvcVariantSelectField
 
     this.placeholder$.next(this.props.placeholder)
 
+    // if form value exists on init, emit it so evidence manager will be updated
+    this.onVid$.next(this.formControl.value)
+
     // update model provided to quick-add form when either sourceType or citationId changes
     this.onModel$ = combineLatest([this.onGeneId$, this.onSearch$]).pipe(
       map(([geneId, name]: [Maybe<number>, Maybe<string>]) => {
         return { geneId: geneId, name: name }
       })
     )
+
+    // emit value, to update variant-manager selection
+    this.onValueChange$
+      .pipe(withLatestFrom(this.onVid$), untilDestroyed(this))
+      .subscribe(([current, old]) => {
+        if (Array.isArray(current)) this.onVid$.next(current)
+      })
   } // ngAfterViewInit
 
   private configureStateConnections() {

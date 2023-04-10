@@ -45,7 +45,9 @@ export const columnKeyToQueryVariableMap: VariantManagerColQueryMap = {
   diseases: 'diseaseName',
   therapies: 'therapyName',
   variant: 'variantName',
+  gene: 'entrezSymbol'
 }
+
 // colum keys included here will be hidden in preference panel, preventing
 // defaults from being changed by the user
 export const omittedFromPrefs: VariantManagerColKey[] = ['selected', 'id']
@@ -90,12 +92,13 @@ export class VariantManagerConfig {
         key: 'variant',
         label: 'Variant',
         type: 'entity-tag',
-        width: '95px',
+        width: '160px',
         context: 'variant',
         fixedLeft: true,
         showStatus: true,
         tag: {
           fullWidth: true,
+          truncateLabel: '175px',
         },
         sort: {
           default: 'ascend',
@@ -103,6 +106,41 @@ export class VariantManagerConfig {
         filter: {
           inputType: 'default',
           options: [{ key: 'Filter Variant Name', value: null }],
+        },
+      },
+      {
+        key: 'gene',
+        label: 'Gene',
+        type: 'entity-tag',
+        width: '135px',
+        tag: {
+          truncateLabel: '125px',
+        },
+        sort: {},
+        filter: {
+          inputType: 'default',
+          options: [{ key: 'Filter Gene Name', value: null }],
+        },
+      },
+      {
+        key: 'diseases',
+        label: 'Diseases',
+        type: 'entity-tag',
+        width: '250px',
+        sort: {},
+        tag: {
+          maxTags: 1,
+          truncateLabel: '175px',
+        },
+        filter: {
+          inputType: 'default',
+          typename: 'Therapy',
+          options: [
+            {
+              key: 'Filter Therapy Names',
+              value: null,
+            },
+          ],
         },
       },
       {
@@ -176,10 +214,7 @@ export class VariantManagerConfig {
           key: col.key,
           value: defaultValue ?? null,
         })
-        this.filterStreams.push(
-          // opt.filter.changes.pipe(tag(`${opt.key} filter changes`))
-          col.filter.changes.pipe(tag(`${col.key} filter changes`))
-        )
+        this.filterStreams.push(col.filter.changes)
       }
     })
     return config

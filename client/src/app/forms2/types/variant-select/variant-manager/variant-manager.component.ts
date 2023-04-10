@@ -164,11 +164,11 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
         return changes.filter((change) => change.value !== null).length <= 1
       })
     )
-    filterChange$.pipe(tag('filterChange$')).subscribe()
+    // filterChange$.pipe(tag('filterChange$')).subscribe()
 
     // combine sort and filter changes, convert to refetch queryParams
     this.refetch$ = combineLatest([sortChange$, filterChange$]).pipe(
-      tag('variant-manager: refetch$'),
+      // tag('variant-manager: refetch$'),
       map(([sorts, filters]) => {
         const queryParams: CvcTableQueryParams = {
           query: 'refetch',
@@ -198,7 +198,7 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
     merge(this.refetch$, this.fetchMore$)
       .pipe(
         debounceTime(50),
-        tag('variant-manager: merge(refetch$, fetchMore$)'),
+        // tag('variant-manager: merge(refetch$, fetchMore$)'),
         untilDestroyed(this)
       )
       .subscribe((params: CvcTableQueryParams) => {
@@ -480,7 +480,6 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
       ...filters,
       ...params.fetchMore,
     }
-    console.log(JSON.stringify(queryVars))
     return queryVars
   }
 
