@@ -640,6 +640,7 @@ export type BrowseSource = {
   journal?: Maybe<Scalars['String']>;
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
+  openAccess: Scalars['Boolean'];
   publicationYear?: Maybe<Scalars['Int']>;
   sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
@@ -5577,9 +5578,9 @@ export type BrowseSourcesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string } | undefined }> } };
+export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean } | undefined }> } };
 
-export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string };
+export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean };
 
 export type TherapyPopoverQueryVariables = Exact<{
   therapyId: Scalars['Int'];
@@ -7358,6 +7359,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   citation
   displayType
   link
+  openAccess
 }
     `;
 export const TherapyBrowseTableRowFieldsFragmentDoc = gql`
