@@ -6,7 +6,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 import { EvidenceSuggestPage } from './evidence-suggest.page'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { EvidenceReviseFormModule } from '@app/forms/evidence-revise/evidence-revise.module'
+import { CvcEvidenceReviseFormModule } from '@app/forms2/config/evidence-revise/evidence-revise.form.module'
 
 @NgModule({
   declarations: [EvidenceSuggestPage],
@@ -18,7 +18,7 @@ import { EvidenceReviseFormModule } from '@app/forms/evidence-revise/evidence-re
     NzCardModule,
     NzSkeletonModule,
     NzSpaceModule,
-    EvidenceReviseFormModule,
+    CvcEvidenceReviseFormModule
   ],
 })
 export class EvidenceSuggestModule {}
