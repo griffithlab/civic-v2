@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms'
-import { Chromosomes } from '@app/forms/config/utilities/input-formatters'
+import { Chromosomes } from '@app/forms2/utilities/input-formatters'
 import { variantReviseFormInitialModel } from '@app/forms2/models/variant-revise.model'
 import assignFieldConfigDefaultValues from '@app/forms2/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms2/wrappers/form-card/form-card.wrapper'

@@ -1,5 +1,5 @@
 import { ClinvarInput, Maybe, RevisableVariantFieldsFragment, SuggestVariantRevisionInput } from "@app/generated/civic.apollo";
-import * as fmt from '@app/forms/config/utilities/input-formatters'
+import * as fmt from '@app/forms2/utilities/input-formatters'
 import { VariantReviseModel } from "../models/variant-revise.model";
 import { VariantFields } from "../models/variant-fields.model";
 

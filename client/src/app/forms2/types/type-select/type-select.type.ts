@@ -8,11 +8,11 @@ import {
   Type,
   ViewChildren,
 } from '@angular/core'
-import { EntityName, EntityType } from '@app/forms/config/states/entity.state'
 import { CvcSelectEntityName } from '@app/forms2/components/entity-select/entity-select.component'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms2/mixins/enum-select-field.mixin'
+import { EntityType } from '@app/forms2/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {

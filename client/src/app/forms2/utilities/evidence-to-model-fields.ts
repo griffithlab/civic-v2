@@ -1,7 +1,7 @@
 import { Maybe, RevisableEvidenceFieldsFragment, SubmitEvidenceItemInput, SuggestEvidenceItemRevisionInput } from '@app/generated/civic.apollo'
 import { EvidenceItemFields } from '../models/evidence-fields.model'
 import { EvidenceSubmitModel } from '../models/evidence-submit.model'
-import * as fmt from '@app/forms/config/utilities/input-formatters'
+import * as fmt from '@app/forms2/utilities/input-formatters'
 import { EvidenceReviseModel } from '../models/evidence-revise.model'
 
 export function evidenceToModelFields(

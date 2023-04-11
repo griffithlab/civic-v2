@@ -1,7 +1,7 @@
 import { Maybe, RevisableGeneFieldsFragment, SuggestGeneRevisionInput } from "@app/generated/civic.apollo";
 import { GeneFields } from "../models/gene-fields.model";
 import { GeneReviseModel } from "../models/gene-revise.model";
-import * as fmt from '@app/forms/config/utilities/input-formatters'
+import * as fmt from '@app/forms2/utilities/input-formatters'
 
 export function geneToModelFields(gene: RevisableGeneFieldsFragment): GeneFields {
   return {
