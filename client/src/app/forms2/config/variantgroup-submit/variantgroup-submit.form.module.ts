@@ -5,15 +5,19 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcForms2Module } from '@app/forms2/forms2.module'
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [CvcVariantgroupSubmitForm],
   imports: [
     CommonModule,
+    RouterModule,
     NzFormModule,
     NzButtonModule,
     CvcForms2Module,
     NgxJsonViewerModule, // debug
+    CvcFormSubmissionStatusDisplayModule,
   ],
   exports: [CvcVariantgroupSubmitForm],
 })
