@@ -6495,7 +6495,7 @@ export type VariantSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type VariantSelectTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } }> } };
+export type VariantSelectTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', node?: { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } }> } };
 
 export type VariantSelectTagQueryVariables = Exact<{
   variantId: Scalars['Int'];
@@ -6797,9 +6797,9 @@ export type VariantGroupsSummaryQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupsSummaryQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }> } } | undefined };
+export type VariantGroupsSummaryQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } | undefined };
 
-export type VariantGroupSummaryFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }> } };
+export type VariantGroupSummaryFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
 
 export type VariantTypeDetailQueryVariables = Exact<{
   variantTypeId: Scalars['Int'];
@@ -9229,15 +9229,6 @@ export const VariantGroupSummaryFieldsFragmentDoc = gql`
     sourceUrl
     displayType
     sourceType
-  }
-  variants {
-    edges {
-      node {
-        id
-        name
-        link
-      }
-    }
   }
 }
     `;
@@ -12886,6 +12877,12 @@ export const QuickAddVariantDocument = gql`
 export const VariantSelectTypeaheadDocument = gql`
     query VariantSelectTypeahead($name: String!, $geneId: Int) {
   variants(name: $name, geneId: $geneId, first: 50) {
+    totalCount
+    edges {
+      node {
+        ...VariantSelectTypeaheadFields
+      }
+    }
     nodes {
       ...VariantSelectTypeaheadFields
     }
