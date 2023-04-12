@@ -1,5 +1,11 @@
 query VariantSelectTypeahead($name: String!, $geneId: Int) {
   variants(name: $name, geneId: $geneId, first: 50) {
+    totalCount
+    edges {
+      node {
+        ...VariantSelectTypeaheadFields
+      }
+    }
     nodes {
       ...VariantSelectTypeaheadFields
     }

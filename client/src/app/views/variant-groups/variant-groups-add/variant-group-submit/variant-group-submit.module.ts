@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { VariantGroupSubmitPage } from './variant-group-submit.page'
-import { VariantGroupSubmitFormModule } from '@app/forms/variant-group-submit/variant-group-submit.module'
+import { CvcVariantgroupSubmitFormModule } from '@app/forms2/config/variantgroup-submit/variantgroup-submit.form.module'
 
 @NgModule({
   declarations: [VariantGroupSubmitPage],
-  imports: [CommonModule, VariantGroupSubmitFormModule],
+  imports: [CommonModule, CvcVariantgroupSubmitFormModule]
 })
 export class VariantGroupSubmitModule {}

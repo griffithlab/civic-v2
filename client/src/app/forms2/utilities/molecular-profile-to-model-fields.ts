@@ -1,5 +1,5 @@
 import { Maybe, RevisableMolecularProfileFieldsFragment, SuggestMolecularProfileRevisionInput } from "@app/generated/civic.apollo";
-import * as fmt from '@app/forms/config/utilities/input-formatters'
+import * as fmt from '@app/forms2/utilities/input-formatters'
 import { MolecularProfileFields } from "../models/molecular-profile-fields.model";
 import { MolecularProfileReviseModel } from "../models/molecular-profile-revise.model";
 

@@ -5,9 +5,9 @@ import {
   Component,
   Type,
 } from '@angular/core'
-import { ClinvarOptions } from '@app/forms/config/utilities/input-formatters/variant-revise'
 import { BaseFieldType } from '@app/forms2/mixins/base/base-field'
 import { StringTagField } from '@app/forms2/mixins/string-input-field.mixin'
+import { ClinvarOptions } from '@app/forms2/utilities/input-formatters'
 import { Maybe } from '@app/generated/civic.apollo'
 import {
   FieldTypeConfig,

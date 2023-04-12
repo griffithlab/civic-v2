@@ -16,13 +16,4 @@ fragment VariantGroupSummaryFields on VariantGroup {
     displayType
     sourceType
   }
-  variants {
-    edges {
-      node {
-        id
-        name
-        link
-      }
-    }
-  }
 }

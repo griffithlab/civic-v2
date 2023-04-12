@@ -1,7 +1,7 @@
 import { Maybe, RevisableAssertionFieldsFragment, SubmitAssertionInput, SuggestAssertionRevisionInput } from "@app/generated/civic.apollo";
 import { AssertionFields } from "../models/assertion-fields.model";
 import { AssertionReviseModel } from "../models/assertion-revise.model";
-import * as fmt from '@app/forms/config/utilities/input-formatters'
+import * as fmt from '@app/forms2/utilities/input-formatters'
 import { AssertionSubmitModel } from "../models/assertion-submit.model";
 
 export function assertionToModelFields(a: RevisableAssertionFieldsFragment): AssertionFields {

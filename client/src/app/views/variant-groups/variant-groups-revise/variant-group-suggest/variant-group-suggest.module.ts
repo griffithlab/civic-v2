@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { CvcVariantgroupReviseFormModule } from '@app/forms2/config/variantgroup-revise/variantgroup-revise.form.module'
 import { VariantGroupSuggestPage } from './variant-group-suggest.page'
-import { VariantGroupReviseModule } from '@app/forms/variant-group-revise/variant-group-revise.module'
 
 @NgModule({
   declarations: [VariantGroupSuggestPage],
-  imports: [CommonModule, VariantGroupReviseModule],
+  imports: [CommonModule, CvcVariantgroupReviseFormModule]
 })
 export class VariantGroupSuggestModule {}

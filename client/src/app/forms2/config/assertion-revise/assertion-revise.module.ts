@@ -17,7 +17,6 @@ import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/for
     NzButtonModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,
-    NgxJsonViewerModule, // debug
   ],
   exports: [CvcAssertionReviseForm],
 })

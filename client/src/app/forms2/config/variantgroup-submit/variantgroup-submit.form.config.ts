@@ -4,7 +4,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: {
-      submitLabel: 'Revise Variant Group',
+      submitLabel: 'Submit Variant Group',
       showDevPanel: true,
     },
     fieldGroup: [
@@ -19,7 +19,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: {
-          title: 'Revise Variant Group',
+          title: 'Submit Variant Group',
         },
         fieldGroup: [
           {

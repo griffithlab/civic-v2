@@ -6707,7 +6707,7 @@ input SubmitVariantGroupInput {
   """
   A description of the variant group.
   """
-  description: String!
+  description: String
 
   """
   The name of the disease.
@@ -8266,7 +8266,7 @@ input VariantGroupFields {
   """
   The VariantGroups's description/summary text.
   """
-  description: String!
+  description: NullableStringInput!
 
   """
   The VariantGroups's name.

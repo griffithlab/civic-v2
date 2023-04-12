@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   QueryList,
@@ -104,6 +105,7 @@ const EvidenceSelectMixin = mixin(
   selector: 'cvc-evidence-select',
   templateUrl: './evidence-select.type.html',
   styleUrls: ['./evidence-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceSelectField
   extends EvidenceSelectMixin
@@ -202,20 +204,18 @@ export class CvcEvidenceSelectField
       selectOpen$: this.selectOpen$,
       selectComponent: this.selectComponent,
     })
+    this.onEid$.pipe(untilDestroyed(this)).subscribe()
 
     // if form value exists on init, emit it so evidence manager will be updated
     this.onEid$.next(this.formControl.value)
     this.onValueChange$
-      .pipe(withLatestFrom(this.onEid$), untilDestroyed(this))
+      .pipe(
+        withLatestFrom(this.onEid$),
+        // tag('evidence-select onValueChange$'),
+        untilDestroyed(this))
       .subscribe(([current, old]) => {
         if (Array.isArray(current)) this.onEid$.next(current)
       })
-  }
-
-  private arraysContainSame(a: number[], b: number[]) {
-    a = Array.isArray(a) ? a : [a]
-    b = Array.isArray(b) ? b : [b]
-    return a.length === b.length && a.every((el) => b.includes(el))
   }
 
   private configureStateConnections() {
@@ -294,7 +294,7 @@ export class CvcEvidenceSelectField
         return { filters: filters, preferences: prefs }
       }),
       // waitUntil(this.state.formReady$),
-      tag('tableSettingsChange$'),
+      // tag('tableSettingsChange$'),
       debounceTime(100),
       shareReplay(1)
     )

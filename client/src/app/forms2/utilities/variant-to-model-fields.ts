@@ -1,32 +1,44 @@
-import { ClinvarInput, Maybe, RevisableVariantFieldsFragment, SuggestVariantRevisionInput } from "@app/generated/civic.apollo";
-import * as fmt from '@app/forms/config/utilities/input-formatters'
-import { VariantReviseModel } from "../models/variant-revise.model";
-import { VariantFields } from "../models/variant-fields.model";
+import {
+  ClinvarInput,
+  Maybe,
+  RevisableVariantFieldsFragment,
+  SuggestVariantRevisionInput,
+} from '@app/generated/civic.apollo'
+import * as fmt from '@app/forms2/utilities/input-formatters'
+import { VariantReviseModel } from '../models/variant-revise.model'
+import { VariantFields } from '../models/variant-fields.model'
 
-export function variantToModelFields(variant: RevisableVariantFieldsFragment): VariantFields {
+export function variantToModelFields(
+  variant: RevisableVariantFieldsFragment
+): VariantFields {
   return {
     name: variant.name,
     aliases: variant.variantAliases,
     hgvsDescriptions: variant.hgvsDescriptions,
     clinvarIds: variant.clinvarIds,
-    variantTypeIds: variant.variantTypes.map(vt => vt.id),
+    variantTypeIds: variant.variantTypes.map((vt) => vt.id),
     referenceBuild: variant.referenceBuild,
     ensemblVersion: variant.ensemblVersion,
     chromosome: variant.primaryCoordinates?.chromosome,
     start: variant.primaryCoordinates?.start,
     stop: variant.primaryCoordinates?.stop,
-    representativeTranscript: variant.primaryCoordinates?.representativeTranscript,
+    representativeTranscript:
+      variant.primaryCoordinates?.representativeTranscript,
     chromosome2: variant.secondaryCoordinates?.chromosome,
     start2: variant.secondaryCoordinates?.start,
     stop2: variant.secondaryCoordinates?.stop,
-    representativeTranscript2: variant.secondaryCoordinates?.representativeTranscript,
+    representativeTranscript2:
+      variant.secondaryCoordinates?.representativeTranscript,
     geneId: variant.gene.id,
     referenceBases: variant.referenceBases,
-    variantBases: variant.variantBases
+    variantBases: variant.variantBases,
   }
 }
 
-export function variantFormModelToReviseInput(vid: number, model: VariantReviseModel): Maybe<SuggestVariantRevisionInput> {
+export function variantFormModelToReviseInput(
+  vid: number,
+  model: VariantReviseModel
+): Maybe<SuggestVariantRevisionInput> {
   const fields = model.fields
   if (!model.comment || !fields.name || !fields.geneId) {
     return undefined
@@ -41,7 +53,9 @@ export function variantFormModelToReviseInput(vid: number, model: VariantReviseM
       clinvarIds: clinvarHelper(fields.clinvarIds || []),
       variantTypeIds: fields.variantTypeIds || [],
       referenceBuild: fmt.toNullableInput(fields.referenceBuild),
-      ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
+      ensemblVersion: fmt.toNullableInput(
+        fields.ensemblVersion ? +fields.ensemblVersion : undefined
+      ),
       primaryCoordinates: {
         chromosome: fields.chromosome,
         start: fields.start,
@@ -56,19 +70,19 @@ export function variantFormModelToReviseInput(vid: number, model: VariantReviseM
       },
       geneId: fields.geneId,
       referenceBases: fmt.toNullableString(fields.referenceBases),
-      variantBases: fmt.toNullableString(fields.variantBases)
+      variantBases: fmt.toNullableString(fields.variantBases),
     },
     organizationId: model.organizationId,
-    comment: model.comment!
+    comment: model.comment!,
   }
 }
 
-let clinvarHelper = (ids: string[]) : ClinvarInput => {
-  if(ids[0] == 'NONE FOUND') {
+let clinvarHelper = (ids: string[]): ClinvarInput => {
+  if (ids[0] == 'NONE FOUND') {
     return { noneFound: true }
-  } else if (ids[0] == "NA") {
+  } else if (ids[0] == 'NA') {
     return { notApplicable: true }
   } else {
-    return { ids: ids.map(id => +id) }
+    return { ids: ids.map((id) => +id) }
   }
 }
