@@ -1,9 +1,6 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  Input,
-  OnDestroy,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -14,7 +11,6 @@ import {
 import { VariantGroupSubmitModel } from '@app/forms2/models/variant-group-submit.model'
 import {
   variantGroupFormModelToInput,
-  variantGroupToModelFields,
 } from '@app/forms2/utilities/variant-group-to-model-fields'
 import {
   Maybe,
@@ -22,8 +18,8 @@ import {
   SubmitVariantGroupMutation,
   SubmitVariantGroupMutationVariables,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { UntilDestroy } from '@ngneat/until-destroy'
+import { FormlyFieldConfig } from '@ngx-formly/core'
 import { variantgroupSuggestFields } from './variantgroup-submit.form.config'
 
 @UntilDestroy()
@@ -60,7 +56,6 @@ export class CvcVariantgroupSubmitForm {
 
   onSubmit(model: VariantGroupSubmitModel) {
     const input = variantGroupFormModelToInput(model)
-    // const input = evidenceFormModelToInput(model)
     if (input) {
       this.mutationState = this.submitVariantGroupMutator.mutate(
         this.submitVariantGroupGQL,
