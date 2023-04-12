@@ -43,7 +43,10 @@ import {
   Subject,
   scan,
   withLatestFrom,
+  filter,
+  take,
 } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
 export type CvcVariantSelectFieldOption = Partial<
@@ -144,7 +147,6 @@ export class CvcVariantSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
     this.configureEntitySelectField({
       typeaheadQuery: this.taq,
       typeaheadParam$: this.onGeneId$ ? this.onGeneId$ : undefined,
@@ -161,7 +163,30 @@ export class CvcVariantSelectField
       selectComponent: this.selectComponent,
     })
 
+    // if state formReady exists,listen for parent ready event,
+    // then configure - otherwise configure the field immediately
+    if (this.state && this.state.formReady$) {
+      this.state.formReady$
+        .pipe(
+          filter((r) => r), // only pass true values
+          take(1), // unsubscribe after 1st emit
+          untilDestroyed(this) // or form destroyed
+        )
+        .subscribe((_) => {
+          this.configureField()
+        })
+    } else {
+      this.configureField()
+    }
+  } // ngAfterViewInit
+
+  private configureField() {
     this.placeholder$.next(this.props.placeholder)
+    this.configureStateConnections() // local fn
+
+    this.onVid$
+      .pipe(untilDestroyed(this))
+      .subscribe()
 
     // if form value exists on init, emit it so evidence manager will be updated
     this.onVid$.next(this.formControl.value)
@@ -175,11 +200,14 @@ export class CvcVariantSelectField
 
     // emit value, to update variant-manager selection
     this.onValueChange$
-      .pipe(withLatestFrom(this.onVid$), untilDestroyed(this))
+      .pipe(
+        withLatestFrom(this.onVid$),
+        untilDestroyed(this)
+      )
       .subscribe(([current, old]) => {
         if (Array.isArray(current)) this.onVid$.next(current)
       })
-  } // ngAfterViewInit
+  }
 
   private configureStateConnections() {
     if (!this.state) return
