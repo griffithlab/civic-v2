@@ -6152,6 +6152,13 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+export type SubmitSourceMutationVariables = Exact<{
+  input: SuggestSourceInput;
+}>;
+
+
+export type SubmitSourceMutation = { __typename: 'Mutation', suggestSource?: { __typename: 'SuggestSourcePayload', clientMutationId?: string | undefined, sourceSuggestion: { __typename: 'SourceSuggestion', id: number } } | undefined };
+
 export type VariantRevisableFieldsQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -12099,6 +12106,27 @@ export const SuggestEvidenceItemRevision2Document = gql`
   })
   export class SuggestEvidenceItemRevision2GQL extends Apollo.Mutation<SuggestEvidenceItemRevision2Mutation, SuggestEvidenceItemRevision2MutationVariables> {
     document = SuggestEvidenceItemRevision2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubmitSourceDocument = gql`
+    mutation SubmitSource($input: SuggestSourceInput!) {
+  suggestSource(input: $input) {
+    clientMutationId
+    sourceSuggestion {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitSourceGQL extends Apollo.Mutation<SubmitSourceMutation, SubmitSourceMutationVariables> {
+    document = SubmitSourceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

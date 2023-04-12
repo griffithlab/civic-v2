@@ -1,0 +1,21 @@
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  entityType="Source"
+  [successMessage]="success">
+  <ng-template #success>
+    View your Source Suggestion 
+    <a routerLink="/curation/queues/pending-sources">here</a>.
+  </ng-template>
+  <form
+    [formGroup]="form"
+    nz-form
+    nzLayout="vertical"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      (modelChange)="model = $event">
+    </formly-form>
+  </form>
+</cvc-form-submission-status-display>
