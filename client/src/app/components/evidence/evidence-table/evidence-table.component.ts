@@ -14,7 +14,6 @@ import {
   SortDirectionEvent,
 } from '@app/core/utilities/datatable-helpers'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
-import { FormEvidence } from '@app/forms/forms.interfaces'
 import {
   EvidenceBrowseGQL,
   EvidenceBrowseQuery,
@@ -77,8 +76,6 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() diseaseId: Maybe<number>
   @Input() displayMolecularProfile = true
   @Input() therapyId: Maybe<number>
-  @Input() initialSelectedEids: FormEvidence[] = []
-  @Input() mode: 'normal' | 'select' = 'normal'
   @Input() organizationId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() sourceId: Maybe<number>
@@ -94,8 +91,6 @@ export class CvcEvidenceTableComponent implements OnInit {
   }
 
   @Output() initialTotalCount = new EventEmitter<number>()
-
-  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -134,8 +129,6 @@ export class CvcEvidenceTableComponent implements OnInit {
 
   sortColumns = EvidenceSortColumns
   evidenceLevels = EvidenceLevel
-
-  selectedEvidenceIds = new Map<number, FormEvidence>()
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
@@ -178,10 +171,6 @@ export class CvcEvidenceTableComponent implements OnInit {
         ? this.variantOriginInput
         : undefined,
     })
-
-    this.initialSelectedEids.forEach((eid) =>
-      this.selectedEvidenceIds.set(eid.id, eid)
-    )
 
     this.result$ = this.queryRef.valueChanges
 
@@ -312,15 +301,6 @@ export class CvcEvidenceTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
-  }
-
-  onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
-    if (newValue) {
-      this.selectedEvidenceIds.set(eid.id, eid)
-    } else {
-      this.selectedEvidenceIds.delete(eid.id)
-    }
-    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
   }
 
   trackByIndex(_: number, data: Maybe<EvidenceGridFieldsFragment>): Maybe<number> {

@@ -47,10 +47,6 @@
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th
-          nzWidth="25px"
-          nzLeft
-          *ngIf="mode == 'select'"></th>
-        <th
           nzWidth="100px"
           nzLeft
           [nzColumnKey]="sortColumns.Id"
@@ -157,9 +153,6 @@
         </th>
       </tr>
       <tr class="filter-row">
-        <th
-          *ngIf="mode == 'select'"
-          nzLeft></th>
         <th nzLeft>
           <cvc-clearable-input-filter
             [(inputModel)]="eidInput"
@@ -447,16 +440,6 @@
         let-eid
         let-index="index">
         <tr class="data-row">
-          <td
-            *ngIf="mode == 'select'"
-            nzLeft>
-            <label
-              nz-checkbox
-              [nzChecked]="this.selectedEvidenceIds.has(eid.id)"
-              (nzCheckedChange)="
-                onEvidenceCheckboxClicked($event, eid)
-              "></label>
-          </td>
           <td nzLeft>
             <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
           </td>
