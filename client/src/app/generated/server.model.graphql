@@ -893,6 +893,7 @@ type BrowseGene implements Flaggable {
   geneAliases: [String!]
   id: Int!
   link: String!
+  molecularProfileCount: Int!
   name: String!
   therapies: [Therapy!]
   variantCount: Int!
@@ -1084,6 +1085,7 @@ type BrowseSource {
   journal: String
   link: String!
   name: String
+  openAccess: Boolean!
   publicationYear: Int
   sourceSuggestionCount: Int!
   sourceType: SourceSource!
@@ -1210,6 +1212,7 @@ type BrowseVariant {
   link: String!
   name: String!
   therapies: [Therapy!]!
+  variantTypes: [LinkableVariantType!]!
 }
 
 """
@@ -1817,6 +1820,7 @@ type Disease {
   doid: String
   id: Int!
   link: String!
+  myDiseaseInfo: MyDiseaseInfo
   name: String!
 }
 
@@ -1829,8 +1833,9 @@ type DiseasePopover {
   evidenceItemCount: Int!
   id: Int!
   link: String!
+  molecularProfileCount: Int!
+  myDiseaseInfo: MyDiseaseInfo
   name: String!
-  variantCount: Int!
 }
 
 input DiseasesSort {
@@ -2527,6 +2532,11 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
+type FdaCode {
+  code: String!
+  description: String!
+}
+
 type FieldName {
   """
   The user facing representation of the field name.
@@ -3112,6 +3122,7 @@ enum GenesSortColumns {
   entrezSymbol
   evidenceItemCount
   geneAlias
+  molecularProfileCount
   therapyName
   variantCount
 }
@@ -3162,6 +3173,12 @@ type LinkableTherapy {
 }
 
 type LinkableVariant {
+  id: Int!
+  link: String!
+  name: String!
+}
+
+type LinkableVariantType {
   id: Int!
   link: String!
   name: String!
@@ -4028,6 +4045,35 @@ type Mutation {
   ): UpdateSourceSuggestionStatusPayload
 }
 
+type MyChemInfo {
+  chebiDefinition: String
+  chebiId: String
+  chemblId: String
+  chemblMoleculeType: String
+  drugbankId: String
+  fdaEpcCodes: [FdaCode!]!
+  fdaMoaCodes: [FdaCode!]!
+  firstApproval: String
+  inchikey: String
+  indications: [String!]!
+  pharmgkbId: String
+  pubchemCid: String
+  rxnorm: String
+}
+
+type MyDiseaseInfo {
+  diseaseOntologyExactSynonyms: [String!]!
+  diseaseOntologyRelatedSynonyms: [String!]!
+  doDef: String
+  doDefCitations: [String!]!
+  icd10: String
+  icdo: String
+  mesh: String
+  mondoDef: String
+  ncit: [String!]!
+  omim: String
+}
+
 type MyVariantInfo {
   caddConsequence: [String!]!
   caddDetail: [String!]!
@@ -4523,6 +4569,7 @@ type PhenotypePopover {
   hpoId: String!
   id: Int!
   link: String!
+  molecularProfileCount: Int!
   name: String!
   url: String!
 }
@@ -4839,6 +4886,7 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+    hasNoVariantType: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -4850,6 +4898,7 @@ type Query {
     variantGroupId: Int
     variantName: String
     variantTypeId: Int
+    variantTypeName: String
   ): BrowseVariantConnection!
 
   """
@@ -5237,9 +5286,9 @@ type Query {
   ): FlagConnection!
 
   """
-  Find a gene by CIViC ID
+  Find a single gene by CIViC ID or Entrez symbol
   """
-  gene(id: Int!): Gene
+  gene(entrezSymbol: String, id: Int): Gene
 
   """
   Retrieve gene typeahead fields for a search term.
@@ -5813,6 +5862,11 @@ type Query {
     first: Int
 
     """
+    Filter variant types by internal CIViC id of a gene
+    """
+    geneId: Int
+
+    """
     Filter variant types by internal CIViC id
     """
     id: Int
@@ -5863,6 +5917,11 @@ type Query {
     geneId: Int
 
     """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -5872,6 +5931,11 @@ type Query {
     """
     name: String
     sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
   ): VariantConnection!
   viewer: User
 }
@@ -6302,6 +6366,7 @@ type Source implements Commentable & EventSubject {
   lastCommentEvent: Event
   link: String!
   name: String!
+  openAccess: Boolean!
   pmcId: String
   publicationDate: String
   publicationDay: Int
@@ -6410,6 +6475,7 @@ type SourcePopover implements Commentable & EventSubject {
   lastCommentEvent: Event
   link: String!
   name: String!
+  openAccess: Boolean!
   pmcId: String
   publicationDate: String
   publicationDay: Int
@@ -7273,6 +7339,7 @@ input TaggableEntityInput {
 type Therapy {
   id: Int!
   link: String!
+  myChemInfo: MyChemInfo
   name: String!
   ncitId: String
   therapyAliases: [String!]!
@@ -7290,6 +7357,8 @@ type TherapyPopover {
   evidenceItemCount: Int!
   id: Int!
   link: String!
+  molecularProfileCount: Int!
+  myChemInfo: MyChemInfo
   name: String!
   ncitId: String
   therapyAliases: [String!]!
@@ -7781,6 +7850,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   link: String!
+  maneSelectTranscript: String
   molecularProfiles(
     """
     Returns the elements in the list that come after the specified cursor.

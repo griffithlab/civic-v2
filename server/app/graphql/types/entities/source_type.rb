@@ -22,6 +22,7 @@ module Types::Entities
     field :pmc_id, String, null: true
     field :author_string, String, null: true
     field :display_type, String, null: false
+    field :open_access, Boolean, null: false
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
@@ -37,6 +38,10 @@ module Types::Entities
 
     def link
       "/sources/#{object.id}"
+    end
+
+    def open_access
+      !!object.open_access
     end
 
     def publication_date

@@ -15,7 +15,7 @@ export class PrepositionForSubjectPipe implements PipeTransform {
       case EventAction.RevisionAccepted:
         return 'to'
       case EventAction.RevisionRejected:
-        return 'tou'
+        return 'to'
       case EventAction.RevisionSuperseded:
         return 'to'
       case EventAction.Flagged:

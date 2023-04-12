@@ -31,7 +31,7 @@
     #virtualTable
     nzSize="small"
     [nzData]="(row$ | ngrxPush) || []"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll

@@ -70,6 +70,20 @@
                 >
               </ng-template>
             </nz-descriptions-item>
+
+            <!-- MANE Select Transcript -->
+            <nz-descriptions-item nzTitle="MANE Select Transcript">
+              <ng-container *ngIf="variant.maneSelectTranscript; else noMane">
+                <cvc-tag-list>
+                  <nz-tag>{{variant.maneSelectTranscript}}</nz-tag>
+                </cvc-tag-list>
+              </ng-container>
+              <ng-template #noMane>
+                <span nz-typography
+                  nzType="secondary">None found</span>
+              </ng-template>
+            </nz-descriptions-item>
+
           </nz-descriptions>
         </nz-col>
         <!-- coordinates -->

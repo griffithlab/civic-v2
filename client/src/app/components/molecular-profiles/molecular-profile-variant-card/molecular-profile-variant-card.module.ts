@@ -18,6 +18,7 @@ import { CvcMolecularProfileTagModule } from '../molecular-profile-tag/molecular
 import { RouterModule } from '@angular/router'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 @NgModule({
   declarations: [CvcMolecularProfileVariantCardComponent],
@@ -31,6 +32,7 @@ import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-c
     NzTypographyModule,
     NzCardModule,
     NzCollapseModule,
+    NzSpaceModule,
     CvcPipesModule,
     CvcVariantTagModule,
     CvcGeneTagModule,

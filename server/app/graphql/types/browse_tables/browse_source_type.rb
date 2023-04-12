@@ -16,6 +16,7 @@ module Types::BrowseTables
     field :clinical_trials, [Types::Entities::ClinicalTrialType], null: false
     field :source_url, String, null: false
     field :link, String, null: false
+    field :open_access, Boolean, null: false
 
     def source_url
       Source.url_for(source: object)
@@ -27,6 +28,10 @@ module Types::BrowseTables
       else
         object.source_type
       end
+    end
+
+    def open_access
+      !!object.open_access
     end
 
     def authors

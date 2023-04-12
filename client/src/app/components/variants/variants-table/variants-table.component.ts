@@ -94,6 +94,8 @@ export class CvcVariantsTableComponent implements OnInit {
   diseaseNameInput: Maybe<string>
   therapyNameInput: Maybe<string>
   variantAliasInput: Maybe<string>
+  variantTypeNameInput: Maybe<string>
+  hasNoVariantTypeInput: boolean = false
 
   private initialQueryArgs?: BrowseVariantsQueryVariables
 
@@ -112,6 +114,7 @@ export class CvcVariantsTableComponent implements OnInit {
       first: this.initialPageSize,
       variantTypeId: this.variantTypeId,
       variantGroupId: this.variantGroupId,
+      hasNoVariantType: this.hasNoVariantTypeInput,
     }
 
     this.queryRef = this.gql.watch(this.initialQueryArgs)
@@ -207,6 +210,8 @@ export class CvcVariantsTableComponent implements OnInit {
           ? this.variantAliasInput
           : undefined,
         entrezSymbol: this.geneSymbolInput,
+        variantTypeName: this.variantTypeNameInput ? this.variantTypeNameInput : undefined,
+        hasNoVariantType: this.hasNoVariantTypeInput
       })
       .then(() => this.scrollIndex$.next(0))
 
@@ -217,4 +222,10 @@ export class CvcVariantsTableComponent implements OnInit {
   trackByIndex(_: number, data: Maybe<BrowseVariantsFieldsFragment>): Maybe<number> {
     return data?.id;
   }
+
+  onHasNoVariantTypeInputChange(value: boolean[]) {
+    this.hasNoVariantTypeInput = value[0]
+    this.filterChange$.next()
+  }
+
 }

@@ -25,6 +25,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { EvidenceSummaryPage } from './evidence-summary.page'
+import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-value.module'
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -41,6 +42,7 @@ import { EvidenceSummaryPage } from './evidence-summary.page'
     NzIconModule,
     NzDescriptionsModule,
     NzToolTipModule,
+    CvcEmptyValueModule,
     CvcPipesModule,
     CvcEvidenceRatingModule,
     CvcDiseaseTagModule,

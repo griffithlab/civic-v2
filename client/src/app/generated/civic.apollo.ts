@@ -507,6 +507,7 @@ export type BrowseGene = Flaggable & {
   geneAliases?: Maybe<Array<Scalars['String']>>;
   id: Scalars['Int'];
   link: Scalars['String'];
+  molecularProfileCount: Scalars['Int'];
   name: Scalars['String'];
   therapies?: Maybe<Array<Therapy>>;
   variantCount: Scalars['Int'];
@@ -641,6 +642,7 @@ export type BrowseSource = {
   journal?: Maybe<Scalars['String']>;
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
+  openAccess: Scalars['Boolean'];
   publicationYear?: Maybe<Scalars['Int']>;
   sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
@@ -721,6 +723,7 @@ export type BrowseVariant = {
   link: Scalars['String'];
   name: Scalars['String'];
   therapies: Array<Therapy>;
+  variantTypes: Array<LinkableVariantType>;
 };
 
 /** The connection type for BrowseVariant. */
@@ -1144,6 +1147,7 @@ export type Disease = {
   doid?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
+  myDiseaseInfo?: Maybe<MyDiseaseInfo>;
   name: Scalars['String'];
 };
 
@@ -1157,8 +1161,9 @@ export type DiseasePopover = {
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
   link: Scalars['String'];
+  molecularProfileCount: Scalars['Int'];
+  myDiseaseInfo?: Maybe<MyDiseaseInfo>;
   name: Scalars['String'];
-  variantCount: Scalars['Int'];
 };
 
 export type DiseasesSort = {
@@ -1579,6 +1584,12 @@ export enum EvidenceType {
   Prognostic = 'PROGNOSTIC'
 }
 
+export type FdaCode = {
+  __typename: 'FdaCode';
+  code: Scalars['String'];
+  description: Scalars['String'];
+};
+
 export type FieldName = {
   __typename: 'FieldName';
   /** The user facing representation of the field name. */
@@ -1872,6 +1883,7 @@ export enum GenesSortColumns {
   EntrezSymbol = 'entrezSymbol',
   EvidenceItemCount = 'evidenceItemCount',
   GeneAlias = 'geneAlias',
+  MolecularProfileCount = 'molecularProfileCount',
   TherapyName = 'therapyName',
   VariantCount = 'variantCount'
 }
@@ -1914,6 +1926,13 @@ export type LinkableTherapy = {
 
 export type LinkableVariant = {
   __typename: 'LinkableVariant';
+  id: Scalars['Int'];
+  link: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type LinkableVariantType = {
+  __typename: 'LinkableVariantType';
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -2443,6 +2462,37 @@ export type MutationUpdateSourceSuggestionStatusArgs = {
   input: UpdateSourceSuggestionStatusInput;
 };
 
+export type MyChemInfo = {
+  __typename: 'MyChemInfo';
+  chebiDefinition?: Maybe<Scalars['String']>;
+  chebiId?: Maybe<Scalars['String']>;
+  chemblId?: Maybe<Scalars['String']>;
+  chemblMoleculeType?: Maybe<Scalars['String']>;
+  drugbankId?: Maybe<Scalars['String']>;
+  fdaEpcCodes: Array<FdaCode>;
+  fdaMoaCodes: Array<FdaCode>;
+  firstApproval?: Maybe<Scalars['String']>;
+  inchikey?: Maybe<Scalars['String']>;
+  indications: Array<Scalars['String']>;
+  pharmgkbId?: Maybe<Scalars['String']>;
+  pubchemCid?: Maybe<Scalars['String']>;
+  rxnorm?: Maybe<Scalars['String']>;
+};
+
+export type MyDiseaseInfo = {
+  __typename: 'MyDiseaseInfo';
+  diseaseOntologyExactSynonyms: Array<Scalars['String']>;
+  diseaseOntologyRelatedSynonyms: Array<Scalars['String']>;
+  doDef?: Maybe<Scalars['String']>;
+  doDefCitations: Array<Scalars['String']>;
+  icd10?: Maybe<Scalars['String']>;
+  icdo?: Maybe<Scalars['String']>;
+  mesh?: Maybe<Scalars['String']>;
+  mondoDef?: Maybe<Scalars['String']>;
+  ncit: Array<Scalars['String']>;
+  omim?: Maybe<Scalars['String']>;
+};
+
 export type MyVariantInfo = {
   __typename: 'MyVariantInfo';
   caddConsequence: Array<Scalars['String']>;
@@ -2800,6 +2850,7 @@ export type PhenotypePopover = {
   hpoId: Scalars['String'];
   id: Scalars['Int'];
   link: Scalars['String'];
+  molecularProfileCount: Scalars['Int'];
   name: Scalars['String'];
   url: Scalars['String'];
 };
@@ -2868,7 +2919,7 @@ export type Query = {
   flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
-  /** Find a gene by CIViC ID */
+  /** Find a single gene by CIViC ID or Entrez symbol */
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
@@ -3073,6 +3124,7 @@ export type QueryBrowseVariantsArgs = {
   diseaseName?: InputMaybe<Scalars['String']>;
   entrezSymbol?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<VariantsSort>;
   therapyName?: InputMaybe<Scalars['String']>;
@@ -3080,6 +3132,7 @@ export type QueryBrowseVariantsArgs = {
   variantGroupId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantTypeId?: InputMaybe<Scalars['Int']>;
+  variantTypeName?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -3224,7 +3277,8 @@ export type QueryFlagsArgs = {
 
 
 export type QueryGeneArgs = {
-  id: Scalars['Int'];
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -3520,6 +3574,7 @@ export type QueryVariantTypesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -3533,9 +3588,11 @@ export type QueryVariantsArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantMenuSort>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export enum ReadStatus {
@@ -3762,6 +3819,7 @@ export type Source = Commentable & EventSubject & {
   lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
+  openAccess: Scalars['Boolean'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
@@ -3817,6 +3875,7 @@ export type SourcePopover = Commentable & EventSubject & {
   lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
+  openAccess: Scalars['Boolean'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
@@ -4425,6 +4484,7 @@ export type Therapy = {
   __typename: 'Therapy';
   id: Scalars['Int'];
   link: Scalars['String'];
+  myChemInfo?: Maybe<MyChemInfo>;
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
   therapyAliases: Array<Scalars['String']>;
@@ -4443,6 +4503,8 @@ export type TherapyPopover = {
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
   link: Scalars['String'];
+  molecularProfileCount: Scalars['Int'];
+  myChemInfo?: Maybe<MyChemInfo>;
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
   therapyAliases: Array<Scalars['String']>;
@@ -4685,6 +4747,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String'];
+  maneSelectTranscript?: Maybe<Scalars['String']>;
   molecularProfiles: MolecularProfileConnection;
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
@@ -5137,16 +5200,16 @@ export type CommentPopoverQueryVariables = Exact<{
 }>;
 
 
-export type CommentPopoverQuery = { __typename: 'Query', comment?: { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined };
+export type CommentPopoverQuery = { __typename: 'Query', comment?: { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined };
 
-export type CommentPopoverFragment = { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
+export type CommentPopoverFragment = { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
 
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
 
 
-export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, link: string } | undefined };
+export type DiseasePopoverQuery = { __typename: 'Query', diseasePopover?: { __typename: 'DiseasePopover', id: number, name: string, displayName: string, doid?: string | undefined, diseaseUrl?: string | undefined, diseaseAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string } | undefined };
 
 export type BrowseDiseasesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5295,9 +5358,9 @@ export type BrowseGenesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
+export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
 
-export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
+export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
 
 export type QuicksearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -5383,7 +5446,7 @@ export type PhenotypePopoverQueryVariables = Exact<{
 }>;
 
 
-export type PhenotypePopoverQuery = { __typename: 'Query', phenotypePopover?: { __typename: 'PhenotypePopover', id: number, name: string, url: string, hpoId: string, assertionCount: number, evidenceItemCount: number, link: string } | undefined };
+export type PhenotypePopoverQuery = { __typename: 'Query', phenotypePopover?: { __typename: 'PhenotypePopover', id: number, name: string, url: string, hpoId: string, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string } | undefined };
 
 export type PhenotypesBrowseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5428,9 +5491,9 @@ export type RevisionPopoverQueryVariables = Exact<{
 }>;
 
 
-export type RevisionPopoverQuery = { __typename: 'Query', revision?: { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string } } | undefined };
+export type RevisionPopoverQuery = { __typename: 'Query', revision?: { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string }, creationComment?: { __typename: 'Comment', comment: string } | undefined } | undefined };
 
-export type RevisionPopoverFragment = { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string } };
+export type RevisionPopoverFragment = { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string }, creationComment?: { __typename: 'Comment', comment: string } | undefined };
 
 export type RevisionsQueryVariables = Exact<{
   subject?: InputMaybe<ModeratedInput>;
@@ -5544,16 +5607,16 @@ export type BrowseSourcesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string } | undefined }> } };
+export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean } | undefined }> } };
 
-export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string };
+export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean };
 
 export type TherapyPopoverQueryVariables = Exact<{
   therapyId: Scalars['Int'];
 }>;
 
 
-export type TherapyPopoverQuery = { __typename: 'Query', therapyPopover?: { __typename: 'TherapyPopover', id: number, name: string, therapyUrl?: string | undefined, ncitId?: string | undefined, therapyAliases: Array<string>, assertionCount: number, evidenceItemCount: number, link: string } | undefined };
+export type TherapyPopoverQuery = { __typename: 'Query', therapyPopover?: { __typename: 'TherapyPopover', id: number, name: string, therapyUrl?: string | undefined, ncitId?: string | undefined, therapyAliases: Array<string>, assertionCount: number, evidenceItemCount: number, molecularProfileCount: number, link: string } | undefined };
 
 export type TherapiesBrowseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5665,6 +5728,8 @@ export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, 
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   before?: InputMaybe<Scalars['String']>;
@@ -5674,6 +5739,15 @@ export type VariantsMenuQueryVariables = Exact<{
 
 
 export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean } | undefined }> } };
+
+export type VariantTypesForGeneQueryVariables = Exact<{
+  geneId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type VariantTypesForGeneQuery = { __typename: 'Query', variantTypes: { __typename: 'BrowseVariantTypeConnection', edges: Array<{ __typename: 'BrowseVariantTypeEdge', node?: { __typename: 'BrowseVariantType', id: number, name: string, link: string } | undefined }> } };
+
+export type MenuVariantTypeFragment = { __typename: 'BrowseVariantType', id: number, name: string, link: string };
 
 export type MenuVariantFragment = { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean };
 
@@ -5685,6 +5759,8 @@ export type BrowseVariantsQueryVariables = Exact<{
   variantAlias?: InputMaybe<Scalars['String']>;
   variantTypeId?: InputMaybe<Scalars['Int']>;
   variantGroupId?: InputMaybe<Scalars['Int']>;
+  variantTypeName?: InputMaybe<Scalars['String']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<VariantsSort>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -5693,9 +5769,9 @@ export type BrowseVariantsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> } | undefined }> } };
+export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
+export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6482,7 +6558,7 @@ export type VariantManagerQueryVariables = Exact<{
 }>;
 
 
-export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> } | undefined }> } };
+export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
 export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
 
@@ -6573,9 +6649,11 @@ export type DiseasesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
+export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined } | undefined };
 
-export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string };
+export type MyDiseaseInfoFieldsFragment = { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined };
+
+export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined };
 
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -6627,9 +6705,9 @@ export type MolecularProfileSummaryQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfileSummaryQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, description?: string | undefined, molecularProfileAliases: Array<string>, molecularProfileScore: number, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceType: SourceSource }>, variants: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, clinvarIds: Array<string>, alleleRegistryId?: string | undefined, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, hgvsDescriptions: Array<string>, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, nodes: Array<{ __typename: 'MolecularProfile', id: number, link: string, name: string, deprecated: boolean }> }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined }>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> } | undefined };
+export type MolecularProfileSummaryQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, description?: string | undefined, molecularProfileAliases: Array<string>, molecularProfileScore: number, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceType: SourceSource }>, variants: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, clinvarIds: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, hgvsDescriptions: Array<string>, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, nodes: Array<{ __typename: 'MolecularProfile', id: number, link: string, name: string, deprecated: boolean }> }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined }>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> } | undefined };
 
-export type MolecularProfileSummaryFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, description?: string | undefined, molecularProfileAliases: Array<string>, molecularProfileScore: number, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceType: SourceSource }>, variants: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, clinvarIds: Array<string>, alleleRegistryId?: string | undefined, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, hgvsDescriptions: Array<string>, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, nodes: Array<{ __typename: 'MolecularProfile', id: number, link: string, name: string, deprecated: boolean }> }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined }>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> };
+export type MolecularProfileSummaryFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, description?: string | undefined, molecularProfileAliases: Array<string>, molecularProfileScore: number, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceType: SourceSource }>, variants: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, clinvarIds: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, hgvsDescriptions: Array<string>, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, nodes: Array<{ __typename: 'MolecularProfile', id: number, link: string, name: string, deprecated: boolean }> }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined }>, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> };
 
 type MolecularProfileParsedName_Gene_Fragment = { __typename: 'Gene', id: number, name: string, link: string };
 
@@ -6639,7 +6717,7 @@ type MolecularProfileParsedName_Variant_Fragment = { __typename: 'Variant', id: 
 
 export type MolecularProfileParsedNameFragment = MolecularProfileParsedName_Gene_Fragment | MolecularProfileParsedName_MolecularProfileTextSegment_Fragment | MolecularProfileParsedName_Variant_Fragment;
 
-export type VariantMolecularProfileCardFieldsFragment = { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, clinvarIds: Array<string>, alleleRegistryId?: string | undefined, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, hgvsDescriptions: Array<string>, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, nodes: Array<{ __typename: 'MolecularProfile', id: number, link: string, name: string, deprecated: boolean }> }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
+export type VariantMolecularProfileCardFieldsFragment = { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, clinvarIds: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, hgvsDescriptions: Array<string>, gene: { __typename: 'Gene', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, nodes: Array<{ __typename: 'MolecularProfile', id: number, link: string, name: string, deprecated: boolean }> }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
 
 export type OrganizationDetailQueryVariables = Exact<{
   organizationId: Scalars['Int'];
@@ -6716,9 +6794,11 @@ export type TherapiesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string } | undefined };
+export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined } | undefined };
 
-export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string };
+export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string, myChemInfo?: { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> } | undefined };
+
+export type MyChemInfoFieldsFragment = { __typename: 'MyChemInfo', chebiId?: string | undefined, chebiDefinition?: string | undefined, firstApproval?: string | undefined, chemblMoleculeType?: string | undefined, chemblId?: string | undefined, pubchemCid?: string | undefined, pharmgkbId?: string | undefined, rxnorm?: string | undefined, inchikey?: string | undefined, drugbankId?: string | undefined, indications: Array<string>, fdaEpcCodes: Array<{ __typename: 'FdaCode', code: string, description: string }>, fdaMoaCodes: Array<{ __typename: 'FdaCode', code: string, description: string }> };
 
 export type UserDetailQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -6829,9 +6909,9 @@ export type VariantSummaryQueryVariables = Exact<{
 }>;
 
 
-export type VariantSummaryQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, caddPhred?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
+export type VariantSummaryQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, maneSelectTranscript?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, caddPhred?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
 
-export type VariantSummaryFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, caddPhred?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
+export type VariantSummaryFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, openCravatUrl?: string | undefined, maneSelectTranscript?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, caddPhred?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
 
 export type MyVariantInfoFieldsFragment = { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, caddPhred?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> };
 
@@ -6981,7 +7061,6 @@ export const CommentPopoverFragmentDoc = gql`
     id
     displayName
     role
-    profileImagePath(size: 32)
   }
   commentable {
     id
@@ -7340,6 +7419,7 @@ export const BrowseGenesFieldsFragmentDoc = gql`
   variantCount
   evidenceItemCount
   assertionCount
+  molecularProfileCount
 }
     `;
 export const QuicksearchResultFragmentDoc = gql`
@@ -7493,6 +7573,9 @@ export const RevisionPopoverFragmentDoc = gql`
   createdAt
   linkoutData {
     name
+  }
+  creationComment {
+    comment
   }
 }
     `;
@@ -7701,6 +7784,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   citation
   displayType
   link
+  openAccess
 }
     `;
 export const TherapyBrowseTableRowFieldsFragmentDoc = gql`
@@ -7843,6 +7927,13 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   }
 }
     `;
+export const MenuVariantTypeFragmentDoc = gql`
+    fragment menuVariantType on BrowseVariantType {
+  id
+  name
+  link
+}
+    `;
 export const MenuVariantFragmentDoc = gql`
     fragment menuVariant on Variant {
   id
@@ -7871,6 +7962,11 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   }
   aliases {
     name
+  }
+  variantTypes {
+    id
+    name
+    link
   }
 }
     `;
@@ -8620,6 +8716,20 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MolecularProfileParsedNameFragmentDoc}`;
+export const MyDiseaseInfoFieldsFragmentDoc = gql`
+    fragment MyDiseaseInfoFields on MyDiseaseInfo {
+  diseaseOntologyExactSynonyms
+  diseaseOntologyRelatedSynonyms
+  mesh
+  icdo
+  icd10
+  ncit
+  omim
+  doDef
+  doDefCitations
+  mondoDef
+}
+    `;
 export const DiseasesSummaryFieldsFragmentDoc = gql`
     fragment DiseasesSummaryFields on Disease {
   id
@@ -8629,8 +8739,11 @@ export const DiseasesSummaryFieldsFragmentDoc = gql`
   displayName
   diseaseAliases
   link
+  myDiseaseInfo {
+    ...MyDiseaseInfoFields
+  }
 }
-    `;
+    ${MyDiseaseInfoFieldsFragmentDoc}`;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id
@@ -8902,6 +9015,7 @@ export const VariantMolecularProfileCardFieldsFragmentDoc = gql`
   variantAliases
   clinvarIds
   alleleRegistryId
+  openCravatUrl
   variantTypes {
     id
     link
@@ -8938,7 +9052,6 @@ export const MolecularProfileSummaryFieldsFragmentDoc = gql`
     id
     citation
     link
-    citation
     sourceType
   }
   variants {
@@ -9105,6 +9218,29 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   }
 }
     `;
+export const MyChemInfoFieldsFragmentDoc = gql`
+    fragment MyChemInfoFields on MyChemInfo {
+  chebiId
+  chebiDefinition
+  fdaEpcCodes {
+    code
+    description
+  }
+  fdaMoaCodes {
+    code
+    description
+  }
+  firstApproval
+  chemblMoleculeType
+  chemblId
+  pubchemCid
+  pharmgkbId
+  rxnorm
+  inchikey
+  drugbankId
+  indications
+}
+    `;
 export const TherapiesSummaryFieldsFragmentDoc = gql`
     fragment TherapiesSummaryFields on Therapy {
   id
@@ -9113,8 +9249,11 @@ export const TherapiesSummaryFieldsFragmentDoc = gql`
   therapyUrl
   therapyAliases
   link
+  myChemInfo {
+    ...MyChemInfoFields
+  }
 }
-    `;
+    ${MyChemInfoFieldsFragmentDoc}`;
 export const UserDetailFieldsFragmentDoc = gql`
     fragment UserDetailFields on User {
   id
@@ -9343,6 +9482,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   variantAliases
   alleleRegistryId
   openCravatUrl
+  maneSelectTranscript
   variantTypes {
     id
     link
@@ -9625,7 +9765,7 @@ export const DiseasePopoverDocument = gql`
     diseaseAliases
     assertionCount
     evidenceItemCount
-    variantCount
+    molecularProfileCount
     link
   }
 }
@@ -10105,6 +10245,7 @@ export const PhenotypePopoverDocument = gql`
     hpoId
     assertionCount
     evidenceItemCount
+    molecularProfileCount
     link
   }
 }
@@ -10568,6 +10709,7 @@ export const TherapyPopoverDocument = gql`
     therapyAliases
     assertionCount
     evidenceItemCount
+    molecularProfileCount
     link
   }
 }
@@ -10832,10 +10974,12 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($geneId: Int, $variantName: String, $variantTypeIds: [Int!], $hasNoVariantType: Boolean, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
     geneId: $geneId
     name: $variantName
+    variantTypeIds: $variantTypeIds
+    hasNoVariantType: $hasNoVariantType
     first: $first
     last: $last
     before: $before
@@ -10869,8 +11013,30 @@ export const VariantsMenuDocument = gql`
       super(apollo);
     }
   }
+export const VariantTypesForGeneDocument = gql`
+    query VariantTypesForGene($geneId: Int) {
+  variantTypes(geneId: $geneId, first: 50) {
+    edges {
+      node {
+        ...menuVariantType
+      }
+    }
+  }
+}
+    ${MenuVariantTypeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypesForGeneGQL extends Apollo.Query<VariantTypesForGeneQuery, VariantTypesForGeneQueryVariables> {
+    document = VariantTypesForGeneDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
@@ -10879,6 +11045,8 @@ export const BrowseVariantsDocument = gql`
     variantAlias: $variantAlias
     variantTypeId: $variantTypeId
     variantGroupId: $variantGroupId
+    variantTypeName: $variantTypeName
+    hasNoVariantType: $hasNoVariantType
     sortBy: $sortBy
     first: $first
     last: $last

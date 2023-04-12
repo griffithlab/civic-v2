@@ -40,21 +40,13 @@
             </nz-descriptions-item>
 
             <nz-descriptions-item nzTitle="Sources">
-              <ng-container *ngIf="mp.sources.length > 0; else noSources">
-                <cvc-tag-list>
-                  <cvc-source-tag
-                    *ngFor="let source of mp.sources"
-                    [source]="source">
-                  </cvc-source-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noSources>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
+              <cvc-tag-list
+                *ngIf="mp.sources.length > 0; else valueUnspecified">
+                <cvc-source-tag
+                  *ngFor="let source of mp.sources"
+                  [source]="source">
+                </cvc-source-tag>
+              </cvc-tag-list>
             </nz-descriptions-item>
 
             <!-- CIViC Score-->
@@ -64,21 +56,12 @@
 
             <!-- aliases -->
             <nz-descriptions-item nzTitle="Aliases">
-              <ng-container
-                *ngIf="mp.molecularProfileAliases.length > 0; else noAliases">
-                <cvc-tag-list>
-                  <nz-tag *ngFor="let alias of mp.molecularProfileAliases"
-                    >{{ alias }}</nz-tag
-                  >
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noAliases>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
+              <cvc-tag-list
+                *ngIf="mp.molecularProfileAliases.length > 0; else valueUnspecified">
+                <nz-tag *ngFor="let alias of mp.molecularProfileAliases"
+                  >{{ alias }}</nz-tag
                 >
-              </ng-template>
+              </cvc-tag-list>
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
@@ -120,3 +103,9 @@
     </nz-col>
   </nz-row>
 </ng-container>
+<ng-template #valueNotApplicable>
+  <cvc-empty-value cvcEmptyCategory="not-applicable"></cvc-empty-value>
+</ng-template>
+<ng-template #valueUnspecified>
+  <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+</ng-template>

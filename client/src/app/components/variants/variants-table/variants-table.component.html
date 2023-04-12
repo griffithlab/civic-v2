@@ -32,7 +32,7 @@
     #virtualTable
     nzSize="small"
     [nzData]="(row$ | ngrxPush) || []"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
@@ -46,22 +46,32 @@
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th
-          nzWidth="200px"
+        <th nzWidth="150px"
           nzLeft
           [nzColumnKey]="sortColumns.VariantName"
           [nzSortFn]="true">
           Variant
         </th>
-        <th nzWidth="200px">Variant Aliases</th>
-        <th
-          nzWidth="150px"
+        <th nzWidth="170px">
+          Variant Aliases
+        </th>
+        <th nzWidth="180px"
+          [nzFilters]="[{ text: 'None', value: true }]"
+          [nzFilterFn]="true"
+          (nzFilterChange)="onHasNoVariantTypeInputChange($event)">
+          Variant Types
+        </th>
+        <th nzWidth="100px"
           [nzColumnKey]="sortColumns.EntrezSymbol"
           [nzSortFn]="true">
           Gene
         </th>
-        <th nzWidth="250px">Diseases</th>
-        <th nzWidth="180px">Therapies</th>
+        <th nzWidth="200px">
+          Diseases
+        </th>
+        <th nzWidth="180px">
+          Therapies
+        </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
@@ -80,10 +90,13 @@
         </th>
         <th>
           <cvc-clearable-input-filter
-            [(inputModel)]="geneSymbolInput"
-            (inputModelChange)="
-              filterChange$.next()
-            "></cvc-clearable-input-filter>
+            [(inputModel)]="variantTypeNameInput"
+            (inputModelChange)="filterChange$.next()">
+          </cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
@@ -119,12 +132,14 @@
               [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
-            <cvc-gene-tag
-              [gene]="{
-                id: variant.geneId,
-                name: variant.geneName,
-                link: variant.geneLink
-              }"
+            <cvc-tag-overflow tagType="variant-type"
+              [tags]="variant.variantTypes"
+              [maxDisplayCount]="1"
+              [matchingText]="variantTypeNameInput">
+            </cvc-tag-overflow>
+          </td>
+          <td>
+            <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName, link: variant.geneLink}"
               [truncateLongName]="true"></cvc-gene-tag>
           </td>
           <td>

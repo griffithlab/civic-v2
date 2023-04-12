@@ -141,7 +141,6 @@ import {
   civicVarianttypeFullcolor,
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
-  civicOncogenicOutline,
 } from '@app/generated/civic.icons'
 
 const iconLiterals = [
@@ -198,7 +197,6 @@ const iconLiterals = [
   civicNaOutline,
   civicNegativeOutline,
   civicNeomorphicOutline,
-  civicOncogenicOutline,
   civicOncogenictypeOutline,
   civicOncogenicsignificanceOutline,
   civicOncogenicityOutline,

@@ -51,8 +51,9 @@ module Types
     end
 
     field :gene, Types::Entities::GeneType, null: true do
-      description "Find a gene by CIViC ID"
-      argument :id, Int, required: true
+      description "Find a single gene by CIViC ID or Entrez symbol"
+      argument :id, Int, required: false
+      argument :entrez_symbol, String, required: false
     end
 
     field :variant, Types::Entities::VariantType, null: true do
@@ -157,11 +158,11 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
-    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
+    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
-    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles, max_page_size: 300
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -189,8 +190,15 @@ module Types
       Therapy.find_by(id: id)
     end
 
-    def gene(id: )
-      Gene.find_by(id: id)
+    def gene(id: :unspecified, entrez_symbol: :unspecified)
+      if (id == :unspecified && entrez_symbol == :unspecified) || (id != :unspecified && entrez_symbol != :unspecified)
+        raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
+      end
+      if (id != :unspecified) 
+        Gene.find_by(id: id)
+      else
+        Gene.find_by(name: entrez_symbol)
+      end
     end
 
     def variant(id: )

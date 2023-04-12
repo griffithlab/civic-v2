@@ -30,6 +30,7 @@ import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.modul
 import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module'
 import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module'
 import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module'
+import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module'
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -66,6 +67,7 @@ import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coo
     CvcCancelButtonModule,
     CvcTagInputTypeModule,
     CvcFormFieldWrapperModule,
+    CvcGeneArrayTypeModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],

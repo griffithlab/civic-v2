@@ -32,7 +32,7 @@
     #virtualTable
     nzSize="small"
     [nzData]="(row$ | ngrxPush) || []"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
@@ -87,8 +87,13 @@
           [nzSortFn]="true">
           Journal
         </th>
-        <th
-          nzWidth="75px"
+        <th nzWidth="20px"
+          nzRight
+          nz-tooltip
+          nzTooltipTitle="Open Access">
+          <i nz-icon nzType="unlock"></i>
+        </th>
+        <th nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceCount"
@@ -175,6 +180,7 @@
         </th>
         <th nzRight></th>
         <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -213,16 +219,13 @@
           <td>
             {{ source.journal }}
           </td>
-          <td
-            nzAlign="right"
-            nzRight>
-            {{ source.evidenceItemCount }}
+          <td nzRight nz-tooltip [nzTooltipTitle]="source.openAccess ? 'Open' : 'Closed'">
+            <span nz-icon [nzType]="source.openAccess ? 'unlock' :'lock'" nzTheme="outline"></span>
           </td>
-          <td
-            nzAlign="right"
-            nzRight>
-            {{ source.sourceSuggestionCount }}
-          </td>
+          <td nzAlign="right"
+            nzRight>{{source.evidenceItemCount}}</td>
+          <td nzAlign="right"
+            nzRight>{{source.sourceSuggestionCount}}</td>
         </tr>
       </ng-template>
     </tbody>

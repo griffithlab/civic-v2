@@ -14,7 +14,6 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
     id
     citation
     link
-    citation
     sourceType
   }
   variants {
@@ -64,6 +63,7 @@ fragment VariantMolecularProfileCardFields on Variant {
   variantAliases
   clinvarIds
   alleleRegistryId
+  openCravatUrl
   variantTypes {
     id
     link

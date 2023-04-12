@@ -18,8 +18,8 @@ export const nccnVersionInputTypeOption: TypeOption = {
         required: 'If you specify an NCCN Guideline it must have a version.',
       },
     },
-    hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
-      return !m.nccnGuideline
+    hideExpression:  (m: any, st: any, ffc?: FormlyFieldConfig) => {
+      return !m.nccnGuideline && !m.nccnGuidelineVersion;
     },
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {

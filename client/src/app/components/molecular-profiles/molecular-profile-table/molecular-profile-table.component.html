@@ -51,11 +51,13 @@
           nzLeft>
           Name
         </th>
-        <th nzWidth="100px">Aliases</th>
-        <th nzWidth="150px">Genes</th>
-        <th
-          nzWidth="200px"
-          nzLeft>
+        <th nzWidth="100px">
+          Aliases
+        </th>
+        <th nzWidth="150px">
+          Genes
+        </th>
+        <th nzWidth="200px">
           Variants
         </th>
         <th nzWidth="250px">Diseases</th>
@@ -244,6 +246,14 @@
             nzAlign="right">
             {{ mp.variantCount | number }}
           </td>
+          <td nzRight
+            nzAlign="right">{{mp.molecularProfileScore | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.assertionCount | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.variantCount | number }}</td>
         </tr>
       </ng-template>
     </tbody>

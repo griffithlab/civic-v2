@@ -1,17 +1,8 @@
-<nz-space
-  nzDirection="vertical"
-  nzSize="middle"
-  class="space-container">
+<nz-space nzDirection="vertical" nzSize="middle" class="space-container">
   <nz-row *nzSpaceItem>
     <nz-col [nzSpan]="24">
-      <nz-space
-        nzDirection="vertical"
-        nzSize="middle"
-        class="space-container">
-        <nz-carousel
-          nzAutoPlay
-          nzAutoPlaySpeed="10000"
-          *nzSpaceItem>
+      <nz-space nzDirection="vertical" nzSize="middle" class="space-container">
+        <nz-carousel nzAutoPlay nzAutoPlaySpeed="10000" *nzSpaceItem>
           <div nz-carousel-content>
             <h1>Welcome to CIViC</h1>
             <h2>
@@ -52,16 +43,62 @@
       <cvc-site-stats-card></cvc-site-stats-card>
     </nz-col>
   </nz-row>
-  <nz-row
-    [nzGutter]="16"
-    *nzSpaceItem>
+  <nz-row [nzGutter]="16" *nzSpaceItem>
     <nz-col [nzSpan]="12">
       <nz-card
         style="height: 100%"
         nzTitle="News & Events"
         nzSize="small"
-        class="home-card">
+        class="home-card"
+      >
         <nz-list nzItemLayout="vertical">
+          <nz-list-item>
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <span>Introducing Molecular Profiles</span>
+                <br />
+                <span nz-typography nzType="secondary"> January 9th, 2023 </span>
+              </nz-list-item-meta-title>
+            </nz-list-item-meta>
+            Today we have rolled out support for a new core concept in CIViC: 
+            <a href="https://civic.readthedocs.io/en/latest/model/molecular_profiles.html" target="_blank"> Molecular Profiles</a>.
+            Molecular Profiles are logical combinations of one or more CIViC Variants.
+            While most Molecular Profiles will consist of a single Variant (“Simple”) they will also allow users to 
+            build “Complex” (multi-variant) Molecular Profiles to associate Evidence with. 
+            These complex profiles expand the CIViC data model to allow for clinical significance to be evaluated within contexts such 
+            as variant co-occurrence or mutual exclusivity. 
+            Going forward, Evidence will be associated with a Molecular Profile rather than directly with a Variant. 
+            If you have any questions about this change, please feel free to 
+            <a href="mailto:help@civicdb.org">contact us</a>. We have also
+            prepared a <a href="https://www.youtube.com/watch?v=--i54jY746w" target="_blank" >video</a > explaining this new feature.
+            <nz-list-item-extra style="padding-top: 100px">
+              <iframe
+                width="300"
+                src="https://www.youtube.com/embed/--i54jY746w"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </nz-list-item-extra>
+          </nz-list-item>
+          <nz-list-item>
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <span>Announcing Support for ASH Abstracts </span>
+                <br />
+                <span nz-typography nzType="secondary"> January 9, 2023 </span>
+              </nz-list-item-meta-title>
+            </nz-list-item-meta>
+              <img
+                src="assets/images/ash-control-screenshot.png"
+                alt="Screenshot of Add Source form Control"
+                style="float: right; margin: -20px 8px 8px 8px; height: 75px"
+              />
+              ASH Annual Meeting Abstracts can now be used as Sources when submitting Evidence Items to CIViC. 
+              They can be specified by DOI in the 'Add Source' section of the Evidence form.
+            <nz-list-item-extra> </nz-list-item-extra>
+          </nz-list-item>
           <nz-list-item>
             <nz-list-item-meta>
               <nz-list-item-meta-title>
@@ -130,71 +167,9 @@
           <nz-list-item>
             <nz-list-item-meta>
               <nz-list-item-meta-title>
-                <span>CIViC Curation Jamboree & Hackathon</span>
-                <br />
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  July 30th, 2022
-                </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            We're excited to announce that CIViC, the Compendium of Cancer
-            Genome Aberrations (CCGA), and the ClinGen Somatic Cancer Clinical
-            Domain Working Group are co-hosting a cancer variant interpretation
-            hackathon and curation jamboree on Saturday July 30 (8AM to 5PM) as
-            a pre-meeting of the CGC Annual Meeting 2022.
-            <a
-              href="https://www.eventbrite.com/e/cancer-variant-interpretation-hackathon-and-curation-jamboree-tickets-327320021997"
-              target="_blank"
-              >Register now!</a
-            >
-            <nz-list-item-extra></nz-list-item-extra>
-          </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>Welcome to CIViC 2.0!</span>
-                <br />
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  April 9th, 2022
-                </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            CIViC 2.0 features a completely redesigned user interface and a more
-            powerful GraphQL API. It provides many new ways to browse the
-            knowledgebase while retaining the CIViC knowledge model you are
-            already familiar with. Furthermore, existing links to CIViC entities
-            will continue to function as before. If you have any questions,
-            comments, or would like help adapting an existing integration to our
-            new API, please email us at
-            <a href="mailto:help@civicdb.org">help@civicdb.org</a>. We have also
-            prepared an introductory video tour of the new interface, please
-            <a
-              href="https://www.youtube.com/watch?v=bpVkSP7qvgc"
-              target="_blank"
-              >check it out</a
-            >!
-            <nz-list-item-extra style="padding-top: 30px">
-              <iframe
-                width="250"
-                src="https://www.youtube.com/embed/bpVkSP7qvgc"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            </nz-list-item-extra>
-          </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
                 <span>Pediatric Cancer Variants</span>
                 <br />
-                <span
-                  nz-typography
-                  nzType="secondary">
+                <span nz-typography nzType="secondary">
                   February 12th, 2021
                 </span>
               </nz-list-item-meta-title>
@@ -207,30 +182,6 @@
             searchable childhood-cancer-specific dataset.
             <nz-list-item-extra></nz-list-item-extra>
           </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>Explore CIViC Variants in ProteinPaint</span>
-                <br />
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >June 29th, 2020</span
-                >
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            St. Jude's ProteinPaint now incorporates a CIViC variant track,
-            displaying CIViC curated data along with a variety of additional
-            sources, and providing one-click access to CIViC's variant
-            summaries. We've also added ProteinPaint links to our gene
-            summaries.
-            <nz-list-item-extra>
-              <img
-                width="150"
-                alt="logo"
-                src="https://civicdb.org/assets/images/partners/protein-paint-integration.png" />
-            </nz-list-item-extra>
-          </nz-list-item>
         </nz-list>
       </nz-card>
     </nz-col>
@@ -239,7 +190,8 @@
         nzTitle="Live Curation Activity"
         style="min-height: 600px"
         nzSize="small"
-        class="home-card">
+        class="home-card"
+      >
         <cvc-homepage-event-feed [pageSize]="12"></cvc-homepage-event-feed>
       </nz-card>
     </nz-col>
@@ -282,20 +234,10 @@
     </nz-col>
   </nz-row>
   <ng-container *ngIf="this.release$ | async as release">
-    <nz-row
-      *nzSpaceItem
-      nzAlign="middle"
-      nzJustify="center">
-      <div
-        id="release-info"
-        nz-typography>
+    <nz-row *nzSpaceItem nzAlign="middle" nzJustify="center">
+      <div id="release-info" nz-typography>
         CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
-        <a
-          [href]="release.html_url"
-          target="_blank"
-          >Release Notes</a
-        >
-        &bull;
+        <a [href]="release.html_url" target="_blank">Release Notes</a> &bull;
         <a
           href="https://github.com/griffithlab/civic-v2/releases/"
           target="_blank"

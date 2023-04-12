@@ -32,7 +32,7 @@
     #virtualTable
     nzSize="small"
     [nzData]="(row$ | ngrxPush) || []"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
@@ -60,6 +60,20 @@
         </th>
         <th nzWidth="250px">Diseases</th>
         <th nzWidth="225px">Therapies</th>
+        <th
+          nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.MolecularProfileCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Molecular Profile Count">
+          <i
+            nz-icon
+            nzType="civic-molecularprofile"></i>
+          Count
+        </th>
         <th
           nzWidth="75px"
           nzRight
@@ -135,6 +149,7 @@
         <th nzRight></th>
         <th nzRight></th>
         <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -166,6 +181,11 @@
               [tags]="gene.therapies"
               [matchingText]="therapyInput">
             </cvc-tag-overflow>
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ gene.molecularProfileCount }}
           </td>
           <td
             nzRight

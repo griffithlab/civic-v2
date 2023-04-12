@@ -63,6 +63,9 @@
         <nz-descriptions-item nzTitle="Revision Date">
           {{ r.createdAt | timeAgo }}
         </nz-descriptions-item>
+        <nz-descriptions-item *ngIf="r.creationComment" nzTitle="Creation Comment">
+          {{ r.creationComment.comment }}
+        </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
   </ng-container>

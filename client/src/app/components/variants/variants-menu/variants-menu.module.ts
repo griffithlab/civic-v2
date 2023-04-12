@@ -14,6 +14,9 @@ import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcVariantsMenuComponent } from './variants-menu.component'
+import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
 
 @NgModule({
   declarations: [CvcVariantsMenuComponent],
@@ -30,9 +33,12 @@ import { CvcVariantsMenuComponent } from './variants-menu.component'
     NzInputModule,
     NzSelectModule,
     NzTypographyModule,
+    NzCheckboxModule,
+    NzSpinModule,
     CvcPipesModule,
     CvcVariantTagModule,
     CvcTagListModule,
+    CvcVariantTypeTagModule,
   ],
   exports: [CvcVariantsMenuComponent],
 })

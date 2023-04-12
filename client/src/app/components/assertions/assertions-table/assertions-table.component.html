@@ -31,7 +31,7 @@
     #virtualTable
     nzSize="small"
     [nzData]="(row$ | ngrxPush) || []"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
@@ -52,9 +52,7 @@
           [nzSortFn]="true">
           AID
         </th>
-        <th
-          nzWidth="320px"
-          nzLeft>
+        <th nzWidth="320px">
           Molecular Profile
         </th>
         <th
@@ -145,9 +143,8 @@
             [(inputModel)]="aidInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th nzLeft>
-          <cvc-clearable-input-filter
-            [(inputModel)]="molecularProfileNameInput"
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -335,10 +332,8 @@
           <td nzLeft>
             <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
           </td>
-          <td nzLeft>
-            <cvc-molecular-profile-tag
-              [molecularProfile]="aid.molecularProfile"
-              [truncateLongName]="40"></cvc-molecular-profile-tag>
+          <td>
+            <cvc-molecular-profile-tag [molecularProfile]="aid.molecularProfile" [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="aid.disease.name; else diseaseElse">
@@ -412,7 +407,37 @@
           <td
             nzAlign="center"
             nzRight>
-            <nz-tag
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="!isScrolling ? (aid.assertionType | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="aid.assertionType | evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="!isScrolling ? (aid.assertionDirection | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="aid.assertionDirection | evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="!isScrolling ? (aid.significance | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="aid.significance| evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzRight
+            nzAlign="center">
+            <nz-tag *ngIf="aid.ampLevel"
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="

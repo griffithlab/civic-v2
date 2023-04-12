@@ -19,9 +19,10 @@
             <nz-descriptions-item nzTitle="Description">
               <p
                 nz-typography
+                class="summary-block"
                 nzEllipsis
                 nzExpandable
-                [nzEllipsisRows]="14">
+                [nzEllipsisRows]="6">
                 {{ assertion.description }}
               </p>
             </nz-descriptions-item>
@@ -40,9 +41,8 @@
                 cvcAttrName="assertionType"
                 [cvcAttrValue]="assertion.assertionType"
                 nz-tooltip
-                [nzTooltipTitle]="
-                  assertion.assertionType | enumTooltip : 'assertionType'
-                ">
+                iconPropertyType="type"
+                [nzTooltipTitle]="assertion.assertionType | enumTooltip:'assertionType'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -89,24 +89,14 @@
 
             <!-- AMP/ASO/CAP -->
             <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
-              <ng-container
-                *ngIf="
-                  assertionRules.requiresAmpLevel(assertion.assertionType);
-                  else notApplicable
-                ">
-                <nz-tag
-                  >{{ assertion.ampLevel | formatAmp : "verbose" }}</nz-tag
-                >
+              <ng-container *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType); else valueNotApplicable">
+                <nz-tag>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-tag>
               </ng-container>
             </nz-descriptions-item>
 
             <!-- ACMG Codes -->
             <nz-descriptions-item nzTitle="ACMG Codes">
-              <ng-container
-                *ngIf="
-                  assertionRules.requiresAcmgCodes(assertion.assertionType);
-                  else notApplicable
-                ">
+              <ng-container *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else valueNotApplicable">
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <nz-tag
                     nz-tooltip
@@ -128,17 +118,13 @@
             <!-- ClinGen Codes -->
             <nz-descriptions-item nzTitle="ClinGen/CGC/VICC Codes">
               <ng-container
-                *ngIf="
-                  assertionRules.requiresClingenCodes(assertion.assertionType);
-                  else notApplicable
-                ">
+                *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType); else valueNotApplicable">
                 <ng-container *ngIf="assertion.clingenCodes.length > 0">
                   <nz-tag
                     nz-tooltip
                     [nzTooltipTitle]="code.description"
                     *ngFor="let code of assertion.clingenCodes"
-                    >{{ code.code }}</nz-tag
-                  >
+                    >{{ code.code }}</nz-tag>
                 </ng-container>
                 <ng-container *ngIf="assertion.clingenCodes.length == 0">
                   <span
@@ -196,18 +182,14 @@
             <!-- TODO logic below is incorrect see AID1 - must identify the latest accept/reject event, and display that -->
             <!-- display accepted/rejected only if either exists -->
             <ng-container
-              *ngIf="
-                assertion.rejectionEvent !== null ||
-                assertion.acceptanceEvent !== null
-              ">
+              *ngIf="assertion.rejectionEvent !== null || assertion.acceptanceEvent !== null">
               <!-- show acceptance only if no rejection event exists -->
               <ng-container [ngSwitch]="assertion.rejectionEvent === null">
                 <nz-descriptions-item
                   *ngSwitchCase="true"
                   [nzTitle]="acceptedTitle">
                   by
-                  <cvc-user-tag
-                    [user]="assertion.acceptanceEvent!.originatingUser"></cvc-user-tag>
+                  <cvc-user-tag [user]="assertion.acceptanceEvent!.originatingUser"></cvc-user-tag>
                 </nz-descriptions-item>
                 <ng-template #acceptedTitle>
                   Accepted
@@ -294,17 +276,12 @@
 
             <!-- therapies -->
             <nz-descriptions-item
-              [nzTitle]="
-                assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'
-              ">
+              [nzTitle]="assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'">
               <ng-container [ngPlural]="assertion.therapies.length">
                 <!-- no therapy -->
                 <ng-template ngPluralCase="=0">
-                  <span
-                    nz-typography
-                    nzType="secondary"
-                    >N/A</span
-                  >
+                  <ng-container
+                    [ngTemplateOutlet]="valueNotApplicable"></ng-container>
                 </ng-template>
 
                 <!-- one or more therapies -->
@@ -324,10 +301,7 @@
               <nz-tag>
                 <i
                   nz-icon
-                  [nzType]="
-                    assertion.therapyInteractionType
-                      | therapyInteractionEnumDisplay : 'icon-name'
-                  "
+                  [nzType]="assertion.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
                   class="attribute-icon"></i>
                 {{ assertion.therapyInteractionType | titlecase }}
               </nz-tag>
@@ -360,6 +334,9 @@
                   >N/A</span
                 >
               </ng-container>
+              <ng-container
+                *ngIf="assertion.regulatoryApproval === undefined"
+                [ngTemplateOutlet]="valueNotApplicable"></ng-container>
             </nz-descriptions-item>
 
             <!-- FDA companion test -->
@@ -418,3 +395,9 @@
     </nz-col>
   </nz-row>
 </ng-container>
+<ng-template #valueNotApplicable>
+  <cvc-empty-value cvcEmptyCategory="not-applicable"></cvc-empty-value>
+</ng-template>
+<ng-template #valueUnspecified>
+  <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+</ng-template>

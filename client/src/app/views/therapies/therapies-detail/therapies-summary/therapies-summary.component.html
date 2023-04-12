@@ -3,9 +3,9 @@
     <!-- grid with 8px horizontal gutter, 16px vertical gutter -->
     <nz-row [nzGutter]="[8, 16]">
       <!-- summary details -->
-      <nz-col [nzSpan]="12">
-        <nz-descriptions
-          nzSize="small"
+      <cvc-my-chem-info [chemInfo]="therapy.myChemInfo"></cvc-my-chem-info>
+      <nz-col [nzSpan]="24">
+        <nz-descriptions nzSize="small"
           nzLayout="vertical"
           [nzColumn]="1"
           nzBordered="true">

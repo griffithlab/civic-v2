@@ -1,19 +1,23 @@
 query VariantsMenu(
-  $geneId: Int
-  $variantName: String
-  $first: Int
-  $last: Int
-  $before: String
-  $after: String
+  $geneId: Int,
+  $variantName: String,
+  $variantTypeIds: [Int!],
+  $hasNoVariantType: Boolean
+  $first: Int,
+  $last: Int,
+  $before: String,
+  $after: String,
   $sortBy: VariantMenuSort
 ) {
   variants(
-    geneId: $geneId
-    name: $variantName
-    first: $first
-    last: $last
-    before: $before
-    after: $after
+    geneId: $geneId,
+    name: $variantName,
+    variantTypeIds: $variantTypeIds,
+    hasNoVariantType: $hasNoVariantType,
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after,
     sortBy: $sortBy
   ) {
     totalCount
@@ -30,6 +34,27 @@ query VariantsMenu(
       }
     }
   }
+}
+
+query VariantTypesForGene(
+  $geneId: Int,
+) {
+  variantTypes(
+    geneId: $geneId,
+    first: 50
+  ) {
+    edges {
+      node {
+        ...menuVariantType
+      }
+    }
+  }
+}
+
+fragment menuVariantType on BrowseVariantType {
+  id
+  name
+  link
 }
 
 fragment menuVariant on Variant {

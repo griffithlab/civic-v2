@@ -20,6 +20,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  pluck,
   startWith,
   take,
   takeUntil,
@@ -29,7 +30,7 @@ import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.compone
 import { environment } from 'environments/environment'
 import { isNonNulled } from 'rxjs-etc'
 import { tag } from 'rxjs-spy/cjs/operators'
-import { untilDestroyed } from '@ngneat/until-destroy'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 interface SelectableAction {
   id: EventAction
@@ -41,6 +42,7 @@ export type EventDisplayOption =
   | 'hideOrg'
   | 'displayAll'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-event-feed',
   templateUrl: './event-feed.component.html',
@@ -97,12 +99,11 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     if (this.pollForNewEvents && environment.production) {
       this.newEventCount$ = this.eventCountGql
-        .watch(this.initialQueryVars, {
-          fetchPolicy: 'no-cache',
-          pollInterval: 30000,
-        })
-        .valueChanges.pipe(
-          map(({ data }) => data.events.unfilteredCount),
+        .watch(this.initialQueryVars, { fetchPolicy: 'no-cache', pollInterval: 30000 })
+        .valueChanges
+        .pipe(
+          filter(isNonNulled),
+          map(({ data }) => data?.events?.unfilteredCount),
           takeUntil(this.destroy$)
         )
     }
@@ -112,14 +113,11 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     this.pageInfo$ = this.results$.pipe(map(({ data }) => data.events.pageInfo))
 
-    this.events$ = this.results$.pipe(
-      map((r) => r.data),
-      // tag('event-feed events$'),
-      filter(isNonNulled),
-      map(({ events }) => {
-        return events.edges.map((e) => e.node)
-      })
-    )
+    this.events$ = this.results$
+      .pipe(pluck('data', 'events', 'edges'),
+        filter(isNonNulled),
+        map((edges) =>  edges.map( e => e.node)),
+      )
 
     this.loading$ = this.results$.pipe(
       map(({ loading }) => loading),
@@ -133,25 +131,25 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
     )
 
     this.unfilteredCount$
-      .pipe(take(1), untilDestroyed(this))
-      .subscribe((value) => (this.originalEventCount = value))
+      .pipe(
+        take(1), 
+        untilDestroyed(this))
+      .subscribe(value => this.originalEventCount = value)
 
     if (this.showFilters) {
       this.participants$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events.uniqueParticipants)
       )
 
       this.organizations$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events.participatingOrganizations)
       )
 
       this.actions$ = this.results$.pipe(
-        map(
-          ({ data }) =>
-            data.events?.eventTypes?.map((et) => {
-              return { id: et }
-            }) || []
-        )
+        filter(isNonNulled),
+        map(({ data }) => data.events?.eventTypes?.map((et) => { return { id: et } }) || [])
       )
     }
   }

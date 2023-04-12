@@ -55,22 +55,22 @@ interface FormVariantType {
 
 interface FormModel {
   fields: {
-    id: number
-    name: string
-    variantAliases: string[]
-    clinvarStatus: ClinvarOptions
-    clinvarIds: string[]
-    gene: FormGene
-    referenceBuild?: ReferenceBuild
-    ensemblVersion?: number
-    hgvsDescriptions: string[]
-    variantTypes: FormVariantType[]
-    primaryCoordinates?: CoordinateFieldsFragment
-    secondaryCoordinates?: CoordinateFieldsFragment
-    referenceBases: Maybe<string>
-    variantBases: Maybe<string>
-    comment?: string
-    organization: Maybe<Organization>
+    id: number;
+    name: string;
+    variantAliases: string[];
+    clinvarStatus: ClinvarOptions;
+    clinvarIds: string[];
+    gene: FormGene[];
+    referenceBuild?: ReferenceBuild;
+    ensemblVersion?: number;
+    hgvsDescriptions: string[];
+    variantTypes: FormVariantType[];
+    primaryCoordinates?: CoordinateFieldsFragment;
+    secondaryCoordinates?: CoordinateFieldsFragment;
+    referenceBases: Maybe<string>;
+    variantBases: Maybe<string>;
+    comment?: string;
+    organization: Maybe<Organization>,
   }
 }
 
@@ -126,6 +126,16 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             key: 'id',
             type: 'input',
             hide: true,
+          },
+          {
+            key: 'gene',
+            type: 'gene-array',
+            templateOptions: {
+              label: 'Gene',
+              maxCount: 1,
+              helpText: 'Specify the Entrez Gene name for this variant.',
+              required: true,
+            },
           },
           {
             key: 'name',
@@ -486,6 +496,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
     return {
       fields: {
         ...variant,
+        gene: [variant.gene],
         clinvarStatus: this.getClinvarStatus(variant.clinvarIds),
         clinvarIds: this.getClinvarIds(variant.clinvarIds),
         referenceBases: variant.referenceBases,
@@ -563,7 +574,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
         ...model,
         fields: {
           name: fields.name,
-          geneId: fields.gene.id,
+          geneId: fields.gene[0].id,
           ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
           clinvarIds: fmt.toClinvarInput(
             fields.clinvarIds,

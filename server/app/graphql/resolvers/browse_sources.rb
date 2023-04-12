@@ -7,7 +7,11 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseSourceType.connection_type, null: false
 
-  scope { SourceBrowseTableRow.all }
+  scope do
+    SourceBrowseTableRow.order('source_suggestion_count desc')
+      .order('evidence_item_count desc')
+      .all
+  end
 
   option(:source_type, type: Types::SourceSourceType) do |scope, value|
     scope.where(source_type: value)
