@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'cvc-phenotypes',
   templateUrl: './phenotypes.component.html',
-  styleUrls: ['./phenotypes.component.less']
+  styleUrls: ['./phenotypes.component.less'],
 })
 export class PhenotypesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

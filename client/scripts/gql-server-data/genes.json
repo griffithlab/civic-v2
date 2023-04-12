@@ -296,11 +296,7 @@
           }
         }
       ],
-      "aliases": [
-        "ALK",
-        "NBLST3",
-        "CD246"
-      ],
+      "aliases": ["ALK", "NBLST3", "CD246"],
       "updated_at": "2017-03-06T00:00:15.358Z",
       "type": "gene"
     },
@@ -377,13 +373,7 @@
           }
         }
       ],
-      "aliases": [
-        "ARAF",
-        "RAFA1",
-        "PKS2",
-        "ARAF1",
-        "A-RAF"
-      ],
+      "aliases": ["ARAF", "RAFA1", "PKS2", "ARAF1", "A-RAF"],
       "updated_at": "2015-06-21T16:49:19.894Z",
       "type": "gene"
     },
@@ -1606,14 +1596,7 @@
           }
         }
       ],
-      "aliases": [
-        "BRAF",
-        "B-raf",
-        "NS7",
-        "RAFB1",
-        "BRAF1",
-        "B-RAF1"
-      ],
+      "aliases": ["BRAF", "B-raf", "NS7", "RAFB1", "BRAF1", "B-RAF1"],
       "updated_at": "2019-09-19T19:32:44.942Z",
       "type": "gene"
     },
@@ -1960,13 +1943,7 @@
           }
         }
       ],
-      "aliases": [
-        "BCL1",
-        "CCND1",
-        "U21B31",
-        "PRAD1",
-        "D11S287E"
-      ],
+      "aliases": ["BCL1", "CCND1", "U21B31", "PRAD1", "D11S287E"],
       "updated_at": "2016-11-15T15:45:36.784Z",
       "type": "gene"
     },
@@ -1996,11 +1973,7 @@
           }
         }
       ],
-      "aliases": [
-        "CCND2",
-        "MPPH3",
-        "KIAK0002"
-      ],
+      "aliases": ["CCND2", "MPPH3", "KIAK0002"],
       "updated_at": "2015-06-21T16:49:21.541Z",
       "type": "gene"
     },
@@ -2021,9 +1994,7 @@
           }
         }
       ],
-      "aliases": [
-        "CCND3"
-      ],
+      "aliases": ["CCND3"],
       "updated_at": "2015-06-21T16:49:21.753Z",
       "type": "gene"
     },
@@ -2053,11 +2024,7 @@
           }
         }
       ],
-      "aliases": [
-        "CCNE1",
-        "pCCNE1",
-        "CCNE"
-      ],
+      "aliases": ["CCNE1", "pCCNE1", "CCNE"],
       "updated_at": "2015-06-21T16:49:21.982Z",
       "type": "gene"
     },
@@ -2087,11 +2054,7 @@
           }
         }
       ],
-      "aliases": [
-        "MCPH12",
-        "PLSTIRE",
-        "CDK6"
-      ],
+      "aliases": ["MCPH12", "PLSTIRE", "CDK6"],
       "updated_at": "2017-02-09T21:58:24.991Z",
       "type": "gene"
     },
@@ -2130,11 +2093,7 @@
           }
         }
       ],
-      "aliases": [
-        "PSK-J3",
-        "CDK4",
-        "CMM3"
-      ],
+      "aliases": ["PSK-J3", "CDK4", "CMM3"],
       "updated_at": "2017-02-09T21:58:24.937Z",
       "type": "gene"
     },
@@ -2259,11 +2218,7 @@
           }
         }
       ],
-      "aliases": [
-        "C/EBP-alpha",
-        "CEBP",
-        "CEBPA"
-      ],
+      "aliases": ["C/EBP-alpha", "CEBP", "CEBPA"],
       "updated_at": "2020-02-01T00:00:35.631Z",
       "type": "gene"
     },
@@ -2284,11 +2239,7 @@
           }
         }
       ],
-      "aliases": [
-        "PRKACA",
-        "PPNAD4",
-        "PKACA"
-      ],
+      "aliases": ["PRKACA", "PPNAD4", "PKACA"],
       "updated_at": "2017-02-09T22:00:11.593Z",
       "type": "gene"
     },
@@ -2318,13 +2269,7 @@
           }
         }
       ],
-      "aliases": [
-        "DNMT3A",
-        "HESJAS",
-        "TBRS",
-        "DNMT3A2",
-        "M.HsaIIIA"
-      ],
+      "aliases": ["DNMT3A", "HESJAS", "TBRS", "DNMT3A2", "M.HsaIIIA"],
       "updated_at": "2017-02-09T21:58:41.799Z",
       "type": "gene"
     },
@@ -3065,15 +3010,7 @@
           }
         }
       ],
-      "aliases": [
-        "ERBB1",
-        "NISBD2",
-        "ERBB",
-        "EGFR",
-        "PIG61",
-        "mENA",
-        "HER1"
-      ],
+      "aliases": ["ERBB1", "NISBD2", "ERBB", "EGFR", "PIG61", "mENA", "HER1"],
       "updated_at": "2020-04-22T22:27:33.031Z",
       "type": "gene"
     },
@@ -3404,15 +3341,7 @@
           }
         }
       ],
-      "aliases": [
-        "ER",
-        "ESRA",
-        "ESR",
-        "ESR1",
-        "Era",
-        "ESTRR",
-        "NR3A1"
-      ],
+      "aliases": ["ER", "ESRA", "ESR", "ESR1", "Era", "ESTRR", "NR3A1"],
       "updated_at": "2015-10-10T21:01:36.620Z",
       "type": "gene"
     },
@@ -3594,14 +3523,7 @@
           }
         }
       ],
-      "aliases": [
-        "CD333",
-        "HSFGFR3EX",
-        "JTK4",
-        "CEK2",
-        "ACH",
-        "FGFR3"
-      ],
+      "aliases": ["CD333", "HSFGFR3EX", "JTK4", "CEK2", "ACH", "FGFR3"],
       "updated_at": "2015-06-21T16:49:25.194Z",
       "type": "gene"
     },
@@ -3730,13 +3652,7 @@
           }
         }
       ],
-      "aliases": [
-        "STK1",
-        "FLT3",
-        "FLK-2",
-        "CD135",
-        "FLK2"
-      ],
+      "aliases": ["STK1", "FLT3", "FLK-2", "CD135", "FLK2"],
       "updated_at": "2020-02-01T00:00:50.690Z",
       "type": "gene"
     },
@@ -3757,13 +3673,7 @@
           }
         }
       ],
-      "aliases": [
-        "NFE1B",
-        "MONOMAC",
-        "IMD21",
-        "DCML",
-        "GATA2"
-      ],
+      "aliases": ["NFE1B", "MONOMAC", "IMD21", "DCML", "GATA2"],
       "updated_at": "2015-06-21T16:49:25.698Z",
       "type": "gene"
     },
@@ -3824,7 +3734,7 @@
       "updated_at": "2020-02-01T00:01:03.790Z",
       "type": "gene"
     },
-        {
+    {
       "id": 27,
       "name": "IDH2",
       "entrez_id": 3418,
@@ -4087,10 +3997,7 @@
           }
         }
       ],
-      "aliases": [
-        "JTK10",
-        "JAK2"
-      ],
+      "aliases": ["JTK10", "JAK2"],
       "updated_at": "2015-06-21T16:49:26.523Z",
       "type": "gene"
     },
@@ -4543,14 +4450,7 @@
           }
         }
       ],
-      "aliases": [
-        "KIT",
-        "SCFR",
-        "PBT",
-        "CD117",
-        "C-Kit",
-        "MASTC"
-      ],
+      "aliases": ["KIT", "SCFR", "PBT", "CD117", "C-Kit", "MASTC"],
       "updated_at": "2020-02-01T00:01:08.953Z",
       "type": "gene"
     },
@@ -4874,15 +4774,7 @@
           }
         }
       ],
-      "aliases": [
-        "MAP2K1",
-        "MEL",
-        "MEK1",
-        "MKK1",
-        "MAPKK1",
-        "CFC3",
-        "PRKMK1"
-      ],
+      "aliases": ["MAP2K1", "MEL", "MEK1", "MKK1", "MAPKK1", "CFC3", "PRKMK1"],
       "updated_at": "2016-06-28T23:24:41.889Z",
       "type": "gene"
     },
@@ -4953,9 +4845,7 @@
           }
         }
       ],
-      "aliases": [
-        "MGMT"
-      ],
+      "aliases": ["MGMT"],
       "updated_at": "2015-06-21T16:49:27.999Z",
       "type": "gene"
     },
@@ -4985,11 +4875,7 @@
           }
         }
       ],
-      "aliases": [
-        "B23",
-        "NPM1",
-        "NPM"
-      ],
+      "aliases": ["B23", "NPM1", "NPM"],
       "updated_at": "2020-02-01T00:01:19.845Z",
       "type": "gene"
     },
@@ -5118,15 +5004,7 @@
           }
         }
       ],
-      "aliases": [
-        "NRAS",
-        "NS6",
-        "NRAS1",
-        "NCMS",
-        "N-ras",
-        "CMNS",
-        "ALPS4"
-      ],
+      "aliases": ["NRAS", "NS6", "NRAS1", "NCMS", "N-ras", "CMNS", "ALPS4"],
       "updated_at": "2017-07-20T14:44:02.610Z",
       "type": "gene"
     },
@@ -5575,12 +5453,7 @@
           }
         }
       ],
-      "aliases": [
-        "PDGFR2",
-        "CD140A",
-        "PDGFR-2",
-        "PDGFRA"
-      ],
+      "aliases": ["PDGFR2", "CD140A", "PDGFR-2", "PDGFRA"],
       "updated_at": "2017-02-09T21:59:56.970Z",
       "type": "gene"
     },
@@ -5628,13 +5501,7 @@
           }
         }
       ],
-      "aliases": [
-        "PP8675",
-        "MYL",
-        "PML",
-        "RNF71",
-        "TRIM19"
-      ],
+      "aliases": ["PP8675", "MYL", "PML", "RNF71", "TRIM19"],
       "updated_at": "2020-05-28T19:30:43.832Z",
       "type": "gene"
     },
@@ -6247,14 +6114,7 @@
           }
         }
       ],
-      "aliases": [
-        "BCC7",
-        "P53",
-        "TRP53",
-        "TP53",
-        "BMFS5",
-        "LFS1"
-      ],
+      "aliases": ["BCC7", "P53", "TRP53", "TP53", "BMFS5", "LFS1"],
       "updated_at": "2018-03-30T15:05:39.990Z",
       "type": "gene"
     },
@@ -6293,11 +6153,7 @@
           }
         }
       ],
-      "aliases": [
-        "LAM",
-        "TSC1",
-        "TSC"
-      ],
+      "aliases": ["LAM", "TSC1", "TSC"],
       "updated_at": "2020-02-01T00:01:50.929Z",
       "type": "gene"
     },
@@ -6318,12 +6174,7 @@
           }
         }
       ],
-      "aliases": [
-        "TSC4",
-        "LAM",
-        "PPP1R160",
-        "TSC2"
-      ],
+      "aliases": ["TSC4", "LAM", "PPP1R160", "TSC2"],
       "updated_at": "2020-02-01T00:01:50.948Z",
       "type": "gene"
     },
@@ -6362,14 +6213,7 @@
           }
         }
       ],
-      "aliases": [
-        "U2AF35",
-        "U2AF1",
-        "RNU2AF1",
-        "U2AFBP",
-        "RN",
-        "FP793"
-      ],
+      "aliases": ["U2AF35", "U2AF1", "RNU2AF1", "U2AFBP", "RN", "FP793"],
       "updated_at": "2015-06-21T16:49:31.477Z",
       "type": "gene"
     },
@@ -6399,15 +6243,7 @@
           }
         }
       ],
-      "aliases": [
-        "WAGR",
-        "AWT1",
-        "WT1",
-        "WT33",
-        "WIT-2",
-        "NPHS4",
-        "GUD"
-      ],
+      "aliases": ["WAGR", "AWT1", "WT1", "WT33", "WIT-2", "NPHS4", "GUD"],
       "updated_at": "2020-02-01T00:01:53.503Z",
       "type": "gene"
     },
@@ -6491,13 +6327,7 @@
           }
         }
       ],
-      "aliases": [
-        "NOTCH1",
-        "AOS5",
-        "AOVD1",
-        "TAN1",
-        "hN1"
-      ],
+      "aliases": ["NOTCH1", "AOS5", "AOVD1", "TAN1", "hN1"],
       "updated_at": "2020-02-01T00:01:19.640Z",
       "type": "gene"
     },
@@ -6572,14 +6402,7 @@
           }
         }
       ],
-      "aliases": [
-        "DDR2",
-        "TYRO10",
-        "WRCN",
-        "TKT",
-        "NTRKR3",
-        "MIG20a"
-      ],
+      "aliases": ["DDR2", "TYRO10", "WRCN", "TKT", "NTRKR3", "MIG20a"],
       "updated_at": "2015-06-21T16:49:32.257Z",
       "type": "gene"
     },
@@ -6672,14 +6495,7 @@
           }
         }
       ],
-      "aliases": [
-        "MET",
-        "c-Met",
-        "RCCP2",
-        "HGFR",
-        "DFNB97",
-        "AUTS9"
-      ],
+      "aliases": ["MET", "c-Met", "RCCP2", "HGFR", "DFNB97", "AUTS9"],
       "updated_at": "2017-03-07T22:27:58.595Z",
       "type": "gene"
     },
@@ -6709,12 +6525,7 @@
           }
         }
       ],
-      "aliases": [
-        "FLI1",
-        "BDPLT21",
-        "EWSR2",
-        "SIC-1"
-      ],
+      "aliases": ["FLI1", "BDPLT21", "EWSR2", "SIC-1"],
       "updated_at": "2015-06-21T16:49:32.725Z",
       "type": "gene"
     }

@@ -1,0 +1,8 @@
+<label
+  nz-checkbox
+  [nzIndeterminate]="props.indeterminate && formControl.value == null"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  (ngModelChange)="props.change && props.change(field, $event)">
+  {{ props.label }}
+</label>

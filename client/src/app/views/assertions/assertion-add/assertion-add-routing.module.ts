@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AssertionAddView } from './assertion-add.view';
-import { AssertionSubmitModule } from './assertion-submit/assertion-submit.module';
-import { AssertionSubmitPage } from './assertion-submit/assertion-submit.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { AssertionAddView } from './assertion-add.view'
+import { AssertionSubmitModule } from './assertion-submit/assertion-submit.module'
+import { AssertionSubmitPage } from './assertion-submit/assertion-submit.page'
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), AssertionSubmitModule],

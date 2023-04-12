@@ -83,7 +83,7 @@ fragment commentListNode on Comment {
   }
   parsedComment {
     __typename
-    ...on CommentTagSegment {
+    ... on CommentTagSegment {
       entityId
       displayName
       tagType

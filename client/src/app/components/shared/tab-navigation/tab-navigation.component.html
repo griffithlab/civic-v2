@@ -1,16 +1,31 @@
 <nz-row id="section-tabs">
   <nz-col nzSpan="24">
-    <nz-tabset nzLinkRouter nzType="card" nzSize="small" [nzSelectedIndex]="selectedTabIndex"
+    <nz-tabset
+      nzLinkRouter
+      nzType="card"
+      nzSize="small"
+      [nzSelectedIndex]="selectedTabIndex"
       [nzTabBarExtraContent]="extraTpl">
       <ng-template #extraTpl>
         <ng-container [ngTemplateOutlet]="tabBarExtraContent || null">
         </ng-container>
       </ng-template>
       <nz-tab *ngFor="let tab of tabs">
-        <a *nzTabLink nz-tab-link [routerLink]="tab.routeName">
-          <i nz-icon [nzType]="tab.iconName"></i>
-          {{tab.tabLabel}}
-          <nz-badge nzStandalone [nzCount]="tab.badgeCount" nzTitle="There are {{tab.badgeCount}} outstanding revisions." [nzStyle]="{transform: 'scale(0.75, 0.75) translate(0, -2px)'}"></nz-badge>
+        <a
+          *nzTabLink
+          nz-tab-link
+          [routerLink]="tab.routeName">
+          <i
+            nz-icon
+            [nzType]="tab.iconName"></i>
+          {{ tab.tabLabel }}
+          <nz-badge
+            nzStandalone
+            [nzCount]="tab.badgeCount"
+            nzTitle="There are {{ tab.badgeCount }} outstanding revisions."
+            [nzStyle]="{
+              transform: 'scale(0.75, 0.75) translate(0, -2px)'
+            }"></nz-badge>
         </a>
       </nz-tab>
     </nz-tabset>

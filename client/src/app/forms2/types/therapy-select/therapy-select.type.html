@@ -1,0 +1,82 @@
+<cvc-entity-select
+  [cvcAddEntity]="addTherapy"
+  [cvcCustomTemplate]="selectedTemplate"
+  [cvcDisabled]="onRequiresTherapy$ && !(onRequiresTherapy$ | ngrxPush)"
+  [cvcEntityName]="props.entityName"
+  [cvcFormControl]="formControl"
+  [cvcFormlyAttributes]="field"
+  [cvcLoading]="isLoading$ | ngrxPush"
+  [cvcOptions]="selectOption$ | ngrxPush"
+  [cvcPlaceholder]="placeholder$ | ngrxPush"
+  [cvcResults]="result$ | ngrxPush"
+  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+  [cvcShowError]="showError"
+  [cvcSelectOpen]="selectOpen$ | ngrxPush"
+  (cvcOnSearch)="onSearch$.next($event)"
+  (cvcOnOpenChange)="onOpenChange$.next($event)"
+  (cvcOnModelChange)="props.change && props.change(field, $event)">
+</cvc-entity-select>
+<!-- FIXME: select does not auto-fill new entity created by therapy-quick-add form -->
+
+<!-- select option templates -->
+<!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
+<ng-container *ngrxLet="onSearch$ as searchString">
+  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+    <ng-template #optionTemplates>
+      <cvc-entity-tag
+        [cvcDisableLink]="true"
+        [cvcCacheId]="result.__typename + ':' + result.id"
+        [cvcEmphasize]="searchString"></cvc-entity-tag>
+      <span
+        nz-typography
+        nzType="secondary">
+        <ng-container *ngIf="result.ncitId">
+          <strong>NCIt ID:</strong>
+          <span
+            [innerHtml]="
+              result.ncitId | highlightTypeahead : searchString
+            "></span>
+        </ng-container>
+        <ng-container *ngIf="result.therapyAliases.length > 0">
+          Aliases:
+          <em>
+            <span
+              nz-typography
+              nzType="secondary"
+              [innerHtml]="
+                result.therapyAliases.join(', ')
+                  | highlightTypeahead : searchString
+              ">
+            </span>
+          </em>
+        </ng-container>
+      </span>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<!-- selected option item template -->
+<!-- displays entity tag, specifying context and mode depending on
+    if field is multi-select or single -->
+<ng-template
+  #selectedTemplate
+  let-selected>
+  <div class="ant-select-selection-item-content">
+    <cvc-entity-tag
+      [cvcCacheId]="'Therapy:' + selected.nzValue"
+      [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
+      [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+      (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+  </div>
+</ng-template>
+
+<!-- quick-add form template-->
+<ng-template
+  #addTherapy
+  let-searchStr
+  let-createMsg>
+  <cvc-therapy-quick-add-form
+    [cvcSearchString]="searchStr"
+    (cvcOnCreate)="onPopulate$.next($event)">
+  </cvc-therapy-quick-add-form>
+</ng-template>

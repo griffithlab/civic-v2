@@ -1,8 +1,6 @@
-query OrganizationDetail(
-  $organizationId: Int!
-) {
+query OrganizationDetail($organizationId: Int!) {
   organization(id: $organizationId) {
-      ...OrganizationDetailFields
+    ...OrganizationDetailFields
   }
 }
 

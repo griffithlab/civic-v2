@@ -8,7 +8,7 @@ query VariantsMenu(
   $before: String,
   $after: String,
   $sortBy: VariantMenuSort
-  ) {
+) {
   variants(
     geneId: $geneId,
     name: $variantName,
@@ -19,7 +19,7 @@ query VariantsMenu(
     before: $before,
     after: $after,
     sortBy: $sortBy
-    ) {
+  ) {
     totalCount
     pageInfo {
       startCursor

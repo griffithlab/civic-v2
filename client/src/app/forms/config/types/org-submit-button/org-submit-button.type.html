@@ -1,7 +1,9 @@
 <cvc-form-buttons>
-  <cvc-org-selector-btn-group #orgButton
+  <cvc-org-selector-btn-group
+    #orgButton
     [(selectedOrg)]="selectedOrg">
-    <button type="submit"
+    <button
+      type="submit"
       (click)="orgButton.refreshViewer();"
       nz-button
       cvcOrgSelectorBtn

@@ -1,5 +1,7 @@
-import { TypePolicies } from '@apollo/client/cache';
-import { relayStylePagination } from '@apollo/client/utilities';
+import { TypePolicies } from '@apollo/client/cache'
+import { relayStylePagination } from '@apollo/client/utilities'
+import { CvcSourcePolicy } from './policies/source.policy'
+import { CvcUserPolicy } from './policies/user.policy'
 
 export const CvcTypePolicies: TypePolicies = {
   Gene: {
@@ -25,7 +27,7 @@ export const CvcTypePolicies: TypePolicies = {
         'diseaseName',
         'therapayName',
         'variantTypeId',
-        'variantGroupId'
+        'variantGroupId',
       ]),
       browseMolecularProfiles: relayStylePagination([
         'variantName',
@@ -34,13 +36,13 @@ export const CvcTypePolicies: TypePolicies = {
         'therapyName',
         'molecularProfileScore',
         'molecularProfileAlias',
-        'variantId'
+        'variantId',
       ]),
       browseVariantGroups: relayStylePagination([
         'name',
         'geneNames',
         'variantNames',
-        'variantId'
+        'variantId',
       ]),
       browseSources: relayStylePagination([
         'name',
@@ -50,7 +52,7 @@ export const CvcTypePolicies: TypePolicies = {
         'author',
         'journal',
         'clinicalTrialId',
-        'id'
+        'id',
       ]),
       sourceSuggestions: relayStylePagination([
         'sourceType',
@@ -62,8 +64,8 @@ export const CvcTypePolicies: TypePolicies = {
         'submitter',
         'citation',
         'status',
-        'submitterId'
-      ]), 
+        'submitterId',
+      ]),
       browseDiseases: relayStylePagination(['name', 'doid', 'geneNames', 'id']),
       events: relayStylePagination([
         'subject',
@@ -71,10 +73,7 @@ export const CvcTypePolicies: TypePolicies = {
         'originatingUserId',
         'eventType',
       ]),
-      variants: relayStylePagination([
-        'geneId',
-        'name',
-      ]),
+      variants: relayStylePagination(['geneId', 'name']),
       molecularProfiles: relayStylePagination([
         'geneId',
         'name',
@@ -104,7 +103,7 @@ export const CvcTypePolicies: TypePolicies = {
         'geneSymbol',
         'variantName',
         'status',
-        'clinicalTrialId'
+        'clinicalTrialId',
       ]),
       assertions: relayStylePagination([
         'diseaseName',
@@ -126,7 +125,7 @@ export const CvcTypePolicies: TypePolicies = {
         'phenotypeId',
         'diseaseId',
         'therapayId',
-        'status'
+        'status',
       ]),
       organizations: relayStylePagination(['name', 'id']),
       flags: relayStylePagination([
@@ -146,20 +145,18 @@ export const CvcTypePolicies: TypePolicies = {
         'eventType',
         'originatingUserId',
         'organizationId',
-        'includeRead'
+        'includeRead',
       ]),
       revisions: relayStylePagination([
         'subject',
         'status',
         'originatingUserId',
         'fieldName',
-        'revisionsetId'
+        'revisionsetId',
       ]),
-      users: relayStylePagination([
-        'userName',
-        'orgName',
-        'userRole'
-      ]),
+      users: relayStylePagination(['userName', 'orgName', 'userRole']),
     },
   },
-};
+  User: CvcUserPolicy,
+  // Source: CvcSourcePolicy,
+}

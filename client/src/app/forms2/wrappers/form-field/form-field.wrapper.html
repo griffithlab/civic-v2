@@ -1,0 +1,153 @@
+<ng-container [ngSwitch]="formLayout">
+  <div
+    *ngSwitchCase="'horizontal'"
+    class="layout-horizontal">
+    <ng-container [ngTemplateOutlet]="horizontalFieldWrapper"></ng-container>
+  </div>
+  <div
+    *ngSwitchCase="'inline'"
+    class="layout-inline">
+    <ng-container [ngTemplateOutlet]="inlineFieldWrapper"></ng-container>
+  </div>
+  <div
+    *ngSwitchCase="'vertical'"
+    class="layout-vertical">
+    <ng-container [ngTemplateOutlet]="verticalFieldWrapper"></ng-container>
+  </div>
+</ng-container>
+
+<ng-template #horizontalFieldWrapper>
+  <nz-form-item
+    [nzGutter]="wrapper.layout.item.gutter"
+    class="layout-horizontal"
+    [ngClass]="{
+      disabled: props.disabled,
+      error: showError,
+      required: props.required,
+      valid: field.formControl!.status === 'VALID'
+    }">
+    <ng-container *ngIf="props.label && props.hideLabel !== true">
+      <nz-form-label
+        *ngrxLet="wrapper.layout.label as label"
+        [nzRequired]="props.required"
+        [nzFor]="id"
+        [nzNoColon]="true"
+        [nzTooltipTitle]="props.tooltip"
+        [nzSpan]="label.span ? label.span : null">
+        <span
+          nz-typography
+          nzEllipsis
+          [nzContent]="props.label"></span>
+      </nz-form-label>
+    </ng-container>
+    <nz-form-control
+      *ngrxLet="wrapper.layout.control as control"
+      [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
+      [nzValidateStatus]="errorState"
+      [nzErrorTip]="errorTpl"
+      [nzSpan]="props.hideLabel ? 24 : control.span ? control.span : null">
+      <ng-container #fieldComponent></ng-container>
+    </nz-form-control>
+  </nz-form-item>
+</ng-template>
+
+<ng-template #verticalFieldWrapper>
+  <nz-form-item
+    class="layout-vertical"
+    [ngClass]="{
+      disabled: props.disabled,
+      error: showError,
+      required: props.required,
+      valid: field.formControl!.status === 'VALID'
+    }">
+    <ng-container *ngIf="props.label && props.hideLabel !== true">
+      <nz-form-label
+        *ngrxLet="wrapper.layout.label as label"
+        [ngClass]="{ disabled: props.disabled, error: showError }"
+        [nzRequired]="props.required"
+        [nzFor]="id"
+        [nzTooltipTitle]="props.tooltip"
+        [nzNoColon]="true">
+        <span
+          class="label"
+          nz-typography
+          nzEllipsis
+          [nzContent]="props.label"></span>
+      </nz-form-label>
+    </ng-container>
+    <nz-form-control
+      *ngrxLet="wrapper.layout.control as control"
+      [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
+      [nzValidateStatus]="errorState"
+      [nzErrorTip]="errorTpl">
+      <ng-container #fieldComponent></ng-container>
+    </nz-form-control>
+  </nz-form-item>
+</ng-template>
+
+<ng-template #inlineFieldWrapper>
+  <nz-form-item class="layout-inline"
+  [ngClass]="{
+      disabled: props.disabled,
+      error: showError,
+      required: props.required,
+      valid: field.formControl!.status === 'VALID'
+    }">
+    <ng-container *ngIf="props.label && props.hideLabel !== true">
+      <nz-form-label
+        [nzRequired]="props.required"
+        [nzTooltipTitle]="props.tooltip"
+        [nzFor]="id"
+        [nzNoColon]="true">
+        <span
+          class="label"
+          nz-typography
+          nzEllipsis
+          [nzContent]="props.label"></span>
+      </nz-form-label>
+    </ng-container>
+    <nz-form-control
+      *ngrxLet="wrapper.layout.control as control"
+      [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
+      [nzValidateStatus]="errorState"
+      [nzErrorTip]="errorTpl">
+      <ng-container #fieldComponent></ng-container>
+      <ng-template
+        #errorTpl
+        let-control>
+        <formly-validation-message [field]="field"></formly-validation-message>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</ng-template>
+
+<!-- SHARED COMPONENT TEMPLATES -->
+<!-- displays the field value description -->
+<ng-template #descriptionTpl>
+  <div class="form-field-description">
+    <ng-container [ngSwitch]="props.extraType">
+      <span
+        *ngSwitchCase="'prompt'"
+        class="extra-prompt"
+        [innerHTML]="props.description">
+      </span>
+      <span
+        *ngSwitchCase="'description'"
+        class="extra-description"
+        [innerHTML]="props.description">
+      </span>
+      <span
+        *ngSwitchDefault
+        [innerHTML]="props.description"></span>
+    </ng-container>
+  </div>
+</ng-template>
+
+<!-- displays field errors-->
+<ng-template
+  #errorTpl
+  let-control>
+  <div class="cvc-form-field-validation">
+    <formly-validation-message [field]="field"></formly-validation-message>
+  </div>
+</ng-template>

@@ -5,7 +5,12 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag [ngClass]="{ rejected: assertion.status === 'REJECTED', submitted: assertion.status === 'SUBMITTED', accepted: assertion.status === 'ACCEPTED' }"
+  <nz-tag
+    [ngClass]="{
+      rejected: assertion.status === 'REJECTED',
+      submitted: assertion.status === 'SUBMITTED',
+      accepted: assertion.status === 'ACCEPTED'
+    }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="assertionPopover"
@@ -24,13 +29,19 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [flagged]="assertion.flagged"
+  <cvc-icon-badges
+    [flagged]="assertion.flagged"
     [entityColor]="iconColor">
-    <i nz-icon
+    <i
+      nz-icon
       nzType="civic-assertion"
       nzTheme="twotone"
-      [nzTwotoneColor]="assertion.status === 'REJECTED' ? ('Rejected' | entityColor) : ('Assertion' | entityColor)">
-  </i>
+      [nzTwotoneColor]="
+        assertion.status === 'REJECTED'
+          ? ('Rejected' | entityColor)
+          : ('Assertion' | entityColor)
+      ">
+    </i>
   </cvc-icon-badges>
   {{ assertion.name }}
 </ng-template>

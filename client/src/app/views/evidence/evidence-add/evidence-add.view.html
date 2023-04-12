@@ -1,9 +1,9 @@
 <cvc-section-navigation displayName="New"></cvc-section-navigation>
 <nz-page-header class="site-page-header">
-
   <!-- title -->
   <nz-page-header-title cvcFlaggableOptions>
-    <i nz-icon
+    <i
+      nz-icon
       nzTheme="twotone"
       [nzTwotoneColor]="'EvidenceItem' | entityColor"
       nzType="civic-evidence"></i>
@@ -20,9 +20,11 @@
         <router-outlet></router-outlet>
       </div>
       <ng-template #notSignedIn>
-        <nz-row nzSpan="24"
+        <nz-row
+          nzSpan="24"
           nzJustify="center">
-          <div nz-col
+          <div
+            nz-col
             nzSpan="6">
             <cvc-login-prompt></cvc-login-prompt>
           </div>

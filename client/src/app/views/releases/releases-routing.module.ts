@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ReleasesMainComponent } from './releases-main/releases-main.component';
-import { ReleasesComponent } from './releases.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { ReleasesMainComponent } from './releases-main/releases-main.component'
+import { ReleasesComponent } from './releases.component'
 
 const routes: Routes = [
   {
@@ -13,14 +13,13 @@ const routes: Routes = [
         path: 'main',
         component: ReleasesMainComponent,
         data: { breadcrumb: 'Downloads' },
-      }
-    ]
-  }
-];
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class ReleasesRoutingModule { }
+export class ReleasesRoutingModule {}

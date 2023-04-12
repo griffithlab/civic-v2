@@ -19,14 +19,13 @@ import { CvcSearchRulesTypeModule } from '../config/types/search-rules-input/sea
 import { GeneSearchForm } from './gene-search.form';
 import { CvcGeneSearchConditionInputTypeModule } from '../config/types/gene-search-condition-input/gene-search-condition-input.module';
 import { CvcGenesTableModule } from '@app/components/genes/genes-table/genes-table.module';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 @NgModule({
   declarations: [GeneSearchForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
     NzFormModule,
     NzAlertModule,
     NzGridModule,
@@ -40,6 +39,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzSpaceModule,
     NzTypographyModule,
     NgxJsonViewerModule,
+    PushModule,
+    LetModule,
     CvcGeneSearchConditionInputTypeModule,
     CvcSearchRulesTypeModule,
     CvcGenesTableModule

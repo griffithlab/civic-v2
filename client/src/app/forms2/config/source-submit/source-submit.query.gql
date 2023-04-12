@@ -1,0 +1,8 @@
+mutation SubmitSource($input: SuggestSourceInput!) {
+  suggestSource(input: $input) {
+    clientMutationId
+    sourceSuggestion {
+      id
+    }
+  }
+}

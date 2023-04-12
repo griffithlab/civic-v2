@@ -41,7 +41,7 @@ module Scrapers
       source.asco_abstract_id = record_resp.asco_abstract_id
       source.publication_year = query_resp.publication_year
       source.journal = record_resp.journal
-      source.name = record_resp.article_title
+      source.title = record_resp.article_title
       source.abstract = record_resp.abstract
       source.full_journal_title = 'Journal of Clinical Oncology'
       nct_id = record_resp.nct_id

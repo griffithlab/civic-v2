@@ -1,70 +1,88 @@
-<ng-container *ngIf="unfilteredCount$ | ngrxPush as unfilteredCount; else noFlags">
+<ng-container
+  *ngIf="unfilteredCount$ | ngrxPush as unfilteredCount; else noFlags">
   <nz-row [nzGutter]="16">
     <nz-col nzSpan="18">
       <nz-space nzDirection="vertical">
-        <cvc-flag-list [flags]="flags$ | ngrxPush"
+        <cvc-flag-list
+          [flags]="(flags$ | ngrxPush) || []"
           [flagResolvedCallback]="refresh"
           *nzSpaceItem></cvc-flag-list>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <ng-container *ngIf="pageInfo?.hasNextPage">
-            <button nz-button
+          <ng-container
+            *ngIf="pageInfo && pageInfo?.hasNextPage && pageInfo.endCursor">
+            <button
+              nz-button
               nzBlock
               nzType="default"
               (click)="loadMore(pageInfo?.endCursor)"
-              *nzSpaceItem>Load More</button>
+              *nzSpaceItem>
+              Load More
+            </button>
           </ng-container>
         </ng-container>
-        <cvc-flag-add-form [flaggable]="flaggable"
+        <cvc-flag-add-form
+          [flaggable]="flaggable"
           [flagAddedCallback]="refresh"
           *nzSpaceItem></cvc-flag-add-form>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
-      <cvc-participant-list listTitle="Flag State"
+      <cvc-participant-list
+        listTitle="Flag State"
         [preselectedOption]="this.selectableStates[0]"
         [participantList]="selectableStates"
         (participantSelectedEvent)="onStateSelected($event)">
-        <ng-template #itemTemplate
+        <ng-template
+          #itemTemplate
           let-state>
-          <span>{{state.displayName}}</span>
+          <span>{{ state.displayName }}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Flagging Users"
-        [participantList]="uniqueFlaggingUsers$ | ngrxPush"
+      <cvc-participant-list
+        listTitle="Flagging Users"
+        [participantList]="(uniqueFlaggingUsers$ | ngrxPush) || []"
         (participantSelectedEvent)="onFlaggingUsersSelected($event)">
-        <ng-template #itemTemplate
+        <ng-template
+          #itemTemplate
           let-user>
-          <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+          <nz-avatar
+            *ngIf="user.profileImagePath; else noAvatar"
             nz-comment-avatar
             [nzSrc]="user.profileImagePath">
           </nz-avatar>
           <ng-template #noAvatar>
-            <nz-avatar nz-comment-avatar
+            <nz-avatar
+              nz-comment-avatar
               [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
           </ng-template>
-          <span>{{user.username}}</span>
+          <span>{{ user.username }}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Resolving Users"
-        [participantList]="uniqueResolvingUsers$ | ngrxPush"
+      <cvc-participant-list
+        listTitle="Resolving Users"
+        [participantList]="(uniqueResolvingUsers$ | ngrxPush) || []"
         (participantSelectedEvent)="onResolvingUsersSelected($event)">
-        <ng-template #itemTemplate
+        <ng-template
+          #itemTemplate
           let-user>
-          <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+          <nz-avatar
+            *ngIf="user.profileImagePath; else noAvatar"
             nz-comment-avatar
             [nzSrc]="user.profileImagePath">
           </nz-avatar>
           <ng-template #noAvatar>
-            <nz-avatar nz-comment-avatar
+            <nz-avatar
+              nz-comment-avatar
               [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
           </ng-template>
-          <span>{{user.username}}</span>
+          <span>{{ user.username }}</span>
         </ng-template>
       </cvc-participant-list>
     </nz-col>
   </nz-row>
 </ng-container>
 <ng-template #noFlags>
-  <cvc-flag-add-form [flaggable]="flaggable"
+  <cvc-flag-add-form
+    [flaggable]="flaggable"
     [flagAddedCallback]="refresh"></cvc-flag-add-form>
 </ng-template>

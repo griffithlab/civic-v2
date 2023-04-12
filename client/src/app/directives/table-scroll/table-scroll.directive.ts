@@ -1,11 +1,25 @@
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { AfterViewInit, Directive, EventEmitter, Input, Output } from '@angular/core';
-import { Maybe, PageInfo } from '@app/generated/civic.apollo';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { QueryRef } from 'apollo-angular';
-import { NzTableComponent } from 'ng-zorro-antd/table';
-import { asyncScheduler, Observable } from 'rxjs';
-import { debounceTime, filter, first, map, pairwise, tap, throttleTime } from 'rxjs/operators';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling'
+import {
+  AfterViewInit,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core'
+import { Maybe, PageInfo } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { QueryRef } from 'apollo-angular'
+import { NzTableComponent } from 'ng-zorro-antd/table'
+import { asyncScheduler, Observable } from 'rxjs'
+import {
+  debounceTime,
+  filter,
+  first,
+  map,
+  pairwise,
+  tap,
+  throttleTime,
+} from 'rxjs/operators'
 
 export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 
@@ -51,6 +65,7 @@ export class TableScrollDirective implements AfterViewInit {
   private rendered$?: Observable<any>
 
   constructor(private host: NzTableComponent<any>) {
+    console.log('table-scroll.directive constructor()')
   }
 
   ngAfterViewInit() {
@@ -59,7 +74,9 @@ export class TableScrollDirective implements AfterViewInit {
       this.scrolled$ = this.viewport.elementScrolled()
       this.rendered$ = this.viewport.renderedRangeStream
     } else {
-      throw new Error('cvcTableScroll directive could not obtain reference to host cdkVirtualScrollViewport.')
+      throw new Error(
+        'cvcTableScroll directive could not obtain reference to host cdkVirtualScrollViewport.'
+      )
     }
 
     // after initial rows rendered, force viewport size update
@@ -72,21 +89,25 @@ export class TableScrollDirective implements AfterViewInit {
     // causing the viewport to resize to fit the its new container dimensions.
     this.rendered$
       .pipe(first())
-      .subscribe(() => this.viewport!.checkViewportSize());
+      .subscribe(() => this.viewport!.checkViewportSize())
 
     // emit 'scroll' event when scroll starts, 'stop' scrollStopDebounce ms after last event
     this.scrolled$
       .pipe(
         // emits once at initial scroll event, once every throttleTime ms until no events,
         // then a final event
-        throttleTime(this.onScrollThrottleTime,
-          asyncScheduler,
-          { leading: true, trailing: true }),
-        tap(_ => this.cvcTableScrollOnScroll.next('scroll')),
+        throttleTime(this.onScrollThrottleTime, asyncScheduler, {
+          leading: true,
+          trailing: true,
+        }),
+        tap((_) => this.cvcTableScrollOnScroll.next('scroll')),
         // wait debounceTime ms after last 'scroll' event to emit
         debounceTime(this.onScrollDebounceTime),
-        untilDestroyed(this))
-      .subscribe(_ => { this.cvcTableScrollOnScroll.next('stop') });
+        untilDestroyed(this)
+      )
+      .subscribe((_) => {
+        this.cvcTableScrollOnScroll.next('stop')
+      })
 
     // emit load more events from OnLoadMore
     this.scrolled$
@@ -100,37 +121,49 @@ export class TableScrollDirective implements AfterViewInit {
         pairwise(),
         // pass only down scroll && bottom offsets within target height
         filter(([offset1, offset2]) => {
-          return (offset2 < offset1 && offset2 < this.cvcTableScrollTargetHeight)
+          return offset2 < offset1 && offset2 < this.cvcTableScrollTargetHeight
         }),
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
-        untilDestroyed(this))
+        untilDestroyed(this)
+      )
       .subscribe((_) => {
         this.cvcTableScrollOnScroll.next('bottom')
-        try { this.loadMore(this.cvcTableScrollPageInfo) }
-        catch (e) { console.error(e) }
-      });
+        try {
+          this.loadMore(this.cvcTableScrollPageInfo)
+        } catch (e) {
+          console.error(e)
+        }
+      })
   }
 
   loadMore(pi: Maybe<PageInfo>) {
     const queryRef = this.cvcTableScrollQueryRef
     if (!pi && queryRef)
-      throw new Error(`table-scroll directive requires PageInfo to use provided QueryRef.`)
+      throw new Error(
+        `table-scroll directive requires PageInfo to use provided QueryRef.`
+      )
     if (pi && !queryRef)
-      throw new Error(`table-scroll directive requires valid QueryRef when PageInfo provided.`)
+      throw new Error(
+        `table-scroll directive requires valid QueryRef when PageInfo provided.`
+      )
     if (pi && queryRef) {
-      const [fetchCount, hasNextPage, endCursor]
-        = [this.cvcTableScrollFetchCount, pi.hasNextPage, pi.endCursor]
+      const [fetchCount, hasNextPage, endCursor] = [
+        this.cvcTableScrollFetchCount,
+        pi.hasNextPage,
+        pi.endCursor,
+      ]
       if (fetchCount && endCursor) {
         if (hasNextPage) {
-          queryRef
-            .fetchMore({
-              variables: {
-                first: fetchCount,
-                after: endCursor
-              },
-            });
-        } else { return }
+          queryRef.fetchMore({
+            variables: {
+              first: fetchCount,
+              after: endCursor,
+            },
+          })
+        } else {
+          return
+        }
       } else {
         throw new Error(`table-scroll PageInfo invalid.`)
       }
@@ -140,7 +173,7 @@ export class TableScrollDirective implements AfterViewInit {
   scrollToIndex(index: number): void {
     const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
     if (host && viewport) {
-      viewport.scrollToIndex(index);
+      viewport.scrollToIndex(index)
     } else {
       throw new Error(`table-scroll scrollToIndex() cannot find host viewport.`)
     }
@@ -149,10 +182,11 @@ export class TableScrollDirective implements AfterViewInit {
   scrollToOffset(offset: number): void {
     const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
     if (host && viewport) {
-      viewport.scrollToOffset(offset);
+      viewport.scrollToOffset(offset)
     } else {
-      throw new Error(`table-scroll scrollToOffset() cannot find host viewport.`)
+      throw new Error(
+        `table-scroll scrollToOffset() cannot find host viewport.`
+      )
     }
   }
-
 }

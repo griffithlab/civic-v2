@@ -10,52 +10,59 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cvc-organizations-members',
   templateUrl: './organizations-members.component.html',
-  styleUrls: ['./organizations-members.component.less']
 })
 export class OrganizationsMembersComponent implements OnDestroy {
-  queryRef?: QueryRef<OrganizationMembersQuery, OrganizationMembersQueryVariables>;
+  queryRef?: QueryRef<
+    OrganizationMembersQuery,
+    OrganizationMembersQueryVariables
+  >
 
-  members$?: Observable<Maybe<OrganizationMembersFieldsFragment>[]>;
-  loading$?: Observable<boolean>;
-  viewer$?: Observable<Viewer>;
+  members$?: Observable<Maybe<OrganizationMembersFieldsFragment>[]>
+  loading$?: Observable<boolean>
+  viewer$?: Observable<Viewer>
   pageInfo$?: Observable<PageInfo>
-  routeSub: Subscription;
+  routeSub: Subscription
 
   initialPageSize = 20
 
-  constructor(private gql: OrganizationMembersGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
-
+  constructor(
+    private gql: OrganizationMembersGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
         organizationId: +params.organizationId,
         first: this.initialPageSize,
-      });
+      })
 
-      let observable = this.queryRef.valueChanges;
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      let observable = this.queryRef.valueChanges
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
 
       this.members$ = observable.pipe(
         pluck('data', 'users', 'edges'),
         filter(isNotNullish),
         map((edges) => {
-          return edges.map((e) => e.node);
+          return edges.map((e) => e.node)
         })
-      );
+      )
 
-      this.pageInfo$ = observable.pipe(pluck('data', 'users', 'pageInfo'));
+      this.pageInfo$ = observable.pipe(pluck('data', 'users', 'pageInfo'))
 
-      this.viewer$ = this.viewerService.viewer$;
-    });
+      this.viewer$ = this.viewerService.viewer$
+    })
   }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef?.fetchMore({variables: {
-      after: cursor
-    }})
+    this.queryRef?.fetchMore({
+      variables: {
+        after: cursor,
+      },
+    })
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

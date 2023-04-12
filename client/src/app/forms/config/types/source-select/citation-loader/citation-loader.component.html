@@ -2,32 +2,36 @@
   <!-- found citation, add to CIViC sources?-->
   <nz-space nzDirection="vertical">
     <ng-container *ngIf="createSuccess === false && createErrors.length === 0">
-      <nz-alert nzType="info"
+      <nz-alert
+        nzType="info"
         *nzSpaceItem
         [nzMessage]="foundCitationMsg"
         nzShowIcon>
       </nz-alert>
       <ng-template #foundCitationMsg>
-        Found citation: <em>{{ foundCitation }}</em>, would you like to add it?
+        Found citation: <em>{{ foundCitation }}</em
+        >, would you like to add it?
       </ng-template>
     </ng-container>
     <ng-container *ngIf="createSuccess === true">
-      <nz-alert nzType="success"
+      <nz-alert
+        nzType="success"
         *nzSpaceItem
         [nzMessage]="createdMsg"
         nzShowIcon>
       </nz-alert>
       <ng-template #createdMsg>
-        '<em>{{ foundCitation }}</em>' created.
+        '<em>{{ foundCitation }}</em
+        >' created.
       </ng-template>
     </ng-container>
     <nz-form-item *ngIf="createErrors.length > 0">
-      <cvc-form-errors-alert [errors]="createErrors">
-      </cvc-form-errors-alert>
+      <cvc-form-errors-alert [errors]="createErrors"> </cvc-form-errors-alert>
     </nz-form-item>
     <ng-container *ngIf="createSuccess === false">
       <!-- create new source stub button -->
-      <button type="submit"
+      <button
+        type="submit"
         (click)="onAddRemoteCitation($event)"
         [nzLoading]="isCreating"
         nz-button
@@ -35,12 +39,14 @@
         nzType="primary"
         nzSize="default"
         *nzSpaceItem>
-        Add&nbsp;'<em>{{ foundCitation }}</em>'&nbsp; to CIViC Sources
+        Add&nbsp;'<em>{{ foundCitation }}</em
+        >'&nbsp; to CIViC Sources
       </button>
     </ng-container>
     <ng-container *ngIf="createSuccess === true">
       <!-- Accept & add new source to source list -->
-      <button type="submit"
+      <button
+        type="submit"
         (click)="onAcceptSource($event)"
         nz-button
         nzBlock
@@ -56,11 +62,15 @@
   <!-- source not found, fetch citation? -->
   <nz-space nzDirection="vertical">
     <ng-container *ngIf="showPrompt">
-      <span *nzSpaceItem
+      <span
+        *nzSpaceItem
         nz-typography>
-      <i nz-icon nzType="info-circle" nzTheme="twotone"></i>
-      Source not known to CIViC, fetch citation from {{ sourceTypeKey }}?
-    </span>
+        <i
+          nz-icon
+          nzType="info-circle"
+          nzTheme="twotone"></i>
+        Source not known to CIViC, fetch citation from {{ sourceTypeKey }}?
+      </span>
     </ng-container>
 
     <nz-form-item *ngIf="existenceErrors.length > 0">
@@ -70,16 +80,18 @@
 
     <ng-container *ngIf="existenceFail">
       <span *nzSpaceItem>
-        <nz-alert nzType="warning"
+        <nz-alert
+          nzType="warning"
           [nzMessage]="existenceFail"
           nzShowIcon>
         </nz-alert>
         <ng-template #existenceFail>
-          Citation not found for {{ sourceTypeKey }}: {{ citationId  }}.
+          Citation not found for {{ sourceTypeKey }}: {{ citationId }}.
         </ng-template>
       </span>
     </ng-container>
-    <button type="submit"
+    <button
+      type="submit"
       *nzSpaceItem
       (click)="onExistenceQuery($event)"
       [nzLoading]="isChecking"
@@ -87,7 +99,9 @@
       nzBlock
       nzType="primary"
       nzSize="default">
-      Fetch Citation for&nbsp;<strong>{{ sourceTypeKey }} {{ citationId }}</strong>
+      Fetch Citation for&nbsp;<strong
+        >{{ sourceTypeKey }} {{ citationId }}</strong
+      >
     </button>
   </nz-space>
 </ng-template>

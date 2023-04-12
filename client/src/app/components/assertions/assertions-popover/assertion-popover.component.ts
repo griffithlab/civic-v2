@@ -1,32 +1,39 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { AssertionPopoverFragment, AssertionPopoverGQL, Maybe } from "@app/generated/civic.apollo";
+import { Component, Input, OnInit } from '@angular/core'
+import {
+  AssertionPopoverFragment,
+  AssertionPopoverGQL,
+  Maybe,
+} from '@app/generated/civic.apollo'
 import { filter, map } from 'rxjs/operators'
-import { Observable } from 'rxjs';
-import { isNonNulled } from "rxjs-etc";
-import { AssertionState } from "@app/forms/config/states/assertion.state";
+import { Observable } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { AssertionState } from '@app/forms2/states/assertion.state'
 
 @Component({
   selector: 'cvc-assertion-popover',
   templateUrl: './assertion-popover.component.html',
-  styleUrls: ['./assertion-popover.component.less']
+  styleUrls: ['./assertion-popover.component.less'],
 })
 export class CvcAssertionPopoverComponent implements OnInit {
-  @Input() assertionId!: number;
+  @Input() assertionId!: number
 
   assertion$?: Observable<Maybe<AssertionPopoverFragment>>
 
+
   assertionRules = new AssertionState()
 
-  constructor(private gql: AssertionPopoverGQL) { }
+  constructor(private gql: AssertionPopoverGQL) {}
 
   ngOnInit() {
     if (this.assertionId == undefined) {
-      throw new Error("cvc-assertion-popover requires valid assertionId input.");
+      throw new Error('cvc-assertion-popover requires valid assertionId input.')
     }
-    this.assertion$ = this.gql.watch({ assertionId: this.assertionId })
-      .valueChanges
-      .pipe(map(r => r.data),
+    this.assertion$ = this.gql
+      .watch({ assertionId: this.assertionId })
+      .valueChanges.pipe(
+        map((r) => r.data),
         filter(isNonNulled),
-        map(({ assertion }) => assertion));
+        map(({ assertion }) => assertion)
+      )
   }
 }

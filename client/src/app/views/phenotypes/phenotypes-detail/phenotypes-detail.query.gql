@@ -1,7 +1,5 @@
-query PhenotypeDetail(
-  $phenotypeId: Int!
-){
-  phenotype(id: $phenotypeId){
+query PhenotypeDetail($phenotypeId: Int!) {
+  phenotype(id: $phenotypeId) {
     id
     name
     hpoId

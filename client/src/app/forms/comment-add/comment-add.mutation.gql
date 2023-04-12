@@ -1,5 +1,5 @@
 mutation AddComment($input: AddCommentInput!) {
-  addComment(input:$input) {
+  addComment(input: $input) {
     clientMutationId
     comment {
       ...commentListNode

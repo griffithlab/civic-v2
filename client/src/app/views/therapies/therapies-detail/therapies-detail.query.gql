@@ -1,7 +1,5 @@
-query TherapyDetail(
-  $therapyId: Int!
-){
-  therapy(id: $therapyId){
+query TherapyDetail($therapyId: Int!) {
+  therapy(id: $therapyId) {
     id
     name
     ncitId

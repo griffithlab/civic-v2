@@ -73,14 +73,14 @@
         <nz-col nzSpan="24">
           <cvc-tag-list size="sm">
             <ng-container *ngFor="let mp of mps">
-              <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>
+              <cvc-molecular-profile-tag *ngIf="mp" [molecularProfile]="mp"></cvc-molecular-profile-tag>
             </ng-container>
           </cvc-tag-list>
         </nz-col>
       </nz-row>
       <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
         <nz-row id="load-more-btn"
-          *ngIf="pageInfo.hasNextPage">
+          *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
           <button nz-button
             nzType="default"
             nzSize="small"

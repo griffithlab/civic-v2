@@ -5,7 +5,7 @@
   "interfaceName": "CivicIconLiteral",
   "delimiter": "CAMEL",
   "typeName": "CivicIcon",
-  "generateType": false,
+  "generateType": true,
   "generateTypeObject": true,
   "prefix": "civic",
   "fileName": "civic.icons",

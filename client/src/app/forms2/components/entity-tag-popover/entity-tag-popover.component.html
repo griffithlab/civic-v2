@@ -1,0 +1,7 @@
+<ng-container [ngSwitch]="this.entity.entityType">
+    <cvc-molecular-profile-popover *ngSwitchCase="'MolecularProfile'" [molecularProfileId]="this.entity.entityId"></cvc-molecular-profile-popover>
+    <cvc-disease-popover *ngSwitchCase="'Disease'" [diseaseId]="this.entity.entityId"></cvc-disease-popover>
+    <cvc-therapy-popover *ngSwitchCase="'Therapy'" [therapyId]="this.entity.entityId"></cvc-therapy-popover>
+    <cvc-source-popover *ngSwitchCase="'Source'" [sourceId]="this.entity.entityId"></cvc-source-popover>
+    <cvc-phenotype-popover *ngSwitchCase="'Phenotype'" [phenotypeId]="this.entity.entityId"></cvc-phenotype-popover>
+</ng-container>

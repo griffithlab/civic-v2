@@ -1,14 +1,19 @@
-@import 'themes/global-variables.less';
+@import "themes/global-variables.less";
 
 :host ::ng-deep nz-tag {
   // add some width to right border
-  &.rejected, &.submitted, &.accepted, &.deprecated{
+  &.rejected,
+  &.submitted,
+  &.accepted,
+  &.deprecated {
     border-right-width: 2px;
   }
-  &.rejected, &.deprecated {
+  &.rejected,
+  &.deprecated {
     border-color: lighten(@border-color-base, 5%); // lighten std border color
-    background-color: #FFF; // remove background color
+    background-color: #fff; // remove background color
     color: lighten(@tag-default-color, 60%) // lighten text color
+;
   }
   &.submitted {
     border-color: #ffe58f; // same as @antd-warning-color-outline

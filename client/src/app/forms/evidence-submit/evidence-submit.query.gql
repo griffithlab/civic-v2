@@ -1,5 +1,13 @@
-query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $molecularProfileId: Int, $diseaseId: Int) {
-  sourceSuggestionValues(molecularProfileId: $molecularProfileId, diseaseId: $diseaseId, sourceId: $sourceId) {
+query EvidenceFieldsFromSourceSuggestion(
+  $sourceId: Int
+  $molecularProfileId: Int
+  $diseaseId: Int
+) {
+  sourceSuggestionValues(
+    molecularProfileId: $molecularProfileId
+    diseaseId: $diseaseId
+    sourceId: $sourceId
+  ) {
     molecularProfile {
       id
       name

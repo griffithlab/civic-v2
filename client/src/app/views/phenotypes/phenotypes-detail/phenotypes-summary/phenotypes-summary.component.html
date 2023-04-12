@@ -1,16 +1,18 @@
-<nz-row *ngIf="phenotypeId"
-  [nzGutter]="[8,16]">
+<nz-row
+  *ngIf="phenotypeId"
+  [nzGutter]="[8, 16]">
   <!-- assertions table card -->
   <nz-col [nzSpan]="24">
-    <cvc-assertions-table cvcHeight="400"
+    <cvc-assertions-table
+      cvcHeight="400"
       [phenotypeId]="phenotypeId"
       cvcTitle="Phenotype Assertions"></cvc-assertions-table>
   </nz-col>
 
   <!-- evidence table card -->
   <nz-col [nzSpan]="24">
-    <cvc-evidence-table [phenotypeId]="phenotypeId"
+    <cvc-evidence-table
+      [phenotypeId]="phenotypeId"
       cvcTitle="Phenotype Evidence"></cvc-evidence-table>
   </nz-col>
-
 </nz-row>

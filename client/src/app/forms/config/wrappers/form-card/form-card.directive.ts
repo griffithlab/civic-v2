@@ -1,12 +1,10 @@
-import { Directive } from '@angular/core';
+import { Directive } from '@angular/core'
 
 @Directive({
-  selector: '.cvc-form-card-control'
+  selector: '.cvc-form-card-control',
 })
 export class FormCardDirective {
-
   constructor() {
-    console.log('FormCardDirective constructed.');
+    console.log('FormCardDirective constructed.')
   }
-
 }

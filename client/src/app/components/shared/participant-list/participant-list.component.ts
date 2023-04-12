@@ -1,5 +1,13 @@
-import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef, OnInit} from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ContentChild,
+  TemplateRef,
+  OnInit,
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 export interface WithId {
   id: unknown
@@ -8,24 +16,24 @@ export interface WithId {
 @Component({
   selector: 'cvc-participant-list',
   templateUrl: './participant-list.component.html',
-  styleUrls: ['./participant-list.component.less']
+  styleUrls: ['./participant-list.component.less'],
 })
 export class CvcParticipantListComponent<T extends WithId> implements OnInit {
-    @Input() participantList!: T[]
-    @Input() listTitle!: string
-    @Input() defaultListSize: number = 5
-    @Input() preselectedOption?: T
+  @Input() participantList!: T[]
+  @Input() listTitle!: string
+  @Input() defaultListSize: number = 5
+  @Input() preselectedOption?: T
 
-    @Output() participantSelectedEvent = new EventEmitter<Maybe<T>>();
+  @Output() participantSelectedEvent = new EventEmitter<Maybe<T>>()
 
-    //Must pass in an <ng-template #itemTemplate> as a child element
-    @ContentChild('itemTemplate') itemTemplateRef?: TemplateRef<any>
+  //Must pass in an <ng-template #itemTemplate> as a child element
+  @ContentChild('itemTemplate') itemTemplateRef?: TemplateRef<any>
 
-    selectedItem: Maybe<T>
-    originalDefaultListSize: Maybe<number>
-    isExpanded = false
+  selectedItem: Maybe<T>
+  originalDefaultListSize: Maybe<number>
+  isExpanded = false
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.preselectedOption) {
@@ -34,12 +42,12 @@ export class CvcParticipantListComponent<T extends WithId> implements OnInit {
   }
 
   onParticipantSelected(u: T) {
-      if (u.id == this.selectedItem?.id) {
-        this.selectedItem = undefined
-      } else {
-        this.selectedItem = u
-      }
-      this.participantSelectedEvent.emit(this.selectedItem)
+    if (u.id == this.selectedItem?.id) {
+      this.selectedItem = undefined
+    } else {
+      this.selectedItem = u
+    }
+    this.participantSelectedEvent.emit(this.selectedItem)
   }
 
   onExpandClicked() {
@@ -49,7 +57,7 @@ export class CvcParticipantListComponent<T extends WithId> implements OnInit {
   }
 
   onCollapseClicked() {
-    if(this.originalDefaultListSize) {
+    if (this.originalDefaultListSize) {
       this.defaultListSize = this.originalDefaultListSize
       this.isExpanded = false
     }

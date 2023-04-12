@@ -1,7 +1,5 @@
-query DiseaseDetail(
-  $diseaseId: Int!
-){
-  disease(id: $diseaseId){
+query DiseaseDetail($diseaseId: Int!) {
+  disease(id: $diseaseId) {
     id
     name
     doid

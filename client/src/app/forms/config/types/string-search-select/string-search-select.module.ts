@@ -3,22 +3,23 @@ import { CommonModule } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CvcFormFieldWrapperModule } from '../../wrappers/form-field/form-field.module';
-import { StringSearchSelectType, StringSearchSelectTypeOption } from './string-search-select.type';
+//import { StringSearchSelectType, StringSearchSelectTypeOption } from './string-search-select.type';
+import { LetModule, PushModule } from '@ngrx/component';
 
 @NgModule({
-  declarations: [StringSearchSelectType],
+  //declarations: [StringSearchSelectType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
-    FormlyModule.forChild({ types: [StringSearchSelectTypeOption] }),
+    LetModule,
+    PushModule,
+    //FormlyModule.forChild({ types: [StringSearchSelectTypeOption] }),
     NzSelectModule,
     NzInputModule,
     CvcFormFieldWrapperModule,
   ],
-  exports: [StringSearchSelectType]
+  //exports: [StringSearchSelectType]
 })
 export class CvcStringSearchSelectTypeModule { }

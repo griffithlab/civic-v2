@@ -1,19 +1,22 @@
-<button *ngIf="this.callOnClick; else redirect"
+<button
+  *ngIf="this.callOnClick; else redirect"
   class="cancel-button"
-  nz-button type="button"
+  nz-button
+  type="button"
   nzType="default"
   nzSize="large"
   (click)="this.callOnClick()">
-    Cancel
+  Cancel
 </button>
 
 <ng-template #redirect>
-    <button
+  <button
     class="cancel-button"
     [routerLink]="this.redirectPath"
-    nz-button type="button"
+    nz-button
+    type="button"
     nzType="default"
     nzSize="large">
-        Cancel
-    </button>
+    Cancel
+  </button>
 </ng-template>

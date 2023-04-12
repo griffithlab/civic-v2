@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
   MolecularProfileSummaryQuery,
@@ -8,10 +8,11 @@ import {
   SubscribableEntities,
   MolecularProfileSummaryFieldsFragment,
   MolecularProfileSummaryGQL,
-} from '@app/generated/civic.apollo';
-import { QueryRef } from 'apollo-angular';
-import { pluck, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { startWith } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'cvc-molecular-profiles-summary',
@@ -19,39 +20,45 @@ import { Observable } from 'rxjs';
   styleUrls: ['./molecular-profiles-summary.page.less'],
 })
 export class MolecularProfilesSummaryPage {
-  @Input() molecularProfileId: Maybe<number>;
+  @Input() molecularProfileId: Maybe<number>
 
-  queryRef: QueryRef<MolecularProfileSummaryQuery, MolecularProfileSummaryQueryVariables>;
-  loading$: Observable<boolean>;
-  molecularProfile$: Observable<Maybe<MolecularProfileSummaryFieldsFragment>>;
+  queryRef: QueryRef<
+    MolecularProfileSummaryQuery,
+    MolecularProfileSummaryQueryVariables
+  >
+  loading$: Observable<boolean>
+  molecularProfile$: Observable<Maybe<MolecularProfileSummaryFieldsFragment>>
 
-  subscribable: SubscribableInput;
+  subscribable: SubscribableInput
 
-  constructor(private gql: MolecularProfileSummaryGQL, private route: ActivatedRoute) {
-    var queryMpId: number;
+  constructor(
+    private gql: MolecularProfileSummaryGQL,
+    private route: ActivatedRoute
+  ) {
+    var queryMpId: number
     if (this.molecularProfileId) {
-      queryMpId = this.molecularProfileId;
+      queryMpId = this.molecularProfileId
     } else {
-      queryMpId = +this.route.snapshot.params['molecularProfileId'];
+      queryMpId = +this.route.snapshot.params['molecularProfileId']
     }
 
     if (queryMpId == undefined) {
       throw new Error(
         'Must pass in a molecular profile ID as an input or via the route.'
-      );
+      )
     }
 
-    this.queryRef = this.gql.watch({ mpId: queryMpId });
+    this.queryRef = this.gql.watch({ mpId: queryMpId })
 
-    let observable = this.queryRef.valueChanges;
+    let observable = this.queryRef.valueChanges
 
-    this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+    this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-    this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'));
+    this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'))
 
     this.subscribable = {
       entityType: SubscribableEntities.MolecularProfile,
       id: queryMpId,
-    };
+    }
   }
 }

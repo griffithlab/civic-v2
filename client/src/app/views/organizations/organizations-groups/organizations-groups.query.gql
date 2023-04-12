@@ -1,13 +1,10 @@
-
-query OrganizationGroups(
-  $organizationId: Int!
-) {
+query OrganizationGroups($organizationId: Int!) {
   organization(id: $organizationId) {
-  id
-  name
-  url
-  description
-  profileImagePath(size: 256)
+    id
+    name
+    url
+    description
+    profileImagePath(size: 256)
     subGroups {
       ...OrganizationGroupsFields
     }
@@ -46,4 +43,4 @@ fragment OrganizationGroupsFields on Organization {
     url
     profileImagePath(size: 12)
   }
-} 
+}
