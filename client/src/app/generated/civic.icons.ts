@@ -53,7 +53,7 @@ export const civicDominantnegativeOutline: {
   data: string;
 } = {
   name: 'dominantnegativeOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M433.9 664.9c37.4 0 56.2 45.2 29.7 71.7L313 887.2c-16.4 16.4-43 16.4-59.4 0L103 736.6c-26.5-26.5-7.7-71.7 29.7-71.7h80.6V150c0-15.7 12.7-28.3 28.3-28.3h83.3c15.7 0 28.3 12.7 28.3 28.3v514.9h80.7zm457.4 0h-80.6V150c0-15.7-12.7-28.3-28.3-28.3h-83.3c-15.7 0-28.3 12.7-28.3 28.3v514.9h-80.6c-37.4 0-56.2 45.2-29.7 71.7L711 887.2c16.4 16.4 43 16.4 59.4 0L921 736.6c26.4-26.5 7.7-71.7-29.7-71.7z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M433.9 664.9c37.4 0 56.2 45.2 29.7 71.7L313 887.2c-16.4 16.4-43 16.4-59.4 0L103 736.6c-26.5-26.5-7.7-71.7 29.7-71.7h80.6V150c0-15.7 12.7-28.3 28.3-28.3h83.3c15.7 0 28.3 12.7 28.3 28.3v514.9h80.7zm457.4 0h-80.6V150c0-15.7-12.7-28.3-28.3-28.3h-83.3c-15.7 0-28.3 12.7-28.3 28.3v514.9h-80.6c-37.4 0-56.2 45.2-29.7 71.7L711 887.2c16.4 16.4 43 16.4 59.4 0L921 736.6c26.4-26.5 7.7-71.7-29.7-71.7z"/></svg>`
 };
 export const civicFunctionalOutline: {
   name: 'functionalOutline';
@@ -116,7 +116,7 @@ export const civicLikelyoncogenicOutline: {
   data: string;
 } = {
   name: 'likelyoncogenicOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M832 240v184H600V240h232m-408 0v184H192V240h232m408 360v184H600V600h232m-408 0v184H192V600h232m436-424H572c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-408 0H164c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm408 360H572c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V572c0-19.9-16.1-36-36-36zm-408 0H164c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V572c0-19.9-16.1-36-36-36z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M832 240v184H600V240h232m-408 0v184H192V240h232m408 360v184H600V600h232m-408 0v184H192V600h232m436-424H572c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-408 0H164c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm408 360H572c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V572c0-19.9-16.1-36-36-36zm-408 0H164c-19.9 0-36 16.1-36 36v240c0 19.9 16.1 36 36 36h288c19.9 0 36-16.1 36-36V572c0-19.9-16.1-36-36-36z"/></svg>`
 };
 export const civicLikelypathogenicOutline: {
   name: 'likelypathogenicOutline';
@@ -137,14 +137,14 @@ export const civicMixedOutline: {
   data: string;
 } = {
   name: 'mixedOutline',
-  data: `<svg viewBox="64 64 896 896"><ellipse cx="239.9" cy="512" rx="111.9" ry="111.5"/><path d="M239.9 192c26.6 0 47.9 21.3 47.9 47.5S266.5 287 239.9 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 128 128 177.9 128 239.5S178.1 351 239.9 351s111.9-49.9 111.9-111.5S301.8 128 239.9 128zm0 609c26.6 0 47.9 21.3 47.9 47.5S266.5 832 239.9 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 673 128 722.9 128 784.5S178.1 896 239.9 896s111.9-49.9 111.9-111.5S301.8 673 239.9 673z"/><ellipse cx="784.1" cy="512" rx="111.9" ry="111.5"/><path d="M784.1 192c26.6 0 47.9 21.3 47.9 47.5S810.7 287 784.1 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 351 784.1 351 896 301.1 896 239.5 845.9 128 784.1 128zm0 609c26.6 0 47.9 21.3 47.9 47.5S810.7 832 784.1 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 896 784.1 896 896 846.1 896 784.5 845.9 673 784.1 673zM512 464.5c26.6 0 47.9 21.3 47.9 47.5s-21.3 47.5-47.9 47.5c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5s50 111.5 111.9 111.5S623.9 573.6 623.9 512 573.8 400.5 512 400.5z"/><ellipse cx="512" cy="239.5" rx="111.9" ry="111.5"/><ellipse cx="512" cy="784.5" rx="111.9" ry="111.5"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><ellipse cx="239.9" cy="512" rx="111.9" ry="111.5"/><path d="M239.9 192c26.6 0 47.9 21.3 47.9 47.5S266.5 287 239.9 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 128 128 177.9 128 239.5S178.1 351 239.9 351s111.9-49.9 111.9-111.5S301.8 128 239.9 128zM239.9 737c26.6 0 47.9 21.3 47.9 47.5S266.5 832 239.9 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64C178.1 673 128 722.9 128 784.5S178.1 896 239.9 896s111.9-49.9 111.9-111.5S301.8 673 239.9 673z"/><ellipse cx="784.1" cy="512" rx="111.9" ry="111.5"/><path d="M784.1 192c26.6 0 47.9 21.3 47.9 47.5S810.7 287 784.1 287c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 351 784.1 351 896 301.1 896 239.5 845.9 128 784.1 128zM784.1 737c26.6 0 47.9 21.3 47.9 47.5S810.7 832 784.1 832c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5S722.2 896 784.1 896 896 846.1 896 784.5 845.9 673 784.1 673zM512 464.5c26.6 0 47.9 21.3 47.9 47.5s-21.3 47.5-47.9 47.5c-26.6 0-47.9-21.3-47.9-47.5s21.3-47.5 47.9-47.5m0-64c-61.9 0-111.9 49.9-111.9 111.5s50 111.5 111.9 111.5S623.9 573.6 623.9 512 573.8 400.5 512 400.5z"/><ellipse cx="512" cy="239.5" rx="111.9" ry="111.5"/><ellipse cx="512" cy="784.5" rx="111.9" ry="111.5"/></svg>`
 };
 export const civicNaOutline: {
   name: 'naOutline';
   data: string;
 } = {
   name: 'naOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M401.4 701.3h-96.8L161.4 449.9v251.4H64v-404h97.4l142.9 251.4V297.3h97.1v404zM575.7 280L437.8 718.6h79.6L655.6 280h-79.9zm270.7 345.8H713l-23.3 75.5h-104l148.2-404h91.6l149.3 404H870l-23.6-75.5zm-110.1-75.2h86.8l-43.6-140.1-43.2 140.1z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M401.4 701.3h-96.8L161.4 449.9v251.4H64v-404h97.4l142.9 251.4V297.3h97.1v404zM575.7 280 437.8 718.6h79.6L655.6 280h-79.9zm270.7 345.8H713l-23.3 75.5h-104l148.2-404h91.6l149.3 404H870l-23.6-75.5zm-110.1-75.2h86.8l-43.6-140.1-43.2 140.1z"/></svg>`
 };
 export const civicNegativeOutline: {
   name: 'negativeOutline';
@@ -158,28 +158,35 @@ export const civicNeomorphicOutline: {
   data: string;
 } = {
   name: 'neomorphicOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M556.4 237.9l57 57-432.7 432.7c-11.1 11.1-11.1 29 0 40.1l58.9 58.9c11.1 11.1 29 11.1 40.1 0l432.7-432.7 57 57c26.5 26.5 71.7 7.7 71.7-29.7v-213c0-23.2-18.8-42-42-42h-213c-37.4 0-56.2 45.3-29.7 71.7z"/></svg>`
+  data: `<svg viewBox="0 0 1008 1008"><path d="m556.4 237.9 57 57-432.7 432.7c-11.1 11.1-11.1 29 0 40.1l58.9 58.9c11.1 11.1 29 11.1 40.1 0l432.7-432.7 57 57c26.5 26.5 71.7 7.7 71.7-29.7v-213c0-23.2-18.8-42-42-42h-213c-37.4 0-56.2 45.3-29.7 71.7z"/></svg>`
+};
+export const civicOncogenicOutline: {
+  name: 'oncogenicOutline';
+  data: string;
+} = {
+  name: 'oncogenicOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="m855.4 511.9 77.9-76.3c23.2-22 12.4-61.1-18.1-68.4l-106.2-27 30-105.1c8.5-30.2-20-58.7-50.3-50.3l-105.1 29.9-27.1-106.2c-7.2-30-46.7-41-68.3-18.1L512 169l-76.2-78.5c-21.4-22.6-61.1-12.3-68.3 18.1l-27.1 106.2-105.1-29.9c-30.2-8.5-58.7 20.1-50.3 50.3l30 105-106.2 27.1c-30.5 7.3-41.3 46.4-18.1 68.4l77.9 76.3-77.9 76.3c-23.2 22-12.4 61.1 18.1 68.4L215 683.6l-30 105.1c-8.5 30.2 20 58.7 50.3 50.3l105-30 27.1 106.2c7.5 31.5 46.9 40.7 68.3 18.1l76.2-78 76.2 78c21.2 22.9 61 12.7 68.3-18.1L683.7 809l105.1 29.9c30.2 8.5 58.7-20.1 50.3-50.3l-30.1-105 106.2-27.1c30.5-7.3 41.3-46.4 18.1-68.4l-77.9-76.2z"/></svg>`
 };
 export const civicOncogenicityOutline: {
   name: 'oncogenicityOutline';
   data: string;
 } = {
   name: 'oncogenicityOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M512 265.9C373.9 265.9 262 376 262 512s111.9 246.1 250 246.1S762 648 762 512 650.1 265.9 512 265.9zm-75.7 382.7c-18 18-27.7 31.7-49.6 31.7-38 0-57.5-46.3-30.4-73.4l19.2-19.1c16.8-16.8 44-16.8 60.8.1s16.8 43.9 0 60.7zm-30.5-199.7c-21.6 0-30.3-12.5-49.6-31.8-16.8-16.8-16.8-44 .1-60.8 16.8-16.8 44-16.8 60.8.1l19.1 19.2c27.3 27.1 7.5 73.3-30.4 73.3zm181.9-73.5l19.2-19.1c16.8-16.8 44-16.8 60.8.1s16.8 44-.1 60.8c-18 18-27.7 31.7-49.6 31.7-37.9-.1-57.4-46.4-30.3-73.5zm49.6 304.9c-21.6 0-30.3-12.5-49.6-31.8-16.8-16.8-16.8-44 .1-60.8 16.8-16.8 44-16.8 60.8.1l19.1 19.2c27.2 27.2 7.5 73.3-30.4 73.3zm95.9-346.5c-38 0-57.5-46.3-30.4-73.4l65.5-65.4c16.8-16.8 44-16.8 60.8 0s16.8 44 0 60.8c-68.6 68.4-72.6 78-95.9 78zm65.4 507.8c-23.4 0-27.5-9.6-95.8-78.1-16.8-16.8-16.8-44 0-60.8 16.8-16.8 44-16.8 60.8 0l65.4 65.5c27.2 27.2 7.6 73.4-30.4 73.4zm-573.2 0c-38 0-57.5-46.3-30.4-73.4l65.5-65.4c16.8-16.8 44-16.8 60.8 0 16.8 16.8 16.8 44 0 60.8-68.6 68.5-72.6 78-95.9 78zm65.4-507.8c-23.4 0-27.5-9.6-95.8-78.1-16.8-16.8-16.8-44 0-60.8 16.8-16.8 44-16.8 60.8 0l65.4 65.5c27.1 27.2 7.5 73.4-30.4 73.4z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M512 265.9C373.9 265.9 262 376 262 512s111.9 246.1 250 246.1S762 648 762 512 650.1 265.9 512 265.9zm-75.7 382.7c-18 18-27.7 31.7-49.6 31.7-38 0-57.5-46.3-30.4-73.4l19.2-19.1c16.8-16.8 44-16.8 60.8.1s16.8 43.9 0 60.7zm-30.5-199.7c-21.6 0-30.3-12.5-49.6-31.8-16.8-16.8-16.8-44 .1-60.8 16.8-16.8 44-16.8 60.8.1l19.1 19.2c27.3 27.1 7.5 73.3-30.4 73.3zm181.9-73.5 19.2-19.1c16.8-16.8 44-16.8 60.8.1s16.8 44-.1 60.8c-18 18-27.7 31.7-49.6 31.7-37.9-.1-57.4-46.4-30.3-73.5zm49.6 304.9c-21.6 0-30.3-12.5-49.6-31.8-16.8-16.8-16.8-44 .1-60.8 16.8-16.8 44-16.8 60.8.1l19.1 19.2c27.2 27.2 7.5 73.3-30.4 73.3zm95.9-346.5c-38 0-57.5-46.3-30.4-73.4l65.5-65.4c16.8-16.8 44-16.8 60.8 0s16.8 44 0 60.8c-68.6 68.4-72.6 78-95.9 78zm65.4 507.8c-23.4 0-27.5-9.6-95.8-78.1-16.8-16.8-16.8-44 0-60.8 16.8-16.8 44-16.8 60.8 0l65.4 65.5c27.2 27.2 7.6 73.4-30.4 73.4zm-573.2 0c-38 0-57.5-46.3-30.4-73.4l65.5-65.4c16.8-16.8 44-16.8 60.8 0 16.8 16.8 16.8 44 0 60.8-68.6 68.5-72.6 78-95.9 78zm65.4-507.8c-23.4 0-27.5-9.6-95.8-78.1-16.8-16.8-16.8-44 0-60.8 16.8-16.8 44-16.8 60.8 0l65.4 65.5c27.1 27.2 7.5 73.4-30.4 73.4z"/></svg>`
 };
 export const civicOncogenicsignificanceOutline: {
   name: 'oncogenicsignificanceOutline';
   data: string;
 } = {
   name: 'oncogenicsignificanceOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M288 240v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm244 304v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm244-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zM288 480v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm516-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M288 240v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm244 304v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm244-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zM288 480v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm516-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36z"/></svg>`
 };
 export const civicOncogenictypeOutline: {
   name: 'oncogenictypeOutline';
   data: string;
 } = {
   name: 'oncogenictypeOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M855.4 511.9l77.9-76.3c23.2-22 12.4-61.1-18.1-68.4l-106.2-27 30-105.1c8.5-30.2-20-58.7-50.3-50.3l-105.1 29.9-27.1-106.2c-7.2-30-46.7-41-68.3-18.1L512 169l-76.2-78.5c-21.4-22.6-61.1-12.3-68.3 18.1l-27.1 106.2-105.1-29.9c-30.2-8.5-58.7 20.1-50.3 50.3l30 105-106.2 27.1c-30.5 7.3-41.3 46.4-18.1 68.4l77.9 76.3-77.9 76.3c-23.2 22-12.4 61.1 18.1 68.4L215 683.6l-30 105.1c-8.5 30.2 20 58.7 50.3 50.3l105-30 27.1 106.2c7.5 31.5 46.9 40.7 68.3 18.1l76.2-78 76.2 78c21.2 22.9 61 12.7 68.3-18.1L683.7 809l105.1 29.9c30.2 8.5 58.7-20.1 50.3-50.3l-30.1-105 106.2-27.1c30.5-7.3 41.3-46.4 18.1-68.4l-77.9-76.2z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="m855.4 511.9 77.9-76.3c23.2-22 12.4-61.1-18.1-68.4l-106.2-27 30-105.1c8.5-30.2-20-58.7-50.3-50.3l-105.1 29.9-27.1-106.2c-7.2-30-46.7-41-68.3-18.1L512 169l-76.2-78.5c-21.4-22.6-61.1-12.3-68.3 18.1l-27.1 106.2-105.1-29.9c-30.2-8.5-58.7 20.1-50.3 50.3l30 105-106.2 27.1c-30.5 7.3-41.3 46.4-18.1 68.4l77.9 76.3-77.9 76.3c-23.2 22-12.4 61.1 18.1 68.4L215 683.6l-30 105.1c-8.5 30.2 20 58.7 50.3 50.3l105-30 27.1 106.2c7.5 31.5 46.9 40.7 68.3 18.1l76.2-78 76.2 78c21.2 22.9 61 12.7 68.3-18.1L683.7 809l105.1 29.9c30.2 8.5 58.7-20.1 50.3-50.3l-30.1-105 106.2-27.1c30.5-7.3 41.3-46.4 18.1-68.4l-77.9-76.2z"/></svg>`
 };
 export const civicPathogenicOutline: {
   name: 'pathogenicOutline';
@@ -221,7 +228,7 @@ export const civicPredispositionOutline: {
   data: string;
 } = {
   name: 'predispositionOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M960 512c0 247.5-200.6 448-448 448S64 759.5 64 512C64 264.7 264.6 64 512 64s448 200.7 448 448zm-448 90.3c-45.9 0-83.1 37.2-83.1 83.1 0 45.9 37.2 83.1 83.1 83.1s83.1-37.2 83.1-83.1c0-45.9-37.2-83.1-83.1-83.1zm-78.9-298.7l13.4 245.7c.6 11.5 10.1 20.5 21.6 20.5h87.7c11.5 0 21-9 21.6-20.5l13.4-245.7c.7-12.4-9.2-22.9-21.6-22.9H454.7c-12.4.1-22.3 10.5-21.6 22.9z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M960 512c0 247.5-200.6 448-448 448S64 759.5 64 512C64 264.7 264.6 64 512 64s448 200.7 448 448zm-448 90.3c-45.9 0-83.1 37.2-83.1 83.1 0 45.9 37.2 83.1 83.1 83.1s83.1-37.2 83.1-83.1c0-45.9-37.2-83.1-83.1-83.1zm-78.9-298.7 13.4 245.7c.6 11.5 10.1 20.5 21.6 20.5h87.7c11.5 0 21-9 21.6-20.5l13.4-245.7c.7-12.4-9.2-22.9-21.6-22.9H454.7c-12.4.1-22.3 10.5-21.6 22.9z"/></svg>`
 };
 export const civicPrognosticOutline: {
   name: 'prognosticOutline';
@@ -235,7 +242,7 @@ export const civicProtectivenessOutline: {
   data: string;
 } = {
   name: 'protectivenessOutline',
-  data: `<svg viewBox="64 64 896 896"><path d="M512 758.1C373.9 758.1 262 648 262 512s111.9-246.1 250-246.1S762 376 762 512 650.1 758.1 512 758.1zM512 64c-93.8.5-176.6 27.6-246.5 73.8-20 13.2-25.5 40.2-12.3 60.2 13.2 20.1 40.2 25.6 60.3 12.3C370.7 172.6 439 151 512.2 151c24 0 43.5-19.5 43.5-43.5 0-23.6-19-43.5-43.7-43.5zM161.7 266.1c-27.6 0-38.9 23.8-37.8 22C78.2 367.2 60 453.8 64.7 537.3c1.4 25.4 21.5 42 43.4 42 25.1 0 44.9-21.1 43.5-46-4-69.3 11.5-139.5 47.7-202 16.9-29.1-4.4-65.2-37.6-65.2zm-.3 404.5c-33.2 0-54.4 36.1-37.6 65.2C166.2 809.2 229.5 870.9 310 912c23.6 12.1 49.2 1.9 59.6-18.8 10.8-21.5 2.1-47.6-19.4-58.4-31.4-15.8-60.3-36-85.9-60.2-70.8-66.7-60.4-104-102.9-104zm573.1 135.8c-8.2 0-16.5 2.3-23.9 7.2C651.7 852.4 583 873 512 873c-24.6 0-43.7 19.8-43.7 43.5 0 24 19.4 43.5 43.4 43.5 85.6.1 171.6-24.2 246.8-73.8 35.9-23.7 19-79.8-24-79.8zm137.9-315.8c4 69.3-11.5 139.5-47.7 202-16.9 29.1 4.5 65.3 37.6 65.3 27.2 0 40-17.8 63.2-73.2 44.2-105.8 33.6-202.6 34-194.2-3-65.7-90.4-56.2-87.1.1zM693.3 106.8c-45.7 0-60.4 61.9-19.6 82.4 63.4 31.8 116.2 82 151 142.3 8.1 14 22.6 21.9 37.8 21.9 33.2 0 54.4-36.1 37.6-65.2C858 215 793.4 151.9 712.8 111.4c-6.3-3.2-12.9-4.6-19.5-4.6z"/></svg>`
+  data: `<svg viewBox="0 0 1024 1024"><path d="M512 758.1C373.9 758.1 262 648 262 512s111.9-246.1 250-246.1S762 376 762 512 650.1 758.1 512 758.1zM512 64c-93.8.5-176.6 27.6-246.5 73.8-20 13.2-25.5 40.2-12.3 60.2 13.2 20.1 40.2 25.6 60.3 12.3C370.7 172.6 439 151 512.2 151c24 0 43.5-19.5 43.5-43.5 0-23.6-19-43.5-43.7-43.5zM161.7 266.1c-27.6 0-38.9 23.8-37.8 22C78.2 367.2 60 453.8 64.7 537.3c1.4 25.4 21.5 42 43.4 42 25.1 0 44.9-21.1 43.5-46-4-69.3 11.5-139.5 47.7-202 16.9-29.1-4.4-65.2-37.6-65.2zm-.3 404.5c-33.2 0-54.4 36.1-37.6 65.2C166.2 809.2 229.5 870.9 310 912c23.6 12.1 49.2 1.9 59.6-18.8 10.8-21.5 2.1-47.6-19.4-58.4-31.4-15.8-60.3-36-85.9-60.2-70.8-66.7-60.4-104-102.9-104zm573.1 135.8c-8.2 0-16.5 2.3-23.9 7.2C651.7 852.4 583 873 512 873c-24.6 0-43.7 19.8-43.7 43.5 0 24 19.4 43.5 43.4 43.5 85.6.1 171.6-24.2 246.8-73.8 35.9-23.7 19-79.8-24-79.8zm137.9-315.8c4 69.3-11.5 139.5-47.7 202-16.9 29.1 4.5 65.3 37.6 65.3 27.2 0 40-17.8 63.2-73.2 44.2-105.8 33.6-202.6 34-194.2-3-65.7-90.4-56.2-87.1.1zM693.3 106.8c-45.7 0-60.4 61.9-19.6 82.4 63.4 31.8 116.2 82 151 142.3 8.1 14 22.6 21.9 37.8 21.9 33.2 0 54.4-36.1 37.6-65.2C858 215 793.4 151.9 712.8 111.4c-6.3-3.2-12.9-4.6-19.5-4.6z"/></svg>`
 };
 export const civicRaregermlineOutline: {
   name: 'raregermlineOutline';
@@ -306,6 +313,13 @@ export const civicSequentialOutline: {
 } = {
   name: 'sequentialOutline',
   data: `<svg viewBox="0 0 1024 1024"><circle cx="512" cy="512" r="128"/><path d="M320 512c0 70.7-57.3 128-128 128S64 582.7 64 512s57.3-128 128-128 128 57.3 128 128zm512-60c33.1 0 60 26.9 60 60s-26.9 60-60 60-60-26.9-60-60 26.9-60 60-60m0-68c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
+};
+export const civicSignificanceunknownOutline: {
+  name: 'significanceunknownOutline';
+  data: string;
+} = {
+  name: 'significanceunknownOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M512.6 167.7c-107.3 0-176.9 44-231.5 122.4-9.9 14.2-6.8 33.7 7 44.2l58 44c14 10.6 33.8 8.1 44.7-5.6 33.7-42.2 58.7-66.5 111.3-66.5 41.4 0 92.5 26.6 92.5 66.7 0 30.3-25 45.9-65.9 68.8C481.1 468.4 418 501.6 418 584.8V598c0 17.8 14.5 32.3 32.3 32.3h97.5c17.8 0 32.3-14.5 32.3-32.3v-7.8c0-57.6 168.5-60 168.5-216 0-117.4-121.8-206.5-236-206.5zM499.2 670c-51.4 0-93.2 41.8-93.2 93.2 0 51.4 41.8 93.2 93.2 93.2s93.2-41.8 93.2-93.2-41.9-93.2-93.2-93.2z"/></svg>`
 };
 export const civicSomaticOutline: {
   name: 'somaticOutline';
@@ -439,6 +453,13 @@ export const civicGeneFullcolor: {
 } = {
   name: 'geneFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6F7FD" cx="512" cy="512" r="448"/><path fill="#07AFF0" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
+};
+export const civicInterventionFullcolor: {
+  name: 'interventionFullcolor';
+  data: string;
+} = {
+  name: 'interventionFullcolor',
+  data: `<svg viewBox="64 64 896 896"><ellipse transform="rotate(-45.001 511.997 512.008)" fill="#F3E1EF" cx="512" cy="512" rx="416" ry="412"/><path fill="#AC3996" d="m353.2 404.1-158-158c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l158 158c-19.7 13.4-37.1 30.6-50.9 50.9zm327.4 523.1c228.3-92.6 339.9-353.7 246.6-583.8-103.8-256-411.9-356.2-645.7-215.7-17 10.2-22.6 32.4-12.3 49.4 10.2 17 32.4 22.6 49.4 12.3 70.6-42.4 154.8-60.5 237.1-50.9 308.2 35.8 446 415.5 222.2 639.3-223.8 223.8-602.4 86-639.2-220.8-9.8-81.9 7.3-165 49.3-236.1 10.1-17.1 4.4-39.2-12.7-49.3-17.1-10.1-39.2-4.4-49.3 12.7C77.2 367 55.2 465.6 67.2 565.6c35.1 293.1 340.3 472.3 613.4 361.6zm-32.8-551c-66.3-66.3-169-74-243.7-23.1l133.4 133.4c22.7 22.7 6.3 61.5-25.5 61.5-20 0-12.1 2.8-158.8-143.9-50.9 74.7-43.2 177.4 23.1 243.7 75 75 196.5 75 271.5 0s74.9-196.6 0-271.6z"/></svg>`
 };
 export const civicMolecularprofileFullcolor: {
   name: 'molecularprofileFullcolor';
@@ -608,6 +629,13 @@ export const civicGeneOutline: {
   name: 'geneOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
 };
+export const civicInterventionOutline: {
+  name: 'interventionOutline';
+  data: string;
+} = {
+  name: 'interventionOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="m353.2 404.1-158-158c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l158 158c-19.7 13.4-37.1 30.6-50.9 50.9zm327.4 523.1c228.3-92.6 339.9-353.7 246.6-583.8-103.8-256-411.9-356.2-645.7-215.7-17 10.2-22.6 32.4-12.3 49.4 10.2 17 32.4 22.6 49.4 12.3 70.6-42.4 154.8-60.5 237.1-50.9 308.2 35.8 446 415.5 222.2 639.3-223.8 223.8-602.4 86-639.2-220.8-9.8-81.9 7.3-165 49.3-236.1 10.1-17.1 4.4-39.2-12.7-49.3-17.1-10.1-39.2-4.4-49.3 12.7C77.2 367 55.2 465.6 67.2 565.6c35.1 293.1 340.3 472.3 613.4 361.6zm-32.8-551c-66.3-66.3-169-74-243.7-23.1l133.4 133.4c22.7 22.7 6.3 61.5-25.5 61.5-20 0-12.1 2.8-158.8-143.9-50.9 74.7-43.2 177.4 23.1 243.7 75 75 196.5 75 271.5 0s74.9-196.6 0-271.6z"/></svg>`
+};
 export const civicMolecularprofileOutline: {
   name: 'molecularprofileOutline';
   data: string;
@@ -776,6 +804,13 @@ export const civicGeneTwotone: {
   name: 'geneTwotone',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6E6E6" cx="512" cy="512" r="448"/><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
 };
+export const civicInterventionTwotone: {
+  name: 'interventionTwotone';
+  data: string;
+} = {
+  name: 'interventionTwotone',
+  data: `<svg viewBox="64 64 896 896"><ellipse transform="rotate(-45.001 511.997 512.008)" fill="#E6E6E6" cx="512" cy="512" rx="416" ry="412"/><path fill="#333" d="m353.2 404.1-158-158c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l158 158c-19.7 13.4-37.1 30.6-50.9 50.9zm327.4 523.1c228.3-92.6 339.9-353.7 246.6-583.8-103.8-256-411.9-356.2-645.7-215.7-17 10.2-22.6 32.4-12.3 49.4 10.2 17 32.4 22.6 49.4 12.3 70.6-42.4 154.8-60.5 237.1-50.9 308.2 35.8 446 415.5 222.2 639.3-223.8 223.8-602.4 86-639.2-220.8-9.8-81.9 7.3-165 49.3-236.1 10.1-17.1 4.4-39.2-12.7-49.3-17.1-10.1-39.2-4.4-49.3 12.7C77.2 367 55.2 465.6 67.2 565.6c35.1 293.1 340.3 472.3 613.4 361.6zm-32.8-551c-66.3-66.3-169-74-243.7-23.1l133.4 133.4c22.7 22.7 6.3 61.5-25.5 61.5-20 0-12.1 2.8-158.8-143.9-50.9 74.7-43.2 177.4 23.1 243.7 75 75 196.5 75 271.5 0s74.9-196.6 0-271.6z"/></svg>`
+};
 export const civicMolecularprofileTwotone: {
   name: 'molecularprofileTwotone';
   data: string;
@@ -919,6 +954,7 @@ export type CivicIcon =
   | 'evidenceitemFullcolor'
   | 'flagFullcolor'
   | 'geneFullcolor'
+  | 'interventionFullcolor'
   | 'molecularprofileFullcolor'
   | 'organizationFullcolor'
   | 'phenotypeFullcolor'
@@ -943,6 +979,7 @@ export type CivicIcon =
   | 'evidenceitemOutline'
   | 'flagOutline'
   | 'geneOutline'
+  | 'interventionOutline'
   | 'molecularprofileOutline'
   | 'organizationOutline'
   | 'phenotypeOutline'
@@ -967,6 +1004,7 @@ export type CivicIcon =
   | 'evidenceitemTwotone'
   | 'flagTwotone'
   | 'geneTwotone'
+  | 'interventionTwotone'
   | 'molecularprofileTwotone'
   | 'organizationTwotone'
   | 'phenotypeTwotone'
@@ -979,118 +1017,133 @@ export type CivicIcon =
   | 'variantgroupTwotone'
   | 'varianttypeTwotone';
 export const CivicIcon = {
-  adverseresponseOutline: 'adverseresponseOutline',
-  benignOutline: 'benignOutline',
-  betteroutcomeOutline: 'betteroutcomeOutline',
-  combinationOutline: 'combinationOutline',
-  commongermlineOutline: 'commongermlineOutline',
-  diagnosticOutline: 'diagnosticOutline',
-  doesnotsupportOutline: 'doesnotsupportOutline',
-  dominantnegativeOutline: 'dominantnegativeOutline',
-  functionalOutline: 'functionalOutline',
-  gainoffunctionOutline: 'gainoffunctionOutline',
-  likelybenignOutline: 'likelybenignOutline',
-  likelyoncogenicOutline: 'likelyoncogenicOutline',
-  likelypathogenicOutline: 'likelypathogenicOutline',
-  lossoffunctionOutline: 'lossoffunctionOutline',
-  mixedOutline: 'mixedOutline',
-  naOutline: 'naOutline',
-  negativeOutline: 'negativeOutline',
-  neomorphicOutline: 'neomorphicOutline',
-  oncogenicityOutline: 'oncogenicityOutline',
-  oncogenicsignificanceOutline: 'oncogenicsignificanceOutline',
-  oncogenictypeOutline: 'oncogenictypeOutline',
-  pathogenicOutline: 'pathogenicOutline',
-  pooroutcomeOutline: 'pooroutcomeOutline',
-  positiveOutline: 'positiveOutline',
-  predictiveOutline: 'predictiveOutline',
-  predisposingOutline: 'predisposingOutline',
-  predispositionOutline: 'predispositionOutline',
-  prognosticOutline: 'prognosticOutline',
-  protectivenessOutline: 'protectivenessOutline',
-  raregermlineOutline: 'raregermlineOutline',
-  reducedsensitivityOutline: 'reducedsensitivityOutline',
-  resistanceOutline: 'resistanceOutline',
-  sensitivityresponseOutline: 'sensitivityresponseOutline',
-  sequentialOutline: 'sequentialOutline',
-  somaticOutline: 'somaticOutline',
-  substitutesOutline: 'substitutesOutline',
-  supportsOutline: 'supportsOutline',
-  unalteredfunctionOutline: 'unalteredfunctionOutline',
-  uncertainsignificanceOutline: 'uncertainsignificanceOutline',
-  unknownOutline: 'unknownOutline',
-  adminFullcolor: 'adminFullcolor',
-  assertionFullcolor: 'assertionFullcolor',
-  clinicaltrialFullcolor: 'clinicaltrialFullcolor',
-  commentFullcolor: 'commentFullcolor',
-  coordinatesystemFullcolor: 'coordinatesystemFullcolor',
-  curatorFullcolor: 'curatorFullcolor',
-  diseaseFullcolor: 'diseaseFullcolor',
-  editorFullcolor: 'editorFullcolor',
-  eventFullcolor: 'eventFullcolor',
-  evidenceFullcolor: 'evidenceFullcolor',
-  evidenceitemFullcolor: 'evidenceitemFullcolor',
-  flagFullcolor: 'flagFullcolor',
-  geneFullcolor: 'geneFullcolor',
-  interventionFullcolor: 'interventionFullcolor',
-  molecularprofileFullcolor: 'molecularprofileFullcolor',
-  organizationFullcolor: 'organizationFullcolor',
-  phenotypeFullcolor: 'phenotypeFullcolor',
-  queueFullcolor: 'queueFullcolor',
-  revisionFullcolor: 'revisionFullcolor',
-  sourceFullcolor: 'sourceFullcolor',
-  userFullcolor: 'userFullcolor',
-  variant: 'variant',
-  variantgroupFullcolor: 'variantgroupFullcolor',
-  varianttypeFullcolor: 'varianttypeFullcolor',
-  adminOutline: 'adminOutline',
-  assertionOutline: 'assertionOutline',
-  clinicaltrialOutline: 'clinicaltrialOutline',
-  commentOutline: 'commentOutline',
-  coordinatesystemOutline: 'coordinatesystemOutline',
-  curatorOutline: 'curatorOutline',
-  diseaseOutline: 'diseaseOutline',
-  editorOutline: 'editorOutline',
-  eventOutline: 'eventOutline',
-  evidenceOutline: 'evidenceOutline',
-  evidenceitemOutline: 'evidenceitemOutline',
-  flagOutline: 'flagOutline',
-  geneOutline: 'geneOutline',
-  interventionOutline: 'interventionOutline',
-  molecularprofileOutline: 'molecularprofileOutline',
-  organizationOutline: 'organizationOutline',
-  phenotypeOutline: 'phenotypeOutline',
-  queueOutline: 'queueOutline',
-  revisionOutline: 'revisionOutline',
-  sourceOutline: 'sourceOutline',
-  userOutline: 'userOutline',
-  variantOutline: 'variantOutline',
-  variantgroupOutline: 'variantgroupOutline',
-  varianttypeOutline: 'varianttypeOutline',
-  adminTwotone: 'adminTwotone',
-  assertionTwotone: 'assertionTwotone',
-  clinicaltrialTwotone: 'clinicaltrialTwotone',
-  commentTwotone: 'commentTwotone',
-  coordinatesystemTwotone: 'coordinatesystemTwotone',
-  curatorTwotone: 'curatorTwotone',
-  diseaseTwotone: 'diseaseTwotone',
-  editorTwotone: 'editorTwotone',
-  eventTwotone: 'eventTwotone',
-  evidenceTwotone: 'evidenceTwotone',
-  evidenceitemTwotone: 'evidenceitemTwotone',
-  flagTwotone: 'flagTwotone',
-  geneTwotone: 'geneTwotone',
-  interventionTwotone: 'interventionTwotone',
-  molecularprofileTwotone: 'molecularprofileTwotone',
-  organizationTwotone: 'organizationTwotone',
-  phenotypeTwotone: 'phenotypeTwotone',
-  queueTwotone: 'queueTwotone',
-  revisionTwotone: 'revisionTwotone',
-  sourceTwotone: 'sourceTwotone',
-  userTwotone: 'userTwotone',
-  variantTwotone: 'variantTwotone',
-  variantgroupTwotone: 'variantgroupTwotone',
-  varianttypeTwotone: 'varianttypeTwotone'
+  adverseresponseOutline: 'adverseresponseOutline' as CivicIcon,
+  benignOutline: 'benignOutline' as CivicIcon,
+  betteroutcomeOutline: 'betteroutcomeOutline' as CivicIcon,
+  combinationOutline: 'combinationOutline' as CivicIcon,
+  commongermlineOutline: 'commongermlineOutline' as CivicIcon,
+  diagnosticOutline: 'diagnosticOutline' as CivicIcon,
+  doesnotsupportOutline: 'doesnotsupportOutline' as CivicIcon,
+  dominantnegativeOutline: 'dominantnegativeOutline' as CivicIcon,
+  functionalOutline: 'functionalOutline' as CivicIcon,
+  gainoffunctionOutline: 'gainoffunctionOutline' as CivicIcon,
+  levelaOutline: 'levelaOutline' as CivicIcon,
+  levelbOutline: 'levelbOutline' as CivicIcon,
+  levelcOutline: 'levelcOutline' as CivicIcon,
+  leveldOutline: 'leveldOutline' as CivicIcon,
+  leveleOutline: 'leveleOutline' as CivicIcon,
+  likelybenignOutline: 'likelybenignOutline' as CivicIcon,
+  likelyoncogenicOutline: 'likelyoncogenicOutline' as CivicIcon,
+  likelypathogenicOutline: 'likelypathogenicOutline' as CivicIcon,
+  lossoffunctionOutline: 'lossoffunctionOutline' as CivicIcon,
+  mixedOutline: 'mixedOutline' as CivicIcon,
+  naOutline: 'naOutline' as CivicIcon,
+  negativeOutline: 'negativeOutline' as CivicIcon,
+  neomorphicOutline: 'neomorphicOutline' as CivicIcon,
+  oncogenicOutline: 'oncogenicOutline' as CivicIcon,
+  oncogenicityOutline: 'oncogenicityOutline' as CivicIcon,
+  oncogenicsignificanceOutline: 'oncogenicsignificanceOutline' as CivicIcon,
+  oncogenictypeOutline: 'oncogenictypeOutline' as CivicIcon,
+  pathogenicOutline: 'pathogenicOutline' as CivicIcon,
+  pooroutcomeOutline: 'pooroutcomeOutline' as CivicIcon,
+  positiveOutline: 'positiveOutline' as CivicIcon,
+  predictiveOutline: 'predictiveOutline' as CivicIcon,
+  predisposingOutline: 'predisposingOutline' as CivicIcon,
+  predispositionOutline: 'predispositionOutline' as CivicIcon,
+  prognosticOutline: 'prognosticOutline' as CivicIcon,
+  protectivenessOutline: 'protectivenessOutline' as CivicIcon,
+  raregermlineOutline: 'raregermlineOutline' as CivicIcon,
+  rating1Outline: 'rating1Outline' as CivicIcon,
+  rating2Outline: 'rating2Outline' as CivicIcon,
+  rating3Outline: 'rating3Outline' as CivicIcon,
+  rating4Outline: 'rating4Outline' as CivicIcon,
+  rating5Outline: 'rating5Outline' as CivicIcon,
+  reducedsensitivityOutline: 'reducedsensitivityOutline' as CivicIcon,
+  resistanceOutline: 'resistanceOutline' as CivicIcon,
+  sensitivityresponseOutline: 'sensitivityresponseOutline' as CivicIcon,
+  sequentialOutline: 'sequentialOutline' as CivicIcon,
+  significanceunknownOutline: 'significanceunknownOutline' as CivicIcon,
+  somaticOutline: 'somaticOutline' as CivicIcon,
+  substitutesOutline: 'substitutesOutline' as CivicIcon,
+  supportsOutline: 'supportsOutline' as CivicIcon,
+  unalteredfunctionOutline: 'unalteredfunctionOutline' as CivicIcon,
+  uncertainsignificanceOutline: 'uncertainsignificanceOutline' as CivicIcon,
+  unknownOutline: 'unknownOutline' as CivicIcon,
+  adminFullcolor: 'adminFullcolor' as CivicIcon,
+  assertionFullcolor: 'assertionFullcolor' as CivicIcon,
+  clinicaltrialFullcolor: 'clinicaltrialFullcolor' as CivicIcon,
+  commentFullcolor: 'commentFullcolor' as CivicIcon,
+  coordinatesystemFullcolor: 'coordinatesystemFullcolor' as CivicIcon,
+  curatorFullcolor: 'curatorFullcolor' as CivicIcon,
+  diseaseFullcolor: 'diseaseFullcolor' as CivicIcon,
+  editorFullcolor: 'editorFullcolor' as CivicIcon,
+  eventFullcolor: 'eventFullcolor' as CivicIcon,
+  evidenceFullcolor: 'evidenceFullcolor' as CivicIcon,
+  evidenceitemFullcolor: 'evidenceitemFullcolor' as CivicIcon,
+  flagFullcolor: 'flagFullcolor' as CivicIcon,
+  geneFullcolor: 'geneFullcolor' as CivicIcon,
+  interventionFullcolor: 'interventionFullcolor' as CivicIcon,
+  molecularprofileFullcolor: 'molecularprofileFullcolor' as CivicIcon,
+  organizationFullcolor: 'organizationFullcolor' as CivicIcon,
+  phenotypeFullcolor: 'phenotypeFullcolor' as CivicIcon,
+  queueFullcolor: 'queueFullcolor' as CivicIcon,
+  revisionFullcolor: 'revisionFullcolor' as CivicIcon,
+  sourceFullcolor: 'sourceFullcolor' as CivicIcon,
+  therapyFullcolor: 'therapyFullcolor' as CivicIcon,
+  userFullcolor: 'userFullcolor' as CivicIcon,
+  variant: 'variant' as CivicIcon,
+  variantgroupFullcolor: 'variantgroupFullcolor' as CivicIcon,
+  varianttypeFullcolor: 'varianttypeFullcolor' as CivicIcon,
+  adminOutline: 'adminOutline' as CivicIcon,
+  assertionOutline: 'assertionOutline' as CivicIcon,
+  clinicaltrialOutline: 'clinicaltrialOutline' as CivicIcon,
+  commentOutline: 'commentOutline' as CivicIcon,
+  coordinatesystemOutline: 'coordinatesystemOutline' as CivicIcon,
+  curatorOutline: 'curatorOutline' as CivicIcon,
+  diseaseOutline: 'diseaseOutline' as CivicIcon,
+  editorOutline: 'editorOutline' as CivicIcon,
+  eventOutline: 'eventOutline' as CivicIcon,
+  evidenceOutline: 'evidenceOutline' as CivicIcon,
+  evidenceitemOutline: 'evidenceitemOutline' as CivicIcon,
+  flagOutline: 'flagOutline' as CivicIcon,
+  geneOutline: 'geneOutline' as CivicIcon,
+  interventionOutline: 'interventionOutline' as CivicIcon,
+  molecularprofileOutline: 'molecularprofileOutline' as CivicIcon,
+  organizationOutline: 'organizationOutline' as CivicIcon,
+  phenotypeOutline: 'phenotypeOutline' as CivicIcon,
+  queueOutline: 'queueOutline' as CivicIcon,
+  revisionOutline: 'revisionOutline' as CivicIcon,
+  sourceOutline: 'sourceOutline' as CivicIcon,
+  therapyOutline: 'therapyOutline' as CivicIcon,
+  userOutline: 'userOutline' as CivicIcon,
+  variantOutline: 'variantOutline' as CivicIcon,
+  variantgroupOutline: 'variantgroupOutline' as CivicIcon,
+  varianttypeOutline: 'varianttypeOutline' as CivicIcon,
+  adminTwotone: 'adminTwotone' as CivicIcon,
+  assertionTwotone: 'assertionTwotone' as CivicIcon,
+  clinicaltrialTwotone: 'clinicaltrialTwotone' as CivicIcon,
+  commentTwotone: 'commentTwotone' as CivicIcon,
+  coordinatesystemTwotone: 'coordinatesystemTwotone' as CivicIcon,
+  curatorTwotone: 'curatorTwotone' as CivicIcon,
+  diseaseTwotone: 'diseaseTwotone' as CivicIcon,
+  editorTwotone: 'editorTwotone' as CivicIcon,
+  eventTwotone: 'eventTwotone' as CivicIcon,
+  evidenceTwotone: 'evidenceTwotone' as CivicIcon,
+  evidenceitemTwotone: 'evidenceitemTwotone' as CivicIcon,
+  flagTwotone: 'flagTwotone' as CivicIcon,
+  geneTwotone: 'geneTwotone' as CivicIcon,
+  interventionTwotone: 'interventionTwotone' as CivicIcon,
+  molecularprofileTwotone: 'molecularprofileTwotone' as CivicIcon,
+  organizationTwotone: 'organizationTwotone' as CivicIcon,
+  phenotypeTwotone: 'phenotypeTwotone' as CivicIcon,
+  queueTwotone: 'queueTwotone' as CivicIcon,
+  revisionTwotone: 'revisionTwotone' as CivicIcon,
+  sourceTwotone: 'sourceTwotone' as CivicIcon,
+  therapyTwotone: 'therapyTwotone' as CivicIcon,
+  userTwotone: 'userTwotone' as CivicIcon,
+  variantTwotone: 'variantTwotone' as CivicIcon,
+  variantgroupTwotone: 'variantgroupTwotone' as CivicIcon,
+  varianttypeTwotone: 'varianttypeTwotone' as CivicIcon
 };
 export interface CivicIconLiteral {
   name: CivicIcon;
@@ -1123,6 +1176,7 @@ export const completeIconSet = [
   civicNaOutline,
   civicNegativeOutline,
   civicNeomorphicOutline,
+  civicOncogenicOutline,
   civicOncogenicityOutline,
   civicOncogenicsignificanceOutline,
   civicOncogenictypeOutline,
@@ -1144,6 +1198,7 @@ export const completeIconSet = [
   civicResistanceOutline,
   civicSensitivityresponseOutline,
   civicSequentialOutline,
+  civicSignificanceunknownOutline,
   civicSomaticOutline,
   civicSubstitutesOutline,
   civicSupportsOutline,
@@ -1163,6 +1218,7 @@ export const completeIconSet = [
   civicEvidenceitemFullcolor,
   civicFlagFullcolor,
   civicGeneFullcolor,
+  civicInterventionFullcolor,
   civicMolecularprofileFullcolor,
   civicOrganizationFullcolor,
   civicPhenotypeFullcolor,
@@ -1187,6 +1243,7 @@ export const completeIconSet = [
   civicEvidenceitemOutline,
   civicFlagOutline,
   civicGeneOutline,
+  civicInterventionOutline,
   civicMolecularprofileOutline,
   civicOrganizationOutline,
   civicPhenotypeOutline,
@@ -1211,6 +1268,7 @@ export const completeIconSet = [
   civicEvidenceitemTwotone,
   civicFlagTwotone,
   civicGeneTwotone,
+  civicInterventionTwotone,
   civicMolecularprofileTwotone,
   civicOrganizationTwotone,
   civicPhenotypeTwotone,
