@@ -153,6 +153,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Summary',
               label: 'Assertion Summary',
               required: true,
+              colSpan: 24
             },
           },
           {
@@ -165,7 +166,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Statement',
               label: 'Assertion Statement',
               required: true,
-              rows: 5 
+              rows: 5 ,
+              colSpan: 24
             },
           },
         ],
