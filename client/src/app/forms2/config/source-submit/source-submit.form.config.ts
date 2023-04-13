@@ -19,7 +19,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: {
-          title: 'Submit Variant Group',
+          title: 'Submit Source Suggestion',
         },
         fieldGroup: [
           {
