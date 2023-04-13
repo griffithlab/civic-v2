@@ -103,20 +103,26 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'phenotype-multi-select',
             props: {},
           },
-          <CvcAmpCategorySelectFieldOptions>{
+          {
             key: 'ampLevel',
             type: 'amp-category-select',
-            props: {},
+            props: {
+              colSpan: 8
+            },
           },
-          <CvcAcmgCodeSelectFieldOptions>{
+          {
             key: 'acmgCodeIds',
             type: 'acmg-code-multi-select',
-            props: {},
+            props: {
+              colSpan: 8
+            },
           },
-          <CvcClingenCodeSelectFieldOptions>{
+          {
             key: 'clingenCodeIds',
             type: 'clingen-code-multi-select',
-            props: {},
+            props: {
+              colSpan: 8
+            },
           },
           <CvcNccnGuidelineSelectFieldOptions>{
             key: 'nccnGuidelineId',
@@ -156,6 +162,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Summary',
               label: 'Assertion Summary',
               required: true,
+              colSpan: 24
             },
           },
           {
@@ -169,6 +176,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Assertion Statement',
               required: true,
               rows: 5,
+              colSpan: 24
             },
           },
         ],

@@ -48,7 +48,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'sourceIds',
             type: 'source-multi-select',
             wrappers: ['form-field'],
-            props: { required: true },
+            props: { required: false },
           },
           {
             key: 'variantIds',
@@ -71,14 +71,14 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'textarea',
             props: {
               label: 'Comment',
-              // required: true,
+              required: true,
             },
           },
           {
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: 'Submit Variant Group Revision',
+              submitLabel: 'Submit Variant Group',
             },
           },
         ],

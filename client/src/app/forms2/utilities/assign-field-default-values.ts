@@ -36,9 +36,7 @@ export default function assignFieldConfigDefaultValues(
         if (ffc) {
           ffc.defaultValue = model[key]
         } else {
-          console.warn(
-            // `initial model specified ${key}, but no field config with that key found.`
-          )
+          //console.warn( // `initial model specified ${key}, but no field config with that key found.`)
         }
       }
     }

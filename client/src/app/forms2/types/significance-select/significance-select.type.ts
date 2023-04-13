@@ -160,14 +160,14 @@ export class CvcSignificanceSelectField
   // FieldTypeConfig defaults
   defaultOptions: CvcSignificanceSelectFieldOptions = {
     props: {
-      label: 'Clinical Significance',
+      label: 'Significance',
       required: true,
       isMultiSelect: false,
-      placeholder: 'Select Clinical Significance',
+      placeholder: 'Select Significance',
       placeholderFn: (entityName: string) =>
-        `Select ${entityName ? entityName + ' ' : ''}Clinical Significance`,
+        `Select ${entityName ? entityName + ' ' : ''} Significance`,
       requireTypePromptFn: (entityName: string) =>
-        `Select ${entityName} Type to select its Clinical Significance`,
+        `Select ${entityName} Type to select its Significance`,
       tooltip: 'Clinical impact of the variant',
     },
   }

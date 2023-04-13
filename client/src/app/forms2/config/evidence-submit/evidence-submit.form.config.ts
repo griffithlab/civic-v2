@@ -130,6 +130,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
               label: 'Evidence Statement',
               required: true,
+              colSpan: 24,
             },
           },
         ],

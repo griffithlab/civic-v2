@@ -74,13 +74,14 @@ module Types::Queries
       end
 
       def therapy_typeahead(query_term:)
-        results = Therapy.where("therapies.name ILIKE ?", "%#{query_term}%")
+        results = Therapy.where("therapies.name ILIKE ?", "#{query_term}%")
           .or(Therapy.where("therapies.ncit_id ILIKE ?", "%#{query_term}%"))
           .order("LENGTH(therapies.name) ASC")
           .limit(10)
         if results.size < 10
           secondary_results = Therapy.eager_load(:therapy_aliases)
             .where("therapy_aliases.name ILIKE ?", "%#{query_term}%")
+            .or(Therapy.where('therapies.name ILIKE ?', "%#{query_term}%"))
             .order("LENGTH(therapies.name) ASC")
             .limit(10-results.size)
 
