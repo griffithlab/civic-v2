@@ -102,9 +102,9 @@ export class CvcVariantSelectField
 
   // LOCAL PRESENTATION STREAMS
   showMgr$: Observable<boolean>
-  // TODO: remove placeholder$ subject, just set props.placeholder as with evidence-select
-  placeholder$: BehaviorSubject<string>
   onModel$ = new Observable<any>()
+
+  selectedGeneId?: number
 
   // FieldTypeConfig defaults
   defaultOptions = {
@@ -130,13 +130,9 @@ export class CvcVariantSelectField
     private tq: VariantSelectTagGQL,
     private geneQuery: LinkableGeneGQL,
     private changeDetectorRef: ChangeDetectorRef,
-    private apollo: Apollo
   ) {
     super()
     this.onGeneName$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.placeholder$ = new BehaviorSubject<string>(
-      this.defaultOptions.props!.placeholder
-    )
     this.onVid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
@@ -149,8 +145,6 @@ export class CvcVariantSelectField
     this.configureBaseField() // mixin fn
     this.configureEntitySelectField({
       typeaheadQuery: this.taq,
-      typeaheadParam$: this.onGeneId$ ? this.onGeneId$ : undefined,
-      typeaheadParamName$: this.onGeneName$ ? this.onGeneName$ : undefined,
       tagQuery: this.tq,
       getTypeaheadVarsFn: this.getTypeaheadVarsFn,
       getTypeaheadResultsFn: this.getTypeaheadResultsFn,
@@ -181,7 +175,6 @@ export class CvcVariantSelectField
   } // ngAfterViewInit
 
   private configureField() {
-    this.placeholder$.next(this.props.placeholder)
     this.configureStateConnections() // local fn
 
     this.onVid$
@@ -222,7 +215,6 @@ export class CvcVariantSelectField
       this.onGeneId$ = this.state.fields.geneId$
       this.onGeneId$
         .pipe(
-          // tag('variant-select onGeneId$'),
           untilDestroyed(this)
         )
         .subscribe((gid) => {
@@ -231,10 +223,10 @@ export class CvcVariantSelectField
     }
   }
 
-  getTypeaheadVarsFn(str: string, param: Maybe<number>) {
+  getTypeaheadVarsFn(str: string) {
     return {
       name: str,
-      geneId: param,
+      geneId: this.selectedGeneId,
     }
   }
 
@@ -273,15 +265,16 @@ export class CvcVariantSelectField
   }
 
   private onGeneId(gid: Maybe<number>): void {
+    this.selectedGeneId = gid
     // if field config indicates that a geneId is required, and none is provided,
     // set model to undefined (this resets the variant model if gene field is reset)
     // and set placeholder to the 'requires gene' placeholder
     if (!gid && this.props.requireGene) {
       this.resetField()
       this.props.description = this.props.requireGenePrompt
+      this.props.placeholder = 'Select A Gene'
       this.props.extraType = 'prompt'
       this.onGeneName$.next(undefined)
-      this.placeholder$.next(this.props.placeholder)
     } else if (gid) {
       this.props.description = undefined
       this.props.extraType = undefined
@@ -295,13 +288,10 @@ export class CvcVariantSelectField
             `${this.field.id} could not fetch gene name for Gene:${gid}.`
           )
         } else {
-          // update placeholder
           if (this.props.requireGene) {
-            this.placeholder$.next(
-              this.props.requireGenePlaceholderFn(data.gene.name)
-            )
+              this.props.placeholder = this.props.requireGenePlaceholderFn(data.gene.name)
           } else {
-            this.placeholder$.next(this.props.placeholder)
+            this.props.placeholder = this.props.placeholder
           }
           // emit gene name for quick-add form Input
           this.onGeneName$.next(data.gene.name)
