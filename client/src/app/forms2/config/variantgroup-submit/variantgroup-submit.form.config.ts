@@ -78,7 +78,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: 'Submit Variant Group Revision',
+              submitLabel: 'Submit Variant Group',
             },
           },
         ],
