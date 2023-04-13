@@ -47,13 +47,14 @@ export function variantGroupFormModelToInput(
 ): Maybe<SubmitVariantGroupInput> {
   const fields = model.fields
   const requiredFields = [fields.name, model.comment]
-  if (requiredFields.filter((f) => f === undefined)) return
+  if (requiredFields.find((f) => f === undefined)) return
   else {
     return {
       description: fields.description,
       sourceIds: fields.sourceIds || [],
       name: fields.name!,
       variantIds: fields.variantIds || [],
+      organizationId: model.organizationId
     }
   }
 }
