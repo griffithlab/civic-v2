@@ -48,7 +48,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'sourceIds',
             type: 'source-multi-select',
             wrappers: ['form-field'],
-            props: { required: true },
+            props: { required: false },
           },
           {
             key: 'variantIds',
