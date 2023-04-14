@@ -12,13 +12,12 @@ import {
   MenuVariantTypeFragment,
   VariantTypesForGeneGQL,
 } from '@app/generated/civic.apollo'
-import { map, debounceTime, distinctUntilChanged, filter, pluck, startWith } from 'rxjs/operators'
+import { map, debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators'
 import { Observable, Observer, Subject } from 'rxjs'
 import { Apollo, QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { isNonNulled } from 'rxjs-etc'
-import { tag } from 'rxjs-spy/cjs/operators'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 
 @UntilDestroy()
@@ -69,7 +68,7 @@ export class CvcVariantsMenuComponent implements OnInit {
     this.result$ = this.queryRef$.valueChanges
 
     this.loading$ = this.result$.pipe(
-      pluck('loading'),
+      map(({data, loading}) => (loading && !data) ),
       filter(isNonNulled),
       startWith(true)
     );
