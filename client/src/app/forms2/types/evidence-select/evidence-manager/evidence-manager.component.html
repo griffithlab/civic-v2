@@ -116,6 +116,8 @@
                 [cvcPlaceholder]="entityTagCol.filter.options[0].key"
                 [cvcModel]="entityTagCol.filter.options[0].value"
                 (cvcModelChange)="
+                  filter.transform ? 
+                  filter.changes!.next({ key: entityTagCol.key, value: filter.transform($event) }) :
                   filter.changes!.next({ key: entityTagCol.key, value: $event })
                 ">
               </cvc-table-filter-input>
