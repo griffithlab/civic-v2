@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core'
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -16,7 +16,7 @@ import { assertionFormModelToReviseInput, assertionToModelFields } from '@app/fo
   templateUrl: './assertion-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcAssertionReviseForm implements AfterViewInit, OnDestroy {
+export class CvcAssertionReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() assertionId!: number
 
   model?: AssertionReviseModel
@@ -24,6 +24,8 @@ export class CvcAssertionReviseForm implements AfterViewInit, OnDestroy {
   fields: FormlyFieldConfig[]
   state: AssertionState
   options: FormlyFormOptions
+
+  url?: string
 
   reviseAssertionMutator: MutatorWithState<
     SuggestAssertionRevisionGQL,
@@ -53,6 +55,10 @@ export class CvcAssertionReviseForm implements AfterViewInit, OnDestroy {
     if (input) {
       this.mutationState = this.reviseAssertionMutator.mutate(this.submitRevisionsGQL, {input: input })
     }
+  }
+
+  ngOnInit(): void {
+    this.url = `/assertions/${this.assertionId}/revisions`
   }
 
   ngAfterViewInit(): void {

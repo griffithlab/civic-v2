@@ -1,10 +1,11 @@
 <cvc-form-submission-status-display
   [mutationState]="this.mutationState"
   entityType="Assertion"
+  [redirectUrl]="this.newAssertionUrl"
   [successMessage]="success">
   <ng-template #success>
     View your submitted Assertion 
-    <a [routerLink]="['/assertions', newAssertionId, 'summary']">here</a>.
+    <a [routerLink]="['/assertions', newAssertionId, 'summary']">here</a>. You will be redirected shortly.
   </ng-template>
   <form
     [formGroup]="form"

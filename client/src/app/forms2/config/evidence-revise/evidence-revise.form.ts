@@ -4,7 +4,8 @@ import {
     ChangeDetectorRef,
     Component,
     Input,
-    OnDestroy
+    OnDestroy,
+    OnInit
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -35,13 +36,15 @@ import { evidenceReviseFields } from './evidence-revise.form.config'
   templateUrl: './evidence-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
+export class CvcEvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() evidenceId!: number
   model?: EvidenceReviseModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
   state: EvidenceState
   options: FormlyFormOptions
+
+  url?: string
 
   reviseEvidenceMutator: MutatorWithState<
     SuggestEvidenceItemRevisionGQL,
@@ -62,6 +65,10 @@ export class CvcEvidenceReviseForm implements AfterViewInit, OnDestroy {
     this.state = new EvidenceState()
     this.options = { formState: this.state }
     this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
+  }
+
+  ngOnInit() {
+    this.url = `/evidence/${this.evidenceId}/revisions`
   }
 
   ngAfterViewInit(): void {

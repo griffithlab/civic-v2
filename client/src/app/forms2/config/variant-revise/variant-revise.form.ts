@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { SuggestVariantRevisionGQL, SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables, VariantRevisableFieldsGQL } from '@app/generated/civic.apollo'
@@ -21,7 +22,7 @@ import { variantFormModelToReviseInput, variantToModelFields } from '@app/forms2
   templateUrl: './variant-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcVariantReviseForm implements AfterViewInit {
+export class CvcVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number
   model?: VariantReviseModel
   form: UntypedFormGroup
@@ -34,6 +35,7 @@ export class CvcVariantReviseForm implements AfterViewInit {
   >
 
   mutationState?: MutationState
+  url?: string
 
   constructor(
     private revisableFieldsGQL: VariantRevisableFieldsGQL,
@@ -44,6 +46,10 @@ export class CvcVariantReviseForm implements AfterViewInit {
     this.form = new UntypedFormGroup({})
     this.fields = variantReviseFields
     this.reviseVariantMutator = new MutatorWithState(networkErrorService)
+  }
+
+  ngOnInit() {
+    this.url = `/variants/${this.variantId }/revisions`
   }
 
   ngAfterViewInit(): void {

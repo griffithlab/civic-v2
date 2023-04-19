@@ -1,10 +1,11 @@
 <cvc-form-submission-status-display
   [mutationState]="this.mutationState"
+  [redirectUrl]="this.newEvidenceUrl"
   entityType="Evidence Item"
   [successMessage]="success">
   <ng-template #success>
     View your new EID
-    <a [routerLink]="['/evidence', newEvidenceId, 'summary']">here</a>.
+    <a [routerLink]="['/evidence', newEvidenceId, 'summary']">here</a>. You will be redirected shortly.
   </ng-template>
   <form
     nz-form

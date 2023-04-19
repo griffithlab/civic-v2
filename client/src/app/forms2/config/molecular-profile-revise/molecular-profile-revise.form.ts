@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { MolecularProfileRevisableFieldsGQL, SuggestMolecularProfileRevisionGQL, SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables } from '@app/generated/civic.apollo'
@@ -21,7 +22,7 @@ import { molecularProfileReviseFields } from './molecular-profile-revise.form.co
   templateUrl: './molecular-profile-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcMolecularProfileReviseForm implements AfterViewInit {
+export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
   @Input() molecularProfileId!: number
   model?: MolecularProfileReviseModel
   form: UntypedFormGroup
@@ -34,6 +35,7 @@ export class CvcMolecularProfileReviseForm implements AfterViewInit {
   >
 
   mutationState?: MutationState
+  url?: string
 
   constructor(
     private revisableFieldsGQL: MolecularProfileRevisableFieldsGQL,
@@ -44,6 +46,10 @@ export class CvcMolecularProfileReviseForm implements AfterViewInit {
     this.form = new UntypedFormGroup({})
     this.fields = molecularProfileReviseFields
     this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
+  }
+
+  ngOnInit(): void {
+    this.url = `/molecular-profiles/${this.molecularProfileId}/revisions`
   }
 
   ngAfterViewInit(): void {

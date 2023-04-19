@@ -44,6 +44,7 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
 
   mutationState?: MutationState
   newEvidenceId: Maybe<number>
+  newEvidenceUrl?: string
 
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
@@ -68,7 +69,10 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit {
         this.submitEvidenceGQL,
         { input: input },
         undefined,
-        (data) => { this.newEvidenceId = data.submitEvidence?.evidenceItem.id }
+        (data) => { 
+          this.newEvidenceId = data.submitEvidence?.evidenceItem.id 
+          this.newEvidenceUrl = `/evidence/${this.newEvidenceId}/summary`
+        }
       )
     }
   }

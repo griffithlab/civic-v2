@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
@@ -22,7 +22,7 @@ import { SourceModel, sourceFormModelToInput } from '@app/forms2/utilities/sourc
   templateUrl: './source-submit.form.html',
   styleUrls: ['./source-submit.form.less'],
 })
-export class CvcSourceSubmitForm {
+export class CvcSourceSubmitForm implements OnInit{
   model: SourceModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
@@ -35,6 +35,7 @@ export class CvcSourceSubmitForm {
 
   mutationState?: MutationState
   newSourceId: Maybe<number>
+  url?: string
 
   constructor(
     private submitSourceGQL: SubmitSourceGQL,
@@ -46,6 +47,10 @@ export class CvcSourceSubmitForm {
     this.fields = sourceSuggestFields
 
     this.submitSourceMutator = new MutatorWithState(networkErrorService)
+  }
+
+  ngOnInit(): void {
+    this.url = '/curation/queues/pending-sources'
   }
 
   onSubmit(model: SourceModel) {
