@@ -1,27 +1,19 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcInputEnum } from '@app/forms2/forms2.types'
 import {
-  EvidenceDirection,
-  EvidenceLevel,
-  EvidenceSignificance,
-  EvidenceSortColumns,
-  EvidenceType,
-  TherapyInteraction,
-  VariantsSortColumns,
+    VariantsSortColumns
 } from '@app/generated/civic.apollo'
 import { NzTableFilterList } from 'ng-zorro-antd/table'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
-import { $enum, EnumWrapper } from 'ts-enum-util'
+import { EnumWrapper } from 'ts-enum-util'
 import {
-  CvcFilterChange,
-  CvcSortChange,
-  VariantManagerColKey,
-  VariantManagerColQueryMap,
-  VariantManagerColSortMap,
-  VariantManagerTableConfig,
-  hasFilterOptions,
-  hasSortOptions,
+    CvcFilterChange,
+    CvcSortChange, hasFilterOptions,
+    hasSortOptions, VariantManagerColKey,
+    VariantManagerColQueryMap,
+    VariantManagerColSortMap,
+    VariantManagerTableConfig
 } from './variant-manager.types'
 
 // export enum VariantsSortColumns {
@@ -82,11 +74,11 @@ export class VariantManagerConfig {
         },
       },
       {
-        hidden: true,
         key: 'id',
         label: 'ID',
-        type: 'default',
-        width: '30px',
+        hidden: true,
+        type: 'hidden',
+        width: '0px',
       },
       {
         key: 'variant',
@@ -106,6 +98,18 @@ export class VariantManagerConfig {
         filter: {
           inputType: 'default',
           options: [{ key: 'Filter Variant Name', value: null }],
+        },
+      },
+      {
+        key: 'aliases',
+        label: 'Aliases',
+        type: 'default',
+        width: '150px',
+        objectKey: 'name',
+        sort: {},
+        filter: {
+          inputType: 'default',
+          options: [{ key: 'Filter Aliases', value: null }],
         },
       },
       {
