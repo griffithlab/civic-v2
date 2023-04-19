@@ -158,9 +158,6 @@ export class CvcEvidenceSelectField
     ['molecularProfileId', 'molecularProfile'],
     ['diseaseId', 'disease'],
     ['therapyIds', 'therapies'],
-    ['assertionType', 'evidenceType'],
-    ['assertionDirection', 'evidenceDirection'],
-    ['significance', 'significance'],
   ])
 
   // list of manager table columns to be visible/hidden
