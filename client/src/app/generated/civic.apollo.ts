@@ -3084,6 +3084,7 @@ export type QueryBrowseSourcesArgs = {
   journal?: InputMaybe<Scalars['String']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  openAccess?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<SourcesSort>;
   sourceType?: InputMaybe<SourceSource>;
   year?: InputMaybe<Scalars['Int']>;
@@ -3793,6 +3794,7 @@ export type Source = Commentable & EventSubject & {
   lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
+  openAccess: Scalars['Boolean'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
@@ -3848,6 +3850,7 @@ export type SourcePopover = Commentable & EventSubject & {
   lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
+  openAccess: Scalars['Boolean'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
@@ -5575,6 +5578,7 @@ export type BrowseSourcesQueryVariables = Exact<{
   author?: InputMaybe<Scalars['String']>;
   journal?: InputMaybe<Scalars['String']>;
   clinicalTrialId?: InputMaybe<Scalars['Int']>;
+  openAccess?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -9962,7 +9966,7 @@ export const SourcePopoverDocument = gql`
     }
   }
 export const BrowseSourcesDocument = gql`
-    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int) {
+    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int, $openAccess: Boolean) {
   browseSources(
     first: $first
     last: $last
@@ -9976,6 +9980,7 @@ export const BrowseSourcesDocument = gql`
     author: $author
     journal: $journal
     clinicalTrialId: $clinicalTrialId
+    openAccess: $openAccess
   ) {
     pageInfo {
       endCursor

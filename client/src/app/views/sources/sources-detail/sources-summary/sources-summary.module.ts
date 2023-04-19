@@ -12,6 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SourcesSummaryPage } from './sources-summary.page';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [SourcesSummaryPage],
@@ -24,6 +25,7 @@ import { SourcesSummaryPage } from './sources-summary.page';
     NzSpaceModule,
     NzTypographyModule,
     NzIconModule,
+    NzToolTipModule,
     NzDescriptionsModule,
     CvcLinkTagModule,
     CvcAutoHeightDivModule,
