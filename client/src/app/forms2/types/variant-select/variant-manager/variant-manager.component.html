@@ -386,7 +386,6 @@
                 [nzAlign]="textTagCol.align ?? 'left'"
                 [nzLeft]="textTagCol.fixedLeft || false"
                 [nzRight]="textTagCol.fixedRight || false">
-                <!-- TODO: show filter text emphasized in tooltip text -->
                 <nz-tag
                   *ngIf="row[textTagCol.key]; else emptyTextTagCell"
                   nz-tooltip
@@ -417,7 +416,8 @@
                     *ngTemplateOutlet="
                       (colData | isArray) ? staticList : staticValue;
                       context: {
-                        $implicit: colData
+                        $implicit: colData,
+                        emphasize: (defaultCol.filter.changes | ngrxPush)?.value
                       }
                     ">
                   </ng-container>
@@ -425,14 +425,16 @@
 
                 <ng-template
                   #staticList
-                  let-array>
+                  let-array
+                  let-emphasize="emphasize">
                   <ng-container *ngIf="array.length > 0; else emptyDefaultCell">
                     <ng-container *ngFor="let value of array; last as last">
                       <ng-container
                         *ngTemplateOutlet="
                           staticValue;
                           context: {
-                            $implicit: value
+                            $implicit: value,
+                            emphasize: emphasize
                           }
                         ">
                       </ng-container
@@ -443,17 +445,15 @@
 
                 <ng-template
                   #staticValue
-                  let-value>
-                  <ng-container
-                    *ngIf="!defaultCol.objectKey; else useObjectKey"
-                    >{{ value }}</ng-container
-                  >
-
-                  <ng-template #useObjectKey>
-                    <ng-container *ngIf="defaultCol.objectKey">{{
-                      value[defaultCol.objectKey]
-                    }}</ng-container>
-                  </ng-template>
+                  let-value
+                  let-emphasize="emphasize">
+                  <span
+                    [innerHtml]="
+                      (defaultCol.objectKey
+                        ? value[defaultCol.objectKey]
+                        : value
+                      ) | highlightTypeahead : emphasize
+                    "></span>
                 </ng-template>
 
                 <ng-template #emptyDefaultCell>
