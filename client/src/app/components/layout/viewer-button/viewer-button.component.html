@@ -123,22 +123,30 @@
   </nz-dropdown-menu>
   <nz-dropdown-menu #addMenu="nzDropdownMenu">
     <ul nz-menu>
-      <li nz-menu-item>
-        <a routerLink="/evidence/add/submit"> Evidence Item </a>
+      <li nz-menu-item routerLink="/evidence/add/submit">
+        <a>
+          Evidence Item
+        </a>
       </li>
-      <li nz-menu-item>
-        <a routerLink="/assertions/add/submit"> Assertion </a>
+      <li nz-menu-item routerLink="/assertions/add/submit">
+        <a>
+          Assertion
+        </a>
       </li>
-      <li nz-menu-item>
-        <a routerLink="/sources/add"> Source Suggestion </a>
+      <li nz-menu-item routerLink="/sources/add">
+        <a>
+          Source Suggestion
+        </a>
       </li>
       <li
         nz-menu-item
         *ngIf="viewer.isEditor">
         <a (click)="this.addVariantModalVisible = true"> Variant </a>
       </li>
-      <li nz-menu-item>
-        <a routerLink="/variant-groups/add/submit"> Variant Group </a>
+      <li nz-menu-item routerLink="/variant-groups/add/submit">
+        <a>
+          Variant Group
+        </a>
       </li>
     </ul>
   </nz-dropdown-menu>

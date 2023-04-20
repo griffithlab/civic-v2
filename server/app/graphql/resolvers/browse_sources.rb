@@ -50,6 +50,16 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     scope.where(id: value)
   end
 
+  option(:open_access, type: Boolean) do |scope, value|
+    if value
+      scope.where(open_access: true)
+    elsif value == false
+      scope.where(open_access: [false, nil])
+    else
+      scope
+    end
+  end
+
   option(:sort_by, type: Types::BrowseTables::SourcesSortType) do |scope, value|
     case value.column
     when "SOURCE_TYPE"

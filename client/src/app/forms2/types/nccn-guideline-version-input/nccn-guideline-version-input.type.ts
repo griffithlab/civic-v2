@@ -39,12 +39,28 @@ const NccnGuidelineVersionMixin = mixin(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin implements AfterViewInit {
-  defaultDescription = "Please enter the version of the NCCN guideline you're referencing in the format <strong>Year.Version</strong>"
+  defaultDescription = "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"
 
   defaultOptions: CvcNccnGuidelineVersionFieldOptions = {
     validators: {
       nccnVersionNumber: {
-        expression: (c: AbstractControl) => c.value ? /^\d{1,2}\.\d{4}$/.test(c.value) : true,
+        expression: (c: AbstractControl) => {
+          if(c.value) {
+            if (/^\d{1,2}\.\d{4}$/.test(c.value)) {
+              let year = +c.value.split(".")[1]
+              if (year >= 2000 && year <= (new Date().getFullYear() +1 ) ) {
+                return true
+              } else {
+                return false
+              }
+            } else {
+              return false
+            }
+          } else {
+            return true
+          }
+        }
+        ,
         message: (_: any, field: FormlyFieldConfig) => `"${field.formControl?.value}" does not fit the format Version.Year`
       }
     },

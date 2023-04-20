@@ -57,6 +57,11 @@
             {{ source.pmcId }}
           </ng-container>
         </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Access">
+          <span nz-tooltip [nzTooltipTitle]="source.pmcId ? 'Open' : 'Closed'">
+            <span nz-icon [nzType]="source.pmcId ? 'unlock' :'lock'" nzTheme="outline"></span>
+          </span>
+        </nz-descriptions-item>
 
         <ng-container
           *ngIf="source.clinicalTrials"

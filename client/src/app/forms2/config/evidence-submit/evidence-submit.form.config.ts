@@ -45,8 +45,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'molecular-profile-select',
             props: {
               required: true,
-              tooltip: 'TEST TEST TEST TEST',
-              helpText: 'This is the description of a molecular profile.',
+              tooltip: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               watchVariantMolecularProfileId: true,
             },
           },
@@ -143,7 +142,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'textarea',
             props: {
               label: 'Comment',
-              required: true,
+              required: false,
               minLength: 10
             },
           },

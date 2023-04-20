@@ -18,6 +18,11 @@ module Types::MolecularProfile
         return 'Must supply a Boolean Operator when supplying more than one component.'
       end
 
+      variant_ids = value.variant_ids
+      if variant_ids.size != variant_ids.uniq.size
+        return 'You may not use the same variant multiple times in one MP expression.'
+      end
+
       return true
     end
   end

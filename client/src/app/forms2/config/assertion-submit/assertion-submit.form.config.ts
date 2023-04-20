@@ -44,8 +44,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'molecular-profile-select',
             props: {
               required: true,
-              tooltip: 'TEST TEST TEST TEST',
-              helpText: 'This is the description of a molecular profile.',
+              tooltip: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated assertion.',
               watchVariantMolecularProfileId: true,
               colSpan: 16,
             },
