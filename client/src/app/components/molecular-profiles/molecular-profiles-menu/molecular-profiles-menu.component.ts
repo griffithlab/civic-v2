@@ -9,7 +9,7 @@ import {
   MolecularProfileMenuGQL,
   MolecularProfileDisplayFilter,
 } from '@app/generated/civic.apollo'
-import { map, debounceTime, filter, pluck, startWith } from 'rxjs/operators'
+import { map, debounceTime, filter, startWith } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -60,9 +60,9 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
     this.result$ = this.queryRef$.valueChanges
 
     this.loading$ = this.result$.pipe(
-      pluck('loading'),
+      map(({data, loading}) => (loading && !data) ),
       filter(isNonNulled),
-      startWith(true)
+      startWith(true),
     );
 
     this.connection$ = this.result$

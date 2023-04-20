@@ -5,16 +5,43 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core'
+import { Router } from '@angular/router'
 import { MutationState } from '@app/core/utilities/mutation-state-wrapper'
-import { BehaviorSubject } from 'rxjs'
+import { Maybe } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-form-submission-status-display',
   templateUrl: './form-submission-status-display.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
-  @Input() mutationState?: MutationState
+  private _mutationState?: MutationState
+  private currentTimer?:  ReturnType<typeof setTimeout>
+
+  @Input() set mutationState(value: Maybe<MutationState>) {
+    this._mutationState = value
+    if(this.currentTimer) {
+      clearTimeout(this.currentTimer)
+    }
+
+    if(value) {
+      value.submitSuccess$.pipe(untilDestroyed(this)).subscribe((success) => {
+        if(success) {
+          this.currentTimer = setTimeout(() => { 
+              if(this.redirectUrl) {
+                this.router.navigateByUrl(this.redirectUrl) 
+              }
+            }, 2500);
+        }
+      })
+    }
+  }
+  
+  get mutationState(): Maybe<MutationState> {
+    return this._mutationState
+  }
 
   @Input() entityType?:
     | 'Assertion'
@@ -28,7 +55,11 @@ export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
     | 'Comment'
     | 'Gene'
     | 'Variant Group'
-  @Input() successMessage?: TemplateRef<void>
 
-  ngOnInit(): void {}
+  @Input() successMessage?: TemplateRef<void>
+  @Input() redirectUrl?: string
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void { }
 }

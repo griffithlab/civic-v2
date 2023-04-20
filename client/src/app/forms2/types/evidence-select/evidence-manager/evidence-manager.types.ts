@@ -130,7 +130,8 @@ interface InputFilterConfig {
     inputType: 'default' | 'numeric'
     typename?: string
     options: [{ key: string; value: string | number | null }]
-    changes?: Subject<CvcFilterChange>
+    changes?: Subject<CvcFilterChange>,
+    transform?: (v: string | number | null) => string | number | null
   }
 }
 

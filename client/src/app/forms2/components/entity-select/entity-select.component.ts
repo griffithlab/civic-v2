@@ -269,7 +269,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
               searchStr: '',
               showSpinner: false,
               showAddForm: false,
-              message: 'RESETTING SELECT DISPLAY',
+              message: '',
             }
           }
         ),

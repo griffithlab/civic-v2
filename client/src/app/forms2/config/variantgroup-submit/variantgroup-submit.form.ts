@@ -41,6 +41,7 @@ export class CvcVariantgroupSubmitForm {
 
   mutationState?: MutationState
   newVariantGroupId: Maybe<number>
+  newVariantGroupUrl: Maybe<string>
 
   constructor(
     private submitVariantGroupGQL: SubmitVariantGroupGQL,
@@ -63,6 +64,7 @@ export class CvcVariantgroupSubmitForm {
         undefined,
         (data) => {
           this.newVariantGroupId = data.submitVariantGroup?.variantGroup.id
+          this.newVariantGroupUrl = `/variant-groups/${this.newVariantGroupId}`
         }
       )
     }

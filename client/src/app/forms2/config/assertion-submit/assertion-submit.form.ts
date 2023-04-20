@@ -35,6 +35,7 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
 
   mutationState?: MutationState
   newAssertionId?: number
+  newAssertionUrl?: string
   
 
   constructor(
@@ -57,7 +58,10 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
         this.submitAssertionGQL,
         {input: input},
         undefined,
-        (data) => { this.newAssertionId = data.submitAssertion?.assertion.id }
+        (data) => { 
+          this.newAssertionId = data.submitAssertion?.assertion.id 
+          this.newAssertionUrl = `/assertions/${this.newAssertionId}/summary`
+        }
       )
     }
   }

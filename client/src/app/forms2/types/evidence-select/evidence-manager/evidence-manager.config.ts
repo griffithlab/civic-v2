@@ -107,8 +107,15 @@ export class EvidenceManagerConfig {
           default: 'ascend',
         },
         filter: {
-          inputType: 'numeric',
+          inputType: 'default',
           options: [{ key: 'EID', value: null }],
+          transform: (v) => { 
+            if (v) {
+              return +v.toString().replace(/EID/i, '')
+            } else {
+              return null
+            }
+          }
         },
       },
       {

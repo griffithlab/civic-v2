@@ -6,6 +6,8 @@ export const ENTITY_TAG_TYPES_WITH_POPOVER = [
   'Therapy',
   'Phenotype',
   'Source',
+  'Gene',
+  'Variant',
   'EvidenceItem',
 ]
 type EntityTagTypeWithPopoverTuple = typeof ENTITY_TAG_TYPES_WITH_POPOVER

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -17,7 +17,7 @@ import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
   templateUrl: './variantgroup-revise.form.html',
   styleUrls: ['./variantgroup-revise.form.less'],
 })
-export class CvcVariantgroupReviseForm implements AfterViewInit, OnDestroy {
+export class CvcVariantgroupReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantGroupId!: number
   model?: VariantGroupReviseModel
   form: UntypedFormGroup
@@ -32,6 +32,7 @@ export class CvcVariantgroupReviseForm implements AfterViewInit, OnDestroy {
   >
 
   mutationState?: MutationState
+  url?: string
 
   constructor(
     private revisableFieldsGQL: VariantGroupRevisableFields2GQL,
@@ -49,6 +50,10 @@ export class CvcVariantgroupReviseForm implements AfterViewInit, OnDestroy {
   onSubmit(model: any) {
     console.log('------ Variant Group Suggestion Added ------')
     console.log(model)
+  }
+
+  ngOnInit() {
+    this.url = `/variant-groups/${ this.variantGroupId }/revisions`
   }
 
   ngOnDestroy(): void {

@@ -44,7 +44,7 @@ export type VariantManagerConnection = VariantManagerQuery['browseVariants']
 
 // additional columns added to row data for table templates, logic
 type VariantManagerRowDataExtra = {
-  variant: Pick<BrowseVariant, 'id' | 'name' | 'link'>,
+  variant: Pick<BrowseVariant, 'id' | 'name' | 'link'>
   // need evidence object for entity tag in selectEntity column
   gene: Pick<Gene, 'id' | 'name' | 'link'>
   // additional boolean column to handle row selected state
@@ -75,6 +75,7 @@ export type ConvertedQueryVar = keyof Pick<
   | 'diseaseName'
   | 'therapyName'
   | 'entrezSymbol'
+  | 'variantAlias'
 >
 
 // convenience type for various map keys
@@ -83,10 +84,11 @@ export type VariantManagerColKey = keyof VariantManagerRowData
 // each col type has different settings for nz-table features, e.g. filter/sort
 // and cvc-variant-manager features, e.g. entity-tag display options
 export type VariantManagerColType =
+  | 'default' // short strings, e.g. labels, counts
+  | 'hidden' // hidden column, e.g. id
   | 'select' // select column, displays checkboxes for row selection
   | 'entity-tag' // display col value with entity-tag
   | 'enum-tag' // display cell data w/ attribute-tag
-  | 'default' // short strings, e.g. labels, counts
   | 'text-tag' // long strings or simple sanitized HTML, e.g. descriptions, summaries
 
 export type VariantManagerColSortMap = {
@@ -166,6 +168,12 @@ interface FixedConfig {
   fixedRight?: true
 }
 
+// provides a key to pluck a value from a column object,
+// currently only used by default col to display static values on objects
+interface ObjectKeyConfig {
+  objectKey?: string
+}
+
 interface TagConfig {
   tag?: {
     showLabel?: EnumOutputStyle | boolean
@@ -197,14 +205,25 @@ interface TextTagConfig {
 interface EnumTagConfig {}
 
 export type ColumnConfig =
+  | DefaultColumnType
+  | HiddenColumnType
   | SelectColumnType
   | EntityTagType
   | EnumTagType
-  | DefaultColumnType
   | TextTagType
 
-export interface DefaultColumnType extends BaseColumnConfig, FixedConfig {
+export interface DefaultColumnType
+  extends BaseColumnConfig,
+    FixedConfig,
+    InputFilterConfig,
+    SortConfig,
+    ObjectKeyConfig {
   type: 'default'
+}
+
+export interface HiddenColumnType extends BaseColumnConfig {
+  type: 'hidden'
+  hidden: true
 }
 
 // displays a checkbox for the table's select feature
@@ -282,6 +301,10 @@ export const isDefaultColumn: TypeGuard<ColumnConfig, DefaultColumnType> = (
   option: ColumnConfig
 ): option is DefaultColumnType => option.type === 'default'
 
+export const isHiddenColumn: TypeGuard<ColumnConfig, HiddenColumnType> = (
+  option: ColumnConfig
+): option is HiddenColumnType => option.type === 'hidden'
+
 export const isSelectColumn: TypeGuard<ColumnConfig, SelectColumnType> = (
   option: ColumnConfig
 ): option is SelectColumnType => option.type === 'select'
@@ -299,6 +322,7 @@ export const isTextTagOptions: TypeGuard<ColumnConfig, TextTagType> = (
 ): option is TextTagType => option.type === 'text-tag'
 
 export const colTypeGuards = {
+  isDefaultCol: isDefaultColumn,
   isSelectCol: isSelectColumn,
   isEntityTagCol: isEntityTagOptions,
   isEnumTagCol: isEnumTagOptions,

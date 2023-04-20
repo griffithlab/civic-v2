@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { GeneRevisableFieldsGQL, SuggestGeneRevisionGQL, SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables } from '@app/generated/civic.apollo'
@@ -21,7 +22,7 @@ import { geneReviseFields } from './gene-revise.form.config'
   templateUrl: './gene-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcGeneReviseForm implements AfterViewInit {
+export class CvcGeneReviseForm implements OnInit, AfterViewInit {
   @Input() geneId!: number
   model?: GeneReviseModel
   form: UntypedFormGroup
@@ -34,6 +35,7 @@ export class CvcGeneReviseForm implements AfterViewInit {
   >
 
   mutationState?: MutationState
+  url?: string
 
   constructor(
     private revisableFieldsGQL: GeneRevisableFieldsGQL,
@@ -44,6 +46,10 @@ export class CvcGeneReviseForm implements AfterViewInit {
     this.form = new UntypedFormGroup({})
     this.fields = geneReviseFields
     this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
+  }
+
+  ngOnInit() {
+    this.url = `/genes/${this.geneId}/revisions`
   }
 
   ngAfterViewInit(): void {
