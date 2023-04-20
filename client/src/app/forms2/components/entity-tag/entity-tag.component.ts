@@ -95,7 +95,7 @@ export class CvcEntityTagComponent implements OnChanges {
     'default'
   @Input() cvcMode: 'default' | 'closeable' | 'checkable' = 'default'
   @Input() cvcEmphasize?: string
-  @Input() cvcDisableLink: boolean = false
+  @Input() cvcDisableLink: boolean = true
   @Input() cvcTagChecked: boolean = false
   @Input() cvcHasTooltip: boolean = false
   @Input() cvcFullWidth: boolean = false
