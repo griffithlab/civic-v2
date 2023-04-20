@@ -46,6 +46,7 @@ export interface SourcesTableUserFilters {
   nameInput?: Maybe<string>
   sourceTypeInput?: Maybe<SourceSource>
   yearInput?: Maybe<string>
+  openAccessInput?: Maybe<boolean>
 }
 
 @UntilDestroy()
@@ -95,6 +96,7 @@ export class CvcSourcesTableComponent implements OnInit {
   journalInput: Maybe<string>
   nameInput: Maybe<string>
   sourceTypeInput: Maybe<SourceSource>
+  openAccessInput?: Maybe<boolean>
 
   sortColumns: typeof SourcesSortColumns = SourcesSortColumns
 
@@ -201,6 +203,7 @@ export class CvcSourcesTableComponent implements OnInit {
         journal: this.journalInput,
         name: this.nameInput,
         sourceType: this.sourceTypeInput,
+        openAccess: this.openAccessInput
       })
       .then(() => this.scrollIndex$.next(0))
 

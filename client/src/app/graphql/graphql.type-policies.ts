@@ -52,6 +52,7 @@ export const CvcTypePolicies: TypePolicies = {
         'journal',
         'clinicalTrialId',
         'id',
+        'openAccess'
       ]),
       sourceSuggestions: relayStylePagination([
         'sourceType',

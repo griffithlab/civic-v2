@@ -11,6 +11,7 @@ query BrowseSources(
   $author: String
   $journal: String
   $clinicalTrialId: Int
+  $openAccess: Boolean,
 ) {
   browseSources(
     first: $first
@@ -25,6 +26,7 @@ query BrowseSources(
     author: $author
     journal: $journal
     clinicalTrialId: $clinicalTrialId
+    openAccess: $openAccess
   ) {
     pageInfo {
       endCursor

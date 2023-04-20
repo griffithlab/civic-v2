@@ -87,7 +87,7 @@
           [nzSortFn]="true">
           Journal
         </th>
-        <th nzWidth="20px"
+        <th nzWidth="80px"
           nzRight
           nz-tooltip
           nzTooltipTitle="Open Access">
@@ -178,7 +178,18 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzRight></th>
+        <th nzRight>
+          <nz-select nzSize="small"
+            nzAllowClear
+            nzPlaceHolder="Choose"
+            (ngModelChange)="filterChange$.next()"
+            [(ngModel)]="openAccessInput">
+            <nz-option [nzValue]="true"
+              nzLabel="Open"></nz-option>
+            <nz-option [nzValue]="false"
+              nzLabel="Closed"></nz-option>
+          </nz-select>
+        </th>
         <th nzRight></th>
         <th nzRight></th>
       </tr>

@@ -4840,6 +4840,7 @@ type Query {
     """
     last: Int
     name: String
+    openAccess: Boolean
     sortBy: SourcesSort
     sourceType: SourceSource
     year: Int
