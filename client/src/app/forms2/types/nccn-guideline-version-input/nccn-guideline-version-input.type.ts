@@ -39,7 +39,7 @@ const NccnGuidelineVersionMixin = mixin(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin implements AfterViewInit {
-  defaultDescription = "Please enter the version of the NCCN guideline you're referencing in the format <strong>Year.Version</strong>"
+  defaultDescription = "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"
 
   defaultOptions: CvcNccnGuidelineVersionFieldOptions = {
     validators: {
