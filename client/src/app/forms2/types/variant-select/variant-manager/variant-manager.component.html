@@ -409,7 +409,7 @@
                 *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
                 [nzAlign]="defaultCol.align ?? 'left'"
                 [nzLeft]="defaultCol.fixedLeft || false"
-                [nzRight]="defaultCol.fixedRight || false">
+                [nzRight]="defaultCol.fixedRight || false" class="default-col-type">
                 <ng-container
                   *ngIf="row[defaultCol.key] as colData; else emptyDefaultCell">
                   <ng-container

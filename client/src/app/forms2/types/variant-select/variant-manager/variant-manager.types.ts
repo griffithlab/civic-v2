@@ -75,6 +75,7 @@ export type ConvertedQueryVar = keyof Pick<
   | 'diseaseName'
   | 'therapyName'
   | 'entrezSymbol'
+  | 'variantAlias'
 >
 
 // convenience type for various map keys

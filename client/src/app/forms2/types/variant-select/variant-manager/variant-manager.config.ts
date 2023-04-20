@@ -37,7 +37,8 @@ export const columnKeyToQueryVariableMap: VariantManagerColQueryMap = {
   diseases: 'diseaseName',
   therapies: 'therapyName',
   variant: 'variantName',
-  gene: 'entrezSymbol'
+  gene: 'entrezSymbol',
+  aliases: 'variantAlias'
 }
 
 // colum keys included here will be hidden in preference panel, preventing
