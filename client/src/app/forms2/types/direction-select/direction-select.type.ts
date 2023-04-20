@@ -252,7 +252,6 @@ export class CvcDirectionSelectField
             this.state!.entityName
           )
           this.props.extraType = 'prompt'
-          if (this.formControl.value) this.formControl.setValue(undefined)
         } else {
           this.props.disabled = false
           this.props.description = undefined
@@ -264,6 +263,7 @@ export class CvcDirectionSelectField
             )
           )
         }
+        if (this.formControl.value) this.formControl.setValue(undefined)
       })
 
     this.onValueChange$

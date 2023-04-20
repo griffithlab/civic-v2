@@ -253,7 +253,6 @@ export class CvcSignificanceSelectField
             this.state!.entityName
           )
           this.props.extraType = 'prompt'
-          if (this.formControl.value) this.formControl.setValue(undefined)
         } else {
           this.props.disabled = false
           this.props.description = undefined
@@ -262,6 +261,7 @@ export class CvcSignificanceSelectField
             this.props.placeholderFn(this.state!.entityName)
           )
         }
+        if (this.formControl.value) this.formControl.setValue(undefined)
       })
 
     // update field description on value changes
