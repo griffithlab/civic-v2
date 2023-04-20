@@ -53,6 +53,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Comment',
               required: true,
+              minLength: 10
             },
           },
           {
