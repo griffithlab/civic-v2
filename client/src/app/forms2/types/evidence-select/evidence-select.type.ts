@@ -181,6 +181,7 @@ export class CvcEvidenceSelectField
     this.onEid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
+      // startWith(true),
       scan((acc, _) => !acc, false)
     )
   }
@@ -209,7 +210,8 @@ export class CvcEvidenceSelectField
       .pipe(
         withLatestFrom(this.onEid$),
         // tag('evidence-select onValueChange$'),
-        untilDestroyed(this))
+        untilDestroyed(this)
+      )
       .subscribe(([current, old]) => {
         if (Array.isArray(current)) this.onEid$.next(current)
       })
@@ -244,7 +246,7 @@ export class CvcEvidenceSelectField
         stream.pipe(
           map((v) => {
             return { key: field, required: v }
-          }),
+          })
           // tag(`synchronizedRequired$ ${field} stream`)
         )
       )
@@ -279,7 +281,7 @@ export class CvcEvidenceSelectField
           })
         })
         return newPrefs
-      }),
+      })
       // tag(`onRequiredChange$ stream`)
     )
 
@@ -298,7 +300,6 @@ export class CvcEvidenceSelectField
   }
 
   getTypeaheadVarsFn(id: string, param: Maybe<number>) {
-    
     return {
       eid: +id.replace(/EID/i, ''),
     }

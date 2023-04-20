@@ -136,7 +136,7 @@ export class CvcVariantSelectField
     this.onVid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
     this.showMgr$ = this.onShowMgrClick$.pipe(
-      startWith(true),
+      // startWith(true),
       scan((acc, _) => !acc, false)
     )
   }
