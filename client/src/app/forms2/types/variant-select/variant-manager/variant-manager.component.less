@@ -6,6 +6,13 @@ tr.data-row td:first-of-type {
     margin-left: 6px;
   }
 }
+// FIXME: overflow also needs to include a overflow count and popover with omitted items,
+// this is just a temporary visual fix to prevent content overlapping the adjacent cell
+td.default-col-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .ant-table-filter-dropdown {
   padding: 8px;
 }

@@ -84,6 +84,19 @@
               [nzTooltipTitle]="textTagCol.tooltip">
               {{ textTagCol.label }}
             </th>
+
+            <!-- DEFAULT TAG HEADER -->
+            <th
+              *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
+              [nzColumnKey]="defaultCol.key"
+              [nzAlign]="defaultCol.align ?? 'left'"
+              [nzWidth]="defaultCol.width"
+              [nzLeft]="defaultCol.fixedLeft || false"
+              [nzRight]="defaultCol.fixedRight || false"
+              nz-tooltip
+              [nzTooltipTitle]="defaultCol.tooltip">
+              {{ defaultCol.label }}
+            </th>
           </ng-container>
         </ng-container>
       </tr>
@@ -206,6 +219,24 @@
                   </div>
                 </div>
               </nz-dropdown-menu>
+            </th>
+
+            <!-- DEFAULT TAG FILTER -->
+            <th
+              *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
+              [nzColumnKey]="defaultCol.key"
+              [nzWidth]="defaultCol.width"
+              [nzAlign]="defaultCol.align ?? 'left'"
+              [nzLeft]="defaultCol.fixedLeft || false"
+              [nzRight]="defaultCol.fixedRight || false">
+              <cvc-table-filter-input
+                *ngIf="defaultCol.filter as filter"
+                [cvcPlaceholder]="defaultCol.filter.options[0].key"
+                [cvcModel]="defaultCol.filter.options[0].value"
+                (cvcModelChange)="
+                  filter.changes!.next({ key: defaultCol.key, value: $event })
+                ">
+              </cvc-table-filter-input>
             </th>
           </ng-container>
         </ng-container>
@@ -355,7 +386,6 @@
                 [nzAlign]="textTagCol.align ?? 'left'"
                 [nzLeft]="textTagCol.fixedLeft || false"
                 [nzRight]="textTagCol.fixedRight || false">
-                <!-- TODO: show filter text emphasized in tooltip text -->
                 <nz-tag
                   *ngIf="row[textTagCol.key]; else emptyTextTagCell"
                   nz-tooltip
@@ -370,6 +400,66 @@
                   <cvc-empty-value
                     [cvcEmptyCategory]="
                       textTagCol.emptyValueCategory || 'unspecified'
+                    "></cvc-empty-value>
+                </ng-template>
+              </td>
+
+              <!-- DEFAULT CELL -->
+              <td
+                *ngIf="col | guardType : colGuards.isDefaultCol as defaultCol"
+                [nzAlign]="defaultCol.align ?? 'left'"
+                [nzLeft]="defaultCol.fixedLeft || false"
+                [nzRight]="defaultCol.fixedRight || false" class="default-col-type">
+                <ng-container
+                  *ngIf="row[defaultCol.key] as colData; else emptyDefaultCell">
+                  <ng-container
+                    *ngTemplateOutlet="
+                      (colData | isArray) ? staticList : staticValue;
+                      context: {
+                        $implicit: colData,
+                        emphasize: (defaultCol.filter.changes | ngrxPush)?.value
+                      }
+                    ">
+                  </ng-container>
+                </ng-container>
+
+                <ng-template
+                  #staticList
+                  let-array
+                  let-emphasize="emphasize">
+                  <ng-container *ngIf="array.length > 0; else emptyDefaultCell">
+                    <ng-container *ngFor="let value of array; last as last">
+                      <ng-container
+                        *ngTemplateOutlet="
+                          staticValue;
+                          context: {
+                            $implicit: value,
+                            emphasize: emphasize
+                          }
+                        ">
+                      </ng-container
+                      ><ng-container *ngIf="!last">, </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </ng-template>
+
+                <ng-template
+                  #staticValue
+                  let-value
+                  let-emphasize="emphasize">
+                  <span
+                    [innerHtml]="
+                      (defaultCol.objectKey
+                        ? value[defaultCol.objectKey]
+                        : value
+                      ) | highlightTypeahead : emphasize
+                    "></span>
+                </ng-template>
+
+                <ng-template #emptyDefaultCell>
+                  <cvc-empty-value
+                    [cvcEmptyCategory]="
+                      defaultCol.emptyValueCategory || 'unspecified'
                     "></cvc-empty-value>
                 </ng-template>
               </td>
