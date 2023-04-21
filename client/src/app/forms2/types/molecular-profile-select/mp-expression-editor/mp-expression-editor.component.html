@@ -3,7 +3,9 @@
   entityType="Molecular Profile"
   [successMessage]="success">
   <ng-template #success>Added new Molecular Profile</ng-template>
-  <nz-row [nzGutter]="[6, 6]">
+  <nz-row
+    [nzGutter]="[6, 6]"
+    class="preview-row">
     <!-- preview, messages, errors -->
     <nz-col nzFlex="100px">
       <div class="finder-label">Preview:</div>
