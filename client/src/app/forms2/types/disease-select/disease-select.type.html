@@ -46,6 +46,8 @@
             <span
               nz-typography
               nzType="secondary"
+              nz-tooltip
+              [nzTooltipTitle]="result.diseaseAliases.join(', ')"
               [innerHtml]="
                 result.diseaseAliases.join(', ')
                   | highlightTypeahead : searchString

@@ -38,11 +38,13 @@
             "></span>
         </ng-container>
         <ng-container *ngIf="result.therapyAliases.length > 0">
-          Aliases:
+          <strong>Aliases: </strong>
           <em>
             <span
               nz-typography
               nzType="secondary"
+              nz-tooltip
+              [nzTooltipTitle]="result.therapyAliases.join(', ')"
               [innerHtml]="
                 result.therapyAliases.join(', ')
                   | highlightTypeahead : searchString
