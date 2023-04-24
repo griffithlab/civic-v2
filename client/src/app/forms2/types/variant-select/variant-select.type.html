@@ -61,12 +61,14 @@
       <span
         nz-typography
         nzType="secondary">
-        Aliases:
+        <strong>Aliases:</strong>
         <ng-container *ngIf="result.variantAliases.length > 0; else noAliases">
           <em>
             <span
               nz-typography
               nzType="secondary"
+              nz-tooltip
+              [nzTooltipTitle]="result.variantAliases.join(', ')"
               [innerHtml]="
                 result.variantAliases.join(', ')
                   | highlightTypeahead : searchString
