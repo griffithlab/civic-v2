@@ -3,25 +3,110 @@
   entityType="Molecular Profile"
   [successMessage]="success">
   <ng-template #success>Added new Molecular Profile</ng-template>
+  <!-- info & error messages row -->
   <nz-row
     [nzGutter]="[6, 6]"
-    style="padding-bottom: 6px">
-    <nz-col [nzSpan]="24">
+    class="info-row">
+    <!-- ERROR -->
+    <nz-col nzSpan="24">
       <ng-container *ngIf="expressionError$ | ngrxPush as error">
-        {{ error }}
+        <nz-alert
+          nzType="error"
+          [nzMessage]="error.errorMessage"
+          [nzAction]="errorAction"
+          nzShowIcon></nz-alert>
+        <ng-template #errorAction>
+          <button
+            nz-button
+            nzDanger
+            nzType="dashed"
+            nzSize="small"
+            nzShape="round">
+            <span
+              *ngIf="error.errorHelp as helptext"
+              nz-tooltip
+              [nzTooltipTitle]="helptext">
+              <span
+                nz-icon
+                nzType="question-circle"
+                nzTheme="fill"></span>
+              SYNTAX ASSISTANCE
+            </span>
+          </button>
+        </ng-template>
       </ng-container>
-      <nz-alert
-        *ngIf="expressionMessage$ | ngrxPush as message"
-        nzType="info"
-        [nzMessage]="message"
-        nzShowIcon></nz-alert>
+      <!-- MESSAGE -->
+      <ng-container *ngIf="expressionMessage$ | ngrxPush as message">
+        <nz-alert
+          nzType="info"
+          [nzMessage]="message"
+          [nzAction]="messageAction"
+          nzShowIcon></nz-alert>
+
+        <ng-template #messageAction>
+          <button
+            nz-button
+            nzType="dashed"
+            nzSize="small"
+            nzShape="round">
+            <span
+              nz-tooltip
+              [nzTooltipTitle]="'Enter #VID[id] and boolean tokens to construct a Molecular Profile expression.'">
+              <span
+                nz-icon
+                nzType="question-circle"
+                nzTheme="fill"></span>
+              GETTING STARTED
+            </span>
+          </button>
+        </ng-template>
+      </ng-container>
+      <!-- SUCCESS -->
+      <ng-container
+        *ngIf="
+          !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
+        ">
+        <nz-alert
+          nzType="success"
+          [nzMessage]="
+            'Select Molecular Profile by clicking the adjacent button ->'
+          "
+          nzShowIcon></nz-alert>
+      </ng-container>
     </nz-col>
+    <!-- <nz-col
+          nzFlex="100px"
+          class="action-buttons">
+          <button
+            *ngIf="existingMp$ | ngrxPush as mp"
+            (click)="cvcOnSelect.next(mp)"
+            [disabled]="(expressionError$ | ngrxPush) === undefined"
+            type="button"
+            nz-button
+            nzType="primary"
+            nzBlock>
+            Select MP
+          </button>
+          <button
+            *ngIf="!(existingMp$ | ngrxPush)"
+            [disabled]="
+              (expressionError$ | ngrxPush) === undefined ||
+              !(expressionSegment$ | ngrxPush)
+            "
+            (click)="onCreateNewMp$.next()"
+            type="button"
+            nz-button
+            nzType="primary"
+            nzBlock>
+            Add MP
+          </button>
+        </nz-col> -->
   </nz-row>
 
   <nz-row
     [nzGutter]="[6, 6]"
     class="preview-row">
-    <!-- preview, messages, errors -->
+    <!-- preview row -->
     <nz-col nzFlex="100px">
       <div class="finder-label">Preview:</div>
     </nz-col>
@@ -42,31 +127,8 @@
         </ng-container>
       </div>
     </nz-col>
-    <nz-col nzFlex="100px">
-      <button
-        *ngIf="existingMp$ | ngrxPush as mp"
-        (click)="cvcOnSelect.next(mp)"
-        [disabled]="expressionError$ | ngrxPush"
-        type="button"
-        nz-button
-        nzType="primary"
-        nzBlock>
-        Select MP
-      </button>
-      <button
-        *ngIf="!(existingMp$ | ngrxPush)"
-        [disabled]="
-          (expressionError$ | ngrxPush) || !(expressionSegment$ | ngrxPush)
-        "
-        (click)="onCreateNewMp$.next()"
-        type="button"
-        nz-button
-        nzType="primary"
-        nzBlock>
-        Add MP
-      </button>
-    </nz-col>
   </nz-row>
+
   <nz-row [nzGutter]="[6, 6]">
     <!-- input textarea -->
     <nz-col nzFlex="100px">

@@ -9,6 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core'
+import { ApolloQueryResult } from '@apollo/client/core'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -47,6 +48,7 @@ import {
   Observable,
   Subject,
   withLatestFrom,
+  tap,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
@@ -57,7 +59,7 @@ import { tag } from 'rxjs-spy/operators'
   selector: 'cvc-mp-expression-editor',
   templateUrl: './mp-expression-editor.component.html',
   styleUrls: ['./mp-expression-editor.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
@@ -87,21 +89,21 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
 
   // PRESENTATION STREAMS
   expressionMessage$: BehaviorSubject<Maybe<string>>
-  expressionError$: BehaviorSubject<Maybe<string>>
+  expressionHelp$: BehaviorSubject<Maybe<string>>
+  expressionError$: BehaviorSubject<Maybe<MpParseError>>
   expressionSegment$: Subject<Maybe<PreviewMpName2Fragment[]>>
   existingMp$: Subject<Maybe<MolecularProfile>>
   inputValue$: BehaviorSubject<string>
 
   expressionMessages = {
-    initial:
-      'Start constructing a complex molecular profile to preview below.',
+    initial: 'Use the editor below to construct a molecular profile.',
   }
 
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
     private mpEditorPrepopulate: MpExpressionEditorPrepopulateGQL,
-    private networkErrorService: NetworkErrorsService,
+    private networkErrorService: NetworkErrorsService
   ) {
     this.createMolecularProfileMutator = new MutatorWithState(
       this.networkErrorService
@@ -110,7 +112,8 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     this.onVariantSelect$ = new Subject<Variant>()
     this.onCreateNewMp$ = new Subject<void>()
     this.inputValue$ = new BehaviorSubject<string>('')
-    this.expressionError$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.expressionError$ = new BehaviorSubject<Maybe<MpParseError>>(undefined)
+    this.expressionHelp$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
       this.expressionMessages.initial
     )
@@ -122,15 +125,21 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     this.onInputChange$
       .pipe(
         filter(isNonNulled),
+        tap((input) => {
+          if (input.length === 0) {
+            this.expressionMessage$.next(this.expressionMessages.initial)
+            this.expressionError$.next(undefined)
+          }
+        }),
         filter((input: string) => input.length > 0),
         map((input: string) => {
           let res: MpParseError | MolecularProfileComponentInput =
             parseMolecularProfile(input)
-          if(this.cvcPrepopulateWithId !== undefined) {
+          if (this.cvcPrepopulateWithId !== undefined) {
             this.cvcOnEditPrepopulated.next(true)
           }
           if ('errorMessage' in res) {
-            return res.errorMessage
+            return res
           } else {
             return this.previewQueryRef!.refetch({ mpStructure: res })
           }
@@ -138,15 +147,23 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         untilDestroyed(this)
       )
       .subscribe((res) => {
-        if (typeof res === 'string') {
+        // FIXME: this casting of 'res' is a total hack, need proper gate functions for this error/response
+        // logic, or refactor the parser to use rxjs error handling (which will also simplfy template logic)
+        if (this.isMpParseError(res)) {
+          const err = res as MpParseError
           this.expressionMessage$.next(undefined)
-          this.expressionError$.next(res)
+          this.expressionError$.next(err)
           this.expressionSegment$.next(undefined)
         } else {
-          res.then(({ data, errors }) => {
-            if(errors) {
+          const response = res as Promise<
+            ApolloQueryResult<PreviewMolecularProfileName2Query>
+          >
+          response.then(({ data, errors }) => {
+            if (errors) {
               this.expressionMessage$.next(undefined)
-              this.expressionError$.next(errors.map(e => e.message).join("\n"))
+              this.expressionError$.next({
+                errorMessage: errors.map((e) => e.message).join('\n'),
+              })
               this.expressionSegment$.next(undefined)
             } else {
               const segments = data.previewMolecularProfileName.segments
@@ -235,6 +252,10 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       })
   }
 
+  isMpParseError(subject: any): boolean {
+    return subject.errorMessage !== undefined
+  }
+
   prepopulateMp(mpId: Maybe<number>) {
     if (!mpId) {
       this.expressionSegment$.next(undefined)
@@ -251,7 +272,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     ).then(({ data }) => {
       if (!data?.molecularProfile?.id) {
         console.error(
-          `MpExpressionEditor could not fetch MolecalarProfile:${mpId} to prepulate editor fields.`
+          `MpExpressionEditor could not fetch MolecularProfile:${mpId} to prepulate editor fields.`
         )
         return
       }

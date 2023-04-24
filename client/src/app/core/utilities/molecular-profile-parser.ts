@@ -13,6 +13,7 @@ const exprPlaceholder = 'EXPR'
 
 export interface MpParseError {
   errorMessage: string
+  errorHelp?: string
 }
 
 export type MpParseResult = MpParseError | MolecularProfileComponentInput
@@ -64,13 +65,18 @@ function parseSection(section: string): MpParseResult {
     let isBool = booleanToken.test(token)
     if (isBool && i == tokens.length - 1) {
       return {
-        errorMessage:
-          'Trailing boolean operator found. You cannot end your profile with an operator.',
+        errorMessage: 'Trailing AND/OR operator found.',
+        errorHelp:
+          'Boolean operators may not be used at the end of an expression.',
       }
     }
 
     if (isBool && i == 0) {
-      return { errorMessage: 'The expression cannot start with AND/OR' }
+      return {
+        errorMessage: 'The expression may not start with AND/OR.',
+        errorHelp:
+          'Boolean operators may not be used at the beginning of an expression.',
+      }
     }
 
     if (isBool && !firstBoolean) {
@@ -80,7 +86,8 @@ function parseSection(section: string): MpParseResult {
       if (nextBool !== firstBoolean) {
         return {
           errorMessage:
-            'You cannot mix and match AND/OR in a single segment. Use parenthesis to logically group your variants.',
+            'Expression may not include both AND/OR within a single segment.',
+          errorHelp: 'Segments may only contain identical boolean operators. Use parentheses to group form segments with consistent AND/OR operators.'
         }
       }
     }
@@ -95,7 +102,8 @@ function parseSection(section: string): MpParseResult {
     if (matchData === null) {
       if (token !== exprPlaceholder) {
         return {
-          errorMessage: `Variant ${token} does not match the expected format. The token should be a #VID prepended with an optional NOT.`,
+          errorMessage: `Variant '${token}' does not match the expected format.`,
+          errorHelp: 'The token should be a #VID prepended with an optional NOT.'
         }
       }
     } else {
