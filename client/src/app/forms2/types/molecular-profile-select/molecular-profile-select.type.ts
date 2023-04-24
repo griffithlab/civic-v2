@@ -145,7 +145,7 @@ export class CvcMolecularProfileSelectField
     this.onShowExpClick$ = new Subject<void>()
     this.showExp$ = this.onShowExpClick$.pipe(
       scan((acc, _) => !acc, false),
-      // startWith(true),
+      startWith(true),
       tap((open) => (this.editorOpen = open))
     )
     this.selectDisplay$ = new BehaviorSubject<SelectDisplayModel>({
@@ -193,8 +193,16 @@ export class CvcMolecularProfileSelectField
 
     // populate MP select if variantId received from child form model
     this.onMpSelect$
-      .pipe(filter(isNonNulled), untilDestroyed(this))
-      .subscribe((mp: MolecularProfile) => {
+      .pipe(untilDestroyed(this))
+      .subscribe((mp: Maybe<MolecularProfile>) => {
+        if (!mp) {
+          // this.field.formControl.setValue(undefined)
+          this.selectDisplay$.next({
+            showFinder: false,
+            showSelect: false,
+          })
+          return
+        }
         this.selectOption$.next([{ label: mp.name, value: mp.id }])
         if (this.editorOpen) this.onShowExpClick$.next()
         this.cdr.detectChanges()

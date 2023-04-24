@@ -94,7 +94,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
 
   expressionMessages = {
     initial:
-      'Start constructing a complex molecular profile to preview it here',
+      'Start constructing a complex molecular profile to preview below.',
   }
 
   constructor(

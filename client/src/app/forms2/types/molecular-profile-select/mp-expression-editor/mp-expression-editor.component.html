@@ -5,6 +5,21 @@
   <ng-template #success>Added new Molecular Profile</ng-template>
   <nz-row
     [nzGutter]="[6, 6]"
+    style="padding-bottom: 6px">
+    <nz-col [nzSpan]="24">
+      <ng-container *ngIf="expressionError$ | ngrxPush as error">
+        {{ error }}
+      </ng-container>
+      <nz-alert
+        *ngIf="expressionMessage$ | ngrxPush as message"
+        nzType="info"
+        [nzMessage]="message"
+        nzShowIcon></nz-alert>
+    </nz-col>
+  </nz-row>
+
+  <nz-row
+    [nzGutter]="[6, 6]"
     class="preview-row">
     <!-- preview, messages, errors -->
     <nz-col nzFlex="100px">
@@ -14,24 +29,17 @@
       <div
         class="expression-preview"
         [ngClass]="{ active: (expressionSegment$ | ngrxPush) !== undefined }">
-        <span
-          *ngIf="expressionMessage$ | ngrxPush as message"
-          nz-typography
-          nzType="secondary">
-          {{ message }}
-        </span>
-        <span
-          *ngIf="expressionError$ | ngrxPush as error"
-          nz-typography
-          nzType="secondary">
-          {{ error }}
-        </span>
-        <span
-          *ngIf="expressionSegment$ | ngrxPush as segments"
-          nz-typography
-          nzType="secondary">
-          <cvc-mp-tag-name [nameSegments]="segments"></cvc-mp-tag-name>
-        </span>
+        <ng-container *ngrxLet="expressionSegment$ | ngrxPush as segments">
+          <cvc-mp-tag-name
+            *ngIf="segments"
+            [nameSegments]="segments"></cvc-mp-tag-name>
+          <span
+            *ngIf="!segments"
+            nz-typography
+            nzType="secondary">
+            Preview
+          </span>
+        </ng-container>
       </div>
     </nz-col>
     <nz-col nzFlex="100px">
