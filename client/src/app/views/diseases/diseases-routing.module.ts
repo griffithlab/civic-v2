@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
-import { DiseasesHomePage } from './diseases-home/diseases-home.page';
-import { DiseasesSummaryComponent } from './diseases-detail/diseases-summary/diseases-summary.component';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component'
+import { DiseasesHomePage } from './diseases-home/diseases-home.page'
+import { DiseasesSummaryComponent } from './diseases-detail/diseases-summary/diseases-summary.component'
 
-import { DiseasesComponent } from './diseases.component';
+import { DiseasesComponent } from './diseases.component'
 
 const routes: Routes = [
   {
@@ -16,14 +16,14 @@ const routes: Routes = [
         path: 'home',
         component: DiseasesHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':diseaseId',
         component: DiseasesDetailComponent,
         data: {
-          breadcrumb: 'DISPLAYNAME'
+          breadcrumb: 'DISPLAYNAME',
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -31,17 +31,17 @@ const routes: Routes = [
             path: 'summary',
             component: DiseasesSummaryComponent,
             data: {
-              breadcrumb: 'Summary'
-            }
-          }
-        ]
-      }
-    ]
-  }
-];
+              breadcrumb: 'Summary',
+            },
+          },
+        ],
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DiseasesRoutingModule { }
+export class DiseasesRoutingModule {}

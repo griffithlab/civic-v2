@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { FormArray } from '@angular/forms';
-import { EvidenceTableUserFilters } from '@app/components/evidence/evidence-table/evidence-table.component';
-import { FormEvidence } from '@app/forms/forms.interfaces';
-import { FieldWrapper } from '@ngx-formly/core';
+import { Component } from '@angular/core'
+import { UntypedFormArray } from '@angular/forms'
+import { EvidenceTableUserFilters } from '@app/components/evidence/evidence-table/evidence-table.component'
+import { FormEvidence } from '@app/forms/forms.interfaces'
+import { FieldWrapper } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-with-evidence-manager-wrapper',
@@ -10,32 +10,32 @@ import { FieldWrapper } from '@ngx-formly/core';
   styleUrls: ['./with-evidence-manager.wrapper.less'],
 })
 export class WithEvidenceManagerWrapper extends FieldWrapper {
-
   managerVisible = false
   alreadySelected: FormEvidence[] = []
   private managerSelectedEids: FormEvidence[] = []
 
-  evidenceGridFilters: EvidenceTableUserFilters  = {
-      eidInput: undefined,
-      diseaseNameInput: undefined,
-      therapyNameInput: undefined,
-      descriptionInput: undefined,
-      evidenceLevelInput: undefined,
-      evidenceTypeInput: undefined,
-      evidenceDirectionInput: undefined,
-      SignificanceInput: undefined,
-      variantOriginInput: undefined,
-      evidenceRatingInput: undefined,
-      molecularProfileNameInput: undefined,
-      geneSymbolInput: undefined,
+  evidenceGridFilters: EvidenceTableUserFilters = {
+    eidInput: undefined,
+    diseaseNameInput: undefined,
+    therapyNameInput: undefined,
+    descriptionInput: undefined,
+    evidenceLevelInput: undefined,
+    evidenceTypeInput: undefined,
+    evidenceDirectionInput: undefined,
+    SignificanceInput: undefined,
+    variantOriginInput: undefined,
+    evidenceRatingInput: undefined,
+    molecularProfileNameInput: undefined,
+    geneSymbolInput: undefined,
   }
 
   handleOpen() {
-    if(this.field.parent?.model) {
+    if (this.field.parent?.model) {
       const parentModel = this.field.parent?.model
       if (parentModel.molecularProfile) {
-        this.evidenceGridFilters.molecularProfileNameInput = parentModel.molecularProfile.name
-      } else  {
+        this.evidenceGridFilters.molecularProfileNameInput =
+          parentModel.molecularProfile.name
+      } else {
         this.evidenceGridFilters.molecularProfileNameInput = undefined
       }
       if (parentModel.evidenceType) {
@@ -49,7 +49,7 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
         this.evidenceGridFilters.diseaseNameInput = undefined
       }
     }
-    if(this.model) {
+    if (this.model) {
       this.alreadySelected = this.model.filter((eid: any) => eid)
     }
     this.managerVisible = true
@@ -63,25 +63,24 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
     this.managerVisible = false
     const eids = this.managerSelectedEids
 
-    while(this.formControl.value.length < eids.length) {
-      this.to.add(eids[0]);
+    while (this.formControl.value.length < eids.length) {
+      this.to.add(eids[0])
     }
-    while(this.formControl.value.length > eids.length) {
-      this.to.remove(this.formControl.value.length - 1);
+    while (this.formControl.value.length > eids.length) {
+      this.to.remove(this.formControl.value.length - 1)
     }
 
     eids.forEach((eid, i) => {
-      let control = this.field.formControl as FormArray
+      let control = this.field.formControl as UntypedFormArray
       control.controls[i].setValue(eid)
     })
 
-    if(this.to.eidCallback) {
+    if (this.to.eidCallback) {
       this.to.eidCallback(eids)
     }
   }
 
   onEidSelectionChange(eids: FormEvidence[]) {
     this.managerSelectedEids = eids
-
   }
 }

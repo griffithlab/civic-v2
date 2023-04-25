@@ -1,14 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Maybe, ModeratedEntities, Organization } from '@app/generated/civic.apollo';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  Maybe,
+  ModeratedEntities,
+  Organization,
+} from '@app/generated/civic.apollo'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'cvc-variant-groups-revisions',
   templateUrl: './variant-groups-revisions.page.html',
   styleUrls: ['./variant-groups-revisions.page.less'],
 })
-export class VariantGroupsRevisionsPage implements OnDestroy{
+export class VariantGroupsRevisionsPage implements OnDestroy {
   vgId!: number
   entityType!: ModeratedEntities
 
@@ -16,12 +20,12 @@ export class VariantGroupsRevisionsPage implements OnDestroy{
 
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.vgId = +params.variantGroupId;
+      this.vgId = +params.variantGroupId
       this.entityType = ModeratedEntities['VariantGroup']
-    });
+    })
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

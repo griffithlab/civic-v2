@@ -58,7 +58,7 @@
                   (ngModelChange)="onModelUpdated()"
                   [nzCustomTemplate]="variantTypeTemplate">
                   <nz-option *ngFor="let variantType of variantTypes"
-                    [nzLabel]="variantType.name"
+                    [nzLabel]="variantType!.name"
                     [nzValue]="variantType">
                   </nz-option>
                 </nz-select>
@@ -111,14 +111,14 @@
         <nz-col nzSpan="24">
           <cvc-tag-list size="sm">
             <ng-container *ngFor="let v of variants">
-              <cvc-variant-tag [variant]="v"></cvc-variant-tag>
+              <cvc-variant-tag *ngIf="v" [variant]="v"></cvc-variant-tag>
             </ng-container>
           </cvc-tag-list>
         </nz-col>
       </nz-row>
       <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
         <nz-row id="load-more-btn"
-          *ngIf="pageInfo.hasNextPage">
+          *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
           <button nz-button
             nzType="default"
             nzSize="small"

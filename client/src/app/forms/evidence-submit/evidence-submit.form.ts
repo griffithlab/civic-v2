@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core'
+import { UntypedFormGroup } from '@angular/forms'
 import {
   EvidenceSignificance,
   EvidenceDirection,
@@ -14,16 +14,22 @@ import {
   SubmitEvidenceItemMutationVariables,
   TherapyInteraction,
   VariantOrigin,
-} from '@app/generated/civic.apollo';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { takeUntil } from 'rxjs/operators';
-import { FormDisease, FormTherapy, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
-import { ActivatedRoute } from '@angular/router';
+} from '@app/generated/civic.apollo'
+import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { EvidenceState } from '@app/forms/config/states/evidence.state'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { takeUntil } from 'rxjs/operators'
+import {
+  FormDisease,
+  FormTherapy,
+  FormMolecularProfile,
+  FormPhenotype,
+  FormSource,
+} from '../forms.interfaces'
+import { ActivatedRoute } from '@angular/router'
 
 interface FormModel {
   fields: {
@@ -54,18 +60,20 @@ interface FormModel {
 @Component({
   selector: 'cvc-evidence-submit-form',
   templateUrl: './evidence-submit.form.html',
-  styleUrls: ['./evidence-submit.form.less'],
 })
 export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>()
 
-  formModel!: FormModel;
-  formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = { formState: new EvidenceState() };
+  formModel!: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = { formState: new EvidenceState() }
 
-  submitEvidenceMutator: MutatorWithState<SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables>
-
+  submitEvidenceMutator: MutatorWithState<
+    SubmitEvidenceItemGQL,
+    SubmitEvidenceItemMutation,
+    SubmitEvidenceItemMutationVariables
+  >
 
   submittedMpId: Maybe<number>
   submittedSourceId: Maybe<number>
@@ -76,16 +84,15 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   loading: boolean = false
   newId?: number
 
-  showForm = false;
+  showForm = false
 
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private sourceSuggestionGQL: EvidenceFieldsFromSourceSuggestionGQL,
     private networkErrorService: NetworkErrorsService,
     private route: ActivatedRoute
-    ) {
-
-    this.submitEvidenceMutator = new MutatorWithState(networkErrorService);
+  ) {
+    this.submitEvidenceMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -100,7 +107,8 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             type: 'molecular-profile-input',
             templateOptions: {
               label: 'Molecular Profile',
-              helpText: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
+              helpText:
+                'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               required: true,
               allowCreate: true,
             },
@@ -134,8 +142,6 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             type: 'cvc-textarea',
             templateOptions: {
               label: 'Evidence Statement',
-              helpText:
-                'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
               placeholder: 'No description provided',
               required: true,
             },
@@ -230,11 +236,11 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           },
         ],
       },
-    ];
+    ]
   }
 
   ngAfterViewInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       let shouldPopulate = false
       if (params.molecularProfileId) {
         shouldPopulate = true
@@ -249,83 +255,93 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         this.submittedDiseaseId = +params.diseaseId
       }
 
-      if(shouldPopulate) {
+      if (shouldPopulate) {
         // TODO update source suggestions to use molecular profiles
-        this.sourceSuggestionGQL.fetch({
-          molecularProfileId: this.submittedMpId,
-          diseaseId: this.submittedDiseaseId,
-          sourceId: this.submittedSourceId,
-        }).subscribe(
-          ({data: { sourceSuggestionValues}, loading}) => {
-            this.loading = loading
-            let newModel: any = {fields: {}}
-            if(sourceSuggestionValues.molecularProfile) {
-              newModel.fields.molecularProfile = sourceSuggestionValues.molecularProfile
-            }
-            if(sourceSuggestionValues.disease) {
-              newModel.fields.disease = [sourceSuggestionValues.disease]
-            }
-            if(sourceSuggestionValues.source) {
-              newModel.fields.source = [sourceSuggestionValues.source]
-            }
+        this.sourceSuggestionGQL
+          .fetch({
+            molecularProfileId: this.submittedMpId,
+            diseaseId: this.submittedDiseaseId,
+            sourceId: this.submittedSourceId,
+          })
+          .subscribe(
+            ({ data: { sourceSuggestionValues }, loading }) => {
+              this.loading = loading
+              let newModel: any = { fields: {} }
+              if (sourceSuggestionValues.molecularProfile) {
+                newModel.fields.molecularProfile =
+                  sourceSuggestionValues.molecularProfile
+              }
+              if (sourceSuggestionValues.disease) {
+                newModel.fields.disease = [sourceSuggestionValues.disease]
+              }
+              if (sourceSuggestionValues.source) {
+                newModel.fields.source = [sourceSuggestionValues.source]
+              }
 
-           //if the previously used org was already set in the model, copy it to the new model
-           if(this.formModel?.fields?.organization) {
-              newModel.organization = this.formModel?.fields?.organization
-            }
+              //if the previously used org was already set in the model, copy it to the new model
+              if (this.formModel?.fields?.organization) {
+                newModel.organization = this.formModel?.fields?.organization
+              }
 
-            this.formModel = newModel
-          },
-          (error) => {
-            console.error('Error retrieving source suggestion data.');
-            console.error(error);
-          },
-          //complete
-          () => {
-            if (this.formOptions.updateInitialValue) {
-              this.formOptions.updateInitialValue();
+              this.formModel = newModel
+            },
+            (error) => {
+              console.error('Error retrieving source suggestion data.')
+              console.error(error)
+            },
+            //complete
+            () => {
+              if (this.formOptions.updateInitialValue) {
+                this.formOptions.updateInitialValue()
+              }
+              this.formGroup.markAllAsTouched()
+              this.showForm = true
             }
-            this.formGroup.markAllAsTouched();
-            this.showForm = true;
-          });
+          )
       } else {
-        this.showForm = true;
+        this.showForm = true
       }
     })
   }
 
   submitEvidence(formModel: Maybe<FormModel>): void {
-    let input = this.toSubmitInput(formModel);
+    let input = this.toSubmitInput(formModel)
     if (input) {
-      let state = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {
-        input: input
-      }, {},
-      (data) => {
-        this.newId = data.submitEvidence?.evidenceItem.id;
-      })
+      let state = this.submitEvidenceMutator.mutate(
+        this.submitEvidenceGQL,
+        {
+          input: input,
+        },
+        {},
+        (data) => {
+          this.newId = data.submitEvidence?.evidenceItem.id
+        }
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
+        if (res) {
           this.success = true
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
+        if (errs) {
           this.errorMessages = errs
           this.success = false
         }
       })
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading
+        })
     }
   }
 
   toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitEvidenceItemInput> {
     if (model) {
-      const fields = model.fields;
+      const fields = model.fields
       return {
         fields: {
           variantOrigin: fields.variantOrigin,
@@ -337,21 +353,31 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
-          phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
+          phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => {
+            return ph.id
+          }),
           rating: +fields.evidenceRating,
-          therapyIds: fields.therapies.map((dr: FormTherapy) => { return dr.id! }),
-          therapyInteractionType: fmt.toNullableInput(fields.therapies.length > 1 ? fields.therapyInteractionType : undefined)
+          therapyIds: fields.therapies.map((dr: FormTherapy) => {
+            return dr.id!
+          }),
+          therapyInteractionType: fmt.toNullableInput(
+            fields.therapies.length > 1
+              ? fields.therapyInteractionType
+              : undefined
+          ),
         },
-        comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
-        organizationId: model?.fields.organization?.id
+        comment:
+          fields.comment && fields.comment.length > 0
+            ? fields.comment
+            : undefined,
+        organizationId: model?.fields.organization?.id,
       }
-
     }
     return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

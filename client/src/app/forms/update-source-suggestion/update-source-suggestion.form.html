@@ -1,26 +1,55 @@
 <nz-card>
   <nz-space nzDirection="vertical">
-    <nz-alert *ngIf="this.success" nzBanner nzMessage="Status Updated" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-    <cvc-form-errors-alert *ngIf="this.errorMessages.length" [errors]="this.errorMessages">
+    <nz-alert
+      *ngIf="this.success"
+      nzBanner
+      nzMessage="Status Updated"
+      nzType="success"
+      nzCloseable
+      (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+    <cvc-form-errors-alert
+      *ngIf="this.errorMessages.length"
+      [errors]="this.errorMessages">
     </cvc-form-errors-alert>
-    <textarea *nzSpaceItem rows="4" nz-input [(ngModel)]="reason"></textarea>
-    <nz-select *nzSpaceItem nzPlaceHolder="New Status" [(ngModel)]="this.newStatus" required="true">
-      <nz-option *ngIf="this.currentStatus == 'NEW'" nzValue="CURATED" nzLabel="Curated"></nz-option>
-      <nz-option *ngIf="this.currentStatus != 'NEW'" nzValue="NEW" nzLabel="New"></nz-option>
-      <nz-option *ngIf="this.currentStatus == 'NEW'" nzValue="REJECTED" nzLabel="Rejected"></nz-option>
+    <textarea
+      *nzSpaceItem
+      rows="4"
+      nz-input
+      [(ngModel)]="reason"></textarea>
+    <nz-select
+      *nzSpaceItem
+      nzPlaceHolder="New Status"
+      [(ngModel)]="this.newStatus"
+      required="true">
+      <nz-option
+        *ngIf="this.currentStatus == 'NEW'"
+        nzValue="CURATED"
+        nzLabel="Curated"></nz-option>
+      <nz-option
+        *ngIf="this.currentStatus != 'NEW'"
+        nzValue="NEW"
+        nzLabel="New"></nz-option>
+      <nz-option
+        *ngIf="this.currentStatus == 'NEW'"
+        nzValue="REJECTED"
+        nzLabel="Rejected"></nz-option>
     </nz-select>
-    <nz-spin *nzSpaceItem nzTip="Submitting" [nzSpinning]="this.loading">
-      <cvc-form-buttons >
+    <nz-spin
+      *nzSpaceItem
+      nzTip="Submitting"
+      [nzSpinning]="this.loading">
+      <cvc-form-buttons>
         <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-            <button type="submit"
-              nz-button
-              (click)="updateSourceSuggestionStatus()"
-              cvcOrgSelectorBtn
-              nzType="primary"
-              nzSize="small"
-              [disabled]="this.loading">
-              Update Source Suggestion status
-            </button>
+          <button
+            type="submit"
+            nz-button
+            (click)="updateSourceSuggestionStatus()"
+            cvcOrgSelectorBtn
+            nzType="primary"
+            nzSize="small"
+            [disabled]="this.loading">
+            Update Source Suggestion status
+          </button>
         </cvc-org-selector-btn-group>
       </cvc-form-buttons>
     </nz-spin>

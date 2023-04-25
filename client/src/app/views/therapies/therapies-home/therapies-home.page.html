@@ -1,58 +1,74 @@
 <cvc-section-navigation> </cvc-section-navigation>
 <nz-page-header class="site-page-header">
-
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px"
+      <nz-col
+        nzFlex="64px"
         class="header-icon">
-        <i nz-icon
+        <i
+          nz-icon
           nzTheme="twotone"
-          [nzTwotoneColor]="'Intervention' | entityColor"
-          nzType="civic-intervention"></i>
+          [nzTwotoneColor]="'Therapy' | entityColor"
+          nzType="civic-therapy"></i>
       </nz-col>
-      <nz-col nzFlex="600px"
+      <nz-col
+        nzFlex="600px"
         class="header-description">
         <h2>Therapies</h2>
-        <p nz-typography
+        <p
+          nz-typography
           nzEllipsis
           nzExpandable
-          [nzEllipsisRows]="2">CIViC Therapies are associated with Predictive Evidence Types, and describe the sensitivity, resistance or adverse response to treatment. Therapies may also be used to describe more general treatment types and regimes, such as FOLFOX or Radiation.</p>
+          [nzEllipsisRows]="2">
+          CIViC Therapies are associated with Predictive Evidence Types, and
+          describe the sensitivity, resistance or adverse response to treatment.
+          Therapies may also be used to describe more general treatment types
+          and regimes, such as FOLFOX or Radiation.
+        </p>
       </nz-col>
-      <nz-col nzFlex="auto"
+      <nz-col
+        nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical"
+        <nz-space
+          nzDirection="vertical"
           class="docs-buttons">
-          <a nz-button
+          <a
+            nz-button
             href="https://civic.readthedocs.io/en/latest/model/evidence/therapy.html"
             target="_blank"
             nzSize="small"
             nzBlock
             *nzSpaceItem>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="link"
               nzTheme="outline"></i>
             View Therapy Attribute Docs
-        </a>
-          <a nz-button
+          </a>
+          <a
+            nz-button
             href="https://civic.readthedocs.io/en/latest/model/evidence/therapy.html#curating-therapies"
             target="_blank"
             nzSize="small"
             nzBlock
             *nzSpaceItem>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="link"
               nzTheme="outline"></i>
             View Therapy Curation Docs
-        </a>
+          </a>
         </nz-space>
       </nz-col>
     </nz-row>
     <div nz-row>
-      <div nz-col
+      <div
+        nz-col
         [nzSpan]="24">
         <div class="content">
-          <cvc-therapies-table cvcTitle="Browse All Therapies"></cvc-therapies-table>
+          <cvc-therapies-table
+            cvcTitle="Browse All Therapies"></cvc-therapies-table>
         </div>
       </div>
     </div>

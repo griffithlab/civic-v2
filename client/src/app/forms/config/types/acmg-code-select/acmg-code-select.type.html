@@ -1,5 +1,6 @@
 <ng-container *ngIf="!formControl.value?.id; else acmgCodeItem">
-  <nz-select nzShowSearch
+  <nz-select
+    nzShowSearch
     nzServerSearch
     autofocus="click"
     [formControl]="formControl"
@@ -10,13 +11,16 @@
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="onSearch($event)">
     <ng-container *ngrxLet="this.codes$ as codes">
-      <nz-option *ngFor="let opt of codes"
+      <nz-option
+        *ngFor="let opt of codes"
         nzCustomContent
         [nzLabel]="opt.code"
         [nzValue]="opt">
         <nz-space>
           <span *nzSpaceItem>
-            <span [innerHtml]="opt.code | highlightTypeahead: this.searchVal"></span> - {{ opt.description }}
+            <span
+              [innerHtml]="opt.code | highlightTypeahead: this.searchVal"></span>
+            - {{ opt.description }}
           </span>
         </nz-space>
       </nz-option>

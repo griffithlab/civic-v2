@@ -1,19 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcContributorAvatarsComponent } from './contributor-avatars.component';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { CvcContributorStackModule } from '../contributor-stack/contributor-stack.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcContributorAvatarsComponent } from './contributor-avatars.component'
+import { LetModule, PushModule } from '@ngrx/component'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcContributorStackModule } from '../contributor-stack/contributor-stack.module'
 
 @NgModule({
   declarations: [CvcContributorAvatarsComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     NzTypographyModule,
     CvcContributorStackModule,
-
   ],
-  exports: [CvcContributorAvatarsComponent]
+  exports: [CvcContributorAvatarsComponent],
 })
-export class CvcContributorAvatarsModule { }
+export class CvcContributorAvatarsModule {}

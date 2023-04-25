@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SourceAddPage } from './source-add/source-add.page';
-import { SourcesDetailView } from './sources-detail/sources-detail.view';
-import { SourcesHomePage } from './sources-home/sources-home.page';
-import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { SourceAddPage } from './source-add/source-add.page'
+import { SourcesDetailView } from './sources-detail/sources-detail.view'
+import { SourcesHomePage } from './sources-home/sources-home.page'
+import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page'
 
-import { SourcesView } from './sources.view';
-import { SourcesCommentsPage } from './sources-detail/sources-comments/sources-comments.page';
+import { SourcesView } from './sources.view'
+import { SourcesCommentsPage } from './sources-detail/sources-comments/sources-comments.page'
 
 const routes: Routes = [
   {
@@ -18,8 +18,8 @@ const routes: Routes = [
         path: 'home',
         component: SourcesHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: 'add',
@@ -27,13 +27,13 @@ const routes: Routes = [
           breadcrumb: 'Submit a Source Suggestion',
         },
         runGuardsAndResolvers: 'always',
-        component: SourceAddPage
+        component: SourceAddPage,
       },
       {
         path: ':sourceId',
         component: SourcesDetailView,
         data: {
-          breadcrumb: 'DISPLAYNAME'
+          breadcrumb: 'DISPLAYNAME',
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -41,24 +41,24 @@ const routes: Routes = [
             path: 'summary',
             component: SourcesSummaryPage,
             data: {
-              breadcrumb: 'Summary'
+              breadcrumb: 'Summary',
             },
           },
           {
             path: 'comments',
             component: SourcesCommentsPage,
             data: {
-              breadcrumb: 'Comments'
+              breadcrumb: 'Comments',
             },
-          }
-        ]
-      }
-    ]
-  }
-];
+          },
+        ],
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SourcesRoutingModule { }
+export class SourcesRoutingModule {}

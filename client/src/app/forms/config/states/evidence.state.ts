@@ -2,12 +2,12 @@ import {
   EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
-} from "@app/generated/civic.apollo";
-import { EntityName, EntityState } from "./entity.state";
+} from '@app/generated/civic.apollo'
+import { EntityName, EntityState } from './entity.state'
 
 class EvidenceState extends EntityState {
   constructor() {
-    super(EntityName.EVIDENCE);
+    super(EntityName.EVIDENCE)
     this.validStates.set(EvidenceType.Predictive, {
       entityType: EvidenceType.Predictive,
       significance: [
@@ -19,15 +19,15 @@ class EvidenceState extends EntityState {
       ],
       entityDirection: [
         EvidenceDirection.Supports,
-        EvidenceDirection.DoesNotSupport
+        EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: true,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(EvidenceType.Diagnostic, {
       entityType: EvidenceType.Diagnostic,
@@ -37,34 +37,34 @@ class EvidenceState extends EntityState {
       ],
       entityDirection: [
         EvidenceDirection.Supports,
-        EvidenceDirection.DoesNotSupport
+        EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(EvidenceType.Prognostic, {
       entityType: EvidenceType.Prognostic,
       significance: [
         EvidenceSignificance.BetterOutcome,
         EvidenceSignificance.PoorOutcome,
-        EvidenceSignificance.Na
+        EvidenceSignificance.Na,
       ],
       entityDirection: [
         EvidenceDirection.Supports,
-        EvidenceDirection.DoesNotSupport
+        EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(EvidenceType.Oncogenic, {
       entityType: EvidenceType.Oncogenic,
@@ -81,8 +81,8 @@ class EvidenceState extends EntityState {
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(EvidenceType.Predisposing, {
       entityType: EvidenceType.Predisposing,
@@ -99,8 +99,8 @@ class EvidenceState extends EntityState {
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(EvidenceType.Functional, {
       entityType: EvidenceType.Functional,
@@ -114,16 +114,16 @@ class EvidenceState extends EntityState {
       ],
       entityDirection: [
         EvidenceDirection.Supports,
-        EvidenceDirection.DoesNotSupport
+        EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: false,
       requiresDrug: false,
       requiresAcmgCodes: false,
       requiresClingenCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
   }
 }
 
-export { EvidenceState };
+export { EvidenceState }

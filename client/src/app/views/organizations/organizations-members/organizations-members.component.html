@@ -1,17 +1,33 @@
 <nz-spin [nzSpinning]="this.loading$ | ngrxPush">
-  <ng-container *ngIf="! (this.loading$ | ngrxPush)">
-    <nz-space nzSize="middle" nzDirection="vertical" class="space-align-block">
-      <div nz-row [nzGutter]="[16, 16]" *nzSpaceItem>
-        <div *ngFor="let member of members$ | ngrxPush" nz-col [nzSpan]="6">
-          <cvc-user-card [user]="member"></cvc-user-card>
+  <ng-container *ngIf="!(this.loading$ | ngrxPush)">
+    <nz-space
+      nzSize="middle"
+      nzDirection="vertical"
+      class="space-align-block">
+      <div
+        nz-row
+        [nzGutter]="[16, 16]"
+        *nzSpaceItem>
+        <div
+          *ngFor="let member of members$ | ngrxPush"
+          nz-col
+          [nzSpan]="6">
+          <cvc-user-card
+            *ngIf="member"
+            [user]="member"></cvc-user-card>
         </div>
       </div>
       <!-- Load More button row -->
       <ng-container *nzSpaceItem>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <ng-container *ngIf="pageInfo.hasNextPage">
-            <button *ngIf="pageInfo.hasNextPage" (click)="loadMore(pageInfo.endCursor)" nz-button nzBlock>Load
-              {{this.initialPageSize}} More</button>
+          <ng-container
+            *ngIf="pageInfo && pageInfo.hasNextPage && pageInfo.endCursor">
+            <button
+              (click)="loadMore(pageInfo.endCursor)"
+              nz-button
+              nzBlock>
+              Load {{ this.initialPageSize }} More
+            </button>
           </ng-container>
         </ng-container>
       </ng-container>

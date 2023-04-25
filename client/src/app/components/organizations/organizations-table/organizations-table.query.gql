@@ -1,4 +1,4 @@
-query OrganizationsBrowse (
+query OrganizationsBrowse(
   $first: Int
   $last: Int
   $before: String

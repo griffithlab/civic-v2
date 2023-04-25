@@ -1,0 +1,36 @@
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  [redirectUrl]="this.newEvidenceUrl"
+  entityType="Evidence Item"
+  [successMessage]="success">
+  <ng-template #success>
+    View your new EID
+    <a [routerLink]="['/evidence', newEvidenceId, 'summary']">here</a>. You will be redirected shortly.
+  </ng-template>
+  <form
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      [options]="options"
+      style="width: 100%"
+      (modelChange)="model = $event">
+    </formly-form>
+  </form>
+</cvc-form-submission-status-display>
+<!-- <nz-row style="background-color: #eef">
+     <nz-col nzSpan="12">
+     <h4>evidence-submit.form.html Model</h4>
+     <ngx-json-viewer [json]="model"></ngx-json-viewer>
+     </nz-col>
+     <nz-col nzSpan="12">
+     <h4>Form</h4>
+     <pre>
+     touched: {{ form.touched }}
+     </pre>
+     </nz-col>
+     </nz-row> -->

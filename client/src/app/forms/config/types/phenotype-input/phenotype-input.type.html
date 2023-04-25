@@ -1,5 +1,6 @@
 <ng-container *ngIf="!formControl.value?.id; else drugListItem">
-  <nz-select nzShowSearch
+  <nz-select
+    nzShowSearch
     nzServerSearch
     autofocus="click"
     [formControl]="formControl"
@@ -10,11 +11,14 @@
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
     <ng-container *ngrxLet="this.phenotypes$ as phenotypes">
-      <nz-option *ngFor="let opt of phenotypes"
+      <nz-option
+        *ngFor="let opt of phenotypes"
         nzCustomContent
         nzLabel="{{opt.name}} ({{opt.hpoId}})"
         [nzValue]="opt">
-        <span [innerHtml]="opt.name | highlightTypeahead: this.to.searchString"></span> - ({{opt.hpoId }})
+        <span
+          [innerHtml]="opt.name | highlightTypeahead: this.to.searchString"></span>
+        - ({{opt.hpoId }})
       </nz-option>
     </ng-container>
   </nz-select>

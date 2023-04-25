@@ -1,21 +1,21 @@
 query MolecularProfileMenu(
-  $geneId: Int,
-  $mpName: String,
-  $first: Int,
-  $last: Int,
-  $before: String,
-  $after: String,
+  $geneId: Int
+  $mpName: String
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
   $evidenceStatusFilter: MolecularProfileDisplayFilter
-  ) {
+) {
   molecularProfiles(
-    geneId: $geneId,
-    name: $mpName,
+    geneId: $geneId
+    name: $mpName
     evidenceStatusFilter: $evidenceStatusFilter
-    first: $first,
-    last: $last,
-    before: $before,
-    after: $after,
-    ) {
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
     totalCount
     pageInfo {
       startCursor

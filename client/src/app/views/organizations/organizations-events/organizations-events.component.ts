@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { EventFeedMode } from '@app/generated/civic.apollo';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { EventFeedMode } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-organizations-events',
@@ -12,6 +12,6 @@ export class OrganizationsEventsComponent {
   mode = EventFeedMode.Organization
 
   constructor(private route: ActivatedRoute) {
-    this.organizationId = +this.route.snapshot.params['organizationId'];
+    this.organizationId = +this.route.snapshot.params['organizationId']
   }
 }

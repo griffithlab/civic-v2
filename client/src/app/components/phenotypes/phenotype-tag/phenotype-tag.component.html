@@ -11,8 +11,8 @@
     [nzPopoverContent]="phenotypePopover"
     nzPopoverPlacement="right"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)"
-    >
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -22,7 +22,9 @@
 </ng-template>
 
 <ng-template #noPopover>
-    <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+  <nz-tag
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>
@@ -32,7 +34,8 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
+  <i
+    nz-icon
     nzTheme="twotone"
     [nzTwotoneColor]="'Phenotype' | entityColor"
     nzType="civic-phenotype"></i>

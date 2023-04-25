@@ -29,10 +29,10 @@ module Types::Entities
     end
 
     def name
-      if object.title
-        object.title
+      if object.citation
+        return "#{object.source_type}: #{object.citation}"
       else
-        "SID#{object.id}"
+        return "#{object.source_type}: #{object.id}"
       end
     end
 

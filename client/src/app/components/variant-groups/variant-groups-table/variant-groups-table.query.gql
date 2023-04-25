@@ -7,7 +7,7 @@ query BrowseVariantGroups(
   $name: String
   $geneNames: String
   $variantNames: String
-){
+) {
   browseVariantGroups(
     first: $first
     last: $last
@@ -17,7 +17,7 @@ query BrowseVariantGroups(
     name: $name
     geneNames: $geneNames
     variantNames: $variantNames
-  ){
+  ) {
     pageInfo {
       endCursor
       hasNextPage

@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { FieldWrapper } from '@ngx-formly/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core'
+import { FieldWrapper } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-form-container-wrapper',
@@ -7,6 +12,4 @@ import { FieldWrapper } from '@ngx-formly/core';
   styleUrls: ['./form-container.wrapper.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormContainerWrapper extends FieldWrapper {
-}
-
+export class FormContainerWrapper extends FieldWrapper {}

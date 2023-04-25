@@ -1,21 +1,34 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { isDefined } from '@app/core/utilities/defined-typeguard';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { Maybe, ModeratedEntities, Organization, RevisionsGQL, RevisionStatus, SubmittableVariantGroupFieldsFragment, SuggestVariantGroupRevisionGQL, SuggestVariantGroupRevisionInput, SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables, VariantGroupDetailGQL, VariantGroupSubmittableFieldsGQL } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { FormSource, FormVariant } from '../forms.interfaces';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core'
+import { AbstractControl, UntypedFormGroup } from '@angular/forms'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { isDefined } from '@app/core/utilities/defined-typeguard'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  Maybe,
+  ModeratedEntities,
+  Organization,
+  RevisionsGQL,
+  RevisionStatus,
+  SubmittableVariantGroupFieldsFragment,
+  SuggestVariantGroupRevisionGQL,
+  SuggestVariantGroupRevisionInput,
+  SuggestVariantGroupRevisionMutation,
+  SuggestVariantGroupRevisionMutationVariables,
+  VariantGroupDetailGQL,
+  VariantGroupSubmittableFieldsGQL,
+} from '@app/generated/civic.apollo'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
+import { FormSource, FormVariant } from '../forms.interfaces'
 
 interface FormModel {
   fields: {
-    name: string,
-    description: string,
-    sources: FormSource[],
-    variants: FormVariant[],
-    comment?: string,
+    name: string
+    description: string
+    sources: FormSource[]
+    variants: FormVariant[]
+    comment?: string
     organization?: Maybe<Organization>
   }
 }
@@ -23,24 +36,27 @@ interface FormModel {
 @Component({
   selector: 'cvc-variant-group-revise-form',
   templateUrl: './variant-group-revise.form.html',
-  styleUrls: ['./variant-group-revise.form.less']
 })
-export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
-  @Input() variantGroupId!: number;
+export class VariantGroupReviseForm implements OnDestroy, AfterViewInit {
+  @Input() variantGroupId!: number
 
-  private destroy$: Subject<void> = new Subject();
+  private destroy$: Subject<void> = new Subject<void>()
 
-  formModel!: FormModel;
-  formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formModel!: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[]
+  formOptions: FormlyFormOptions = {}
 
   success: boolean = false
   noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
-  suggestRevisionMutator: MutatorWithState<SuggestVariantGroupRevisionGQL, SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables>
+  suggestRevisionMutator: MutatorWithState<
+    SuggestVariantGroupRevisionGQL,
+    SuggestVariantGroupRevisionMutation,
+    SuggestVariantGroupRevisionMutationVariables
+  >
 
   constructor(
     private suggestRevisionGQL: SuggestVariantGroupRevisionGQL,
@@ -49,7 +65,6 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
     private variantGroupDetailGQL: VariantGroupDetailGQL,
     private revisionsGQL: RevisionsGQL
   ) {
-
     this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
@@ -57,7 +72,7 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
         key: 'fields',
         wrappers: ['form-container'],
         templateOptions: {
-          label: 'Add Variant Group Form'
+          label: 'Add Variant Group Form',
         },
         fieldGroup: [
           {
@@ -66,8 +81,8 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
             wrappers: ['form-field'],
             templateOptions: {
               label: 'Variant Group Name',
-              required: true
-            }
+              required: true,
+            },
           },
           {
             key: 'description',
@@ -76,8 +91,8 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
               label: 'Description',
               helpText: 'A brief description of this new variant group.',
               placeholder: 'No description provided',
-              required: true
-            }
+              required: true,
+            },
           },
           {
             key: 'sources',
@@ -102,7 +117,8 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
             wrappers: ['form-field'],
             templateOptions: {
               label: 'Variants',
-              helpText: 'Specify the variants that comprise this Variant Group.',
+              helpText:
+                'Specify the variants that comprise this Variant Group.',
               addText: 'Add a Variant ',
             },
             fieldArray: {
@@ -110,7 +126,7 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
               templateOptions: {
                 hideLabel: true,
                 required: true,
-                allowCreate: false
+                allowCreate: false,
               },
             },
           },
@@ -119,53 +135,58 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
             type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
-              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
+              helpText:
+                "Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item's comment thread.",
               placeholder: 'Please enter a comment describing your revision.',
               required: true,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
             key: 'cancel',
             type: 'cancel-button',
             templateOptions: {
-              redirectPath: '../..'
-            }
+              redirectPath: '../..',
+            },
           },
           {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
               submitLabel: 'Submit Variant Group Revision',
-              submitSize: 'large'
-            }
-          }
-        ]
-      }
+              submitSize: 'large',
+            },
+          },
+        ],
+      },
     ]
   }
 
   ngAfterViewInit(): void {
-    this.revisableFieldsGQL.fetch({variantGroupId: this.variantGroupId})
+    this.revisableFieldsGQL
+      .fetch({ variantGroupId: this.variantGroupId })
       .subscribe(
-        ({data: {variantGroup}}) => {
-          if(variantGroup) {
+        ({ data: { variantGroup } }) => {
+          if (variantGroup) {
             this.formModel = this.toFormModel(variantGroup)
           }
         },
         (error) => {
-
-          console.error('Error retrieving evidenceItem.');
-          console.error(error);
+          console.error('Error retrieving evidenceItem.')
+          console.error(error)
         },
         () => {
           if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
+            this.formOptions.updateInitialValue()
           }
-          this.formGroup.markAllAsTouched();
-          const commentFc: AbstractControl | null = this.formGroup.get('fields.comment');
-          if (commentFc) { commentFc.markAsUntouched() }
-        });
+          this.formGroup.markAllAsTouched()
+          const commentFc: AbstractControl | null =
+            this.formGroup.get('fields.comment')
+          if (commentFc) {
+            commentFc.markAsUntouched()
+          }
+        }
+      )
   }
 
   toFormModel(variantGroup: SubmittableVariantGroupFieldsFragment): FormModel {
@@ -174,59 +195,73 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
         ...variantGroup,
         variants: variantGroup.variants.nodes,
         organization: this.formModel?.fields.organization,
-      }
+      },
     }
   }
 
-  submitVariantGroup(formModel: FormModel): void  {
-    let input = this.toSubmitInput(formModel);
+  submitVariantGroup(formModel: FormModel): void {
+    let input = this.toSubmitInput(formModel)
     if (input) {
-      let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
-        input: input
-      },
-      {
-        refetchQueries: [
-          {
-            query: this.variantGroupDetailGQL.document,
-            variables: { variantGroupId: this.variantGroupId }
-          },
-          {
-            query: this.revisionsGQL.document,
-            variables: {
-                subject: {id: this.variantGroupId, entityType: ModeratedEntities.VariantGroup},
-                status: RevisionStatus.New
-              }
+      let state = this.suggestRevisionMutator.mutate(
+        this.suggestRevisionGQL,
+        {
+          input: input,
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.variantGroupDetailGQL.document,
+              variables: { variantGroupId: this.variantGroupId },
+            },
+            {
+              query: this.revisionsGQL.document,
+              variables: {
+                subject: {
+                  id: this.variantGroupId,
+                  entityType: ModeratedEntities.VariantGroup,
+                },
+                status: RevisionStatus.New,
+              },
+            },
+          ],
+        },
+        (data) => {
+          if (
+            data.suggestVariantGroupRevision?.results.every(
+              (r) => r.newlyCreated == false
+            )
+          ) {
+            this.noNewRevisions = true
+            this.success = false
           }
-        ]
-      },
-      (data) => {
-        if(data.suggestVariantGroupRevision?.results.every(r => r.newlyCreated == false)) {
-          this.noNewRevisions = true
-          this.success = false
-         }
-      })
+        }
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
+        if (res) {
           this.success = true
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
+        if (errs) {
           this.errorMessages = errs
           this.success = false
         }
       })
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading
+        })
     }
   }
-  
-  toSubmitInput(model: Maybe<FormModel>): Maybe<SuggestVariantGroupRevisionInput> {
-    if(model) {
+
+  toSubmitInput(
+    model: Maybe<FormModel>
+  ): Maybe<SuggestVariantGroupRevisionInput> {
+    if (model) {
       return {
         id: this.variantGroupId,
         organizationId: model.fields.organization?.id,
@@ -234,17 +269,16 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
         fields: {
           description: model.fields.description,
           name: model.fields.name,
-          sourceIds: model.fields.sources.map(s => s.id).filter(isDefined),
-          variantIds: model.fields.variants.map(v => v.id).filter(isDefined)
-        }
+          sourceIds: model.fields.sources.map((s) => s.id).filter(isDefined),
+          variantIds: model.fields.variants.map((v) => v.id).filter(isDefined),
+        },
       }
-
     }
-    return undefined;
+    return undefined
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

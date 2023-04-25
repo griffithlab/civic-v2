@@ -55,6 +55,8 @@ type AcmgCode {
   code: String!
   description: String!
   id: Int!
+  name: String!
+  tooltip: String!
 }
 
 """
@@ -1402,7 +1404,10 @@ type CivicTimepointStats {
 type ClingenCode {
   code: String!
   description: String!
+  exclusive: Boolean!
   id: Int!
+  name: String!
+  tooltip: String!
 }
 
 type ClinicalTrial {
@@ -4590,6 +4595,11 @@ enum PhenotypeSortColumns {
 
 type Query {
   """
+  Find an ACMG code by CIViC ID
+  """
+  acmgCode(id: Int!): AcmgCode
+
+  """
   Retrieve ACMG Code options as a typeahead
   """
   acmgCodesTypeahead(queryTerm: String!): [AcmgCode!]!
@@ -4891,6 +4901,11 @@ type Query {
     variantTypeId: Int
     variantTypeName: String
   ): BrowseVariantConnection!
+
+  """
+  Find a ClinGen code by CIViC ID
+  """
+  clingenCode(id: Int!): ClingenCode
 
   """
   Retrieve Clingen Code options as a typeahead
@@ -5355,6 +5370,11 @@ type Query {
     """
     variantId: Int
   ): MolecularProfileConnection!
+
+  """
+  Find a NCCN Guideline by CIViC ID
+  """
+  nccnGuideline(id: Int!): NccnGuideline
 
   """
   Retrieve NCCN Guideline options as a typeahead
@@ -6754,7 +6774,7 @@ input SubmitVariantGroupInput {
   """
   A description of the variant group.
   """
-  description: String!
+  description: String
 
   """
   The name of the disease.
@@ -8317,7 +8337,7 @@ input VariantGroupFields {
   """
   The VariantGroups's description/summary text.
   """
-  description: String!
+  description: NullableStringInput!
 
   """
   The VariantGroups's name.

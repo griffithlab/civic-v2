@@ -1,16 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Component, Input, OnInit } from '@angular/core'
+import { FormlyFieldConfig } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-form-info-card',
   templateUrl: './form-info-card.component.html',
-  styleUrls: ['./form-info-card.component.less']
+  styleUrls: ['./form-info-card.component.less'],
 })
 export class CvcFormInfoCardComponent implements OnInit {
-  @Input() fieldGroup: FormlyFieldConfig[] | undefined;
-  @Input() affixTo!: HTMLElement;
-  
-  constructor() { }
+  @Input() fieldGroup: FormlyFieldConfig[] | undefined
+  @Input() affixTo!: HTMLElement
+
+  constructor() {}
 
   ngOnInit(): void {
     // for future debugging form-info panel's field status inconsistencies
@@ -23,5 +23,4 @@ export class CvcFormInfoCardComponent implements OnInit {
     //   console.log(`form-info-card disease statusChanges: ${v}`);
     // });
   }
-
 }

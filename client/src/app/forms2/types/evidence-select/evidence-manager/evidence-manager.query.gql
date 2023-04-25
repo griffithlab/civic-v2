@@ -1,0 +1,111 @@
+query EvidenceManager(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $diseaseName: String
+  $therapyName: String
+  $id: Int
+  $description: String
+  $evidenceLevel: EvidenceLevel
+  $evidenceDirection: EvidenceDirection
+  $significance: EvidenceSignificance
+  $evidenceType: EvidenceType
+  $rating: Int
+  $variantOrigin: VariantOrigin
+  $variantId: Int
+  $molecularProfileId: Int
+  $assertionId: Int
+  $organizationId: Int
+  $userId: Int
+  $sortBy: EvidenceSort
+  $phenotypeId: Int
+  $diseaseId: Int
+  $therapyId: Int
+  $sourceId: Int
+  $clinicalTrialId: Int
+  $molecularProfileName: String
+  $status: EvidenceStatusFilter
+) {
+  evidenceItems(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    diseaseName: $diseaseName
+    therapyName: $therapyName
+    id: $id
+    description: $description
+    evidenceLevel: $evidenceLevel
+    evidenceDirection: $evidenceDirection
+    significance: $significance
+    evidenceType: $evidenceType
+    evidenceRating: $rating
+    variantOrigin: $variantOrigin
+    variantId: $variantId
+    molecularProfileId: $molecularProfileId
+    assertionId: $assertionId
+    organizationId: $organizationId
+    userId: $userId
+    phenotypeId: $phenotypeId
+    diseaseId: $diseaseId
+    therapyId: $therapyId
+    sourceId: $sourceId
+    clinicalTrialId: $clinicalTrialId
+    molecularProfileName: $molecularProfileName
+    status: $status
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...EvidenceManagerFields
+      }
+    }
+    nodes {
+      ...EvidenceManagerFields
+    }
+  }
+}
+
+fragment EvidenceManagerFields on EvidenceItem {
+  id
+  name
+  link
+  disease {
+    id
+    name
+    link
+  }
+  therapies {
+    id
+    name
+    link
+  }
+  molecularProfile {
+    id
+    name
+    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
+  }
+  status
+  flagged
+  therapyInteractionType
+  description
+  evidenceType
+  evidenceDirection
+  evidenceLevel
+  evidenceRating
+  significance
+  variantOrigin
+}

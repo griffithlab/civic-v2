@@ -1,0 +1,23 @@
+query SourceSelectTypeahead(
+  $partialCitationId: String!
+  $sourceType: SourceSource!
+) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceSelectTypeaheadFields
+  }
+}
+
+query SourceSelectTag($id: Int!) {
+  source(id: $id) {
+    ...SourceSelectTypeaheadFields
+  }
+}
+
+fragment SourceSelectTypeaheadFields on Source {
+  id
+  name
+  link
+  citation
+  citationId
+  sourceType
+}

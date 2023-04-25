@@ -5,7 +5,7 @@ class Mutations::SubmitVariantGroup < Mutations::MutationWithOrg
     description: 'The name of the disease.',
     validates: { length: { minimum: 5 } }
 
-  argument :description, String, required: true,
+  argument :description, String, required: false,
     description: 'A description of the variant group.',
     validates: { length: { minimum: 10 } }
 

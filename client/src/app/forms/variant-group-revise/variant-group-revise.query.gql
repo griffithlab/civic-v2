@@ -1,4 +1,6 @@
-mutation SuggestVariantGroupRevision($input: SuggestVariantGroupRevisionInput!) {
+mutation SuggestVariantGroupRevision(
+  $input: SuggestVariantGroupRevisionInput!
+) {
   suggestVariantGroupRevision(input: $input) {
     clientMutationId
     variantGroup {

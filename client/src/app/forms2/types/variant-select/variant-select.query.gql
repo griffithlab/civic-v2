@@ -1,0 +1,33 @@
+query VariantSelectTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, geneId: $geneId, first: 50) {
+    totalCount
+    edges {
+      node {
+        ...VariantSelectTypeaheadFields
+      }
+    }
+    nodes {
+      ...VariantSelectTypeaheadFields
+    }
+  }
+}
+
+query VariantSelectTag($variantId: Int!) {
+  variant(id: $variantId) {
+    ...VariantSelectTypeaheadFields
+  }
+}
+
+fragment VariantSelectTypeaheadFields on Variant {
+  id
+  name
+  link
+  variantAliases
+  singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+    molecularProfileAliases
+  }
+}

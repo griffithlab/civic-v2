@@ -10,10 +10,10 @@ query AssertionsBrowse(
   $assertionDirection: EvidenceDirection
   $significance: EvidenceSignificance
   $assertionType: EvidenceType
-  $variantId: Int,
-  $molecularProfileId: Int,
-  $evidenceId: Int,
-  $molecularProfileName: String,
+  $variantId: Int
+  $molecularProfileId: Int
+  $evidenceId: Int
+  $molecularProfileName: String
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
   $organizationId: Int
@@ -35,11 +35,11 @@ query AssertionsBrowse(
     assertionDirection: $assertionDirection
     significance: $significance
     assertionType: $assertionType
-    variantId: $variantId,
-    molecularProfileId: $molecularProfileId,
-    sortBy: $sortBy,
-    ampLevel: $ampLevel,
-    molecularProfileName: $molecularProfileName,
+    variantId: $variantId
+    molecularProfileId: $molecularProfileId
+    sortBy: $sortBy
+    ampLevel: $ampLevel
+    molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
     organizationId: $organizationId
     userId: $userId

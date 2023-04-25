@@ -6,7 +6,7 @@ query previewComment($commentText: String!) {
 
 fragment previewComment on CommentBodySegment {
   __typename
-  ...on CommentTagSegment {
+  ... on CommentTagSegment {
     entityId
     displayName
     tagType

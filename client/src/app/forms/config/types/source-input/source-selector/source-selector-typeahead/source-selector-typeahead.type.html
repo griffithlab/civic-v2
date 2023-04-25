@@ -1,5 +1,7 @@
-<nz-input-group [nzAddOnBefore]="model.sourceType == 'ASH' ? 'https://doi.org/' : undefined">
-  <nz-select nzShowSearch
+<nz-input-group
+  [nzAddOnBefore]="model.sourceType == 'ASH' ? 'https://doi.org/' : undefined">
+  <nz-select
+    nzShowSearch
     nzServerSearch
     autofocus="click"
     [formControl]="formControl"
@@ -10,28 +12,32 @@
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
-    <nz-option *ngFor="let opt of to.optionList"
+    <nz-option
+      *ngFor="let opt of to.optionList"
       nzCustomContent
       [nzLabel]="opt.label"
       [nzValue]="opt.value">
-      {{ opt.source.citation ? opt.source.citation :  opt.source.name }} ({{ opt.source.citationId }})
+      {{ opt.source.citation ? opt.source.citation : opt.source.name }} ({{
+      opt.source.citationId }})
     </nz-option>
   </nz-select>
 </nz-input-group>
-<div class="ant-form-item-explain"
+<div
+  class="ant-form-item-explain"
   *ngIf="model.citation.length > 0">
   Citation:
-  <span class="source-citation">
-    {{ model.citation }}
-  </span>
+  <span class="source-citation"> {{ model.citation }} </span>
 </div>
 <ng-template #sourceLoader>
-  <ng-container [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
-    <div *ngSwitchCase="false"
+  <ng-container
+    [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
+    <div
+      *ngSwitchCase="false"
       class="ant-form-item-explain">
       Enter a {{ to.sourceTypeKey }} citation ID to search CIViC sources
     </div>
-    <cvc-source-loader *ngSwitchCase="true"
+    <cvc-source-loader
+      *ngSwitchCase="true"
       [model]="model"
       (modelUpdate)="onModelUpdated($event)"
       [(sourceType)]="model.sourceType"

@@ -1,0 +1,114 @@
+@import 'themes/default.less';
+
+@helpIconSize: 14px;
+@helpIconColor: #cfcfdf;
+
+.layout-vertical ::ng-deep nz-form-item:first-of-type {
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.layout-horizontal ::ng-deep nz-form-item:first-of-type {
+  flex-direction: inherit;
+  nz-form-label {
+    text-align: right;
+    line-height: 28px;
+    white-space: inherit;
+    padding: inherit;
+  }
+}
+
+.layout-inline ::ng-deep nz-form-item:first-of-type {
+  flex-direction: inherit;
+  nz-form-label {
+    height: 28px;
+    line-height: 28px;
+    white-space: inherit;
+    padding: inherit;
+  }
+}
+
+.cvc-field-label() {
+  label {
+    // embolden required labels
+    &.ant-form-item-required {
+      font-weight: 500;
+
+      &:before {
+        border: 1px solid @error-color;
+        height: 1em;
+        content: '';
+      }
+
+    }
+  }
+
+  ::ng-deep span.label {
+    padding-right: 4px;
+  }
+
+  &.disabled label ::ng-deep span.label {
+    color: @text-color-secondary;
+  }
+
+  &.error label ::ng-deep span.label {
+    color: @error-color;
+  }
+
+  &.valid label ::ng-deep span.label {
+    color: @error-color;
+  }
+}
+
+.cvc-form-field-card() {
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  &.disabled {
+    border: 1px solid #f5f5f5;
+    background-color: #f5f5f5;
+  }
+}
+
+.cvc-form-field-validation,
+.form-field-description {
+  // ensure consistent height of description, validation message line
+  min-height: 16px;
+  line-height: 1.2;
+  // font-size: 96%;
+  margin-top: 4px;
+  .extra-prompt {
+    font-weight: 400;
+  }
+  .extra-description {
+    font-style: oblique;
+  }
+}
+
+.cvc-form-field-validation {
+  font-weight: 600;
+}
+
+nz-form-item.layout-horizontal {
+  ::ng-deep nz-form-label:first-of-type {
+    .cvc-field-label();
+  }
+}
+
+nz-form-item.layout-vertical {
+  .cvc-form-field-card();
+  ::ng-deep nz-form-label:first-of-type {
+    .cvc-field-label();
+  }
+
+  margin-bottom: @margin-lg;
+}
+
+nz-form-item.layout-inline {
+  ::ng-deep nz-form-label:first-of-type {
+    .cvc-field-label();
+    text-align: right;
+    margin-right: 6px;
+  }
+}

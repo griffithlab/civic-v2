@@ -1,0 +1,12 @@
+<div>
+  <cvc-string-tag
+    *ngFor="let tag of tags$ | ngrxPush"
+    [cvcMode]="'closeable'"
+    [cvcLabel]="tag"
+    (cvcOnClose)="tagClosed(tag)"></cvc-string-tag>
+    <input nz-input 
+      (keydown.enter)="onEnter($event)" 
+      [placeholder]="this.props.placeholder" />
+</div>
+
+<input hidden nz-input [formControl]="formControl" [formlyAttributes]="field"/>

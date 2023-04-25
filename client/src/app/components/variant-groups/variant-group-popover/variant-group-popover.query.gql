@@ -1,6 +1,6 @@
-query VariantGroupPopover($variantGroupId: Int!){
+query VariantGroupPopover($variantGroupId: Int!) {
   variantGroup(id: $variantGroupId) {
-    ... variantGroupPopoverFields
+    ...variantGroupPopoverFields
   }
 }
 

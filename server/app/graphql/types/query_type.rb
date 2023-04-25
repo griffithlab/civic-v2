@@ -116,6 +116,21 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :acmg_code, Types::Entities::AcmgCodeType, null: true do
+      description "Find an ACMG code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :clingen_code, Types::Entities::ClingenCodeType, null: true do
+      description "Find a ClinGen code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
+      description "Find a NCCN Guideline by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :countries, [Types::Entities::CountryType], null: false do
       description 'Fetch a list of countries for user profiles.'
     end
@@ -313,6 +328,18 @@ module Types
         }
       end
 
+    end
+
+    def acmg_code(id:)
+      AcmgCode.find(id)
+    end
+
+    def clingen_code(id:)
+      ClingenCode.find(id)
+    end
+
+    def nccn_guideline(id:)
+      NccnGuideline.find(id)
     end
 
     def countries

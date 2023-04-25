@@ -1,2 +1,5 @@
-<cvc-assertion-revise-form [assertionId]="assertionId">
-</cvc-assertion-revise-form>
+<ng-container *ngIf="assertionId; else loadingAssertion">
+  <cvc-assertion-revise-form [assertionId]="assertionId">
+  </cvc-assertion-revise-form>
+</ng-container>
+<ng-template #loadingAssertion>Loading Assertion...</ng-template>
