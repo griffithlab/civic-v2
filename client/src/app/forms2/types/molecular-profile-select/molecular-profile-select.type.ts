@@ -145,7 +145,7 @@ export class CvcMolecularProfileSelectField
     this.onShowExpClick$ = new Subject<void>()
     this.showExp$ = this.onShowExpClick$.pipe(
       scan((acc, _) => !acc, false),
-      startWith(true),
+      // startWith(true),
       tap((open) => (this.editorOpen = open))
     )
     this.selectDisplay$ = new BehaviorSubject<SelectDisplayModel>({
