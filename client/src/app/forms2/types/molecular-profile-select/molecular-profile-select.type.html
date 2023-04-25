@@ -1,6 +1,5 @@
 <nz-row [nzGutter]="[8, 12]">
-  <nz-col
-    nzFlex="auto">
+  <nz-col nzFlex="auto">
     <ng-container *ngrxLet="selectDisplay$ as display">
       <cvc-mp-finder
         *ngIf="display.showFinder && !editorOpen"
@@ -18,26 +17,30 @@
         </span>
       </div>
 
-      <cvc-entity-select
-        *ngIf="display.showSelect"
-        [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-        [cvcCustomTemplate]="selectedTemplate"
-        [cvcFormControl]="formControl"
-        [cvcFormlyAttributes]="field"
-        [cvcEntityName]="props.entityName"
-        [cvcPlaceholder]="props.placeholder"
-        [cvcResults]="result$ | ngrxPush"
-        [cvcDisabled]="props.disabled"
-        [cvcAllowClear]="false"
-        [cvcOptions]="selectOption$ | ngrxPush"
-        [cvcShowError]="showError"
-        [cvcLoading]="isLoading$ | ngrxPush"
-        [cvcBorderless]="true"
-        [cvcSuffixIcon]="null"
-        [cvcShowArrow]="false"
-        (cvcOnSearch)="onSearch$.next($event)"
-        (cvcOnModelChange)="props.change && props.change(field, $event)">
-      </cvc-entity-select>
+      <!-- using inline-block here to shrink select to size of its tag contents,
+      reducing the changes a user will click within it and cause the search dropdown to appear -->
+      <div style="display: inline-block">
+        <cvc-entity-select
+          *ngIf="display.showSelect"
+          [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+          [cvcCustomTemplate]="selectedTemplate"
+          [cvcFormControl]="formControl"
+          [cvcFormlyAttributes]="field"
+          [cvcEntityName]="props.entityName"
+          [cvcPlaceholder]="props.placeholder"
+          [cvcResults]="result$ | ngrxPush"
+          [cvcDisabled]="props.disabled"
+          [cvcAllowClear]="false"
+          [cvcOptions]="selectOption$ | ngrxPush"
+          [cvcShowError]="showError"
+          [cvcLoading]="isLoading$ | ngrxPush"
+          [cvcBorderless]="true"
+          [cvcSuffixIcon]="null"
+          [cvcShowArrow]="false"
+          (cvcOnSearch)="onSearch$.next($event)"
+          (cvcOnModelChange)="props.change && props.change(field, $event)">
+        </cvc-entity-select>
+      </div>
     </ng-container>
   </nz-col>
   <nz-col nzFlex="50px">
