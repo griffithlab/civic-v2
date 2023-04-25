@@ -39,6 +39,7 @@ import {
   Observable,
   ReplaySubject,
   scan,
+  startWith,
   Subject,
   tap,
 } from 'rxjs'
@@ -108,8 +109,6 @@ export class CvcMolecularProfileSelectField
   showExp$: Observable<boolean>
   selectDisplay$!: BehaviorSubject<SelectDisplayModel>
 
-  showExpression: boolean = false
-
   editorOpen: boolean = false
 
   // FieldTypeConfig defaults
@@ -146,6 +145,7 @@ export class CvcMolecularProfileSelectField
     this.onShowExpClick$ = new Subject<void>()
     this.showExp$ = this.onShowExpClick$.pipe(
       scan((acc, _) => !acc, false),
+      // startWith(true),
       tap((open) => (this.editorOpen = open))
     )
     this.selectDisplay$ = new BehaviorSubject<SelectDisplayModel>({

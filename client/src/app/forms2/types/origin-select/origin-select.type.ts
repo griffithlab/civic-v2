@@ -41,6 +41,10 @@ const optionMap = new Map<VariantOrigin, string>([
     VariantOrigin.Na,
     'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
   ],
+  [
+    VariantOrigin.Mixed,
+    ' Variants in the corresponding Molecular Profile have heterogenous origins.',
+  ],
 ])
 
 export type CvcOriginSelectFieldOptions = Partial<

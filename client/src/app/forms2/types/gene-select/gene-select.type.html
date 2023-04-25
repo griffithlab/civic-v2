@@ -33,6 +33,8 @@
             <span
               nz-typography
               nzType="secondary"
+              nz-tooltip
+              [nzTooltipTitle]="result.geneAliases.join(', ')"
               [innerHtml]="
                 result.geneAliases.join(', ')
                   | highlightTypeahead : searchString
