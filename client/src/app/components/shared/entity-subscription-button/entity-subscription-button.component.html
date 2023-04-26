@@ -1,6 +1,27 @@
-<ng-container *ngIf="existingSubscription$ | ngrxPush as subscription; else noSub">
-  <button nz-button nz-tooltip="Unsubscribe" nzSize="small" (click)="unsubscribe()" [nzLoading]="this.isSubmitting"><i nz-icon nzType="bell" nzTheme="fill"></i></button>
+<ng-container
+  *ngIf="existingSubscription$ | ngrxPush as subscription; else noSub">
+  <button
+    nz-button
+    nz-tooltip="Unsubscribe"
+    nzSize="small"
+    (click)="unsubscribe()"
+    [nzLoading]="this.isSubmitting">
+    <i
+      nz-icon
+      nzType="bell"
+      nzTheme="fill"></i>
+  </button>
 </ng-container>
 <ng-template #noSub>
-  <button nz-button nz-tooltip="Subscribe" nzSize="small" (click)="subscribe()" [nzLoading]="this.isSubmitting"><i nz-icon nzType="bell" nzTheme="outline"></i></button>
+  <button
+    nz-button
+    nz-tooltip="Subscribe"
+    nzSize="small"
+    (click)="subscribe()"
+    [nzLoading]="this.isSubmitting">
+    <i
+      nz-icon
+      nzType="bell"
+      nzTheme="outline"></i>
+  </button>
 </ng-template>

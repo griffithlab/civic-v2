@@ -1,7 +1,10 @@
 query ClingenCodeTypeahead($code: String!) {
-  clingenCodesTypeahead(queryTerm:  $code){
+  clingenCodesTypeahead(queryTerm: $code) {
     id
     code
     description
+    name
+    tooltip
+    exclusive
   }
 }

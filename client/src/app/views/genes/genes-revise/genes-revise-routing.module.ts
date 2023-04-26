@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { GenesReviseView } from './genes-revise.view';
-import { GenesSuggestModule } from './genes-suggest/genes-suggest.module';
-import { GenesSuggestPage } from './genes-suggest/genes-suggest.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { GenesReviseView } from './genes-revise.view'
+import { GenesSuggestModule } from './genes-suggest/genes-suggest.module'
+import { GenesSuggestPage } from './genes-suggest/genes-suggest.page'
 
 const routes: Routes = [
   {
@@ -15,17 +15,14 @@ const routes: Routes = [
         path: 'suggest',
         component: GenesSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
-];
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
+]
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    GenesSuggestModule
-  ]
+  imports: [RouterModule.forChild(routes), GenesSuggestModule],
 })
 export class GenesReviseRoutingModule {}

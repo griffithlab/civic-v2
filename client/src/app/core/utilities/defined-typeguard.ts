@@ -1,3 +1,3 @@
-export function isDefined<T>(item: T | undefined): item is T  {
-  return item !== undefined;
+export function isDefined<T>(item: T | undefined): item is T {
+  return item !== undefined
 }

@@ -1,14 +1,16 @@
 <ng-container *ngIf="variantGroup$ | async as variantGroup">
-  <cvc-section-navigation [displayName]="variantGroup.name"> </cvc-section-navigation>
+  <cvc-section-navigation [displayName]="variantGroup.name">
+  </cvc-section-navigation>
   <nz-page-header class="site-page-header">
-
     <!-- title -->
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'VariantGroup' | entityColor"
-        nzType="civic-variantgroup"></i> {{ variantGroup.name }}
+        nzType="civic-variantgroup"></i>
+      {{ variantGroup.name }}
     </nz-page-header-title>
 
     <nz-page-header-content>
@@ -17,9 +19,11 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24"
+          <nz-row
+            nzSpan="24"
             nzJustify="center">
-            <div nz-col
+            <div
+              nz-col
               nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>

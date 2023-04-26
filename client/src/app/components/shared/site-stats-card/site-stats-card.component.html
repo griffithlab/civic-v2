@@ -1,30 +1,47 @@
-<nz-card class="home-card"
+<nz-card
+  class="home-card"
   nzTitle="Knowledgebase Statistics"
   class="home-card"
   [nzExtra]="statsRadioGroup"
   nzSize="small">
   <ng-template #statsRadioGroup>
-    <nz-radio-group [(ngModel)]="statsType"
+    <nz-radio-group
+      [(ngModel)]="statsType"
       nzSize="small">
-      <label nz-radio-button
-        nzValue="Total">Total</label>
-      <label nz-radio-button
-        nzValue="Weekly">Weekly</label>
-      <label nz-radio-button
-        nzValue="Monthly">Monthly</label>
-      <label nz-radio-button
-        nzValue="Yearly">Yearly</label>
+      <label
+        nz-radio-button
+        nzValue="allTime"
+        >Total</label
+      >
+      <label
+        nz-radio-button
+        nzValue="newThisWeek"
+        >Weekly</label
+      >
+      <label
+        nz-radio-button
+        nzValue="newThisMonth"
+        >Monthly</label
+      >
+      <label
+        nz-radio-button
+        nzValue="newThisYear"
+        >Yearly</label
+      >
     </nz-radio-group>
   </ng-template>
-  <ng-container *ngIf="(stats$ | ngrxPush) as stats; else isLoading">
+  <ng-container *ngIf="stats$ | ngrxPush as stats; else isLoading">
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <a routerLink="/assertions">
-          <nz-statistic [nzTitle]="statsType + ' Assertions'"
-            [nzValue]="(stats.assertions[statsTypes[statsType]] | number)!"
-            [nzPrefix]="assertionIcon"></nz-statistic>
+          <nz-statistic
+                    [nzTitle]="label() + ' Assertions'"
+                    [nzValue]="(stats.assertions[statsType] | number)!"
+                    [nzPrefix]="assertionIcon"
+                  ></nz-statistic>
           <ng-template #assertionIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Assertion' | entityColor"
               nzType="civic-assertion"></i>
@@ -33,11 +50,13 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/evidence">
-          <nz-statistic [nzTitle]="statsType + ' Evidence'"
-            [nzValue]="(stats.evidenceItems[statsTypes[statsType]] | number)!"
-            [nzPrefix]="evidenceIcon"></nz-statistic>
+          <nz-statistic
+                    [nzTitle]="label() + ' Evidence'"
+                    [nzValue]="(stats.evidenceItems[statsType] | number)!"
+                    [nzPrefix]="evidenceIcon"></nz-statistic>
           <ng-template #evidenceIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'EvidenceItem' | entityColor"
               nzType="civic-evidence"></i>
@@ -46,11 +65,13 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/genes">
-          <nz-statistic [nzTitle]="statsType + ' Genes'"
-            [nzValue]="(stats.genes[statsTypes[statsType]] | number)!"
-            [nzPrefix]="geneIcon"></nz-statistic>
+          <nz-statistic
+                    [nzTitle]="label() + ' Genes'"
+                    [nzValue]="(stats.genes[statsType] | number)!"
+                    [nzPrefix]="geneIcon"></nz-statistic>
           <ng-template #geneIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Gene' | entityColor"
               nzType="civic-gene"></i>
@@ -59,11 +80,13 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/variants">
-          <nz-statistic [nzTitle]="statsType + ' Variants'"
-            [nzValue]="(stats.variants[statsTypes[statsType]] | number)!"
-            [nzPrefix]="variantIcon"></nz-statistic>
+        <nz-statistic
+              [nzTitle]="label() + ' Variants'"
+              [nzValue]="(stats.variants[statsType] | number)!"
+              [nzPrefix]="variantIcon"></nz-statistic>
           <ng-template #variantIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Variant' | entityColor"
               nzType="civic-variant"></i>
@@ -72,11 +95,13 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/molecular-profiles">
-          <nz-statistic [nzTitle]="statsType + ' Molecular Profiles'"
-            [nzValue]="(stats.molecularProfiles[statsTypes[statsType]] | number)!"
-            [nzPrefix]="mpIcon"></nz-statistic>
+          <nz-statistic
+                    [nzTitle]="label() + ' Molecular Profiles'"
+                    [nzValue]="(stats.molecularProfiles[statsType] | number)!"
+                    [nzPrefix]="mpIcon"></nz-statistic> 
           <ng-template #mpIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'MolecularProfile' | entityColor"
               nzType="civic-molecularprofile"></i>
@@ -87,11 +112,13 @@
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <a routerLink="/diseases">
-          <nz-statistic [nzTitle]="statsType + ' Diseases'"
-            [nzValue]="(stats.diseases[statsTypes[statsType]] | number)!"
-            [nzPrefix]="diseaseIcon"></nz-statistic>
+          <nz-statistic
+              [nzTitle]="label() + ' Diseases'"
+              [nzValue]="(stats.diseases[statsType] | number)!"
+              [nzPrefix]="diseaseIcon"></nz-statistic>
           <ng-template #diseaseIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Disease' | entityColor"
               nzType="civic-disease"></i>
@@ -100,24 +127,28 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/therapies">
-          <nz-statistic [nzTitle]="statsType + ' Therapies'"
-            [nzValue]="(stats.therapies[statsTypes[statsType]] | number)!"
-            [nzPrefix]="therapyIcon"></nz-statistic>
+          <nz-statistic
+              [nzTitle]="label() + ' Therapies'"
+              [nzValue]="(stats.therapies[statsType] | number)!"
+              [nzPrefix]="therapyIcon"></nz-statistic>
           <ng-template #therapyIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
-              [nzTwotoneColor]="'Intervention' | entityColor"
-              nzType="civic-intervention"></i>
+              [nzTwotoneColor]="'Therapy' | entityColor"
+              nzType="civic-therapy"></i>
           </ng-template>
         </a>
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/sources">
-          <nz-statistic [nzTitle]="statsType + ' Sources'"
-            [nzValue]="(stats.sources[statsTypes[statsType]] | number)!"
-            [nzPrefix]="sourceIcon"></nz-statistic>
+          <nz-statistic
+              [nzTitle]="label() + ' Sources'"
+              [nzValue]="(stats.sources[statsType] | number)!"
+              [nzPrefix]="sourceIcon"></nz-statistic>
           <ng-template #sourceIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Source' | entityColor"
               nzType="civic-source"></i>
@@ -125,78 +156,89 @@
         </a>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Revisions'"
-          [nzValue]="(stats.revisions[statsTypes[statsType]] | number)!"
-          [nzPrefix]="revisionsIcon"></nz-statistic>
+        <nz-statistic
+            [nzTitle]="label() + ' Revisions'"
+            [nzValue]="(stats.revisions[statsType] | number)!"
+            [nzPrefix]="revisionsIcon"></nz-statistic>
         <ng-template #revisionsIcon>
-          <i nz-icon
+          <i
+            nz-icon
             nzTheme="twotone"
             [nzTwotoneColor]="'Revision' | entityColor"
             nzType="civic-revision"></i>
-
         </ng-template>
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/users">
-          <nz-statistic [nzTitle]="statsType + ' Contributors'"
-            [nzValue]="(stats.users[statsTypes[statsType]] | number)!"
-            [nzPrefix]="userIcon"></nz-statistic>
+          <nz-statistic
+              [nzTitle]="label() + ' Contributors'"
+              [nzValue]="(stats.users[statsType] | number)!"
+              [nzPrefix]="userIcon"></nz-statistic>
           <ng-template #userIcon>
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Curator' | entityColor"
               nzType="civic-user"></i>
           </ng-template>
         </a>
       </nz-col>
-
     </nz-row>
   </ng-container>
   <ng-template #isLoading>
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Assertions'"
+        <nz-statistic
+          [nzTitle]="label() + ' Assertions'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Evidence'"
+        <nz-statistic
+          [nzTitle]="label() + ' Evidence'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Genes'"
+        <nz-statistic
+          [nzTitle]="label() + ' Genes'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Variants'"
+        <nz-statistic
+          [nzTitle]="label() + ' Variants'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Molecular Profiles'"
+        <nz-statistic
+          [nzTitle]="label() + ' Molecular Profiles'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
     </nz-row>
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+        <nz-statistic
+          [nzTitle]="label() + ' Diseases'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Therapies'"
+        <nz-statistic
+          [nzTitle]="label() + ' Therapies'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Sources'"
+        <nz-statistic
+          [nzTitle]="label() + ' Sources'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+        <nz-statistic
+          [nzTitle]="label() + ' Revisions'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+        <nz-statistic
+          [nzTitle]="label() + ' Contributors'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
-
     </nz-row>
   </ng-template>
 </nz-card>

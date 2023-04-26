@@ -4,15 +4,27 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
-} from '@angular/core';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { toNullableInput, toNullableString } from '@app/forms/config/utilities/input-formatters';
-import { AreaOfExpertise, CountriesGQL, EditUserInput, Maybe, UpdateUserProfileGQL, UpdateUserProfileMutation, UpdateUserProfileMutationVariables, UserDetailFieldsFragment } from '@app/generated/civic.apollo';
+  Output,
+} from '@angular/core'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  toNullableInput,
+  toNullableString,
+} from '@app/forms/config/utilities/input-formatters'
+import {
+  AreaOfExpertise,
+  CountriesGQL,
+  EditUserInput,
+  Maybe,
+  UpdateUserProfileGQL,
+  UpdateUserProfileMutation,
+  UpdateUserProfileMutationVariables,
+  UserDetailFieldsFragment,
+} from '@app/generated/civic.apollo'
 
-import { Subject, Observable } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs'
+import { map, takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-user-profile-form',
@@ -21,15 +33,19 @@ import { map, takeUntil } from 'rxjs/operators';
 })
 export class CvcUserProfileForm implements OnInit, OnDestroy {
   @Input() user!: UserDetailFieldsFragment
-  @Output() profileUpdatedEvent = new EventEmitter<void>();
+  @Output() profileUpdatedEvent = new EventEmitter<void>()
 
   success: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>()
 
-  updateProfileMutator: MutatorWithState<UpdateUserProfileGQL, UpdateUserProfileMutation, UpdateUserProfileMutationVariables>
+  updateProfileMutator: MutatorWithState<
+    UpdateUserProfileGQL,
+    UpdateUserProfileMutation,
+    UpdateUserProfileMutationVariables
+  >
 
   name: Maybe<string>
   username: Maybe<string>
@@ -44,31 +60,31 @@ export class CvcUserProfileForm implements OnInit, OnDestroy {
 
   countryId: Maybe<number>
 
-  countries$: Observable<{id: number, name: string}[]>;
+  countries$: Observable<{ id: number; name: string }[]>
 
   constructor(
     private updateProfileGql: UpdateUserProfileGQL,
     countryIdGql: CountriesGQL,
     networkErrorService: NetworkErrorsService
-  ){
-    this.updateProfileMutator = new MutatorWithState(networkErrorService);
+  ) {
+    this.updateProfileMutator = new MutatorWithState(networkErrorService)
 
-    this.countries$ = countryIdGql.fetch().pipe(
-      map(({data}) => data.countries)
-    )
+    this.countries$ = countryIdGql
+      .fetch()
+      .pipe(map(({ data }) => data.countries))
   }
 
   ngOnInit() {
-    if(!this.user) {
-      throw new Error("Must pass a user into the Profile Update Form");
+    if (!this.user) {
+      throw new Error('Must pass a user into the Profile Update Form')
     }
 
-    this.setInitialFormFields();
+    this.setInitialFormFields()
   }
 
   updateProfile() {
-    if(this.username && this.email) {
-      this.errorMessages = [];
+    if (this.username && this.email) {
+      this.errorMessages = []
       let profileInput: EditUserInput = {
         username: this.username,
         email: this.email,
@@ -80,30 +96,33 @@ export class CvcUserProfileForm implements OnInit, OnDestroy {
         countryId: toNullableInput(this.countryId),
         twitterHandle: toNullableString(this.twitterHandle),
         facebookProfile: toNullableString(this.facebookProfile),
-        linkedinProfile: toNullableString(this.linkedinProfile)
-      };
+        linkedinProfile: toNullableString(this.linkedinProfile),
+      }
 
-      let state = this.updateProfileMutator.mutate(this.updateProfileGql, {input: profileInput});
+      let state = this.updateProfileMutator.mutate(this.updateProfileGql, {
+        input: profileInput,
+      })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
-          this.setInitialFormFields();
-          this.success = true;
-          this.profileUpdatedEvent.emit();
+        if (res) {
+          this.setInitialFormFields()
+          this.success = true
+          this.profileUpdatedEvent.emit()
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
+        if (errs) {
           this.errorMessages = errs
           this.success = false
         }
       })
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
-
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading
+        })
     }
   }
 
@@ -122,7 +141,7 @@ export class CvcUserProfileForm implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

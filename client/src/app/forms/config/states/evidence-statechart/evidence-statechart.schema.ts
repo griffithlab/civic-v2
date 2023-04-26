@@ -11,7 +11,8 @@ export interface EvidenceStatechartSchema {
           states: {
             // characterized if identified & all required fields are specified
             characterized: {
-              states: { // parallel state
+              states: {
+                // parallel state
                 // complete if characterized & all optional fields specified
                 complete: {}
                 curated: {

@@ -2,12 +2,12 @@ import {
   AssertionSignificance,
   AssertionDirection,
   AssertionType,
-} from "@app/generated/civic.apollo";
-import { EntityName, EntityState } from "./entity.state";
+} from '@app/generated/civic.apollo'
+import { EntityName, EntityState } from './entity.state'
 
 class AssertionState extends EntityState {
   constructor() {
-    super(EntityName.ASSERTION);
+    super(EntityName.ASSERTION)
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,
       significance: [
@@ -19,15 +19,15 @@ class AssertionState extends EntityState {
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport
+        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: true,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
-      allowsFdaApproval: true
-    });
+      allowsFdaApproval: true,
+    })
 
     this.validStates.set(AssertionType.Diagnostic, {
       entityType: AssertionType.Diagnostic,
@@ -37,34 +37,34 @@ class AssertionState extends EntityState {
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport
+        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(AssertionType.Prognostic, {
       entityType: AssertionType.Prognostic,
       significance: [
         AssertionSignificance.BetterOutcome,
         AssertionSignificance.PoorOutcome,
-        AssertionSignificance.Na
+        AssertionSignificance.Na,
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport
+        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(AssertionType.Predisposing, {
       entityType: AssertionType.Predisposing,
@@ -75,16 +75,14 @@ class AssertionState extends EntityState {
         AssertionSignificance.LikelyBenign,
         AssertionSignificance.UncertainSignificance,
       ],
-      entityDirection: [
-        AssertionDirection.Supports,
-      ],
+      entityDirection: [AssertionDirection.Supports],
       requiresDisease: true,
       requiresDrug: false,
       requiresClingenCodes: false,
       requiresAcmgCodes: true,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
 
     this.validStates.set(AssertionType.Oncogenic, {
       entityType: AssertionType.Oncogenic,
@@ -95,17 +93,15 @@ class AssertionState extends EntityState {
         AssertionSignificance.LikelyBenign,
         AssertionSignificance.UncertainSignificance,
       ],
-      entityDirection: [
-        AssertionDirection.Supports,
-      ],
+      entityDirection: [AssertionDirection.Supports],
       requiresDisease: true,
       requiresDrug: false,
       requiresClingenCodes: true,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
-      allowsFdaApproval: false
-    });
+      allowsFdaApproval: false,
+    })
   }
 }
 
-export { AssertionState };
+export { AssertionState }

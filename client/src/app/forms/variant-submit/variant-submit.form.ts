@@ -1,50 +1,64 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core'
+import { UntypedFormGroup } from '@angular/forms'
 import {
   AddVariantGQL,
   AddVariantMutation,
   AddVariantMutationVariables,
   Maybe,
-} from '@app/generated/civic.apollo';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Subject } from 'rxjs';
-import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { FormGene, FormMolecularProfile, FormVariant } from '../forms.interfaces';
-import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+} from '@app/generated/civic.apollo'
+import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { Subject } from 'rxjs'
+import { EvidenceState } from '@app/forms/config/states/evidence.state'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  FormGene,
+  FormMolecularProfile,
+  FormVariant,
+} from '../forms.interfaces'
+import { ActivatedRoute } from '@angular/router'
+import { takeUntil } from 'rxjs/operators'
 
 interface FormModel {
   fields: {
-    gene: FormGene[],
-    variant: FormVariant[],
+    gene: FormGene[]
+    variant: FormVariant[]
   }
 }
 
 export interface SelectedVariant {
-  variantId: number,
+  variantId: number
   molecularProfile: FormMolecularProfile
 }
 
 @Component({
   selector: 'cvc-variant-submit-form',
   templateUrl: './variant-submit.form.html',
-  styleUrls: ['./variant-submit.form.less'],
 })
 export class VariantSubmitForm implements OnDestroy, OnInit {
-  @Output() onVariantSelected = new EventEmitter<SelectedVariant>();
-  @Input() allowCreate: boolean = true;
+  @Output() onVariantSelected = new EventEmitter<SelectedVariant>()
+  @Input() allowCreate: boolean = true
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>()
 
-  formModel!: FormModel;
-  formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[] = [];
-  formOptions: FormlyFormOptions = { formState: new EvidenceState() };
+  formModel!: FormModel
+  formGroup: UntypedFormGroup = new UntypedFormGroup({})
+  formFields: FormlyFieldConfig[] = []
+  formOptions: FormlyFormOptions = { formState: new EvidenceState() }
 
-  submitVariantMutator: MutatorWithState<AddVariantGQL, AddVariantMutation, AddVariantMutationVariables>
+  submitVariantMutator: MutatorWithState<
+    AddVariantGQL,
+    AddVariantMutation,
+    AddVariantMutationVariables
+  >
 
   submittedGeneId: Maybe<number>
   submittedVariantId: Maybe<number>
@@ -59,9 +73,8 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
     private submitVariantGQL: AddVariantGQL,
     private networkErrorService: NetworkErrorsService,
     private route: ActivatedRoute
-    ) {
-
-    this.submitVariantMutator = new MutatorWithState(networkErrorService);
+  ) {
+    this.submitVariantMutator = new MutatorWithState(networkErrorService)
   }
 
   ngOnInit() {
@@ -69,21 +82,20 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
       {
         key: 'fields',
         wrappers: ['form-container'],
-        templateOptions: {
-        },
+        templateOptions: {},
         fieldGroup: [
           {
             key: 'gene',
             type: 'gene-array',
             templateOptions: {
               maxCount: 1,
-              required: true
+              required: true,
             },
             validation: {
               messages: {
-                required: 'Gene is required to select a variant.'
-              }
-            }
+                required: 'Gene is required to select a variant.',
+              },
+            },
           },
           {
             key: 'variant',
@@ -92,11 +104,11 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
               required: false,
               maxCount: 1,
               allowCreate: this.allowCreate,
-            }
+            },
           },
-        ]
-      }
-    ];
+        ],
+      },
+    ]
   }
 
   submitVariant(model: Maybe<FormModel>): void {
@@ -105,21 +117,26 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
     if (geneId && name) {
       let input = {
         geneId: geneId,
-        name: name
+        name: name,
       }
 
-      let state = this.submitVariantMutator.mutate(this.submitVariantGQL, input, {},
+      let state = this.submitVariantMutator.mutate(
+        this.submitVariantGQL,
+        input,
+        {},
         (data) => {
           let addVariantResult = data.addVariant
-          if(addVariantResult) {
-            this.newId = addVariantResult.variant.id;
+          if (addVariantResult) {
+            this.newId = addVariantResult.variant.id
             this.isNew = addVariantResult.new
             this.onVariantSelected.emit({
               variantId: addVariantResult.variant.id,
-              molecularProfile: addVariantResult.variant.singleVariantMolecularProfile
-            });
+              molecularProfile:
+                addVariantResult.variant.singleVariantMolecularProfile,
+            })
           }
-        })
+        }
+      )
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
@@ -134,24 +151,26 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
         }
       })
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
-        this.loading = loading
-      })
+      state.isSubmitting$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((loading) => {
+          this.loading = loading
+        })
     }
   }
 
   onFormModelChange(model: FormModel): void {
     this.formModel = model
-    if(model.fields.variant && model.fields.variant[0]) {
+    if (model.fields.variant && model.fields.variant[0]) {
       this.onVariantSelected.emit({
         variantId: model.fields.variant[0].id!,
-        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile
+        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile,
       })
     }
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

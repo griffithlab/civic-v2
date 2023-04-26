@@ -1,7 +1,5 @@
-query SourceDetail(
-  $sourceId: Int!
-){
-  source(id: $sourceId){
+query SourceDetail($sourceId: Int!) {
+  source(id: $sourceId) {
     ...SourceDetailFields
   }
 }

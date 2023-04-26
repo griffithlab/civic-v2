@@ -1,14 +1,19 @@
 <ng-container *ngIf="therapy$ | ngrxPush as therapy">
-  <cvc-section-navigation [displayName]="therapy.name"> </cvc-section-navigation>
+  <cvc-section-navigation [displayName]="therapy.name">
+  </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
-        [nzTwotoneColor]="'Intervention' | entityColor"
-        nzType="civic-intervention"></i> {{ therapy.name }}
+        [nzTwotoneColor]="'Therapy' | entityColor"
+        nzType="civic-therapy"></i>
+      {{ therapy.name }}
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="therapy.ncitId">
-      <cvc-link-tag [href]="therapy.therapyUrl"
+      <cvc-link-tag
+        *ngIf="therapy.therapyUrl"
+        [href]="therapy.therapyUrl"
         tooltip="View in the NCIthesaurus">
         {{ therapy.ncitId }}
       </cvc-link-tag>

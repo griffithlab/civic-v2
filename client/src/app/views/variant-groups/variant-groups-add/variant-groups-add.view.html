@@ -1,18 +1,14 @@
 <cvc-section-navigation displayName="New"></cvc-section-navigation>
 <nz-page-header class="site-page-header">
-
   <!-- title -->
   <nz-page-header-title cvcFlaggableOptions>
-  <i nz-icon
-    nzTheme="twotone"
-    [nzTwotoneColor]="'VariantGroup' | entityColor"
-    nzType="civic-variantgroup"></i>
+    <i
+      nz-icon
+      nzTheme="twotone"
+      [nzTwotoneColor]="'VariantGroup' | entityColor"
+      nzType="civic-variantgroup"></i>
     Add New Variant Group
   </nz-page-header-title>
-
-  <nz-page-header-subtitle>
-    Submit and review new Variant Groups
-  </nz-page-header-subtitle>
 
   <nz-page-header-content>
     <div class="content">
@@ -20,8 +16,12 @@
         <router-outlet></router-outlet>
       </div>
       <ng-template #notSignedIn>
-        <nz-row nzSpan="24" nzJustify="center">
-          <div nz-col nzSpan="6">
+        <nz-row
+          nzSpan="24"
+          nzJustify="center">
+          <div
+            nz-col
+            nzSpan="6">
             <cvc-login-prompt></cvc-login-prompt>
           </div>
         </nz-row>

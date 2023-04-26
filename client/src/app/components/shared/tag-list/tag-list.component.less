@@ -1,4 +1,4 @@
-@import 'themes/global-variables.less';
+@import "themes/global-variables.less";
 
 :host {
   display: block;
@@ -22,7 +22,8 @@
   margin-bottom: -@margin-xs;
 
   // add xs margin to bottom of all tags
-  .tag-list ::ng-deep > * { // xs margin 4px
+  .tag-list ::ng-deep > * {
+    // xs margin 4px
     margin-bottom: @margin-xs;
   }
 }
@@ -31,7 +32,8 @@
   // same as above, slightly larger margin
   margin-bottom: -@margin-sm;
 
-  .tag-list ::ng-deep > * { // xs margin 8px
+  .tag-list ::ng-deep > * {
+    // xs margin 8px
     margin-bottom: @margin-sm;
   }
 }

@@ -1,24 +1,25 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AssertionsHomePage } from './assertions-home.page';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { RouterModule } from '@angular/router';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { AssertionsHomePage } from './assertions-home.page'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { LetModule, PushModule } from '@ngrx/component'
+import { NzSwitchModule } from 'ng-zorro-antd/switch'
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { RouterModule } from '@angular/router'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
   declarations: [AssertionsHomePage],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     RouterModule,
     NzIconModule,
     NzTypographyModule,
@@ -29,8 +30,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzSpaceModule,
     CvcPipesModule,
     CvcAssertionsTableModule,
-    CvcSectionNavigationModule
+    CvcSectionNavigationModule,
   ],
-  exports: [AssertionsHomePage]
+  exports: [AssertionsHomePage],
 })
-export class AssertionsHomeModule { }
+export class AssertionsHomeModule {}

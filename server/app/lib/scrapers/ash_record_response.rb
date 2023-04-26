@@ -14,7 +14,9 @@ module Scrapers
     end
 
     def first_author
-      if authors.size > 1
+      if authors.size == 0
+        ""
+      elsif authors.size > 1
         authors.first[:last_name] + ' et al.'
       else
         authors.first[:last_name] + ' et al.'

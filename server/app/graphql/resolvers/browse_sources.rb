@@ -7,10 +7,18 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseSourceType.connection_type, null: false
 
-  scope { SourceBrowseTableRow.all }
+  scope do
+    SourceBrowseTableRow.order('source_suggestion_count desc')
+      .order('evidence_item_count desc')
+      .all
+  end
 
   option(:source_type, type: Types::SourceSourceType) do |scope, value|
-    scope.where(source_type: value)
+    if value
+      scope.where(source_type: value)
+    else
+      scope
+    end
   end
 
   option(:citation_id, type: Int) do |scope, value|
@@ -42,22 +50,32 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     scope.where(id: value)
   end
 
+  option(:open_access, type: Boolean) do |scope, value|
+    if value
+      scope.where(open_access: true)
+    elsif value == false
+      scope.where(open_access: [false, nil])
+    else
+      scope
+    end
+  end
+
   option(:sort_by, type: Types::BrowseTables::SourcesSortType) do |scope, value|
     case value.column
     when "SOURCE_TYPE"
-      scope.order("source_type #{value.direction}")
+      scope.reorder("source_type #{value.direction}")
     when "CITATION_ID"
-      scope.order("citation_id #{value.direction}")
+      scope.reorder("citation_id #{value.direction}")
     when "AUTHORS"
-      scope.order("authors #{value.direction}")
+      scope.reorder("authors #{value.direction}")
     when "YEAR"
-      scope.order("publication_year #{value.direction}")
+      scope.reorder("publication_year #{value.direction}")
     when "JOURNAL"
-      scope.order("journal #{value.direction}")
+      scope.reorder("journal #{value.direction}")
     when "NAME"
-      scope.order("title #{value.direction}")
+      scope.reorder("title #{value.direction}")
     when "EVIDENCE_COUNT"
-      scope.order("evidence_item_count #{value.direction}")
+      scope.reorder("evidence_item_count #{value.direction}")
     when "SUGGESTION_COUNT"
       scope.order("source_suggestion_count #{value.direction}")
     end

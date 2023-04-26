@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CommentableEntities, CommentableInput } from '@app/generated/civic.apollo';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  CommentableEntities,
+  CommentableInput,
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-molecular-profiles-comments',
@@ -11,10 +14,10 @@ export class MolecularProfilesCommentsPage {
   commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {
-    const mpId: number = +this.route.snapshot.params['molecularProfileId'];
+    const mpId: number = +this.route.snapshot.params['molecularProfileId']
     this.commentable = {
       id: mpId,
-      entityType: CommentableEntities.MolecularProfile
+      entityType: CommentableEntities.MolecularProfile,
     }
   }
 }

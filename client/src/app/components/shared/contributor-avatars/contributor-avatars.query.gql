@@ -9,16 +9,15 @@ query ContributorAvatars($subscribable: SubscribableInput!) {
   }
 }
 
-
 fragment ContributorFields on ContributingUser {
-      user {
-        id
-        profileImagePath(size: 12)
-      }
-      uniqueActions {
-        action
-        count
-      }
-      lastActionDate
-      totalActionCount
+  user {
+    id
+    profileImagePath(size: 12)
+  }
+  uniqueActions {
+    action
+    count
+  }
+  lastActionDate
+  totalActionCount
 }

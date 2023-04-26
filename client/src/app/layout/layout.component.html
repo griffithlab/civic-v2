@@ -1,5 +1,6 @@
 <nz-layout class="app-layout">
-  <nz-sider class="app-sider"
+  <nz-sider
+    class="app-sider"
     nzCollapsible
     [nzWidth]="170"
     [nzCollapsedWidth]="80"
@@ -7,185 +8,217 @@
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
     <a routerLink="/">
-      <div class="sidebar-logo"
+      <div
+        class="sidebar-logo"
         [ngClass]="{ 'is-collapsed': isCollapsed }">
-        <img src="assets/images/civic-logo_sidebar-expanded.png"
+        <img
+          src="assets/images/civic-logo_sidebar-expanded.png"
           *ngIf="!isCollapsed"
-          alt="CIViC - Clinical Interpretations of Variants in Cancer">
-        <img src="assets/images/civic-logo_sidebar-collapsed.png"
+          alt="CIViC - Clinical Interpretations of Variants in Cancer" />
+        <img
+          src="assets/images/civic-logo_sidebar-collapsed.png"
           *ngIf="isCollapsed"
-          alt="CIViC - Clinical Interpretations of Variants in Cancer">
+          alt="CIViC - Clinical Interpretations of Variants in Cancer" />
       </div>
     </a>
-    <ul nz-menu
+    <ul
+      nz-menu
       nzTheme="dark"
       nzMode="inline"
       class="sidebar-menu"
       [ngClass]="{ 'is-collapsed': isCollapsed }"
       [nzInlineCollapsed]="isCollapsed">
-      <li nz-menu-group
+      <li
+        nz-menu-group
         [nzTitle]="isCollapsed ? 'KNOW' : 'KNOWLEDGEBASE'">
         <ul>
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Assertions' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-assertion"></i>
             <span> <a routerLink="/assertions">Assertions</a> </span>
           </li>
 
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Evidence' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-evidence"></i>
             <span> <a routerLink="/evidence">Evidence</a> </span>
           </li>
 
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Molecular Profiles' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-molecularprofile"></i>
-            <span> <a routerLink="/molecular-profiles">Molecular Profiles</a> </span>
+            <span>
+              <a routerLink="/molecular-profiles">Molecular Profiles</a>
+            </span>
           </li>
 
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-gene"></i>
             <span> <a routerLink="/genes">Genes</a> </span>
           </li>
 
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Variants' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-variant"></i>
             <span> <a routerLink="/variants">Variants</a> </span>
           </li>
 
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Variant Groups' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-variantgroup"></i>
             <span> <a routerLink="/variant-groups">Variant Groups</a> </span>
           </li>
-
         </ul>
       </li>
 
-      <li nz-menu-item
+      <li
+        nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Clinical Trials' : ''"
         nzSelected
         nzMatchRouter>
-        <i nz-icon
+        <i
+          nz-icon
           nzType="civic-clinicaltrial"></i>
         <span> <a routerLink="/clinical-trials">Clinical Trials</a> </span>
       </li>
 
-      <li nz-menu-item
+      <li
+        nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
         nzSelected
         nzMatchRouter>
-        <i nz-icon
+        <i
+          nz-icon
           nzType="civic-disease"></i>
         <span> <a routerLink="/diseases">Diseases</a> </span>
       </li>
 
-      <li nz-menu-item
+      <li
+        nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Therapies' : ''"
         nzSelected
         nzMatchRouter>
-        <i nz-icon
-          nzType="civic-intervention"></i>
+        <i
+          nz-icon
+          nzType="civic-therapy"></i>
         <span> <a routerLink="/therapies">Therapies</a> </span>
       </li>
 
-      <li nz-menu-item
+      <li
+        nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Phenotypes' : ''"
         nzSelected
         nzMatchRouter>
-        <i nz-icon
+        <i
+          nz-icon
           nzType="civic-phenotype"></i>
         <span> <a routerLink="/phenotypes">Phenotypes</a> </span>
       </li>
 
-      <li nz-menu-item
+      <li
+        nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Sources' : ''"
         nzSelected
         nzMatchRouter>
-        <i nz-icon
+        <i
+          nz-icon
           nzType="civic-source"></i>
         <span> <a routerLink="/sources">Sources</a> </span>
       </li>
 
-
-      <li nz-menu-item
+      <li
+        nz-menu-item
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
         nzSelected
         nzMatchRouter>
-        <i nz-icon
+        <i
+          nz-icon
           nzType="civic-varianttype"></i>
         <span> <a routerLink="/variant-types">Variant Types</a> </span>
       </li>
 
-      <li nz-menu-group
+      <li
+        nz-menu-group
         [nzTitle]="isCollapsed ? 'CURATE' : 'CURATION'">
         <ul>
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Activity' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-event"></i>
             <span>
-              <a routerLink="/curation/activity">
-                Activity
-              </a>
+              <a routerLink="/curation/activity"> Activity </a>
             </span>
           </li>
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Pending Queues' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-queue"></i>
             <span>
               <a routerLink="/curation/queues">Queues</a>
@@ -193,97 +226,138 @@
           </li>
         </ul>
       </li>
-      <li nz-menu-group
+      <li
+        nz-menu-group
         [nzTitle]="isCollapsed ? 'COMM' : 'COMMUNITY'">
         <ul>
-
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Users' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-curator"></i>
-            <span> <a routerLink="/users" id="main-users">Contributors</a> </span>
+            <span>
+              <a
+                routerLink="/users"
+                id="main-users"
+                >Contributors</a
+              >
+            </span>
           </li>
 
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Organizations' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="civic-organization"></i>
-            <span> <a routerLink="/organizations" id="main-organization">Organizations</a> </span>
+            <span>
+              <a
+                routerLink="/organizations"
+                id="main-organization"
+                >Organizations</a
+              >
+            </span>
           </li>
-
         </ul>
       </li>
-      <li nz-menu-group
+      <li
+        nz-menu-group
         [nzTitle]="isCollapsed ? 'RES' : 'RESOURCES'">
         <ul>
-          <li nz-menu-item
+          <li
+            nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Data Releases' : ''"
             nzSelected
             nzMatchRouter>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="download"></i>
-            <span> <a routerLink="/releases" id="releases">Data Releases</a> </span>
+            <span>
+              <a
+                routerLink="/releases"
+                id="releases"
+                >Data Releases</a
+              >
+            </span>
           </li>
         </ul>
       </li>
     </ul>
-    <div class="cc-notice"
+    <div
+      class="cc-notice"
       [ngClass]="{ 'is-collapsed': isCollapsed }"
       nz-tooltip
       nzTooltipPlacement="rightTop"
       nzTooltipTitle="By marking the work with a CC0 public domain dedication, the creator is giving up their copyright and allowing reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes.">
-      <img src="assets/images/CC0-notice-glyph.svg"
+      <img
+        src="assets/images/CC0-notice-glyph.svg"
         class="cc-glyph"
         alt="CC0 1.0 Universal" />
-      <img src="assets/images/CC0-notice-txt.svg"
+      <img
+        src="assets/images/CC0-notice-txt.svg"
         class="cc-txt"
         alt="This work has been marked as dedicated to the public domain." />
     </div>
   </nz-sider>
-  <nz-layout class="right-layout"
+  <nz-layout
+    class="right-layout"
     [ngClass]="{ 'is-collapsed': isCollapsed }">
     <nz-header>
-      <div nz-row id="header-row">
+      <div
+        nz-row
+        id="header-row">
         <!-- sidebar collapse/show trigger -->
-        <div nz-col
+        <div
+          nz-col
           nzFlex="40px">
-          <span class="header-trigger"
+          <span
+            class="header-trigger"
             (click)="isCollapsed = !isCollapsed">
-            <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" ></i>
+            <i
+              class="trigger"
+              nz-icon
+              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
           </span>
         </div>
-        <div nz-col
+        <div
+          nz-col
           nzFlex="200px"
           id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
-        <div nz-col
+        <div
+          nz-col
           nzFlex="1 0 250px"
           id="header-menu">
-          <ul nz-menu
+          <ul
+            nz-menu
             nzMode="horizontal"
             nzTheme="dark">
-            <li nz-menu-item
+            <li
+              nz-menu-item
               nzSelected
               nzMatchRouter>
               <a routerLink="/welcome">Home</a>
             </li>
-            <li nz-menu-item
+            <li
+              nz-menu-item
               nzSelected
               nzMatchRouter>
               <a routerLink="/pages/about">About CIViC</a>
             </li>
-            <li nz-menu-item
+            <li
+              nz-menu-item
               nzSelected
               nzMatchRouter>
               <a target="_blank" href="https://docs.civicdb.org/">Documentation</a>
@@ -296,7 +370,8 @@
           </ul>
         </div>
         <!-- header user -->
-        <div nz-col
+        <div
+          nz-col
           nzFlex="1 0 auto"
           id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>

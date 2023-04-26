@@ -1,43 +1,53 @@
 <ng-container *ngIf="assertion$ | ngrxPush as assertion">
-  <cvc-section-navigation [displayName]="assertion.name"
+  <cvc-section-navigation
+    [displayName]="assertion.name"
     [relationsTpl]="assertionRelations">
   </cvc-section-navigation>
   <ng-template #assertionRelations>
     <nz-space nzDirection="horizontal">
-
       <!-- parent relations -->
-      <span nz-typography
+      <span
+        nz-typography
         class="label"
-        *nzSpaceItem>Related to <strong>{{ assertion.name }}</strong>:</span>
-      <span *nzSpaceItem
+        *nzSpaceItem
+        >Related to <strong>{{ assertion.name }}</strong>:</span
+      >
+      <span
+        *nzSpaceItem
         class="tags">
-        <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
+        <cvc-molecular-profile-tag
+          [molecularProfile]="assertion.molecularProfile"
+          [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
-
     </nz-space>
   </ng-template>
-  <div cvcFlaggable
+  <div
+    cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
-    <nz-page-header *ngrxLet="viewer$ as viewer"
+    <nz-page-header
+      *ngrxLet="viewer$ as viewer"
       class="site-page-header">
-
       <!-- title -->
-      <nz-page-header-title cvcFlaggableOptions
+      <nz-page-header-title
+        cvcFlaggableOptions
         [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 }">
-        <i nz-icon
+        <i
+          nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Assertion' | entityColor"
-          nzType="civic-assertion"></i> {{ assertion.name }}
+          nzType="civic-assertion"></i>
+        {{ assertion.name }}
       </nz-page-header-title>
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra>
-        <nz-space nzDirection="horizontal"
+        <nz-space
+          nzDirection="horizontal"
           nzSize="small">
-
           <!-- add revision btn -->
           <span *nzSpaceItem>
-            <button [routerLink]="['/assertions', assertion.id, 'revise']"
+            <button
+              [routerLink]="['/assertions', assertion.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
@@ -51,7 +61,8 @@
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
           <span *nzSpaceItem>
-            <button routerLink="flags"
+            <button
+              routerLink="flags"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
@@ -62,45 +73,51 @@
           </span>
 
           <span *nzSpaceItem>
-          <ng-container *ngIf="viewer.signedIn && subscribable">
-            <cvc-entity-subscription-button [viewer]="viewer"
-              [subscribableId]="subscribable.id"
-              typename="Assertion">
-            </cvc-entity-subscription-button>
-          </ng-container>
+            <ng-container *ngIf="viewer.signedIn && subscribable">
+              <cvc-entity-subscription-button
+                [viewer]="viewer"
+                [subscribableId]="subscribable.id"
+                typename="Assertion">
+              </cvc-entity-subscription-button>
+            </ng-container>
           </span>
 
           <span *nzSpaceItem>
-          <ng-container *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'">
-            <cvc-revert-entity-button entityType="Assertion"
-              [entityId]="assertion.id"
-              (onReverted)="onRevertCompleted($event)"
-              *nzSpaceItem>
-            </cvc-revert-entity-button>
-          </ng-container>
+            <ng-container
+              *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'">
+              <cvc-revert-entity-button
+                entityType="Assertion"
+                [entityId]="assertion.id"
+                (onReverted)="onRevertCompleted($event)"
+                *nzSpaceItem>
+              </cvc-revert-entity-button>
+            </ng-container>
           </span>
-
         </nz-space>
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-alert *ngFor="let error of this.errors"
+        <nz-alert
+          *ngFor="let error of this.errors"
           nzBanner
           [nzMessage]="error"
           nzType="error"
           nzCloseable
           (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
-        <nz-alert *ngIf="this.successMessage"
+        <nz-alert
+          *ngIf="this.successMessage"
           nzBanner
           [nzMessage]="this.successMessage"
           nzType="success"
           nzCloseable
           (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-        <nz-alert *ngIf="this.assertion.status == 'SUBMITTED'"
+        <nz-alert
+          *ngIf="this.assertion.status == 'SUBMITTED'"
           nzBanner
           nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
-        <nz-alert *ngIf="this.assertion.status == 'REJECTED'"
+        <nz-alert
+          *ngIf="this.assertion.status == 'REJECTED'"
           nzBanner
           nzMessage="This Assertion has been rejected."
           nzType="error">
@@ -108,18 +125,21 @@
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
-              <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+              <cvc-contributor-avatars
+                [subscribable]="subscribable"></cvc-contributor-avatars>
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
-        <nz-space nzDirection="vertical"
+        <nz-space
+          nzDirection="vertical"
           *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
           <span *nzSpaceItem>
-            <cvc-moderate-entity-buttons entityType="Assertion"
+            <cvc-moderate-entity-buttons
+              entityType="Assertion"
               [rejectOnly]="!viewer.canModerate"
               [entityId]="assertion.id"
               (onModerated)="onModerateCompleted($event)"
-              [viewer]="viewer" >
+              [viewer]="viewer">
             </cvc-moderate-entity-buttons>
           </span>
           <span *nzSpaceItem></span>

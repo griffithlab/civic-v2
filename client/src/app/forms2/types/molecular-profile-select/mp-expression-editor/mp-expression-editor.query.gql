@@ -1,0 +1,61 @@
+# previously: previewMolecularProfileName
+query PreviewMolecularProfileName2(
+  $mpStructure: MolecularProfileComponentInput
+) {
+  previewMolecularProfileName(structure: $mpStructure) {
+    existingMolecularProfile {
+      id
+      name
+      link
+    }
+    segments {
+      ...PreviewMpName2
+    }
+    deprecatedVariants {
+      id
+      name
+      link
+    }
+  }
+}
+
+query MpExpressionEditorPrepopulate($mpId: Int!) {
+  molecularProfile(id: $mpId) {
+    id
+    parsedName {
+      ...MolecularProfileParsedName
+    }
+    rawName
+  }
+}
+
+# previously: createMolecularProfile
+mutation CreateMolecularProfile2(
+  $mpStructure: MolecularProfileComponentInput!
+) {
+  createMolecularProfile(input: { structure: $mpStructure }) {
+    molecularProfile {
+      id
+      name
+      link
+    }
+  }
+}
+
+# previously: previewMpName
+fragment PreviewMpName2 on MolecularProfileSegment {
+  __typename
+  ... on MolecularProfileTextSegment {
+    text
+  }
+  ... on Gene {
+    id
+    name
+    link
+  }
+  ... on Variant {
+    id
+    name
+    link
+  }
+}

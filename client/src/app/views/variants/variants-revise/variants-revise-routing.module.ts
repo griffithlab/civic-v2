@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { VariantsReviseView } from './variants-revise.view';
-import { VariantsSuggestModule } from './variants-suggest/variants-suggest.module';
-import { VariantsSuggestPage } from './variants-suggest/variants-suggest.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { VariantsReviseView } from './variants-revise.view'
+import { VariantsSuggestModule } from './variants-suggest/variants-suggest.module'
+import { VariantsSuggestPage } from './variants-suggest/variants-suggest.page'
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: VariantsReviseView,
     data: { breadcrumb: 'Revise' },
     children: [
@@ -14,12 +15,12 @@ const routes: Routes = [
         path: 'suggest',
         component: VariantsSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
-];
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), VariantsSuggestModule],

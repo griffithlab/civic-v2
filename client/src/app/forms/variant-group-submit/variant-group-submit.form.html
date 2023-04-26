@@ -1,14 +1,16 @@
-<form nz-form
+<form
+  nz-form
   [formGroup]="formGroup"
   (ngSubmit)="submitVariantGroup(formModel)"
   nzLayout="vertical">
- <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-  <formly-form *ngIf="!this.success" [form]="formGroup"
+  <formly-form
+    *ngIf="!this.success"
+    [form]="formGroup"
     [fields]="formFields"
     [model]="formModel"
     (modelChange)="formModel = $event"></formly-form>
-
 </form>
 
 <ng-template #formMessages>
@@ -17,13 +19,18 @@
     </cvc-form-errors-alert>
   </nz-form-item>
   <ng-container *ngIf="this.success">
-    <nz-alert nzType="success"
+    <nz-alert
+      nzType="success"
       nzMessage="Variant Group Submitted"
       [nzDescription]="successMessage"
       nzShowIcon></nz-alert>
-    <ng-template #successMessage
+    <ng-template
+      #successMessage
       nzSize="small">
-      <p>View <a routerLink="/variant-groups/{{this.newId}}/summary">its details</a>.</p>
+      <p>
+        View
+        <a routerLink="/variant-groups/{{this.newId}}/summary">its details</a>.
+      </p>
     </ng-template>
   </ng-container>
 </ng-template>

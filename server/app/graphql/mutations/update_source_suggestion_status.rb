@@ -38,7 +38,7 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(id:, organization_id: nil, new_status:, reason: nil **_)
+  def resolve(id:, organization_id: nil, new_status:, reason: nil, **_)
     if new_status != source_suggestion.status
       cmd = Actions::UpdateSourceSuggestionStatus.new(
         source_suggestion: source_suggestion,

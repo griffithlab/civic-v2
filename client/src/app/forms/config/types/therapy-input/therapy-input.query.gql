@@ -1,5 +1,5 @@
 query TherapyTypeahead($name: String!) {
-  therapyTypeahead(queryTerm:$name){
+  therapyTypeahead(queryTerm: $name) {
     id
     name
     ncitId
@@ -8,7 +8,7 @@ query TherapyTypeahead($name: String!) {
 }
 
 mutation AddTherapy($name: String!, $ncitId: String) {
-  addTherapy(input: {name: $name, ncitId: $ncitId}) {
+  addTherapy(input: { name: $name, ncitId: $ncitId }) {
     ...AddTherapyFields
   }
 }

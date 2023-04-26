@@ -1,15 +1,14 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'cvc-variant-groups-flags',
   templateUrl: './variant-groups-flags.page.html',
-  styleUrls: ['./variant-groups-flags.page.less']
+  styleUrls: ['./variant-groups-flags.page.less'],
 })
 export class VariantGroupsFlagsPage implements OnDestroy {
-
   flaggable?: FlaggableInput
   routeSub: Subscription
 
@@ -17,13 +16,12 @@ export class VariantGroupsFlagsPage implements OnDestroy {
     this.routeSub = this.route.params.subscribe((params) => {
       this.flaggable = {
         entityType: FlaggableEntities.VariantGroup,
-        id: +params.variantGroupId
+        id: +params.variantGroupId,
       }
-
-    });
+    })
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeSub.unsubscribe()
   }
 }

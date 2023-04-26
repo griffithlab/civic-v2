@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'cvc-organizations-evidence',
@@ -10,6 +10,6 @@ export class OrganizationsEvidenceComponent {
   organizationId: number
 
   constructor(private route: ActivatedRoute) {
-    this.organizationId = +this.route.snapshot.params['organizationId'];
+    this.organizationId = +this.route.snapshot.params['organizationId']
   }
 }

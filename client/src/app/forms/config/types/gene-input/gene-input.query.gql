@@ -1,6 +1,6 @@
 query GeneTypeahead($entrezSymbol: String!) {
   geneTypeahead(queryTerm: $entrezSymbol) {
-    ... GeneTypeaheadFields
+    ...GeneTypeaheadFields
   }
 }
 

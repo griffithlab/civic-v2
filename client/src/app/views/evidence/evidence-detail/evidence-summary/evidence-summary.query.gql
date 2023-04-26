@@ -1,6 +1,4 @@
-query EvidenceSummary(
-  $evidenceId: Int!
-) {
+query EvidenceSummary($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
     ...EvidenceSummaryFields
   }

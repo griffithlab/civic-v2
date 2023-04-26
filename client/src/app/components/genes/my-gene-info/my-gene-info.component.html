@@ -1,15 +1,20 @@
-<ng-container *ngIf="geneInfo">
+<ng-container *ngIf="info">
   <nz-card nzTitle="MyGeneInfo">
     <nz-card-tab>
-      <nz-tabset nzSize="small" (nzSelectChange)="tabChange($event)" [nzAnimated]="true">
+      <nz-tabset
+        nzSize="small"
+        (nzSelectChange)="tabChange($event)"
+        [nzAnimated]="true">
         <nz-tab [nzTitle]="'Overview'"> </nz-tab>
         <nz-tab [nzTitle]="'Summary'"> </nz-tab>
-        <nz-tab [nzTitle]="'Protein Domains (' + info.interproList.length + ')'"></nz-tab>
+        <nz-tab
+          [nzTitle]="
+            'Protein Domains (' + info.interproList.length + ')'
+          "></nz-tab>
         <nz-tab [nzTitle]="'Pathways (' + info.pathway.length + ')'"></nz-tab>
-
       </nz-tabset>
     </nz-card-tab>
-    <ng-container [ngSwitch]="tabIndex" >
+    <ng-container [ngSwitch]="tabIndex">
       <!-- overview tab -->
       <ng-container *ngSwitchCase="0">
         <div class="tab-padding">
@@ -61,17 +66,24 @@
       </ng-container>
 
       <!-- summary tab -->
-      <ng-container *ngSwitchCase="1" >
+      <ng-container *ngSwitchCase="1">
         <div class="tab-padding">
-          <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="12">{{ info.summary }}</p>
+          <p
+            nz-typography
+            nzEllipsis
+            nzExpandable
+            [nzEllipsisRows]="12">
+            {{ info.summary }}
+          </p>
         </div>
       </ng-container>
 
       <!-- protein domains tab -->
-      <ng-container *ngSwitchCase="2" >
-        <nz-table #proteinDomainsTable
+      <ng-container *ngSwitchCase="2">
+        <nz-table
+          #proteinDomainsTable
           [nzData]="info.interpro"
-          [nzScroll]="{x: '100%', y: '200px'}"
+          [nzScroll]="{ x: '100%', y: '200px' }"
           [nzFrontPagination]="false"
           [nzShowPagination]="false"
           nzSize="small">
@@ -83,34 +95,38 @@
             </tr>
           </thead>
           <tbody>
-            <ng-template nz-virtual-scroll let-interpro let-index="index">
-            <tr>
-              <td>
-                {{ interpro.short_desc }}
-              </td>
-              <td>
-                {{ interpro.desc }}
-              </td>
-              <td>
-                {{ interpro.id }}
-              </td>
-            </tr>
-          </ng-template>
+            <ng-template
+              nz-virtual-scroll
+              let-interpro
+              let-index="index">
+              <tr>
+                <td>
+                  {{ interpro.short_desc }}
+                </td>
+                <td>
+                  {{ interpro.desc }}
+                </td>
+                <td>
+                  {{ interpro.id }}
+                </td>
+              </tr>
+            </ng-template>
           </tbody>
         </nz-table>
       </ng-container>
 
       <!-- pathways tab -->
-      <ng-container *ngSwitchCase="3" >
-        <nz-table #pathwaysTable
+      <ng-container *ngSwitchCase="3">
+        <nz-table
+          #pathwaysTable
           [nzData]="info.pathway"
-          [nzScroll]="{x: '100%', y: '200px'}"
+          [nzScroll]="{ x: '100%', y: '200px' }"
           [nzFrontPagination]="false"
           [nzShowPagination]="false"
           nzSize="small">
           <colgroup>
-            <col width="90%">
-            <col width="10%">
+            <col width="90%" />
+            <col width="10%" />
           </colgroup>
           <thead>
             <tr>
@@ -119,18 +135,26 @@
             </tr>
           </thead>
           <tbody>
-            <ng-template nz-virtual-scroll let-pathway let-index="index">
-              <tr >
+            <ng-template
+              nz-virtual-scroll
+              let-pathway
+              let-index="index">
+              <tr>
                 <td>
                   {{ pathway.name }}
                 </td>
                 <td class="button-col">
-                  <a *ngIf="pathway?.link; else noPathwayLink" nz-button href="{{ pathway?.link }}" target="_blank"
-                    nzType="default" nzSize="small">
-                    {{ pathway.src}}
+                  <a
+                    *ngIf="pathway?.link; else noPathwayLink"
+                    nz-button
+                    href="{{ pathway?.link }}"
+                    target="_blank"
+                    nzType="default"
+                    nzSize="small">
+                    {{ pathway.src }}
                   </a>
                   <ng-template #noPathwayLink>
-                    {{ pathway.src}}
+                    {{ pathway.src }}
                   </ng-template>
                 </td>
               </tr>

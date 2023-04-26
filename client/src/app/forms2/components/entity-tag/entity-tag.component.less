@@ -1,0 +1,147 @@
+@import 'themes/default.less';
+
+:host {
+  .label-max-width(@width) {
+    &.label-max-@{width} {
+      .tag-label {
+        max-width: unit(@width, px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .label-max-width(50);
+  .label-max-width(75);
+  .label-max-width(100);
+  .label-max-width(125);
+  .label-max-width(150);
+  .label-max-width(175);
+  .label-max-width(200);
+  .label-max-width(250);
+  .label-max-width(300);
+  .label-max-width(350);
+  .label-max-width(400);
+  .label-max-width(450);
+  .label-max-width(500);
+
+  // add some width to right border
+  &.rejected,
+  &.submitted,
+  &.accepted,
+  &.deprecated {
+    nz-tag {
+      border-right-width: 2px;
+    }
+  }
+  &.rejected,
+  &.deprecated {
+    nz-tag {
+      border-color: lighten(@border-color-base, 5%); // lighten std border color
+      background-color: #fff; // remove background color
+      color: lighten(@tag-default-color, 60%); // lighten text color
+    }
+  }
+  &.submitted {
+    nz-tag {
+      border-color: #ffe58f; // same as @antd-warning-color-outline
+    }
+  }
+  &.accepted {
+    nz-tag {
+      border-color: #b7eb8f; // same as @antd-success-color-outline
+    }
+  }
+
+  &.full-width {
+    nz-tag {
+      width: 100%;
+      .tag-label {
+        width: 100%;
+      }
+    }
+  }
+}
+
+nz-tag {
+  margin-right: 0;
+  margin-inline-end: 4px;
+}
+::ng-deep &-checkable {
+  background-color: transparent;
+  cursor: pointer;
+
+  &:not(&-checked):hover {
+    color: @primary-color;
+  }
+
+  &:active,
+  &-checked {
+    color: @text-color-inverse;
+  }
+
+  &-checked {
+    background-color: @primary-6;
+  }
+
+  &:active {
+    background-color: @primary-7;
+  }
+}
+
+.default {
+  nz-tag {
+    margin: 0;
+    padding: 0 2px 0 0;
+    margin-inline-end: 4px;
+    max-width: 100%;
+    .tag-icon {
+      display: inline-block;
+      padding: 3px 2px 3px 4px;
+      margin: -3px 0 -3px 0;
+    }
+    .tag-label {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      margin: -3px 0 -4px 0;
+      padding: 3px 3px 3px 2px;
+      line-height: 1;
+    }
+    ::ng-deep i.ant-tag-close-icon.anticon-close {
+      transition: none;
+      margin-left: 3px;
+    }
+  }
+}
+
+.select-item {
+  .default();
+  nz-tag {
+    .tag-label {
+      padding-right: 0;
+    }
+  }
+}
+
+.multi-select-item {
+  // pull content margins to the edges of the tag, to increase
+  // popover hover area
+  display: inline-block;
+  margin-top: -3px;
+  margin-bottom: -3px;
+  margin-left: -4px;
+  padding-left: 4px;
+  // add space between nz-select's pseudo-tag icon & label
+  .tag-icon::after {
+    content: ' ';
+  }
+}
+
+.typeahead-match {
+  font-weight: bold;
+}
+
+a.disabled {
+  pointer-events: none;
+}

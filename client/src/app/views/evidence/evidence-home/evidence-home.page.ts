@@ -1,9 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'evidence-home',
@@ -11,11 +8,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./evidence-home.page.less'],
 })
 export class EvidenceHomePage implements OnInit {
-  viewer$?: Observable<Viewer>;
+  viewer$: Observable<Viewer>
 
-  tableView: boolean = true;
+  tableView: boolean = true
   constructor(private viewerService: ViewerService) {
-    this.viewer$ = this.viewerService.viewer$;
+    this.viewer$ = this.viewerService.viewer$
   }
 
   ngOnInit(): void {}

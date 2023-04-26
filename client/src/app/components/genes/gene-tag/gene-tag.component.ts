@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
-import { getEntityColor } from '@app/core/utilities/get-entity-color';
-import { Maybe } from '@app/generated/civic.apollo';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkableGene {
   id: number
@@ -13,11 +18,10 @@ export interface LinkableGene {
 @Component({
   selector: 'cvc-gene-tag',
   templateUrl: './gene-tag.component.html',
-  styleUrls: ['./gene-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
-  @Input() gene!: LinkableGene;
+  @Input() gene!: LinkableGene
   @Input() enablePopover: Maybe<boolean> = true
   @Input() truncateLongName: Maybe<boolean> = false
 
@@ -26,19 +30,18 @@ export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
   constructor() {
     super()
     this.iconColor = getEntityColor('Gene')
-
   }
 
   idFunction(): number {
-    return this.gene.id;
+    return this.gene.id
   }
 
   ngOnInit() {
-    super.ngOnInit();
+    super.ngOnInit()
     if (this.gene === undefined) {
       throw new Error(
         'cvc-gene-tag requires LinkableGene input, none supplied.'
-      );
+      )
     }
   }
 }

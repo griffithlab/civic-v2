@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FieldWrapper } from '@ngx-formly/core';
+import { Component } from '@angular/core'
+import { FieldWrapper } from '@ngx-formly/core'
 
 @Component({
   selector: 'cvc-form-field-wrapper',
@@ -8,6 +8,6 @@ import { FieldWrapper } from '@ngx-formly/core';
 })
 export class FormFieldWrapper extends FieldWrapper {
   get errorState() {
-    return this.showError ? 'error' : '';
+    return this.showError ? 'error' : ''
   }
 }

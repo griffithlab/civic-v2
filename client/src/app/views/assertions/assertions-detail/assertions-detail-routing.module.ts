@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { AssertionsDetailView } from './assertions-detail.view';
-import { AssertionsCommentsModule } from './assertions-comments/assertions-comments.module';
-import { AssertionsCommentsPage } from './assertions-comments/assertions-comments.page';
-import { AssertionsFlagsModule } from './assertions-flags/assertions-flags.module';
-import { AssertionsFlagsPage } from './assertions-flags/assertions-flags.page';
-import { AssertionsRevisionsModule } from './assertions-revisions/assertions-revisions.module';
-import { AssertionsRevisionsPage } from './assertions-revisions/assertions-revisions.page';
-import { AssertionsSummaryModule } from './assertions-summary/assertions-summary.module';
-import { AssertionsSummaryPage } from './assertions-summary/assertions-summary.page';
-import { AssertionsEventsPage } from './assertions-events/assertions-events.page';
-import { AssertionsEventsModule } from './assertions-events/assertions-events.module';
+import { AssertionsDetailView } from './assertions-detail.view'
+import { AssertionsCommentsModule } from './assertions-comments/assertions-comments.module'
+import { AssertionsCommentsPage } from './assertions-comments/assertions-comments.page'
+import { AssertionsFlagsModule } from './assertions-flags/assertions-flags.module'
+import { AssertionsFlagsPage } from './assertions-flags/assertions-flags.page'
+import { AssertionsRevisionsModule } from './assertions-revisions/assertions-revisions.module'
+import { AssertionsRevisionsPage } from './assertions-revisions/assertions-revisions.page'
+import { AssertionsSummaryModule } from './assertions-summary/assertions-summary.module'
+import { AssertionsSummaryPage } from './assertions-summary/assertions-summary.page'
+import { AssertionsEventsPage } from './assertions-events/assertions-events.page'
+import { AssertionsEventsModule } from './assertions-events/assertions-events.module'
 
 const routes: Routes = [
   {
@@ -24,40 +24,40 @@ const routes: Routes = [
         path: 'summary',
         component: AssertionsSummaryPage,
         data: {
-          breadcrumb: 'Summary'
-        }
+          breadcrumb: 'Summary',
+        },
       },
       {
         path: 'events',
         component: AssertionsEventsPage,
         data: {
-          breadcrumb: 'Events'
-        }
+          breadcrumb: 'Events',
+        },
       },
       {
         path: 'comments',
         component: AssertionsCommentsPage,
         data: {
-          breadcrumb: 'Comments'
-        }
+          breadcrumb: 'Comments',
+        },
       },
       {
         path: 'revisions',
         component: AssertionsRevisionsPage,
         data: {
-          breadcrumb: 'Revisions'
-        }
+          breadcrumb: 'Revisions',
+        },
       },
       {
         path: 'flags',
         component: AssertionsFlagsPage,
         data: {
-          breadcrumb: 'Flags'
-        }
-      }
-    ]
-  }
-];
+          breadcrumb: 'Flags',
+        },
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [
@@ -66,8 +66,8 @@ const routes: Routes = [
     AssertionsCommentsModule,
     AssertionsRevisionsModule,
     AssertionsFlagsModule,
-    AssertionsEventsModule
+    AssertionsEventsModule,
   ],
   exports: [RouterModule],
 })
-export class AssertionsDetailRoutingModule { }
+export class AssertionsDetailRoutingModule {}

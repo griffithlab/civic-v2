@@ -1,0 +1,104 @@
+<!-- by default, display tag content within its own nz-tag -->
+<span
+  *ngIf="cvcContext === 'default'"
+  class="default">
+  <nz-tag
+    [nzMode]="cvcMode"
+    [nzChecked]="cvcTagChecked"
+    (nzCheckedChange)="(cvcTagCheckedChange)"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <span
+      nz-popover
+      nzPopoverTrigger="hover"
+      [nzPopoverContent]="
+        cvcShowPopover && this.popoverInput ? popoverContent : undefined
+      ">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </span>
+  </nz-tag>
+</span>
+
+<!-- if select-item context, tag is being displayed in a non-multi nz-select,
+so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
+<span
+  *ngIf="cvcContext === 'select-item'"
+  class="select-item">
+  <nz-tag
+    [nzMode]="'closeable'"
+    (nzOnClose)="cvcOnClose.next($event)">
+    <span *ngIf="entity && entity.tooltip; else noTooltip"
+      nz-tooltip [nzTooltipTitle]="entity.tooltip">
+        <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    </span>
+  </nz-tag>
+</span>
+
+<!-- in multi-select item form context, tag is being displayed in a multi-mode
+nz-select, so display only the tag contents as it will be wrapped in nz-select's
+pseudo-tag styles & close btn -->
+<span
+  *ngIf="cvcContext === 'multi-select-item'"
+  class="multi-select-item">
+  <span *ngIf="entity && entity.tooltip; else noTooltip"
+    nz-tooltip [nzTooltipTitle]="entity.tooltip">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </span>
+</span>
+
+<ng-template #noTooltip>
+  <span
+    nz-popover
+    nzPopoverTrigger="hover"
+    [nzPopoverContent]="this.popoverInput ? popoverContent : undefined">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  </span>
+</ng-template>
+
+<ng-template #popoverContent>
+  <cvc-entity-tag-popover *ngIf="this.popoverInput" [entity]="this.popoverInput"></cvc-entity-tag-popover>
+</ng-template>
+
+<!-- tag contents, just the tag icon and label, used by the context templates above-->
+<ng-template #tagContent>
+  <ng-container *ngIf="entity; else cacheMiss">
+    <span *ngIf="cvcDisableLink">
+      <ng-container [ngTemplateOutlet]="tagLabel"></ng-container>
+    </span>
+    <a
+      *ngIf="!cvcDisableLink"
+      [routerLink]="entity.link">
+      <ng-container [ngTemplateOutlet]="tagLabel"></ng-container>
+    </a>
+    <ng-template #tagLabel>
+      <span
+        *ngIf="typename; else noIcon"
+        nz-icon
+        [nzType]="typename | typenameToIcon"
+        nzTheme="twotone"
+        class="tag-icon"
+        [nzTwotoneColor]="typename | entityColor"></span>
+      <span
+        class="tag-label"
+        [innerHtml]="entity.name | highlightTypeahead : cvcEmphasize"></span>
+    </ng-template>
+  </ng-container>
+
+  <!-- displayed if cache id query fails -->
+  <ng-template #cacheMiss>
+    <ng-template [ngTemplateOutlet]="noIcon"></ng-template>
+    CACHE-MISS ({{ cvcCacheId }})
+  </ng-template>
+  <ng-template #noIcon>
+    <span
+      nz-icon
+      class="tag-icon"
+      nzType="question-circle"
+      nzTheme="outline"></span>
+  </ng-template>
+</ng-template>
+
+<ng-template #popoverContent>
+  <cvc-entity-tag-popover
+    *ngIf="this.popoverInput"
+    [entity]="this.popoverInput"></cvc-entity-tag-popover>
+</ng-template>

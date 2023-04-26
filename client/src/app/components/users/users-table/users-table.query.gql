@@ -7,7 +7,7 @@ query UsersBrowse(
   $orgName: OrganizationFilter
   $userRole: UserRole
   $sortBy: UsersSort
-){
+) {
   users(
     first: $first
     last: $last

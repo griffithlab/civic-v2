@@ -7,7 +7,7 @@ query BrowseDiseases(
   $name: String
   $doid: String
   $geneNames: String
-){
+) {
   browseDiseases(
     first: $first
     last: $last
@@ -30,7 +30,7 @@ query BrowseDiseases(
     edges {
       cursor
       node {
-        ... BrowseDiseaseRowFields
+        ...BrowseDiseaseRowFields
       }
     }
   }

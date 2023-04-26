@@ -2,20 +2,19 @@
   <cvc-section-navigation [displayName]="gene.name"> </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
-
     <!-- title -->
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
-      <i nz-icon
+      <i
+        nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Gene' | entityColor"
-        nzType="civic-gene"></i> {{ gene.name }}
+        nzType="civic-gene"></i>
+      {{ gene.name }}
     </nz-page-header-title>
 
     <!-- subtitle -->
-    <nz-page-header-subtitle>
-      {{ gene.officialName }}
-    </nz-page-header-subtitle>
+    <nz-page-header-subtitle> {{ gene.officialName }} </nz-page-header-subtitle>
 
     <nz-page-header-content>
       <div class="content">
@@ -23,9 +22,11 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24"
+          <nz-row
+            nzSpan="24"
             nzJustify="center">
-            <div nz-col
+            <div
+              nz-col
               nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>

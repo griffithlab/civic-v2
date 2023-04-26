@@ -1,8 +1,8 @@
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models'
 
 const requiredValidationMsgFn = (): string => {
-  return 'Evidence requires that a Gene be specified.';
-};
+  return 'Evidence requires that a Gene be specified.'
+}
 
 export const geneArrayTypeOption: TypeOption = {
   name: 'gene-array',
@@ -11,21 +11,22 @@ export const geneArrayTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Gene',
-      helpText: 'Entrez Gene name (e.g. BRAF). Gene name must be known to the Entrez database.',
+      helpText:
+        'Entrez Gene name (e.g. BRAF). Gene name must be known to the Entrez database.',
       required: false,
       addText: 'Specify a Gene',
     },
     fieldArray: {
       type: 'cvc-gene-input',
       templateOptions: {
-        required: false
-      }
+        required: false,
+      },
     },
     defaultValue: [],
     validation: {
       messages: {
-        required: requiredValidationMsgFn
+        required: requiredValidationMsgFn,
       },
     },
-  }
+  },
 }

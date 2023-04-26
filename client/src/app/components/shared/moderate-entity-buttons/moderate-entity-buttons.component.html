@@ -1,8 +1,10 @@
 <div class="center">
   <nz-spin [nzSpinning]="this.isSubmitting">
-    <cvc-org-selector-btn-group *ngIf="!this.rejectOnly"
+    <cvc-org-selector-btn-group
+      *ngIf="!this.rejectOnly"
       [(selectedOrg)]="this.mostRecentOrg">
-      <button cvcOrgSelectorBtn
+      <button
+        cvcOrgSelectorBtn
         nzType="primary"
         nzSize="large"
         nz-button
@@ -11,10 +13,12 @@
       </button>
     </cvc-org-selector-btn-group>
     &nbsp;
-    <cvc-org-selector-btn-group nzDanger
+    <cvc-org-selector-btn-group
+      nzDanger
       nzType="primary"
       [(selectedOrg)]="this.mostRecentOrg">
-      <button cvcOrgSelectorBtn
+      <button
+        cvcOrgSelectorBtn
         nzDanger
         nzType="primary"
         nzSize="large"

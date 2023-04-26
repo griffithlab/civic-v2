@@ -1,14 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { Maybe } from "@app/generated/civic.apollo";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-plain-tag-overflow',
   templateUrl: './plain-tag-overflow.component.html',
   styleUrls: ['./plain-tag-overflow.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcPlainTagOverflowComponent implements OnChanges {
-  @Input() tags: Maybe<string[]>;
+  @Input() tags: Maybe<string[]>
 
   // _tags: Maybe<string[]>;
   @Input()
@@ -17,8 +25,8 @@ export class CvcPlainTagOverflowComponent implements OnChanges {
   //   this.calculateDisplayedTags();
   // }
   // get tags(): Maybe<string[]> { return this._tags }
-
-  @Input() matchingText?: string
+  @Input()
+  matchingText?: string
   @Input() maxDisplayCount: number = 2
 
   displayedTags?: string[]
@@ -26,10 +34,10 @@ export class CvcPlainTagOverflowComponent implements OnChanges {
   hiddenCount?: number
   matchedHiddenCount: number = 0
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(_: SimpleChanges): void {
-    this.calculateDisplayedTags();
+    this.calculateDisplayedTags()
   }
 
   calculateDisplayedTags() {
@@ -39,14 +47,16 @@ export class CvcPlainTagOverflowComponent implements OnChanges {
 
     if (this.matchingText) {
       if (this.hiddenTags) {
-        let text = this.matchingText.toLowerCase();
-        this.hiddenTags.forEach(t => {
+        let text = this.matchingText.toLowerCase()
+        this.hiddenTags.forEach((t) => {
           if (t.toLowerCase().includes(text)) {
             this.matchedHiddenCount += 1
           }
-        });
+        })
       }
-    } else { this.matchedHiddenCount = 0 }
+    } else {
+      this.matchedHiddenCount = 0
+    }
   }
   // removed the template (click) emitter for onOverflowClicked, since
   // we're using these overflow components in fixed-height rows

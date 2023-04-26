@@ -1,5 +1,5 @@
 query DiseaseTypeahead($name: String!) {
-  diseaseTypeahead(queryTerm:$name){
+  diseaseTypeahead(queryTerm: $name) {
     id
     name
     displayName
@@ -9,7 +9,7 @@ query DiseaseTypeahead($name: String!) {
 }
 
 mutation AddDisease($name: String!, $doid: String) {
-  addDisease(input: {name: $name, doid: $doid}) {
+  addDisease(input: { name: $name, doid: $doid }) {
     ...AddDiseaseFields
   }
 }

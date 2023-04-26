@@ -1,16 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { CancelButtonComponent, CancelButtonType } from './cancel-button.type';
+import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
+import { FormlyModule } from '@ngx-formly/core'
+import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { CancelButtonComponent, CancelButtonType } from './cancel-button.type'
 
 @NgModule({
-  declarations: [
-    CancelButtonComponent
-  ],
+  declarations: [CancelButtonComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,8 +20,6 @@ import { CancelButtonComponent, CancelButtonType } from './cancel-button.type';
       types: [CancelButtonType],
     }),
   ],
-  exports: [
-    CancelButtonComponent
-  ]
+  exports: [CancelButtonComponent],
 })
-export class CvcCancelButtonModule { }
+export class CvcCancelButtonModule {}

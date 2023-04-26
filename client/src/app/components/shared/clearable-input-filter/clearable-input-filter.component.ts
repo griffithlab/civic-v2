@@ -1,11 +1,17 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
-import { Maybe } from "@app/generated/civic.apollo";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-clearable-input-filter',
   templateUrl: './clearable-input-filter.component.html',
   styleUrls: ['./clearable-input-filter.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcClearableInputFilterComponent {
   @Input() placeholderText?: Maybe<string>

@@ -59,6 +59,7 @@ module Types::Queries
 
       def disease_typeahead(query_term:)
         results = Disease.where("diseases.name ILIKE ?", "%#{query_term}%")
+          .or(Disease.where("diseases.doid ILIKE ?", "#{query_term}%"))
           .order("LENGTH(diseases.name) ASC")
           .limit(10)
         if results.size < 10
@@ -73,12 +74,14 @@ module Types::Queries
       end
 
       def therapy_typeahead(query_term:)
-        results = Therapy.where("therapies.name ILIKE ?", "%#{query_term}%")
+        results = Therapy.where("therapies.name ILIKE ?", "#{query_term}%")
+          .or(Therapy.where("therapies.ncit_id ILIKE ?", "%#{query_term}%"))
           .order("LENGTH(therapies.name) ASC")
           .limit(10)
         if results.size < 10
           secondary_results = Therapy.eager_load(:therapy_aliases)
             .where("therapy_aliases.name ILIKE ?", "%#{query_term}%")
+            .or(Therapy.where('therapies.name ILIKE ?', "%#{query_term}%"))
             .order("LENGTH(therapies.name) ASC")
             .limit(10-results.size)
 
@@ -105,13 +108,14 @@ module Types::Queries
 
       def phenotype_typeahead(query_term:)
         Phenotype.where('hpo_class ILIKE ?', "%#{query_term}%")
+          .or(Phenotype.where('hpo_id ILIKE ?', "%#{query_term}%"))
           .order('hpo_class')
           .limit(10)
       end
 
       def source_typeahead(citation_id:, source_type:)
         Source.where(source_type: source_type)
-          .where('sources.citation_id LIKE ?', "#{citation_id}%")
+          .where('sources.citation_id LIKE ?', "#{citation_id}")
           .limit(10)
       end
 

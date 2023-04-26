@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { VariantGroupsAddView } from './variant-groups-add.view';
-import { VariantGroupSubmitModule } from './variant-group-submit/variant-group-submit.module';
-import { VariantGroupSubmitPage } from './variant-group-submit/variant-group-submit.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { VariantGroupsAddView } from './variant-groups-add.view'
+import { VariantGroupSubmitModule } from './variant-group-submit/variant-group-submit.module'
+import { VariantGroupSubmitPage } from './variant-group-submit/variant-group-submit.page'
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
       },
     ],
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), VariantGroupSubmitModule],

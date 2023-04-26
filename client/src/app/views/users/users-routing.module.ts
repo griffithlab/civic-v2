@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { UsersHomePage } from './users-home/users-home.page';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { UsersHomePage } from './users-home/users-home.page'
 
-import { UsersComponent } from './users.component';
+import { UsersComponent } from './users.component'
 
 const routes: Routes = [
   {
@@ -15,8 +15,8 @@ const routes: Routes = [
         path: 'home',
         component: UsersHomePage,
         data: {
-          displayName: 'Home'
-        }
+          displayName: 'Home',
+        },
       },
       {
         path: ':userId',
@@ -29,14 +29,14 @@ const routes: Routes = [
                 (m) => m.UsersDetailModule
               ),
           },
-        ]
-      }
-    ]
-  }
-];
+        ],
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UsersRoutingModule { }
+export class UsersRoutingModule {}

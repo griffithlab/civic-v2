@@ -2,12 +2,13 @@
   <cvc-section-navigation [displayName]="mp.name"> </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
-
     <!-- title -->
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
-      <i nz-icon
-        nzType="civic:molecularprofile"></i> {{ mp.name }}
+      <i
+        nz-icon
+        nzType="civic:molecularprofile"></i>
+      {{ mp.name }}
     </nz-page-header-title>
 
     <!-- subtitle -->
@@ -23,8 +24,12 @@
           <router-outlet></router-outlet>
         </div>
         <ng-template #notSignedIn>
-          <nz-row nzSpan="24" nzJustify="center">
-            <div nz-col nzSpan="6">
+          <nz-row
+            nzSpan="24"
+            nzJustify="center">
+            <div
+              nz-col
+              nzSpan="6">
               <cvc-login-prompt></cvc-login-prompt>
             </div>
           </nz-row>
