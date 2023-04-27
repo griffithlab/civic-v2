@@ -88,7 +88,7 @@
               </button>
             </ng-template>
             <ng-template #foundMessage>
-             Molecular Profile <strong>{{ mp.name }}</strong> found.
+              Molecular Profile <strong>{{ mp.name }}</strong> found.
             </ng-template>
           </ng-container>
 
@@ -143,7 +143,7 @@
 
   <nz-row [nzGutter]="[6, 6]">
     <!-- input textarea -->
-    <nz-col nzSpan="24">
+    <nz-col nzFlex="auto">
       <textarea
         nz-input
         rows="1"
@@ -152,9 +152,36 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
+    <nz-col nzFlex="50px">
+      <button
+        type="button"
+        nz-button
+        nzType="default"
+        nzBlock
+        nz-popover
+        nzPopoverTitle="Append Variant #VID to Expression"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="appendVariant"
+        nzPopoverPlacement="bottom">
+        Append&nbsp;#VID
+      </button>
+      <ng-template #appendVariant>
+        <div style="min-width: 350px">
+          <p
+            nz-typography
+            nzType="secondary"
+            style="margin: 0; padding-bottom: 6px">
+            Select a Gene then a Variant to append its VID:
+          </p>
+          <cvc-mp-finder
+            (cvcOnVariantSelect)="
+              onVariantSelect$.next($event)
+            "></cvc-mp-finder>
+        </div>
+      </ng-template>
+    </nz-col>
   </nz-row>
-  <nz-row [nzGutter]="[6, 6]">
-    <!-- mp-finder form -->
+  <!--  <nz-row [nzGutter]="[6, 6]">
     <nz-col nzFlex="100px">
       <div class="finder-label">Append #VID:</div>
     </nz-col>
@@ -163,4 +190,5 @@
         (cvcOnVariantSelect)="onVariantSelect$.next($event)"></cvc-mp-finder>
     </nz-col>
   </nz-row>
+  -->
 </cvc-form-submission-status-display>

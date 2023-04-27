@@ -17,6 +17,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzModalModule } from 'ng-zorro-antd/modal'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
@@ -73,6 +74,7 @@ const typeConfig: ConfigOption = {
     NzAutocompleteModule,
     NzTypographyModule,
     NzToolTipModule,
+    NzPopoverModule,
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,
