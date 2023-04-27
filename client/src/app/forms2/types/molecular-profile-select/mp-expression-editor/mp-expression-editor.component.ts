@@ -125,6 +125,9 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     this.onInputChange$
       .pipe(
+        tap((input) => {
+          if (!input) this.expressionSegment$.next(undefined)
+        }),
         filter(isNonNulled),
         tap((input) => {
           if (input.length === 0) {
