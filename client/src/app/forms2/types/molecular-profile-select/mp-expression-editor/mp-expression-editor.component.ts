@@ -190,10 +190,10 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       .pipe(
         withLatestFrom(this.onInputChange$),
         map(([variant, input]) => {
-          if (!input || input.length == 0) {
+          if (!input || input.trim().length == 0) {
             return `#VID${variant.id}`
           } else {
-            return `${input} #VID${variant.id}`
+            return `${input.trim()} #VID${variant.id}`
           }
         }),
         // tag('onVariantSelect$'),
