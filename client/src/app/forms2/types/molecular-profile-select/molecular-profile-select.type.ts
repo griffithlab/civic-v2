@@ -118,7 +118,7 @@ export class CvcMolecularProfileSelectField
       placeholder: 'Search Molecular Profiles',
       isMultiSelect: false,
       description:
-        'Select a Gene and Variant to specify a simple Molecular Profile, or use the Editor to specify a complex Molecular Profile',
+        'Select a Gene and Variant to specify a simple Molecular Profile.',
       extraType: 'prompt',
       entityName: {
         singular: 'Molecular Profile',
