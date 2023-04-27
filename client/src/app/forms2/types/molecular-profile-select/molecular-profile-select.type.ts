@@ -198,7 +198,7 @@ export class CvcMolecularProfileSelectField
         if (!mp) {
           // this.field.formControl.setValue(undefined)
           this.selectDisplay$.next({
-            showFinder: false,
+            showFinder: true,
             showSelect: false,
           })
           return

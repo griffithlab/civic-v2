@@ -7,8 +7,8 @@
   <nz-row
     [nzGutter]="[6, 6]"
     class="info-row">
-    <!-- ERROR -->
     <nz-col nzSpan="24">
+      <!-- ERROR -->
       <ng-container *ngIf="expressionError$ | ngrxPush as error">
         <nz-alert
           nzType="error"
@@ -35,6 +35,7 @@
           </button>
         </ng-template>
       </ng-container>
+
       <!-- MESSAGE -->
       <ng-container *ngIf="expressionMessage$ | ngrxPush as message">
         <nz-alert
@@ -64,45 +65,48 @@
         </ng-template>
       </ng-container>
       <!-- SUCCESS -->
-      <ng-container
-        *ngIf="
-          !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
-        ">
-        <!-- FOUND EXISTING MP -->
-        <ng-container *ngIf="existingMp$ | ngrxPush as mp">
-          <nz-alert
-            nzType="success"
-            [nzMessage]="'Molecular Profile ' + mp.name + ' found.'"
-            [nzAction]="selectAction"
-            nzShowIcon></nz-alert>
-          <ng-template #selectAction>
-            <button
-              (click)="cvcOnSelect.next(mp)"
-              type="button"
-              nz-button
-              nzType="primary"
-              nzBlock>
-              Select MP
-            </button>
-          </ng-template>
-        </ng-container>
-        <!-- CREATE NEW MP -->
-        <ng-container *ngIf="!(existingMp$ | ngrxPush)">
-          <nz-alert
-            nzType="success"
-            [nzMessage]="'Create new Molecular Profile'"
-            [nzAction]="createAction"
-            nzShowIcon></nz-alert>
-          <ng-template #createAction>
-          <button
-            (click)="onCreateNewMp$.next()"
-            type="button"
-            nz-button
-            nzType="primary"
-            nzBlock>
-            Create New MP
-          </button>
-          </ng-template>
+      <ng-container *ngrxLet="existingMp$ as mp">
+        <ng-container
+          *ngIf="
+            !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
+          ">
+          <!-- FOUND EXISTING MP -->
+          <ng-container *ngIf="mp !== undefined">
+            <nz-alert
+              nzType="success"
+              [nzMessage]="'Molecular Profile ' + mp.name + ' found.'"
+              [nzAction]="selectAction"
+              nzShowIcon></nz-alert>
+            <ng-template #selectAction>
+              <button
+                (click)="cvcOnSelect.next(mp)"
+                type="button"
+                nz-button
+                nzType="primary"
+                nzBlock>
+                Select&nbsp;<strong>{{ mp.name }}</strong>
+              </button>
+            </ng-template>
+          </ng-container>
+
+          <!-- CREATE NEW MP -->
+          <ng-container *ngIf="mp === undefined">
+            <nz-alert
+              nzType="success"
+              [nzMessage]="'Create new Molecular Profile'"
+              [nzAction]="createAction"
+              nzShowIcon></nz-alert>
+            <ng-template #createAction>
+              <button
+                (click)="onCreateNewMp$.next()"
+                type="button"
+                nz-button
+                nzType="primary"
+                nzBlock>
+                Create New MP
+              </button>
+            </ng-template>
+          </ng-container>
         </ng-container>
       </ng-container>
     </nz-col>

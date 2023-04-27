@@ -119,6 +119,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     )
     this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
     this.existingMp$ = new Subject<Maybe<MolecularProfile>>()
+    this.existingMp$.pipe(tag('existingMp$')).subscribe()
   }
 
   ngAfterViewInit(): void {

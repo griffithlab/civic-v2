@@ -7,21 +7,22 @@
 
       <div
         class="editor-message"
-        *ngIf="!display.showSelect && editorOpen">
+        *ngIf="editorOpen">
         &nbsp;
         <span
           nz-typography
           nzEllipsis
           nzType="secondary">
-          <i> Select a Molecular Profile with the expression editor </i>
+          <i>Select a Molecular Profile with the expression editor </i>
         </span>
       </div>
 
       <!-- using inline-block here to shrink select to size of its tag contents,
       reducing the changes a user will click within it and cause the search dropdown to appear -->
-      <div style="display: inline-block">
+      <div
+        style="display: inline-block"
+        *ngIf="display.showSelect && !editorOpen">
         <cvc-entity-select
-          *ngIf="display.showSelect"
           [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
           [cvcCustomTemplate]="selectedTemplate"
           [cvcFormControl]="formControl"
