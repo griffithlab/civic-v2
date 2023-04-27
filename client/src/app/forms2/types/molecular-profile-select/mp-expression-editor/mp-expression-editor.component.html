@@ -74,7 +74,7 @@
           <ng-container *ngIf="mp !== undefined">
             <nz-alert
               nzType="success"
-              [nzMessage]="'Molecular Profile ' + mp.name + ' found.'"
+              [nzMessage]="foundMessage"
               [nzAction]="selectAction"
               nzShowIcon></nz-alert>
             <ng-template #selectAction>
@@ -84,8 +84,11 @@
                 nz-button
                 nzType="primary"
                 nzBlock>
-                Select&nbsp;<strong>{{ mp.name }}</strong>
+                Select this MP
               </button>
+            </ng-template>
+            <ng-template #foundMessage>
+             Molecular Profile <strong>{{ mp.name }}</strong> found.
             </ng-template>
           </ng-container>
 
@@ -93,7 +96,7 @@
           <ng-container *ngIf="mp === undefined">
             <nz-alert
               nzType="success"
-              [nzMessage]="'Create new Molecular Profile'"
+              [nzMessage]="createMessage"
               [nzAction]="createAction"
               nzShowIcon></nz-alert>
             <ng-template #createAction>
@@ -106,37 +109,13 @@
                 Create New MP
               </button>
             </ng-template>
+            <ng-template #createMessage>
+              Molecular Profile not found, create it?
+            </ng-template>
           </ng-container>
         </ng-container>
       </ng-container>
     </nz-col>
-    <!-- <nz-col
-          nzFlex="100px"
-          class="action-buttons">
-          <button
-            *ngIf="existingMp$ | ngrxPush as mp"
-            (click)="cvcOnSelect.next(mp)"
-            [disabled]="(expressionError$ | ngrxPush) === undefined"
-            type="button"
-            nz-button
-            nzType="primary"
-            nzBlock>
-            Select MP
-          </button>
-          <button
-            *ngIf="!(existingMp$ | ngrxPush)"
-            [disabled]="
-              (expressionError$ | ngrxPush) === undefined ||
-              !(expressionSegment$ | ngrxPush)
-            "
-            (click)="onCreateNewMp$.next()"
-            type="button"
-            nz-button
-            nzType="primary"
-            nzBlock>
-            Add MP
-          </button>
-        </nz-col> -->
   </nz-row>
 
   <nz-row
