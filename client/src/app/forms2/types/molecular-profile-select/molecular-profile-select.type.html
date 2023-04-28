@@ -69,7 +69,6 @@
     *ngIf="showExp$ | ngrxPush as showExp">
     <cvc-mp-expression-editor
       [cvcPrepopulateWithId]="onMpId$ | ngrxPush"
-      (cvcOnEditPrepopulated)="onEditPrepopulated$.next($event)"
       (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>

@@ -64,7 +64,6 @@ import { tag } from 'rxjs-spy/operators'
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
-  @Output() cvcOnEditPrepopulated = new EventEmitter<boolean>()
 
   previewQueryRef?: QueryRef<
     PreviewMolecularProfileName2Query,
@@ -125,23 +124,24 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     this.onInputChange$
       .pipe(
+        // clear preview if input is empty
         tap((input) => {
           if (!input) this.expressionSegment$.next(undefined)
         }),
+        // filter undefined inputs
         filter(isNonNulled),
+        // reset error, message if input string is empty
         tap((input) => {
           if (input.length === 0) {
             this.expressionMessage$.next(this.expressionMessages.initial)
             this.expressionError$.next(undefined)
           }
         }),
+        // filter empty input strings
         filter((input: string) => input.length > 0),
         map((input: string) => {
           let res: MpParseError | MolecularProfileComponentInput =
             parseMolecularProfile(input)
-          if (this.cvcPrepopulateWithId !== undefined) {
-            this.cvcOnEditPrepopulated.next(true)
-          }
           if ('errorMessage' in res) {
             return res
           } else {

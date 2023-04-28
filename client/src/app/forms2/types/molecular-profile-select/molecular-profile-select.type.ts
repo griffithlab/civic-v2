@@ -103,7 +103,6 @@ export class CvcMolecularProfileSelectField
   onMpSelect$: BehaviorSubject<Maybe<MolecularProfile>>
   onMpId$: ReplaySubject<Maybe<number>>
   onShowExpClick$: Subject<void>
-  onEditPrepopulated$: BehaviorSubject<boolean>
 
   // PRESENTATION STREAMS
   showExp$: Observable<boolean>
@@ -152,7 +151,6 @@ export class CvcMolecularProfileSelectField
       showFinder: true,
       showSelect: false,
     })
-    this.onEditPrepopulated$ = new BehaviorSubject<boolean>(false)
   }
 
   ngAfterViewInit(): void {
