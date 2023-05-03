@@ -385,7 +385,7 @@ GEM
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
-    sidekiq-cron (1.4.0)
+    sidekiq-cron (1.5.1)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
     simplecov (0.22.0)
@@ -502,7 +502,7 @@ DEPENDENCIES
   search_object_graphql (= 0.3.1)
   searchkick (~> 4.5.0)
   sidekiq (~> 6.5.1)
-  sidekiq-cron (~> 1.4.0)
+  sidekiq-cron (~> 1.5.0)
   simplecov
   simplecov-lcov
   solargraph
