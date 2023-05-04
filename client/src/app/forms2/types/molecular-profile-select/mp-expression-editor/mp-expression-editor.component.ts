@@ -150,6 +150,8 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         }),
         // filter empty input strings
         filter((input: string) => input.length > 0),
+        // filter input strings w/ space at end
+        filter((input: string) => input[input.length - 1] !== ' '),
         map((input: string) => {
           let res: MpParseError | MolecularProfileComponentInput =
             parseMolecularProfile(input)
