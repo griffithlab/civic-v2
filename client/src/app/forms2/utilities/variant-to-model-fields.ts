@@ -64,8 +64,8 @@ export function variantFormModelToReviseInput(
       },
       secondaryCoordinates: {
         chromosome: fields.chromosome2,
-        start: fields.start2,
-        stop: fields.stop2,
+        start: fields.start ? +fields.start : undefined,
+        stop: fields.stop ? +fields.stop : undefined,
         representativeTranscript: fields.representativeTranscript2,
       },
       geneId: fields.geneId,
