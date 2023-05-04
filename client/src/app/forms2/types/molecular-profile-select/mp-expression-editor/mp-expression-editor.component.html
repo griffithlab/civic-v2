@@ -143,8 +143,9 @@
 
   <nz-row [nzGutter]="[6, 6]">
     <!-- input textarea -->
-    <nz-col nzFlex="auto">
+    <nz-col nzSpan="24">
       <textarea
+        #expressionEditor
         nz-input
         rows="1"
         style="width: 100%"
@@ -152,22 +153,74 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
-    <nz-col nzFlex="50px">
-      <button
-        type="button"
-        nz-button
-        nzType="default"
-        nzBlock
-        nz-popover
-        nzPopoverTitle="Append Variant #VID to Expression"
-        nzPopoverTrigger="click"
-        [nzPopoverContent]="appendVariant"
-        nzPopoverPlacement="bottom">
-        <span
-          nz-icon
-          nzType="arrow-left"></span>
-        Append&nbsp;#VID
-      </button>
+    <nz-col nzSpan="24">
+      <nz-space>
+        <span *nzSpaceItem> Append: </span>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nz-popover
+          nzPopoverTitle="Append Variant #VID"
+          nzPopoverTrigger="click"
+          nzSize="small"
+          nzShape="round"
+          nzType="primary"
+          [nzPopoverContent]="appendVariant"
+          nzPopoverPlacement="bottom">
+          Variant
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('AND')">
+          AND
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('OR')">
+          OR
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('NOT')">
+          NOT
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('(')">
+          (
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next(')')">
+          )
+        </button>
+      </nz-space>
       <ng-template #appendVariant>
         <div style="min-width: 350px">
           <p

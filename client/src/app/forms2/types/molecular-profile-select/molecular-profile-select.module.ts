@@ -75,6 +75,7 @@ const typeConfig: ConfigOption = {
     NzTypographyModule,
     NzToolTipModule,
     NzPopoverModule,
+    NzSpaceModule,
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,

@@ -3,11 +3,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
@@ -49,10 +51,13 @@ import {
   Subject,
   withLatestFrom,
   tap,
+  debounceTime,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
 import { tag } from 'rxjs-spy/operators'
+
+type AppendableValue = 'AND' | 'OR' | 'NOT' | '(' | ')'
 
 @UntilDestroy()
 @Component({
@@ -64,6 +69,8 @@ import { tag } from 'rxjs-spy/operators'
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
+
+  @ViewChild('expressionEditor') expressionEditor?: ElementRef
 
   previewQueryRef?: QueryRef<
     PreviewMolecularProfileName2Query,
@@ -83,6 +90,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
 
   // SOURCE STREAMS
   onInputChange$: BehaviorSubject<Maybe<string>>
+  onAppendInput$: Subject<AppendableValue>
   onVariantSelect$: Subject<Variant>
   onCreateNewMp$: Subject<void>
 
@@ -108,6 +116,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       this.networkErrorService
     )
     this.onInputChange$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.onAppendInput$ = new Subject<AppendableValue>()
     this.onVariantSelect$ = new Subject<Variant>()
     this.onCreateNewMp$ = new Subject<void>()
     this.inputValue$ = new BehaviorSubject<string>('')
@@ -118,12 +127,14 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     )
     this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
     this.existingMp$ = new Subject<Maybe<MolecularProfile>>()
-    this.existingMp$.pipe(tag('existingMp$')).subscribe()
+    // this.existingMp$.pipe(tag('existingMp$')).subscribe()
   }
 
   ngAfterViewInit(): void {
     this.onInputChange$
       .pipe(
+        // tag('onInputChange$'),
+        debounceTime(250),
         // clear preview if input is empty
         tap((input) => {
           if (!input) this.expressionSegment$.next(undefined)
@@ -185,6 +196,19 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
           })
         }
       })
+
+    this.onAppendInput$.pipe(untilDestroyed(this)).subscribe((append: AppendableValue) => {
+      // if expressionEditor exists, append to its current value and set field value to results
+      if (this.expressionEditor) {
+        const editor = this.expressionEditor.nativeElement as HTMLInputElement
+        const current = editor.value
+        // append to current value, but only if it doesn't already end with a space
+        const newValue = `${current}${/\s+$/.test(append) ? append : ' ' + append}`
+        editor.value = newValue
+        this.inputValue$.next(newValue)
+        this.onInputChange$.next(newValue)
+      }
+    })
 
     this.onVariantSelect$
       .pipe(
