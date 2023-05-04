@@ -42,9 +42,10 @@ class Variant < ApplicationRecord
     message: "only allows A,C,T,G or /"
   }, allow_nil: true
 
-  validates_uniqueness_of :name, scope: :gene_id,
-    conditions: -> { where(deprecated: false) },
-    message: 'must be unique within a Gene'
+  #this breaks when we do updated_obj.validate! during propose revision set. we need a workaround
+  #validates_uniqueness_of :name, scope: :gene_id,
+    #conditions: -> { where(deprecated: false) },
+    #message: 'must be unique within a Gene'
 
   searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :gene) }

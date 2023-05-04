@@ -58,8 +58,8 @@ export function variantFormModelToReviseInput(
       ),
       primaryCoordinates: {
         chromosome: fields.chromosome,
-        start: fields.start,
-        stop: fields.stop,
+        start: fields.start ? +fields.start : undefined,
+        stop: fields.stop ? +fields.stop : undefined,
         representativeTranscript: fields.representativeTranscript,
       },
       secondaryCoordinates: {
