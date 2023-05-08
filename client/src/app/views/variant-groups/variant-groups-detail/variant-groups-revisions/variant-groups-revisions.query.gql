@@ -30,7 +30,7 @@ query VariantGroupRevisions(
       edges {
         node {
           id
-          revisionsetId
+          revisionSetId
           createdAt
           fieldName
           currentValue

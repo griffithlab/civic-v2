@@ -52,7 +52,7 @@
               "description": "The ID of a revision set.",
               "type": {
                 "kind": "SCALAR",
-                "name": "ID",
+                "name": "Int",
                 "ofType": null
               },
               "defaultValue": null,
@@ -1746,11 +1746,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -7452,12 +7452,12 @@
               "deprecationReason": null
             },
             {
-              "name": "revisionsetId",
+              "name": "revisionSetId",
               "description": null,
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "String",
+                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -10945,11 +10945,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -13754,11 +13754,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -16123,11 +16123,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -24725,11 +24725,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -26423,7 +26423,7 @@
               "description": "The ID of a revision set.",
               "type": {
                 "kind": "SCALAR",
-                "name": "ID",
+                "name": "Int",
                 "ofType": null
               },
               "defaultValue": null,
@@ -27048,7 +27048,7 @@
               "deprecationReason": null
             },
             {
-              "name": "revisionsetId",
+              "name": "revisionSetId",
               "description": null,
               "args": [],
               "type": {
@@ -27056,7 +27056,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -27441,7 +27441,7 @@
               "deprecationReason": null
             },
             {
-              "name": "revisionsetId",
+              "name": "revisionSetId",
               "description": "An identifier that can be used to group Revisions proposed at the same time.",
               "args": [],
               "type": {
@@ -27449,7 +27449,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -34171,11 +34171,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -35352,11 +35352,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -36446,11 +36446,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "revisionsetId",
+                  "name": "revisionSetId",
                   "description": "Limit to revisions suggested as part of a single Revision Set.",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null,

@@ -1,7 +1,7 @@
 class Actions::SuggestRevisionSet
   include Actions::Transactional
 
-  attr_reader :existing_obj, :updated_obj, :originating_user, :organization_id, :revisions, :comment, :revisionset_id
+  attr_reader :existing_obj, :updated_obj, :originating_user, :organization_id, :revisions, :comment, :revision_set_id, :revisionset_id
 
   def initialize(existing_obj:, updated_obj:, originating_user:, organization_id:, comment:)
     @existing_obj = existing_obj
@@ -18,6 +18,9 @@ class Actions::SuggestRevisionSet
 
     any_changes = false
 
+    #TODO: This should have its own Action that creates and Activity and a Comment as a side effect
+    revision_set = RevisionSet.create()
+
     editable_fields.each do |field_name|
 
       current_value = existing_obj.send(field_name)
@@ -33,6 +36,7 @@ class Actions::SuggestRevisionSet
       next unless change_present
       any_changes = true
 
+      #TODO: remove comment creation
       cmd = Actions::SuggestRevision.new(
         subject: existing_obj,
         field_name: field_name,
@@ -41,7 +45,8 @@ class Actions::SuggestRevisionSet
         originating_user: originating_user,
         organization_id: organization_id,
         comment: comment,
-        revisionset_id: revisionset_id
+        revisionset_id: revisionset_id,
+        revision_set_id: revision_set.id
       )
       res = cmd.perform
 
@@ -52,10 +57,9 @@ class Actions::SuggestRevisionSet
           id: res.revision.id,
           field_name: res.revision.field_name,
           newly_created: res.revision_created?,
-          revisionset_id: revisionset_id
+          revision_set_id: revision_set.id
         }
       end
-
     end
 
     unless any_changes

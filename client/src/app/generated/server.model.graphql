@@ -28,7 +28,7 @@ input AcceptRevisionsInput {
   """
   The ID of a revision set.
   """
-  revisionSetId: ID
+  revisionSetId: Int
 }
 
 """
@@ -482,7 +482,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -1561,7 +1561,7 @@ type CommentTagSegment {
   displayName: String!
   entityId: Int!
   link: String!
-  revisionsetId: String
+  revisionSetId: Int
   status: EvidenceStatus
   tagType: TaggableEntity!
 }
@@ -2306,7 +2306,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -2987,7 +2987,7 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -3567,7 +3567,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -5572,7 +5572,7 @@ type Query {
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -5982,7 +5982,7 @@ input RejectRevisionsInput {
   """
   The ID of a revision set.
   """
-  revisionSetId: ID
+  revisionSetId: Int
 }
 
 """
@@ -6136,7 +6136,7 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
   resolvedAt: ISO8601DateTime
   resolver: User
   resolvingEvent: Event
-  revisionsetId: String!
+  revisionSetId: Int!
   revisor: User
   status: RevisionStatus!
   subject: EventSubject!
@@ -6229,7 +6229,7 @@ type RevisionResult {
   """
   An identifier that can be used to group Revisions proposed at the same time.
   """
-  revisionsetId: String!
+  revisionSetId: Int!
 }
 
 enum RevisionStatus {
@@ -7917,7 +7917,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -8240,7 +8240,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
@@ -8502,7 +8502,7 @@ interface WithRevisions {
     """
     Limit to revisions suggested as part of a single Revision Set.
     """
-    revisionsetId: String
+    revisionSetId: Int
 
     """
     Sort order for the comments. Defaults to most recent.
