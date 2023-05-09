@@ -1,9 +1,8 @@
 module Actions
   class AddComment
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
     attr_reader :comment, :commenter, :originating_user, :commentable,
-      :subject, :title, :body, :event, :organization_id
+      :subject, :title, :body, :organization_id
 
     def initialize(title: nil, body:, commenter:, commentable:, organization_id: nil)
       @title = title
@@ -18,14 +17,15 @@ module Actions
     private
     def execute
       create_comment
-      @event = Event.create!(
+      event = Event.create!(
         action: 'commented',
         originating_user: originating_user,
         subject: subject,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: comment
       )
-      handle_mentions
+      events << event
+      handle_mentions(event)
       subscribe_user
     end
 
@@ -38,7 +38,7 @@ module Actions
       )
     end
 
-    def handle_mentions
+    def handle_mentions(event)
       ::CaptureMentionsAndNotify.perform_later(comment, event)
     end
 

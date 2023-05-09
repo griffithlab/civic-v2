@@ -13,6 +13,12 @@ class Activity < ApplicationRecord
     raise NotImplementedError.new('Subclass must specifiy name for type')
   end
 
+  def link_entities!(entities)
+    entities.each do |e|
+      ActivityLinkedEntity.create!(activity: self, entity: e)
+    end
+  end
+
   private
   def action_name
     unless Constants::ACTIVITY_NAMES.includes?(self.name)

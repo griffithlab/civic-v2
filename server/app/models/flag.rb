@@ -1,4 +1,5 @@
 class Flag < ActiveRecord::Base
+  include Subscribable
   include Commentable
 
   belongs_to :flaggable, polymorphic: true, validate: false
