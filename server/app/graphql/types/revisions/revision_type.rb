@@ -32,12 +32,6 @@ module Types::Revisions
       Types::Revisions::LinkoutData.from_revision(object)
     end
 
-    def revision_set_id
-      Loaders::AssociationLoader.for(Revision, :revision_set).load(object).then do |revision_set|
-        revision_set.id
-      end
-    end
-
     def creation_event
       Loaders::AssociationLoader.for(Revision, :creation_event).load(object)
     end
