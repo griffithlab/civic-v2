@@ -120,4 +120,8 @@ module Constants
   }
 
   CIVICBOT_USER_ID = 385
+
+  ACTIVITY_NAMES = [
+    'flag entity'
+  ]
 end
