@@ -5,7 +5,7 @@ export interface LinkableRevision {
   id: number
   name: string
   link: string
-  revisionsetId: string
+  revisionSetId: number
 }
 
 export interface Subject {

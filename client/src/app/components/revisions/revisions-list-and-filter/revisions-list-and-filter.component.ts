@@ -117,11 +117,11 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
           status: RevisionStatus.New,
         }
 
-        if (queryParams.revisionsetId) {
-          this.filteredSet = queryParams.revisionsetId
+        if (queryParams.revisionSetId) {
+          this.filteredSet = queryParams.revisionSetId
           this.preselectedRevisionStatus = undefined
           input.status = undefined
-          input.revisionsetId = queryParams.revisionsetId
+          input.revisionSetId = queryParams.revisionSetId
         }
 
         this.queryRef = this.gql.watch(input)
@@ -270,11 +270,11 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     })
   }
 
-  onRevisionSetSelected(revisionsetId: string) {
-    this.filteredSet = revisionsetId
+  onRevisionSetSelected(revisionSetId: string) {
+    this.filteredSet = revisionSetId
     this.queryRef.refetch({
       subject: { id: this.id, entityType: this.entityType },
-      revisionsetId: revisionsetId ? revisionsetId : undefined,
+      revisionSetId: revisionSetId ? +revisionSetId : undefined,
     })
   }
 
@@ -282,7 +282,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     this.filteredSet = undefined
     this.queryRef.refetch({
       subject: { id: this.id, entityType: this.entityType },
-      revisionsetId: undefined,
+      revisionSetId: undefined,
     })
   }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_10_183404) do
+ActiveRecord::Schema.define(version: 2023_05_08_152758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -581,6 +581,11 @@ ActiveRecord::Schema.define(version: 2023_04_10_183404) do
     t.index ["abbreviation"], name: "index_regulatory_agencies_on_abbreviation"
   end
 
+  create_table "revision_sets", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "revisions", force: :cascade do |t|
     t.string "subject_type"
     t.bigint "subject_id"
@@ -590,7 +595,8 @@ ActiveRecord::Schema.define(version: 2023_04_10_183404) do
     t.jsonb "suggested_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.uuid "revisionset_id", null: false
+    t.uuid "revisionset_id"
+    t.integer "revision_set_id"
     t.index ["created_at"], name: "index_revisions_on_created_at"
     t.index ["field_name"], name: "index_revisions_on_field_name"
     t.index ["revisionset_id"], name: "index_revisions_on_revisionset_id"
@@ -897,6 +903,7 @@ ActiveRecord::Schema.define(version: 2023_04_10_183404) do
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "regulatory_agencies", "countries"
+  add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"

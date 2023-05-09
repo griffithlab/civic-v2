@@ -113,7 +113,7 @@ fragment eventFeedNode on Event {
       status
     }
     ... on Revision {
-      revisionsetId
+      revisionSetId
     }
     ... on Variant {
       deprecated
@@ -130,7 +130,7 @@ fragment eventFeedNode on Event {
     __typename
     ... on Revision {
       id
-      revisionsetId
+      revisionSetId
     }
     ... on Comment {
       id
