@@ -3,10 +3,28 @@
   entityType="Molecular Profile"
   [successMessage]="success">
   <ng-template #success>Added new Molecular Profile</ng-template>
-  <!-- info & error messages row -->
+
+  <!-- PREVIEW ROW -->
   <nz-row
-    [nzGutter]="[6, 6]"
-    class="info-row">
+    [nzGutter]="[6, 8]">
+    <!-- preview row -->
+    <nz-col nzSpan="24">
+      <div
+        class="expression-preview"
+        [ngClass]="{ active: (expressionSegment$ | ngrxPush) !== undefined }">
+        <ng-container *ngrxLet="expressionSegment$ | ngrxPush as segments">
+          <cvc-mp-tag-name
+            *ngIf="segments"
+            [nameSegments]="segments"></cvc-mp-tag-name>
+          <span
+            *ngIf="!segments"
+            nz-typography
+            nzType="secondary">
+            Valid Molecular Profile expressions will be previewed here.
+          </span>
+        </ng-container>
+      </div>
+    </nz-col>
     <nz-col nzSpan="24">
       <!-- ERROR -->
       <ng-container *ngIf="expressionError$ | ngrxPush as error">
@@ -83,6 +101,7 @@
                 type="button"
                 nz-button
                 nzType="primary"
+                nzSize="small"
                 nzBlock>
                 Select this MP
               </button>
@@ -116,32 +135,6 @@
         </ng-container>
       </ng-container>
     </nz-col>
-  </nz-row>
-
-  <nz-row
-    [nzGutter]="[6, 6]"
-    class="preview-row">
-    <!-- preview row -->
-    <nz-col nzSpan="24">
-      <div
-        class="expression-preview"
-        [ngClass]="{ active: (expressionSegment$ | ngrxPush) !== undefined }">
-        <ng-container *ngrxLet="expressionSegment$ | ngrxPush as segments">
-          <cvc-mp-tag-name
-            *ngIf="segments"
-            [nameSegments]="segments"></cvc-mp-tag-name>
-          <span
-            *ngIf="!segments"
-            nz-typography
-            nzType="secondary">
-            Valid Molecular Profile expressions will be previewed here.
-          </span>
-        </ng-container>
-      </div>
-    </nz-col>
-  </nz-row>
-
-  <nz-row [nzGutter]="[6, 6]">
     <!-- input textarea -->
     <nz-col nzSpan="24">
       <textarea
@@ -153,9 +146,16 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
-    <nz-col nzSpan="24">
+    <nz-col
+      nzFlex="24"
+      style="text-align: right">
       <nz-space>
-        <span *nzSpaceItem> Append: </span>
+        <span
+          *nzSpaceItem
+          nz-typography
+          nzType="secondary">
+          Append:
+        </span>
         <button
           *nzSpaceItem
           type="button"
@@ -168,7 +168,7 @@
           nzType="primary"
           [nzPopoverContent]="appendVariant"
           nzPopoverPlacement="bottom">
-          Variant
+          <strong>Variant</strong>
         </button>
         <button
           *nzSpaceItem
@@ -178,7 +178,7 @@
           nzSize="small"
           nzShape="round"
           (click)="onAppendInput$.next('AND')">
-          AND
+          <strong>AND</strong>
         </button>
         <button
           *nzSpaceItem
@@ -188,7 +188,7 @@
           nzSize="small"
           nzShape="round"
           (click)="onAppendInput$.next('OR')">
-          OR
+          <strong>OR</strong>
         </button>
         <button
           *nzSpaceItem
@@ -198,7 +198,7 @@
           nzSize="small"
           nzShape="round"
           (click)="onAppendInput$.next('NOT')">
-          NOT
+          <strong>NOT</strong>
         </button>
         <button
           *nzSpaceItem
@@ -208,7 +208,7 @@
           nzSize="small"
           nzShape="round"
           (click)="onAppendInput$.next('(')">
-          (
+          <strong>(</strong>
         </button>
         <button
           *nzSpaceItem
@@ -218,7 +218,7 @@
           nzSize="small"
           nzShape="round"
           (click)="onAppendInput$.next(')')">
-          )
+          <strong>)</strong>
         </button>
       </nz-space>
       <ng-template #appendVariant>
