@@ -5,8 +5,7 @@
   <ng-template #success>Added new Molecular Profile</ng-template>
 
   <!-- PREVIEW ROW -->
-  <nz-row
-    [nzGutter]="[6, 8]">
+  <nz-row [nzGutter]="[6, 8]">
     <!-- preview row -->
     <nz-col nzSpan="24">
       <div
@@ -123,6 +122,7 @@
                 (click)="onCreateNewMp$.next()"
                 type="button"
                 nz-button
+                nzSize="small"
                 nzType="primary"
                 nzBlock>
                 Create New MP
@@ -197,16 +197,6 @@
           nzType="primary"
           nzSize="small"
           nzShape="round"
-          (click)="onAppendInput$.next('NOT')">
-          <strong>NOT</strong>
-        </button>
-        <button
-          *nzSpaceItem
-          type="button"
-          nz-button
-          nzType="primary"
-          nzSize="small"
-          nzShape="round"
           (click)="onAppendInput$.next('(')">
           <strong>(</strong>
         </button>
@@ -222,17 +212,30 @@
         </button>
       </nz-space>
       <ng-template #appendVariant>
-        <div style="min-width: 350px">
-          <p
-            nz-typography
-            nzType="secondary"
-            style="margin: 0; padding-bottom: 6px">
-            Select a Gene then a Variant to append its VID:
-          </p>
-          <cvc-mp-finder
-            (cvcOnVariantSelect)="
-              onVariantSelect$.next($event)
-            "></cvc-mp-finder>
+        <div class="append-variant-content">
+          <nz-row [nzGutter]="[6, 8]">
+            <nz-col nzSpan="24">
+              <p
+                nz-typography
+                nzType="secondary"
+                style="margin: 0; padding-bottom: 6px">
+                Select a Gene then a Variant to append its VID.
+              </p>
+            </nz-col>
+            <nz-col nzFlex="50px">
+              <label
+                nz-checkbox
+                [(ngModel)]="varSelectNOTChecked"
+              class="var-select-not">
+                Prepend <strong>NOT</strong>
+              </label>
+            </nz-col>
+            <nz-col nzFlex="auto">
+              <cvc-mp-finder
+                (cvcOnVariantSelect)="onVariantSelect$.next($event)">
+              </cvc-mp-finder>
+            </nz-col>
+          </nz-row>
         </div>
       </ng-template>
     </nz-col>

@@ -12,6 +12,7 @@ import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -76,6 +77,7 @@ const typeConfig: ConfigOption = {
     NzToolTipModule,
     NzPopoverModule,
     NzSpaceModule,
+    NzCheckboxModule,
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,

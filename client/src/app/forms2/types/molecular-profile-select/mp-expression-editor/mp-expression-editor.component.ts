@@ -106,6 +106,8 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     initial: 'Use the editor below to construct a molecular profile.',
   }
 
+  varSelectNOTChecked: boolean = false
+
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
@@ -199,27 +201,33 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         }
       })
 
-    this.onAppendInput$.pipe(untilDestroyed(this)).subscribe((append: AppendableValue) => {
-      // if expressionEditor exists, append to its current value and set field value to results
-      if (this.expressionEditor) {
-        const editor = this.expressionEditor.nativeElement as HTMLInputElement
-        const current = editor.value
-        // append to current value, but only if it doesn't already end with a space
-        const newValue = `${current}${/\s+$/.test(append) ? append : ' ' + append}`
-        editor.value = newValue
-        this.inputValue$.next(newValue)
-        this.onInputChange$.next(newValue)
-      }
-    })
+    this.onAppendInput$
+      .pipe(untilDestroyed(this))
+      .subscribe((append: AppendableValue) => {
+        // if expressionEditor exists, append to its current value and set field value to results
+        if (this.expressionEditor) {
+          const editor = this.expressionEditor.nativeElement as HTMLInputElement
+          const current = editor.value
+          // append to current value, but only if it doesn't already end with a space
+          const newValue = `${current}${
+            /\s+$/.test(append) ? append : ' ' + append
+          }`
+          editor.value = newValue
+          this.inputValue$.next(newValue)
+          this.onInputChange$.next(newValue)
+        }
+      })
 
     this.onVariantSelect$
       .pipe(
         withLatestFrom(this.onInputChange$),
         map(([variant, input]) => {
+          // prepent 'NOT' if 'Prepend NOT' checked
+          const newVariant = `${this.varSelectNOTChecked ? 'NOT ' : ''}#VID${variant.id}`
           if (!input || input.trim().length == 0) {
-            return `#VID${variant.id}`
+            return newVariant
           } else {
-            return `${input.trim()} #VID${variant.id}`
+            return `${input.trim()} ${newVariant}`
           }
         }),
         // tag('onVariantSelect$'),
