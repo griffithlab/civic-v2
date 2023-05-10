@@ -37,6 +37,6 @@ class FlagEntityActivity < Activity
   end
 
   def name
-    'flag entity'
+    'flagged'
   end
 end

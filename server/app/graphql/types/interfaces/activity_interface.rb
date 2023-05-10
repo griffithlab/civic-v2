@@ -10,6 +10,7 @@ module Types::Interfaces
     field :subject, Types::Interfaces::EventSubject, null: false
     field :user, Types::Entities::UserType, null: false
     field :organization, Types::Entities::OrganizationType, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def user
       Loaders::AssociationLoader.for(Activity, :user).load(object)
