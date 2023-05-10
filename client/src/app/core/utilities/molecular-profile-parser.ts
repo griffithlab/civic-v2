@@ -87,7 +87,8 @@ function parseSection(section: string): MpParseResult {
         return {
           errorMessage:
             'Expression may not include both AND/OR within a single segment.',
-          errorHelp: 'Segments may only contain identical boolean operators. Use parentheses to group form segments with consistent AND/OR operators.'
+          errorHelp:
+            'Segments may only contain identical boolean operators. Use parentheses to group form segments with consistent AND/OR operators.',
         }
       }
     }
@@ -100,10 +101,18 @@ function parseSection(section: string): MpParseResult {
   for (let token of segments.map((s) => s.trim())) {
     let matchData = variantToken.exec(token)
     if (matchData === null) {
+      // NOTE: empty token at this point appears to only occur when a paren is the last character in the expression
+      if (token.length === 0) {
+        return {
+          errorMessage: `Expression appears to be incomplete.`,
+          errorHelp: 'Ensure that all parentheses are balanced.',
+        }
+      }
       if (token !== exprPlaceholder) {
         return {
           errorMessage: `Variant '${token}' does not match the expected format.`,
-          errorHelp: 'The token should be a #VID prepended with an optional NOT.'
+          errorHelp:
+            'The token should be a #VID prepended with an optional NOT.',
         }
       }
     } else {
