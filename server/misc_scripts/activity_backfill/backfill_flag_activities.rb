@@ -3,6 +3,7 @@ Event.where(action: 'flagged').find_each do |event|
     subject: event.subject,
     user_id: event.originating_user_id,
     organization_id: event.organization_id,
+    created_at: event.created_at,
   )
 
   event.activity_id = activity.id
