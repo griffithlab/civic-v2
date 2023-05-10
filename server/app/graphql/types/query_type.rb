@@ -178,6 +178,9 @@ module Types
 
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
+    field :activities, resolver: Resolvers::Activities
+
+
     def molecular_profile(id: )
       ::MolecularProfile.find_by(id: id)
     end
