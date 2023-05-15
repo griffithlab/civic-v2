@@ -146,8 +146,22 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
+    <nz-col nzFlex="120px">
+      <button
+        nz-button
+        nzType="default"
+        nzShape="round"
+        nzSize="small"
+        nz-popover
+        nzPopoverTitle="Example Molecular Profile Expressions"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]=""
+        nzBlock>
+        Example Expressions
+      </button>
+    </nz-col>
     <nz-col
-      nzFlex="24"
+      nzFlex="auto"
       style="text-align: right">
       <nz-space>
         <span
@@ -170,6 +184,25 @@
           nzPopoverPlacement="bottom">
           <strong>Variant</strong>
         </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nz-popover
+          nzPopoverTitle="Append Variant NOT #VID"
+          nzPopoverTrigger="click"
+          nzSize="small"
+          nzShape="round"
+          nzType="primary"
+          [nzPopoverContent]="appendNotVariant"
+          nzPopoverPlacement="bottom">
+          <strong>NOT Variant</strong>
+        </button>
+        <span
+          *nzSpaceItem
+          class="btn-divider">
+          |
+        </span>
         <button
           *nzSpaceItem
           type="button"
@@ -197,6 +230,21 @@
           nzType="primary"
           nzSize="small"
           nzShape="round"
+          (click)="onAppendInput$.next('NOT')">
+          <strong>NOT</strong>
+        </button>
+        <span
+          *nzSpaceItem
+          class="btn-divider">
+          |
+        </span>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
           (click)="onAppendInput$.next('(')">
           <strong>(</strong>
         </button>
@@ -211,33 +259,53 @@
           <strong>)</strong>
         </button>
       </nz-space>
-      <ng-template #appendVariant>
-        <div class="append-variant-content">
-          <nz-row [nzGutter]="[6, 8]">
-            <nz-col nzSpan="24">
-              <p
-                nz-typography
-                nzType="secondary"
-                style="margin: 0; padding-bottom: 6px">
-                Select a Gene then a Variant to append its VID.
-              </p>
-            </nz-col>
-            <nz-col nzFlex="50px">
-              <label
-                nz-checkbox
-                [(ngModel)]="varSelectNOTChecked"
-              class="var-select-not">
-                Prepend <strong>NOT</strong>
-              </label>
-            </nz-col>
-            <nz-col nzFlex="auto">
-              <cvc-mp-finder
-                (cvcOnVariantSelect)="onVariantSelect$.next($event)">
-              </cvc-mp-finder>
-            </nz-col>
-          </nz-row>
-        </div>
-      </ng-template>
     </nz-col>
   </nz-row>
 </cvc-form-submission-status-display>
+
+<!-- APPEND VARIANT #VID POPOVER -->
+<ng-template #appendVariant>
+  <div class="append-variant-content">
+    <nz-row [nzGutter]="[6, 8]">
+      <nz-col nzSpan="24">
+        <p
+          nz-typography
+          nzType="secondary"
+          style="margin: 0; padding-bottom: 6px">
+          Select a Gene then a Variant to append its #VID.
+        </p>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <cvc-mp-finder
+          (cvcOnVariantSelect)="
+            onVariantSelect$.next({ variant: $event, prependNot: false })
+          ">
+        </cvc-mp-finder>
+      </nz-col>
+    </nz-row>
+  </div>
+</ng-template>
+
+<!-- APPEND NOT + #VID POPOVER -->
+<ng-template #appendNotVariant>
+  <div class="append-variant-content">
+    <nz-row [nzGutter]="[6, 8]">
+      <nz-col nzSpan="24">
+        <p
+          nz-typography
+          nzType="secondary"
+          style="margin: 0; padding-bottom: 6px">
+          Select a Gene then a Variant to append its #VID, prepended with NOT
+          boolean.
+        </p>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <cvc-mp-finder
+          (cvcOnVariantSelect)="
+            onVariantSelect$.next({ variant: $event, prependNot: true })
+          ">
+        </cvc-mp-finder>
+      </nz-col>
+    </nz-row>
+  </div>
+</ng-template>

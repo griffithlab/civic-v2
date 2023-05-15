@@ -58,6 +58,7 @@ import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
 import { tag } from 'rxjs-spy/operators'
 
 type AppendableValue = 'AND' | 'OR' | 'NOT' | '(' | ')'
+type AppendVariant = { variant: Variant; prependNot: boolean }
 
 @UntilDestroy()
 @Component({
@@ -91,7 +92,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   // SOURCE STREAMS
   onInputChange$: BehaviorSubject<Maybe<string>>
   onAppendInput$: Subject<AppendableValue>
-  onVariantSelect$: Subject<Variant>
+  onVariantSelect$: Subject<AppendVariant>
   onCreateNewMp$: Subject<void>
 
   // PRESENTATION STREAMS
@@ -119,10 +120,11 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     )
     this.onInputChange$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onAppendInput$ = new Subject<AppendableValue>()
-    this.onVariantSelect$ = new Subject<Variant>()
+    this.onVariantSelect$ = new Subject<AppendVariant>()
     this.onCreateNewMp$ = new Subject<void>()
     this.inputValue$ = new BehaviorSubject<string>('')
     this.expressionError$ = new BehaviorSubject<Maybe<MpParseError>>(undefined)
+    this.expressionError$.pipe(tag('expressionError$')).subscribe()
     this.expressionHelp$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
       this.expressionMessages.initial
@@ -221,9 +223,11 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     this.onVariantSelect$
       .pipe(
         withLatestFrom(this.onInputChange$),
-        map(([variant, input]) => {
+        map(([append, input]) => {
           // prepent 'NOT' if 'Prepend NOT' checked
-          const newVariant = `${this.varSelectNOTChecked ? 'NOT ' : ''}#VID${variant.id}`
+          const newVariant = `${append.prependNot ? 'NOT ' : ''}#VID${
+            append.variant.id
+          }`
           if (!input || input.trim().length == 0) {
             return newVariant
           } else {
