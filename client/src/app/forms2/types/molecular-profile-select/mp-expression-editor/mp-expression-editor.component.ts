@@ -23,6 +23,7 @@ import {
   MutationState,
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
+import { LinkableEntity } from '@app/forms2/components/entity-tag/entity-tag.component'
 import {
   CreateMolecularProfile2GQL,
   CreateMolecularProfile2Mutation,
@@ -59,6 +60,11 @@ import { tag } from 'rxjs-spy/operators'
 
 type AppendableValue = 'AND' | 'OR' | 'NOT' | '(' | ')'
 type AppendVariant = { variant: Variant; prependNot: boolean }
+type ExampleExpression = {
+  mp: LinkableEntity
+  expression: string
+  description: string
+}
 
 @UntilDestroy()
 @Component({
@@ -94,6 +100,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   onAppendInput$: Subject<AppendableValue>
   onVariantSelect$: Subject<AppendVariant>
   onCreateNewMp$: Subject<void>
+  onSelectExample$: Subject<ExampleExpression>
 
   // PRESENTATION STREAMS
   expressionMessage$: BehaviorSubject<Maybe<string>>
@@ -107,7 +114,36 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     initial: 'Use the editor below to construct a molecular profile.',
   }
 
-  // exampleExpressions: Map<>
+  // FIXME: replace with actual MPs & better descriptions
+  exampleExpressions: ExampleExpression[] = [
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 4251,
+        name: 'BRAF V600E AND EGFR L858R AND EGFR T790M',
+      },
+      expression: '#VID12 AND #VID33 AND #VID34',
+      description: 'Combines multiple variants with AND operator',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 4251,
+        name: 'BRAF V600E AND EGFR L858R OR EGFR T790M',
+      },
+      expression: '#VID12 AND (#VID33 OR #VID34)',
+      description: 'Combines multiple variants, with OR operator',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 4251,
+        name: 'BRAF V600E AND NOT EGFR L858R OR EGFR T790M',
+      },
+      expression: '#VID12 AND (#VID33 OR NOT #VID34)',
+      description: 'Combines variants with AND, OR, and NOT operators',
+    },
+  ]
 
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
@@ -122,9 +158,9 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     this.onAppendInput$ = new Subject<AppendableValue>()
     this.onVariantSelect$ = new Subject<AppendVariant>()
     this.onCreateNewMp$ = new Subject<void>()
+    this.onSelectExample$ = new Subject<ExampleExpression>()
     this.inputValue$ = new BehaviorSubject<string>('')
     this.expressionError$ = new BehaviorSubject<Maybe<MpParseError>>(undefined)
-    this.expressionError$.pipe(tag('expressionError$')).subscribe()
     this.expressionHelp$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
       this.expressionMessages.initial
@@ -218,6 +254,17 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
           editor.value = newValue
           this.inputValue$.next(newValue)
           this.onInputChange$.next(newValue)
+        }
+      })
+
+    this.onSelectExample$
+      .pipe(untilDestroyed(this))
+      .subscribe((example: ExampleExpression) => {
+        if (this.expressionEditor) {
+          const editor = this.expressionEditor.nativeElement as HTMLInputElement
+          editor.value = example.expression
+          this.inputValue$.next(example.expression)
+          this.onInputChange$.next(example.expression)
         }
       })
 

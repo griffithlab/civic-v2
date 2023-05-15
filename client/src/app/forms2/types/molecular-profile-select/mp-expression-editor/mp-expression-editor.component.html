@@ -154,7 +154,7 @@
         nzShape="round"
         nzSize="small"
         nz-popover
-        nzPopoverTitle="Example Molecular Profile Expressions"
+        nzPopoverTitle="Select a Profile to view its expression"
         nzPopoverTrigger="click"
         [nzPopoverContent]="expressionExamples"
         nzPopoverPlacement="bottom">
@@ -276,8 +276,8 @@
         <p
           nz-typography
           nzType="secondary"
-          style="margin: 0; padding-bottom: 6px">
-          Select a Gene then a Variant to append its #VID.
+          style="margin: 0; padding-bottom: 2px">
+          Select a Gene and Variant to append its #VID.
         </p>
       </nz-col>
       <nz-col nzSpan="24">
@@ -299,8 +299,8 @@
         <p
           nz-typography
           nzType="secondary"
-          style="margin: 0; padding-bottom: 6px">
-          Select a Gene then a Variant to append its #VID, prepended with NOT
+          style="margin: 0; padding-bottom: 2px">
+          Select a Gene and Variant to append its #VID, prepended with NOT
           boolean.
         </p>
       </nz-col>
@@ -317,21 +317,32 @@
 
 <!-- MP examples popover template -->
 <ng-template #expressionExamples>
-  <div class="append-popover-contents">
-    <nz-row [nzGutter]="[6, 8]">
-      <nz-col nzSpan="24">
-        <p
-          nz-typography
-          nzType="secondary"
-          style="margin: 0; padding-bottom: 6px">
-          Click a profile to view its expression in the editor.
-        </p>
-      </nz-col>
-      <nz-col nzSpan="24">
-        <nz-list>
-          <nz-list-item> </nz-list-item>
-        </nz-list>
-      </nz-col>
-    </nz-row>
+  <div style="min-width: 500px; margin: -8px -12px">
+    <nz-list
+      nzSize="small"
+      nzItemLayout="horizontal">
+      <nz-list-item *ngFor="let example of exampleExpressions">
+        <nz-list-item-meta>
+          <nz-list-item-meta-title>
+            <cvc-entity-tag [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
+          </nz-list-item-meta-title>
+          <nz-list-item-meta-description>
+            {{ example.description }}
+          </nz-list-item-meta-description>
+        </nz-list-item-meta>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <button
+              type="button"
+              nz-button
+              nzType="primary"
+              nzSize="small"
+              (click)="onSelectExample$.next(example)">
+              Select
+            </button>
+          </nz-list-item-action>
+        </ul>
+      </nz-list-item>
+    </nz-list>
   </div>
 </ng-template>
