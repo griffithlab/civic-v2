@@ -7,7 +7,8 @@
       const result: PossibleTypesResultData = {
   "possibleTypes": {
     "ActivityInterface": [
-      "FlagEntityActivity"
+      "FlagEntityActivity",
+      "ResolveFlagActivity"
     ],
     "CommentBodySegment": [
       "CommentTagSegment",

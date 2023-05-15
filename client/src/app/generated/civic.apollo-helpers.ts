@@ -1205,6 +1205,18 @@ export type RejectRevisionsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ResolveFlagActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'flag' | 'id' | 'name' | 'organization' | 'subject' | 'user' | ResolveFlagActivityKeySpecifier)[];
+export type ResolveFlagActivityFieldPolicy = {
+	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	flag?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type ResolveFlagPayloadKeySpecifier = ('clientMutationId' | 'flag' | ResolveFlagPayloadKeySpecifier)[];
 export type ResolveFlagPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2144,6 +2156,10 @@ export type StrictTypedTypePolicies = {
 	RejectRevisionsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RejectRevisionsPayloadKeySpecifier | (() => undefined | RejectRevisionsPayloadKeySpecifier),
 		fields?: RejectRevisionsPayloadFieldPolicy,
+	},
+	ResolveFlagActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ResolveFlagActivityKeySpecifier | (() => undefined | ResolveFlagActivityKeySpecifier),
+		fields?: ResolveFlagActivityFieldPolicy,
 	},
 	ResolveFlagPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResolveFlagPayloadKeySpecifier | (() => undefined | ResolveFlagPayloadKeySpecifier),

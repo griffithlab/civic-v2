@@ -122,6 +122,7 @@ module Constants
   CIVICBOT_USER_ID = 385
 
   ACTIVITY_NAMES = [
-    'flag entity'
+    'flag entity',
+    'resolve flag',
   ]
 end

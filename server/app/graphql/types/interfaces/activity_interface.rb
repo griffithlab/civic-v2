@@ -28,13 +28,15 @@ module Types::Interfaces
       Loaders::AssociationLoader.for(Activity, :subject).load(object)
     end
 
-    orphan_types Types::Activities::FlagEntityActivityType
+    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType
 
     definition_methods do
       def resolve_type(object, context)
         case object
         when FlagEntityActivity
           Types::Activities::FlagEntityActivityType
+        when ResolveFlagActivity
+          Types::Activities::ResolveFlagActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

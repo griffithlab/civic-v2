@@ -18,6 +18,12 @@ class Flag < ActiveRecord::Base
     class_name: 'ActivityLinkedEntity'
   has_one :open_activity, through: :open_activity_link, source: :activity
 
+  has_one :resolution_activity_link,
+    ->() { where(entity_type: 'Flag').eager_load(:activity).where("activities.type = 'ResolveFlagActivity'") },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_one :resolution_activity, through: :resolution_activity_link, source: :activity
+
   validates :state, inclusion: ['open', 'resolved']
 
   def name
