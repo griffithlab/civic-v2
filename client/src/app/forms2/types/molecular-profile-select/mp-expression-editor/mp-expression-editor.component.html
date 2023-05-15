@@ -146,8 +146,9 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
-    <nz-col nzFlex="120px">
+    <nz-col nzFlex="80px">
       <button
+        nzBlock
         nz-button
         nzType="default"
         nzShape="round"
@@ -155,9 +156,9 @@
         nz-popover
         nzPopoverTitle="Example Molecular Profile Expressions"
         nzPopoverTrigger="click"
-        [nzPopoverContent]=""
-        nzBlock>
-        Example Expressions
+        [nzPopoverContent]="expressionExamples"
+        nzPopoverPlacement="bottom">
+        Examples
       </button>
     </nz-col>
     <nz-col
@@ -263,9 +264,13 @@
   </nz-row>
 </cvc-form-submission-status-display>
 
-<!-- APPEND VARIANT #VID POPOVER -->
+<!--
+     APPEND BUTTON POPOVER TEMPLATES
+-->
+
+<!-- append #VID -->
 <ng-template #appendVariant>
-  <div class="append-variant-content">
+  <div class="append-popover-contents">
     <nz-row [nzGutter]="[6, 8]">
       <nz-col nzSpan="24">
         <p
@@ -286,9 +291,9 @@
   </div>
 </ng-template>
 
-<!-- APPEND NOT + #VID POPOVER -->
+<!-- append NOT + #VID -->
 <ng-template #appendNotVariant>
-  <div class="append-variant-content">
+  <div class="append-popover-contents">
     <nz-row [nzGutter]="[6, 8]">
       <nz-col nzSpan="24">
         <p
@@ -305,6 +310,27 @@
             onVariantSelect$.next({ variant: $event, prependNot: true })
           ">
         </cvc-mp-finder>
+      </nz-col>
+    </nz-row>
+  </div>
+</ng-template>
+
+<!-- MP examples popover template -->
+<ng-template #expressionExamples>
+  <div class="append-popover-contents">
+    <nz-row [nzGutter]="[6, 8]">
+      <nz-col nzSpan="24">
+        <p
+          nz-typography
+          nzType="secondary"
+          style="margin: 0; padding-bottom: 6px">
+          Click a profile to view its expression in the editor.
+        </p>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <nz-list>
+          <nz-list-item> </nz-list-item>
+        </nz-list>
       </nz-col>
     </nz-row>
   </div>

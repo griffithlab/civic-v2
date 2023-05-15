@@ -107,7 +107,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     initial: 'Use the editor below to construct a molecular profile.',
   }
 
-  varSelectNOTChecked: boolean = false
+  // exampleExpressions: Map<>
 
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
@@ -183,6 +183,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
             if (errors) {
               this.expressionMessage$.next(undefined)
               this.expressionError$.next({
+                errorType: 'queryError',
                 errorMessage: errors.map((e) => e.message).join('\n'),
               })
               this.expressionSegment$.next(undefined)

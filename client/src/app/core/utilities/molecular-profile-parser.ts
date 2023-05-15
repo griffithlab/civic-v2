@@ -11,7 +11,16 @@ const variantToken = /^(?<not>NOT\s)?\s*#VID(?<variantId>\d+)$/i
 const whitespace = /\s+/
 const exprPlaceholder = 'EXPR'
 
+export type MpParseErrorType =
+  | 'invalidVariant'
+  | 'trailingBoolean'
+  | 'initialBoolean'
+  | 'multipleBoolean'
+  | 'incompleteExpression'
+  | 'queryError'
+
 export interface MpParseError {
+  errorType: MpParseErrorType
   errorMessage: string
   errorHelp?: string
 }
@@ -65,6 +74,7 @@ function parseSection(section: string): MpParseResult {
     let isBool = booleanToken.test(token)
     if (isBool && i == tokens.length - 1) {
       return {
+        errorType: 'trailingBoolean',
         errorMessage: 'Trailing AND/OR operator found.',
         errorHelp:
           'Boolean operators may not be used at the end of an expression.',
@@ -73,6 +83,7 @@ function parseSection(section: string): MpParseResult {
 
     if (isBool && i == 0) {
       return {
+        errorType: 'initialBoolean',
         errorMessage: 'The expression may not start with AND/OR.',
         errorHelp:
           'Boolean operators may not be used at the beginning of an expression.',
@@ -85,6 +96,7 @@ function parseSection(section: string): MpParseResult {
       let nextBool = booleanOperatorFromToken(token)
       if (nextBool !== firstBoolean) {
         return {
+          errorType: 'multipleBoolean',
           errorMessage:
             'Expression may not include both AND/OR within a single segment.',
           errorHelp:
@@ -104,12 +116,14 @@ function parseSection(section: string): MpParseResult {
       // NOTE: empty token at this point appears to only occur when a paren is the last character in the expression
       if (token.length === 0) {
         return {
+          errorType: 'incompleteExpression',
           errorMessage: `Expression appears to be incomplete.`,
           errorHelp: 'Ensure that all parentheses are balanced.',
         }
       }
       if (token !== exprPlaceholder) {
         return {
+          errorType: 'invalidVariant',
           errorMessage: `Variant '${token}' does not match the expected format.`,
           errorHelp:
             'The token should be a #VID prepended with an optional NOT.',

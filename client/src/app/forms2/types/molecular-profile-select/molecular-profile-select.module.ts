@@ -17,6 +17,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
+import { NzListModule } from 'ng-zorro-antd/list'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
@@ -24,8 +25,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-    CvcMolecularProfileSelectField,
-    CvcMolecularProfileSelectFieldProps
+  CvcMolecularProfileSelectField,
+  CvcMolecularProfileSelectFieldProps,
 } from './molecular-profile-select.type'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
 import { MpFinderComponent } from './mp-finder/mp-finder.component'
@@ -54,7 +55,11 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcMolecularProfileSelectField, MpExpressionEditorComponent, MpFinderComponent],
+  declarations: [
+    CvcMolecularProfileSelectField,
+    MpExpressionEditorComponent,
+    MpFinderComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -78,6 +83,8 @@ const typeConfig: ConfigOption = {
     NzPopoverModule,
     NzSpaceModule,
     NzCheckboxModule,
+    NzListModule,
+
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,
