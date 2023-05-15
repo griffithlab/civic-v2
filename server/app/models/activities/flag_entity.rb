@@ -20,7 +20,7 @@ module Activities
     end
 
     def create_activity
-      @activity = FlagEntityActivity.new(
+      @activity = FlagEntityActivity.create!(
         subject: flaggable,
         user: flagging_user,
         organization: organization,

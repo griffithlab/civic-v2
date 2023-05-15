@@ -6,6 +6,18 @@ class Flag < ActiveRecord::Base
   belongs_to :flagging_user, class_name: 'User'
   belongs_to :resolving_user, class_name: 'User', required: false
 
+  has_many :activities_linked_entities,
+    ->() { where(entity_type: 'Flag') },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_many :activities, through: :activities_linked_entities
+
+  has_one :open_activity_link,
+    ->() { where(entity_type: 'Flag').eager_load(:activity).where("activities.type = 'FlagEntityActivity'") },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_one :open_activity, through: :open_activity_link, source: :activity
+
   validates :state, inclusion: ['open', 'resolved']
 
   def name

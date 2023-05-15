@@ -28,7 +28,9 @@ module Types::Entities
     end
 
     def open_comment
-      object.comments.first
+      Loaders::AssociationLoader.for(Flag, :open_activity).load(object).then do |activity|
+        Loaders::AssociationLoader.for(FlagEntityActivity, :linked_comment).load(activity)
+      end
     end
 
     def resolution_comment
