@@ -27,29 +27,51 @@
     <nz-col nzSpan="24">
       <!-- ERROR -->
       <ng-container *ngIf="expressionError$ | ngrxPush as error">
-        <nz-alert
-          nzType="error"
-          [nzMessage]="error.errorMessage"
-          [nzAction]="errorAction"
-          nzShowIcon></nz-alert>
-        <ng-template #errorAction>
-          <button
-            nz-button
-            nzDanger
-            nzType="dashed"
-            nzSize="small"
-            nzShape="round">
-            <span
-              *ngIf="error.errorHelp as helptext"
-              nz-tooltip
-              [nzTooltipTitle]="helptext">
+        <ng-container [ngSwitch]="error.errorType">
+          <ng-container *ngSwitchCase="'invalidVariant'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: invalidVariantHelp }
+              ">
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
+        <!-- ERROR HELP TEMPLATES -->
+        <ng-template #invalidVariantHelp>
+          <span>INVALID VARIANT</span>
+        </ng-template>
+
+        <ng-template
+          #errorAlert
+          let-error
+          let-content="helpContent">
+          <nz-alert
+            nzType="error"
+            [nzMessage]="error.errorMessage"
+            [nzAction]="errorAction"
+            nzShowIcon></nz-alert>
+          <ng-template #errorAction>
+            <button
+              nz-button
+              nzDanger
+              nzType="dashed"
+              nzSize="small"
+              nzShape="round"
+              nz-popover
+              [nzPopoverContent]="content">
               <span
-                nz-icon
-                nzType="question-circle"
-                nzTheme="fill"></span>
-              SYNTAX ASSISTANCE
-            </span>
-          </button>
+                nz-tooltip
+                [nzTooltipTitle]="error.errorHelp">
+                <span
+                  nz-icon
+                  nzType="question-circle"
+                  nzTheme="fill"></span>
+                SYNTAX ASSISTANCE
+              </span>
+            </button>
+          </ng-template>
         </ng-template>
       </ng-container>
 
@@ -64,7 +86,7 @@
         <ng-template #messageAction>
           <button
             nz-button
-            nzType="dashed"
+            nzType="primary"
             nzSize="small"
             nzShape="round">
             <span
@@ -261,88 +283,88 @@
         </button>
       </nz-space>
     </nz-col>
+    <!--
+     APPEND BUTTON POPOVER TEMPLATES
+    -->
+
+    <!-- append #VID -->
+    <ng-template #appendVariant>
+      <div class="append-popover-contents">
+        <nz-row [nzGutter]="[6, 8]">
+          <nz-col nzSpan="24">
+            <p
+              nz-typography
+              nzType="secondary"
+              style="margin: 0; padding-bottom: 2px">
+              Select a Gene and Variant to append its #VID.
+            </p>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <cvc-mp-finder
+              (cvcOnVariantSelect)="
+                onVariantSelect$.next({ variant: $event, prependNot: false })
+              ">
+            </cvc-mp-finder>
+          </nz-col>
+        </nz-row>
+      </div>
+    </ng-template>
+
+    <!-- append NOT + #VID -->
+    <ng-template #appendNotVariant>
+      <div class="append-popover-contents">
+        <nz-row [nzGutter]="[6, 8]">
+          <nz-col nzSpan="24">
+            <p
+              nz-typography
+              nzType="secondary"
+              style="margin: 0; padding-bottom: 2px">
+              Select a Gene and Variant to append its #VID, prepended with NOT
+              boolean.
+            </p>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <cvc-mp-finder
+              (cvcOnVariantSelect)="
+                onVariantSelect$.next({ variant: $event, prependNot: true })
+              ">
+            </cvc-mp-finder>
+          </nz-col>
+        </nz-row>
+      </div>
+    </ng-template>
+
+    <!-- MP examples popover template -->
+    <ng-template #expressionExamples>
+      <div style="min-width: 500px; margin: -8px -12px">
+        <nz-list
+          nzSize="small"
+          nzItemLayout="horizontal">
+          <nz-list-item *ngFor="let example of exampleExpressions">
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <cvc-entity-tag
+                  [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
+              </nz-list-item-meta-title>
+              <nz-list-item-meta-description>
+                {{ example.description }}
+              </nz-list-item-meta-description>
+            </nz-list-item-meta>
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <button
+                  type="button"
+                  nz-button
+                  nzType="primary"
+                  nzSize="small"
+                  (click)="onSelectExample$.next(example)">
+                  Select
+                </button>
+              </nz-list-item-action>
+            </ul>
+          </nz-list-item>
+        </nz-list>
+      </div>
+    </ng-template>
   </nz-row>
 </cvc-form-submission-status-display>
-
-<!--
-     APPEND BUTTON POPOVER TEMPLATES
--->
-
-<!-- append #VID -->
-<ng-template #appendVariant>
-  <div class="append-popover-contents">
-    <nz-row [nzGutter]="[6, 8]">
-      <nz-col nzSpan="24">
-        <p
-          nz-typography
-          nzType="secondary"
-          style="margin: 0; padding-bottom: 2px">
-          Select a Gene and Variant to append its #VID.
-        </p>
-      </nz-col>
-      <nz-col nzSpan="24">
-        <cvc-mp-finder
-          (cvcOnVariantSelect)="
-            onVariantSelect$.next({ variant: $event, prependNot: false })
-          ">
-        </cvc-mp-finder>
-      </nz-col>
-    </nz-row>
-  </div>
-</ng-template>
-
-<!-- append NOT + #VID -->
-<ng-template #appendNotVariant>
-  <div class="append-popover-contents">
-    <nz-row [nzGutter]="[6, 8]">
-      <nz-col nzSpan="24">
-        <p
-          nz-typography
-          nzType="secondary"
-          style="margin: 0; padding-bottom: 2px">
-          Select a Gene and Variant to append its #VID, prepended with NOT
-          boolean.
-        </p>
-      </nz-col>
-      <nz-col nzSpan="24">
-        <cvc-mp-finder
-          (cvcOnVariantSelect)="
-            onVariantSelect$.next({ variant: $event, prependNot: true })
-          ">
-        </cvc-mp-finder>
-      </nz-col>
-    </nz-row>
-  </div>
-</ng-template>
-
-<!-- MP examples popover template -->
-<ng-template #expressionExamples>
-  <div style="min-width: 500px; margin: -8px -12px">
-    <nz-list
-      nzSize="small"
-      nzItemLayout="horizontal">
-      <nz-list-item *ngFor="let example of exampleExpressions">
-        <nz-list-item-meta>
-          <nz-list-item-meta-title>
-            <cvc-entity-tag [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
-          </nz-list-item-meta-title>
-          <nz-list-item-meta-description>
-            {{ example.description }}
-          </nz-list-item-meta-description>
-        </nz-list-item-meta>
-        <ul nz-list-item-actions>
-          <nz-list-item-action>
-            <button
-              type="button"
-              nz-button
-              nzType="primary"
-              nzSize="small"
-              (click)="onSelectExample$.next(example)">
-              Select
-            </button>
-          </nz-list-item-action>
-        </ul>
-      </nz-list-item>
-    </nz-list>
-  </div>
-</ng-template>
