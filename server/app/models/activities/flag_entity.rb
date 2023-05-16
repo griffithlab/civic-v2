@@ -2,13 +2,13 @@ module Activities
   class FlagEntity
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
-    attr_reader :flagging_user, :flaggable, :flag, :organization, :comment, :activity
+    attr_reader :flagging_user, :flaggable, :flag, :organization, :comment_body, :comment, :activity
 
-    def initialize(flagging_user:, flaggable:, organization_id: nil, comment:)
+    def initialize(flagging_user:, flaggable:, organization_id: nil, comment_body:)
       @flagging_user = flagging_user
       @flaggable = flaggable
       @organization = resolve_organization(flagging_user, organization_id)
-      @comment = comment
+      @comment_body = comment_body
     end
 
     private
@@ -41,7 +41,7 @@ module Activities
     def create_comment
       cmd = Actions::AddComment.new(
         title: "",
-        body: comment,
+        body: comment_body,
         commenter: flagging_user,
         commentable: flag,
         organization_id: organization.id

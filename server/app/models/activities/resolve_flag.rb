@@ -2,13 +2,13 @@ module Activities
   class ResolveFlag
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
-    attr_reader :resolving_user, :flag, :organization, :comment, :activity
+    attr_reader :resolving_user, :flag, :organization, :comment_body, :comment, :activity
 
-    def initialize(resolving_user:, flag:, organization_id: nil, comment:)
+    def initialize(resolving_user:, flag:, organization_id: nil, comment_body:)
       @resolving_user = resolving_user
       @flag = flag
       @organization = resolve_organization(resolving_user, organization_id)
-      @comment = comment
+      @comment_body = comment_body
     end
 
     private
@@ -40,7 +40,7 @@ module Activities
     def create_comment
       cmd = Actions::AddComment.new(
         title: "",
-        body: comment,
+        body: comment_body,
         commenter: resolving_user,
         commentable: flag,
         organization_id: organization.id

@@ -49,7 +49,7 @@ class Mutations::ResolveFlag < Mutations::MutationWithOrg
       flag: flag,
       resolving_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      comment_body: comment
     )
 
     res = cmd.perform
