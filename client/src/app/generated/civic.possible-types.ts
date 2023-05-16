@@ -9,6 +9,7 @@
     "ActivityInterface": [
       "FlagEntityActivity",
       "ResolveFlagActivity",
+      "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity"
     ],
     "CommentBodySegment": [

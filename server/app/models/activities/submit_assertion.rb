@@ -1,12 +1,12 @@
 module Activities
-  class SubmitEvidenceItem
+  class SubmitAssertion
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
-    attr_reader :originating_user, :evidence_item, :organization, :comment_body, :comment, :activity
+    attr_reader :originating_user, :assertion, :organization, :comment_body, :comment, :activity
 
-    def initialize(originating_user:, evidence_item:, organization_id: nil, comment_body:)
+    def initialize(originating_user:, assertion:, organization_id: nil, comment_body:)
       @originating_user = originating_user
-      @evidence_item = evidence_item
+      @assertion = assertion
       @organization = resolve_organization(originating_user, organization_id)
       @comment_body = comment_body
     end
@@ -20,17 +20,17 @@ module Activities
     end
 
     def create_activity
-      @activity = SubmitEvidenceItemActivity.create!(
-        subject: evidence_item,
+      @activity = SubmitAssertionActivity.create!(
+        subject: assertion,
         user: originating_user,
         organization: organization,
       )
     end
 
     def create_submission_event
-      cmd = Actions::SubmitEvidenceItem.new(
+      cmd = Actions::SubmitAssertion.new(
         originating_user: originating_user,
-        evidence_item: evidence_item,
+        assertion: assertion,
         organization_id: organization.id
       )
       cmd.perform
@@ -46,7 +46,7 @@ module Activities
           title: "",
           body: comment_body,
           commenter: originating_user,
-          commentable: evidence_item,
+          commentable: assertion,
           organization_id: organization.id
         )
         cmd.perform

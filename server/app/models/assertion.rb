@@ -40,6 +40,14 @@ class Assertion < ActiveRecord::Base
     class_name: 'Event'
   has_one :rejector, through: :rejection_event, source: :originating_user
 
+  has_many :activities, as: :subject, class_name: 'Activity'
+
+  has_one :submission_activity,
+    ->() { where(type: 'SubmitAssertionActivity') },
+    as: :subject,
+    class_name: 'Activity'
+
+
   searchkick highlight: [:id], callbacks: :async
 
   def search_data

@@ -2,13 +2,12 @@ module Actions
   class SubmitAssertion
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
-    attr_reader :assertion, :originating_user, :organization_id, :comment_body
+    attr_reader :assertion, :originating_user, :organization_id
 
-    def initialize(assertion:, originating_user:, organization_id:, comment_body: )
+    def initialize(assertion:, originating_user:, organization_id: )
       @assertion = assertion
       @originating_user = originating_user
       @organization_id = organization_id
-      @comment_body = comment_body
     end
 
     private
@@ -18,7 +17,6 @@ module Actions
       assertion.save!
       assertion.subscribe_user(originating_user)
       create_event
-      create_comment
     end
 
     def create_event
@@ -29,22 +27,6 @@ module Actions
         organization: resolve_organization(originating_user, organization_id),
         originating_object: assertion
       )
-    end
-
-    def create_comment
-      if comment_body.present?
-        cmd = Actions::AddComment.new(
-          title: "",
-          body: comment_body,
-          commenter: originating_user,
-          commentable: assertion,
-          organization_id: organization_id
-        )
-        cmd.perform
-        if !cmd.succeeded?
-          raise StandardError.new(cmd.errors.join(', '))
-        end
-      end
     end
   end
 end

@@ -34,6 +34,9 @@ module Activities
         organization_id: organization.id
       )
       cmd.perform
+      if !cmd.succeeded?
+        raise StandardError.new(cmd.errors.join(', '))
+      end
       @flag = cmd.flag
       events << cmd.events
     end
@@ -47,6 +50,9 @@ module Activities
         organization_id: organization.id
       )
       cmd.perform
+      if !cmd.succeeded?
+        raise StandardError.new(cmd.errors.join(', '))
+      end
       @comment = cmd.comment
       events << cmd.events
     end
