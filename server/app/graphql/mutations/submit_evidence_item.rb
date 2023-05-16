@@ -36,7 +36,7 @@ class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
     evidence_item = InputAdaptors::EvidenceItemInputAdaptor.new(evidence_input_object: fields).perform
 
 
-    cmd = Actions::SubmitEvidenceItem.new(
+    cmd = Activities::SubmitEvidenceItem.new(
       evidence_item: evidence_item,
       originating_user: context[:current_user],
       organization_id: organization_id,

@@ -1399,6 +1399,17 @@ export type SubmitAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SubmitEvidenceItemActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'name' | 'organization' | 'subject' | 'user' | SubmitEvidenceItemActivityKeySpecifier)[];
+export type SubmitEvidenceItemActivityFieldPolicy = {
+	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SubmitEvidenceItemPayloadKeySpecifier = ('clientMutationId' | 'evidenceItem' | SubmitEvidenceItemPayloadKeySpecifier)[];
 export type SubmitEvidenceItemPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2228,6 +2239,10 @@ export type StrictTypedTypePolicies = {
 	SubmitAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubmitAssertionPayloadKeySpecifier | (() => undefined | SubmitAssertionPayloadKeySpecifier),
 		fields?: SubmitAssertionPayloadFieldPolicy,
+	},
+	SubmitEvidenceItemActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubmitEvidenceItemActivityKeySpecifier | (() => undefined | SubmitEvidenceItemActivityKeySpecifier),
+		fields?: SubmitEvidenceItemActivityFieldPolicy,
 	},
 	SubmitEvidenceItemPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubmitEvidenceItemPayloadKeySpecifier | (() => undefined | SubmitEvidenceItemPayloadKeySpecifier),

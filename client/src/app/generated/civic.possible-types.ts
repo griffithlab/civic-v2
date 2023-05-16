@@ -8,7 +8,8 @@
   "possibleTypes": {
     "ActivityInterface": [
       "FlagEntityActivity",
-      "ResolveFlagActivity"
+      "ResolveFlagActivity",
+      "SubmitEvidenceItemActivity"
     ],
     "CommentBodySegment": [
       "CommentTagSegment",

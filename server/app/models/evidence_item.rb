@@ -40,6 +40,13 @@ class EvidenceItem < ActiveRecord::Base
     class_name: 'Event'
   has_one :rejector, through: :rejection_event, source: :originating_user
 
+  has_many :activities, as: :subject, class_name: 'Activity'
+
+  has_one :submission_activity,
+    ->() { where(type: 'SubmitEvidenceItemActivity') },
+    as: :subject,
+    class_name: 'Activity'
+
   validates :rating, inclusion: [1, 2, 3, 4, 5]
 
 
