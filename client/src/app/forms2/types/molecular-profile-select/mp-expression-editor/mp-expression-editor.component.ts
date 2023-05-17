@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -36,7 +35,6 @@ import {
   PreviewMolecularProfileName2Query,
   PreviewMolecularProfileName2QueryVariables,
   PreviewMpName2Fragment,
-  QuicksearchGQL,
   QuicksearchQuery,
   QuicksearchQueryVariables,
   Variant,
@@ -45,18 +43,17 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import {
   BehaviorSubject,
+  debounceTime,
   filter,
   lastValueFrom,
   map,
   Observable,
   Subject,
-  withLatestFrom,
   tap,
-  debounceTime,
+  withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
-import { tag } from 'rxjs-spy/operators'
 
 type AppendableValue = 'AND' | 'OR' | 'NOT' | '(' | ')'
 type AppendVariant = { variant: Variant; prependNot: boolean }

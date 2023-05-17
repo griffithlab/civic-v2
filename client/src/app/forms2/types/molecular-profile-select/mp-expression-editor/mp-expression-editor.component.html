@@ -24,58 +24,10 @@
         </ng-container>
       </div>
     </nz-col>
+
+    <!-- MESSAGES & ALERTS ROW -->
     <nz-col nzSpan="24">
-      <!-- ERROR -->
-      <ng-container *ngIf="expressionError$ | ngrxPush as error">
-        <ng-container [ngSwitch]="error.errorType">
-          <ng-container *ngSwitchCase="'invalidVariant'">
-            <ng-container
-              *ngTemplateOutlet="
-                errorAlert;
-                context: { $implicit: error, helpContent: invalidVariantHelp }
-              ">
-            </ng-container>
-          </ng-container>
-        </ng-container>
-
-        <!-- ERROR HELP TEMPLATES -->
-        <ng-template #invalidVariantHelp>
-          <span>INVALID VARIANT</span>
-        </ng-template>
-
-        <ng-template
-          #errorAlert
-          let-error
-          let-content="helpContent">
-          <nz-alert
-            nzType="error"
-            [nzMessage]="error.errorMessage"
-            [nzAction]="errorAction"
-            nzShowIcon></nz-alert>
-          <ng-template #errorAction>
-            <button
-              nz-button
-              nzDanger
-              nzType="dashed"
-              nzSize="small"
-              nzShape="round"
-              nz-popover
-              [nzPopoverContent]="content">
-              <span
-                nz-tooltip
-                [nzTooltipTitle]="error.errorHelp">
-                <span
-                  nz-icon
-                  nzType="question-circle"
-                  nzTheme="fill"></span>
-                SYNTAX ASSISTANCE
-              </span>
-            </button>
-          </ng-template>
-        </ng-template>
-      </ng-container>
-
-      <!-- MESSAGE -->
+      <!-- INITIAL MESSAGE -->
       <ng-container *ngIf="expressionMessage$ | ngrxPush as message">
         <nz-alert
           nzType="info"
@@ -85,31 +37,72 @@
 
         <ng-template #messageAction>
           <button
+            type="button"
             nz-button
             nzType="primary"
             nzSize="small"
-            nzShape="round">
+            nzShape="round"
+            nz-popover
+            nzPopoverTrigger="click"
+            [nzPopoverContent]="gettingStartedHelp">
             <span
-              nz-tooltip
-              [nzTooltipTitle]="
-                'Enter #VID[id] and boolean tokens to construct a Molecular Profile expression.'
-              ">
-              <span
-                nz-icon
-                nzType="question-circle"
-                nzTheme="fill"></span>
-              GETTING STARTED
-            </span>
+              nz-icon
+              nzType="question-circle"
+              nzTheme="fill"></span>
+            GETTING STARTED
           </button>
+          <ng-template #gettingStartedHelp>
+            <div class="help-content">
+              <p>
+                The Molecular Profile editor allows the selection or creation of
+                complex Molecular Profiles by writing Molecular Profile
+                Expressions. MP Expressions are composed with a simple language
+                comprised of Variant tokens, boolean operators, and parentheses.
+                For example:
+              </p>
+              <p><strong>#VID12 AND #VID2220</strong><br /></p>
+              <p>
+                <strong>Variant Tokens</strong><br />
+                Variant tokens are composed of a CIViC Variant ID prepended with
+                <strong>#VID</strong>, and refer to specific CIViC Variants. For
+                example, <strong>#VID12</strong> refers to
+                <strong>BRAF V600E</strong>; <strong>#VID2220</strong> refers to
+                <strong>ALK FUSION</strong>.
+              </p>
+              <p>
+                <strong>Boolean Operators</strong><br />
+                MP Expressions with more than a single variant must include
+                boolean operators - <strong>AND</strong>, <strong>OR</strong>,
+                and <strong>NOT</strong> - indicating their relationship. For
+                example, the expression
+                <strong>#VID12 AND #VID2220</strong> describes a MP that
+                includes both <strong>BRAF V600E</strong> and
+                <strong>ALK FUSION</strong>.
+              </p>
+              <p>
+                <strong>Parentheses</strong><br />
+                Expressions cannot have both <strong>AND</strong> and
+                <strong>OR</strong> operators within the same expression. To
+                construct complex MPs that require multiple operators, one must
+                use parentheses to create embedded expressions.
+              </p>
+              <p>
+                <strong>NOTE:</strong> Be sure to read the help text provided
+                along with every alert message by clicking on the 'Syntax
+                Assistance' button at the right side of its alert box.
+              </p>
+            </div>
+          </ng-template>
         </ng-template>
       </ng-container>
-      <!-- SUCCESS -->
+
+      <!-- SUCCESS - displays either a 'Select MP' or 'Create MP' depending on specified MP's status -->
       <ng-container *ngrxLet="existingMp$ as mp">
         <ng-container
           *ngIf="
             !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
           ">
-          <!-- FOUND EXISTING MP -->
+          <!-- Select MP - MP found -->
           <ng-container *ngIf="mp !== undefined">
             <nz-alert
               nzType="success"
@@ -132,7 +125,7 @@
             </ng-template>
           </ng-container>
 
-          <!-- CREATE NEW MP -->
+          <!-- Create New MP - MP not found -->
           <ng-container *ngIf="mp === undefined">
             <nz-alert
               nzType="success"
@@ -156,8 +149,130 @@
           </ng-container>
         </ng-container>
       </ng-container>
+
+      <!-- ERROR - switch statement displays an errorAlert template
+           w/ differing contexts depending on alert type -->
+      <ng-container *ngIf="expressionError$ | ngrxPush as error">
+        <ng-container [ngSwitch]="error.errorType">
+          <!-- invalid variant alert -->
+          <ng-container *ngSwitchCase="'invalidVariant'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: invalidVariantHelp }
+              ">
+            </ng-container>
+            <!-- trailing boolean help -->
+            <ng-template #invalidVariantHelp>
+              <span>INVALID VARIANT</span>
+            </ng-template>
+          </ng-container>
+
+          <!-- trailing boolean alert -->
+          <ng-container *ngSwitchCase="'trailingBoolean'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: trailingBooleanHelp }
+              ">
+            </ng-container>
+            <ng-template #trailingBooleanHelp>
+              <span>TRAILING BOOLEAN ERROR</span>
+            </ng-template>
+          </ng-container>
+
+          <!-- initial boolean alert -->
+          <ng-container *ngSwitchCase="'initialBoolean'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: initialBooleanHelp }
+              ">
+            </ng-container>
+            <ng-template #initialBooleanHelp>
+              <span>INITIAL BOOLEAN ERROR</span>
+            </ng-template>
+          </ng-container>
+
+          <!-- multiple boolean alert -->
+          <ng-container *ngSwitchCase="'multipleBoolean'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: multipleBooleanHelp }
+              ">
+            </ng-container>
+            <ng-template #multipleBooleanHelp>
+              <span>MULTIPLE BOOLEAN ERROR</span>
+            </ng-template>
+          </ng-container>
+
+          <!-- incomplete expression alert -->
+          <ng-container *ngSwitchCase="'incompleteExpression'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: {
+                  $implicit: error,
+                  helpContent: incompleteExpressionHelp
+                }
+              ">
+            </ng-container>
+            <ng-template #incompleteExpressionHelp>
+              <span>INCOMPLETE EXPRESSION ERROR</span>
+            </ng-template>
+          </ng-container>
+
+          <!-- query error alert -->
+          <ng-container *ngSwitchCase="'queryError'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: {
+                  $implicit: error,
+                  helpContent: queryErrorHelp
+                }
+              ">
+            </ng-container>
+            <ng-template #queryErrorHelp>
+              <span>QUERY ERROR</span>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+        <!-- ERROR ALERT TEMPLATE -->
+        <ng-template
+          #errorAlert
+          let-error
+          let-content="helpContent">
+          <nz-alert
+            nzType="error"
+            [nzMessage]="error.errorMessage"
+            [nzAction]="errorAction"
+            nzShowIcon></nz-alert>
+          <ng-template #errorAction>
+            <button
+              nz-button
+              nzDanger
+              nzType="dashed"
+              nzSize="small"
+              nzShape="round"
+              nz-popover
+              nzPopoverTrigger="click"
+              [nzPopoverTitle]="error.errorHelp"
+              [nzPopoverContent]="content">
+              <span
+                nz-icon
+                nzType="question-circle"
+                nzTheme="fill"></span>
+              SYNTAX ASSISTANCE
+            </button>
+          </ng-template>
+        </ng-template>
+      </ng-container>
     </nz-col>
-    <!-- input textarea -->
+
+    <!-- INPUT TEXTAREA -->
     <nz-col nzSpan="24">
       <textarea
         #expressionEditor
@@ -168,6 +283,10 @@
         [ngModel]="inputValue$ | ngrxPush"
         (ngModelChange)="onInputChange$.next($event)"></textarea>
     </nz-col>
+  </nz-row>
+
+  <!-- BUTTON ROW -->
+  <nz-row class="btn-row">
     <nz-col nzFlex="80px">
       <button
         nzBlock
