@@ -1,35 +1,24 @@
 module Activities
-  class SubmitEvidenceItem
-    include Actions::Transactional
-    include Actions::WithOriginatingOrganization
-    attr_reader :originating_user, :evidence_item, :organization, :comment_body, :comment, :activity
+  class SubmitEvidenceItem < Base
+    attr_reader :evidence_item 
 
     def initialize(originating_user:, evidence_item:, organization_id: nil, comment_body:)
-      @originating_user = originating_user
+      super(organization_id: organization_id, user: originating_user, comment_body: comment_body)
       @evidence_item = evidence_item
-      @organization = resolve_organization(originating_user, organization_id)
-      @comment_body = comment_body
     end
 
     private
-    def execute
-      create_activity
-      create_submission_event
-      create_comment
-      link_activity
-    end
-
     def create_activity
       @activity = SubmitEvidenceItemActivity.create!(
         subject: evidence_item,
-        user: originating_user,
+        user: user,
         organization: organization,
       )
     end
 
-    def create_submission_event
+    def call_actions
       cmd = Actions::SubmitEvidenceItem.new(
-        originating_user: originating_user,
+        originating_user: user,
         evidence_item: evidence_item,
         organization_id: organization.id
       )
@@ -40,29 +29,16 @@ module Activities
       events << cmd.events
     end
 
-    def create_comment
-      if comment_body.present?
-        cmd = Actions::AddComment.new(
-          title: "",
-          body: comment_body,
-          commenter: originating_user,
-          commentable: evidence_item,
-          organization_id: organization.id
-        )
-        cmd.perform
-        if !cmd.succeeded?
-          raise StandardError.new(cmd.errors.join(', '))
-        end
-        @comment = cmd.comment
-        events << cmd.events
-      end
+    def commentable
+      evidence_item
     end
 
-    def link_activity
-      if comment
-        activity.link_entities!([comment])
+    def linked_entities
+      if comment.present?
+        [comment]
+      else
+        []
       end
-      activity.events = events.flatten
     end
   end
 end

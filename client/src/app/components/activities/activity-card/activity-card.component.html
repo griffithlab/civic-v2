@@ -1,3 +1,8 @@
 <ng-container *ngIf="activity$ | ngrxPush as activity">
-    test
+    <ng-container [ngSwitch]="activity.name">
+        <nz-divider nzPlain nzOrientation="left" nzText="Flagging Comment"></nz-divider>
+        <nz-card>
+            <cvc-comment-body [commentBodySegments]="activity.comment.parsedComment"></cvc-comment-body>
+        </nz-card>
+    </ng-container>
 </ng-container>

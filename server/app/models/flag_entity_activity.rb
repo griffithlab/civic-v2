@@ -36,7 +36,7 @@ class FlagEntityActivity < Activity
     end
   end
 
-  def name
+  def generate_verbiage
     'flagged'
   end
 end

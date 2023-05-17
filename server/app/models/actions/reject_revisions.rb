@@ -27,7 +27,7 @@ module Actions
     end
 
     def create_event(revision)
-      Event.create!(
+      events << Event.create!(
         action: 'revision rejected',
         originating_user: rejecting_user,
         subject: revision.subject,

@@ -62,7 +62,7 @@ class Actions::SuggestRevision
   end
 
   def create_event
-      Event.create!(
+      events << Event.create!(
         action: 'revision suggested',
         originating_user: originating_user,
         subject: subject,

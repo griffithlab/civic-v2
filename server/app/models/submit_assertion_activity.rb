@@ -18,7 +18,11 @@ class SubmitAssertionActivity < Activity
     end
   end
 
-  def name
+  def assertion
+    self.subject
+  end
+
+  def generate_verbiage
     'submitted assertion'
   end
 end

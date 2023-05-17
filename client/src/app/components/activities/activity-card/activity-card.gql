@@ -5,6 +5,8 @@ query ActivityCard($activityId: Int!) {
 }
 
 fragment ActivityCard on ActivityInterface {
+  id
+  name
   ... on FlagEntityActivity {
     comment {
       ...commentListNode

@@ -10,7 +10,7 @@ module Resolvers
     description 'List and filter activities'
 
     scope do
-      Activity.all.distinct.order('activities.created_at DESC')
+      Activity.order(created_at: :desc).distinct
     end
 
     option(:user_id, type: Int) do |scope, value|

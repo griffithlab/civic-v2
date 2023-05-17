@@ -61,7 +61,7 @@ class Actions::AcceptRevisions
   end
 
   def create_event(revision)
-    Event.create!(
+    events << Event.create!(
       action: 'revision accepted',
       originating_user: accepting_user,
       subject: subject,

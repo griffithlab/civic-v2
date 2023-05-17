@@ -27,7 +27,7 @@ class Actions::UpdateSourceSuggestionStatus
   end
 
   def create_event
-    Event.create!(
+    events << Event.create!(
       action: action,
       originating_user: updating_user,
       subject: source_suggestion.source,

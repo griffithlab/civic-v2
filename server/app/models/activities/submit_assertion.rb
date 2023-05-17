@@ -1,35 +1,24 @@
 module Activities
-  class SubmitAssertion
-    include Actions::Transactional
-    include Actions::WithOriginatingOrganization
-    attr_reader :originating_user, :assertion, :organization, :comment_body, :comment, :activity
+  class SubmitAssertion < Base
+    attr_reader :assertion
 
     def initialize(originating_user:, assertion:, organization_id: nil, comment_body:)
-      @originating_user = originating_user
+      super(organization_id: organization_id, user: originating_user, comment_body: comment_body)
       @assertion = assertion
-      @organization = resolve_organization(originating_user, organization_id)
-      @comment_body = comment_body
     end
 
     private
-    def execute
-      create_activity
-      create_submission_event
-      create_comment
-      link_activity
-    end
-
     def create_activity
       @activity = SubmitAssertionActivity.create!(
         subject: assertion,
-        user: originating_user,
+        user: user,
         organization: organization,
       )
     end
 
-    def create_submission_event
+    def call_actions
       cmd = Actions::SubmitAssertion.new(
-        originating_user: originating_user,
+        originating_user: user,
         assertion: assertion,
         organization_id: organization.id
       )
@@ -40,29 +29,16 @@ module Activities
       events << cmd.events
     end
 
-    def create_comment
-      if comment_body.present?
-        cmd = Actions::AddComment.new(
-          title: "",
-          body: comment_body,
-          commenter: originating_user,
-          commentable: assertion,
-          organization_id: organization.id
-        )
-        cmd.perform
-        if !cmd.succeeded?
-          raise StandardError.new(cmd.errors.join(', '))
-        end
-        @comment = cmd.comment
-        events << cmd.events
-      end
+    def commentable
+      assertion
     end
 
-    def link_activity
-      if comment
-        activity.link_entities!([comment])
+    def linked_entities
+      if comment.present?
+        [comment]
+      else
+        []
       end
-      activity.events = events.flatten
     end
   end
 end

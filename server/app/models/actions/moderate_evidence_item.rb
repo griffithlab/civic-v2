@@ -42,7 +42,7 @@ module Actions
                end
 
 
-      Event.create!(
+      events << Event.create!(
         action: action,
         originating_user: originating_user,
         subject: evidence_item,

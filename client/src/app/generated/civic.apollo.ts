@@ -5222,15 +5222,15 @@ export type ActivityCardQueryVariables = Exact<{
 }>;
 
 
-export type ActivityCardQuery = { __typename: 'Query', activity?: { __typename: 'FlagEntityActivity', comment: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | { __typename: 'ResolveFlagActivity' } | { __typename: 'SubmitAssertionActivity' } | { __typename: 'SubmitEvidenceItemActivity' } | undefined };
+export type ActivityCardQuery = { __typename: 'Query', activity?: { __typename: 'FlagEntityActivity', id: number, name: string, comment: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | { __typename: 'ResolveFlagActivity', id: number, name: string } | { __typename: 'SubmitAssertionActivity', id: number, name: string } | { __typename: 'SubmitEvidenceItemActivity', id: number, name: string } | undefined };
 
-type ActivityCard_FlagEntityActivity_Fragment = { __typename: 'FlagEntityActivity', comment: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
+type ActivityCard_FlagEntityActivity_Fragment = { __typename: 'FlagEntityActivity', id: number, name: string, comment: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
 
-type ActivityCard_ResolveFlagActivity_Fragment = { __typename: 'ResolveFlagActivity' };
+type ActivityCard_ResolveFlagActivity_Fragment = { __typename: 'ResolveFlagActivity', id: number, name: string };
 
-type ActivityCard_SubmitAssertionActivity_Fragment = { __typename: 'SubmitAssertionActivity' };
+type ActivityCard_SubmitAssertionActivity_Fragment = { __typename: 'SubmitAssertionActivity', id: number, name: string };
 
-type ActivityCard_SubmitEvidenceItemActivity_Fragment = { __typename: 'SubmitEvidenceItemActivity' };
+type ActivityCard_SubmitEvidenceItemActivity_Fragment = { __typename: 'SubmitEvidenceItemActivity', id: number, name: string };
 
 export type ActivityCardFragment = ActivityCard_FlagEntityActivity_Fragment | ActivityCard_ResolveFlagActivity_Fragment | ActivityCard_SubmitAssertionActivity_Fragment | ActivityCard_SubmitEvidenceItemActivity_Fragment;
 
@@ -7104,6 +7104,8 @@ export const CommentListNodeFragmentDoc = gql`
     `;
 export const ActivityCardFragmentDoc = gql`
     fragment ActivityCard on ActivityInterface {
+  id
+  name
   ... on FlagEntityActivity {
     comment {
       ...commentListNode

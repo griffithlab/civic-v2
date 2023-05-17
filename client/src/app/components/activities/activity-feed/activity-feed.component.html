@@ -13,9 +13,7 @@
           <nz-collapse
             [nzBordered]="false"
             nzExpandIconPosition="right">
-            <nz-collapse-panel [nzHeader]="activityHeaderTemplate" [nzActive]="false">
-              <!-- <ng-container *ngTemplateOutlet="activityContentTemplate"></ng-container> -->
-            </nz-collapse-panel>
+            <cvc-collapsible-card [header]="activityHeaderTemplate" [contents]="activityContentTemplate"></cvc-collapsible-card>
           </nz-collapse>
 
           <ng-template #activityContentTemplate>

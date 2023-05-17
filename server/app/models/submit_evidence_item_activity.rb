@@ -18,7 +18,7 @@ class SubmitEvidenceItemActivity < Activity
     end
   end
 
-  def name
+  def generate_verbiage
     'submitted evidence item'
   end
 end

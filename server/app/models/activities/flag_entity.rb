@@ -1,35 +1,24 @@
 module Activities
-  class FlagEntity
-    include Actions::Transactional
-    include Actions::WithOriginatingOrganization
-    attr_reader :flagging_user, :flaggable, :flag, :organization, :comment_body, :comment, :activity
+  class FlagEntity < Base
+    attr_reader :flaggable, :flag
 
     def initialize(flagging_user:, flaggable:, organization_id: nil, comment_body:)
-      @flagging_user = flagging_user
+      super(organization_id: organization_id, user: flagging_user, comment_body: comment_body)
       @flaggable = flaggable
-      @organization = resolve_organization(flagging_user, organization_id)
-      @comment_body = comment_body
     end
 
     private
-    def execute
-      create_activity
-      create_flag
-      create_comment
-      link_activity
-    end
-
     def create_activity
       @activity = FlagEntityActivity.create!(
         subject: flaggable,
-        user: flagging_user,
+        user: user,
         organization: organization,
       )
     end
 
-    def create_flag
+    def call_actions
       cmd = Actions::FlagEntity.new(
-        flagging_user: flagging_user,
+        flagging_user: user,
         flaggable: flaggable,
         organization_id: organization.id
       )
@@ -41,25 +30,12 @@ module Activities
       events << cmd.events
     end
 
-    def create_comment
-      cmd = Actions::AddComment.new(
-        title: "",
-        body: comment_body,
-        commenter: flagging_user,
-        commentable: flag,
-        organization_id: organization.id
-      )
-      cmd.perform
-      if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
-      end
-      @comment = cmd.comment
-      events << cmd.events
+    def commentable
+      flag
     end
 
-    def link_activity
-      activity.link_entities!([flag, comment])
-      activity.events = events.flatten
+    def linked_entities
+      [flag, comment]
     end
   end
 end
