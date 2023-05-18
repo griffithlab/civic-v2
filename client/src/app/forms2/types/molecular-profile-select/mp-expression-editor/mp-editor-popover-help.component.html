@@ -85,8 +85,7 @@
       <ng-container *ngSwitchCase="'identicalVariants'">
         <p>
           An expression may not contain multiple instances of the same Variant.
-          Either remove or change the duplicate variant, or use parentheses to
-          create an embedded expression with the duplicate variant.
+          Either remove or change the duplicate variant.
         </p>
       </ng-container>
 
@@ -103,8 +102,8 @@
           <strong>#VID12 AND #VID2220</strong><br />
           <strong>#VID12 OR #VID2220</strong><br />
           <strong>#VID12 AND NOT #VID2220</strong><br />
-          <strong>#VID12 AND #VID2220 OR (#VID456 AND #VID123)</strong><br />
-          <strong>#VID12 AND #VID2220 OR (NOT #VID456 AND #VID123)</strong><br />
+          <strong>#VID12 AND #VID2220 AND (#VID456 OR #VID123)</strong><br />
+          <strong>#VID12 AND #VID2220 AND (NOT #VID456 AND #VID123)</strong><br />
         </blockquote>
 
         <p>

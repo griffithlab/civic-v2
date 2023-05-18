@@ -219,6 +219,23 @@
             </ng-template>
           </ng-container>
 
+          <!-- incomplete NOT alert -->
+          <ng-container *ngSwitchCase="'incompleteNOT'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: {
+                  $implicit: error,
+                  helpContent: incompleteNOTHelp
+                }
+              ">
+            </ng-container>
+            <ng-template #incompleteNOTHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="incompleteNOT"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
           <!-- query error alert -->
           <ng-container *ngSwitchCase="'queryError'">
             <ng-container
@@ -348,16 +365,16 @@
           (click)="onAppendInput$.next('OR')">
           <strong>OR</strong>
         </button>
-        <button
-          *nzSpaceItem
-          type="button"
-          nz-button
-          nzType="primary"
-          nzSize="small"
-          nzShape="round"
-          (click)="onAppendInput$.next('NOT')">
-          <strong>NOT</strong>
-        </button>
+        <!-- <button
+                  *nzSpaceItem
+                  type="button"
+                  nz-button
+                  nzType="primary"
+                  nzSize="small"
+                  nzShape="round"
+                  (click)="onAppendInput$.next('NOT')">
+                  <strong>NOT</strong>
+                </button> -->
         <span
           *nzSpaceItem
           class="btn-divider">

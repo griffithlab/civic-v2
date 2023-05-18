@@ -17,9 +17,9 @@ export type MpParseErrorType =
   | 'initialBoolean'
   | 'invalidToken'
   | 'multipleBoolean'
-  | 'queryError'
   | 'trailingBoolean'
   | 'trailingNOT'
+  | 'queryError'
 
 export interface MpParseError {
   errorType: MpParseErrorType
