@@ -43,7 +43,7 @@ const optionMap = new Map<VariantOrigin, string>([
   ],
   [
     VariantOrigin.Mixed,
-    ' Variants in the corresponding Molecular Profile have heterogenous origins.',
+    ' Variants in the corresponding Molecular Profile have heterogeneous origins.',
   ],
 ])
 

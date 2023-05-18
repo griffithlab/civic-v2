@@ -242,6 +242,8 @@ GEM
       net-protocol
     net-ssh (7.1.0)
     nio4r (2.5.9)
+    nokogiri (1.14.3-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.14.3-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.14.3-x86_64-linux)
@@ -290,7 +292,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.6.4)
+    rack (2.2.7)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-mini-profiler (2.3.4)
@@ -333,10 +335,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbs (2.8.4)
-    redis (5.0.6)
-      redis-client (>= 0.9.0)
-    redis-client (0.14.1)
-      connection_pool
+    redis (4.8.1)
     regexp_parser (2.7.0)
     reverse_markdown (2.1.1)
       nokogiri
@@ -384,11 +383,11 @@ GEM
       elasticsearch (>= 6)
       hashie
     semantic_range (3.0.0)
-    sidekiq (6.4.2)
-      connection_pool (>= 2.2.2)
+    sidekiq (6.5.8)
+      connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
-      redis (>= 4.2.0)
-    sidekiq-cron (1.4.0)
+      redis (>= 4.5.0, < 5)
+    sidekiq-cron (1.5.1)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
     simplecov (0.22.0)
@@ -459,6 +458,7 @@ GEM
     zeitwerk (2.6.7)
 
 PLATFORMS
+  arm64-darwin-21
   x86_64-darwin-22
   x86_64-linux
 
@@ -504,8 +504,8 @@ DEPENDENCIES
   scenic (~> 1.5.4)
   search_object_graphql (= 0.3.1)
   searchkick (~> 4.5.0)
-  sidekiq (~> 6.4.1)
-  sidekiq-cron (~> 1.4.0)
+  sidekiq (~> 6.5.1)
+  sidekiq-cron (~> 1.5.0)
   simplecov
   simplecov-lcov
   solargraph

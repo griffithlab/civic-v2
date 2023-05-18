@@ -7,7 +7,7 @@ query Revisions(
   $fieldName: String
   $originatingUserId: Int
   $resolvingUserId: Int
-  $revisionsetId: String
+  $revisionSetId: Int
   $status: RevisionStatus
 ) {
   revisions(
@@ -20,7 +20,7 @@ query Revisions(
     resolvingUserId: $resolvingUserId
     subject: $subject
     status: $status
-    revisionsetId: $revisionsetId
+    revisionSetId: $revisionSetId
   ) {
     totalCount
     unfilteredCountForSubject
@@ -54,7 +54,7 @@ query Revisions(
 
 fragment revision on Revision {
   id
-  revisionsetId
+  revisionSetId
   createdAt
   resolvedAt
   fieldName

@@ -6,9 +6,10 @@ class Actions::SuggestRevision
     :field_name, :current_value,
     :suggested_value, :originating_user,
     :organization_id, :revision,
-    :comment, :revisionset_id
+    :comment, :revision_set_id,
+    :revisionset_id
 
-  def initialize(subject:, field_name:, current_value:, suggested_value:, originating_user:, organization_id:, comment:, revisionset_id:)
+  def initialize(subject:, field_name:, current_value:, suggested_value:, originating_user:, organization_id:, comment:, revisionset_id:, revision_set_id:)
     @subject = subject
     @field_name = field_name
     @current_value = current_value
@@ -18,6 +19,7 @@ class Actions::SuggestRevision
     @comment = comment
     @revision_created = false
     @revisionset_id = revisionset_id
+    @revision_set_id = revision_set_id
   end
 
   def execute
@@ -54,7 +56,8 @@ class Actions::SuggestRevision
         subject: subject,
         field_name: field_name,
         status: 'new',
-        revisionset_id: revisionset_id
+        revisionset_id: revisionset_id,
+        revision_set_id: revision_set_id
       )
   end
 

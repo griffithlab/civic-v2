@@ -4,6 +4,7 @@ class Revision < ApplicationRecord
   include WithTimepointCounts
 
   belongs_to :subject, polymorphic: true
+  belongs_to :revision_set
   #TODO: will we want a mixin someday?
   has_many :events, as: :originating_object
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'

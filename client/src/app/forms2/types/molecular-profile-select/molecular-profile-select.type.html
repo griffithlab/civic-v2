@@ -7,21 +7,22 @@
 
       <div
         class="editor-message"
-        *ngIf="!display.showSelect && editorOpen">
+        *ngIf="editorOpen">
         &nbsp;
         <span
           nz-typography
           nzEllipsis
           nzType="secondary">
-          <i> Select a Molecular Profile with the expression editor </i>
+          <i>Select or create a Molecular Profile with the expression editor </i>
         </span>
       </div>
 
       <!-- using inline-block here to shrink select to size of its tag contents,
       reducing the changes a user will click within it and cause the search dropdown to appear -->
-      <div style="display: inline-block">
+      <div
+        style="display: inline-block"
+        *ngIf="display.showSelect && !editorOpen">
         <cvc-entity-select
-          *ngIf="display.showSelect"
           [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
           [cvcCustomTemplate]="selectedTemplate"
           [cvcFormControl]="formControl"
@@ -49,6 +50,8 @@
       nz-button
       nzBlock
       class="expression-button"
+      nz-tooltip
+      nzTooltipTitle="Add/Edit Complex MP Expression"
       (click)="this.onShowExpClick$.next()">
       <span
         nz-icon
@@ -66,7 +69,6 @@
     *ngIf="showExp$ | ngrxPush as showExp">
     <cvc-mp-expression-editor
       [cvcPrepopulateWithId]="onMpId$ | ngrxPush"
-      (cvcOnEditPrepopulated)="onEditPrepopulated$.next($event)"
       (cvcOnSelect)="onMpSelect$.next($event)"></cvc-mp-expression-editor>
   </nz-col>
 </nz-row>
