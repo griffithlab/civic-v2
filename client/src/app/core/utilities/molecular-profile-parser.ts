@@ -16,6 +16,8 @@ export type MpParseErrorType =
   | 'trailingBoolean'
   | 'initialBoolean'
   | 'multipleBoolean'
+  | 'incompleteNOT'
+  | 'trailingNOT'
   | 'incompleteExpression'
   | 'queryError'
 
@@ -68,26 +70,43 @@ function parseSection(section: string): MpParseResult {
     }
   }
 
+  const trailingBooleanError: MpParseResult = {
+    errorType: 'trailingBoolean',
+    errorMessage: 'Expressions may not end with AND / OR boolean operators.',
+    errorHelp:
+      'AND / OR boolean operators may not be used at the end of an expression.',
+  }
+  const initialBooleanError: MpParseResult = {
+    errorType: 'initialBoolean',
+    errorMessage: 'Expressions may not start with AND / OR boolean operators.',
+    errorHelp:
+      'AND / OR boolean operators may not be used at the beginning of an expression.',
+  }
+  const multipleBooleanError: MpParseResult = {
+    errorType: 'multipleBoolean',
+    errorMessage: 'Multiple boolean operators found.',
+    errorHelp:
+      'AND / OR boolean operators may not be used multiple times in a single expression.',
+  }
+  // FIXME: this error is returned whenever an unbalanced paren is present, even if it is not the last token
+  // so this error is displayed when sub-expressions are being entered, which could be confusing.
+  const incompleteExpressionError: MpParseResult = {
+    errorType: 'incompleteExpression',
+    errorMessage:
+      'Ensure that parenthetical clauses are balanced and appended.',
+    errorHelp:
+      'Ensure that parenthetical clauses are balanced, and occur after a Variant token.',
+  }
   //Split on whitespace, check that we only have a single boolean operator type and that it is not the first or last token
   let i = 0
   for (let token of processedTokens) {
     let isBool = booleanToken.test(token)
-    if (isBool && i == tokens.length - 1) {
-      return {
-        errorType: 'trailingBoolean',
-        errorMessage: 'Trailing AND/OR operator found.',
-        errorHelp:
-          'Boolean operators may not be used at the end of an expression.',
-      }
+    if (isBool && i == 0) {
+      return initialBooleanError
     }
 
-    if (isBool && i == 0) {
-      return {
-        errorType: 'initialBoolean',
-        errorMessage: 'The expression may not start with AND/OR.',
-        errorHelp:
-          'Boolean operators may not be used at the beginning of an expression.',
-      }
+    if (isBool && i === tokens.length - 1) {
+      return trailingBooleanError
     }
 
     if (isBool && !firstBoolean) {
@@ -95,13 +114,7 @@ function parseSection(section: string): MpParseResult {
     } else if (isBool && firstBoolean) {
       let nextBool = booleanOperatorFromToken(token)
       if (nextBool !== firstBoolean) {
-        return {
-          errorType: 'multipleBoolean',
-          errorMessage:
-            'Expression may not include both AND/OR within a single segment.',
-          errorHelp:
-            'Segments may only contain identical boolean operators. Use parentheses to group form segments with consistent AND/OR operators.',
-        }
+        return multipleBooleanError
       }
     }
     i++
@@ -115,10 +128,15 @@ function parseSection(section: string): MpParseResult {
     if (matchData === null) {
       // NOTE: empty token at this point appears to only occur when a paren is the last character in the expression
       if (token.length === 0) {
+        return incompleteExpressionError
+      }
+      // incomplete VID
+      if (token === 'NOT' || token.split(' ').pop() === 'NOT') {
         return {
-          errorType: 'incompleteExpression',
-          errorMessage: `Expression appears to be incomplete.`,
-          errorHelp: 'Ensure that all parentheses are balanced.',
+          errorType: 'incompleteNOT',
+          errorMessage: 'NOT operator must be followed by a valid #VID.',
+          errorHelp:
+            'Ensure that NOT operators are followed by a valid Variant token.',
         }
       }
       if (token !== exprPlaceholder) {

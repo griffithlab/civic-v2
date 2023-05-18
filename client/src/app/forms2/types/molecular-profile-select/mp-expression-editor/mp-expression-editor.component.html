@@ -60,7 +60,12 @@
                 comprised of Variant tokens, boolean operators, and parentheses.
                 For example:
               </p>
-              <p><strong>#VID12 AND #VID2220</strong><br /></p>
+              <p>
+                <strong>#VID12 AND #VID2220</strong><br />
+                <strong>#VID12 AND #VID2220 OR (#VID456 AND #VID123)</strong
+                ><br />
+              </p>
+
               <p>
                 <strong>Variant Tokens</strong><br />
                 Variant tokens are composed of a CIViC Variant ID prepended with
@@ -150,8 +155,38 @@
         </ng-container>
       </ng-container>
 
-      <!-- ERROR - switch statement displays an errorAlert template
-           w/ differing contexts depending on alert type -->
+      <!-- ERROR ALERT TEMPLATE -->
+      <ng-template
+        #errorAlert
+        let-error
+        let-content="helpContent">
+        <nz-alert
+          nzType="error"
+          [nzMessage]="error.errorMessage"
+          [nzAction]="errorAction"
+          nzShowIcon></nz-alert>
+        <ng-template #errorAction>
+          <button
+            nz-button
+            nzDanger
+            nzType="dashed"
+            nzSize="small"
+            nzShape="round"
+            nz-popover
+            nzPopoverTrigger="click"
+            [nzPopoverTitle]="error.errorHelp"
+            [nzPopoverContent]="content">
+            <span
+              nz-icon
+              nzType="question-circle"
+              nzTheme="fill"></span>
+            SYNTAX ASSISTANCE
+          </button>
+        </ng-template>
+      </ng-template>
+
+      <!-- SYNTAX ASSISTANCE - switch statement displays an errorAlert template
+           w/ differing contexts w/ help template, depending on alert type -->
       <ng-container *ngIf="expressionError$ | ngrxPush as error">
         <ng-container [ngSwitch]="error.errorType">
           <!-- invalid variant alert -->
@@ -238,37 +273,12 @@
               <span>QUERY ERROR</span>
             </ng-template>
           </ng-container>
+          <ng-container *ngSwitchDefault>
+            <pre>
+              {{ error | json }}
+            </pre>
+          </ng-container>
         </ng-container>
-
-        <!-- ERROR ALERT TEMPLATE -->
-        <ng-template
-          #errorAlert
-          let-error
-          let-content="helpContent">
-          <nz-alert
-            nzType="error"
-            [nzMessage]="error.errorMessage"
-            [nzAction]="errorAction"
-            nzShowIcon></nz-alert>
-          <ng-template #errorAction>
-            <button
-              nz-button
-              nzDanger
-              nzType="dashed"
-              nzSize="small"
-              nzShape="round"
-              nz-popover
-              nzPopoverTrigger="click"
-              [nzPopoverTitle]="error.errorHelp"
-              [nzPopoverContent]="content">
-              <span
-                nz-icon
-                nzType="question-circle"
-                nzTheme="fill"></span>
-              SYNTAX ASSISTANCE
-            </button>
-          </ng-template>
-        </ng-template>
       </ng-container>
     </nz-col>
 
