@@ -84,7 +84,7 @@ fragment activityFeed on ActivityInterfaceConnection {
 
 fragment activityFeedNode on ActivityInterface {
   id
-  name
+  verbiage
   createdAt
   organization {
     id

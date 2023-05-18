@@ -5,7 +5,7 @@ module Types::Interfaces
     description 'An activity done by a curator or editor'
 
     field :id, Int, null: false
-    field :name, String, null: false
+    field :verbiage, String, null: false
     field :events, [Types::Entities::EventType], null: false
     field :subject, Types::Interfaces::EventSubject, null: false
     field :user, Types::Entities::UserType, null: false
@@ -28,7 +28,7 @@ module Types::Interfaces
       Loaders::AssociationLoader.for(Activity, :subject).load(object)
     end
 
-    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType, Types::Activities::SubmitEvidenceItemActivityType, Types::Activities::SubmitAssertionActivityType
+    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType, Types::Activities::SubmitEvidenceItemActivityType, Types::Activities::SubmitAssertionActivityType, Types::Activities::ModerateAssertionActivityType
 
     definition_methods do
       def resolve_type(object, context)
@@ -41,6 +41,8 @@ module Types::Interfaces
           Types::Activities::SubmitEvidenceItemActivityType
         when SubmitAssertionActivity
           Types::Activities::SubmitAssertionActivityType
+        when ModerateAssertionActivity
+          Types::Activities::ModerateAssertionActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

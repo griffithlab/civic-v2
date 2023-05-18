@@ -8,6 +8,7 @@
   "possibleTypes": {
     "ActivityInterface": [
       "FlagEntityActivity",
+      "ModerateAssertionActivity",
       "ResolveFlagActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity"

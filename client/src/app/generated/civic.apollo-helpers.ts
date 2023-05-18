@@ -13,15 +13,15 @@ export type AcmgCodeFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	tooltip?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ActivityInterfaceKeySpecifier = ('createdAt' | 'events' | 'id' | 'name' | 'organization' | 'subject' | 'user' | ActivityInterfaceKeySpecifier)[];
+export type ActivityInterfaceKeySpecifier = ('createdAt' | 'events' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | ActivityInterfaceKeySpecifier)[];
 export type ActivityInterfaceFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ActivityInterfaceConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | ActivityInterfaceConnectionKeySpecifier)[];
 export type ActivityInterfaceConnectionFieldPolicy = {
@@ -717,17 +717,17 @@ export type FlagEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagEntityActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'flag' | 'id' | 'name' | 'organization' | 'subject' | 'user' | FlagEntityActivityKeySpecifier)[];
+export type FlagEntityActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'flag' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | FlagEntityActivityKeySpecifier)[];
 export type FlagEntityActivityFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FlagEntityPayloadKeySpecifier = ('clientMutationId' | 'flag' | FlagEntityPayloadKeySpecifier)[];
 export type FlagEntityPayloadFieldPolicy = {
@@ -812,6 +812,16 @@ export type LinkoutDataFieldPolicy = {
 	diffValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedValue?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ModerateAssertionActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | ModerateAssertionActivityKeySpecifier)[];
+export type ModerateAssertionActivityFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ModerateAssertionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | ModerateAssertionPayloadKeySpecifier)[];
 export type ModerateAssertionPayloadFieldPolicy = {
@@ -1205,17 +1215,17 @@ export type RejectRevisionsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ResolveFlagActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'flag' | 'id' | 'name' | 'organization' | 'subject' | 'user' | ResolveFlagActivityKeySpecifier)[];
+export type ResolveFlagActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'flag' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | ResolveFlagActivityKeySpecifier)[];
 export type ResolveFlagActivityFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResolveFlagPayloadKeySpecifier = ('clientMutationId' | 'flag' | ResolveFlagPayloadKeySpecifier)[];
 export type ResolveFlagPayloadFieldPolicy = {
@@ -1394,32 +1404,32 @@ export type StatsFieldPolicy = {
 	submittedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedSources?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SubmitAssertionActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'name' | 'organization' | 'subject' | 'user' | SubmitAssertionActivityKeySpecifier)[];
+export type SubmitAssertionActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | SubmitAssertionActivityKeySpecifier)[];
 export type SubmitAssertionActivityFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SubmitAssertionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | SubmitAssertionPayloadKeySpecifier)[];
 export type SubmitAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SubmitEvidenceItemActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'name' | 'organization' | 'subject' | 'user' | SubmitEvidenceItemActivityKeySpecifier)[];
+export type SubmitEvidenceItemActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | SubmitEvidenceItemActivityKeySpecifier)[];
 export type SubmitEvidenceItemActivityFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SubmitEvidenceItemPayloadKeySpecifier = ('clientMutationId' | 'evidenceItem' | SubmitEvidenceItemPayloadKeySpecifier)[];
 export type SubmitEvidenceItemPayloadFieldPolicy = {
@@ -2066,6 +2076,10 @@ export type StrictTypedTypePolicies = {
 	LinkoutData?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkoutDataKeySpecifier | (() => undefined | LinkoutDataKeySpecifier),
 		fields?: LinkoutDataFieldPolicy,
+	},
+	ModerateAssertionActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ModerateAssertionActivityKeySpecifier | (() => undefined | ModerateAssertionActivityKeySpecifier),
+		fields?: ModerateAssertionActivityFieldPolicy,
 	},
 	ModerateAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ModerateAssertionPayloadKeySpecifier | (() => undefined | ModerateAssertionPayloadKeySpecifier),

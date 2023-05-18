@@ -66,10 +66,10 @@ interface ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  name: String!
   organization: Organization
   subject: EventSubject!
   user: User!
+  verbiage: String!
 }
 
 """
@@ -2743,10 +2743,10 @@ type FlagEntityActivity implements ActivityInterface {
   events: [Event!]!
   flag: Flag!
   id: Int!
-  name: String!
   organization: Organization
   subject: EventSubject!
   user: User!
+  verbiage: String!
 }
 
 """
@@ -3259,6 +3259,16 @@ type LinkoutData {
   diffValue: ModeratedFieldDiff!
   name: String!
   suggestedValue: ModeratedField!
+}
+
+type ModerateAssertionActivity implements ActivityInterface {
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  organization: Organization
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
 }
 
 """
@@ -6107,10 +6117,10 @@ type ResolveFlagActivity implements ActivityInterface {
   events: [Event!]!
   flag: Flag!
   id: Int!
-  name: String!
   organization: Organization
   subject: EventSubject!
   user: User!
+  verbiage: String!
 }
 
 """
@@ -6794,10 +6804,10 @@ type SubmitAssertionActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  name: String!
   organization: Organization
   subject: EventSubject!
   user: User!
+  verbiage: String!
 }
 
 """
@@ -6848,10 +6858,10 @@ type SubmitEvidenceItemActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  name: String!
   organization: Organization
   subject: EventSubject!
   user: User!
+  verbiage: String!
 }
 
 """

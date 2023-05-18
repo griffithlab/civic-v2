@@ -23,7 +23,7 @@
           <ng-template #activityHeaderTemplate>
 
           <cvc-user-tag [user]="activity.user"></cvc-user-tag>
-          {{ activity.name }}
+          {{ activity.verbiage }}
           <ng-container
             [ngSwitch]="activity.subject.__typename">
             <cvc-gene-tag

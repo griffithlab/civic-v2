@@ -35,5 +35,6 @@ Event.where(action: 'flagged').find_each do |event|
     end
   end
 
+  activity.verbiage = activity.generate_verbiage
   activity.save!
 end
