@@ -52,51 +52,7 @@
             GETTING STARTED
           </button>
           <ng-template #gettingStartedHelp>
-            <div class="help-content">
-              <p>
-                The Molecular Profile editor allows the selection or creation of
-                complex Molecular Profiles by writing Molecular Profile
-                Expressions. MP Expressions are composed with a simple language
-                comprised of Variant tokens, boolean operators, and parentheses.
-                For example:
-              </p>
-              <p>
-                <strong>#VID12 AND #VID2220</strong><br />
-                <strong>#VID12 AND #VID2220 OR (#VID456 AND #VID123)</strong
-                ><br />
-              </p>
-
-              <p>
-                <strong>Variant Tokens</strong><br />
-                Variant tokens are composed of a CIViC Variant ID prepended with
-                <strong>#VID</strong>, and refer to specific CIViC Variants. For
-                example, <strong>#VID12</strong> refers to
-                <strong>BRAF V600E</strong>; <strong>#VID2220</strong> refers to
-                <strong>ALK FUSION</strong>.
-              </p>
-              <p>
-                <strong>Boolean Operators</strong><br />
-                MP Expressions with more than a single variant must include
-                boolean operators - <strong>AND</strong>, <strong>OR</strong>,
-                and <strong>NOT</strong> - indicating their relationship. For
-                example, the expression
-                <strong>#VID12 AND #VID2220</strong> describes a MP that
-                includes both <strong>BRAF V600E</strong> and
-                <strong>ALK FUSION</strong>.
-              </p>
-              <p>
-                <strong>Parentheses</strong><br />
-                Expressions cannot have both <strong>AND</strong> and
-                <strong>OR</strong> operators within the same expression. To
-                construct complex MPs that require multiple operators, one must
-                use parentheses to create embedded expressions.
-              </p>
-              <p>
-                <strong>NOTE:</strong> Be sure to read the help text provided
-                along with every alert message by clicking on the 'Syntax
-                Assistance' button at the right side of its alert box.
-              </p>
-            </div>
+            <cvc-mp-editor-popover-help></cvc-mp-editor-popover-help>
           </ng-template>
         </ng-template>
       </ng-container>
@@ -199,7 +155,9 @@
             </ng-container>
             <!-- trailing boolean help -->
             <ng-template #invalidVariantHelp>
-              <span>INVALID VARIANT</span>
+              ERROR TYPE: {{ error.errorType }}
+              <cvc-mp-editor-popover-help
+                cvcErrorType="invalidVariant"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
 
@@ -212,7 +170,8 @@
               ">
             </ng-container>
             <ng-template #trailingBooleanHelp>
-              <span>TRAILING BOOLEAN ERROR</span>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="trailingBoolean"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
 
@@ -225,7 +184,8 @@
               ">
             </ng-container>
             <ng-template #initialBooleanHelp>
-              <span>INITIAL BOOLEAN ERROR</span>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="initialBoolean"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
 
@@ -238,7 +198,8 @@
               ">
             </ng-container>
             <ng-template #multipleBooleanHelp>
-              <span>MULTIPLE BOOLEAN ERROR</span>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="multipleBoolean"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
 
@@ -254,7 +215,8 @@
               ">
             </ng-container>
             <ng-template #incompleteExpressionHelp>
-              <span>INCOMPLETE EXPRESSION ERROR</span>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="incompleteExpression"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
 
@@ -270,7 +232,8 @@
               ">
             </ng-container>
             <ng-template #queryErrorHelp>
-              <span>QUERY ERROR</span>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="queryError"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
           <ng-container *ngSwitchDefault>

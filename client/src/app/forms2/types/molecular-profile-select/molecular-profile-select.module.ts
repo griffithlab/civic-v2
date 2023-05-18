@@ -29,7 +29,8 @@ import {
   CvcMolecularProfileSelectFieldProps,
 } from './molecular-profile-select.type'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
-import { MpFinderComponent } from './mp-finder/mp-finder.component'
+import { MpFinderComponent } from './mp-finder/mp-finder.component';
+import { MpEditorPopoverHelpComponent } from './mp-expression-editor/mp-editor-popover-help.component'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -59,6 +60,7 @@ const typeConfig: ConfigOption = {
     CvcMolecularProfileSelectField,
     MpExpressionEditorComponent,
     MpFinderComponent,
+    MpEditorPopoverHelpComponent,
   ],
   imports: [
     CommonModule,
