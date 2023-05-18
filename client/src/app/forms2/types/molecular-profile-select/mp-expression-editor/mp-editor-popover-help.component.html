@@ -2,17 +2,27 @@
     <ng-container [ngSwitch]="cvcErrorType">
       <!-- INCOMPLETE EXPRESSION -->
       <ng-container *ngSwitchCase="'incompleteExpression'">
-        <span>INCOMPLETE EXPRESSION</span>
+        <p>
+          The expression contains open parentheses, please ensure that all
+          parenthetical expressions are closed with balanced parentheses.
+        </p>
       </ng-container>
 
       <!-- INCOMPLETE 'NOT' -->
       <ng-container *ngSwitchCase="'incompleteNOT'">
-        <span>INCOMPLETE NOT</span>
+        <p>
+          Complete the expression by appending a <strong>#VID</strong> token to
+          the incomplete boolean expression. Or append an embedded expression
+          using parentheses.
+        </p>
       </ng-container>
 
       <!-- INITIAL BOOLEAN -->
       <ng-container *ngSwitchCase="'initialBoolean'">
-        <span>INITIAL BOOLEAN</span>
+        <p>
+          MP Expressions may not begin with an AND or OR boolean. Ensure the
+          expression begins with a #VID or NOT #VID token.
+        </p>
       </ng-container>
 
       <!-- INVALID TOKEN -->
