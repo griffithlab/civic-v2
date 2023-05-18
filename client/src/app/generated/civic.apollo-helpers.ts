@@ -828,6 +828,16 @@ export type ModerateAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ModerateEvidenceItemActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | ModerateEvidenceItemActivityKeySpecifier)[];
+export type ModerateEvidenceItemActivityFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type ModerateEvidenceItemPayloadKeySpecifier = ('clientMutationId' | 'evidenceItem' | ModerateEvidenceItemPayloadKeySpecifier)[];
 export type ModerateEvidenceItemPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2084,6 +2094,10 @@ export type StrictTypedTypePolicies = {
 	ModerateAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ModerateAssertionPayloadKeySpecifier | (() => undefined | ModerateAssertionPayloadKeySpecifier),
 		fields?: ModerateAssertionPayloadFieldPolicy,
+	},
+	ModerateEvidenceItemActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ModerateEvidenceItemActivityKeySpecifier | (() => undefined | ModerateEvidenceItemActivityKeySpecifier),
+		fields?: ModerateEvidenceItemActivityFieldPolicy,
 	},
 	ModerateEvidenceItemPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ModerateEvidenceItemPayloadKeySpecifier | (() => undefined | ModerateEvidenceItemPayloadKeySpecifier),

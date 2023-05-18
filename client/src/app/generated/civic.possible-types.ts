@@ -9,6 +9,7 @@
     "ActivityInterface": [
       "FlagEntityActivity",
       "ModerateAssertionActivity",
+      "ModerateEvidenceItemActivity",
       "ResolveFlagActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity"

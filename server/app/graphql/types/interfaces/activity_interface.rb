@@ -28,7 +28,7 @@ module Types::Interfaces
       Loaders::AssociationLoader.for(Activity, :subject).load(object)
     end
 
-    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType, Types::Activities::SubmitEvidenceItemActivityType, Types::Activities::SubmitAssertionActivityType, Types::Activities::ModerateAssertionActivityType
+    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType, Types::Activities::SubmitEvidenceItemActivityType, Types::Activities::SubmitAssertionActivityType, Types::Activities::ModerateAssertionActivityType, Types::Activities::ModerateEvidenceItemActivityType
 
     definition_methods do
       def resolve_type(object, context)
@@ -39,6 +39,8 @@ module Types::Interfaces
           Types::Activities::ResolveFlagActivityType
         when SubmitEvidenceItemActivity
           Types::Activities::SubmitEvidenceItemActivityType
+        when ModerateEvidenceItemActivity
+          Types::Activities::ModerateEvidenceItemActivityType
         when SubmitAssertionActivity
           Types::Activities::SubmitAssertionActivityType
         when ModerateAssertionActivity
