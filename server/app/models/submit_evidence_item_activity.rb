@@ -10,6 +10,10 @@ class SubmitEvidenceItemActivity < Activity
     source_type: 'Comment'
 
 
+  def evidence_item
+    self.subject
+  end
+
   def comment
     if activity_linked_entities.loaded?
       activity_linked_entities.find { |e| e.entity_type == 'Comment' }.entity

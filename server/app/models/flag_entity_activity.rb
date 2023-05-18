@@ -20,6 +20,10 @@ class FlagEntityActivity < Activity
     source_type: 'Comment'
 
 
+  def flaggable
+    self.subject
+  end
+
   def flag
     if activity_linked_entities.loaded?
       activity_linked_entities.find { |e| e.entity_type == 'Flag' }.entity
