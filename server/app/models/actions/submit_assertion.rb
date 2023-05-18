@@ -1,7 +1,6 @@
 module Actions
   class SubmitAssertion
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
     attr_reader :assertion, :originating_user, :organization_id
 
     def initialize(assertion:, originating_user:, organization_id: )
@@ -24,7 +23,7 @@ module Actions
         action: 'assertion submitted',
         originating_user: originating_user,
         subject: assertion,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: assertion
       )
     end

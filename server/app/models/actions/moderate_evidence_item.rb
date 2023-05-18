@@ -1,7 +1,6 @@
 module Actions
   class ModerateEvidenceItem
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
 
     attr_reader :evidence_item, :originating_user, :organization_id, :new_status
 
@@ -46,7 +45,7 @@ module Actions
         action: action,
         originating_user: originating_user,
         subject: evidence_item,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: evidence_item
       )
     end

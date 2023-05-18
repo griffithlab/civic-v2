@@ -1,7 +1,6 @@
 module Actions
   class DeprecateVariant
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
     attr_reader :deprecating_user, :variant, :newly_deprecated_molecular_profiles, :organization_id, :deprecation_reason, :comment
 
     def initialize(deprecating_user:, variant:, organization_id: nil, deprecation_reason:, comment:)
@@ -58,7 +57,7 @@ module Actions
         originating_user: deprecating_user,
         subject: variant,
         originating_object: variant,
-        organization: resolve_organization(deprecating_user, organization_id)
+        organization_id: organization_id,
       )
 
       newly_deprecated_molecular_profiles.each do |mp|
@@ -67,7 +66,7 @@ module Actions
           originating_user: deprecating_user,
           subject: mp,
           originating_object: variant,
-          organization: resolve_organization(deprecating_user, organization_id)
+          organization_id: organization_id,
         )
       end
     end

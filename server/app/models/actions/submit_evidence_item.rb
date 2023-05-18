@@ -1,7 +1,6 @@
 module Actions
   class SubmitEvidenceItem
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
     attr_reader :evidence_item, :originating_user, :organization_id
 
     def initialize(evidence_item:, originating_user:, organization_id: )
@@ -23,7 +22,7 @@ module Actions
         action: 'submitted',
         originating_user: originating_user,
         subject: evidence_item,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: evidence_item
       )
     end
