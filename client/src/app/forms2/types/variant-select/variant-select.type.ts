@@ -271,7 +271,7 @@ export class CvcVariantSelectField
     if (!gid && this.props.requireGene) {
       this.resetField()
       this.props.description = this.props.requireGenePrompt
-      this.props.placeholder = 'Select A Gene'
+      this.props.placeholder = 'Select a Variant'
       this.props.extraType = 'prompt'
       this.onGeneName$.next(undefined)
     } else if (gid) {

@@ -11,8 +11,20 @@ const variantToken = /^(?<not>NOT\s)?\s*#VID(?<variantId>\d+)$/i
 const whitespace = /\s+/
 const exprPlaceholder = 'EXPR'
 
+export type MpParseErrorType =
+  | 'incompleteExpression'
+  | 'incompleteNOT'
+  | 'initialBoolean'
+  | 'invalidToken'
+  | 'multipleBoolean'
+  | 'trailingBoolean'
+  | 'trailingNOT'
+  | 'queryError'
+
 export interface MpParseError {
+  errorType: MpParseErrorType
   errorMessage: string
+  errorHelp?: string
 }
 
 export type MpParseResult = MpParseError | MolecularProfileComponentInput
@@ -58,19 +70,43 @@ function parseSection(section: string): MpParseResult {
     }
   }
 
+  const trailingBooleanError: MpParseResult = {
+    errorType: 'trailingBoolean',
+    errorMessage: 'Expressions may not end with AND / OR boolean operators.',
+    errorHelp:
+      'AND / OR boolean operators may not be used at the end of an expression.',
+  }
+  const initialBooleanError: MpParseResult = {
+    errorType: 'initialBoolean',
+    errorMessage: 'Expressions may not start with AND / OR boolean operators.',
+    errorHelp:
+      'AND / OR boolean operators may not be used at the beginning of an expression.',
+  }
+  const multipleBooleanError: MpParseResult = {
+    errorType: 'multipleBoolean',
+    errorMessage: 'Multiple boolean operators found.',
+    errorHelp:
+      'AND / OR boolean operators may not be used multiple times within a single expression.',
+  }
+  // FIXME: this error is returned whenever an unbalanced paren is present, even if it is not the last token
+  // so this error is displayed when sub-expressions are being entered, which could be confusing.
+  const incompleteExpressionError: MpParseResult = {
+    errorType: 'incompleteExpression',
+    errorMessage:
+      'Ensure that parenthetical clauses are balanced and appended.',
+    errorHelp:
+      'Ensure that parenthetical clauses are balanced, and occur after a Variant token.',
+  }
   //Split on whitespace, check that we only have a single boolean operator type and that it is not the first or last token
   let i = 0
   for (let token of processedTokens) {
     let isBool = booleanToken.test(token)
-    if (isBool && i == tokens.length - 1) {
-      return {
-        errorMessage:
-          'Trailing boolean operator found. You cannot end your profile with an operator.',
-      }
+    if (isBool && i == 0) {
+      return initialBooleanError
     }
 
-    if (isBool && i == 0) {
-      return { errorMessage: 'The expression cannot start with AND/OR' }
+    if (isBool && i === tokens.length - 1) {
+      return trailingBooleanError
     }
 
     if (isBool && !firstBoolean) {
@@ -78,10 +114,7 @@ function parseSection(section: string): MpParseResult {
     } else if (isBool && firstBoolean) {
       let nextBool = booleanOperatorFromToken(token)
       if (nextBool !== firstBoolean) {
-        return {
-          errorMessage:
-            'You cannot mix and match AND/OR in a single segment. Use parenthesis to logically group your variants.',
-        }
+        return multipleBooleanError
       }
     }
     i++
@@ -93,9 +126,26 @@ function parseSection(section: string): MpParseResult {
   for (let token of segments.map((s) => s.trim())) {
     let matchData = variantToken.exec(token)
     if (matchData === null) {
+      // NOTE: empty token at this point appears to only occur when a paren is the last character in the expression
+      if (token.length === 0) {
+        return incompleteExpressionError
+      }
+      // incomplete VIDs
+      if (token === 'NOT' || token.split(' ').pop() === 'NOT') {
+        return {
+          errorType: 'incompleteNOT',
+          errorMessage: 'NOT operator must be followed by a valid #VID.',
+          errorHelp:
+            'Ensure that NOT operators are followed by a valid Variant token.',
+        }
+      }
+
       if (token !== exprPlaceholder) {
         return {
-          errorMessage: `Variant ${token} does not match the expected format. The token should be a #VID prepended with an optional NOT.`,
+          errorType: 'invalidToken',
+          errorMessage: `Token '${token}' does not match the expected format.`,
+          errorHelp:
+            'The token should be a #VID followed by a Variant ID, or an AND/OR boolean.',
         }
       }
     } else {
