@@ -12,14 +12,14 @@ const whitespace = /\s+/
 const exprPlaceholder = 'EXPR'
 
 export type MpParseErrorType =
-  | 'invalidVariant'
-  | 'trailingBoolean'
-  | 'initialBoolean'
-  | 'multipleBoolean'
-  | 'incompleteNOT'
-  | 'trailingNOT'
   | 'incompleteExpression'
+  | 'incompleteNOT'
+  | 'initialBoolean'
+  | 'invalidToken'
+  | 'multipleBoolean'
   | 'queryError'
+  | 'trailingBoolean'
+  | 'trailingNOT'
 
 export interface MpParseError {
   errorType: MpParseErrorType
@@ -86,7 +86,7 @@ function parseSection(section: string): MpParseResult {
     errorType: 'multipleBoolean',
     errorMessage: 'Multiple boolean operators found.',
     errorHelp:
-      'AND / OR boolean operators may not be used multiple times in a single expression.',
+      'AND / OR boolean operators may not be used multiple times within a single expression.',
   }
   // FIXME: this error is returned whenever an unbalanced paren is present, even if it is not the last token
   // so this error is displayed when sub-expressions are being entered, which could be confusing.
@@ -130,7 +130,7 @@ function parseSection(section: string): MpParseResult {
       if (token.length === 0) {
         return incompleteExpressionError
       }
-      // incomplete VID
+      // incomplete VIDs
       if (token === 'NOT' || token.split(' ').pop() === 'NOT') {
         return {
           errorType: 'incompleteNOT',
@@ -139,12 +139,13 @@ function parseSection(section: string): MpParseResult {
             'Ensure that NOT operators are followed by a valid Variant token.',
         }
       }
+
       if (token !== exprPlaceholder) {
         return {
-          errorType: 'invalidVariant',
-          errorMessage: `Variant '${token}' does not match the expected format.`,
+          errorType: 'invalidToken',
+          errorMessage: `Token '${token}' does not match the expected format.`,
           errorHelp:
-            'The token should be a #VID prepended with an optional NOT.',
+            'The token should be a #VID followed by a Variant ID, or an AND/OR boolean.',
         }
       }
     } else {

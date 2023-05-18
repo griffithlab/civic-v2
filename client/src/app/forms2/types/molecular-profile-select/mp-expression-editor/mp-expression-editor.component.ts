@@ -218,6 +218,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
               this.expressionError$.next({
                 errorType: 'queryError',
                 errorMessage: errors.map((e) => e.message).join('\n'),
+                errorHelp: 'CIViC could not parse the provided MP Expression',
               })
               this.expressionSegment$.next(undefined)
             } else {
@@ -359,7 +360,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     ).then(({ data }) => {
       if (!data?.molecularProfile?.id) {
         console.error(
-          `MpExpressionEditor could not fetch MolecularProfile:${mpId} to prepulate editor fields.`
+          `MpExpressionEditor could not fetch MolecularProfile:${mpId} to prepolate editor fields.`
         )
         return
       }

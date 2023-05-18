@@ -145,19 +145,18 @@
            w/ differing contexts w/ help template, depending on alert type -->
       <ng-container *ngIf="expressionError$ | ngrxPush as error">
         <ng-container [ngSwitch]="error.errorType">
-          <!-- invalid variant alert -->
-          <ng-container *ngSwitchCase="'invalidVariant'">
+          <!-- invalid token alert -->
+          <ng-container *ngSwitchCase="'invalidToken'">
             <ng-container
               *ngTemplateOutlet="
                 errorAlert;
-                context: { $implicit: error, helpContent: invalidVariantHelp }
+                context: { $implicit: error, helpContent: invalidTokenHelp }
               ">
             </ng-container>
             <!-- trailing boolean help -->
-            <ng-template #invalidVariantHelp>
-              ERROR TYPE: {{ error.errorType }}
+            <ng-template #invalidTokenHelp>
               <cvc-mp-editor-popover-help
-                cvcErrorType="invalidVariant"></cvc-mp-editor-popover-help>
+                cvcErrorType="invalidToken"></cvc-mp-editor-popover-help>
             </ng-template>
           </ng-container>
 
@@ -232,8 +231,19 @@
               ">
             </ng-container>
             <ng-template #queryErrorHelp>
-              <cvc-mp-editor-popover-help
-                cvcErrorType="queryError"></cvc-mp-editor-popover-help>
+              <!-- handle query error "You may not use the same variant multiple times in one MP expression." -->
+              <ng-container
+                *ngIf="error.errorMessage.split(' ').includes('multiple')">
+                <cvc-mp-editor-popover-help
+                  cvcErrorType="identicalVariants"></cvc-mp-editor-popover-help>
+              </ng-container>
+
+              <!-- handle query error "Variants with ID [...] were not found." -->
+              <ng-container
+                *ngIf="error.errorMessage.split(' ').includes('found.')">
+                <cvc-mp-editor-popover-help
+                  cvcErrorType="unknownVariant"></cvc-mp-editor-popover-help>
+              </ng-container>
             </ng-template>
           </ng-container>
           <ng-container *ngSwitchDefault>

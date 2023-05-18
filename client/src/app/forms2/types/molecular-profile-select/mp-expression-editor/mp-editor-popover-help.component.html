@@ -1,14 +1,13 @@
   <div class="help-content">
-    ERROR TYPE: {{ cvcErrorType }}
     <ng-container [ngSwitch]="cvcErrorType">
-      <!-- INVALID VARIANT -->
-      <ng-container *ngSwitchCase="'invalidVariant'">
-        <span>INVALID VARIANT</span>
+      <!-- INCOMPLETE EXPRESSION -->
+      <ng-container *ngSwitchCase="'incompleteExpression'">
+        <span>INCOMPLETE EXPRESSION</span>
       </ng-container>
 
-      <!-- TRAILING BOOLEAN -->
-      <ng-container *ngSwitchCase="'trailingBoolean'">
-        <span>TRAILING BOOLEAN</span>
+      <!-- INCOMPLETE 'NOT' -->
+      <ng-container *ngSwitchCase="'incompleteNOT'">
+        <span>INCOMPLETE NOT</span>
       </ng-container>
 
       <!-- INITIAL BOOLEAN -->
@@ -16,24 +15,79 @@
         <span>INITIAL BOOLEAN</span>
       </ng-container>
 
+      <!-- INVALID TOKEN -->
+      <ng-container *ngSwitchCase="'invalidToken'">
+        <p>
+          Molecular Profile expressions use a simple domain-specific language to
+          specify complex MPs. The expression string is parsed by splitting it
+          into 'tokens' delineated with spaces - between each space in the
+          expression is a token. Permitted tokens are:
+        </p>
+        <ul>
+          <li>
+            Variant Tokens - <strong>#VID</strong> or
+            <strong>NOT #VID</strong>followed by a valid Variant ID
+          </li>
+          <li>Boolean Tokens - <strong>AND</strong>, <strong>OR</strong></li>
+          <li>
+            Parentheses - <strong>(</strong> or <strong>)</strong>, for grouping
+            tokens into expressions
+          </li>
+        </ul>
+        <p>
+          <strong>Invalid Token</strong> errors occur if the parser encounters any
+          text or token that does not match those listed above.
+        </p>
+      </ng-container>
+
       <!-- MULTIPLE BOOLEAN -->
       <ng-container *ngSwitchCase="'multipleBoolean'">
-        <span>MULTIPLE BOOLEAN</span>
+        <p>
+          A single expression may not include more than one
+          <strong>AND</strong> or <strong>OR</strong> boolean operator. To
+          construct complex expressions, create embedded expressions using
+          parentheses.
+        </p>
+        <p>
+          For example, the expression
+          <strong>#VID12 AND #VID2220 OR #VID456</strong> is invalid, but the
+          expression <strong>#VID12 AND (#VID2220 OR #VID456)</strong> is valid.
+          The parentheses create a sub-expression indpendent of the outer
+          expression, moving its <strong>OR</strong> boolean out of the context of
+          the outer.
+        </p>
       </ng-container>
 
-      <!-- INCOMPLETE EXPRESSION -->
-      <ng-container *ngSwitchCase="'incompleteExpression'">
-        <span>INCOMPLETE EXPRESSION</span>
+      <!-- TRAILING BOOLEAN -->
+      <ng-container *ngSwitchCase="'trailingBoolean'">
+        <p>
+          Complete the expression by appending a <strong>#VID</strong> token to
+          the incomplete boolean expression. Or append an embedded expression
+          using parentheses.
+        </p>
       </ng-container>
 
-      <!-- QUERY ERROR -->
-      <ng-container *ngSwitchCase="'queryError'">
-        <span>QUERY ERROR</span>
+      <!-- UNKNOWN VARIANT ERROR -->
+      <ng-container *ngSwitchCase="'unknownVariant'">
+        <p>
+          A Variant ID provided in the expression cannot be matched to any Variant
+          in the CIViC database. Please re-check the Variant ID.
+        </p>
+        <p>
+          You may also create a new Variant by clicking on the 'Variant' button,
+          selecting a Gene and then clicking on the 'Create Variant' button that
+          will be provided if the Variant typeahead cannot match the name you have
+          entered.
+        </p>
       </ng-container>
 
-      <!-- QUERY ERROR -->
-      <ng-container *ngSwitchCase="'queryError'">
-        <span>QUERY ERROR</span>
+      <!-- UNKNOWN VARIANT ERROR -->
+      <ng-container *ngSwitchCase="'identicalVariants'">
+        <p>
+          An expression may not contain multiple instances of the same Variant.
+          Either remove or change the duplicate variant, or use parentheses to
+          create an embedded expression with the duplicate variant.
+        </p>
       </ng-container>
 
       <!-- GETTING STARTED -->
@@ -44,10 +98,14 @@
           Expressions are composed with a simple language comprised of Variant
           tokens, boolean operators, and parentheses. For example:
         </p>
-        <p>
+
+        <blockquote>
           <strong>#VID12 AND #VID2220</strong><br />
+          <strong>#VID12 OR #VID2220</strong><br />
+          <strong>#VID12 AND NOT #VID2220</strong><br />
           <strong>#VID12 AND #VID2220 OR (#VID456 AND #VID123)</strong><br />
-        </p>
+          <strong>#VID12 AND #VID2220 OR (NOT #VID456 AND #VID123)</strong><br />
+        </blockquote>
 
         <p>
           <strong>Variant Tokens</strong><br />
