@@ -17,6 +17,7 @@ module Activities
       create_comment
       link_activity
       set_verbiage
+      extra_actions
     end
 
     def create_activity
@@ -61,6 +62,10 @@ module Activities
     def set_verbiage
       activity.verbiage = activity.generate_verbiage
       activity.save!
+    end
+
+    def extra_actions
+      #optional. Does nothing for most activities
     end
   end
 end

@@ -28,7 +28,7 @@ module Types::Interfaces
       Loaders::AssociationLoader.for(Activity, :subject).load(object)
     end
 
-    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType, Types::Activities::SubmitEvidenceItemActivityType, Types::Activities::SubmitAssertionActivityType, Types::Activities::ModerateAssertionActivityType, Types::Activities::ModerateEvidenceItemActivityType
+    orphan_types Types::Activities::FlagEntityActivityType, Types::Activities::ResolveFlagActivityType, Types::Activities::SubmitEvidenceItemActivityType, Types::Activities::SubmitAssertionActivityType, Types::Activities::ModerateAssertionActivityType, Types::Activities::ModerateEvidenceItemActivityType, Types::Activities::DeprecateVariantActivityType
 
     definition_methods do
       def resolve_type(object, context)
@@ -45,6 +45,8 @@ module Types::Interfaces
           Types::Activities::SubmitAssertionActivityType
         when ModerateAssertionActivity
           Types::Activities::ModerateAssertionActivityType
+        when DeprecateVariantActivity
+          Types::Activities::DeprecateVariantActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

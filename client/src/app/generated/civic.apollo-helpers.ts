@@ -531,6 +531,18 @@ export type DataReleaseFieldPolicy = {
 	variantGroupTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTsv?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DeprecateVariantActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'molecularProfiles' | 'organization' | 'subject' | 'user' | 'verbiage' | DeprecateVariantActivityKeySpecifier)[];
+export type DeprecateVariantActivityFieldPolicy = {
+	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DeprecateVariantPayloadKeySpecifier = ('clientMutationId' | 'newlyDeprecatedMolecularProfiles' | 'variant' | DeprecateVariantPayloadKeySpecifier)[];
 export type DeprecateVariantPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1954,6 +1966,10 @@ export type StrictTypedTypePolicies = {
 	DataRelease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DataReleaseKeySpecifier | (() => undefined | DataReleaseKeySpecifier),
 		fields?: DataReleaseFieldPolicy,
+	},
+	DeprecateVariantActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeprecateVariantActivityKeySpecifier | (() => undefined | DeprecateVariantActivityKeySpecifier),
+		fields?: DeprecateVariantActivityFieldPolicy,
 	},
 	DeprecateVariantPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeprecateVariantPayloadKeySpecifier | (() => undefined | DeprecateVariantPayloadKeySpecifier),

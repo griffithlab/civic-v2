@@ -1,14 +1,13 @@
 module Actions
   class DeprecateVariant
     include Actions::Transactional
-    attr_reader :deprecating_user, :variant, :newly_deprecated_molecular_profiles, :organization_id, :deprecation_reason, :comment
+    attr_reader :deprecating_user, :variant, :newly_deprecated_molecular_profiles, :organization_id, :deprecation_reason
 
-    def initialize(deprecating_user:, variant:, organization_id: nil, deprecation_reason:, comment:)
+    def initialize(deprecating_user:, variant:, organization_id: nil, deprecation_reason:)
       @deprecating_user = deprecating_user
       @variant = variant
       @organization_id = organization_id
       @deprecation_reason = deprecation_reason
-      @comment = comment
       @newly_deprecated_molecular_profiles = []
     end
 
@@ -16,7 +15,6 @@ module Actions
     def execute
       mark_variant_as_deprecated
       mark_molecular_profiles_as_deprecated
-      create_comment
       create_events
     end
 
@@ -36,19 +34,6 @@ module Actions
           newly_deprecated_molecular_profiles.append(mp)
         end
       end
-    end
-
-    def create_comment
-      cmd = Actions::AddComment.new(
-        title: "",
-        body: comment,
-        commenter: deprecating_user,
-        commentable: variant,
-        organization_id: organization_id
-      )
-      cmd.perform
-      variant.deprecation_comment = cmd.comment
-      variant.save!
     end
 
     def create_events
