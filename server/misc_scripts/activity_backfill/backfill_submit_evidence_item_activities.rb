@@ -1,4 +1,4 @@
-Event.where(action: 'submitted').find_each do |event|
+Event.where(action: 'submitted', activity_id: nil).find_each do |event|
   if !event.subject.nil?
     activity = SubmitEvidenceItemActivity.create(
       subject: event.subject,

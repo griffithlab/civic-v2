@@ -1,4 +1,4 @@
-Event.where(action: 'flagged').find_each do |event|
+Event.where(action: 'flagged', activity_id: nil).find_each do |event|
   activity = FlagEntityActivity.create(
     subject: event.subject,
     user_id: event.originating_user_id,

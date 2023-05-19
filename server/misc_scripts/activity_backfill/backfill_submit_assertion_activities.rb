@@ -1,4 +1,4 @@
-Event.where(action: 'assertion submitted').find_each do |event|
+Event.where(action: 'assertion submitted', activity_id: nil).find_each do |event|
   if !event.subject.nil?
     activity = SubmitAssertionActivity.create(
       subject: event.subject,
