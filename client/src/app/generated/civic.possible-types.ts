@@ -13,7 +13,8 @@
       "ModerateEvidenceItemActivity",
       "ResolveFlagActivity",
       "SubmitAssertionActivity",
-      "SubmitEvidenceItemActivity"
+      "SubmitEvidenceItemActivity",
+      "SuggestSourceActivity"
     ],
     "CommentBodySegment": [
       "CommentTagSegment",

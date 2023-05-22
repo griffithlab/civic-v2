@@ -1502,6 +1502,18 @@ export type SuggestMolecularProfileRevisionPayloadFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SuggestSourceActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'organization' | 'sourceSuggestion' | 'subject' | 'user' | 'verbiage' | SuggestSourceActivityKeySpecifier)[];
+export type SuggestSourceActivityFieldPolicy = {
+	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SuggestSourcePayloadKeySpecifier = ('clientMutationId' | 'sourceSuggestion' | SuggestSourcePayloadKeySpecifier)[];
 export type SuggestSourcePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2338,6 +2350,10 @@ export type StrictTypedTypePolicies = {
 	SuggestMolecularProfileRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestMolecularProfileRevisionPayloadKeySpecifier | (() => undefined | SuggestMolecularProfileRevisionPayloadKeySpecifier),
 		fields?: SuggestMolecularProfileRevisionPayloadFieldPolicy,
+	},
+	SuggestSourceActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestSourceActivityKeySpecifier | (() => undefined | SuggestSourceActivityKeySpecifier),
+		fields?: SuggestSourceActivityFieldPolicy,
 	},
 	SuggestSourcePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestSourcePayloadKeySpecifier | (() => undefined | SuggestSourcePayloadKeySpecifier),
