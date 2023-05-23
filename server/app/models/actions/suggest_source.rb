@@ -1,7 +1,6 @@
 module Actions
   class SuggestSource
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
     attr_reader :source, :originating_user, :organization_id, :molecular_profile_id, :disease_id, :source_suggestion, :comment_body
 
     def initialize(source:, originating_user:, organization_id:, comment_body:, molecular_profile_id: nil, disease_id: nil )
@@ -31,7 +30,7 @@ module Actions
         action: 'publication suggested',
         originating_user: originating_user,
         subject: source,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: suggestion
       )
     end
