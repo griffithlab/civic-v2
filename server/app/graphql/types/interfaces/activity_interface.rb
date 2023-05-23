@@ -36,7 +36,8 @@ module Types::Interfaces
       Types::Activities::ModerateAssertionActivityType,
       Types::Activities::ModerateEvidenceItemActivityType,
       Types::Activities::DeprecateVariantActivityType,
-      Types::Activities::SuggestSourceActivityType
+      Types::Activities::SuggestSourceActivityType,
+      Types::Activities::CommentActivityType,
     )
 
     definition_methods do
@@ -58,6 +59,8 @@ module Types::Interfaces
           Types::Activities::DeprecateVariantActivityType
         when SuggestSourceActivity
           Types::Activities::SuggestSourceActivityType
+        when CommentActivity
+          Types::Activities::CommentActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

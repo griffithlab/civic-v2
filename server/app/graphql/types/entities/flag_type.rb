@@ -4,6 +4,7 @@ module Types::Entities
 
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::EventSubject
 
     field :id, Int, null: false
     field :state, Types::FlagStateType, null: false
