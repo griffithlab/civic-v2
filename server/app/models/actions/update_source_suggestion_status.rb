@@ -1,6 +1,5 @@
 class Actions::UpdateSourceSuggestionStatus
   include Actions::Transactional
-  include Actions::WithOriginatingOrganization
 
   attr_reader :source_suggestion, :updating_user, :organization_id, :new_status, :old_status, :reason
 
@@ -32,7 +31,7 @@ class Actions::UpdateSourceSuggestionStatus
       originating_user: updating_user,
       subject: source_suggestion.source,
       originating_object: source_suggestion,
-      organization: resolve_organization(updating_user, organization_id)
+      organization_id: organization_id
     )
   end
 
