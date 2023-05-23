@@ -7,6 +7,7 @@
       const result: PossibleTypesResultData = {
   "possibleTypes": {
     "ActivityInterface": [
+      "CommentActivity",
       "DeprecateVariantActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",

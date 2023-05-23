@@ -1538,6 +1538,17 @@ type Comment implements EventOriginObject {
   title: String
 }
 
+type CommentActivity implements ActivityInterface {
+  comment: Comment!
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  organization: Organization
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
+}
+
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """

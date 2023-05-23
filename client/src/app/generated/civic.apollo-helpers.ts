@@ -444,6 +444,17 @@ export type CommentFieldPolicy = {
 	parsedComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CommentActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'organization' | 'subject' | 'user' | 'verbiage' | CommentActivityKeySpecifier)[];
+export type CommentActivityFieldPolicy = {
+	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CommentConnectionKeySpecifier = ('edges' | 'mentionedEntities' | 'mentionedRoles' | 'mentionedUsers' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'unfilteredCountForSubject' | 'uniqueCommenters' | CommentConnectionKeySpecifier)[];
 export type CommentConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1930,6 +1941,10 @@ export type StrictTypedTypePolicies = {
 	Comment?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentKeySpecifier | (() => undefined | CommentKeySpecifier),
 		fields?: CommentFieldPolicy,
+	},
+	CommentActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentActivityKeySpecifier | (() => undefined | CommentActivityKeySpecifier),
+		fields?: CommentActivityFieldPolicy,
 	},
 	CommentConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentConnectionKeySpecifier | (() => undefined | CommentConnectionKeySpecifier),
