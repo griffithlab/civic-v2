@@ -3,12 +3,13 @@ module Activities
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
 
-    attr_reader :organization, :activity, :comment_body, :user, :comment
+    attr_reader :organization, :activity, :comment_body, :comment_title, :user, :comment
 
-    def initialize(organization_id:, user:, comment_body: nil)
+    def initialize(organization_id:, user:, comment_body: nil, comment_title: '')
       @user = user
       @organization = resolve_organization(user, organization_id)
       @comment_body = comment_body
+      @comment_title = comment_title
     end
 
     def execute
@@ -39,7 +40,7 @@ module Activities
     def create_comment
       if comment_body.present?
         cmd = Actions::AddComment.new(
-          title: "",
+          title: comment_title,
           body: comment_body,
           commenter: user,
           commentable: commentable,
