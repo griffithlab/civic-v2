@@ -1,11 +1,8 @@
 class DeprecateVariantActivity < Activity
+  has_linked :comment
+
   has_many :molecular_profiles_link,
     ->() { where(entity_type: 'MolecularProfile') },
-    foreign_key: :activity_id,
-    class_name: 'ActivityLinkedEntity'
-
-  has_one :comment_link,
-    ->() { where(entity_type: 'Comment') },
     foreign_key: :activity_id,
     class_name: 'ActivityLinkedEntity'
 
@@ -13,11 +10,6 @@ class DeprecateVariantActivity < Activity
     through: :molecular_profiles_link,
     source: :entity,
     source_type: 'MolecularProfile'
-
-  has_one :linked_comment,
-    through: :comment_link,
-    source: :entity,
-    source_type: 'Comment'
 
 
   def variant
@@ -29,14 +21,6 @@ class DeprecateVariantActivity < Activity
       activity_linked_entities.select { |e| e.entity_type == 'MolecularProfile' }.entity
     else
       self.linked_molecular_profiles
-    end
-  end
-
-  def comment
-    if activity_linked_entities.loaded?
-      activity_linked_entities.find { |e| e.entity_type == 'Comment' }.entity
-    else
-      self.linked_comment
     end
   end
 
