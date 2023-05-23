@@ -18,4 +18,29 @@ class Activity < ApplicationRecord
       ActivityLinkedEntity.where(activity: self, entity: e).first_or_create!
     end
   end
+
+  private
+  def self.has_linked(entity_type)
+    class_name = entity_type.to_s.classify
+    link_name = "#{entity_type}_link".to_sym
+    entity_relation_name = "linked_#{entity_type}".to_sym
+
+    has_one link_name,
+      ->() { where(entity_type: class_name) },
+      foreign_key: :activity_id,
+      class_name: 'ActivityLinkedEntity'
+
+    has_one entity_relation_name,
+      through: link_name,
+      source: :entity,
+      source_type: class_name
+
+    define_method entity_type do
+      if activity_linked_entities.loaded?
+        activity_linked_entities.find { |e| e.entity_type == class_name }.entity
+      else
+        self.send(entity_relation_name)
+      end
+    end
+  end
 end
