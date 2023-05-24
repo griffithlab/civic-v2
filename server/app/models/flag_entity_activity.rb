@@ -3,7 +3,7 @@ class FlagEntityActivity < Activity
   has_one_linked :flag
   has_one_linked :comment
 
-  de flaggable
+  def flaggable
     self.subject
   end
 
