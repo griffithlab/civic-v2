@@ -56,19 +56,19 @@ class Mutations::SuggestAssertionRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
-    cmd = Actions::SuggestAssertionRevision.new(
+    cmd = Activities::SuggestRevisionSet.new(
       existing_obj: assertion,
       updated_obj: updated_assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      comment_body: comment
     )
     res = cmd.perform
 
     if res.succeeded?
       {
         assertion: assertion,
-        results: res.revisions
+        results: res.revision_results
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

@@ -81,4 +81,12 @@ class MolecularProfile < ActiveRecord::Base
         .count
     }
   end
+
+  def self.editable_fields
+    [
+      :description,
+      :source_ids,
+      :molecular_profile_alias_ids,
+    ]
+  end
 end

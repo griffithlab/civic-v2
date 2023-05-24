@@ -33,6 +33,8 @@ module Types::Interfaces
           Types::Entities::MolecularProfileType
         when Flag
           Types::Entities::FlagType
+        when RevisionSet
+          Types::Entities::RevisionSetType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

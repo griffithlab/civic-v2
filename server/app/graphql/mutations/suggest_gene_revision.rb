@@ -54,19 +54,19 @@ class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_gene = InputAdaptors::GeneInputAdaptor.new(gene_input_object: fields).perform
-    cmd = Actions::SuggestGeneRevision.new(
+    cmd = Activities::SuggestRevisionSet.new(
       existing_obj: gene,
       updated_obj: updated_gene,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      comment_body: comment
     )
     res = cmd.perform
 
     if res.succeeded?
       {
         gene: gene,
-        results: res.revisions
+        results: res.revision_results
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

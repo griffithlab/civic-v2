@@ -66,19 +66,19 @@ class Mutations::SuggestVariantGroupRevision < Mutations::MutationWithOrg
       variant_ids: fields.variant_ids
     )
 
-    cmd = Actions::SuggestVariantGroupRevision.new(
+    cmd = Activities::SuggestRevisionSet.new(
       existing_obj: variant_group,
       updated_obj: updated_variant_group,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      comment_body: comment
     )
     res = cmd.perform
 
     if res.succeeded?
       {
         variant_group: variant_group,
-        results: res.revisions
+        results: res.revision_results
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

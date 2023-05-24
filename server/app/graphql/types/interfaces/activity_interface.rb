@@ -38,6 +38,7 @@ module Types::Interfaces
       Types::Activities::DeprecateVariantActivityType,
       Types::Activities::SuggestSourceActivityType,
       Types::Activities::CommentActivityType,
+      Types::Activities::SuggestRevisionSetActivityType,
     )
 
     definition_methods do
@@ -61,6 +62,8 @@ module Types::Interfaces
           Types::Activities::SuggestSourceActivityType
         when CommentActivity
           Types::Activities::CommentActivityType
+        when SuggestRevisionSetActivity
+          Types::Activities::SuggestRevisionSetActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end
