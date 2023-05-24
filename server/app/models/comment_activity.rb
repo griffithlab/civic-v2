@@ -1,5 +1,5 @@
 class CommentActivity < Activity
-  has_linked :comment
+  has_one_linked :comment
 
   def generate_verbiage
     'commented on'

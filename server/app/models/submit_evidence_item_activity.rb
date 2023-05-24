@@ -1,5 +1,5 @@
 class SubmitEvidenceItemActivity < Activity
-  has_linked :comment
+  has_one_linked :comment
 
   def evidence_item
     self.subject

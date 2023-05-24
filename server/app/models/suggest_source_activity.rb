@@ -1,6 +1,6 @@
 class SuggestSourceActivity < Activity
-  has_linked :comment
-  has_linked :source_suggestion
+  has_one_linked :comment
+  has_one_linked :source_suggestion
 
   def source
     self.subject
