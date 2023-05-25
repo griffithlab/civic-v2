@@ -188,6 +188,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
             },
           },
+          {
+            type: 'cvc-cancel-button'
+          },
           <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
             type: 'org-submit-button',

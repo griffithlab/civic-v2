@@ -73,6 +73,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
+            type: 'cvc-cancel-button'
+          },
+          {
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
