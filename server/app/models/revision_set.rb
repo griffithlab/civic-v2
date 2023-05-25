@@ -10,4 +10,8 @@ class RevisionSet < ApplicationRecord
   def name
     "RSID#{id}"
   end
+
+  def link
+    "TODO"
+  end
 end

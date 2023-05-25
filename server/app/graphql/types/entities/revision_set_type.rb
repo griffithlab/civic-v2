@@ -1,5 +1,6 @@
 module Types::Entities
   class RevisionSetType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
 
     field :id, Int, null: false
     field :name, String, null: false
