@@ -40,193 +40,97 @@ const formFieldConfig: FormlyFieldConfig[] = [
           title: 'Revise Evidence Item',
         },
         fieldGroup: [
-          // field-grid wrapper places its fields in a css-grid, allowing for a wider variety of row-level layouts. Currently it provides multi-column layout of 2-4 columns
-          // {
-          //   wrappers: ['field-grid'],
-          //   props: <CvcFieldGridWrapperConfig>{
-          //     grid: {
-          //       cols: 2,
-          //     },
-          //   },
-          //   fieldGroup: [
-          //     <CvcGeneSelectFieldConfig>{
-          //       key: 'geneId',
-          //       type: 'gene-select',
-          //       props: {
-          //         required: true,
-          //       },
-          //     },
-          //     <CvcVariantSelectFieldOption>{
-          //       key: 'variantId',
-          //       type: 'variant-select',
-          //       props: {
-          //         required: true,
-          //         // requireGene: false
-          //       },
-          //     },
-          //   ],
-          // },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+          <CvcMolecularProfileSelectFieldConfig>{
+            key: 'molecularProfileId',
+            type: 'molecular-profile-select',
+            props: {
+              required: true,
             },
-            fieldGroup: [
-              <CvcMolecularProfileSelectFieldConfig>{
-                key: 'molecularProfileId',
-                type: 'molecular-profile-select',
-                props: {
-                  required: true,
-                },
-              },
-            ],
           },
           <CvcSourceSelectFieldOptions>{
             key: 'sourceId',
             type: 'source-select',
             props: { required: true },
           },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+          <CvcEntityTypeSelectFieldConfig>{
+            key: 'evidenceType',
+            type: 'type-select',
+            props: {
+              required: true,
             },
-            fieldGroup: [
-              <CvcEntityTypeSelectFieldConfig>{
-                key: 'evidenceType',
-                type: 'type-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcDirectionSelectFieldOptions>{
-                key: 'evidenceDirection',
-                type: 'direction-select',
-                props: {
-                  required: true,
-                  formMode: 'revise'
-                },
-              },
-            ],
+          },
+          <CvcDirectionSelectFieldOptions>{
+            key: 'evidenceDirection',
+            type: 'direction-select',
+            props: {
+              required: true,
+              formMode: 'revise',
+            },
+          },
+          <CvcSignificanceSelectFieldOptions>{
+            key: 'significance',
+            type: 'significance-select',
+            props: {
+              required: true,
+              formMode: 'revise',
+            },
+          },
+          <CvcDiseaseSelectFieldOptions>{
+            key: 'diseaseId',
+            type: 'disease-select',
+            props: {},
+          },
+          <CvcTherapySelectFieldOptions>{
+            key: 'therapyIds',
+            type: 'therapy-multi-select',
+            props: {},
+          },
+          <CvcInteractionSelectFieldOptions>{
+            key: 'therapyInteractionType',
+            type: 'interaction-select',
+            props: {},
+          },
+          <CvcLevelSelectFieldOptions>{
+            key: 'evidenceLevel',
+            type: 'level-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcRatingFieldOptions>{
+            key: 'rating',
+            type: 'rating',
+            props: {
+              required: true,
+            },
+          },
+          <CvcOriginSelectFieldOptions>{
+            key: 'variantOrigin',
+            type: 'origin-select',
+            props: {
+              required: true,
+            },
+          },
+          <CvcPhenotypeSelectFieldOptions>{
+            key: 'phenotypeIds',
+            type: 'phenotype-multi-select',
+            props: {},
           },
           {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
+            key: 'description',
+            type: 'textarea',
+            wrappers: ['form-field'],
+            props: {
+              tooltip:
+                'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
+              placeholder: 'Enter an Evidence Statement',
+              extraType: 'description',
+              description:
+                'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+              label: 'Evidence Statement',
+              required: true,
+              colSpan: 24,
             },
-            fieldGroup: [
-              <CvcSignificanceSelectFieldOptions>{
-                key: 'significance',
-                type: 'significance-select',
-                props: {
-                  required: true,
-                  formMode: 'revise'
-                },
-              },
-              <CvcDiseaseSelectFieldOptions>{
-                key: 'diseaseId',
-                type: 'disease-select',
-                props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
-              <CvcTherapySelectFieldOptions>{
-                key: 'therapyIds',
-                type: 'therapy-multi-select',
-                props: {},
-              },
-              <CvcInteractionSelectFieldOptions>{
-                key: 'therapyInteractionType',
-                type: 'interaction-select',
-                props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
-              <CvcLevelSelectFieldOptions>{
-                key: 'evidenceLevel',
-                type: 'level-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcRatingFieldOptions>{
-                key: 'rating',
-                type: 'rating',
-                props: {
-                  required: true,
-                },
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: 2,
-              },
-            },
-            fieldGroup: [
-              <CvcOriginSelectFieldOptions>{
-                key: 'variantOrigin',
-                type: 'origin-select',
-                props: {
-                  required: true,
-                },
-              },
-              <CvcPhenotypeSelectFieldOptions>{
-                key: 'phenotypeIds',
-                type: 'phenotype-multi-select',
-                props: {},
-              },
-            ],
-          },
-          {
-            wrappers: ['field-grid'],
-            props: <CvcFieldGridWrapperConfig>{
-              grid: {
-                cols: '1-2',
-              },
-            },
-            fieldGroup: [
-              {
-                key: 'description',
-                type: 'textarea',
-                wrappers: ['form-field'],
-                props: {
-                  tooltip:
-                    'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
-                  placeholder: 'Enter an Evidence Statement',
-                  extraType: 'description',
-                  description:
-                    'Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
-                  label: 'Evidence Statement',
-                  required: true,
-                  colSpan: 24
-                },
-              },
-            ],
           },
         ],
       },
@@ -239,11 +143,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Comment',
               required: true,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',
