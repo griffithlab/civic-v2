@@ -19,7 +19,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map, withLatestFrom } from 'rxjs'
+import { BehaviorSubject, map, skip, withLatestFrom } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 const optionText: any = {
@@ -121,7 +121,8 @@ interface CvcSignificanceSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   tooltip?: string
   description?: string
-  extraType?: CvcFormFieldExtraType
+  extraType?: CvcFormFieldExtraType,
+  formMode: 'revise' | 'add'
 }
 
 export interface CvcSignificanceSelectFieldConfig
@@ -169,6 +170,7 @@ export class CvcSignificanceSelectField
       requireTypePromptFn: (entityName: string) =>
         `Select ${entityName} Type to select its Significance`,
       tooltip: 'Clinical impact of the variant',
+      formMode: 'add'
     },
   }
 
@@ -245,7 +247,7 @@ export class CvcSignificanceSelectField
     this.onTypeSelect$ = this.state.fields[etName]
     // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
     this.onTypeSelect$
-      .pipe(untilDestroyed(this))
+      .pipe(untilDestroyed(this), skip(this.props.formMode === 'add' ? 0 : 1))
       .subscribe((et: Maybe<CvcInputEnum>) => {
         if (!et) {
           this.props.disabled = true

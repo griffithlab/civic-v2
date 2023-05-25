@@ -22,7 +22,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, map, withLatestFrom } from 'rxjs'
+import { BehaviorSubject, map, skip, withLatestFrom } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -115,7 +115,8 @@ export interface CvcDirectionSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   requireTypePromptFn: (entityName: string) => string
   tooltip?: string
-  extraType?: CvcFormFieldExtraType
+  extraType?: CvcFormFieldExtraType,
+  formMode: 'revise' | 'add'
 }
 
 export interface CvcDirectionSelectFieldConfig
@@ -163,6 +164,7 @@ export class CvcDirectionSelectField
         `Select ${entityType ? entityType + ' ' : ''}${entityName} Direction`,
       requireTypePromptFn: (entityName: string) =>
         `Select ${entityName} Type to select its Direction`,
+      formMode: 'add'
     },
   }
 
@@ -244,7 +246,7 @@ export class CvcDirectionSelectField
     this.onEntityType$ = this.state.fields[etName]
     // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
     this.onEntityType$
-      .pipe(untilDestroyed(this))
+      .pipe(untilDestroyed(this), skip(this.props.formMode === 'add' ? 0 : 1))
       .subscribe((et: Maybe<CvcInputEnum>) => {
         if (!et) {
           this.props.disabled = true
