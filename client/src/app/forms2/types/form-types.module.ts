@@ -29,6 +29,7 @@ import { CvcCvcFdaCompanionTestCheckboxFieldModule } from './fda-companion-test-
 import { CvcReferenceBuildSelectModule } from './reference-build-select/reference-build-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
 import { CvcClinvarInputFieldModule } from './clinvar-input/clinvar-input.module'
+import { CvcCancelButtonModule } from './cancel-button/cancel-button.module'
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { CvcClinvarInputFieldModule } from './clinvar-input/clinvar-input.module
     CvcCvcFdaCompanionTestCheckboxFieldModule,
     CvcReferenceBuildSelectModule,
     CvcVariantTypeSelectModule,
-    CvcClinvarInputFieldModule
+    CvcClinvarInputFieldModule,
+    CvcCancelButtonModule
   ],
 })
 export class CvcFormTypesModule {}

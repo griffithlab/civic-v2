@@ -108,6 +108,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'direction-select',
                 props: {
                   required: true,
+                  formMode: 'revise'
                 },
               },
             ],
@@ -125,6 +126,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'significance-select',
                 props: {
                   required: true,
+                  formMode: 'revise'
                 },
               },
               <CvcDiseaseSelectFieldOptions>{
@@ -239,6 +241,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
               minLength: 10
             },
+          },
+          {
+            type: 'cvc-cancel-button'
           },
           {
             key: 'organizationId',
