@@ -247,7 +247,7 @@ export class CvcSignificanceSelectField
     this.onTypeSelect$ = this.state.fields[etName]
     // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
     this.onTypeSelect$
-      .pipe(untilDestroyed(this), skip(this.props.formMode === 'add' ? 0 : 1))
+      .pipe(skip(this.props.formMode === 'add' ? 0 : 1), untilDestroyed(this))
       .subscribe((et: Maybe<CvcInputEnum>) => {
         if (!et) {
           this.props.disabled = true
