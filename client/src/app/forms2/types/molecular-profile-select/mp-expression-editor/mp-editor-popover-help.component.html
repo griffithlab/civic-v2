@@ -3,8 +3,8 @@
       <!-- INCOMPLETE EXPRESSION -->
       <ng-container *ngSwitchCase="'incompleteExpression'">
         <p>
-          The expression contains open parentheses, please ensure that all
-          parenthetical expressions are closed with balanced parentheses.
+          The expression contains open parentheses. Please ensure that all
+          parenthetical expressions are closed.
         </p>
       </ng-container>
 
@@ -12,16 +12,16 @@
       <ng-container *ngSwitchCase="'incompleteNOT'">
         <p>
           Complete the expression by appending a <strong>#VID</strong> token to
-          the incomplete boolean expression. Or append an embedded expression
-          using parentheses.
+          the incomplete boolean expression.
         </p>
       </ng-container>
 
       <!-- INITIAL BOOLEAN -->
       <ng-container *ngSwitchCase="'initialBoolean'">
         <p>
-          MP Expressions may not begin with an AND or OR boolean. Ensure the
-          expression begins with a #VID or NOT #VID token.
+          MP Expressions may not begin with an <strong>AND</strong> or
+          <strong>OR</strong> boolean. Ensure the expression begins with a
+          <strong>#VID</strong> or <strong>NOT #VID</strong> token.
         </p>
       </ng-container>
 
@@ -29,19 +29,19 @@
       <ng-container *ngSwitchCase="'invalidToken'">
         <p>
           Molecular Profile expressions use a simple domain-specific language to
-          specify complex MPs. The expression string is parsed by splitting it
-          into 'tokens' delineated with spaces - between each space in the
-          expression is a token. Permitted tokens are:
+          specify complex MPs using boolean expressions to combine variants. These
+          expressions may contain:
         </p>
         <ul>
           <li>
             Variant Tokens - <strong>#VID</strong> or
-            <strong>NOT #VID</strong>followed by a valid Variant ID
+            <strong>NOT #VID</strong>followed by a valid Variant ID, e.g.
+            "#VID123"
           </li>
           <li>Boolean Tokens - <strong>AND</strong>, <strong>OR</strong></li>
           <li>
             Parentheses - <strong>(</strong> or <strong>)</strong>, for grouping
-            tokens into expressions
+            tokens into nested expressions
           </li>
         </ul>
         <p>
@@ -55,16 +55,14 @@
         <p>
           A single expression may not include more than one
           <strong>AND</strong> or <strong>OR</strong> boolean operator. To
-          construct complex expressions, create embedded expressions using
-          parentheses.
+          construct complex expressions, use parentheses.
         </p>
         <p>
           For example, the expression
           <strong>#VID12 AND #VID2220 OR #VID456</strong> is invalid, but the
           expression <strong>#VID12 AND (#VID2220 OR #VID456)</strong> is valid.
-          The parentheses create a sub-expression indpendent of the outer
-          expression, moving its <strong>OR</strong> boolean out of the context of
-          the outer.
+          The parentheses create a nested expression independent of the outer
+          expression.
         </p>
       </ng-container>
 
@@ -72,30 +70,36 @@
       <ng-container *ngSwitchCase="'trailingBoolean'">
         <p>
           Complete the expression by appending a <strong>#VID</strong> token to
-          the incomplete boolean expression. Or append an embedded expression
-          using parentheses.
+          the incomplete boolean expression.
         </p>
       </ng-container>
 
       <!-- UNKNOWN VARIANT ERROR -->
       <ng-container *ngSwitchCase="'unknownVariant'">
         <p>
-          A Variant ID provided in the expression cannot be matched to any Variant
-          in the CIViC database. Please re-check the Variant ID.
+          The expression contains a Variant ID that cannot be matched to any
+          Variant in the CIViC database. Please re-check the Variant ID, or create
+          a new one by following these steps:
         </p>
-        <p>
-          You may also create a new Variant by clicking on the 'Variant' button,
-          selecting a Gene and then clicking on the 'Create Variant' button that
-          will be provided if the Variant typeahead cannot match the name you have
-          entered.
-        </p>
+        <ol>
+          <li>click the 'Variant' button,</li>
+          <li>enter a Gene name, then select a Gene</li>
+          <li>enter the Variant name</li>
+          <li>
+            click the 'Create Variant' button that will appear if name does not
+            match any CIViC Variants
+          </li>
+        </ol>
       </ng-container>
 
       <!-- UNKNOWN VARIANT ERROR -->
       <ng-container *ngSwitchCase="'identicalVariants'">
         <p>
           An expression may not contain multiple instances of the same Variant.
-          Either remove or change the duplicate variant.
+          Either remove the variant or change the expression. For example,
+          <strong>(#VID123 AND #VID456) OR (#VID123 AND #VID789)</strong>, which
+          is invalid, is logically identical to the valid MP expression
+          <strong>#VID123 AND (#VID456 OR #VID789)</strong>.
         </p>
       </ng-container>
 
@@ -103,8 +107,8 @@
       <ng-container *ngSwitchDefault>
         <p>
           The Molecular Profile editor allows the selection or creation of complex
-          Molecular Profiles by writing Molecular Profile Expressions. MP
-          Expressions are composed with a simple language comprised of Variant
+          Molecular Profiles by writing Molecular Profile Expressions. These
+          expressions are composed with a simple language consisting of Variant
           tokens, boolean operators, and parentheses. For example:
         </p>
 
@@ -113,7 +117,7 @@
           <strong>#VID12 OR #VID2220</strong><br />
           <strong>#VID12 AND NOT #VID2220</strong><br />
           <strong>#VID12 AND #VID2220 AND (#VID456 OR #VID123)</strong><br />
-          <strong>#VID12 AND #VID2220 AND (NOT #VID456 AND #VID123)</strong><br />
+          <strong>#VID12 OR #VID2220 OR (NOT #VID456 AND #VID123)</strong><br />
         </blockquote>
 
         <p>
@@ -121,7 +125,10 @@
           Variant tokens are composed of a CIViC Variant ID prepended with
           <strong>#VID</strong>, and refer to specific CIViC Variants. For
           example, <strong>#VID12</strong> refers to <strong>BRAF V600E</strong>;
-          <strong>#VID2220</strong> refers to <strong>ALK FUSION</strong>.
+          <strong>#VID2220</strong> refers to <strong>ALK FUSION</strong>. If you
+          don’t know the CIViC ID of a Variant, you can search for Variants by
+          name using the ‘Variant’ or ‘NOT Variant’ buttons below. These
+          interfaces can also be used to add a Variant that’s not yet in CIViC.
         </p>
         <p>
           <strong>Boolean Operators</strong><br />
@@ -141,8 +148,7 @@
         </p>
         <p>
           <strong>NOTE:</strong> Be sure to read the help text provided along with
-          every alert message by clicking on the 'Syntax Assistance' button at the
-          right side of its alert box.
+          every alert message by hovering over 'Syntax Assistance'.
         </p>
       </ng-container>
     </ng-container>

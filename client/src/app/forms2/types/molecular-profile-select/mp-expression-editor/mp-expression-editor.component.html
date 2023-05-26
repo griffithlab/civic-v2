@@ -4,9 +4,9 @@
   [successMessage]="success">
   <ng-template #success>Added new Molecular Profile</ng-template>
 
-  <!-- PREVIEW ROW -->
+  <!-- PREVIEW, MESSAGE/ALERT, EDITOR LAYOUT - uses a single row element w/ 24 col width spans -->
   <nz-row [nzGutter]="[6, 8]">
-    <!-- preview row -->
+    <!-- PREVIEW ROW -->
     <nz-col nzSpan="24">
       <div
         class="expression-preview"
@@ -39,11 +39,11 @@
           <button
             type="button"
             nz-button
-            nzType="primary"
+            nzType="dashed"
             nzSize="small"
             nzShape="round"
             nz-popover
-            nzPopoverTrigger="click"
+            nzPopoverTrigger="hover"
             [nzPopoverContent]="gettingStartedHelp">
             <span
               nz-icon
@@ -125,12 +125,11 @@
           <button
             nz-button
             nzDanger
-            nzType="dashed"
+            nzType="text"
             nzSize="small"
             nzShape="round"
             nz-popover
-            nzPopoverTrigger="click"
-            [nzPopoverTitle]="error.errorHelp"
+            nzPopoverTrigger="hover"
             [nzPopoverContent]="content">
             <span
               nz-icon
@@ -153,6 +152,7 @@
                 context: { $implicit: error, helpContent: invalidTokenHelp }
               ">
             </ng-container>
+
             <!-- trailing boolean help -->
             <ng-template #invalidTokenHelp>
               <cvc-mp-editor-popover-help
@@ -285,20 +285,20 @@
     </nz-col>
   </nz-row>
 
-  <!-- BUTTON ROW -->
+  <!-- BUTTON ROW - requires its own layout row that uses flex layout -->
   <nz-row class="btn-row">
     <nz-col nzFlex="80px">
       <button
         nzBlock
         nz-button
-        nzType="default"
+        nzType="primary"
         nzShape="round"
         nzSize="small"
         nz-popover
         nzPopoverTitle="Select a Profile to view its expression"
         nzPopoverTrigger="click"
         [nzPopoverContent]="expressionExamples"
-        nzPopoverPlacement="bottom">
+        nzPopoverPlacement="bottomLeft">
         Examples
       </button>
     </nz-col>
@@ -455,7 +455,7 @@
 
     <!-- MP examples popover template -->
     <ng-template #expressionExamples>
-      <div style="min-width: 500px; margin: -8px -12px">
+      <div style="min-width: 525px; margin: -8px -12px">
         <nz-list
           nzSize="small"
           nzItemLayout="horizontal">

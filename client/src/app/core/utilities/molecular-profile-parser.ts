@@ -24,7 +24,6 @@ export type MpParseErrorType =
 export interface MpParseError {
   errorType: MpParseErrorType
   errorMessage: string
-  errorHelp?: string
 }
 
 export type MpParseResult = MpParseError | MolecularProfileComponentInput
@@ -73,29 +72,20 @@ function parseSection(section: string): MpParseResult {
   const trailingBooleanError: MpParseResult = {
     errorType: 'trailingBoolean',
     errorMessage: 'Expressions may not end with AND / OR boolean operators.',
-    errorHelp:
-      'AND / OR boolean operators may not be used at the end of an expression.',
   }
   const initialBooleanError: MpParseResult = {
     errorType: 'initialBoolean',
     errorMessage: 'Expressions may not start with AND / OR boolean operators.',
-    errorHelp:
-      'AND / OR boolean operators may not be used at the beginning of an expression.',
   }
   const multipleBooleanError: MpParseResult = {
     errorType: 'multipleBoolean',
     errorMessage: 'Multiple boolean operators found.',
-    errorHelp:
-      'AND / OR boolean operators may not be used multiple times within a single expression.',
   }
   // FIXME: this error is returned whenever an unbalanced paren is present, even if it is not the last token
   // so this error is displayed when sub-expressions are being entered, which could be confusing.
   const incompleteExpressionError: MpParseResult = {
     errorType: 'incompleteExpression',
-    errorMessage:
-      'Ensure that parenthetical clauses are balanced and appended.',
-    errorHelp:
-      'Ensure that parenthetical clauses are balanced, and occur after a Variant token.',
+    errorMessage: 'Ensure that parenthetical clauses are closed.',
   }
   //Split on whitespace, check that we only have a single boolean operator type and that it is not the first or last token
   let i = 0
@@ -135,8 +125,6 @@ function parseSection(section: string): MpParseResult {
         return {
           errorType: 'incompleteNOT',
           errorMessage: 'NOT operator must be followed by a valid #VID.',
-          errorHelp:
-            'Ensure that NOT operators are followed by a valid Variant token.',
         }
       }
 
@@ -144,8 +132,6 @@ function parseSection(section: string): MpParseResult {
         return {
           errorType: 'invalidToken',
           errorMessage: `Token '${token}' does not match the expected format.`,
-          errorHelp:
-            'The token should be a #VID followed by a Variant ID, or an AND/OR boolean.',
         }
       }
     } else {
