@@ -85,8 +85,7 @@ function parseSection(section: string): MpParseResult {
   // so this error is displayed when sub-expressions are being entered, which could be confusing.
   const incompleteExpressionError: MpParseResult = {
     errorType: 'incompleteExpression',
-    errorMessage:
-      'Ensure that parenthetical clauses are balanced and appended.',
+    errorMessage: 'Ensure that parenthetical clauses are closed.',
   }
   //Split on whitespace, check that we only have a single boolean operator type and that it is not the first or last token
   let i = 0

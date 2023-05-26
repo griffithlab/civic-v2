@@ -39,11 +39,11 @@
           <button
             type="button"
             nz-button
-            nzType="primary"
+            nzType="dashed"
             nzSize="small"
             nzShape="round"
             nz-popover
-            nzPopoverTrigger="click"
+            nzPopoverTrigger="hover"
             [nzPopoverContent]="gettingStartedHelp">
             <span
               nz-icon
@@ -125,11 +125,11 @@
           <button
             nz-button
             nzDanger
-            nzType="dashed"
+            nzType="text"
             nzSize="small"
             nzShape="round"
             nz-popover
-            nzPopoverTrigger="click"
+            nzPopoverTrigger="hover"
             [nzPopoverContent]="content">
             <span
               nz-icon
@@ -291,14 +291,14 @@
       <button
         nzBlock
         nz-button
-        nzType="default"
+        nzType="primary"
         nzShape="round"
         nzSize="small"
         nz-popover
         nzPopoverTitle="Select a Profile to view its expression"
         nzPopoverTrigger="click"
         [nzPopoverContent]="expressionExamples"
-        nzPopoverPlacement="bottom">
+        nzPopoverPlacement="bottomLeft">
         Examples
       </button>
     </nz-col>
@@ -455,7 +455,7 @@
 
     <!-- MP examples popover template -->
     <ng-template #expressionExamples>
-      <div style="min-width: 500px; margin: -8px -12px">
+      <div style="min-width: 525px; margin: -8px -12px">
         <nz-list
           nzSize="small"
           nzItemLayout="horizontal">

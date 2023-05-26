@@ -111,7 +111,6 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     initial: 'Use the editor below to construct a molecular profile.',
   }
 
-  // FIXME: replace with actual MPs & better descriptions
   exampleExpressions: ExampleExpression[] = [
     {
       mp: {
@@ -121,7 +120,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       },
       expression: '#VID12 AND #VID33 AND #VID34',
       description:
-        'Combines multiple variants with AND operatorAll variants - BRAF V600E, EGFR L858R, and EGFR T790M - need to be observed together.',
+        'BRAF V600E, EGFR L858R, and EGFR T790M must all be observed.',
     },
     {
       mp: {
@@ -130,8 +129,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         name: 'BRAF V600E AND NOT EGFR L858R',
       },
       expression: '#VID12 AND NOT #VID33',
-      description:
-        'BRAF V600E has to be observed and EGFR L858R has to be absent.',
+      description: 'BRAF V600E must be observed and EGFR L858R must be absent.',
     },
     {
       mp: {
@@ -141,7 +139,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       },
       expression: '#VID12 OR #VID33 OR #VID34',
       description:
-        'Either BRAF V600E, or EGFR L858R, or EGFR T790M has to be observed.',
+        'Either BRAF V600E, or EGFR L858R, or EGFR T790M must be observed.',
     },
     {
       mp: {
@@ -151,7 +149,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       },
       expression: '#VID12 AND (#VID33 OR #VID34)',
       description:
-        'BRAF V600E needs to be observed and either EGFR L858R or EGFR T790M need to be observed.',
+        'BRAF V600E must be observed and either EGFR L858R or EGFR T790M must be observed.',
     },
     {
       mp: {
@@ -160,7 +158,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         name: 'NOT KIT D816V',
       },
       expression: 'NOT #VID4353',
-      description: 'KIT D816V is not observed.',
+      description: 'KIT D816V must be absent.',
     },
   ]
 
