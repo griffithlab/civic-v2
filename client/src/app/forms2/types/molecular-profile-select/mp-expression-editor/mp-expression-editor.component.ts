@@ -116,29 +116,51 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     {
       mp: {
         __typename: 'MolecularProfile',
-        id: 4251,
+        id: 9999,
         name: 'BRAF V600E AND EGFR L858R AND EGFR T790M',
       },
       expression: '#VID12 AND #VID33 AND #VID34',
-      description: 'Combines multiple variants with AND operator',
+      description:
+        'Combines multiple variants with AND operatorAll variants - BRAF V600E, EGFR L858R, and EGFR T790M - need to be observed together.',
     },
     {
       mp: {
         __typename: 'MolecularProfile',
-        id: 4251,
+        id: 9999,
+        name: 'BRAF V600E AND NOT EGFR L858R',
+      },
+      expression: '#VID12 AND NOT #VID33',
+      description:
+        'BRAF V600E has to be observed and EGFR L858R has to be absent.',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
+        name: 'BRAF V600E OR EGFR L858R OR EGFR T790M',
+      },
+      expression: '#VID12 OR #VID33 OR #VID34',
+      description:
+        'Either BRAF V600E, or EGFR L858R, or EGFR T790M has to be observed.',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
         name: 'BRAF V600E AND EGFR L858R OR EGFR T790M',
       },
       expression: '#VID12 AND (#VID33 OR #VID34)',
-      description: 'Combines multiple variants, with OR operator',
+      description:
+        'BRAF V600E needs to be observed and either EGFR L858R or EGFR T790M need to be observed.',
     },
     {
       mp: {
         __typename: 'MolecularProfile',
-        id: 4251,
-        name: 'BRAF V600E AND NOT EGFR L858R OR EGFR T790M',
+        id: 9999,
+        name: 'NOT KIT D816V',
       },
-      expression: '#VID12 AND (#VID33 OR NOT #VID34)',
-      description: 'Combines variants with AND, OR, and NOT operators',
+      expression: 'NOT #VID4353',
+      description: 'KIT D816V is not observed.',
     },
   ]
 
