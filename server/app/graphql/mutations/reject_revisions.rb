@@ -4,7 +4,7 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
   argument :ids, [Int], required: false,
     description: 'A list of IDs of the Revisions to reject.'
 
-  argument :revision_set_id, ID, required: false,
+  argument :revision_set_id, Int, required: false,
     description: 'The ID of a revision set.'
 
   validates required: {
@@ -36,7 +36,7 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
         revision
       end
     elsif !revision_set_id.nil?
-      @revisions = Revision.where(revisionset_id: revision_set_id, status: 'new')
+      @revisions = Revision.where(revision_set_id: revision_set_id, status: 'new')
       if revisions.count == 0
         raise GraphQL::ExecutionError, "Revisions with status 'new' in revision_set_id #{revision_set_id} don't exist."
       end

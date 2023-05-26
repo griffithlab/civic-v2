@@ -1,14 +1,16 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core'
+import { ApolloQueryResult } from '@apollo/client/core'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
@@ -20,6 +22,7 @@ import {
   MutationState,
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
+import { LinkableEntity } from '@app/forms2/components/entity-tag/entity-tag.component'
 import {
   CreateMolecularProfile2GQL,
   CreateMolecularProfile2Mutation,
@@ -32,7 +35,6 @@ import {
   PreviewMolecularProfileName2Query,
   PreviewMolecularProfileName2QueryVariables,
   PreviewMpName2Fragment,
-  QuicksearchGQL,
   QuicksearchQuery,
   QuicksearchQueryVariables,
   Variant,
@@ -41,28 +43,38 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import {
   BehaviorSubject,
+  debounceTime,
   filter,
   lastValueFrom,
   map,
   Observable,
   Subject,
+  tap,
   withLatestFrom,
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators/pluck'
-import { tag } from 'rxjs-spy/operators'
+
+type AppendableValue = 'AND' | 'OR' | 'NOT' | '(' | ')'
+type AppendVariant = { variant: Variant; prependNot: boolean }
+type ExampleExpression = {
+  mp: LinkableEntity
+  expression: string
+  description: string
+}
 
 @UntilDestroy()
 @Component({
   selector: 'cvc-mp-expression-editor',
   templateUrl: './mp-expression-editor.component.html',
   styleUrls: ['./mp-expression-editor.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()
-  @Output() cvcOnEditPrepopulated = new EventEmitter<boolean>()
+
+  @ViewChild('expressionEditor') expressionEditor?: ElementRef
 
   previewQueryRef?: QueryRef<
     PreviewMolecularProfileName2Query,
@@ -82,55 +94,126 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
 
   // SOURCE STREAMS
   onInputChange$: BehaviorSubject<Maybe<string>>
-  onVariantSelect$: Subject<Variant>
+  onAppendInput$: Subject<AppendableValue>
+  onVariantSelect$: Subject<AppendVariant>
   onCreateNewMp$: Subject<void>
+  onSelectExample$: Subject<ExampleExpression>
 
   // PRESENTATION STREAMS
   expressionMessage$: BehaviorSubject<Maybe<string>>
-  expressionError$: BehaviorSubject<Maybe<string>>
+  expressionHelp$: BehaviorSubject<Maybe<string>>
+  expressionError$: BehaviorSubject<Maybe<MpParseError>>
   expressionSegment$: Subject<Maybe<PreviewMpName2Fragment[]>>
   existingMp$: Subject<Maybe<MolecularProfile>>
   inputValue$: BehaviorSubject<string>
 
   expressionMessages = {
-    initial:
-      'Start constructing a complex molecular profile to preview it here',
+    initial: 'Use the editor below to construct a molecular profile.',
   }
+
+  exampleExpressions: ExampleExpression[] = [
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
+        name: 'BRAF V600E AND EGFR L858R AND EGFR T790M',
+      },
+      expression: '#VID12 AND #VID33 AND #VID34',
+      description:
+        'BRAF V600E, EGFR L858R, and EGFR T790M must all be observed.',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
+        name: 'BRAF V600E AND NOT EGFR L858R',
+      },
+      expression: '#VID12 AND NOT #VID33',
+      description: 'BRAF V600E must be observed and EGFR L858R must be absent.',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
+        name: 'BRAF V600E OR EGFR L858R OR EGFR T790M',
+      },
+      expression: '#VID12 OR #VID33 OR #VID34',
+      description:
+        'Either BRAF V600E, or EGFR L858R, or EGFR T790M must be observed.',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
+        name: 'BRAF V600E AND EGFR L858R OR EGFR T790M',
+      },
+      expression: '#VID12 AND (#VID33 OR #VID34)',
+      description:
+        'BRAF V600E must be observed and either EGFR L858R or EGFR T790M must be observed.',
+    },
+    {
+      mp: {
+        __typename: 'MolecularProfile',
+        id: 9999,
+        name: 'NOT KIT D816V',
+      },
+      expression: 'NOT #VID4353',
+      description: 'KIT D816V must be absent.',
+    },
+  ]
 
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
     private mpEditorPrepopulate: MpExpressionEditorPrepopulateGQL,
-    private networkErrorService: NetworkErrorsService,
+    private networkErrorService: NetworkErrorsService
   ) {
     this.createMolecularProfileMutator = new MutatorWithState(
       this.networkErrorService
     )
     this.onInputChange$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.onVariantSelect$ = new Subject<Variant>()
+    this.onAppendInput$ = new Subject<AppendableValue>()
+    this.onVariantSelect$ = new Subject<AppendVariant>()
     this.onCreateNewMp$ = new Subject<void>()
+    this.onSelectExample$ = new Subject<ExampleExpression>()
     this.inputValue$ = new BehaviorSubject<string>('')
-    this.expressionError$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.expressionError$ = new BehaviorSubject<Maybe<MpParseError>>(undefined)
+    this.expressionHelp$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.expressionMessage$ = new BehaviorSubject<Maybe<string>>(
       this.expressionMessages.initial
     )
     this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
     this.existingMp$ = new Subject<Maybe<MolecularProfile>>()
+    // this.existingMp$.pipe(tag('existingMp$')).subscribe()
   }
 
   ngAfterViewInit(): void {
     this.onInputChange$
       .pipe(
+        // tag('onInputChange$'),
+        debounceTime(250),
+        // clear preview if input is empty
+        tap((input) => {
+          if (!input) this.expressionSegment$.next(undefined)
+        }),
+        // filter undefined inputs
         filter(isNonNulled),
+        // reset error, message if input string is empty
+        tap((input) => {
+          if (input.length === 0) {
+            this.expressionMessage$.next(this.expressionMessages.initial)
+            this.expressionError$.next(undefined)
+          }
+        }),
+        // filter empty input strings
         filter((input: string) => input.length > 0),
+        // filter input strings w/ space at end
+        filter((input: string) => input[input.length - 1] !== ' '),
         map((input: string) => {
           let res: MpParseError | MolecularProfileComponentInput =
             parseMolecularProfile(input)
-          if(this.cvcPrepopulateWithId !== undefined) {
-            this.cvcOnEditPrepopulated.next(true)
-          }
           if ('errorMessage' in res) {
-            return res.errorMessage
+            return res
           } else {
             return this.previewQueryRef!.refetch({ mpStructure: res })
           }
@@ -138,15 +221,24 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         untilDestroyed(this)
       )
       .subscribe((res) => {
-        if (typeof res === 'string') {
+        // FIXME: this casting of 'res' is a total hack, need proper gate functions for this error/response
+        // logic, or refactor the parser to use rxjs error handling (which will also simplfy template logic)
+        if (this.isMpParseError(res)) {
+          const err = res as MpParseError
           this.expressionMessage$.next(undefined)
-          this.expressionError$.next(res)
+          this.expressionError$.next(err)
           this.expressionSegment$.next(undefined)
         } else {
-          res.then(({ data, errors }) => {
-            if(errors) {
+          const response = res as Promise<
+            ApolloQueryResult<PreviewMolecularProfileName2Query>
+          >
+          response.then(({ data, errors }) => {
+            if (errors) {
               this.expressionMessage$.next(undefined)
-              this.expressionError$.next(errors.map(e => e.message).join("\n"))
+              this.expressionError$.next({
+                errorType: 'queryError',
+                errorMessage: errors.map((e) => e.message).join('\n'),
+              })
               this.expressionSegment$.next(undefined)
             } else {
               const segments = data.previewMolecularProfileName.segments
@@ -165,14 +257,46 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         }
       })
 
+    this.onAppendInput$
+      .pipe(untilDestroyed(this))
+      .subscribe((append: AppendableValue) => {
+        // if expressionEditor exists, append to its current value and set field value to results
+        if (this.expressionEditor) {
+          const editor = this.expressionEditor.nativeElement as HTMLInputElement
+          const current = editor.value
+          // append to current value, but only if it doesn't already end with a space
+          const newValue = `${current}${
+            /\s+$/.test(append) ? append : ' ' + append
+          }`
+          editor.value = newValue
+          this.inputValue$.next(newValue)
+          this.onInputChange$.next(newValue)
+        }
+      })
+
+    this.onSelectExample$
+      .pipe(untilDestroyed(this))
+      .subscribe((example: ExampleExpression) => {
+        if (this.expressionEditor) {
+          const editor = this.expressionEditor.nativeElement as HTMLInputElement
+          editor.value = example.expression
+          this.inputValue$.next(example.expression)
+          this.onInputChange$.next(example.expression)
+        }
+      })
+
     this.onVariantSelect$
       .pipe(
         withLatestFrom(this.onInputChange$),
-        map(([variant, input]) => {
-          if (!input || input.length == 0) {
-            return `#VID${variant.id}`
+        map(([append, input]) => {
+          // prepent 'NOT' if 'Prepend NOT' checked
+          const newVariant = `${append.prependNot ? 'NOT ' : ''}#VID${
+            append.variant.id
+          }`
+          if (!input || input.trim().length == 0) {
+            return newVariant
           } else {
-            return `${input} #VID${variant.id}`
+            return `${input.trim()} ${newVariant}`
           }
         }),
         // tag('onVariantSelect$'),
@@ -235,6 +359,10 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       })
   }
 
+  isMpParseError(subject: any): boolean {
+    return subject.errorMessage !== undefined
+  }
+
   prepopulateMp(mpId: Maybe<number>) {
     if (!mpId) {
       this.expressionSegment$.next(undefined)
@@ -251,7 +379,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     ).then(({ data }) => {
       if (!data?.molecularProfile?.id) {
         console.error(
-          `MpExpressionEditor could not fetch MolecalarProfile:${mpId} to prepulate editor fields.`
+          `MpExpressionEditor could not fetch MolecularProfile:${mpId} to prepolate editor fields.`
         )
         return
       }

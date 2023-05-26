@@ -12,20 +12,25 @@ import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzInputModule } from 'ng-zorro-antd/input'
+import { NzListModule } from 'ng-zorro-antd/list'
 import { NzModalModule } from 'ng-zorro-antd/modal'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-    CvcMolecularProfileSelectField,
-    CvcMolecularProfileSelectFieldProps
+  CvcMolecularProfileSelectField,
+  CvcMolecularProfileSelectFieldProps,
 } from './molecular-profile-select.type'
 import { MpExpressionEditorComponent } from './mp-expression-editor/mp-expression-editor.component'
-import { MpFinderComponent } from './mp-finder/mp-finder.component'
+import { MpFinderComponent } from './mp-finder/mp-finder.component';
+import { MpEditorPopoverHelpComponent } from './mp-expression-editor/mp-editor-popover-help.component'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -51,7 +56,12 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcMolecularProfileSelectField, MpExpressionEditorComponent, MpFinderComponent],
+  declarations: [
+    CvcMolecularProfileSelectField,
+    MpExpressionEditorComponent,
+    MpFinderComponent,
+    MpEditorPopoverHelpComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -71,6 +81,12 @@ const typeConfig: ConfigOption = {
     NzFormModule,
     NzAutocompleteModule,
     NzTypographyModule,
+    NzToolTipModule,
+    NzPopoverModule,
+    NzSpaceModule,
+    NzCheckboxModule,
+    NzListModule,
+
     CvcFormSubmissionStatusDisplayModule,
     CvcMolecularProfileTagNameModule,
     CvcFormFieldWrapperModule,

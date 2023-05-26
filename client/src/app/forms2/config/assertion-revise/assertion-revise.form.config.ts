@@ -59,6 +59,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               required: true,
               colSpan: 8,
+              formMode: 'revise'
             },
           },
           {
@@ -67,6 +68,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               required: true,
               colSpan: 8,
+              formMode: 'revise'
             },
           },
           {
@@ -187,6 +189,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Comment',
               required: true,
             },
+          },
+          {
+            type: 'cvc-cancel-button'
           },
           <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
