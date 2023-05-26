@@ -52,7 +52,7 @@ class MyVariantInfo
       'egl_transcript': p.dig('emv', 'egl_variant'),
       'egl_hgvs': Array(p.dig('emv', 'hgvs')),
       'cosmic_id': p.dig('cosmic', 'cosmic_id'),
-      'revel_score': p.dig('dbnsfp', 'revel', 'score'),
+      'revel_score': Array(p.dig('dbnsfp', 'revel', 'score')),
       'sift_prediction': Array(p.dig('dbnsfp', 'sift', 'pred')).reject{|p| p == '.'},
       'sift_score': Array(p.dig('dbnsfp', 'sift', 'score')),
       'polyphen2_hdiv_prediction': Array(p.dig('dbnsfp', 'polyphen2', 'hdiv', 'pred')).reject{|p| p == '.'},

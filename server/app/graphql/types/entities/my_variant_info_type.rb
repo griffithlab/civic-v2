@@ -31,7 +31,7 @@ module Types::Entities
     field :egl_transcript, String, null: true
     field :egl_hgvs, [String], null: false
     field :cosmic_id, String, null: true
-    field :revel_score, Float, null: true
+    field :revel_score, [Float], null: true
     field :sift_prediction, [String], null: false
     field :sift_score, [Float], null: false
     field :polyphen2_hdiv_prediction, [String], null: false

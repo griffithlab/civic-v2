@@ -4131,7 +4131,7 @@ type MyVariantInfo {
   polyphen2HvarScore: [Float!]!
   proveanPrediction: [String!]!
   proveanScore: [Float!]!
-  revelScore: Float
+  revelScore: [Float!]
   siftPrediction: [String!]!
   siftScore: [Float!]!
   siphy: Float
