@@ -586,7 +586,7 @@
             <tr>
               <td>REVEL</td>
               <td>N/A</td>
-              <td>{{ variantInfo.revelScore | ifEmpty : '--' }}</td>
+              <td *ngIf="variantInfo.revelScore">{{ variantInfo.revelScore.join(', ') | ifEmpty : '--' }}</td>
             </tr>
             <tr>
               <td>SIFT</td>
