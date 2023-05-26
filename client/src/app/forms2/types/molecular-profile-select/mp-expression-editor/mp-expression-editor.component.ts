@@ -218,7 +218,6 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
               this.expressionError$.next({
                 errorType: 'queryError',
                 errorMessage: errors.map((e) => e.message).join('\n'),
-                errorHelp: 'CIViC could not parse the provided MP Expression',
               })
               this.expressionSegment$.next(undefined)
             } else {
