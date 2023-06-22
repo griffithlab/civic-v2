@@ -19,6 +19,14 @@
     </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">
+        <nz-space nzDirection="vertical" style="width: 100%;">
+          <nz-descriptions *nzSpaceItem [nzBordered]="true" nzLayout="vertical" [nzColumn]="1">
+            <nz-descriptions-item nzTitle="Definition">
+              {{phenotype.description | ifEmpty: '--'}}
+            </nz-descriptions-item>
+          </nz-descriptions>
+          <p *nzSpaceItem></p>
+        </nz-space>
         <router-outlet></router-outlet>
       </div>
     </nz-page-header-content>

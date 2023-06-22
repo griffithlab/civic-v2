@@ -2836,6 +2836,7 @@ export type PageInfo = {
 
 export type Phenotype = {
   __typename: 'Phenotype';
+  description?: Maybe<Scalars['String']>;
   hpoId: Scalars['String'];
   id: Scalars['Int'];
   link: Scalars['String'];
@@ -2846,6 +2847,7 @@ export type Phenotype = {
 export type PhenotypePopover = {
   __typename: 'PhenotypePopover';
   assertionCount: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   hpoId: Scalars['String'];
   id: Scalars['Int'];
@@ -6768,7 +6770,7 @@ export type PhenotypeDetailQueryVariables = Exact<{
 }>;
 
 
-export type PhenotypeDetailQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, hpoId: string, url: string, link: string } | undefined };
+export type PhenotypeDetailQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, description?: string | undefined, hpoId: string, url: string, link: string } | undefined };
 
 export type DataReleasesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13503,6 +13505,7 @@ export const PhenotypeDetailDocument = gql`
   phenotype(id: $phenotypeId) {
     id
     name
+    description
     hpoId
     url
     link

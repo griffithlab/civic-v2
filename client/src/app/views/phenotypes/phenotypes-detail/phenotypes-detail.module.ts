@@ -8,6 +8,9 @@ import { LetModule, PushModule } from '@ngrx/component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { PhenotypesDetailComponent } from './phenotypes-detail.component'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 @NgModule({
   declarations: [PhenotypesDetailComponent],
@@ -18,6 +21,8 @@ import { PhenotypesDetailComponent } from './phenotypes-detail.component'
     PushModule,
     NzPageHeaderModule,
     NzIconModule,
+    NzSpaceModule,
+    NzDescriptionsModule,
     CvcPipesModule,
     CvcLinkTagModule,
     CvcSectionNavigationModule,
