@@ -4552,6 +4552,7 @@ ${oe}`,zo=t.Ps`
   phenotype(id: $phenotypeId) {
     id
     name
+    description
     hpoId
     url
     link
