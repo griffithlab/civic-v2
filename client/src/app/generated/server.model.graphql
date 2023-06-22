@@ -4556,6 +4556,7 @@ type PageInfo {
 }
 
 type Phenotype {
+  description: String
   hpoId: String!
   id: Int!
   link: String!
@@ -4565,6 +4566,7 @@ type Phenotype {
 
 type PhenotypePopover {
   assertionCount: Int!
+  description: String
   evidenceItemCount: Int!
   hpoId: String!
   id: Int!
