@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_08_152758) do
+ActiveRecord::Schema.define(version: 2023_06_22_140624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -555,6 +555,7 @@ ActiveRecord::Schema.define(version: 2023_05_08_152758) do
   create_table "phenotypes", id: :serial, force: :cascade do |t|
     t.text "hpo_id"
     t.text "hpo_class"
+    t.text "description"
     t.index ["hpo_id"], name: "index_phenotypes_on_hpo_id"
   end
 

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core'
 import { Router } from '@angular/router'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename'
 import {
   Maybe,
   QuicksearchGQL,
@@ -61,6 +62,9 @@ export class CvcQuicksearchComponent {
   option$: Observable<QuicksearchOption[]>
   isLoading$: Observable<boolean>
 
+
+  converter = entityTypeToTypename
+
   constructor(private gql: QuicksearchGQL, private router: Router) {
     this.onSearch$ = new Subject<string>()
     this.onSelect$ = new Subject<void>()
@@ -118,19 +122,6 @@ export class CvcQuicksearchComponent {
     // return observable from refetch() promise
     const fetchQuery = (str: string) =>
       from(this.queryRef.refetch({ query: str }))
-  }
-
-  iconNameForResult(res: SearchResult): string {
-    switch (res.resultType) {
-      case SearchableEntities.EvidenceItem:
-        return 'civic:evidence'
-      case SearchableEntities.VariantGroup:
-        return 'civic:variantgroup'
-      case SearchableEntities.MolecularProfile:
-        return 'civic:molecularprofile'
-      default:
-        return `civic:${res.resultType.toLowerCase()}`
-    }
   }
 
   urlForResult(res: SearchResult): string {
