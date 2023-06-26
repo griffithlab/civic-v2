@@ -65,6 +65,7 @@ module Types::Queries
         if results.size < 10
           secondary_results = Disease.eager_load(:disease_aliases)
             .where("disease_aliases.name ILIKE ?", "%#{query_term}%")
+            .where.not(id: results.select('id'))
             .order("LENGTH(diseases.name) ASC")
             .limit(10-results.size)
           return results + secondary_results
@@ -82,6 +83,7 @@ module Types::Queries
           secondary_results = Therapy.eager_load(:therapy_aliases)
             .where("therapy_aliases.name ILIKE ?", "%#{query_term}%")
             .or(Therapy.where('therapies.name ILIKE ?', "%#{query_term}%"))
+            .where.not(id: results.select('id'))
             .order("LENGTH(therapies.name) ASC")
             .limit(10-results.size)
 
@@ -98,6 +100,7 @@ module Types::Queries
         if results.size < 10
           secondary_results = Gene.eager_load(:gene_aliases)
             .where("gene_aliases.name ILIKE ?", "#{query_term}%")
+            .where.not(id: results.select('id'))
             .order("LENGTH(genes.name) ASC")
             .limit(10 - results.size)
           return (results + secondary_results).uniq
