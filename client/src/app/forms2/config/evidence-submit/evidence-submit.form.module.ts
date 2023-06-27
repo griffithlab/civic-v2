@@ -7,6 +7,8 @@ import { LetModule, PushModule } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NgxJsonViewerModule } from 'ngx-json-viewer' // debug
 import { CvcEvidenceSubmitForm } from './evidence-submit.form'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
 
 @NgModule({
   declarations: [CvcEvidenceSubmitForm],
@@ -16,9 +18,10 @@ import { CvcEvidenceSubmitForm } from './evidence-submit.form'
     LetModule,
     PushModule,
     NzButtonModule,
+    NzAlertModule,
     CvcForms2Module,
     CvcFormSubmissionStatusDisplayModule,
-
+    CvcEvidenceTableModule,
     NgxJsonViewerModule, // debug
   ],
   exports: [CvcEvidenceSubmitForm],

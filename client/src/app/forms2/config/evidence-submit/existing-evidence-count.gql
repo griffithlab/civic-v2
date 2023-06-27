@@ -1,0 +1,5 @@
+query ExistingEvidenceCount($molecularProfileId: Int!, $sourceId: Int!) {
+  evidenceItems(molecularProfileId: $molecularProfileId, sourceId: $sourceId) {
+    totalCount
+  }
+}

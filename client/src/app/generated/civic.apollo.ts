@@ -6232,6 +6232,14 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+export type ExistingEvidenceCountQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+  sourceId: Scalars['Int'];
+}>;
+
+
+export type ExistingEvidenceCountQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number } };
+
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
 }>;
@@ -12279,6 +12287,24 @@ export const SuggestEvidenceItemRevision2Document = gql`
   })
   export class SuggestEvidenceItemRevision2GQL extends Apollo.Mutation<SuggestEvidenceItemRevision2Mutation, SuggestEvidenceItemRevision2MutationVariables> {
     document = SuggestEvidenceItemRevision2Document;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ExistingEvidenceCountDocument = gql`
+    query ExistingEvidenceCount($molecularProfileId: Int!, $sourceId: Int!) {
+  evidenceItems(molecularProfileId: $molecularProfileId, sourceId: $sourceId) {
+    totalCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ExistingEvidenceCountGQL extends Apollo.Query<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables> {
+    document = ExistingEvidenceCountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
