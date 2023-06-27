@@ -2836,6 +2836,7 @@ export type PageInfo = {
 
 export type Phenotype = {
   __typename: 'Phenotype';
+  description?: Maybe<Scalars['String']>;
   hpoId: Scalars['String'];
   id: Scalars['Int'];
   link: Scalars['String'];
@@ -2846,6 +2847,7 @@ export type Phenotype = {
 export type PhenotypePopover = {
   __typename: 'PhenotypePopover';
   assertionCount: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   hpoId: Scalars['String'];
   id: Scalars['Int'];
@@ -6230,6 +6232,14 @@ export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
 
 export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
+export type ExistingEvidenceCountQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+  sourceId: Scalars['Int'];
+}>;
+
+
+export type ExistingEvidenceCountQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number } };
+
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
 }>;
@@ -6757,7 +6767,7 @@ export type PhenotypeDetailQueryVariables = Exact<{
 }>;
 
 
-export type PhenotypeDetailQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, hpoId: string, url: string, link: string } | undefined };
+export type PhenotypeDetailQuery = { __typename: 'Query', phenotype?: { __typename: 'Phenotype', id: number, name: string, description?: string | undefined, hpoId: string, url: string, link: string } | undefined };
 
 export type DataReleasesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -12282,6 +12292,24 @@ export const SuggestEvidenceItemRevision2Document = gql`
       super(apollo);
     }
   }
+export const ExistingEvidenceCountDocument = gql`
+    query ExistingEvidenceCount($molecularProfileId: Int!, $sourceId: Int!) {
+  evidenceItems(molecularProfileId: $molecularProfileId, sourceId: $sourceId) {
+    totalCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ExistingEvidenceCountGQL extends Apollo.Query<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables> {
+    document = ExistingEvidenceCountDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const SubmitSourceDocument = gql`
     mutation SubmitSource($input: SuggestSourceInput!) {
   suggestSource(input: $input) {
@@ -13468,6 +13496,7 @@ export const PhenotypeDetailDocument = gql`
   phenotype(id: $phenotypeId) {
     id
     name
+    description
     hpoId
     url
     link

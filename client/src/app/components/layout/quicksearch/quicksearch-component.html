@@ -15,8 +15,10 @@
     [nzValue]="o.result">
     <i
       nz-icon
-      [nzType]="iconNameForResult(o.result)"
-      style="margin-right: 0.5em"></i>
+      style="margin-right: 0.5em;"
+      nzTheme="twotone"
+      [nzTwotoneColor]="converter(o.result.resultType) | entityColor"
+      [nzType]="o.result.resultType | iconNameForSubscribableEntity"></i>
     <span innerHTML="{{o.result.name}}"></span>
     <span
       *ngIf="o.result.matchingText"

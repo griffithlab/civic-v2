@@ -164,10 +164,9 @@
                 evidence.rejectionEvent !== null ||
                 evidence.acceptanceEvent !== null
               ">
-              <!-- show acceptance only if no rejection event exists -->
-              <ng-container [ngSwitch]="evidence.rejectionEvent === null">
+              <!-- show acceptance only if no rejection event exists and the EID is Accepted-->
+              <ng-container *ngIf="evidence.status == statusValues.Accepted && evidence.acceptanceEvent">
                 <nz-descriptions-item
-                  *ngSwitchCase="true"
                   [nzTitle]="acceptedTitle">
                   by
                   <cvc-user-tag
@@ -183,8 +182,9 @@
                     ({{ evidence.acceptanceEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
+              </ng-container>
+              <ng-container *ngIf="evidence.status == statusValues.Rejected && evidence.rejectionEvent">
                 <nz-descriptions-item
-                  *ngSwitchCase="false"
                   nzTitle="Rejected">
                   by
                   <cvc-user-tag
