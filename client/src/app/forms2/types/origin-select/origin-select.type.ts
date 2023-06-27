@@ -42,8 +42,8 @@ const optionMap = new Map<VariantOrigin, string>([
     'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
   ],
   [
-    VariantOrigin.Mixed,
-    ' Variants in the corresponding Molecular Profile have heterogeneous origins.',
+    VariantOrigin.Combined,
+    ' Variants in the corresponding Complex Molecular Profile have heterogeneous origins.',
   ],
 ])
 
