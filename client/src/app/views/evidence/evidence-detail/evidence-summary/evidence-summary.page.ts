@@ -8,6 +8,7 @@ import {
   EvidenceSummaryFieldsFragment,
   SubscribableInput,
   SubscribableEntities,
+  EvidenceStatus,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
@@ -27,6 +28,7 @@ export class EvidenceSummaryPage {
   evidence$: Observable<Maybe<EvidenceSummaryFieldsFragment>>
 
   subscribable: SubscribableInput
+  statusValues = EvidenceStatus
 
   constructor(private gql: EvidenceSummaryGQL, private route: ActivatedRoute) {
     var queryEvidenceId: number
