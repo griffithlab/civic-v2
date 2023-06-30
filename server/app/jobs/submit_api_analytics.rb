@@ -10,7 +10,7 @@ class SubmitApiAnalytics < ApplicationJob
   
 
   def perform(opts = {})
-    Net::HTTP.post(URI(ANALYTICS_URL), create_body(body))
+    Net::HTTP.post(URI(ANALYTICS_URL), create_body(opts))
   end
 
   private
