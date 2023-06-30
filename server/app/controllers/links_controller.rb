@@ -1,6 +1,4 @@
 class LinksController < ApplicationController
-  include Analytics
-
   def redirect
     router = FrontendRouter.new(
       params[:idtype] || params[:idType],
