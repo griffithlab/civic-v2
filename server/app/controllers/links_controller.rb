@@ -1,4 +1,6 @@
 class LinksController < ApplicationController
+  after_action :submit_analytics
+
   def redirect
     router = FrontendRouter.new(
       params[:idtype] || params[:idType],
@@ -11,6 +13,18 @@ class LinksController < ApplicationController
       head :bad_request
     else
       redirect_to url
+    end
+  end
+
+  private
+  def submit_analytics
+    if Analytics.should_submit?(request)
+      SubmitExternalLinkEvent.perform_later(
+        path: request.path,
+        referrer: request.referer,
+        user_agent: request.user_agent,
+        user_ip: request.remote_ip,
+      )
     end
   end
 end
