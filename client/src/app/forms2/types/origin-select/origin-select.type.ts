@@ -34,16 +34,16 @@ const optionMap = new Map<VariantOrigin, string>([
     'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item.',
   ],
   [
+    VariantOrigin.Combined,
+    ' Variants in the corresponding Complex Molecular Profile have heterogeneous origins.',
+  ],
+  [
     VariantOrigin.Unknown,
     'The variant origin is uncertain based on the available evidence.',
   ],
   [
     VariantOrigin.Na,
     'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
-  ],
-  [
-    VariantOrigin.Mixed,
-    ' Variants in the corresponding Molecular Profile have heterogeneous origins.',
   ],
 ])
 
