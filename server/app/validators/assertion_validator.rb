@@ -63,6 +63,10 @@ class AssertionValidator < ActiveModel::Validator
     if record.nccn_guideline && !record.nccn_guideline_version
       record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."
     end
+
+    if record.variant_origin == 'Combined' && !record.molecular_profile.is_complex?
+      record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
+    end
   end
 
   def valid_types

@@ -36022,7 +36022,7 @@
               "deprecationReason": null
             },
             {
-              "name": "MIXED",
+              "name": "COMBINED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
