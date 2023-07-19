@@ -4,7 +4,7 @@ import { CvcFormInfoCardComponent } from './form-info-card.component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAffixModule } from 'ng-zorro-antd/affix'
 import { FormlyModule } from '@ngx-formly/core'
 import { CvcFormInfoPanelModule } from './form-info-panel/form-info-panel.module'
@@ -15,8 +15,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
   declarations: [CvcFormInfoCardComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule,
     NzCardModule,
     NzAffixModule,

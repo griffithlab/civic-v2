@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
@@ -16,8 +16,8 @@ import {
   declarations: [CvcFormInfoWrapper],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild({ wrappers: [CvcFormInfoWrapperOption] }),
     NzGridModule,
     NzCardModule,

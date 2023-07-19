@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
@@ -53,8 +53,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NgxJsonViewerModule,
     NzPopoverModule,
     NzDividerModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     CvcPipesModule
   ],
   exports: [],

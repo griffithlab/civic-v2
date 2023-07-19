@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
@@ -12,8 +12,8 @@ import { CvcEvidenceReviseFormModule } from '@app/forms2/config/evidence-revise/
   declarations: [EvidenceSuggestPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzCardModule,
     NzSkeletonModule,

@@ -21,7 +21,7 @@ import { VariantDeprecateForm } from './variant-deprecate.form'
 import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module'
 import { CvcCommentInputFormModule } from '../comment-input/comment-input.module'
 import { CvcOrgSelectorBtnGroupModule } from '../config/components/org-selector-btn-group/org-selector-btn-group.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
@@ -33,8 +33,8 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NgxJsonViewerModule,
 
     NzFormModule,

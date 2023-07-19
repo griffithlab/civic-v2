@@ -5,14 +5,14 @@ import { CvcOrgSelectorBtnDirective } from './org-selector-btn.directive'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 
 @NgModule({
   declarations: [CvcOrgSelectorBtnDirective, CvcOrgSelectorBtnGroupComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzAvatarModule,
     NzDropDownModule,

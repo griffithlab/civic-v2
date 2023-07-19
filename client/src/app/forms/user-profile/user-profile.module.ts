@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcUserProfileForm } from './user-profile.form'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
@@ -19,8 +19,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzCardModule,
     NzAlertModule,
     NzRadioModule,

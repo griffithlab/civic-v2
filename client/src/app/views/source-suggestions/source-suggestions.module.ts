@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 import { SourceSuggestionsComponent } from './source-suggestions.component'
 import { FormsModule } from '@angular/forms'
 
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -75,8 +75,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzInputModule,
     FormsModule,
 

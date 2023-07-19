@@ -9,7 +9,7 @@ import {
   HttpClient,
 } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CookieService } from 'ngx-cookie-service'
 import { civicIcons } from '@app/icons-provider.module'
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger'
@@ -53,8 +53,8 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
     CvcForms2Module,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     CvcNetworkErrorAlertModule,
   ],
   providers: [

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { EvidenceDetailView } from './evidence-detail.view'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -26,8 +26,8 @@ import { NgModule } from '@angular/core'
   imports: [
     CommonModule,
     EvidenceDetailRoutingModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
 
     NzAlertModule,
     NzButtonModule,

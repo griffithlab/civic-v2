@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { PushModule } from "@ngrx/component";
+import { PushPipe } from "@ngrx/component";
 import { NzAlertModule } from "ng-zorro-antd/alert";
 import { NzSpaceModule } from "ng-zorro-antd/space";
 import { NzSpinModule } from "ng-zorro-antd/spin";
@@ -10,7 +10,7 @@ import { CvcFormSubmissionStatusDisplayComponent } from "./form-submission-statu
   declarations: [CvcFormSubmissionStatusDisplayComponent],
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     NzSpinModule,
     NzAlertModule,
     NzSpaceModule

@@ -34,7 +34,7 @@
     "@angular/router": "^16.1.5",
     "@apollo/client": "^3.7.4",
     "@ngneat/until-destroy": "^9.1.2",
-    "@ngrx/component": "^15.1.0",
+    "@ngrx/component": "^16.1.0",
     "@ngx-formly/core": "^6.0.4",
     "@ngx-formly/ng-zorro-antd": "^6.1.0",
     "@tinkoff/ng-polymorpheus": "^4.0.10",

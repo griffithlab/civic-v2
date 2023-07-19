@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { GenesSummaryPage } from './genes-summary.page'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -22,8 +22,8 @@ import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profil
   declarations: [GenesSummaryPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzDescriptionsModule,
     NzTypographyModule,

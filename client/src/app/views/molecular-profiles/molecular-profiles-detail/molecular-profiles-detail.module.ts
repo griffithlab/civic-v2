@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module'
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
@@ -24,8 +24,8 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
   imports: [
     CommonModule,
     MolecularProfileDetailRoutingModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzIconModule,
     NzPageHeaderModule,

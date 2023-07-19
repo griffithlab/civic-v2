@@ -5,7 +5,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
@@ -16,8 +16,8 @@ import { SourcesDetailView } from './sources-detail.view'
   imports: [
     CommonModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
 
     NzPageHeaderModule,
     NzButtonModule,

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
@@ -28,8 +28,8 @@ const configOption: ConfigOption = {
   declarations: [FormFieldWrapper],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(configOption),
     NzGridModule,
     NzCardModule,

@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { CvcAttributeTagModule } from '@app/forms2/components/attribute-tag/attribute-tag.module'
 import { CvcEnumSelectModule } from '@app/forms2/components/enum-select/enum-select.module'
 import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { CvcInteractionSelectField } from './interaction-select.type'
 
@@ -23,7 +23,7 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetDirective, PushPipe,
     FormlyModule.forChild(typeConfig),
     CvcFormFieldWrapperModule,
     CvcEnumSelectModule,
