@@ -23,6 +23,7 @@
     "error-stack-parser": "2.0.6"
   },
   "dependencies": {
+    "@angular-devkit/schematics": "15.1.0",
     "@angular/animations": "^15.1.0",
     "@angular/common": "^15.1.0",
     "@angular/compiler": "^15.1.0",
@@ -53,7 +54,6 @@
     "@angular-eslint/builder": "15.2.0",
     "@angular-eslint/eslint-plugin": "15.2.0",
     "@angular-eslint/eslint-plugin-template": "15.2.0",
-    "@angular-eslint/schematics": "15.2.0",
     "@angular-eslint/template-parser": "15.2.0",
     "@angular/cli": "^15.1.1",
     "@angular/compiler-cli": "15.1.0",
