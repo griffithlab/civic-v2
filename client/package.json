@@ -40,7 +40,7 @@
     "@tinkoff/ng-polymorpheus": "^4.0.10",
     "apollo-angular": "^4.2.0",
     "ng-zorro-antd": "^16.1.0",
-    "ngx-cookie-service": "^15.0.0",
+    "ngx-cookie-service": "^16.0.0",
     "ngx-logger": "^5.0.7",
     "rxjs": "^7.8.0",
     "rxjs-etc": "^10.6.2",
