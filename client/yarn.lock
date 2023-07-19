@@ -2541,17 +2541,17 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-16.1.4.tgz#2e29bdf590c8b5505ffd744f12075b14ed972fc8"
   integrity sha512-+8bfavDH8eWxjlJFYr6bkjcRHhy95j+f8oNn7/sGLNu4L96nuE2AZ011XIu2dJahCnNiBvwc1EpkKa92t9rkaA==
 
-"@ngx-formly/core@^6.0.4":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-6.1.0.tgz#a3fca4c3060e5aed4cf5edf7ebf7fd9789a69562"
-  integrity sha512-b0Cmz+WPqsF6HybbIbsY8e7r+uum32dqLPjc/SrPgv4w45ZA0KJCMNVjWpGKOtC8WGBXMXBf4/99Vo1ER0QZTA==
+"@ngx-formly/core@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-6.1.8.tgz#1544bed84fe2687a0819f517e554c4f6547d418c"
+  integrity sha512-WVInXYF/fJx7aNUn8y8mqLUaotxAmxbdMzC5GJwJ4oNa8a2kmwWIBAzfoe7YhyWR/t/pGANTu9tsYZaFtQxPVQ==
   dependencies:
     tslib "^2.0.0"
 
-"@ngx-formly/ng-zorro-antd@^6.1.0":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-6.1.3.tgz#df398a07cd1f7a0731611cc0cfdca6b58e01e129"
-  integrity sha512-zqTEmxgRu2r3iroa4zhp3gci3yGVeIVR+E66bZLyr/fglDN+7d6ZwfRab3YU7jA0ufV5ZVtU7P5UeOiN63FqfQ==
+"@ngx-formly/ng-zorro-antd@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-6.1.8.tgz#83a13ba3379e2a36aae878a7f24b443b38f3c60d"
+  integrity sha512-nYAn5e27u8ehWOatiH2y38nbsmHiTeuQ6BquhtD842pugbKihPBNeSLaOzs5Jjb/bYGhJU7V5k9kaDFK4MGslw==
   dependencies:
     tslib "^2.0.0"
 
