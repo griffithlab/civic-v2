@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcRevisionPopoverComponent } from './revision-popover.component'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
@@ -21,8 +21,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
   declarations: [CvcRevisionPopoverComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzCardModule,
     NzGridModule,
     NzIconModule,

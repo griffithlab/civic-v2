@@ -9,17 +9,15 @@ import {
   HttpClient,
 } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CookieService } from 'ngx-cookie-service'
 import { civicIcons } from '@app/icons-provider.module'
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger'
 import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { NZ_I18N } from 'ng-zorro-antd/i18n'
 import { en_US } from 'ng-zorro-antd/i18n'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { GraphQLModule } from '@app/graphql/graphql.module'
-import { environment } from 'environments/environment'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { Observable } from 'rxjs'
@@ -53,8 +51,8 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
     CvcForms2Module,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     CvcNetworkErrorAlertModule,
   ],
   providers: [

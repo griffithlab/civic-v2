@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 
 @Component({
-  selector: 'cvc-table-filter-input',
+  selector: 'cvc-variant-table-filter-input',
   templateUrl: './table-filter-input.component.html',
   styleUrls: ['./table-filter-input.component.less'],
 })

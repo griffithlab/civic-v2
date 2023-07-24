@@ -9,15 +9,15 @@ import { FormlyModule } from '@ngx-formly/core'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 
 @NgModule({
   declarations: [NccnGuidelineInputType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzSelectModule,
     NzSpaceModule,
     NzTagModule,

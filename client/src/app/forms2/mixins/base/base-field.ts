@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Injectable, OnInit } from '@angular/core'
 import { BaseState } from '@app/forms2/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -16,7 +16,7 @@ export function BaseFieldType<
   V extends BaseFieldValue
 >() {
   @UntilDestroy()
-  @Component({ template: '' })
+  @Injectable()
   class BaseFieldType extends FieldType<FC> {
     state?: BaseState
 
@@ -30,10 +30,6 @@ export function BaseFieldType<
 
     // STATE OUTPUT STREAM
     stateValueChange$?: BehaviorSubject<Maybe<V>>
-
-    constructor() {
-      super() // call abstract FieldType's constructor
-    }
 
     configureBaseField(): void {
       if (!this.field?.options?.fieldChanges) {

@@ -5,7 +5,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/form-errors-alert.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzInputModule } from 'ng-zorro-antd/input'
@@ -23,8 +23,8 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild({ types: [EvidenceInputTypeOption] }),
     NzSelectModule,
     NzSpaceModule,

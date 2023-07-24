@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzFormModule } from 'ng-zorro-antd/form'
@@ -37,7 +37,7 @@ const typeConfig: ConfigOption = {
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    LetModule, PushModule,
+    LetDirective, PushPipe,
     FormlyModule.forChild(typeConfig),
     FormlyNzFormFieldModule, // for form-field wrapper
     NzInputModule,

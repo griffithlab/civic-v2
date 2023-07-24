@@ -20,7 +20,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module'
 import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -37,8 +37,8 @@ import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.modul
   imports: [
     CommonModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     ReactiveFormsModule,
     FormlyModule,
     NgxJsonViewerModule,

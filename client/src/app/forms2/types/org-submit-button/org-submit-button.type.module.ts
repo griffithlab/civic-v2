@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { FormlyModule } from '@ngx-formly/core';
 import { ConfigOption } from '@ngx-formly/core/lib/models';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -20,7 +20,7 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetDirective, PushPipe,
     FormlyModule.forChild(typeConfig),
     NzIconModule,
     NzAvatarModule,

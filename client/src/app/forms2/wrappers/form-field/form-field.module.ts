@@ -7,7 +7,7 @@ import { CvcFormFieldWrapper } from './form-field.wrapper'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 
 // NOTE: this wrapper replaces, and is heavily based on, ngx-formly's
@@ -21,8 +21,8 @@ const wrapperConfig: ConfigOption = {
   declarations: [CvcFormFieldWrapper],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     ReactiveFormsModule,
     NzFormModule,
     NzGridModule,

@@ -7,7 +7,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -22,8 +22,8 @@ import { GenesDetailView } from './genes-detail.view'
   imports: [
     CommonModule,
     GenesDetailRoutingModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzIconModule,
     NzPageHeaderModule,
