@@ -170,7 +170,7 @@
                   nzTheme="fill"></span>
               </nz-filter-trigger>
               <nz-dropdown-menu #enumFilterMenu="nzDropdownMenu">
-                <cvc-enum-filter-menu
+                <cvc-variant-enum-filter-menu
                   [cvcColumnKey]="enumTagCol.key"
                   [cvcFilterOptions]="enumTagCol.filter.options"
                   [cvcOption]="enumTagCol.filter.changes | ngrxPush"
@@ -178,7 +178,7 @@
                     enumTagCol.filter.changes!.next($event);
                     enumTagFilterTrigger.nzVisible = false
                   ">
-                </cvc-enum-filter-menu>
+                </cvc-variant-enum-filter-menu>
               </nz-dropdown-menu>
             </th>
 
