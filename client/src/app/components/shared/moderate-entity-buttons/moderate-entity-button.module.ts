@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcModerateEntityButtonsComponent } from './moderate-entity-button'
 import { NzButtonModule } from 'ng-zorro-antd/button'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
@@ -21,8 +21,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
     NzSpinModule,
     NzSpaceModule,
     NzGridModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     CvcOrgSelectorBtnGroupModule,
   ],
   exports: [CvcModerateEntityButtonsComponent],

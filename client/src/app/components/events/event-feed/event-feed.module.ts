@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcEventFeedComponent } from './event-feed.component'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzFormModule } from 'ng-zorro-antd/form'
@@ -25,8 +25,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
   imports: [
     CommonModule,
     FormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzCardModule,
     NzIconModule,

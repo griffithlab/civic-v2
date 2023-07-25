@@ -183,10 +183,9 @@
             <!-- display accepted/rejected only if either exists -->
             <ng-container
               *ngIf="assertion.rejectionEvent !== null || assertion.acceptanceEvent !== null">
-              <!-- show acceptance only if no rejection event exists -->
-              <ng-container [ngSwitch]="assertion.rejectionEvent === null">
+              <!-- show acceptance only if no rejection event exists and the AID is accepted -->
+              <ng-container *ngIf="assertion.status == statusValues.Accepted && assertion.acceptanceEvent">
                 <nz-descriptions-item
-                  *ngSwitchCase="true"
                   [nzTitle]="acceptedTitle">
                   by
                   <cvc-user-tag [user]="assertion.acceptanceEvent!.originatingUser"></cvc-user-tag>
@@ -199,24 +198,25 @@
                     ({{ assertion.acceptanceEvent!.createdAt | timeAgo }})
                   </span>
                 </ng-template>
-
-                <nz-descriptions-item
-                  *ngSwitchCase="false"
-                  [nzTitle]="rejectedTitle">
-                  by {{ assertion.rejectionEvent!.createdAt | timeAgo }} by
-                  <cvc-user-tag
-                    [user]="assertion.rejectionEvent!.originatingUser"></cvc-user-tag>
-                </nz-descriptions-item>
-                <ng-template #rejectedTitle>
-                  Rejected
-                  <span
-                    nz-typography
-                    nzType="secondary">
-                    ({{ assertion.rejectionEvent!.createdAt | timeAgo }})
-                  </span>
-                </ng-template>
               </ng-container>
-            </ng-container>
+
+                <ng-container *ngIf="assertion.status == statusValues.Rejected && assertion.rejectionEvent">
+                  <nz-descriptions-item
+                    [nzTitle]="rejectedTitle">
+                    by {{ assertion.rejectionEvent!.createdAt | timeAgo }} by
+                    <cvc-user-tag
+                      [user]="assertion.rejectionEvent!.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                  <ng-template #rejectedTitle>
+                    Rejected
+                    <span
+                      nz-typography
+                      nzType="secondary">
+                      ({{ assertion.rejectionEvent!.createdAt | timeAgo }})
+                    </span>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
           </nz-descriptions>
         </nz-col>
 

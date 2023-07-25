@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -18,7 +18,7 @@ import { CvcFormStatusTagComponent } from './form-status-tag/form-status-tag.com
   declarations: [CvcFormDebugComponent, FormDebugFieldListComponent, CvcFormStatusTagComponent],
   imports: [
     CommonModule,
-    LetModule, PushModule,
+    LetDirective, PushPipe,
     NzIconModule,
     NzGridModule,
     NzCardModule,

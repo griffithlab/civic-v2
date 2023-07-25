@@ -8,6 +8,7 @@ import {
   AssertionSummaryFieldsFragment,
   SubscribableInput,
   SubscribableEntities,
+  EvidenceStatus,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
@@ -29,6 +30,7 @@ export class AssertionsSummaryPage {
   assertion$: Observable<Maybe<AssertionSummaryFieldsFragment>>
 
   assertionRules = new AssertionState()
+  statusValues = EvidenceStatus
 
   subscribable: SubscribableInput
 

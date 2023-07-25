@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
@@ -24,8 +24,8 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
   imports: [
     CommonModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzIconModule,
     NzCardModule,
     NzGridModule,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
@@ -27,8 +27,8 @@ import { CvcEmptyValueModule } from '@app/forms2/components/empty-value/empty-va
   declarations: [MolecularProfilesSummaryPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzSpaceModule,
     NzGridModule,
     NzDescriptionsModule,

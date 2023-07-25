@@ -36,7 +36,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Molecular Profile Description',
               description: 'Provide a summary of the clinical relevance of this Molecular Profile. The Molecular Profile Summary should be a synthesis of the existing Evidence Statements for this profile. Basic information on recurrence rates and biological/functional impact of the variants may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance).',
               extraType: 'prompt',
-              required: true,
+              required: false,
               rows: 5,
               colSpan: 24
             },
@@ -71,6 +71,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
               minLength: 10
             },
+          },
+          {
+            type: 'cvc-cancel-button'
           },
           {
             key: 'organizationId',

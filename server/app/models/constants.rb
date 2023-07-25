@@ -10,8 +10,6 @@ module Constants
 
   DISPLAY_NAME_QUERY = 'users.username ILIKE :query OR users.email ILIKE :query OR users.name ILIKE :query'
 
-  GA_TRACKING_ID='UA-83153043-1'
-
   EVIDENCE_TYPES = [:Diagnostic, :Prognostic, :Predictive, :Predisposing, :Functional, :Oncogenic]
   ASSERTION_TYPES = [:Diagnostic, :Prognostic, :Predictive, :Predisposing, :Oncogenic]
 
@@ -21,7 +19,7 @@ module Constants
 
   EVIDENCE_STATUS = ['accepted', 'submitted', 'rejected']
 
-  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A', 'Mixed']
+  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A', 'Combined']
 
   SIGNIFICANCES = [
     'Sensitivity/Response',

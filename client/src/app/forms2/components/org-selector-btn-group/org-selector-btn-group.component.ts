@@ -20,7 +20,7 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-org-selector-btn-group',
+  selector: 'cvc-org-selector-btn-group2',
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less'],
 })

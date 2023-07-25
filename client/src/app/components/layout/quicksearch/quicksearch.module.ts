@@ -6,10 +6,11 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { RouterModule } from '@angular/router'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormsModule } from '@angular/forms'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
   declarations: [CvcQuicksearchComponent],
@@ -17,8 +18,9 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     CommonModule,
     FormsModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
+    CvcPipesModule,
     NzTypographyModule,
     NzSelectModule,
     NzInputModule,

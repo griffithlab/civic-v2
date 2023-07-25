@@ -103,7 +103,6 @@ export class CvcMolecularProfileSelectField
   onMpSelect$: BehaviorSubject<Maybe<MolecularProfile>>
   onMpId$: ReplaySubject<Maybe<number>>
   onShowExpClick$: Subject<void>
-  onEditPrepopulated$: BehaviorSubject<boolean>
 
   // PRESENTATION STREAMS
   showExp$: Observable<boolean>
@@ -118,7 +117,7 @@ export class CvcMolecularProfileSelectField
       placeholder: 'Search Molecular Profiles',
       isMultiSelect: false,
       description:
-        'Select a Gene and Variant to specify a simple Molecular Profile, or use the Editor to specify a complex Molecular Profile',
+        'Select a Gene and Variant to specify a simple Molecular Profile.',
       extraType: 'prompt',
       entityName: {
         singular: 'Molecular Profile',
@@ -152,7 +151,6 @@ export class CvcMolecularProfileSelectField
       showFinder: true,
       showSelect: false,
     })
-    this.onEditPrepopulated$ = new BehaviorSubject<boolean>(false)
   }
 
   ngAfterViewInit(): void {
@@ -193,8 +191,16 @@ export class CvcMolecularProfileSelectField
 
     // populate MP select if variantId received from child form model
     this.onMpSelect$
-      .pipe(filter(isNonNulled), untilDestroyed(this))
-      .subscribe((mp: MolecularProfile) => {
+      .pipe(untilDestroyed(this))
+      .subscribe((mp: Maybe<MolecularProfile>) => {
+        if (!mp) {
+          // this.field.formControl.setValue(undefined)
+          this.selectDisplay$.next({
+            showFinder: true,
+            showSelect: false,
+          })
+          return
+        }
         this.selectOption$.next([{ label: mp.name, value: mp.id }])
         if (this.editorOpen) this.onShowExpClick$.next()
         this.cdr.detectChanges()

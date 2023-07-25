@@ -36,7 +36,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 'User-defined summary of the clinical relevance of this Gene.',
               placeholder: 'Enter a Gene Summary',
               label: 'Gene Summary',
-              required: true,
+              required: false,
               rows: 5 
             },
           },
@@ -44,7 +44,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'sourceIds',
             type: 'source-multi-select',
             wrappers: ['form-field'],
-            props: { required: true },
+            props: {},
           },
         ],
       },
@@ -60,6 +60,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
               required: true,
               minLength: 10
             },
+          },
+          {
+            type: 'cvc-cancel-button'
           },
           {
             key: 'organizationId',

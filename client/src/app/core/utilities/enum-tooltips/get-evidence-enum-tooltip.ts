@@ -44,7 +44,7 @@ export const tooltips: tooltipMap = {
       'The variant origin is uncertain based on the available evidence',
     [VariantOrigin.Na]:
       'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin',
-    [VariantOrigin.Mixed]:
+    [VariantOrigin.Combined]:
       'Variants in the Molecular Profile span multiple Origin types.',
   },
 

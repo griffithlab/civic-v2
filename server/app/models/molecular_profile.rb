@@ -41,6 +41,10 @@ class MolecularProfile < ActiveRecord::Base
     !deprecated
   end
 
+  def is_complex?
+    self.variants.count > 1
+  end
+
   GENE_REGEX = /#GID(?<id>\d+)/i
   VARIANT_REGEX = /#VID(?<id>\d+)/i
 

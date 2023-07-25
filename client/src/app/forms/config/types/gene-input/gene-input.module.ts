@@ -7,7 +7,7 @@ import { FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module'
 
@@ -16,8 +16,8 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild({ types: [GeneInputTypeOption] }),
     NzSelectModule,
     NzSpaceModule,

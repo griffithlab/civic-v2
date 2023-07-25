@@ -4244,7 +4244,7 @@ type MyVariantInfo {
   polyphen2HvarScore: [Float!]!
   proveanPrediction: [String!]!
   proveanScore: [Float!]!
-  revelScore: Float
+  revelScore: [Float!]
   siftPrediction: [String!]!
   siftScore: [Float!]!
   siphy: Float
@@ -4669,6 +4669,7 @@ type PageInfo {
 }
 
 type Phenotype {
+  description: String
   hpoId: String!
   id: Int!
   link: String!
@@ -4678,6 +4679,7 @@ type Phenotype {
 
 type PhenotypePopover {
   assertionCount: Int!
+  description: String
   evidenceItemCount: Int!
   hpoId: String!
   id: Int!
@@ -8584,8 +8586,8 @@ enum VariantMenuSortColumns {
 }
 
 enum VariantOrigin {
+  COMBINED
   COMMON_GERMLINE
-  MIXED
   NA
   RARE_GERMLINE
   SOMATIC

@@ -12,7 +12,7 @@ import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag
 import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 import { CvcTableCounts2Module } from '@app/forms2/components/tables/table-counts/table-counts.module'
 import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
@@ -85,7 +85,7 @@ const typeConfig: ConfigOption = {
     CvcNoMoreRowsModule,
     FormlyModule.forChild(typeConfig),
     FormsModule,
-    LetModule,
+    LetDirective,
     NzAlertModule,
     NzAutocompleteModule,
     NzButtonModule,
@@ -110,7 +110,7 @@ const typeConfig: ConfigOption = {
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
-    PushModule,
+    PushPipe,
     ReactiveFormsModule,
   ],
   exports: [CvcVariantSelectField],

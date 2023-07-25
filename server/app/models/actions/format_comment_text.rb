@@ -15,13 +15,13 @@ module Actions
         .perform
         .segments
 
-      return reference_segments.map do |segment|
-        if segment.is_a?(String)
-          segment.strip + " "
+      return reference_segments.chunk { |segment| segment.is_a?(String) }.map do |(is_strings, segments)|
+        if is_strings
+          segments.map(&:strip).map { |s| s + ' ' }.join
         else
-          segment
+          segments
         end
-      end
+      end.flatten
     end
   end
 end

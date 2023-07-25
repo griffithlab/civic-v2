@@ -1,27 +1,34 @@
 <nz-row [nzGutter]="[6, 6]">
   <nz-col nzFlex="auto">
-    <cvc-entity-select
-      [cvcAddEntity]="addVariant"
-      [cvcAddEntityModel]="onModel$ | ngrxPush"
-      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-      [cvcCustomTemplate]="selectedTemplate"
-      [cvcFormControl]="formControl"
-      [cvcFormlyAttributes]="field"
-      [cvcEntityName]="props.entityName"
-      [cvcPlaceholder]="props.placeholder"
-      [cvcResults]="result$ | ngrxPush"
-      [cvcDisabled]="props.requireGene && !(onGeneId$ | ngrxPush)"
-      [cvcOptions]="selectOption$ | ngrxPush"
-      [cvcSelectOpen]="selectOpen$ | ngrxPush"
-      [cvcShowError]="showError"
-      [cvcLoading]="isLoading$ | ngrxPush"
-      [cvcParamName]="onGeneName$ | ngrxPush"
-      (cvcOnSearch)="onSearch$.next($event)"
-      (cvcOnOpenChange)="onOpenChange$.next($event)"
-      (cvcOnModelChange)="props.change && props.change(field, $event)">
-    </cvc-entity-select>
+    <span
+      nz-tooltip
+      [nzTooltipTrigger]="(props.requireGene && !(onGeneId$ | ngrxPush)) ? 'hover' : null"
+      nzTooltipTitle="Select a Gene to enable field.">
+      <cvc-entity-select
+        [cvcAddEntity]="addVariant"
+        [cvcAddEntityModel]="onModel$ | ngrxPush"
+        [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+        [cvcCustomTemplate]="selectedTemplate"
+        [cvcFormControl]="formControl"
+        [cvcFormlyAttributes]="field"
+        [cvcEntityName]="props.entityName"
+        [cvcPlaceholder]="props.placeholder"
+        [cvcResults]="result$ | ngrxPush"
+        [cvcDisabled]="props.requireGene && !(onGeneId$ | ngrxPush)"
+        [cvcOptions]="selectOption$ | ngrxPush"
+        [cvcSelectOpen]="selectOpen$ | ngrxPush"
+        [cvcShowError]="showError"
+        [cvcLoading]="isLoading$ | ngrxPush"
+        [cvcParamName]="onGeneName$ | ngrxPush"
+        (cvcOnSearch)="onSearch$.next($event)"
+        (cvcOnOpenChange)="onOpenChange$.next($event)"
+        (cvcOnModelChange)="props.change && props.change(field, $event)">
+      </cvc-entity-select>
+    </span>
   </nz-col>
-  <nz-col *ngIf="props.showManagerBtn" nzFlex="50px">
+  <nz-col
+    *ngIf="props.showManagerBtn"
+    nzFlex="50px">
     <button
       type="button"
       nz-button
@@ -44,8 +51,7 @@
     *ngIf="showMgr$ | ngrxPush">
     <cvc-variant-manager
       [cvcSelectedIds]="onVid$ | ngrxPush"
-      (cvcSelectedIdsChange)="onPopulate$.next($event)"
-      ></cvc-variant-manager>
+      (cvcSelectedIdsChange)="onPopulate$.next($event)"></cvc-variant-manager>
   </nz-col>
 </nz-row>
 

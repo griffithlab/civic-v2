@@ -54,10 +54,7 @@ gem 'graphiql-rails', '~> 1.8.0'
 
 #user comment rendering
 gem 'rinku', '~> 2.0.6'
-gem 'sanitize', '~> 6.0.1'
-
-#google analytics
-gem 'staccato', '~> 0.5.3'
+gem 'sanitize', '~> 6.0.2'
 
 gem 'angular_rails_csrf', '~> 5.0.0'
 
