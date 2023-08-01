@@ -40,7 +40,7 @@
         <span>for</span>
         <ng-container *ngrxLet="mostRecentOrg$ as mrOrg">
           <nz-avatar
-            [nzSrc]="mrOrg!.profileImagePath"
+            [nzSrc]="mrOrg ? mrOrg.profileImagePath : organizations[0].profileImagePath"
             [nzSize]="16"
             [nzShape]="'square'">
           </nz-avatar>
