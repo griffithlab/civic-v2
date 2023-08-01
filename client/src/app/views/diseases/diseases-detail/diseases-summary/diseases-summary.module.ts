@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module'
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -13,8 +13,8 @@ import { CvcMyDiseaseInfoModule } from '@app/components/diseases/my-disease-info
   declarations: [DiseasesSummaryComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzDescriptionsModule,
     NzTypographyModule,

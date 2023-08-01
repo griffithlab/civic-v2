@@ -30,7 +30,7 @@ export type EntityEdge = {
 }
 
 @Component({
-  selector: 'cvc-table-counts',
+  selector: 'cvc-table-counts2',
   templateUrl: './table-counts.component.html',
   styleUrls: ['./table-counts.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,

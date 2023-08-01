@@ -7,7 +7,7 @@ import { CvcAttributeTagModule } from '@app/forms2/components/attribute-tag/attr
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { CvcTableCounts2Module } from '@app/forms2/components/tables/table-counts/table-counts.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
@@ -77,7 +77,7 @@ const typeConfig: ConfigOption = {
     CvcTableCounts2Module,
     FormlyModule.forChild(typeConfig),
     FormsModule,
-    LetModule,
+    LetDirective,
     NzButtonModule,
     NzCardModule,
     NzCheckboxModule,
@@ -92,7 +92,7 @@ const typeConfig: ConfigOption = {
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
-    PushModule,
+    PushPipe,
   ],
   exports: [CvcEvidenceSelectField],
 })

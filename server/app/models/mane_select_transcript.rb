@@ -9,7 +9,7 @@ class ManeSelectTranscript
     Rails.cache.fetch(cache_key(variant), expires_in: 24.hours) do
       if variant.allele_registry_id
         transcripts = get_allele_registry_transcripts(variant)
-        select = transcripts.find{ |t| t.key?('MANE') && t['MANE']['maneStatus'] == 'MANE Select' }
+        select = transcripts&.find{ |t| t.key?('MANE') && t['MANE']['maneStatus'] == 'MANE Select' }
         if select
           select.dig('MANE', 'nucleotide', 'Ensembl', 'hgvs')
         end

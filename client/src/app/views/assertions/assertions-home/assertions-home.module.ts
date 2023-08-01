@@ -4,7 +4,7 @@ import { AssertionsHomePage } from './assertions-home.page'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -18,8 +18,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
   declarations: [AssertionsHomePage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     RouterModule,
     NzIconModule,
     NzTypographyModule,

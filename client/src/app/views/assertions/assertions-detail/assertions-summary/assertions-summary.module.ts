@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { AssertionsSummaryPage } from './assertions-summary.page'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -27,8 +27,8 @@ import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-va
   declarations: [AssertionsSummaryPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzSpaceModule,
     NzGridModule,

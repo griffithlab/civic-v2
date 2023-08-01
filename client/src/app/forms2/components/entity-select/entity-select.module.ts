@@ -8,7 +8,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { ReactiveFormsModule } from '@angular/forms'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { CvcEntityTagModule } from '../entity-tag/entity-tag.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
@@ -20,7 +20,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetDirective, PushPipe,
     FormlyModule.forChild(),
     NzAlertModule,
     NzIconModule,

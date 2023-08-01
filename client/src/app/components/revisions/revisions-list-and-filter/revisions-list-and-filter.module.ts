@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzCardModule } from 'ng-zorro-antd/card'
@@ -20,8 +20,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
   declarations: [RevisionsListAndFilterComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzListModule,
     NzCardModule,

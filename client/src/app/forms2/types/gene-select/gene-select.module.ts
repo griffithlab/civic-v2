@@ -5,7 +5,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms2/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { CvcFormFieldWrapperModule } from '@app/forms2/wrappers/form-field/form-field.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FieldTypeConfig, FormlyModule } from '@ngx-formly/core'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
@@ -49,8 +49,8 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(typeConfig),
     NzAlertModule,
     NzButtonModule,

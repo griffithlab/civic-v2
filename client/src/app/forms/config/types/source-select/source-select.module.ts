@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { SourceSelectType } from './source-select.type'
 import { ReactiveFormsModule } from '@angular/forms'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -27,8 +27,8 @@ const configOption: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(configOption),
     NzSelectModule,
     NzSpaceModule,

@@ -7,7 +7,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/form-errors-alert.module'
 import { NzInputModule } from 'ng-zorro-antd/input'
@@ -19,8 +19,8 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild({ types: [DiseaseInputTypeOption] }),
     NzSelectModule,
     CvcDiseaseTagModule,

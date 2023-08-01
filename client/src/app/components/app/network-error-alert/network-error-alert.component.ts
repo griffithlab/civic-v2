@@ -42,7 +42,7 @@ export class CvcNetworkErrorAlertComponent {
       nzClosable: true,
       nzOkDisabled: true,
       nzCancelDisabled: true,
-      nzComponentParams: {
+      nzData: {
         backtrace: this.modalContent,
       },
     })

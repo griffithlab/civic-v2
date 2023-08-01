@@ -6,7 +6,7 @@ import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -22,8 +22,8 @@ import { CvcMyChemInfoModule } from '@app/components/therapies/my-chem-info/my-c
   declarations: [TherapiesSummaryComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzSpaceModule,
     NzTypographyModule,

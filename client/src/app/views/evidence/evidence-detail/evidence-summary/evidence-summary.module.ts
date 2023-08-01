@@ -15,7 +15,7 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -32,8 +32,8 @@ import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-va
   imports: [
     CommonModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzGridModule,
     NzSpaceModule,
     NzTypographyModule,

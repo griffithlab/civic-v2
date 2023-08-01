@@ -9,7 +9,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { VariantDeprecateFormModule } from '@app/forms/variant-deprecate/variant-deprecate.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -25,8 +25,8 @@ import { VariantsDetailView } from './variants-detail.view'
   imports: [
     CommonModule,
     VariantsDetailRoutingModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
 
     NzButtonModule,
     NzIconModule,

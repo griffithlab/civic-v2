@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 import { UsersRoutingModule } from './users-routing.module'
 import { UsersComponent } from './users.component'
 import { RouterModule } from '@angular/router'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { UsersHomeModule } from './users-home/users-home.module'
 import { UsersAssertionsModule } from './users-assertions/users-assertions.module'
 import { UsersDetailModule } from './users-detail/users-detail.module'
@@ -18,8 +18,8 @@ import { UsersNotificationsModule } from './users-notifications/users-notificati
   imports: [
     CommonModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     UsersRoutingModule,
     UsersHomeModule,
     UsersAssertionsModule,
