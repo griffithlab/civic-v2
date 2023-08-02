@@ -22,7 +22,6 @@ export class GenesDetailView implements OnDestroy {
   loading$?: Observable<boolean>
   gene$?: Observable<Maybe<GeneDetailFieldsFragment>>
   viewer$: Observable<Viewer>
-  commentsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
   routeSub: Subscription
   subscribable?: SubscribableInput
@@ -72,19 +71,23 @@ export class GenesDetailView implements OnDestroy {
 
       this.gene$ = observable.pipe(pluck('data', 'gene'))
 
-      this.commentsTotal$ = this.gene$.pipe(pluck('comments', 'totalCount'))
-
       this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'))
 
       this.gene$
-        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (count) => {
+          next: (geneResp) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: count as number,
+                    badgeCount: geneResp?.revisions.totalCount,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Comments') {
+                  return {
+                    badgeCount: geneResp?.comments.totalCount,
+                    badgeColor: '#cccccc',
                     ...tab,
                   }
                 } else {
