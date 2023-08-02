@@ -29,7 +29,6 @@ export class MolecularProfilesDetailView implements OnDestroy {
 
   molecularProfile$?: Observable<Maybe<MolecularProfileDetailFieldsFragment>>
   loading$?: Observable<boolean>
-  commentsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
@@ -85,23 +84,25 @@ export class MolecularProfilesDetailView implements OnDestroy {
         pluck('data', 'molecularProfile')
       )
 
-      this.commentsTotal$ = this.molecularProfile$.pipe(
-        pluck('comments', 'totalCount')
-      )
-
       this.flagsTotal$ = this.molecularProfile$.pipe(
         pluck('flags', 'totalCount')
       )
 
       this.molecularProfile$
-        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (count) => {
+          next: (mpResp) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: count as number,
+                    badgeCount: mpResp?.revisions.totalCount,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Comments') {
+                  return {
+                    badgeCount: mpResp?.comments.totalCount,
+                    badgeColor: '#cccccc',
                     ...tab,
                   }
                 } else {

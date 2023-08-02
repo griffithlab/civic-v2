@@ -27,7 +27,6 @@ export class EvidenceDetailView implements OnDestroy {
 
   evidence$?: Observable<Maybe<EvidenceDetailFieldsFragment>>
   loading$?: Observable<boolean>
-  commentsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
@@ -85,19 +84,23 @@ export class EvidenceDetailView implements OnDestroy {
 
       this.evidence$ = observable.pipe(pluck('data', 'evidenceItem'))
 
-      this.commentsTotal$ = this.evidence$.pipe(pluck('comments', 'totalCount'))
-
       this.flagsTotal$ = this.evidence$.pipe(pluck('flags', 'totalCount'))
 
       this.evidence$
-        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (count) => {
+          next: (evidenceResponse) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: count as number,
+                    badgeCount: evidenceResponse?.revisions.totalCount,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Comments') {
+                  return {
+                    badgeCount: evidenceResponse?.comments.totalCount,
+                    badgeColor: '#cccccc',
                     ...tab,
                   }
                 } else {

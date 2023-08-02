@@ -6781,9 +6781,9 @@ export type SourceDetailQueryVariables = Exact<{
 }>;
 
 
-export type SourceDetailQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string } | undefined };
+export type SourceDetailQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type SourceDetailFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string };
+export type SourceDetailFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type SourceSummaryQueryVariables = Exact<{
   sourceId: Scalars['Int'];
@@ -9208,6 +9208,9 @@ export const SourceDetailFieldsFragmentDoc = gql`
   sourceUrl
   displayType
   citationId
+  comments {
+    totalCount
+  }
 }
     `;
 export const SourceSummaryFieldsFragmentDoc = gql`

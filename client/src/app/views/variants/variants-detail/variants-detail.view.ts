@@ -26,7 +26,6 @@ export class VariantsDetailView implements OnDestroy {
 
   variant$?: Observable<Maybe<VariantDetailFieldsFragment>>
   loading$?: Observable<boolean>
-  commentsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
@@ -80,19 +79,23 @@ export class VariantsDetailView implements OnDestroy {
 
       this.variant$ = observable.pipe(pluck('data', 'variant'))
 
-      this.commentsTotal$ = this.variant$.pipe(pluck('comments', 'totalCount'))
-
       this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'))
 
       this.variant$
-        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (count) => {
+          next: (variantResp) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: count as number,
+                    badgeCount: variantResp?.revisions.totalCount,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Comments') {
+                  return {
+                    badgeCount: variantResp?.comments.totalCount,
+                    badgeColor: '#cccccc',
                     ...tab,
                   }
                 } else {
