@@ -10,4 +10,7 @@ fragment SourceDetailFields on Source {
   sourceUrl
   displayType
   citationId
+  comments {
+    totalCount
+  }
 }

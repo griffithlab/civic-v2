@@ -27,7 +27,6 @@ export class AssertionsDetailView implements OnDestroy {
 
   assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
   loading$?: Observable<boolean>
-  commentsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
@@ -85,21 +84,23 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
-      this.commentsTotal$ = this.assertion$.pipe(
-        pluck('comments', 'totalCount')
-      )
-
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
       this.assertion$
-        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (count) => {
+          next: (assertionResp) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: count as number,
+                    badgeCount: assertionResp?.revisions.totalCount,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Comments') {
+                  return {
+                    badgeCount: assertionResp?.comments.totalCount,
+                    badgeColor: '#cccccc',
                     ...tab,
                   }
                 } else {
