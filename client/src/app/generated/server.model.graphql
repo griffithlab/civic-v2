@@ -2635,7 +2635,7 @@ type FieldValidationError {
   fieldName: String!
 }
 
-type Flag implements Commentable & EventOriginObject {
+type Flag implements Commentable & EventOriginObject & EventSubject {
   """
   List and filter comments.
   """
@@ -2686,6 +2686,39 @@ type Flag implements Commentable & EventOriginObject {
     sortBy: DateSort
   ): CommentConnection!
   createdAt: ISO8601DateTime!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   flaggable: Flaggable!
   flaggingUser: User!
   id: Int!
@@ -6390,6 +6423,49 @@ type RevisionResult {
   revisionSetId: Int!
 }
 
+type RevisionSet implements EventSubject {
+  createdAt: ISO8601DateTime!
+  displayName: String!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  id: Int!
+  link: String!
+  name: String!
+  revisions: [Revision!]!
+  updatedAt: ISO8601DateTime!
+}
+
 enum RevisionStatus {
   ACCEPTED
   NEW
@@ -7322,6 +7398,19 @@ type SuggestMolecularProfileRevisionPayload {
   results: [RevisionResult!]!
 }
 
+type SuggestRevisionSetActivity implements ActivityInterface {
+  comment: Comment!
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  organization: Organization
+  revisionSet: RevisionSet!
+  revisions: [Revision!]!
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
+}
+
 type SuggestSourceActivity implements ActivityInterface {
   comment: Comment!
   createdAt: ISO8601DateTime!
@@ -7684,6 +7773,17 @@ type UpdateNotificationStatusPayload {
   A list of the notifications in their new state.
   """
   notifications: [Notification!]!
+}
+
+type UpdateSourceSuggestionStatusActivity implements ActivityInterface {
+  createdAt: ISO8601DateTime!
+  events: [Event!]!
+  id: Int!
+  organization: Organization
+  sourceSuggestion: SourceSuggestion!
+  subject: EventSubject!
+  user: User!
+  verbiage: String!
 }
 
 """

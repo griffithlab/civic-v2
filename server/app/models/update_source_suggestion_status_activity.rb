@@ -1,5 +1,7 @@
 class UpdateSourceSuggestionStatusActivity < Activity
-  def source_suggestion
+  has_one_linked :source_suggestion
+
+  def source
     self.subject
   end
 

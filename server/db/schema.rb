@@ -622,7 +622,7 @@ ActiveRecord::Schema.define(version: 2023_06_22_140624) do
     t.jsonb "suggested_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.uuid "revisionset_id", null: false
+    t.uuid "revisionset_id"
     t.integer "revision_set_id"
     t.index ["created_at"], name: "index_revisions_on_created_at"
     t.index ["field_name"], name: "index_revisions_on_field_name"
