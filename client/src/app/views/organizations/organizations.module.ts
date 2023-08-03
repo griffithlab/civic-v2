@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { OrganizationsAssertionsModule } from './organizations-assertions/organizations-assertions.module'
 import { OrganizationsDetailModule } from './organizations-detail/organizations-detail.module'
 import { OrganizationsEventsModule } from './organizations-events/organizations-events.module'
@@ -16,8 +16,8 @@ import { OrganizationsComponent } from './organizations.component'
   declarations: [OrganizationsComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     OrganizationsRoutingModule,
     OrganizationsHomeModule,
     OrganizationsEvidenceModule,

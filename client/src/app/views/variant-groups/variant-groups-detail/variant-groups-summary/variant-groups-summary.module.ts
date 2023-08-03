@@ -10,7 +10,7 @@ import {
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
 
@@ -18,8 +18,8 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
   declarations: [VariantGroupsSummaryPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzSpaceModule,
     NzGridModule,
     NzDescriptionsModule,

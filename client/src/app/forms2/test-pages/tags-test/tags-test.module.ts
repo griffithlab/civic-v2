@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { TagsTestPage } from './tags-test.page'
 import { CvcEntityTagModule } from '@app/forms2/components/entity-tag/entity-tag.module'
 import { NzTableModule } from 'ng-zorro-antd/table'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormsModule } from '@angular/forms'
 import { NzCardModule } from 'ng-zorro-antd/card'
 
@@ -11,8 +11,8 @@ import { NzCardModule } from 'ng-zorro-antd/card'
   declarations: [TagsTestPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormsModule,
     NzCardModule,
     NzTableModule,

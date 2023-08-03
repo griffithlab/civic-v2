@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcFlagListAndFilterComponent } from './flag-list-and-filter.component'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { NzCardModule } from 'ng-zorro-antd/card'
@@ -22,8 +22,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
   imports: [
     CommonModule,
     FormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzFormModule,
     NzRadioModule,

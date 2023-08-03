@@ -8,7 +8,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { ReactiveFormsModule } from '@angular/forms'
 import { FormlyModule } from '@ngx-formly/core'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module'
 
@@ -18,8 +18,8 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild({ types: [PhenotypeInputTypeOption] }),
     NzSelectModule,
     CvcPhenotypeTagModule,

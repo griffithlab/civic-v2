@@ -145,7 +145,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       mp: {
         __typename: 'MolecularProfile',
         id: 9999,
-        name: 'BRAF V600E AND EGFR L858R OR EGFR T790M',
+        name: 'BRAF V600E AND (EGFR L858R OR EGFR T790M)',
       },
       expression: '#VID12 AND (#VID33 OR #VID34)',
       description:

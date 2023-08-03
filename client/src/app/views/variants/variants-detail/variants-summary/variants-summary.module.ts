@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { VariantsSummaryPage } from './variants-summary.page'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
@@ -28,8 +28,8 @@ import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profi
   declarations: [VariantsSummaryPage],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzSpaceModule,
     NzGridModule,
     NzDescriptionsModule,

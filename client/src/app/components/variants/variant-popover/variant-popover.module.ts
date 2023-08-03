@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcVariantPopoverComponent } from './variant-popover.component'
 import { RouterModule } from '@angular/router'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
@@ -18,8 +18,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
   imports: [
     CommonModule,
     RouterModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzCardModule,
     NzGridModule,
     NzDescriptionsModule,

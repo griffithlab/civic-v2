@@ -5,7 +5,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
@@ -13,8 +13,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
   declarations: [CvcDiseasePopoverComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzCardModule,
     NzDescriptionsModule,
     NzIconModule,

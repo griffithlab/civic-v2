@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcEntityTypeSelectField } from './type-select.type'
 import { ReactiveFormsModule } from '@angular/forms'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { CvcEnumSelectModule } from '@app/forms2/components/enum-select/enum-select.module'
 import { CvcAttributeTagModule } from '@app/forms2/components/attribute-tag/attribute-tag.module'
@@ -23,7 +23,7 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetModule, PushModule,
+    LetDirective, PushPipe,
     FormlyModule.forChild(typeConfig),
     CvcFormFieldWrapperModule,
     CvcAttributeTagModule,

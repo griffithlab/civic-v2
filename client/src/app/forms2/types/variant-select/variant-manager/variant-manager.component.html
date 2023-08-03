@@ -123,7 +123,7 @@
               [nzAlign]="entityTagCol.align ?? 'left'"
               [nzLeft]="entityTagCol.fixedLeft || false"
               [nzRight]="entityTagCol.fixedRight || false">
-              <cvc-table-filter-input
+              <cvc-variant-table-filter-input
                 *ngIf="entityTagCol.filter as filter"
                 [cvcInputType]="entityTagCol.filter.inputType"
                 [cvcPlaceholder]="entityTagCol.filter.options[0].key"
@@ -131,7 +131,7 @@
                 (cvcModelChange)="
                   filter.changes!.next({ key: entityTagCol.key, value: $event })
                 ">
-              </cvc-table-filter-input>
+              </cvc-variant-table-filter-input>
             </th>
 
             <!-- ENUM TAG FILTER -->
@@ -170,7 +170,7 @@
                   nzTheme="fill"></span>
               </nz-filter-trigger>
               <nz-dropdown-menu #enumFilterMenu="nzDropdownMenu">
-                <cvc-enum-filter-menu
+                <cvc-variant-enum-filter-menu
                   [cvcColumnKey]="enumTagCol.key"
                   [cvcFilterOptions]="enumTagCol.filter.options"
                   [cvcOption]="enumTagCol.filter.changes | ngrxPush"
@@ -178,7 +178,7 @@
                     enumTagCol.filter.changes!.next($event);
                     enumTagFilterTrigger.nzVisible = false
                   ">
-                </cvc-enum-filter-menu>
+                </cvc-variant-enum-filter-menu>
               </nz-dropdown-menu>
             </th>
 
@@ -206,7 +206,7 @@
               <nz-dropdown-menu #textTagFilterMenu="nzDropdownMenu">
                 <div class="ant-table-filter-dropdown">
                   <div class="custom-input-dropdown">
-                    <cvc-table-filter-input
+                    <cvc-variant-table-filter-input
                       [cvcPlaceholder]="textTagCol.filter.options[0].key"
                       [cvcModel]="textTagCol.filter.options[0].value"
                       (cvcModelChange)="
@@ -215,7 +215,7 @@
                           value: $event
                         })
                       ">
-                    </cvc-table-filter-input>
+                    </cvc-variant-table-filter-input>
                   </div>
                 </div>
               </nz-dropdown-menu>
@@ -229,14 +229,14 @@
               [nzAlign]="defaultCol.align ?? 'left'"
               [nzLeft]="defaultCol.fixedLeft || false"
               [nzRight]="defaultCol.fixedRight || false">
-              <cvc-table-filter-input
+              <cvc-variant-table-filter-input
                 *ngIf="defaultCol.filter as filter"
                 [cvcPlaceholder]="defaultCol.filter.options[0].key"
                 [cvcModel]="defaultCol.filter.options[0].value"
                 (cvcModelChange)="
                   filter.changes!.next({ key: defaultCol.key, value: $event })
                 ">
-              </cvc-table-filter-input>
+              </cvc-variant-table-filter-input>
             </th>
           </ng-container>
         </ng-container>
@@ -606,8 +606,8 @@
       </ng-container>
     </nz-col>
     <nz-col nzFlex="auto">
-      <cvc-table-counts
-        [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+      <cvc-table-counts2
+        [cvcTableCountsConnection]="connection$"></cvc-table-counts2>
     </nz-col>
 
     <!-- card button row -->

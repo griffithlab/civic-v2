@@ -5,15 +5,15 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module'
 
 @NgModule({
   declarations: [CvcOrganizationPopoverComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzCardModule,
     NzGridModule,
     NzDescriptionsModule,

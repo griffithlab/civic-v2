@@ -15,7 +15,7 @@ import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module'
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module'
 import { CvcUpdateSourceSuggestionFormModule } from '@app/forms/update-source-suggestion/update-source-suggestion.module'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -32,8 +32,8 @@ import { CvcSourceSuggestionsTableComponent } from './source-suggestions-table.c
   imports: [
     CommonModule,
     FormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     RouterModule,
     NzButtonModule,
     NzCardModule,
