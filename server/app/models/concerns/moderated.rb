@@ -25,6 +25,8 @@ module Moderated
       ->() { where(action: 'revision suggested').includes(:originating_user).order('events.updated_at DESC') },
       as: :subject,
       class_name: 'Event'
+
+    attr_accessor :in_revision_validation_context, :revision_target_id
   end
 
   #TODO: Refactor to use new Revision format
