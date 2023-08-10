@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.time-select {
+  min-width: 80px;
+}
+
+nz-card:first-of-type ::ng-deep {
+  .ant-card-body {
+    // remove card body padding
+    padding: 0;
+    // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
+    margin-top: 1px;
+  }
+}
+h4.leaderboard-title {
+  margin-bottom: 0;
+  padding: 0 8px;
+  background-color: #fefefe;
+  border-bottom: 1px solid #efefef;
+}
+ol.leaderboard-list {
+  padding-inline-start: 1.5em;
+  margin-bottom: 0;
+  li {
+    padding: 4px 0;
+  }
+}

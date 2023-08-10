@@ -48,14 +48,14 @@
         </nz-space>
       </nz-col>
     </nz-row>
-    <div nz-row>
-      <div
-        nz-col
-        [nzSpan]="24">
-        <div class="content">
-          <cvc-users-table cvcTitle="Browse All Contributors"></cvc-users-table>
-        </div>
-      </div>
-    </div>
+    <!-- page content -->
+    <nz-row [nzGutter]="[8, 16]">
+      <nz-col nzSpan="24">
+        <cvc-user-leaderboards></cvc-user-leaderboards>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <cvc-users-table cvcTitle="Browse All Contributors"></cvc-users-table>
+      </nz-col>
+    </nz-row>
   </nz-page-header-content>
 </nz-page-header>

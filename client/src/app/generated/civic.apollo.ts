@@ -5658,9 +5658,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -7837,6 +7837,7 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
     submittedEvidenceItems
     revisions
   }
+  profileImagePath(size: 64)
   mostRecentActionTimestamp
 }
     `;
