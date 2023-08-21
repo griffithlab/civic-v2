@@ -1,0 +1,45 @@
+query UserLeaderboards(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  userCommentsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+
+fragment LeaderboardUserFields on LeaderboardUser {
+  id
+  name
+  displayName
+  role
+  rank
+  statsHash {
+    acceptedAssertions
+    acceptedEvidenceItems
+    appliedRevisions
+    comments
+    revisions
+    submittedAssertions
+    submittedEvidenceItems
+    suggestedSources
+  }
+}
