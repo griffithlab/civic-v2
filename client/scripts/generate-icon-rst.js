@@ -1,10 +1,55 @@
 #!/usr/bin/env node
+const directoryTree = require('directory-tree')
 const fs = require('fs')
 const path = require('path')
+const readline = require('readline')
 const mustache = require('mustache')
 
-// Load the generated icon data JSON
-const jsonDataPath = path.join(
+const iconsDirectory = path.join(__dirname, '..', 'src', 'assets', 'icons')
+const validSubdirectories = ['attribute', 'outline', 'twotone', 'fullcolor']
+
+function removeRedundantName(type, filename) {
+  const pattern =
+    type === 'attribute' ? /-outline$/ : new RegExp(`-${type}$`, 'i')
+  return filename.replace(pattern, '')
+}
+
+function generateIconObject(tree) {
+  if (!tree || !tree.children) return []
+
+  return tree.children
+    .filter((child) => validSubdirectories.includes(child.name))
+    .flatMap((subdir) => {
+      return subdir.children.map((file) => {
+        const cleanName = removeRedundantName(
+          subdir.name,
+          path.basename(file.name, '.svg')
+        )
+        return {
+          type: subdir.name,
+          filepath: `${subdir.name}/${file.name}`,
+          name: cleanName,
+          alias: `${subdir.name}-${cleanName}`,
+        }
+      })
+    })
+}
+
+const tree = directoryTree(iconsDirectory, { extensions: /\.svg$/ })
+
+if (!tree) {
+  console.error(
+    `Error: The directory ${iconsDirectory} does not exist or could not be accessed.`
+  )
+  process.exit(1)
+}
+
+const icons = generateIconObject(tree)
+const output = {
+  icons: icons,
+}
+
+const outputPath = path.join(
   __dirname,
   '..',
   'src',
@@ -12,7 +57,14 @@ const jsonDataPath = path.join(
   'generated',
   'civic.icons.data.json'
 )
-const iconData = JSON.parse(fs.readFileSync(jsonDataPath, 'utf-8'))
+fs.writeFileSync(outputPath, JSON.stringify(output, null, 2))
+console.log(`Data written to ${outputPath}`)
+
+// New part for checking civic-docs repository and generating RST
+
+const docsRepoPath = path.join(__dirname, '..', '..', '..', 'civic-docs')
+const targetDirectory = path.join(docsRepoPath, 'docs', 'generated')
+const targetFile = path.join(targetDirectory, 'civic-docs.aliases.rst')
 
 // Define the mustache template
 const template = `
@@ -32,17 +84,63 @@ const renderedRst =
   'Produced by `generate-icon-rst` script in civic-v2/client/scripts\n' +
   iconData.icons.map((icon) => mustache.render(template, icon)).join('\n')
 
-// Define the path to the output RST file
-const outputPath = path.join(
-  __dirname,
-  '..',
-  'src',
-  'app',
-  'generated',
-  'civic-docs.aliases.rst'
-)
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
 
-// Write the rendered RST to the file
-fs.writeFileSync(outputPath, renderedRst)
+async function promptUser(question) {
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      const lowercasedAnswer = answer.toLowerCase()
+      if (['y', 'yes', ''].includes(lowercasedAnswer)) {
+        resolve(true)
+      } else if (['n', 'no'].includes(lowercasedAnswer)) {
+        resolve(false)
+      } else {
+        console.log(
+          "Invalid response. Please answer with 'y', 'yes', 'n', or 'no'."
+        )
+        resolve(promptUser(question)) // re-prompt if invalid response
+      }
+    })
+  })
+}
 
-console.log(`RST written to ${outputPath}`)
+;(async function () {
+  if (fs.existsSync(docsRepoPath)) {
+    if (fs.existsSync(targetDirectory)) {
+      if (fs.existsSync(targetFile)) {
+        const answer = await promptUser(
+          'civic-docs/generated/civic-docs.aliases.rst exists, overwrite? (Y/n) '
+        )
+        if (answer) {
+          fs.writeFileSync(targetFile, renderedRst)
+          console.log(`Overwrote ${targetFile}`)
+        } else {
+          console.log('Did not overwrite the file.')
+        }
+      } else {
+        fs.writeFileSync(targetFile, renderedRst)
+        console.log(`Wrote to ${targetFile}`)
+      }
+    } else {
+      const answer = await promptUser(
+        'Create civic-docs/generated directory and write civic-docs.aliases.rst file? (Y/n) '
+      )
+      if (answer) {
+        fs.mkdirSync(targetDirectory, { recursive: true })
+        fs.writeFileSync(targetFile, renderedRst)
+        console.log(`Created directory and wrote to ${targetFile}`)
+      } else {
+        console.log('Did not create the directory or write the file.')
+      }
+    }
+  } else {
+    console.log(
+      `No civic-docs repository found at ${docsRepoPath}. Will not write civic-docs.aliases.rst file.`
+    )
+  }
+
+  rl.close()
+})()

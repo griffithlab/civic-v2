@@ -38,7 +38,7 @@ const tree = directoryTree(iconsDirectory, { extensions: /\.svg$/ })
 
 if (!tree) {
   console.error(
-    `Error: The directory ${iconsDirectory} does not exist or could not be accessed.`
+    `Error: The icon assets folder ${iconsDirectory} does not exist or could not be accessed.`
   )
   process.exit(1)
 }
@@ -61,4 +61,4 @@ const outputPath = path.join(
 // Write the JSON data to the file
 fs.writeFileSync(outputPath, JSON.stringify(output, null, 2))
 
-console.log(`Data written to ${outputPath}`)
+console.log(`Icon data written to ${outputPath}`)
