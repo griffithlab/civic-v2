@@ -32,6 +32,8 @@ class Variant < ApplicationRecord
 
   after_commit :reindex_mps
 
+  validates :name, presence: true
+
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
     message: "only allows A,C,T,G or /"
@@ -42,10 +44,7 @@ class Variant < ApplicationRecord
     message: "only allows A,C,T,G or /"
   }, allow_nil: true
 
-  #this breaks when we do updated_obj.validate! during propose revision set. we need a workaround
-  #validates_uniqueness_of :name, scope: :gene_id,
-    #conditions: -> { where(deprecated: false) },
-    #message: 'must be unique within a Gene'
+  validate :unique_name_in_context
 
   searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :gene) }
@@ -86,5 +85,32 @@ class Variant < ApplicationRecord
   def on_revision_accepted
     SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
     GenerateOpenCravatLink.perform_later(self)
+  end
+
+  def unique_name_in_context
+    base_query = self.class.where(
+      deprecated: false,
+      gene_id: gene_id,
+      name: name
+    )
+
+    duplicate_name = if in_revision_validation_context
+                       base_query
+                         .where.not(id: revision_target_id)
+                         .exists?
+                     else
+                       if persisted?
+                         base_query
+                           .where.not(id: id)
+                           .exists?
+                       else
+                         base_query
+                           .exists?
+                       end
+                     end
+
+    if duplicate_name
+      errors.add(:name, 'must be unique within a Gene')
+    end
   end
 end
