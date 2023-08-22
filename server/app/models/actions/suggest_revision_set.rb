@@ -14,6 +14,8 @@ class Actions::SuggestRevisionSet
   end
 
   def execute
+    updated_obj.in_revision_validation_context = true
+    updated_obj.revision_target_id = existing_obj.id
     updated_obj.validate!
 
     any_changes = false
