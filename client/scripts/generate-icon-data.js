@@ -26,6 +26,7 @@ function generateIconObject(tree) {
         )
         return {
           type: subdir.name,
+          filepath: `${subdir.name}/${file.name}`,
           name: cleanName,
           alias: `${subdir.name}-${cleanName}`,
         }

@@ -14,7 +14,8 @@
     "generate-icons": "yarn run optimize-icon-svg && yarn run generate-icon-ts",
     "generate-apollo": "graphql-codegen",
     "generate-apollo:start": "graphql-codegen --watch",
-    "generate-icon-data": "scripts/generate-icon-data.js"
+    "generate-icon-data": "scripts/generate-icon-data.js",
+    "generate-icon-rst": "scripts/generate-icon-rst.js"
   },
   "private": true,
   "resolutions": {
@@ -60,6 +61,7 @@
     "@types/node": "^12.11.1",
     "directory-tree": "^3.5.1",
     "graphql": "^16.7.1",
+    "mustache": "^4.2.0",
     "ngx-json-viewer": "^3.0.2",
     "prettier": "^2.5.1",
     "svg-to-ts": "^9.0.0",

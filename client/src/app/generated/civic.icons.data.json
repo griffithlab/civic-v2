@@ -2,621 +2,745 @@
   "icons": [
     {
       "type": "attribute",
+      "filepath": "attribute/adverseresponse-outline.svg",
       "name": "adverseresponse",
       "alias": "attribute-adverseresponse"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/benign-outline.svg",
       "name": "benign",
       "alias": "attribute-benign"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/betteroutcome-outline.svg",
       "name": "betteroutcome",
       "alias": "attribute-betteroutcome"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/combination-outline.svg",
       "name": "combination",
       "alias": "attribute-combination"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/combined-outline.svg",
       "name": "combined",
       "alias": "attribute-combined"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/commongermline-outline.svg",
       "name": "commongermline",
       "alias": "attribute-commongermline"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/diagnostic-outline.svg",
       "name": "diagnostic",
       "alias": "attribute-diagnostic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/doesnotsupport-outline.svg",
       "name": "doesnotsupport",
       "alias": "attribute-doesnotsupport"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/dominantnegative-outline.svg",
       "name": "dominantnegative",
       "alias": "attribute-dominantnegative"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/functional-outline.svg",
       "name": "functional",
       "alias": "attribute-functional"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/gainoffunction-outline.svg",
       "name": "gainoffunction",
       "alias": "attribute-gainoffunction"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/levela-outline.svg",
       "name": "levela",
       "alias": "attribute-levela"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/levelb-outline.svg",
       "name": "levelb",
       "alias": "attribute-levelb"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/levelc-outline.svg",
       "name": "levelc",
       "alias": "attribute-levelc"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/leveld-outline.svg",
       "name": "leveld",
       "alias": "attribute-leveld"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/levele-outline.svg",
       "name": "levele",
       "alias": "attribute-levele"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/likelybenign-outline.svg",
       "name": "likelybenign",
       "alias": "attribute-likelybenign"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/likelyoncogenic-outline.svg",
       "name": "likelyoncogenic",
       "alias": "attribute-likelyoncogenic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/likelypathogenic-outline.svg",
       "name": "likelypathogenic",
       "alias": "attribute-likelypathogenic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/lossoffunction-outline.svg",
       "name": "lossoffunction",
       "alias": "attribute-lossoffunction"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/na-outline.svg",
       "name": "na",
       "alias": "attribute-na"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/negative-outline.svg",
       "name": "negative",
       "alias": "attribute-negative"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/neomorphic-outline.svg",
       "name": "neomorphic",
       "alias": "attribute-neomorphic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/oncogenic-outline.svg",
       "name": "oncogenic",
       "alias": "attribute-oncogenic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/oncogenicity-outline.svg",
       "name": "oncogenicity",
       "alias": "attribute-oncogenicity"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/oncogenicsignificance-outline.svg",
       "name": "oncogenicsignificance",
       "alias": "attribute-oncogenicsignificance"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/oncogenictype-outline.svg",
       "name": "oncogenictype",
       "alias": "attribute-oncogenictype"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/pathogenic-outline.svg",
       "name": "pathogenic",
       "alias": "attribute-pathogenic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/pooroutcome-outline.svg",
       "name": "pooroutcome",
       "alias": "attribute-pooroutcome"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/positive-outline.svg",
       "name": "positive",
       "alias": "attribute-positive"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/predictive-outline.svg",
       "name": "predictive",
       "alias": "attribute-predictive"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/predisposing-outline.svg",
       "name": "predisposing",
       "alias": "attribute-predisposing"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/predisposition-outline.svg",
       "name": "predisposition",
       "alias": "attribute-predisposition"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/prognostic-outline.svg",
       "name": "prognostic",
       "alias": "attribute-prognostic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/protectiveness-outline.svg",
       "name": "protectiveness",
       "alias": "attribute-protectiveness"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/raregermline-outline.svg",
       "name": "raregermline",
       "alias": "attribute-raregermline"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/rating1-outline.svg",
       "name": "rating1",
       "alias": "attribute-rating1"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/rating2-outline.svg",
       "name": "rating2",
       "alias": "attribute-rating2"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/rating3-outline.svg",
       "name": "rating3",
       "alias": "attribute-rating3"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/rating4-outline.svg",
       "name": "rating4",
       "alias": "attribute-rating4"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/rating5-outline.svg",
       "name": "rating5",
       "alias": "attribute-rating5"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/reducedsensitivity-outline.svg",
       "name": "reducedsensitivity",
       "alias": "attribute-reducedsensitivity"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/resistance-outline.svg",
       "name": "resistance",
       "alias": "attribute-resistance"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/sensitivityresponse-outline.svg",
       "name": "sensitivityresponse",
       "alias": "attribute-sensitivityresponse"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/sequential-outline.svg",
       "name": "sequential",
       "alias": "attribute-sequential"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/significanceunknown-outline.svg",
       "name": "significanceunknown",
       "alias": "attribute-significanceunknown"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/somatic-outline.svg",
       "name": "somatic",
       "alias": "attribute-somatic"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/substitutes-outline.svg",
       "name": "substitutes",
       "alias": "attribute-substitutes"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/supports-outline.svg",
       "name": "supports",
       "alias": "attribute-supports"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/unalteredfunction-outline.svg",
       "name": "unalteredfunction",
       "alias": "attribute-unalteredfunction"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/uncertainsignificance-outline.svg",
       "name": "uncertainsignificance",
       "alias": "attribute-uncertainsignificance"
     },
     {
       "type": "attribute",
+      "filepath": "attribute/unknown-outline.svg",
       "name": "unknown",
       "alias": "attribute-unknown"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/admin-fullcolor.svg",
       "name": "admin",
       "alias": "fullcolor-admin"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/assertion-fullcolor.svg",
       "name": "assertion",
       "alias": "fullcolor-assertion"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/clinicaltrial-fullcolor.svg",
       "name": "clinicaltrial",
       "alias": "fullcolor-clinicaltrial"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/comment-fullcolor.svg",
       "name": "comment",
       "alias": "fullcolor-comment"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/coordinatesystem-fullcolor.svg",
       "name": "coordinatesystem",
       "alias": "fullcolor-coordinatesystem"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/curator-fullcolor.svg",
       "name": "curator",
       "alias": "fullcolor-curator"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/disease-fullcolor.svg",
       "name": "disease",
       "alias": "fullcolor-disease"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/editor-fullcolor.svg",
       "name": "editor",
       "alias": "fullcolor-editor"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/event-fullcolor.svg",
       "name": "event",
       "alias": "fullcolor-event"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/evidence-fullcolor.svg",
       "name": "evidence",
       "alias": "fullcolor-evidence"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/evidenceitem-fullcolor.svg",
       "name": "evidenceitem",
       "alias": "fullcolor-evidenceitem"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/flag-fullcolor.svg",
       "name": "flag",
       "alias": "fullcolor-flag"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/gene-fullcolor.svg",
       "name": "gene",
       "alias": "fullcolor-gene"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/molecularprofile-fullcolor.svg",
       "name": "molecularprofile",
       "alias": "fullcolor-molecularprofile"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/organization-fullcolor.svg",
       "name": "organization",
       "alias": "fullcolor-organization"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/phenotype-fullcolor.svg",
       "name": "phenotype",
       "alias": "fullcolor-phenotype"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/queue-fullcolor.svg",
       "name": "queue",
       "alias": "fullcolor-queue"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/revision-fullcolor.svg",
       "name": "revision",
       "alias": "fullcolor-revision"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/source-fullcolor.svg",
       "name": "source",
       "alias": "fullcolor-source"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/therapy-fullcolor.svg",
       "name": "therapy",
       "alias": "fullcolor-therapy"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/user-fullcolor.svg",
       "name": "user",
       "alias": "fullcolor-user"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/variant.svg",
       "name": "variant",
       "alias": "fullcolor-variant"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/variantgroup-fullcolor.svg",
       "name": "variantgroup",
       "alias": "fullcolor-variantgroup"
     },
     {
       "type": "fullcolor",
+      "filepath": "fullcolor/varianttype-fullcolor.svg",
       "name": "varianttype",
       "alias": "fullcolor-varianttype"
     },
     {
       "type": "outline",
+      "filepath": "outline/admin-outline.svg",
       "name": "admin",
       "alias": "outline-admin"
     },
     {
       "type": "outline",
+      "filepath": "outline/assertion-outline.svg",
       "name": "assertion",
       "alias": "outline-assertion"
     },
     {
       "type": "outline",
+      "filepath": "outline/clinicaltrial-outline.svg",
       "name": "clinicaltrial",
       "alias": "outline-clinicaltrial"
     },
     {
       "type": "outline",
+      "filepath": "outline/comment-outline.svg",
       "name": "comment",
       "alias": "outline-comment"
     },
     {
       "type": "outline",
+      "filepath": "outline/coordinatesystem-outline.svg",
       "name": "coordinatesystem",
       "alias": "outline-coordinatesystem"
     },
     {
       "type": "outline",
+      "filepath": "outline/curator-outline.svg",
       "name": "curator",
       "alias": "outline-curator"
     },
     {
       "type": "outline",
+      "filepath": "outline/disease-outline.svg",
       "name": "disease",
       "alias": "outline-disease"
     },
     {
       "type": "outline",
+      "filepath": "outline/editor-outline.svg",
       "name": "editor",
       "alias": "outline-editor"
     },
     {
       "type": "outline",
+      "filepath": "outline/event-outline.svg",
       "name": "event",
       "alias": "outline-event"
     },
     {
       "type": "outline",
+      "filepath": "outline/evidence-outline.svg",
       "name": "evidence",
       "alias": "outline-evidence"
     },
     {
       "type": "outline",
+      "filepath": "outline/evidenceitem-outline.svg",
       "name": "evidenceitem",
       "alias": "outline-evidenceitem"
     },
     {
       "type": "outline",
+      "filepath": "outline/flag-outline.svg",
       "name": "flag",
       "alias": "outline-flag"
     },
     {
       "type": "outline",
+      "filepath": "outline/gene-outline.svg",
       "name": "gene",
       "alias": "outline-gene"
     },
     {
       "type": "outline",
+      "filepath": "outline/molecularprofile-outline.svg",
       "name": "molecularprofile",
       "alias": "outline-molecularprofile"
     },
     {
       "type": "outline",
+      "filepath": "outline/organization-outline.svg",
       "name": "organization",
       "alias": "outline-organization"
     },
     {
       "type": "outline",
+      "filepath": "outline/phenotype-outline.svg",
       "name": "phenotype",
       "alias": "outline-phenotype"
     },
     {
       "type": "outline",
+      "filepath": "outline/queue-outline.svg",
       "name": "queue",
       "alias": "outline-queue"
     },
     {
       "type": "outline",
+      "filepath": "outline/revision-outline.svg",
       "name": "revision",
       "alias": "outline-revision"
     },
     {
       "type": "outline",
+      "filepath": "outline/source-outline.svg",
       "name": "source",
       "alias": "outline-source"
     },
     {
       "type": "outline",
+      "filepath": "outline/therapy-outline.svg",
       "name": "therapy",
       "alias": "outline-therapy"
     },
     {
       "type": "outline",
+      "filepath": "outline/user-outline.svg",
       "name": "user",
       "alias": "outline-user"
     },
     {
       "type": "outline",
+      "filepath": "outline/variant-outline.svg",
       "name": "variant",
       "alias": "outline-variant"
     },
     {
       "type": "outline",
+      "filepath": "outline/variantgroup-outline.svg",
       "name": "variantgroup",
       "alias": "outline-variantgroup"
     },
     {
       "type": "outline",
+      "filepath": "outline/varianttype-outline.svg",
       "name": "varianttype",
       "alias": "outline-varianttype"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/admin-twotone.svg",
       "name": "admin",
       "alias": "twotone-admin"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/assertion-twotone.svg",
       "name": "assertion",
       "alias": "twotone-assertion"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/clinicaltrial-twotone.svg",
       "name": "clinicaltrial",
       "alias": "twotone-clinicaltrial"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/comment-twotone.svg",
       "name": "comment",
       "alias": "twotone-comment"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/coordinatesystem-twotone.svg",
       "name": "coordinatesystem",
       "alias": "twotone-coordinatesystem"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/curator-twotone.svg",
       "name": "curator",
       "alias": "twotone-curator"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/disease-twotone.svg",
       "name": "disease",
       "alias": "twotone-disease"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/editor-twotone.svg",
       "name": "editor",
       "alias": "twotone-editor"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/event-twotone.svg",
       "name": "event",
       "alias": "twotone-event"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/evidence-twotone.svg",
       "name": "evidence",
       "alias": "twotone-evidence"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/evidenceitem-twotone.svg",
       "name": "evidenceitem",
       "alias": "twotone-evidenceitem"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/flag-twotone.svg",
       "name": "flag",
       "alias": "twotone-flag"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/gene-twotone.svg",
       "name": "gene",
       "alias": "twotone-gene"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/molecularprofile-twotone.svg",
       "name": "molecularprofile",
       "alias": "twotone-molecularprofile"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/organization-twotone.svg",
       "name": "organization",
       "alias": "twotone-organization"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/phenotype-twotone.svg",
       "name": "phenotype",
       "alias": "twotone-phenotype"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/queue-twotone.svg",
       "name": "queue",
       "alias": "twotone-queue"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/revision-twotone.svg",
       "name": "revision",
       "alias": "twotone-revision"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/source-twotone.svg",
       "name": "source",
       "alias": "twotone-source"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/therapy-twotone.svg",
       "name": "therapy",
       "alias": "twotone-therapy"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/user-twotone.svg",
       "name": "user",
       "alias": "twotone-user"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/variant-twotone.svg",
       "name": "variant",
       "alias": "twotone-variant"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/variantgroup-twotone.svg",
       "name": "variantgroup",
       "alias": "twotone-variantgroup"
     },
     {
       "type": "twotone",
+      "filepath": "twotone/varianttype-twotone.svg",
       "name": "varianttype",
       "alias": "twotone-varianttype"
     }
