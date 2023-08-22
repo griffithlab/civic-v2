@@ -1,0 +1,624 @@
+{
+  "icons": [
+    {
+      "type": "attribute",
+      "name": "adverseresponse",
+      "alias": "attribute-adverseresponse"
+    },
+    {
+      "type": "attribute",
+      "name": "benign",
+      "alias": "attribute-benign"
+    },
+    {
+      "type": "attribute",
+      "name": "betteroutcome",
+      "alias": "attribute-betteroutcome"
+    },
+    {
+      "type": "attribute",
+      "name": "combination",
+      "alias": "attribute-combination"
+    },
+    {
+      "type": "attribute",
+      "name": "combined",
+      "alias": "attribute-combined"
+    },
+    {
+      "type": "attribute",
+      "name": "commongermline",
+      "alias": "attribute-commongermline"
+    },
+    {
+      "type": "attribute",
+      "name": "diagnostic",
+      "alias": "attribute-diagnostic"
+    },
+    {
+      "type": "attribute",
+      "name": "doesnotsupport",
+      "alias": "attribute-doesnotsupport"
+    },
+    {
+      "type": "attribute",
+      "name": "dominantnegative",
+      "alias": "attribute-dominantnegative"
+    },
+    {
+      "type": "attribute",
+      "name": "functional",
+      "alias": "attribute-functional"
+    },
+    {
+      "type": "attribute",
+      "name": "gainoffunction",
+      "alias": "attribute-gainoffunction"
+    },
+    {
+      "type": "attribute",
+      "name": "levela",
+      "alias": "attribute-levela"
+    },
+    {
+      "type": "attribute",
+      "name": "levelb",
+      "alias": "attribute-levelb"
+    },
+    {
+      "type": "attribute",
+      "name": "levelc",
+      "alias": "attribute-levelc"
+    },
+    {
+      "type": "attribute",
+      "name": "leveld",
+      "alias": "attribute-leveld"
+    },
+    {
+      "type": "attribute",
+      "name": "levele",
+      "alias": "attribute-levele"
+    },
+    {
+      "type": "attribute",
+      "name": "likelybenign",
+      "alias": "attribute-likelybenign"
+    },
+    {
+      "type": "attribute",
+      "name": "likelyoncogenic",
+      "alias": "attribute-likelyoncogenic"
+    },
+    {
+      "type": "attribute",
+      "name": "likelypathogenic",
+      "alias": "attribute-likelypathogenic"
+    },
+    {
+      "type": "attribute",
+      "name": "lossoffunction",
+      "alias": "attribute-lossoffunction"
+    },
+    {
+      "type": "attribute",
+      "name": "na",
+      "alias": "attribute-na"
+    },
+    {
+      "type": "attribute",
+      "name": "negative",
+      "alias": "attribute-negative"
+    },
+    {
+      "type": "attribute",
+      "name": "neomorphic",
+      "alias": "attribute-neomorphic"
+    },
+    {
+      "type": "attribute",
+      "name": "oncogenic",
+      "alias": "attribute-oncogenic"
+    },
+    {
+      "type": "attribute",
+      "name": "oncogenicity",
+      "alias": "attribute-oncogenicity"
+    },
+    {
+      "type": "attribute",
+      "name": "oncogenicsignificance",
+      "alias": "attribute-oncogenicsignificance"
+    },
+    {
+      "type": "attribute",
+      "name": "oncogenictype",
+      "alias": "attribute-oncogenictype"
+    },
+    {
+      "type": "attribute",
+      "name": "pathogenic",
+      "alias": "attribute-pathogenic"
+    },
+    {
+      "type": "attribute",
+      "name": "pooroutcome",
+      "alias": "attribute-pooroutcome"
+    },
+    {
+      "type": "attribute",
+      "name": "positive",
+      "alias": "attribute-positive"
+    },
+    {
+      "type": "attribute",
+      "name": "predictive",
+      "alias": "attribute-predictive"
+    },
+    {
+      "type": "attribute",
+      "name": "predisposing",
+      "alias": "attribute-predisposing"
+    },
+    {
+      "type": "attribute",
+      "name": "predisposition",
+      "alias": "attribute-predisposition"
+    },
+    {
+      "type": "attribute",
+      "name": "prognostic",
+      "alias": "attribute-prognostic"
+    },
+    {
+      "type": "attribute",
+      "name": "protectiveness",
+      "alias": "attribute-protectiveness"
+    },
+    {
+      "type": "attribute",
+      "name": "raregermline",
+      "alias": "attribute-raregermline"
+    },
+    {
+      "type": "attribute",
+      "name": "rating1",
+      "alias": "attribute-rating1"
+    },
+    {
+      "type": "attribute",
+      "name": "rating2",
+      "alias": "attribute-rating2"
+    },
+    {
+      "type": "attribute",
+      "name": "rating3",
+      "alias": "attribute-rating3"
+    },
+    {
+      "type": "attribute",
+      "name": "rating4",
+      "alias": "attribute-rating4"
+    },
+    {
+      "type": "attribute",
+      "name": "rating5",
+      "alias": "attribute-rating5"
+    },
+    {
+      "type": "attribute",
+      "name": "reducedsensitivity",
+      "alias": "attribute-reducedsensitivity"
+    },
+    {
+      "type": "attribute",
+      "name": "resistance",
+      "alias": "attribute-resistance"
+    },
+    {
+      "type": "attribute",
+      "name": "sensitivityresponse",
+      "alias": "attribute-sensitivityresponse"
+    },
+    {
+      "type": "attribute",
+      "name": "sequential",
+      "alias": "attribute-sequential"
+    },
+    {
+      "type": "attribute",
+      "name": "significanceunknown",
+      "alias": "attribute-significanceunknown"
+    },
+    {
+      "type": "attribute",
+      "name": "somatic",
+      "alias": "attribute-somatic"
+    },
+    {
+      "type": "attribute",
+      "name": "substitutes",
+      "alias": "attribute-substitutes"
+    },
+    {
+      "type": "attribute",
+      "name": "supports",
+      "alias": "attribute-supports"
+    },
+    {
+      "type": "attribute",
+      "name": "unalteredfunction",
+      "alias": "attribute-unalteredfunction"
+    },
+    {
+      "type": "attribute",
+      "name": "uncertainsignificance",
+      "alias": "attribute-uncertainsignificance"
+    },
+    {
+      "type": "attribute",
+      "name": "unknown",
+      "alias": "attribute-unknown"
+    },
+    {
+      "type": "fullcolor",
+      "name": "admin",
+      "alias": "fullcolor-admin"
+    },
+    {
+      "type": "fullcolor",
+      "name": "assertion",
+      "alias": "fullcolor-assertion"
+    },
+    {
+      "type": "fullcolor",
+      "name": "clinicaltrial",
+      "alias": "fullcolor-clinicaltrial"
+    },
+    {
+      "type": "fullcolor",
+      "name": "comment",
+      "alias": "fullcolor-comment"
+    },
+    {
+      "type": "fullcolor",
+      "name": "coordinatesystem",
+      "alias": "fullcolor-coordinatesystem"
+    },
+    {
+      "type": "fullcolor",
+      "name": "curator",
+      "alias": "fullcolor-curator"
+    },
+    {
+      "type": "fullcolor",
+      "name": "disease",
+      "alias": "fullcolor-disease"
+    },
+    {
+      "type": "fullcolor",
+      "name": "editor",
+      "alias": "fullcolor-editor"
+    },
+    {
+      "type": "fullcolor",
+      "name": "event",
+      "alias": "fullcolor-event"
+    },
+    {
+      "type": "fullcolor",
+      "name": "evidence",
+      "alias": "fullcolor-evidence"
+    },
+    {
+      "type": "fullcolor",
+      "name": "evidenceitem",
+      "alias": "fullcolor-evidenceitem"
+    },
+    {
+      "type": "fullcolor",
+      "name": "flag",
+      "alias": "fullcolor-flag"
+    },
+    {
+      "type": "fullcolor",
+      "name": "gene",
+      "alias": "fullcolor-gene"
+    },
+    {
+      "type": "fullcolor",
+      "name": "molecularprofile",
+      "alias": "fullcolor-molecularprofile"
+    },
+    {
+      "type": "fullcolor",
+      "name": "organization",
+      "alias": "fullcolor-organization"
+    },
+    {
+      "type": "fullcolor",
+      "name": "phenotype",
+      "alias": "fullcolor-phenotype"
+    },
+    {
+      "type": "fullcolor",
+      "name": "queue",
+      "alias": "fullcolor-queue"
+    },
+    {
+      "type": "fullcolor",
+      "name": "revision",
+      "alias": "fullcolor-revision"
+    },
+    {
+      "type": "fullcolor",
+      "name": "source",
+      "alias": "fullcolor-source"
+    },
+    {
+      "type": "fullcolor",
+      "name": "therapy",
+      "alias": "fullcolor-therapy"
+    },
+    {
+      "type": "fullcolor",
+      "name": "user",
+      "alias": "fullcolor-user"
+    },
+    {
+      "type": "fullcolor",
+      "name": "variant",
+      "alias": "fullcolor-variant"
+    },
+    {
+      "type": "fullcolor",
+      "name": "variantgroup",
+      "alias": "fullcolor-variantgroup"
+    },
+    {
+      "type": "fullcolor",
+      "name": "varianttype",
+      "alias": "fullcolor-varianttype"
+    },
+    {
+      "type": "outline",
+      "name": "admin",
+      "alias": "outline-admin"
+    },
+    {
+      "type": "outline",
+      "name": "assertion",
+      "alias": "outline-assertion"
+    },
+    {
+      "type": "outline",
+      "name": "clinicaltrial",
+      "alias": "outline-clinicaltrial"
+    },
+    {
+      "type": "outline",
+      "name": "comment",
+      "alias": "outline-comment"
+    },
+    {
+      "type": "outline",
+      "name": "coordinatesystem",
+      "alias": "outline-coordinatesystem"
+    },
+    {
+      "type": "outline",
+      "name": "curator",
+      "alias": "outline-curator"
+    },
+    {
+      "type": "outline",
+      "name": "disease",
+      "alias": "outline-disease"
+    },
+    {
+      "type": "outline",
+      "name": "editor",
+      "alias": "outline-editor"
+    },
+    {
+      "type": "outline",
+      "name": "event",
+      "alias": "outline-event"
+    },
+    {
+      "type": "outline",
+      "name": "evidence",
+      "alias": "outline-evidence"
+    },
+    {
+      "type": "outline",
+      "name": "evidenceitem",
+      "alias": "outline-evidenceitem"
+    },
+    {
+      "type": "outline",
+      "name": "flag",
+      "alias": "outline-flag"
+    },
+    {
+      "type": "outline",
+      "name": "gene",
+      "alias": "outline-gene"
+    },
+    {
+      "type": "outline",
+      "name": "molecularprofile",
+      "alias": "outline-molecularprofile"
+    },
+    {
+      "type": "outline",
+      "name": "organization",
+      "alias": "outline-organization"
+    },
+    {
+      "type": "outline",
+      "name": "phenotype",
+      "alias": "outline-phenotype"
+    },
+    {
+      "type": "outline",
+      "name": "queue",
+      "alias": "outline-queue"
+    },
+    {
+      "type": "outline",
+      "name": "revision",
+      "alias": "outline-revision"
+    },
+    {
+      "type": "outline",
+      "name": "source",
+      "alias": "outline-source"
+    },
+    {
+      "type": "outline",
+      "name": "therapy",
+      "alias": "outline-therapy"
+    },
+    {
+      "type": "outline",
+      "name": "user",
+      "alias": "outline-user"
+    },
+    {
+      "type": "outline",
+      "name": "variant",
+      "alias": "outline-variant"
+    },
+    {
+      "type": "outline",
+      "name": "variantgroup",
+      "alias": "outline-variantgroup"
+    },
+    {
+      "type": "outline",
+      "name": "varianttype",
+      "alias": "outline-varianttype"
+    },
+    {
+      "type": "twotone",
+      "name": "admin",
+      "alias": "twotone-admin"
+    },
+    {
+      "type": "twotone",
+      "name": "assertion",
+      "alias": "twotone-assertion"
+    },
+    {
+      "type": "twotone",
+      "name": "clinicaltrial",
+      "alias": "twotone-clinicaltrial"
+    },
+    {
+      "type": "twotone",
+      "name": "comment",
+      "alias": "twotone-comment"
+    },
+    {
+      "type": "twotone",
+      "name": "coordinatesystem",
+      "alias": "twotone-coordinatesystem"
+    },
+    {
+      "type": "twotone",
+      "name": "curator",
+      "alias": "twotone-curator"
+    },
+    {
+      "type": "twotone",
+      "name": "disease",
+      "alias": "twotone-disease"
+    },
+    {
+      "type": "twotone",
+      "name": "editor",
+      "alias": "twotone-editor"
+    },
+    {
+      "type": "twotone",
+      "name": "event",
+      "alias": "twotone-event"
+    },
+    {
+      "type": "twotone",
+      "name": "evidence",
+      "alias": "twotone-evidence"
+    },
+    {
+      "type": "twotone",
+      "name": "evidenceitem",
+      "alias": "twotone-evidenceitem"
+    },
+    {
+      "type": "twotone",
+      "name": "flag",
+      "alias": "twotone-flag"
+    },
+    {
+      "type": "twotone",
+      "name": "gene",
+      "alias": "twotone-gene"
+    },
+    {
+      "type": "twotone",
+      "name": "molecularprofile",
+      "alias": "twotone-molecularprofile"
+    },
+    {
+      "type": "twotone",
+      "name": "organization",
+      "alias": "twotone-organization"
+    },
+    {
+      "type": "twotone",
+      "name": "phenotype",
+      "alias": "twotone-phenotype"
+    },
+    {
+      "type": "twotone",
+      "name": "queue",
+      "alias": "twotone-queue"
+    },
+    {
+      "type": "twotone",
+      "name": "revision",
+      "alias": "twotone-revision"
+    },
+    {
+      "type": "twotone",
+      "name": "source",
+      "alias": "twotone-source"
+    },
+    {
+      "type": "twotone",
+      "name": "therapy",
+      "alias": "twotone-therapy"
+    },
+    {
+      "type": "twotone",
+      "name": "user",
+      "alias": "twotone-user"
+    },
+    {
+      "type": "twotone",
+      "name": "variant",
+      "alias": "twotone-variant"
+    },
+    {
+      "type": "twotone",
+      "name": "variantgroup",
+      "alias": "twotone-variantgroup"
+    },
+    {
+      "type": "twotone",
+      "name": "varianttype",
+      "alias": "twotone-varianttype"
+    }
+  ]
+}
