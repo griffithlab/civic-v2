@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   validates :username, format: { without: /\s|@/, message: 'cannot contain whitespace or @ symbols' }
   validate :username_is_not_role_name
   validate :require_email_for_editors
+  validate :social_media_handles
   after_create :assign_default_username
 
   has_one_attached :profile_image
@@ -101,6 +102,15 @@ class User < ActiveRecord::Base
   def require_email_for_editors
     if self.role == 'editor' && self.email.blank?
       errors.add(:email, 'cannot be blank for editors')
+    end
+  end
+
+  def social_media_handles
+    [:twitter_handle, :orcid, :facebook_profile, :linkedin_profile].each do |platform|
+      username = self.send(platform)
+      if username.present?
+        self.errors.add(platform, 'should not contain the URL, only your username') if username.include?('/')
+      end
     end
   end
 

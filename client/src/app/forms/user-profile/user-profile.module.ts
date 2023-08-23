@@ -11,6 +11,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzInputModule } from 'ng-zorro-antd/input'
 
 @NgModule({
   declarations: [CvcUserProfileForm],
@@ -27,6 +28,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
     NzButtonModule,
     NzSpinModule,
     NzSelectModule,
+    NzInputModule,
     CvcFormErrorsAlertModule,
   ],
   exports: [CvcUserProfileForm],
