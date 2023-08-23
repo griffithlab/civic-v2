@@ -4753,6 +4753,101 @@ input OrganizationFilter {
   name: String
 }
 
+type OrganizationLeaderboards {
+  commentsLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    window: TimeWindow
+  ): LeaderboardOrganizationConnection!
+  moderationLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    window: TimeWindow
+  ): LeaderboardOrganizationConnection!
+  revisionsLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    window: TimeWindow
+  ): LeaderboardOrganizationConnection!
+  submissionsLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    window: TimeWindow
+  ): LeaderboardOrganizationConnection!
+}
+
 input OrganizationSort {
   """
   Available columns for sorting
@@ -5659,98 +5754,7 @@ type Query {
   Find an organization by CIViC ID
   """
   organization(id: Int!): Organization
-  organizationCommentsLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardOrganizationConnection!
-  organizationModerationLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardOrganizationConnection!
-  organizationRevisionsLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardOrganizationConnection!
-  organizationSubmissionsLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardOrganizationConnection!
+  organizationLeaderboards: OrganizationLeaderboards!
 
   """
   List and filter organizations.
@@ -6060,98 +6064,7 @@ type Query {
   therapyTypeahead(queryTerm: String!): [Therapy!]!
   timepointStats: CivicTimepointStats!
   user(id: Int!): User
-  userCommentsLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardUserConnection!
-  userModerationLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardUserConnection!
-  userRevisionsLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardUserConnection!
-  userSubmissionsLeaderboard(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    direction: SortDirection
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    window: TimeWindow
-  ): LeaderboardUserConnection!
+  userLeaderboards: UserLeaderboards!
 
   """
   Retrieve user type typeahead fields for a search term.
@@ -8108,6 +8021,105 @@ type UserEdge {
   The item at the end of the edge.
   """
   node: User
+}
+
+type UserLeaderboards {
+  commentsLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    role: UserRole
+    window: TimeWindow
+  ): LeaderboardUserConnection!
+  moderationLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    role: UserRole
+    window: TimeWindow
+  ): LeaderboardUserConnection!
+  revisionsLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    role: UserRole
+    window: TimeWindow
+  ): LeaderboardUserConnection!
+  submissionsLeaderboard(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: SortDirection
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    role: UserRole
+    window: TimeWindow
+  ): LeaderboardUserConnection!
 }
 
 enum UserRole {
