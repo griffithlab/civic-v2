@@ -40,26 +40,6 @@ class User < ActiveRecord::Base
   validates :profile_image, content_type: ['image/png', 'image/jpg', 'image/jpeg'],
     size: { less_than: 5.megabytes , message: 'Image must be smaller than 15MB' }
 
-  def self.datatable_scope
-    joins('LEFT OUTER JOIN events ON events.originating_user_id = users.id')
-      .joins('LEFT OUTER JOIN affiliations ON users.id = affiliations.user_id')
-      .joins('LEFT OUTER JOIN organizations ON affiliations.organization_id = organizations.id')
-      .includes(:badge_awards, domain_expert_tags: [:domain_of_expertise])
-  end
-
-  def self.index_scope
-    includes(:organizations, :most_recent_conflict_of_interest_statement, domain_expert_tags: [:domain_of_expertise])
-  end
-
-  def self.view_scope
-    includes(:organizations, :badge_awards, :most_recent_conflict_of_interest_statement, domain_expert_tags: [:domain_of_expertise])
-  end
-
-  def self.domain_experts_scope
-    joins(:domain_expert_tags)
-      .includes(domain_expert_tags: [:domain_of_expertise])
-  end
-
   def self.create_from_omniauth(auth_hash, authorization)
     auth_provider_adaptor(auth_hash['provider']).create_from_omniauth(auth_hash).tap do |user|
       user.authorizations << authorization
