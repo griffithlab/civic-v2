@@ -1903,6 +1903,149 @@ export enum IntSearchOperator {
   Ne = 'NE'
 }
 
+export type LeaderboardOrganization = {
+  __typename: 'LeaderboardOrganization';
+  actionCount: Scalars['Int'];
+  description: Scalars['String'];
+  eventCount: Scalars['Int'];
+  events: EventConnection;
+  id: Scalars['Int'];
+  memberCount: Scalars['Int'];
+  members: UserConnection;
+  mostRecentEvent?: Maybe<Event>;
+  name: Scalars['String'];
+  orgAndSuborgsStatsHash: Stats;
+  orgStatsHash: Stats;
+  profileImagePath?: Maybe<Scalars['String']>;
+  rank: Scalars['Int'];
+  subGroups: Array<Organization>;
+  url: Scalars['String'];
+};
+
+
+export type LeaderboardOrganizationEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardOrganizationMembersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardOrganizationProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for LeaderboardOrganization. */
+export type LeaderboardOrganizationConnection = {
+  __typename: 'LeaderboardOrganizationConnection';
+  /** A list of edges. */
+  edges: Array<LeaderboardOrganizationEdge>;
+  /** A list of nodes. */
+  nodes: Array<LeaderboardOrganization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type LeaderboardOrganizationEdge = {
+  __typename: 'LeaderboardOrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<LeaderboardOrganization>;
+};
+
+export type LeaderboardUser = {
+  __typename: 'LeaderboardUser';
+  actionCount: Scalars['Int'];
+  areaOfExpertise?: Maybe<AreaOfExpertise>;
+  bio?: Maybe<Scalars['String']>;
+  country?: Maybe<Country>;
+  displayName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  events: EventConnection;
+  facebookProfile?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  linkedinProfile?: Maybe<Scalars['String']>;
+  mostRecentActionTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentEvent?: Maybe<Event>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  /** Filterable list of notifications for the logged in user. */
+  notifications?: Maybe<NotificationConnection>;
+  orcid?: Maybe<Scalars['String']>;
+  organizations: Array<Organization>;
+  profileImagePath?: Maybe<Scalars['String']>;
+  rank: Scalars['Int'];
+  role: UserRole;
+  statsHash: Stats;
+  twitterHandle?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+
+export type LeaderboardUserEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardUserNotificationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']>;
+  includeSeen?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['Int']>;
+  notificationType?: InputMaybe<NotificationReason>;
+  subscriptionId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardUserProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for LeaderboardUser. */
+export type LeaderboardUserConnection = {
+  __typename: 'LeaderboardUserConnection';
+  /** A list of edges. */
+  edges: Array<LeaderboardUserEdge>;
+  /** A list of nodes. */
+  nodes: Array<LeaderboardUser>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type LeaderboardUserEdge = {
+  __typename: 'LeaderboardUserEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<LeaderboardUser>;
+};
+
 export type LinkableDisease = {
   __typename: 'LinkableDisease';
   id: Scalars['Int'];
@@ -2939,6 +3082,10 @@ export type Query = {
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
   organization?: Maybe<Organization>;
+  organizationCommentsLeaderboard: LeaderboardOrganizationConnection;
+  organizationModerationLeaderboard: LeaderboardOrganizationConnection;
+  organizationRevisionsLeaderboard: LeaderboardOrganizationConnection;
+  organizationSubmissionsLeaderboard: LeaderboardOrganizationConnection;
   /** List and filter organizations. */
   organizations: OrganizationConnection;
   /** Find a phenotype by CIViC ID */
@@ -2981,6 +3128,10 @@ export type Query = {
   therapyTypeahead: Array<Therapy>;
   timepointStats: CivicTimepointStats;
   user?: Maybe<User>;
+  userCommentsLeaderboard: LeaderboardUserConnection;
+  userModerationLeaderboard: LeaderboardUserConnection;
+  userRevisionsLeaderboard: LeaderboardUserConnection;
+  userSubmissionsLeaderboard: LeaderboardUserConnection;
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
   /** List and filter users. */
@@ -3345,6 +3496,46 @@ export type QueryOrganizationArgs = {
 };
 
 
+export type QueryOrganizationCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type QueryOrganizationModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type QueryOrganizationRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type QueryOrganizationSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
 export type QueryOrganizationsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -3513,6 +3704,46 @@ export type QueryTherapyTypeaheadArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryUserCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type QueryUserModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type QueryUserRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type QueryUserSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
 };
 
 
@@ -4535,6 +4766,13 @@ export type TimePointCounts = {
   newThisWeek: Scalars['Int'];
   newThisYear: Scalars['Int'];
 };
+
+export enum TimeWindow {
+  AllTime = 'ALL_TIME',
+  LastMonth = 'LAST_MONTH',
+  LastWeek = 'LAST_WEEK',
+  LastYear = 'LAST_YEAR'
+}
 
 /** Autogenerated input type of Unsubscribe */
 export type UnsubscribeInput = {
@@ -5636,6 +5874,19 @@ export type TherapiesBrowseQueryVariables = Exact<{
 export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typename: 'BrowseTherapyConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseTherapyEdge', cursor: string, node?: { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string } | undefined }> } };
 
 export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string };
+
+export type UserLeaderboardsQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserLeaderboardsQuery = { __typename: 'Query', userCommentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> }, userModerationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> }, userRevisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> }, userSubmissionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
+
+export type LeaderboardUserFieldsFragment = { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined };
 
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -7808,6 +8059,17 @@ export const TherapyBrowseTableRowFieldsFragmentDoc = gql`
   assertionCount
   evidenceCount
   link
+}
+    `;
+export const LeaderboardUserFieldsFragmentDoc = gql`
+    fragment LeaderboardUserFields on LeaderboardUser {
+  id
+  name
+  displayName
+  actionCount
+  role
+  rank
+  profileImagePath(size: 32)
 }
     `;
 export const PopoverUserFragmentDoc = gql`
@@ -10776,6 +11038,113 @@ export const TherapiesBrowseDocument = gql`
   })
   export class TherapiesBrowseGQL extends Apollo.Query<TherapiesBrowseQuery, TherapiesBrowseQueryVariables> {
     document = TherapiesBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserLeaderboardsDocument = gql`
+    query UserLeaderboards($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userCommentsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+  userModerationLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+  userRevisionsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+  userSubmissionsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserLeaderboardsGQL extends Apollo.Query<UserLeaderboardsQuery, UserLeaderboardsQueryVariables> {
+    document = UserLeaderboardsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

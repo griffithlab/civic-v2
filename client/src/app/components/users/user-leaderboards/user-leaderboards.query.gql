@@ -1,4 +1,5 @@
 query UserLeaderboards(
+  $window: TimeWindow
   $first: Int
   $last: Int
   $before: String
@@ -9,6 +10,7 @@ query UserLeaderboards(
     last: $last
     before: $before
     after: $after
+    window: $window
   ) {
     pageInfo {
       endCursor
@@ -16,12 +18,83 @@ query UserLeaderboards(
       hasPreviousPage
       startCursor
     }
-    totalCount
     edges {
       cursor
       node {
         ...LeaderboardUserFields
       }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+  userModerationLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+  userRevisionsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+  userSubmissionsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
     }
   }
 }
@@ -30,16 +103,8 @@ fragment LeaderboardUserFields on LeaderboardUser {
   id
   name
   displayName
+  actionCount
   role
   rank
-  statsHash {
-    acceptedAssertions
-    acceptedEvidenceItems
-    appliedRevisions
-    comments
-    revisions
-    submittedAssertions
-    submittedEvidenceItems
-    suggestedSources
-  }
+  profileImagePath(size: 32)
 }

@@ -9,51 +9,44 @@
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra">
   <nz-row [nzGutter]="0">
-    <nz-col nzSpan="4">
-      <h4 class="leaderboard-title">Evidence Accepted</h4>
+    <nz-col nzSpan="6">
+      <h4 class="leaderboard-title">Comments Added</h4>
       <ol class="leaderboard-list">
-        <li *ngFor="let user of userList$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user.node"></cvc-user-tag><br />
+        <li *ngFor="let user of commentsLeaderboard$ | ngrxPush; let i = index">
+          <cvc-user-tag [user]="user"></cvc-user-tag><br />
         </li>
       </ol>
     </nz-col>
-    <nz-col nzSpan="4">
-      <h4 class="leaderboard-title">Assertions Accepted</h4>
+    <nz-col nzSpan="6">
+      <h4 class="leaderboard-title">Moderations Performed</h4>
       <ol class="leaderboard-list">
-        <li *ngFor="let user of userList$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user.node"></cvc-user-tag><br />
+        <li
+          *ngFor="
+            let user of moderationsLeaderboard$ | ngrxPush;
+            let i = index
+          ">
+          <cvc-user-tag [user]="user"></cvc-user-tag><br />
         </li>
       </ol>
     </nz-col>
-    <nz-col nzSpan="4">
-      <h4 class="leaderboard-title">Revisions Applied</h4>
+    <nz-col nzSpan="6">
+      <h4 class="leaderboard-title">Revisions Performed</h4>
       <ol class="leaderboard-list">
-        <li *ngFor="let user of userList$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user.node"></cvc-user-tag><br />
+        <li
+          *ngFor="let user of revisionsLeaderboard$ | ngrxPush; let i = index">
+          <cvc-user-tag [user]="user"></cvc-user-tag><br />
         </li>
       </ol>
     </nz-col>
-    <nz-col nzSpan="4">
-      <h4 class="leaderboard-title">Evidence Submitted</h4>
+    <nz-col nzSpan="6">
+      <h4 class="leaderboard-title">Submissions Made</h4>
       <ol class="leaderboard-list">
-        <li *ngFor="let user of userList$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user.node"></cvc-user-tag><br />
-        </li>
-      </ol>
-    </nz-col>
-    <nz-col nzSpan="4">
-      <h4 class="leaderboard-title">Assertions Submitted</h4>
-      <ol class="leaderboard-list">
-        <li *ngFor="let user of userList$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user.node"></cvc-user-tag><br />
-        </li>
-      </ol>
-    </nz-col>
-    <nz-col nzSpan="4">
-      <h4 class="leaderboard-title">Revisions Submitted</h4>
-      <ol class="leaderboard-list">
-        <li *ngFor="let user of userList$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user.node"></cvc-user-tag><br />
+        <li
+          *ngFor="
+            let user of submissionsLeaderboard$ | ngrxPush;
+            let i = index
+          ">
+          <cvc-user-tag [user]="user"></cvc-user-tag><br />
         </li>
       </ol>
     </nz-col>
@@ -70,16 +63,16 @@
     (ngModelChange)="timeWindow$.next($event)">
     <nz-option
       nzLabel="All"
-      nzValue="ALL"></nz-option>
+      nzValue="ALL_TIME"></nz-option>
     <nz-option
       nzLabel="Past Week"
-      nzValue="WEEK"></nz-option>
+      nzValue="LAST_WEEK"></nz-option>
     <nz-option
       nzLabel="Past Month"
-      nzValue="MONTH"></nz-option>
+      nzValue="LAST_MONTH"></nz-option>
     <nz-option
       nzLabel="Past Year"
-      nzValue="YEAR"></nz-option>
+      nzValue="LAST_YEAR"></nz-option>
   </nz-select>
 </ng-template>
 <!--
