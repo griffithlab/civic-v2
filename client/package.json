@@ -15,7 +15,8 @@
     "generate-apollo": "graphql-codegen",
     "generate-apollo:start": "graphql-codegen --watch",
     "generate-icon-data": "scripts/generate-icon-data.js",
-    "generate-icon-rst": "scripts/generate-icon-rst.js"
+    "generate-icon-rst": "scripts/generate-icon-rst.js",
+    "generate-docs-rst": "yarn run generate-icon-data && yarn run generate-icon-rst"
   },
   "private": true,
   "resolutions": {
