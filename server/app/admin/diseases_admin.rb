@@ -1,6 +1,14 @@
 Trestle.resource(:diseases) do
+  collection do
+    Disease.eager_load(:disease_aliases)
+  end
+
   menu do
     item :diseases, icon: "fa fa-disease"
+  end
+
+  search do |q|
+    q ? collection.where("diseases.doid ILIKE ? OR diseases.name ILIKE ? OR disease_aliases.name ILIKE ?", "%#{q}%", "%#{q}%", "%#{q}%") : collection
   end
 
   scope :all, default: true
@@ -11,6 +19,9 @@ Trestle.resource(:diseases) do
     column :id
     column :doid
     column :name
+    column :aliases do |disease|
+      disease.disease_aliases.map(&:name).join(", ")
+    end
   end
 
   # Customize the form fields shown on the new/edit views.
