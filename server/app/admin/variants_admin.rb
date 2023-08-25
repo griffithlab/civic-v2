@@ -14,7 +14,6 @@ Trestle.resource(:variants) do
   end
 
   scope :all
-  scope :with_evidence, -> { Variant.joins(:evidence_items).distinct }, default: true
   scope :flagged, -> { Variant.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
