@@ -5875,7 +5875,9 @@ export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typenam
 
 export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string };
 
-export type UserLeaderboardsQueryVariables = Exact<{
+export type LeaderboardUserFieldsFragment = { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined };
+
+export type UserCommentsLeaderboardQueryVariables = Exact<{
   window?: InputMaybe<TimeWindow>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -5884,9 +5886,29 @@ export type UserLeaderboardsQueryVariables = Exact<{
 }>;
 
 
-export type UserLeaderboardsQuery = { __typename: 'Query', userCommentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> }, userModerationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> }, userRevisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> }, userSubmissionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
+export type UserCommentsLeaderboardQuery = { __typename: 'Query', userCommentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
 
-export type LeaderboardUserFieldsFragment = { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined };
+export type UserRevisionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserRevisionsLeaderboardQuery = { __typename: 'Query', userRevisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
+
+export type UserModerationLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserModerationLeaderboardQuery = { __typename: 'Query', userModerationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
 
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -8069,7 +8091,7 @@ export const LeaderboardUserFieldsFragmentDoc = gql`
   actionCount
   role
   rank
-  profileImagePath(size: 32)
+  profileImagePath(size: 64)
 }
     `;
 export const PopoverUserFragmentDoc = gql`
@@ -11043,78 +11065,9 @@ export const TherapiesBrowseDocument = gql`
       super(apollo);
     }
   }
-export const UserLeaderboardsDocument = gql`
-    query UserLeaderboards($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+export const UserCommentsLeaderboardDocument = gql`
+    query UserCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
   userCommentsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
-        ...LeaderboardUserFields
-      }
-    }
-    nodes {
-      ...LeaderboardUserFields
-    }
-  }
-  userModerationLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
-        ...LeaderboardUserFields
-      }
-    }
-    nodes {
-      ...LeaderboardUserFields
-    }
-  }
-  userRevisionsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
-        ...LeaderboardUserFields
-      }
-    }
-    nodes {
-      ...LeaderboardUserFields
-    }
-  }
-  userSubmissionsLeaderboard(
     first: $first
     last: $last
     before: $before
@@ -11143,8 +11096,84 @@ export const UserLeaderboardsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class UserLeaderboardsGQL extends Apollo.Query<UserLeaderboardsQuery, UserLeaderboardsQueryVariables> {
-    document = UserLeaderboardsDocument;
+  export class UserCommentsLeaderboardGQL extends Apollo.Query<UserCommentsLeaderboardQuery, UserCommentsLeaderboardQueryVariables> {
+    document = UserCommentsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserRevisionsLeaderboardDocument = gql`
+    query UserRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userRevisionsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserRevisionsLeaderboardGQL extends Apollo.Query<UserRevisionsLeaderboardQuery, UserRevisionsLeaderboardQueryVariables> {
+    document = UserRevisionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserModerationLeaderboardDocument = gql`
+    query UserModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userModerationLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardUserFields
+      }
+    }
+    nodes {
+      ...LeaderboardUserFields
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserModerationLeaderboardGQL extends Apollo.Query<UserModerationLeaderboardQuery, UserModerationLeaderboardQueryVariables> {
+    document = UserModerationLeaderboardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,10 +1,108 @@
-<!-- container card components w/ inner tabs -->
-<!-- each tab contains a subset of leaderboard lists -->
-<!-- tab 1, "Editor Leaderboards":  accepted evidence items, accepted assertions, applied revisions  -->
-<!-- tab 2, "Curator Leaderboards":  submitted evidence, submitted assertions, suggested sources -->
-<!-- tab 3, "Contributor Leaderboards":  comments, revisions -->
-
 <nz-card
+  nzSize="small"
+  [nzTitle]="cardTitle"
+  [nzExtra]="cardExtra">
+  <pre>{{ leaderboardsView$ | ngrxPush | json }}</pre>
+  <nz-row [nzGutter]="[8, 8]">
+    <!-- <nz-col nzSpan="6">
+          <ng-container
+            *ngTemplateOutlet="
+              leaderboard;
+              context: {
+                $implicit: commentsLeaderboard$ | ngrxPush,
+                span: 6,
+                title: 'Comments Added',
+                countTitle: 'Comments'
+              }
+            ">
+          </ng-container>
+        </nz-col> -->
+    <!-- <nz-col nzSpan="6">
+          <ng-container
+            *ngTemplateOutlet="
+              leaderboard;
+              context: {
+                $implicit: revisionsLeaderboard$ | ngrxPush,
+                span: 6,
+                title: 'Revisions Performed',
+                countTitle: 'Revisions'
+              }
+            ">
+          </ng-container>
+        </nz-col>
+        <nz-col nzSpan="6">
+          <ng-container
+            *ngTemplateOutlet="
+              leaderboard;
+              context: {
+                $implicit: moderationsLeaderboard$ | ngrxPush,
+                span: 6,
+                title: 'Moderations Performed',
+                countTitle: 'Moderations',
+              }
+            ">
+          </ng-container>
+        </nz-col>
+        <nz-col nzSpan="6">
+          <ng-container
+            *ngTemplateOutlet="
+              leaderboard;
+              context: {
+                $implicit: submissionsLeaderboard$ | ngrxPush,
+                span: 6,
+                title: 'Submissions Added',
+                countTitle: 'Submissions',
+              }
+            ">
+          </ng-container>
+        </nz-col> -->
+  </nz-row>
+</nz-card>
+
+<!-- <ng-template
+  #leaderboard
+  let-rows
+  let-title="title"
+  let-countTitle="countTitle">
+  <ng-template #leaderboardHeader>
+    <span class="board-header">{{ title }}</span>
+  </ng-template>
+  <nz-list
+    *ngrxLet="revisionsLeaderboard$ as rows"
+    [nzHeader]="leaderboardHeader"
+    nzSize="small"
+    nzBordered
+    nzItemLayout="vertical"
+    nzItemLayout="horizontal">
+    <nz-list-item *ngFor="let row of rows">
+      <nz-list-item-meta [nzAvatar]="rowAvatar">
+        <nz-list-item-meta-title>
+          {{ row.name ? row.name : row.user.displayName }}
+        </nz-list-item-meta-title>
+        <nz-list-item-meta-description>
+          Rank: {{ row.rank }} | Count: {{ row.actionCount | number }}
+        </nz-list-item-meta-description>
+      </nz-list-item-meta>
+      <ul nz-list-item-actions>
+        <nz-list-item-action>
+          <cvc-user-tag [user]="row.user"></cvc-user-tag><br />
+        </nz-list-item-action>
+      </ul>
+      <ng-template #rowAvatar>
+        <ng-container *ngIf="row.profileImagePath">
+          <nz-avatar
+            nzIcon="user"
+            nzSize="large"
+            nzShape="square"
+            [nzSrc]="row.profileImagePath"></nz-avatar>
+        </ng-container>
+      </ng-template>
+    </nz-list-item>
+    <nz-list-empty *ngIf="rows.length === 0"></nz-list-empty>
+  </nz-list>
+</ng-template> -->
+
+<!-- <nz-card
   nzSize="small"
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra">
@@ -51,7 +149,7 @@
       </ol>
     </nz-col>
   </nz-row>
-</nz-card>
+</nz-card> -->
 
 <ng-template #cardTitle>Curation Activity Leaderboards </ng-template>
 <ng-template #cardExtra>
@@ -75,13 +173,3 @@
       nzValue="LAST_YEAR"></nz-option>
   </nz-select>
 </ng-template>
-<!--
-acceptedAssertions: Int!
-acceptedEvidenceItems: Int!
-appliedRevisions: Int!
-comments: Int!
-revisions: Int!
-submittedAssertions: Int!
-submittedEvidenceItems: Int!
-suggestedSources: Int!
--->
