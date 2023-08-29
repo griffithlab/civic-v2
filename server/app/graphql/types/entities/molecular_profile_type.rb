@@ -27,6 +27,7 @@ module Types::Entities
     field :deprecation_event, Types::Entities::EventType, null: true
     field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
+    field :is_complex, Boolean, null: false
 
     def raw_name
       object.name
@@ -88,6 +89,12 @@ module Types::Entities
             submitted_count: 0,
           }
         end
+      end
+    end
+
+    def is_complex
+      Loaders::AssociationCountLoader.for(MolecularProfile, association: :variants).load(object.id).then do |count|
+        count > 1
       end
     end
   end

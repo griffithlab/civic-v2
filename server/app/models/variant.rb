@@ -85,6 +85,17 @@ class Variant < ApplicationRecord
   def on_revision_accepted
     SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
     GenerateOpenCravatLink.perform_later(self)
+    update_single_variant_mp_aliases
+  end
+
+  def update_single_variant_mp_aliases
+    svmp = self.single_variant_molecular_profile
+    aliases = self.variant_aliases
+    mp_aliases = aliases.map do |a|
+      MolecularProfileAlias.where(name: a).first_or_create!
+    end
+
+    svmp.molecular_profile_aliases = mp_aliases
   end
 
   def unique_name_in_context
