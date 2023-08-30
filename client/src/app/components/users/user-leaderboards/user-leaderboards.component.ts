@@ -9,9 +9,6 @@ import {
   UserCommentsLeaderboardGQL,
   UserCommentsLeaderboardQuery,
   UserCommentsLeaderboardQueryVariables,
-  UserLeaderboardsGQL,
-  UserLeaderboardsQuery,
-  UserLeaderboardsQueryVariables,
   UserModerationLeaderboardGQL,
   UserModerationLeaderboardQuery,
   UserModerationLeaderboardQueryVariables,
@@ -21,6 +18,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
+import { WatchQueryOptionsAlone } from 'apollo-angular/types'
 import {
   BehaviorSubject,
   Observable,
@@ -42,15 +40,9 @@ type UserLeaderboardRow = {
 }
 
 type UserLeaderboard = {
-  id: 'userComments' | 'userRevisions' | 'userModeration'
   title: string
   loading: boolean
   rows: Maybe<UserLeaderboardRow>[]
-}
-
-type UserLeaderboardView = {
-  window: TimeWindow
-  leaderboards: UserLeaderboard[]
 }
 
 @UntilDestroy()
@@ -78,48 +70,32 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     UserModerationLeaderboardQueryVariables
   >
 
-  commentsResult$!: Observable<ApolloQueryResult<UserCommentsLeaderboardQuery>>
-  commentsLoading$!: Observable<Boolean>
-
-  revisionsResult$!: Observable<
-    ApolloQueryResult<UserRevisionsLeaderboardQuery>
-  >
-  revisionsLoading$!: Observable<Boolean>
-
-  moderationResult$!: Observable<
-    ApolloQueryResult<UserModerationLeaderboardQuery>
-  >
-  moderationLoading$!: Observable<Boolean>
-
   // PRESENTATION STREAMS
-  leaderboardsView$!: Observable<UserLeaderboardView>
+  commentsView$: BehaviorSubject<UserLeaderboard>
+  revisionsView$: BehaviorSubject<UserLeaderboard>
+  moderationView$: BehaviorSubject<UserLeaderboard>
+
+  initialCommentsView: UserLeaderboard = {
+    title: 'Comments',
+    loading: false,
+    rows: [],
+  }
+
+  initialRevisionsView: UserLeaderboard = {
+    title: 'Revisions',
+    loading: false,
+    rows: [],
+  }
+  initialModerationView: UserLeaderboard = {
+    title: 'Moderations',
+    loading: false,
+    rows: [],
+  }
 
   initialRows: number = 10
   initialWindow: TimeWindow = TimeWindow.AllTime
 
-  initialView: UserLeaderboardView = {
-    window: this.initialWindow,
-    leaderboards: [
-      {
-        id: 'userComments',
-        title: 'Comments Made',
-        loading: false,
-        rows: [],
-      },
-      {
-        id: 'userModeration',
-        title: 'Moderations Performed',
-        loading: false,
-        rows: [],
-      },
-      {
-        id: 'userRevisions',
-        title: 'Revisions Made',
-        loading: false,
-        rows: [],
-      },
-    ],
-  }
+  fetchPolicy: WatchQueryOptionsAlone = { fetchPolicy: 'no-cache' }
 
   constructor(
     private commentsGQL: UserCommentsLeaderboardGQL,
@@ -132,127 +108,181 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       this.revisionsQueryRef.refetch({ window: window })
       this.moderationQueryRef.refetch({ window: window })
     })
+    this.commentsView$ = new BehaviorSubject<UserLeaderboard>(
+      this.initialCommentsView
+    )
+    this.revisionsView$ = new BehaviorSubject<UserLeaderboard>(
+      this.initialRevisionsView
+    )
+    this.moderationView$ = new BehaviorSubject<UserLeaderboard>(
+      this.initialModerationView
+    )
   }
 
   ngOnInit(): void {
-    this.commentsQueryRef = this.commentsGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
-    })
-
-    this.revisionsQueryRef = this.revisionsGQL.watch({
-      first: this.initialRows,
-
-      window: this.initialWindow,
-    })
-
-    this.moderationQueryRef = this.moderationGQL.watch({
-      first: this.initialRows,
-      window: this.initialWindow,
-    })
-
-    this.commentsResult$ = this.commentsQueryRef.valueChanges.pipe(
-      tag('comments valueChange$')
-    )
-    this.commentsLoading$ = this.commentsResult$.pipe(
-      pluck('loading'),
-      tag('comments loading$')
-    )
-
-    this.revisionsResult$ = this.revisionsQueryRef.valueChanges.pipe(
-      tag('revisions valueChange$')
-    )
-    this.revisionsLoading$ = this.revisionsResult$.pipe(
-      pluck('loading'),
-      tag('revisions loading$')
-    )
-    this.moderationResult$ = this.moderationQueryRef.valueChanges.pipe(
-      tag('moderation valueChange$')
-    )
-    this.moderationLoading$ = this.moderationResult$.pipe(
-      pluck('loading'),
-      tag('moderation loading$')
-    )
-
-    const usersToUserRows = (
-      lbUser: LeaderboardUserFieldsFragment[]
-    ): UserLeaderboardRow[] => {
-      return lbUser.map((lbUser) => {
-        return {
-          rank: lbUser.rank,
-          actionCount: lbUser.actionCount,
-          profileImagePath: lbUser.profileImagePath,
-          name: lbUser.name,
-          user: {
-            id: lbUser.id,
-            displayName: lbUser.displayName,
-            role: lbUser.role,
-          },
-        }
-      })
-    }
-
-    const dataToLeaderboards = (
-      data: Maybe<UserLeaderboardsQuery>
-    ): Maybe<UserLeaderboard>[] => {
-      const boards: UserLeaderboard[] = []
-      console.log('data: ', data)
-      if (data) {
-        this.leaderboardTitleMap.forEach((title, leaderboard) => {
-          if (!leaderboard) return
-          const lbUsers = data[leaderboard]
-          console.log('lbUsers: ', lbUsers)
-          boards.push({
-            title: title,
-            // rows: [],
-            rows: usersToUserRows(lbUsers),
-          })
-        })
+    const userToUserRow = (
+      lbUser: LeaderboardUserFieldsFragment
+    ): UserLeaderboardRow => {
+      return {
+        rank: lbUser.rank,
+        actionCount: lbUser.actionCount,
+        profileImagePath: lbUser.profileImagePath,
+        name: lbUser.name,
+        user: {
+          id: lbUser.id,
+          displayName: lbUser.displayName,
+          role: lbUser.role,
+        },
       }
-      // const title = this.leaderboardTitleMap.get(key)
-      // boards.push({
-      //   title: title ? title : key,
-      //   rows: usersToUserRows(data[key]),
-      // })
-      return boards
     }
 
-    this.leaderboardsView$ = this.result$.pipe(
-      distinctUntilChanged(),
-      map((result) => {
-        return {
-          loading: result.loading,
-          leaderboards: dataToLeaderboards(result.data),
-        }
-      })
+    /*
+     * REVISIONS
+     */
+    this.commentsQueryRef = this.commentsGQL.watch(
+      {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
+      this.fetchPolicy
     )
 
-    // this.commentsLeaderboard$ = this.data$.pipe(
-    //   pluck('userCommentsLeaderboard', 'nodes'),
-    //   filter(isNonNulled),
-    //   map((lbUsers) => usersToUserRows(lbUsers))
-    //   // tag('commentsLeaderboard$')
-    // )
+    this.commentsQueryRef.valueChanges
+      .pipe(
+        map((result: ApolloQueryResult<UserCommentsLeaderboardQuery>) => {
+          let rows: UserLeaderboardRow[] = []
+          if (result.data) {
+            result.data.userCommentsLeaderboard.edges.map((e) => {
+              if (e.node) {
+                const row = userToUserRow(e.node)
+                rows.push(row)
+              }
+            })
+          }
 
-    // this.revisionsLeaderboard$ = this.data$.pipe(
-    //   pluck('userRevisionsLeaderboard', 'nodes'),
-    //   filter(isNonNulled),
-    //   map((lbUsers) => usersToUserRows(lbUsers))
-    //   // tag('revisionsLeaderboard$')
-    // )
+          console.log(
+            'Comments Row',
+            rows.map((r) => ({
+              name: r.user.displayName,
+              count: r.actionCount,
+              rank: r.rank,
+            }))
+          )
+          return <UserLeaderboard>{
+            title: 'Comments Added',
+            loading: result.loading,
+            rows: [...rows],
+          }
+        }),
+        // tag('comments valueChange$'),
+        untilDestroyed(this)
+      )
+      .subscribe((leaderboard) => this.commentsView$.next(leaderboard))
 
-    // this.moderationsLeaderboard$ = this.data$.pipe(
-    //   pluck('userModerationLeaderboard', 'nodes'),
-    //   filter(isNonNulled),
-    //   map((lbUsers) => usersToUserRows(lbUsers))
-    //   // tag('moderationsLeaderboard$')
-    // )
+    /*
+     * MODERATIONS
+     */
+    this.moderationQueryRef = this.moderationGQL.watch(
+      {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
+      this.fetchPolicy
+    )
 
-    // this.submissionsLeaderboard$ = this.data$.pipe(
-    //   pluck('userSubmissionsLeaderboard', 'nodes'),
-    //   filter(isNonNulled),
-    //   map((lbUsers) => usersToUserRows(lbUsers))
-    //   // tag('submissionsLeaderboard$')
-    // )
+    this.moderationQueryRef.valueChanges
+      .pipe(
+        map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
+          let rows: UserLeaderboardRow[] = []
+          if (result.data) {
+            result.data.userModerationLeaderboard.edges.map((e) => {
+              if (e.node) {
+                const row = userToUserRow(e.node)
+                rows.push(row)
+              }
+            })
+          }
+
+          console.log(
+            'Moderation Row',
+            rows.map((r) => ({
+              name: r.user.displayName,
+              count: r.actionCount,
+              rank: r.rank,
+            }))
+          )
+          return <UserLeaderboard>{
+            title: 'Moderation Added',
+            loading: result.loading,
+            rows: [...rows],
+          }
+        }),
+        // tag('moderation valueChange$'),
+        untilDestroyed(this)
+      )
+      .subscribe((leaderboard) => this.moderationView$.next(leaderboard))
+
+    // /*
+    //  * REVISIONS
+    //  */
+    this.revisionsQueryRef = this.revisionsGQL.watch(
+      {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
+      this.fetchPolicy
+    )
+
+    this.revisionsQueryRef.valueChanges
+      .pipe(
+        map((result: ApolloQueryResult<UserRevisionsLeaderboardQuery>) => {
+          let rows: UserLeaderboardRow[] = []
+          if (result.data) {
+            result.data.userRevisionsLeaderboard.edges.map((e) => {
+              if (e.node) {
+                const row = userToUserRow(e.node)
+                rows.push(row)
+              }
+            })
+          }
+
+          console.log(
+            'Revisions Row',
+            rows.map((r) => ({
+              name: r.user.displayName,
+              count: r.actionCount,
+              rank: r.rank,
+            }))
+          )
+          return <UserLeaderboard>{
+            title: 'Revisions Added',
+            loading: result.loading,
+            rows: [...rows],
+          }
+        }),
+        // tag('revisions valueChange$'),
+        untilDestroyed(this)
+      )
+      .subscribe((leaderboard) => this.revisionsView$.next(leaderboard))
   }
+
+  // dataToLeaderboards(
+  //   data: Maybe<UserLeaderboardsQuery>
+  // ): Maybe<UserLeaderboard>[] {
+  //   const boards: UserLeaderboard[] = []
+  //   console.log('data: ', data)
+  //   if (data) {
+  //     this.leaderboardTitleMap.forEach((title, leaderboard) => {
+  //       if (!leaderboard) return
+  //       const lbUsers = data[leaderboard]
+  //       console.log('lbUsers: ', lbUsers)
+  //       boards.push({
+  //         title: title,
+  //         // rows: [],
+  //         rows: usersToUserRows(lbUsers),
+  //       })
+  //     })
+  //   }
+  //   return boards
+  // }
 }

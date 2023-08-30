@@ -2,85 +2,62 @@
   nzSize="small"
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra">
-  <pre>{{ leaderboardsView$ | ngrxPush | json }}</pre>
   <nz-row [nzGutter]="[8, 8]">
-    <!-- <nz-col nzSpan="6">
-          <ng-container
-            *ngTemplateOutlet="
-              leaderboard;
-              context: {
-                $implicit: commentsLeaderboard$ | ngrxPush,
-                span: 6,
-                title: 'Comments Added',
-                countTitle: 'Comments'
-              }
-            ">
-          </ng-container>
-        </nz-col> -->
-    <!-- <nz-col nzSpan="6">
-          <ng-container
-            *ngTemplateOutlet="
-              leaderboard;
-              context: {
-                $implicit: revisionsLeaderboard$ | ngrxPush,
-                span: 6,
-                title: 'Revisions Performed',
-                countTitle: 'Revisions'
-              }
-            ">
-          </ng-container>
-        </nz-col>
-        <nz-col nzSpan="6">
-          <ng-container
-            *ngTemplateOutlet="
-              leaderboard;
-              context: {
-                $implicit: moderationsLeaderboard$ | ngrxPush,
-                span: 6,
-                title: 'Moderations Performed',
-                countTitle: 'Moderations',
-              }
-            ">
-          </ng-container>
-        </nz-col>
-        <nz-col nzSpan="6">
-          <ng-container
-            *ngTemplateOutlet="
-              leaderboard;
-              context: {
-                $implicit: submissionsLeaderboard$ | ngrxPush,
-                span: 6,
-                title: 'Submissions Added',
-                countTitle: 'Submissions',
-              }
-            ">
-          </ng-container>
-        </nz-col> -->
+    <nz-col nzSpan="8">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: commentsView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
+    <nz-col nzSpan="8">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: revisionsView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
+    <nz-col nzSpan="8">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: moderationView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
   </nz-row>
 </nz-card>
 
-<!-- <ng-template
+<ng-template
   #leaderboard
-  let-rows
-  let-title="title"
-  let-countTitle="countTitle">
+  let-leaderboard>
   <ng-template #leaderboardHeader>
-    <span class="board-header">{{ title }}</span>
+    <span class="board-header">{{ leaderboard.title }}</span>
   </ng-template>
   <nz-list
-    *ngrxLet="revisionsLeaderboard$ as rows"
     [nzHeader]="leaderboardHeader"
+    [nzLoading]="leaderboard.loading"
     nzSize="small"
     nzBordered
     nzItemLayout="vertical"
     nzItemLayout="horizontal">
-    <nz-list-item *ngFor="let row of rows">
+    <nz-list-item *ngFor="let row of leaderboard.rows">
       <nz-list-item-meta [nzAvatar]="rowAvatar">
         <nz-list-item-meta-title>
           {{ row.name ? row.name : row.user.displayName }}
         </nz-list-item-meta-title>
         <nz-list-item-meta-description>
-          Rank: {{ row.rank }} | Count: {{ row.actionCount | number }}
+          <span class="list-item-description"
+            >Rank: {{ row.rank }} | Count: {{ row.actionCount | number }}</span
+          >
         </nz-list-item-meta-description>
       </nz-list-item-meta>
       <ul nz-list-item-actions>
@@ -98,58 +75,16 @@
         </ng-container>
       </ng-template>
     </nz-list-item>
-    <nz-list-empty *ngIf="rows.length === 0"></nz-list-empty>
+    <nz-list-empty
+      *ngIf="leaderboard.rows.length === 0"
+      [nzNoResult]="listEmpty"></nz-list-empty>
+    <ng-template #listEmpty>
+      <nz-empty
+        nzNotFoundImage="simple"
+        nzNotFoundContent="No Contributors found for the selected time window."></nz-empty>
+    </ng-template>
   </nz-list>
-</ng-template> -->
-
-<!-- <nz-card
-  nzSize="small"
-  [nzTitle]="cardTitle"
-  [nzExtra]="cardExtra">
-  <nz-row [nzGutter]="0">
-    <nz-col nzSpan="6">
-      <h4 class="leaderboard-title">Comments Added</h4>
-      <ol class="leaderboard-list">
-        <li *ngFor="let user of commentsLeaderboard$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user"></cvc-user-tag><br />
-        </li>
-      </ol>
-    </nz-col>
-    <nz-col nzSpan="6">
-      <h4 class="leaderboard-title">Moderations Performed</h4>
-      <ol class="leaderboard-list">
-        <li
-          *ngFor="
-            let user of moderationsLeaderboard$ | ngrxPush;
-            let i = index
-          ">
-          <cvc-user-tag [user]="user"></cvc-user-tag><br />
-        </li>
-      </ol>
-    </nz-col>
-    <nz-col nzSpan="6">
-      <h4 class="leaderboard-title">Revisions Performed</h4>
-      <ol class="leaderboard-list">
-        <li
-          *ngFor="let user of revisionsLeaderboard$ | ngrxPush; let i = index">
-          <cvc-user-tag [user]="user"></cvc-user-tag><br />
-        </li>
-      </ol>
-    </nz-col>
-    <nz-col nzSpan="6">
-      <h4 class="leaderboard-title">Submissions Made</h4>
-      <ol class="leaderboard-list">
-        <li
-          *ngFor="
-            let user of submissionsLeaderboard$ | ngrxPush;
-            let i = index
-          ">
-          <cvc-user-tag [user]="user"></cvc-user-tag><br />
-        </li>
-      </ol>
-    </nz-col>
-  </nz-row>
-</nz-card> -->
+</ng-template>
 
 <ng-template #cardTitle>Curation Activity Leaderboards </ng-template>
 <ng-template #cardExtra>

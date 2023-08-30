@@ -13,6 +13,9 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({
   declarations: [CvcUserLeaderboardsComponent],
@@ -30,6 +33,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider'
     NzTabsModule,
     NzSelectModule,
     NzTypographyModule,
+    NzEmptyModule,
+    NzIconModule,
+    CvcPipesModule,
     CvcUserTagModule,
   ],
   exports: [CvcUserLeaderboardsComponent],
