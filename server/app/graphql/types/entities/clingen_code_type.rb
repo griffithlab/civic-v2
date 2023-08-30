@@ -6,6 +6,7 @@ module Types::Entities
     field :name, String, null: false
     field :tooltip, String, null: false
     field :exclusive, Boolean, null: false
+    field :met, Boolean, null: false
 
     def tooltip
       object.description
