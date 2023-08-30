@@ -43,11 +43,13 @@ fragment AssertionSummaryFields on Assertion {
   acmgCodes {
     code
     description
+    met
   }
   clingenCodes {
     id
     code
     description
+    met
   }
   nccnGuideline {
     id

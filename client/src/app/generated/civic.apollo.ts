@@ -55,6 +55,7 @@ export type AcmgCode = {
   code: Scalars['String'];
   description: Scalars['String'];
   id: Scalars['Int'];
+  met: Scalars['Boolean'];
   name: Scalars['String'];
   tooltip: Scalars['String'];
 };
@@ -847,6 +848,7 @@ export type ClingenCode = {
   description: Scalars['String'];
   exclusive: Scalars['Boolean'];
   id: Scalars['Int'];
+  met: Scalars['Boolean'];
   name: Scalars['String'];
   tooltip: Scalars['String'];
 };
@@ -6310,32 +6312,32 @@ export type AcmgCodeSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, name: string, description: string, tooltip: string }> };
+export type AcmgCodeSelectTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, met: boolean, name: string, description: string, tooltip: string }> };
 
 export type AcmgCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'AcmgCode', id: number, code: string, name: string, description: string, tooltip: string } | undefined };
+export type AcmgCodeSelectTagQuery = { __typename: 'Query', acmgCode?: { __typename: 'AcmgCode', id: number, code: string, met: boolean, name: string, description: string, tooltip: string } | undefined };
 
-export type AcmgCodeSelectTypeaheadFieldsFragment = { __typename: 'AcmgCode', id: number, code: string, name: string, description: string, tooltip: string };
+export type AcmgCodeSelectTypeaheadFieldsFragment = { __typename: 'AcmgCode', id: number, code: string, met: boolean, name: string, description: string, tooltip: string };
 
 export type ClingenCodeSelectTypeaheadQueryVariables = Exact<{
   code: Scalars['String'];
 }>;
 
 
-export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean }> };
+export type ClingenCodeSelectTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, name: string, met: boolean, description: string, tooltip: string, exclusive: boolean }> };
 
 export type ClingenCodeSelectTagQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean } | undefined };
+export type ClingenCodeSelectTagQuery = { __typename: 'Query', clingenCode?: { __typename: 'ClingenCode', id: number, code: string, name: string, met: boolean, description: string, tooltip: string, exclusive: boolean } | undefined };
 
-export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, description: string, tooltip: string, exclusive: boolean };
+export type ClingenCodeSelectTypeaheadFieldsFragment = { __typename: 'ClingenCode', id: number, code: string, name: string, met: boolean, description: string, tooltip: string, exclusive: boolean };
 
 export type QuickAddDiseaseMutationVariables = Exact<{
   name: Scalars['String'];
@@ -6643,9 +6645,9 @@ export type AssertionSummaryQueryVariables = Exact<{
 }>;
 
 
-export type AssertionSummaryQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
+export type AssertionSummaryQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string, met: boolean }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, met: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
 
-export type AssertionSummaryFieldsFragment = { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
+export type AssertionSummaryFieldsFragment = { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string, met: boolean }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, met: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
 
 export type ClinicalTrialDetailQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int'];
@@ -8459,6 +8461,7 @@ export const AcmgCodeSelectTypeaheadFieldsFragmentDoc = gql`
     fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
   code
+  met
   name
   description
   tooltip
@@ -8469,6 +8472,7 @@ export const ClingenCodeSelectTypeaheadFieldsFragmentDoc = gql`
   id
   code
   name
+  met
   description
   tooltip
   exclusive
@@ -8693,11 +8697,13 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   acmgCodes {
     code
     description
+    met
   }
   clingenCodes {
     id
     code
     description
+    met
   }
   nccnGuideline {
     id

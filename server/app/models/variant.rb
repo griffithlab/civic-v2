@@ -92,7 +92,7 @@ class Variant < ApplicationRecord
     svmp = self.single_variant_molecular_profile
     aliases = self.variant_aliases
     mp_aliases = aliases.map do |a|
-      MolecularProfileAlias.where(name: a).first_or_create!
+      MolecularProfileAlias.where(name: a.name).first_or_create!
     end
 
     svmp.molecular_profile_aliases = mp_aliases
