@@ -5658,6 +5658,41 @@ export type MolecularProfileMenuQuery = { __typename: 'Query', molecularProfiles
 
 export type MenuMolecularProfileFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean };
 
+export type LeaderboardOrganizationFieldsFragment = { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined };
+
+export type OrganizationCommentsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationCommentsLeaderboardQuery = { __typename: 'Query', organizationCommentsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } };
+
+export type OrganizationRevisionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationRevisionsLeaderboardQuery = { __typename: 'Query', organizationRevisionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } };
+
+export type OrganizationModerationLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationModerationLeaderboardQuery = { __typename: 'Query', organizationModerationLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } };
+
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -7794,6 +7829,15 @@ export const MenuMolecularProfileFragmentDoc = gql`
   name
   link
   flagged
+}
+    `;
+export const LeaderboardOrganizationFieldsFragmentDoc = gql`
+    fragment LeaderboardOrganizationFields on LeaderboardOrganization {
+  id
+  name
+  actionCount
+  rank
+  profileImagePath(size: 64)
 }
     `;
 export const OrgPopoverFragmentDoc = gql`
@@ -10475,6 +10519,120 @@ export const MolecularProfileMenuDocument = gql`
   })
   export class MolecularProfileMenuGQL extends Apollo.Query<MolecularProfileMenuQuery, MolecularProfileMenuQueryVariables> {
     document = MolecularProfileMenuDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationCommentsLeaderboardDocument = gql`
+    query OrganizationCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationCommentsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardOrganizationFields
+      }
+    }
+    nodes {
+      ...LeaderboardOrganizationFields
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationCommentsLeaderboardGQL extends Apollo.Query<OrganizationCommentsLeaderboardQuery, OrganizationCommentsLeaderboardQueryVariables> {
+    document = OrganizationCommentsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationRevisionsLeaderboardDocument = gql`
+    query OrganizationRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationRevisionsLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardOrganizationFields
+      }
+    }
+    nodes {
+      ...LeaderboardOrganizationFields
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationRevisionsLeaderboardGQL extends Apollo.Query<OrganizationRevisionsLeaderboardQuery, OrganizationRevisionsLeaderboardQueryVariables> {
+    document = OrganizationRevisionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationModerationLeaderboardDocument = gql`
+    query OrganizationModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationModerationLeaderboard(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    window: $window
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        ...LeaderboardOrganizationFields
+      }
+    }
+    nodes {
+      ...LeaderboardOrganizationFields
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationModerationLeaderboardGQL extends Apollo.Query<OrganizationModerationLeaderboardQuery, OrganizationModerationLeaderboardQueryVariables> {
+    document = OrganizationModerationLeaderboardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

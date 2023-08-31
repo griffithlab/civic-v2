@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
-  LeaderboardUser,
-  LeaderboardUserEdge,
   LeaderboardUserFieldsFragment,
   Maybe,
   TimeWindow,
@@ -19,15 +17,7 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { WatchQueryOptionsAlone } from 'apollo-angular/types'
-import {
-  BehaviorSubject,
-  Observable,
-  map,
-  filter,
-  distinctUntilChanged,
-} from 'rxjs'
-import { isNonNulled, isNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/operators'
+import { BehaviorSubject, map } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import { TagLinkableUser } from '../user-tag/user-tag.component'
 
@@ -160,14 +150,6 @@ export class CvcUserLeaderboardsComponent implements OnInit {
             })
           }
 
-          console.log(
-            'Comments Row',
-            rows.map((r) => ({
-              name: r.user.displayName,
-              count: r.actionCount,
-              rank: r.rank,
-            }))
-          )
           return <UserLeaderboard>{
             title: 'Comments Added',
             loading: result.loading,
@@ -203,14 +185,6 @@ export class CvcUserLeaderboardsComponent implements OnInit {
             })
           }
 
-          console.log(
-            'Moderation Row',
-            rows.map((r) => ({
-              name: r.user.displayName,
-              count: r.actionCount,
-              rank: r.rank,
-            }))
-          )
           return <UserLeaderboard>{
             title: 'Moderation Added',
             loading: result.loading,
@@ -246,14 +220,6 @@ export class CvcUserLeaderboardsComponent implements OnInit {
             })
           }
 
-          console.log(
-            'Revisions Row',
-            rows.map((r) => ({
-              name: r.user.displayName,
-              count: r.actionCount,
-              rank: r.rank,
-            }))
-          )
           return <UserLeaderboard>{
             title: 'Revisions Added',
             loading: result.loading,
@@ -265,24 +231,4 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       )
       .subscribe((leaderboard) => this.revisionsView$.next(leaderboard))
   }
-
-  // dataToLeaderboards(
-  //   data: Maybe<UserLeaderboardsQuery>
-  // ): Maybe<UserLeaderboard>[] {
-  //   const boards: UserLeaderboard[] = []
-  //   console.log('data: ', data)
-  //   if (data) {
-  //     this.leaderboardTitleMap.forEach((title, leaderboard) => {
-  //       if (!leaderboard) return
-  //       const lbUsers = data[leaderboard]
-  //       console.log('lbUsers: ', lbUsers)
-  //       boards.push({
-  //         title: title,
-  //         // rows: [],
-  //         rows: usersToUserRows(lbUsers),
-  //       })
-  //     })
-  //   }
-  //   return boards
-  // }
 }
