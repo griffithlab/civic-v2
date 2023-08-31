@@ -18,6 +18,9 @@ import {
   ExistingEvidenceCountGQL,
   ExistingEvidenceCountQuery,
   ExistingEvidenceCountQueryVariables,
+  FullyCuratedSourceGQL,
+  FullyCuratedSourceQuery,
+  FullyCuratedSourceQueryVariables,
   Maybe,
   SubmitEvidenceItemGQL,
   SubmitEvidenceItemMutation,
@@ -55,14 +58,17 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
 
   selectedSourceId?: number
   selectedMpId?: number
-  
+
   countQueryRef?: QueryRef<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables>
+  curatedQueryRef?: QueryRef<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables>
   existingEvidenceCount$?: Observable<number>
+  fullyCuratedSource$?: Observable<Maybe<boolean>>
 
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private existingEvidenceGQL: ExistingEvidenceCountGQL,
-    private networkErrorService: NetworkErrorsService
+    private fullyCuratedSourceGQL: FullyCuratedSourceGQL,
+    networkErrorService: NetworkErrorsService
   ) {
     this.form = new UntypedFormGroup({})
     this.fields = evidenceSubmitFields
@@ -75,9 +81,15 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.countQueryRef = this.existingEvidenceGQL.watch({molecularProfileId: 0, sourceId: 0})
+    this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({sourceId: 0})
+
     this.existingEvidenceCount$ = this.countQueryRef?.valueChanges.pipe(
         map(c => c.data?.evidenceItems?.totalCount),
         filter(isNonNulled),
+        untilDestroyed(this)
+    )
+    this.fullyCuratedSource$ = this.curatedQueryRef?.valueChanges.pipe(
+        map(c => c.data?.source?.fullyCurated),
         untilDestroyed(this)
     )
   }
@@ -93,8 +105,8 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
         this.submitEvidenceGQL,
         { input: input },
         undefined,
-        (data) => { 
-          this.newEvidenceId = data.submitEvidence?.evidenceItem.id 
+        (data) => {
+          this.newEvidenceId = data.submitEvidence?.evidenceItem.id
           this.newEvidenceUrl = `/evidence/${this.newEvidenceId}/summary`
         }
       )
@@ -110,9 +122,19 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
           molecularProfileId: newModel.fields.molecularProfileId,
           sourceId: newModel.fields.sourceId
         })
-      } 
+      }
     } else {
       this.countQueryRef?.refetch({molecularProfileId: 0, sourceId: 0})
+    }
+
+    if (newModel.fields.sourceId) {
+      if(newModel.fields.sourceId != this.selectedSourceId) {
+        this.selectedSourceId = newModel.fields.sourceId
+        this.curatedQueryRef?.refetch({ sourceId: this.selectedSourceId })
+      }
+    } else {
+      this.selectedSourceId = undefined
+      this.curatedQueryRef?.refetch({ sourceId: 0 })
     }
   }
 

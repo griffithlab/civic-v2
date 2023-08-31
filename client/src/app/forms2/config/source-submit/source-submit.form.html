@@ -1,10 +1,32 @@
+<ng-container *ngIf="this.fullyCuratedSource$ | ngrxPush as isFullyCurated">
+  <nz-alert *ngIf="isFullyCurated" nzType="warning" [nzMessage]="fullyCuratedAlert" > </nz-alert>
+  <ng-template #fullyCuratedAlert>
+      <p>
+        <strong>
+          This Source has been marked as fully curated by an Editor. Please double check that you still wish to submit a new Suggestion for it.
+        </strong>
+      </p>
+  </ng-template>
+  <br/>
+</ng-container>
+<ng-container *ngIf="this.existingSourceSuggestion$ | ngrxPush as hasExistingSuggestion">
+  <nz-alert *ngIf="hasExistingSuggestion" nzType="warning" [nzMessage]="fullyCuratedAlert" > </nz-alert>
+  <ng-template #fullyCuratedAlert>
+      <p>
+        <strong>
+          This Source has already been Suggested. Please double check that you still wish to submit a new Suggestion for it.
+        </strong>
+      </p>
+  </ng-template>
+  <br/>
+</ng-container>
 <cvc-form-submission-status-display
   [mutationState]="this.mutationState"
   entityType="Source"
   [redirectUrl]="this.url"
   [successMessage]="success">
   <ng-template #success>
-    You will be redirected shortly or you may view your Source Suggestion 
+    You will be redirected shortly or you may view your Source Suggestion
     <a [href]="this.url">here</a>.
   </ng-template>
   <form
@@ -16,7 +38,7 @@
       [form]="form"
       [fields]="fields"
       [model]="model"
-      (modelChange)="model = $event">
+      (modelChange)="model = $event; onModelChange($event)">
     </formly-form>
   </form>
 </cvc-form-submission-status-display>
