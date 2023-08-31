@@ -6,10 +6,10 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
-    FullyCuratedSourceGQL,
-  FullyCuratedSourceQuery,
-  FullyCuratedSourceQueryVariables,
   Maybe,
+  SourceSuggestionChecksGQL,
+  SourceSuggestionChecksQuery,
+  SourceSuggestionChecksQueryVariables,
   SubmitSourceGQL,
   SubmitSourceMutation,
   SubmitSourceMutationVariables,
@@ -43,12 +43,13 @@ export class CvcSourceSubmitForm implements OnInit{
   selectedSourceId: Maybe<number>
   url?: string
 
-  curatedQueryRef?: QueryRef<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables>
+  suggestionChecksQueryRef?: QueryRef<SourceSuggestionChecksQuery, SourceSuggestionChecksQueryVariables>
   fullyCuratedSource$?: Observable<Maybe<boolean>>
+  existingSourceSuggestion$?: Observable<Maybe<boolean>>
 
   constructor(
     private submitSourceGQL: SubmitSourceGQL,
-    private fullyCuratedSourceGQL: FullyCuratedSourceGQL,
+    private sourceChecksGQL: SourceSuggestionChecksGQL,
     networkErrorService: NetworkErrorsService,
   ) {
     this.form = new UntypedFormGroup({})
@@ -60,22 +61,33 @@ export class CvcSourceSubmitForm implements OnInit{
 
   ngOnInit(): void {
     this.url = '/curation/queues/pending-sources'
-    this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({sourceId: 0})
+    this.suggestionChecksQueryRef = this.sourceChecksGQL.watch({sourceId: 0})
 
-    this.fullyCuratedSource$ = this.curatedQueryRef?.valueChanges.pipe(
+    this.fullyCuratedSource$ = this.suggestionChecksQueryRef?.valueChanges.pipe(
         map(c => c.data?.source?.fullyCurated),
+        untilDestroyed(this)
+    )
+
+    this.existingSourceSuggestion$ = this.suggestionChecksQueryRef?.valueChanges.pipe(
+        map(c => {
+          const count = c.data?.sourceSuggestions?.filteredCount
+          if(count) {
+            return count > 0
+          } else {
+            return false
+          }
+        }),
         untilDestroyed(this)
     )
   }
 
   onModelChange(newModel: SourceModel) {
-    console.log(newModel)
     if(newModel.fields.sourceId != this.selectedSourceId) {
       this.selectedSourceId = newModel.fields.sourceId
       if (this.selectedSourceId) {
-        this.curatedQueryRef?.refetch({sourceId: this.selectedSourceId })
+        this.suggestionChecksQueryRef?.refetch({sourceId: this.selectedSourceId })
       } else {
-        this.curatedQueryRef?.refetch({sourceId: 0 })
+        this.suggestionChecksQueryRef?.refetch({sourceId: 0 })
       }
     }
   }

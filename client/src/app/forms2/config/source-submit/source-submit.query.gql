@@ -6,3 +6,13 @@ mutation SubmitSource($input: SuggestSourceInput!) {
     }
   }
 }
+
+query SourceSuggestionChecks($sourceId: Int!) {
+  source(id: $sourceId) {
+    fullyCurated
+  }
+
+  sourceSuggestions(sourceId: $sourceId) {
+    filteredCount
+  }
+}
