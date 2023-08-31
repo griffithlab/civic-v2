@@ -17,6 +17,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 
 @NgModule({
   declarations: [CvcOrganizationLeaderboardsComponent],
@@ -37,6 +38,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge'
     NzTypographyModule,
     NzEmptyModule,
     NzIconModule,
+    NzTagModule,
     CvcPipesModule,
     CvcOrganizationTagModule,
   ],

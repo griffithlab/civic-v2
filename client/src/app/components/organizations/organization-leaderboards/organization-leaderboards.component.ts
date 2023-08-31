@@ -17,7 +17,7 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { WatchQueryOptionsAlone } from 'apollo-angular/types'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, map } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import { TagLinkableOrganization } from '../organization-tag/organization-tag.component'
 
@@ -82,10 +82,13 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     rows: [],
   }
 
-  initialRows: number = 5
+  initialRows: number = 25
   initialWindow: TimeWindow = TimeWindow.AllTime
 
-  fetchPolicy: WatchQueryOptionsAlone = { fetchPolicy: 'no-cache' }
+  fetchPolicy: WatchQueryOptionsAlone = {
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  }
 
   constructor(
     private commentsGQL: OrganizationCommentsLeaderboardGQL,
@@ -197,16 +200,8 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
               })
             }
 
-            console.log(
-              'Moderation Row',
-              rows.map((r) => ({
-                name: r.organization.name,
-                count: r.actionCount,
-                rank: r.rank,
-              }))
-            )
             return <OrganizationLeaderboard>{
-              title: 'Moderation Added',
+              title: 'Moderations Performed',
               loading: result.loading,
               rows: [...rows],
             }
@@ -244,16 +239,8 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
               })
             }
 
-            console.log(
-              'Revisions Row',
-              rows.map((r) => ({
-                name: r.organization.name,
-                count: r.actionCount,
-                rank: r.rank,
-              }))
-            )
             return <OrganizationLeaderboard>{
-              title: 'Revisions Added',
+              title: 'Revisions Made',
               loading: result.loading,
               rows: [...rows],
             }

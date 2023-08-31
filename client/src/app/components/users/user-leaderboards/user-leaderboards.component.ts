@@ -82,10 +82,13 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     rows: [],
   }
 
-  initialRows: number = 5
+  initialRows: number = 25
   initialWindow: TimeWindow = TimeWindow.AllTime
 
-  fetchPolicy: WatchQueryOptionsAlone = { fetchPolicy: 'no-cache' }
+  fetchPolicy: WatchQueryOptionsAlone = {
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  }
 
   constructor(
     private commentsGQL: UserCommentsLeaderboardGQL,
@@ -139,9 +142,10 @@ export class CvcUserLeaderboardsComponent implements OnInit {
 
     this.commentsQueryRef.valueChanges
       .pipe(
+        tag('comments valueChange$'),
         map((result: ApolloQueryResult<UserCommentsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data) {
+          if (result.data && result.data.userCommentsLeaderboard) {
             result.data.userCommentsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -156,7 +160,6 @@ export class CvcUserLeaderboardsComponent implements OnInit {
             rows: [...rows],
           }
         }),
-        // tag('comments valueChange$'),
         untilDestroyed(this)
       )
       .subscribe((leaderboard) => this.commentsView$.next(leaderboard))
@@ -176,7 +179,7 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       .pipe(
         map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data) {
+          if (result.data && result.data.userModerationLeaderboard) {
             result.data.userModerationLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -186,7 +189,7 @@ export class CvcUserLeaderboardsComponent implements OnInit {
           }
 
           return <UserLeaderboard>{
-            title: 'Moderation Added',
+            title: 'Moderations Performed',
             loading: result.loading,
             rows: [...rows],
           }
@@ -211,7 +214,7 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       .pipe(
         map((result: ApolloQueryResult<UserRevisionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data) {
+          if (result.data && result.data.userRevisionsLeaderboard) {
             result.data.userRevisionsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
@@ -221,7 +224,7 @@ export class CvcUserLeaderboardsComponent implements OnInit {
           }
 
           return <UserLeaderboard>{
-            title: 'Revisions Added',
+            title: 'Revisions Made',
             loading: result.loading,
             rows: [...rows],
           }

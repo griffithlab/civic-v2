@@ -49,41 +49,37 @@
     nzBordered
     nzItemLayout="vertical"
     nzItemLayout="horizontal">
-    <nz-list-item *ngFor="let row of leaderboard.rows">
-      <ng-template #rowAvatar>
-        <nz-badge
-          [nzCount]="row.rank"
-          nzSize="small">
-          <nz-avatar
-            nzIcon="organization"
-            nzSize="small"
-            nzShape="square"
-            [nzSrc]="row.profileImagePath"></nz-avatar>
-        </nz-badge>
-      </ng-template>
-      <nz-list-item-meta [nzAvatar]="rowAvatar">
-        <nz-list-item-meta-title>
-          <span class="row-title">{{
-            row.name ? row.name : row.organization.displayName
-          }}</span>
-          <span
-            nz-typography
-            nzType="secondary">
-            - {{ row.actionCount | number }}</span
-          >
-        </nz-list-item-meta-title>
-        <!-- <nz-list-item-meta-description>
-                  <span class="list-item-description"
-                    >Rank: {{ row.rank }} | Count: {{ row.actionCount | number }}</span
-                  >
-                </nz-list-item-meta-description> -->
-      </nz-list-item-meta>
-      <ul nz-list-item-actions>
-        <nz-list-item-action>
-          <cvc-organization-tag [organization]="row.organization"></cvc-organization-tag><br />
-        </nz-list-item-action>
-      </ul>
-    </nz-list-item>
+    <div [ngClass]="{ 'list-height-block': leaderboard.rows.length > 0 }">
+      <nz-list-item *ngFor="let row of leaderboard.rows">
+        <ng-template #rowAvatar>
+          <nz-badge
+            [nzCount]="row.rank"
+            [nzOffset]="[0, 5]"
+            nzSize="small">
+            <nz-avatar
+              nzIcon="civic-organization"
+              nzSize="small"
+              nzShape="square"
+              [nzSrc]="row.profileImagePath"></nz-avatar>
+          </nz-badge>
+        </ng-template>
+        <nz-list-item-meta [nzAvatar]="rowAvatar">
+          <nz-list-item-meta-title>
+            <cvc-organization-tag
+              [org]="row.organization"></cvc-organization-tag>
+          </nz-list-item-meta-title>
+        </nz-list-item-meta>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <span
+              nz-typography
+              nzType="secondary">
+              Count: {{ row.actionCount | number }}
+            </span>
+          </nz-list-item-action>
+        </ul>
+      </nz-list-item>
+    </div>
     <nz-list-empty
       *ngIf="leaderboard.rows.length === 0"
       [nzNoResult]="listEmpty"></nz-list-empty>
