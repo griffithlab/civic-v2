@@ -19,6 +19,18 @@
     </ng-template>
     <br/>
   </ng-container>
+  <ng-container *ngIf="this.fullyCuratedSource$ | ngrxPush as isFullyCurated">
+    <nz-alert *ngIf="isFullyCurated" nzType="warning" [nzMessage]="fullyCuratedAlert" > </nz-alert>
+    <ng-template #fullyCuratedAlert>
+        <p>
+          <strong>
+            This Source has been marked as fully curated by an Editor. Please double check that your intended Evidence Item does not already exist.
+          </strong>
+        </p>
+        <cvc-evidence-table [sourceId]="this.selectedSourceId" cvcHeight="150"></cvc-evidence-table>
+    </ng-template>
+    <br/>
+  </ng-container>
   <form
     nz-form
     nzLayout="vertical"

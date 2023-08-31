@@ -23,6 +23,7 @@ module Types::Entities
     field :author_string, String, null: true
     field :display_type, String, null: false
     field :open_access, Boolean, null: false
+    field :fully_curated, Boolean, null: false
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)

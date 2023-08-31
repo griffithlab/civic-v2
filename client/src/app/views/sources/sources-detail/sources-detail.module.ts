@@ -9,6 +9,7 @@ import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 import { SourcesDetailView } from './sources-detail.view'
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SourcesDetailView } from './sources-detail.view'
     NzPageHeaderModule,
     NzButtonModule,
     NzIconModule,
+    NzTagModule,
 
     CvcSectionNavigationModule,
     CvcLinkTagModule,

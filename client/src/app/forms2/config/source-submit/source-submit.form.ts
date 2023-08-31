@@ -6,15 +6,20 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
+    FullyCuratedSourceGQL,
+  FullyCuratedSourceQuery,
+  FullyCuratedSourceQueryVariables,
   Maybe,
   SubmitSourceGQL,
   SubmitSourceMutation,
   SubmitSourceMutationVariables,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy } from '@ngneat/until-destroy'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { sourceSuggestFields } from './source-submit.form.config'
 import { SourceModel, sourceFormModelToInput } from '@app/forms2/utilities/source-to-model-fields'
+import { QueryRef } from 'apollo-angular'
+import { Observable, map } from 'rxjs'
 
 @UntilDestroy()
 @Component({
@@ -35,12 +40,16 @@ export class CvcSourceSubmitForm implements OnInit{
 
   mutationState?: MutationState
   newSourceId: Maybe<number>
+  selectedSourceId: Maybe<number>
   url?: string
+
+  curatedQueryRef?: QueryRef<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables>
+  fullyCuratedSource$?: Observable<Maybe<boolean>>
 
   constructor(
     private submitSourceGQL: SubmitSourceGQL,
-    private networkErrorService: NetworkErrorsService,
-    private cdr: ChangeDetectorRef
+    private fullyCuratedSourceGQL: FullyCuratedSourceGQL,
+    networkErrorService: NetworkErrorsService,
   ) {
     this.form = new UntypedFormGroup({})
     this.model = { fields: {} }
@@ -51,6 +60,24 @@ export class CvcSourceSubmitForm implements OnInit{
 
   ngOnInit(): void {
     this.url = '/curation/queues/pending-sources'
+    this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({sourceId: 0})
+
+    this.fullyCuratedSource$ = this.curatedQueryRef?.valueChanges.pipe(
+        map(c => c.data?.source?.fullyCurated),
+        untilDestroyed(this)
+    )
+  }
+
+  onModelChange(newModel: SourceModel) {
+    console.log(newModel)
+    if(newModel.fields.sourceId != this.selectedSourceId) {
+      this.selectedSourceId = newModel.fields.sourceId
+      if (this.selectedSourceId) {
+        this.curatedQueryRef?.refetch({sourceId: this.selectedSourceId })
+      } else {
+        this.curatedQueryRef?.refetch({sourceId: 0 })
+      }
+    }
   }
 
   onSubmit(model: SourceModel) {

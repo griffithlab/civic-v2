@@ -1241,7 +1241,7 @@ export type SearchResultFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'displayType' | 'events' | 'fullJournalTitle' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourceKeySpecifier)[];
+export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'displayType' | 'events' | 'fullJournalTitle' | 'fullyCurated' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourceKeySpecifier)[];
 export type SourceFieldPolicy = {
 	abstract?: FieldPolicy<any> | FieldReadFunction<any>,
 	ascoAbstractId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1253,6 +1253,7 @@ export type SourceFieldPolicy = {
 	displayType?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullJournalTitle?: FieldPolicy<any> | FieldReadFunction<any>,
+	fullyCurated?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1268,7 +1269,7 @@ export type SourceFieldPolicy = {
 	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourcePopoverKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'displayType' | 'events' | 'evidenceItemCount' | 'fullJournalTitle' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourcePopoverKeySpecifier)[];
+export type SourcePopoverKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'displayType' | 'events' | 'evidenceItemCount' | 'fullJournalTitle' | 'fullyCurated' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'openAccess' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourcePopoverKeySpecifier)[];
 export type SourcePopoverFieldPolicy = {
 	abstract?: FieldPolicy<any> | FieldReadFunction<any>,
 	ascoAbstractId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1281,6 +1282,7 @@ export type SourcePopoverFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullJournalTitle?: FieldPolicy<any> | FieldReadFunction<any>,
+	fullyCurated?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,

@@ -27,6 +27,9 @@
       {{ source.citation }}
     </nz-page-header-title>
     <nz-page-header-extra>
+      <nz-tag *ngIf="source.fullyCurated" nzColor='success'>
+        Fully Curated
+      </nz-tag>
       <cvc-link-tag
         *ngIf="source.sourceUrl"
         [href]="source.sourceUrl"

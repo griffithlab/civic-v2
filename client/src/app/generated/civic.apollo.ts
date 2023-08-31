@@ -3818,6 +3818,7 @@ export type Source = Commentable & EventSubject & {
   /** List and filter events for an object */
   events: EventConnection;
   fullJournalTitle?: Maybe<Scalars['String']>;
+  fullyCurated: Scalars['Boolean'];
   id: Scalars['Int'];
   journal?: Maybe<Scalars['String']>;
   lastCommentEvent?: Maybe<Event>;
@@ -3874,6 +3875,7 @@ export type SourcePopover = Commentable & EventSubject & {
   events: EventConnection;
   evidenceItemCount: Scalars['Int'];
   fullJournalTitle?: Maybe<Scalars['String']>;
+  fullyCurated: Scalars['Boolean'];
   id: Scalars['Int'];
   journal?: Maybe<Scalars['String']>;
   lastCommentEvent?: Maybe<Event>;
@@ -6241,6 +6243,13 @@ export type ExistingEvidenceCountQueryVariables = Exact<{
 
 export type ExistingEvidenceCountQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number } };
 
+export type FullyCuratedSourceQueryVariables = Exact<{
+  sourceId: Scalars['Int'];
+}>;
+
+
+export type FullyCuratedSourceQuery = { __typename: 'Query', source?: { __typename: 'Source', fullyCurated: boolean } | undefined };
+
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
 }>;
@@ -6782,9 +6791,9 @@ export type SourceDetailQueryVariables = Exact<{
 }>;
 
 
-export type SourceDetailQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type SourceDetailQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, fullyCurated: boolean, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type SourceDetailFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type SourceDetailFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, fullyCurated: boolean, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type SourceSummaryQueryVariables = Exact<{
   sourceId: Scalars['Int'];
@@ -9209,6 +9218,7 @@ export const SourceDetailFieldsFragmentDoc = gql`
   citation
   sourceUrl
   displayType
+  fullyCurated
   citationId
   comments {
     totalCount
@@ -12310,6 +12320,24 @@ export const ExistingEvidenceCountDocument = gql`
   })
   export class ExistingEvidenceCountGQL extends Apollo.Query<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables> {
     document = ExistingEvidenceCountDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FullyCuratedSourceDocument = gql`
+    query FullyCuratedSource($sourceId: Int!) {
+  source(id: $sourceId) {
+    fullyCurated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FullyCuratedSourceGQL extends Apollo.Query<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables> {
+    document = FullyCuratedSourceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
