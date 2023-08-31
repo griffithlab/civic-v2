@@ -50,30 +50,39 @@
     nzItemLayout="vertical"
     nzItemLayout="horizontal">
     <nz-list-item *ngFor="let row of leaderboard.rows">
+      <ng-template #rowAvatar>
+        <nz-badge
+          [nzCount]="row.rank"
+          nzSize="small">
+          <nz-avatar
+            nzIcon="user"
+            nzSize="small"
+            nzShape="square"
+            [nzSrc]="row.profileImagePath"></nz-avatar>
+        </nz-badge>
+      </ng-template>
       <nz-list-item-meta [nzAvatar]="rowAvatar">
         <nz-list-item-meta-title>
-          {{ row.name ? row.name : row.user.displayName }}
-        </nz-list-item-meta-title>
-        <nz-list-item-meta-description>
-          <span class="list-item-description"
-            >Rank: {{ row.rank }} | Count: {{ row.actionCount | number }}</span
+          <span class="row-title">{{
+            row.name ? row.name : row.user.displayName
+          }}</span>
+          <span
+            nz-typography
+            nzType="secondary">
+            - {{ row.actionCount | number }}</span
           >
-        </nz-list-item-meta-description>
+        </nz-list-item-meta-title>
+        <!-- <nz-list-item-meta-description>
+                  <span class="list-item-description"
+                    >Rank: {{ row.rank }} | Count: {{ row.actionCount | number }}</span
+                  >
+                </nz-list-item-meta-description> -->
       </nz-list-item-meta>
       <ul nz-list-item-actions>
         <nz-list-item-action>
           <cvc-user-tag [user]="row.user"></cvc-user-tag><br />
         </nz-list-item-action>
       </ul>
-      <ng-template #rowAvatar>
-        <ng-container *ngIf="row.profileImagePath">
-          <nz-avatar
-            nzIcon="user"
-            nzSize="large"
-            nzShape="square"
-            [nzSrc]="row.profileImagePath"></nz-avatar>
-        </ng-container>
-      </ng-template>
     </nz-list-item>
     <nz-list-empty
       *ngIf="leaderboard.rows.length === 0"

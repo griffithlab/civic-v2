@@ -16,6 +16,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
 
 @NgModule({
   declarations: [CvcUserLeaderboardsComponent],
@@ -24,6 +25,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     FormsModule,
     PushPipe,
     LetDirective,
+    NzBadgeModule,
     NzDividerModule,
     NzSpaceModule,
     NzAvatarModule,

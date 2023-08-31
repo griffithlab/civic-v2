@@ -27,6 +27,7 @@ import { CivicTimeagoFormatter } from './timeago-formatter'
 import { TypenameToIconPipe } from './typename-to-icon.pipe'
 import { GuardTypePipe } from './type-guard.pipe'
 import { IsArrayPipe } from './is-array.pipe'
+import { OrdinalPipe } from './ordinal-number'
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { IsArrayPipe } from './is-array.pipe'
     EvidenceEnumTooltipPipe,
     EvidenceLevelDisplayPipe,
     HighlightTypeaheadPipe,
+    OrdinalPipe,
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
     IfEmptyPipe,
@@ -73,6 +75,7 @@ import { IsArrayPipe } from './is-array.pipe'
     HighlightTypeaheadPipe,
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
+    OrdinalPipe,
     IfEmptyPipe,
     GuardTypePipe,
     PluckPipe,

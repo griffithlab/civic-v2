@@ -92,7 +92,7 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     rows: [],
   }
 
-  initialRows: number = 10
+  initialRows: number = 5
   initialWindow: TimeWindow = TimeWindow.AllTime
 
   fetchPolicy: WatchQueryOptionsAlone = { fetchPolicy: 'no-cache' }
