@@ -2194,6 +2194,7 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   /** List and filter flags. */
   flags: FlagConnection;
   id: Scalars['Int'];
+  isComplex: Scalars['Boolean'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
@@ -6419,9 +6420,9 @@ export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
 
-export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
 
 export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
   input: SuggestMolecularProfileRevisionInput;
@@ -8642,6 +8643,7 @@ export const RevisableMolecularProfileFieldsFragmentDoc = gql`
     citationId
   }
   molecularProfileAliases
+  isComplex
 }
     `;
 export const SubmittableVariantGroupFieldsFragmentDoc = gql`

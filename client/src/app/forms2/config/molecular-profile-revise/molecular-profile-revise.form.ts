@@ -4,12 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
-} from '@angular/core'
+  OnInit, } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { MolecularProfileRevisableFieldsGQL, SuggestMolecularProfileRevisionGQL, SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig } from '@ngx-formly/core'
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MolecularProfileReviseModel } from '@app/forms2/models/molecular-profile-revise.model'
@@ -27,6 +26,7 @@ export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
   model?: MolecularProfileReviseModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
+  options: FormlyFormOptions
 
   reviseEvidenceMutator: MutatorWithState<
     SuggestMolecularProfileRevisionGQL,
@@ -40,10 +40,28 @@ export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
   constructor(
     private revisableFieldsGQL: MolecularProfileRevisableFieldsGQL,
     private submitRevisionsGQL: SuggestMolecularProfileRevisionGQL,
-    private networkErrorService: NetworkErrorsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    networkErrorService: NetworkErrorsService
   ) {
     this.form = new UntypedFormGroup({})
+    this.options = { formState: { isSimpleMp: undefined } }
+
+    const aliasField = molecularProfileReviseFields[0]?.fieldGroup?.find(f => f.key == 'fields')?.fieldGroup?.find(f => f.key == "aliases")
+    if (aliasField) {
+      const originalDescription = aliasField.props?.description
+      aliasField.expressions = {
+        'props.disabled': (field: FormlyFieldConfig) => {
+          return field.options?.formState.isSimpleMp
+        },
+        'props.description': (field: FormlyFieldConfig) => {
+          if(field.options?.formState.isSimpleMp) {
+            return 'Simple Molecular Profiles inherit their Aliases from the corresponding Variant.'
+          } else {
+            return originalDescription
+          }
+        },
+      }
+    }
     this.fields = molecularProfileReviseFields
     this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
   }
@@ -59,6 +77,9 @@ export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
       .subscribe({
         next: ({ data: { molecularProfile } }) => {
           if (molecularProfile) {
+
+            this.options.formState.isSimpleMp = !molecularProfile.isComplex
+
             this.model = {
               id: molecularProfile.id,
               fields: molecularProfileToModelFields(molecularProfile),
