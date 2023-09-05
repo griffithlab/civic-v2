@@ -5,6 +5,8 @@ module Resolvers::Leaderboards
   class UserCommentsLeaderboard < Resolvers::LeaderboardBase 
     include SearchObject.module(:graphql)
 
+    include UserLeaderboardQueries
+
     type Types::Entities::LeaderboardUserType.connection_type, null: false
 
     scope do
