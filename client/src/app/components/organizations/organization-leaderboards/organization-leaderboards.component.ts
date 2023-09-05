@@ -31,6 +31,7 @@ type OrganizationLeaderboardRow = {
 
 type OrganizationLeaderboard = {
   title: string
+  info: string
   loading: boolean
   rows: Maybe<OrganizationLeaderboardRow>[]
 }
@@ -66,18 +67,21 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
   moderationView$: BehaviorSubject<OrganizationLeaderboard>
 
   initialCommentsView: OrganizationLeaderboard = {
-    title: 'Comments',
+    title: 'Comments Leaderboard',
+    info: 'Organization rank determined by adding total comments made by members of the organization.',
     loading: false,
     rows: [],
   }
 
   initialRevisionsView: OrganizationLeaderboard = {
-    title: 'Revisions',
+    title: 'Revisions Leaderboard',
+    info: 'Organization rank determined by ...',
     loading: false,
     rows: [],
   }
   initialModerationView: OrganizationLeaderboard = {
-    title: 'Moderations',
+    title: 'Moderation Leaderboard',
+    info: 'Organization rank determined by ...',
     loading: false,
     rows: [],
   }
@@ -153,16 +157,9 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
               })
             }
 
-            console.log(
-              'Comments Row',
-              rows.map((r) => ({
-                name: r.organization.name,
-                count: r.actionCount,
-                rank: r.rank,
-              }))
-            )
             return <OrganizationLeaderboard>{
-              title: 'Comments Added',
+              title: this.initialCommentsView.title,
+              info: this.initialCommentsView.info,
               loading: result.loading,
               rows: [...rows],
             }
@@ -201,7 +198,8 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
             }
 
             return <OrganizationLeaderboard>{
-              title: 'Moderations Performed',
+              title: this.initialModerationView.title,
+              info: this.initialModerationView.info,
               loading: result.loading,
               rows: [...rows],
             }
@@ -240,7 +238,8 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
             }
 
             return <OrganizationLeaderboard>{
-              title: 'Revisions Made',
+              title: this.initialRevisionsView.title,
+              info: this.initialModerationView.info,
               loading: result.loading,
               rows: [...rows],
             }

@@ -15,6 +15,7 @@ nz-list-item ::ng-deep .ant-list-item-action {
   }
 }
 
+// override badge's default red color
 nz-badge ::ng-deep .ant-badge-count {
   background-color: #662d91;
   padding: 0 2px;
@@ -23,6 +24,7 @@ nz-badge ::ng-deep .ant-badge-count {
 nz-list-item-meta-title ::ng-deep .ant-list-item-meta-title {
   padding-top: 1px;
   margin-bottom: 0;
+  font-weight: normal; // prevent cvc-tag labels from inheriting h4's bold font-weight
 }
 
 .list-height-block {
@@ -32,8 +34,4 @@ nz-list-item-meta-title ::ng-deep .ant-list-item-meta-title {
 
 .time-select {
   min-width: 80px;
-}
-
-.board-header {
-  font-weight: bold;
 }

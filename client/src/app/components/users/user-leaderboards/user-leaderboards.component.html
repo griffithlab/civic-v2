@@ -40,7 +40,20 @@
   #leaderboard
   let-leaderboard>
   <ng-template #leaderboardHeader>
-    <span class="board-header">{{ leaderboard.title }}</span>
+    <span nz-typography>
+      {{ leaderboard.title }}
+    </span>
+
+    <span
+      nz-typography
+      nzType="secondary">
+      <i
+        nz-icon
+        nzType="info-circle"
+        nzTheme="outline"
+        nz-tooltip
+        [nzTooltipTitle]="leaderboard.info"></i>
+    </span>
   </ng-template>
   <nz-list
     [nzHeader]="leaderboardHeader"
@@ -85,12 +98,17 @@
     <ng-template #listEmpty>
       <nz-empty
         nzNotFoundImage="simple"
-        nzNotFoundContent="No Contributors found for the selected time window."></nz-empty>
+        nzNotFoundContent="No curation activity found for the selected time window."></nz-empty>
     </ng-template>
   </nz-list>
 </ng-template>
 
-<ng-template #cardTitle>Curation Activity Leaderboards </ng-template>
+<ng-template #cardTitle>
+  <span nz-typography>
+    <strong>Contributor Curation Leaderboards</strong>
+  </span>
+</ng-template>
+
 <ng-template #cardExtra>
   <span>Time: </span>
   <nz-select

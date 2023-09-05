@@ -31,6 +31,7 @@ type UserLeaderboardRow = {
 
 type UserLeaderboard = {
   title: string
+  info: string
   loading: boolean
   rows: Maybe<UserLeaderboardRow>[]
 }
@@ -66,18 +67,22 @@ export class CvcUserLeaderboardsComponent implements OnInit {
   moderationView$: BehaviorSubject<UserLeaderboard>
 
   initialCommentsView: UserLeaderboard = {
-    title: 'Comments',
+    title: 'Comments Leaderboard',
+    info: 'Contributor rank determined by adding total comments made by the contributor.',
     loading: false,
     rows: [],
   }
 
   initialRevisionsView: UserLeaderboard = {
-    title: 'Revisions',
+    title: 'Revisions Leaderboard',
+    info: 'Contributor rank determined by ...',
     loading: false,
     rows: [],
   }
+
   initialModerationView: UserLeaderboard = {
-    title: 'Moderations',
+    title: 'Moderation Leaderboard',
+    info: 'Contributor rank determined by ...',
     loading: false,
     rows: [],
   }
@@ -130,7 +135,7 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     }
 
     /*
-     * REVISIONS
+     * COMMENTS VIEW
      */
     this.commentsQueryRef = this.commentsGQL.watch(
       {
@@ -142,7 +147,6 @@ export class CvcUserLeaderboardsComponent implements OnInit {
 
     this.commentsQueryRef.valueChanges
       .pipe(
-        tag('comments valueChange$'),
         map((result: ApolloQueryResult<UserCommentsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
           if (result.data && result.data.userCommentsLeaderboard) {
@@ -155,17 +159,19 @@ export class CvcUserLeaderboardsComponent implements OnInit {
           }
 
           return <UserLeaderboard>{
-            title: 'Comments Added',
+            title: this.initialCommentsView.title,
+            info: this.initialCommentsView.info,
             loading: result.loading,
             rows: [...rows],
           }
         }),
+        // tag('comments valueChange$'),
         untilDestroyed(this)
       )
       .subscribe((leaderboard) => this.commentsView$.next(leaderboard))
 
     /*
-     * MODERATIONS
+     * MODERATION VIEW
      */
     this.moderationQueryRef = this.moderationGQL.watch(
       {
@@ -189,7 +195,8 @@ export class CvcUserLeaderboardsComponent implements OnInit {
           }
 
           return <UserLeaderboard>{
-            title: 'Moderations Performed',
+            title: this.initialModerationView.title,
+            info: this.initialModerationView.info,
             loading: result.loading,
             rows: [...rows],
           }
@@ -199,9 +206,9 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       )
       .subscribe((leaderboard) => this.moderationView$.next(leaderboard))
 
-    // /*
-    //  * REVISIONS
-    //  */
+    /*
+     * REVISIONS VIEW
+     */
     this.revisionsQueryRef = this.revisionsGQL.watch(
       {
         first: this.initialRows,
@@ -224,7 +231,8 @@ export class CvcUserLeaderboardsComponent implements OnInit {
           }
 
           return <UserLeaderboard>{
-            title: 'Revisions Made',
+            title: this.initialRevisionsView.title,
+            info: this.initialRevisionsView.info,
             loading: result.loading,
             rows: [...rows],
           }
