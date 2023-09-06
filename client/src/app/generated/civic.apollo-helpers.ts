@@ -1133,6 +1133,13 @@ export type OrganizationEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type OrganizationLeaderboardsKeySpecifier = ('commentsLeaderboard' | 'moderationLeaderboard' | 'revisionsLeaderboard' | 'submissionsLeaderboard' | OrganizationLeaderboardsKeySpecifier)[];
+export type OrganizationLeaderboardsFieldPolicy = {
+	commentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	moderationLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	submissionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type PageInfoKeySpecifier = ('endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | PageInfoKeySpecifier)[];
 export type PageInfoFieldPolicy = {
 	endCursor?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1161,7 +1168,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseMolecularProfiles' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationCommentsLeaderboard' | 'organizationModerationLeaderboard' | 'organizationRevisionsLeaderboard' | 'organizationSubmissionsLeaderboard' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userCommentsLeaderboard' | 'userModerationLeaderboard' | 'userRevisionsLeaderboard' | 'userSubmissionsLeaderboard' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseMolecularProfiles' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1200,10 +1207,7 @@ export type QueryFieldPolicy = {
 	nccnGuidelinesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationCommentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationModerationLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationRevisionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
-	organizationSubmissionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationLeaderboards?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotype?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1229,10 +1233,7 @@ export type QueryFieldPolicy = {
 	therapyTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	timepointStats?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
-	userCommentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
-	userModerationLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
-	userRevisionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
-	userSubmissionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	userLeaderboards?: FieldPolicy<any> | FieldReadFunction<any>,
 	userTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
 	validateRevisionsForAcceptance?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1588,6 +1589,13 @@ export type UserEdgeKeySpecifier = ('cursor' | 'node' | UserEdgeKeySpecifier)[];
 export type UserEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UserLeaderboardsKeySpecifier = ('commentsLeaderboard' | 'moderationLeaderboard' | 'revisionsLeaderboard' | 'submissionsLeaderboard' | UserLeaderboardsKeySpecifier)[];
+export type UserLeaderboardsFieldPolicy = {
+	commentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	moderationLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	submissionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ValidationErrorsKeySpecifier = ('genericErrors' | 'validationErrors' | ValidationErrorsKeySpecifier)[];
 export type ValidationErrorsFieldPolicy = {
@@ -2179,6 +2187,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | OrganizationEdgeKeySpecifier | (() => undefined | OrganizationEdgeKeySpecifier),
 		fields?: OrganizationEdgeFieldPolicy,
 	},
+	OrganizationLeaderboards?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | OrganizationLeaderboardsKeySpecifier | (() => undefined | OrganizationLeaderboardsKeySpecifier),
+		fields?: OrganizationLeaderboardsFieldPolicy,
+	},
 	PageInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | PageInfoKeySpecifier | (() => undefined | PageInfoKeySpecifier),
 		fields?: PageInfoFieldPolicy,
@@ -2354,6 +2366,10 @@ export type StrictTypedTypePolicies = {
 	UserEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserEdgeKeySpecifier | (() => undefined | UserEdgeKeySpecifier),
 		fields?: UserEdgeFieldPolicy,
+	},
+	UserLeaderboards?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UserLeaderboardsKeySpecifier | (() => undefined | UserLeaderboardsKeySpecifier),
+		fields?: UserLeaderboardsFieldPolicy,
 	},
 	ValidationErrors?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ValidationErrorsKeySpecifier | (() => undefined | ValidationErrorsKeySpecifier),

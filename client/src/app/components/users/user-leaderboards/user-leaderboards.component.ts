@@ -18,7 +18,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { WatchQueryOptionsAlone } from 'apollo-angular/types'
 import { BehaviorSubject, map } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { TagLinkableUser } from '../user-tag/user-tag.component'
 
 type UserLeaderboardRow = {
@@ -149,8 +148,8 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       .pipe(
         map((result: ApolloQueryResult<UserCommentsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userCommentsLeaderboard) {
-            result.data.userCommentsLeaderboard.edges.map((e) => {
+          if (result.data && result.data.userLeaderboards) {
+            result.data.userLeaderboards.commentsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
                 rows.push(row)
@@ -185,8 +184,8 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       .pipe(
         map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userModerationLeaderboard) {
-            result.data.userModerationLeaderboard.edges.map((e) => {
+          if (result.data && result.data.userLeaderboards) {
+            result.data.userLeaderboards.moderationLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
                 rows.push(row)
@@ -221,8 +220,8 @@ export class CvcUserLeaderboardsComponent implements OnInit {
       .pipe(
         map((result: ApolloQueryResult<UserRevisionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
-          if (result.data && result.data.userRevisionsLeaderboard) {
-            result.data.userRevisionsLeaderboard.edges.map((e) => {
+          if (result.data && result.data.userLeaderboards) {
+            result.data.userLeaderboards.revisionsLeaderboard.edges.map((e) => {
               if (e.node) {
                 const row = userToUserRow(e.node)
                 rows.push(row)

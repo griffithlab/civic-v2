@@ -2953,6 +2953,54 @@ export type OrganizationFilter = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type OrganizationLeaderboards = {
+  __typename: 'OrganizationLeaderboards';
+  commentsLeaderboard: LeaderboardOrganizationConnection;
+  moderationLeaderboard: LeaderboardOrganizationConnection;
+  revisionsLeaderboard: LeaderboardOrganizationConnection;
+  submissionsLeaderboard: LeaderboardOrganizationConnection;
+};
+
+
+export type OrganizationLeaderboardsCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
 export type OrganizationSort = {
   /** Available columns for sorting */
   column: OrganizationSortColumns;
@@ -3083,10 +3131,7 @@ export type Query = {
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
   organization?: Maybe<Organization>;
-  organizationCommentsLeaderboard: LeaderboardOrganizationConnection;
-  organizationModerationLeaderboard: LeaderboardOrganizationConnection;
-  organizationRevisionsLeaderboard: LeaderboardOrganizationConnection;
-  organizationSubmissionsLeaderboard: LeaderboardOrganizationConnection;
+  organizationLeaderboards: OrganizationLeaderboards;
   /** List and filter organizations. */
   organizations: OrganizationConnection;
   /** Find a phenotype by CIViC ID */
@@ -3129,10 +3174,7 @@ export type Query = {
   therapyTypeahead: Array<Therapy>;
   timepointStats: CivicTimepointStats;
   user?: Maybe<User>;
-  userCommentsLeaderboard: LeaderboardUserConnection;
-  userModerationLeaderboard: LeaderboardUserConnection;
-  userRevisionsLeaderboard: LeaderboardUserConnection;
-  userSubmissionsLeaderboard: LeaderboardUserConnection;
+  userLeaderboards: UserLeaderboards;
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
   /** List and filter users. */
@@ -3497,46 +3539,6 @@ export type QueryOrganizationArgs = {
 };
 
 
-export type QueryOrganizationCommentsLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
-export type QueryOrganizationModerationLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
-export type QueryOrganizationRevisionsLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
-export type QueryOrganizationSubmissionsLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
 export type QueryOrganizationsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -3705,46 +3707,6 @@ export type QueryTherapyTypeaheadArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int'];
-};
-
-
-export type QueryUserCommentsLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
-export type QueryUserModerationLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
-export type QueryUserRevisionsLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
-};
-
-
-export type QueryUserSubmissionsLeaderboardArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  direction?: InputMaybe<SortDirection>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  window?: InputMaybe<TimeWindow>;
 };
 
 
@@ -4940,6 +4902,58 @@ export type UserEdge = {
   node?: Maybe<User>;
 };
 
+export type UserLeaderboards = {
+  __typename: 'UserLeaderboards';
+  commentsLeaderboard: LeaderboardUserConnection;
+  moderationLeaderboard: LeaderboardUserConnection;
+  revisionsLeaderboard: LeaderboardUserConnection;
+  submissionsLeaderboard: LeaderboardUserConnection;
+};
+
+
+export type UserLeaderboardsCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
 export enum UserRole {
   Admin = 'ADMIN',
   Curator = 'CURATOR',
@@ -5670,7 +5684,7 @@ export type OrganizationCommentsLeaderboardQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationCommentsLeaderboardQuery = { __typename: 'Query', organizationCommentsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } };
+export type OrganizationCommentsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', commentsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type OrganizationRevisionsLeaderboardQueryVariables = Exact<{
   window?: InputMaybe<TimeWindow>;
@@ -5681,7 +5695,7 @@ export type OrganizationRevisionsLeaderboardQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationRevisionsLeaderboardQuery = { __typename: 'Query', organizationRevisionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } };
+export type OrganizationRevisionsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', revisionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type OrganizationModerationLeaderboardQueryVariables = Exact<{
   window?: InputMaybe<TimeWindow>;
@@ -5692,7 +5706,7 @@ export type OrganizationModerationLeaderboardQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationModerationLeaderboardQuery = { __typename: 'Query', organizationModerationLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } };
+export type OrganizationModerationLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
@@ -5922,7 +5936,7 @@ export type UserCommentsLeaderboardQueryVariables = Exact<{
 }>;
 
 
-export type UserCommentsLeaderboardQuery = { __typename: 'Query', userCommentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
+export type UserCommentsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', commentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type UserRevisionsLeaderboardQueryVariables = Exact<{
   window?: InputMaybe<TimeWindow>;
@@ -5933,7 +5947,7 @@ export type UserRevisionsLeaderboardQueryVariables = Exact<{
 }>;
 
 
-export type UserRevisionsLeaderboardQuery = { __typename: 'Query', userRevisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
+export type UserRevisionsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', revisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type UserModerationLeaderboardQueryVariables = Exact<{
   window?: InputMaybe<TimeWindow>;
@@ -5944,7 +5958,7 @@ export type UserModerationLeaderboardQueryVariables = Exact<{
 }>;
 
 
-export type UserModerationLeaderboardQuery = { __typename: 'Query', userModerationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } };
+export type UserModerationLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -10528,27 +10542,29 @@ export const MolecularProfileMenuDocument = gql`
   }
 export const OrganizationCommentsLeaderboardDocument = gql`
     query OrganizationCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
-  organizationCommentsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  organizationLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
         ...LeaderboardOrganizationFields
       }
-    }
-    nodes {
-      ...LeaderboardOrganizationFields
     }
   }
 }
@@ -10566,27 +10582,29 @@ export const OrganizationCommentsLeaderboardDocument = gql`
   }
 export const OrganizationRevisionsLeaderboardDocument = gql`
     query OrganizationRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
-  organizationRevisionsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  organizationLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
         ...LeaderboardOrganizationFields
       }
-    }
-    nodes {
-      ...LeaderboardOrganizationFields
     }
   }
 }
@@ -10604,27 +10622,29 @@ export const OrganizationRevisionsLeaderboardDocument = gql`
   }
 export const OrganizationModerationLeaderboardDocument = gql`
     query OrganizationModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
-  organizationModerationLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  organizationLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
         ...LeaderboardOrganizationFields
       }
-    }
-    nodes {
-      ...LeaderboardOrganizationFields
     }
   }
 }
@@ -11227,27 +11247,29 @@ export const TherapiesBrowseDocument = gql`
   }
 export const UserCommentsLeaderboardDocument = gql`
     query UserCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
-  userCommentsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  userLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
         ...LeaderboardUserFields
       }
-    }
-    nodes {
-      ...LeaderboardUserFields
     }
   }
 }
@@ -11265,27 +11287,29 @@ export const UserCommentsLeaderboardDocument = gql`
   }
 export const UserRevisionsLeaderboardDocument = gql`
     query UserRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
-  userRevisionsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  userLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
         ...LeaderboardUserFields
       }
-    }
-    nodes {
-      ...LeaderboardUserFields
     }
   }
 }
@@ -11303,27 +11327,29 @@ export const UserRevisionsLeaderboardDocument = gql`
   }
 export const UserModerationLeaderboardDocument = gql`
     query UserModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
-  userModerationLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  userLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
         ...LeaderboardUserFields
       }
-    }
-    nodes {
-      ...LeaderboardUserFields
     }
   }
 }

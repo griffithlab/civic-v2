@@ -15,27 +15,29 @@ query UserCommentsLeaderboard(
   $before: String
   $after: String
 ) {
-  userCommentsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  userLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
         ...LeaderboardUserFields
       }
-    }
-    nodes {
-      ...LeaderboardUserFields
     }
   }
 }
@@ -47,30 +49,33 @@ query UserRevisionsLeaderboard(
   $before: String
   $after: String
 ) {
-  userRevisionsLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  userLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
         ...LeaderboardUserFields
       }
     }
-    nodes {
-      ...LeaderboardUserFields
-    }
   }
 }
+
 query UserModerationLeaderboard(
   $window: TimeWindow
   $first: Int
@@ -78,27 +83,29 @@ query UserModerationLeaderboard(
   $before: String
   $after: String
 ) {
-  userModerationLeaderboard(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    window: $window
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    edges {
-      cursor
-      node {
+  userLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
         ...LeaderboardUserFields
       }
-    }
-    nodes {
-      ...LeaderboardUserFields
     }
   }
 }

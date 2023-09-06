@@ -18,7 +18,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { WatchQueryOptionsAlone } from 'apollo-angular/types'
 import { BehaviorSubject, map } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { TagLinkableOrganization } from '../organization-tag/organization-tag.component'
 
 type OrganizationLeaderboardRow = {
@@ -149,7 +148,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           (result: ApolloQueryResult<OrganizationCommentsLeaderboardQuery>) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationCommentsLeaderboard.edges.map((e) => {
+              result.data.organizationLeaderboards.commentsLeaderboard.edges.map((e) => {
                 if (e.node) {
                   const row = organizationToOrganizationRow(e.node)
                   rows.push(row)
@@ -189,7 +188,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationModerationLeaderboard.edges.map((e) => {
+              result.data.organizationLeaderboards.moderationLeaderboard.edges.map((e) => {
                 if (e.node) {
                   const row = organizationToOrganizationRow(e.node)
                   rows.push(row)
@@ -229,7 +228,7 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationRevisionsLeaderboard.edges.map((e) => {
+              result.data.organizationLeaderboards.revisionsLeaderboard.edges.map((e) => {
                 if (e.node) {
                   const row = organizationToOrganizationRow(e.node)
                   rows.push(row)
