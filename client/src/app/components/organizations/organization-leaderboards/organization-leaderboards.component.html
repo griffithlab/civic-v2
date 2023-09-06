@@ -1,0 +1,133 @@
+<nz-card
+  nzSize="small"
+  [nzTitle]="cardTitle"
+  [nzExtra]="cardExtra">
+  <nz-row [nzGutter]="[8, 8]">
+    <nz-col nzSpan="8">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: commentsView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
+    <nz-col nzSpan="8">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: revisionsView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
+    <nz-col nzSpan="8">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: moderationView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
+  </nz-row>
+</nz-card>
+
+<ng-template
+  #leaderboard
+  let-leaderboard>
+  <ng-template #leaderboardHeader>
+    <span nz-typography>
+      {{ leaderboard.title }}
+    </span>
+
+    <span
+      nz-typography
+      nzType="secondary">
+      <i
+        nz-icon
+        nzType="info-circle"
+        nzTheme="outline"
+        nz-tooltip
+        [nzTooltipTitle]="leaderboard.info"></i>
+    </span>
+  </ng-template>
+  <nz-list
+    [nzHeader]="leaderboardHeader"
+    [nzLoading]="leaderboard.loading"
+    nzSize="small"
+    nzBordered
+    nzItemLayout="vertical"
+    nzItemLayout="horizontal">
+    <div [ngClass]="{ 'list-height-block': leaderboard.rows.length > 0 }">
+      <nz-list-item *ngFor="let row of leaderboard.rows">
+        <ng-template #rowAvatar>
+          <nz-badge
+            [nzCount]="row.rank"
+            [nzOffset]="[0, 5]"
+            nzSize="small">
+            <nz-avatar
+              nzIcon="civic-organization"
+              nzSize="small"
+              nzShape="square"
+              [nzSrc]="row.profileImagePath"></nz-avatar>
+          </nz-badge>
+        </ng-template>
+        <nz-list-item-meta [nzAvatar]="rowAvatar">
+          <nz-list-item-meta-title>
+            <cvc-organization-tag
+              [org]="row.organization"></cvc-organization-tag>
+          </nz-list-item-meta-title>
+        </nz-list-item-meta>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <span
+              nz-typography
+              nzType="secondary">
+              Count: {{ row.actionCount | number }}
+            </span>
+          </nz-list-item-action>
+        </ul>
+      </nz-list-item>
+    </div>
+    <nz-list-empty
+      *ngIf="leaderboard.rows.length === 0"
+      [nzNoResult]="listEmpty"></nz-list-empty>
+    <ng-template #listEmpty>
+      <nz-empty
+        nzNotFoundImage="simple"
+        nzNotFoundContent="No curation activity found for the selected time window."></nz-empty>
+    </ng-template>
+  </nz-list>
+</ng-template>
+
+<ng-template #cardTitle>
+  <span nz-typography>
+    <strong>Organization Curation Leaderboards</strong>
+  </span>
+</ng-template>
+
+<ng-template #cardExtra>
+  <span>Time: </span>
+  <nz-select
+    nzSize="small"
+    [nzDropdownMatchSelectWidth]="false"
+    [ngModel]="timeWindow$ | ngrxPush"
+    (ngModelChange)="timeWindow$.next($event)">
+    <nz-option
+      nzLabel="All"
+      nzValue="ALL_TIME"></nz-option>
+    <nz-option
+      nzLabel="Past Week"
+      nzValue="LAST_WEEK"></nz-option>
+    <nz-option
+      nzLabel="Past Month"
+      nzValue="LAST_MONTH"></nz-option>
+    <nz-option
+      nzLabel="Past Year"
+      nzValue="LAST_YEAR"></nz-option>
+  </nz-select>
+</ng-template>
