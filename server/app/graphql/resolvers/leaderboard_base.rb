@@ -8,6 +8,7 @@ class Resolvers::LeaderboardBase < GraphQL::Schema::Resolver
   def organization_base_query(*actions)
     Organization.joins(users: [:events])
         .where('events.action' => actions)
+        .where.not('users.id' => Constants::CIVICBOT_USER_ID)
         .group('organizations.id')
         .select('
                 organizations.*,
@@ -20,6 +21,7 @@ class Resolvers::LeaderboardBase < GraphQL::Schema::Resolver
   def user_base_query(*actions)
      User.joins(:events)
         .where('events.action' => actions)
+        .where.not('users.id' => Constants::CIVICBOT_USER_ID)
         .group('users.id')
         .select('
                 users.*, 
