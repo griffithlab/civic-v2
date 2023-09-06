@@ -14,7 +14,6 @@ fragment ClingenCodeSelectTypeaheadFields on ClingenCode {
   id
   code
   name
-  met
   description
   tooltip
   exclusive

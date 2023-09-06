@@ -55,7 +55,6 @@ type AcmgCode {
   code: String!
   description: String!
   id: Int!
-  met: Boolean!
   name: String!
   tooltip: String!
 }
@@ -1407,7 +1406,6 @@ type ClingenCode {
   description: String!
   exclusive: Boolean!
   id: Int!
-  met: Boolean!
   name: String!
   tooltip: String!
 }

@@ -100,7 +100,6 @@
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
-                      [ngClass]="{'code-not-met': !code.met }"
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.acmgCodes"
@@ -125,7 +124,6 @@
                 <ng-container *ngIf="assertion.clingenCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
-                      [ngClass]="{'code-not-met': !code.met }"
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.clingenCodes"

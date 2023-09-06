@@ -13,7 +13,6 @@ query AcmgCodeSelectTag($id: Int!) {
 fragment AcmgCodeSelectTypeaheadFields on AcmgCode {
   id
   code
-  met
   name
   description
   tooltip
