@@ -1,0 +1,108 @@
+fragment LeaderboardOrganizationFields on LeaderboardOrganization {
+  id
+  name
+  actionCount
+  rank
+  profileImagePath(size: 64)
+}
+
+query OrganizationCommentsLeaderboard(
+  $window: TimeWindow
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  organizationLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+
+query OrganizationRevisionsLeaderboard(
+  $window: TimeWindow
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  organizationLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+query OrganizationModerationLeaderboard(
+  $window: TimeWindow
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  organizationLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}

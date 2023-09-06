@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+nz-list-item {
+  // background-color: green !important;
+}
+nz-list-item ::ng-deep .ant-list-item-action {
+  margin-left: 1em;
+  li {
+    padding-right: 0;
+    nz-tag {
+      margin-right: 0;
+    }
+  }
+}
+
+// override badge's default red color
+nz-badge ::ng-deep .ant-badge-count {
+  background-color: #662d91;
+  padding: 0 2px;
+}
+
+nz-list-item-meta-title ::ng-deep .ant-list-item-meta-title {
+  padding-top: 1px;
+  margin-bottom: 0;
+  font-weight: normal; // prevent cvc-tag labels from inheriting h4's bold font-weight
+}
+
+.list-height-block {
+  height: 160px;
+  overflow-y: scroll;
+}
+
+.time-select {
+  min-width: 80px;
+}
