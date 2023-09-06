@@ -67,20 +67,20 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
 
   initialCommentsView: OrganizationLeaderboard = {
     title: 'Comments Leaderboard',
-    info: 'Organization rank determined by adding total comments made by members of the organization.',
+    info: 'Organizations ranked by the total number of Comments posted by their members while acting on behalf of that Organization.',
     loading: false,
     rows: [],
   }
 
   initialRevisionsView: OrganizationLeaderboard = {
     title: 'Revisions Leaderboard',
-    info: 'Organization rank determined by ...',
+    info: 'Organizations ranked by the total number of Revisions their members have suggested while acting on behalf of that Organization.',
     loading: false,
     rows: [],
   }
   initialModerationView: OrganizationLeaderboard = {
     title: 'Moderation Leaderboard',
-    info: 'Organization rank determined by ...',
+    info: 'Organizations ranked by the total number of editorial actions their members have taken while acting on behalf of that Organization. This includes accepting and rejecting Revisions, Evidence, and Assertions.',
     loading: false,
     rows: [],
   }

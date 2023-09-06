@@ -67,21 +67,21 @@ export class CvcUserLeaderboardsComponent implements OnInit {
 
   initialCommentsView: UserLeaderboard = {
     title: 'Comments Leaderboard',
-    info: 'Contributor rank determined by adding total comments made by the contributor.',
+    info: 'Contributors ranked by the total number of posted Comments.',
     loading: false,
     rows: [],
   }
 
   initialRevisionsView: UserLeaderboard = {
     title: 'Revisions Leaderboard',
-    info: 'Contributor rank determined by ...',
+    info: 'Contributors ranked by the total number of Revisions they have suggested.',
     loading: false,
     rows: [],
   }
 
   initialModerationView: UserLeaderboard = {
     title: 'Moderation Leaderboard',
-    info: 'Contributor rank determined by ...',
+    info: 'Contributors ranked by the total number of editorial actions they have taken. This includes accepting and rejecting Revisions, Evidence, and Assertions.',
     loading: false,
     rows: [],
   }
