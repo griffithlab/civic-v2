@@ -10,6 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcUserLeaderboardsModule } from '@app/components/users/user-leaderboards/user-leaderboards.module'
 
 @NgModule({
   declarations: [UsersHomePage],
@@ -21,6 +22,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzButtonModule,
     NzSpaceModule,
     NzTypographyModule,
+    CvcUserLeaderboardsModule,
     CvcSectionNavigationModule,
     CvcUsersTableModule,
     CvcPipesModule,

@@ -208,7 +208,7 @@ export class CvcAcmgCodeSelectField
         else if (requiresAcmgCode) {
           this.props.required = true
           this.props.disabled = false
-          this.props.description = 'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>.',
+          this.props.description = 'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.',
           this.props.extraType = 'description'
         }
         // field currently has a value, but state indicates no ACMG Code is required, or no type is provided && type is required, so reset field

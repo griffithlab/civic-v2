@@ -36,7 +36,6 @@
   <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
     <ng-template #optionTemplates>
         <nz-tag
-          [ngClass]="{'code-not-met': !result.met }"
           nz-tooltip
         >{{ result.code }}</nz-tag>
       <span

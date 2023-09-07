@@ -95,12 +95,23 @@
             </nz-descriptions-item>
 
             <!-- ACMG Codes -->
-            <nz-descriptions-item [nzSpan]='2' nzTitle="ACMG Codes">
+            <nz-descriptions-item [nzSpan]='2' [nzTitle]="acmgTitle">
+              <ng-template #acmgTitle>
+                ACMG Codes
+                <span nz-typography
+                  nzType="secondary">
+                  <i nz-icon
+                    nzType="info-circle"
+                    nz-tooltip
+                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met."
+                    >
+                  </i>
+                </span>
+              </ng-template>
               <ng-container *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else valueNotApplicable">
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
-                      [ngClass]="{'code-not-met': !code.met }"
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.acmgCodes"
@@ -119,13 +130,24 @@
             </nz-descriptions-item>
 
             <!-- ClinGen Codes -->
-            <nz-descriptions-item [nzSpan]='2' nzTitle="ClinGen/CGC/VICC Codes">
+            <nz-descriptions-item [nzSpan]='2' [nzTitle]="clingenTitle">
+              <ng-template #clingenTitle>
+                ClinGen/CGC/VICC Codes
+                <span nz-typography
+                  nzType="secondary">
+                  <i nz-icon
+                    nzType="info-circle"
+                    nz-tooltip
+                    nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met."
+                    >
+                  </i>
+                </span>
+              </ng-template>
               <ng-container
                 *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType); else valueNotApplicable">
                 <ng-container *ngIf="assertion.clingenCodes.length > 0">
                   <cvc-tag-list>
                     <nz-tag
-                      [ngClass]="{'code-not-met': !code.met }"
                       nz-tooltip
                       [nzTooltipTitle]="code.description"
                       *ngFor="let code of assertion.clingenCodes"
