@@ -55,7 +55,7 @@ export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
       placeholder: 'Enter value and hit Return'
     },
   }
-  
+
   tags$ = new Subject<string[]>()
   values = new Set<string>()
 
@@ -73,7 +73,7 @@ export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
     this.tags$.next(arr)
     this.formControl.setValue(arr)
   }
-  
+
   tagClosed(tag: string) {
     this.values.delete(tag)
     let arr = Array.from(this.values)

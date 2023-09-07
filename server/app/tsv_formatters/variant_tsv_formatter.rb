@@ -32,7 +32,8 @@ class VariantTsvFormatter
       'allele_registry_id',
       'clinvar_ids',
       'variant_aliases',
-      'is_flagged'
+      'is_flagged',
+      'single_variant_molecular_profile_id'
     ]
   end
 
@@ -62,7 +63,8 @@ class VariantTsvFormatter
       variant.allele_registry_id,
       variant.clinvar_entries.map(&:clinvar_id).join(','),
       variant.variant_aliases.map(&:name).join(','),
-      variant.flagged
+      variant.flagged,
+      variant.single_variant_molecular_profile_id
     ]
   end
 
