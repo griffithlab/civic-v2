@@ -1,6 +1,6 @@
 app_dir = '/var/www/civic/current'
-max_threads_count = 5
-min_threads_count = 5
+max_threads_count = 3
+min_threads_count = 3
 threads min_threads_count, max_threads_count
 
 bind "unix://#{app_dir}/tmp/sockets/puma.sock"
@@ -12,13 +12,13 @@ activate_control_app "unix://#{app_dir}/tmp/sockets/pumactl.sock"
 
 stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
 
-workers 6
+workers ENV.fetch("PUMA_WORKERS") { 5 }
 preload_app!
 
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RAILS_ENV") { "staging" }
+environment ENV.fetch("RAILS_ENV") { "headless" }
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
