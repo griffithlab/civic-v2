@@ -22,6 +22,7 @@ fragment UserDetailFields on User {
   organizations {
     id
     name
+    url
   }
   country {
     id

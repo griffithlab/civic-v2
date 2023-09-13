@@ -27,6 +27,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzPipesModule } from 'ng-zorro-antd/pipes'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 
 @NgModule({
   declarations: [UsersDetailComponent],
@@ -50,6 +51,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
     NzTypographyModule,
     NzToolTipModule,
     NzButtonModule,
+    CvcTagOverflowModule,
     CvcUserCoiFormModule,
     CvcUserProfileFormModule,
     CvcPipesModule,

@@ -67,11 +67,71 @@
             nzLayout="vertical"
             nzSize="small"
             nzBordered="true"
-            [nzColumn]="3">
+            [nzColumn]="4">
             <nz-descriptions-item
               nzTitle="Biography"
-              nzSpan="3">
-              {{ user.bio }}
+              nzSpan="4">
+              <ng-container *ngIf="user.bio">
+                {{ user.bio }}
+              </ng-container>
+              <ng-container *ngIf="!user.bio">
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i>User has not provided a bio.</i>
+                </span>
+              </ng-container>
+            </nz-descriptions-item>
+
+            <nz-descriptions-item
+              [nzSpan]="1"
+              nzTitle="Area of Expertise">
+              <ng-container *ngIf="user.areaOfExpertise">
+                {{ user.areaOfExpertise | enumToTitle }}
+              </ng-container>
+              <ng-container *ngIf="!user.areaOfExpertise">
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i>Unspecified</i>
+                </span>
+              </ng-container>
+            </nz-descriptions-item>
+
+            <nz-descriptions-item
+              [nzSpan]="1"
+              nzTitle="Country">
+              <ng-container *ngIf="user.country">
+                {{ user.country.name }}
+              </ng-container>
+              <ng-container *ngIf="!user.country">
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i>Unspecified</i>
+                </span>
+              </ng-container>
+            </nz-descriptions-item>
+
+            <nz-descriptions-item
+              [nzSpan]="2"
+              [nzTitle]="
+                'Organization' + (user.organizations.length > 1 ? 's' : '')
+              ">
+              <ng-container *ngIf="user.organizations.length > 0">
+                <cvc-tag-overflow
+                  tagType="organization"
+                  [maxDisplayCount]="2"
+                  [tags]="organization$ | ngrxPush">
+                </cvc-tag-overflow>
+              </ng-container>
+              <ng-container *ngIf="user.organizations.length === 0">
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i>User is not a member of any Organizations.</i>
+                </span>
+              </ng-container>
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
@@ -86,6 +146,7 @@
       </nz-row>
     </nz-page-header-content>
   </nz-page-header>
+
   <nz-modal
     [(nzVisible)]="this.updateProfileModalVisible"
     [nzContent]="profileModalContent"
