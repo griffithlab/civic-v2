@@ -4,7 +4,9 @@
 
   <nz-page-header class="site-page-header">
     <nz-page-header-content>
-      <nz-row [nzGutter]="[8, 8]">
+      <nz-row
+        [nzGutter]="[8, 8]"
+        class="profile-content">
         <nz-col nzSpan="128px">
           <nz-space nzDirection="vertical">
             <cvc-user-avatar
@@ -13,7 +15,7 @@
               [size]="128"
               *nzSpaceItem></cvc-user-avatar>
             <div
-              class="profile-value"
+              class="user-pseudo-tag"
               *nzSpaceItem>
               <i
                 nz-icon
@@ -60,7 +62,21 @@
             </ng-container>
           </nz-space>
         </nz-col>
-        <nz-col nzFlex="auto"> </nz-col>
+        <nz-col nzFlex="auto">
+          <nz-descriptions
+            nzLayout="vertical"
+            nzSize="small"
+            nzBordered="true"
+            [nzColumn]="3">
+            <nz-descriptions-item
+              nzTitle="Biography"
+              nzSpan="3">
+              {{ user.bio }}
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-col>
+      </nz-row>
+      <nz-row style="margin-top: 16px">
         <nz-col nzSpan="24">
           <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
           <div class="content">
