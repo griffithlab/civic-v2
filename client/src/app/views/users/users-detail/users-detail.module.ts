@@ -25,6 +25,8 @@ import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card
 import { UsersDetailRoutingModule } from './users-detail-routing.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzPipesModule } from 'ng-zorro-antd/pipes'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
 @NgModule({
   declarations: [UsersDetailComponent],
@@ -36,6 +38,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     PushPipe,
     NzAlertModule,
     NzGridModule,
+    NzPipesModule,
     NzPageHeaderModule,
     NzSpaceModule,
     NzDescriptionsModule,
@@ -45,6 +48,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     NzStatisticModule,
     NzIconModule,
     NzTypographyModule,
+    NzToolTipModule,
     NzButtonModule,
     CvcUserCoiFormModule,
     CvcUserProfileFormModule,

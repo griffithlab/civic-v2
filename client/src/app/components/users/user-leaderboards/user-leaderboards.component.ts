@@ -185,12 +185,14 @@ export class CvcUserLeaderboardsComponent implements OnInit {
         map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
           if (result.data && result.data.userLeaderboards) {
-            result.data.userLeaderboards.moderationLeaderboard.edges.map((e) => {
-              if (e.node) {
-                const row = userToUserRow(e.node)
-                rows.push(row)
+            result.data.userLeaderboards.moderationLeaderboard.edges.map(
+              (e) => {
+                if (e.node) {
+                  const row = userToUserRow(e.node)
+                  rows.push(row)
+                }
               }
-            })
+            )
           }
 
           return <UserLeaderboard>{
