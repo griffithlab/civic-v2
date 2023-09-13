@@ -63,77 +63,162 @@
           </nz-space>
         </nz-col>
         <nz-col nzFlex="auto">
-          <nz-descriptions
-            nzLayout="vertical"
-            nzSize="small"
-            nzBordered="true"
-            [nzColumn]="4">
-            <nz-descriptions-item
-              nzTitle="Biography"
-              nzSpan="4">
-              <ng-container *ngIf="user.bio">
-                {{ user.bio }}
-              </ng-container>
-              <ng-container *ngIf="!user.bio">
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  <i>User has not provided a bio.</i>
-                </span>
-              </ng-container>
-            </nz-descriptions-item>
+          <nz-space
+            nzDirection="vertical"
+            style="width: 100%">
+            <nz-descriptions
+              nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="4"
+              *nzSpaceItem>
+              <nz-descriptions-item
+                nzTitle="Biography"
+                nzSpan="4">
+                <ng-container *ngIf="user.bio">
+                  {{ user.bio }}
+                </ng-container>
+                <ng-container *ngIf="!user.bio">
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>User has not provided a bio.</i>
+                  </span>
+                </ng-container>
+              </nz-descriptions-item>
 
-            <nz-descriptions-item
-              [nzSpan]="1"
-              nzTitle="Area of Expertise">
-              <ng-container *ngIf="user.areaOfExpertise">
-                {{ user.areaOfExpertise | enumToTitle }}
-              </ng-container>
-              <ng-container *ngIf="!user.areaOfExpertise">
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  <i>Unspecified</i>
-                </span>
-              </ng-container>
-            </nz-descriptions-item>
+              <nz-descriptions-item
+                [nzSpan]="1"
+                nzTitle="Area of Expertise">
+                <ng-container *ngIf="user.areaOfExpertise">
+                  {{ user.areaOfExpertise | enumToTitle }}
+                </ng-container>
+                <ng-container *ngIf="!user.areaOfExpertise">
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>Unspecified</i>
+                  </span>
+                </ng-container>
+              </nz-descriptions-item>
 
-            <nz-descriptions-item
-              [nzSpan]="1"
-              nzTitle="Country">
-              <ng-container *ngIf="user.country">
-                {{ user.country.name }}
-              </ng-container>
-              <ng-container *ngIf="!user.country">
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  <i>Unspecified</i>
-                </span>
-              </ng-container>
-            </nz-descriptions-item>
+              <nz-descriptions-item
+                [nzSpan]="1"
+                nzTitle="Country">
+                <ng-container *ngIf="user.country">
+                  {{ user.country.name }}
+                </ng-container>
+                <ng-container *ngIf="!user.country">
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>Unspecified</i>
+                  </span>
+                </ng-container>
+              </nz-descriptions-item>
 
-            <nz-descriptions-item
-              [nzSpan]="2"
-              [nzTitle]="
-                'Organization' + (user.organizations.length > 1 ? 's' : '')
-              ">
-              <ng-container *ngIf="user.organizations.length > 0">
-                <cvc-tag-overflow
-                  tagType="organization"
-                  [maxDisplayCount]="2"
-                  [tags]="organization$ | ngrxPush">
-                </cvc-tag-overflow>
-              </ng-container>
-              <ng-container *ngIf="user.organizations.length === 0">
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  <i>User is not a member of any Organizations.</i>
-                </span>
-              </ng-container>
-            </nz-descriptions-item>
-          </nz-descriptions>
+              <nz-descriptions-item
+                [nzSpan]="2"
+                [nzTitle]="
+                  'Organization' + (user.organizations.length > 1 ? 's' : '')
+                ">
+                <ng-container *ngIf="user.organizations.length > 0">
+                  <cvc-tag-overflow
+                    tagType="organization"
+                    [maxDisplayCount]="2"
+                    [tags]="organization$ | ngrxPush">
+                  </cvc-tag-overflow>
+                </ng-container>
+                <ng-container *ngIf="user.organizations.length === 0">
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    <i>User is not a member of any Organizations.</i>
+                  </span>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+            <ng-container
+              *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'">
+              <nz-card
+                class="editor-coi-card"
+                nzTitle="Editor Conflict of Interest Statement"
+                nzSize="small"
+                [nzExtra]="updateCoi"
+                *nzSpaceItem>
+                <ng-template #updateCoi>
+                  <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+                    <button
+                      nz-button
+                      nzType="primary"
+                      nzSize="small"
+                      (click)="this.updateCoiModalVisible = true">
+                      Update COI
+                    </button>
+                  </ng-container>
+                </ng-template>
+                <nz-descriptions
+                  [nzBordered]="true"
+                  [nzColumn]="3"
+                  class="user-coi"
+                  nzLayout="vertical"
+                  nzSize="small">
+                  <ng-container
+                    *ngIf="user.mostRecentConflictOfInterestStatement">
+                    <nz-descriptions-item
+                      [nzSpan]="1"
+                      nzTitle="Status">
+                      {{
+                        user.mostRecentConflictOfInterestStatement.coiStatus
+                          | enumToTitle
+                      }}
+                    </nz-descriptions-item>
+                    <nz-descriptions-item
+                      [nzSpan]="1"
+                      nzTitle="Updated">
+                      {{
+                        user.mostRecentConflictOfInterestStatement.createdAt
+                          | date : 'shortDate'
+                      }}
+                    </nz-descriptions-item>
+                    <nz-descriptions-item
+                      [nzSpan]="1"
+                      nzTitle="Expires">
+                      {{
+                        user.mostRecentConflictOfInterestStatement.expiresAt
+                          | date : 'shortDate'
+                      }}
+                    </nz-descriptions-item>
+                    <nz-descriptions-item
+                      [nzSpan]="3"
+                      nzTitle="Statement">
+                      <ng-container
+                        *ngIf="
+                          user.mostRecentConflictOfInterestStatement.coiPresent;
+                          else noStatement
+                        ">
+                        {{
+                          user.mostRecentConflictOfInterestStatement
+                            .coiStatement
+                        }}
+                      </ng-container>
+                      <ng-template #noStatement>
+                        I do not have any potential conflicts of interest.
+                      </ng-template>
+                    </nz-descriptions-item>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="!user.mostRecentConflictOfInterestStatement">
+                    <nz-descriptions-item
+                      [nzSpan]="3"
+                      nzTitle="Status"
+                      >None on file.</nz-descriptions-item
+                    >
+                  </ng-container>
+                </nz-descriptions>
+              </nz-card>
+            </ng-container>
+          </nz-space>
         </nz-col>
       </nz-row>
       <nz-row style="margin-top: 16px">
