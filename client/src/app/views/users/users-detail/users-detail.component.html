@@ -7,7 +7,8 @@
       <nz-row
         [nzGutter]="[8, 8]"
         class="profile-content">
-        <nz-col nzSpan="128px">
+        <!-- avatar column -->
+        <nz-col nzFlex="0 1 128px">
           <nz-space nzDirection="vertical">
             <cvc-user-avatar
               [user]="user"
@@ -62,7 +63,9 @@
             </ng-container>
           </nz-space>
         </nz-col>
-        <nz-col nzFlex="auto">
+
+        <!-- bio, organizations, COI column -->
+        <nz-col nzFlex="1 1 400px">
           <nz-space
             nzDirection="vertical"
             style="width: 100%">
@@ -88,7 +91,7 @@
               </nz-descriptions-item>
 
               <nz-descriptions-item
-                [nzSpan]="1"
+                [nzSpan]="2"
                 nzTitle="Area of Expertise">
                 <ng-container *ngIf="user.areaOfExpertise">
                   {{ user.areaOfExpertise | enumToTitle }}
@@ -103,7 +106,7 @@
               </nz-descriptions-item>
 
               <nz-descriptions-item
-                [nzSpan]="1"
+                [nzSpan]="2"
                 nzTitle="Country">
                 <ng-container *ngIf="user.country">
                   {{ user.country.name }}
@@ -118,7 +121,7 @@
               </nz-descriptions-item>
 
               <nz-descriptions-item
-                [nzSpan]="2"
+                [nzSpan]="4"
                 [nzTitle]="
                   'Organization' + (user.organizations.length > 1 ? 's' : '')
                 ">
@@ -138,14 +141,24 @@
                 </ng-container>
               </nz-descriptions-item>
             </nz-descriptions>
+
+            <!-- Editor COI card -->
             <ng-container
               *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'">
               <nz-card
                 class="editor-coi-card"
-                nzTitle="Editor Conflict of Interest Statement"
+                [nzTitle]="statementTitle"
                 nzSize="small"
                 [nzExtra]="updateCoi"
                 *nzSpaceItem>
+                <ng-template #statementTitle>
+                  <i
+                    nz-icon
+                    [nzType]="'civic-' + (user.role | lowercase)"
+                    nzTheme="twotone"
+                    [nzTwotoneColor]="user.role | titlecase | entityColor"></i>
+                  Editor Conflict of Interest Statement
+                </ng-template>
                 <ng-template #updateCoi>
                   <ng-container *ngIf="this.ownProfile$ | ngrxPush">
                     <button
@@ -161,7 +174,7 @@
                   [nzBordered]="true"
                   [nzColumn]="3"
                   class="user-coi"
-                  nzLayout="vertical"
+                  nzLayout="horizontal"
                   nzSize="small">
                   <ng-container
                     *ngIf="user.mostRecentConflictOfInterestStatement">
@@ -219,6 +232,20 @@
               </nz-card>
             </ng-container>
           </nz-space>
+        </nz-col>
+
+        <!-- stats column -->
+        <nz-col nzFlex="0 1 120px">
+          <nz-descriptions
+            nzSize="small"
+            nzLayout="vertical"
+            nzBordered="true">
+            <nz-descriptions-item nzTitle="Activity">
+              <cvc-stats-card
+                [stats]="user.statsHash"
+                header="User Statistics"></cvc-stats-card>
+            </nz-descriptions-item>
+          </nz-descriptions>
         </nz-col>
       </nz-row>
       <nz-row style="margin-top: 16px">
