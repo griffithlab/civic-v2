@@ -1967,6 +1967,12 @@ export type LeaderboardOrganizationEdge = {
   node?: Maybe<LeaderboardOrganization>;
 };
 
+export type LeaderboardRank = {
+  __typename: 'LeaderboardRank';
+  actionCount: Scalars['Int'];
+  rank: Scalars['Int'];
+};
+
 export type LeaderboardUser = {
   __typename: 'LeaderboardUser';
   actionCount: Scalars['Int'];
@@ -1990,6 +1996,7 @@ export type LeaderboardUser = {
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
+  ranks: Ranks;
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -3792,6 +3799,14 @@ export type QueryVariantsArgs = {
   variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type Ranks = {
+  __typename: 'Ranks';
+  commentsRank: LeaderboardRank;
+  moderationRank: LeaderboardRank;
+  revisionsRank: LeaderboardRank;
+  submissionsRank: LeaderboardRank;
+};
+
 export enum ReadStatus {
   Read = 'READ',
   Unread = 'UNREAD'
@@ -4846,6 +4861,7 @@ export type User = {
   orcid?: Maybe<Scalars['String']>;
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;

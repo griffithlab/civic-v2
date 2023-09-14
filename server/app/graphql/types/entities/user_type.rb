@@ -20,6 +20,7 @@ module Types::Entities
     field :most_recent_event, Types::Entities::EventType, null: true
     field :most_recent_action_timestamp, GraphQL::Types::ISO8601DateTime, null: true
     field :most_recent_organization_id, Int, null: true
+    field :ranks, Types::Entities::RanksType, null: false
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
@@ -111,6 +112,15 @@ module Types::Entities
       Rails.cache.fetch("user_stats_#{object.id}", expires_in: 1.hour) do 
         object.stats_hash
       end
+    end
+
+    def ranks
+      {
+        moderation_rank: Leaderboard.single_user_query(object.id, Leaderboard.moderation_actions),
+        comments_rank: Leaderboard.single_user_query(object.id, Leaderboard.comment_actions),
+        submissions_rank: Leaderboard.single_user_query(object.id, Leaderboard.submission_actions),
+        revisions_rank: Leaderboard.single_user_query(object.id, Leaderboard.revision_actions)
+      }
     end
   end
 end

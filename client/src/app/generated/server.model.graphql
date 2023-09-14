@@ -3257,6 +3257,11 @@ type LeaderboardOrganizationEdge {
   node: LeaderboardOrganization
 }
 
+type LeaderboardRank {
+  actionCount: Int!
+  rank: Int!
+}
+
 type LeaderboardUser {
   actionCount: Int!
   areaOfExpertise: AreaOfExpertise
@@ -3342,6 +3347,7 @@ type LeaderboardUser {
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   rank: Int!
+  ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String
@@ -6281,6 +6287,13 @@ type Query {
   viewer: User
 }
 
+type Ranks {
+  commentsRank: LeaderboardRank!
+  moderationRank: LeaderboardRank!
+  revisionsRank: LeaderboardRank!
+  submissionsRank: LeaderboardRank!
+}
+
 enum ReadStatus {
   READ
   UNREAD
@@ -7972,6 +7985,7 @@ type User {
   orcid: String
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
+  ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String
