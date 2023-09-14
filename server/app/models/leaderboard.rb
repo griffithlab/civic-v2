@@ -36,7 +36,7 @@ class Leaderboard
 
   def self.single_organization_query(org_id, actions)
     Organization.select('ranked_orgs.rank, ranked_orgs.action_count')
-      .where('ranked_users.id' => user_id)
+      .where('ranked_orgs.id' => org_id)
       .from(organization_base_query(actions), :ranked_orgs)
       .limit(1)
       .to_a
