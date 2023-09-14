@@ -12,6 +12,9 @@ import {
   OrganizationRevisionsLeaderboardGQL,
   OrganizationRevisionsLeaderboardQuery,
   OrganizationRevisionsLeaderboardQueryVariables,
+  OrganizationSubmissionsLeaderboardGQL,
+  OrganizationSubmissionsLeaderboardQuery,
+  OrganizationSubmissionsLeaderboardQueryVariables,
   TimeWindow,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -59,11 +62,16 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     OrganizationModerationLeaderboardQuery,
     OrganizationModerationLeaderboardQueryVariables
   >
+  submissionsQueryRef!: QueryRef<
+    OrganizationSubmissionsLeaderboardQuery,
+    OrganizationSubmissionsLeaderboardQueryVariables
+  >
 
   // PRESENTATION STREAMS
   commentsView$: BehaviorSubject<OrganizationLeaderboard>
   revisionsView$: BehaviorSubject<OrganizationLeaderboard>
   moderationView$: BehaviorSubject<OrganizationLeaderboard>
+  submissionsView$: BehaviorSubject<OrganizationLeaderboard>
 
   initialCommentsView: OrganizationLeaderboard = {
     title: 'Comments Leaderboard',
@@ -84,6 +92,12 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     loading: false,
     rows: [],
   }
+  initialSubmissionsView: OrganizationLeaderboard = {
+    title: 'Submissions Leaderboard',
+    info: 'Organizations ranked by the total number of Evidence Items and Assertions their members have submitted while acting on behalf of that Organization',
+    loading: false,
+    rows: [],
+  }
 
   initialRows: number = 25
   initialWindow: TimeWindow = TimeWindow.AllTime
@@ -96,13 +110,15 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
   constructor(
     private commentsGQL: OrganizationCommentsLeaderboardGQL,
     private revisionsGQL: OrganizationRevisionsLeaderboardGQL,
-    private moderationGQL: OrganizationModerationLeaderboardGQL
+    private moderationGQL: OrganizationModerationLeaderboardGQL,
+    private submissionsGQL: OrganizationSubmissionsLeaderboardGQL
   ) {
     this.timeWindow$ = new BehaviorSubject<TimeWindow>(this.initialWindow)
     this.timeWindow$.pipe(untilDestroyed(this)).subscribe((window) => {
       this.commentsQueryRef.refetch({ window: window })
       this.revisionsQueryRef.refetch({ window: window })
       this.moderationQueryRef.refetch({ window: window })
+      this.submissionsQueryRef.refetch({ window: window })
     })
     this.commentsView$ = new BehaviorSubject<OrganizationLeaderboard>(
       this.initialCommentsView
@@ -112,6 +128,9 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
     )
     this.moderationView$ = new BehaviorSubject<OrganizationLeaderboard>(
       this.initialModerationView
+    )
+    this.submissionsView$ = new BehaviorSubject<OrganizationLeaderboard>(
+      this.initialSubmissionsView
     )
   }
 
@@ -248,5 +267,44 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe((leaderboard) => this.revisionsView$.next(leaderboard))
+
+    /*
+     * SUBMISSIONS
+     */
+    this.submissionsQueryRef = this.submissionsGQL.watch(
+      {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
+      this.fetchPolicy
+    )
+
+    this.submissionsQueryRef.valueChanges
+      .pipe(
+        map(
+          (
+            result: ApolloQueryResult<OrganizationSubmissionsLeaderboardQuery>
+          ) => {
+            let rows: OrganizationLeaderboardRow[] = []
+            if (result.data) {
+              result.data.organizationLeaderboards.submissionsLeaderboard.edges.map((e) => {
+                if (e.node) {
+                  const row = organizationToOrganizationRow(e.node)
+                  rows.push(row)
+                }
+              })
+            }
+
+            return <OrganizationLeaderboard>{
+              title: this.initialSubmissionsView.title,
+              info: this.initialSubmissionsView.info,
+              loading: result.loading,
+              rows: [...rows],
+            }
+          }
+        ),
+        untilDestroyed(this)
+      )
+      .subscribe((leaderboard) => this.submissionsView$.next(leaderboard))
   }
 }
