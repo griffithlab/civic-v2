@@ -59,7 +59,7 @@ gem 'sanitize', '~> 6.0.2'
 gem 'angular_rails_csrf', '~> 5.0.0'
 
 
-gem 'sidekiq', '~> 6.5.1'
+gem 'sidekiq', '~> 7.1.3'
 gem 'sidekiq-cron', '~> 1.5.0'
 
 gem 'aws-sdk-s3', '~> 1.94.0'
