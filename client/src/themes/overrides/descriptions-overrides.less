@@ -1,10 +1,5 @@
 @import 'themes/global-variables.less';
 
-// :host ::ng-deep nz-descriptions[nzLayout='horizontal'] {
-//   .ant-descriptions-item-label {
-//     text-align: right;
-//   }
-// }
 :host ::ng-deep nz-descriptions {
   // for horizontal layouts, right-align labels
   &[nzLayout='horizontal'] {
@@ -12,6 +7,7 @@
       text-align: right;
     }
   }
+
   // slightly embolden description key values
   .ant-descriptions-item-label {
     font-weight: 550;

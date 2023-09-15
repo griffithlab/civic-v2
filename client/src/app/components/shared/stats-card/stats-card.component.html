@@ -141,25 +141,25 @@
     </nz-col>
   </nz-row>
   <nz-row>
-    <ng-template #revisionIcon
-      ><i
+    <ng-template #revisionIcon>
+      <i
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Revision' | entityColor"
-        nzType="civic-revision"></i
-    ></ng-template>
+        nzType="civic-revision"></i>
+    </ng-template>
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Comments"
         [nzValue]="(stats.comments | number)!"
         [nzPrefix]="commentIcon"></nz-statistic>
-      <ng-template #commentIcon
-        ><i
+      <ng-template #commentIcon>
+        <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Comment' | entityColor"
-          nzType="civic-comment"></i
-      ></ng-template>
+          nzType="civic-comment"></i>
+      </ng-template>
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-statistic
@@ -167,12 +167,12 @@
         [nzValue]="(stats.suggestedSources | number)!"
         [nzPrefix]="sourceIcon"></nz-statistic>
     </nz-col>
-    <ng-template #sourceIcon
-      ><i
+    <ng-template #sourceIcon>
+      <i
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Source' | entityColor"
-        nzType="civic-source"></i
-    ></ng-template>
+        nzType="civic-source"></i>
+    </ng-template>
   </nz-row>
 </ng-template>
