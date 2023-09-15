@@ -1918,6 +1918,7 @@ export type LeaderboardOrganization = {
   orgStatsHash: Stats;
   profileImagePath?: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
+  ranks: Ranks;
   subGroups: Array<Organization>;
   url: Scalars['String'];
 };
@@ -2901,6 +2902,7 @@ export type Organization = {
   orgAndSuborgsStatsHash: Stats;
   orgStatsHash: Stats;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   subGroups: Array<Organization>;
   url: Scalars['String'];
 };
@@ -7178,9 +7180,9 @@ export type UserDetailQueryVariables = Exact<{
 }>;
 
 
-export type UserDetailQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined } | undefined };
+export type UserDetailQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined } | undefined };
 
-export type UserDetailFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined };
+export type UserDetailFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined };
 
 export type UserNotificationsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -9686,6 +9688,24 @@ export const UserDetailFieldsFragmentDoc = gql`
     suggestedSources
     submittedAssertions
     acceptedAssertions
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
   mostRecentConflictOfInterestStatement {
     id

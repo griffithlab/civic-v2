@@ -741,7 +741,7 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
+export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
 export type LeaderboardOrganizationFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -756,6 +756,7 @@ export type LeaderboardOrganizationFieldPolicy = {
 	orgStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	rank?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	subGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -1110,7 +1111,7 @@ export type ObjectFieldDiffFieldPolicy = {
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
+export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1123,6 +1124,7 @@ export type OrganizationFieldPolicy = {
 	orgAndSuborgsStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	orgStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	subGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };

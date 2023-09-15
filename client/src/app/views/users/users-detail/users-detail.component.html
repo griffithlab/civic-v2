@@ -235,16 +235,56 @@
         </nz-col>
 
         <!-- stats column -->
-        <nz-col nzFlex="0 1 120px">
+        <nz-col nzFlex="0 1 150px">
           <nz-descriptions
             nzSize="small"
             nzLayout="vertical"
             nzBordered="true">
-            <nz-descriptions-item nzTitle="Activity">
+            <nz-descriptions-item [nzTitle]="activitiesTitle">
               <cvc-stats-card
-                [stats]="user.statsHash"
-                header="User Statistics"></cvc-stats-card>
+                [cvcStats]="user.statsHash"
+                [cvcRanks]="user.ranks"></cvc-stats-card>
             </nz-descriptions-item>
+            <ng-template #activitiesTitle>
+              <div
+                style="white-space: nowrap"
+                nz-popover
+                nzPopoverTitle="How Activity Rankings are Calculated"
+                [nzPopoverContent]="rankingCalculations"
+                nzPopoverPlacement="leftTop">
+                Ranked Activities
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  <i
+                    nz-icon
+                    nzType="info-circle"
+                    nzTheme="outline"></i>
+                </span>
+              </div>
+
+              <ng-template #rankingCalculations>
+                <div style="max-width: 300px">
+                  <p>
+                    <strong>Comments:</strong> Total number of Comments posted
+                    by the Curator.
+                  </p>
+                  <p>
+                    <strong>Revisions:</strong> Total number of Revisions
+                    suggested by the Curator.
+                  </p>
+                  <p>
+                    <strong>Moderations:</strong> Total number of editorial
+                    actions made by the Curator. This includes accepting and
+                    rejecting Revisions, Evidence, and Assertions.
+                  </p>
+                  <p style="margin-bottom: 0">
+                    <strong>Submissions:</strong> Total number of Evidence Items
+                    and Assertions submitted by the Curator.
+                  </p>
+                </div>
+              </ng-template>
+            </ng-template>
           </nz-descriptions>
         </nz-col>
       </nz-row>

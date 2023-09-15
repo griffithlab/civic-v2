@@ -3208,6 +3208,7 @@ type LeaderboardOrganization {
   orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
   rank: Int!
+  ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
 }
@@ -4691,6 +4692,7 @@ type Organization {
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
+  ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
 }

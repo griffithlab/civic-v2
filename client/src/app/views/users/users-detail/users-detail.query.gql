@@ -38,6 +38,24 @@ fragment UserDetailFields on User {
     submittedAssertions
     acceptedAssertions
   }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
   mostRecentConflictOfInterestStatement {
     id
     coiPresent

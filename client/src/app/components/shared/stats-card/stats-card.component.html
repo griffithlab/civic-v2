@@ -1,20 +1,27 @@
-<nz-statistic
-  [nzTitle]="commentsTitle"
-  [nzValue]="(stats.comments | number)!"
-  [nzPrefix]="commentIcon">
-</nz-statistic>
-
-<ng-template #commentsTitle>
-  <span style="white-space: nowrap">
-    Comments
-    <i
-      nz-icon
-      nzType="info-circle"
-      nzTheme="outline"
-      nz-tooltip
-      nzTooltipTitle="Total Comments posted"></i>
-  </span>
+<ng-template
+  #rankedActivity
+  let-activity
+  let-title="title"
+  let-iconTpl="iconTpl">
+  <nz-statistic
+    [nzTitle]="activityTitle"
+    [nzValue]="(activity.actionCount | number) || 0"
+    [nzPrefix]="iconTpl">
+  </nz-statistic>
+  <ng-template #activityTitle>
+    {{ title }} ({{ activity.rank | ordinal }})
+  </ng-template>
 </ng-template>
+
+<ng-content
+  *ngTemplateOutlet="
+    rankedActivity;
+    context: {
+      $implicit: cvcRanks.commentsRank,
+      title: 'Comments',
+      iconTpl: commentIcon
+    }
+  "></ng-content>
 
 <ng-template #commentIcon>
   <i
@@ -24,23 +31,15 @@
     nzType="civic-comment"></i>
 </ng-template>
 
-<nz-statistic
-  [nzTitle]="revisionsTitle"
-  [nzValue]="(stats.revisions | number)!"
-  [nzPrefix]="revisionIcon">
-</nz-statistic>
-
-<ng-template #revisionsTitle>
-  <span style="white-space: nowrap">
-    Revisions
-    <i
-      nz-icon
-      nzType="info-circle"
-      nzTheme="outline"
-      nz-tooltip
-      nzTooltipTitle="Total Revisions suggested"></i>
-  </span>
-</ng-template>
+<ng-content
+  *ngTemplateOutlet="
+    rankedActivity;
+    context: {
+      $implicit: cvcRanks.revisionsRank,
+      title: 'Revisions',
+      iconTpl: revisionIcon
+    }
+  "></ng-content>
 
 <ng-template #revisionIcon>
   <i
@@ -50,23 +49,33 @@
     nzType="civic-revision"></i>
 </ng-template>
 
-<nz-statistic
-  [nzTitle]="moderationTitle"
-  [nzValue]="(stats.revisions | number)!"
-  [nzPrefix]="moderationIcon">
-</nz-statistic>
+<ng-content
+  *ngTemplateOutlet="
+    rankedActivity;
+    context: {
+      $implicit: cvcRanks.submissionsRank,
+      title: 'Submissions',
+      iconTpl: submissionsIcon
+    }
+  "></ng-content>
 
-<ng-template #moderationTitle>
-  <span style="white-space: nowrap">
-    Moderations
-    <i
-      nz-icon
-      nzType="info-circle"
-      nzTheme="outline"
-      nz-tooltip
-      nzTooltipTitle="Total editorial actions made, e.g. accepting or rejecting Revisions, Evidence, or Assertions"></i>
-  </span>
+<ng-template #submissionsIcon>
+  <i
+    nz-icon
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Curator' | entityColor"
+    nzType="civic-curator"></i>
 </ng-template>
+
+<ng-content
+  *ngTemplateOutlet="
+    rankedActivity;
+    context: {
+      $implicit: cvcRanks.moderationRank,
+      title: 'Moderations',
+      iconTpl: moderationIcon
+    }
+  "></ng-content>
 
 <ng-template #moderationIcon>
   <i
@@ -77,14 +86,16 @@
 </ng-template>
 
 <button
+  style="margin-top: 8px"
   nz-button
   nzBlock
   nzSize="small"
   nz-popover
-  nzPopoverTitle="Curator Activity Details"
+  nzPopoverTitle="Curation Activity Details"
   [nzPopoverContent]="activityDetails">
-  Details
+  Activity Details
 </button>
+
 <ng-template #activityDetails>
   <nz-row
     [nzGutter]="[8, 8]"
@@ -92,66 +103,118 @@
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Evidence Submitted"
-        [nzValue]="(stats.submittedEvidenceItems | number)!"
-        [nzPrefix]="evidenceIcon"></nz-statistic>
+        [nzValue]="(cvcStats.submittedEvidenceItems | number)!"
+        [nzPrefix]="evidenceSubmitPrefix"></nz-statistic>
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Evidence Accepted"
-        [nzValue]="(stats.acceptedEvidenceItems | number)!"
-        [nzPrefix]="evidenceIcon"></nz-statistic>
+        [nzValue]="(cvcStats.acceptedEvidenceItems | number)!"
+        [nzPrefix]="evidenceAcceptPrefix"></nz-statistic>
     </nz-col>
-    <ng-template #evidenceIcon>
+    <ng-template #evidenceSubmitPrefix>
       <i
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'EvidenceItem' | entityColor"
         nzType="civic-evidence"></i>
+      <i
+        nz-icon
+        nzTheme="outline"
+        [style.color]="'EvidenceItem' | entityColor"
+        nzType="plus"></i>
     </ng-template>
+    <ng-template #evidenceAcceptPrefix>
+      <i
+        nz-icon
+        nzTheme="twotone"
+        [nzTwotoneColor]="'EvidenceItem' | entityColor"
+        nzType="civic-evidence"></i>
+      <i
+        nz-icon
+        nzTheme="outline"
+        [style.color]="'EvidenceItem' | entityColor"
+        nzType="check"></i>
+    </ng-template>
+
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Assertions Submitted"
-        [nzValue]="(stats.submittedAssertions | number)!"
-        [nzPrefix]="assertionIcon"></nz-statistic>
+        [nzValue]="(cvcStats.submittedAssertions | number)!"
+        [nzPrefix]="assertionSubmitPrefix"></nz-statistic>
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Assertions Accepted"
-        [nzValue]="(stats.acceptedAssertions | number)!"
-        [nzPrefix]="assertionIcon"></nz-statistic>
+        [nzValue]="(cvcStats.acceptedAssertions | number)!"
+        [nzPrefix]="assertionAcceptPrefix"></nz-statistic>
     </nz-col>
-    <ng-template #assertionIcon
-      ><i
+    <ng-template #assertionSubmitPrefix>
+      <i
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Assertion' | entityColor"
-        nzType="civic-assertion"></i
-    ></ng-template>
+        nzType="civic-assertion"></i>
+      <i
+        nz-icon
+        nzTheme="outline"
+        [style.color]="'Assertion' | entityColor"
+        nzType="plus"></i>
+    </ng-template>
+    <ng-template #assertionAcceptPrefix>
+      <i
+        nz-icon
+        nzTheme="twotone"
+        [nzTwotoneColor]="'Assertion' | entityColor"
+        nzType="civic-assertion"></i>
+      <i
+        nz-icon
+        nzTheme="outline"
+        [style.color]="'Assertion' | entityColor"
+        nzType="check"></i>
+    </ng-template>
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Revisions Suggested"
-        [nzValue]="(stats.revisions | number)!"
-        [nzPrefix]="revisionIcon"></nz-statistic>
+        [nzValue]="(cvcStats.revisions | number)!"
+        [nzPrefix]="revisionSubmitPrefix"></nz-statistic>
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Revisions Applied"
-        [nzValue]="(stats.appliedRevisions | number)!"
-        [nzPrefix]="revisionIcon"></nz-statistic>
+        [nzValue]="(cvcStats.appliedRevisions | number)!"
+        [nzPrefix]="revisionAcceptPrefix"></nz-statistic>
     </nz-col>
-  </nz-row>
-  <nz-row>
-    <ng-template #revisionIcon>
+    <ng-template #revisionSubmitPrefix>
       <i
         nz-icon
         nzTheme="twotone"
         [nzTwotoneColor]="'Revision' | entityColor"
         nzType="civic-revision"></i>
+      <i
+        nz-icon
+        nzTheme="outline"
+        [style.color]="'Revision' | entityColor"
+        nzType="plus"></i>
     </ng-template>
+    <ng-template #revisionAcceptPrefix>
+      <i
+        nz-icon
+        nzTheme="twotone"
+        [nzTwotoneColor]="'Revision' | entityColor"
+        nzType="civic-revision"></i>
+      <i
+        nz-icon
+        nzTheme="outline"
+        [style.color]="'Revision' | entityColor"
+        nzType="check"></i>
+    </ng-template>
+  </nz-row>
+  <nz-row>
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Comments"
-        [nzValue]="(stats.comments | number)!"
+        [nzValue]="(cvcStats.comments | number)!"
         [nzPrefix]="commentIcon"></nz-statistic>
       <ng-template #commentIcon>
         <i
@@ -164,7 +227,7 @@
     <nz-col [nzSpan]="12">
       <nz-statistic
         nzTitle="Sources Suggested"
-        [nzValue]="(stats.suggestedSources | number)!"
+        [nzValue]="(cvcStats.suggestedSources | number)!"
         [nzPrefix]="sourceIcon"></nz-statistic>
     </nz-col>
     <ng-template #sourceIcon>
