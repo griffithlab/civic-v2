@@ -1,7 +1,16 @@
-@import "themes/global-variables.less";
+@import 'themes/global-variables.less';
 
 :host {
   display: block;
+  ::ng-deep nz-statistic {
+    .ant-statistic-title {
+      padding-top: 0.25em;
+    }
+    .ant-statistic-content {
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 0.15em;
+    }
+  }
 }
 
 h5 {

@@ -12,7 +12,6 @@
     {{ title }} ({{ activity.rank | ordinal }})
   </ng-template>
 </ng-template>
-
 <ng-content
   *ngTemplateOutlet="
     rankedActivity;
@@ -22,7 +21,6 @@
       iconTpl: commentIcon
     }
   "></ng-content>
-
 <ng-template #commentIcon>
   <i
     nz-icon
