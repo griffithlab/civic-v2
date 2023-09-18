@@ -59,8 +59,8 @@ gem 'sanitize', '~> 6.0.2'
 gem 'angular_rails_csrf', '~> 5.0.0'
 
 
-gem 'sidekiq', '~> 6.5.1'
-gem 'sidekiq-cron', '~> 1.5.0'
+gem 'sidekiq', '< 8'
+gem 'sidekiq-cron', '~> 1.10.0'
 
 gem 'aws-sdk-s3', '~> 1.94.0'
 gem 'awesome_nested_set', '~> 3.3.0'

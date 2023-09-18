@@ -5,9 +5,8 @@ class UploadTsvsToAws < ApplicationJob
   retry_on MonthlyTsvsNotFound, wait: 1.day
 
   def perform
-    release = get_tsv_release
-
-    if release.present?
+    release_present = File.exist?(absolute_local_path(expected_files.first[1]))
+    if release_present
       expected_files.each do |s3_target, local_file|
         unless bucket.object(s3_target).exists? && bucket.object(s3_target).content_length > 0
           io = File.new(absolute_local_path(local_file), 'r')
@@ -28,10 +27,6 @@ class UploadTsvsToAws < ApplicationJob
     File.join(TsvRelease.downloads_path, file)
   end
                       
-  def get_tsv_release
-    TsvRelease.find_by(path: date_string)
-  end
-
   def bucket_name
     'civic-aws-opendata'
   end
@@ -69,6 +64,7 @@ class UploadTsvsToAws < ApplicationJob
       "GeneSummaries/date=#{date_string}/GeneSummaries.tsv" => "#{date_string}/#{date_string}-GeneSummaries.tsv",
       "VariantGroupSummaries/date=#{date_string}/VariantGroupSummaries.tsv"=> "#{date_string}/#{date_string}-VariantGroupSummaries.tsv",
       "VariantSummaries/date=#{date_string}/VariantSummaries.tsv" => "#{date_string}/#{date_string}-VariantSummaries.tsv",
+      "MolecularProfileSummaries/date=#{date_string}/MolecularProfileSummaries.tsv" => "#{date_string}/#{date_string}-MolecularProfileSummaries.tsv",
       #"VCF/date=#{date_string}/civic_accepted.vcf" => "#{date_string}/#{date_string}-civic_accepted.vcf",
       #"VCF/date=#{date_string}/civic_accepted_and_submitted.vcf" => "#{date_string}/#{date_string}-civic_accepted_and_submitted.vcf"
     }
