@@ -66,6 +66,8 @@ gem 'aws-sdk-s3', '~> 1.94.0'
 gem 'awesome_nested_set', '~> 3.3.0'
 gem 'obo', '~> 0.1.5'
 
+gem 'activejob-null', '~> 0.0.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -91,6 +93,8 @@ group :development do
   gem 'pry-rails'
   gem 'solargraph'
   gem 'solargraph-rails'
+
+  gem "dockerfile-rails", ">= 1.5"
 end
 
 group :test do
