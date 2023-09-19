@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_22_140624) do
+ActiveRecord::Schema.define(version: 2023_08_31_142739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,31 @@ ActiveRecord::Schema.define(version: 2023_06_22_140624) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activities", force: :cascade do |t|
+    t.text "type", null: false
+    t.bigint "user_id", null: false
+    t.bigint "organization_id"
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "verbiage"
+    t.index ["organization_id"], name: "index_activities_on_organization_id"
+    t.index ["subject_type", "subject_id"], name: "index_activities_on_subject"
+    t.index ["type"], name: "index_activities_on_type"
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "activity_linked_entities", force: :cascade do |t|
+    t.string "entity_type", null: false
+    t.bigint "entity_id", null: false
+    t.bigint "activity_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_activity_linked_entities_on_activity_id"
+    t.index ["entity_type", "entity_id"], name: "index_activity_linked_entities_on_entity"
   end
 
   create_table "advanced_searches", id: :serial, force: :cascade do |t|
@@ -358,6 +383,7 @@ ActiveRecord::Schema.define(version: 2023_06_22_140624) do
     t.text "user_role"
     t.string "originating_object_type"
     t.bigint "originating_object_id"
+    t.integer "activity_id"
     t.index ["organization_id"], name: "index_events_on_organization_id"
     t.index ["originating_object_id", "originating_object_type"], name: "idx_event_originating_obj"
     t.index ["originating_object_type", "originating_object_id"], name: "index_events_on_originating_object"
@@ -643,11 +669,11 @@ ActiveRecord::Schema.define(version: 2023_06_22_140624) do
     t.text "journal"
     t.string "full_journal_title"
     t.text "title"
-    t.text "status", default: "fully curated", null: false
     t.boolean "is_review"
     t.integer "source_type", null: false
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
+    t.boolean "fully_curated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
@@ -857,6 +883,8 @@ ActiveRecord::Schema.define(version: 2023_06_22_140624) do
   add_foreign_key "acmg_codes_assertions", "assertions"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "organizations"
+  add_foreign_key "activities", "users"
   add_foreign_key "assertions", "nccn_guidelines"
   add_foreign_key "assertions_clingen_codes", "assertions"
   add_foreign_key "assertions_clingen_codes", "clingen_codes"
@@ -880,6 +908,7 @@ ActiveRecord::Schema.define(version: 2023_06_22_140624) do
   add_foreign_key "disease_aliases_diseases", "diseases"
   add_foreign_key "domain_expert_tags", "users"
   add_foreign_key "entity_mentions", "comments"
+  add_foreign_key "events", "activities"
   add_foreign_key "events", "organizations"
   add_foreign_key "events", "users", column: "originating_user_id"
   add_foreign_key "evidence_items", "diseases"
