@@ -196,7 +196,7 @@ export class CvcVariantSelectField
         withLatestFrom(this.onVid$),
         untilDestroyed(this)
       )
-      .subscribe(([current, old]) => {
+      .subscribe(([current, _]) => {
         if (Array.isArray(current)) this.onVid$.next(current)
       })
   }
@@ -261,6 +261,11 @@ export class CvcVariantSelectField
         }
       }
     )
+  }
+
+  showAddBehavior(s: string, results: VariantSelectTypeaheadFieldsFragment[]): boolean {
+    const searchName = s.toLowerCase()
+    return (s.length >= 3 && !results.some(v => v.name.toLowerCase() === searchName))
   }
 
   private onGeneId(gid: Maybe<number>): void {
