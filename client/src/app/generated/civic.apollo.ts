@@ -7099,18 +7099,18 @@ export type OrganizationDetailQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } } | undefined };
+export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } } | undefined };
 
-export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } };
+export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } };
 
 export type OrganizationGroupsQueryVariables = Exact<{
   organizationId: Scalars['Int'];
 }>;
 
 
-export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> }> } | undefined };
+export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } }> } | undefined };
 
-export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> };
+export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } };
 
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
@@ -9492,6 +9492,24 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
     submittedAssertions
     acceptedAssertions
   }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
 }
     `;
 export const OrganizationGroupsFieldsFragmentDoc = gql`
@@ -9526,6 +9544,24 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
     name
     url
     profileImagePath(size: 12)
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
 }
     `;

@@ -43,4 +43,22 @@ fragment OrganizationGroupsFields on Organization {
     url
     profileImagePath(size: 12)
   }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
 }

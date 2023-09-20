@@ -224,9 +224,9 @@
                     *ngIf="!user.mostRecentConflictOfInterestStatement">
                     <nz-descriptions-item
                       [nzSpan]="3"
-                      nzTitle="Status"
-                      >None on file.</nz-descriptions-item
-                    >
+                      nzTitle="Status">
+                      None on file.
+                    </nz-descriptions-item>
                   </ng-container>
                 </nz-descriptions>
               </nz-card>
@@ -264,7 +264,7 @@
               </div>
 
               <ng-template #rankingCalculations>
-                <div style="max-width: 300px">
+                <div class="calculation-info">
                   <p>
                     <strong>Comments:</strong> Total number of Comments posted
                     by the Curator.
@@ -273,7 +273,7 @@
                     <strong>Revisions:</strong> Total number of Revisions
                     suggested by the Curator.
                   </p>
-                  <p style="margin-bottom: 0">
+                  <p>
                     <strong>Submissions:</strong> Total number of Evidence Items
                     and Assertions submitted by the Curator.
                   </p>

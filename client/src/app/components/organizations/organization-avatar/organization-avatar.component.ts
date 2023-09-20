@@ -13,6 +13,7 @@ export interface WithProfileImageAndName {
 export class CvcOrganizationAvatarComponent implements OnInit {
   @Input() organization!: WithProfileImageAndName
   @Input() size!: number | 'large' | 'default' | 'small'
+  @Input() shape!: 'square' | 'circle'
 
   ngOnInit() {
     if (this.organization === undefined) {
