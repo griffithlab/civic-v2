@@ -531,6 +531,13 @@ export const civicVarianttypeFullcolor: {
   name: 'varianttypeFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E0F4E6" cx="512" cy="512" r="448"/><path fill="#33B358" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm72.6 318.7c1.9 3.1 101.9 167 104.9 172 51.7-6.2 97.5 34 97.5 86.4 0 48.1-39 87-87 87-70.2 0-110.9-78.8-72-135.9-2.8-4.5-103.4-169.6-104.5-171.3-52.4 6.9-98.5-33.8-98.5-86.2 0-48.1 39-87 87-87 69.7 0 110.5 77.8 72.6 135zM136 512c0-207.7 168.3-376 376-376v73.7c-109.3 0-164.6 129.9-92.5 209.1l-84.3 136c-52.1-6.7-98.2 33.8-98.2 86.3 0 48.1 39 87 87 87 70 0 110.6-78.3 72.3-135.4l84.9-136.9c9.8 2.5 20.2 3.8 30.8 3.8V888c-207.7 0-376-168.3-376-376z"/></svg>`
 };
+export const civicOrcid: {
+  name: 'orcid';
+  data: string;
+} = {
+  name: 'orcid',
+  data: `<svg viewBox="0 0 896 896" style="enable-background:new 0 0 896 896"><path d="M647.4 462.7c0 41.3-25 124.2-134.3 124.2h-76.7V338.5h74.2c93.9 0 136.8 56.9 136.8 124.2zM848.6 448c0 221.3-179.3 400.6-400.6 400.6S47.4 669.3 47.4 448 226.7 47.4 448 47.4 848.6 226.7 848.6 448zM317.5 295h-48.2v335.2h48.2V295zm7.5-69.8c0-17.2-14.1-31.6-31.6-31.6s-31.6 14.1-31.6 31.6c0 17.2 14.1 31.6 31.6 31.6s31.6-14.4 31.6-31.6zm371.8 237.5c0-79.2-54.5-167.7-178.4-167.7H388.2v335.5H519c110.5 0 177.8-81.7 177.8-167.8z"/></svg>`
+};
 export const civicAdminOutline: {
   name: 'adminOutline';
   data: string;
@@ -944,6 +951,7 @@ export type CivicIcon =
   | 'variant'
   | 'variantgroupFullcolor'
   | 'varianttypeFullcolor'
+  | 'orcid'
   | 'adminOutline'
   | 'assertionOutline'
   | 'clinicaltrialOutline'
@@ -1069,6 +1077,7 @@ export const CivicIcon = {
   variant: 'variant' as CivicIcon,
   variantgroupFullcolor: 'variantgroupFullcolor' as CivicIcon,
   varianttypeFullcolor: 'varianttypeFullcolor' as CivicIcon,
+  orcid: 'orcid' as CivicIcon,
   adminOutline: 'adminOutline' as CivicIcon,
   assertionOutline: 'assertionOutline' as CivicIcon,
   clinicaltrialOutline: 'clinicaltrialOutline' as CivicIcon,
@@ -1202,6 +1211,7 @@ export const completeIconSet = [
   civicVariant,
   civicVariantgroupFullcolor,
   civicVarianttypeFullcolor,
+  civicOrcid,
   civicAdminOutline,
   civicAssertionOutline,
   civicClinicaltrialOutline,
