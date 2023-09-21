@@ -3,6 +3,7 @@
     [displayName]="evidence.name"
     [relationsTpl]="evidenceRelations">
   </cvc-section-navigation>
+
   <ng-template #evidenceRelations>
     <nz-space nzDirection="horizontal">
       <!-- parent relations -->
@@ -100,6 +101,18 @@
               [entityId]="evidence.id"
               (onReverted)="onRevertCompleted($event)">
             </cvc-revert-entity-button>
+          </span>
+          <span *nzSpaceItem>
+            <button *ngIf="viewer.canCurate"
+              routerLink="/evidence/add/submit"
+              [queryParams]="{ existingEvidenceId: evidence.id }"
+              nz-button
+              nz-tooltip
+              nzTooltipTitle="Clone This EID"
+              nzSize="small"> <i
+                nz-icon
+                nzType="copy"></i>
+            </button>
           </span>
         </nz-space>
       </nz-page-header-extra>

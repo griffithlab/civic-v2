@@ -161,7 +161,7 @@ export class CvcClingenCodeSelectField
         } else {
           this.exclusiveSelected = false
         }
-      } 
+      }
       if(this.previousDescription && !this.exclusiveSelected) {
           this.props.description = this.previousDescription
           this.props.extraType = this.previousDescriptionType
@@ -235,7 +235,7 @@ export class CvcClingenCodeSelectField
         else if (requiresClingenCode) {
           this.props.required = true
           this.props.disabled = false
-          this.props.description = 'Please provide the evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity) in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Horak et. al. 2022.</a>.'
+          this.props.description = 'Please provide the evidence classifications from the Standards for the classification of pathogenicity of somatic variants in cancer (oncogenicity) in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Horak et. al. 2022.</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.'
           this.props.extraType = 'description'
         }
         // field currently has a value, but state indicates no ClinGen Code is required, or no type is provided && type is required, so reset field

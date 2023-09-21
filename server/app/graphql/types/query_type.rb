@@ -39,7 +39,9 @@ module Types
 
     field :contributors, resolver: Resolvers::Contributors
 
-    field :search, resolver: Resolvers::Quicksearch
+    unless Rails.env.headless?
+      field :search, resolver: Resolvers::Quicksearch
+    end
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"

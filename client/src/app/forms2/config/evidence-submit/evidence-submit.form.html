@@ -20,6 +20,7 @@
     <br/>
   </ng-container>
   <form
+    *ngIf="model; else loadingModel"
     nz-form
     nzLayout="vertical"
     [formGroup]="form"
@@ -33,6 +34,7 @@
       (modelChange)="model = $event; onModelChange($event)">
     </formly-form>
   </form>
+  <ng-template #loadingModel> Loading Evidence Item... </ng-template>
 </cvc-form-submission-status-display>
 <!-- <nz-row style="background-color: #eef">
      <nz-col nzSpan="12">

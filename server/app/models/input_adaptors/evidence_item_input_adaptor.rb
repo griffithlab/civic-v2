@@ -7,26 +7,30 @@ class InputAdaptors::EvidenceItemInputAdaptor
   end
 
   def perform
-    EvidenceItem.new(
-      molecular_profile_id: input.molecular_profile_id,
-      variant_origin: input.variant_origin,
-      source_id: input.source_id,
-      evidence_type: input.evidence_type,
-      significance: input.significance,
-      disease_id: input.disease_id,
-      description: input.description,
-      evidence_level: input.evidence_level,
-      evidence_direction: input.evidence_direction,
-      phenotype_ids: input.phenotype_ids,
-      rating: input.rating,
-      therapy_ids: input.therapy_ids,
-      therapy_interaction_type: input.therapy_interaction_type
-    )
+    EvidenceItem.new(self.class.evidence_fields(input))
   end
 
   def self.check_input_for_errors(evidence_input_object: )
     errors = []
     fields = evidence_input_object
+
+    query_fields = evidence_fields(fields)
+    query_fields.delete(:description)
+    query_fields.delete(:therapy_ids)
+    query_fields.delete(:phenotype_ids)
+
+    eid_query = EvidenceItem.where(query_fields)
+    if fields.phenotype_ids.any?
+      eid_query = eid_query.joins(:phenotypes).where("phenotypes.id" => fields.phenotype_ids)
+    end
+
+    if fields.therapy_ids.any?
+      eid_query = eid_query.joins(:therapies).where("therapies.id" => fields.therapy_ids)
+    end
+
+    if eid = eid_query.first
+      errors << "Existing identical Evidence Item found: EID#{eid.id}"
+    end
 
     existing_phenotype_ids = Phenotype.where(id: fields.phenotype_ids).pluck(:id)
     if existing_phenotype_ids.size != fields.phenotype_ids.size
@@ -55,4 +59,22 @@ class InputAdaptors::EvidenceItemInputAdaptor
 
     return errors
   end 
+
+  def self.evidence_fields(input)
+    {
+        molecular_profile_id: input.molecular_profile_id,
+        variant_origin: input.variant_origin,
+        source_id: input.source_id,
+        evidence_type: input.evidence_type,
+        significance: input.significance,
+        disease_id: input.disease_id,
+        description: input.description,
+        evidence_level: input.evidence_level,
+        evidence_direction: input.evidence_direction,
+        phenotype_ids: input.phenotype_ids,
+        rating: input.rating,
+        therapy_ids: input.therapy_ids,
+        therapy_interaction_type: input.therapy_interaction_type
+    }
+  end
 end
