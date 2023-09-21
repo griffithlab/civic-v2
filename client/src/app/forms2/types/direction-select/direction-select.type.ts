@@ -116,7 +116,7 @@ export interface CvcDirectionSelectFieldProps extends FormlyFieldProps {
   requireTypePromptFn: (entityName: string) => string
   tooltip?: string
   extraType?: CvcFormFieldExtraType,
-  formMode: 'revise' | 'add'
+  formMode: 'revise' | 'add' | 'clone'
 }
 
 export interface CvcDirectionSelectFieldConfig

@@ -20,6 +20,7 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NgModule } from '@angular/core'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
 @NgModule({
   declarations: [EvidenceDetailView],
@@ -37,6 +38,7 @@ import { NgModule } from '@angular/core'
     NzPageHeaderModule,
     NzSpaceModule,
     NzTypographyModule,
+    NzToolTipModule,
 
     CvcSectionNavigationModule,
     CvcFlaggableModule,
