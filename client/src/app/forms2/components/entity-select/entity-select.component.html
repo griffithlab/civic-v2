@@ -19,7 +19,7 @@
     [nzShowArrow]="cvcShowArrow"
     [nzAutoClearSearchValue]="cvcAutoClearSearchValue"
     [nzOptions]="cvcOptions || []"
-    [nzDropdownRender]="addForm"
+    [nzDropdownRender]="notFoundDisplay.showAddForm ? addForm : null"
     [nzNotFoundContent]="searchMessages"
     [nzOpen]="cvcSelectOpen"
     (nzOpenChange)="onOpenChange$.next($event)"
@@ -38,14 +38,16 @@
     </ng-container>
   </ng-template>
   <ng-template #addForm>
-    <ng-container
-      *ngIf="notFoundDisplay.showAddForm"
-      [ngTemplateOutlet]="this.cvcAddEntity"
-      [ngTemplateOutletContext]="{
-        $implicit: notFoundDisplay.searchStr,
-        createMsg: notFoundDisplay.message,
-        model: cvcAddEntityModel
-      }">
-    </ng-container>
+    <nz-divider></nz-divider>
+    <div class="add-form-container">
+      <ng-container
+        [ngTemplateOutlet]="this.cvcAddEntity"
+        [ngTemplateOutletContext]="{
+          $implicit: notFoundDisplay.searchStr,
+          createMsg: notFoundDisplay.message,
+          model: cvcAddEntityModel
+        }">
+      </ng-container>
+    </div>
   </ng-template>
 </ng-container>

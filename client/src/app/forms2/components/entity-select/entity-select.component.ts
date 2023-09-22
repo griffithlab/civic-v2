@@ -28,6 +28,7 @@ import {
   tap,
   throttleTime,
 } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 
 export type CvcSelectEntityName = { singular: string; plural: string }
 
@@ -58,7 +59,7 @@ export type CvcEntitySelectMessageOptions = {
   emptyParamAll: CvcEntitySelectMessageFn
 }
 
-type AddEntityBehavior = (searchStr: string, res: any[]) => boolean
+export type CvcAddEntityBehaviorFn = (searchStr: string, res: any[]) => boolean
 
 export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
   search: (entityName, query, _paramName) =>
@@ -121,11 +122,10 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
   @Input() cvcAddEntityModel: any
-  @Input() cvcAddEntityBehavior: AddEntityBehavior = (s, res) =>
-    s.length > this.cvcMinSearchStrLength && res.length === 0
-
-  @Input() cvcSelectOpen: Maybe<boolean>
   @Input() cvcMinSearchStrLength: number = 0
+  @Input() cvcAddEntityBehavior: CvcAddEntityBehaviorFn = (s, res) =>
+    s.length > this.cvcMinSearchStrLength && res.length === 0
+  @Input() cvcSelectOpen: Maybe<boolean>
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
 
   // throttle search string output: wait 1/3sec after typing activity ends,
@@ -227,11 +227,20 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
             // QUERY ENTERED, SEARCHING MESSAGE
             if (isLoading && searchStr.length >= minLength) {
+              // need to do form display logic here, otherwise add form will
+              // disappear and reappear in a distracting manner when entering search str
+              const showAddFormWhenSearching = this.cvcAddEntityBehavior(
+                searchStr,
+                this.cvcResults || []
+              )
+
               return this.getSelectSearchingDisplay(
                 searchStr,
                 entityName,
                 minLength,
-                paramName
+                paramName,
+                hasAddForm,
+                showAddFormWhenSearching
               )
             }
 
@@ -239,7 +248,8 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             if (
               isOpen &&
               !isLoading &&
-              this.cvcAddEntityBehavior(searchStr, this.cvcResults || [])
+              searchStr.length >= minLength &&
+              options.length === 0
             ) {
               return this.getSelectEmptyDisplay(
                 searchStr,
@@ -249,15 +259,19 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
               )
             }
 
+            // IDLE, DISPLAYING OPTIONS
             return {
               searchStr: '',
               showSpinner: false,
-              showAddForm: false,
-              message: '',
+              showAddForm:
+                hasAddForm &&
+                this.cvcAddEntityBehavior(searchStr, this.cvcResults || []),
+              message: '', // should never be displayed, since select will show options
             }
           }
         ),
         tap((display: NotFoundDisplay) => {
+          console.log('NotFoundDisplay: ', display)
           this.notFoundDisplay$.next(display)
         }),
         untilDestroyed(this)
@@ -301,7 +315,9 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     searchStr: string,
     entityName: string,
     _minLength: number,
-    paramName: Maybe<string>
+    paramName: Maybe<string>,
+    hasAddForm: boolean,
+    showAddForm: boolean = false
   ): NotFoundDisplay {
     let msgFn: CvcEntitySelectMessageFn = this.messageOptions.searchAll
     let showSpinner = true
@@ -319,7 +335,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     return {
       message: msgFn(entityName, searchStr, paramName),
       showSpinner: showSpinner,
-      showAddForm: false,
+      showAddForm: hasAddForm && showAddForm,
       searchStr: searchStr,
     }
   }
