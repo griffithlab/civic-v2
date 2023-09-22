@@ -32,7 +32,7 @@ fragment OrganizationMembersFields on User {
   name
   displayName
   username
-  profileImagePath(size: 32)
+  profileImagePath(size: 64)
   role
   url
   areaOfExpertise
@@ -43,5 +43,6 @@ fragment OrganizationMembersFields on User {
   organizations {
     id
     name
+    url
   }
 }

@@ -7121,9 +7121,9 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
-export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
+export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -9571,7 +9571,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   name
   displayName
   username
-  profileImagePath(size: 32)
+  profileImagePath(size: 64)
   role
   url
   areaOfExpertise
@@ -9582,6 +9582,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   organizations {
     id
     name
+    url
   }
 }
     `;
