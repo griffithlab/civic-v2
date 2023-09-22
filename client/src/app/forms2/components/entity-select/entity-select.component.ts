@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input, OnChanges,
+  Input,
+  OnChanges,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -56,6 +57,8 @@ export type CvcEntitySelectMessageOptions = {
   emptyParam: CvcEntitySelectMessageFn
   emptyParamAll: CvcEntitySelectMessageFn
 }
+
+type AddEntityBehavior = (searchStr: string, res: any[]) => boolean
 
 export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
   search: (entityName, query, _paramName) =>
@@ -118,8 +121,8 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
   @Input() cvcAddEntityModel: any
-  @Input() cvcAddEntityBehavior: (searchStr: string, res: any[]) => boolean =
-    (s, res) => s.length >  this.cvcMinSearchStrLength && res.length === 0
+  @Input() cvcAddEntityBehavior: AddEntityBehavior = (s, res) =>
+    s.length > this.cvcMinSearchStrLength && res.length === 0
 
   @Input() cvcSelectOpen: Maybe<boolean>
   @Input() cvcMinSearchStrLength: number = 0
