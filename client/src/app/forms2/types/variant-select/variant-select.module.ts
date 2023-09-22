@@ -19,7 +19,6 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -29,7 +28,6 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
@@ -87,7 +85,6 @@ const typeConfig: ConfigOption = {
     FormlyModule.forChild(typeConfig),
     FormsModule,
     LetDirective,
-    NzDividerModule,
     NzAlertModule,
     NzAutocompleteModule,
     NzButtonModule,

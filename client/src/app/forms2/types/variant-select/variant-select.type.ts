@@ -63,6 +63,7 @@ export interface CvcVariantSelectFieldProps extends FormlyFieldProps {
   requireGenePrompt: string // prompt displayed if gene unspecified
   extraType?: CvcFormFieldExtraType // stores display type for msg beneath select component
   showManagerBtn?: boolean // show manager button
+  minSearchStrLength: number
 }
 
 export interface CvcVariantSelectFieldConfig
@@ -119,6 +120,7 @@ export class CvcVariantSelectField
       isMultiSelect: false,
       entityName: { singular: 'Variant', plural: 'Variants' },
       showManagerBtn: false,
+      minSearchStrLength: 0,
     },
   }
 
@@ -129,15 +131,13 @@ export class CvcVariantSelectField
     private taq: VariantSelectTypeaheadGQL,
     private tq: VariantSelectTagGQL,
     private geneQuery: LinkableGeneGQL,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
     this.onGeneName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onVid$ = new ReplaySubject<Maybe<number[]>>()
     this.onShowMgrClick$ = new Subject<void>()
-    this.showMgr$ = this.onShowMgrClick$.pipe(
-      scan((acc, _) => !acc, false)
-    )
+    this.showMgr$ = this.onShowMgrClick$.pipe(scan((acc, _) => !acc, false))
   }
 
   ngAfterViewInit(): void {
@@ -154,6 +154,7 @@ export class CvcVariantSelectField
       changeDetectorRef: this.changeDetectorRef,
       selectOpen$: this.selectOpen$,
       selectComponent: this.selectComponent,
+      minSearchStrLength: this.field.props.minSearchStrLength,
     })
 
     // if state formReady exists,listen for parent ready event,
@@ -176,9 +177,7 @@ export class CvcVariantSelectField
   private configureField() {
     this.configureStateConnections() // local fn
 
-    this.onVid$
-      .pipe(untilDestroyed(this))
-      .subscribe()
+    this.onVid$.pipe(untilDestroyed(this)).subscribe()
 
     // if form value exists on init, emit it so evidence manager will be updated
     this.onVid$.next(this.formControl.value)
@@ -192,10 +191,7 @@ export class CvcVariantSelectField
 
     // emit value, to update variant-manager selection
     this.onValueChange$
-      .pipe(
-        withLatestFrom(this.onVid$),
-        untilDestroyed(this)
-      )
+      .pipe(withLatestFrom(this.onVid$), untilDestroyed(this))
       .subscribe(([current, _]) => {
         if (Array.isArray(current)) this.onVid$.next(current)
       })
@@ -212,13 +208,9 @@ export class CvcVariantSelectField
         return
       }
       this.onGeneId$ = this.state.fields.geneId$
-      this.onGeneId$
-        .pipe(
-          untilDestroyed(this)
-        )
-        .subscribe((gid) => {
-          this.onGeneId(gid)
-        })
+      this.onGeneId$.pipe(untilDestroyed(this)).subscribe((gid) => {
+        this.onGeneId(gid)
+      })
     }
   }
 
@@ -263,9 +255,14 @@ export class CvcVariantSelectField
     )
   }
 
-  showAddBehavior(s: string, results: VariantSelectTypeaheadFieldsFragment[]): boolean {
+  showAddBehavior(
+    s: string,
+    results: VariantSelectTypeaheadFieldsFragment[]
+  ): boolean {
     const searchName = s.toLowerCase()
-    return (s.length >= 3 && !results.some(v => v.name.toLowerCase() === searchName))
+    return (
+      s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
+    )
   }
 
   private onGeneId(gid: Maybe<number>): void {
@@ -293,7 +290,9 @@ export class CvcVariantSelectField
           )
         } else {
           if (this.props.requireGene) {
-              this.props.placeholder = this.props.requireGenePlaceholderFn(data.gene.name)
+            this.props.placeholder = this.props.requireGenePlaceholderFn(
+              data.gene.name
+            )
           } else {
             this.props.placeholder = this.props.placeholder
           }
