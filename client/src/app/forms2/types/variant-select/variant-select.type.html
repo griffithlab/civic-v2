@@ -2,7 +2,9 @@
   <nz-col nzFlex="auto">
     <span
       nz-tooltip
-      [nzTooltipTrigger]="(props.requireGene && !(onGeneId$ | ngrxPush)) ? 'hover' : null"
+      [nzTooltipTrigger]="
+        props.requireGene && !(onGeneId$ | ngrxPush) ? 'hover' : null
+      "
       nzTooltipTitle="Select a Gene to enable field.">
       <cvc-entity-select
         [cvcAddEntity]="addVariant"
@@ -108,10 +110,13 @@
   #addVariant
   let-searchStr
   let-model="model">
+  <nz-divider></nz-divider>
+  <div class="quick-add-container">
     <cvc-variant-quick-add-form
       [cvcSearchString]="searchStr"
       [cvcGeneId]="onGeneId$ | ngrxPush"
       [cvcGeneName]="onGeneName$ | ngrxPush"
       (cvcOnCreate)="onPopulate$.next($event)">
     </cvc-variant-quick-add-form>
+  </div>
 </ng-template>
