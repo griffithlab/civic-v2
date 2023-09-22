@@ -10,6 +10,7 @@
         [cvcAddEntity]="addVariant"
         [cvcAddEntityModel]="onModel$ | ngrxPush"
         [cvcAddEntityBehavior]="showAddBehavior"
+        [cvcMinSearchStrLength]="props.minSearchStrLength"
         [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
         [cvcCustomTemplate]="selectedTemplate"
         [cvcFormControl]="formControl"
@@ -110,13 +111,10 @@
   #addVariant
   let-searchStr
   let-model="model">
-  <nz-divider></nz-divider>
-  <div class="quick-add-container">
-    <cvc-variant-quick-add-form
-      [cvcSearchString]="searchStr"
-      [cvcGeneId]="onGeneId$ | ngrxPush"
-      [cvcGeneName]="onGeneName$ | ngrxPush"
-      (cvcOnCreate)="onPopulate$.next($event)">
-    </cvc-variant-quick-add-form>
-  </div>
+  <cvc-variant-quick-add-form
+    [cvcSearchString]="searchStr"
+    [cvcGeneId]="onGeneId$ | ngrxPush"
+    [cvcGeneName]="onGeneName$ | ngrxPush"
+    (cvcOnCreate)="onPopulate$.next($event)">
+  </cvc-variant-quick-add-form>
 </ng-template>
