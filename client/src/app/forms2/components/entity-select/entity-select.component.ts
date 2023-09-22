@@ -216,9 +216,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             const entityName = this.cvcEntityName.plural
             const minLength = this.cvcMinSearchStrLength
             const hasAddForm = this.cvcAddEntity !== null ? true : false
-
             const initialOpen = this.previousIsOpen === false && isOpen === true
-            // console.log('initialOpen: ', initialOpen)
 
             this.previousIsOpen = isOpen
 
@@ -237,10 +235,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
               )
             }
 
-            //
             // NOT FOUND MESSAGE / ADD ENTITY FORM
-            //
-            // [true, '', 'F9', Array(0), false]
             if (
               isOpen &&
               !isLoading &&
@@ -254,7 +249,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
               )
             }
 
-            //
             return {
               searchStr: '',
               showSpinner: false,
