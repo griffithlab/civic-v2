@@ -121,10 +121,19 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
+
+  // add entity model will be passed to the add entity form template outlet context
   @Input() cvcAddEntityModel: any
+
+  // select will prompt user to enter a search string if < min search length
   @Input() cvcMinSearchStrLength: number = 0
+
+  // provide logic for displaying add form if it is more complex than
+  // displaying when no results returned.
   @Input() cvcAddEntityBehavior: CvcAddEntityBehaviorFn = (s, res) =>
     s.length > this.cvcMinSearchStrLength && res.length === 0
+
+  // pass-through to nz-select's nzOpen, passed from parent type's entity-select.mixin
   @Input() cvcSelectOpen: Maybe<boolean>
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
 
