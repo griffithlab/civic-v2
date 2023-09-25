@@ -14,13 +14,15 @@ import { CvcEntityTagModule } from '../entity-tag/entity-tag.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
 
 @NgModule({
   declarations: [CvcEntitySelectComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetDirective, PushPipe,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(),
     NzAlertModule,
     NzIconModule,
@@ -30,7 +32,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     NzTypographyModule,
     NzAutocompleteModule,
     NzSpaceModule,
-
+    NzDividerModule,
     CvcEntityTagModule,
     CvcPipesModule,
   ],

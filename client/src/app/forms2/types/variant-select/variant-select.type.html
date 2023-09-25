@@ -2,11 +2,15 @@
   <nz-col nzFlex="auto">
     <span
       nz-tooltip
-      [nzTooltipTrigger]="(props.requireGene && !(onGeneId$ | ngrxPush)) ? 'hover' : null"
+      [nzTooltipTrigger]="
+        props.requireGene && !(onGeneId$ | ngrxPush) ? 'hover' : null
+      "
       nzTooltipTitle="Select a Gene to enable field.">
       <cvc-entity-select
         [cvcAddEntity]="addVariant"
         [cvcAddEntityModel]="onModel$ | ngrxPush"
+        [cvcAddEntityBehavior]="showAddBehavior"
+        [cvcMinSearchStrLength]="props.minSearchStrLength"
         [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
         [cvcCustomTemplate]="selectedTemplate"
         [cvcFormControl]="formControl"
