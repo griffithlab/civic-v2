@@ -7108,9 +7108,9 @@ export type OrganizationGroupsQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } }> } | undefined };
+export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } }> } | undefined };
 
-export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } };
+export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } };
 
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
@@ -9518,32 +9518,11 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
   name
   url
   description
-  profileImagePath(size: 12)
-  orgStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
-  orgAndSuborgsStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
+  profileImagePath(size: 128)
   subGroups {
     id
     name
     url
-    profileImagePath(size: 12)
   }
   ranks {
     commentsRank {
@@ -14198,11 +14177,6 @@ export const OrganizationDetailDocument = gql`
 export const OrganizationGroupsDocument = gql`
     query OrganizationGroups($organizationId: Int!) {
   organization(id: $organizationId) {
-    id
-    name
-    url
-    description
-    profileImagePath(size: 256)
     subGroups {
       ...OrganizationGroupsFields
     }
