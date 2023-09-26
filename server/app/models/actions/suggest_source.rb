@@ -1,14 +1,13 @@
 module Actions
   class SuggestSource
     include Actions::Transactional
-    attr_reader :source, :originating_user, :organization_id, :molecular_profile_id, :disease_id, :source_suggestion, :comment_body
+    attr_reader :source, :originating_user, :organization_id, :molecular_profile_id, :disease_id, :source_suggestion
 
-    def initialize(source:, originating_user:, organization_id:, comment_body:, molecular_profile_id: nil, disease_id: nil )
+    def initialize(source:, originating_user:, organization_id:, molecular_profile_id: nil, disease_id: nil )
       @source = source
       @originating_user = originating_user
       @organization_id = organization_id
       @molecular_profile_id = molecular_profile_id
-      @comment_body = comment_body
       @disease_id = disease_id
     end
 
@@ -17,7 +16,6 @@ module Actions
       @source_suggestion = SourceSuggestion.create!(
         user: originating_user,
         source: source,
-        initial_comment: comment_body,
         status: 'new',
         molecular_profile_id: molecular_profile_id,
         disease_id: disease_id,
