@@ -30,6 +30,18 @@ class Variant < ApplicationRecord
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']
 
+  has_many :activities_linked_entities,
+    ->() { where(entity_type: 'Variant') },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_many :activities, through: :activities_linked_entities
+
+  has_one :deprecate_activity_link,
+    ->() { where(entity_type: 'Variant').eager_load(:activity).where("activities.type = 'DeprecateVariantActivity'") },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_one :deprecate_activity, through: :deprecate_activity_link, source: :activity
+
   after_commit :reindex_mps
 
   validates :name, presence: true

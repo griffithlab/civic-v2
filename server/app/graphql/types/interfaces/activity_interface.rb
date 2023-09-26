@@ -6,6 +6,7 @@ module Types::Interfaces
 
     field :id, Int, null: false
     field :verbiage, String, null: false
+    field :note, String, null: true
     field :events, [Types::Entities::EventType], null: false
     field :subject, Types::Interfaces::EventSubject, null: false
     field :user, Types::Entities::UserType, null: false
@@ -39,7 +40,9 @@ module Types::Interfaces
       Types::Activities::SuggestSourceActivityType,
       Types::Activities::CommentActivityType,
       Types::Activities::SuggestRevisionSetActivityType,
-      Types::Activities::UpdateSourceSuggestionStatusActivityType
+      Types::Activities::UpdateSourceSuggestionStatusActivityType,
+      Types::Activities::RejectRevisionsActivityType,
+      Types::Activities::AcceptRevisionsActivityType
     )
 
     definition_methods do
@@ -67,6 +70,10 @@ module Types::Interfaces
           Types::Activities::SuggestRevisionSetActivityType
         when UpdateSourceSuggestionStatusActivity
           Types::Activities::UpdateSourceSuggestionStatusActivityType
+        when RejectRevisionsActivity
+          Types::Activities::RejectRevisionsActivityType
+        when AcceptRevisionsActivity
+          Types::Activities::AcceptRevisionsActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

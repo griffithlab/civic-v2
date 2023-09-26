@@ -69,7 +69,7 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, comment:,  **_)
-    cmd = Actions::RejectRevisions.new(
+    cmd = Activities::RejectRevisions.new(
       revisions: revisions,
       rejecting_user: context[:current_user],
       organization_id: organization_id,
