@@ -1,5 +1,4 @@
 class DeprecateVariantActivity < Activity
-  has_one_linked :comment
   has_many_linked :molecular_profiles
 
   def variant

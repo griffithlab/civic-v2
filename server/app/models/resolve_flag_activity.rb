@@ -1,6 +1,5 @@
 class ResolveFlagActivity < Activity
   has_one_linked :flag
-  has_one_linked :comment
 
   def flaggable
     self.subject
