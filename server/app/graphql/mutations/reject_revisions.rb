@@ -73,7 +73,7 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
       revisions: revisions,
       rejecting_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform

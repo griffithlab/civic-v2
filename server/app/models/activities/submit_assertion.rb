@@ -2,8 +2,8 @@ module Activities
   class SubmitAssertion < Base
     attr_reader :assertion
 
-    def initialize(originating_user:, assertion:, organization_id: nil, comment_body:)
-      super(organization_id: organization_id, user: originating_user, comment_body: comment_body)
+    def initialize(originating_user:, assertion:, organization_id: nil, note:)
+      super(organization_id: organization_id, user: originating_user, note: note)
       @assertion = assertion
     end
 
@@ -13,6 +13,7 @@ module Activities
         subject: assertion,
         user: user,
         organization: organization,
+        note: note
       )
     end
 
@@ -29,16 +30,8 @@ module Activities
       events << cmd.events
     end
 
-    def commentable
-      assertion
-    end
-
     def linked_entities
-      if comment.present?
-        [comment]
-      else
-        []
-      end
+      []
     end
   end
 end

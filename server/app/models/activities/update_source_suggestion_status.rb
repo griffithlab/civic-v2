@@ -15,6 +15,7 @@ module Activities
         subject: source_suggestion.source,
         user: user,
         organization: organization,
+        note: reason
       )
     end
 

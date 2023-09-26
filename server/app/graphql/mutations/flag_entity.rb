@@ -32,7 +32,7 @@ class Mutations::FlagEntity < Mutations::MutationWithOrg
       flagging_user: context[:current_user],
       flaggable: subject,
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
 
     res = cmd.perform

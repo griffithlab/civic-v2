@@ -59,7 +59,7 @@ class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
       updated_obj: updated_gene,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 

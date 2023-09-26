@@ -65,7 +65,7 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
       variant: variant,
       organization_id: organization_id,
       deprecation_reason: deprecation_reason,
-      comment_body: comment
+      note: comment
     )
 
     res = cmd.perform

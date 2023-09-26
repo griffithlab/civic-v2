@@ -1,9 +1,9 @@
 module Activities
   class SuggestSource < Base
-    attr_reader :source, :molecular_profile_id, :disease_id, :source_suggestion, :comment_body, :source_suggestion
+    attr_reader :source, :molecular_profile_id, :disease_id, :source_suggestion, :source_suggestion
 
-    def initialize(source_id:, originating_user:, organization_id:, comment_body:, molecular_profile_id: nil, disease_id: nil )
-      super(organization_id: organization_id, user: originating_user, comment_body: comment_body)
+    def initialize(source_id:, originating_user:, organization_id:, note:, molecular_profile_id: nil, disease_id: nil )
+      super(organization_id: organization_id, user: originating_user, note: note)
       @source = Source.find(source_id)
       @molecular_profile_id = molecular_profile_id
       @disease_id = disease_id
@@ -15,6 +15,7 @@ module Activities
         subject: source,
         user: user,
         organization: organization,
+        note: note
       )
     end
 
@@ -25,7 +26,6 @@ module Activities
         organization_id: organization&.id,
         molecular_profile_id: molecular_profile_id,
         disease_id: disease_id,
-        comment_body: comment_body
       )
       cmd.perform
       if !cmd.succeeded?
@@ -35,12 +35,8 @@ module Activities
       @source_suggestion = cmd.source_suggestion
     end
 
-    def commentable
-      source
-    end
-
     def linked_entities
-      [source_suggestion, comment]
+      [source_suggestion]
     end
   end
 end

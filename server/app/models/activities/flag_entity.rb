@@ -2,8 +2,8 @@ module Activities
   class FlagEntity < Base
     attr_reader :flaggable, :flag
 
-    def initialize(flagging_user:, flaggable:, organization_id: nil, comment_body:)
-      super(organization_id: organization_id, user: flagging_user, comment_body: comment_body)
+    def initialize(flagging_user:, flaggable:, organization_id: nil, note:)
+      super(organization_id: organization_id, user: flagging_user, note: note)
       @flaggable = flaggable
     end
 
@@ -13,6 +13,7 @@ module Activities
         subject: flaggable,
         user: user,
         organization: organization,
+        note: note
       )
     end
 
@@ -30,12 +31,8 @@ module Activities
       events << cmd.events
     end
 
-    def commentable
-      flag
-    end
-
     def linked_entities
-      [flag, comment]
+      [flag]
     end
   end
 end

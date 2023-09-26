@@ -71,7 +71,7 @@ class Mutations::SuggestVariantGroupRevision < Mutations::MutationWithOrg
       updated_obj: updated_variant_group,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 

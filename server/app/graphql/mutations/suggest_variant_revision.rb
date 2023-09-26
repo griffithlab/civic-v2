@@ -1,6 +1,5 @@
 class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
   description 'Suggest a Revision to a Variant entity.'
-
   argument :id, Int, required: true,
     description: 'The ID of the Variant to suggest a Revision to.'
 
@@ -65,7 +64,7 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
       updated_obj: updated_variant,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 

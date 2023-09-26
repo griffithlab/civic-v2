@@ -2,8 +2,8 @@ module Activities
   class ResolveFlag < Base
     attr_reader :resolving_user, :flag
 
-    def initialize(resolving_user:, flag:, organization_id: nil, comment_body:)
-      super(organization_id: organization_id, user: resolving_user, comment_body: comment_body)
+    def initialize(resolving_user:, flag:, organization_id: nil, note:)
+      super(organization_id: organization_id, user: resolving_user, note: note)
       @flag = flag
     end
 
@@ -13,6 +13,7 @@ module Activities
         subject: flag.flaggable,
         user: user,
         organization: organization,
+        note: note
       )
     end
 
@@ -29,12 +30,8 @@ module Activities
       events << cmd.events
     end
 
-    def commentable
-      flag
-    end
-
     def linked_entities
-      [flag, comment]
+      [flag]
     end
   end
 end

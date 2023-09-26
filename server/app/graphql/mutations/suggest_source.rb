@@ -59,7 +59,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       source_id: source_id,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment,
+      note: comment,
       disease_id: disease_id,
       molecular_profile_id: molecular_profile_id
     )

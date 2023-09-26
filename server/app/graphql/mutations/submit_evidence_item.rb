@@ -40,7 +40,7 @@ class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
       evidence_item: evidence_item,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 

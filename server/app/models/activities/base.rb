@@ -3,22 +3,19 @@ module Activities
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
 
-    attr_reader :organization, :activity, :comment_body, :comment_title, :user, :comment
+    attr_reader :organization, :activity, :note, :comment_title, :user
 
-    def initialize(organization_id:, user:, comment_body: nil, comment_title: '')
+    def initialize(organization_id:, user:, note: nil)
       @user = user
       @organization = resolve_organization(user, organization_id)
-      @comment_body = comment_body
-      @comment_title = comment_title
+      @note = note
     end
 
     def execute
       create_activity
       call_actions
-      create_comment
       link_activity
       set_verbiage
-      extra_actions
     end
 
     def create_activity
@@ -29,30 +26,8 @@ module Activities
       raise NotImplementedError.new("Activity must implement call_actions")
     end
 
-    def commentable
-      raise NotImplementedError.new("Activity must implement commentable if it provides a comment body")
-    end
-
     def linked_entities
       raise NotImplementedError.new("Activity must implement linked_entities.")
-    end
-
-    def create_comment
-      if comment_body.present?
-        cmd = Actions::AddComment.new(
-          title: comment_title,
-          body: comment_body,
-          commenter: user,
-          commentable: commentable,
-          organization_id: organization.id
-        )
-        cmd.perform
-        if !cmd.succeeded?
-          raise StandardError.new(cmd.errors.join(', '))
-        end
-        @comment = cmd.comment
-        events << cmd.events
-      end
     end
 
     def link_activity
@@ -63,10 +38,6 @@ module Activities
     def set_verbiage
       activity.verbiage = activity.generate_verbiage
       activity.save!
-    end
-
-    def extra_actions
-      #optional. Does nothing for most activities
     end
   end
 end

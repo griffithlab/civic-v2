@@ -2,8 +2,8 @@ module Activities
   class SuggestRevisionSet < Base
     attr_reader :revision_set, :revisions, :revision_results, :existing_obj, :updated_obj
 
-    def initialize(originating_user:, existing_obj:, updated_obj:, organization_id: nil, comment_body:)
-      super(organization_id: organization_id, user: originating_user, comment_body: comment_body)
+    def initialize(originating_user:, existing_obj:, updated_obj:, organization_id: nil, note:)
+      super(organization_id: organization_id, user: originating_user, note: note)
       @existing_obj = existing_obj
       @updated_obj = updated_obj
     end
@@ -13,7 +13,8 @@ module Activities
       @activity = SuggestRevisionSetActivity.create!(
         subject: existing_obj,
         user: user,
-        organization: organization
+        organization: organization,
+        note: note
       )
     end
 
@@ -35,12 +36,8 @@ module Activities
       @revision_results = cmd.revision_results
     end
 
-    def commentable
-      revision_set
-    end
-
     def linked_entities
-      [revision_set, revisions, comment].flatten
+      [revision_set, revisions].flatten
     end
   end
 end

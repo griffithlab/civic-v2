@@ -41,7 +41,7 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
       assertion: assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 

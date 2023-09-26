@@ -2,8 +2,8 @@ module Activities
   class SubmitEvidenceItem < Base
     attr_reader :evidence_item 
 
-    def initialize(originating_user:, evidence_item:, organization_id: nil, comment_body:)
-      super(organization_id: organization_id, user: originating_user, comment_body: comment_body)
+    def initialize(originating_user:, evidence_item:, organization_id: nil, note:)
+      super(organization_id: organization_id, user: originating_user, note: note)
       @evidence_item = evidence_item
     end
 
@@ -13,6 +13,7 @@ module Activities
         subject: evidence_item,
         user: user,
         organization: organization,
+        note: note
       )
     end
 
@@ -29,16 +30,8 @@ module Activities
       events << cmd.events
     end
 
-    def commentable
-      evidence_item
-    end
-
     def linked_entities
-      if comment.present?
-        [comment]
-      else
-        []
-      end
+      []
     end
   end
 end
