@@ -122,7 +122,7 @@ interface CvcSignificanceSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: CvcFormFieldExtraType,
-  formMode: 'revise' | 'add'
+  formMode: 'revise' | 'add' | 'clone'
 }
 
 export interface CvcSignificanceSelectFieldConfig

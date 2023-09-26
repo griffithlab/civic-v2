@@ -78,7 +78,7 @@ class EvidenceItem < ActiveRecord::Base
     }
   end
 
-  def self.editable_fields
+  def editable_fields
     [
       :molecular_profile_id,
       :variant_origin,

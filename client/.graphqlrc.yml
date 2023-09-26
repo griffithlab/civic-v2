@@ -7,8 +7,6 @@ schema:
 # collect client-side component& service queries, mutations, fragments
 documents: ./src/**/*.gql
 extensions:
-  # allow apollo-client directives
-  customDirectives: ['@client', '@export', '@key']
   codegen:
     config:
       # replace generated files

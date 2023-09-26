@@ -43,7 +43,7 @@ class Gene < ActiveRecord::Base
     }
   end
 
-  def self.editable_fields
+  def editable_fields
     [
       :description,
       :source_ids

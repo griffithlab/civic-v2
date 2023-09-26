@@ -1664,11 +1664,13 @@ export type FieldValidationError = {
   fieldName: Scalars['String'];
 };
 
-export type Flag = Commentable & EventOriginObject & {
+export type Flag = Commentable & EventOriginObject & EventSubject & {
   __typename: 'Flag';
   /** List and filter comments. */
   comments: CommentConnection;
   createdAt: Scalars['ISO8601DateTime'];
+  /** List and filter events for an object */
+  events: EventConnection;
   flaggable: Flaggable;
   flaggingUser: User;
   id: Scalars['Int'];
@@ -1691,6 +1693,18 @@ export type FlagCommentsArgs = {
   mentionedEntity?: InputMaybe<TaggableEntityInput>;
   mentionedRole?: InputMaybe<UserRole>;
   mentionedUserId?: InputMaybe<Scalars['Int']>;
+  originatingUserId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<DateSort>;
+};
+
+
+export type FlagEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  organizationId?: InputMaybe<Scalars['Int']>;
   originatingUserId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<DateSort>;
 };
@@ -1976,6 +1990,149 @@ export enum IntSearchOperator {
   Ne = 'NE'
 }
 
+export type LeaderboardOrganization = {
+  __typename: 'LeaderboardOrganization';
+  actionCount: Scalars['Int'];
+  description: Scalars['String'];
+  eventCount: Scalars['Int'];
+  events: EventConnection;
+  id: Scalars['Int'];
+  memberCount: Scalars['Int'];
+  members: UserConnection;
+  mostRecentEvent?: Maybe<Event>;
+  name: Scalars['String'];
+  orgAndSuborgsStatsHash: Stats;
+  orgStatsHash: Stats;
+  profileImagePath?: Maybe<Scalars['String']>;
+  rank: Scalars['Int'];
+  subGroups: Array<Organization>;
+  url: Scalars['String'];
+};
+
+
+export type LeaderboardOrganizationEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardOrganizationMembersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardOrganizationProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for LeaderboardOrganization. */
+export type LeaderboardOrganizationConnection = {
+  __typename: 'LeaderboardOrganizationConnection';
+  /** A list of edges. */
+  edges: Array<LeaderboardOrganizationEdge>;
+  /** A list of nodes. */
+  nodes: Array<LeaderboardOrganization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type LeaderboardOrganizationEdge = {
+  __typename: 'LeaderboardOrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<LeaderboardOrganization>;
+};
+
+export type LeaderboardUser = {
+  __typename: 'LeaderboardUser';
+  actionCount: Scalars['Int'];
+  areaOfExpertise?: Maybe<AreaOfExpertise>;
+  bio?: Maybe<Scalars['String']>;
+  country?: Maybe<Country>;
+  displayName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  events: EventConnection;
+  facebookProfile?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  linkedinProfile?: Maybe<Scalars['String']>;
+  mostRecentActionTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentEvent?: Maybe<Event>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  /** Filterable list of notifications for the logged in user. */
+  notifications?: Maybe<NotificationConnection>;
+  orcid?: Maybe<Scalars['String']>;
+  organizations: Array<Organization>;
+  profileImagePath?: Maybe<Scalars['String']>;
+  rank: Scalars['Int'];
+  role: UserRole;
+  statsHash: Stats;
+  twitterHandle?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+
+export type LeaderboardUserEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardUserNotificationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']>;
+  includeSeen?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['Int']>;
+  notificationType?: InputMaybe<NotificationReason>;
+  subscriptionId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardUserProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for LeaderboardUser. */
+export type LeaderboardUserConnection = {
+  __typename: 'LeaderboardUserConnection';
+  /** A list of edges. */
+  edges: Array<LeaderboardUserEdge>;
+  /** A list of nodes. */
+  nodes: Array<LeaderboardUser>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type LeaderboardUserEdge = {
+  __typename: 'LeaderboardUserEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<LeaderboardUser>;
+};
+
 export type LinkableDisease = {
   __typename: 'LinkableDisease';
   id: Scalars['Int'];
@@ -2146,6 +2303,7 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   /** List and filter flags. */
   flags: FlagConnection;
   id: Scalars['Int'];
+  isComplex: Scalars['Boolean'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
@@ -2904,6 +3062,54 @@ export type OrganizationFilter = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type OrganizationLeaderboards = {
+  __typename: 'OrganizationLeaderboards';
+  commentsLeaderboard: LeaderboardOrganizationConnection;
+  moderationLeaderboard: LeaderboardOrganizationConnection;
+  revisionsLeaderboard: LeaderboardOrganizationConnection;
+  submissionsLeaderboard: LeaderboardOrganizationConnection;
+};
+
+
+export type OrganizationLeaderboardsCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
 export type OrganizationSort = {
   /** Available columns for sorting */
   column: OrganizationSortColumns;
@@ -3038,6 +3244,7 @@ export type Query = {
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
   organization?: Maybe<Organization>;
+  organizationLeaderboards: OrganizationLeaderboards;
   /** List and filter organizations. */
   organizations: OrganizationConnection;
   /** Find a phenotype by CIViC ID */
@@ -3080,6 +3287,7 @@ export type Query = {
   therapyTypeahead: Array<Therapy>;
   timepointStats: CivicTimepointStats;
   user?: Maybe<User>;
+  userLeaderboards: UserLeaderboards;
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
   /** List and filter users. */
@@ -3888,6 +4096,31 @@ export type RevisionResult = {
   revisionSetId: Scalars['Int'];
 };
 
+export type RevisionSet = EventSubject & {
+  __typename: 'RevisionSet';
+  createdAt: Scalars['ISO8601DateTime'];
+  displayName: Scalars['String'];
+  /** List and filter events for an object */
+  events: EventConnection;
+  id: Scalars['Int'];
+  link: Scalars['String'];
+  name: Scalars['String'];
+  revisions: Array<Revision>;
+  updatedAt: Scalars['ISO8601DateTime'];
+};
+
+
+export type RevisionSetEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  organizationId?: InputMaybe<Scalars['Int']>;
+  originatingUserId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<DateSort>;
+};
+
 export enum RevisionStatus {
   Accepted = 'ACCEPTED',
   New = 'NEW',
@@ -4506,6 +4739,20 @@ export type SuggestMolecularProfileRevisionPayload = {
   results: Array<RevisionResult>;
 };
 
+export type SuggestRevisionSetActivity = ActivityInterface & {
+  __typename: 'SuggestRevisionSetActivity';
+  comment: Comment;
+  createdAt: Scalars['ISO8601DateTime'];
+  events: Array<Event>;
+  id: Scalars['Int'];
+  organization?: Maybe<Organization>;
+  revisionSet: RevisionSet;
+  revisions: Array<Revision>;
+  subject: EventSubject;
+  user: User;
+  verbiage: Scalars['String'];
+};
+
 export type SuggestSourceActivity = ActivityInterface & {
   __typename: 'SuggestSourceActivity';
   comment: Comment;
@@ -4699,6 +4946,13 @@ export type TimePointCounts = {
   newThisYear: Scalars['Int'];
 };
 
+export enum TimeWindow {
+  AllTime = 'ALL_TIME',
+  LastMonth = 'LAST_MONTH',
+  LastWeek = 'LAST_WEEK',
+  LastYear = 'LAST_YEAR'
+}
+
 /** Autogenerated input type of Unsubscribe */
 export type UnsubscribeInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -4756,6 +5010,18 @@ export type UpdateNotificationStatusPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** A list of the notifications in their new state. */
   notifications: Array<Notification>;
+};
+
+export type UpdateSourceSuggestionStatusActivity = ActivityInterface & {
+  __typename: 'UpdateSourceSuggestionStatusActivity';
+  createdAt: Scalars['ISO8601DateTime'];
+  events: Array<Event>;
+  id: Scalars['Int'];
+  organization?: Maybe<Organization>;
+  sourceSuggestion: SourceSuggestion;
+  subject: EventSubject;
+  user: User;
+  verbiage: Scalars['String'];
 };
 
 /** Autogenerated input type of UpdateSourceSuggestionStatus */
@@ -4862,6 +5128,58 @@ export type UserEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<User>;
+};
+
+export type UserLeaderboards = {
+  __typename: 'UserLeaderboards';
+  commentsLeaderboard: LeaderboardUserConnection;
+  moderationLeaderboard: LeaderboardUserConnection;
+  revisionsLeaderboard: LeaderboardUserConnection;
+  submissionsLeaderboard: LeaderboardUserConnection;
+};
+
+
+export type UserLeaderboardsCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
 };
 
 export enum UserRole {
@@ -5284,7 +5602,7 @@ export type ActivityCardQueryVariables = Exact<{
 }>;
 
 
-export type ActivityCardQuery = { __typename: 'Query', activity?: { __typename: 'CommentActivity', id: number, verbiage: string } | { __typename: 'DeprecateVariantActivity', id: number, verbiage: string } | { __typename: 'FlagEntityActivity', id: number, verbiage: string, comment: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | { __typename: 'ModerateAssertionActivity', id: number, verbiage: string } | { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string } | { __typename: 'ResolveFlagActivity', id: number, verbiage: string } | { __typename: 'SubmitAssertionActivity', id: number, verbiage: string } | { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string } | { __typename: 'SuggestSourceActivity', id: number, verbiage: string } | undefined };
+export type ActivityCardQuery = { __typename: 'Query', activity?: { __typename: 'CommentActivity', id: number, verbiage: string } | { __typename: 'DeprecateVariantActivity', id: number, verbiage: string } | { __typename: 'FlagEntityActivity', id: number, verbiage: string, comment: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | { __typename: 'ModerateAssertionActivity', id: number, verbiage: string } | { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string } | { __typename: 'ResolveFlagActivity', id: number, verbiage: string } | { __typename: 'SubmitAssertionActivity', id: number, verbiage: string } | { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string } | { __typename: 'SuggestRevisionSetActivity', id: number, verbiage: string } | { __typename: 'SuggestSourceActivity', id: number, verbiage: string } | { __typename: 'UpdateSourceSuggestionStatusActivity', id: number, verbiage: string } | undefined };
 
 type ActivityCard_CommentActivity_Fragment = { __typename: 'CommentActivity', id: number, verbiage: string };
 
@@ -5302,9 +5620,13 @@ type ActivityCard_SubmitAssertionActivity_Fragment = { __typename: 'SubmitAssert
 
 type ActivityCard_SubmitEvidenceItemActivity_Fragment = { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string };
 
+type ActivityCard_SuggestRevisionSetActivity_Fragment = { __typename: 'SuggestRevisionSetActivity', id: number, verbiage: string };
+
 type ActivityCard_SuggestSourceActivity_Fragment = { __typename: 'SuggestSourceActivity', id: number, verbiage: string };
 
-export type ActivityCardFragment = ActivityCard_CommentActivity_Fragment | ActivityCard_DeprecateVariantActivity_Fragment | ActivityCard_FlagEntityActivity_Fragment | ActivityCard_ModerateAssertionActivity_Fragment | ActivityCard_ModerateEvidenceItemActivity_Fragment | ActivityCard_ResolveFlagActivity_Fragment | ActivityCard_SubmitAssertionActivity_Fragment | ActivityCard_SubmitEvidenceItemActivity_Fragment | ActivityCard_SuggestSourceActivity_Fragment;
+type ActivityCard_UpdateSourceSuggestionStatusActivity_Fragment = { __typename: 'UpdateSourceSuggestionStatusActivity', id: number, verbiage: string };
+
+export type ActivityCardFragment = ActivityCard_CommentActivity_Fragment | ActivityCard_DeprecateVariantActivity_Fragment | ActivityCard_FlagEntityActivity_Fragment | ActivityCard_ModerateAssertionActivity_Fragment | ActivityCard_ModerateEvidenceItemActivity_Fragment | ActivityCard_ResolveFlagActivity_Fragment | ActivityCard_SubmitAssertionActivity_Fragment | ActivityCard_SubmitEvidenceItemActivity_Fragment | ActivityCard_SuggestRevisionSetActivity_Fragment | ActivityCard_SuggestSourceActivity_Fragment | ActivityCard_UpdateSourceSuggestionStatusActivity_Fragment;
 
 export type ActivityFeedQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5315,29 +5637,33 @@ export type ActivityFeedQueryVariables = Exact<{
 }>;
 
 
-export type ActivityFeedQuery = { __typename: 'Query', activities: { __typename: 'ActivityInterfaceConnection', pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename: 'ActivityInterfaceEdge', cursor: string, node?: { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'DeprecateVariantActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'FlagEntityActivity', id: number, verbiage: string, createdAt: any, flag: { __typename: 'Flag', id: number, name: string, link: string }, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ResolveFlagActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SuggestSourceActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | undefined }> } };
+export type ActivityFeedQuery = { __typename: 'Query', activities: { __typename: 'ActivityInterfaceConnection', pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename: 'ActivityInterfaceEdge', cursor: string, node?: { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'DeprecateVariantActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'FlagEntityActivity', id: number, verbiage: string, createdAt: any, flag: { __typename: 'Flag', id: number, name: string, link: string }, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ResolveFlagActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SuggestRevisionSetActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SuggestSourceActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'UpdateSourceSuggestionStatusActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | undefined }> } };
 
-export type ActivityFeedFragment = { __typename: 'ActivityInterfaceConnection', pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename: 'ActivityInterfaceEdge', cursor: string, node?: { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'DeprecateVariantActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'FlagEntityActivity', id: number, verbiage: string, createdAt: any, flag: { __typename: 'Flag', id: number, name: string, link: string }, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ResolveFlagActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SuggestSourceActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | undefined }> };
+export type ActivityFeedFragment = { __typename: 'ActivityInterfaceConnection', pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename: 'ActivityInterfaceEdge', cursor: string, node?: { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'DeprecateVariantActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'FlagEntityActivity', id: number, verbiage: string, createdAt: any, flag: { __typename: 'Flag', id: number, name: string, link: string }, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'ResolveFlagActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SuggestRevisionSetActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'SuggestSourceActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | { __typename: 'UpdateSourceSuggestionStatusActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } } | undefined }> };
 
-type ActivityFeedNode_CommentActivity_Fragment = { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_CommentActivity_Fragment = { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_DeprecateVariantActivity_Fragment = { __typename: 'DeprecateVariantActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_DeprecateVariantActivity_Fragment = { __typename: 'DeprecateVariantActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_FlagEntityActivity_Fragment = { __typename: 'FlagEntityActivity', id: number, verbiage: string, createdAt: any, flag: { __typename: 'Flag', id: number, name: string, link: string }, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_FlagEntityActivity_Fragment = { __typename: 'FlagEntityActivity', id: number, verbiage: string, createdAt: any, flag: { __typename: 'Flag', id: number, name: string, link: string }, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_ModerateAssertionActivity_Fragment = { __typename: 'ModerateAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_ModerateAssertionActivity_Fragment = { __typename: 'ModerateAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_ModerateEvidenceItemActivity_Fragment = { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_ModerateEvidenceItemActivity_Fragment = { __typename: 'ModerateEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_ResolveFlagActivity_Fragment = { __typename: 'ResolveFlagActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_ResolveFlagActivity_Fragment = { __typename: 'ResolveFlagActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_SubmitAssertionActivity_Fragment = { __typename: 'SubmitAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_SubmitAssertionActivity_Fragment = { __typename: 'SubmitAssertionActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_SubmitEvidenceItemActivity_Fragment = { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_SubmitEvidenceItemActivity_Fragment = { __typename: 'SubmitEvidenceItemActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-type ActivityFeedNode_SuggestSourceActivity_Fragment = { __typename: 'SuggestSourceActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+type ActivityFeedNode_SuggestRevisionSetActivity_Fragment = { __typename: 'SuggestRevisionSetActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
 
-export type ActivityFeedNodeFragment = ActivityFeedNode_CommentActivity_Fragment | ActivityFeedNode_DeprecateVariantActivity_Fragment | ActivityFeedNode_FlagEntityActivity_Fragment | ActivityFeedNode_ModerateAssertionActivity_Fragment | ActivityFeedNode_ModerateEvidenceItemActivity_Fragment | ActivityFeedNode_ResolveFlagActivity_Fragment | ActivityFeedNode_SubmitAssertionActivity_Fragment | ActivityFeedNode_SubmitEvidenceItemActivity_Fragment | ActivityFeedNode_SuggestSourceActivity_Fragment;
+type ActivityFeedNode_SuggestSourceActivity_Fragment = { __typename: 'SuggestSourceActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+
+type ActivityFeedNode_UpdateSourceSuggestionStatusActivity_Fragment = { __typename: 'UpdateSourceSuggestionStatusActivity', id: number, verbiage: string, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, user: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } };
+
+export type ActivityFeedNodeFragment = ActivityFeedNode_CommentActivity_Fragment | ActivityFeedNode_DeprecateVariantActivity_Fragment | ActivityFeedNode_FlagEntityActivity_Fragment | ActivityFeedNode_ModerateAssertionActivity_Fragment | ActivityFeedNode_ModerateEvidenceItemActivity_Fragment | ActivityFeedNode_ResolveFlagActivity_Fragment | ActivityFeedNode_SubmitAssertionActivity_Fragment | ActivityFeedNode_SubmitEvidenceItemActivity_Fragment | ActivityFeedNode_SuggestRevisionSetActivity_Fragment | ActivityFeedNode_SuggestSourceActivity_Fragment | ActivityFeedNode_UpdateSourceSuggestionStatusActivity_Fragment;
 
 export type AssertionPopoverQueryVariables = Exact<{
   assertionId: Scalars['Int'];
@@ -5484,11 +5810,11 @@ export type EventFeedQueryVariables = Exact<{
 }>;
 
 
-export type EventFeedQuery = { __typename: 'Query', events: { __typename: 'EventConnection', eventTypes?: Array<EventAction>, unfilteredCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueParticipants?: Array<{ __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }>, participatingOrganizations?: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, edges: Array<{ __typename: 'EventEdge', cursor: string, node?: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined } | undefined }> } };
+export type EventFeedQuery = { __typename: 'Query', events: { __typename: 'EventConnection', eventTypes?: Array<EventAction>, unfilteredCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueParticipants?: Array<{ __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }>, participatingOrganizations?: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, edges: Array<{ __typename: 'EventEdge', cursor: string, node?: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined } | undefined }> } };
 
-export type EventFeedFragment = { __typename: 'EventConnection', eventTypes?: Array<EventAction>, unfilteredCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueParticipants?: Array<{ __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }>, participatingOrganizations?: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, edges: Array<{ __typename: 'EventEdge', cursor: string, node?: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined } | undefined }> };
+export type EventFeedFragment = { __typename: 'EventConnection', eventTypes?: Array<EventAction>, unfilteredCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueParticipants?: Array<{ __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }>, participatingOrganizations?: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, edges: Array<{ __typename: 'EventEdge', cursor: string, node?: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined } | undefined }> };
 
-export type EventFeedNodeFragment = { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined };
+export type EventFeedNodeFragment = { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined };
 
 export type EvidencePopoverQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -5643,6 +5969,41 @@ export type MolecularProfileMenuQuery = { __typename: 'Query', molecularProfiles
 
 export type MenuMolecularProfileFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean };
 
+export type LeaderboardOrganizationFieldsFragment = { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined };
+
+export type OrganizationCommentsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationCommentsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', commentsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type OrganizationRevisionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationRevisionsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', revisionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type OrganizationModerationLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationModerationLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -5717,9 +6078,9 @@ export type RevisionPopoverQueryVariables = Exact<{
 }>;
 
 
-export type RevisionPopoverQuery = { __typename: 'Query', revision?: { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string }, creationComment?: { __typename: 'Comment', comment: string } | undefined } | undefined };
+export type RevisionPopoverQuery = { __typename: 'Query', revision?: { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Flag', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'RevisionSet', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string }, creationComment?: { __typename: 'Comment', comment: string } | undefined } | undefined };
 
-export type RevisionPopoverFragment = { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string }, creationComment?: { __typename: 'Comment', comment: string } | undefined };
+export type RevisionPopoverFragment = { __typename: 'Revision', id: number, name: string, link: string, status: RevisionStatus, createdAt: any, revisor?: { __typename: 'User', id: number, displayName: string, role: UserRole } | undefined, subject: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Flag', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Revision', id: number, link: string, name: string } | { __typename: 'RevisionSet', id: number, link: string, name: string } | { __typename: 'Source', id: number, link: string, name: string } | { __typename: 'SourcePopover', id: number, link: string, name: string } | { __typename: 'SourceSuggestion', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, linkoutData: { __typename: 'LinkoutData', name: string }, creationComment?: { __typename: 'Comment', comment: string } | undefined };
 
 export type RevisionsQueryVariables = Exact<{
   subject?: InputMaybe<ModeratedInput>;
@@ -5860,6 +6221,41 @@ export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typenam
 
 export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string };
 
+export type LeaderboardUserFieldsFragment = { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined };
+
+export type UserCommentsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserCommentsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', commentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type UserRevisionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserRevisionsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', revisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type UserModerationLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserModerationLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -5881,9 +6277,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -6334,9 +6730,9 @@ export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
 
-export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
 
 export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
   input: SuggestMolecularProfileRevisionInput;
@@ -7004,9 +7400,9 @@ export type SourceDetailQueryVariables = Exact<{
 }>;
 
 
-export type SourceDetailQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string } | undefined };
+export type SourceDetailQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type SourceDetailFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string };
+export type SourceDetailFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, citationId: string, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type SourceSummaryQueryVariables = Exact<{
   sourceId: Scalars['Int'];
@@ -7059,22 +7455,22 @@ export type UserNotificationsQueryVariables = Exact<{
 }>;
 
 
-export type UserNotificationsQuery = { __typename: 'Query', notifications: { __typename: 'NotificationConnection', eventTypes: Array<EventAction>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, notificationSubjects: Array<{ __typename: 'EventSubjectWithCount', occuranceCount: number, subject?: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } | undefined }>, originatingUsers: Array<{ __typename: 'User', id: number, displayName: string }>, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, edges: Array<{ __typename: 'NotificationEdge', node?: { __typename: 'Notification', id: number, type: NotificationReason, seen: boolean, event: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }, subscription?: { __typename: 'Subscription', id: number, subscribable: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } } | undefined } | undefined }> } };
+export type UserNotificationsQuery = { __typename: 'Query', notifications: { __typename: 'NotificationConnection', eventTypes: Array<EventAction>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, notificationSubjects: Array<{ __typename: 'EventSubjectWithCount', occuranceCount: number, subject?: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Flag', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'RevisionSet', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } | undefined }>, originatingUsers: Array<{ __typename: 'User', id: number, displayName: string }>, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, edges: Array<{ __typename: 'NotificationEdge', node?: { __typename: 'Notification', id: number, type: NotificationReason, seen: boolean, event: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }, subscription?: { __typename: 'Subscription', id: number, subscribable: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Flag', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'RevisionSet', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } } | undefined } | undefined }> } };
 
 export type NotificationOrganizationFragment = { __typename: 'Organization', id: number, name: string };
 
 export type NotificationOriginatingUsersFragment = { __typename: 'User', id: number, displayName: string };
 
-export type NotificationFeedSubjectsFragment = { __typename: 'EventSubjectWithCount', occuranceCount: number, subject?: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } | undefined };
+export type NotificationFeedSubjectsFragment = { __typename: 'EventSubjectWithCount', occuranceCount: number, subject?: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Flag', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'RevisionSet', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } | undefined };
 
-export type NotificationNodeFragment = { __typename: 'Notification', id: number, type: NotificationReason, seen: boolean, event: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }, subscription?: { __typename: 'Subscription', id: number, subscribable: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } } | undefined };
+export type NotificationNodeFragment = { __typename: 'Notification', id: number, type: NotificationReason, seen: boolean, event: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }, subscription?: { __typename: 'Subscription', id: number, subscribable: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Flag', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'RevisionSet', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } } | undefined };
 
 export type UpdateNotificationStatusMutationVariables = Exact<{
   input: UpdateNotificationStatusInput;
 }>;
 
 
-export type UpdateNotificationStatusMutation = { __typename: 'Mutation', updateNotificationStatus?: { __typename: 'UpdateNotificationStatusPayload', notifications: Array<{ __typename: 'Notification', id: number, type: NotificationReason, seen: boolean, event: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }, subscription?: { __typename: 'Subscription', id: number, subscribable: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } } | undefined }> } | undefined };
+export type UpdateNotificationStatusMutation = { __typename: 'Mutation', updateNotificationStatus?: { __typename: 'UpdateNotificationStatusPayload', notifications: Array<{ __typename: 'Notification', id: number, type: NotificationReason, seen: boolean, event: { __typename: 'Event', id: number, action: EventAction, createdAt: any, organization?: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined } | undefined, originatingUser: { __typename: 'User', id: number, username: string, displayName: string, role: UserRole, profileImagePath?: string | undefined }, subject?: { __typename: 'Assertion', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'EvidenceItem', status: EvidenceStatus, name: string, id: number, link: string } | { __typename: 'Flag', name: string, id: number, link: string } | { __typename: 'Gene', name: string, id: number, link: string } | { __typename: 'MolecularProfile', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'Revision', revisionSetId: number, name: string, id: number, link: string } | { __typename: 'RevisionSet', name: string, id: number, link: string } | { __typename: 'Source', citation?: string | undefined, sourceType: SourceSource, name: string, id: number, link: string } | { __typename: 'SourcePopover', name: string, id: number, link: string } | { __typename: 'SourceSuggestion', name: string, id: number, link: string } | { __typename: 'Variant', deprecated: boolean, name: string, id: number, link: string } | { __typename: 'VariantGroup', name: string, id: number, link: string } | undefined, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, revisionSetId: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }, subscription?: { __typename: 'Subscription', id: number, subscribable: { __typename: 'Assertion', id: number, name: string } | { __typename: 'EvidenceItem', id: number, name: string } | { __typename: 'Flag', id: number, name: string } | { __typename: 'Gene', id: number, name: string } | { __typename: 'MolecularProfile', id: number, name: string } | { __typename: 'Revision', id: number, name: string } | { __typename: 'RevisionSet', id: number, name: string } | { __typename: 'Source', id: number, name: string } | { __typename: 'SourcePopover', id: number, name: string } | { __typename: 'SourceSuggestion', id: number, name: string } | { __typename: 'Variant', id: number, name: string } | { __typename: 'VariantGroup', id: number, name: string } } | undefined }> } | undefined };
 
 export type UnsubscribeMutationVariables = Exact<{
   input: UnsubscribeInput;
@@ -7866,6 +8262,15 @@ export const MenuMolecularProfileFragmentDoc = gql`
   flagged
 }
     `;
+export const LeaderboardOrganizationFieldsFragmentDoc = gql`
+    fragment LeaderboardOrganizationFields on LeaderboardOrganization {
+  id
+  name
+  actionCount
+  rank
+  profileImagePath(size: 64)
+}
+    `;
 export const OrgPopoverFragmentDoc = gql`
     fragment orgPopover on Organization {
   id
@@ -8153,6 +8558,17 @@ export const TherapyBrowseTableRowFieldsFragmentDoc = gql`
   link
 }
     `;
+export const LeaderboardUserFieldsFragmentDoc = gql`
+    fragment LeaderboardUserFields on LeaderboardUser {
+  id
+  name
+  displayName
+  actionCount
+  role
+  rank
+  profileImagePath(size: 64)
+}
+    `;
 export const PopoverUserFragmentDoc = gql`
     fragment popoverUser on User {
   id
@@ -8180,6 +8596,7 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
     submittedEvidenceItems
     revisions
   }
+  profileImagePath(size: 64)
   mostRecentActionTimestamp
 }
     `;
@@ -8656,6 +9073,7 @@ export const RevisableMolecularProfileFieldsFragmentDoc = gql`
     citationId
   }
   molecularProfileAliases
+  isComplex
 }
     `;
 export const SubmittableVariantGroupFieldsFragmentDoc = gql`
@@ -9509,6 +9927,9 @@ export const SourceDetailFieldsFragmentDoc = gql`
   sourceUrl
   displayType
   citationId
+  comments {
+    totalCount
+  }
 }
     `;
 export const SourceSummaryFieldsFragmentDoc = gql`
@@ -10535,6 +10956,126 @@ export const MolecularProfileMenuDocument = gql`
       super(apollo);
     }
   }
+export const OrganizationCommentsLeaderboardDocument = gql`
+    query OrganizationCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationCommentsLeaderboardGQL extends Apollo.Query<OrganizationCommentsLeaderboardQuery, OrganizationCommentsLeaderboardQueryVariables> {
+    document = OrganizationCommentsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationRevisionsLeaderboardDocument = gql`
+    query OrganizationRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationRevisionsLeaderboardGQL extends Apollo.Query<OrganizationRevisionsLeaderboardQuery, OrganizationRevisionsLeaderboardQueryVariables> {
+    document = OrganizationRevisionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationModerationLeaderboardDocument = gql`
+    query OrganizationModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationModerationLeaderboardGQL extends Apollo.Query<OrganizationModerationLeaderboardQuery, OrganizationModerationLeaderboardQueryVariables> {
+    document = OrganizationModerationLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const OrgPopoverDocument = gql`
     query OrgPopover($orgId: Int!) {
   organization(id: $orgId) {
@@ -11115,6 +11656,126 @@ export const TherapiesBrowseDocument = gql`
   })
   export class TherapiesBrowseGQL extends Apollo.Query<TherapiesBrowseQuery, TherapiesBrowseQueryVariables> {
     document = TherapiesBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserCommentsLeaderboardDocument = gql`
+    query UserCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserCommentsLeaderboardGQL extends Apollo.Query<UserCommentsLeaderboardQuery, UserCommentsLeaderboardQueryVariables> {
+    document = UserCommentsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserRevisionsLeaderboardDocument = gql`
+    query UserRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserRevisionsLeaderboardGQL extends Apollo.Query<UserRevisionsLeaderboardQuery, UserRevisionsLeaderboardQueryVariables> {
+    document = UserRevisionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserModerationLeaderboardDocument = gql`
+    query UserModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserModerationLeaderboardGQL extends Apollo.Query<UserModerationLeaderboardQuery, UserModerationLeaderboardQueryVariables> {
+    document = UserModerationLeaderboardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

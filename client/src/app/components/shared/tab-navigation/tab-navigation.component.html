@@ -20,12 +20,12 @@
             [nzType]="tab.iconName"></i>
           {{ tab.tabLabel }}
           <nz-badge
+            *ngIf="tab.badgeCount && tab.badgeCount > 0"
             nzStandalone
             [nzCount]="tab.badgeCount"
-            nzTitle="There are {{ tab.badgeCount }} outstanding revisions."
-            [nzStyle]="{
-              transform: 'scale(0.75, 0.75) translate(0, -2px)'
-            }"></nz-badge>
+            nzTitle="{{ tab.badgeCount }} {{ tab.tabLabel }}(s)."
+            [nzStyle]="{ transform: 'scale(0.75, 0.75) translate(0, -2px)', backgroundColor: tab.badgeColor || '#ff4d4f'}">
+          </nz-badge>
         </a>
       </nz-tab>
     </nz-tabset>

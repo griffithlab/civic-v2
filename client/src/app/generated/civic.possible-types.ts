@@ -15,7 +15,9 @@
       "ResolveFlagActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity",
-      "SuggestSourceActivity"
+      "SuggestRevisionSetActivity",
+      "SuggestSourceActivity",
+      "UpdateSourceSuggestionStatusActivity"
     ],
     "CommentBodySegment": [
       "CommentTagSegment",
@@ -47,9 +49,11 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "Flag",
       "Gene",
       "MolecularProfile",
       "Revision",
+      "RevisionSet",
       "Source",
       "SourcePopover",
       "SourceSuggestion",

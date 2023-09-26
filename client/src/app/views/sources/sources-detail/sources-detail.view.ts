@@ -10,8 +10,8 @@ import {
   SourceDetailQueryVariables,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
-import { Observable, Subscription } from 'rxjs'
-import { startWith } from 'rxjs/operators'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
+import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
@@ -25,17 +25,32 @@ export class SourcesDetailView implements OnDestroy {
   sourceId?: number
 
   queryRef?: QueryRef<SourceDetailQuery, SourceDetailQueryVariables>
+  destroy$ = new Subject<void>()
 
   loading$?: Observable<boolean>
   source$?: Observable<Maybe<SourceDetailFieldsFragment>>
 
-  tabs: RouteableTab[]
+  tabs$: BehaviorSubject<RouteableTab[]>
+  defaultTabs: RouteableTab[] = [
+      {
+        routeName: 'summary',
+        iconName: 'pic-left',
+        tabLabel: 'Summary',
+      },
+      {
+        routeName: 'comments',
+        iconName: 'civic-comment',
+        tabLabel: 'Comments',
+      },
+    ]
 
   constructor(
     private viewerService: ViewerService,
     private route: ActivatedRoute,
     private gql: SourceDetailGQL
   ) {
+    this.tabs$ = new BehaviorSubject(this.defaultTabs)
+
     this.viewer$ = this.viewerService.viewer$
 
     this.routeSub = this.route.params.subscribe((params) => {
@@ -49,22 +64,29 @@ export class SourcesDetailView implements OnDestroy {
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
       this.source$ = observable.pipe(pluck('data', 'source'))
+      this.source$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (sourceResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: sourceResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
     })
-
-    this.tabs = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary',
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments',
-      },
-    ]
   }
+
   ngOnDestroy() {
     this.routeSub.unsubscribe()
+    this.destroy$.next()
+    this.destroy$.unsubscribe()
   }
 }

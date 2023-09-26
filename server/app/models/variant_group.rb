@@ -22,7 +22,7 @@ class VariantGroup < ActiveRecord::Base
     Rails.application.routes.url_helpers.url_for("/variant-groups/#{self.id}")
   end
 
-  def self.editable_fields
+  def editable_fields
     [
       :description,
       :source_ids,

@@ -14,13 +14,15 @@ class Actions::SuggestRevisionSet
   end
 
   def execute
+    updated_obj.in_revision_validation_context = true
+    updated_obj.revision_target_id = existing_obj.id
     updated_obj.validate!
 
     any_changes = false
 
     @revision_set = RevisionSet.create!()
 
-    existing_obj.class.editable_fields.each do |field_name|
+    existing_obj.editable_fields.each do |field_name|
 
       current_value = existing_obj.send(field_name)
       suggested_value = updated_obj.send(field_name)

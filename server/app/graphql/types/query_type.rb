@@ -10,6 +10,7 @@ module Types
     include Types::Queries::PopoverQueries
     include Types::Queries::TypeaheadQueries
     include Types::Queries::DataReleaseQuery
+    include Types::Queries::LeaderboardQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
@@ -38,7 +39,9 @@ module Types
 
     field :contributors, resolver: Resolvers::Contributors
 
-    field :search, resolver: Resolvers::Quicksearch
+    unless Rails.env.headless?
+      field :search, resolver: Resolvers::Quicksearch
+    end
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"

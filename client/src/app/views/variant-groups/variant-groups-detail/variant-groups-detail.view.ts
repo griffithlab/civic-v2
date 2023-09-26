@@ -22,7 +22,6 @@ export class VariantGroupsDetailView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>
   variantGroup$?: Observable<Maybe<VariantGroupDetailFieldsFragment>>
   viewer$: Observable<Viewer>
-  commentsTotal$?: Observable<number>
   revisionsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
   routeSub: Subscription
@@ -70,21 +69,23 @@ export class VariantGroupsDetailView implements OnInit, OnDestroy {
 
       this.variantGroup$ = observable.pipe(pluck('data', 'variantGroup'))
 
-      this.commentsTotal$ = this.variantGroup$.pipe(
-        pluck('comments', 'totalCount')
-      )
-
       this.flagsTotal$ = this.variantGroup$.pipe(pluck('flags', 'totalCount'))
 
       this.variantGroup$
-        .pipe(pluck('revisions', 'totalCount'), takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (count) => {
+          next: (vgResp) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: count as number,
+                    badgeCount: vgResp?.revisions.totalCount,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Comments') {
+                  return {
+                    badgeCount: vgResp?.comments.totalCount,
+                    badgeColor: '#cccccc',
                     ...tab,
                   }
                 } else {

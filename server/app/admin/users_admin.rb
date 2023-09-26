@@ -3,6 +3,10 @@ Trestle.resource(:users) do
     item :users, icon: "fa fa-user"
   end
 
+  search do |q|
+    q ? collection.where("username ILIKE ? OR name ILIKE ?", "%#{q}%", "%#{q}%") : collection
+  end
+
   # Customize the table columns shown on the index view.
   table do
     column :id
