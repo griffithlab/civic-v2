@@ -42,6 +42,11 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
       end
     end
 
+    subjects = revisions.map(&:subject).uniq
+    if subjects.size > 1
+      raise GraphQL::ExecutionError, "Revisions span multiple subjects"
+    end
+
     return true
   end
 
