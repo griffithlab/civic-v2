@@ -20,7 +20,7 @@ module Activities
       cmd = Actions::FlagEntity.new(
         flagging_user: user,
         flaggable: flaggable,
-        organization_id: organization.id
+        organization_id: organization&.id
       )
       cmd.perform
       if !cmd.succeeded?

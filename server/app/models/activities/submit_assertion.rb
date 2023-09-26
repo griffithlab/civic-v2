@@ -20,7 +20,7 @@ module Activities
       cmd = Actions::SubmitAssertion.new(
         originating_user: user,
         assertion: assertion,
-        organization_id: organization.id
+        organization_id: organization&.id
       )
       cmd.perform
       if !cmd.succeeded?

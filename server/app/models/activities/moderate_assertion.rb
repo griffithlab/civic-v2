@@ -21,7 +21,7 @@ module Activities
       cmd = Actions::ModerateAssertion.new(
         originating_user: user,
         assertion: assertion,
-        organization_id: organization.id,
+        organization_id: organization&.id,
         new_status: new_status
       )
       cmd.perform

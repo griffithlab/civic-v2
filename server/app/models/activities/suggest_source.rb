@@ -22,7 +22,7 @@ module Activities
       cmd = Actions::SuggestSource.new(
         source: source,
         originating_user: user,
-        organization_id: organization.id,
+        organization_id: organization&.id,
         molecular_profile_id: molecular_profile_id,
         disease_id: disease_id,
         comment_body: comment_body

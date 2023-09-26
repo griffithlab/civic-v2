@@ -22,7 +22,7 @@ module Activities
       cmd = Actions::UpdateSourceSuggestionStatus.new(
         updating_user: user,
         source_suggestion: source_suggestion,
-        organization_id: organization.id,
+        organization_id: organization&.id,
         new_status: new_status,
         reason: reason
       )

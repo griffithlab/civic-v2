@@ -20,7 +20,7 @@ module Activities
       cmd = Actions::ResolveFlag.new(
         resolving_user: user,
         flag: flag,
-        organization_id: organization.id
+        organization_id: organization&.id
       )
       cmd.perform
       if !cmd.succeeded?

@@ -21,7 +21,7 @@ module Activities
       cmd = Actions::DeprecateVariant.new(
         deprecating_user: user,
         variant: variant,
-        organization_id: organization.id,
+        organization_id: organization&.id,
         deprecation_reason: deprecation_reason
       )
       cmd.perform

@@ -20,7 +20,7 @@ module Activities
       cmd = Actions::SubmitEvidenceItem.new(
         originating_user: user,
         evidence_item: evidence_item,
-        organization_id: organization.id
+        organization_id: organization&.id
       )
       cmd.perform
       if !cmd.succeeded?

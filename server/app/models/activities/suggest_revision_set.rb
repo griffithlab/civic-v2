@@ -22,7 +22,7 @@ module Activities
         existing_obj: existing_obj,
         updated_obj: updated_obj,
         originating_user: user,
-        organization_id: organization.id
+        organization_id: organization&.id
       )
       cmd.perform
       if !cmd.succeeded?
