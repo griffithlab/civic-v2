@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_31_142739) do
+ActiveRecord::Schema.define(version: 2023_09_25_200417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2023_08_31_142739) do
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
     t.text "code"
     t.text "description"
+    t.integer "score", default: -1, null: false
     t.index ["code"], name: "index_acmg_codes_on_code"
   end
 
@@ -249,6 +250,7 @@ ActiveRecord::Schema.define(version: 2023_08_31_142739) do
   create_table "clingen_codes", force: :cascade do |t|
     t.text "code"
     t.text "description"
+    t.integer "score", default: -1, null: false
     t.index ["code"], name: "index_clingen_codes_on_code"
     t.index ["description"], name: "index_clingen_codes_on_description"
   end
