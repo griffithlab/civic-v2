@@ -3,7 +3,7 @@ module Activities
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
 
-    attr_reader :organization, :activity, :note, :comment_title, :user
+    attr_reader :organization, :activity, :note, :user
 
     def initialize(organization_id:, user:, note: nil)
       @user = user
