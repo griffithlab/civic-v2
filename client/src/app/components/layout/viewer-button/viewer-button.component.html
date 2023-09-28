@@ -80,16 +80,6 @@
     <ul nz-menu>
       <li
         nz-menu-item
-        *ngIf="cvcCollapsed">
-        <cvc-user-tag
-          [user]="viewer"
-          [enablePopover]="false"></cvc-user-tag>
-      </li>
-      <li
-        nz-menu-divider
-        *ngIf="cvcCollapsed"></li>
-      <li
-        nz-menu-item
         *ngIf="viewer.invalidCoi">
         <button
           (click)="this.coiUpdateModalVisible = true"
