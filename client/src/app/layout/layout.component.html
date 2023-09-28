@@ -354,7 +354,9 @@
               nz-menu-item
               nzSelected
               nzMatchRouter>
-              <a routerLink="/pages/about">About</a>
+              <a routerLink="/pages/about">{{
+                isCollapsed ? 'About' : 'About CIViC'
+              }}</a>
             </li>
             <li
               nz-menu-item
@@ -369,7 +371,7 @@
               <a
                 target="_blank"
                 href="https://docs.civicdb.org/">
-                Docs
+                {{ isCollapsed ? 'Docs' : 'Documentation' }}
                 <i
                   nz-icon
                   nzType="link"></i>
