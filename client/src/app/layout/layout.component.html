@@ -332,7 +332,7 @@
         </div>
         <div
           nz-col
-          nzFlex="150px"
+          [nzFlex]="isCollapsed ? '90px' : '150px'"
           id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
