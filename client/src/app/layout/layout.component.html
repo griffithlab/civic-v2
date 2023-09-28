@@ -313,7 +313,7 @@
   <nz-layout
     class="right-layout"
     [ngClass]="{ 'is-collapsed': isCollapsed }">
-    <nz-header>
+    <nz-header [ngClass]="{ 'is-collapsed': isCollapsed }">
       <div
         nz-row
         id="header-row">
@@ -332,13 +332,13 @@
         </div>
         <div
           nz-col
-          nzFlex="200px"
+          nzFlex="150px"
           id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
         <div
           nz-col
-          nzFlex="1 0 325px"
+          nzFlex="1 0 auto"
           id="header-menu">
           <ul
             nz-menu
@@ -354,7 +354,7 @@
               nz-menu-item
               nzSelected
               nzMatchRouter>
-              <a routerLink="/pages/about">About CIViC</a>
+              <a routerLink="/pages/about">About</a>
             </li>
             <li
               nz-menu-item
@@ -362,9 +362,9 @@
               nzMatchRouter>
               <a
                 target="_blank"
-                href="https://docs.civicdb.org/"
-                >Documentation</a
-              >
+                href="https://docs.civicdb.org/">
+                Docs
+              </a>
             </li>
             <li
               nz-menu-item
@@ -380,7 +380,9 @@
           nzFlex="1 0 auto"
           id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
-          <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>
+          <cvc-viewer-button
+            *ngIf="signedIn$ | async"
+            [cvcCollapsed]="isCollapsed"></cvc-viewer-button>
         </div>
       </div>
     </nz-header>
