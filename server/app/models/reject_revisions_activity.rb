@@ -3,6 +3,6 @@ class RejectRevisionsActivity < Activity
 
   def generate_verbiage
     rev_count = revisions.size
-    "rejected #{rev_count} #{'revisions'.pluralize(rev_count)} on #{subject.class.name.titleize}"
+    "rejected #{rev_count} #{'revision'.pluralize(rev_count)} on"
   end
 end
