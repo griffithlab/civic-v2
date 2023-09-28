@@ -8,14 +8,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardOrganizationType.connection_type, null: false
 
     scope do
-      organization_base_query(
-        'revision accepted',
-        'revision rejected',
-        'accepted',
-        'rejected',
-        'assertion accepted',
-        'assertion rejected'
-      )
+      Leaderboard.organization_base_query(Leaderboard.moderation_actions)
     end
 
     setup_options

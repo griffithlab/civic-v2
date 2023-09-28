@@ -9,14 +9,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardUserType.connection_type, null: false
 
     scope do
-      user_base_query(
-        'revision accepted',
-        'revision rejected',
-        'accepted',
-        'rejected',
-        'assertion accepted',
-        'assertion rejected'
-      )
+      Leaderboard.user_base_query(Leaderboard.moderation_actions)
     end
 
     setup_options

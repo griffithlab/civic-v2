@@ -2,11 +2,13 @@
   *ngIf="organization.profileImagePath; else noAvatar"
   nz-comment-avatar
   [nzSrc]="organization.profileImagePath"
+  [nzShape]="shape ? shape : 'circle'"
   [nzSize]="size">
 </nz-avatar>
 <ng-template #noAvatar>
   <nz-avatar
     nz-comment-avatar
+    [nzShape]="shape ? shape : 'circle'"
     [nzText]="organization.name"
     [nzSize]="size"></nz-avatar>
 </ng-template>

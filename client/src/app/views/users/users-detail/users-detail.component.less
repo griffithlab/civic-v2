@@ -1,81 +1,52 @@
-@import "themes/overrides/entity-page-header.overrides.less";
-@import "themes/global-variables.less";
+@import 'themes/overrides/entity-page-header.overrides.less';
+@import 'themes/overrides/descriptions-overrides.less';
+@import 'themes/global-variables.less';
 
-:host ::ng-deep {
-  .user-profile {
-    .ant-card-body {
-      // remove card body padding
-      padding: 0;
-      // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
-      margin-top: 1px;
-    }
-    .ant-descriptions-view {
-      // removes nz-description container border -
-      // nz-card does provide an nzBordered option, but its label backgrounds
-      // and compact mode are only applied when its borders are toggled on
-      border: none;
-    }
-    & nz-descriptions.is-editor {
-      // need to add a bottom border to profile descriptions block if
-      // COI descriptions are displayed beneath it
-      .ant-descriptions-view {
-        border-bottom: 1px solid #f0f0f0;
-      }
-    }
-    .user-bio {
-      .ant-descriptions-view {
-        border-top: 1px solid #f0f0f0;
-      }
-    }
-    .user-coi {
-      .ant-descriptions-header {
-        margin: 0;
-        padding: 0 12px;
-        border-top: 1px solid #f0f0f0;
-        .ant-descriptions-title {
-          padding: 6px 0;
-          font-weight: normal;
-          font-size: @font-size-base; // @font-size-base
-          font-weight: 500;
-        }
-      }
+.profile-content {
+  flex-wrap: nowrap;
+}
 
-      .ant-descriptions-view {
-        // add top border to descriptions block
-        border-top: 1px solid #f0f0f0;
-      }
-    }
+.user-pseudo-tag {
+  text-align: center;
+  background-color: #f4f4f4;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+.user-links {
+  width: 100%;
+  text-align: center;
+  font-size: 120%;
+  a {
+    margin-right: 4px;
   }
-
-  .profile-content {
-    margin-top: 8px;
-    margin-bottom: 16px;
+  a:last-child {
+    margin-right: 0;
   }
+}
 
-  .user-socials i {
-    font-size: 16px;
-    color: black;
+.user-socials {
+  text-align: center;
+  a {
+    margin-right: 4px;
   }
-
-  .orcid-logo {
-    width: 16px;
-    margin-top: -4px;
+  a:last-of-type {
+    margin-right: 0;
   }
+}
 
-  .content {
-    margin-bottom: 8px;
+.editor-coi-card {
+  ::ng-deep .ant-card-body {
+    padding: 0;
+    // prevent card body and descriptions container double width border
+    margin: 0 -1px -1px -1px;
   }
+}
 
-  .user-avatar {
-    text-align: center;
-  }
-
-  .user-socials {
-    text-align: center;
-  }
-
-  .user-name {
-    text-align: center;
-    font-size: 120%;
+.calculation-info {
+  padding: 12px;
+  max-width: 300px;
+  p:last-of-type {
+    margin-bottom: 0;
   }
 }
