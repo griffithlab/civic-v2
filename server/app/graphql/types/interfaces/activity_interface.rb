@@ -29,6 +29,16 @@ module Types::Interfaces
       Loaders::AssociationLoader.for(Activity, :subject).load(object)
     end
 
+    def note
+      Rails.cache.fetch(hash_key_from_object(object)) do
+        Actions::FormatCommentText.get_segments(text: object.note)
+      end
+    end
+
+    def hash_key_from_object(object)
+      "segments_#{object.class}_#{object.id}_#{object.updated_at}"
+    end
+
     orphan_types(
       Types::Activities::FlagEntityActivityType,
       Types::Activities::ResolveFlagActivityType,
