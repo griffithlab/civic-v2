@@ -1,0 +1,23 @@
+@import 'themes/global-variables.less';
+
+:host {
+  display: block;
+  ::ng-deep .news-cover-card {
+    .ant-card-meta-description {
+      color: @text-color;
+    }
+  }
+}
+
+.news-cover-image {
+  width: 100%;
+  max-height: 150px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  img {
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+  }
+}

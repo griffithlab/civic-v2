@@ -1,0 +1,64 @@
+<ng-container *ngIf="cvcNewsItems; else newsEmpty">
+  <nz-row [nzGutter]="[8, 16]">
+    <nz-col
+      *ngFor="let item of cvcNewsItems"
+      nzSpan="24">
+      <!-- TEXT-ONLY CARD -->
+      <nz-card
+        *ngIf="!item.imageUrl; else coverCard"
+        nzSize="small"
+        [nzTitle]="newsTitle"
+        [nzExtra]="newsDate">
+        <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+      </nz-card>
+
+      <!-- IMAGE/VIDEO CARD -->
+      <ng-template #coverCard>
+        <nz-card
+          [nzCover]="itemCover"
+          class="news-cover-card">
+          <nz-card-meta
+            [nzTitle]="item.title"
+            [nzDescription]="cardContent"></nz-card-meta>
+        </nz-card>
+        <ng-template #itemCover>
+          <div
+            class="news-cover-image"
+            style="background-image: url('{{ item.imageUrl }}')">
+            <img
+              class="news-cover-image"
+              [src]="item.imageUrl | nzSanitizer : 'url'" />
+          </div>
+        </ng-template>
+        <!-- <ng-container *ngTemplateOutlet="cardContent"></ng-container> -->
+      </ng-template>
+
+      <!-- HEADER/CONTENT/FOOTER TEMPLATES-->
+      <!-- title -->
+      <ng-template #newsTitle>
+        {{ item.title }}
+      </ng-template>
+      <!-- date -->
+      <ng-template #newsDate>
+        <span
+          nz-typography
+          nzType="secondary">
+          {{ item.date | date }}
+        </span>
+      </ng-template>
+      <!-- content -->
+      <ng-template #cardContent>
+        <!-- content -->
+        <ng-container *ngIf="item.text; else htmlText">
+          {{ item.text }}
+        </ng-container>
+        <ng-template #htmlText>
+          <span [innerHtml]="item.htmlText | nzSanitizer : 'html'"></span>
+        </ng-template>
+      </ng-template>
+    </nz-col>
+  </nz-row>
+</ng-container>
+<ng-template #newsEmpty>
+  <nz-empty></nz-empty>
+</ng-template>

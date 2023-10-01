@@ -18,6 +18,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcSiteStatsCardModule } from '@app/components/shared/site-stats-card/site-stats-card.module'
 import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-event-feed/homepage-event-feed.module'
+import { NewsItemListComponent } from './news-item-list/news-item-list.component'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { NzPipesModule } from 'ng-zorro-antd/pipes'
 
 @NgModule({
   imports: [
@@ -34,12 +37,14 @@ import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-even
     NzSpaceModule,
     NzStatisticModule,
     NzTypographyModule,
+    NzEmptyModule,
+    NzPipesModule,
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
     NgxJsonViewerModule,
   ],
-  declarations: [WelcomeComponent],
+  declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],
 })
 export class WelcomeModule {}
