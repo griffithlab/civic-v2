@@ -31,11 +31,7 @@
         <div
           *ngIf="item.imageUrl"
           class="news-cover-image"
-          style="background-image: url('{{ item.imageUrl }}')">
-          <img
-            class="news-cover-image"
-            [src]="item.imageUrl | nzSanitizer : 'url'" />
-        </div>
+          style="background-image: url('{{ item.imageUrl }}')"></div>
       </ng-template>
 
       <!-- content -->
