@@ -21,6 +21,8 @@ import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-even
 import { NewsItemListComponent } from './news-item-list/news-item-list.component'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzPipesModule } from 'ng-zorro-antd/pipes'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 @NgModule({
   imports: [
@@ -39,6 +41,8 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes'
     NzTypographyModule,
     NzEmptyModule,
     NzPipesModule,
+    NzDividerModule,
+    NzIconModule,
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,

@@ -3,41 +3,20 @@
     <nz-col
       *ngFor="let item of cvcNewsItems"
       nzSpan="24">
-      <!-- TEXT-ONLY CARD -->
       <nz-card
-        *ngIf="!item.imageUrl; else coverCard"
         nzSize="small"
         [nzTitle]="newsTitle"
         [nzExtra]="newsDate">
+        <ng-container *ngTemplateOutlet="cardImage"></ng-container>
         <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+        <ng-container *ngTemplateOutlet="cardLinkButton"></ng-container>
       </nz-card>
 
-      <!-- IMAGE/VIDEO CARD -->
-      <ng-template #coverCard>
-        <nz-card
-          [nzCover]="itemCover"
-          class="news-cover-card">
-          <nz-card-meta
-            [nzTitle]="item.title"
-            [nzDescription]="cardContent"></nz-card-meta>
-        </nz-card>
-        <ng-template #itemCover>
-          <div
-            class="news-cover-image"
-            style="background-image: url('{{ item.imageUrl }}')">
-            <img
-              class="news-cover-image"
-              [src]="item.imageUrl | nzSanitizer : 'url'" />
-          </div>
-        </ng-template>
-        <!-- <ng-container *ngTemplateOutlet="cardContent"></ng-container> -->
-      </ng-template>
-
-      <!-- HEADER/CONTENT/FOOTER TEMPLATES-->
       <!-- title -->
       <ng-template #newsTitle>
         {{ item.title }}
       </ng-template>
+
       <!-- date -->
       <ng-template #newsDate>
         <span
@@ -46,15 +25,48 @@
           {{ item.date | date }}
         </span>
       </ng-template>
+
+      <!-- image -->
+      <ng-template #cardImage>
+        <div
+          *ngIf="item.imageUrl"
+          class="news-cover-image"
+          style="background-image: url('{{ item.imageUrl }}')">
+          <img
+            class="news-cover-image"
+            [src]="item.imageUrl | nzSanitizer : 'url'" />
+        </div>
+      </ng-template>
+
       <!-- content -->
       <ng-template #cardContent>
-        <!-- content -->
+        <!-- default text -->
         <ng-container *ngIf="item.text; else htmlText">
           {{ item.text }}
         </ng-container>
+        <!-- HTML text -->
         <ng-template #htmlText>
           <span [innerHtml]="item.htmlText | nzSanitizer : 'html'"></span>
         </ng-template>
+      </ng-template>
+
+      <!-- link button -->
+      <ng-template #cardLinkButton>
+        <ng-container *ngIf="item.link && item.link.url">
+          <nz-divider> </nz-divider>
+          <a
+            [href]="item.link.url"
+            target="_blank"
+            nz-button
+            nzSize="small"
+            style="float: right">
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            {{ item.link.label ? item.link.label : 'More Information' }}
+          </a>
+        </ng-container>
       </ng-template>
     </nz-col>
   </nz-row>
