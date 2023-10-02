@@ -9,9 +9,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardUserType.connection_type, null: false
 
     scope do
-      user_base_query(
-        'revision suggested'
-      )
+      Leaderboard.user_base_query(Leaderboard.revision_actions)
     end
 
     setup_options

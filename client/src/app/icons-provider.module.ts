@@ -94,6 +94,7 @@ import {
   civicOncogenictypeOutline,
   civicOncogenicsignificanceOutline,
   civicOncogenicityOutline,
+  civicOrcid,
   civicOrganizationFullcolor,
   civicOrganizationOutline,
   civicOrganizationTwotone,
@@ -204,6 +205,7 @@ const iconLiterals = [
   civicOncogenictypeOutline,
   civicOncogenicsignificanceOutline,
   civicOncogenicityOutline,
+  civicOrcid,
   civicOrganizationOutline,
   civicOrganizationTwotone,
   civicPathogenicOutline,
@@ -309,6 +311,7 @@ export function getTheme(name: string): ThemeType | undefined {
   } else if (name.includes('Fill')) {
     return 'fill'
   } else {
-    return
+    // default to outline if none provided
+    return 'outline'
   }
 }

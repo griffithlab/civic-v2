@@ -150,7 +150,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
           })
         } else {
           this.formMessageDisplay$.next({
-            message: 'Variant does not exist, create it?',
+            message: `Variant '${str}' does not exist, create it?`,
           })
         }
       })

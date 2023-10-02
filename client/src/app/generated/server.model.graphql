@@ -3208,6 +3208,7 @@ type LeaderboardOrganization {
   orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
   rank: Int!
+  ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
 }
@@ -3255,6 +3256,11 @@ type LeaderboardOrganizationEdge {
   The item at the end of the edge.
   """
   node: LeaderboardOrganization
+}
+
+type LeaderboardRank {
+  actionCount: Int!
+  rank: Int!
 }
 
 type LeaderboardUser {
@@ -3342,6 +3348,7 @@ type LeaderboardUser {
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   rank: Int!
+  ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String
@@ -4685,6 +4692,7 @@ type Organization {
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
+  ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
 }
@@ -6279,6 +6287,13 @@ type Query {
     variantTypeIds: [Int!]
   ): VariantConnection!
   viewer: User
+}
+
+type Ranks {
+  commentsRank: LeaderboardRank!
+  moderationRank: LeaderboardRank!
+  revisionsRank: LeaderboardRank!
+  submissionsRank: LeaderboardRank!
 }
 
 enum ReadStatus {
@@ -7972,6 +7987,7 @@ type User {
   orcid: String
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
+  ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String

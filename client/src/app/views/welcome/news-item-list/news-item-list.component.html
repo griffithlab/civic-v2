@@ -1,0 +1,72 @@
+<ng-container *ngIf="cvcNewsItems; else newsEmpty">
+  <nz-row [nzGutter]="[8, 16]">
+    <nz-col
+      *ngFor="let item of cvcNewsItems"
+      nzSpan="24">
+      <nz-card
+        nzSize="small"
+        [nzTitle]="newsTitle"
+        [nzExtra]="newsDate">
+        <ng-container *ngTemplateOutlet="cardImage"></ng-container>
+        <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+        <ng-container *ngTemplateOutlet="cardLinkButton"></ng-container>
+      </nz-card>
+
+      <!-- title -->
+      <ng-template #newsTitle>
+        {{ item.title }}
+      </ng-template>
+
+      <!-- date -->
+      <ng-template #newsDate>
+        <span
+          nz-typography
+          nzType="secondary">
+          {{ item.date | date }}
+        </span>
+      </ng-template>
+
+      <!-- image -->
+      <ng-template #cardImage>
+        <div
+          *ngIf="item.imageUrl"
+          class="news-cover-image"
+          style="background-image: url('{{ item.imageUrl }}')"></div>
+      </ng-template>
+
+      <!-- content -->
+      <ng-template #cardContent>
+        <!-- default text -->
+        <ng-container *ngIf="item.text; else htmlText">
+          {{ item.text }}
+        </ng-container>
+        <!-- HTML text -->
+        <ng-template #htmlText>
+          <span [innerHtml]="item.htmlText | nzSanitizer : 'html'"></span>
+        </ng-template>
+      </ng-template>
+
+      <!-- link button -->
+      <ng-template #cardLinkButton>
+        <ng-container *ngIf="item.link && item.link.url">
+          <nz-divider> </nz-divider>
+          <a
+            [href]="item.link.url"
+            target="_blank"
+            nz-button
+            nzSize="small"
+            style="float: right">
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            {{ item.link.label ? item.link.label : 'More Information' }}
+          </a>
+        </ng-container>
+      </ng-template>
+    </nz-col>
+  </nz-row>
+</ng-container>
+<ng-template #newsEmpty>
+  <nz-empty></nz-empty>
+</ng-template>

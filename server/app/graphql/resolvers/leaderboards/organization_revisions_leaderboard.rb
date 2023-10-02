@@ -8,7 +8,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardOrganizationType.connection_type, null: false
 
     scope do
-      organization_base_query('revision suggested')
+      Leaderboard.organization_base_query(Leaderboard.revision_actions)
     end
 
     setup_options

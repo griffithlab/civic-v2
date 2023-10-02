@@ -1918,6 +1918,7 @@ export type LeaderboardOrganization = {
   orgStatsHash: Stats;
   profileImagePath?: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
+  ranks: Ranks;
   subGroups: Array<Organization>;
   url: Scalars['String'];
 };
@@ -1967,6 +1968,12 @@ export type LeaderboardOrganizationEdge = {
   node?: Maybe<LeaderboardOrganization>;
 };
 
+export type LeaderboardRank = {
+  __typename: 'LeaderboardRank';
+  actionCount: Scalars['Int'];
+  rank: Scalars['Int'];
+};
+
 export type LeaderboardUser = {
   __typename: 'LeaderboardUser';
   actionCount: Scalars['Int'];
@@ -1990,6 +1997,7 @@ export type LeaderboardUser = {
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
+  ranks: Ranks;
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -2894,6 +2902,7 @@ export type Organization = {
   orgAndSuborgsStatsHash: Stats;
   orgStatsHash: Stats;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   subGroups: Array<Organization>;
   url: Scalars['String'];
 };
@@ -3790,6 +3799,14 @@ export type QueryVariantsArgs = {
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantMenuSort>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type Ranks = {
+  __typename: 'Ranks';
+  commentsRank: LeaderboardRank;
+  moderationRank: LeaderboardRank;
+  revisionsRank: LeaderboardRank;
+  submissionsRank: LeaderboardRank;
 };
 
 export enum ReadStatus {
@@ -4846,6 +4863,7 @@ export type User = {
   orcid?: Maybe<Scalars['String']>;
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -5708,6 +5726,17 @@ export type OrganizationModerationLeaderboardQueryVariables = Exact<{
 
 export type OrganizationModerationLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
 
+export type OrganizationSubmissionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationSubmissionsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', submissionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -5959,6 +5988,17 @@ export type UserModerationLeaderboardQueryVariables = Exact<{
 
 
 export type UserModerationLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type UserSubmissionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserSubmissionsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', submissionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
 
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -7059,18 +7099,18 @@ export type OrganizationDetailQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } } | undefined };
+export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } } | undefined };
 
-export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } };
+export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } };
 
 export type OrganizationGroupsQueryVariables = Exact<{
   organizationId: Scalars['Int'];
 }>;
 
 
-export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> }> } | undefined };
+export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } }> } | undefined };
 
-export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> };
+export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } } };
 
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
@@ -7081,9 +7121,9 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
-export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
+export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -7140,9 +7180,9 @@ export type UserDetailQueryVariables = Exact<{
 }>;
 
 
-export type UserDetailQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined } | undefined };
+export type UserDetailQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined } | undefined };
 
-export type UserDetailFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined };
+export type UserDetailFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, moderationRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, revisionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number }, submissionsRank: { __typename: 'LeaderboardRank', rank: number, actionCount: number } }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined };
 
 export type UserNotificationsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -9452,6 +9492,24 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
     submittedAssertions
     acceptedAssertions
   }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
 }
     `;
 export const OrganizationGroupsFieldsFragmentDoc = gql`
@@ -9460,32 +9518,29 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
   name
   url
   description
-  profileImagePath(size: 12)
-  orgStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
-  orgAndSuborgsStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
+  profileImagePath(size: 128)
   subGroups {
     id
     name
     url
-    profileImagePath(size: 12)
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
 }
     `;
@@ -9495,7 +9550,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   name
   displayName
   username
-  profileImagePath(size: 32)
+  profileImagePath(size: 64)
   role
   url
   areaOfExpertise
@@ -9506,6 +9561,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   organizations {
     id
     name
+    url
   }
 }
     `;
@@ -9633,6 +9689,7 @@ export const UserDetailFieldsFragmentDoc = gql`
   organizations {
     id
     name
+    url
   }
   country {
     id
@@ -9647,6 +9704,24 @@ export const UserDetailFieldsFragmentDoc = gql`
     suggestedSources
     submittedAssertions
     acceptedAssertions
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
   mostRecentConflictOfInterestStatement {
     id
@@ -10660,6 +10735,46 @@ export const OrganizationModerationLeaderboardDocument = gql`
       super(apollo);
     }
   }
+export const OrganizationSubmissionsLeaderboardDocument = gql`
+    query OrganizationSubmissionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    submissionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationSubmissionsLeaderboardGQL extends Apollo.Query<OrganizationSubmissionsLeaderboardQuery, OrganizationSubmissionsLeaderboardQueryVariables> {
+    document = OrganizationSubmissionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const OrgPopoverDocument = gql`
     query OrgPopover($orgId: Int!) {
   organization(id: $orgId) {
@@ -11360,6 +11475,46 @@ export const UserModerationLeaderboardDocument = gql`
   })
   export class UserModerationLeaderboardGQL extends Apollo.Query<UserModerationLeaderboardQuery, UserModerationLeaderboardQueryVariables> {
     document = UserModerationLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserSubmissionsLeaderboardDocument = gql`
+    query UserSubmissionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    submissionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserSubmissionsLeaderboardGQL extends Apollo.Query<UserSubmissionsLeaderboardQuery, UserSubmissionsLeaderboardQueryVariables> {
+    document = UserSubmissionsLeaderboardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -14022,11 +14177,6 @@ export const OrganizationDetailDocument = gql`
 export const OrganizationGroupsDocument = gql`
     query OrganizationGroups($organizationId: Int!) {
   organization(id: $organizationId) {
-    id
-    name
-    url
-    description
-    profileImagePath(size: 256)
     subGroups {
       ...OrganizationGroupsFields
     }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { Maybe, ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
@@ -12,6 +12,8 @@ import { environment } from 'environments/environment'
   styleUrls: ['./viewer-button.component.less'],
 })
 export class CvcViewerButtonComponent {
+  @Input() cvcCollapsed: boolean = false
+
   viewer$: Observable<Viewer>
   unreadCount$: Observable<number>
 

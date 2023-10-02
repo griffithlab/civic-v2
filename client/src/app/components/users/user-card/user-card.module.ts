@@ -13,6 +13,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { CvcUserTagModule } from '../user-tag/user-tag.module'
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 
 @NgModule({
   declarations: [CvcUserCardComponent],
@@ -25,6 +26,7 @@ import { CvcUserTagModule } from '../user-tag/user-tag.module'
     NzSpaceModule,
     NzGridModule,
     NzDividerModule,
+    CvcTagOverflowModule,
     CvcUserAvatarModule,
     CvcLinkTagModule,
     CvcPipesModule,
