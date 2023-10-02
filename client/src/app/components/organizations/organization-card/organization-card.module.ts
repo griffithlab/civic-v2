@@ -21,6 +21,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { FormsModule } from '@angular/forms'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
 
 @NgModule({
   declarations: [CvcOrganizationCardComponent],
@@ -35,6 +36,8 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     NzDescriptionsModule,
     NzDividerModule,
     NzCheckboxModule,
+
+    CvcTagOverflowModule,
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,
     CvcDiseaseTagModule,

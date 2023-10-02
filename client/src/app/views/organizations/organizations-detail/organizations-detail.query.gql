@@ -35,4 +35,22 @@ fragment OrganizationDetailFields on Organization {
     submittedAssertions
     acceptedAssertions
   }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
 }

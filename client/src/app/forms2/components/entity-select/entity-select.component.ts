@@ -1,9 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ContentChild,
   EventEmitter,
   Input,
   OnChanges,
@@ -16,7 +14,6 @@ import { UntypedFormControl } from '@angular/forms'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { FormlyAttributeEvent } from '@ngx-formly/core/lib/models'
 import {
   NzSelectComponent,
   NzSelectOptionInterface,
@@ -25,15 +22,9 @@ import {
   asyncScheduler,
   BehaviorSubject,
   combineLatest,
-  debounceTime,
   distinctUntilChanged,
   map,
-  Observable,
-  pairwise,
-  ReplaySubject,
   shareReplay,
-  startWith,
-  Subject,
   tap,
   throttleTime,
 } from 'rxjs'
@@ -68,6 +59,8 @@ export type CvcEntitySelectMessageOptions = {
   emptyParamAll: CvcEntitySelectMessageFn
 }
 
+export type CvcAddEntityBehaviorFn = (searchStr: string, res: any[]) => boolean
+
 export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
   search: (entityName, query, _paramName) =>
     `Searching ${entityName} matching "${query}"...`,
@@ -76,7 +69,7 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
     `Searching ${paramName} ${entityName} matching "${query}"...`,
   searchParamAll: (entityName, _query, paramName) =>
     `Listing all ${paramName} ${entityName}...`,
-  searchEnterQuery: (entityName, query, paramName, minLength) =>
+  searchEnterQuery: (entityName, _query, paramName, minLength) =>
     `Enter at least ${minLength} characters to search ${paramName} ${entityName}`,
   searchEnterQueryAll: (entityName, _query, _paramName, minLength) =>
     `Enter at least least ${minLength} characters to search ${entityName}`,
@@ -121,17 +114,27 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Input() cvcCustomTemplate?: TemplateRef<any> | null = null
 
   // additional content displayed at bottom of options dropdown
-  @Input() cvcDropdownExtra?: TemplateRef<any> | null = null
+  //@Input() cvcDropdownExtra?: TemplateRef<any> | null = null
 
   // name of entity specified by optional param value, for constructing messages
   @Input() cvcParamName?: string | undefined
 
   // templateref w/ entity's quick-add form component
   @Input() cvcAddEntity: TemplateRef<any> | null = null
+
+  // add entity model will be passed to the add entity form template outlet context
   @Input() cvcAddEntityModel: any
 
-  @Input() cvcSelectOpen: Maybe<boolean>
+  // select will prompt user to enter a search string if < min search length
   @Input() cvcMinSearchStrLength: number = 0
+
+  // provide logic for displaying add form if it is more complex than
+  // displaying when no results returned.
+  @Input() cvcAddEntityBehavior: CvcAddEntityBehaviorFn = (s, res) =>
+    s.length > this.cvcMinSearchStrLength && res.length === 0
+
+  // pass-through to nz-select's nzOpen, passed from parent type's entity-select.mixin
+  @Input() cvcSelectOpen: Maybe<boolean>
   @Output() cvcOnOpenChange = new EventEmitter<boolean>()
 
   // throttle search string output: wait 1/3sec after typing activity ends,
@@ -154,15 +157,23 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   // SOURCE STREAMS
   onOpenChange$: BehaviorSubject<boolean>
 
+  // Presentation Streams
+  notFoundDisplay$: BehaviorSubject<NotFoundDisplay>
+
   messageOptions: CvcEntitySelectMessageOptions = cvcDefaultSelectMessageOptions
-  notFoundDisplay!: NotFoundDisplay
   previousIsOpen: boolean
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor() {
     this.onParamName$ = new BehaviorSubject<Maybe<string>>(undefined)
     this.onOption$ = new BehaviorSubject<NzSelectOptionInterface[]>([])
     this.onOpenChange$ = new BehaviorSubject<boolean>(false)
     this.onLoading$ = new BehaviorSubject<boolean>(false)
+    this.notFoundDisplay$ = new BehaviorSubject<NotFoundDisplay>({
+      searchStr: '',
+      showSpinner: true,
+      showAddForm: false,
+      message: `Searching ${this.cvcEntityName.plural}...`,
+    })
     this.previousIsOpen = false
   }
 
@@ -183,17 +194,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
       return
     }
     this.cvcSelectComponent.next(this.nzSelectComponent)
-
-    // set initial loading message
-    // FIXME: select's initial loading message flickers between the
-    // generic 'Searching...' set below, and the very next loading message.
-    // Should have everything needed to apply the correct initial msg fn here instead.
-    this.notFoundDisplay = {
-      searchStr: '',
-      showSpinner: true,
-      showAddForm: false,
-      message: `Searching ${this.cvcEntityName.plural}...`,
-    }
 
     this.onOpenChange$
       .pipe(untilDestroyed(this))
@@ -225,9 +225,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             const entityName = this.cvcEntityName.plural
             const minLength = this.cvcMinSearchStrLength
             const hasAddForm = this.cvcAddEntity !== null ? true : false
-
             const initialOpen = this.previousIsOpen === false && isOpen === true
-            // console.log('initialOpen: ', initialOpen)
 
             this.previousIsOpen = isOpen
 
@@ -238,18 +236,24 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
 
             // QUERY ENTERED, SEARCHING MESSAGE
             if (isLoading && searchStr.length >= minLength) {
+              // need to do form display logic here, otherwise add form will
+              // disappear and reappear in a distracting manner when entering search str
+              const showAddFormWhenSearching = this.cvcAddEntityBehavior(
+                searchStr,
+                this.cvcResults || []
+              )
+
               return this.getSelectSearchingDisplay(
                 searchStr,
                 entityName,
                 minLength,
-                paramName
+                paramName,
+                hasAddForm,
+                showAddFormWhenSearching
               )
             }
 
-            //
             // NOT FOUND MESSAGE / ADD ENTITY FORM
-            //
-            // [true, '', 'F9', Array(0), false]
             if (
               isOpen &&
               !isLoading &&
@@ -264,17 +268,20 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
               )
             }
 
-            //
+            // IDLE, DISPLAYING OPTIONS
             return {
               searchStr: '',
               showSpinner: false,
-              showAddForm: false,
-              message: '',
+              showAddForm:
+                hasAddForm &&
+                this.cvcAddEntityBehavior(searchStr, this.cvcResults || []),
+              message: '', // should never be displayed, since select will show options
             }
           }
         ),
         tap((display: NotFoundDisplay) => {
-          this.notFoundDisplay = display
+          console.log('NotFoundDisplay: ', display)
+          this.notFoundDisplay$.next(display)
         }),
         untilDestroyed(this)
       )
@@ -316,8 +323,10 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   getSelectSearchingDisplay(
     searchStr: string,
     entityName: string,
-    minLength: number,
-    paramName: Maybe<string>
+    _minLength: number,
+    paramName: Maybe<string>,
+    hasAddForm: boolean,
+    showAddForm: boolean = false
   ): NotFoundDisplay {
     let msgFn: CvcEntitySelectMessageFn = this.messageOptions.searchAll
     let showSpinner = true
@@ -335,7 +344,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
     return {
       message: msgFn(entityName, searchStr, paramName),
       showSpinner: showSpinner,
-      showAddForm: false,
+      showAddForm: hasAddForm && showAddForm,
       searchStr: searchStr,
     }
   }

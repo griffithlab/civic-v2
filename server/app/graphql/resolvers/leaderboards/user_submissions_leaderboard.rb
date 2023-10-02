@@ -9,10 +9,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardUserType.connection_type, null: false
 
     scope do
-      user_base_query(
-        'submitted',
-        'assertion submitted'
-      )
+      Leaderboard.user_base_query(Leaderboard.submission_actions)
     end
 
     setup_options

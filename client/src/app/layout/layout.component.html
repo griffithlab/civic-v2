@@ -298,9 +298,9 @@
             <span>
               <a
                 routerLink="/releases"
-                id="releases"
-                >Data Releases</a
-              >
+                id="releases">
+                Data Releases
+              </a>
             </span>
           </li>
         </ul>
@@ -325,7 +325,7 @@
   <nz-layout
     class="right-layout"
     [ngClass]="{ 'is-collapsed': isCollapsed }">
-    <nz-header>
+    <nz-header [ngClass]="{ 'is-collapsed': isCollapsed }">
       <div
         nz-row
         id="header-row">
@@ -344,13 +344,13 @@
         </div>
         <div
           nz-col
-          nzFlex="200px"
+          [nzFlex]="isCollapsed ? '90px' : '150px'"
           id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
         <div
           nz-col
-          nzFlex="1 0 250px"
+          nzFlex="1 0 auto"
           id="header-menu">
           <ul
             nz-menu
@@ -366,18 +366,28 @@
               nz-menu-item
               nzSelected
               nzMatchRouter>
-              <a routerLink="/pages/about">About CIViC</a>
+              <a routerLink="/pages/about">{{
+                isCollapsed ? 'About' : 'About CIViC'
+              }}</a>
             </li>
             <li
               nz-menu-item
               nzSelected
               nzMatchRouter>
-              <a target="_blank" href="https://docs.civicdb.org/">Documentation</a>
+              <a routerLink="/pages/help">Help</a>
             </li>
-            <li nz-menu-item
+            <li
+              nz-menu-item
               nzSelected
               nzMatchRouter>
-              <a routerLink="/pages/help">Help</a>
+              <a
+                target="_blank"
+                href="https://docs.civicdb.org/">
+                {{ isCollapsed ? 'Docs' : 'Documentation' }}
+                <i
+                  nz-icon
+                  nzType="link"></i>
+              </a>
             </li>
           </ul>
         </div>
@@ -387,7 +397,9 @@
           nzFlex="1 0 auto"
           id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
-          <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>
+          <cvc-viewer-button
+            *ngIf="signedIn$ | async"
+            [cvcCollapsed]="isCollapsed"></cvc-viewer-button>
         </div>
       </div>
     </nz-header>
