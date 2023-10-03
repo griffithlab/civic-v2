@@ -25569,6 +25569,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "alleleRegistryId",
+                  "description": "Find Molecular Profiles based on the ClinGen Allele Registry ID of one of its involed Variants",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
                   "type": {
@@ -27926,6 +27938,18 @@
                         "ofType": null
                       }
                     }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "alleleRegistryId",
+                  "description": "Find a CIViC Variant based on its ClinGen Allele Registry ID",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
