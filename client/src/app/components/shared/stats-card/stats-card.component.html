@@ -5,11 +5,14 @@
   let-iconTpl="iconTpl">
   <nz-statistic
     [nzTitle]="activityTitle"
-    [nzValue]="(activity.actionCount | number) || 0"
+    [nzValue]="activity ? (activity.actionCount | number) || 0 : 0"
     [nzPrefix]="iconTpl">
   </nz-statistic>
   <ng-template #activityTitle>
-    {{ title }} ({{ activity.rank | ordinal }})
+    {{ title }}
+      <ng-container *ngIf="activity">
+        ({{ activity.rank | ordinal }})
+      </ng-container>
   </ng-template>
 </ng-template>
 <ng-content
