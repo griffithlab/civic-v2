@@ -6291,10 +6291,10 @@ type Query {
 }
 
 type Ranks {
-  commentsRank: LeaderboardRank!
-  moderationRank: LeaderboardRank!
-  revisionsRank: LeaderboardRank!
-  submissionsRank: LeaderboardRank!
+  commentsRank: LeaderboardRank
+  moderationRank: LeaderboardRank
+  revisionsRank: LeaderboardRank
+  submissionsRank: LeaderboardRank
 }
 
 enum ReadStatus {
