@@ -19,7 +19,12 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
 
     if variants.size !=  variant_ids.size
       missing = variant_ids - variants.map(&:id)
-      raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+      raise GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+    end
+
+    deprecated_variants = variants.select { |v| v.deprecated? }
+    if deprecated_variants.any?
+      raise GraphQL::ExecutionError, "Variants [#{deprecated_variants.map(&:name).join(', ')}] are Deprecated and should not be used."
     end
 
     return true

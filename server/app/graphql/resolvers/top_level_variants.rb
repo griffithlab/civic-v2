@@ -26,6 +26,10 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
     end
   end
 
+  option(:allele_registry_id, type: GraphQL::Types::String, description: 'Find a CIViC Variant based on its ClinGen Allele Registry ID') do |scope, value|
+    scope.where(allele_registry_id: value)
+  end
+
   option(:has_no_variant_type, type: GraphQL::Types::Boolean, description: "Return Variants lacking an assigned VariantType") do |scope, value|
     if(value)
       scope.left_joins(:variant_types).where(variant_types: { id: nil })

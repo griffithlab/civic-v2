@@ -5683,6 +5683,11 @@ type Query {
     after: String
 
     """
+    Find Molecular Profiles based on the ClinGen Allele Registry ID of one of its involed Variants
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
@@ -6250,6 +6255,11 @@ type Query {
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
+
+    """
+    Find a CIViC Variant based on its ClinGen Allele Registry ID
+    """
+    alleleRegistryId: String
 
     """
     Returns the elements in the list that come before the specified cursor.
