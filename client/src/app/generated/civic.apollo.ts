@@ -3508,6 +3508,7 @@ export type QueryMolecularProfileArgs = {
 
 export type QueryMolecularProfilesArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
@@ -3791,6 +3792,7 @@ export type QueryVariantTypesArgs = {
 
 export type QueryVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;

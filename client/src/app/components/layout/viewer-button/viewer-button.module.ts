@@ -13,6 +13,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal'
 import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 
 @NgModule({
   declarations: [CvcViewerButtonComponent],
@@ -28,6 +30,8 @@ import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submi
     NzBadgeModule,
     NzToolTipModule,
     NzModalModule,
+    NzTypographyModule,
+    NzAvatarModule,
     CvcUserAvatarModule,
     CvcUserCoiFormModule,
     VariantSubmitFormModule,

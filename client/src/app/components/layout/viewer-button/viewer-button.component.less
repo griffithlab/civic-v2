@@ -37,6 +37,18 @@
   border: 1px solid @button-border;
 }
 
+li {
+  .org-name {
+    margin-left: 4px;
+  }
+  &.selected {
+    .org-name {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+}
+
 .viewer-btn {
   background-color: @button-background;
   border: none;
