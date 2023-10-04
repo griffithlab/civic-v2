@@ -86,6 +86,7 @@
     <ul nz-menu>
       <!-- INVALID COI STATEMENT GROUP -->
       <li
+        *ngIf="viewer.invalidCoi"
         nz-menu-group
         [nzTitle]="coiGroupTitle">
         <ng-template #coiGroupTitle>
@@ -98,7 +99,7 @@
             Conflict of Interest Invalid
           </span>
         </ng-template>
-        <ul *ngIf="viewer.invalidCoi">
+        <ul>
           <li nz-menu-item>
             <button
               *ngIf="viewer.invalidCoi"
@@ -142,11 +143,6 @@
             [routerLink]="['/users', viewer.id]">
             Edit Profile
           </li>
-          <li
-            nz-menu-item
-            (click)="signOut()">
-            Sign Out
-          </li>
         </ul>
       </li>
       <li
@@ -165,6 +161,12 @@
             <a href="/jobs"> Background Workers </a>
           </li>
         </ul>
+      </li>
+      <li nz-menu-divider></li>
+      <li
+        nz-menu-item
+        (click)="signOut()">
+        Sign Out
       </li>
     </ul>
   </nz-dropdown-menu>
