@@ -6,6 +6,10 @@ Trestle.resource(:therapies) do
   scope :all, default: true
   scope :without_ncit_id, -> { Therapy.where(ncit_id: nil) }
 
+  search do |q|
+    q ? collection.where("name ILIKE ? OR ncit_id ILIKE ?", "%#{q}%", "%#{q}%") : collection
+  end
+
   # Customize the table columns shown on the index view.
   table do
     column :id
