@@ -20,16 +20,11 @@ class InputAdaptors::EvidenceItemInputAdaptor
     query_fields.delete(:phenotype_ids)
 
     eid_query = EvidenceItem.where(query_fields)
-    if fields.phenotype_ids.any?
-      eid_query = eid_query.joins(:phenotypes).where("phenotypes.id" => fields.phenotype_ids)
-    end
-
-    if fields.therapy_ids.any?
-      eid_query = eid_query.joins(:therapies).where("therapies.id" => fields.therapy_ids)
-    end
 
     if eid = eid_query.first
-      errors << "Existing identical Evidence Item found: EID#{eid.id}"
+      if eid.therapy_ids.sort == fields.therapy_ids.sort && eid.phenotype_ids.sort == fields.phenotype_ids.sort
+        errors << "Existing identical Evidence Item found: EID#{eid.id}"
+      end
     end
 
     existing_phenotype_ids = Phenotype.where(id: fields.phenotype_ids).pluck(:id)
