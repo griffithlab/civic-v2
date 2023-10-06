@@ -1,60 +1,28 @@
-import { CommonModule } from '@angular/common'
-import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module'
-import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module'
-import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module'
-import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module'
-import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/multi-field.module'
-import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module'
-import { FormlyModule } from '@ngx-formly/core'
 import { NgModule } from '@angular/core'
-import { NgxJsonViewerModule } from 'ngx-json-viewer'
-import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { NzButtonModule } from 'ng-zorro-antd/button'
+import { CommonModule } from '@angular/common'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { NzGridModule } from 'ng-zorro-antd/grid'
-import { ReactiveFormsModule } from '@angular/forms'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { CvcForms2Module } from '@app/forms2/forms2.module'
+import { NgxJsonViewerModule } from 'ngx-json-viewer'
+import { CvcFormSubmissionStatusDisplayModule } from '@app/forms2/components/form-submission-status-display/form-submission-status-display.module'
 import { RouterModule } from '@angular/router'
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module'
-import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module'
-import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module'
-import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { VariantSubmitForm } from './variant-submit.form'
-import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module'
-import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant-input.module'
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 
 @NgModule({
   declarations: [VariantSubmitForm],
   imports: [
     CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    NgxJsonViewerModule,
+    PushPipe,
+    LetDirective,
     NzFormModule,
-    NzAlertModule,
-    NzGridModule,
     NzButtonModule,
-    NzSpinModule,
-    NzCardModule,
-    NzSpaceModule,
-    NzTypographyModule,
-    FormlyModule,
-    CvcFormErrorsAlertModule,
-    CvcFormButtonsModule,
-    CvcFormInfoWrapperModule,
-    CvcMultiFieldTypeModule,
-    CvcTextareaBaseTypeModule,
-    CvcCommentTextareaTypeModule,
-    CvcGeneArrayTypeModule,
-    CvcFormContainerWrapperModule,
-    CvcCancelButtonModule,
-    CvcSubmitButtonTypeModule,
-    CvcVariantInputTypeModule,
-    CvcVariantArrayTypeModule,
-    NgxJsonViewerModule,
+    NzAlertModule,
+    RouterModule,
+    CvcForms2Module,
+    CvcFormSubmissionStatusDisplayModule,
+    NgxJsonViewerModule, // debug
   ],
   exports: [VariantSubmitForm],
 })
