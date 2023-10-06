@@ -1,109 +1,108 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import {
-  AddVariantGQL,
-  AddVariantMutation,
-  AddVariantMutationVariables,
-  Maybe,
-} from '@app/generated/civic.apollo'
-import * as fmt from '@app/forms/config/utilities/input-formatters'
+import { CvcFieldGridWrapperConfig } from '@app/forms2/wrappers/field-grid/field-grid.wrapper'
+import { CvcVariantSelectFieldOption } from '@app/forms2/types/variant-select/variant-select.type'
+import { Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { Subject } from 'rxjs'
-import { EvidenceState } from '@app/forms/config/states/evidence.state'
-import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import { BehaviorSubject, Subject } from 'rxjs'
 import {
   FormGene,
   FormMolecularProfile,
   FormVariant,
 } from '../forms.interfaces'
-import { ActivatedRoute } from '@angular/router'
-import { takeUntil } from 'rxjs/operators'
+import { NzFormLayoutType } from 'ng-zorro-antd/form'
+import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
+import { Apollo, gql } from 'apollo-angular'
 
-interface FormModel {
-  fields: {
-    gene: FormGene[]
-    variant: FormVariant[]
-  }
+type VariantSubmitModel = {
+  geneId?: number
+  variantId?: number
 }
 
-export interface SelectedVariant {
-  variantId: number
-  molecularProfile: FormMolecularProfile
+type VariantSubmitState = {
+  formLayout: NzFormLayoutType
+  fields: EntityFieldSubjectMap
 }
+
+// interface FormModel {
+//   fields: {
+//     gene: FormGene[]
+//     variant: FormVariant[]
+//   }
+// }
+
+// export interface SelectedVariant {
+//   variantId: number
+//   molecularProfile: FormMolecularProfile
+// }
 
 @Component({
   selector: 'cvc-variant-submit-form',
   templateUrl: './variant-submit.form.html',
+  styleUrls: ['./variant-submit.form.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantSubmitForm implements OnDestroy, OnInit {
-  @Output() onVariantSelected = new EventEmitter<SelectedVariant>()
-  @Input() allowCreate: boolean = true
+export class VariantSubmitForm {
+  @Output() onVariantSelected = new EventEmitter<Variant>()
 
-  private destroy$ = new Subject<void>()
+  newVariant$ = new BehaviorSubject<Maybe<Variant>>(void 0)
+  modelChange$ = new BehaviorSubject<Maybe<VariantSubmitModel>>(undefined)
+  model: VariantSubmitModel
+  form: UntypedFormGroup
+  config: FormlyFieldConfig[]
+  layout: NzFormLayoutType = 'horizontal'
 
-  formModel!: FormModel
-  formGroup: UntypedFormGroup = new UntypedFormGroup({})
-  formFields: FormlyFieldConfig[] = []
-  formOptions: FormlyFormOptions = { formState: new EvidenceState() }
-
-  submitVariantMutator: MutatorWithState<
-    AddVariantGQL,
-    AddVariantMutation,
-    AddVariantMutationVariables
-  >
-
-  submittedGeneId: Maybe<number>
-  submittedVariantId: Maybe<number>
-
-  success: boolean = false
-  errorMessages: string[] = []
-  loading: boolean = false
-  newId?: number
-  isNew?: boolean
-
-  constructor(
-    private submitVariantGQL: AddVariantGQL,
-    private networkErrorService: NetworkErrorsService,
-    private route: ActivatedRoute
-  ) {
-    this.submitVariantMutator = new MutatorWithState(networkErrorService)
+  finderState: VariantSubmitState = {
+    formLayout: this.layout,
+    fields: {
+      geneId$: new BehaviorSubject<Maybe<number>>(undefined),
+      variantId$: new BehaviorSubject<Maybe<number>>(undefined),
+    },
   }
+  options: FormlyFormOptions
 
-  ngOnInit() {
-    this.formFields = [
+  constructor(private apollo: Apollo) {
+    this.form = new UntypedFormGroup({})
+    this.model = { geneId: undefined, variantId: undefined }
+    this.options = { formState: this.finderState }
+
+    this.config = [
       {
-        key: 'fields',
-        wrappers: ['form-container'],
-        templateOptions: {},
+        wrappers: ['field-grid'],
+        props: <CvcFieldGridWrapperConfig>{
+          grid: {
+            cols: 2,
+          },
+        },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
-            templateOptions: {
-              maxCount: 1,
-              required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Gene is required to select a variant.',
+            key: 'geneId',
+            type: 'gene-select',
+            props: {
+              placeholder: `Select New Variant's Gene`,
+              layout: {
+                showExtra: false,
               },
+              hideLabel: true,
             },
           },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
-              required: false,
-              maxCount: 1,
-              allowCreate: this.allowCreate,
+          <CvcVariantSelectFieldOption>{
+            key: 'variantId',
+            type: 'variant-select',
+            props: {
+              placeholder: 'Enter New Variant Name',
+              requireGene: true,
+              layout: {
+                showExtra: false,
+              },
+              hideLabel: true,
             },
           },
         ],
@@ -111,66 +110,49 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
     ]
   }
 
-  submitVariant(model: Maybe<FormModel>): void {
-    let geneId = model?.fields.gene[0].id
-    let name = model?.fields.variant[0].name
-    if (geneId && name) {
-      let input = {
-        geneId: geneId,
-        name: name,
+  modelChange(model: Maybe<VariantSubmitModel>) {
+    if (!model?.variantId) return
+    const variant = this.getSelectedVariant(model.variantId)
+    if (variant) {
+      this.model = {
+        geneId: undefined,
+        variantId: undefined,
       }
+      this.onVariantSelected.next(variant)
+      this.newVariant$.next(variant)
+    }
+  }
 
-      let state = this.submitVariantMutator.mutate(
-        this.submitVariantGQL,
-        input,
-        {},
-        (data) => {
-          let addVariantResult = data.addVariant
-          if (addVariantResult) {
-            this.newId = addVariantResult.variant.id
-            this.isNew = addVariantResult.new
-            this.onVariantSelected.emit({
-              variantId: addVariantResult.variant.id,
-              molecularProfile:
-                addVariantResult.variant.singleVariantMolecularProfile,
-            })
+  getSelectedVariant(variantId: Maybe<number>): Maybe<Variant> {
+    if (!variantId) return
+    const fragment = {
+      id: `Variant:${variantId}`,
+      fragment: gql`
+        fragment VariantSelectQuery on Variant {
+          id
+          name
+          link
+          variantAliases
+          singleVariantMolecularProfileId
+          singleVariantMolecularProfile {
+            id
+            name
+            link
+            molecularProfileAliases
           }
         }
-      )
-
-      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if (res) {
-          this.success = true
-        }
-      })
-
-      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if (errs) {
-          this.errorMessages = errs
-          this.success = false
-        }
-      })
-
-      state.isSubmitting$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((loading) => {
-          this.loading = loading
-        })
+      `,
     }
-  }
-
-  onFormModelChange(model: FormModel): void {
-    this.formModel = model
-    if (model.fields.variant && model.fields.variant[0]) {
-      this.onVariantSelected.emit({
-        variantId: model.fields.variant[0].id!,
-        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile,
-      })
+    let variant
+    try {
+      variant = this.apollo.client.readFragment(fragment) as Variant
+    } catch (err) {
+      console.error(err)
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.complete()
+    if (!variant) {
+      console.error(`MpFinderForm could not resolve its Variant from the cache`)
+      return
+    }
+    return variant
   }
 }
