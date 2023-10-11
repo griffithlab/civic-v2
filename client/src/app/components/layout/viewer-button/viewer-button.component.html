@@ -189,27 +189,28 @@
       <li
         nz-menu-item
         routerLink="/evidence/add/submit">
-        <a> Evidence Item </a>
+        Evidence Item
       </li>
       <li
         nz-menu-item
         routerLink="/assertions/add/submit">
-        <a> Assertion </a>
+        Assertion
       </li>
       <li
         nz-menu-item
         routerLink="/sources/add">
-        <a> Source Suggestion </a>
+        Source Suggestion
       </li>
       <li
         nz-menu-item
-        *ngIf="viewer.isEditor">
-        <a (click)="this.addVariantModalVisible = true"> Variant </a>
+        *ngIf="viewer.isEditor"
+        (click)="addVariantModalVisible$.next(true)">
+        Variant
       </li>
       <li
         nz-menu-item
         routerLink="/variant-groups/add/submit">
-        <a> Variant Group </a>
+        Variant Group
       </li>
     </ul>
   </nz-dropdown-menu>
@@ -231,11 +232,11 @@
 </nz-modal>
 
 <nz-modal
-  [(nzVisible)]="this.addVariantModalVisible"
+  [nzVisible]="addVariantModalVisible$ | ngrxPush"
   [nzContent]="variantModalContent"
   [nzTitle]="variantModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.addVariantModalVisible = false">
+  (nzOnCancel)="addVariantModalVisible$.next(false)">
   <ng-template #variantModalTitle><span>Add New Variant</span></ng-template>
   <ng-template #variantModalContent>
     <cvc-variant-submit-form></cvc-variant-submit-form>

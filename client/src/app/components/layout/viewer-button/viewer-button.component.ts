@@ -1,15 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { environment } from 'environments/environment'
-import { Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
 import { map, startWith, withLatestFrom } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-viewer-button',
   templateUrl: './viewer-button.component.html',
   styleUrls: ['./viewer-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcViewerButtonComponent implements OnInit {
   @Input() cvcCollapsed: boolean = false
@@ -19,7 +26,7 @@ export class CvcViewerButtonComponent implements OnInit {
 
   menuSelection$: Subject<number>
   coiUpdateModalVisible: boolean = false
-  addVariantModalVisible: boolean = false
+  addVariantModalVisible$: BehaviorSubject<boolean>
 
   constructor(
     private queryService: ViewerService,
@@ -43,6 +50,10 @@ export class CvcViewerButtonComponent implements OnInit {
           startWith(0)
         )
     }
+    this.addVariantModalVisible$ = new BehaviorSubject<boolean>(false)
+    this.addVariantModalVisible$
+      .pipe(tag('addVariantModalVisible$'))
+      .subscribe()
   }
 
   ngOnInit(): void {
