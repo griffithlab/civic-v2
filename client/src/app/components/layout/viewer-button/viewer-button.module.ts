@@ -15,6 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module'
 
 @NgModule({
   declarations: [CvcViewerButtonComponent],
@@ -34,6 +35,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
     NzAvatarModule,
     CvcUserAvatarModule,
     CvcUserCoiFormModule,
+    CvcOrganizationAvatarModule,
     VariantSubmitFormModule,
   ],
   exports: [CvcViewerButtonComponent],

@@ -55,18 +55,22 @@ li {
   color: #ccc;
   padding-left: 5px;
   padding-right: 10px;
-  cvc-user-avatar {
+  cvc-user-avatar,
+  cvc-organization-avatar {
     position: relative;
     top: -1px;
     left: 1px;
-    ::ng-deep .ant-avatar > img {
+    ::ng-deep nz-avatar {
       border-width: 1.5px;
       border-style: solid;
       border-color: @button-border;
-      border-radius: 22px;
     }
-    &.update-coi ::ng-deep .ant-avatar > img {
-      border-color: #f5222d;
-    }
+  }
+  cvc-user-avatar.update-coi ::ng-deep nz-avatar {
+    border-color: #f5222d;
+  }
+  .org-label {
+    margin: 0 -4px 0 0;
+    color: #aaaabb;
   }
 }

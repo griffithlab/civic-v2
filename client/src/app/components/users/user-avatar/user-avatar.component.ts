@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
 
 export interface WithProfileImageAndDisplayName {
   displayName: string
@@ -9,6 +14,7 @@ export interface WithProfileImageAndDisplayName {
   selector: 'cvc-user-avatar',
   templateUrl: './user-avatar.component.html',
   styleUrls: ['./user-avatar.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcUserAvatarComponent implements OnInit {
   @Input() user!: WithProfileImageAndDisplayName

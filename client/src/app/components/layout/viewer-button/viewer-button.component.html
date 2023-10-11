@@ -72,6 +72,20 @@
             {{ viewer.username }}
           </div>
         </ng-container>
+        <ng-container *ngIf="viewer.mostRecentOrg">
+          <span
+            *nzSpaceItem
+            class="org-label">
+            for
+          </span>
+          <span *nzSpaceItem>
+            <cvc-organization-avatar
+              [size]="18"
+              shape="square"
+              [organization]="viewer.mostRecentOrg">
+            </cvc-organization-avatar>
+          </span>
+        </ng-container>
         <i
           nz-icon
           nzType="caret-down"
@@ -120,8 +134,14 @@
         nzTitle="Curation">
         <ul>
           <li
+            nz-menu-item
+            nzMatchRouter
+            [routerLink]="['/users', viewer.id]">
+            Edit Profile
+          </li>
+          <li
             *ngIf="viewer.organizations.length > 1"
-            nz-submenu
+            nz-menu-group
             nzTitle="Change Organization">
             <ul>
               <li
@@ -136,12 +156,6 @@
                 <span class="org-name">{{ org.name }}</span>
               </li>
             </ul>
-          </li>
-          <li
-            nz-menu-item
-            nzMatchRouter
-            [routerLink]="['/users', viewer.id]">
-            Edit Profile
           </li>
         </ul>
       </li>
