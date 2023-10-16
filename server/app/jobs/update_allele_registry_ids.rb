@@ -14,6 +14,9 @@ class UpdateAlleleRegistryIds < AlleleRegistryIds
           v.allele_registry_id = allele_registry_id
           v.save
           add_allele_registry_link(allele_registry_id)
+        elsif old_allele_registry_id.present? && allele_registry_id.nil?
+          v.allele_registry_id = None
+          v.save
         end
         #delete the linkout if no other variant has this allele registry ID
         unless Variant.where(allele_registry_id: old_allele_registry_id).exists?
