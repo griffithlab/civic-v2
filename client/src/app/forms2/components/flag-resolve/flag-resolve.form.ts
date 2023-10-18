@@ -10,14 +10,16 @@ import {
   ResolveFlagMutationVariables,
   FlagFragment,
 } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable, Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-flag-resolve-form',
   templateUrl: './flag-resolve.form.html',
 })
-export class CvcFlagResolveForm implements OnInit, OnDestroy {
+export class CvcFlagResolveForm implements OnInit {
   @Input() flag!: FlagFragment
   @Input() flagResolvedCallback?: () => void
 
@@ -37,14 +39,12 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
     ResolveFlagMutationVariables
   >
 
-  private destroy$ = new Subject<void>()
-
   constructor(
     private gql: ResolveFlagGQL,
     private viewerService: ViewerService,
     private networkErrorService: NetworkErrorsService
   ) {
-    this.resolveFlagMutator = new MutatorWithState(networkErrorService)
+    this.resolveFlagMutator = new MutatorWithState(this.networkErrorService)
     this.viewer$ = this.viewerService.viewer$
   }
 
@@ -53,9 +53,11 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
       throw new Error('Must pass a Flag in to resolve component.')
     }
 
-    this.viewerService.viewer$.subscribe((v: Viewer) => {
-      this.selectedOrg = v.mostRecentOrg
-    })
+    this.viewerService.viewer$
+      .pipe(untilDestroyed(this))
+      .subscribe((v: Viewer) => {
+        this.selectedOrg = v.mostRecentOrg
+      })
   }
 
   onOrgSelected(org: Organization) {
@@ -72,7 +74,7 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
           organizationId: this.selectedOrg?.id,
         },
       })
-      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
         if (res) {
           this.flagResolvePopoverVisible = false
           this.success = true
@@ -81,18 +83,16 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
           }
         }
       })
-      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      state.submitError$.pipe(untilDestroyed(this)).subscribe((res) => {
         if (res.length > 0) {
           this.success = false
           this.errorMessages = res
         }
       })
 
-      state.isSubmitting$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((loading) => {
-          this.loading = loading
-        })
+      state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
+        this.loading = loading
+      })
     }
   }
 
@@ -101,10 +101,5 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
     if (this.flagResolvedCallback) {
       this.flagResolvedCallback()
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next()
-    this.destroy$.complete()
   }
 }

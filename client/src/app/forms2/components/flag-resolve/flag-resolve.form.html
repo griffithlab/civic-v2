@@ -92,7 +92,10 @@
                 cvcOrgSelectorBtn
                 nzType="primary"
                 nzSize="small"
-                [disabled]="!(this.comment !== undefined && this.comment.length >= 10)">
+                [disabled]="!(this.comment !== undefined && this.comment.length >= 10)"
+                nz-tooltip
+                [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
+                [nzTooltipTitle]="'For ' + selectedOrg?.name">
                 Resolve
               </button>
             </cvc-form-buttons>
