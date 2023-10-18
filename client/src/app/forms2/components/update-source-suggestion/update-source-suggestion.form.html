@@ -39,18 +39,15 @@
       nzTip="Submitting"
       [nzSpinning]="this.loading">
       <cvc-form-buttons>
-        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-          <button
-            type="submit"
-            nz-button
-            (click)="updateSourceSuggestionStatus()"
-            cvcOrgSelectorBtn
-            nzType="primary"
-            nzSize="small"
-            [disabled]="this.loading">
-            Update Source Suggestion status
-          </button>
-        </cvc-org-selector-btn-group>
+        <button
+          type="submit"
+          nz-button
+          (click)="updateSourceSuggestionStatus()"
+          nzType="primary"
+          nzSize="small"
+          [disabled]="this.loading">
+          Update Source Suggestion status
+        </button>
       </cvc-form-buttons>
     </nz-spin>
   </nz-space>

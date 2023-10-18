@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module'
+import { CvcFormErrorsAlertModule } from '@app/forms2/components/form-errors-alert/form-errors-alert.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { SourceSelectorLoaderComponent } from './source-selector-loader.component'
 

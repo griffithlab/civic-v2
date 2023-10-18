@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
-import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module'
-import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module'
+import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
+import { CvcFormErrorsAlertModule } from '@app/forms2/components/form-errors-alert/form-errors-alert.module'
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module'
 import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/multi-field.module'
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module'
