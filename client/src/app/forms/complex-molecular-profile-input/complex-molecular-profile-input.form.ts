@@ -33,7 +33,7 @@ import { pluck } from 'rxjs-etc/operators'
 import { QueryRef } from 'apollo-angular'
 import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser'
 import { isNonNulled } from 'rxjs-etc'
-import { SelectedVariant } from '../variant-submit/variant-submit.form'
+import { SelectedVariant } from '@app/forms2/config/variant-submit/variant-submit.form'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
@@ -146,7 +146,7 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
       map((search) => search.map(res => {return {displayName: res.name, value: `VID${res.id}`}})),
       takeUntil(this.destroy$)
     ).subscribe((res) => this.suggestions = res)
-    
+
     this.typeaheadQueryRef.valueChanges.pipe(
       pluck('loading'),
       filter(isNonNulled),

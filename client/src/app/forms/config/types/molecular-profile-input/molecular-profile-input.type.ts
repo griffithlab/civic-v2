@@ -7,7 +7,7 @@ import {
 import { UntypedFormControl } from '@angular/forms'
 import { CvcComplexMolecularProfileInputForm } from '@app/forms/complex-molecular-profile-input/complex-molecular-profile-input.form'
 import { FormMolecularProfile } from '@app/forms/forms.interfaces'
-import { SelectedVariant } from '@app/forms/variant-submit/variant-submit.form'
+import { SelectedVariant } from '@app/forms2/config/variant-submit/variant-submit.form'
 import { FieldType } from '@ngx-formly/core'
 import { TypeOption } from '@ngx-formly/core/lib/models'
 

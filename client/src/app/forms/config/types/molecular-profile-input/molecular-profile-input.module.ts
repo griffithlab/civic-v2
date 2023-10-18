@@ -10,7 +10,7 @@ import {
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcComplexMolecularProfileInputFormModule } from '@app/forms/complex-molecular-profile-input/complex-molecular-profile-input.module'
 import { CvcVariantInputTypeModule } from '../variant-input/variant-input.module'
-import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module'
+import { VariantSubmitFormModule } from '@app/forms2/config/variant-submit/variant-submit.module'
 import { NzCardModule } from 'ng-zorro-antd/card'
 
 @NgModule({
