@@ -1,14 +1,13 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcModerateEntityButtonsComponent } from './moderate-entity-buttons.component'
-import { NzButtonModule } from 'ng-zorro-antd/button'
-import { LetDirective, PushPipe } from '@ngrx/component'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
+import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcModerateEntityButtonsComponent } from './moderate-entity-buttons.component'
 
 @NgModule({
   declarations: [CvcModerateEntityButtonsComponent],
@@ -23,7 +22,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
     NzGridModule,
     LetDirective,
     PushPipe,
-    CvcOrgSelectorBtnGroupModule,
   ],
   exports: [CvcModerateEntityButtonsComponent],
 })

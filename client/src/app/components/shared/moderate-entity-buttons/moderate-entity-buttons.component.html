@@ -2,21 +2,25 @@
   <nz-spin [nzSpinning]="isSubmitting">
     <button
       *ngIf="viewer.canModerate"
-      cvcOrgSelectorBtn
       nzType="primary"
       nzSize="large"
       nz-button
-      (click)="moderate(evidenceStatuses.Accepted)">
+      (click)="moderate(evidenceStatuses.Accepted)"
+      nz-tooltip
+      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
       Accept {{ entityType }}
     </button>
     &nbsp;
     <button
-      cvcOrgSelectorBtn
       nzDanger
       nzType="primary"
       nzSize="large"
       nz-button
-      (click)="moderate(evidenceStatuses.Rejected)">
+      (click)="moderate(evidenceStatuses.Rejected)"
+      nz-tooltip
+      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
       Reject {{ entityType }}
     </button>
   </nz-spin>
