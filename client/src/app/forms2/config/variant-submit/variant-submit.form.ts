@@ -16,7 +16,7 @@ import {
   FormGene,
   FormMolecularProfile,
   FormVariant,
-} from '../../../forms/forms.interfaces'
+} from '@app/forms2/forms2.interfaces'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms2/states/base.state'
 import { Apollo, gql } from 'apollo-angular'

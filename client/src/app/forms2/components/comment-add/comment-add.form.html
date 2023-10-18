@@ -21,17 +21,15 @@
       <nz-form-item>
         <nz-form-control>
           <cvc-form-buttons>
-            <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-              <button
-                type="submit"
-                nz-button
-                cvcOrgSelectorBtn
-                nzType="primary"
-                nzSize="small"
-                [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)">
-                Add Comment
-              </button>
-            </cvc-org-selector-btn-group>
+            <button
+              type="submit"
+              nz-button
+              cvcOrgSelectorBtn
+              nzType="primary"
+              nzSize="small"
+              [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)">
+              Add Comment
+            </button>
           </cvc-form-buttons>
         </nz-form-control>
       </nz-form-item>

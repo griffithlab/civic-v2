@@ -11,7 +11,7 @@ import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
   toNullableInput,
   toNullableString,
-} from '@app/forms/config/utilities/input-formatters'
+} from '@app/forms2/utilities/input-formatters'
 import {
   AreaOfExpertise,
   CountriesGQL,

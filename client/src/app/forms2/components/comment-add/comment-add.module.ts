@@ -9,7 +9,6 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 
 import { CvcCommentAddForm } from './comment-add.form'
 import { CvcFormErrorsAlertModule } from '@app/forms2/components/form-errors-alert/form-errors-alert.module'
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
 import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcCommentTextareaTypeModule } from '@app/forms2/types/comment-textarea/comment-textarea.module'
@@ -38,7 +37,6 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     FormsModule,
     FormlyModule,
     CvcFormErrorsAlertModule,
-    CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcCommentBodyModule,
     CvcCommentTextareaTypeModule,

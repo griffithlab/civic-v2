@@ -5,7 +5,6 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcCommentInputForm } from './comment-input.form'
 import { CvcFormErrorsAlertModule } from '@app/forms2/components/form-errors-alert/form-errors-alert.module'
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
 import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcCommentTextareaTypeModule } from '@app/forms2/types/comment-textarea/comment-textarea.module'
@@ -30,7 +29,6 @@ import { NzMentionModule } from 'ng-zorro-antd/mention'
     NzMentionModule,
     FormsModule,
     CvcFormErrorsAlertModule,
-    CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcCommentBodyModule,
     CvcCommentTextareaTypeModule,
