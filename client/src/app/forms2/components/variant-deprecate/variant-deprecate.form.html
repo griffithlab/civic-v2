@@ -102,14 +102,10 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="
-                      !(
-                        this.comment !== undefined && this.comment.length >= 10
-                      ) ||
-                      !viewer.signedIn ||
-                      !viewer.isEditor ||
-                      !this.reason
-                    ">
+                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !this.reason "
+                  nz-tooltip
+                  [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
+                  [nzTooltipTitle]="'For ' + selectedOrg?.name">
                   Deprecate Variant
                 </button>
               </ng-template>

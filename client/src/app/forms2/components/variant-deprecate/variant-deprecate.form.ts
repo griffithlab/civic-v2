@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core'
 import {
   DeprecateVariantGQL,
   DeprecateVariantMutation,
@@ -18,10 +24,13 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { isNonNulled } from 'rxjs-etc'
 import { isDefined } from '@app/core/utilities/defined-typeguard'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-variant-deprecate-form',
   templateUrl: './variant-deprecate.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantDeprecateForm implements OnDestroy, OnInit {
   @Input() variantId!: number
@@ -64,9 +73,11 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.viewerService.viewer$.subscribe((v: Viewer) => {
-      this.selectedOrg = v.mostRecentOrg
-    })
+    this.viewerService.viewer$
+      .pipe(untilDestroyed(this))
+      .subscribe((v: Viewer) => {
+        this.selectedOrg = v.mostRecentOrg
+      })
 
     if (this.variantId === undefined) {
       throw new Error('Must pass a variant id into deprecate variant component')
@@ -101,10 +112,6 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
     )
 
     this.mpListLoading$ = queryRef.pipe(map(({ loading }) => loading))
-  }
-
-  onOrgSelected(org: Organization) {
-    this.selectedOrg = org
   }
 
   deprecateVariant(): void {
