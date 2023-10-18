@@ -1,8 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core'
@@ -22,28 +22,18 @@ import {
   ModerateEvidenceItemGQL,
   ModerateEvidenceItemMutation,
   ModerateEvidenceItemMutationVariables,
-  SubscribableEntities,
-  SubscribableInput,
-  SubscribeGQL,
-  SubscribeMutation,
-  SubscribeMutationVariables,
-  SubscriptionForEntityGQL,
-  SubscriptionForEntityQuery,
-  SubscriptionForEntityQueryVariables,
-  SubscriptionIdFragment,
-  UnsubscribeGQL,
-  UnsubscribeMutation,
-  UnsubscribeMutationVariables,
 } from '@app/generated/civic.apollo'
-import { Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { BehaviorSubject } from 'rxjs'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-moderate-entity-buttons',
   templateUrl: './moderate-entity-buttons.component.html',
   styleUrls: ['./moderate-entity-buttons.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
+export class CvcModerateEntityButtonsComponent implements OnInit {
   @Input() viewer!: Viewer
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
   @Input() entityId!: number
@@ -68,16 +58,39 @@ export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
   showConfirm = false
 
   mostRecentOrg: Maybe<Organization>
-
-  destroy$ = new Subject<void>()
-
+  mostRecentOrg$: BehaviorSubject<Maybe<Organization>>
   constructor(
     private revertEvidenceGQL: ModerateEvidenceItemGQL,
     private revertAssertionGQL: ModerateAssertionGQL,
     private networkErrorService: NetworkErrorsService
   ) {
-    this.moderateAssertionMutator = new MutatorWithState(networkErrorService)
-    this.moderateEvidenceMutator = new MutatorWithState(networkErrorService)
+    this.moderateAssertionMutator = new MutatorWithState(
+      this.networkErrorService
+    )
+    this.moderateEvidenceMutator = new MutatorWithState(
+      this.networkErrorService
+    )
+    this.mostRecentOrg$ = new BehaviorSubject<Maybe<Organization>>(undefined)
+  }
+
+  ngOnInit() {
+    if (this.viewer === undefined) {
+      throw new Error(
+        'Must pass in a viewer to the CvcEntitySubscriptionButtonComponent'
+      )
+    }
+    if (this.entityId === undefined) {
+      throw new Error(
+        'Must pass in an id to the CvcEntitySubscriptionButtonComponent'
+      )
+    }
+    if (this.entityType === undefined) {
+      throw new Error(
+        'Must pass in an entityType to the CvcEntitySubscriptionButtonComponent'
+      )
+    }
+
+    this.mostRecentOrg = this.viewer.mostRecentOrg
   }
 
   moderate(newStatus: EvidenceStatus) {
@@ -102,7 +115,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
       })
     }
 
-    state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+    state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res) {
         this.isSubmitting = false
         this.showConfirm = false
@@ -110,7 +123,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
       }
     })
 
-    state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+    state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
       if (errs) {
         this.isSubmitting = false
         this.showConfirm = false
@@ -118,33 +131,8 @@ export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
       }
     })
 
-    state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+    state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
       this.isSubmitting = loading
     })
-  }
-
-  ngOnInit() {
-    if (this.viewer === undefined) {
-      throw new Error(
-        'Must pass in a viewer to the CvcEntitySubscriptionButtonComponent'
-      )
-    }
-    if (this.entityId === undefined) {
-      throw new Error(
-        'Must pass in an id to the CvcEntitySubscriptionButtonComponent'
-      )
-    }
-    if (this.entityType === undefined) {
-      throw new Error(
-        'Must pass in an entityType to the CvcEntitySubscriptionButtonComponent'
-      )
-    }
-
-    this.mostRecentOrg = this.viewer.mostRecentOrg
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next()
-    this.destroy$.complete()
   }
 }
