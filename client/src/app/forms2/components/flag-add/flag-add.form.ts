@@ -1,4 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
@@ -10,14 +15,16 @@ import {
   Maybe,
   Organization,
 } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable, Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-flag-add-form',
   templateUrl: './flag-add.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcFlagAddForm implements OnInit, OnDestroy {
+export class CvcFlagAddForm implements OnInit {
   @Input() flaggable!: FlaggableInput
   @Input() flagAddedCallback?: () => void
 
@@ -36,18 +43,18 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
     FlagEntityMutationVariables
   >
 
-  private destroy$ = new Subject<void>()
-
   constructor(
     private gql: FlagEntityGQL,
     private viewerService: ViewerService,
     private networkErrorService: NetworkErrorsService
   ) {
-    this.addFlagMutator = new MutatorWithState(networkErrorService)
+    this.addFlagMutator = new MutatorWithState(this.networkErrorService)
     this.viewer$ = this.viewerService.viewer$
-    this.viewerService.viewer$.subscribe((v: Viewer) => {
-      this.selectedOrg = v.mostRecentOrg
-    })
+    this.viewerService.viewer$
+      .pipe(untilDestroyed(this))
+      .subscribe((v: Viewer) => {
+        this.selectedOrg = v.mostRecentOrg
+      })
   }
 
   ngOnInit() {
@@ -73,7 +80,7 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
     }
 
     let state = this.addFlagMutator.mutate(this.gql, { input: input })
-    state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+    state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res) {
         if (this.flagAddedCallback) {
           this.flagAddedCallback()
@@ -82,23 +89,18 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
         this.comment = ''
       }
     })
-    state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+    state.submitError$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res.length > 0) {
         this.errorMessages = res
       }
     })
 
-    state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+    state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
       this.loading = loading
     })
   }
 
   onSuccessBannerClose() {
     this.success = false
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next()
-    this.destroy$.complete()
   }
 }

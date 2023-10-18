@@ -47,7 +47,10 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn">
+                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn"
+                  nz-tooltip
+                  [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
+                  [nzTooltipTitle]="'For ' + selectedOrg?.name">
                   Flag {{ this.flaggable.entityType | enumToTitle }}
                 </button>
               </ng-template>
