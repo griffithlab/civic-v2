@@ -27,7 +27,10 @@
               cvcOrgSelectorBtn
               nzType="primary"
               nzSize="small"
-              [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)">
+              [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)"
+              nz-tooltip
+              [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+              [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
               Add Comment
             </button>
           </cvc-form-buttons>

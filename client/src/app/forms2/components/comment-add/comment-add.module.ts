@@ -1,24 +1,22 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
 import { FormlyModule } from '@ngx-formly/core'
-
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form'
-
-import { CvcCommentAddForm } from './comment-add.form'
-import { CvcFormErrorsAlertModule } from '@app/forms2/components/form-errors-alert/form-errors-alert.module'
-import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
-import { NzButtonModule } from 'ng-zorro-antd/button'
-import { CvcCommentTextareaTypeModule } from '@app/forms2/types/comment-textarea/comment-textarea.module'
-import { NzTabsModule } from 'ng-zorro-antd/tabs'
-import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
-import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzMentionModule } from 'ng-zorro-antd/mention'
 import { CvcCommentInputFormModule } from '@app/forms2/components/comment-input/comment-input.module'
+import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
+import { CvcFormErrorsAlertModule } from '@app/forms2/components/form-errors-alert/form-errors-alert.module'
+import { CvcCommentTextareaTypeModule } from '@app/forms2/types/comment-textarea/comment-textarea.module'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzMentionModule } from 'ng-zorro-antd/mention'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcCommentAddForm } from './comment-add.form'
 
 @NgModule({
   declarations: [CvcCommentAddForm],
@@ -34,6 +32,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
     NzSpinModule,
     NzMentionModule,
     NzAlertModule,
+    NzToolTipModule,
     FormsModule,
     FormlyModule,
     CvcFormErrorsAlertModule,

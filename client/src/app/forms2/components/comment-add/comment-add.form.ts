@@ -23,19 +23,19 @@ import {
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-comment-add-form',
   templateUrl: './comment-add.form.html',
   styleUrls: ['./comment-add.form.less'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CvcCommentAddForm implements OnDestroy {
+export class CvcCommentAddForm {
   @Input() subject!: CommentableInput
   @Output() commentAddedEvent = new EventEmitter<void>()
 
-  private destroy$ = new Subject<void>()
-  organizations!: Array<Organization>
   mostRecentOrg!: Maybe<Organization>
 
   success: boolean = false
@@ -57,17 +57,12 @@ export class CvcCommentAddForm implements OnDestroy {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(untilDestroyed(this))
       .subscribe((v: Viewer) => {
-        this.organizations = v.organizations
         this.mostRecentOrg = v.mostRecentOrg
       })
 
-    this.addCommentMutator = new MutatorWithState(networkErrorService)
-  }
-
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org
+    this.addCommentMutator = new MutatorWithState(this.networkErrorService)
   }
 
   submitComment(): void {
@@ -84,25 +79,23 @@ export class CvcCommentAddForm implements OnDestroy {
         input: newCommentInput,
       })
 
-      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
         if (res) {
           this.resetForm()
           this.success = true
         }
       })
 
-      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+      state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
         if (errs) {
           this.errorMessages = errs
           this.success = false
         }
       })
 
-      state.isSubmitting$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((loading) => {
-          this.loading = loading
-        })
+      state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
+        this.loading = loading
+      })
     }
   }
 
@@ -113,10 +106,5 @@ export class CvcCommentAddForm implements OnDestroy {
 
   onSuccessBannerClose() {
     this.resetForm()
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.complete()
   }
 }
