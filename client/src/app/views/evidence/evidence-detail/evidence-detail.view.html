@@ -96,7 +96,6 @@
           <span *nzSpaceItem>
             <cvc-revert-entity-button
               *ngIf="viewer.canModerate && evidence.status !='SUBMITTED'"
-              [viewer]="viewer"
               entityType="EvidenceItem"
               [entityId]="evidence.id"
               (onReverted)="onRevertCompleted($event)">
