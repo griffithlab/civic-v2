@@ -86,18 +86,15 @@
         <nz-form-item>
           <nz-form-control>
             <cvc-form-buttons>
-              <cvc-org-selector-btn-group
-                (selectedOrgChange)="onOrgSelected($event)">
-                <button
-                  type="submit"
-                  nz-button
-                  cvcOrgSelectorBtn
-                  nzType="primary"
-                  nzSize="small"
-                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10)">
-                  Resolve
-                </button>
-              </cvc-org-selector-btn-group>
+              <button
+                type="submit"
+                nz-button
+                cvcOrgSelectorBtn
+                nzType="primary"
+                nzSize="small"
+                [disabled]="!(this.comment !== undefined && this.comment.length >= 10)">
+                Resolve
+              </button>
             </cvc-form-buttons>
           </nz-form-control>
         </nz-form-item>

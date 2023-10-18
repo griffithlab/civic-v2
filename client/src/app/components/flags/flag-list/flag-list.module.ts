@@ -12,7 +12,7 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
-import { CvcResolveFlagFormModule } from '@app/forms/flag-resolve/flag-resolve.module'
+import { CvcResolveFlagFormModule } from '@app/forms2/components/flag-resolve/flag-resolve.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
