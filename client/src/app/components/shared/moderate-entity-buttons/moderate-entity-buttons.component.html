@@ -1,7 +1,7 @@
-<div class="center">
+<ng-container *ngrxLet="viewer$ as viewer">
   <nz-spin [nzSpinning]="isSubmitting">
     <button
-      *ngIf="!rejectOnly"
+      *ngIf="viewer.canModerate"
       cvcOrgSelectorBtn
       nzType="primary"
       nzSize="large"
@@ -19,6 +19,5 @@
       (click)="moderate(evidenceStatuses.Rejected)">
       Reject {{ entityType }}
     </button>
-    <pre>{{ mostRecentOrg?.name }}</pre>
   </nz-spin>
-</div>
+</ng-container>

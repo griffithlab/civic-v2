@@ -3,11 +3,13 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { Viewer } from '@app/core/services/viewer/viewer.service'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   MutationState,
   MutatorWithState,
@@ -24,7 +26,8 @@ import {
   ModerateEvidenceItemMutationVariables,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { BehaviorSubject } from 'rxjs'
+import { Observable } from 'rxjs'
+import { pluck } from 'rxjs-etc/dist/esm/operators'
 
 @UntilDestroy()
 @Component({
@@ -33,11 +36,9 @@ import { BehaviorSubject } from 'rxjs'
   styleUrls: ['./moderate-entity-buttons.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcModerateEntityButtonsComponent implements OnInit {
-  @Input() viewer!: Viewer
+export class CvcModerateEntityButtonsComponent implements OnInit, OnChanges {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
   @Input() entityId!: number
-  @Input() rejectOnly: boolean = false
 
   @Output() onModerated = new EventEmitter<EvidenceStatus | string[]>()
 
@@ -58,11 +59,12 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
   showConfirm = false
 
   mostRecentOrg: Maybe<Organization>
-  mostRecentOrg$: BehaviorSubject<Maybe<Organization>>
+  viewer$: Observable<Viewer>
   constructor(
     private revertEvidenceGQL: ModerateEvidenceItemGQL,
     private revertAssertionGQL: ModerateAssertionGQL,
-    private networkErrorService: NetworkErrorsService
+    private networkErrorService: NetworkErrorsService,
+    private viewerService: ViewerService
   ) {
     this.moderateAssertionMutator = new MutatorWithState(
       this.networkErrorService
@@ -70,15 +72,10 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
     this.moderateEvidenceMutator = new MutatorWithState(
       this.networkErrorService
     )
-    this.mostRecentOrg$ = new BehaviorSubject<Maybe<Organization>>(undefined)
+    this.viewer$ = this.viewerService.viewer$
   }
 
   ngOnInit() {
-    if (this.viewer === undefined) {
-      throw new Error(
-        'Must pass in a viewer to the CvcEntitySubscriptionButtonComponent'
-      )
-    }
     if (this.entityId === undefined) {
       throw new Error(
         'Must pass in an id to the CvcEntitySubscriptionButtonComponent'
@@ -89,8 +86,15 @@ export class CvcModerateEntityButtonsComponent implements OnInit {
         'Must pass in an entityType to the CvcEntitySubscriptionButtonComponent'
       )
     }
+    this.viewer$
+      .pipe(pluck('mostRecentOrg'), untilDestroyed(this))
+      .subscribe((org) => (this.mostRecentOrg = org))
+  }
 
-    this.mostRecentOrg = this.viewer.mostRecentOrg
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.viewer) {
+      console.log('*** viewer updated ***', changes.viewer.currentValue)
+    }
   }
 
   moderate(newStatus: EvidenceStatus) {

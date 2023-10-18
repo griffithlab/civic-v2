@@ -136,10 +136,8 @@
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons
               entityType="Assertion"
-              [rejectOnly]="!viewer.canModerate"
               [entityId]="assertion.id"
-              (onModerated)="onModerateCompleted($event)"
-              [viewer]="viewer">
+              (onModerated)="onModerateCompleted($event)">
             </cvc-moderate-entity-buttons>
           </span>
           <span *nzSpaceItem></span>

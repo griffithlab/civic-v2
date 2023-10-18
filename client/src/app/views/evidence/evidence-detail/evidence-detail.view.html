@@ -103,13 +103,15 @@
             </cvc-revert-entity-button>
           </span>
           <span *nzSpaceItem>
-            <button *ngIf="viewer.canCurate"
+            <button
+              *ngIf="viewer.canCurate"
               routerLink="/evidence/add/submit"
               [queryParams]="{ existingEvidenceId: evidence.id }"
               nz-button
               nz-tooltip
               nzTooltipTitle="Clone This EID"
-              nzSize="small"> <i
+              nzSize="small">
+              <i
                 nz-icon
                 nzType="copy"></i>
             </button>
@@ -156,14 +158,12 @@
           *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons
-              [rejectOnly]="!viewer.canModerate"
               entityType="EvidenceItem"
               [entityId]="evidence.id"
-              (onModerated)="onModerateCompleted($event)"
-              [viewer]="viewer">
+              (onModerated)="onModerateCompleted($event)">
             </cvc-moderate-entity-buttons>
           </span>
-          <span *nzSpaceItem> </span>
+          <span *nzSpaceItem></span>
         </nz-space>
         <div class="content">
           <router-outlet></router-outlet>
