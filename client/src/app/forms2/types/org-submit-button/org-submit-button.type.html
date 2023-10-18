@@ -5,9 +5,15 @@
   [formlyAttributes]="field" />
 
 <button
+  *ngrxLet="mostRecentOrg$ as organization"
+  cvcOrgSubmitButton
   type="submit"
   nz-button
   [disabled]="!form.valid"
-  nzType="primary">
+  [nzDanger]=""
+  nzType="primary"
+  nz-tooltip
+  [nzTooltipTrigger]="organization ? 'hover' : null"
+  [nzTooltipTitle]="'For ' + organization?.name">
   {{ props.submitLabel }}
 </button>

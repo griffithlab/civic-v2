@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { FormlyModule } from '@ngx-formly/core'
 import { ConfigOption } from '@ngx-formly/core/lib/models'
@@ -30,9 +29,8 @@ const typeConfig: ConfigOption = {
     NzIconModule,
     NzAvatarModule,
     NzButtonModule,
-    NzToolTipModule,
     NzDropDownModule,
-    CvcOrganizationTagModule,
+    NzToolTipModule,
   ],
   exports: [CvcOrgSubmitButtonComponent, CvcOrgSubmitButtonDirective],
 })

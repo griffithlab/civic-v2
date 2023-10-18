@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcModerateEntityButtonsComponent } from './moderate-entity-button'
+import { CvcModerateEntityButtonsComponent } from './moderate-entity-buttons.component'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'

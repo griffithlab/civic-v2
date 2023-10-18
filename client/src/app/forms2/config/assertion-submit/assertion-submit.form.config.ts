@@ -23,7 +23,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Submit Assertion',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -44,7 +44,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'molecular-profile-select',
             props: {
               required: true,
-              tooltip: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated assertion.',
+              tooltip:
+                'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated assertion.',
               watchVariantMolecularProfileId: true,
               colSpan: 16,
             },
@@ -106,21 +107,21 @@ const formFieldConfig: FormlyFieldConfig[] = [
             key: 'ampLevel',
             type: 'amp-category-select',
             props: {
-              colSpan: 8
+              colSpan: 8,
             },
           },
           {
             key: 'acmgCodeIds',
             type: 'acmg-code-multi-select',
             props: {
-              colSpan: 8
+              colSpan: 8,
             },
           },
           {
             key: 'clingenCodeIds',
             type: 'clingen-code-multi-select',
             props: {
-              colSpan: 8
+              colSpan: 8,
             },
           },
           <CvcNccnGuidelineSelectFieldOptions>{
@@ -131,17 +132,17 @@ const formFieldConfig: FormlyFieldConfig[] = [
           <CvcNccnGuidelineVersionFieldOptions>{
             key: 'nccnGuidelineVersion',
             type: 'nccn-guideline-version-input',
-            props: {}
+            props: {},
           },
           <CvcFdaRegulatoryApprovalCheckboxFieldOptions>{
             key: 'fdaRegulatoryApproval',
             type: 'fda-regulatory-approval-checkbox',
-            props: {}
+            props: {},
           },
           <CvcFdaCompanionTestCheckboxFieldOptions>{
             key: 'fdaCompanionTest',
             type: 'fda-companion-test-checkbox',
-            props: {}
+            props: {},
           },
           {
             key: 'evidenceItemIds',
@@ -161,7 +162,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Summary',
               label: 'Assertion Summary',
               required: true,
-              colSpan: 24
+              colSpan: 24,
             },
           },
           {
@@ -175,7 +176,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Assertion Statement',
               required: true,
               rows: 5,
-              colSpan: 24
+              colSpan: 24,
             },
           },
         ],
@@ -192,7 +193,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
