@@ -7,7 +7,6 @@ import { CvcRevisionValueDiffModule } from '../revision-value-diff/revision-valu
 import { RevisionListDiffModule } from '../revision-list-diff/revision-list-diff.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -61,7 +60,6 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     NzDescriptionsModule,
     NzDividerModule,
     FormsModule,
-    CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
     CvcGeneTagModule,
     CvcSourceTagModule,
