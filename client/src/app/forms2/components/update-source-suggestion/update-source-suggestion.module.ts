@@ -13,7 +13,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { CvcCommentInputFormModule } from '../../../forms/comment-input/comment-input.module'
+import { CvcCommentInputFormModule } from '@app/forms2/components/comment-input/comment-input.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 @NgModule({

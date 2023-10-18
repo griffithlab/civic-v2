@@ -25,6 +25,6 @@ const typeConfig: ConfigOption = {
     NzInputModule,
     CvcFormFieldWrapperModule,
   ],
-  exports: [CvcTextareaField]
+  exports: [CvcTextareaField],
 })
 export class CvcTextareaFieldModule {}

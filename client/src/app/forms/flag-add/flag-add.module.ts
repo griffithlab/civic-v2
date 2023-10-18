@@ -11,7 +11,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module'
+import { CvcCommentInputFormModule } from '@app/forms2/components/comment-input/comment-input.module'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 
 @NgModule({
