@@ -8,7 +8,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
-import { CvcGeneReviseFormModule } from '@app/forms2/config/gene-revise/gene-revise.form.module'
+import { CvcGeneReviseFormModule } from '@app/forms/config/gene-revise/gene-revise.form.module'
 
 @NgModule({
   declarations: [GenesSuggestPage],

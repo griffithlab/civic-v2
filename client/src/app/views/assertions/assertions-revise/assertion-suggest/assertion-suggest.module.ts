@@ -6,7 +6,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 import { AssertionSuggestPage } from './assertion-suggest.page'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { CvcAssertionReviseModule } from '@app/forms2/config/assertion-revise/assertion-revise.module'
+import { CvcAssertionReviseModule } from '@app/forms/config/assertion-revise/assertion-revise.module'
 
 @NgModule({
   declarations: [AssertionSuggestPage],

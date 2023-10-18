@@ -14,7 +14,7 @@ import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-hei
 import { RouterModule } from '@angular/router'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
-import { VariantSubmitFormModule } from '@app/forms2/config/variant-submit/variant-submit.module'
+import { VariantSubmitFormModule } from '@app/forms/config/variant-submit/variant-submit.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({

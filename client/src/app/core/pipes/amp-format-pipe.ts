@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { CvcInputEnum } from '@app/forms2/forms2.types'
+import { CvcInputEnum } from '@app/forms/forms.types'
 import { AmpLevel, Maybe } from '@app/generated/civic.apollo'
 
 export type AmpDisplayFormat = 'verbose' | 'compact'
