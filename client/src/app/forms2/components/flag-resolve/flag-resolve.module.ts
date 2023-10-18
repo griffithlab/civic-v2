@@ -1,19 +1,18 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { NzCardModule } from 'ng-zorro-antd/card'
-import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
-import { CvcFlagResolveForm } from './flag-resolve.form'
-import { NzFormModule } from 'ng-zorro-antd/form'
-import { NzButtonModule } from 'ng-zorro-antd/button'
-import { NzPopoverModule } from 'ng-zorro-antd/popover'
-import { NzIconModule } from 'ng-zorro-antd/icon'
-import { LetDirective, PushPipe } from '@ngrx/component'
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CvcCommentInputFormModule } from '@app/forms2/components/comment-input/comment-input.module'
+import { CvcFormButtonsModule } from '@app/forms2/components/form-buttons/form-buttons.module'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcFlagResolveForm } from './flag-resolve.form'
 
 @NgModule({
   declarations: [CvcFlagResolveForm],
@@ -33,7 +32,6 @@ import { CvcCommentInputFormModule } from '@app/forms2/components/comment-input/
     NzSpinModule,
     CvcCommentInputFormModule,
     CvcFormButtonsModule,
-    CvcOrgSelectorBtnGroupModule,
   ],
   exports: [CvcFlagResolveForm],
 })
