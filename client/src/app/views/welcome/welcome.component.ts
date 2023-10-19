@@ -47,7 +47,7 @@ export class WelcomeComponent implements OnInit {
       imageUrl: 'assets/images/2023-CGC-hackathon-attendees.jpg',
     },
     {
-      title: 'Introducing Molecular Profiles (HTML)',
+      title: 'Introducing Molecular Profiles',
       date: '2023-01-09',
       htmlText: `Today we have rolled out support for a new core concept in CIViC: <a href="https://civic.readthedocs.io/en/latest/model/molecular_profiles.html" target="_blank"> Molecular Profiles</a>. Molecular Profiles are logical combinations of one or more CIViC Variants. While most Molecular Profiles will consist of a single Variant (“Simple”) they will also allow users to build “Complex” (multi-variant) Molecular Profiles to associate Evidence with. These complex profiles expand the CIViC data model to allow for clinical significance to be evaluated within contexts such as variant co-occurrence or mutual exclusivity. Going forward, Evidence will be associated with a Molecular Profile rather than directly with a Variant. If you have any questions about this change, please feel free to <a href="mailto:help@civicdb.org">contact us</a>. We have also prepared a <a href="https://www.youtube.com/watch?v=--i54jy746w" target="_blank" >video</a > explaining this new feature.`,
       link: {
