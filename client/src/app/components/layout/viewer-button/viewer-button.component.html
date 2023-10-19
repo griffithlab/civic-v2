@@ -147,7 +147,7 @@
               <li
                 *ngFor="let org of viewer.organizations"
                 (click)="menuSelection$.next(org.id)"
-                [ngClass]="{ selected: viewer.mostRecentOrg?.id === org.id }"
+                [nzSelected]="viewer.mostRecentOrg?.id === org.id"
                 nz-menu-item>
                 <nz-avatar
                   [nzSrc]="org?.profileImagePath"
