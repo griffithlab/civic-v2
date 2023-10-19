@@ -1,11 +1,31 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
 import { AssertionSubmitModel } from '@app/forms/models/assertion-submit.model'
 import { VariantGroupReviseModel } from '@app/forms/models/variant-group-revise.model'
-import { variantGroupToModelFields } from '@app/forms/utilities/variant-group-to-model-fields'
-import { SuggestEvidenceItemRevision2GQL, SuggestVariantGroupRevision2GQL, SuggestVariantGroupRevisionGQL, SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables, VariantGroupRevisableFields2GQL } from '@app/generated/civic.apollo'
+import {
+  variantGroupFormModelToReviseInput,
+  variantGroupToModelFields,
+} from '@app/forms/utilities/variant-group-to-model-fields'
+import {
+  SuggestEvidenceItemRevision2GQL,
+  SuggestVariantGroupRevision2GQL,
+  SuggestVariantGroupRevisionGQL,
+  SuggestVariantGroupRevisionMutation,
+  SuggestVariantGroupRevisionMutationVariables,
+  VariantGroupRevisableFields2GQL,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject, Subject } from 'rxjs'
@@ -17,7 +37,9 @@ import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
   templateUrl: './variantgroup-revise.form.html',
   styleUrls: ['./variantgroup-revise.form.less'],
 })
-export class CvcVariantgroupReviseForm implements OnInit, AfterViewInit, OnDestroy {
+export class CvcVariantgroupReviseForm
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() variantGroupId!: number
   model?: VariantGroupReviseModel
   form: UntypedFormGroup
@@ -43,17 +65,27 @@ export class CvcVariantgroupReviseForm implements OnInit, AfterViewInit, OnDestr
     this.form = new UntypedFormGroup({})
     this.fields = variantgroupSuggestFields
     this.state = { formReady$: new Subject() }
-    this.options = { formState: this.state}
-    this.reviseAssertionMutator = new MutatorWithState(networkErrorService)
+    this.options = { formState: this.state }
+    this.reviseAssertionMutator = new MutatorWithState(this.networkErrorService)
   }
 
   onSubmit(model: any) {
     console.log('------ Variant Group Suggestion Added ------')
     console.log(model)
+    if (!this.variantGroupId) {
+      return
+    }
+    let input = variantGroupFormModelToReviseInput(this.variantGroupId, model)
+    if (input) {
+      this.mutationState = this.reviseAssertionMutator.mutate(
+        this.submitRevisionsGQL,
+        { input: input }
+      )
+    }
   }
 
   ngOnInit() {
-    this.url = `/variant-groups/${ this.variantGroupId }/revisions`
+    this.url = `/variant-groups/${this.variantGroupId}/revisions`
   }
 
   ngOnDestroy(): void {
@@ -83,6 +115,5 @@ export class CvcVariantgroupReviseForm implements OnInit, AfterViewInit, OnDestr
           this.state.formReady$.next(true)
         },
       })
-
   }
 }

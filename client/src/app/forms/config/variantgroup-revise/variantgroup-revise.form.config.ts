@@ -5,7 +5,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: {
       submitLabel: 'Revise Variant Group',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -41,7 +41,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter a Variant Group Summary',
               label: 'Variant Group Summary',
               required: true,
-              rows: 5
+              rows: 5,
             },
           },
           {
@@ -75,7 +75,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',
