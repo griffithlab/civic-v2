@@ -280,7 +280,6 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
           }
         ),
         tap((display: NotFoundDisplay) => {
-          console.log('NotFoundDisplay: ', display)
           this.notFoundDisplay$.next(display)
         }),
         untilDestroyed(this)
