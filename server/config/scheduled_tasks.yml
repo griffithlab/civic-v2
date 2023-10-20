@@ -10,6 +10,12 @@ UpdateAlleleRegistryIds:
   queue: default
   class: UpdateAlleleRegistryIds
 
+FlagDuplicateAlleleRegistryIds:
+  cron: '0 0 * * 1'
+  description: Check for duplicated allele registry IDs and flag Variants using them
+  queue: default
+  class: FlagDuplicateAlleleRegistryIds
+
 RefreshGeneView:
   cron: '0 */2 * * *'
   description: Refresh the gene browse table view (every two hours)
