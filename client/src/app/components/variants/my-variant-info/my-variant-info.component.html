@@ -83,7 +83,7 @@
               <ng-container *ngIf="variantInfo.cosmicId; else noValue">
                 <cvc-link-tag
                   href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{
-                    variantInfo.cosmicId
+                    variantInfo.cosmicId.replace('COSM', '')
                   }}"
                   tooltip="View on COSMIC">
                   {{ variantInfo.cosmicId }}
