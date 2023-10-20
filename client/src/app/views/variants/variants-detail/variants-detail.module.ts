@@ -8,7 +8,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { VariantDeprecateFormModule } from '@app/forms/variant-deprecate/variant-deprecate.module'
+import { VariantDeprecateFormModule } from '@app/forms/components/variant-deprecate/variant-deprecate.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'

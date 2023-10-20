@@ -96,8 +96,8 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     private rejectRevisionsGql: RejectRevisionGQL,
     private validationGql: ValidateRevisionsForAcceptanceGQL
   ) {
-    this.acceptRevisionsMutator = new MutatorWithState(networkErrorService)
-    this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
+    this.acceptRevisionsMutator = new MutatorWithState(this.networkErrorService)
+    this.rejectRevisionsMutator = new MutatorWithState(this.networkErrorService)
     this.viewer$ = this.viewerService.viewer$
   }
 
