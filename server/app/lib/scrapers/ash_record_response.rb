@@ -10,7 +10,7 @@ module Scrapers
     end
 
     def citation
-      [first_author, year, journal].join(', ')
+      [first_author, year].join(', ')
     end
 
     def first_author
