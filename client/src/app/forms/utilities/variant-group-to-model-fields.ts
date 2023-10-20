@@ -28,6 +28,7 @@ export function variantGroupFormModelToReviseInput(
 ): Maybe<SuggestVariantGroupRevisionInput> {
   let input = variantGroupFormModelToInput(model)
   if (input) {
+    delete input.organizationId
     return {
       id: gid,
       fields: {
@@ -54,6 +55,7 @@ export function variantGroupFormModelToInput(
       sourceIds: fields.sourceIds || [],
       name: fields.name!,
       variantIds: fields.variantIds || [],
+      organizationId: model.organizationId,
     }
   }
 }
