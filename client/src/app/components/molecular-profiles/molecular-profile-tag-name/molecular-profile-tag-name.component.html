@@ -1,19 +1,22 @@
-<ng-container *ngFor="let s of nameSegments; let i=index">
-  <span *ngIf="s.__typename == 'MolecularProfileTextSegment'"
+<ng-container *ngFor="let s of nameSegments; let i = index">
+  <span
+    *ngIf="s.__typename == 'MolecularProfileTextSegment'"
     [innerHtml]="s.text"
-  class="text-segment">
-    </span>
+    class="text-segment">
+  </span>
   <ng-container *ngIf="s.__typename == 'Variant'">
     <cvc-tag-group>
       <!-- ugly kludge to get gene-tag to accept nameSegments[i-1] as LinkableGene -->
-      <ng-container *ngFor="let g of [nameSegments[i-1]]">
-        <cvc-gene-tag *ngIf="g.__typename == 'Gene'"
+      <ng-container *ngFor="let g of [nameSegments[i - 1]]">
+        <cvc-gene-tag
+          *ngIf="g.__typename == 'Gene'"
           [gene]="g"
           [enablePopover]="this.enablePopover">
         </cvc-gene-tag>
       </ng-container>
 
-      <cvc-variant-tag [variant]="s"
+      <cvc-variant-tag
+        [variant]="s"
         [enablePopover]="this.enablePopover"></cvc-variant-tag>
     </cvc-tag-group>
   </ng-container>

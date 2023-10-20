@@ -38,6 +38,10 @@ class EvidenceItemValidator < ActiveModel::Validator
     if record.molecular_profile.deprecated
       record.errors.add :molecular_profile_id, "Molecular Profile is deprecated."
     end
+
+    if record.variant_origin == 'Combined' && !record.molecular_profile.is_complex?
+      record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
+    end
   end
 
   def valid_types

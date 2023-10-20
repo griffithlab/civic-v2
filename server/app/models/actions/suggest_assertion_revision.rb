@@ -15,6 +15,7 @@ class Actions::SuggestAssertionRevision < Actions::SuggestRevisionSet
       :amp_level,
       :evidence_item_ids,
       :nccn_guideline_id,
+      :nccn_guideline_version,
       :acmg_code_ids,
       :clingen_code_ids,
       :fda_companion_test,

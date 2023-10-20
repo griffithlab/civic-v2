@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component';
-import { ClinicalTrialsHomePage } from './clinical-trials-home/clinical-trials-home.page';
-import { ClinicalTrialsSummaryComponent } from './clinical-trials-detail/clinical-trials-summary/clinical-trials-summary.component';
-import { ClinicalTrialsComponent } from './clinical-trials.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component'
+import { ClinicalTrialsHomePage } from './clinical-trials-home/clinical-trials-home.page'
+import { ClinicalTrialsSummaryComponent } from './clinical-trials-detail/clinical-trials-summary/clinical-trials-summary.component'
+import { ClinicalTrialsComponent } from './clinical-trials.component'
 
 const routes: Routes = [
   {
@@ -15,14 +15,14 @@ const routes: Routes = [
         path: 'home',
         component: ClinicalTrialsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':clinicalTrialId',
         component: ClinicalTrialsDetailComponent,
         data: {
-          breadcrumb: 'DISPLAYNAME'
+          breadcrumb: 'DISPLAYNAME',
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -30,17 +30,17 @@ const routes: Routes = [
             path: 'summary',
             component: ClinicalTrialsSummaryComponent,
             data: {
-              breadcrumb: 'Summary'
-            }
-          }
-        ]
-      }
-    ]
-  }
-];
+              breadcrumb: 'Summary',
+            },
+          },
+        ],
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ClinicalTrialsRoutingModule { }
+export class ClinicalTrialsRoutingModule {}

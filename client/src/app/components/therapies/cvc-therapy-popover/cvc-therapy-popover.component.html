@@ -1,37 +1,68 @@
 <div id="popover-content">
-  <ng-container *ngIf="therapy$ | ngrxPush as d" >
-    <nz-card [nzTitle]="cardTitle" nzBordered="false"
+  <ng-container *ngIf="therapy$ | ngrxPush as d">
+    <nz-card
+      [nzTitle]="cardTitle"
+      nzBordered="false"
       id="card-content"
       [nzExtra]="linkout">
       <ng-template #cardTitle>
-        <i nz-icon nzType="civic-intervention" nzTheme="twotone" nzTwotoneColor="#AC3996"></i>
-        {{ d.name | truncate: 50}}
+        <i
+          nz-icon
+          nzType="civic-therapy"
+          nzTheme="twotone"
+          nzTwotoneColor="#AC3996"></i>
+        {{ d.name | truncate : 50 }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag *ngIf="d.ncitId; else noNcitId" [href]="d.therapyUrl" tooltip="View on NCI Thesaurus">
+        <cvc-link-tag
+          *ngIf="d.ncitId; else noNcitId"
+          [href]="d.therapyUrl"
+          tooltip="View on NCI Thesaurus">
           {{ d.ncitId }}
         </cvc-link-tag>
       </ng-template>
       <ng-template #noNcitId>
-        <span nz-typography nzType="secondary">No NCIt ID</span>
+        <span
+          nz-typography
+          nzType="secondary"
+          >No NCIt ID</span
+        >
       </ng-template>
 
-      <nz-descriptions nzSize="small"
+      <nz-descriptions
+        nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
-        <nz-descriptions-item *ngIf="d.name.length > 50" nzTitle="Name" nzSpan="2">
+        <nz-descriptions-item
+          *ngIf="d.name.length > 50"
+          nzTitle="Name"
+          nzSpan="2">
           {{ d.name }}
         </nz-descriptions-item>
-        <nz-descriptions-item *ngIf="d.therapyAliases.length > 0" nzTitle="Aliases" nzSpan="2">
-          <nz-tag nz-tooltip [nzTooltipTitle]="alias" *ngFor="let alias of d.therapyAliases">{{ alias | truncate }}</nz-tag> 
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Assertions"
+        <nz-descriptions-item
+          *ngIf="d.therapyAliases.length > 0"
+          nzTitle="Aliases"
           nzSpan="2">
-          {{d.assertionCount}}
+          <nz-tag
+            nz-tooltip
+            [nzTooltipTitle]="alias"
+            *ngFor="let alias of d.therapyAliases"
+            >{{ alias | truncate }}</nz-tag
+          >
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Evidence"
+        <nz-descriptions-item
+          nzTitle="Assertions"
           nzSpan="2">
-          {{d.evidenceItemCount}}
+          {{ d.assertionCount }}
+        </nz-descriptions-item>
+        <nz-descriptions-item
+          nzTitle="Evidence"
+          nzSpan="2">
+          {{ d.evidenceItemCount }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Molecular Profiles"
+          nzSpan="2">
+          {{d.molecularProfileCount}}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>

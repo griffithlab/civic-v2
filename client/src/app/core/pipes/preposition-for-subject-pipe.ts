@@ -1,27 +1,26 @@
-
-import { Pipe, PipeTransform } from '@angular/core';
-import { EventAction } from '@app/generated/civic.apollo';
+import { Pipe, PipeTransform } from '@angular/core'
+import { EventAction } from '@app/generated/civic.apollo'
 
 @Pipe({
   name: 'prepositionForSubject',
-  pure: true
+  pure: true,
 })
 export class PrepositionForSubjectPipe implements PipeTransform {
-  transform(action: EventAction) : string {
+  transform(action: EventAction): string {
     switch (action) {
-      case (EventAction.Commented):
+      case EventAction.Commented:
         return 'to'
-      case (EventAction.RevisionSuggested):
+      case EventAction.RevisionSuggested:
         return 'to'
-      case (EventAction.RevisionAccepted):
+      case EventAction.RevisionAccepted:
         return 'to'
-      case (EventAction.RevisionRejected):
-        return 'tou'
-      case (EventAction.RevisionSuperseded):
+      case EventAction.RevisionRejected:
         return 'to'
-      case (EventAction.Flagged):
+      case EventAction.RevisionSuperseded:
+        return 'to'
+      case EventAction.Flagged:
         return 'on'
-      case (EventAction.FlagResolved):
+      case EventAction.FlagResolved:
         return 'on'
       default:
         return ''

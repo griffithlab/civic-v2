@@ -1,50 +1,89 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
-import { Maybe, ViewerNotificationCountGQL } from '@app/generated/civic.apollo';
-import { startWith, map } from 'rxjs/operators';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { environment } from 'environments/environment';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
+import { Apollo, gql } from 'apollo-angular'
+import { environment } from 'environments/environment'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { tag } from 'rxjs-spy/operators'
+import { map, startWith, withLatestFrom } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-viewer-button',
   templateUrl: './viewer-button.component.html',
-  styleUrls: ['./viewer-button.component.less']
+  styleUrls: ['./viewer-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcViewerButtonComponent {
-  viewer$: Observable<Viewer>;
-  unreadCount$: Observable<number>;
+export class CvcViewerButtonComponent implements OnInit {
+  @Input() cvcCollapsed: boolean = false
 
+  viewer$: Observable<Viewer>
+  unreadCount$: Observable<number>
+
+  menuSelection$: Subject<number>
   coiUpdateModalVisible: boolean = false
-  addVariantModalVisible: boolean = false
+  addVariantModalVisible$: BehaviorSubject<boolean>
 
-  constructor(private queryService: ViewerService, private unreadCountGql: ViewerNotificationCountGQL) {
-    this.viewer$ = this.queryService.viewer$;
-    if(environment.production) {
-      this.unreadCount$ = this.unreadCountGql.watch(undefined, {pollInterval: 5000})
+  constructor(
+    private queryService: ViewerService,
+    private unreadCountGql: ViewerNotificationCountGQL,
+    private apollo: Apollo
+  ) {
+    this.viewer$ = this.queryService.viewer$
+    this.menuSelection$ = new Subject()
+    if (environment.production) {
+      this.unreadCount$ = this.unreadCountGql
+        .watch(undefined, { pollInterval: 5000 })
         .valueChanges.pipe(
-          map(({data}) => data.notifications.unreadCount),
+          map(({ data }) => data.notifications.unreadCount),
           startWith(0)
         )
     } else {
-      this.unreadCount$ = this.unreadCountGql.watch(undefined)
+      this.unreadCount$ = this.unreadCountGql
+        .watch(undefined)
         .valueChanges.pipe(
-          map(({data}) => data.notifications.unreadCount),
+          map(({ data }) => data.notifications.unreadCount),
           startWith(0)
         )
-      }
+    }
+    this.addVariantModalVisible$ = new BehaviorSubject<boolean>(false)
+    this.addVariantModalVisible$
+      .pipe(tag('addVariantModalVisible$'))
+      .subscribe()
   }
 
+  ngOnInit(): void {
+    this.menuSelection$
+      .pipe(withLatestFrom(this.viewer$))
+      .subscribe(([mroId, viewer]: [number, Viewer]) => {
+        const fragment = {
+          id: `User:${viewer.id}`,
+          fragment: gql`
+            fragment UserMostRecentOrgId on User {
+              mostRecentOrganizationId
+            }
+          `,
+          data: {
+            mostRecentOrganizationId: mroId,
+          },
+        }
+        this.apollo.client.writeFragment(fragment)
+      })
+  }
   signOut(): void {
-    this.queryService.signOut();
+    this.queryService.signOut()
   }
 
   coiUpdated() {
-    this.coiUpdateModalVisible = false;
-    this.queryService.refetch();
+    this.coiUpdateModalVisible = false
+    this.queryService.refetch()
   }
 
   handleCoiModalCancel() {
-    this.coiUpdateModalVisible = false;
+    this.coiUpdateModalVisible = false
   }
 }

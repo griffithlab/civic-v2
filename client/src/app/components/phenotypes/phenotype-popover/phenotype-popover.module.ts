@@ -1,23 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcPhenotypePopoverComponent } from './phenotype-popover.component';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcPhenotypePopoverComponent } from './phenotype-popover.component'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 @NgModule({
   declarations: [CvcPhenotypePopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetDirective,
+    PushPipe,
     NzIconModule,
     NzCardModule,
     CvcLinkTagModule,
     NzDescriptionsModule,
-
   ],
-  exports: [CvcPhenotypePopoverComponent]
+  exports: [CvcPhenotypePopoverComponent],
 })
-export class CvcPhenotypePopoverModule { }
+export class CvcPhenotypePopoverModule {}

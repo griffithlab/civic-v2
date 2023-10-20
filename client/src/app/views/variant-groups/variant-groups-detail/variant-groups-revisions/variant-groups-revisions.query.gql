@@ -1,20 +1,20 @@
 query VariantGroupRevisions(
-  $variantGroupId: Int!,
-  $first: Int,
-  $last: Int,
-  $before: String,
-  $after: String,
-  $fieldName: String,
+  $variantGroupId: Int!
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $fieldName: String
   $originatingUserId: Int
 ) {
   variantGroup(id: $variantGroupId) {
     id
     revisions(
-      first: $first,
-      last: $last,
-      before: $before,
-      after: $after,
-      fieldName: $fieldName,
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      fieldName: $fieldName
       originatingUserId: $originatingUserId
     ) {
       totalCount
@@ -30,7 +30,7 @@ query VariantGroupRevisions(
       edges {
         node {
           id
-          revisionsetId
+          revisionSetId
           createdAt
           fieldName
           currentValue

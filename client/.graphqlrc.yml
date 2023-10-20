@@ -1,16 +1,20 @@
-# collect & merge model types
-schema: ./src/app/generated/server.model.graphql
-# collect & merge client queries, mutations, fragments
+# include server-generated schema and client-side schemas
+# see: https://www.graphql-code-generator.com/docs/integrations/apollo-local-state
+schema:
+  - ./src/app/generated/server.model.graphql
+  - ./src/app/graphql/schemas/**/*.graphql
+
+# collect client-side component& service queries, mutations, fragments
 documents: ./src/**/*.gql
 extensions:
   codegen:
     config:
+      # replace generated files
       overwrite: true
-      # app.module, relative to generated civic.apollo.ts
-      # ngModule: ../app.module#AppModule
       serviceProvidedInRoot: true
     generates:
       # generate apollo-angular client service
+      # see: https://www.graphql-code-generator.com/plugins/typescript/typescript-apollo-angular
       ./src/app/generated/civic.apollo.ts:
         plugins:
           - typescript

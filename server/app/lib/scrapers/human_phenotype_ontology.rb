@@ -16,8 +16,9 @@ module Scrapers
         if about.starts_with?('http://purl.obolibrary.org/obo/HP_')
           hpo_id = about[/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]*)/, 1]
           hpo_id = hpo_id.sub('_', ':')
-          name = row.at_xpath('rdfs:label').text
-          Phenotype.create(hpo_id: hpo_id, hpo_class: name)
+          name = row.at_xpath('rdfs:label')&.text
+          desc = row.at_xpath('obo:IAO_0000115')&.text
+          Phenotype.create(hpo_id: hpo_id, hpo_class: name, description: desc)
           i = i+  1
         end
       end
@@ -32,7 +33,8 @@ module Scrapers
         if about.starts_with?('http://purl.obolibrary.org/obo/HP_')
           hpo_id = about[/http:\/\/purl\.obolibrary\.org\/obo\/(HP_[0-9]*)/, 1]
           hpo_id = hpo_id.sub('_', ':')
-          name = row.at_xpath('rdfs:label').text
+          name = row.at_xpath('rdfs:label')&.text
+          desc = row.at_xpath('obo:IAO_0000115')&.text
           if !row.at_xpath('owl:deprecated').nil? && row.at_xpath('owl:deprecated').text == 'true'
             p = Phenotype.find_by(hpo_id: hpo_id)
             if !p.nil?
@@ -55,6 +57,7 @@ module Scrapers
           else
             p = Phenotype.where(hpo_id: hpo_id).first_or_create
             p.hpo_class = name
+            p.description = desc
             p.save
           end
         end
@@ -63,7 +66,7 @@ module Scrapers
 
     private
     def self.url
-      "https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/hp.owl"
+      "https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/hp-base.owl"
     end
 
     def self.extract_class_name_from_response_for_hpo_id(resp, hpo_id)

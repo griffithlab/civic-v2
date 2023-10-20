@@ -1,0 +1,34 @@
+@import 'themes/global-variables.less';
+
+:host {
+  display: block;
+  ::ng-deep .news-cover-card {
+    .ant-card-meta-description {
+      color: @text-color;
+    }
+    // adjust cover-card title styles to match standard card's styles
+    .ant-card-meta-title {
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
+}
+
+nz-divider {
+  margin: 12px 0 8px 0;
+}
+.cover-card-date {
+  text-align: right;
+  font-weight: normal;
+}
+.news-cover-image {
+  max-height: 200px;
+  min-height: 200px;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  border-bottom: 1px solid @border-color-split;
+  margin: -12px;
+  margin-bottom: 8px;
+}

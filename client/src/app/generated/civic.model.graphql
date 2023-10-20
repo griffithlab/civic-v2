@@ -959,7 +959,10 @@ type Query {
   """
   gene(id: ID!): Gene
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
-  searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
+  searchGenes(
+    createPermalink: Boolean = false
+    query: GeneSearchFilter!
+  ): AdvancedSearchResult!
 
   """
   Find a source by CIViC ID

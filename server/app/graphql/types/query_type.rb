@@ -10,6 +10,7 @@ module Types
     include Types::Queries::PopoverQueries
     include Types::Queries::TypeaheadQueries
     include Types::Queries::DataReleaseQuery
+    include Types::Queries::LeaderboardQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
@@ -38,7 +39,9 @@ module Types
 
     field :contributors, resolver: Resolvers::Contributors
 
-    field :search, resolver: Resolvers::Quicksearch
+    unless Rails.env.headless?
+      field :search, resolver: Resolvers::Quicksearch
+    end
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
@@ -51,8 +54,9 @@ module Types
     end
 
     field :gene, Types::Entities::GeneType, null: true do
-      description "Find a gene by CIViC ID"
-      argument :id, Int, required: true
+      description "Find a single gene by CIViC ID or Entrez symbol"
+      argument :id, Int, required: false
+      argument :entrez_symbol, String, required: false
     end
 
     field :variant, Types::Entities::VariantType, null: true do
@@ -115,6 +119,21 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :acmg_code, Types::Entities::AcmgCodeType, null: true do
+      description "Find an ACMG code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :clingen_code, Types::Entities::ClingenCodeType, null: true do
+      description "Find a ClinGen code by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true do
+      description "Find a NCCN Guideline by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :countries, [Types::Entities::CountryType], null: false do
       description 'Fetch a list of countries for user profiles.'
     end
@@ -142,11 +161,11 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
-    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
+    field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
-    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles, max_page_size: 300
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -174,8 +193,15 @@ module Types
       Therapy.find_by(id: id)
     end
 
-    def gene(id: )
-      Gene.find_by(id: id)
+    def gene(id: :unspecified, entrez_symbol: :unspecified)
+      if (id == :unspecified && entrez_symbol == :unspecified) || (id != :unspecified && entrez_symbol != :unspecified)
+        raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
+      end
+      if (id != :unspecified) 
+        Gene.find_by(id: id)
+      else
+        Gene.find_by(name: entrez_symbol)
+      end
     end
 
     def variant(id: )
@@ -305,6 +331,18 @@ module Types
         }
       end
 
+    end
+
+    def acmg_code(id:)
+      AcmgCode.find(id)
+    end
+
+    def clingen_code(id:)
+      ClingenCode.find(id)
+    end
+
+    def nccn_guideline(id:)
+      NccnGuideline.find(id)
     end
 
     def countries

@@ -160,7 +160,7 @@ Trestle.resource(:assertions) do
         column :field_name
         column :current_value
         column :suggested_value
-        column :revisionset_id
+        column :revision_set_id
         column :status
         column :revisor do |revision|
           revision.revisor.username

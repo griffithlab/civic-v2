@@ -5,14 +5,16 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag nz-popover
+  <nz-tag
+    nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="popoverContent"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
-    <cvc-variant-group-popover *ngIf="enablePopover"
+    <cvc-variant-group-popover
+      *ngIf="enablePopover"
       [variantGroupId]="variantgroup.id"></cvc-variant-group-popover>
   </ng-template>
 </ng-template>
@@ -25,12 +27,12 @@
   <cvc-icon-badges
     [flagged]="variantgroup.flagged"
     [entityColor]="iconColor">
-    <i nz-icon
+    <i
+      nz-icon
       nzType="civic-variantgroup"
       nzTheme="twotone"
       [nzTwotoneColor]="'VariantGroup' | entityColor">
     </i>
   </cvc-icon-badges>
   {{ variantgroup.name }}
-
 </ng-template>

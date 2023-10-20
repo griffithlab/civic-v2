@@ -1,7 +1,8 @@
 <!-- if cvcHeight not specified, render table without card height container & viewport target -->
 <ng-container *ngIf="!cvcHeight; else setHeightCard">
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-  <nz-card [nzTitle]="titleTemplate"
+  <nz-card
+    [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
@@ -12,9 +13,11 @@
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container"
-    [ngStyle]="{ 'height': cvcHeight }">
-    <nz-card [nzTitle]="titleTemplate"
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
+    <nz-card
+      [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
       nzSize="small">
@@ -25,35 +28,39 @@
 
 <ng-template #table>
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
-  <nz-table #virtualTable
+  <nz-table
+    #virtualTable
     nzSize="small"
-    [nzData]="row$ | ngrxPush"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzData]="(row$ | ngrxPush) || []"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
     (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
-    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="350px"
+        <th
+          nzWidth="350px"
           nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
-        <th nzWidth="100%"
+        <th
+          nzWidth="100%"
           [nzColumnKey]="sortColumns.HpoId"
           [nzSortFn]="true">
           HPO ID
         </th>
-        <th nzWidth="75px"
+        <th
+          nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
@@ -61,10 +68,13 @@
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
-          <i nz-icon
-            nzType="civic-evidence"></i> Count
+          <i
+            nz-icon
+            nzType="civic-evidence"></i>
+          Count
         </th>
-        <th nzWidth="75px"
+        <th
+          nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.AssertionCount"
@@ -72,27 +82,34 @@
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Assertion Count">
-          <i nz-icon
-            nzType="civic-assertion"></i> Count
+          <i
+            nz-icon
+            nzType="civic-assertion"></i>
+          Count
         </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="hpoNameFilter"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="hpoNameFilter"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="hpoIdFilter"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="hpoIdFilter"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
-        <th nzRight>
-        </th>
-        <th nzRight>
-        </th>
+        <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll
+      <ng-template
+        nz-virtual-scroll
         let-phenotype
         let-index="index">
         <tr class="data-row">
@@ -100,17 +117,20 @@
             <cvc-phenotype-tag [phenotype]="phenotype"></cvc-phenotype-tag>
           </td>
           <td>
-            <cvc-link-tag *ngIf="phenotype.hpoId; else noHpo"
+            <cvc-link-tag
+              *ngIf="phenotype.hpoId; else noHpo"
               [href]="phenotype.url">
               {{ phenotype.hpoId }}
             </cvc-link-tag>
             <ng-template #noHpo>--</ng-template>
           </td>
-          <td nzRight
+          <td
+            nzRight
             nzAlign="right">
             {{ phenotype.evidenceCount }}
           </td>
-          <td nzRight
+          <td
+            nzRight
             nzAlign="right">
             {{ phenotype.assertionCount }}
           </td>
@@ -130,15 +150,18 @@
   </ng-container>
 
   <span class="table-info">
-        <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
-    </span>
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+  </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
     nzColor="processing">
-    <i nz-icon
+    <i
+      nz-icon
       nzType="sync"
       nzSpin></i>
     <span>Loading…</span>

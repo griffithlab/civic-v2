@@ -83,7 +83,9 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   createdAt
 }
 
-mutation UpdateSourceSuggestionStatus($input: UpdateSourceSuggestionStatusInput!) {
+mutation UpdateSourceSuggestionStatus(
+  $input: UpdateSourceSuggestionStatusInput!
+) {
   updateSourceSuggestionStatus(input: $input) {
     sourceSuggestion {
       id

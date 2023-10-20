@@ -1,7 +1,0 @@
-query VariantTypeTypeahead($name: String!) {
-  variantTypeTypeahead(queryTerm: $name) {
-    name
-    soid
-    id
-  }
-}

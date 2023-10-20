@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CommentableEntities, CommentableInput } from '@app/generated/civic.apollo';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  CommentableEntities,
+  CommentableInput,
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-evidence-comments',
@@ -11,10 +14,10 @@ export class EvidenceCommentsPage {
   commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {
-    const evidenceId: number = +this.route.snapshot.params['evidenceId'];
+    const evidenceId: number = +this.route.snapshot.params['evidenceId']
     this.commentable = {
       id: evidenceId,
-      entityType: CommentableEntities.EvidenceItem
+      entityType: CommentableEntities.EvidenceItem,
     }
   }
 }

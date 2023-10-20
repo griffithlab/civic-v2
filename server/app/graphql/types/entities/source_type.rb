@@ -22,21 +22,26 @@ module Types::Entities
     field :pmc_id, String, null: true
     field :author_string, String, null: true
     field :display_type, String, null: false
+    field :open_access, Boolean, null: false
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
     end
 
     def name
-      if object.title
-        object.title
+      if object.citation
+        return "#{object.source_type}: #{object.citation}"
       else
-        "SID#{object.id}"
+        return "#{object.source_type}: #{object.id}"
       end
     end
 
     def link
       "/sources/#{object.id}"
+    end
+
+    def open_access
+      !!object.open_access
     end
 
     def publication_date

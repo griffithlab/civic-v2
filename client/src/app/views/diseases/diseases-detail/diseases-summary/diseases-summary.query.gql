@@ -4,6 +4,19 @@ query DiseasesSummary($diseaseId: Int!) {
   }
 }
 
+fragment MyDiseaseInfoFields on MyDiseaseInfo {
+    diseaseOntologyExactSynonyms
+    diseaseOntologyRelatedSynonyms
+    mesh
+    icdo
+    icd10
+    ncit
+    omim
+    doDef
+    doDefCitations
+    mondoDef
+}
+
 fragment DiseasesSummaryFields on Disease {
   id
   name
@@ -12,4 +25,7 @@ fragment DiseasesSummaryFields on Disease {
   displayName
   diseaseAliases
   link
+  myDiseaseInfo {
+    ...MyDiseaseInfoFields
+  }
 }

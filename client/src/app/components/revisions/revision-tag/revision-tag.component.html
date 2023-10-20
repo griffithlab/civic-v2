@@ -1,4 +1,6 @@
-<a [routerLink]="revision.link" [queryParams]="{revisionsetId: revision.revisionsetId }">
+<a
+  [routerLink]="revision.link"
+  [queryParams]="{ revisionSetId: revision.revisionSetId }">
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </a>
 
@@ -18,6 +20,10 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon nzType="civic-revision" nzTheme="twotone" nzTwotoneColor="#F0673A"></i>
+  <i
+    nz-icon
+    nzType="civic-revision"
+    nzTheme="twotone"
+    nzTwotoneColor="#F0673A"></i>
   {{ revision.name }}
 </ng-template>

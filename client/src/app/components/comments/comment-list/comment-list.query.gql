@@ -83,14 +83,14 @@ fragment commentListNode on Comment {
   }
   parsedComment {
     __typename
-    ...on CommentTagSegment {
+    ... on CommentTagSegment {
       entityId
       displayName
       tagType
       status
       deprecated
       link
-      revisionsetId
+      revisionSetId
       __typename
     }
     ... on CommentTextSegment {

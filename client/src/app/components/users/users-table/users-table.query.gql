@@ -7,7 +7,7 @@ query UsersBrowse(
   $orgName: OrganizationFilter
   $userRole: UserRole
   $sortBy: UsersSort
-){
+) {
   users(
     first: $first
     last: $last
@@ -47,5 +47,6 @@ fragment UserBrowseTableRowFields on User {
     submittedEvidenceItems
     revisions
   }
+  profileImagePath(size: 64)
   mostRecentActionTimestamp
 }

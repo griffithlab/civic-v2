@@ -14,7 +14,6 @@ Trestle.resource(:variants) do
   end
 
   scope :all
-  scope :with_evidence, -> { Variant.joins(:evidence_items).distinct }, default: true
   scope :flagged, -> { Variant.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
@@ -140,7 +139,7 @@ Trestle.resource(:variants) do
         column :field_name
         column :current_value
         column :suggested_value
-        column :revisionset_id
+        column :revision_set_id
         column :status
         column :revisor do |revision|
           revision.revisor.username

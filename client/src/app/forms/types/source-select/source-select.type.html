@@ -1,0 +1,109 @@
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col
+    nzFlex="80px"
+    *ngIf="showTypeSelect$ | ngrxPush">
+    <nz-select
+      nzSize="default"
+      nzBlock
+      [nzOptionHeightPx]="28"
+      [ngModel]="sourceType$ | ngrxPush"
+      (ngModelChange)="sourceType$.next($event)">
+      <nz-option
+        nzValue="PUBMED"
+        nzLabel="PubMed"></nz-option>
+      <nz-option
+        nzValue="ASCO"
+        nzLabel="ASCO"></nz-option>
+      <nz-option
+        nzValue="ASH"
+        nzLabel="ASH"></nz-option>
+    </nz-select>
+  </nz-col>
+  <nz-col
+    *ngIf="showTypeSelect$ | ngrxPush"
+    nzFlex="60px"
+    class="prefix">
+    <ng-container [ngSwitch]="sourceType$ | ngrxPush">
+      <div *ngSwitchCase="'PUBMED'">PMID:</div>
+      <div *ngSwitchCase="'ASCO'">ID:</div>
+      <div *ngSwitchCase="'ASH'">doi.org/</div>
+    </ng-container>
+  </nz-col>
+  <nz-col nzFlex="auto">
+    <cvc-entity-select
+      [cvcMinSearchStrLength]="props.minSearchStrLength"
+      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+      [cvcCustomTemplate]="selectedTemplate"
+      [cvcFormControl]="formControl"
+      [cvcFormlyAttributes]="field"
+      [cvcEntityName]="props.entityName"
+      [cvcPlaceholder]="placeholder$ | ngrxPush"
+      [cvcResults]="result$ | ngrxPush"
+      [cvcOptions]="selectOption$ | ngrxPush"
+      [cvcParamName]="sourceTypeName$ | ngrxPush"
+      [cvcShowError]="showError"
+      [cvcDisabled]="props.disabled"
+      [cvcLoading]="isLoading$ | ngrxPush"
+      [cvcAddEntity]="addSource"
+      [cvcAddEntityModel]="onModel$ | ngrxPush"
+      [cvcSelectOpen]="selectOpen$ | ngrxPush"
+      (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnModelChange)="props.change && props.change(field, $event)">
+    </cvc-entity-select>
+  </nz-col>
+</nz-row>
+
+<!-- select option templates -->
+<!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
+<ng-container *ngrxLet="onSearch$ as searchString">
+  <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
+    <ng-template #optionTemplates>
+      <cvc-entity-tag
+        [cvcDisableLink]="true"
+        [cvcCacheId]="result.__typename + ':' + result.id"
+        [cvcEmphasize]="searchString"></cvc-entity-tag>
+      <span
+        nz-typography
+        nzType="secondary">
+        ID:
+        <span
+          nz-typography
+          nzType="secondary"
+          [innerHtml]="
+            result.citationId.toString() | highlightTypeahead : searchString
+          "></span>
+      </span>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<!-- selected option item template -->
+<!-- displays entity tag, specifying context and mode depending on
+    if field is multi-select or single -->
+<ng-template
+  #selectedTemplate
+  let-selected>
+  <div class="ant-select-selection-item-content">
+    <cvc-entity-tag
+      [cvcCacheId]="'Source:' + selected.nzValue"
+      [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
+      [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+      (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
+  </div>
+</ng-template>
+
+<!-- quick-add form template-->
+<ng-template
+  #addSource
+  let-searchStr
+  let-model="model">
+  <cvc-source-quick-add
+    [cvcCitationId]="model.citationId"
+    [cvcSourceType]="model.sourceType"
+    (cvcOnCreate)="onPopulate$.next($event)"></cvc-source-quick-add>
+</ng-template>
+
+<!-- add source button -->
+<ng-template #addSourceBtn>
+  <button type="button">Add a New Source</button>
+</ng-template>

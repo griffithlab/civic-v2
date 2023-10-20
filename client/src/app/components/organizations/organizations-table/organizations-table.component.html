@@ -1,6 +1,7 @@
 <!-- if cvcHeight not specified, render table with viewport target, without card height container -->
 <ng-container *ngIf="!cvcHeight; else setHeightCard">
-  <nz-card [nzTitle]="titleTemplate"
+  <nz-card
+    [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
@@ -11,9 +12,11 @@
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container"
-    [ngStyle]="{ 'height': cvcHeight }">
-    <nz-card [nzTitle]="titleTemplate"
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
+    <nz-card
+      [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
       nzSize="small">
@@ -23,41 +26,41 @@
 </ng-template>
 
 <ng-template #table>
-  <nz-table #virtualTable
+  <nz-table
+    #virtualTable
     nzSize="small"
-    [nzData]="row$ | ngrxPush"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzData]="(row$ | ngrxPush) || []"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
     (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
-    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="300px"
+        <th
+          nzWidth="300px"
           nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Organization
         </th>
-        <th nzWidth="100px">
-          Members
-        </th>
-        <th nzWidth="320px">
-          Sub Organizations
-        </th>
-        <th nzWidth="80px"
+        <th nzWidth="100px">Members</th>
+        <th nzWidth="320px">Sub Organizations</th>
+        <th
+          nzWidth="80px"
           nzRight
           nzAlign="right">
           Actions
         </th>
-        <th nzWidth="125px"
+        <th
+          nzWidth="125px"
           nzRight
           nzAlign="right">
           Last Action
@@ -65,45 +68,49 @@
       </tr>
       <tr class="filter-row">
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="orgNameInput"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
-        <th>
-        </th>
-        <th>
-        </th>
-        <th nzRight>
-        </th>
-        <th nzRight>
-        </th>
+        <th></th>
+        <th></th>
+        <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll
+      <ng-template
+        nz-virtual-scroll
         let-organization
         let-index="index">
-        <tr class="data-row">
-          <tr>
-            <td nzLeft>
-              <cvc-organization-tag [org]="organization"></cvc-organization-tag>
-            </td>
-            <td>
-              {{ organization.memberCount | number }}
-            </td>
-            <td>
-              <cvc-tag-overflow [maxDisplayCount]="1"
-                tagType='organization'
-                [tags]="organization.subGroups"> </cvc-tag-overflow>
-            </td>
-            <td nzRight
-              nzAlign="right">
-              {{ organization.eventCount | number}}
-            </td>
-            <td nzRight
-              nzAlign="right">
-              {{ organization.mostRecentEvent?.createdAt | timeago }}
-            </td>
-          </tr>
+        <tr class="data-row"></tr>
+        <tr>
+          <td nzLeft>
+            <cvc-organization-tag [org]="organization"></cvc-organization-tag>
+          </td>
+          <td>
+            {{ organization.memberCount | number }}
+          </td>
+          <td>
+            <cvc-tag-overflow
+              [maxDisplayCount]="1"
+              tagType="organization"
+              [tags]="organization.subGroups">
+            </cvc-tag-overflow>
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ organization.eventCount | number }}
+          </td>
+          <td
+            nzRight
+            nzAlign="right">
+            {{ organization.mostRecentEvent?.createdAt | timeAgo }}
+          </td>
+        </tr>
       </ng-template>
     </tbody>
   </nz-table>
@@ -119,15 +126,18 @@
   </ng-container>
 
   <span class="table-info">
-    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
     nzColor="processing">
-    <i nz-icon
+    <i
+      nz-icon
       nzType="sync"
       nzSpin></i>
     <span>Loading…</span>

@@ -6,6 +6,7 @@ module Types::Entities
     field :therapy_url, String, null: true
     field :therapy_aliases, [String], null: false
     field :link, String, null: false
+    field :my_chem_info, Types::Entities::MyChemInfoType, null: true
 
     def therapy_aliases
       Loaders::AssociationLoader.for(Therapy, :therapy_aliases).load(object).then do |therapy_aliases|
@@ -15,6 +16,10 @@ module Types::Entities
 
     def therapy_url
       Therapy.url_for(ncit_id: object.ncit_id)
+    end
+
+    def my_chem_info
+      MyChemInfo.new(object).response
     end
   end
 end

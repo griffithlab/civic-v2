@@ -1,21 +1,23 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { OrganizationDetailFieldsFragment, OrganizationGroupsFieldsFragment } from "@app/generated/civic.apollo";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
+import { OrganizationGroupsFieldsFragment } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-organization-card',
   templateUrl: './organization-card.component.html',
-  styleUrls: ['./organization-card.component.less']
+  styleUrls: ['./organization-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcOrganizationCardComponent implements OnInit {
-  @Input() organization!: OrganizationDetailFieldsFragment;
-  // @Input() organization!: OrganizationGroupsFieldsFragment;
-  @Input() inCard: boolean = true
-
-  includeSubStats: any = true;
+  @Input() organization!: OrganizationGroupsFieldsFragment
 
   ngOnInit() {
     if (this.organization == undefined) {
-      throw new Error("Must pass a organization into organization card");
+      throw new Error('Must pass a organization into organization card')
     }
   }
 }

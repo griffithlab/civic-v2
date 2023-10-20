@@ -1,0 +1,8 @@
+mutation UpdateSourceSuggestion($input: UpdateSourceSuggestionStatusInput!) {
+  updateSourceSuggestionStatus(input: $input) {
+    sourceSuggestion {
+      id
+      status
+    }
+  }
+}

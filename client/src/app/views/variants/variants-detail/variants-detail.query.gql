@@ -1,6 +1,4 @@
-query VariantDetail(
-  $variantId: Int!
-) {
+query VariantDetail($variantId: Int!) {
   variant(id: $variantId) {
     ...VariantDetailFields
   }
@@ -17,6 +15,7 @@ fragment VariantDetailFields on Variant {
   gene {
     id
     name
+    link
   }
   variantAliases
   flags(state: OPEN) {

@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SubscribableEntities, SubscribableInput } from '@app/generated/civic.apollo';
+import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  SubscribableEntities,
+  SubscribableInput,
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-genes-events',
@@ -11,10 +14,10 @@ export class GenesEventsPage {
   subscribable: SubscribableInput
 
   constructor(private route: ActivatedRoute) {
-    const geneId: number = +this.route.snapshot.params['geneId'];
+    const geneId: number = +this.route.snapshot.params['geneId']
     this.subscribable = {
       id: geneId,
-      entityType: SubscribableEntities.Gene
+      entityType: SubscribableEntities.Gene,
     }
   }
 }

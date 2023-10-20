@@ -1,0 +1,32 @@
+@import 'themes/global-variables.less';
+
+:host {
+  display: block;
+  background-color: #f6f6f6;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.expression-preview {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  &.active {
+    background-color: white;
+  }
+}
+.append-popover-contents {
+  min-width: 450px;
+}
+.help-content {
+  max-width: 500px;
+}
+.btn-row {
+  margin-top: 10px;
+  flex-wrap: nowrap;
+  .btn-divider {
+    color: #aaa;
+  }
+}

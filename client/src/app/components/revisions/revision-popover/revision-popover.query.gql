@@ -4,7 +4,6 @@ query RevisionPopover($revisionId: Int!) {
   }
 }
 
-
 fragment revisionPopover on Revision {
   id
   name
@@ -23,5 +22,8 @@ fragment revisionPopover on Revision {
   createdAt
   linkoutData {
     name
+  }
+  creationComment {
+    comment
   }
 }

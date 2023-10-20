@@ -26,7 +26,7 @@ class Resolvers::Revisions < GraphQL::Schema::Resolver
     scope.where(field_name: value)
   end
 
-  option(:revisionset_id, type: String, description: 'Limit to revisions suggested as part of a single Revision Set.') do |scope, value|
-    scope.where(revisionset_id: value)
+  option(:revision_set_id, type: Int, description: 'Limit to revisions suggested as part of a single Revision Set.') do |scope, value|
+    scope.where(revision_set_id: value)
   end
 end

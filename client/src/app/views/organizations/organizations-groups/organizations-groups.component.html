@@ -1,7 +1,19 @@
-<nz-spin [nzSpinning]="this.loading$ | ngrxPush">
-  <ng-container *ngIf="!(this.loading$ | ngrxPush)">
-    <nz-space *ngFor="let organization of organizations$ | ngrxPush" nzDirection="vertical">
-      <cvc-organization-card *nzSpaceItem [organization]="organization" ></cvc-organization-card>
-    </nz-space>
-  </ng-container>
+<nz-spin
+  [nzSpinning]="this.loading$ | ngrxPush"
+  style="min-height: 20em">
+  <nz-row [nzGutter]="[8, 8]">
+    <ng-container *ngFor="let organization of organizations$ | ngrxPush">
+      <nz-col
+        *ngIf="organization"
+        [nzXs]="24"
+        [nzSm]="24"
+        [nzMd]="12"
+        [nzLg]="8"
+        [nzXl]="6"
+        [nzXXl]="4">
+        <cvc-organization-card
+          [organization]="organization!"></cvc-organization-card>
+      </nz-col>
+    </ng-container>
+  </nz-row>
 </nz-spin>

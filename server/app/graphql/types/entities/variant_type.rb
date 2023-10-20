@@ -24,6 +24,7 @@ module Types::Entities
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
+    field :mane_select_transcript, String, null: true
     field :link, String, null: false
     field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :single_variant_molecular_profile_id, Int, null: false
@@ -120,6 +121,10 @@ module Types::Entities
 
     def my_variant_info
       MyVariantInfo.new(object).response
+    end
+
+    def mane_select_transcript
+      ManeSelectTranscript.new(object).mane_select_transcript
     end
   end
 end

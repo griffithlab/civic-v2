@@ -1,0 +1,53 @@
+<ng-container *ngrxLet="notFoundDisplay$ as notFoundDisplay">
+  <nz-select
+    nzShowSearch
+    nzServerSearch
+    nzAllowClear
+    [class.ng-dirty]="cvcShowError"
+    [nzDropdownMatchSelectWidth]="true"
+    [formControl]="cvcFormControl"
+    [formlyAttributes]="cvcFormlyAttributes"
+    [nzMode]="cvcSelectMode"
+    [nzPlaceHolder]="cvcPlaceholder || 'Search ' + cvcEntityName.plural"
+    [nzCustomTemplate]="cvcCustomTemplate || null"
+    [nzOptionHeightPx]="30"
+    [nzDisabled]="cvcDisabled"
+    [nzLoading]="cvcLoading"
+    [nzAllowClear]="cvcAllowClear"
+    [nzBorderless]="cvcBorderless"
+    [nzSuffixIcon]="cvcSuffixIcon"
+    [nzShowArrow]="cvcShowArrow"
+    [nzAutoClearSearchValue]="cvcAutoClearSearchValue"
+    [nzOptions]="cvcOptions || []"
+    [nzDropdownRender]="notFoundDisplay.showAddForm ? addForm : null"
+    [nzNotFoundContent]="searchMessages"
+    [nzOpen]="cvcSelectOpen"
+    (nzOpenChange)="onOpenChange$.next($event)"
+    (nzOnSearch)="cvcOnSearch.next($event)"
+    (ngModelChange)="cvcOnModelChange.next($event)">
+  </nz-select>
+
+  <ng-template #searchMessages>
+    <span
+      *ngIf="notFoundDisplay.showSpinner"
+      nz-icon
+      [nzType]="'loading'"></span>
+
+    <ng-container>
+      {{ notFoundDisplay.message }}
+    </ng-container>
+  </ng-template>
+  <ng-template #addForm>
+    <nz-divider></nz-divider>
+    <div class="add-form-container">
+      <ng-container
+        [ngTemplateOutlet]="this.cvcAddEntity"
+        [ngTemplateOutletContext]="{
+          $implicit: notFoundDisplay.searchStr,
+          createMsg: notFoundDisplay.message,
+          model: cvcAddEntityModel
+        }">
+      </ng-container>
+    </div>
+  </ng-template>
+</ng-container>

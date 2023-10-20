@@ -30,9 +30,11 @@ class Resolvers::TopLevelMolecularProfiles < GraphQL::Schema::Resolver
                   value,
                   models: [MolecularProfile],
                   fields: ['name'],
-                  match: :word_start
-                )
+                  match: :word_start,
+                  misspellings: {below: 1}
+    )
     ids = results.hits.map { |x| x["_id"] }
+
     scope.where(molecular_profiles: { id: ids })
   end
 
@@ -45,4 +47,7 @@ class Resolvers::TopLevelMolecularProfiles < GraphQL::Schema::Resolver
     scope.joins(:variants).where('variants.id = ?', value)
   end
 
+  option(:allele_registry_id, type: GraphQL::Types::String, description: 'Find Molecular Profiles based on the ClinGen Allele Registry ID of one of its involed Variants') do |scope, value|
+    scope.joins(:variants).where('variants.allele_registry_id = ?', value)
+  end
 end

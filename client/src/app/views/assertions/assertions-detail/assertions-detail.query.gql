@@ -1,32 +1,30 @@
-query AssertionDetail(
-  $assertionId: Int!
-) {
+query AssertionDetail($assertionId: Int!) {
   assertion(id: $assertionId) {
-      ...AssertionDetailFields
+    ...AssertionDetailFields
   }
 }
 
 fragment AssertionDetailFields on Assertion {
+  id
+  name
+  status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
+  molecularProfile {
     id
     name
-    status
-    submissionEvent {
-      originatingUser {
-        id
-      }
-    }
-    molecularProfile {
-      id
-      name
-      link
-    }
-    flags(state: OPEN) {
-      totalCount
-    }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
-} 
+    link
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

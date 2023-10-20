@@ -1,27 +1,27 @@
-<div class="center">
-  <nz-spin [nzSpinning]="this.isSubmitting">
-    <cvc-org-selector-btn-group *ngIf="!this.rejectOnly"
-      [(selectedOrg)]="this.mostRecentOrg">
-      <button cvcOrgSelectorBtn
-        nzType="primary"
-        nzSize="large"
-        nz-button
-        (click)="this.moderate(this.evidenceStatuses.Accepted)">
-        Accept {{ this.entityType }}
-      </button>
-    </cvc-org-selector-btn-group>
-    &nbsp;
-    <cvc-org-selector-btn-group nzDanger
+<ng-container *ngrxLet="viewer$ as viewer">
+  <nz-spin [nzSpinning]="isSubmitting">
+    <button
+      *ngIf="viewer.canModerate"
       nzType="primary"
-      [(selectedOrg)]="this.mostRecentOrg">
-      <button cvcOrgSelectorBtn
-        nzDanger
-        nzType="primary"
-        nzSize="large"
-        nz-button
-        (click)="this.moderate(this.evidenceStatuses.Rejected)">
-        Reject {{ this.entityType }}
-      </button>
-    </cvc-org-selector-btn-group>
+      nzSize="large"
+      nz-button
+      (click)="moderate(evidenceStatuses.Accepted)"
+      nz-tooltip
+      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+      Accept {{ entityType }}
+    </button>
+    &nbsp;
+    <button
+      nzDanger
+      nzType="primary"
+      nzSize="large"
+      nz-button
+      (click)="moderate(evidenceStatuses.Rejected)"
+      nz-tooltip
+      [nzTooltipTrigger]="viewer.mostRecentOrg ? 'hover' : null"
+      [nzTooltipTitle]="'For ' + viewer.mostRecentOrg?.name">
+      Reject {{ entityType }}
+    </button>
   </nz-spin>
-</div>
+</ng-container>

@@ -26,7 +26,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       - run: npm install -g yarn
         working-directory: ./client
@@ -37,7 +37,7 @@ jobs:
       - run: rm -f public/*.js
         working-directory: ./server
 
-      - run: yarn build --prod
+      - run: yarn build
         working-directory: ./client
 
       - run: bundle exec rails assets:precompile

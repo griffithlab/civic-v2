@@ -1,141 +1,142 @@
 query EventFeedCount(
-    $subject: SubscribableQueryInput
-    $first: Int,
-    $last: Int,
-    $before: String,
-    $after: String,
-    $originatingUserId: Int,
-    $organizationId: Int,
-    $eventType: EventAction,
-    $includeAutomatedEvents: Boolean,
-    $mode: EventFeedMode,
+  $subject: SubscribableQueryInput
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $originatingUserId: Int
+  $organizationId: Int
+  $eventType: EventAction
+  $includeAutomatedEvents: Boolean
+  $mode: EventFeedMode
 ) {
-    events (
-        subject: $subject,
-        first: $first,
-        last: $last,
-        before: $before,
-        after: $after,
-        originatingUserId: $originatingUserId,
-        organizationId: $organizationId,
-        eventType: $eventType,
-        mode: $mode,
-        includeAutomatedEvents: $includeAutomatedEvents
-    ) {
-        unfilteredCount
-    }
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
+    mode: $mode
+    includeAutomatedEvents: $includeAutomatedEvents
+  ) {
+    unfilteredCount
+  }
 }
 
-query EventFeed (
-    $subject: SubscribableQueryInput
-    $first: Int,
-    $last: Int,
-    $before: String,
-    $after: String,
-    $originatingUserId: Int,
-    $organizationId: Int,
-    $eventType: EventAction,
-    $mode: EventFeedMode,
-    $includeAutomatedEvents: Boolean = true,
-    $showFilters: Boolean!,
-){
-events (
-    subject: $subject,
-    first: $first,
-    last: $last,
-    before: $before,
-    after: $after,
-    originatingUserId: $originatingUserId,
-    organizationId: $organizationId,
-    eventType: $eventType,
+query EventFeed(
+  $subject: SubscribableQueryInput
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $originatingUserId: Int
+  $organizationId: Int
+  $eventType: EventAction
+  $mode: EventFeedMode
+  $includeAutomatedEvents: Boolean = true
+  $showFilters: Boolean!
+) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
     includeAutomatedEvents: $includeAutomatedEvents
     mode: $mode
-) { ...eventFeed }
-
+  ) {
+    ...eventFeed
+  }
 }
 fragment eventFeed on EventConnection {
-    pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        hasPreviousPage
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  eventTypes @include(if: $showFilters)
+  unfilteredCount
+  uniqueParticipants @include(if: $showFilters) {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  participatingOrganizations @include(if: $showFilters) {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  edges {
+    cursor
+    node {
+      ...eventFeedNode
     }
-    eventTypes @include(if: $showFilters)
-    unfilteredCount 
-    uniqueParticipants @include(if: $showFilters) {
-        id
-        displayName
-        role
-        profileImagePath(size: 32)
-    }
-    participatingOrganizations @include(if: $showFilters) {
-        id
-        name
-        profileImagePath(size: 32)
-    }
-    edges {
-        cursor
-        node {
-            ...eventFeedNode
-        }
-    }
+  }
 }
 
 fragment eventFeedNode on Event {
+  id
+  action
+  createdAt
+  organization {
     id
-    action
-    createdAt
-    organization {
-        id
-        name
-        profileImagePath(size: 32)
+    name
+    profileImagePath(size: 32)
+  }
+  originatingUser {
+    id
+    username
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  subject {
+    name
+    id
+    link
+    ... on Source {
+      citation
+      sourceType
     }
-    originatingUser {
-        id
-        username
-        displayName
-        role
-        profileImagePath(size: 32)
+    ... on EvidenceItem {
+      status
     }
-    subject {
-        name
-        id
-        link
-        ... on Source {
-            citation
-            sourceType
-        }
-        ... on EvidenceItem {
-            status
-        }
-        ... on Assertion {
-            status
-        }
-        ... on Revision {
-            revisionsetId
-        }
-        ... on Variant {
-            deprecated
-        }
-        ... on MolecularProfile {
-            deprecated
-        }
-        __typename
+    ... on Assertion {
+      status
     }
-    originatingObject {
-        id
-        name
-        link
-        __typename
-        ... on Revision {
-            id
-            revisionsetId
-        }
-        ... on Comment {
-            id
-        }
-        ... on Flag {
-            id
-        }
+    ... on Revision {
+      revisionSetId
     }
+    ... on Variant {
+      deprecated
+    }
+    ... on MolecularProfile {
+      deprecated
+    }
+    __typename
+  }
+  originatingObject {
+    id
+    name
+    link
+    __typename
+    ... on Revision {
+      id
+      revisionSetId
+    }
+    ... on Comment {
+      id
+    }
+    ... on Flag {
+      id
+    }
+  }
 }

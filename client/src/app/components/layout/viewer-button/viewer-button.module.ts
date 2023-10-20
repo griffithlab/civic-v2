@@ -1,24 +1,28 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcViewerButtonComponent } from './viewer-button.component';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcViewerButtonComponent } from './viewer-button.component'
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { RouterModule } from '@angular/router'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzModalModule } from 'ng-zorro-antd/modal'
+import { CvcUserCoiFormModule } from '@app/forms/components/user-coi/user-coi.module'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { VariantSubmitFormModule } from '@app/forms/config/variant-submit/variant-submit.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module'
 
 @NgModule({
   declarations: [CvcViewerButtonComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetDirective,
+    PushPipe,
     NzDropDownModule,
     RouterModule,
     NzButtonModule,
@@ -27,10 +31,13 @@ import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submi
     NzBadgeModule,
     NzToolTipModule,
     NzModalModule,
+    NzTypographyModule,
+    NzAvatarModule,
     CvcUserAvatarModule,
     CvcUserCoiFormModule,
-    VariantSubmitFormModule
+    CvcOrganizationAvatarModule,
+    VariantSubmitFormModule,
   ],
-  exports: [CvcViewerButtonComponent]
+  exports: [CvcViewerButtonComponent],
 })
-export class CvcViewerButtonModule { }
+export class CvcViewerButtonModule {}

@@ -18,6 +18,26 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
     scope.where(gene_id: value)
   end
 
+  option(:variant_type_ids, type: [GraphQL::Types::Int], description: 'A list of CIViC identifiers for variant types') do  |scope, value|
+    if value.size > 0
+      scope.joins(:variant_types).where(variant_types: { id: value })
+    else
+      scope
+    end
+  end
+
+  option(:allele_registry_id, type: GraphQL::Types::String, description: 'Find a CIViC Variant based on its ClinGen Allele Registry ID') do |scope, value|
+    scope.where(allele_registry_id: value)
+  end
+
+  option(:has_no_variant_type, type: GraphQL::Types::Boolean, description: "Return Variants lacking an assigned VariantType") do |scope, value|
+    if(value)
+      scope.left_joins(:variant_types).where(variant_types: { id: nil })
+    else
+      scope
+    end
+  end
+
   option :sort_by, type: Types::VariantMenuSortType do |scope, value|
     case value.column
     when 'NAME'

@@ -31,7 +31,7 @@ module Actions
                   status: self.class.status_value_for_referenced_entity(referenced_item),
                   deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
                   link: referenced_item.link,
-                  revisionset_id: referenced_item.respond_to?(:revisionset_id) ? referenced_item.revisionset_id : nil,
+                  revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
                 }
               else
                 split_segment

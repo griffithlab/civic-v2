@@ -1,18 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
-import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcClinicalTrialPopoverComponent } from './clinical-trial-popover.component';
+import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { CvcClinicalTrialPopoverComponent } from './clinical-trial-popover.component'
 
 @NgModule({
   declarations: [CvcClinicalTrialPopoverComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetDirective,
+    PushPipe,
 
     NzCardModule,
     NzIconModule,
@@ -21,6 +22,6 @@ import { CvcClinicalTrialPopoverComponent } from './clinical-trial-popover.compo
     CvcLinkTagModule,
     CvcPipesModule,
   ],
-  exports: [CvcClinicalTrialPopoverComponent]
+  exports: [CvcClinicalTrialPopoverComponent],
 })
-export class CvcClinicalTrialPopoverModule { }
+export class CvcClinicalTrialPopoverModule {}

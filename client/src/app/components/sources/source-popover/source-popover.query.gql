@@ -6,7 +6,8 @@ query SourcePopover($sourceId: Int!) {
 
 fragment sourcePopover on SourcePopover {
   id
-  name
+  title
+  fullJournalTitle
   evidenceItemCount
   citation
   citationId

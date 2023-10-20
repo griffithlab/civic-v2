@@ -1,0 +1,489 @@
+<cvc-form-submission-status-display
+  [mutationState]="state"
+  entityType="Molecular Profile"
+  [successMessage]="success">
+  <ng-template #success>Added new Molecular Profile</ng-template>
+
+  <!-- PREVIEW, MESSAGE/ALERT, EDITOR LAYOUT - uses a single row element w/ 24 col width spans -->
+  <nz-row [nzGutter]="[6, 8]">
+    <!-- PREVIEW ROW -->
+    <nz-col nzSpan="24">
+      <div
+        class="expression-preview"
+        [ngClass]="{ active: (expressionSegment$ | ngrxPush) !== undefined }">
+        <ng-container *ngrxLet="expressionSegment$ | ngrxPush as segments">
+          <cvc-mp-tag-name
+            *ngIf="segments"
+            [nameSegments]="segments"></cvc-mp-tag-name>
+          <span
+            *ngIf="!segments"
+            nz-typography
+            nzType="secondary">
+            Valid Molecular Profile expressions will be previewed here.
+          </span>
+        </ng-container>
+      </div>
+    </nz-col>
+
+    <!-- MESSAGES & ALERTS ROW -->
+    <nz-col nzSpan="24">
+      <!-- INITIAL MESSAGE -->
+      <ng-container *ngIf="expressionMessage$ | ngrxPush as message">
+        <nz-alert
+          nzType="info"
+          [nzMessage]="message"
+          [nzAction]="messageAction"
+          nzShowIcon></nz-alert>
+
+        <ng-template #messageAction>
+          <button
+            type="button"
+            nz-button
+            nzType="dashed"
+            nzSize="small"
+            nzShape="round"
+            nz-popover
+            nzPopoverTrigger="hover"
+            [nzPopoverContent]="gettingStartedHelp">
+            <span
+              nz-icon
+              nzType="question-circle"
+              nzTheme="fill"></span>
+            GETTING STARTED
+          </button>
+          <ng-template #gettingStartedHelp>
+            <cvc-mp-editor-popover-help></cvc-mp-editor-popover-help>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+
+      <!-- SUCCESS - displays either a 'Select MP' or 'Create MP' depending on specified MP's status -->
+      <ng-container *ngrxLet="existingMp$ as mp">
+        <ng-container
+          *ngIf="
+            !(expressionError$ | ngrxPush) && !(expressionMessage$ | ngrxPush)
+          ">
+          <!-- Select MP - MP found -->
+          <ng-container *ngIf="mp !== undefined">
+            <nz-alert
+              nzType="success"
+              [nzMessage]="foundMessage"
+              [nzAction]="selectAction"
+              nzShowIcon></nz-alert>
+            <ng-template #selectAction>
+              <button
+                (click)="cvcOnSelect.next(mp)"
+                type="button"
+                nz-button
+                nzType="primary"
+                nzSize="small"
+                nzBlock>
+                Select this MP
+              </button>
+            </ng-template>
+            <ng-template #foundMessage>
+              Molecular Profile <strong>{{ mp.name }}</strong> found.
+            </ng-template>
+          </ng-container>
+
+          <!-- Create New MP - MP not found -->
+          <ng-container *ngIf="mp === undefined">
+            <nz-alert
+              nzType="success"
+              [nzMessage]="createMessage"
+              [nzAction]="createAction"
+              nzShowIcon></nz-alert>
+            <ng-template #createAction>
+              <button
+                (click)="onCreateNewMp$.next()"
+                type="button"
+                nz-button
+                nzSize="small"
+                nzType="primary"
+                nzBlock>
+                Create New MP
+              </button>
+            </ng-template>
+            <ng-template #createMessage>
+              Molecular Profile not found, create it?
+            </ng-template>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!-- ERROR ALERT TEMPLATE -->
+      <ng-template
+        #errorAlert
+        let-error
+        let-content="helpContent">
+        <nz-alert
+          nzType="error"
+          [nzMessage]="error.errorMessage"
+          [nzAction]="errorAction"
+          nzShowIcon></nz-alert>
+        <ng-template #errorAction>
+          <button
+            nz-button
+            nzDanger
+            nzType="text"
+            nzSize="small"
+            nzShape="round"
+            nz-popover
+            nzPopoverTrigger="hover"
+            [nzPopoverContent]="content">
+            <span
+              nz-icon
+              nzType="question-circle"
+              nzTheme="fill"></span>
+            SYNTAX ASSISTANCE
+          </button>
+        </ng-template>
+      </ng-template>
+
+      <!-- SYNTAX ASSISTANCE - switch statement displays an errorAlert template
+           w/ differing contexts w/ help template, depending on alert type -->
+      <ng-container *ngIf="expressionError$ | ngrxPush as error">
+        <ng-container [ngSwitch]="error.errorType">
+          <!-- invalid token alert -->
+          <ng-container *ngSwitchCase="'invalidToken'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: invalidTokenHelp }
+              ">
+            </ng-container>
+
+            <!-- trailing boolean help -->
+            <ng-template #invalidTokenHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="invalidToken"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
+          <!-- trailing boolean alert -->
+          <ng-container *ngSwitchCase="'trailingBoolean'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: trailingBooleanHelp }
+              ">
+            </ng-container>
+            <ng-template #trailingBooleanHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="trailingBoolean"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
+          <!-- initial boolean alert -->
+          <ng-container *ngSwitchCase="'initialBoolean'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: initialBooleanHelp }
+              ">
+            </ng-container>
+            <ng-template #initialBooleanHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="initialBoolean"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
+          <!-- multiple boolean alert -->
+          <ng-container *ngSwitchCase="'multipleBoolean'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: { $implicit: error, helpContent: multipleBooleanHelp }
+              ">
+            </ng-container>
+            <ng-template #multipleBooleanHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="multipleBoolean"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
+          <!-- incomplete expression alert -->
+          <ng-container *ngSwitchCase="'incompleteExpression'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: {
+                  $implicit: error,
+                  helpContent: incompleteExpressionHelp
+                }
+              ">
+            </ng-container>
+            <ng-template #incompleteExpressionHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="incompleteExpression"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
+          <!-- incomplete NOT alert -->
+          <ng-container *ngSwitchCase="'incompleteNOT'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: {
+                  $implicit: error,
+                  helpContent: incompleteNOTHelp
+                }
+              ">
+            </ng-container>
+            <ng-template #incompleteNOTHelp>
+              <cvc-mp-editor-popover-help
+                cvcErrorType="incompleteNOT"></cvc-mp-editor-popover-help>
+            </ng-template>
+          </ng-container>
+
+          <!-- query error alert -->
+          <ng-container *ngSwitchCase="'queryError'">
+            <ng-container
+              *ngTemplateOutlet="
+                errorAlert;
+                context: {
+                  $implicit: error,
+                  helpContent: queryErrorHelp
+                }
+              ">
+            </ng-container>
+            <ng-template #queryErrorHelp>
+              <!-- handle query error "You may not use the same variant multiple times in one MP expression." -->
+              <ng-container
+                *ngIf="error.errorMessage.split(' ').includes('multiple')">
+                <cvc-mp-editor-popover-help
+                  cvcErrorType="identicalVariants"></cvc-mp-editor-popover-help>
+              </ng-container>
+
+              <!-- handle query error "Variants with ID [...] were not found." -->
+              <ng-container
+                *ngIf="error.errorMessage.split(' ').includes('found.')">
+                <cvc-mp-editor-popover-help
+                  cvcErrorType="unknownVariant"></cvc-mp-editor-popover-help>
+              </ng-container>
+            </ng-template>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <pre>
+              {{ error | json }}
+            </pre>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </nz-col>
+
+    <!-- INPUT TEXTAREA -->
+    <nz-col nzSpan="24">
+      <textarea
+        #expressionEditor
+        nz-input
+        rows="1"
+        style="width: 100%"
+        placeholder="Enter or edit a Molecular Expression here."
+        [ngModel]="inputValue$ | ngrxPush"
+        (ngModelChange)="onInputChange$.next($event)"></textarea>
+    </nz-col>
+  </nz-row>
+
+  <!-- BUTTON ROW - requires its own layout row that uses flex layout -->
+  <nz-row class="btn-row">
+    <nz-col nzFlex="80px">
+      <button
+        nzBlock
+        nz-button
+        nzType="primary"
+        nzShape="round"
+        nzSize="small"
+        nz-popover
+        nzPopoverTitle="Select a Profile to view its expression"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="expressionExamples"
+        nzPopoverPlacement="bottomLeft">
+        Examples
+      </button>
+    </nz-col>
+    <nz-col
+      nzFlex="auto"
+      style="text-align: right">
+      <nz-space>
+        <span
+          *nzSpaceItem
+          nz-typography
+          nzType="secondary">
+          Append:
+        </span>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nz-popover
+          nzPopoverTitle="Append Variant #VID"
+          nzPopoverTrigger="click"
+          nzSize="small"
+          nzShape="round"
+          nzType="primary"
+          [nzPopoverContent]="appendVariant"
+          nzPopoverPlacement="bottom">
+          <strong>Variant</strong>
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nz-popover
+          nzPopoverTitle="Append Variant NOT #VID"
+          nzPopoverTrigger="click"
+          nzSize="small"
+          nzShape="round"
+          nzType="primary"
+          [nzPopoverContent]="appendNotVariant"
+          nzPopoverPlacement="bottom">
+          <strong>NOT Variant</strong>
+        </button>
+        <span
+          *nzSpaceItem
+          class="btn-divider">
+          |
+        </span>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('AND')">
+          <strong>AND</strong>
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('OR')">
+          <strong>OR</strong>
+        </button>
+        <!-- <button
+                  *nzSpaceItem
+                  type="button"
+                  nz-button
+                  nzType="primary"
+                  nzSize="small"
+                  nzShape="round"
+                  (click)="onAppendInput$.next('NOT')">
+                  <strong>NOT</strong>
+                </button> -->
+        <span
+          *nzSpaceItem
+          class="btn-divider">
+          |
+        </span>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next('(')">
+          <strong>(</strong>
+        </button>
+        <button
+          *nzSpaceItem
+          type="button"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onAppendInput$.next(')')">
+          <strong>)</strong>
+        </button>
+      </nz-space>
+    </nz-col>
+    <!--
+     APPEND BUTTON POPOVER TEMPLATES
+    -->
+
+    <!-- append #VID -->
+    <ng-template #appendVariant>
+      <div class="append-popover-contents">
+        <nz-row [nzGutter]="[6, 8]">
+          <nz-col nzSpan="24">
+            <p
+              nz-typography
+              nzType="secondary"
+              style="margin: 0; padding-bottom: 2px">
+              Select a Gene and Variant to append its #VID.
+            </p>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <cvc-mp-finder
+              (cvcOnVariantSelect)="
+                onVariantSelect$.next({ variant: $event, prependNot: false })
+              ">
+            </cvc-mp-finder>
+          </nz-col>
+        </nz-row>
+      </div>
+    </ng-template>
+
+    <!-- append NOT + #VID -->
+    <ng-template #appendNotVariant>
+      <div class="append-popover-contents">
+        <nz-row [nzGutter]="[6, 8]">
+          <nz-col nzSpan="24">
+            <p
+              nz-typography
+              nzType="secondary"
+              style="margin: 0; padding-bottom: 2px">
+              Select a Gene and Variant to append its #VID, prepended with NOT
+              boolean.
+            </p>
+          </nz-col>
+          <nz-col nzSpan="24">
+            <cvc-mp-finder
+              (cvcOnVariantSelect)="
+                onVariantSelect$.next({ variant: $event, prependNot: true })
+              ">
+            </cvc-mp-finder>
+          </nz-col>
+        </nz-row>
+      </div>
+    </ng-template>
+
+    <!-- MP examples popover template -->
+    <ng-template #expressionExamples>
+      <div style="min-width: 525px; margin: -8px -12px">
+        <nz-list
+          nzSize="small"
+          nzItemLayout="horizontal">
+          <nz-list-item *ngFor="let example of exampleExpressions">
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <cvc-entity-tag
+                  [cvcLinkableEntity]="example.mp"></cvc-entity-tag>
+              </nz-list-item-meta-title>
+              <nz-list-item-meta-description>
+                {{ example.description }}
+              </nz-list-item-meta-description>
+            </nz-list-item-meta>
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <button
+                  type="button"
+                  nz-button
+                  nzType="primary"
+                  nzSize="small"
+                  (click)="onSelectExample$.next(example)">
+                  Select
+                </button>
+              </nz-list-item-action>
+            </ul>
+          </nz-list-item>
+        </nz-list>
+      </div>
+    </ng-template>
+  </nz-row>
+</cvc-form-submission-status-display>

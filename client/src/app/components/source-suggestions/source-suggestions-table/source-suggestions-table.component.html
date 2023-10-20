@@ -1,7 +1,8 @@
 <!-- if cvcHeight not specified, render table with viewport target, without card height container -->
 <ng-container *ngIf="!cvcHeight; else setHeightCard">
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-  <nz-card [nzTitle]="titleTemplate"
+  <nz-card
+    [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
@@ -12,9 +13,11 @@
 
 <!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container"
-    [ngStyle]="{ 'height': cvcHeight }">
-    <nz-card [nzTitle]="titleTemplate"
+  <div
+    class="card-container"
+    [ngStyle]="{ height: cvcHeight }">
+    <nz-card
+      [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
       nzSize="small">
@@ -25,73 +28,82 @@
 
 <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
 <ng-template #table>
-  <nz-table #virtualTable
+  <nz-table
+    #virtualTable
     nzSize="small"
-    [nzData]="row$ | ngrxPush"
-    [nzLoading]="initialLoading$ | ngrxPush"
+    [nzData]="(row$ | ngrxPush) || []"
+    [nzLoading]="!(row$ | ngrxPush)"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
     cvcTableScroll
     (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
-    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
+    [cvcTableScrollToIndex]="(scrollIndex$ | ngrxPush)!"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="100px"
+        <th
+          nzWidth="100px"
           nzLeft>
           Status
         </th>
-        <th nzWidth="425px"
+        <th
+          nzWidth="425px"
           nzLeft
           [nzColumnKey]="sortColumns.Citation"
           [nzSortFn]="true">
           Citation
         </th>
-        <th nzWidth="24px"
+        <th
+          nzWidth="24px"
           nzAlign="center"
           nz-tooltip
           nzTooltipTitle="Submitter Comment">
-          <i nz-icon
+          <i
+            nz-icon
             nzTheme="twotone"
             [nzTwotoneColor]="'Comment' | entityColor"
             nzType="civic-comment"></i>
         </th>
-        <th nzWidth="200px"
+        <th
+          nzWidth="200px"
           [nzColumnKey]="sortColumns.Submitter"
           [nzSortFn]="true">
           Submitter
         </th>
-        <th nzWidth="80px"
+        <th
+          nzWidth="80px"
           [nzColumnKey]="sortColumns.SourceType"
           [nzSortFn]="true">
           Type
         </th>
-        <th nzWidth="80px"
+        <th
+          nzWidth="80px"
           [nzColumnKey]="sortColumns.CitationId"
           [nzSortFn]="true">
           ID
         </th>
-        <th nzWidth="290px">
-          Molecular Profile
-        </th>
-        <th nzWidth="200px"
+        <th nzWidth="290px">Molecular Profile</th>
+        <th
+          nzWidth="200px"
           [nzColumnKey]="sortColumns.DiseaseName"
           [nzSortFn]="true">
           Disease
         </th>
-        <th nzWidth="90px"
+        <th
+          nzWidth="90px"
           [nzColumnKey]="sortColumns.CreatedAt"
           [nzSortDirections]="['descend', 'ascend', null]"
-          nzSortOrder='descend'
+          nzSortOrder="descend"
           [nzSortFn]="true">
           Submitted
         </th>
-        <th nzWidth="70px"
+        <th
+          nzWidth="70px"
           nzRight
           nzAlign="center">
           Actions
@@ -101,108 +113,141 @@
       <!-- FILTER ROW -->
       <tr class="filter-row">
         <th nzLeft>
-          <nz-select nzAllowClear
+          <nz-select
+            nzAllowClear
             nzSize="small"
             nzPlaceHolder="Any"
             [nzDropdownMatchSelectWidth]="false"
             (ngModelChange)="filterChange$.next()"
             [(ngModel)]="statusInput">
-            <nz-option nzValue="NEW"
+            <nz-option
+              nzValue="NEW"
               nzLabel="new"></nz-option>
-            <nz-option nzValue="CURATED"
+            <nz-option
+              nzValue="CURATED"
               nzLabel="curated"></nz-option>
-            <nz-option nzValue="REJECTED"
+            <nz-option
+              nzValue="REJECTED"
               nzLabel="rejected"></nz-option>
           </nz-select>
         </th>
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="citationInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+          <cvc-clearable-input-filter
+            [(inputModel)]="citationInput"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th></th>
         <th>
-          <cvc-clearable-input-filter *ngIf="!this.submitterId"
+          <cvc-clearable-input-filter
+            *ngIf="!this.submitterId"
             [(inputModel)]="submitterInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-select nzAllowClear
+          <nz-select
+            nzAllowClear
             nzSize="small"
             nzPlaceHolder="Any"
             (ngModelChange)="filterChange$.next()"
             [(ngModel)]="sourceTypeInput">
-            <nz-option nzValue="PUBMED"
+            <nz-option
+              nzValue="PUBMED"
               nzLabel="PubMed"></nz-option>
-            <nz-option nzValue="ASCO"
+            <nz-option
+              nzValue="ASCO"
               nzLabel="ASCO"></nz-option>
           </nz-select>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="citationIdInput"
+          <cvc-clearable-input-filter
+            [(inputModel)]="citationIdInput"
             placeholderText="ID"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
+          <cvc-clearable-input-filter
+            [(inputModel)]="molecularProfileNameInput"
             placeholderText="Molecular Profile"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
+          <cvc-clearable-input-filter
+            [(inputModel)]="diseaseNameInput"
             placeholderText="Disease"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
         </th>
         <th></th>
         <th nzRight></th>
       </tr>
     </thead>
     <tbody>
-      <ng-template nz-virtual-scroll
+      <ng-template
+        nz-virtual-scroll
         let-suggestion
         let-index="index">
         <tr class="data-row">
-          <td nzLeft
+          <td
+            nzLeft
             nzAlign="center">
             <ng-container [ngSwitch]="suggestion.status | lowercase">
               <ng-container *ngSwitchCase="'curated'">
-                <nz-tag class="status-tag"
+                <nz-tag
+                  class="status-tag"
                   nzColor="green">
                   {{ suggestion.status | lowercase }}
                 </nz-tag>
               </ng-container>
               <ng-container *ngSwitchCase="'new'">
-                <nz-tag class="status-tag"
+                <nz-tag
+                  class="status-tag"
                   nzColor="orange">
                   {{ suggestion.status | lowercase }}
                 </nz-tag>
               </ng-container>
               <ng-container *ngSwitchCase="'rejected'">
-                <nz-tag class="status-tag"
+                <nz-tag
+                  class="status-tag"
                   nzColor="volcano">
-                  <i *ngIf="suggestion.reason &&  suggestion.reason !=''"
+                  <i
+                    *ngIf="suggestion.reason && suggestion.reason != ''"
                     nz-icon
                     nz-tooltip
                     [nzTooltipTitle]="!isScrolling ? suggestion.reason : ''"
-                    nzType="civic-comment"></i> {{ suggestion.status | lowercase}}
+                    nzType="civic-comment"></i>
+                  {{ suggestion.status | lowercase }}
                 </nz-tag>
               </ng-container>
             </ng-container>
           </td>
           <td nzLeft>
-            <cvc-source-tag *ngIf="suggestion.source"
+            <cvc-source-tag
+              *ngIf="suggestion.source"
               [source]="suggestion.source"></cvc-source-tag>
           </td>
-          <td nzAlign="center"
+          <td
+            nzAlign="center"
             nz-tooltip
             nzTooltipPlacement="top"
             [nzTooltipTitle]="!isScrolling ? suggestion.initialComment : ''">
-            <i nz-icon
+            <i
+              nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Comment' | entityColor"
               nzType="civic-comment"></i>
           </td>
           <td>
-            <cvc-user-tag *ngIf="suggestion.user"
+            <cvc-user-tag
+              *ngIf="suggestion.user"
               [user]="suggestion.user"></cvc-user-tag>
           </td>
           <td>
@@ -212,55 +257,70 @@
           </td>
           <td>
             <ng-container *ngIf="suggestion.source">
-              {{ suggestion.source.citationId}}
+              {{ suggestion.source.citationId }}
             </ng-container>
           </td>
           <td>
-            <cvc-molecular-profile-tag *ngIf="suggestion.molecularProfile"
-              [molecularProfile]="suggestion.molecularProfile"></cvc-molecular-profile-tag>
+            <cvc-molecular-profile-tag
+              *ngIf="suggestion.molecularProfile"
+              [molecularProfile]="
+                suggestion.molecularProfile
+              "></cvc-molecular-profile-tag>
           </td>
           <td>
-            <cvc-disease-tag *ngIf="suggestion.disease"
+            <cvc-disease-tag
+              *ngIf="suggestion.disease"
               [disease]="suggestion.disease"
               [truncateLongName]="true"></cvc-disease-tag>
           </td>
           <td nzAlign="right">
             {{ suggestion.createdAt | date }}
           </td>
-          <td nzRight
+          <td
+            nzRight
             nzAlign="center"
             class="button-cell">
             <nz-button-group *ngIf="isSignedIn">
-              <button routerLink="/evidence/add/submit"
-                [queryParams]="{molecularProfileId: suggestion.molecularProfile?.id, sourceId: suggestion.source?.id, diseaseId: suggestion.disease?.id}"
+              <button
+                routerLink="/evidence/add/submit"
+                [queryParams]="{
+                  molecularProfileId: suggestion.molecularProfile?.id,
+                  sourceId: suggestion.source?.id,
+                  diseaseId: suggestion.disease?.id
+                }"
                 [disabled]="suggestion.status != status.New"
                 nz-button
                 nzSize="small"
                 nz-tooltip
-                [nzTooltipTitle]="!isScrolling ? 'Create Evidence with this Source' : ''"
+                [nzTooltipTitle]="
+                  !isScrolling ? 'Create Evidence with this Source' : ''
+                "
                 [nzTooltipMouseEnterDelay]="1">
-                <i nz-icon
+                <i
+                  nz-icon
                   nzType="civic-evidence"></i>
               </button>
-              <button nz-button
+              <button
+                nz-button
                 nzSize="small"
                 nz-popover
                 nzPopoverTitle="Manage Source Suggestion"
                 nzPopoverPlacement="left"
                 nzPopoverTrigger="click"
                 nz-tooltip
-                [nzTooltipTitle]="!isScrolling ? 'Manage Source Suggestion' : ''"
+                [nzTooltipTitle]="
+                  !isScrolling ? 'Manage Source Suggestion' : ''
+                "
                 nzTooltipPlacement="top"
                 [nzTooltipMouseEnterDelay]="1"
                 [nzPopoverContent]="manageSuggestionTemplate"
                 (click)="setFormInputs(suggestion.id, suggestion.status)">
-                <i nz-icon
+                <i
+                  nz-icon
                   nzType="civic-source"></i>
               </button>
             </nz-button-group>
-            <ng-container *ngIf="!isSignedIn">
-              --
-            </ng-container>
+            <ng-container *ngIf="!isSignedIn"> -- </ng-container>
           </td>
         </tr>
       </ng-template>
@@ -268,7 +328,8 @@
   </nz-table>
 </ng-template>
 <ng-template #manageSuggestionTemplate>
-  <cvc-update-source-suggestion-form *ngIf="this.selectedSourceId && this.selectedStatus"
+  <cvc-update-source-suggestion-form
+    *ngIf="this.selectedSourceId && this.selectedStatus"
     [currentStatus]="this.selectedStatus"
     [sourceSuggestionId]="this.selectedSourceId">
   </cvc-update-source-suggestion-form>
@@ -276,7 +337,8 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <i nz-icon
+  <i
+    nz-icon
     nzTheme="twotone"
     [nzTwotoneColor]="'Source' | entityColor"
     nzType="civic-source"></i>
@@ -288,15 +350,18 @@
   </ng-container>
 
   <span class="table-info">
-    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+    <cvc-table-counts
+      [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+  <nz-tag
+    *ngIf="moreLoading$ | ngrxPush"
     nzColor="processing">
-    <i nz-icon
+    <i
+      nz-icon
       nzType="sync"
       nzSpin></i>
     <span>Loading…</span>

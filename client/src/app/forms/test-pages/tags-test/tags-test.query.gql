@@ -1,0 +1,39 @@
+query EntityTagsTest(
+  $molecularProfileId: Int!
+  $geneId: Int!
+  $variantId: Int!
+  $therapyId: Int!
+  $diseaseId: Int!
+  $eid: Int!
+) {
+  evidenceItem(id: $eid) {
+    id
+    name
+    link
+  }
+  molecularProfile(id: $molecularProfileId) {
+    id
+    name
+    link
+  }
+  gene(id: $geneId) {
+    id
+    name
+    link
+  }
+  variant(id: $variantId) {
+    id
+    name
+    link
+  }
+  therapy(id: $therapyId) {
+    id
+    name
+    link
+  }
+  disease(id: $diseaseId) {
+    id
+    name
+    link
+  }
+}

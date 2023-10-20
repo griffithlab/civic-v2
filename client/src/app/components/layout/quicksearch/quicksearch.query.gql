@@ -1,12 +1,16 @@
-query Quicksearch($query: String!, $types: [SearchableEntities!], $highlightMatches: Boolean) {
+query Quicksearch(
+  $query: String!
+  $types: [SearchableEntities!]
+  $highlightMatches: Boolean
+) {
   search(query: $query, types: $types, highlightMatches: $highlightMatches) {
     ...QuicksearchResult
   }
 }
 
 fragment QuicksearchResult on SearchResult {
-    id
-    resultType
-    name
-    matchingText
+  id
+  resultType
+  name
+  matchingText
 }

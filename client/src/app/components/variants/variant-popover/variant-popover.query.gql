@@ -1,6 +1,6 @@
-query VariantPopover($variantId: Int!){
+query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
-    ... variantPopoverFields
+    ...variantPopoverFields
   }
 }
 

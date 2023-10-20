@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'cvc-statistics-main',
   templateUrl: './statistics-main.component.html',
-  styleUrls: ['./statistics-main.component.less']
+  styleUrls: ['./statistics-main.component.less'],
 })
 export class StatisticsMainComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

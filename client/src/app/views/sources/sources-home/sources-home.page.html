@@ -1,69 +1,84 @@
 <cvc-section-navigation [actionsTpl]="sourcesActions"> </cvc-section-navigation>
 <ng-template #sourcesActions>
   <ng-container *ngrxLet="viewer$ as viewer">
-    <button routerLink="/sources/add"
+    <button
+      routerLink="/sources/add"
       *ngIf="viewer.signedIn"
       nz-button
       nzSize="small">
-      <i nz-icon
-        nzType="plus-circle"></i> Suggest a New Source
+      <i
+        nz-icon
+        nzType="plus-circle"></i>
+      Suggest a New Source
     </button>
   </ng-container>
 </ng-template>
 <nz-page-header class="site-page-header">
-
   <!--content-->
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px"
+      <nz-col
+        nzFlex="64px"
         class="header-icon">
-        <i nz-icon
+        <i
+          nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Source' | entityColor"
           nzType="civic-source"></i>
       </nz-col>
-      <nz-col nzFlex="0 1 600px"
+      <nz-col
+        nzFlex="0 1 600px"
         class="header-description">
         <h2>Sources</h2>
-        <p nz-typography
+        <p
+          nz-typography
           nzEllipsis
           nzExpandable
           [nzEllipsisRows]="2">
-          Each Evidence Item is associated with a Source which supports the Item's clinical claims. CIViC accepts publications known to PubMed or abstracts published through the American Society of Clinical Oncology.
+          Each Evidence Item is associated with a Source which supports the
+          Item's clinical claims. CIViC accepts publications known to PubMed or
+          abstracts published through the American Society of Clinical Oncology.
         </p>
       </nz-col>
-      <nz-col nzFlex="auto"
+      <nz-col
+        nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical"
+        <nz-space
+          nzDirection="vertical"
           class="docs-buttons">
-          <a nz-button
+          <a
+            nz-button
             href="https://civic.readthedocs.io/en/latest/model/evidence/source.html"
             target="_blank"
             nzSize="small"
             nzBlock
             *nzSpaceItem>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="link"
               nzTheme="outline"></i>
             View Source Docs
-        </a>
-          <a nz-button
+          </a>
+          <a
+            nz-button
             href="https://civic.readthedocs.io/en/latest/model/evidence/source.html#curating-source"
             target="_blank"
             nzSize="small"
             nzBlock
             *nzSpaceItem>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="link"
               nzTheme="outline"></i>
             View Source Curation Docs
-        </a>
+          </a>
         </nz-space>
       </nz-col>
     </nz-row>
     <div nz-row>
-      <div nz-col
+      <div
+        nz-col
         [nzSpan]="24">
         <div class="content">
           <cvc-sources-table cvcTitle="Browse All Sources"></cvc-sources-table>

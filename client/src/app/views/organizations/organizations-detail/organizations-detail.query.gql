@@ -1,8 +1,6 @@
-query OrganizationDetail(
-  $organizationId: Int!
-) {
+query OrganizationDetail($organizationId: Int!) {
   organization(id: $organizationId) {
-      ...OrganizationDetailFields
+    ...OrganizationDetailFields
   }
 }
 
@@ -36,5 +34,23 @@ fragment OrganizationDetailFields on Organization {
     suggestedSources
     submittedAssertions
     acceptedAssertions
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
 }

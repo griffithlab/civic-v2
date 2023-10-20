@@ -1,16 +1,16 @@
 <nz-row [nzGutter]="16">
   <nz-col [nzSpan]="8">
-    <h4>Original {{this.entityType}}</h4>
-    <div [innerHtml]="this.left"> </div>
+    <h4>Original {{ this.entityType }}</h4>
+    <div [innerHtml]="this.left"></div>
   </nz-col>
   <nz-col [nzSpan]="8">
-    <h4>{{this.entityType}} Diff</h4>
-    <div [innerHtml]="this.right"> </div>
+    <h4>{{ this.entityType }} Diff</h4>
+    <div [innerHtml]="this.right"></div>
   </nz-col>
-  <nz-col [nzSpan]="8" >
-    <h4>Revised {{this.entityType}}</h4>
-    <div class="diff suggested" >
-      <div class="background" >
+  <nz-col [nzSpan]="8">
+    <h4>Revised {{ this.entityType }}</h4>
+    <div class="diff suggested">
+      <div class="background">
         {{ this.suggestedValue }}
       </div>
     </div>

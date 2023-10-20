@@ -22,6 +22,8 @@ class MolecularProfile < ActiveRecord::Base
 
   validates :raw_name, presence: true
 
+  validate :unique_name_in_context
+
   searchkick highlight: [:full_name, :common_name, :aliases], callbacks: :async, word_start: [:name]
   scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
 
@@ -34,6 +36,10 @@ class MolecularProfile < ActiveRecord::Base
 
   def should_index?
     !deprecated
+  end
+
+  def is_complex?
+    self.variants.count > 1
   end
 
   GENE_REGEX = /#GID(?<id>\d+)/i
@@ -83,5 +89,31 @@ class MolecularProfile < ActiveRecord::Base
         .distinct
         .count
     }
+  end
+
+  def unique_name_in_context
+    base_query = self.class.where(
+      deprecated: false,
+      name: name
+    )
+
+    duplicate_name = if in_revision_validation_context
+                       base_query
+                         .where.not(id: revision_target_id)
+                         .exists?
+                     else
+                       if persisted?
+                         base_query
+                           .where.not(id: id)
+                           .exists?
+                       else
+                         base_query
+                           .exists?
+                       end
+                     end
+
+    if duplicate_name
+      errors.add(:name, 'must be unique. There is already a Molecular Profile with this name.')
+    end
   end
 end

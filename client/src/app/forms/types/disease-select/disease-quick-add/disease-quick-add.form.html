@@ -1,0 +1,33 @@
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  entityType="Disease"
+  [successMessage]="success">
+  <ng-template #success>{{ successMessage }}</ng-template>
+  <form
+    [formGroup]="form"
+    nz-form
+    nzLayout="horizontal"
+    (ngSubmit)="onSubmit$.next(model)">
+    <nz-row [nzGutter]="[0, 0]">
+      <nz-col nzSpan="24">
+        <formly-form
+          [form]="form"
+          [fields]="fields"
+          [model]="model"
+          [options]="options"
+          (modelChange)="model = $event">
+        </formly-form>
+      </nz-col>
+      <nz-col nzSpan="24">
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="!form.valid"
+          nzBlock>
+          Add Disease&nbsp;
+          <ng-container *ngIf="model.name"> "{{ model.name }}" </ng-container>
+        </button>
+      </nz-col>
+    </nz-row>
+  </form>
+</cvc-form-submission-status-display>

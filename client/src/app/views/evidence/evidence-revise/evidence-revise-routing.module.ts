@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EvidenceReviseView } from './evidence-revise.view';
-import { EvidenceSuggestModule } from './evidence-suggest/evidence-suggest.module';
-import { EvidenceSuggestPage } from './evidence-suggest/evidence-suggest.page';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { EvidenceReviseView } from './evidence-revise.view'
+import { EvidenceSuggestModule } from './evidence-suggest/evidence-suggest.module'
+import { EvidenceSuggestPage } from './evidence-suggest/evidence-suggest.page'
 
 const routes: Routes = [
   {
@@ -15,15 +15,15 @@ const routes: Routes = [
         path: 'suggest',
         component: EvidenceSuggestPage,
         data: {
-          breadcrumb: 'Suggest Revision'
-        }
-      }
-    ]
-  }
-];
+          breadcrumb: 'Suggest Revision',
+        },
+      },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), EvidenceSuggestModule],
   exports: [RouterModule],
 })
-export class EvidenceReviseRoutingModule { }
+export class EvidenceReviseRoutingModule {}

@@ -1,0 +1,59 @@
+<nz-tag
+  nz-popover
+  [nzPopoverContent]="tagListPopover"
+  nzPopoverPlacement="top"
+  nzPopoverTrigger="hover">
+  <!-- plus icon -->
+  <span
+    class="plus-sign"
+    nz-typography
+    nzType="secondary">
+    <strong>+</strong>
+  </span>
+
+  <!-- show all icons if count < max icons -->
+  <ng-container *ngIf="entities.length <= cvcShowMaxIcons; else showCount">
+    <span
+      *ngFor="let entity of entities"
+      class="entity-icon"
+      nz-icon
+      [nzType]="entity.__typename | typenameToIcon"
+      nzTheme="twotone"
+      [nzTwotoneColor]="entity.__typename | entityColor"></span>
+  </ng-container>
+
+  <!-- otherwise, show a count w/ a single representative icon -->
+  <ng-template #showCount>
+    <span
+      class="entity-count"
+      nz-typography
+      nzType="secondary">
+      <strong>{{ entities.length }}</strong>
+    </span>
+    <span
+      class="entity-icon"
+      nz-icon
+      [nzType]="entities[0].__typename | typenameToIcon"
+      nzTheme="twotone"
+      [nzTwotoneColor]="entities[0].__typename | entityColor"></span>
+  </ng-template>
+</nz-tag>
+
+<ng-template #tagListPopover>
+  <div class="popover-container">
+    <cvc-entity-tag-list
+      *ngIf="config; else noConfig"
+      [cvcTagTemplate]="cvcTagTemplate"
+      [cvcTagListConfig]="{
+        tagList: entities,
+        tag: config.tag,
+        showPopover: config.showPopover,
+        status: config.status,
+        emphasize: config.emphasize
+      }">
+    </cvc-entity-tag-list>
+  </div>
+  <ng-template #noConfig>
+    Invalid config specified for entity-tag-list.
+  </ng-template>
+</ng-template>

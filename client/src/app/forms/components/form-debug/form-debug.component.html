@@ -1,0 +1,66 @@
+<nz-card
+  [nzTitle]="cardTitle"
+  nzSize="small"
+  nzBordered="true">
+  <nz-card-tab>
+    <nz-tabset
+      [(nzSelectedIndex)]="selectedIndex"
+      nzSize="small">
+      <nz-tab nzTitle="Model"> </nz-tab>
+      <nz-tab nzTitle="Controls"></nz-tab>
+      <nz-tab nzTitle="State"></nz-tab>
+      <nz-tab nzTitle="Form Status"></nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+  <ng-container [ngSwitch]="selectedIndex">
+    <ng-container *ngSwitchCase="0">
+      <ngx-json-viewer [json]="watchModel"></ngx-json-viewer>
+    </ng-container>
+    <ng-container *ngSwitchCase="3">
+      <nz-descriptions
+        nzBordered
+        [nzColumn]="1"
+        nzSize="small">
+        <nz-descriptions-item nzTitle="status">
+          <cvc-form-status-tag
+            [cvcFormControlStatus]="cvcForm?.status"></cvc-form-status-tag>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="pending">
+          {{ cvcForm?.pending }}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="touched">
+          {{ cvcForm?.touched }}
+        </nz-descriptions-item>
+        <!-- <nz-descriptions-item nzTitle="untouched">{{ cvcForm?.untouched  }}</nz-descriptions-item> -->
+        <nz-descriptions-item nzTitle="valid">
+          {{ cvcForm?.valid }}
+        </nz-descriptions-item>
+        <!-- <nz-descriptions-item nzTitle="invalid">{{ cvcForm?.invalid }}</nz-descriptions-item> -->
+        <nz-descriptions-item nzTitle="dirty">
+          {{ cvcForm?.dirty }}
+        </nz-descriptions-item>
+        <!-- <nz-descriptions-item nzTitle="pristine">{{ cvcForm?.pristine }}</nz-descriptions-item> -->
+        <nz-descriptions-item nzTitle="enabled">
+          {{ cvcForm?.enabled }}
+        </nz-descriptions-item>
+        <!-- <nz-descriptions-item nzTitle="disabled">{{ cvcForm?.disabled}}</nz-descriptions-item> -->
+      </nz-descriptions>
+    </ng-container>
+    <ng-container *ngSwitchCase="1">
+      <cvc-form-debug-field-list
+        [cvcAbstractControl]="cvcForm"></cvc-form-debug-field-list>
+    </ng-container>
+    <ng-container *ngSwitchCase="2"> State Content </ng-container>
+  </ng-container>
+</nz-card>
+<ng-template #cardTitle>
+  <nz-row>
+    <nz-col nzFlex="2"> Form Details </nz-col>
+    <nz-col
+      nzFlex="3"
+      class="form-status-col">
+      <cvc-form-status-tag
+        [cvcFormControlStatus]="cvcForm?.status"></cvc-form-status-tag>
+    </nz-col>
+  </nz-row>
+</ng-template>

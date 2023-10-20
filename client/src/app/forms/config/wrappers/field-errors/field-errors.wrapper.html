@@ -1,9 +1,0 @@
-<nz-form-control [nzValidateStatus]="errorState"
-  [nzErrorTip]="errorTpl">
-  <p>errorState: {{ errorState }}</p>
-  <ng-container #fieldComponent></ng-container>
-  <ng-template #errorTpl
-    let-control>
-    <formly-validation-message [field]="field"></formly-validation-message>
-  </ng-template>
-</nz-form-control>

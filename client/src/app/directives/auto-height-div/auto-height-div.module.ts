@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CvcAutoHeightDivDirective } from './auto-height-div.directive';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { CvcAutoHeightDivDirective } from './auto-height-div.directive'
 
 @NgModule({
   declarations: [CvcAutoHeightDivDirective],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [CvcAutoHeightDivDirective],
 })
-export class CvcAutoHeightDivModule { }
+export class CvcAutoHeightDivModule {}

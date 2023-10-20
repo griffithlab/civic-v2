@@ -1,7 +1,6 @@
-
 query MolecularProfileSummary($mpId: Int!) {
   molecularProfile(id: $mpId) {
-      ...MolecularProfileSummaryFields
+    ...MolecularProfileSummaryFields
   }
 }
 
@@ -17,6 +16,7 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
     citation
     sourceType
     link
+    sourceType
   }
   variants {
     ...VariantMolecularProfileCardFields
@@ -27,32 +27,31 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
 }
 
 fragment MolecularProfileParsedName on MolecularProfileSegment {
-    __typename
-    ... on MolecularProfileTextSegment {
-      text
-    }
-    ... on Gene {
-      id
-      name
-      link
-    }
-    ... on Variant {
-      id
-      name
-      link
-      deprecated
-    }
+  __typename
+  ... on MolecularProfileTextSegment {
+    text
+  }
+  ... on Gene {
+    id
+    name
+    link
+  }
+  ... on Variant {
+    id
+    name
+    link
+    deprecated
+  }
 }
-
 
 fragment VariantMolecularProfileCardFields on Variant {
   id
   name
   link
   gene {
-      id
-      name
-      link
+    id
+    name
+    link
   }
   molecularProfiles(first: 3) {
     totalCount
@@ -66,25 +65,26 @@ fragment VariantMolecularProfileCardFields on Variant {
   variantAliases
   clinvarIds
   alleleRegistryId
+  openCravatUrl
   variantTypes {
-      id
-      link
-      soid
-      name
+    id
+    link
+    soid
+    name
   }
   referenceBuild
   ensemblVersion
   primaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
+    representativeTranscript
+    chromosome
+    start
+    stop
   }
   secondaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
+    representativeTranscript
+    chromosome
+    start
+    stop
   }
   referenceBases
   variantBases

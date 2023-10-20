@@ -4,46 +4,61 @@
   <nz-page-header-content>
     <!-- title, description, docs links -->
     <nz-row class="header-content">
-      <nz-col nzFlex="64px"
+      <nz-col
+        nzFlex="64px"
         class="header-icon">
-        <i nz-icon
+        <i
+          nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Organization' | entityColor"
           nzType="civic-organization"></i>
       </nz-col>
-      <nz-col nzFlex="600px"
+      <nz-col
+        nzFlex="600px"
         class="header-description">
         <h2>Organizations</h2>
-        <p nz-typography
+        <p
+          nz-typography
           nzEllipsis
           nzExpandable
-          [nzEllipsisRows]="2">Users may be included in Organizations, primarily in order to keep track of an organization’s contributions to CIViC curation. A User’s organization affiliation is displayed in their profile and user card.</p>
+          [nzEllipsisRows]="2">
+          Users may be included in Organizations, primarily in order to keep
+          track of an organization’s contributions to CIViC curation. A User’s
+          organization affiliation is displayed in their profile and user card.
+        </p>
       </nz-col>
-      <nz-col nzFlex="auto"
+      <nz-col
+        nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical"
+        <nz-space
+          nzDirection="vertical"
           class="docs-buttons">
-          <a nz-button
+          <a
+            nz-button
             href="https://civic.readthedocs.io/en/latest/using/organizations.html"
             target="_blank"
             nzSize="small"
             nzBlock
             *nzSpaceItem>
-            <i nz-icon
+            <i
+              nz-icon
               nzType="link"
               nzTheme="outline"></i>
             View Organization Docs
-        </a>
+          </a>
         </nz-space>
       </nz-col>
     </nz-row>
-    <div nz-row>
-      <div nz-col
-        [nzSpan]="24">
+    <nz-row [nzGutter]="[8, 16]">
+      <nz-col nzSpan="24">
+        <cvc-organization-leaderboards></cvc-organization-leaderboards>
+      </nz-col>
+      <nz-col [nzSpan]="24">
         <div class="content">
-          <cvc-organizations-table cvcTitle="Browse Organizations"></cvc-organizations-table>
+          <cvc-organizations-table
+            cvcTitle="Browse Organizations"></cvc-organizations-table>
         </div>
-      </div>
-    </div>
+      </nz-col>
+    </nz-row>
   </nz-page-header-content>
 </nz-page-header>

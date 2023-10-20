@@ -1,25 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'cvc-login-button',
   templateUrl: './login-button.component.html',
-  styleUrls: ['./login-button.component.less']
+  styleUrls: ['./login-button.component.less'],
 })
 export class CvcLoginButtonComponent implements OnInit {
-  authVisible: boolean;
+  authVisible: boolean
 
   constructor() {
-    this.authVisible = false;
+    this.authVisible = false
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   showAuth(): void {
-    this.authVisible = true;
+    this.authVisible = true
   }
 
   handleCancel(): void {
-    this.authVisible = false;
+    this.authVisible = false
   }
 }

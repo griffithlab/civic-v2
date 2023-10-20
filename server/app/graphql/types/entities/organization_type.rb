@@ -12,6 +12,7 @@ module Types::Entities
     field :most_recent_event, Types::Entities::EventType, null: true
     field :member_count, Int, null: false
     field :event_count, Int, null: false
+    field :ranks, Types::Entities::RanksType, null: false
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
@@ -54,6 +55,15 @@ module Types::Entities
 
     def event_count
       Loaders::AssociationCountLoader.for(Organization, association: :events).load(object.id)
+    end
+
+    def ranks
+      {
+        moderation_rank: Leaderboard.single_organization_query(object.id, Leaderboard.moderation_actions),
+        comments_rank: Leaderboard.single_organization_query(object.id, Leaderboard.comment_actions),
+        submissions_rank: Leaderboard.single_organization_query(object.id, Leaderboard.submission_actions),
+        revisions_rank: Leaderboard.single_organization_query(object.id, Leaderboard.revision_actions)
+      }
     end
   end
 end

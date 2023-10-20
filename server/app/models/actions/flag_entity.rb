@@ -30,7 +30,7 @@ module Actions
 
     def mark_as_flagged
       flaggable.flagged = true
-      flaggable.save!
+      flaggable.save!(validate: false)
     end
 
     def create_comment

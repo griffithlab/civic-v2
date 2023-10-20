@@ -1,13 +1,5 @@
-
-query OrganizationGroups(
-  $organizationId: Int!
-) {
+query OrganizationGroups($organizationId: Int!) {
   organization(id: $organizationId) {
-  id
-  name
-  url
-  description
-  profileImagePath(size: 256)
     subGroups {
       ...OrganizationGroupsFields
     }
@@ -19,31 +11,28 @@ fragment OrganizationGroupsFields on Organization {
   name
   url
   description
-  profileImagePath(size: 12)
-  orgStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
-  orgAndSuborgsStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
+  profileImagePath(size: 128)
   subGroups {
     id
     name
     url
-    profileImagePath(size: 12)
   }
-} 
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
+}
