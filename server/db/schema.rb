@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_31_142739) do
+ActiveRecord::Schema.define(version: 2023_10_23_153037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -877,6 +877,13 @@ ActiveRecord::Schema.define(version: 2023_08_31_142739) do
     t.index ["stop"], name: "index_variants_on_stop"
     t.index ["stop2"], name: "index_variants_on_stop2"
     t.index ["variant_bases"], name: "index_variants_on_variant_bases"
+  end
+
+  create_table "view_last_updated_timestamps", force: :cascade do |t|
+    t.text "view_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["view_name"], name: "index_view_last_updated_timestamps_on_view_name"
   end
 
   add_foreign_key "acmg_codes_assertions", "acmg_codes"
