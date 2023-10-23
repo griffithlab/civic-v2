@@ -2,30 +2,33 @@
   <div
     *ngSwitchCase="'horizontal'"
     class="layout-horizontal">
-    <ng-container [ngTemplateOutlet]="horizontalFieldWrapper"></ng-container>
+    <ng-container
+      *ngTemplateOutlet="horizontalFieldWrapper;
+      context: { $implicit: {
+      disabled: props.disabled,
+      error: showError,
+      required: props.required,
+      valid: field.formControl!.status === 'VALID' }}"></ng-container>
   </div>
   <div
     *ngSwitchCase="'inline'"
     class="layout-inline">
-    <ng-container [ngTemplateOutlet]="inlineFieldWrapper"></ng-container>
+    <ng-container *ngTemplateOutlet="inlineFieldWrapper"></ng-container>
   </div>
   <div
     *ngSwitchCase="'vertical'"
     class="layout-vertical">
-    <ng-container [ngTemplateOutlet]="verticalFieldWrapper"></ng-container>
+    <ng-container *ngTemplateOutlet="verticalFieldWrapper"></ng-container>
   </div>
 </ng-container>
 
-<ng-template #horizontalFieldWrapper>
+<ng-template
+  #horizontalFieldWrapper
+  let-ngclass>
   <nz-form-item
     [nzGutter]="wrapper.layout.item.gutter"
     class="layout-horizontal"
-    [ngClass]="{
-      disabled: props.disabled,
-      error: showError,
-      required: props.required,
-      valid: field.formControl!.status === 'VALID'
-    }">
+    [ngClass]="ngclass">
     <ng-container *ngIf="props.label && props.hideLabel !== true">
       <nz-form-label
         *ngrxLet="wrapper.layout.label as label"
@@ -51,15 +54,12 @@
   </nz-form-item>
 </ng-template>
 
-<ng-template #verticalFieldWrapper>
+<ng-template
+  #verticalFieldWrapper
+  let-ngclass>
   <nz-form-item
     class="layout-vertical"
-    [ngClass]="{
-      disabled: props.disabled,
-      error: showError,
-      required: props.required,
-      valid: field.formControl!.status === 'VALID'
-    }">
+    [ngClass]="ngclass">
     <ng-container *ngIf="props.label && props.hideLabel !== true">
       <nz-form-label
         *ngrxLet="wrapper.layout.label as label"
@@ -85,14 +85,12 @@
   </nz-form-item>
 </ng-template>
 
-<ng-template #inlineFieldWrapper>
-  <nz-form-item class="layout-inline"
-  [ngClass]="{
-      disabled: props.disabled,
-      error: showError,
-      required: props.required,
-      valid: field.formControl!.status === 'VALID'
-    }">
+<ng-template
+  #inlineFieldWrapper
+  let-ngclass>
+  <nz-form-item
+    class="layout-inline"
+    [ngClass]="ngclass">
     <ng-container *ngIf="props.label && props.hideLabel !== true">
       <nz-form-label
         [nzRequired]="props.required"
