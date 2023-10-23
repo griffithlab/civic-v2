@@ -3,3 +3,9 @@ query ExistingEvidenceCount($molecularProfileId: Int!, $sourceId: Int!) {
     totalCount
   }
 }
+
+query FullyCuratedSource($sourceId: Int!) {
+  source(id: $sourceId) {
+    fullyCurated
+  }
+}

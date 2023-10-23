@@ -7,13 +7,18 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
   Maybe,
+  SourceSuggestionChecksGQL,
+  SourceSuggestionChecksQuery,
+  SourceSuggestionChecksQueryVariables,
   SubmitSourceGQL,
   SubmitSourceMutation,
   SubmitSourceMutationVariables,
 } from '@app/generated/civic.apollo'
-import { UntilDestroy } from '@ngneat/until-destroy'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { sourceSuggestFields } from './source-submit.form.config'
+import { QueryRef } from 'apollo-angular'
+import { Observable, map } from 'rxjs'
 import { SourceModel, sourceFormModelToInput } from '@app/forms/utilities/source-to-model-fields'
 
 @UntilDestroy()
@@ -35,12 +40,17 @@ export class CvcSourceSubmitForm implements OnInit{
 
   mutationState?: MutationState
   newSourceId: Maybe<number>
+  selectedSourceId: Maybe<number>
   url?: string
+
+  suggestionChecksQueryRef?: QueryRef<SourceSuggestionChecksQuery, SourceSuggestionChecksQueryVariables>
+  fullyCuratedSource$?: Observable<Maybe<boolean>>
+  existingSourceSuggestion$?: Observable<Maybe<boolean>>
 
   constructor(
     private submitSourceGQL: SubmitSourceGQL,
-    private networkErrorService: NetworkErrorsService,
-    private cdr: ChangeDetectorRef
+    private sourceChecksGQL: SourceSuggestionChecksGQL,
+    networkErrorService: NetworkErrorsService,
   ) {
     this.form = new UntypedFormGroup({})
     this.model = { fields: {} }
@@ -51,6 +61,35 @@ export class CvcSourceSubmitForm implements OnInit{
 
   ngOnInit(): void {
     this.url = '/curation/queues/pending-sources'
+    this.suggestionChecksQueryRef = this.sourceChecksGQL.watch({sourceId: 0})
+
+    this.fullyCuratedSource$ = this.suggestionChecksQueryRef?.valueChanges.pipe(
+        map(c => c.data?.source?.fullyCurated),
+        untilDestroyed(this)
+    )
+
+    this.existingSourceSuggestion$ = this.suggestionChecksQueryRef?.valueChanges.pipe(
+        map(c => {
+          const count = c.data?.sourceSuggestions?.filteredCount
+          if(count) {
+            return count > 0
+          } else {
+            return false
+          }
+        }),
+        untilDestroyed(this)
+    )
+  }
+
+  onModelChange(newModel: SourceModel) {
+    if(newModel.fields.sourceId != this.selectedSourceId) {
+      this.selectedSourceId = newModel.fields.sourceId
+      if (this.selectedSourceId) {
+        this.suggestionChecksQueryRef?.refetch({sourceId: this.selectedSourceId })
+      } else {
+        this.suggestionChecksQueryRef?.refetch({sourceId: 0 })
+      }
+    }
   }
 
   onSubmit(model: SourceModel) {

@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2023_08_31_142739) do
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
     t.text "code"
     t.text "description"
+    t.boolean "met", null: false
     t.index ["code"], name: "index_acmg_codes_on_code"
   end
 
@@ -249,6 +250,7 @@ ActiveRecord::Schema.define(version: 2023_08_31_142739) do
   create_table "clingen_codes", force: :cascade do |t|
     t.text "code"
     t.text "description"
+    t.boolean "met", null: false
     t.index ["code"], name: "index_clingen_codes_on_code"
     t.index ["description"], name: "index_clingen_codes_on_description"
   end

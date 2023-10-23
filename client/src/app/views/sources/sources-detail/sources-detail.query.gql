@@ -9,6 +9,7 @@ fragment SourceDetailFields on Source {
   citation
   sourceUrl
   displayType
+  fullyCurated
   citationId
   comments {
     totalCount
