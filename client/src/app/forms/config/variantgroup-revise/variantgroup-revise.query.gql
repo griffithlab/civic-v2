@@ -1,10 +1,10 @@
-query VariantGroupRevisableFields2($variantGroupId: Int!) {
+query VariantGroupRevisableFields($variantGroupId: Int!) {
   variantGroup(id: $variantGroupId) {
-    ...VariantGroupRevisableFields2
+    ...VariantGroupRevisableFields
   }
 }
 
-fragment VariantGroupRevisableFields2 on VariantGroup {
+fragment VariantGroupRevisableFields on VariantGroup {
   id
   name
   description
@@ -31,7 +31,7 @@ fragment VariantGroupRevisableFields2 on VariantGroup {
   }
 }
 
-mutation SuggestVariantGroupRevision2(
+mutation SuggestVariantGroupRevision(
   $input: SuggestVariantGroupRevisionInput!
 ) {
   suggestVariantGroupRevision(input: $input) {

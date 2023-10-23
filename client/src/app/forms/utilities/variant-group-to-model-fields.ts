@@ -7,12 +7,12 @@ import {
   Maybe,
   SubmitVariantGroupInput,
   SuggestVariantGroupRevisionInput,
-  VariantGroupRevisableFields2Fragment,
+  VariantGroupRevisableFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { VariantGroupSubmitModel } from '../models/variant-group-submit.model'
 
 export function variantGroupToModelFields(
-  variantGroup: VariantGroupRevisableFields2Fragment
+  variantGroup: VariantGroupRevisableFieldsFragment
 ): VariantGroupFields {
   return {
     description: variantGroup.description,
@@ -28,6 +28,7 @@ export function variantGroupFormModelToReviseInput(
 ): Maybe<SuggestVariantGroupRevisionInput> {
   let input = variantGroupFormModelToInput(model)
   if (input) {
+    delete input.organizationId
     return {
       id: gid,
       fields: {
@@ -54,6 +55,7 @@ export function variantGroupFormModelToInput(
       sourceIds: fields.sourceIds || [],
       name: fields.name!,
       variantIds: fields.variantIds || [],
+      organizationId: model.organizationId,
     }
   }
 }
