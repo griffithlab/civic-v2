@@ -1,0 +1,30 @@
+<ng-container *ngIf="!(newVariant$ | ngrxPush); else variantCreated">
+  <form
+    nz-form
+    [nzLayout]="layout"
+    [formGroup]="form">
+    <formly-form
+      [form]="form"
+      [fields]="config"
+      [model]="model"
+      [options]="options"
+      (modelChange)="modelChange($event)">
+    </formly-form>
+  </form>
+</ng-container>
+<ng-template #variantCreated>
+  <ng-container *ngIf="newVariant$ | ngrxPush as variant">
+    <nz-alert
+      nzType="success"
+      nzShowIcon
+      [nzMessage]="successMessage"
+      [nzDescription]="successDescription"></nz-alert>
+    <ng-template #successMessage>
+      New Variant {{ variant.name }} added.
+    </ng-template>
+    <ng-template #successDescription>
+      View its
+      <a [routerLink]="['/variants', variant.id, 'summary']">details here</a>.
+    </ng-template>
+  </ng-container>
+</ng-template>

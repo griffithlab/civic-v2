@@ -1903,6 +1903,157 @@ export enum IntSearchOperator {
   Ne = 'NE'
 }
 
+export type LeaderboardOrganization = {
+  __typename: 'LeaderboardOrganization';
+  actionCount: Scalars['Int'];
+  description: Scalars['String'];
+  eventCount: Scalars['Int'];
+  events: EventConnection;
+  id: Scalars['Int'];
+  memberCount: Scalars['Int'];
+  members: UserConnection;
+  mostRecentEvent?: Maybe<Event>;
+  name: Scalars['String'];
+  orgAndSuborgsStatsHash: Stats;
+  orgStatsHash: Stats;
+  profileImagePath?: Maybe<Scalars['String']>;
+  rank: Scalars['Int'];
+  ranks: Ranks;
+  subGroups: Array<Organization>;
+  url: Scalars['String'];
+};
+
+
+export type LeaderboardOrganizationEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardOrganizationMembersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardOrganizationProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for LeaderboardOrganization. */
+export type LeaderboardOrganizationConnection = {
+  __typename: 'LeaderboardOrganizationConnection';
+  /** A list of edges. */
+  edges: Array<LeaderboardOrganizationEdge>;
+  /** A list of nodes. */
+  nodes: Array<LeaderboardOrganization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type LeaderboardOrganizationEdge = {
+  __typename: 'LeaderboardOrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<LeaderboardOrganization>;
+};
+
+export type LeaderboardRank = {
+  __typename: 'LeaderboardRank';
+  actionCount: Scalars['Int'];
+  rank: Scalars['Int'];
+};
+
+export type LeaderboardUser = {
+  __typename: 'LeaderboardUser';
+  actionCount: Scalars['Int'];
+  areaOfExpertise?: Maybe<AreaOfExpertise>;
+  bio?: Maybe<Scalars['String']>;
+  country?: Maybe<Country>;
+  displayName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  events: EventConnection;
+  facebookProfile?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  linkedinProfile?: Maybe<Scalars['String']>;
+  mostRecentActionTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentEvent?: Maybe<Event>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  /** Filterable list of notifications for the logged in user. */
+  notifications?: Maybe<NotificationConnection>;
+  orcid?: Maybe<Scalars['String']>;
+  organizations: Array<Organization>;
+  profileImagePath?: Maybe<Scalars['String']>;
+  rank: Scalars['Int'];
+  ranks: Ranks;
+  role: UserRole;
+  statsHash: Stats;
+  twitterHandle?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+
+export type LeaderboardUserEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardUserNotificationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']>;
+  includeSeen?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['Int']>;
+  notificationType?: InputMaybe<NotificationReason>;
+  subscriptionId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type LeaderboardUserProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for LeaderboardUser. */
+export type LeaderboardUserConnection = {
+  __typename: 'LeaderboardUserConnection';
+  /** A list of edges. */
+  edges: Array<LeaderboardUserEdge>;
+  /** A list of nodes. */
+  nodes: Array<LeaderboardUser>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type LeaderboardUserEdge = {
+  __typename: 'LeaderboardUserEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<LeaderboardUser>;
+};
+
 export type LinkableDisease = {
   __typename: 'LinkableDisease';
   id: Scalars['Int'];
@@ -2751,6 +2902,7 @@ export type Organization = {
   orgAndSuborgsStatsHash: Stats;
   orgStatsHash: Stats;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   subGroups: Array<Organization>;
   url: Scalars['String'];
 };
@@ -2808,6 +2960,54 @@ export type OrganizationFilter = {
   includeSubgroups?: InputMaybe<Scalars['Boolean']>;
   /** The organization name. */
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type OrganizationLeaderboards = {
+  __typename: 'OrganizationLeaderboards';
+  commentsLeaderboard: LeaderboardOrganizationConnection;
+  moderationLeaderboard: LeaderboardOrganizationConnection;
+  revisionsLeaderboard: LeaderboardOrganizationConnection;
+  submissionsLeaderboard: LeaderboardOrganizationConnection;
+};
+
+
+export type OrganizationLeaderboardsCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type OrganizationLeaderboardsSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  window?: InputMaybe<TimeWindow>;
 };
 
 export type OrganizationSort = {
@@ -2940,6 +3140,7 @@ export type Query = {
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
   organization?: Maybe<Organization>;
+  organizationLeaderboards: OrganizationLeaderboards;
   /** List and filter organizations. */
   organizations: OrganizationConnection;
   /** Find a phenotype by CIViC ID */
@@ -2982,6 +3183,7 @@ export type Query = {
   therapyTypeahead: Array<Therapy>;
   timepointStats: CivicTimepointStats;
   user?: Maybe<User>;
+  userLeaderboards: UserLeaderboards;
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
   /** List and filter users. */
@@ -3306,6 +3508,7 @@ export type QueryMolecularProfileArgs = {
 
 export type QueryMolecularProfilesArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
@@ -3589,6 +3792,7 @@ export type QueryVariantTypesArgs = {
 
 export type QueryVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
@@ -3597,6 +3801,14 @@ export type QueryVariantsArgs = {
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantMenuSort>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type Ranks = {
+  __typename: 'Ranks';
+  commentsRank?: Maybe<LeaderboardRank>;
+  moderationRank?: Maybe<LeaderboardRank>;
+  revisionsRank?: Maybe<LeaderboardRank>;
+  submissionsRank?: Maybe<LeaderboardRank>;
 };
 
 export enum ReadStatus {
@@ -4539,6 +4751,13 @@ export type TimePointCounts = {
   newThisYear: Scalars['Int'];
 };
 
+export enum TimeWindow {
+  AllTime = 'ALL_TIME',
+  LastMonth = 'LAST_MONTH',
+  LastWeek = 'LAST_WEEK',
+  LastYear = 'LAST_YEAR'
+}
+
 /** Autogenerated input type of Unsubscribe */
 export type UnsubscribeInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -4648,6 +4867,7 @@ export type User = {
   orcid?: Maybe<Scalars['String']>;
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
@@ -4702,6 +4922,58 @@ export type UserEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<User>;
+};
+
+export type UserLeaderboards = {
+  __typename: 'UserLeaderboards';
+  commentsLeaderboard: LeaderboardUserConnection;
+  moderationLeaderboard: LeaderboardUserConnection;
+  revisionsLeaderboard: LeaderboardUserConnection;
+  submissionsLeaderboard: LeaderboardUserConnection;
+};
+
+
+export type UserLeaderboardsCommentsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsModerationLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsRevisionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
+};
+
+
+export type UserLeaderboardsSubmissionsLeaderboardArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  direction?: InputMaybe<SortDirection>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<UserRole>;
+  window?: InputMaybe<TimeWindow>;
 };
 
 export enum UserRole {
@@ -5423,6 +5695,52 @@ export type MolecularProfileMenuQuery = { __typename: 'Query', molecularProfiles
 
 export type MenuMolecularProfileFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean };
 
+export type LeaderboardOrganizationFieldsFragment = { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined };
+
+export type OrganizationCommentsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationCommentsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', commentsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type OrganizationRevisionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationRevisionsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', revisionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type OrganizationModerationLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationModerationLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type OrganizationSubmissionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type OrganizationSubmissionsLeaderboardQuery = { __typename: 'Query', organizationLeaderboards: { __typename: 'OrganizationLeaderboards', submissionsLeaderboard: { __typename: 'LeaderboardOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardOrganizationEdge', cursor: string, node?: { __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardOrganization', id: number, name: string, actionCount: number, rank: number, profileImagePath?: string | undefined }> } } };
+
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -5593,9 +5911,9 @@ export type SourcePopoverQueryVariables = Exact<{
 }>;
 
 
-export type SourcePopoverQuery = { __typename: 'Query', sourcePopover?: { __typename: 'SourcePopover', id: number, name: string, evidenceItemCount: number, citation?: string | undefined, citationId: string, displayType: string, sourceUrl?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', id: number, nctId: string, link: string }> | undefined } | undefined };
+export type SourcePopoverQuery = { __typename: 'Query', sourcePopover?: { __typename: 'SourcePopover', id: number, title?: string | undefined, fullJournalTitle?: string | undefined, evidenceItemCount: number, citation?: string | undefined, citationId: string, displayType: string, sourceUrl?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', id: number, nctId: string, link: string }> | undefined } | undefined };
 
-export type SourcePopoverFragment = { __typename: 'SourcePopover', id: number, name: string, evidenceItemCount: number, citation?: string | undefined, citationId: string, displayType: string, sourceUrl?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', id: number, nctId: string, link: string }> | undefined };
+export type SourcePopoverFragment = { __typename: 'SourcePopover', id: number, title?: string | undefined, fullJournalTitle?: string | undefined, evidenceItemCount: number, citation?: string | undefined, citationId: string, displayType: string, sourceUrl?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', id: number, nctId: string, link: string }> | undefined };
 
 export type BrowseSourcesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -5640,6 +5958,52 @@ export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typenam
 
 export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string };
 
+export type LeaderboardUserFieldsFragment = { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined };
+
+export type UserCommentsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserCommentsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', commentsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type UserRevisionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserRevisionsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', revisionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type UserModerationLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserModerationLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', moderationLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
+export type UserSubmissionsLeaderboardQueryVariables = Exact<{
+  window?: InputMaybe<TimeWindow>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserSubmissionsLeaderboardQuery = { __typename: 'Query', userLeaderboards: { __typename: 'UserLeaderboards', submissionsLeaderboard: { __typename: 'LeaderboardUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'LeaderboardUserEdge', cursor: string, node?: { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined } | undefined }>, nodes: Array<{ __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined }> } } };
+
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -5661,9 +6025,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -5790,29 +6154,6 @@ export type ViewerNotificationCountQueryVariables = Exact<{ [key: string]: never
 
 export type ViewerNotificationCountQuery = { __typename: 'Query', notifications: { __typename: 'NotificationConnection', unreadCount: number } };
 
-export type AssertionRevisableFieldsQueryVariables = Exact<{
-  assertionId: Scalars['Int'];
-}>;
-
-
-export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
-
-export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
-
-export type SuggestAssertionRevisionMutationVariables = Exact<{
-  input: SuggestAssertionRevisionInput;
-}>;
-
-
-export type SuggestAssertionRevisionMutation = { __typename: 'Mutation', suggestAssertionRevision?: { __typename: 'SuggestAssertionRevisionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
-
-export type SubmitAssertionMutationVariables = Exact<{
-  input: SubmitAssertionInput;
-}>;
-
-
-export type SubmitAssertionMutation = { __typename: 'Mutation', submitAssertion?: { __typename: 'SubmitAssertionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number } } | undefined };
-
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -5849,235 +6190,26 @@ export type EntityTypeaheadQueryVariables = Exact<{
 
 export type EntityTypeaheadQuery = { __typename: 'Query', entityTypeahead: Array<{ __typename: 'CommentTagSegment', entityId: number, tagType: TaggableEntity, displayName: string }> };
 
-export type PreviewMolecularProfileNameQueryVariables = Exact<{
-  mpStructure?: InputMaybe<MolecularProfileComponentInput>;
-}>;
-
-
-export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: { __typename: 'MolecularProfileNamePreview', existingMolecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, segments: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }>, deprecatedVariants: Array<{ __typename: 'Variant', id: number, name: string, link: string }> } };
-
-export type CreateMolecularProfileMutationVariables = Exact<{
-  mpStructure: MolecularProfileComponentInput;
-}>;
-
-
-export type CreateMolecularProfileMutation = { __typename: 'Mutation', createMolecularProfile?: { __typename: 'CreateMolecularProfilePayload', molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | undefined };
-
-type PreviewMpName_Gene_Fragment = { __typename: 'Gene', id: number, name: string, link: string };
-
-type PreviewMpName_MolecularProfileTextSegment_Fragment = { __typename: 'MolecularProfileTextSegment', text: string };
-
-type PreviewMpName_Variant_Fragment = { __typename: 'Variant', id: number, name: string, link: string };
-
-export type PreviewMpNameFragment = PreviewMpName_Gene_Fragment | PreviewMpName_MolecularProfileTextSegment_Fragment | PreviewMpName_Variant_Fragment;
-
-export type AcmgCodeTypeaheadQueryVariables = Exact<{
-  code: Scalars['String'];
-}>;
-
-
-export type AcmgCodeTypeaheadQuery = { __typename: 'Query', acmgCodesTypeahead: Array<{ __typename: 'AcmgCode', id: number, code: string, description: string, name: string, tooltip: string }> };
-
-export type ClingenCodeTypeaheadQueryVariables = Exact<{
-  code: Scalars['String'];
-}>;
-
-
-export type ClingenCodeTypeaheadQuery = { __typename: 'Query', clingenCodesTypeahead: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }> };
-
-export type DiseaseTypeaheadQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type DiseaseTypeaheadQuery = { __typename: 'Query', diseaseTypeahead: Array<{ __typename: 'Disease', id: number, name: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> }> };
-
-export type AddDiseaseMutationVariables = Exact<{
-  name: Scalars['String'];
-  doid?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type AddDiseaseMutation = { __typename: 'Mutation', addDisease?: { __typename: 'AddDiseasePayload', new: boolean, disease: { __typename: 'Disease', id: number, name: string, displayName: string } } | undefined };
-
-export type AddDiseaseFieldsFragment = { __typename: 'AddDiseasePayload', new: boolean, disease: { __typename: 'Disease', id: number, name: string, displayName: string } };
-
-export type EvidenceTypeaheadQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type EvidenceTypeaheadQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, status: EvidenceStatus, name: string } | undefined };
-
-export type GeneTypeaheadQueryVariables = Exact<{
-  entrezSymbol: Scalars['String'];
-}>;
-
-
-export type GeneTypeaheadQuery = { __typename: 'Query', geneTypeahead: Array<{ __typename: 'Gene', id: number, name: string, geneAliases: Array<string>, entrezId: number }> };
-
-export type GeneTypeaheadFieldsFragment = { __typename: 'Gene', id: number, name: string, geneAliases: Array<string>, entrezId: number };
-
-export type NccnGuidelineTypeaheadQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type NccnGuidelineTypeaheadQuery = { __typename: 'Query', nccnGuidelinesTypeahead: Array<{ __typename: 'NccnGuideline', id: number, name: string }> };
-
-export type PhenotypeTypeaheadQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type PhenotypeTypeaheadQuery = { __typename: 'Query', phenotypeTypeahead: Array<{ __typename: 'Phenotype', hpoId: string, id: number, name: string }> };
-
-export type CitationExistenceCheckQueryVariables = Exact<{
-  sourceType: SourceSource;
-  citationId: Scalars['String'];
-}>;
-
-
-export type CitationExistenceCheckQuery = { __typename: 'Query', remoteCitation?: string | undefined };
-
-export type CreateSourceStubMutationVariables = Exact<{
-  input: AddRemoteCitationInput;
-}>;
-
-
-export type CreateSourceStubMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
-
-export type CitationTypeaheadQueryVariables = Exact<{
-  partialCitationId: Scalars['String'];
-  sourceType: SourceSource;
-}>;
-
-
-export type CitationTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource }> };
-
-export type SourceTypeaheadResultFragment = { __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource };
-
-export type CheckRemoteCitationQueryVariables = Exact<{
-  sourceType: SourceSource;
-  citationId: Scalars['String'];
-}>;
-
-
-export type CheckRemoteCitationQuery = { __typename: 'Query', remoteCitation?: string | undefined };
-
-export type AddRemoteCitationMutationVariables = Exact<{
-  input: AddRemoteCitationInput;
-}>;
-
-
-export type AddRemoteCitationMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
-
-export type SourceStubFieldsFragment = { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource };
-
-export type SourceTypeaheadQueryVariables = Exact<{
-  partialCitationId: Scalars['String'];
-  sourceType: SourceSource;
-}>;
-
-
-export type SourceTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource }> };
-
-export type SourceTypeaheadFieldsFragment = { __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource };
-
-export type TherapyTypeaheadQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type TherapyTypeaheadQuery = { __typename: 'Query', therapyTypeahead: Array<{ __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyAliases: Array<string> }> };
-
-export type AddTherapyMutationVariables = Exact<{
-  name: Scalars['String'];
-  ncitId?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type AddTherapyMutation = { __typename: 'Mutation', addTherapy?: { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string } } | undefined };
-
-export type AddTherapyFieldsFragment = { __typename: 'AddTherapyPayload', new: boolean, therapy: { __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string } };
-
-export type VariantTypeaheadQueryVariables = Exact<{
-  name: Scalars['String'];
-  geneId?: InputMaybe<Scalars['Int']>;
-}>;
-
-
-export type VariantTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> } };
-
-export type VariantTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } };
-
-export type AddVariantMutationVariables = Exact<{
-  name: Scalars['String'];
+export type LinkableGeneQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
 
 
-export type AddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } } | undefined };
+export type LinkableGeneQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined };
 
-export type AddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } };
-
-export type VariantSelectQueryVariables = Exact<{
-  name: Scalars['String'];
-  geneId?: InputMaybe<Scalars['Int']>;
+export type LinkableVariantQueryVariables = Exact<{
+  variantId: Scalars['Int'];
 }>;
 
 
-export type VariantSelectQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> } };
+export type LinkableVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined };
 
-export type VariantSelectFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } };
-
-export type VariantTypeTypeaheadQueryVariables = Exact<{
-  name: Scalars['String'];
+export type LinkableTherapyQueryVariables = Exact<{
+  therapyId: Scalars['Int'];
 }>;
 
 
-export type VariantTypeTypeaheadQuery = { __typename: 'Query', variantTypeTypeahead: Array<{ __typename: 'VariantType', name: string, soid: string, id: number }> };
-
-export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
-  evidenceId: Scalars['Int'];
-}>;
-
-
-export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }, disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }>, source: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } } | undefined };
-
-export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }, disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }>, source: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } };
-
-export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
-  input: SuggestEvidenceItemRevisionInput;
-}>;
-
-
-export type SuggestEvidenceItemRevisionMutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
-
-export type EvidenceFieldsFromSourceSuggestionQueryVariables = Exact<{
-  sourceId?: InputMaybe<Scalars['Int']>;
-  molecularProfileId?: InputMaybe<Scalars['Int']>;
-  diseaseId?: InputMaybe<Scalars['Int']>;
-}>;
-
-
-export type EvidenceFieldsFromSourceSuggestionQuery = { __typename: 'Query', sourceSuggestionValues: { __typename: 'SourceSuggestionValues', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: string, citation?: string | undefined, link: string } | undefined } };
-
-export type EvidenceSubmittableFieldsQueryVariables = Exact<{
-  evidenceId: Scalars['Int'];
-}>;
-
-
-export type EvidenceSubmittableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, description: string, variantOrigin: VariantOrigin, evidenceType: EvidenceType, significance: EvidenceSignificance, evidenceLevel: EvidenceLevel, evidenceDirection: EvidenceDirection, evidenceRating?: number | undefined, therapyInteractionType?: TherapyInteraction | undefined, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource }, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string }>, disease?: { __typename: 'Disease', id: number, name: string } | undefined } | undefined };
-
-export type SubmittableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, description: string, variantOrigin: VariantOrigin, evidenceType: EvidenceType, significance: EvidenceSignificance, evidenceLevel: EvidenceLevel, evidenceDirection: EvidenceDirection, evidenceRating?: number | undefined, therapyInteractionType?: TherapyInteraction | undefined, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource }, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string }>, disease?: { __typename: 'Disease', id: number, name: string } | undefined };
-
-export type SubmitEvidenceItemMutationVariables = Exact<{
-  input: SubmitEvidenceItemInput;
-}>;
-
-
-export type SubmitEvidenceItemMutation = { __typename: 'Mutation', submitEvidence?: { __typename: 'SubmitEvidenceItemPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number } } | undefined };
+export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
 
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
@@ -6092,45 +6224,6 @@ export type ResolveFlagMutationVariables = Exact<{
 
 
 export type ResolveFlagMutation = { __typename: 'Mutation', resolveFlag?: { __typename: 'ResolveFlagPayload', flag?: { __typename: 'Flag', id: number } | undefined } | undefined };
-
-export type GeneRevisableFieldsQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GeneRevisableFieldsQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
-
-export type RevisableGeneFieldsFragment = { __typename: 'Gene', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
-
-export type SuggestGeneRevisionMutationVariables = Exact<{
-  input: SuggestGeneRevisionInput;
-}>;
-
-
-export type SuggestGeneRevisionMutation = { __typename: 'Mutation', suggestGeneRevision?: { __typename: 'SuggestGeneRevisionPayload', clientMutationId?: string | undefined, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
-
-export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
-  molecularProfileId: Scalars['Int'];
-}>;
-
-
-export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
-
-export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
-
-export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
-  input: SuggestMolecularProfileRevisionInput;
-}>;
-
-
-export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
-
-export type SuggestSourceMutationVariables = Exact<{
-  input: SuggestSourceInput;
-}>;
-
-
-export type SuggestSourceMutation = { __typename: 'Mutation', suggestSource?: { __typename: 'SuggestSourcePayload', clientMutationId?: string | undefined, sourceSuggestion: { __typename: 'SourceSuggestion', id: number } } | undefined };
 
 export type UpdateSourceSuggestionMutationVariables = Exact<{
   input: UpdateSourceSuggestionStatusInput;
@@ -6175,65 +6268,69 @@ export type MolecularProfilesForVariantQueryVariables = Exact<{
 
 export type MolecularProfilesForVariantQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', nodes: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string, evidenceCountsByStatus: { __typename: 'EvidenceItemsByStatus', submittedCount: number, acceptedCount: number } }> } };
 
-export type SuggestVariantGroupRevisionMutationVariables = Exact<{
-  input: SuggestVariantGroupRevisionInput;
+export type AssertionRevisableFieldsQueryVariables = Exact<{
+  assertionId: Scalars['Int'];
 }>;
 
 
-export type SuggestVariantGroupRevisionMutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+export type AssertionRevisableFieldsQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> } | undefined };
 
-export type VariantGroupSubmittableFieldsQueryVariables = Exact<{
-  variantGroupId: Scalars['Int'];
+export type RevisableAssertionFieldsFragment = { __typename: 'Assertion', id: number, summary: string, description: string, variantOrigin: VariantOrigin, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, assertionDirection: AssertionDirection, assertionType: AssertionType, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: string | undefined, name: string, displayName: string, link: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, ncitId?: string | undefined, name: string, link: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', id: number, name: string, code: string, description: string, tooltip: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string, name: string, tooltip: string, exclusive: boolean }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, evidenceItems: Array<{ __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus }> };
+
+export type SuggestAssertionRevisionMutationVariables = Exact<{
+  input: SuggestAssertionRevisionInput;
 }>;
 
 
-export type VariantGroupSubmittableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> } | undefined };
+export type SuggestAssertionRevisionMutation = { __typename: 'Mutation', suggestAssertionRevision?: { __typename: 'SuggestAssertionRevisionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
-export type SubmittableVariantGroupFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> };
-
-export type SubmitVariantGroupMutationVariables = Exact<{
-  input: SubmitVariantGroupInput;
+export type SubmitAssertionMutationVariables = Exact<{
+  input: SubmitAssertionInput;
 }>;
 
 
-export type SubmitVariantGroupMutation = { __typename: 'Mutation', submitVariantGroup?: { __typename: 'SubmitVariantGroupPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number } } | undefined };
+export type SubmitAssertionMutation = { __typename: 'Mutation', submitAssertion?: { __typename: 'SubmitAssertionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number } } | undefined };
 
-export type LinkableGeneQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type LinkableGeneQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined };
-
-export type LinkableVariantQueryVariables = Exact<{
-  variantId: Scalars['Int'];
-}>;
-
-
-export type LinkableVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined };
-
-export type LinkableTherapyQueryVariables = Exact<{
-  therapyId: Scalars['Int'];
-}>;
-
-
-export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
-
-export type EvidenceItemRevisableFields2QueryVariables = Exact<{
+export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
 
 
-export type EvidenceItemRevisableFields2Query = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }, disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }>, source: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } } | undefined };
+export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }, disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }>, source: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } } | undefined };
 
-export type RevisableEvidenceFields2Fragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }, disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }>, source: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } };
+export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, significance: EvidenceSignificance, therapyInteractionType?: TherapyInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> }, disease?: { __typename: 'Disease', id: number, name: string, link: string, displayName: string, doid?: string | undefined, diseaseAliases: Array<string> } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, ncitId?: string | undefined, therapyAliases: Array<string> }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string, hpoId: string }>, source: { __typename: 'Source', id: number, name: string, link: string, citation?: string | undefined, citationId: string, sourceType: SourceSource } };
 
-export type SuggestEvidenceItemRevision2MutationVariables = Exact<{
+export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
   input: SuggestEvidenceItemRevisionInput;
 }>;
 
 
-export type SuggestEvidenceItemRevision2Mutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
+export type SuggestEvidenceItemRevisionMutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
+
+export type EvidenceFieldsFromSourceSuggestionQueryVariables = Exact<{
+  sourceId?: InputMaybe<Scalars['Int']>;
+  molecularProfileId?: InputMaybe<Scalars['Int']>;
+  diseaseId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type EvidenceFieldsFromSourceSuggestionQuery = { __typename: 'Query', sourceSuggestionValues: { __typename: 'SourceSuggestionValues', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: string, citation?: string | undefined, link: string } | undefined } };
+
+export type EvidenceSubmittableFieldsQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidenceSubmittableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, description: string, variantOrigin: VariantOrigin, evidenceType: EvidenceType, significance: EvidenceSignificance, evidenceLevel: EvidenceLevel, evidenceDirection: EvidenceDirection, evidenceRating?: number | undefined, therapyInteractionType?: TherapyInteraction | undefined, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource }, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string }>, disease?: { __typename: 'Disease', id: number, name: string } | undefined } | undefined };
+
+export type SubmittableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, description: string, variantOrigin: VariantOrigin, evidenceType: EvidenceType, significance: EvidenceSignificance, evidenceLevel: EvidenceLevel, evidenceDirection: EvidenceDirection, evidenceRating?: number | undefined, therapyInteractionType?: TherapyInteraction | undefined, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource }, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string }>, disease?: { __typename: 'Disease', id: number, name: string } | undefined };
+
+export type SubmitEvidenceItemMutationVariables = Exact<{
+  input: SubmitEvidenceItemInput;
+}>;
+
+
+export type SubmitEvidenceItemMutation = { __typename: 'Mutation', submitEvidence?: { __typename: 'SubmitEvidenceItemPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number } } | undefined };
 
 export type ExistingEvidenceCountQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
@@ -6249,6 +6346,38 @@ export type FullyCuratedSourceQueryVariables = Exact<{
 
 
 export type FullyCuratedSourceQuery = { __typename: 'Query', source?: { __typename: 'Source', fullyCurated: boolean } | undefined };
+
+export type GeneRevisableFieldsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneRevisableFieldsQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+
+export type RevisableGeneFieldsFragment = { __typename: 'Gene', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+
+export type SuggestGeneRevisionMutationVariables = Exact<{
+  input: SuggestGeneRevisionInput;
+}>;
+
+
+export type SuggestGeneRevisionMutation = { __typename: 'Mutation', suggestGeneRevision?: { __typename: 'SuggestGeneRevisionPayload', clientMutationId?: string | undefined, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+
+export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+}>;
+
+
+export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+
+export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, molecularProfileAliases: Array<string>, isComplex: boolean, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+
+export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
+  input: SuggestMolecularProfileRevisionInput;
+}>;
+
+
+export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
 
 export type SubmitSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -6282,21 +6411,37 @@ export type SuggestVariantRevisionMutationVariables = Exact<{
 
 export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
 
-export type VariantGroupRevisableFields2QueryVariables = Exact<{
+export type VariantGroupRevisableFieldsQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
 }>;
 
 
-export type VariantGroupRevisableFields2Query = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> } | undefined };
+export type VariantGroupRevisableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> } | undefined };
 
-export type VariantGroupRevisableFields2Fragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> };
+export type VariantGroupRevisableFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> };
 
-export type SuggestVariantGroupRevision2MutationVariables = Exact<{
+export type SuggestVariantGroupRevisionMutationVariables = Exact<{
   input: SuggestVariantGroupRevisionInput;
 }>;
 
 
-export type SuggestVariantGroupRevision2Mutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+export type SuggestVariantGroupRevisionMutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
+
+export type VariantGroupSubmittableFieldsQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupSubmittableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> } | undefined };
+
+export type SubmittableVariantGroupFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> };
+
+export type SubmitVariantGroupMutationVariables = Exact<{
+  input: SubmitVariantGroupInput;
+}>;
+
+
+export type SubmitVariantGroupMutation = { __typename: 'Mutation', submitVariantGroup?: { __typename: 'SubmitVariantGroupPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number } } | undefined };
 
 export type EntityTagsTestQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
@@ -6597,7 +6742,7 @@ export type QuickAddVariantMutationVariables = Exact<{
 }>;
 
 
-export type QuickAddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } } | undefined };
+export type QuickAddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } } | undefined };
 
 export type QuickAddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } };
 
@@ -6753,18 +6898,18 @@ export type OrganizationDetailQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } } | undefined };
+export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } } | undefined };
 
-export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } };
+export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } };
 
 export type OrganizationGroupsQueryVariables = Exact<{
   organizationId: Scalars['Int'];
 }>;
 
 
-export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> }> } | undefined };
+export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } }> } | undefined };
 
-export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> };
+export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } };
 
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
@@ -6775,9 +6920,9 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
-export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
+export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -6807,9 +6952,9 @@ export type SourceSummaryQueryVariables = Exact<{
 }>;
 
 
-export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined } | undefined };
+export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined } | undefined };
 
-export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined };
+export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined };
 
 export type TherapyDetailQueryVariables = Exact<{
   therapyId: Scalars['Int'];
@@ -6834,9 +6979,9 @@ export type UserDetailQueryVariables = Exact<{
 }>;
 
 
-export type UserDetailQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined } | undefined };
+export type UserDetailQuery = { __typename: 'Query', user?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined } | undefined };
 
-export type UserDetailFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined };
+export type UserDetailFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, email?: string | undefined, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, bio?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }>, country?: { __typename: 'Country', id: number, name: string } | undefined, statsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined }, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', id: number, coiPresent: boolean, coiStatement?: string | undefined, coiStatus: CoiStatus, createdAt?: any | undefined, expiresAt: any } | undefined };
 
 export type UserNotificationsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -7540,6 +7685,15 @@ export const MenuMolecularProfileFragmentDoc = gql`
   flagged
 }
     `;
+export const LeaderboardOrganizationFieldsFragmentDoc = gql`
+    fragment LeaderboardOrganizationFields on LeaderboardOrganization {
+  id
+  name
+  actionCount
+  rank
+  profileImagePath(size: 64)
+}
+    `;
 export const OrgPopoverFragmentDoc = gql`
     fragment orgPopover on Organization {
   id
@@ -7786,7 +7940,8 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
 export const SourcePopoverFragmentDoc = gql`
     fragment sourcePopover on SourcePopover {
   id
-  name
+  title
+  fullJournalTitle
   evidenceItemCount
   citation
   citationId
@@ -7827,6 +7982,17 @@ export const TherapyBrowseTableRowFieldsFragmentDoc = gql`
   link
 }
     `;
+export const LeaderboardUserFieldsFragmentDoc = gql`
+    fragment LeaderboardUserFields on LeaderboardUser {
+  id
+  name
+  displayName
+  actionCount
+  role
+  rank
+  profileImagePath(size: 64)
+}
+    `;
 export const PopoverUserFragmentDoc = gql`
     fragment popoverUser on User {
   id
@@ -7854,6 +8020,7 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
     submittedEvidenceItems
     revisions
   }
+  profileImagePath(size: 64)
   mostRecentActionTimestamp
 }
     `;
@@ -7999,6 +8166,30 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   }
 }
     `;
+export const PreviewCommentFragmentDoc = gql`
+    fragment previewComment on CommentBodySegment {
+  __typename
+  ... on CommentTagSegment {
+    entityId
+    displayName
+    tagType
+    link
+    status
+    deprecated
+    __typename
+  }
+  ... on CommentTextSegment {
+    text
+    __typename
+  }
+  ... on User {
+    id
+    displayName
+    role
+    __typename
+  }
+}
+    `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
     fragment RevisableAssertionFields on Assertion {
   id
@@ -8060,143 +8251,6 @@ export const RevisableAssertionFieldsFragmentDoc = gql`
     name
     link
     status
-  }
-}
-    `;
-export const PreviewCommentFragmentDoc = gql`
-    fragment previewComment on CommentBodySegment {
-  __typename
-  ... on CommentTagSegment {
-    entityId
-    displayName
-    tagType
-    link
-    status
-    deprecated
-    __typename
-  }
-  ... on CommentTextSegment {
-    text
-    __typename
-  }
-  ... on User {
-    id
-    displayName
-    role
-    __typename
-  }
-}
-    `;
-export const PreviewMpNameFragmentDoc = gql`
-    fragment previewMpName on MolecularProfileSegment {
-  __typename
-  ... on MolecularProfileTextSegment {
-    text
-  }
-  ... on Gene {
-    id
-    name
-    link
-  }
-  ... on Variant {
-    id
-    name
-    link
-  }
-}
-    `;
-export const AddDiseaseFieldsFragmentDoc = gql`
-    fragment AddDiseaseFields on AddDiseasePayload {
-  new
-  disease {
-    id
-    name
-    displayName
-  }
-}
-    `;
-export const GeneTypeaheadFieldsFragmentDoc = gql`
-    fragment GeneTypeaheadFields on Gene {
-  id
-  name
-  geneAliases
-  entrezId
-}
-    `;
-export const SourceTypeaheadResultFragmentDoc = gql`
-    fragment SourceTypeaheadResult on Source {
-  id
-  name
-  citation
-  citationId
-  sourceType
-}
-    `;
-export const SourceStubFieldsFragmentDoc = gql`
-    fragment SourceStubFields on SourceStub {
-  id
-  citationId
-  sourceType
-}
-    `;
-export const SourceTypeaheadFieldsFragmentDoc = gql`
-    fragment SourceTypeaheadFields on Source {
-  id
-  name
-  citation
-  citationId
-  sourceType
-}
-    `;
-export const AddTherapyFieldsFragmentDoc = gql`
-    fragment AddTherapyFields on AddTherapyPayload {
-  new
-  therapy {
-    id
-    ncitId
-    name
-  }
-}
-    `;
-export const VariantTypeaheadFieldsFragmentDoc = gql`
-    fragment VariantTypeaheadFields on Variant {
-  id
-  name
-  variantAliases
-  singleVariantMolecularProfileId
-  singleVariantMolecularProfile {
-    id
-    name
-    link
-  }
-}
-    `;
-export const AddVariantFieldsFragmentDoc = gql`
-    fragment AddVariantFields on AddVariantPayload {
-  clientMutationId
-  new
-  variant {
-    id
-    name
-    singleVariantMolecularProfileId
-    singleVariantMolecularProfile {
-      id
-      name
-      link
-    }
-  }
-}
-    `;
-export const VariantSelectFieldsFragmentDoc = gql`
-    fragment VariantSelectFields on Variant {
-  id
-  name
-  variantAliases
-  singleVariantMolecularProfileId
-  singleVariantMolecularProfile {
-    id
-    name
-    link
   }
 }
     `;
@@ -8333,63 +8387,6 @@ export const RevisableMolecularProfileFieldsFragmentDoc = gql`
   isComplex
 }
     `;
-export const SubmittableVariantGroupFieldsFragmentDoc = gql`
-    fragment SubmittableVariantGroupFields on VariantGroup {
-  id
-  name
-  description
-  variants(first: 50) {
-    nodes {
-      id
-      name
-      link
-      singleVariantMolecularProfile {
-        id
-        name
-        link
-      }
-    }
-  }
-  sources {
-    id
-    link
-    citation
-    sourceType
-  }
-}
-    `;
-export const RevisableEvidenceFields2FragmentDoc = gql`
-    fragment RevisableEvidenceFields2 on EvidenceItem {
-  id
-  molecularProfile {
-    ...MolecularProfileSelectTypeaheadFields
-  }
-  variantOrigin
-  description
-  significance
-  disease {
-    ...DiseaseSelectTypeaheadFields
-  }
-  therapies {
-    ...TherapySelectTypeaheadFields
-  }
-  therapyInteractionType
-  evidenceDirection
-  evidenceLevel
-  evidenceType
-  phenotypes {
-    ...PhenotypeSelectTypeaheadFields
-  }
-  evidenceRating
-  source {
-    ...SourceSelectTypeaheadFields
-  }
-}
-    ${MolecularProfileSelectTypeaheadFieldsFragmentDoc}
-${DiseaseSelectTypeaheadFieldsFragmentDoc}
-${TherapySelectTypeaheadFieldsFragmentDoc}
-${PhenotypeSelectTypeaheadFieldsFragmentDoc}
-${SourceSelectTypeaheadFieldsFragmentDoc}`;
 export const CoordinateFieldsFragmentDoc = gql`
     fragment CoordinateFields on Coordinate {
   chromosome
@@ -8427,8 +8424,8 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
-export const VariantGroupRevisableFields2FragmentDoc = gql`
-    fragment VariantGroupRevisableFields2 on VariantGroup {
+export const VariantGroupRevisableFieldsFragmentDoc = gql`
+    fragment VariantGroupRevisableFields on VariantGroup {
   id
   name
   description
@@ -8452,6 +8449,31 @@ export const VariantGroupRevisableFields2FragmentDoc = gql`
     id
     name
     link
+  }
+}
+    `;
+export const SubmittableVariantGroupFieldsFragmentDoc = gql`
+    fragment SubmittableVariantGroupFields on VariantGroup {
+  id
+  name
+  description
+  variants(first: 50) {
+    nodes {
+      id
+      name
+      link
+      singleVariantMolecularProfile {
+        id
+        name
+        link
+      }
+    }
+  }
+  sources {
+    id
+    link
+    citation
+    sourceType
   }
 }
     `;
@@ -9125,6 +9147,24 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
     submittedAssertions
     acceptedAssertions
   }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
+  }
 }
     `;
 export const OrganizationGroupsFieldsFragmentDoc = gql`
@@ -9133,32 +9173,29 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
   name
   url
   description
-  profileImagePath(size: 12)
-  orgStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
-  orgAndSuborgsStatsHash {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
+  profileImagePath(size: 128)
   subGroups {
     id
     name
     url
-    profileImagePath(size: 12)
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
 }
     `;
@@ -9168,7 +9205,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   name
   displayName
   username
-  profileImagePath(size: 32)
+  profileImagePath(size: 64)
   role
   url
   areaOfExpertise
@@ -9179,6 +9216,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   organizations {
     id
     name
+    url
   }
 }
     `;
@@ -9245,6 +9283,7 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   fullJournalTitle
   pmcId
   authorString
+  ascoAbstractId
   clinicalTrials {
     nctId
     id
@@ -9307,6 +9346,7 @@ export const UserDetailFieldsFragmentDoc = gql`
   organizations {
     id
     name
+    url
   }
   country {
     id
@@ -9321,6 +9361,24 @@ export const UserDetailFieldsFragmentDoc = gql`
     suggestedSources
     submittedAssertions
     acceptedAssertions
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
   mostRecentConflictOfInterestStatement {
     id
@@ -10214,6 +10272,166 @@ export const MolecularProfileMenuDocument = gql`
       super(apollo);
     }
   }
+export const OrganizationCommentsLeaderboardDocument = gql`
+    query OrganizationCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationCommentsLeaderboardGQL extends Apollo.Query<OrganizationCommentsLeaderboardQuery, OrganizationCommentsLeaderboardQueryVariables> {
+    document = OrganizationCommentsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationRevisionsLeaderboardDocument = gql`
+    query OrganizationRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationRevisionsLeaderboardGQL extends Apollo.Query<OrganizationRevisionsLeaderboardQuery, OrganizationRevisionsLeaderboardQueryVariables> {
+    document = OrganizationRevisionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationModerationLeaderboardDocument = gql`
+    query OrganizationModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationModerationLeaderboardGQL extends Apollo.Query<OrganizationModerationLeaderboardQuery, OrganizationModerationLeaderboardQueryVariables> {
+    document = OrganizationModerationLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationSubmissionsLeaderboardDocument = gql`
+    query OrganizationSubmissionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  organizationLeaderboards {
+    submissionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardOrganizationFields
+        }
+      }
+      nodes {
+        ...LeaderboardOrganizationFields
+      }
+    }
+  }
+}
+    ${LeaderboardOrganizationFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationSubmissionsLeaderboardGQL extends Apollo.Query<OrganizationSubmissionsLeaderboardQuery, OrganizationSubmissionsLeaderboardQueryVariables> {
+    document = OrganizationSubmissionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const OrgPopoverDocument = gql`
     query OrgPopover($orgId: Int!) {
   organization(id: $orgId) {
@@ -10799,6 +11017,166 @@ export const TherapiesBrowseDocument = gql`
       super(apollo);
     }
   }
+export const UserCommentsLeaderboardDocument = gql`
+    query UserCommentsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    commentsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserCommentsLeaderboardGQL extends Apollo.Query<UserCommentsLeaderboardQuery, UserCommentsLeaderboardQueryVariables> {
+    document = UserCommentsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserRevisionsLeaderboardDocument = gql`
+    query UserRevisionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    revisionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserRevisionsLeaderboardGQL extends Apollo.Query<UserRevisionsLeaderboardQuery, UserRevisionsLeaderboardQueryVariables> {
+    document = UserRevisionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserModerationLeaderboardDocument = gql`
+    query UserModerationLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    moderationLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserModerationLeaderboardGQL extends Apollo.Query<UserModerationLeaderboardQuery, UserModerationLeaderboardQueryVariables> {
+    document = UserModerationLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserSubmissionsLeaderboardDocument = gql`
+    query UserSubmissionsLeaderboard($window: TimeWindow, $first: Int, $last: Int, $before: String, $after: String) {
+  userLeaderboards {
+    submissionsLeaderboard(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      window: $window
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...LeaderboardUserFields
+        }
+      }
+      nodes {
+        ...LeaderboardUserFields
+      }
+    }
+  }
+}
+    ${LeaderboardUserFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserSubmissionsLeaderboardGQL extends Apollo.Query<UserSubmissionsLeaderboardQuery, UserSubmissionsLeaderboardQueryVariables> {
+    document = UserSubmissionsLeaderboardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UserPopoverDocument = gql`
     query UserPopover($userId: Int!) {
   user(id: $userId) {
@@ -11166,69 +11544,6 @@ export const ViewerNotificationCountDocument = gql`
       super(apollo);
     }
   }
-export const AssertionRevisableFieldsDocument = gql`
-    query AssertionRevisableFields($assertionId: Int!) {
-  assertion(id: $assertionId) {
-    ...RevisableAssertionFields
-  }
-}
-    ${RevisableAssertionFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AssertionRevisableFieldsGQL extends Apollo.Query<AssertionRevisableFieldsQuery, AssertionRevisableFieldsQueryVariables> {
-    document = AssertionRevisableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestAssertionRevisionDocument = gql`
-    mutation SuggestAssertionRevision($input: SuggestAssertionRevisionInput!) {
-  suggestAssertionRevision(input: $input) {
-    clientMutationId
-    assertion {
-      id
-    }
-    results {
-      newlyCreated
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestAssertionRevisionGQL extends Apollo.Mutation<SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables> {
-    document = SuggestAssertionRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SubmitAssertionDocument = gql`
-    mutation SubmitAssertion($input: SubmitAssertionInput!) {
-  submitAssertion(input: $input) {
-    clientMutationId
-    assertion {
-      id
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SubmitAssertionGQL extends Apollo.Mutation<SubmitAssertionMutation, SubmitAssertionMutationVariables> {
-    document = SubmitAssertionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -11306,111 +11621,12 @@ export const EntityTypeaheadDocument = gql`
       super(apollo);
     }
   }
-export const PreviewMolecularProfileNameDocument = gql`
-    query previewMolecularProfileName($mpStructure: MolecularProfileComponentInput) {
-  previewMolecularProfileName(structure: $mpStructure) {
-    existingMolecularProfile {
-      id
-      name
-      link
-    }
-    segments {
-      ...previewMpName
-    }
-    deprecatedVariants {
-      id
-      name
-      link
-    }
-  }
-}
-    ${PreviewMpNameFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PreviewMolecularProfileNameGQL extends Apollo.Query<PreviewMolecularProfileNameQuery, PreviewMolecularProfileNameQueryVariables> {
-    document = PreviewMolecularProfileNameDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CreateMolecularProfileDocument = gql`
-    mutation createMolecularProfile($mpStructure: MolecularProfileComponentInput!) {
-  createMolecularProfile(input: {structure: $mpStructure}) {
-    molecularProfile {
-      id
-      name
-      link
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateMolecularProfileGQL extends Apollo.Mutation<CreateMolecularProfileMutation, CreateMolecularProfileMutationVariables> {
-    document = CreateMolecularProfileDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AcmgCodeTypeaheadDocument = gql`
-    query AcmgCodeTypeahead($code: String!) {
-  acmgCodesTypeahead(queryTerm: $code) {
-    id
-    code
-    description
-    name
-    tooltip
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcmgCodeTypeaheadGQL extends Apollo.Query<AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables> {
-    document = AcmgCodeTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ClingenCodeTypeaheadDocument = gql`
-    query ClingenCodeTypeahead($code: String!) {
-  clingenCodesTypeahead(queryTerm: $code) {
-    id
-    code
-    description
-    name
-    tooltip
-    exclusive
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ClingenCodeTypeaheadGQL extends Apollo.Query<ClingenCodeTypeaheadQuery, ClingenCodeTypeaheadQueryVariables> {
-    document = ClingenCodeTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DiseaseTypeaheadDocument = gql`
-    query DiseaseTypeahead($name: String!) {
-  diseaseTypeahead(queryTerm: $name) {
+export const LinkableGeneDocument = gql`
+    query LinkableGene($geneId: Int!) {
+  gene(id: $geneId) {
     id
     name
-    displayName
-    doid
-    diseaseAliases
+    link
   }
 }
     `;
@@ -11418,74 +11634,19 @@ export const DiseaseTypeaheadDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class DiseaseTypeaheadGQL extends Apollo.Query<DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables> {
-    document = DiseaseTypeaheadDocument;
+  export class LinkableGeneGQL extends Apollo.Query<LinkableGeneQuery, LinkableGeneQueryVariables> {
+    document = LinkableGeneDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const AddDiseaseDocument = gql`
-    mutation AddDisease($name: String!, $doid: String) {
-  addDisease(input: {name: $name, doid: $doid}) {
-    ...AddDiseaseFields
-  }
-}
-    ${AddDiseaseFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddDiseaseGQL extends Apollo.Mutation<AddDiseaseMutation, AddDiseaseMutationVariables> {
-    document = AddDiseaseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidenceTypeaheadDocument = gql`
-    query EvidenceTypeahead($id: Int!) {
-  evidenceItem(id: $id) {
-    id
-    status
-    name
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidenceTypeaheadGQL extends Apollo.Query<EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables> {
-    document = EvidenceTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneTypeaheadDocument = gql`
-    query GeneTypeahead($entrezSymbol: String!) {
-  geneTypeahead(queryTerm: $entrezSymbol) {
-    ...GeneTypeaheadFields
-  }
-}
-    ${GeneTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneTypeaheadGQL extends Apollo.Query<GeneTypeaheadQuery, GeneTypeaheadQueryVariables> {
-    document = GeneTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const NccnGuidelineTypeaheadDocument = gql`
-    query NccnGuidelineTypeahead($name: String!) {
-  nccnGuidelinesTypeahead(queryTerm: $name) {
+export const LinkableVariantDocument = gql`
+    query LinkableVariant($variantId: Int!) {
+  variant(id: $variantId) {
     id
     name
+    link
   }
 }
     `;
@@ -11493,19 +11654,19 @@ export const NccnGuidelineTypeaheadDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class NccnGuidelineTypeaheadGQL extends Apollo.Query<NccnGuidelineTypeaheadQuery, NccnGuidelineTypeaheadQueryVariables> {
-    document = NccnGuidelineTypeaheadDocument;
+  export class LinkableVariantGQL extends Apollo.Query<LinkableVariantQuery, LinkableVariantQueryVariables> {
+    document = LinkableVariantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const PhenotypeTypeaheadDocument = gql`
-    query PhenotypeTypeahead($name: String!) {
-  phenotypeTypeahead(queryTerm: $name) {
-    hpoId
+export const LinkableTherapyDocument = gql`
+    query LinkableTherapy($therapyId: Int!) {
+  therapy(id: $therapyId) {
     id
     name
+    link
   }
 }
     `;
@@ -11513,354 +11674,8 @@ export const PhenotypeTypeaheadDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class PhenotypeTypeaheadGQL extends Apollo.Query<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables> {
-    document = PhenotypeTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CitationExistenceCheckDocument = gql`
-    query CitationExistenceCheck($sourceType: SourceSource!, $citationId: String!) {
-  remoteCitation(sourceType: $sourceType, citationId: $citationId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CitationExistenceCheckGQL extends Apollo.Query<CitationExistenceCheckQuery, CitationExistenceCheckQueryVariables> {
-    document = CitationExistenceCheckDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CreateSourceStubDocument = gql`
-    mutation CreateSourceStub($input: AddRemoteCitationInput!) {
-  addRemoteCitation(input: $input) {
-    newSource {
-      id
-      citationId
-      sourceType
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
-    document = CreateSourceStubDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CitationTypeaheadDocument = gql`
-    query CitationTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
-  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
-    ...SourceTypeaheadResult
-  }
-}
-    ${SourceTypeaheadResultFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
-    document = CitationTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CheckRemoteCitationDocument = gql`
-    query CheckRemoteCitation($sourceType: SourceSource!, $citationId: String!) {
-  remoteCitation(sourceType: $sourceType, citationId: $citationId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CheckRemoteCitationGQL extends Apollo.Query<CheckRemoteCitationQuery, CheckRemoteCitationQueryVariables> {
-    document = CheckRemoteCitationDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AddRemoteCitationDocument = gql`
-    mutation AddRemoteCitation($input: AddRemoteCitationInput!) {
-  addRemoteCitation(input: $input) {
-    newSource {
-      ...SourceStubFields
-    }
-  }
-}
-    ${SourceStubFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddRemoteCitationGQL extends Apollo.Mutation<AddRemoteCitationMutation, AddRemoteCitationMutationVariables> {
-    document = AddRemoteCitationDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SourceTypeaheadDocument = gql`
-    query SourceTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
-  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
-    ...SourceTypeaheadResult
-  }
-}
-    ${SourceTypeaheadResultFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SourceTypeaheadGQL extends Apollo.Query<SourceTypeaheadQuery, SourceTypeaheadQueryVariables> {
-    document = SourceTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const TherapyTypeaheadDocument = gql`
-    query TherapyTypeahead($name: String!) {
-  therapyTypeahead(queryTerm: $name) {
-    id
-    name
-    ncitId
-    therapyAliases
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class TherapyTypeaheadGQL extends Apollo.Query<TherapyTypeaheadQuery, TherapyTypeaheadQueryVariables> {
-    document = TherapyTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AddTherapyDocument = gql`
-    mutation AddTherapy($name: String!, $ncitId: String) {
-  addTherapy(input: {name: $name, ncitId: $ncitId}) {
-    ...AddTherapyFields
-  }
-}
-    ${AddTherapyFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddTherapyGQL extends Apollo.Mutation<AddTherapyMutation, AddTherapyMutationVariables> {
-    document = AddTherapyDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantTypeaheadDocument = gql`
-    query VariantTypeahead($name: String!, $geneId: Int) {
-  variants(name: $name, geneId: $geneId, first: 20) {
-    nodes {
-      ...VariantTypeaheadFields
-    }
-  }
-}
-    ${VariantTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantTypeaheadGQL extends Apollo.Query<VariantTypeaheadQuery, VariantTypeaheadQueryVariables> {
-    document = VariantTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AddVariantDocument = gql`
-    mutation AddVariant($name: String!, $geneId: Int!) {
-  addVariant(input: {name: $name, geneId: $geneId}) {
-    ...AddVariantFields
-  }
-}
-    ${AddVariantFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddVariantGQL extends Apollo.Mutation<AddVariantMutation, AddVariantMutationVariables> {
-    document = AddVariantDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantSelectDocument = gql`
-    query VariantSelect($name: String!, $geneId: Int) {
-  variants(name: $name, first: 20, geneId: $geneId) {
-    nodes {
-      ...VariantTypeaheadFields
-    }
-  }
-}
-    ${VariantTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantSelectGQL extends Apollo.Query<VariantSelectQuery, VariantSelectQueryVariables> {
-    document = VariantSelectDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantTypeTypeaheadDocument = gql`
-    query VariantTypeTypeahead($name: String!) {
-  variantTypeTypeahead(queryTerm: $name) {
-    name
-    soid
-    id
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantTypeTypeaheadGQL extends Apollo.Query<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables> {
-    document = VariantTypeTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidenceItemRevisableFieldsDocument = gql`
-    query EvidenceItemRevisableFields($evidenceId: Int!) {
-  evidenceItem(id: $evidenceId) {
-    ...RevisableEvidenceFields
-  }
-}
-    ${RevisableEvidenceFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidenceItemRevisableFieldsGQL extends Apollo.Query<EvidenceItemRevisableFieldsQuery, EvidenceItemRevisableFieldsQueryVariables> {
-    document = EvidenceItemRevisableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestEvidenceItemRevisionDocument = gql`
-    mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) {
-  suggestEvidenceItemRevision(input: $input) {
-    clientMutationId
-    evidenceItem {
-      id
-    }
-    results {
-      newlyCreated
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
-    document = SuggestEvidenceItemRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidenceFieldsFromSourceSuggestionDocument = gql`
-    query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $molecularProfileId: Int, $diseaseId: Int) {
-  sourceSuggestionValues(
-    molecularProfileId: $molecularProfileId
-    diseaseId: $diseaseId
-    sourceId: $sourceId
-  ) {
-    molecularProfile {
-      id
-      name
-      link
-    }
-    disease {
-      id
-      name
-      link
-    }
-    source {
-      id
-      sourceType
-      citationId
-      citation
-      link
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidenceFieldsFromSourceSuggestionGQL extends Apollo.Query<EvidenceFieldsFromSourceSuggestionQuery, EvidenceFieldsFromSourceSuggestionQueryVariables> {
-    document = EvidenceFieldsFromSourceSuggestionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidenceSubmittableFieldsDocument = gql`
-    query EvidenceSubmittableFields($evidenceId: Int!) {
-  evidenceItem(id: $evidenceId) {
-    ...SubmittableEvidenceFields
-  }
-}
-    ${SubmittableEvidenceFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidenceSubmittableFieldsGQL extends Apollo.Query<EvidenceSubmittableFieldsQuery, EvidenceSubmittableFieldsQueryVariables> {
-    document = EvidenceSubmittableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SubmitEvidenceItemDocument = gql`
-    mutation SubmitEvidenceItem($input: SubmitEvidenceItemInput!) {
-  submitEvidence(input: $input) {
-    clientMutationId
-    evidenceItem {
-      id
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SubmitEvidenceItemGQL extends Apollo.Mutation<SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables> {
-    document = SubmitEvidenceItemDocument;
+  export class LinkableTherapyGQL extends Apollo.Query<LinkableTherapyQuery, LinkableTherapyQueryVariables> {
+    document = LinkableTherapyDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -11901,112 +11716,6 @@ export const ResolveFlagDocument = gql`
   })
   export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
     document = ResolveFlagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneRevisableFieldsDocument = gql`
-    query GeneRevisableFields($geneId: Int!) {
-  gene(id: $geneId) {
-    ...RevisableGeneFields
-  }
-}
-    ${RevisableGeneFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
-    document = GeneRevisableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestGeneRevisionDocument = gql`
-    mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
-  suggestGeneRevision(input: $input) {
-    clientMutationId
-    results {
-      newlyCreated
-      id
-      fieldName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
-    document = SuggestGeneRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MolecularProfileRevisableFieldsDocument = gql`
-    query MolecularProfileRevisableFields($molecularProfileId: Int!) {
-  molecularProfile(id: $molecularProfileId) {
-    ...RevisableMolecularProfileFields
-  }
-}
-    ${RevisableMolecularProfileFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MolecularProfileRevisableFieldsGQL extends Apollo.Query<MolecularProfileRevisableFieldsQuery, MolecularProfileRevisableFieldsQueryVariables> {
-    document = MolecularProfileRevisableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestMolecularProfileRevisionDocument = gql`
-    mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevisionInput!) {
-  suggestMolecularProfileRevision(input: $input) {
-    clientMutationId
-    molecularProfile {
-      id
-    }
-    results {
-      newlyCreated
-      id
-      fieldName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestMolecularProfileRevisionGQL extends Apollo.Mutation<SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables> {
-    document = SuggestMolecularProfileRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestSourceDocument = gql`
-    mutation SuggestSource($input: SuggestSourceInput!) {
-  suggestSource(input: $input) {
-    clientMutationId
-    sourceSuggestion {
-      id
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestSourceGQL extends Apollo.Mutation<SuggestSourceMutation, SuggestSourceMutationVariables> {
-    document = SuggestSourceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -12147,17 +11856,33 @@ export const MolecularProfilesForVariantDocument = gql`
       super(apollo);
     }
   }
-export const SuggestVariantGroupRevisionDocument = gql`
-    mutation SuggestVariantGroupRevision($input: SuggestVariantGroupRevisionInput!) {
-  suggestVariantGroupRevision(input: $input) {
+export const AssertionRevisableFieldsDocument = gql`
+    query AssertionRevisableFields($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...RevisableAssertionFields
+  }
+}
+    ${RevisableAssertionFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionRevisableFieldsGQL extends Apollo.Query<AssertionRevisableFieldsQuery, AssertionRevisableFieldsQueryVariables> {
+    document = AssertionRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestAssertionRevisionDocument = gql`
+    mutation SuggestAssertionRevision($input: SuggestAssertionRevisionInput!) {
+  suggestAssertionRevision(input: $input) {
     clientMutationId
-    variantGroup {
+    assertion {
       id
     }
     results {
       newlyCreated
-      id
-      fieldName
     }
   }
 }
@@ -12166,36 +11891,18 @@ export const SuggestVariantGroupRevisionDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class SuggestVariantGroupRevisionGQL extends Apollo.Mutation<SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables> {
-    document = SuggestVariantGroupRevisionDocument;
+  export class SuggestAssertionRevisionGQL extends Apollo.Mutation<SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables> {
+    document = SuggestAssertionRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const VariantGroupSubmittableFieldsDocument = gql`
-    query VariantGroupSubmittableFields($variantGroupId: Int!) {
-  variantGroup(id: $variantGroupId) {
-    ...SubmittableVariantGroupFields
-  }
-}
-    ${SubmittableVariantGroupFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantGroupSubmittableFieldsGQL extends Apollo.Query<VariantGroupSubmittableFieldsQuery, VariantGroupSubmittableFieldsQueryVariables> {
-    document = VariantGroupSubmittableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SubmitVariantGroupDocument = gql`
-    mutation SubmitVariantGroup($input: SubmitVariantGroupInput!) {
-  submitVariantGroup(input: $input) {
+export const SubmitAssertionDocument = gql`
+    mutation SubmitAssertion($input: SubmitAssertionInput!) {
+  submitAssertion(input: $input) {
     clientMutationId
-    variantGroup {
+    assertion {
       id
     }
   }
@@ -12205,93 +11912,33 @@ export const SubmitVariantGroupDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class SubmitVariantGroupGQL extends Apollo.Mutation<SubmitVariantGroupMutation, SubmitVariantGroupMutationVariables> {
-    document = SubmitVariantGroupDocument;
+  export class SubmitAssertionGQL extends Apollo.Mutation<SubmitAssertionMutation, SubmitAssertionMutationVariables> {
+    document = SubmitAssertionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const LinkableGeneDocument = gql`
-    query LinkableGene($geneId: Int!) {
-  gene(id: $geneId) {
-    id
-    name
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableGeneGQL extends Apollo.Query<LinkableGeneQuery, LinkableGeneQueryVariables> {
-    document = LinkableGeneDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LinkableVariantDocument = gql`
-    query LinkableVariant($variantId: Int!) {
-  variant(id: $variantId) {
-    id
-    name
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableVariantGQL extends Apollo.Query<LinkableVariantQuery, LinkableVariantQueryVariables> {
-    document = LinkableVariantDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LinkableTherapyDocument = gql`
-    query LinkableTherapy($therapyId: Int!) {
-  therapy(id: $therapyId) {
-    id
-    name
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableTherapyGQL extends Apollo.Query<LinkableTherapyQuery, LinkableTherapyQueryVariables> {
-    document = LinkableTherapyDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidenceItemRevisableFields2Document = gql`
-    query EvidenceItemRevisableFields2($evidenceId: Int!) {
+export const EvidenceItemRevisableFieldsDocument = gql`
+    query EvidenceItemRevisableFields($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
-    ...RevisableEvidenceFields2
+    ...RevisableEvidenceFields
   }
 }
-    ${RevisableEvidenceFields2FragmentDoc}`;
+    ${RevisableEvidenceFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class EvidenceItemRevisableFields2GQL extends Apollo.Query<EvidenceItemRevisableFields2Query, EvidenceItemRevisableFields2QueryVariables> {
-    document = EvidenceItemRevisableFields2Document;
+  export class EvidenceItemRevisableFieldsGQL extends Apollo.Query<EvidenceItemRevisableFieldsQuery, EvidenceItemRevisableFieldsQueryVariables> {
+    document = EvidenceItemRevisableFieldsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const SuggestEvidenceItemRevision2Document = gql`
-    mutation SuggestEvidenceItemRevision2($input: SuggestEvidenceItemRevisionInput!) {
+export const SuggestEvidenceItemRevisionDocument = gql`
+    mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) {
   suggestEvidenceItemRevision(input: $input) {
     clientMutationId
     evidenceItem {
@@ -12307,8 +11954,85 @@ export const SuggestEvidenceItemRevision2Document = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class SuggestEvidenceItemRevision2GQL extends Apollo.Mutation<SuggestEvidenceItemRevision2Mutation, SuggestEvidenceItemRevision2MutationVariables> {
-    document = SuggestEvidenceItemRevision2Document;
+  export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
+    document = SuggestEvidenceItemRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceFieldsFromSourceSuggestionDocument = gql`
+    query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $molecularProfileId: Int, $diseaseId: Int) {
+  sourceSuggestionValues(
+    molecularProfileId: $molecularProfileId
+    diseaseId: $diseaseId
+    sourceId: $sourceId
+  ) {
+    molecularProfile {
+      id
+      name
+      link
+    }
+    disease {
+      id
+      name
+      link
+    }
+    source {
+      id
+      sourceType
+      citationId
+      citation
+      link
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceFieldsFromSourceSuggestionGQL extends Apollo.Query<EvidenceFieldsFromSourceSuggestionQuery, EvidenceFieldsFromSourceSuggestionQueryVariables> {
+    document = EvidenceFieldsFromSourceSuggestionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceSubmittableFieldsDocument = gql`
+    query EvidenceSubmittableFields($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...SubmittableEvidenceFields
+  }
+}
+    ${SubmittableEvidenceFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceSubmittableFieldsGQL extends Apollo.Query<EvidenceSubmittableFieldsQuery, EvidenceSubmittableFieldsQueryVariables> {
+    document = EvidenceSubmittableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubmitEvidenceItemDocument = gql`
+    mutation SubmitEvidenceItem($input: SubmitEvidenceItemInput!) {
+  submitEvidence(input: $input) {
+    clientMutationId
+    evidenceItem {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitEvidenceItemGQL extends Apollo.Mutation<SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables> {
+    document = SubmitEvidenceItemDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -12345,6 +12069,91 @@ export const FullyCuratedSourceDocument = gql`
   })
   export class FullyCuratedSourceGQL extends Apollo.Query<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables> {
     document = FullyCuratedSourceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneRevisableFieldsDocument = gql`
+    query GeneRevisableFields($geneId: Int!) {
+  gene(id: $geneId) {
+    ...RevisableGeneFields
+  }
+}
+    ${RevisableGeneFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
+    document = GeneRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestGeneRevisionDocument = gql`
+    mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+  suggestGeneRevision(input: $input) {
+    clientMutationId
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
+    document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfileRevisableFieldsDocument = gql`
+    query MolecularProfileRevisableFields($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    ...RevisableMolecularProfileFields
+  }
+}
+    ${RevisableMolecularProfileFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfileRevisableFieldsGQL extends Apollo.Query<MolecularProfileRevisableFieldsQuery, MolecularProfileRevisableFieldsQueryVariables> {
+    document = MolecularProfileRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestMolecularProfileRevisionDocument = gql`
+    mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevisionInput!) {
+  suggestMolecularProfileRevision(input: $input) {
+    clientMutationId
+    molecularProfile {
+      id
+    }
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestMolecularProfileRevisionGQL extends Apollo.Mutation<SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables> {
+    document = SuggestMolecularProfileRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -12436,26 +12245,26 @@ export const SuggestVariantRevisionDocument = gql`
       super(apollo);
     }
   }
-export const VariantGroupRevisableFields2Document = gql`
-    query VariantGroupRevisableFields2($variantGroupId: Int!) {
+export const VariantGroupRevisableFieldsDocument = gql`
+    query VariantGroupRevisableFields($variantGroupId: Int!) {
   variantGroup(id: $variantGroupId) {
-    ...VariantGroupRevisableFields2
+    ...VariantGroupRevisableFields
   }
 }
-    ${VariantGroupRevisableFields2FragmentDoc}`;
+    ${VariantGroupRevisableFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class VariantGroupRevisableFields2GQL extends Apollo.Query<VariantGroupRevisableFields2Query, VariantGroupRevisableFields2QueryVariables> {
-    document = VariantGroupRevisableFields2Document;
+  export class VariantGroupRevisableFieldsGQL extends Apollo.Query<VariantGroupRevisableFieldsQuery, VariantGroupRevisableFieldsQueryVariables> {
+    document = VariantGroupRevisableFieldsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const SuggestVariantGroupRevision2Document = gql`
-    mutation SuggestVariantGroupRevision2($input: SuggestVariantGroupRevisionInput!) {
+export const SuggestVariantGroupRevisionDocument = gql`
+    mutation SuggestVariantGroupRevision($input: SuggestVariantGroupRevisionInput!) {
   suggestVariantGroupRevision(input: $input) {
     clientMutationId
     variantGroup {
@@ -12473,8 +12282,47 @@ export const SuggestVariantGroupRevision2Document = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class SuggestVariantGroupRevision2GQL extends Apollo.Mutation<SuggestVariantGroupRevision2Mutation, SuggestVariantGroupRevision2MutationVariables> {
-    document = SuggestVariantGroupRevision2Document;
+  export class SuggestVariantGroupRevisionGQL extends Apollo.Mutation<SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables> {
+    document = SuggestVariantGroupRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupSubmittableFieldsDocument = gql`
+    query VariantGroupSubmittableFields($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...SubmittableVariantGroupFields
+  }
+}
+    ${SubmittableVariantGroupFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupSubmittableFieldsGQL extends Apollo.Query<VariantGroupSubmittableFieldsQuery, VariantGroupSubmittableFieldsQueryVariables> {
+    document = VariantGroupSubmittableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubmitVariantGroupDocument = gql`
+    mutation SubmitVariantGroup($input: SubmitVariantGroupInput!) {
+  submitVariantGroup(input: $input) {
+    clientMutationId
+    variantGroup {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitVariantGroupGQL extends Apollo.Mutation<SubmitVariantGroupMutation, SubmitVariantGroupMutationVariables> {
+    document = SubmitVariantGroupDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -13147,10 +12995,10 @@ export const VariantManagerDocument = gql`
 export const QuickAddVariantDocument = gql`
     mutation QuickAddVariant($name: String!, $geneId: Int!) {
   addVariant(input: {name: $name, geneId: $geneId}) {
-    ...AddVariantFields
+    ...QuickAddVariantFields
   }
 }
-    ${AddVariantFieldsFragmentDoc}`;
+    ${QuickAddVariantFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -13495,11 +13343,6 @@ export const OrganizationDetailDocument = gql`
 export const OrganizationGroupsDocument = gql`
     query OrganizationGroups($organizationId: Int!) {
   organization(id: $organizationId) {
-    id
-    name
-    url
-    description
-    profileImagePath(size: 256)
     subGroups {
       ...OrganizationGroupsFields
     }

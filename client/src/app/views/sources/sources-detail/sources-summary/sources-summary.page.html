@@ -49,9 +49,14 @@
             {{ source.displayType + ":" + source.citationId }}
           </cvc-link-tag>
         </nz-descriptions-item>
+        <nz-descriptions-item
+          *ngIf="source.displayType == 'ASCO'"
+          nzTitle="ASCO Abstract ID">
+          {{ source.ascoAbstractId }}
+        </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Journal"
-          >{{ source.fullJournalTitle }}</nz-descriptions-item
-        >
+          >{{ source.fullJournalTitle }}
+        </nz-descriptions-item>
         <nz-descriptions-item nzTitle="PMC ID">
           <ng-container *ngIf="source.pmcId; else notAvailable">
             {{ source.pmcId }}

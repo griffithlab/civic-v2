@@ -741,6 +741,85 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
+export type LeaderboardOrganizationFieldPolicy = {
+	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	members?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	orgAndSuborgsStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
+	orgStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
+	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	rank?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
+	subGroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LeaderboardOrganizationConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | LeaderboardOrganizationConnectionKeySpecifier)[];
+export type LeaderboardOrganizationConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LeaderboardOrganizationEdgeKeySpecifier = ('cursor' | 'node' | LeaderboardOrganizationEdgeKeySpecifier)[];
+export type LeaderboardOrganizationEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LeaderboardRankKeySpecifier = ('actionCount' | 'rank' | LeaderboardRankKeySpecifier)[];
+export type LeaderboardRankFieldPolicy = {
+	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	rank?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LeaderboardUserKeySpecifier = ('actionCount' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActionTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
+export type LeaderboardUserFieldPolicy = {
+	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
+	bio?: FieldPolicy<any> | FieldReadFunction<any>,
+	country?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentActionTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentOrganizationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
+	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	rank?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
+	role?: FieldPolicy<any> | FieldReadFunction<any>,
+	statsHash?: FieldPolicy<any> | FieldReadFunction<any>,
+	twitterHandle?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>,
+	username?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LeaderboardUserConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | LeaderboardUserConnectionKeySpecifier)[];
+export type LeaderboardUserConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LeaderboardUserEdgeKeySpecifier = ('cursor' | 'node' | LeaderboardUserEdgeKeySpecifier)[];
+export type LeaderboardUserEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type LinkableDiseaseKeySpecifier = ('id' | 'link' | 'name' | LinkableDiseaseKeySpecifier)[];
 export type LinkableDiseaseFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1032,7 +1111,7 @@ export type ObjectFieldDiffFieldPolicy = {
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
+export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1045,6 +1124,7 @@ export type OrganizationFieldPolicy = {
 	orgAndSuborgsStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	orgStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	subGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -1060,6 +1140,13 @@ export type OrganizationEdgeKeySpecifier = ('cursor' | 'node' | OrganizationEdge
 export type OrganizationEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type OrganizationLeaderboardsKeySpecifier = ('commentsLeaderboard' | 'moderationLeaderboard' | 'revisionsLeaderboard' | 'submissionsLeaderboard' | OrganizationLeaderboardsKeySpecifier)[];
+export type OrganizationLeaderboardsFieldPolicy = {
+	commentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	moderationLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	submissionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PageInfoKeySpecifier = ('endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | PageInfoKeySpecifier)[];
 export type PageInfoFieldPolicy = {
@@ -1089,7 +1176,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseMolecularProfiles' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCode' | 'acmgCodesTypeahead' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseMolecularProfiles' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clingenCode' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuideline' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizationLeaderboards' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'therapies' | 'therapy' | 'therapyPopover' | 'therapyTypeahead' | 'timepointStats' | 'user' | 'userLeaderboards' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1128,6 +1215,7 @@ export type QueryFieldPolicy = {
 	nccnGuidelinesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationLeaderboards?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotype?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1153,6 +1241,7 @@ export type QueryFieldPolicy = {
 	therapyTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	timepointStats?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	userLeaderboards?: FieldPolicy<any> | FieldReadFunction<any>,
 	userTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
 	validateRevisionsForAcceptance?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1165,6 +1254,13 @@ export type QueryFieldPolicy = {
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RanksKeySpecifier = ('commentsRank' | 'moderationRank' | 'revisionsRank' | 'submissionsRank' | RanksKeySpecifier)[];
+export type RanksFieldPolicy = {
+	commentsRank?: FieldPolicy<any> | FieldReadFunction<any>,
+	moderationRank?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionsRank?: FieldPolicy<any> | FieldReadFunction<any>,
+	submissionsRank?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RejectRevisionsPayloadKeySpecifier = ('clientMutationId' | 'revisions' | RejectRevisionsPayloadKeySpecifier)[];
 export type RejectRevisionsPayloadFieldPolicy = {
@@ -1471,7 +1567,7 @@ export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActionTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActionTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1492,6 +1588,7 @@ export type UserFieldPolicy = {
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	role?: FieldPolicy<any> | FieldReadFunction<any>,
 	statsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	twitterHandle?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1510,6 +1607,13 @@ export type UserEdgeKeySpecifier = ('cursor' | 'node' | UserEdgeKeySpecifier)[];
 export type UserEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UserLeaderboardsKeySpecifier = ('commentsLeaderboard' | 'moderationLeaderboard' | 'revisionsLeaderboard' | 'submissionsLeaderboard' | UserLeaderboardsKeySpecifier)[];
+export type UserLeaderboardsFieldPolicy = {
+	commentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	moderationLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
+	submissionsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ValidationErrorsKeySpecifier = ('genericErrors' | 'validationErrors' | ValidationErrorsKeySpecifier)[];
 export type ValidationErrorsFieldPolicy = {
@@ -1961,6 +2065,34 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | GeneEdgeKeySpecifier | (() => undefined | GeneEdgeKeySpecifier),
 		fields?: GeneEdgeFieldPolicy,
 	},
+	LeaderboardOrganization?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardOrganizationKeySpecifier | (() => undefined | LeaderboardOrganizationKeySpecifier),
+		fields?: LeaderboardOrganizationFieldPolicy,
+	},
+	LeaderboardOrganizationConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardOrganizationConnectionKeySpecifier | (() => undefined | LeaderboardOrganizationConnectionKeySpecifier),
+		fields?: LeaderboardOrganizationConnectionFieldPolicy,
+	},
+	LeaderboardOrganizationEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardOrganizationEdgeKeySpecifier | (() => undefined | LeaderboardOrganizationEdgeKeySpecifier),
+		fields?: LeaderboardOrganizationEdgeFieldPolicy,
+	},
+	LeaderboardRank?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardRankKeySpecifier | (() => undefined | LeaderboardRankKeySpecifier),
+		fields?: LeaderboardRankFieldPolicy,
+	},
+	LeaderboardUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardUserKeySpecifier | (() => undefined | LeaderboardUserKeySpecifier),
+		fields?: LeaderboardUserFieldPolicy,
+	},
+	LeaderboardUserConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardUserConnectionKeySpecifier | (() => undefined | LeaderboardUserConnectionKeySpecifier),
+		fields?: LeaderboardUserConnectionFieldPolicy,
+	},
+	LeaderboardUserEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LeaderboardUserEdgeKeySpecifier | (() => undefined | LeaderboardUserEdgeKeySpecifier),
+		fields?: LeaderboardUserEdgeFieldPolicy,
+	},
 	LinkableDisease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkableDiseaseKeySpecifier | (() => undefined | LinkableDiseaseKeySpecifier),
 		fields?: LinkableDiseaseFieldPolicy,
@@ -2077,6 +2209,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | OrganizationEdgeKeySpecifier | (() => undefined | OrganizationEdgeKeySpecifier),
 		fields?: OrganizationEdgeFieldPolicy,
 	},
+	OrganizationLeaderboards?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | OrganizationLeaderboardsKeySpecifier | (() => undefined | OrganizationLeaderboardsKeySpecifier),
+		fields?: OrganizationLeaderboardsFieldPolicy,
+	},
 	PageInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | PageInfoKeySpecifier | (() => undefined | PageInfoKeySpecifier),
 		fields?: PageInfoFieldPolicy,
@@ -2092,6 +2228,10 @@ export type StrictTypedTypePolicies = {
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
+	},
+	Ranks?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RanksKeySpecifier | (() => undefined | RanksKeySpecifier),
+		fields?: RanksFieldPolicy,
 	},
 	RejectRevisionsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RejectRevisionsPayloadKeySpecifier | (() => undefined | RejectRevisionsPayloadKeySpecifier),
@@ -2252,6 +2392,10 @@ export type StrictTypedTypePolicies = {
 	UserEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserEdgeKeySpecifier | (() => undefined | UserEdgeKeySpecifier),
 		fields?: UserEdgeFieldPolicy,
+	},
+	UserLeaderboards?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UserLeaderboardsKeySpecifier | (() => undefined | UserLeaderboardsKeySpecifier),
+		fields?: UserLeaderboardsFieldPolicy,
 	},
 	ValidationErrors?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ValidationErrorsKeySpecifier | (() => undefined | ValidationErrorsKeySpecifier),

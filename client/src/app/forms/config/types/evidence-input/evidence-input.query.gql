@@ -1,7 +1,0 @@
-query EvidenceTypeahead($id: Int!) {
-  evidenceItem(id: $id) {
-    id
-    status
-    name
-  }
-}

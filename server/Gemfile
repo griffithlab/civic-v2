@@ -48,7 +48,7 @@ gem 'searchkick', '~> 4.5.0'
 gem 'elasticsearch', '~> 7.13.0'
 gem 'typhoeus', '~>1.4.0'
 
-gem 'audited', '~> 4.9'
+gem 'audited', '~> 5.3'
 
 gem 'graphiql-rails', '~> 1.8.0'
 
@@ -59,12 +59,14 @@ gem 'sanitize', '~> 6.0.2'
 gem 'angular_rails_csrf', '~> 5.0.0'
 
 
-gem 'sidekiq', '~> 6.5.1'
-gem 'sidekiq-cron', '~> 1.5.0'
+gem 'sidekiq', '< 8'
+gem 'sidekiq-cron', '~> 1.10.0'
 
 gem 'aws-sdk-s3', '~> 1.94.0'
 gem 'awesome_nested_set', '~> 3.3.0'
 gem 'obo', '~> 0.1.5'
+
+gem 'activejob-null', '~> 0.0.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -90,6 +92,9 @@ group :development do
   gem 'pry'
   gem 'pry-rails'
   gem 'solargraph'
+  gem 'solargraph-rails'
+
+  gem "dockerfile-rails", ">= 1.5"
 end
 
 group :test do

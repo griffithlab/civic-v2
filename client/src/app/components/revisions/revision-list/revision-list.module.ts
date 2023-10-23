@@ -7,7 +7,6 @@ import { CvcRevisionValueDiffModule } from '../revision-value-diff/revision-valu
 import { RevisionListDiffModule } from '../revision-list-diff/revision-list-diff.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -32,7 +31,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
 import { FormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
-import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module'
+import { CvcCommentInputFormModule } from '@app/forms/components/comment-input/comment-input.module'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
@@ -61,7 +60,6 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     NzDescriptionsModule,
     NzDividerModule,
     FormsModule,
-    CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
     CvcGeneTagModule,
     CvcSourceTagModule,

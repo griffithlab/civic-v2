@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 
 import { Observable } from 'rxjs'
 
@@ -9,6 +9,7 @@ import { ViewerService } from '@app/core/services/viewer/viewer.service'
   selector: 'cvc-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
   isCollapsed = false

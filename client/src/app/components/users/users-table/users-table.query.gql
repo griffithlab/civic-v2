@@ -47,5 +47,6 @@ fragment UserBrowseTableRowFields on User {
     submittedEvidenceItems
     revisions
   }
+  profileImagePath(size: 64)
   mostRecentActionTimestamp
 }

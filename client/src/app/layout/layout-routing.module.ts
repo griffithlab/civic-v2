@@ -190,9 +190,9 @@ const routes: Routes = [
         },
       },
       {
-        path: 'forms2',
+        path: 'forms',
         loadChildren: () =>
-          import('@app/forms2/test-pages/test-pages.module').then(
+          import('@app/forms/test-pages/test-pages.module').then(
             (m) => m.TestPagesModule
           ),
         data: {

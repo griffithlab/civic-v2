@@ -1,8 +1,17 @@
-<nz-space nzDirection="vertical" nzSize="middle" class="space-container">
+<nz-space
+  nzDirection="vertical"
+  nzSize="middle"
+  class="space-container">
   <nz-row *nzSpaceItem>
     <nz-col [nzSpan]="24">
-      <nz-space nzDirection="vertical" nzSize="middle" class="space-container">
-        <nz-carousel nzAutoPlay nzAutoPlaySpeed="10000" *nzSpaceItem>
+      <nz-space
+        nzDirection="vertical"
+        nzSize="middle"
+        class="space-container">
+        <nz-carousel
+          nzAutoPlay
+          nzAutoPlaySpeed="10000"
+          *nzSpaceItem>
           <div nz-carousel-content>
             <h1>Welcome to CIViC</h1>
             <h2>
@@ -43,146 +52,16 @@
       <cvc-site-stats-card></cvc-site-stats-card>
     </nz-col>
   </nz-row>
-  <nz-row [nzGutter]="16" *nzSpaceItem>
+  <nz-row
+    [nzGutter]="16"
+    *nzSpaceItem>
     <nz-col [nzSpan]="12">
       <nz-card
         style="height: 100%"
         nzTitle="News & Events"
         nzSize="small"
-        class="home-card"
-      >
-        <nz-list nzItemLayout="vertical">
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>Introducing Molecular Profiles</span>
-                <br />
-                <span nz-typography nzType="secondary"> January 9th, 2023 </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            Today we have rolled out support for a new core concept in CIViC: 
-            <a href="https://civic.readthedocs.io/en/latest/model/molecular_profiles.html" target="_blank"> Molecular Profiles</a>.
-            Molecular Profiles are logical combinations of one or more CIViC Variants.
-            While most Molecular Profiles will consist of a single Variant (“Simple”) they will also allow users to 
-            build “Complex” (multi-variant) Molecular Profiles to associate Evidence with. 
-            These complex profiles expand the CIViC data model to allow for clinical significance to be evaluated within contexts such 
-            as variant co-occurrence or mutual exclusivity. 
-            Going forward, Evidence will be associated with a Molecular Profile rather than directly with a Variant. 
-            If you have any questions about this change, please feel free to 
-            <a href="mailto:help@civicdb.org">contact us</a>. We have also
-            prepared a <a href="https://www.youtube.com/watch?v=--i54jY746w" target="_blank" >video</a > explaining this new feature.
-            <nz-list-item-extra style="padding-top: 100px">
-              <iframe
-                width="300"
-                src="https://www.youtube.com/embed/--i54jY746w"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </nz-list-item-extra>
-          </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>Announcing Support for ASH Abstracts </span>
-                <br />
-                <span nz-typography nzType="secondary"> January 9, 2023 </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-              <img
-                src="assets/images/ash-control-screenshot.png"
-                alt="Screenshot of Add Source form Control"
-                style="float: right; margin: -20px 8px 8px 8px; height: 75px"
-              />
-              ASH Annual Meeting Abstracts can now be used as Sources when submitting Evidence Items to CIViC. 
-              They can be specified by DOI in the 'Add Source' section of the Evidence form.
-            <nz-list-item-extra> </nz-list-item-extra>
-          </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>CIViC named as a Global Core Biodata Resource</span>
-                <br />
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  Dec 15, 2022
-                </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            <a
-              href="https://globalbiodata.org"
-              title="GCBR Homepage"
-              target="_blank">
-              <img
-                src="assets/images/GCBR-Logo-RGB.png"
-                alt="The Global Code Biodata Resources Logo"
-                style="float: right; margin: 0 0 8px 8px; height: 75px" />
-            </a>
-            CIViC has been named in a
-            <a
-              href="https://globalbiodata.org/scientific-activities/global-core-biodata-resources/"
-              title="Global Core Biodata Resources List"
-              target="_blank"
-              >list of 37 Global Core Biodata Resources</a
-            >
-            alongside other important resources such as Ensembl, ClinGen and
-            Gnomad. The GCBR includes
-            <a
-              href="https://globalbiodata.org/scientific-activities/global-core-biodata-resources/gcbr-selection-2022/"
-              title="GCBR Selection Process Overview, 2022"
-              target="_blank"
-              >select resources</a
-            >
-            that ensure the long term preservation of biological data, and are
-            of fundamental importance to the biological and life sciences
-            community.
-            <nz-list-item-extra> </nz-list-item-extra>
-          </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>CIViC Wins ICTR Elevator Pitch Award</span>
-                <br />
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  September 14th, 2022
-                </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            At this year's
-            <a href="https://itcr.cancer.gov"
-              >Informatics Technology for Cancer Research</a
-            >
-            annual
-            <a href="https://itcr2022.org/#abstracts">meeting in St. Louis</a>,
-            CIViC won 1st prize in the Elevator Pitch contest for "Most
-            Potential for Patient Impact". Please check out the award-winning
-            elevator pitch, now featured at the top of the
-            <a href="/pages/about">About CIViC page</a>.
-            <nz-list-item-extra></nz-list-item-extra>
-          </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>Pediatric Cancer Variants</span>
-                <br />
-                <span nz-typography nzType="secondary">
-                  February 12th, 2021
-                </span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-            Through support from the Childhood Cancer Data Initiative (CCDI), we
-            have executed our initial phase of highlighting pediatric cancer
-            variant content. This advanced search query displays childhood
-            relevant data contained in CIViC. Stay tuned for more
-            pediatric-focused features as we launch the first open-access
-            searchable childhood-cancer-specific dataset.
-            <nz-list-item-extra></nz-list-item-extra>
-          </nz-list-item>
-        </nz-list>
+        class="home-card">
+        <cvc-news-item-list [cvcNewsItems]="newsItems"></cvc-news-item-list>
       </nz-card>
     </nz-col>
     <nz-col [nzSpan]="12">
@@ -190,8 +69,7 @@
         nzTitle="Live Curation Activity"
         style="height: 100%"
         nzSize="small"
-        class="home-card"
-      >
+        class="home-card">
         <cvc-homepage-event-feed [pageSize]="23"></cvc-homepage-event-feed>
       </nz-card>
     </nz-col>
@@ -234,10 +112,20 @@
     </nz-col>
   </nz-row>
   <ng-container *ngIf="this.release$ | async as release">
-    <nz-row *nzSpaceItem nzAlign="middle" nzJustify="center">
-      <div id="release-info" nz-typography>
+    <nz-row
+      *nzSpaceItem
+      nzAlign="middle"
+      nzJustify="center">
+      <div
+        id="release-info"
+        nz-typography>
         CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
-        <a [href]="release.html_url" target="_blank">Release Notes</a> &bull;
+        <a
+          [href]="release.html_url"
+          target="_blank"
+          >Release Notes</a
+        >
+        &bull;
         <a
           href="https://github.com/griffithlab/civic-v2/releases/"
           target="_blank"

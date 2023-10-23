@@ -22,7 +22,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { Observable } from 'rxjs'
 import { AppLoadErrorHandler } from './core/utilities/app-reload-handler'
-import { CvcForms2Module } from './forms2/forms2.module'
+import { CvcForms2Module } from '@app/forms/forms.module'
 
 registerLocaleData(en)
 

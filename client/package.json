@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.4",
+    "@angular-eslint/schematics": "^16.1.0",
     "@angular/cli": "^16.1.4",
     "@angular/compiler-cli": "16.1.5",
     "@graphql-codegen/add": "^3.2.3",
@@ -61,7 +62,7 @@
     "@graphql-codegen/typescript-operations": "^2.5.12",
     "@types/node": "^12.11.1",
     "directory-tree": "^3.5.1",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "mustache": "^4.2.0",
     "ngx-json-viewer": "^3.0.2",
     "prettier": "^2.5.1",

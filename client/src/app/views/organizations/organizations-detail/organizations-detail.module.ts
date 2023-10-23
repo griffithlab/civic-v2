@@ -21,6 +21,12 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module'
 import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzButtonModule } from 'ng-zorro-antd/button'
 
 @NgModule({
   declarations: [OrganizationsDetailComponent],
@@ -30,6 +36,7 @@ import { CvcOrganizationCardModule } from '@app/components/organizations/organiz
     LetDirective,
     PushPipe,
     NzPageHeaderModule,
+    NzButtonModule,
     NzGridModule,
     NzIconModule,
     NzSpaceModule,
@@ -40,6 +47,14 @@ import { CvcOrganizationCardModule } from '@app/components/organizations/organiz
     NzAvatarModule,
     NzDescriptionsModule,
     NzDividerModule,
+    NzTypographyModule,
+    NzPopoverModule,
+    NzTagModule,
+    CvcStatsCardModule,
+    CvcOrganizationTagModule,
+    CvcTagListModule,
+    CvcPipesModule,
+    CvcOrganizationAvatarModule,
     CvcLinkTagModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
