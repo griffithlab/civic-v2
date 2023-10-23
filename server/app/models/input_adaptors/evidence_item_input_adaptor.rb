@@ -10,7 +10,7 @@ class InputAdaptors::EvidenceItemInputAdaptor
     EvidenceItem.new(self.class.evidence_fields(input))
   end
 
-  def self.check_input_for_errors(evidence_input_object: )
+  def self.check_input_for_errors(evidence_input_object: , revised_eid: nil)
     errors = []
     fields = evidence_input_object
 
@@ -20,6 +20,9 @@ class InputAdaptors::EvidenceItemInputAdaptor
     query_fields.delete(:phenotype_ids)
 
     eid_query = EvidenceItem.where(query_fields)
+    if revised_eid.present?
+      eid_query = eid_query.where.not(id: revised_eid)
+    end
 
     if eid = eid_query.first
       if eid.therapy_ids.sort == fields.therapy_ids.sort && eid.phenotype_ids.sort == fields.phenotype_ids.sort

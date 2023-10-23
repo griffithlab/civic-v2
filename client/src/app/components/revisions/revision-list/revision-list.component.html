@@ -30,8 +30,15 @@
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Gene">
-              <ng-template #itemTemplate let-item>
-                <cvc-gene-tag [gene]="{id: item.id, name: item.displayName, link: item.link}"></cvc-gene-tag>
+              <ng-template
+                #itemTemplate
+                let-item>
+                <cvc-gene-tag
+                  [gene]="{
+                    id: item.id,
+                    name: item.displayName,
+                    link: item.link
+                  }"></cvc-gene-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -528,45 +535,45 @@
                   <span *nzSpaceItem>
                     <nz-space>
                       <span *nzSpaceItem>
-                        <cvc-org-selector-btn-group
-                          [(selectedOrg)]="this.mostRecentOrg">
-                          <button
-                            type="submit"
-                            nz-button
-                            [nzLoading]="isLoading"
-                            cvcOrgSelectorBtn
-                            nzSize="small"
-                            nzDanger
-                            [disabled]="
-                              this.revisionComment === undefined ||
-                              this.revisionComment.length < 10
-                            "
-                            (click)="onRejectRevisionsClicked()">
-                            Reject Revision
-                          </button>
-                        </cvc-org-selector-btn-group>
+                        <button
+                          type="submit"
+                          nz-button
+                          [nzLoading]="isLoading"
+                          cvcOrgSelectorBtn
+                          nzSize="small"
+                          nzDanger
+                          [disabled]="
+                            this.revisionComment === undefined ||
+                            this.revisionComment.length < 10
+                          "
+                          (click)="onRejectRevisionsClicked()"
+                          nz-tooltip
+                          [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+                          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+                          Reject Revision
+                        </button>
                       </span>
                       <span *nzSpaceItem>
-                        <cvc-org-selector-btn-group
-                          [(selectedOrg)]="this.mostRecentOrg">
-                          <button
-                            type="submit"
-                            nz-button
-                            [nzLoading]="isLoading"
-                            cvcOrgSelectorBtn
-                            nzSize="small"
-                            [disabled]="
-                              !(
-                                totalErrorCount == 0 &&
-                                (this.revisionComment === undefined ||
-                                  this.revisionComment === '' ||
-                                  this.revisionComment.length >= 10)
-                              )
-                            "
-                            (click)="onAcceptRevisionClicked()">
-                            Accept Revision
-                          </button>
-                        </cvc-org-selector-btn-group>
+                        <button
+                          type="submit"
+                          nz-button
+                          [nzLoading]="isLoading"
+                          cvcOrgSelectorBtn
+                          nzSize="small"
+                          [disabled]="
+                            !(
+                              totalErrorCount == 0 &&
+                              (this.revisionComment === undefined ||
+                                this.revisionComment === '' ||
+                                this.revisionComment.length >= 10)
+                            )
+                          "
+                          (click)="onAcceptRevisionClicked()"
+                          nz-tooltip
+                          [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+                          [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+                          Accept Revision
+                        </button>
                       </span>
                       <span *nzSpaceItem>
                         <i

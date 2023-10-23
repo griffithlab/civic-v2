@@ -1,0 +1,13 @@
+mutation QuickAddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: { name: $name, geneId: $geneId }) {
+    ...QuickAddVariantFields
+  }
+}
+
+fragment QuickAddVariantFields on AddVariantPayload {
+  clientMutationId
+  new
+  variant {
+    ...VariantSelectTypeaheadFields
+  }
+}

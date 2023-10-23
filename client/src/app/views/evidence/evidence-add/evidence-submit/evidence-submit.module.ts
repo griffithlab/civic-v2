@@ -10,7 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'
 import { FormsModule } from '@angular/forms'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
-import { CvcEvidenceSubmitFormModule } from '@app/forms2/config/evidence-submit/evidence-submit.form.module'
+import { CvcEvidenceSubmitFormModule } from '@app/forms/config/evidence-submit/evidence-submit.form.module'
 
 @NgModule({
   declarations: [EvidenceSubmitPage],

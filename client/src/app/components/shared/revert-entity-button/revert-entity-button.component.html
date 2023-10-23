@@ -22,16 +22,16 @@
     <nz-spin [nzSpinning]="this.isSubmitting">
       <nz-space nzDirection="horizontal">
         <span *nzSpaceItem>
-          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-            <button
-              cvcOrgSelectorBtn
-              nzType="primary"
-              nzSize="small"
-              nz-button
-              (click)="this.revert()">
-              Revert
-            </button>
-          </cvc-org-selector-btn-group>
+          <button
+            nzType="primary"
+            nzSize="small"
+            nz-button
+            (click)="this.revert()"
+            nz-tooltip
+            [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+            [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+            Revert
+          </button>
         </span>
         <span *nzSpaceItem>
           <button

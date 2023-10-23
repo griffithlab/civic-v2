@@ -110,6 +110,8 @@ export class UsersDetailComponent implements OnDestroy {
 
           this.tabs$.next([...this.defaultTabs, notificationTab])
           this.ownProfile$.next(true)
+        } else {
+          this.ownProfile$.next(false)
         }
       })
     })

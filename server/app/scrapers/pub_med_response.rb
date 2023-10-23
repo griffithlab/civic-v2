@@ -5,7 +5,7 @@ class PubMedResponse
   end
 
   def citation
-    [first_author, year, journal].compact.join(', ')
+    [first_author, year].compact.join(', ')
   end
 
   def authors
