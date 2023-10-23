@@ -19,12 +19,11 @@ import {
   variantGroupToModelFields,
 } from '@app/forms/utilities/variant-group-to-model-fields'
 import {
-  SuggestEvidenceItemRevision2GQL,
-  SuggestVariantGroupRevision2GQL,
+  SuggestEvidenceItemRevisionGQL,
   SuggestVariantGroupRevisionGQL,
   SuggestVariantGroupRevisionMutation,
   SuggestVariantGroupRevisionMutationVariables,
-  VariantGroupRevisableFields2GQL,
+  VariantGroupRevisableFieldsGQL,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -57,8 +56,8 @@ export class CvcVariantgroupReviseForm
   url?: string
 
   constructor(
-    private revisableFieldsGQL: VariantGroupRevisableFields2GQL,
-    private submitRevisionsGQL: SuggestVariantGroupRevision2GQL,
+    private revisableFieldsGQL: VariantGroupRevisableFieldsGQL,
+    private submitRevisionsGQL: SuggestVariantGroupRevisionGQL,
     private networkErrorService: NetworkErrorsService,
     private cdr: ChangeDetectorRef
   ) {

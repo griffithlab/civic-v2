@@ -14,9 +14,12 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { EvidenceSubmitModel } from '@app/forms/models/evidence-submit.model'
 import { EvidenceState } from '@app/forms/states/evidence.state'
-import { evidenceToModelFields, evidenceFormModelToInput,  } from '@app/forms/utilities/evidence-to-model-fields'
 import {
-    EvidenceItemRevisableFields2GQL,
+  evidenceToModelFields,
+  evidenceFormModelToInput,
+} from '@app/forms/utilities/evidence-to-model-fields'
+import {
+  EvidenceItemRevisableFieldsGQL,
   ExistingEvidenceCountGQL,
   ExistingEvidenceCountQuery,
   ExistingEvidenceCountQueryVariables,
@@ -61,11 +64,14 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   existingEvidenceId?: number
   routeSub: Subscription
 
-  countQueryRef?: QueryRef<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables>
+  countQueryRef?: QueryRef<
+    ExistingEvidenceCountQuery,
+    ExistingEvidenceCountQueryVariables
+  >
   existingEvidenceCount$?: Observable<number>
 
   constructor(
-    private revisableFieldsGQL: EvidenceItemRevisableFields2GQL,
+    private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL,
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private existingEvidenceGQL: ExistingEvidenceCountGQL,
     private cdr: ChangeDetectorRef,
@@ -82,11 +88,11 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
         this.existingEvidenceId = +params.existingEvidenceId
 
         let direction = this.getFieldConfig('direction-select')
-        if(direction) {
+        if (direction) {
           direction.props!.formMode = 'clone'
         }
         let significance = this.getFieldConfig('significance-select')
-        if(significance) {
+        if (significance) {
           significance.props!.formMode = 'clone'
         }
       } else {
@@ -96,23 +102,25 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   }
 
   getFieldConfig(fieldKey: string) {
-    return this.fields?.[0]
-      .fieldGroup?.find(f => f.key === 'fields')
-      ?.fieldGroup?.find(f => f.type === fieldKey)
+    return this.fields?.[0].fieldGroup
+      ?.find((f) => f.key === 'fields')
+      ?.fieldGroup?.find((f) => f.type === fieldKey)
   }
 
-
   ngOnInit(): void {
-    this.countQueryRef = this.existingEvidenceGQL.watch({molecularProfileId: 0, sourceId: 0})
+    this.countQueryRef = this.existingEvidenceGQL.watch({
+      molecularProfileId: 0,
+      sourceId: 0,
+    })
     this.existingEvidenceCount$ = this.countQueryRef?.valueChanges.pipe(
-        map(c => c.data?.evidenceItems?.totalCount),
-        filter(isNonNulled),
-        untilDestroyed(this)
+      map((c) => c.data?.evidenceItems?.totalCount),
+      filter(isNonNulled),
+      untilDestroyed(this)
     )
   }
 
   ngAfterViewInit(): void {
-    if(this.existingEvidenceId) {
+    if (this.existingEvidenceId) {
       this.revisableFieldsGQL
         .fetch({ evidenceId: this.existingEvidenceId })
         .pipe(untilDestroyed(this))
@@ -157,16 +165,19 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
 
   onModelChange(newModel: EvidenceSubmitModel) {
     if (newModel.fields.sourceId && newModel.fields.molecularProfileId) {
-      if (newModel.fields.sourceId != this.selectedSourceId || newModel.fields.molecularProfileId != this.selectedMpId)  {
+      if (
+        newModel.fields.sourceId != this.selectedSourceId ||
+        newModel.fields.molecularProfileId != this.selectedMpId
+      ) {
         this.selectedSourceId = newModel.fields.sourceId
         this.selectedMpId = newModel.fields.molecularProfileId
         this.countQueryRef?.refetch({
           molecularProfileId: newModel.fields.molecularProfileId,
-          sourceId: newModel.fields.sourceId
+          sourceId: newModel.fields.sourceId,
         })
       }
     } else {
-      this.countQueryRef?.refetch({molecularProfileId: 0, sourceId: 0})
+      this.countQueryRef?.refetch({ molecularProfileId: 0, sourceId: 0 })
     }
   }
 

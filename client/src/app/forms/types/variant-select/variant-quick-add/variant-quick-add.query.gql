@@ -1,6 +1,6 @@
 mutation QuickAddVariant($name: String!, $geneId: Int!) {
   addVariant(input: { name: $name, geneId: $geneId }) {
-    ...AddVariantFields
+    ...QuickAddVariantFields
   }
 }
 
