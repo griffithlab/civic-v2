@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router'
 import { CurationActivityView } from './curation-activity/curation-activity.view'
 import { CurationQueuesView } from './curation-queues/curation-queues.view'
 import { CurationView } from './curation.view'
-import { AdvancedSearchView } from './advanced-search/advanced-search.view'
 
 const routes: Routes = [
   {
@@ -33,14 +32,6 @@ const routes: Routes = [
           breadcrumb: 'Queues',
         },
       },
-      {
-        path: 'search',
-        component: AdvancedSearchView,
-        loadChildren: () => import('@app/views/curation/advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
-        data: {
-          breadcrumb: 'Search'
-        },
-      }
     ]
   }
 ];

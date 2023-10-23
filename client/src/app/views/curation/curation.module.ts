@@ -7,7 +7,6 @@ import { CurationQueuesModule } from './curation-queues/curation-queues.module'
 import { PendingSourcesModule } from './curation-queues/pending-sources/pending-sources.module'
 import { PendingEvidenceModule } from './curation-queues/pending-evidence/pending-evidence.module'
 import { PendingAssertionsModule } from './curation-queues/pending-assertions/pending-assertions.module'
-import { AdvancedSearchModule } from './advanced-search/advanced-search.module'
 
 @NgModule({
   declarations: [CurationView],
@@ -18,7 +17,6 @@ import { AdvancedSearchModule } from './advanced-search/advanced-search.module'
     PendingSourcesModule,
     PendingEvidenceModule,
     PendingAssertionsModule,
-    AdvancedSearchModule
   ]
 })
 export class CurationModule {}
