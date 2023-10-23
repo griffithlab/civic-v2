@@ -31,6 +31,7 @@ class Variant < ApplicationRecord
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']
 
   after_commit :reindex_mps
+  after_create -> { MaterializedViews::VariantBrowseTableRow.refresh_async }
 
   validates :name, presence: true
 
