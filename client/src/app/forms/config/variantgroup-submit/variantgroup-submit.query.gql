@@ -1,48 +1,38 @@
-query VariantGroupRevisableFields2($variantGroupId: Int!) {
+query VariantGroupSubmittableFields($variantGroupId: Int!) {
   variantGroup(id: $variantGroupId) {
-    ...VariantGroupRevisableFields2
+    ...SubmittableVariantGroupFields
   }
 }
 
-fragment VariantGroupRevisableFields2 on VariantGroup {
+fragment SubmittableVariantGroupFields on VariantGroup {
   id
   name
   description
-  variants {
-    totalCount
-    edges {
-      cursor
-      node {
+  variants(first: 50) {
+    nodes {
+      id
+      name
+      link
+      singleVariantMolecularProfile {
         id
         name
         link
       }
     }
-    nodes {
-      id
-      name
-      link
-    }
   }
   sources {
     id
-    name
     link
+    citation
+    sourceType
   }
 }
 
-mutation SuggestVariantGroupRevision2(
-  $input: SuggestVariantGroupRevisionInput!
-) {
-  suggestVariantGroupRevision(input: $input) {
+mutation SubmitVariantGroup($input: SubmitVariantGroupInput!) {
+  submitVariantGroup(input: $input) {
     clientMutationId
     variantGroup {
       id
-    }
-    results {
-      newlyCreated
-      id
-      fieldName
     }
   }
 }

@@ -1,30 +1,29 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Input,
-    OnDestroy,
-    OnInit
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
-    MutationState,
-    MutatorWithState
+  MutationState,
+  MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import { EvidenceReviseModel } from '@app/forms/models/evidence-revise.model'
 import { EvidenceState } from '@app/forms/states/evidence.state'
 import {
-    evidenceFormModelToReviseInput,
-    evidenceToModelFields
+  evidenceFormModelToReviseInput,
+  evidenceToModelFields,
 } from '@app/forms/utilities/evidence-to-model-fields'
 import {
-    EvidenceItemRevisableFields2GQL,
-    SuggestEvidenceItemRevision2GQL,
-    SuggestEvidenceItemRevisionGQL,
-    SuggestEvidenceItemRevisionMutation,
-    SuggestEvidenceItemRevisionMutationVariables
+  EvidenceItemRevisableFieldsGQL,
+  SuggestEvidenceItemRevisionGQL,
+  SuggestEvidenceItemRevisionMutation,
+  SuggestEvidenceItemRevisionMutationVariables,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -55,8 +54,8 @@ export class CvcEvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   mutationState?: MutationState
 
   constructor(
-    private revisableFieldsGQL: EvidenceItemRevisableFields2GQL,
-    private submitRevisionsGQL: SuggestEvidenceItemRevision2GQL,
+    private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL,
+    private submitRevisionsGQL: SuggestEvidenceItemRevisionGQL,
     private networkErrorService: NetworkErrorsService,
     private cdr: ChangeDetectorRef
   ) {
