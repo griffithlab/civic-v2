@@ -8,7 +8,7 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   type Types::BrowseTables::BrowseSourceType.connection_type, null: false
 
   scope do
-    SourceBrowseTableRow.order('source_suggestion_count desc')
+    MaterializedViews::SourceBrowseTableRow.order('source_suggestion_count desc')
       .order('evidence_item_count desc')
       .all
   end
