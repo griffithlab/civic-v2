@@ -36,6 +36,7 @@ query BrowseSources(
     }
     totalCount
     filteredCount
+    lastUpdated
     pageCount
     edges {
       cursor
