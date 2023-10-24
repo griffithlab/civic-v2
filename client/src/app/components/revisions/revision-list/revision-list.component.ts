@@ -171,6 +171,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         this.success = successType
         this.validationPopoverVisible = false
         this.selectedRevisionIds = []
+        this.revisionComment = undefined
       }
     })
     state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
