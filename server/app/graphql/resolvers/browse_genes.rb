@@ -7,7 +7,7 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseGeneType.connection_type, null: false
 
-  scope { GeneBrowseTableRow.all }
+  scope { MaterializedViews::GeneBrowseTableRow.all }
 
   option(:entrez_symbol, type: String) { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
   option(:gene_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }

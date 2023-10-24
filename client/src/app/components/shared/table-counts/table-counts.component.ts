@@ -13,6 +13,7 @@ import { filter, map } from 'rxjs/operators'
 export type TableCountsInfo = {
   filteredCount: Maybe<number>
   edgeCount: number
+  lastUpdated?: string
 }
 
 export type EntityConnection = {
@@ -22,6 +23,7 @@ export type EntityConnection = {
   filteredCount?: number
   totalCount?: number
   pageInfo: PageInfo
+  lastUpdated?: string
 }
 
 export type EntityEdge = {
@@ -59,6 +61,7 @@ export class TableCountsComponent implements OnInit {
         return {
           edgeCount: edges.length,
           filteredCount: filteredCount,
+          lastUpdated: c.lastUpdated
         }
       })
     )
