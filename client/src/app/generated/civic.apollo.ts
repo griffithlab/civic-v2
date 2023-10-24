@@ -434,6 +434,8 @@ export type BrowseClinicalTrialConnection = {
   edges: Array<BrowseClinicalTrialEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseClinicalTrial>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -475,6 +477,8 @@ export type BrowseDiseaseConnection = {
   edges: Array<BrowseDiseaseEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseDisease>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -532,6 +536,8 @@ export type BrowseGeneConnection = {
   edges: Array<BrowseGeneEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseGene>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -574,6 +580,8 @@ export type BrowseMolecularProfileConnection = {
   edges: Array<BrowseMolecularProfileEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseMolecularProfile>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -611,6 +619,8 @@ export type BrowsePhenotypeConnection = {
   edges: Array<BrowsePhenotypeEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowsePhenotype>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -656,6 +666,8 @@ export type BrowseSourceConnection = {
   edges: Array<BrowseSourceEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseSource>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -693,6 +705,8 @@ export type BrowseTherapyConnection = {
   edges: Array<BrowseTherapyEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseTherapy>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -733,6 +747,8 @@ export type BrowseVariantConnection = {
   edges: Array<BrowseVariantEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseVariant>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -770,6 +786,8 @@ export type BrowseVariantGroupConnection = {
   edges: Array<BrowseVariantGroupEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseVariantGroup>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -806,6 +824,8 @@ export type BrowseVariantTypeConnection = {
   edges: Array<BrowseVariantTypeEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<BrowseVariantType>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -4178,6 +4198,8 @@ export type SourceSuggestionConnection = {
   edges: Array<SourceSuggestionEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
   /** A list of nodes. */
   nodes: Array<SourceSuggestion>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -5501,7 +5523,7 @@ export type BrowseDiseasesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, geneNames: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, geneCount: number, link: string } | undefined }> } };
+export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, geneNames: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, geneCount: number, link: string } | undefined }> } };
 
 export type BrowseDiseaseRowFieldsFragment = { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, geneNames: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, geneCount: number, link: string };
 
@@ -5636,7 +5658,7 @@ export type BrowseGenesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
+export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
 
 export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
 
@@ -5676,7 +5698,7 @@ export type BrowseMolecularProfilesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, variantCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', lastUpdated: any, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, variantCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> } | undefined }> } };
 
 export type BrowseMolecularProfilesFieldsFragment = { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, molecularProfileScore: number, assertionCount: number, variantCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'LinkableTherapy', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> };
 
@@ -5932,7 +5954,7 @@ export type BrowseSourcesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean } | undefined }> } };
+export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, lastUpdated: any, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean } | undefined }> } };
 
 export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string, openAccess: boolean };
 
@@ -6050,7 +6072,7 @@ export type BrowseVariantGroupsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantGroupsQuery = { __typename: 'Query', browseVariantGroups: { __typename: 'BrowseVariantGroupConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantGroupEdge', cursor: string, node?: { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, geneNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number } | undefined }> } };
+export type BrowseVariantGroupsQuery = { __typename: 'Query', browseVariantGroups: { __typename: 'BrowseVariantGroupConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantGroupEdge', cursor: string, node?: { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, geneNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number } | undefined }> } };
 
 export type BrowseVariantGroupRowFieldsFragment = { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, geneNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number };
 
@@ -6140,7 +6162,7 @@ export type BrowseVariantsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
 export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, geneId: number, geneName: string, geneLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
 
@@ -9891,6 +9913,7 @@ export const BrowseDiseasesDocument = gql`
       hasPreviousPage
       startCursor
     }
+    lastUpdated
     totalCount
     filteredCount
     pageCount
@@ -10137,6 +10160,7 @@ export const BrowseGenesDocument = gql`
       hasPreviousPage
       hasNextPage
     }
+    lastUpdated
     totalCount
     filteredCount
     pageCount
@@ -10218,6 +10242,7 @@ export const BrowseMolecularProfilesDocument = gql`
         ...BrowseMolecularProfilesFields
       }
     }
+    lastUpdated
     filteredCount
     pageCount
   }
@@ -10931,6 +10956,7 @@ export const BrowseSourcesDocument = gql`
     }
     totalCount
     filteredCount
+    lastUpdated
     pageCount
     edges {
       cursor
@@ -11273,6 +11299,7 @@ export const BrowseVariantGroupsDocument = gql`
     totalCount
     filteredCount
     pageCount
+    lastUpdated
     edges {
       cursor
       node {
@@ -11481,6 +11508,7 @@ export const BrowseVariantsDocument = gql`
     totalCount
     filteredCount
     pageCount
+    lastUpdated
   }
 }
     ${BrowseVariantsFieldsFragmentDoc}`;

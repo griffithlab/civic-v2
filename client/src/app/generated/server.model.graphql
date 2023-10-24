@@ -739,6 +739,11 @@ type BrowseClinicalTrialConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseClinicalTrial!]!
@@ -801,6 +806,11 @@ type BrowseDiseaseConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -914,6 +924,11 @@ type BrowseGeneConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseGene!]!
@@ -979,6 +994,11 @@ type BrowseMolecularProfileConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseMolecularProfile!]!
@@ -1037,6 +1057,11 @@ type BrowsePhenotypeConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -1107,6 +1132,11 @@ type BrowseSourceConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseSource!]!
@@ -1165,6 +1195,11 @@ type BrowseTherapyConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -1230,6 +1265,11 @@ type BrowseVariantConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseVariant!]!
@@ -1290,6 +1330,11 @@ type BrowseVariantGroupConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseVariantGroup!]!
@@ -1347,6 +1392,11 @@ type BrowseVariantTypeConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -6926,6 +6976,11 @@ type SourceSuggestionConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.

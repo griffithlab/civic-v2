@@ -24,6 +24,7 @@ query BrowseDiseases(
       hasPreviousPage
       startCursor
     }
+    lastUpdated
     totalCount
     filteredCount
     pageCount

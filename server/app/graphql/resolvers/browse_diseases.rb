@@ -7,7 +7,7 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseDiseaseType.connection_type, null: false
 
-  scope { DiseaseBrowseTableRow.all }
+  scope { MaterializedViews::DiseaseBrowseTableRow.all }
 
   option(:id, type: Int) do |scope, value|
     scope.where(id: value)
