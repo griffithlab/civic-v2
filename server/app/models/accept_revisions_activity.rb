@@ -1,6 +1,6 @@
 class AcceptRevisionsActivity < Activity
   has_many :revision_links,
-    ->() { where(entity_type: 'Revisions') },
+    ->() { where(entity_type: 'Revision') },
     foreign_key: :activity_id,
     class_name: 'ActivityLinkedEntity'
 
