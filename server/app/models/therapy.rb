@@ -1,4 +1,6 @@
 class Therapy < ApplicationRecord
+  validates_with DeprecationValidator
+
   include WithTimepointCounts
   include WithCapitalizedName
 
