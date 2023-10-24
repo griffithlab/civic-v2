@@ -23,6 +23,9 @@ import {
   ExistingEvidenceCountGQL,
   ExistingEvidenceCountQuery,
   ExistingEvidenceCountQueryVariables,
+  FullyCuratedSourceGQL,
+  FullyCuratedSourceQuery,
+  FullyCuratedSourceQueryVariables,
   Maybe,
   SubmitEvidenceItemGQL,
   SubmitEvidenceItemMutation,
@@ -61,19 +64,20 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
 
   selectedSourceId?: number
   selectedMpId?: number
+
+  countQueryRef?: QueryRef<ExistingEvidenceCountQuery, ExistingEvidenceCountQueryVariables>
+  curatedQueryRef?: QueryRef<FullyCuratedSourceQuery, FullyCuratedSourceQueryVariables>
   existingEvidenceId?: number
   routeSub: Subscription
 
-  countQueryRef?: QueryRef<
-    ExistingEvidenceCountQuery,
-    ExistingEvidenceCountQueryVariables
-  >
   existingEvidenceCount$?: Observable<number>
+  fullyCuratedSource$?: Observable<Maybe<boolean>>
 
   constructor(
     private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL,
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private existingEvidenceGQL: ExistingEvidenceCountGQL,
+    private fullyCuratedSourceGQL: FullyCuratedSourceGQL,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     networkErrorService: NetworkErrorsService
@@ -108,14 +112,17 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.countQueryRef = this.existingEvidenceGQL.watch({
-      molecularProfileId: 0,
-      sourceId: 0,
-    })
+    this.countQueryRef = this.existingEvidenceGQL.watch({molecularProfileId: 0, sourceId: 0})
+    this.curatedQueryRef = this.fullyCuratedSourceGQL.watch({sourceId: 0})
+
     this.existingEvidenceCount$ = this.countQueryRef?.valueChanges.pipe(
       map((c) => c.data?.evidenceItems?.totalCount),
       filter(isNonNulled),
       untilDestroyed(this)
+    )
+    this.fullyCuratedSource$ = this.curatedQueryRef?.valueChanges.pipe(
+        map(c => c.data?.source?.fullyCurated),
+        untilDestroyed(this)
     )
   }
 
@@ -178,6 +185,16 @@ export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
       }
     } else {
       this.countQueryRef?.refetch({ molecularProfileId: 0, sourceId: 0 })
+    }
+
+    if (newModel.fields.sourceId) {
+      if(newModel.fields.sourceId != this.selectedSourceId) {
+        this.selectedSourceId = newModel.fields.sourceId
+        this.curatedQueryRef?.refetch({ sourceId: this.selectedSourceId })
+      }
+    } else {
+      this.selectedSourceId = undefined
+      this.curatedQueryRef?.refetch({ sourceId: 0 })
     }
   }
 

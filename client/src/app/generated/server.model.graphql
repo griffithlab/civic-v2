@@ -6777,6 +6777,7 @@ type Source implements Commentable & EventSubject {
     sortBy: DateSort
   ): EventConnection!
   fullJournalTitle: String
+  fullyCurated: Boolean!
   id: Int!
   journal: String
   lastCommentEvent: Event
@@ -6886,6 +6887,7 @@ type SourcePopover implements Commentable & EventSubject {
   ): EventConnection!
   evidenceItemCount: Int!
   fullJournalTitle: String
+  fullyCurated: Boolean!
   id: Int!
   journal: String
   lastCommentEvent: Event
