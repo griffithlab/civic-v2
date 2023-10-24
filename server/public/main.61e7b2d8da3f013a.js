@@ -2677,6 +2677,7 @@ ${De}`,so=t.Ps`
       hasPreviousPage
       startCursor
     }
+    lastUpdated
     totalCount
     filteredCount
     pageCount
@@ -2828,6 +2829,7 @@ ${De}`,so=t.Ps`
       hasPreviousPage
       hasNextPage
     }
+    lastUpdated
     totalCount
     filteredCount
     pageCount
@@ -2873,6 +2875,7 @@ ${De}`,so=t.Ps`
         ...BrowseMolecularProfilesFields
       }
     }
+    lastUpdated
     filteredCount
     pageCount
   }
@@ -3310,6 +3313,7 @@ ${De}`,so=t.Ps`
     }
     totalCount
     filteredCount
+    lastUpdated
     pageCount
     edges {
       cursor
@@ -3532,6 +3536,7 @@ ${De}`,so=t.Ps`
     totalCount
     filteredCount
     pageCount
+    lastUpdated
     edges {
       cursor
       node {
@@ -3656,6 +3661,7 @@ ${De}`,so=t.Ps`
     totalCount
     filteredCount
     pageCount
+    lastUpdated
   }
 }
     ${qt}`;let wn=(()=>{class z extends t.AE{constructor(le){super(le),this.document=Rr}}return z.\u0275fac=function(le){return new(le||z)(i.LFG(t._M))},z.\u0275prov=i.Yz7({token:z,factory:z.\u0275fac,providedIn:"root"}),z})();const Ho=t.Ps`
