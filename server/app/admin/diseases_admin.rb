@@ -13,6 +13,8 @@ Trestle.resource(:diseases) do
 
   scope :all, default: true
   scope :without_doid, -> { Disease.where(doid: nil) }
+  scope :deprecated, -> { Disease.where(deprecated: true) }
+  scope :not_deprecated, -> { Disease.where(deprecated: false) }
 
   # Customize the table columns shown on the index view.
   table do
@@ -22,6 +24,7 @@ Trestle.resource(:diseases) do
     column :aliases do |disease|
       disease.disease_aliases.map(&:name).join(", ")
     end
+    column :deprecated
   end
 
   # Customize the form fields shown on the new/edit views.
@@ -29,6 +32,7 @@ Trestle.resource(:diseases) do
     row do
       col(sm: 2) { static_field :id }
       col(sm: 2) { text_field :doid }
+      col(sm: 2) { check_box :deprecated }
     end
 
     row do

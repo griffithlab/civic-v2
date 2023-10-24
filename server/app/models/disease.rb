@@ -1,4 +1,6 @@
 class Disease < ApplicationRecord
+  validates_with DeprecationValidator
+
   include WithTimepointCounts
   include WithCapitalizedName
 
