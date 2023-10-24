@@ -13,7 +13,7 @@ module Loaders
       resolved_variants = {}
 
       MolecularProfile.where(id: ids).each do |mp|
-        mps[mp.id] = mp.name.split(' ').map do |segment|
+        mps[mp.id] = mp.raw_name.split(' ').map do |segment|
           if gene_match = segment.match(GENE_REGEX)
             gene_id = gene_match[:id].to_i
             resolved_genes[gene_id] = nil

@@ -12,6 +12,7 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({
   declarations: [CvcCommentBodyComponent],
@@ -28,6 +29,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcUserTagModule,
     CvcOrganizationTagModule,
     CvcMolecularProfileTagModule,
+    CvcSourceTagModule,
   ],
   exports: [CvcCommentBodyComponent],
 })

@@ -20,7 +20,7 @@ Trestle.resource(:evidence_items) do
   table do
     column :id
     column :molecular_profile do |evidence_item|
-      evidence_item.molecular_profile.display_name
+      evidence_item.molecular_profile.name
     end
     column :description
     column :evidence_type do |evidence_item|
@@ -37,7 +37,7 @@ Trestle.resource(:evidence_items) do
     tab :evidence_item do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) { static_field evidence_item.molecular_profile.display_name }
+        col(sm: 1) { static_field evidence_item.molecular_profile.name }
         col(sm: 2) do
           variant_origins = EvidenceItem.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
           select :variant_origin, variant_origins

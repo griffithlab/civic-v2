@@ -28,6 +28,19 @@ const formFieldConfig: FormlyFieldConfig[] = [
         },
         fieldGroup: [
           {
+            key: 'commonName',
+            type: 'input',
+            wrappers: ['form-field'],
+            props: {
+              placeholder: 'Enter a common name for this molecular profile.',
+              label: 'Molecular Profile Common Name',
+              description: 'Provide a human readable shorthand name that is commonly used for this molecular profile.',
+              extraType: 'prompt',
+              required: false,
+              rows: 1
+            }
+          },
+          {
             key: 'description',
             type: 'textarea',
             wrappers: ['form-field'],

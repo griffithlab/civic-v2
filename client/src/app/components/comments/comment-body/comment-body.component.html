@@ -75,6 +75,15 @@
             deprecated: c.deprecated
           }"></cvc-molecular-profile-tag>
       </span>
+      <span *ngSwitchCase="'SOURCE'">
+        <cvc-source-tag
+          [source]="{
+            id: c.entityId,
+            displayName:
+            c.displayName,
+            link: c.link}">
+        </cvc-source-tag>
+      </span>
       <span *ngSwitchCase="'ROLE'">
         <nz-tag
           ><i

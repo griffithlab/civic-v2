@@ -15,6 +15,17 @@
               [nzSpan]="1">
               <cvc-mp-tag-name [nameSegments]="mp.parsedName"></cvc-mp-tag-name>
             </nz-descriptions-item>
+            <nz-descriptions-item
+              nzTitle="Common Name"
+              [nzSpan]="1">
+              <span *ngIf="mp.commonName; else noCommonName">
+                {{ mp.commonName }}
+              </span>
+              <ng-template #noCommonName>
+                <span nz-typography
+                  nzType="secondary">None provided</span>
+              </ng-template>
+            </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
         <nz-col [nzSpan]="24">

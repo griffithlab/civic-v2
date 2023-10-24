@@ -37,7 +37,7 @@ class EvidenceItemTsvFormatter
 
   def self.row_from_object(ei)
     [
-      ei.molecular_profile.display_name,
+      ei.molecular_profile.name,
       ei.molecular_profile.id,
       ei.disease.nil? ? "" : ei.disease.name,
       ei.disease.nil? ? "" : ei.disease.doid,

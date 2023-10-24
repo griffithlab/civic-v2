@@ -85,7 +85,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
     results = Searchkick.search(
                   value,
                   models: [MolecularProfile],
-                  fields: ['name'],
+                  fields: ['full_name', 'common_name'],
                   match: :word_start,
                   misspellings: {below: 1}
                 )

@@ -20,16 +20,16 @@ class MolecularProfile < ActiveRecord::Base
     as: :subject,
     class_name: 'Event'
 
-  validates :name, presence: true
+  validates :raw_name, presence: true
 
   validate :unique_name_in_context
 
-  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
+  searchkick highlight: [:full_name, :common_name, :aliases], callbacks: :async, word_start: [:name]
   scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
 
   def search_data
     {
-      name: self.display_name,
+      name: self.name,
       aliases: self.molecular_profile_aliases.map(&:name)
     }
   end
@@ -49,7 +49,15 @@ class MolecularProfile < ActiveRecord::Base
     "MPID#{self.id}"
   end
 
-  def display_name
+  def name
+    if self.common_name
+      return self.common_name
+    else
+      return self.full_name
+    end
+  end
+
+  def full_name
     segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
   end
 
@@ -59,7 +67,7 @@ class MolecularProfile < ActiveRecord::Base
 
   def segments
     #TODO - we could batch these queries if it becomes an issue
-    @segments ||= name.split(' ').map do |segment|
+    @segments ||= raw_name.split(' ').map do |segment|
       if gene_match = segment.match(GENE_REGEX)
         Gene.find(gene_match[:id])
       elsif variant_match = segment.match(VARIANT_REGEX)

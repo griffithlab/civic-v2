@@ -41,7 +41,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     results = Searchkick.search(
                   value,
                   models: [MolecularProfile],
-                  fields: ['name'],
+                  fields: ['full_name', 'common_name'],
                   match: :word_start
                 )
     ids = results.hits.map { |x| x["_id"] }

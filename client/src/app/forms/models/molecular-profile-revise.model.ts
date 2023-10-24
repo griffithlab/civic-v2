@@ -7,6 +7,7 @@ export interface MolecularProfileReviseModel extends FormReviseBaseModel {
 
 export const molecularProfileReviseFieldsDefaults: MolecularProfileFields = {
   description: undefined,
+  commonName: undefined,
   sourceIds: undefined,
   aliases: undefined
 }

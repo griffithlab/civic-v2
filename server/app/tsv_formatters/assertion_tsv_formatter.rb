@@ -36,7 +36,7 @@ class AssertionTsvFormatter
 
   def self.row_from_object(a)
     [
-      a.molecular_profile.display_name,
+      a.molecular_profile.name,
       a.molecular_profile.id,
       a.disease.name,
       a.disease.doid,
