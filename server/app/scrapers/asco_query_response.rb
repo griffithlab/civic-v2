@@ -7,7 +7,7 @@ class AscoQueryResponse
   def citations
     json['response']['docs'].each_with_object([]) do |element, o|
       o.append({
-        citation: [author_for_element(element), element['Year']}"].join(', '),
+        citation: [author_for_element(element), element['Year']].join(', '),
         citation_id: element['_id'],
         source_type: 'ASCO',
         status: 'new',
