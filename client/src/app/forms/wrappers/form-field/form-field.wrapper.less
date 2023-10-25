@@ -1,30 +1,35 @@
 @import 'themes/default.less';
 
-@helpIconSize: 14px;
-@helpIconColor: #cfcfdf;
+// nz-form-item.layout-vertical[_ngcontent-ng-c3802630593]     nz-form-label:first-of-type label.ant-form-item-required:before
 
-.layout-vertical ::ng-deep nz-form-item:first-of-type {
-  flex-wrap: nowrap;
-  flex-direction: column;
-}
-
-.layout-horizontal ::ng-deep nz-form-item:first-of-type {
-  flex-direction: inherit;
-  nz-form-label {
-    text-align: right;
-    line-height: 28px;
-    white-space: inherit;
-    padding: inherit;
+:host-context(form[nzlayout='vertical']) {
+  nz-form-item:first-of-type {
+    flex-wrap: nowrap;
+    flex-direction: column;
   }
 }
 
-.layout-inline ::ng-deep nz-form-item:first-of-type {
-  flex-direction: inherit;
-  nz-form-label {
-    height: 28px;
-    line-height: 28px;
-    white-space: inherit;
-    padding: inherit;
+:host-context(form[nzlayout='horizontal']) {
+  nz-form-item:first-of-type {
+    flex-direction: inherit;
+    nz-form-label {
+      text-align: right;
+      line-height: 28px;
+      white-space: inherit;
+      padding: inherit;
+    }
+  }
+}
+
+:host-context(form[nzlayout='inline']) {
+  nz-form-item:first-of-type {
+    flex-direction: inherit;
+    nz-form-label {
+      height: 28px;
+      line-height: 28px;
+      white-space: inherit;
+      padding: inherit;
+    }
   }
 }
 
@@ -35,11 +40,10 @@
       font-weight: 500;
 
       &:before {
-        border: 1px solid @error-color;
+        border: 1px solid @required-color;
         height: 1em;
         content: '';
       }
-
     }
   }
 
