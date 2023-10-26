@@ -19,7 +19,7 @@ module Actions
     end
 
     def create_event
-      events << Event.create!(
+      events << Event.new(
         action: 'assertion submitted',
         originating_user: originating_user,
         subject: assertion,

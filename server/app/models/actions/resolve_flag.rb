@@ -31,7 +31,7 @@ module Actions
     end
 
     def create_event
-      events << Event.create!(
+      events << Event.new(
         action: 'flag resolved',
         originating_user: resolving_user,
         subject: flaggable,

@@ -39,7 +39,7 @@ class Actions::AcceptRevisions
     superseded_revisions.each do |sc|
       sc.status = 'superseded'
       sc.save!
-      events << Event.create!(
+      events << Event.new(
         action: 'revision superseded',
         originating_user: accepting_user,
         subject: subject,
@@ -50,7 +50,7 @@ class Actions::AcceptRevisions
   end
 
   def create_event(revision)
-    events << Event.create!(
+    events << Event.new(
       action: 'revision accepted',
       originating_user: accepting_user,
       subject: subject,

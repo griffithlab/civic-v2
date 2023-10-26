@@ -41,7 +41,7 @@ module Actions
                end
 
 
-      events << Event.create!(
+      events << Event.new(
         action: action,
         originating_user: originating_user,
         subject: evidence_item,

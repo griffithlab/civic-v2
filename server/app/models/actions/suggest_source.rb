@@ -24,7 +24,7 @@ module Actions
     end
 
     def create_event(suggestion)
-      events << Event.create!(
+      events << Event.new(
         action: 'publication suggested',
         originating_user: originating_user,
         subject: source,

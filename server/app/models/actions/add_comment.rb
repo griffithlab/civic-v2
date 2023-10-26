@@ -17,7 +17,7 @@ module Actions
     private
     def execute
       create_comment
-      event = Event.create!(
+      event = Event.new(
         action: 'commented',
         originating_user: originating_user,
         subject: subject,

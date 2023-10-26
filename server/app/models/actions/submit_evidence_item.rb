@@ -18,7 +18,7 @@ module Actions
     end
 
     def create_event
-      events << Event.create!(
+      events << Event.new(
         action: 'submitted',
         originating_user: originating_user,
         subject: evidence_item,
