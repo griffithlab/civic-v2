@@ -27,7 +27,6 @@ Event.where(action: 'revision accepted', activity_id: nil)
     event.save!
   end
 
-  binding.pry
   activity.link_entities!([revisions, superseded_revision_events.map(&:originating_object)].flatten)
 
   batch.each do |event|
