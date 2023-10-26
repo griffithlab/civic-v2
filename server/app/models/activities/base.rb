@@ -33,6 +33,7 @@ module Activities
     def link_activity
       activity.link_entities!(linked_entities)
       activity.events = events.flatten
+      events.flatten.each(&:save!)
     end
 
     def set_verbiage

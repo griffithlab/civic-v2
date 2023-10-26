@@ -6,7 +6,7 @@ module Types::Interfaces
 
     field :id, Int, null: false
     field :verbiage, String, null: false
-    field :note, String, null: true
+    field :note, [Types::Commentable::CommentBodySegment], null: false
     field :events, [Types::Entities::EventType], null: false
     field :subject, Types::Interfaces::EventSubject, null: false
     field :user, Types::Entities::UserType, null: false
