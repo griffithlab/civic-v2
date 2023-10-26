@@ -37,7 +37,7 @@ module Actions
     end
 
     def create_events
-      events << Event.create!(
+      events << Event.new(
         action: 'deprecated variant',
         originating_user: deprecating_user,
         subject: variant,
@@ -46,7 +46,7 @@ module Actions
       )
 
       newly_deprecated_molecular_profiles.each do |mp|
-        events << Event.create!(
+        events << Event.new(
           action: 'deprecated molecular profile',
           originating_user: deprecating_user,
           subject: mp,
