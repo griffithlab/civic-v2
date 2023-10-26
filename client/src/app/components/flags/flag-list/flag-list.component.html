@@ -24,9 +24,9 @@
           nzType="inner"
           *nzSpaceItem>
           <cvc-comment-body
-            *ngIf="flag.openComment"
+            *ngIf="flag.openActivity"
             [commentBodySegments]="
-              flag.openComment.parsedComment
+              flag.openActivity.note
             "></cvc-comment-body>
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
@@ -39,10 +39,10 @@
           <ng-template #flagResolved>
             <nz-row>
               <nz-col nzSpan="16">
-                <ng-container *ngIf="flag.resolutionComment">
+                <ng-container *ngIf="flag.resolutionActivity">
                   <cvc-comment-body
                     [commentBodySegments]="
-                      flag.resolutionComment.parsedComment
+                      flag.resolutionActivity.note
                     "></cvc-comment-body>
                 </ng-container>
               </nz-col>
@@ -53,9 +53,9 @@
                 style="text-align: right">
                 Resolved By
                 <cvc-user-tag
-                  *ngIf="flag.resolvingUser !== undefined"
-                  [user]="flag.resolvingUser"></cvc-user-tag>
-                {{ flag.resolvedAt | timeAgo }}
+                  *ngIf="flag.resolutionActivity !== undefined"
+                  [user]="flag.resolutionActivity.user"></cvc-user-tag>
+                {{ flag.resolutionActivity?.createdAt | timeAgo }}
               </nz-col>
             </nz-row>
           </ng-template>
@@ -79,11 +79,11 @@
                   nzType="secondary"
                   >Flagged By</span
                 >
-                <cvc-user-tag [user]="flag.flaggingUser"></cvc-user-tag>
+                <cvc-user-tag [user]="flag.openActivity.user"></cvc-user-tag>
                 <span
                   nz-typography
                   nzType="secondary"
-                  >{{ flag.createdAt | timeAgo }}</span
+                  >{{ flag.openActivity.createdAt | timeAgo }}</span
                 >
               </span>
               <cvc-status-tag

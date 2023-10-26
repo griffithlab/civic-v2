@@ -7,9 +7,9 @@ query ActivityCard($activityId: Int!) {
 fragment ActivityCard on ActivityInterface {
   id
   verbiage
-  ... on FlagEntityActivity {
-    comment {
-      ...commentListNode
-    }
-  }
+  #... on FlagEntityActivity {
+    #comment {
+      #...commentListNode
+    #}
+  #}
 }

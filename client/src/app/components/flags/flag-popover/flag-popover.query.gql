@@ -19,7 +19,27 @@ fragment flagPopover on Flag {
     name
   }
   createdAt
-  openComment {
-    comment
+  openActivity {
+    note {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        status
+        deprecated
+        link
+        revisionSetId
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
 }
