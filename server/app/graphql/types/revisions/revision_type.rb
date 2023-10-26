@@ -15,8 +15,9 @@ module Types::Revisions
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :revision_set_id, Int, null: false
     field :linkout_data, Types::Revisions::LinkoutData, null: false
-    field :creation_activity, Types::Entities::EventType, null: true
-    field :resolving_activity, Types::Entities::EventType, null: true
+    field :creation_activity, Types::Activities::SuggestRevisionSetActivityType, null: true
+    field :acceptance_activity, Types::Activities::AcceptRevisionsActivityType, null: true
+    field :rejection_activity, Types::Activities::RejectRevisionsActivityType, null: true
     field :subject, Types::Interfaces::EventSubject, null: false
 
     def comments
@@ -27,12 +28,16 @@ module Types::Revisions
       Types::Revisions::LinkoutData.from_revision(object)
     end
 
-    def creation_event
-      Loaders::AssociationLoader.for(Revision, :creation_event).load(object)
+    def creation_activity
+      Loaders::AssociationLoader.for(Revision, :creation_activity).load(object)
     end
 
-    def resolving_event
-      Loaders::AssociationLoader.for(Revision, :resolving_event).load(object)
+    def acceptance_activity
+      Loaders::AssociationLoader.for(Revision, :acceptance_activity).load(object)
+    end
+
+    def rejection_activity
+      Loaders::AssociationLoader.for(Revision, :rejection_activity).load(object)
     end
   end
 end

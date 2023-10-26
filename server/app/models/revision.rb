@@ -2,12 +2,17 @@ class Revision < ApplicationRecord
   include Commentable
   include Subscribable
   include WithTimepointCounts
+  include WithActivities
 
   belongs_to :subject, polymorphic: true
   belongs_to :revision_set
   #TODO: will we want a mixin someday?
   has_many :events, as: :originating_object
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+
+  has_activity :creation_activity, activity_type: 'SuggestRevisionSetActivity'
+  has_activity :rejection_activity, activity_type: 'RejectRevisionsActivity'
+  has_activity :acceptance_activity, activity_type: 'AcceptRevisionsActivity'
 
   has_one :creation_event,
     ->() { where(action: 'revision suggested') },
