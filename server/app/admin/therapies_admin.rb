@@ -1,4 +1,6 @@
 Trestle.resource(:therapies) do
+  remove_action :destroy
+
   menu do
     item :therapies, icon: "fa fa-pills"
   end

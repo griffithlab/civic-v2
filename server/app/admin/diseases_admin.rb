@@ -1,4 +1,6 @@
 Trestle.resource(:diseases) do
+  remove_action :destroy
+
   collection do
     Disease.eager_load(:disease_aliases)
   end
