@@ -1,4 +1,5 @@
 Trestle.resource(:revisions) do
+  remove_action :destroy
   menu do
     item :revisions, icon: "fa fa-edit"
   end
