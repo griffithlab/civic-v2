@@ -13,24 +13,6 @@ import { NzAlign, NzJustify } from 'ng-zorro-antd/grid'
 export type CvcFormFieldExtraType = 'description' | 'prompt'
 
 export interface CvcFormFieldWrapperLayout {
-  layout: {
-    item: {
-      gutter:
-        | string
-        | number
-        | IndexableObject
-        | [number, number]
-        | [IndexableObject, IndexableObject]
-      justify?: NzJustify
-      align?: NzAlign
-    }
-    label: {
-      span: number
-    }
-    control: {
-      span: number
-    }
-  }
   showExtra: boolean
 }
 
@@ -39,6 +21,11 @@ export interface CvcFormFieldWrapperLayout {
   templateUrl: './form-field.wrapper.html',
   styleUrls: ['./form-field.wrapper.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.layout-horizontal]': 'formLayout === "horizontal"',
+    '[class.layout-vertical]': 'formLayout === "vertical"',
+    '[class.layout-inline]': 'formLayout === "inline"',
+  },
 })
 export class CvcFormFieldWrapper
   extends FieldWrapper<FormlyFieldConfig>
@@ -59,23 +46,6 @@ export class CvcFormFieldWrapper
     // merge local wrapper config with field config specified properties
     try {
       this.wrapper = {
-        layout: {
-          // layout only relevant for horizontal nzLayout type
-          item: {
-            gutter: [6, 12],
-            ...(this.props.layout?.item ? this.props.layout.item : undefined),
-          },
-          label: {
-            span: 4,
-            ...(this.props.layout?.label ? this.props.layout.label : undefined),
-          },
-          control: {
-            span: 20,
-            ...(this.props.layout?.control
-              ? this.props.layout?.control
-              : undefined),
-          },
-        },
         showExtra:
           this.props.layout?.showExtra !== undefined
             ? this.props.layout.showExtra
