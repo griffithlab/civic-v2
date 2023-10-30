@@ -52,10 +52,7 @@ const RatingMixin = mixin(
   styleUrls: ['./rating.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcRatingField
-  extends RatingMixin
-  implements AfterViewInit
-{
+export class CvcRatingField extends RatingMixin implements AfterViewInit {
   // LOCAL SOURCE STREAMS
   rating$: BehaviorSubject<Maybe<number>>
 
@@ -81,7 +78,7 @@ export class CvcRatingField
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
 
-    if(this.formControl.value) {
+    if (this.formControl.value) {
       this.rating$.next(this.formControl.value)
     }
 
@@ -105,6 +102,7 @@ export class CvcRatingField
           this.props.description = undefined
         } else {
           this.props.description = optionText[rating]
+          this.field.formControl.markAsTouched()
         }
       })
   }

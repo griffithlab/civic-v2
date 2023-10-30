@@ -121,7 +121,7 @@ interface CvcSignificanceSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   tooltip?: string
   description?: string
-  extraType?: CvcFormFieldExtraType,
+  extraType?: CvcFormFieldExtraType
   formMode: 'revise' | 'add' | 'clone'
 }
 
@@ -170,7 +170,7 @@ export class CvcSignificanceSelectField
       requireTypePromptFn: (entityName: string) =>
         `Select ${entityName} Type to select its Significance`,
       tooltip: 'Clinical impact of the variant',
-      formMode: 'add'
+      formMode: 'add',
     },
   }
 
@@ -274,6 +274,7 @@ export class CvcSignificanceSelectField
         this.props.description = undefined
         this.props.extraType = 'description'
         this.props.description = optionText[this.state.entityName][et][cs]
+        this.field.formControl.markAsTouched()
       })
   }
 }
