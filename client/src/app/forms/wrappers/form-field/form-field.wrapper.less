@@ -9,8 +9,12 @@
 @diabled-label-color: @text-color-secondary;
 
 @required-border: 1px solid @blue-4;
-@required-bg-color: @blue-2;
+@required-bg-color: @blue-1;
 @required-label-color: @blue-7;
+
+@error-border: 1px solid @red-4;
+@error-bg-color: @red-1;
+@error-label-color: @red-7;
 
 @item-border-radius: 4px;
 @item-padding: 4px 8px;
@@ -31,7 +35,7 @@
         color: @default-label-color;
       }
     }
-    // required status
+    // required state
     &.required {
       > nz-form-label {
         ::ng-deep label {
@@ -47,14 +51,33 @@
         }
       }
     }
+    &.error {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border-color: @error-label-color;
+          }
+          span.label {
+            color: @error-label-color;
+          }
+        }
+      }
+    }
   }
 }
 
-// vertical layout adjustments
+// vertical layout applies a bg color & border
 :host(.layout-vertical) {
   > nz-form-item {
     background-color: @default-bg-color;
-    > nz-form-label {
+    border: @default-border;
+    &.required {
+      background-color: @required-bg-color;
+      border: @required-border;
+    }
+    &.error {
+      background-color: @error-bg-color;
+      border: @error-border;
     }
   }
 }
