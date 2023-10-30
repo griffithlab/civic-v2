@@ -5,8 +5,8 @@
 @default-label-color: @blue-7;
 @default-icon-color: @blue-4;
 
-@disabled-border: 1px solid @grey-4;
-@disabled-bg-color: @grey-2;
+@disabled-border: 1px solid @grey-3;
+@disabled-bg-color: @grey-3;
 @disabled-label-color: @text-color-secondary;
 @disabled-icon-color: @grey-5;
 
@@ -19,6 +19,11 @@
 @error-bg-color: @red-1;
 @error-label-color: @red-7;
 @error-icon-color: @red-5;
+
+@valid-border: 1px solid @green-4;
+@valid-bg-color: @green-1;
+@valid-label-color: @green-7;
+@valid-icon-color: @green-5;
 
 @item-border-radius: 4px;
 @item-padding: 4px 8px;
@@ -75,6 +80,22 @@
         }
       }
     }
+    // valid state
+    &.valid {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border-color: @valid-label-color;
+          }
+          span.label {
+            color: @valid-label-color;
+          }
+          ::ng-deep span.anticon path {
+            color: @valid-icon-color;
+          }
+        }
+      }
+    }
     &.disabled {
       > nz-form-label {
         ::ng-deep label {
@@ -107,6 +128,10 @@
       background-color: @error-bg-color;
       border: @error-border;
     }
+    &.valid {
+      background-color: @valid-bg-color;
+      border: @valid-border;
+    }
     &.disabled {
       background-color: @disabled-bg-color;
       border: @disabled-border;
@@ -114,133 +139,21 @@
   }
 }
 
-// horizontal layout adjustments
-:host(.layout-horizontal) {
-  > nz-form-item {
-    > nz-form-label {
-    }
+.cvc-form-field-validation,
+.form-field-description {
+  // ensure consistent height of description, validation message line
+  min-height: 16px;
+  line-height: 1.2;
+  // font-size: 96%;
+  margin-top: 4px;
+  .extra-prompt {
+    font-weight: 400;
+  }
+  .extra-description {
+    font-style: oblique;
   }
 }
 
-// inline layout adjustments
-:host(.layout-inline) {
-  > nz-form-item {
-    > nz-form-label {
-    }
-  }
+.cvc-form-field-validation {
+  font-weight: 600;
 }
-
-// :host-context(form[nzlayout='vertical']) {
-//   nz-form-item:first-of-type {
-//     flex-wrap: nowrap;
-//     flex-direction: column;
-//   }
-// }
-
-// :host-context(form[nzlayout='horizontal']) {
-//   nz-form-item:first-of-type {
-//     flex-direction: inherit;
-//     nz-form-label {
-//       text-align: right;
-//       line-height: 28px;
-//       white-space: inherit;
-//       padding: inherit;
-//     }
-//   }
-// }
-
-// :host-context(form[nzlayout='inline']) {
-//   nz-form-item:first-of-type {
-//     flex-direction: inherit;
-//     nz-form-label {
-//       height: 28px;
-//       line-height: 28px;
-//       white-space: inherit;
-//       padding: inherit;
-//     }
-//   }
-// }
-
-// .cvc-field-label() {
-//   label {
-//     // embolden required labels
-//     &.item-required {
-//       font-weight: 500;
-
-//       &:before {
-//         border: 1px solid @required-color;
-//         height: 1em;
-//         content: '';
-//       }
-//     }
-//   }
-
-//   ::ng-deep span.label {
-//     padding-right: 4px;
-//   }
-
-//   &.disabled label ::ng-deep span.label {
-//     color: @text-color-secondary;
-//   }
-
-//   &.error label ::ng-deep span.label {
-//     color: @error-color;
-//   }
-
-//   &.valid label ::ng-deep span.label {
-//     color: @error-color;
-//   }
-// }
-
-// .cvc-form-field-card() {
-//   background-color: white;
-//   border: 1px solid #d9d9d9;
-//   padding: 4px 8px;
-//   border-radius: 6px;
-//   &.disabled {
-//     border: 1px solid #f5f5f5;
-//     background-color: #f5f5f5;
-//   }
-// }
-
-// .cvc-form-field-validation,
-// .form-field-description {
-//   // ensure consistent height of description, validation message line
-//   min-height: 16px;
-//   line-height: 1.2;
-//   // font-size: 96%;
-//   margin-top: 4px;
-//   .extra-prompt {
-//     font-weight: 400;
-//   }
-//   .extra-description {
-//     font-style: oblique;
-//   }
-// }
-
-// .cvc-form-field-validation {
-//   font-weight: 600;
-// }
-
-// nz-form-item.layout-horizontal {
-//   ::ng-deep nz-form-label:first-of-type {
-//     .cvc-field-label();
-//   }
-// }
-
-// nz-form-item.layout-vertical {
-//   .cvc-form-field-card();
-//   ::ng-deep nz-form-label:first-of-type {
-//     .cvc-field-label();
-//   }
-
-//   margin-bottom: @margin-lg;
-// }
-
-// nz-form-item.layout-inline {
-//   ::ng-deep nz-form-label:first-of-type {
-//     .cvc-field-label();
-//     text-align: right;
-//     margin-right: 6px;
-//   }
-// }

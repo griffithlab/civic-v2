@@ -5,7 +5,7 @@
       disabled: props.disabled,
       error: showError,
       required: props.required,
-      valid: field.formControl!.status === 'VALID',
+      valid: field.formControl!.status === 'VALID' && field.formControl!.touched === true
       }">
   <ng-container *ngIf="props.label && props.hideLabel !== true">
     <nz-form-label

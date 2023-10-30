@@ -22,7 +22,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Revise Evidence Item',
-      showDevPanel: true,
+      showDevPanel: false,
     },
     fieldGroup: [
       {

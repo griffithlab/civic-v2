@@ -45,7 +45,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'molecular-profile-select',
             props: {
               required: true,
-              tooltip: 'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
+              tooltip:
+                'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated evidence.',
               watchVariantMolecularProfileId: true,
             },
           },
@@ -143,11 +144,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Comment',
               required: false,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',
