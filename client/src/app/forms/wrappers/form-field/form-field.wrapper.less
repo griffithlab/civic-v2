@@ -2,37 +2,42 @@
 
 @default-border: 1px solid @blue-1;
 @default-bg-color: @blue-1;
-@default-label-color: @blue-10;
+@default-label-color: @blue-7;
+@default-icon-color: @blue-4;
 
 @disabled-border: 1px solid @grey-4;
 @disabled-bg-color: @grey-2;
-@diabled-label-color: @text-color-secondary;
+@disabled-label-color: @text-color-secondary;
+@disabled-icon-color: @grey-5;
 
 @required-border: 1px solid @blue-4;
 @required-bg-color: @blue-1;
 @required-label-color: @blue-7;
+@required-icon-color: @blue-5;
 
 @error-border: 1px solid @red-4;
 @error-bg-color: @red-1;
 @error-label-color: @red-7;
+@error-icon-color: @red-5;
 
 @item-border-radius: 4px;
 @item-padding: 4px 8px;
 @item-border: @default-border;
 @item-background-color: @default-bg-color;
 
-//
-// STATUS COLORS
-//
-//body > app-root > div.app-container > cvc-layout > nz-layout > nz-layout > nz-content > app-assertions > cvc-assertion-add > nz-page-header > nz-page-header-content > div > cvc-assertion-submit > cvc-assertion-submit-form > cvc-form-submission-status-display > nz-spin > div > form > formly-form > formly-field > formly-group > formly-field > cvc-form-layout-wrapper > nz-row > nz-col > formly-group > formly-field:nth-child(2) > cvc-form-card > nz-card > div.ant-card-body > nz-row > nz-col.ant-col.ant-col-16.ng-star-inserted > formly-field > cvc-form-field-wrapper > nz-form-item > nz-form-label > label
 :host {
   > nz-form-item {
     border-radius: @item-border-radius;
-    padding: @item-padding;
     // defaults
     > nz-form-label {
       span.label {
         color: @default-label-color;
+      }
+      ::ng-deep span.anticon {
+        margin-left: 0.25em;
+        path {
+          color: @default-icon-color;
+        }
       }
     }
     // required state
@@ -48,9 +53,13 @@
             color: @required-label-color;
             font-weight: 600;
           }
+          ::ng-deep span.anticon path {
+            color: @required-icon-color;
+          }
         }
       }
     }
+    // error state
     &.error {
       > nz-form-label {
         ::ng-deep label {
@@ -60,17 +69,36 @@
           span.label {
             color: @error-label-color;
           }
+          ::ng-deep span.anticon path {
+            color: @error-icon-color;
+          }
+        }
+      }
+    }
+    &.disabled {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border-color: @disabled-label-color;
+          }
+          span.label {
+            color: @disabled-label-color;
+          }
+          ::ng-deep span.anticon path {
+            color: @disabled-icon-color;
+          }
         }
       }
     }
   }
 }
 
-// vertical layout applies a bg color & border
+// vertical layout fields displayed in a block w/ bg color & border styles
 :host(.layout-vertical) {
   > nz-form-item {
     background-color: @default-bg-color;
     border: @default-border;
+    padding: @item-padding;
     &.required {
       background-color: @required-bg-color;
       border: @required-border;
@@ -79,8 +107,13 @@
       background-color: @error-bg-color;
       border: @error-border;
     }
+    &.disabled {
+      background-color: @disabled-bg-color;
+      border: @disabled-border;
+    }
   }
 }
+
 // horizontal layout adjustments
 :host(.layout-horizontal) {
   > nz-form-item {
