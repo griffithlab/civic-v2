@@ -12,7 +12,6 @@ import { CvcSourceSelectFieldOptions } from '@app/forms/types/source-select/sour
 import { CvcTherapySelectFieldOptions } from '@app/forms/types/therapy-select/therapy-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms/types/type-select/type-select.type'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
-import { CvcFieldGridWrapperConfig } from '@app/forms/wrappers/field-grid/field-grid.wrapper'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'

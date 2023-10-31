@@ -10,7 +10,7 @@
  * override colors from the zorro's default.less:
  */
 
-@import "ng-zorro-antd/style/color/colors.less";
+@import 'ng-zorro-antd/style/color/colors.less';
 
 /*
  * PRIMARY COLOR PALETTE
@@ -29,6 +29,11 @@
 @normal-color: #d9d9d9;
 @white: #fff;
 @black: #000;
+
+// additional form field status colors
+@required-color: @blue-6;
+@required-border-color: @blue-3;
+@required-background-color: @blue-1;
 
 // Color used by default to control hover and active backgrounds and for
 // alert info backgrounds.
@@ -51,8 +56,23 @@
 @primary-9: color(~`colorPalette("@{primary-color}", 9) `); // unused
 @primary-10: color(~`colorPalette("@{primary-color}", 10) `); // unused
 
+// neutral color palette, not included w/ ant-design's defaults for some reason
+@grey-1: #ffffff;
+@grey-2: #fafafa;
+@grey-3: #f5f5f5;
+@grey-4: #f0f0f0;
+@grey-5: #d9d9d9;
+@grey-6: #bfbfbf;
+@grey-7: #8c8c8c;
+@grey-8: #595959;
+@grey-9: #434343;
+@grey-10: #262626;
+@grey-11: #1f1f1f;
+@grey-12: #141414;
+@greay-13: #000000;
+
 // PUT CUSTOM GLOBALS IN global-variables.less
-@import "themes/global-variables.less";
+@import 'themes/global-variables.less';
 
 .typeahead-match {
   font-weight: bold;

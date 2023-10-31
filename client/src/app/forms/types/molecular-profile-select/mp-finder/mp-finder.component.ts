@@ -41,10 +41,9 @@ export class MpFinderComponent {
   model: MpFinderModel
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
-  layout: NzFormLayoutType = 'horizontal'
 
   finderState: MpFinderState = {
-    formLayout: this.layout,
+    formLayout: 'horizontal',
     fields: {
       geneId$: new BehaviorSubject<Maybe<number>>(undefined),
       variantId$: new BehaviorSubject<Maybe<number>>(undefined),
@@ -102,17 +101,14 @@ export class MpFinderComponent {
     if (variant) {
       this.model = {
         geneId: undefined,
-        variantId: undefined
+        variantId: undefined,
       }
       this.cvcOnSelect.next(variant.singleVariantMolecularProfile)
       this.cvcOnVariantSelect.next(variant)
     }
-
   }
 
-  getSelectedVariant(
-    variantId: Maybe<number>,
-  ): Maybe<Variant> {
+  getSelectedVariant(variantId: Maybe<number>): Maybe<Variant> {
     if (!variantId) return
     const fragment = {
       id: `Variant:${variantId}`,
@@ -139,11 +135,9 @@ export class MpFinderComponent {
       console.error(err)
     }
     if (!variant) {
-      console.error(
-        `MpFinderForm could not resolve its Variant from the cache`
-      )
+      console.error(`MpFinderForm could not resolve its Variant from the cache`)
       return
     }
-      return variant
+    return variant
   }
 }

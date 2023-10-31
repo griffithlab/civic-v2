@@ -139,6 +139,7 @@ export class CvcLevelSelectField
           this.props.description = undefined
         } else {
           this.props.description = optionText.get(level)
+          this.field.formControl.markAsTouched()
         }
       })
   }
