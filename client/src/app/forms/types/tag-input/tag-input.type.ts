@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Injector,
   Type,
@@ -15,13 +14,13 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcBaseInputFieldOptions = Partial<
   FieldTypeConfig<CvcBaseInputFieldProps>
 >
 export interface CvcBaseInputFieldProps extends FormlyFieldProps {
+  isMultiInput?: boolean
 }
 
 export interface CvcBaseInputFieldConfig
@@ -32,7 +31,7 @@ export interface CvcBaseInputFieldConfig
 const BaseInputMixin = mixin(
   BaseFieldType<
     FieldTypeConfig<CvcBaseInputFieldProps>,
-    Maybe<string[] | number[]>
+    Maybe<string | number>
   >(),
   StringTagField
 )
@@ -52,43 +51,15 @@ export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
     },
     props: {
       label: 'Enter value',
-      placeholder: 'Enter value and hit Return'
     },
   }
 
-  tags$ = new Subject<string[]>()
-  values = new Set<string>()
-
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor() {
     super()
-  }
-
-  onEnter(e: Event) {
-    let target = (e.target as HTMLInputElement)
-    if(target.value) {
-      this.values.add(target.value)
-      target.value = ''
-    }
-    let arr = Array.from(this.values)
-    this.tags$.next(arr)
-    this.formControl.setValue(arr)
-  }
-
-  tagClosed(tag: string) {
-    this.values.delete(tag)
-    let arr = Array.from(this.values)
-    this.tags$.next(arr)
-    this.formControl.setValue(arr)
-    this.tags$.next(arr)
   }
 
   ngAfterViewInit(): void {
     this.configureBaseField()
     this.configureStringTagField()
-    if(this.formControl.value && Array.isArray(this.formControl.value)) {
-      this.formControl.value.forEach(v => this.values.add(v))
-      this.tags$.next(this.formControl.value)
-      this.cdr.detectChanges()
-    }
   } // ngAfterViewInit
 }

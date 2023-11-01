@@ -191,28 +191,28 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
       },
     ],
   },
-  // {
-  //   wrappers: ['field-grid'],
-  //   props: <CvcFieldGridWrapperConfig>{
-  //     grid: {
-  //       cols: 2,
-  //     },
-  //   },
-  //   fieldGroup: [
-  //     <CvcBaseInputFieldOptions>{
-  //       key: 'tag',
-  //       type: 'tag-input',
-  //       props: {
-  //         label: 'Input Test',
-  //       },
-  //     },
-  //     <CvcBaseInputFieldOptions>{
-  //       key: 'tags',
-  //       type: 'tag-multi-input',
-  //       props: {
-  //         label: 'Input Multi Test',
-  //       },
-  //     },
-  //   ],
-  // },
+  {
+    wrappers: ['field-grid'],
+    props: <CvcFieldGridWrapperConfig>{
+      grid: {
+        cols: 2,
+      },
+    },
+    fieldGroup: [
+      <CvcBaseInputFieldOptions>{
+        key: 'tag',
+        type: 'tag-input',
+        props: {
+          label: 'Input Test',
+        },
+      },
+      <CvcBaseInputFieldOptions>{
+        key: 'tags',
+        type: 'tag-multi-input',
+        props: {
+          label: 'Input Multi Test',
+        },
+      },
+    ],
+  },
 ]
