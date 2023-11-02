@@ -135,6 +135,7 @@ export class CvcClinvarInputField
         this.showTagSelect$.next(true)
         this.existenceOption$.next(ClinvarOptions.Found)
       }
+      if (value !== undefined) this.formControl.markAsTouched()
     })
 
     // set form control value when existenceOption$ updates
@@ -170,66 +171,9 @@ export class CvcClinvarInputField
         untilDestroyed(this)
       )
       .subscribe()
-
-    // const val = this.formControl.value
-    // if (val && Array.isArray(val)) {
-    //   if (val[0] == 'NONE FOUND') {
-    //     this.selectModel = ClinvarOptions.NoneFound
-    //   } else if (val[0] == 'N/A') {
-    //     this.selectModel = ClinvarOptions.NotApplicable
-    //   } else {
-    //     this.selectModel = ClinvarOptions.Found
-    //     val.forEach((v) => this.values.add(v))
-    //     this.showClinvarIdEntry$.next(true)
-    //   }
-    //   this.clinvarIds$.next(val)
-    //   this.cdr.detectChanges()
-    // }
   }
 
-  containsNaOrNotFound(ids: string[]): boolean {
-    return ids.includes('NONE FOUND') || ids.includes('NA')
-  }
-
-  optionSelected(e: number) {
-    const selectedOption = e as ClinvarOptions
-    this.values.clear()
-    this.clinvarIds$.next([])
-    if (selectedOption !== undefined && selectedOption !== null) {
-      if (selectedOption == ClinvarOptions.Found) {
-        this.showClinvarIdEntry$.next(true)
-        this.formControl.setValue([])
-      } else if (selectedOption == ClinvarOptions.NoneFound) {
-        this.showClinvarIdEntry$.next(false)
-        this.formControl.setValue(['NONE FOUND'])
-      } else if (selectedOption == ClinvarOptions.NotApplicable) {
-        console.log('HERE')
-        this.showClinvarIdEntry$.next(false)
-        this.formControl.setValue(['NA'])
-      }
-    } else {
-      this.showClinvarIdEntry$.next(false)
-      this.formControl.setValue([])
-      this.clinvarIds$.next([])
-    }
-  }
-
-  // onEnter(e: Event) {
-  //   let target = e.target as HTMLInputElement
-  //   if (target.value) {
-  //     this.values.add(target.value)
-  //     target.value = ''
-  //   }
-  //   let arr = Array.from(this.values)
-  //   this.clinvarIds$.next(arr)
-  //   this.formControl.setValue(arr)
-  // }
-
-  // tagClosed(tag: string) {
-  //   this.values.delete(tag)
-  //   let arr = Array.from(this.values)
-  //   this.clinvarIds$.next(arr)
-  //   this.formControl.setValue(arr)
-  //   this.clinvarIds$.next(arr)
+  // containsNaOrNotFound(ids: string[]): boolean {
+  //   return ids.includes('NONE FOUND') || ids.includes('NA')
   // }
 }
