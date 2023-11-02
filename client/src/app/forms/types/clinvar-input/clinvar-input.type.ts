@@ -37,7 +37,7 @@ export interface CvcBaseInputFieldConfig
 }
 
 const BaseInputMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcClinvarInputFieldProps>, Maybe<string[]>>(),
+  BaseFieldType<FieldTypeConfig<CvcClinvarInputFieldProps>, string[]>(),
   StringTagField
 )
 
@@ -122,11 +122,14 @@ export class CvcClinvarInputField
     // if undefined or array contains NOT FOUND or NA set false
     // else set true
     this.onValueChange$.pipe(untilDestroyed(this)).subscribe((value) => {
-      if (!value || value.includes('NONE FOUND') || value.includes('NA')) {
+      if (value === undefined) {
+        this.existenceOption$.next(undefined)
+      } else if (
+        Array.isArray(value) &&
+        (value.includes('NONE FOUND') || value.includes('NA'))
+      ) {
         this.showTagSelect$.next(false)
-        if (!value) {
-          this.existenceOption$.next(undefined)
-        } else if (value.includes('NONE FOUND')) {
+        if (value.includes('NONE FOUND')) {
           this.existenceOption$.next(ClinvarOptions.NoneFound)
         } else if (value.includes('NA')) {
           this.existenceOption$.next(ClinvarOptions.NotApplicable)
