@@ -8,7 +8,6 @@ import { CvcFormSubmissionStatusDisplayModule } from '@app/forms/components/form
 import { CvcFormFieldWrapperModule } from '@app/forms/wrappers/form-field/form-field.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete'
 import { NzButtonModule } from 'ng-zorro-antd/button'

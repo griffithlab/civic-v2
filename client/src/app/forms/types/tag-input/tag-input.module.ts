@@ -4,7 +4,6 @@ import { CvcBaseInputField, CvcBaseInputFieldProps } from './tag-input.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { LetDirective, PushPipe } from '@ngrx/component'
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcStringTagModule } from '@app/forms/components/string-tag/string-tag.module'
@@ -40,7 +39,6 @@ const typeConfig: ConfigOption = {
     LetDirective,
     PushPipe,
     FormlyModule.forChild(typeConfig),
-    FormlyNzFormFieldModule, // for form-field wrapper
     NzFormModule,
     NzInputModule,
     NzSelectModule,

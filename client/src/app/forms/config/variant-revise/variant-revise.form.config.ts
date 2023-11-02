@@ -34,6 +34,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'gene-select',
             props: {
               description: 'Enter an Entrez Gene for this Variant',
+              required: true,
             },
           },
           {

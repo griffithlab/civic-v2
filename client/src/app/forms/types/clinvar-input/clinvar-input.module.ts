@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { LetDirective, PushPipe } from '@ngrx/component'
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { CvcStringTagModule } from '@app/forms/components/string-tag/string-tag.module'
-import { CvcClinvarInputField, CvcClinvarInputFieldProps } from './clinvar-input.type'
+import {
+  CvcClinvarInputField,
+  CvcClinvarInputFieldProps,
+} from './clinvar-input.type'
 import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -16,6 +21,12 @@ const typeConfig: ConfigOption = {
       name: 'clinvar-input',
       wrappers: ['form-field'],
       component: CvcClinvarInputField,
+      defaultOptions: {
+        props: <CvcClinvarInputFieldProps>{
+          isRepeatItem: false,
+          showExistenceOptions: false,
+        },
+      },
     },
     {
       // for use in repeat-field types
@@ -25,6 +36,7 @@ const typeConfig: ConfigOption = {
       defaultOptions: {
         props: <CvcClinvarInputFieldProps>{
           isRepeatItem: true,
+          showExistenceOptions: true,
         },
       },
     },
@@ -35,15 +47,18 @@ const typeConfig: ConfigOption = {
   declarations: [CvcClinvarInputField],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
-    LetDirective, PushPipe,
+    ReactiveFormsModule,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(typeConfig),
-    FormlyNzFormFieldModule, // for form-field wrapper
-    NzInputModule,
     NzFormModule,
+    NzGridModule,
+    NzInputModule,
+    NzRadioModule,
     NzSelectModule,
-    CvcStringTagModule,
+    NzToolTipModule,
+    CvcPipesModule,
   ],
   exports: [CvcClinvarInputField],
 })
