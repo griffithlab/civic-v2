@@ -70,7 +70,8 @@ export class CvcClinvarInputField
   showClinvarIdEntry$ = new BehaviorSubject<boolean>(false)
   selectModel: Maybe<ClinvarOptions> = undefined
 
-  existenceOption$: BehaviorSubject<Maybe<ClinvarOptions>>
+  existenceChange$: Subject<Maybe<ClinvarOptions>>
+  existenceModel$: BehaviorSubject<Maybe<ClinvarOptions>>
   showTagSelect$: BehaviorSubject<boolean>
 
   selectOptions = [
@@ -99,14 +100,11 @@ export class CvcClinvarInputField
 
   constructor(private cdr: ChangeDetectorRef) {
     super()
-    this.existenceOption$ = new BehaviorSubject<Maybe<ClinvarOptions>>(
-      undefined
-    )
-    // show tag select if Found selected
-    // or field value defined & does not contain 'NONE FOUND' or 'NA'
+    this.existenceChange$ = new Subject<Maybe<ClinvarOptions>>()
+    this.existenceModel$ = new BehaviorSubject<Maybe<ClinvarOptions>>(undefined)
     this.showTagSelect$ = new BehaviorSubject<boolean>(false)
 
-    // this.existenceOption$.pipe(
+    // this.existenceChange$.pipe(
     //   withLatestFrom(this.formControl.valueChanges),
     //   map(([opts, value]: [Maybe<ClinvarOptions>, Maybe<string[]>]) => {
     //     return opts === ClinvarOptions.Found || this.formControl.value
@@ -123,30 +121,27 @@ export class CvcClinvarInputField
     // else set true
     this.onValueChange$.pipe(untilDestroyed(this)).subscribe((value) => {
       if (value === undefined) {
-        this.existenceOption$.next(undefined)
-      } else if (
-        Array.isArray(value) &&
-        (value.includes('NONE FOUND') || value.includes('NA'))
-      ) {
+        this.existenceModel$.next(undefined)
         this.showTagSelect$.next(false)
+      } else if (value.includes('NONE FOUND') || value.includes('NA')) {
         if (value.includes('NONE FOUND')) {
-          this.existenceOption$.next(ClinvarOptions.NoneFound)
+          this.existenceModel$.next(ClinvarOptions.NoneFound)
         } else if (value.includes('NA')) {
-          this.existenceOption$.next(ClinvarOptions.NotApplicable)
+          this.existenceModel$.next(ClinvarOptions.NotApplicable)
         }
+        this.showTagSelect$.next(false)
       } else {
+        this.existenceModel$.next(ClinvarOptions.Found)
         this.showTagSelect$.next(true)
-        this.existenceOption$.next(ClinvarOptions.Found)
       }
-      if (value !== undefined) this.formControl.markAsTouched()
     })
 
-    // set form control value when existenceOption$ updates
-    this.existenceOption$
+    // set form control value when existenceChange$ updates
+    this.existenceChange$
       .pipe(
         map((option) => {
           const value = this.formControl.value
-          if (option === undefined && this.formControl.value) {
+          if (option === undefined && this.formControl.value !== undefined) {
             this.formControl.setValue(undefined)
           } else if (
             option === ClinvarOptions.NoneFound &&
@@ -164,10 +159,7 @@ export class CvcClinvarInputField
               value.includes('NONE FOUND') ||
               value.includes('NA')
             ) {
-              // do not reset value if array is populated by IDs
-              if (!value || (value && !(value.length > 0))) {
-                this.formControl.setValue([])
-              }
+              this.formControl.setValue([])
             }
           }
         }),
@@ -175,8 +167,4 @@ export class CvcClinvarInputField
       )
       .subscribe()
   }
-
-  // containsNaOrNotFound(ids: string[]): boolean {
-  //   return ids.includes('NONE FOUND') || ids.includes('NA')
-  // }
 }

@@ -3,8 +3,8 @@
     nzSpan="24"
     *ngIf="props.showExistenceOptions">
     <nz-radio-group
-      [ngModel]="existenceOption$ | ngrxPush"
-      (ngModelChange)="existenceOption$.next($event)"
+      [ngModel]="existenceModel$ | ngrxPush"
+      (ngModelChange)="existenceChange$.next($event)"
       nzName="existence">
       <label
         *ngFor="let option of selectOptions"
