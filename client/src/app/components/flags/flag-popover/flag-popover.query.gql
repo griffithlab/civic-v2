@@ -20,7 +20,7 @@ fragment flagPopover on Flag {
   }
   createdAt
   openActivity {
-    note {
+    parsedNote {
       __typename
       ... on CommentTagSegment {
         entityId

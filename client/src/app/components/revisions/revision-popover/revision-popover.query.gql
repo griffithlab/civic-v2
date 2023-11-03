@@ -15,7 +15,7 @@ fragment revisionPopover on Revision {
       displayName
       role
     }
-    note {
+    parsedNote {
       __typename
       ... on CommentTagSegment {
         entityId

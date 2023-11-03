@@ -63,8 +63,8 @@
         <nz-descriptions-item nzTitle="Revision Date">
           {{ r.createdAt | timeAgo }}
         </nz-descriptions-item>
-        <nz-descriptions-item *ngIf="r.creationActivity?.note" nzTitle="Creation Comment">
-          <cvc-comment-body [commentBodySegments]="r.creationActivity!.note"></cvc-comment-body>
+        <nz-descriptions-item *ngIf="r.creationActivity?.parsedNote" nzTitle="Creation Comment">
+          <cvc-comment-body [commentBodySegments]="r.creationActivity!.parsedNote"></cvc-comment-body>
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>

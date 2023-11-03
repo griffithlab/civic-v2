@@ -61,7 +61,7 @@ fragment flag on Flag {
   openActivity {
     id
     createdAt
-    note {
+    parsedNote {
       __typename
       ... on CommentTagSegment {
         entityId
@@ -92,7 +92,7 @@ fragment flag on Flag {
   resolutionActivity {
     id
     createdAt
-    note {
+    parsedNote {
       __typename
       ... on CommentTagSegment {
         entityId

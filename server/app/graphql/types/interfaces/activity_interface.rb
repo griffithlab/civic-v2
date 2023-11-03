@@ -6,7 +6,8 @@ module Types::Interfaces
 
     field :id, Int, null: false
     field :verbiage, String, null: false
-    field :note, [Types::Commentable::CommentBodySegment], null: false
+    field :note, String, null: true
+    field :parsed_note, [Types::Commentable::CommentBodySegment], null: false
     field :events, [Types::Entities::EventType], null: false
     field :subject, Types::Interfaces::EventSubject, null: false
     field :user, Types::Entities::UserType, null: false
@@ -29,7 +30,7 @@ module Types::Interfaces
       Loaders::AssociationLoader.for(Activity, :subject).load(object)
     end
 
-    def note
+    def parsed_note
       Rails.cache.fetch(hash_key_from_object(object)) do
         Actions::FormatCommentText.get_segments(text: object.note)
       end

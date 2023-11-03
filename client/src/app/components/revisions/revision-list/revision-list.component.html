@@ -317,9 +317,9 @@
           <nz-divider></nz-divider>
           <nz-row>
             <nz-col nzSpan="16">
-              <ng-container *ngIf="revision.resolutionActivity?.note">
+              <ng-container *ngIf="revision.resolutionActivity?.parsedNote">
                 <cvc-comment-body
-                  [commentBodySegments]="revision.resolutionActivity!.note"></cvc-comment-body>
+                  [commentBodySegments]="revision.resolutionActivity!.parsedNote"></cvc-comment-body>
               </ng-container>
             </nz-col>
             <nz-col
@@ -348,7 +348,7 @@
               RID{{ revision.id }}
               <span>{{ revision.linkoutData.name }} Updated</span>
             </span>
-            <ng-container *ngIf="revision.creationActivity?.note">
+            <ng-container *ngIf="revision.creationActivity?.parsedNote">
               <i
                 nz-popover
                 [nzPopoverContent]="creationCommentTemplate"
@@ -359,7 +359,7 @@
               <ng-template #creationCommentTemplate>
                 <cvc-comment-body
                   [commentBodySegments]="
-                    revision.creationActivity!.note
+                    revision.creationActivity!.parsedNote
                   ">
                 </cvc-comment-body>
               </ng-template>

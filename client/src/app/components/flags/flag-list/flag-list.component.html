@@ -26,7 +26,7 @@
           <cvc-comment-body
             *ngIf="flag.openActivity"
             [commentBodySegments]="
-              flag.openActivity.note
+              flag.openActivity.parsedNote
             "></cvc-comment-body>
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
@@ -42,7 +42,7 @@
                 <ng-container *ngIf="flag.resolutionActivity">
                   <cvc-comment-body
                     [commentBodySegments]="
-                      flag.resolutionActivity.note
+                      flag.resolutionActivity.parsedNote
                     "></cvc-comment-body>
                 </ng-container>
               </nz-col>

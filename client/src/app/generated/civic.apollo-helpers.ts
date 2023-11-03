@@ -1,11 +1,12 @@
 import type { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type AcceptRevisionsActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'revisions' | 'subject' | 'supersededRevisions' | 'user' | 'verbiage' | AcceptRevisionsActivityKeySpecifier)[];
+export type AcceptRevisionsActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'revisions' | 'subject' | 'supersededRevisions' | 'user' | 'verbiage' | AcceptRevisionsActivityKeySpecifier)[];
 export type AcceptRevisionsActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	supersededRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -26,13 +27,14 @@ export type AcmgCodeFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	tooltip?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ActivityInterfaceKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | ActivityInterfaceKeySpecifier)[];
+export type ActivityInterfaceKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | ActivityInterfaceKeySpecifier)[];
 export type ActivityInterfaceFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -468,7 +470,7 @@ export type CommentFieldPolicy = {
 	parsedComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | CommentActivityKeySpecifier)[];
+export type CommentActivityKeySpecifier = ('comment' | 'createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | CommentActivityKeySpecifier)[];
 export type CommentActivityFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -476,6 +478,7 @@ export type CommentActivityFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -567,7 +570,7 @@ export type DataReleaseFieldPolicy = {
 	variantGroupTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTsv?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DeprecateVariantActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'molecularProfiles' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | DeprecateVariantActivityKeySpecifier)[];
+export type DeprecateVariantActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'molecularProfiles' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | DeprecateVariantActivityKeySpecifier)[];
 export type DeprecateVariantActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -575,6 +578,7 @@ export type DeprecateVariantActivityFieldPolicy = {
 	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -765,7 +769,7 @@ export type FlagEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagEntityActivityKeySpecifier = ('createdAt' | 'events' | 'flag' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | FlagEntityActivityKeySpecifier)[];
+export type FlagEntityActivityKeySpecifier = ('createdAt' | 'events' | 'flag' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | FlagEntityActivityKeySpecifier)[];
 export type FlagEntityActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -773,6 +777,7 @@ export type FlagEntityActivityFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -940,13 +945,14 @@ export type LinkoutDataFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedValue?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ModerateAssertionActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | ModerateAssertionActivityKeySpecifier)[];
+export type ModerateAssertionActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | ModerateAssertionActivityKeySpecifier)[];
 export type ModerateAssertionActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -956,13 +962,14 @@ export type ModerateAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ModerateEvidenceItemActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | ModerateEvidenceItemActivityKeySpecifier)[];
+export type ModerateEvidenceItemActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | ModerateEvidenceItemActivityKeySpecifier)[];
 export type ModerateEvidenceItemActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1369,13 +1376,14 @@ export type RanksFieldPolicy = {
 	revisionsRank?: FieldPolicy<any> | FieldReadFunction<any>,
 	submissionsRank?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RejectRevisionsActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'revisions' | 'subject' | 'user' | 'verbiage' | RejectRevisionsActivityKeySpecifier)[];
+export type RejectRevisionsActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'revisions' | 'subject' | 'user' | 'verbiage' | RejectRevisionsActivityKeySpecifier)[];
 export type RejectRevisionsActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1386,7 +1394,7 @@ export type RejectRevisionsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ResolveFlagActivityKeySpecifier = ('createdAt' | 'events' | 'flag' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | ResolveFlagActivityKeySpecifier)[];
+export type ResolveFlagActivityKeySpecifier = ('createdAt' | 'events' | 'flag' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | ResolveFlagActivityKeySpecifier)[];
 export type ResolveFlagActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1394,6 +1402,7 @@ export type ResolveFlagActivityFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1587,13 +1596,14 @@ export type StatsFieldPolicy = {
 	submittedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedSources?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SubmitAssertionActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | SubmitAssertionActivityKeySpecifier)[];
+export type SubmitAssertionActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | SubmitAssertionActivityKeySpecifier)[];
 export type SubmitAssertionActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1603,13 +1613,14 @@ export type SubmitAssertionPayloadFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SubmitEvidenceItemActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'subject' | 'user' | 'verbiage' | SubmitEvidenceItemActivityKeySpecifier)[];
+export type SubmitEvidenceItemActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | SubmitEvidenceItemActivityKeySpecifier)[];
 export type SubmitEvidenceItemActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1663,26 +1674,28 @@ export type SuggestMolecularProfileRevisionPayloadFieldPolicy = {
 	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SuggestRevisionSetActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'revisionSet' | 'revisions' | 'subject' | 'user' | 'verbiage' | SuggestRevisionSetActivityKeySpecifier)[];
+export type SuggestRevisionSetActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'revisionSet' | 'revisions' | 'subject' | 'user' | 'verbiage' | SuggestRevisionSetActivityKeySpecifier)[];
 export type SuggestRevisionSetActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionSet?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SuggestSourceActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'sourceSuggestion' | 'subject' | 'user' | 'verbiage' | SuggestSourceActivityKeySpecifier)[];
+export type SuggestSourceActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'sourceSuggestion' | 'subject' | 'user' | 'verbiage' | SuggestSourceActivityKeySpecifier)[];
 export type SuggestSourceActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1750,13 +1763,14 @@ export type UpdateNotificationStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UpdateSourceSuggestionStatusActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'sourceSuggestion' | 'subject' | 'user' | 'verbiage' | UpdateSourceSuggestionStatusActivityKeySpecifier)[];
+export type UpdateSourceSuggestionStatusActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'sourceSuggestion' | 'subject' | 'user' | 'verbiage' | UpdateSourceSuggestionStatusActivityKeySpecifier)[];
 export type UpdateSourceSuggestionStatusActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,

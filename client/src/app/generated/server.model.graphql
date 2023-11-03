@@ -2,8 +2,9 @@ type AcceptRevisionsActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   revisions: [Revision!]!
   subject: EventSubject!
   supersededRevisions: [Revision!]!
@@ -79,8 +80,9 @@ interface ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -1607,8 +1609,9 @@ type CommentActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -1892,8 +1895,9 @@ type DeprecateVariantActivity implements ActivityInterface {
   events: [Event!]!
   id: Int!
   molecularProfiles: [MolecularProfile!]!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -2862,8 +2866,9 @@ type FlagEntityActivity implements ActivityInterface {
   events: [Event!]!
   flag: Flag!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -3632,8 +3637,9 @@ type ModerateAssertionActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -3686,8 +3692,9 @@ type ModerateEvidenceItemActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -6564,8 +6571,9 @@ type RejectRevisionsActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   revisions: [Revision!]!
   subject: EventSubject!
   user: User!
@@ -6625,8 +6633,9 @@ type ResolveFlagActivity implements ActivityInterface {
   events: [Event!]!
   flag: Flag!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -7361,8 +7370,9 @@ type SubmitAssertionActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -7415,8 +7425,9 @@ type SubmitEvidenceItemActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
   verbiage: String!
@@ -7849,8 +7860,9 @@ type SuggestRevisionSetActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   revisionSet: RevisionSet!
   revisions: [Revision!]!
   subject: EventSubject!
@@ -7862,8 +7874,9 @@ type SuggestSourceActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   sourceSuggestion: SourceSuggestion!
   subject: EventSubject!
   user: User!
@@ -8233,8 +8246,9 @@ type UpdateSourceSuggestionStatusActivity implements ActivityInterface {
   createdAt: ISO8601DateTime!
   events: [Event!]!
   id: Int!
-  note: [CommentBodySegment!]!
+  note: String
   organization: Organization
+  parsedNote: [CommentBodySegment!]!
   sourceSuggestion: SourceSuggestion!
   subject: EventSubject!
   user: User!

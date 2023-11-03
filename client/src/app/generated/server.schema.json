@@ -75,6 +75,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -90,18 +114,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -521,6 +533,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -536,18 +572,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7916,6 +7940,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -7931,18 +7979,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9487,6 +9523,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -9502,18 +9562,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -13992,6 +14040,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -14007,18 +14079,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -17565,6 +17625,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -17580,18 +17664,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -17828,6 +17900,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -17843,18 +17939,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -30026,6 +30110,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -30041,18 +30149,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -30353,6 +30449,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -30368,18 +30488,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -34166,6 +34274,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -34181,18 +34313,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -34425,6 +34545,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -34440,18 +34584,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -35767,6 +35899,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -35782,18 +35938,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -35964,6 +36108,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -35979,18 +36147,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -37466,6 +37622,30 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parsedNote",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
@@ -37481,18 +37661,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

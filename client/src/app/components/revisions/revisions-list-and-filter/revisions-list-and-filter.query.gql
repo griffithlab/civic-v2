@@ -117,7 +117,7 @@ fragment revision on Revision {
       displayName
       role
     }
-    note {
+    parsedNote {
       __typename
       ... on CommentTagSegment {
         entityId
@@ -146,7 +146,7 @@ fragment revision on Revision {
       displayName
       role
     }
-    note {
+    parsedNote {
       __typename
       ... on CommentTagSegment {
         entityId
