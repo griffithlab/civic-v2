@@ -123,7 +123,6 @@ export class CvcEntityTypeSelectField
         } else {
           this.props.description = optionText[v]
           this.props.extraType = 'description'
-          this.field.formControl.markAsTouched()
         }
       })
     if (!this.state) {

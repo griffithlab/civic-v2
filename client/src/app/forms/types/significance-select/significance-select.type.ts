@@ -274,7 +274,6 @@ export class CvcSignificanceSelectField
         this.props.description = undefined
         this.props.extraType = 'description'
         this.props.description = optionText[this.state.entityName][et][cs]
-        this.field.formControl.markAsTouched()
       })
   }
 }

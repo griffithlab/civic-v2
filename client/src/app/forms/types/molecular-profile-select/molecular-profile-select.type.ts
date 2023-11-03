@@ -205,7 +205,6 @@ export class CvcMolecularProfileSelectField
         if (this.editorOpen) this.onShowExpClick$.next()
         this.cdr.detectChanges()
         this.field.formControl.setValue(mp.id)
-        this.field.formControl.markAsTouched()
       })
   } // ngAfterViewInit
 

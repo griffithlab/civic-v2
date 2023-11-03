@@ -142,7 +142,6 @@ export class CvcOriginSelectField
           this.props.description = undefined
         } else {
           this.props.description = optionMap.get(origin)
-          this.field.formControl.markAsTouched()
         }
       })
   }

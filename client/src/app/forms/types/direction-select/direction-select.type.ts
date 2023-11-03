@@ -274,7 +274,6 @@ export class CvcDirectionSelectField
         if (!et || !ed || !this.state) return
         this.props.extraType = 'description'
         this.props.description = optionText[this.state.entityName][et][ed]
-        this.field.formControl.markAsTouched()
       })
   }
 }

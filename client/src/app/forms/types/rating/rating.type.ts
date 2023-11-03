@@ -102,7 +102,6 @@ export class CvcRatingField extends RatingMixin implements AfterViewInit {
           this.props.description = undefined
         } else {
           this.props.description = optionText[rating]
-          this.field.formControl.markAsTouched()
         }
       })
   }
