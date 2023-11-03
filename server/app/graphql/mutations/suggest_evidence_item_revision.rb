@@ -39,7 +39,7 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
 
     @evidence_item = evidence_item
 
-    input_errors = InputAdaptors::EvidenceItemInputAdaptor.check_input_for_errors(evidence_input_object: fields)
+    input_errors = InputAdaptors::EvidenceItemInputAdaptor.check_input_for_errors(evidence_input_object: fields, revised_eid: id)
 
     if input_errors.any?
       raise GraphQL::ExecutionError, input_errors.join('|')

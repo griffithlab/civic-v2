@@ -9,7 +9,7 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   type Types::BrowseTables::BrowseMolecularProfileType.connection_type, null: false
 
   scope do
-    MolecularProfileBrowseTableRow
+    MaterializedViews::MolecularProfileBrowseTableRow
       .all
       .order('evidence_score DESC')
   end

@@ -5,7 +5,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { CvcSourceSubmitFormModule } from '@app/forms2/config/source-submit/source-submit.form.module'
+import { CvcSourceSubmitFormModule } from '@app/forms/config/source-submit/source-submit.form.module'
 
 @NgModule({
   declarations: [SourceAddPage],

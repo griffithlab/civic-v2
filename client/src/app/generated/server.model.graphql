@@ -811,6 +811,11 @@ type BrowseClinicalTrialConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseClinicalTrial!]!
@@ -873,6 +878,11 @@ type BrowseDiseaseConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -986,6 +996,11 @@ type BrowseGeneConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseGene!]!
@@ -1051,6 +1066,11 @@ type BrowseMolecularProfileConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseMolecularProfile!]!
@@ -1109,6 +1129,11 @@ type BrowsePhenotypeConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -1179,6 +1204,11 @@ type BrowseSourceConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseSource!]!
@@ -1237,6 +1267,11 @@ type BrowseTherapyConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -1302,6 +1337,11 @@ type BrowseVariantConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseVariant!]!
@@ -1362,6 +1402,11 @@ type BrowseVariantGroupConnection {
   filteredCount: Int!
 
   """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
   A list of nodes.
   """
   nodes: [BrowseVariantGroup!]!
@@ -1419,6 +1464,11 @@ type BrowseVariantTypeConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -3348,6 +3398,7 @@ type LeaderboardOrganization {
   orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
   rank: Int!
+  ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
 }
@@ -3395,6 +3446,11 @@ type LeaderboardOrganizationEdge {
   The item at the end of the edge.
   """
   node: LeaderboardOrganization
+}
+
+type LeaderboardRank {
+  actionCount: Int!
+  rank: Int!
 }
 
 type LeaderboardUser {
@@ -3482,6 +3538,7 @@ type LeaderboardUser {
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   rank: Int!
+  ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String
@@ -4847,6 +4904,7 @@ type Organization {
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
+  ranks: Ranks!
   subGroups: [Organization!]!
   url: String!
 }
@@ -5867,6 +5925,11 @@ type Query {
     after: String
 
     """
+    Find Molecular Profiles based on the ClinGen Allele Registry ID of one of its involed Variants
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
@@ -6436,6 +6499,11 @@ type Query {
     after: String
 
     """
+    Find a CIViC Variant based on its ClinGen Allele Registry ID
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
@@ -6472,6 +6540,13 @@ type Query {
     variantTypeIds: [Int!]
   ): VariantConnection!
   viewer: User
+}
+
+type Ranks {
+  commentsRank: LeaderboardRank
+  moderationRank: LeaderboardRank
+  revisionsRank: LeaderboardRank
+  submissionsRank: LeaderboardRank
 }
 
 enum ReadStatus {
@@ -6597,6 +6672,8 @@ type ResolveFlagPayload {
 }
 
 type Revision implements Commentable & EventOriginObject & EventSubject {
+  acceptanceActivity: AcceptRevisionsActivity
+
   """
   List and filter comments.
   """
@@ -6647,8 +6724,7 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
     sortBy: DateSort
   ): CommentConnection!
   createdAt: ISO8601DateTime!
-  creationComment: Comment
-  creationEvent: Event
+  creationActivity: SuggestRevisionSetActivity
   currentValue: JSON
 
   """
@@ -6689,15 +6765,13 @@ type Revision implements Commentable & EventOriginObject & EventSubject {
   link: String!
   linkoutData: LinkoutData!
   name: String!
-  resolutionComment: Comment
-  resolvedAt: ISO8601DateTime
-  resolver: User
-  resolvingEvent: Event
+  rejectionActivity: RejectRevisionsActivity
+  resolutionActivity: ActivityInterface
   revisionSetId: Int!
-  revisor: User
   status: RevisionStatus!
   subject: EventSubject!
   suggestedValue: JSON
+  supersedingActivity: AcceptRevisionsActivity
   updatedAt: ISO8601DateTime!
 }
 
@@ -6962,6 +7036,7 @@ type Source implements Commentable & EventSubject {
     sortBy: DateSort
   ): EventConnection!
   fullJournalTitle: String
+  fullyCurated: Boolean!
   id: Int!
   journal: String
   lastCommentEvent: Event
@@ -7071,6 +7146,7 @@ type SourcePopover implements Commentable & EventSubject {
   ): EventConnection!
   evidenceItemCount: Int!
   fullJournalTitle: String
+  fullyCurated: Boolean!
   id: Int!
   journal: String
   lastCommentEvent: Event
@@ -7159,6 +7235,11 @@ type SourceSuggestionConnection {
   The total number of records in this set.
   """
   filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
 
   """
   A list of nodes.
@@ -8291,6 +8372,7 @@ type User {
   orcid: String
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
+  ranks: Ranks!
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String

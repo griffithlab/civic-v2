@@ -56,7 +56,6 @@ fragment revision on Revision {
   id
   revisionSetId
   createdAt
-  resolvedAt
   fieldName
   currentValue
   suggestedValue
@@ -111,24 +110,23 @@ fragment revision on Revision {
       }
     }
   }
-  revisor {
-    id
-    displayName
-    role
-  }
-  resolver {
-    id
-    displayName
-    role
-  }
-  creationComment {
-    parsedComment {
+  creationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    note {
       __typename
       ... on CommentTagSegment {
         entityId
         displayName
         tagType
+        status
+        deprecated
         link
+        revisionSetId
         __typename
       }
       ... on CommentTextSegment {
@@ -141,14 +139,23 @@ fragment revision on Revision {
       }
     }
   }
-  resolutionComment {
-    parsedComment {
+  resolutionActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    note {
       __typename
       ... on CommentTagSegment {
         entityId
         displayName
         tagType
+        status
+        deprecated
         link
+        revisionSetId
         __typename
       }
       ... on CommentTextSegment {

@@ -1,5 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core'
 import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
+import { TagInfo } from '@app/components/shared/tag-overflow/tag-overflow.component'
+import {
+  Maybe,
   OrganizationMembersFieldsFragment,
   UserRole,
 } from '@app/generated/civic.apollo'
@@ -7,12 +14,14 @@ import {
 @Component({
   selector: 'cvc-user-card',
   templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcUserCardComponent implements OnInit {
   @Input() user!: OrganizationMembersFieldsFragment
 
   icon!: string
-
+  organizations: TagInfo[] = []
   ngOnInit() {
     if (this.user == undefined) {
       throw new Error('Must pass a user into user card')
@@ -31,5 +40,9 @@ export class CvcUserCardComponent implements OnInit {
       default:
         this.icon = 'civic-curator'
     }
+    this.user.organizations.forEach((org) => {
+      // convert user Organization into TagInfo
+      this.organizations.push({ id: org.id, name: org.name, link: org.url })
+    })
   }
 }

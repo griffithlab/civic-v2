@@ -1,16 +1,25 @@
 Trestle.resource(:therapies) do
+  remove_action :destroy
+
   menu do
     item :therapies, icon: "fa fa-pills"
   end
 
   scope :all, default: true
   scope :without_ncit_id, -> { Therapy.where(ncit_id: nil) }
+  scope :deprecated, -> { Therapy.where(deprecated: true) }
+  scope :not_deprecated, -> { Therapy.where(deprecated: false) }
+
+  search do |q|
+    q ? collection.where("name ILIKE ? OR ncit_id ILIKE ?", "%#{q}%", "%#{q}%") : collection
+  end
 
   # Customize the table columns shown on the index view.
   table do
     column :id
     column :ncit_id
     column :name
+    column :deprecated
   end
 
   # Customize the form fields shown on the new/edit views.
@@ -18,6 +27,11 @@ Trestle.resource(:therapies) do
     row do
       col(sm: 2) { static_field :id }
       col(sm: 2) { text_field :ncit_id }
+      col(sm: 2) do
+        form_group :deprecated, label: false do
+          check_box :deprecated 
+        end
+      end
     end
 
     col(sm: 6) { text_field :name }

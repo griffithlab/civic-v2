@@ -47,4 +47,7 @@ class Resolvers::TopLevelMolecularProfiles < GraphQL::Schema::Resolver
     scope.joins(:variants).where('variants.id = ?', value)
   end
 
+  option(:allele_registry_id, type: GraphQL::Types::String, description: 'Find Molecular Profiles based on the ClinGen Allele Registry ID of one of its involed Variants') do |scope, value|
+    scope.joins(:variants).where('variants.allele_registry_id = ?', value)
+  end
 end

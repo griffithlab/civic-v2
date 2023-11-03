@@ -1,10 +1,14 @@
 class Therapy < ApplicationRecord
+  validates_with DeprecationValidator
+
   include WithTimepointCounts
   include WithCapitalizedName
 
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :assertions
   has_and_belongs_to_many :therapy_aliases
+
+  validates :ncit_id, uniqueness: true 
 
   def self.url_for(ncit_id:)
     if ncit_id.nil?

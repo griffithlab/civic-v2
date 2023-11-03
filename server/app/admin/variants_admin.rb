@@ -57,11 +57,8 @@ Trestle.resource(:variants) do
         end
       end
 
-      text_area :description
-
       select :variant_alias_ids, VariantAlias.order(:name), { label: "Variant Aliases" }, multiple: true
 
-      select :source_ids, Source.order(:description), { label: "Sources" }, multiple: true
 
       row do
         col(sm: 4) { text_field :allele_registry_id }

@@ -8,10 +8,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardOrganizationType.connection_type, null: false
 
     scope do
-      organization_base_query(
-        'submitted',
-        'assertion submitted'
-      )
+      Leaderboard.organization_base_query(Leaderboard.submission_actions)
     end
 
     setup_options

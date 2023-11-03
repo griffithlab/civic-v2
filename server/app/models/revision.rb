@@ -13,16 +13,7 @@ class Revision < ApplicationRecord
   has_activity :creation_activity, activity_type: 'SuggestRevisionSetActivity'
   has_activity :rejection_activity, activity_type: 'RejectRevisionsActivity'
   has_activity :acceptance_activity, activity_type: 'AcceptRevisionsActivity'
-
-  has_one :creation_event,
-    ->() { where(action: 'revision suggested') },
-    as: :originating_object,
-    class_name: 'Event'
-
-  has_one :resolving_event,
-    ->() { where("events.action = 'revision rejected' OR events.action = 'revision accepted' OR events.action = 'revision superseded'") },
-    as: :originating_object,
-    class_name: 'Event'
+  has_activity :resolution_activity, activity_type: ['AcceptRevisionsActivity',  'RejectRevisionsActivity']
 
   validates :status, inclusion: {
     in: ['accepted', 'rejected', 'superseded', 'new'],
@@ -33,13 +24,16 @@ class Revision < ApplicationRecord
   searchkick highlight: [:id], callbacks: :async
 
   def revisor
-    creation_event.originating_user
+    creation_activity.user
   end
 
   def resolver
-    resolving_event&.originating_user
+    if status == 'rejected'
+      rejection_activity.user
+    else
+      acceptance_activity.user
+    end
   end
-
 
   def search_data
     {

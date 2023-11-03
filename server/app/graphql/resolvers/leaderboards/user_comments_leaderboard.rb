@@ -10,7 +10,7 @@ module Resolvers::Leaderboards
     type Types::Entities::LeaderboardUserType.connection_type, null: false
 
     scope do
-      user_base_query('commented')
+      Leaderboard.user_base_query(Leaderboard.comment_actions)
     end
 
     setup_options

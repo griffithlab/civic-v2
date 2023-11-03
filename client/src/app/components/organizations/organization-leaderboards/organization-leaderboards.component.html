@@ -3,7 +3,7 @@
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra">
   <nz-row [nzGutter]="[8, 8]">
-    <nz-col nzSpan="8">
+    <nz-col nzSpan="6">
       <ng-container
         *ngTemplateOutlet="
           leaderboard;
@@ -13,7 +13,7 @@
         ">
       </ng-container>
     </nz-col>
-    <nz-col nzSpan="8">
+    <nz-col nzSpan="6">
       <ng-container
         *ngTemplateOutlet="
           leaderboard;
@@ -23,12 +23,22 @@
         ">
       </ng-container>
     </nz-col>
-    <nz-col nzSpan="8">
+    <nz-col nzSpan="6">
       <ng-container
         *ngTemplateOutlet="
           leaderboard;
           context: {
             $implicit: moderationView$ | ngrxPush,
+          }
+        ">
+      </ng-container>
+    </nz-col>
+    <nz-col nzSpan="6">
+      <ng-container
+        *ngTemplateOutlet="
+          leaderboard;
+          context: {
+            $implicit: submissionsView$ | ngrxPush,
           }
         ">
       </ng-container>
@@ -82,15 +92,6 @@
               [org]="row.organization"></cvc-organization-tag>
           </nz-list-item-meta-title>
         </nz-list-item-meta>
-        <ul nz-list-item-actions>
-          <nz-list-item-action>
-            <span
-              nz-typography
-              nzType="secondary">
-              Count: {{ row.actionCount | number }}
-            </span>
-          </nz-list-item-action>
-        </ul>
       </nz-list-item>
     </div>
     <nz-list-empty
@@ -106,7 +107,7 @@
 
 <ng-template #cardTitle>
   <span nz-typography>
-    <strong>Organization Curation Leaderboards</strong>
+    <strong>Organization Curation Activity Leaderboards</strong>
   </span>
 </ng-template>
 

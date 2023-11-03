@@ -13,6 +13,9 @@ import {
   UserRevisionsLeaderboardGQL,
   UserRevisionsLeaderboardQuery,
   UserRevisionsLeaderboardQueryVariables,
+  UserSubmissionsLeaderboardGQL,
+  UserSubmissionsLeaderboardQuery,
+  UserSubmissionsLeaderboardQueryVariables,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -59,11 +62,16 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     UserModerationLeaderboardQuery,
     UserModerationLeaderboardQueryVariables
   >
+  submissionsQueryRef!: QueryRef<
+    UserSubmissionsLeaderboardQuery,
+    UserSubmissionsLeaderboardQueryVariables
+  >
 
   // PRESENTATION STREAMS
   commentsView$: BehaviorSubject<UserLeaderboard>
   revisionsView$: BehaviorSubject<UserLeaderboard>
   moderationView$: BehaviorSubject<UserLeaderboard>
+  submissionsView$: BehaviorSubject<UserLeaderboard>
 
   initialCommentsView: UserLeaderboard = {
     title: 'Comments Leaderboard',
@@ -86,6 +94,13 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     rows: [],
   }
 
+  initialSubmissionsView: UserLeaderboard = {
+    title: 'Submissions Leaderboard',
+    info: 'Contributors ranked by the total number of submitted Evidence Items and Assertions.',
+    loading: false,
+    rows: [],
+  }
+
   initialRows: number = 25
   initialWindow: TimeWindow = TimeWindow.AllTime
 
@@ -97,13 +112,15 @@ export class CvcUserLeaderboardsComponent implements OnInit {
   constructor(
     private commentsGQL: UserCommentsLeaderboardGQL,
     private revisionsGQL: UserRevisionsLeaderboardGQL,
-    private moderationGQL: UserModerationLeaderboardGQL
+    private moderationGQL: UserModerationLeaderboardGQL,
+    private submissionsGQL: UserSubmissionsLeaderboardGQL
   ) {
     this.timeWindow$ = new BehaviorSubject<TimeWindow>(this.initialWindow)
     this.timeWindow$.pipe(untilDestroyed(this)).subscribe((window) => {
       this.commentsQueryRef.refetch({ window: window })
       this.revisionsQueryRef.refetch({ window: window })
       this.moderationQueryRef.refetch({ window: window })
+      this.submissionsQueryRef.refetch({ window: window })
     })
     this.commentsView$ = new BehaviorSubject<UserLeaderboard>(
       this.initialCommentsView
@@ -113,6 +130,9 @@ export class CvcUserLeaderboardsComponent implements OnInit {
     )
     this.moderationView$ = new BehaviorSubject<UserLeaderboard>(
       this.initialModerationView
+    )
+    this.submissionsView$ = new BehaviorSubject<UserLeaderboard>(
+      this.initialSubmissionsView
     )
   }
 
@@ -185,12 +205,14 @@ export class CvcUserLeaderboardsComponent implements OnInit {
         map((result: ApolloQueryResult<UserModerationLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
           if (result.data && result.data.userLeaderboards) {
-            result.data.userLeaderboards.moderationLeaderboard.edges.map((e) => {
-              if (e.node) {
-                const row = userToUserRow(e.node)
-                rows.push(row)
+            result.data.userLeaderboards.moderationLeaderboard.edges.map(
+              (e) => {
+                if (e.node) {
+                  const row = userToUserRow(e.node)
+                  rows.push(row)
+                }
               }
-            })
+            )
           }
 
           return <UserLeaderboard>{
@@ -240,5 +262,40 @@ export class CvcUserLeaderboardsComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe((leaderboard) => this.revisionsView$.next(leaderboard))
+
+    /*
+     * SUBMISSIONS VIEW
+     */
+    this.submissionsQueryRef = this.submissionsGQL.watch(
+      {
+        first: this.initialRows,
+        window: this.initialWindow,
+      },
+      this.fetchPolicy
+    )
+
+    this.submissionsQueryRef.valueChanges
+      .pipe(
+        map((result: ApolloQueryResult<UserSubmissionsLeaderboardQuery>) => {
+          let rows: UserLeaderboardRow[] = []
+          if (result.data && result.data.userLeaderboards) {
+            result.data.userLeaderboards.submissionsLeaderboard.edges.map((e) => {
+              if (e.node) {
+                const row = userToUserRow(e.node)
+                rows.push(row)
+              }
+            })
+          }
+
+          return <UserLeaderboard>{
+            title: this.initialSubmissionsView.title,
+            info: this.initialSubmissionsView.info,
+            loading: result.loading,
+            rows: [...rows],
+          }
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe((leaderboard) => this.submissionsView$.next(leaderboard))
   }
 }

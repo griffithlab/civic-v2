@@ -22,7 +22,6 @@ import {
   ValidateRevisionsForAcceptanceQuery,
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
-  VariantDetailGQL,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -96,12 +95,12 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     private rejectRevisionsGql: RejectRevisionGQL,
     private validationGql: ValidateRevisionsForAcceptanceGQL
   ) {
-    this.acceptRevisionsMutator = new MutatorWithState(networkErrorService)
-    this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
+    this.acceptRevisionsMutator = new MutatorWithState(this.networkErrorService)
+    this.rejectRevisionsMutator = new MutatorWithState(this.networkErrorService)
     this.viewer$ = this.viewerService.viewer$
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(_: SimpleChanges) {
     this.untypedRevisons = this.revisions
     this.selectedRevisionIds = []
     if (this.queryRef) {
@@ -171,6 +170,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         this.success = successType
         this.validationPopoverVisible = false
         this.selectedRevisionIds = []
+        this.revisionComment = undefined
       }
     })
     state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

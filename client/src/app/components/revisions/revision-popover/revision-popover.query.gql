@@ -9,10 +9,33 @@ fragment revisionPopover on Revision {
   name
   link
   status
-  revisor {
-    id
-    displayName
-    role
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+    }
+    note {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        status
+        deprecated
+        link
+        revisionSetId
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
   subject {
     id
@@ -22,8 +45,5 @@ fragment revisionPopover on Revision {
   createdAt
   linkoutData {
     name
-  }
-  creationComment {
-    comment
   }
 }

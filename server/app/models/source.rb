@@ -16,6 +16,8 @@ class Source < ActiveRecord::Base
 
   validate :citation_id_format_matches_source_type
 
+  after_create -> { MaterializedViews::SourceBrowseTableRow.refresh_async }
+
   def name
     display_name
   end

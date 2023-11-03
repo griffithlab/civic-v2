@@ -22,6 +22,7 @@ fragment UserDetailFields on User {
   organizations {
     id
     name
+    url
   }
   country {
     id
@@ -36,6 +37,24 @@ fragment UserDetailFields on User {
     suggestedSources
     submittedAssertions
     acceptedAssertions
+  }
+  ranks {
+    commentsRank {
+      rank
+      actionCount
+    }
+    moderationRank {
+      rank
+      actionCount
+    }
+    revisionsRank {
+      rank
+      actionCount
+    }
+    submissionsRank {
+      rank
+      actionCount
+    }
   }
   mostRecentConflictOfInterestStatement {
     id

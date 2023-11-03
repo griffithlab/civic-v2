@@ -28,6 +28,11 @@ export class PagesAboutPage implements OnInit {
       award: 'UL1TR002345',
     },
     {
+      awardee: 'Obi Griffith, Malachi Griffith, Gordana Raca',
+      org: 'National Cancer Institute (NCI) of NIH',
+      award: 'UU24CA258115',
+    },
+    {
       awardee: 'CIViC',
       org: 'Children’s Discovery Institute (CDI) of the St. Louis Children’s Hospital and Washington University School of Medicine.',
       award: '',

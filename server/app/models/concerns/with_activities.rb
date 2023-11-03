@@ -16,7 +16,7 @@ module WithActivities
       has_one link_name,
         ->() { where(entity_type: class_name)
                 .eager_load(:activity)
-                .where("activities.type = ?", activity_type.to_s)
+                .where(activities: {type:  Array(activity_type).map(&:to_s)})
               },
               foreign_key: :entity_id,
               class_name: 'ActivityLinkedEntity'

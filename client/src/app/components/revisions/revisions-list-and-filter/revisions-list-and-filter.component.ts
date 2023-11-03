@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   Input,
   OnDestroy,
@@ -11,7 +10,6 @@ import {
   RevisionsQuery,
   RevisionsQueryVariables,
   Maybe,
-  RevisionFragment,
   ModeratedEntities,
   RevisionStatus,
   PageInfo,
@@ -109,7 +107,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit() {
-    this.routeSub = this.route.params.subscribe((params) => {
+    this.routeSub = this.route.params.subscribe((_) => {
       this.queryParamsSub = this.route.queryParams.subscribe((queryParams) => {
         let input: RevisionsQueryVariables = {
           first: this.defaultPageSize,

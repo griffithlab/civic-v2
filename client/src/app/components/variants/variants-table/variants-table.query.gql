@@ -45,6 +45,7 @@ query BrowseVariants(
     totalCount
     filteredCount
     pageCount
+    lastUpdated
   }
 }
 

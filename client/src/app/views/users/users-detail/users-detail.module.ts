@@ -17,14 +17,18 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzStatisticModule } from 'ng-zorro-antd/statistic'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzModalModule } from 'ng-zorro-antd/modal'
-import { CvcUserProfileFormModule } from '@app/forms/user-profile/user-profile.module'
-import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module'
+import { CvcUserProfileFormModule } from '@app/forms/components/user-profile/user-profile.module'
+import { CvcUserCoiFormModule } from '@app/forms/components/user-coi/user-coi.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module'
 import { UsersDetailRoutingModule } from './users-detail-routing.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzPipesModule } from 'ng-zorro-antd/pipes'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 
 @NgModule({
   declarations: [UsersDetailComponent],
@@ -36,6 +40,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     PushPipe,
     NzAlertModule,
     NzGridModule,
+    NzPipesModule,
     NzPageHeaderModule,
     NzSpaceModule,
     NzDescriptionsModule,
@@ -45,7 +50,10 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     NzStatisticModule,
     NzIconModule,
     NzTypographyModule,
+    NzToolTipModule,
+    NzPopoverModule,
     NzButtonModule,
+    CvcTagOverflowModule,
     CvcUserCoiFormModule,
     CvcUserProfileFormModule,
     CvcPipesModule,

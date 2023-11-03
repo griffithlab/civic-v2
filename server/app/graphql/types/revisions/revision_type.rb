@@ -17,7 +17,9 @@ module Types::Revisions
     field :linkout_data, Types::Revisions::LinkoutData, null: false
     field :creation_activity, Types::Activities::SuggestRevisionSetActivityType, null: true
     field :acceptance_activity, Types::Activities::AcceptRevisionsActivityType, null: true
+    field :superseding_activity, Types::Activities::AcceptRevisionsActivityType, null: true
     field :rejection_activity, Types::Activities::RejectRevisionsActivityType, null: true
+    field :resolution_activity, Types::Interfaces::ActivityInterface, null: true
     field :subject, Types::Interfaces::EventSubject, null: false
 
     def comments
@@ -33,11 +35,35 @@ module Types::Revisions
     end
 
     def acceptance_activity
-      Loaders::AssociationLoader.for(Revision, :acceptance_activity).load(object)
+      if object.status == 'accepted'
+        Loaders::AssociationLoader.for(Revision, :acceptance_activity).load(object)
+      else
+        nil
+      end
+    end
+
+    def superseding_activity
+      if object.status == 'superseded'
+        Loaders::AssociationLoader.for(Revision, :acceptance_activity).load(object)
+      else
+        nil
+      end
     end
 
     def rejection_activity
-      Loaders::AssociationLoader.for(Revision, :rejection_activity).load(object)
+      if object.status == 'rejected'
+        Loaders::AssociationLoader.for(Revision, :rejection_activity).load(object)
+      else
+        nil
+      end
+    end
+
+    def resolution_activity
+      if object.status != 'new'
+        Loaders::AssociationLoader.for(Revision, :resolution_activity).load(object)
+      else
+        nil
+      end
     end
   end
 end

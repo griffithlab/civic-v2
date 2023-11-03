@@ -43,6 +43,7 @@ class Variant < ApplicationRecord
   has_one :deprecate_activity, through: :deprecate_activity_link, source: :activity
 
   after_commit :reindex_mps
+  after_create -> { MaterializedViews::VariantBrowseTableRow.refresh_async }
 
   validates :name, presence: true
 

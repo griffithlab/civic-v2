@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
 
 export interface WithProfileImageAndName {
   name: string
@@ -9,10 +14,12 @@ export interface WithProfileImageAndName {
   selector: 'cvc-organization-avatar',
   templateUrl: './organization-avatar.component.html',
   styleUrls: ['./organization-avatar.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcOrganizationAvatarComponent implements OnInit {
   @Input() organization!: WithProfileImageAndName
   @Input() size!: number | 'large' | 'default' | 'small'
+  @Input() shape!: 'square' | 'circle'
 
   ngOnInit() {
     if (this.organization === undefined) {

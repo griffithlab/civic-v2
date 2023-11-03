@@ -1,13 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { Viewer } from '@app/core/services/viewer/viewer.service'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   MutationState,
   MutatorWithState,
@@ -22,29 +15,18 @@ import {
   ModerateEvidenceItemGQL,
   ModerateEvidenceItemMutation,
   ModerateEvidenceItemMutationVariables,
-  SubscribableEntities,
-  SubscribableInput,
-  SubscribeGQL,
-  SubscribeMutation,
-  SubscribeMutationVariables,
-  SubscriptionForEntityGQL,
-  SubscriptionForEntityQuery,
-  SubscriptionForEntityQueryVariables,
-  SubscriptionIdFragment,
-  UnsubscribeGQL,
-  UnsubscribeMutation,
-  UnsubscribeMutationVariables,
 } from '@app/generated/civic.apollo'
-import { Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { Observable, Subject } from 'rxjs'
+import { pluck } from 'rxjs-etc/dist/esm/operators'
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-revert-entity-button',
   templateUrl: './revert-entity-button.component.html',
   styleUrls: ['./revert-entity-button.component.less'],
 })
-export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
-  @Input() viewer!: Viewer
+export class CvcRevertEntityButtonComponent implements OnInit {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
   @Input() entityId!: number
 
@@ -67,14 +49,16 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
   mostRecentOrg: Maybe<Organization>
 
   destroy$ = new Subject<void>()
-
+  viewer$: Observable<Viewer>
   constructor(
     private revertEvidenceGQL: ModerateEvidenceItemGQL,
     private revertAssertionGQL: ModerateAssertionGQL,
-    private networkErrorService: NetworkErrorsService
+    private networkErrorService: NetworkErrorsService,
+    private viewerService: ViewerService
   ) {
-    this.revertAssertionMutator = new MutatorWithState(networkErrorService)
-    this.revertEvidenceMutator = new MutatorWithState(networkErrorService)
+    this.revertAssertionMutator = new MutatorWithState(this.networkErrorService)
+    this.revertEvidenceMutator = new MutatorWithState(this.networkErrorService)
+    this.viewer$ = this.viewerService.viewer$
   }
 
   revert() {
@@ -99,7 +83,7 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       })
     }
 
-    state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+    state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res) {
         this.isSubmitting = false
         this.showConfirm = false
@@ -107,7 +91,7 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       }
     })
 
-    state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+    state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
       if (errs) {
         this.isSubmitting = false
         this.showConfirm = false
@@ -115,7 +99,7 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       }
     })
 
-    state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+    state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
       this.isSubmitting = loading
     })
   }
@@ -125,11 +109,6 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.viewer === undefined) {
-      throw new Error(
-        'Must pass in a viewer to the CvcEntitySubscriptionButtonComponent'
-      )
-    }
     if (this.entityId === undefined) {
       throw new Error(
         'Must pass in an id to the CvcEntitySubscriptionButtonComponent'
@@ -141,11 +120,8 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       )
     }
 
-    this.mostRecentOrg = this.viewer.mostRecentOrg
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next()
-    this.destroy$.complete()
+    this.viewer$
+      .pipe(pluck('mostRecentOrg'), untilDestroyed(this))
+      .subscribe((org) => (this.mostRecentOrg = org))
   }
 }
