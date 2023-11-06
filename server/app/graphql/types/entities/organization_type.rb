@@ -29,6 +29,10 @@ module Types::Entities
       Loaders::AssociationLoader.for(Organization, :events).load(object)
     end
 
+    def most_recent_event
+      Loaders::AssociationLoader.for(Organization, :most_recent_event).load(object)
+    end
+
     def sub_groups
       Loaders::AssociationLoader.for(Organization, :groups).load(object)
     end
