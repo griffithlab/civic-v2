@@ -17,6 +17,7 @@ module WithActivities
         ->() { where(entity_type: class_name)
                 .eager_load(:activity)
                 .where(activities: {type:  Array(activity_type).map(&:to_s)})
+                .order('activities.created_at desc')
               },
               foreign_key: :entity_id,
               class_name: 'ActivityLinkedEntity'
