@@ -21,25 +21,7 @@ fragment flagPopover on Flag {
   createdAt
   openActivity {
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
   }
 }

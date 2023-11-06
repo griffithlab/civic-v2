@@ -100,8 +100,8 @@
             <cvc-variant-tag [variant]="v"></cvc-variant-tag>
             {{ v.deprecationReason | enumToTitle }}.
             <cvc-comment-body
-              *ngIf="v.deprecationComment"
-              [commentBodySegments]="v.deprecationComment.parsedComment"></cvc-comment-body>
+              *ngIf="v.deprecationActivity"
+              [commentBodySegments]="v.deprecationActivity.parsedNote"></cvc-comment-body>
           </ng-container>
         </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">

@@ -30,8 +30,7 @@ module Types::Entities
     field :single_variant_molecular_profile_id, Int, null: false
     field :deprecated, Boolean, null: false
     field :deprecation_reason, Types::DeprecationReasonType, null: true
-    field :deprecation_comment, Types::Entities::CommentType, null: true
-    field :deprecation_event, Types::Entities::EventType, null: true
+    field :deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
     field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
     field :open_cravat_url, String, null: true
 
@@ -51,12 +50,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(Variant, :single_variant_molecular_profile).load(object)
     end
 
-    def deprecation_comment
-      Loaders::AssociationLoader.for(Variant, :deprecation_comment).load(object)
-    end
-
-    def deprecation_event
-      Loaders::AssociationLoader.for(Variant, :deprecation_event).load(object)
+    def deprecation_activity
+      Loaders::AssociationLoader.for(Variant, :deprecation_activity).load(object)
     end
 
     def primary_coordinates

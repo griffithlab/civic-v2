@@ -10,8 +10,10 @@ fragment MolecularProfileDetailFields on MolecularProfile {
   deprecated
   deprecatedVariants {
     deprecationReason
-    deprecationComment {
-      ...commentListNode
+    deprecationActivity {
+      parsedNote {
+        ...parsedCommentFragment
+      }
     }
     id
     deprecated

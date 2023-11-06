@@ -8622,8 +8622,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     sortBy: DateSort
   ): CommentConnection!
   deprecated: Boolean!
-  deprecationComment: Comment
-  deprecationEvent: Event
+  deprecationActivity: DeprecateVariantActivity
   deprecationReason: DeprecationReason
   ensemblVersion: Int
 

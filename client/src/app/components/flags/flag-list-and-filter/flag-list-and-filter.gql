@@ -62,25 +62,7 @@ fragment flag on Flag {
     id
     createdAt
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
     user {
       id
@@ -93,25 +75,7 @@ fragment flag on Flag {
     id
     createdAt
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
     user {
       id

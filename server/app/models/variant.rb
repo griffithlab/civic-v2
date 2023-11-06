@@ -20,12 +20,10 @@ class Variant < ApplicationRecord
     class_name: "MolecularProfile",
     foreign_key: :single_variant_molecular_profile_id 
 
-  has_one :deprecation_event,
-    ->() { where(action: 'deprecated variant').includes(:originating_user) },
+  has_one :deprecation_activity,
     as: :subject,
-    class_name: 'Event'
-  has_one :deprecating_user, through: :deprecation_event, source: :originating_user
-  belongs_to :deprecation_comment, class_name: 'Comment', optional: true
+    class_name: 'DeprecateVariantActivity'
+  has_one :deprecating_user, through: :deprecation_activity, source: :user
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']

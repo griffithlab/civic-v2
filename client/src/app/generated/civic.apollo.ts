@@ -5302,8 +5302,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   /** List and filter comments. */
   comments: CommentConnection;
   deprecated: Scalars['Boolean'];
-  deprecationComment?: Maybe<Comment>;
-  deprecationEvent?: Maybe<Event>;
+  deprecationActivity?: Maybe<DeprecateVariantActivity>;
   deprecationReason?: Maybe<DeprecationReason>;
   ensemblVersion?: Maybe<Scalars['Int']>;
   /** List and filter events for an object */
@@ -5841,6 +5840,14 @@ export type CommentListQueryVariables = Exact<{
 export type CommentListQuery = { __typename: 'Query', comments: { __typename: 'CommentConnection', totalCount: number, unfilteredCountForSubject?: number | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, uniqueCommenters: Array<{ __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }>, mentionedUsers: Array<{ __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined }>, mentionedRoles: Array<{ __typename: 'CommentTagSegment', displayName: string, entityId: number, tagType: TaggableEntity, link: string }>, mentionedEntities: Array<{ __typename: 'CommentTagSegment', displayName: string, entityId: number, tagType: TaggableEntity, link: string }>, edges: Array<{ __typename: 'CommentEdge', cursor: string, node?: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined }> } };
 
 export type CommentListNodeFragment = { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> };
+
+type ParsedCommentFragment_CommentTagSegment_Fragment = { __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined };
+
+type ParsedCommentFragment_CommentTextSegment_Fragment = { __typename: 'CommentTextSegment', text: string };
+
+type ParsedCommentFragment_User_Fragment = { __typename: 'User', id: number, displayName: string, role: UserRole };
+
+export type ParsedCommentFragmentFragment = ParsedCommentFragment_CommentTagSegment_Fragment | ParsedCommentFragment_CommentTextSegment_Fragment | ParsedCommentFragment_User_Fragment;
 
 export type CommentPopoverQueryVariables = Exact<{
   commentId: Scalars['Int'];
@@ -7239,9 +7246,9 @@ export type MolecularProfileDetailQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfileDetailQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, deprecated: boolean, molecularProfileAliases: Array<string>, deprecatedVariants: Array<{ __typename: 'Variant', deprecationReason?: DeprecationReason | undefined, id: number, deprecated: boolean, name: string, link: string, deprecationComment?: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type MolecularProfileDetailQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, deprecated: boolean, molecularProfileAliases: Array<string>, deprecatedVariants: Array<{ __typename: 'Variant', deprecationReason?: DeprecationReason | undefined, id: number, deprecated: boolean, name: string, link: string, deprecationActivity?: { __typename: 'DeprecateVariantActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type MolecularProfileDetailFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, deprecated: boolean, molecularProfileAliases: Array<string>, deprecatedVariants: Array<{ __typename: 'Variant', deprecationReason?: DeprecationReason | undefined, id: number, deprecated: boolean, name: string, link: string, deprecationComment?: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type MolecularProfileDetailFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, deprecated: boolean, molecularProfileAliases: Array<string>, deprecatedVariants: Array<{ __typename: 'Variant', deprecationReason?: DeprecationReason | undefined, id: number, deprecated: boolean, name: string, link: string, deprecationActivity?: { __typename: 'DeprecateVariantActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type MolecularProfileSummaryQueryVariables = Exact<{
   mpId: Scalars['Int'];
@@ -7430,9 +7437,9 @@ export type VariantDetailQueryVariables = Exact<{
 }>;
 
 
-export type VariantDetailQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, deprecated: boolean, deprecationReason?: DeprecationReason | undefined, variantAliases: Array<string>, deprecationComment?: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type VariantDetailQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, deprecated: boolean, deprecationReason?: DeprecationReason | undefined, variantAliases: Array<string>, deprecationActivity?: { __typename: 'DeprecateVariantActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type VariantDetailFieldsFragment = { __typename: 'Variant', id: number, name: string, deprecated: boolean, deprecationReason?: DeprecationReason | undefined, variantAliases: Array<string>, deprecationComment?: { __typename: 'Comment', id: number, title?: string | undefined, comment: string, createdAt: any, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type VariantDetailFieldsFragment = { __typename: 'Variant', id: number, name: string, deprecated: boolean, deprecationReason?: DeprecationReason | undefined, variantAliases: Array<string>, deprecationActivity?: { __typename: 'DeprecateVariantActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type VariantSummaryQueryVariables = Exact<{
   variantId: Scalars['Int'];
@@ -7653,6 +7660,53 @@ export const BrowseClinicalTrialsRowFieldsFragmentDoc = gql`
   link
 }
     `;
+export const ParsedCommentFragmentFragmentDoc = gql`
+    fragment parsedCommentFragment on CommentBodySegment {
+  __typename
+  ... on CommentTagSegment {
+    entityId
+    displayName
+    tagType
+    status
+    deprecated
+    link
+    revisionSetId
+    __typename
+  }
+  ... on CommentTextSegment {
+    text
+  }
+  ... on User {
+    id
+    displayName
+    role
+  }
+}
+    `;
+export const CommentListNodeFragmentDoc = gql`
+    fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commenter {
+    id
+    username
+    displayName
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+  parsedComment {
+    ...parsedCommentFragment
+  }
+}
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const CommentPopoverFragmentDoc = gql`
     fragment commentPopover on Comment {
   id
@@ -7879,25 +7933,7 @@ export const FlagFragmentDoc = gql`
     id
     createdAt
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
     user {
       id
@@ -7910,25 +7946,7 @@ export const FlagFragmentDoc = gql`
     id
     createdAt
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
     user {
       id
@@ -7938,7 +7956,7 @@ export const FlagFragmentDoc = gql`
     }
   }
 }
-    `;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const FlagListFragmentDoc = gql`
     fragment flagList on FlagConnection {
   pageInfo {
@@ -7984,29 +8002,11 @@ export const FlagPopoverFragmentDoc = gql`
   createdAt
   openActivity {
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
   }
 }
-    `;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
@@ -8205,25 +8205,7 @@ export const RevisionPopoverFragmentDoc = gql`
       role
     }
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
   }
   subject {
@@ -8236,7 +8218,7 @@ export const RevisionPopoverFragmentDoc = gql`
     name
   }
 }
-    `;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const RevisionFragmentDoc = gql`
     fragment revision on Revision {
   id
@@ -8304,25 +8286,7 @@ export const RevisionFragmentDoc = gql`
       role
     }
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
   }
   resolutionActivity {
@@ -8333,30 +8297,12 @@ export const RevisionFragmentDoc = gql`
       role
     }
     parsedNote {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        status
-        deprecated
-        link
-        revisionSetId
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+      ...parsedCommentFragment
     }
   }
   status
 }
-    `;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const ContributorFieldsFragmentDoc = gql`
     fragment ContributorFields on ContributingUser {
   user {
@@ -9458,48 +9404,6 @@ export const GeneSummaryFieldsFragmentDoc = gql`
   }
 }
     `;
-export const CommentListNodeFragmentDoc = gql`
-    fragment commentListNode on Comment {
-  id
-  title
-  comment
-  createdAt
-  commenter {
-    id
-    username
-    displayName
-    name
-    role
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
-  }
-  parsedComment {
-    __typename
-    ... on CommentTagSegment {
-      entityId
-      displayName
-      tagType
-      status
-      deprecated
-      link
-      revisionSetId
-      __typename
-    }
-    ... on CommentTextSegment {
-      text
-    }
-    ... on User {
-      id
-      displayName
-      role
-    }
-  }
-}
-    `;
 export const MolecularProfileDetailFieldsFragmentDoc = gql`
     fragment MolecularProfileDetailFields on MolecularProfile {
   id
@@ -9507,8 +9411,10 @@ export const MolecularProfileDetailFieldsFragmentDoc = gql`
   deprecated
   deprecatedVariants {
     deprecationReason
-    deprecationComment {
-      ...commentListNode
+    deprecationActivity {
+      parsedNote {
+        ...parsedCommentFragment
+      }
     }
     id
     deprecated
@@ -9526,7 +9432,7 @@ export const MolecularProfileDetailFieldsFragmentDoc = gql`
     totalCount
   }
 }
-    ${CommentListNodeFragmentDoc}`;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const VariantMolecularProfileCardFieldsFragmentDoc = gql`
     fragment VariantMolecularProfileCardFields on Variant {
   id
@@ -9958,8 +9864,10 @@ export const VariantDetailFieldsFragmentDoc = gql`
   name
   deprecated
   deprecationReason
-  deprecationComment {
-    ...commentListNode
+  deprecationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
   gene {
     id
@@ -9977,7 +9885,7 @@ export const VariantDetailFieldsFragmentDoc = gql`
     totalCount
   }
 }
-    ${CommentListNodeFragmentDoc}`;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const MyVariantInfoFieldsFragmentDoc = gql`
     fragment MyVariantInfoFields on MyVariantInfo {
   myVariantInfoId
