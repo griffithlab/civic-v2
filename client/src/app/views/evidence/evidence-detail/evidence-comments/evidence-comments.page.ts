@@ -1,8 +1,9 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   CommentableEntities,
   CommentableInput,
+  SubmitEvidenceItemActivity,
 } from '@app/generated/civic.apollo'
 
 @Component({

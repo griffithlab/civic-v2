@@ -570,6 +570,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   ): RevisionConnection!
   significance: AssertionSignificance!
   status: EvidenceStatus!
+  submissionActivity: SubmitAssertionActivity!
   submissionEvent: Event!
   summary: String!
   therapies: [Therapy!]!
@@ -2471,6 +2472,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   significance: EvidenceSignificance!
   source: Source!
   status: EvidenceStatus!
+  submissionActivity: SubmitEvidenceItemActivity!
   submissionEvent: Event!
   therapies: [Therapy!]!
   therapyInteractionType: TherapyInteraction
@@ -3866,7 +3868,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   ): CommentConnection!
   deprecated: Boolean!
   deprecatedVariants: [Variant!]!
-  deprecationEvent: Event
+  deprecationActivity: DeprecateVariantActivity
   description: String
 
   """

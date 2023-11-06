@@ -26,6 +26,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { EvidenceSummaryPage } from './evidence-summary.page'
 import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-value.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -42,6 +44,7 @@ import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-va
     NzIconModule,
     NzDescriptionsModule,
     NzToolTipModule,
+    NzPopoverModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcEvidenceRatingModule,
@@ -57,6 +60,7 @@ import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-va
     CvcAttributeTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
+    CvcCommentBodyModule,
   ],
 })
 export class EvidenceSummaryModule {}

@@ -63,6 +63,18 @@ fragment EvidenceSummaryFields on EvidenceItem {
   comments {
     totalCount
   }
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      displayName
+      profileImagePath(size: 32)
+      id
+      role
+    }
+  }
   acceptanceEvent {
     createdAt
     originatingUser {
