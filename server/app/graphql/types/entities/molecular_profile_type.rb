@@ -24,7 +24,7 @@ module Types::Entities
     field :molecular_profile_aliases, [String], null: false
     field :deprecated, Boolean, null: false
     field :deprecated_variants, [Types::Entities::VariantType], null: false
-    field :deprecation_event, Types::Entities::EventType, null: true
+    field :deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
     field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
     field :is_complex, Boolean, null: false
@@ -55,8 +55,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(MolecularProfile, :deprecated_variants).load(object)
     end
 
-    def deprecation_event
-      Loaders::AssociationLoader.for(MolecularProfile, :deprecation_event).load(object)
+    def deprecation_activity
+      Loaders::AssociationLoader.for(MolecularProfile, :deprecation_activity).load(object)
     end
 
     def assertions
