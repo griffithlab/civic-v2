@@ -8,25 +8,10 @@ Event.where(action: 'publication suggested', activity_id: nil).find_each do |eve
     created_at: event.created_at
   )
 
-
   source = event.subject
-  source_suggestions = SourceSuggestion.where(source: source)
-
-  source_suggestion = if source_suggestions.size > 1
-    possible_suggestions = source_suggestions.reject { |ss|  (event.created_at.to_i - ss.created_at.to_i).abs > 30 }
-    if possible_suggestions.size == 1
-      possible_suggestions[0]
-    else
-      possible_suggestions.min_by { |s| s.created_at }
-    end
-  else
-    source_suggestions[0]
-  end
+  source_suggestion = event.originating_object
 
   event.activity_id = activity.id
-  if source_suggestion
-    event.originating_object = source_suggestion
-  end
   event.save!
 
   possible_comment = if source_suggestion
