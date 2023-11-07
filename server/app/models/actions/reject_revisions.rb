@@ -1,11 +1,10 @@
 module Actions
   class RejectRevisions
     include Transactional
-    include Actions::WithOriginatingOrganization
 
     attr_reader :revisions, :rejecting_user, :organization_id
 
-    def initialize(revisions:, rejecting_user:, organization_id)
+    def initialize(revisions:, rejecting_user:, organization_id:)
       @revisions = revisions
       @rejecting_user = rejecting_user
       @organization_id = organization_id
@@ -30,7 +29,7 @@ module Actions
         originating_user: rejecting_user,
         subject: revision.subject,
         originating_object: revision,
-        organization: resolve_organization(rejecting_user, organization_id)
+        organization_id: organization_id
       )
     end
   end

@@ -21,7 +21,7 @@ module Activities
       cmd = Actions::ModerateEvidenceItem.new(
         originating_user: user,
         evidence_item: evidence_item,
-        organization_id: organization.&id,
+        organization_id: organization&.id,
         new_status: new_status
       )
       cmd.perform

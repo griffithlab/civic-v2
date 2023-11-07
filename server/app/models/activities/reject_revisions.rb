@@ -10,10 +10,10 @@ module Activities
 
     private
     def create_activity
-      @activity = RejectRevisionsActivity.create!(
+      @activity = RejectRevisionsActivity.create(
         subject: revisions.first.subject,
         user: rejecting_user,
-        organization: organization,
+        organization_id: organization&.id,
         note: note
       )
     end
