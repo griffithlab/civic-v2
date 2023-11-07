@@ -45,7 +45,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter a name for this Variant',
               description:
                 "Enter the name of the Variant according to the <a href='https://civic.readthedocs.io/en/latest/model/variants/name.html#curating-variant-names' target='blank'>Variant Curation SOP</a>",
-              extraType: 'prompt',
               label: 'Name',
               required: true,
               rows: 1,
@@ -59,7 +58,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Aliases',
               description:
                 'List any aliases commonly used to refer to this Variant',
-              extraType: 'prompt',
               placeholder: 'Enter Alias and hit return',
             },
           },
@@ -72,7 +70,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
               description: 'HGVS Descriptions',
               tooltip:
                 'Human Genome Variation Society nomenclature descriptions relevant to this variant',
-              extraType: 'prompt',
               placeholder: 'Enter HGVS and hit return',
             },
           },

@@ -119,7 +119,7 @@ export class CvcPhenotypeSelectField
       },
       description:
         'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes</a>, including <a href="https://hpo.jax.org/app/browse/term/HP:0003674" target="_blank">age of onset</a>.',
-      extraType: 'description',
+      extraType: 'prompt',
     },
   }
 
