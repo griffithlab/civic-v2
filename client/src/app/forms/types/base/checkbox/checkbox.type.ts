@@ -1,31 +1,46 @@
-import { Component, ChangeDetectionStrategy, Type, AfterViewInit } from '@angular/core';
-import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
-import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Type,
+  AfterViewInit,
+} from '@angular/core'
+import { BaseFieldType } from '@app/forms/mixins/base/base-field'
+import { Maybe } from '@app/generated/civic.apollo'
+import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
+import mixin from 'ts-mixin-extended'
 
-export type CvcCheckboxFieldOptions = Partial<
-  FieldTypeConfig<CvcCheckboxFieldProps>
+export type CvcBaseCheckboxFieldOptions = Partial<
+  FieldTypeConfig<CvcBaseCheckboxFieldProps>
 >
-export interface CvcCheckboxFieldProps extends FormlyFieldProps {
-  indeterminate?: boolean;
+export interface CvcBaseCheckboxFieldProps extends FormlyFieldProps {
+  indeterminate?: boolean
 }
 
-export interface FormlyCheckboxFieldConfig extends FormlyFieldConfig<CvcCheckboxFieldProps> {
-  type: 'checkbox' | Type<CvcCheckboxField>;
+export interface FormlyCheckboxFieldConfig
+  extends FormlyFieldConfig<CvcBaseCheckboxFieldProps> {
+  type: 'checkbox' | Type<CvcBaseCheckboxField>
 }
 
+const BaseCheckboxMixin = mixin(
+  BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
+)
 @Component({
   selector: 'cvc-checkbox',
   templateUrl: './checkbox.type.html',
   styleUrls: ['./checkbox.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcCheckboxField extends FieldType<FieldTypeConfig<CvcCheckboxFieldProps>> implements AfterViewInit {
+export class CvcBaseCheckboxField
+  extends BaseCheckboxMixin
+  implements AfterViewInit
+{
   override defaultOptions = {
     props: {
       indeterminate: true,
       hideLabel: true,
     },
-  };
+  }
 
   ngAfterViewInit(): void {
     console.log(this.props)

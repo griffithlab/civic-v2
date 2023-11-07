@@ -4,20 +4,20 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { CvcFormFieldWrapperModule } from '@app/forms/wrappers/form-field/form-field.module'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { CvcCheckboxField } from './checkbox.type'
+import { CvcBaseCheckboxField } from './checkbox.type'
 
 const typeConfig: ConfigOption = {
   types: [
     {
       name: 'checkbox',
       wrappers: ['form-field'],
-      component: CvcCheckboxField,
+      component: CvcBaseCheckboxField,
     },
   ],
 }
 
 @NgModule({
-  declarations: [CvcCheckboxField],
+  declarations: [CvcBaseCheckboxField],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -26,4 +26,4 @@ const typeConfig: ConfigOption = {
     CvcFormFieldWrapperModule,
   ],
 })
-export class CvcCheckboxModule {}
+export class CvcBaseCheckboxModule {}

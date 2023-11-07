@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcCheckboxModule } from './base/checkbox/checkbox.module'
+import { CvcBaseCheckboxModule } from './base/checkbox/checkbox.module'
 import { CvcDirectionSelectModule } from './direction-select/direction-select.module'
 import { CvcDiseaseSelectModule } from './disease-select/disease-select.module'
 import { CvcEvidenceSelectFieldModule } from './evidence-select/evidence-select.module'
@@ -45,7 +45,7 @@ import { CvcBaseSelectModule } from './base/select/select.module'
     CvcDirectionSelectModule,
     CvcDiseaseSelectModule,
     CvcInteractionSelectModule,
-    CvcCheckboxModule,
+    CvcBaseCheckboxModule,
     CvcLevelSelectModule,
     CvcRatingModule,
     CvcOriginSelectModule,

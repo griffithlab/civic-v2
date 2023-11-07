@@ -64,9 +64,10 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'tag-multi-input',
             props: {
               label: 'HGVS Descriptions',
-              description: 'HGVS Descriptions',
+              description:
+                'Enter any HGVS nomenclature descriptions of this Variant',
               tooltip:
-                'Human Genome Variation Society nomenclature descriptions relevant to this variant',
+                'Human Genome Variation Society nomenclature descriptions',
               placeholder: 'Enter HGVS and hit return',
             },
           },

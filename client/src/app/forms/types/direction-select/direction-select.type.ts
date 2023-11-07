@@ -67,7 +67,7 @@ const optionText: any = {
   },
   Assertion: {
     PREDICTIVE: {
-      SUPPORTS: "Support the variant's response to a drug",
+      SUPPORTS: "Supports the variant's response to a drug",
       DOES_NOT_SUPPORT:
         'Does not support, or was inconclusive of an interaction between the variant and a drug',
     },
