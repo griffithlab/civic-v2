@@ -1,6 +1,7 @@
 <textarea
   nz-input
+  [nzAutosize]="props.autosize"
+  [rows]="props.rows ? props.rows : 2"
   [formControl]="formControl"
-  [formlyAttributes]="field"
-  [nzAutosize]="to.autosize"
-  [placeholder]="to.placeholder"></textarea>
+  [placeholder]="props.placeholder"
+  [formlyAttributes]="field"></textarea>
