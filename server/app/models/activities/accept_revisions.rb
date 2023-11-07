@@ -33,7 +33,7 @@ module Activities
     end
 
     def linked_entities
-      [revisions, superseded_revisions]
+      [revisions, superseded_revisions].flatten.compact
     end
   end
 end
