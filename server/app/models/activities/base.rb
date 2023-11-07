@@ -16,6 +16,7 @@ module Activities
       call_actions
       link_activity
       set_verbiage
+      after_completed
     end
 
     def create_activity
@@ -39,6 +40,10 @@ module Activities
     def set_verbiage
       activity.verbiage = activity.generate_verbiage
       activity.save!
+    end
+
+    def after_completed
+      #no op
     end
   end
 end

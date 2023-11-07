@@ -25,7 +25,6 @@ module Actions
         originating_object: comment
       )
       events << event
-      handle_mentions(event)
       subscribe_user
     end
 
@@ -36,10 +35,6 @@ module Actions
         user: commenter,
         commentable: commentable,
       )
-    end
-
-    def handle_mentions(event)
-      ::CaptureMentionsAndNotify.perform_later(comment, event)
     end
 
     def subscribe_user

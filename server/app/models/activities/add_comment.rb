@@ -19,7 +19,7 @@ module Activities
     end
 
     def call_actions
-      Actions::AddComment.new(
+      cmd = Actions::AddComment.new(
         title: title,
         body: body,
         commenter: user,
@@ -39,6 +39,10 @@ module Activities
 
     def linked_entities
       comment
+    end
+
+    def after_completed
+      ::CaptureMentionsAndNotify.perform_later(comment, events.first)
     end
   end
 end
