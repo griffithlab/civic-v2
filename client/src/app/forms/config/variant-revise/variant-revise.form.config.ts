@@ -12,7 +12,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
       submitLabel: 'Revise Variant',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -39,7 +39,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'name',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             props: {
               placeholder: 'Enter a name for this Variant',
@@ -70,6 +70,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'HGVS Descriptions',
               description: 'HGVS Descriptions',
+              tooltip:
+                'Human Genome Variation Society nomenclature descriptions relevant to this variant',
               extraType: 'prompt',
               placeholder: 'Enter HGVS and hit return',
             },
@@ -101,7 +103,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'ensemblVersion',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
@@ -118,7 +120,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'referenceBases',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
@@ -136,7 +138,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'variantBases',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
@@ -165,7 +167,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'start',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
@@ -183,7 +185,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'stop',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
@@ -201,7 +203,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'representativeTranscript',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             props: {
               label: 'Representative Transcript',
@@ -228,7 +230,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'start2',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
@@ -246,7 +248,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'stop2',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
@@ -264,7 +266,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'representativeTranscript2',
-            type: 'input',
+            type: 'base-input',
             wrappers: ['form-field'],
             props: {
               label: 'Representative Transcript',

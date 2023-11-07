@@ -24,7 +24,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         fieldGroup: [
           {
             key: 'name',
-            type: 'input',
+            type: 'base-input',
             props: {
               label: 'Variant Group Name',
               required: true,
@@ -41,7 +41,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter a Variant Group Summary',
               label: 'Variant Group Summary',
               required: true,
-              rows: 5
+              rows: 5,
             },
           },
           {
@@ -75,7 +75,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',

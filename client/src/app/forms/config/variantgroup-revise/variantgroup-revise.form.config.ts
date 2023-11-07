@@ -24,7 +24,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         fieldGroup: [
           {
             key: 'name',
-            type: 'input',
+            type: 'base-input',
             props: {
               label: 'Variant Group Name',
               required: true,
