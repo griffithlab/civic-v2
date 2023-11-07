@@ -52,6 +52,7 @@ export function BaseFieldType<
         this.onValueChange$ = new BehaviorSubject<Maybe<V>>(
           this.formControl.value
         )
+        this.formControl.markAsTouched()
       } else {
         this.onValueChange$ = new BehaviorSubject<Maybe<V>>(undefined)
       }
@@ -66,12 +67,6 @@ export function BaseFieldType<
       // emit value from onValueChange$ for every model change
       this.onModelChange$.pipe(untilDestroyed(this)).subscribe((v) => {
         this.onValueChange$.next(v)
-      })
-
-      // trigger markAsTouched once for defined values, to trigger
-      // field validation for revise forms' pre-populated model values
-      this.onValueChange$.pipe(first()).subscribe((v) => {
-        if (v !== undefined) this.formControl.markAsTouched()
       })
 
       if (
