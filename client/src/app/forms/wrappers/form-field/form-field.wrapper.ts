@@ -29,7 +29,7 @@ export interface CvcFormFieldWrapperLayout {
 })
 export class CvcFormFieldWrapper
   extends FieldWrapper<FormlyFieldConfig>
-  implements OnInit, AfterViewInit
+  implements OnInit
 {
   formLayout: NzFormLayoutType = 'vertical'
   wrapper!: CvcFormFieldWrapperLayout
@@ -55,12 +55,6 @@ export class CvcFormFieldWrapper
       console.error(err)
     }
 
-    if (this.options.formState.formLayout) {
-      this.formLayout = this.options.formState.formLayout
-    }
-  }
-
-  ngAfterViewInit(): void {
     if (this.options.formState.formLayout) {
       this.formLayout = this.options.formState.formLayout
     }
