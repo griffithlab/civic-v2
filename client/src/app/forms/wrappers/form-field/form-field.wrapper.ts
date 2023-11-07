@@ -1,14 +1,12 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core'
-import { UntilDestroy } from '@ngneat/until-destroy'
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
-import { IndexableObject } from 'ng-zorro-antd/core/types'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { NzAlign, NzJustify } from 'ng-zorro-antd/grid'
 
 export type CvcFormFieldExtraType = 'description' | 'prompt'
 
@@ -29,7 +27,7 @@ export interface CvcFormFieldWrapperLayout {
 })
 export class CvcFormFieldWrapper
   extends FieldWrapper<FormlyFieldConfig>
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   formLayout: NzFormLayoutType = 'vertical'
   wrapper!: CvcFormFieldWrapperLayout
@@ -38,7 +36,7 @@ export class CvcFormFieldWrapper
     return this.showError ? 'error' : ''
   }
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     super()
   }
 
@@ -58,5 +56,10 @@ export class CvcFormFieldWrapper
     if (this.options.formState.formLayout) {
       this.formLayout = this.options.formState.formLayout
     }
+  }
+  ngAfterViewInit(): void {
+    // some simpler fields, e.g. base fields, require a detectChanges here to
+    // update wrapper class on formControl status changes, e.g. touched
+    this.cdr.detectChanges()
   }
 }

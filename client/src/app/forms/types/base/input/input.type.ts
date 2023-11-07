@@ -1,44 +1,38 @@
-import { Component, ChangeDetectionStrategy, Type } from '@angular/core'
-import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Type,
+  AfterViewInit,
+} from '@angular/core'
+import { BaseFieldType } from '@app/forms/mixins/base/base-field'
+import { Maybe } from '@app/generated/civic.apollo'
+import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
+import mixin from 'ts-mixin-extended'
 
-interface InputProps extends FormlyFieldProps {}
+export interface CvcBaseInputFieldProps extends FormlyFieldProps {}
 
-export interface FormlyInputFieldConfig extends FormlyFieldConfig<InputProps> {
+export interface CvcBaseInputFieldConfig
+  extends FormlyFieldConfig<CvcBaseInputFieldProps> {
   type: 'base-input' | Type<CvcBaseInputField>
 }
 
+const BaseInputMixin = mixin(
+  BaseFieldType<
+    FieldTypeConfig<CvcBaseInputFieldProps>,
+    Maybe<string | number>
+  >()
+)
 @Component({
-  selector: 'cvc-base-input-field',
+  selector: 'cvc-base-input',
   templateUrl: './input.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcBaseInputField extends FieldType<FieldTypeConfig<InputProps>> {}
-
-// import { Component, ChangeDetectionStrategy, Type } from '@angular/core';
-// import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
-// import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field';
-
-// interface InputProps extends FormlyFieldProps {}
-
-// export interface FormlyInputFieldConfig extends FormlyFieldConfig<InputProps> {
-//   type: 'input' | Type<FormlyFieldInput>;
-// }
-
-// @Component({
-//   selector: 'formly-field-nz-input',
-//   template: `
-//     <input
-//       *ngIf="props.type !== 'number'; else numberTmp"
-//       nz-input
-//       [formControl]="formControl"
-//       [type]="props.type || 'text'"
-//       [formlyAttributes]="field"
-//     />
-//     <ng-template #numberTmp>
-//       <nz-input-number [formControl]="formControl" [formlyAttributes]="field"></nz-input-number>
-//     </ng-template>
-//   `,
-//   changeDetection: ChangeDetectionStrategy.OnPush,
-// })
-// export class FormlyFieldInput extends FieldType<FieldTypeConfig<InputProps>> {}
+export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
+  constructor() {
+    super()
+  }
+  ngAfterViewInit(): void {
+    this.configureBaseField()
+  }
+}
