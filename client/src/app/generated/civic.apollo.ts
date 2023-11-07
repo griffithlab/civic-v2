@@ -4369,6 +4369,7 @@ export type SourceStub = {
 export type SourceSuggestion = EventOriginObject & EventSubject & {
   __typename: 'SourceSuggestion';
   createdAt: Scalars['ISO8601DateTime'];
+  creationActivity: SuggestSourceActivity;
   disease?: Maybe<Disease>;
   /** List and filter events for an object */
   events: EventConnection;
@@ -6273,9 +6274,9 @@ export type BrowseSourceSuggestionsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourceSuggestionsQuery = { __typename: 'Query', sourceSuggestions: { __typename: 'SourceSuggestionConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'SourceSuggestionEdge', cursor: string, node?: { __typename: 'SourceSuggestion', id: number, initialComment: string, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', link: string, id: number, citation?: string | undefined, citationId: string, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined } | undefined }> } };
+export type BrowseSourceSuggestionsQuery = { __typename: 'Query', sourceSuggestions: { __typename: 'SourceSuggestionConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'SourceSuggestionEdge', cursor: string, node?: { __typename: 'SourceSuggestion', id: number, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', link: string, id: number, citation?: string | undefined, citationId: string, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined, creationActivity: { __typename: 'SuggestSourceActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | undefined }> } };
 
-export type BrowseSourceSuggestionRowFieldsFragment = { __typename: 'SourceSuggestion', id: number, initialComment: string, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', link: string, id: number, citation?: string | undefined, citationId: string, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined };
+export type BrowseSourceSuggestionRowFieldsFragment = { __typename: 'SourceSuggestion', id: number, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', link: string, id: number, citation?: string | undefined, citationId: string, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined, creationActivity: { __typename: 'SuggestSourceActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
 
 export type UpdateSourceSuggestionStatusMutationVariables = Exact<{
   input: UpdateSourceSuggestionStatusInput;
@@ -8361,12 +8362,16 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
     role
     profileImagePath(size: 32)
   }
-  initialComment
+  creationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   status
   reason
   createdAt
 }
-    `;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const SourcePopoverFragmentDoc = gql`
     fragment sourcePopover on SourcePopover {
   id

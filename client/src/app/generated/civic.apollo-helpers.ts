@@ -1551,9 +1551,10 @@ export type SourceStubFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceSuggestionKeySpecifier = ('createdAt' | 'disease' | 'events' | 'id' | 'initialComment' | 'link' | 'molecularProfile' | 'name' | 'reason' | 'source' | 'status' | 'user' | SourceSuggestionKeySpecifier)[];
+export type SourceSuggestionKeySpecifier = ('createdAt' | 'creationActivity' | 'disease' | 'events' | 'id' | 'initialComment' | 'link' | 'molecularProfile' | 'name' | 'reason' | 'source' | 'status' | 'user' | SourceSuggestionKeySpecifier)[];
 export type SourceSuggestionFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,

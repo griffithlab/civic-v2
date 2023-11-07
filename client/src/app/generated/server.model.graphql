@@ -7188,6 +7188,7 @@ type SourceStub {
 
 type SourceSuggestion implements EventOriginObject & EventSubject {
   createdAt: ISO8601DateTime!
+  creationActivity: SuggestSourceActivity!
   disease: Disease
 
   """

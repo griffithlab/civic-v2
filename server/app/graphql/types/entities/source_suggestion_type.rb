@@ -11,6 +11,7 @@ module Types::Entities
     field :molecular_profile, Types::Entities::MolecularProfileType, null: true
     field :disease, Types::Entities::DiseaseType, null: true
     field :initial_comment, String, null: false
+    field :creation_activity, Types::Activities::SuggestSourceActivityType, null: false
     field :status, Types::SourceSuggestionStatusType, null: false
     field :link, String, null: false
     field :reason, String, null: true
@@ -30,6 +31,10 @@ module Types::Entities
 
     def disease
       Loaders::AssociationLoader.for(SourceSuggestion, :disease).load(object)
+    end
+
+    def creation_activity
+      Loaders::AssociationLoader.for(SourceSuggestion, :creation_activity).load(object)
     end
 
     def name

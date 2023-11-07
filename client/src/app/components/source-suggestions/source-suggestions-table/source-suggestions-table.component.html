@@ -236,14 +236,21 @@
           </td>
           <td
             nzAlign="center"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="!isScrolling ? suggestion.initialComment : ''">
+            nz-popover
+            [nzPopoverContent]="!isScrolling ? creationCommentTemplate : ''"
+            [nzPopoverOverlayStyle]="{'width': '300px'}">
             <i
               nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Comment' | entityColor"
               nzType="civic-comment"></i>
+            <ng-template #creationCommentTemplate>
+              <cvc-comment-body
+                [commentBodySegments]="
+                  suggestion.creationActivity!.parsedNote
+                ">
+              </cvc-comment-body>
+            </ng-template>
           </td>
           <td>
             <cvc-user-tag

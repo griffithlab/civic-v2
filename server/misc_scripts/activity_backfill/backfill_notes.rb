@@ -22,3 +22,8 @@ Activity.where.not(type: ["CommentActivity", 'ModerateAssertionActivity', 'Moder
     end
   end
 end
+
+SuggestSourceActivity.find_each do |a|
+  a.note = a.source_suggestion.initial_comment
+  a.save!
+end
