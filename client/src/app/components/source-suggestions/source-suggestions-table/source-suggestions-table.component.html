@@ -204,6 +204,7 @@
                 <nz-tag
                   class="status-tag"
                   nzColor="green">
+                  <ng-container *ngTemplateOutlet="statusNote"></ng-container>
                   {{ suggestion.status | lowercase }}
                 </nz-tag>
               </ng-container>
@@ -211,6 +212,7 @@
                 <nz-tag
                   class="status-tag"
                   nzColor="orange">
+                  <ng-container *ngTemplateOutlet="statusNote"></ng-container>
                   {{ suggestion.status | lowercase }}
                 </nz-tag>
               </ng-container>
@@ -218,15 +220,26 @@
                 <nz-tag
                   class="status-tag"
                   nzColor="volcano">
-                  <i
-                    *ngIf="suggestion.reason && suggestion.reason != ''"
-                    nz-icon
-                    nz-tooltip
-                    [nzTooltipTitle]="!isScrolling ? suggestion.reason : ''"
-                    nzType="civic-comment"></i>
+                  <ng-container *ngTemplateOutlet="statusNote"></ng-container>
                   {{ suggestion.status | lowercase }}
                 </nz-tag>
               </ng-container>
+              <ng-template #statusNote>
+                <i
+                  *ngIf="suggestion.lastStatusUpdateActivity && suggestion.lastStatusUpdateActivity.parsedNote.length > 0"
+                  nz-icon
+                  nz-popover
+                  [nzPopoverContent]="!isScrolling ? statusNoteContentTemplate : ''"
+                  [nzPopoverOverlayStyle]="{'width': '300px'}"
+                  nzType="civic-comment"></i>
+              </ng-template>
+              <ng-template #statusNoteContentTemplate>
+                <cvc-comment-body
+                  [commentBodySegments]="
+                    suggestion.lastStatusUpdateActivity!.parsedNote
+                  ">
+                </cvc-comment-body>
+              </ng-template>
             </ng-container>
           </td>
           <td nzLeft>

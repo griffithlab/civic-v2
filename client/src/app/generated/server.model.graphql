@@ -7225,6 +7225,7 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
   ): EventConnection!
   id: Int!
   initialComment: String!
+  lastStatusUpdateActivity: UpdateSourceSuggestionStatusActivity
   link: String!
   molecularProfile: MolecularProfile
   name: String!

@@ -10,4 +10,5 @@ class SourceSuggestion < ActiveRecord::Base
   validates :status, inclusion: { in: ['new', 'curated', 'rejected' ] }
 
   has_activity :creation_activity, activity_type: 'SuggestSourceActivity'
+  has_activity :last_status_update_activity, activity_type: 'UpdateSourceSuggestionStatusActivity'
 end

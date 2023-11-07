@@ -33465,6 +33465,18 @@
               "deprecationReason": null
             },
             {
+              "name": "lastStatusUpdateActivity",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "UpdateSourceSuggestionStatusActivity",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "link",
               "description": null,
               "args": [],

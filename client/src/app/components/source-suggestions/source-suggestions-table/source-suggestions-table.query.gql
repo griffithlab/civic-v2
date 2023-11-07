@@ -82,6 +82,11 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
       ...parsedCommentFragment
     }
   }
+  lastStatusUpdateActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   status
   reason
   createdAt

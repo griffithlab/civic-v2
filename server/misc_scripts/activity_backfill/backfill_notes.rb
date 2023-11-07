@@ -27,3 +27,11 @@ SuggestSourceActivity.find_each do |a|
   a.note = a.source_suggestion.initial_comment
   a.save!
 end
+
+SourceSuggestion.find_each do |s|
+  a = s.last_status_update_activity
+  if a
+    a.note = s.reason
+    a.save!
+  end
+end
