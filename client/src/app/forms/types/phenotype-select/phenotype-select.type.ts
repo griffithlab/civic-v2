@@ -13,6 +13,7 @@ import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
   Maybe,
   PhenotypeSelectTagGQL,
@@ -54,7 +55,7 @@ export interface CvcPhenotypeSelectFieldProps extends FormlyFieldProps {
   }
   tooltip?: string
   description?: string
-  extraType?: string
+  extraType?: CvcFormFieldExtraType
 }
 
 // NOTE: any multi-select field must have the string 'multi' in its type name,
