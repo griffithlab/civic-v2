@@ -31,6 +31,7 @@ import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-s
 import { CvcClinvarInputFieldModule } from './clinvar-input/clinvar-input.module'
 import { CvcCancelButtonModule } from './cancel-button/cancel-button.module'
 import { CvcBaseInputModule } from './base/input/input.module'
+import { CvcBaseSelectModule } from './base/select/select.module'
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { CvcBaseInputModule } from './base/input/input.module'
     CvcClinvarInputFieldModule,
     CvcCancelButtonModule,
     CvcBaseInputModule,
+    CvcBaseSelectModule,
   ],
 })
 export class CvcFormTypesModule {}

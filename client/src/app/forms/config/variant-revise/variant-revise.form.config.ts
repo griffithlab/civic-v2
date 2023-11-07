@@ -40,7 +40,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'name',
             type: 'base-input',
-            wrappers: ['form-field'],
             props: {
               placeholder: 'Enter a name for this Variant',
               description:
@@ -53,7 +52,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'aliases',
             type: 'tag-multi-input',
-            wrappers: ['form-field'],
             props: {
               label: 'Aliases',
               description:
@@ -64,7 +62,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'hgvsDescriptions',
             type: 'tag-multi-input',
-            wrappers: ['form-field'],
             props: {
               label: 'HGVS Descriptions',
               description: 'HGVS Descriptions',
@@ -86,7 +83,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'variantTypeIds',
             type: 'variant-type-multi-select',
-            wrappers: ['form-field'],
           },
           {
             template: "<h4><u>Primary (5') Coordinates</u></h4>",
@@ -101,7 +97,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'ensemblVersion',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
                 expression: (c: AbstractControl) =>
@@ -118,7 +113,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'referenceBases',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
                 expression: (c: AbstractControl) =>
@@ -136,7 +130,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'variantBases',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
                 expression: (c: AbstractControl) =>
@@ -153,8 +146,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'chromosome',
-            type: 'select',
-            wrappers: ['form-field'],
+            type: 'base-select',
             props: {
               label: 'Chromosome',
               options: Chromosomes,
@@ -165,7 +157,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'start',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               isNumeric: {
                 expression: (c: AbstractControl) =>
@@ -183,7 +174,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'stop',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               isNumeric: {
                 expression: (c: AbstractControl) =>
@@ -201,7 +191,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'representativeTranscript',
             type: 'base-input',
-            wrappers: ['form-field'],
             props: {
               label: 'Representative Transcript',
               description:
@@ -216,8 +205,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
           },
           {
             key: 'chromosome2',
-            type: 'select',
-            wrappers: ['form-field'],
+            type: 'base-select',
             props: {
               label: 'Chromosome',
               options: Chromosomes,
@@ -228,7 +216,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'start2',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               isNumeric: {
                 expression: (c: AbstractControl) =>
@@ -246,7 +233,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'stop2',
             type: 'base-input',
-            wrappers: ['form-field'],
             validators: {
               isNumeric: {
                 expression: (c: AbstractControl) =>
@@ -264,7 +250,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             key: 'representativeTranscript2',
             type: 'base-input',
-            wrappers: ['form-field'],
             props: {
               label: 'Representative Transcript',
               description:
