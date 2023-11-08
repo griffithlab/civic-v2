@@ -76,11 +76,7 @@ fragment AssertionSummaryFields on Assertion {
       profileImagePath(size: 32)
     }
   }
-  submissionActivity {
-    parsedNote {
-      ...parsedCommentFragment
-    }
-  }
+  ...assertionSubmissionActivity
   submissionEvent {
     createdAt
     originatingUser {

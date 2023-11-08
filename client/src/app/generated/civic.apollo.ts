@@ -7164,18 +7164,20 @@ export type AssertionDetailQueryVariables = Exact<{
 }>;
 
 
-export type AssertionDetailQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type AssertionDetailQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } } | undefined };
 
-export type AssertionDetailFieldsFragment = { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type AssertionDetailFieldsFragment = { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } };
+
+export type AssertionSubmissionActivityFragment = { __typename: 'Assertion', submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } };
 
 export type AssertionSummaryQueryVariables = Exact<{
   assertionId: Scalars['Int'];
 }>;
 
 
-export type AssertionSummaryQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionActivity: { __typename: 'SubmitAssertionActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> }, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
+export type AssertionSummaryQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } } | undefined };
 
-export type AssertionSummaryFieldsFragment = { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionActivity: { __typename: 'SubmitAssertionActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> }, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
+export type AssertionSummaryFieldsFragment = { __typename: 'Assertion', id: number, name: string, summary: string, description: string, status: EvidenceStatus, variantOrigin: VariantOrigin, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, therapyInteractionType?: TherapyInteraction | undefined, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean }> }, therapies: Array<{ __typename: 'Therapy', ncitId?: string | undefined, name: string, link: string, id: number }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', id: number, code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, acceptanceEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionEvent: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, rejectionEvent?: { __typename: 'Event', createdAt: any, originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, submissionActivity: { __typename: 'SubmitAssertionActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } };
 
 export type ClinicalTrialDetailQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int'];
@@ -7214,9 +7216,11 @@ export type EvidenceDetailQueryVariables = Exact<{
 }>;
 
 
-export type EvidenceDetailQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type EvidenceDetailQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, submissionActivity: { __typename: 'SubmitEvidenceItemActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } } | undefined };
 
-export type EvidenceDetailFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type EvidenceDetailFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, submissionActivity: { __typename: 'SubmitEvidenceItemActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } };
+
+export type EvidenceSubmissionActivityFragment = { __typename: 'EvidenceItem', submissionActivity: { __typename: 'SubmitEvidenceItemActivity', createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, profileImagePath?: string | undefined } } };
 
 export type EvidenceSummaryQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -9090,6 +9094,21 @@ export const VariantTypeSelectTypeaheadFieldsFragmentDoc = gql`
   soid
 }
     `;
+export const AssertionSubmissionActivityFragmentDoc = gql`
+    fragment assertionSubmissionActivity on Assertion {
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      id
+      displayName
+      profileImagePath(size: 32)
+    }
+  }
+}
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
@@ -9114,8 +9133,9 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+  ...assertionSubmissionActivity
 }
-    `;
+    ${AssertionSubmissionActivityFragmentDoc}`;
 export const AssertionSummaryFieldsFragmentDoc = gql`
     fragment AssertionSummaryFields on Assertion {
   id
@@ -9189,11 +9209,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
-  submissionActivity {
-    parsedNote {
-      ...parsedCommentFragment
-    }
-  }
+  ...assertionSubmissionActivity
   submissionEvent {
     createdAt
     originatingUser {
@@ -9214,7 +9230,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MolecularProfileParsedNameFragmentDoc}
-${ParsedCommentFragmentFragmentDoc}`;
+${AssertionSubmissionActivityFragmentDoc}`;
 export const MyDiseaseInfoFieldsFragmentDoc = gql`
     fragment MyDiseaseInfoFields on MyDiseaseInfo {
   diseaseOntologyExactSynonyms
@@ -9243,6 +9259,21 @@ export const DiseasesSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyDiseaseInfoFieldsFragmentDoc}`;
+export const EvidenceSubmissionActivityFragmentDoc = gql`
+    fragment evidenceSubmissionActivity on EvidenceItem {
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      id
+      displayName
+      profileImagePath(size: 32)
+    }
+  }
+}
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id
@@ -9272,8 +9303,9 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+  ...evidenceSubmissionActivity
 }
-    `;
+    ${EvidenceSubmissionActivityFragmentDoc}`;
 export const EvidenceSummaryFieldsFragmentDoc = gql`
     fragment EvidenceSummaryFields on EvidenceItem {
   id
