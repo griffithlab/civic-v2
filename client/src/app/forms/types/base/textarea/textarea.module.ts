@@ -27,4 +27,4 @@ const typeConfig: ConfigOption = {
   ],
   exports: [CvcTextareaField],
 })
-export class CvcTextareaFieldModule {}
+export class CvcBaseTextareaFieldModule {}
