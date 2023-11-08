@@ -5,7 +5,7 @@ import { CvcLevelSelectFieldOptions } from '../../types/level-select/level-selec
 import { CvcOriginSelectFieldOptions } from '../../types/origin-select/origin-select.type'
 import { CvcRatingFieldOptions } from '../../types/rating/rating.type'
 import { CvcSourceSelectFieldConfig } from '../../types/source-select/source-select.type'
-import { CvcBaseInputFieldOptions } from '../../types/tag-input/tag-input.type'
+import { CvcTagInputOptions } from '../../types/tag-input/tag-input.type'
 import { CvcVariantSelectFieldConfig } from '../../types/variant-select/variant-select.type'
 import { CvcFieldGridWrapperConfig } from '../../wrappers/field-grid/field-grid.wrapper'
 import { CvcMolecularProfileSelectFieldConfig } from '../../types/molecular-profile-select/molecular-profile-select.type'
@@ -199,14 +199,14 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
       },
     },
     fieldGroup: [
-      <CvcBaseInputFieldOptions>{
+      <CvcTagInputOptions>{
         key: 'tag',
         type: 'tag-input',
         props: {
           label: 'Input Test',
         },
       },
-      <CvcBaseInputFieldOptions>{
+      <CvcTagInputOptions>{
         key: 'tags',
         type: 'tag-multi-input',
         props: {

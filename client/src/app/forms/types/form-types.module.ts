@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core'
 import { CvcAcmgCodeSelectModule } from './acmg-code-select/acmg-code-select.module'
 import { CvcAmpCategorySelectModule } from './amp-category-select/amp-category-select.module'
 import { CvcBaseCheckboxModule } from './base/checkbox/checkbox.module'
-import { CvcBaseInputFieldModule } from './tag-input/tag-input.module'
 import { CvcBaseInputModule } from './base/input/input.module'
 import { CvcBaseSelectModule } from './base/select/select.module'
 import { CvcBaseTextareaFieldModule } from './base/textarea/textarea.module'
@@ -29,6 +28,7 @@ import { CvcRatingModule } from './rating/rating.module'
 import { CvcReferenceBuildSelectModule } from './reference-build-select/reference-build-select.module'
 import { CvcSignificanceSelectModule } from './significance-select/significance-select.module'
 import { CvcSourceSelectModule } from './source-select/source-select.module'
+import { CvcTagInputModule } from './tag-input/tag-input.module'
 import { CvcTherapySelectModule } from './therapy-select/therapy-select.module'
 import { CvcVariantSelectModule } from './variant-select/variant-select.module'
 import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-select.module'
@@ -36,13 +36,12 @@ import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-s
 @NgModule({
   imports: [
     CommonModule,
-    CvcBaseInputFieldModule,
-    CvcBaseInputModule,
-    CvcBaseSelectModule,
-    CvcBaseCheckboxModule,
-    CvcBaseTextareaFieldModule,
     CvcAcmgCodeSelectModule,
     CvcAmpCategorySelectModule,
+    CvcBaseCheckboxModule,
+    CvcBaseInputModule,
+    CvcBaseSelectModule,
+    CvcBaseTextareaFieldModule,
     CvcCancelButtonModule,
     CvcClingenCodeSelectModule,
     CvcClinvarInputFieldModule,
@@ -65,6 +64,7 @@ import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-s
     CvcReferenceBuildSelectModule,
     CvcSignificanceSelectModule,
     CvcSourceSelectModule,
+    CvcTagInputModule,
     CvcTherapySelectModule,
     CvcVariantSelectModule,
     CvcVariantTypeSelectModule,
