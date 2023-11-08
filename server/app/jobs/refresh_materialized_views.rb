@@ -4,24 +4,24 @@ class RefreshMaterializedViews < ApplicationJob
     views = kwargs.with_indifferent_access['views']
     to_refresh = if views == 'all'
                    [
-                     DiseaseBrowseTableRow,
-                     GeneBrowseTableRow,
-                     SourceBrowseTableRow,
-                     VariantBrowseTableRow,
-                     VariantGroupBrowseTableRow,
-                     MolecularProfileBrowseTableRow
+                     MaterializedViews::DiseaseBrowseTableRow,
+                     MaterializedViews::GeneBrowseTableRow,
+                     MaterializedViews::SourceBrowseTableRow,
+                     MaterializedViews::VariantBrowseTableRow,
+                     MaterializedViews::VariantGroupBrowseTableRow,
+                     MaterializedViews::MolecularProfileBrowseTableRow
                    ]
                  elsif views == 'gene_only'
                    [
-                     GeneBrowseTableRow
+                     MaterializedViews::GeneBrowseTableRow
                    ]
                  elsif views == 'except_genes'
                    [
-                     DiseaseBrowseTableRow,
-                     SourceBrowseTableRow,
-                     VariantBrowseTableRow,
-                     VariantGroupBrowseTableRow,
-                     MolecularProfileBrowseTableRow
+                     MaterializedViews::DiseaseBrowseTableRow,
+                     MaterializedViews::SourceBrowseTableRow,
+                     MaterializedViews::VariantBrowseTableRow,
+                     MaterializedViews::VariantGroupBrowseTableRow,
+                     MaterializedViews::MolecularProfileBrowseTableRow
                    ]
                  else
                    []

@@ -1,0 +1,11 @@
+query ExistingEvidenceCount($molecularProfileId: Int!, $sourceId: Int!) {
+  evidenceItems(molecularProfileId: $molecularProfileId, sourceId: $sourceId) {
+    totalCount
+  }
+}
+
+query FullyCuratedSource($sourceId: Int!) {
+  source(id: $sourceId) {
+    fullyCurated
+  }
+}

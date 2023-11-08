@@ -16,6 +16,7 @@ fragment SourceSummaryFields on Source {
   fullJournalTitle
   pmcId
   authorString
+  ascoAbstractId
   clinicalTrials {
     nctId
     id

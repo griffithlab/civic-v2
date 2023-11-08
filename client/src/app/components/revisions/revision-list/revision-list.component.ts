@@ -62,7 +62,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
 
   private destroy$ = new Subject<void>()
 
-  @Output() revisionSetSelectedEvent = new EventEmitter<string>()
+  @Output() revisionSetSelectedEvent = new EventEmitter<number>()
   @Output() revisionMutationCompleted = new EventEmitter<void>()
 
   //TODO: Get rid of, we need a type guard pipe in the template to narrow the type safely in the template
@@ -96,8 +96,8 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     private rejectRevisionsGql: RejectRevisionGQL,
     private validationGql: ValidateRevisionsForAcceptanceGQL
   ) {
-    this.acceptRevisionsMutator = new MutatorWithState(networkErrorService)
-    this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
+    this.acceptRevisionsMutator = new MutatorWithState(this.networkErrorService)
+    this.rejectRevisionsMutator = new MutatorWithState(this.networkErrorService)
     this.viewer$ = this.viewerService.viewer$
   }
 
@@ -145,7 +145,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     this.untypedRevisons = this.revisions
   }
 
-  onChangesetSelected(changesetId: string) {
+  onChangesetSelected(changesetId: number) {
     this.revisionSetSelectedEvent.emit(changesetId)
   }
 
@@ -171,6 +171,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         this.success = successType
         this.validationPopoverVisible = false
         this.selectedRevisionIds = []
+        this.revisionComment = undefined
       }
     })
     state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

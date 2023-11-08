@@ -72,7 +72,7 @@ module Actions
             display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
             tag_type: tag_type,
             status: status_value_for_referenced_entity(referenced_item),
-            deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
+            deprecated: self.deprecation_value_for_referenced_entity(referenced_item),
           }
           end
         else

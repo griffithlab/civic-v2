@@ -1,0 +1,62 @@
+<cvc-form-submission-status-display
+  [mutationState]="this.mutationState"
+  [redirectUrl]="this.newEvidenceUrl"
+  entityType="Evidence Item"
+  [successMessage]="success">
+  <ng-template #success>
+    View your new EID
+    <a [routerLink]="['/evidence', newEvidenceId, 'summary']">here</a>. You will be redirected shortly.
+  </ng-template>
+  <ng-container *ngIf="this.existingEvidenceCount$ | ngrxPush as count">
+    <nz-alert *ngIf="count > 0" nzType="warning" [nzMessage]="duplicateEvidenceAlert" > </nz-alert>
+    <ng-template #duplicateEvidenceAlert>
+        <p>
+          <strong>
+            Evidence for this Molecular Profile has already been curated from this Source. Please double check that your Evidence has not already been entered.
+          </strong>
+        </p>
+        <cvc-evidence-table [molecularProfileId]="this.selectedMpId" [sourceId]="this.selectedSourceId" cvcHeight="150"></cvc-evidence-table>
+    </ng-template>
+    <br/>
+  </ng-container>
+  <ng-container *ngIf="this.fullyCuratedSource$ | ngrxPush as isFullyCurated">
+    <nz-alert *ngIf="isFullyCurated" nzType="warning" [nzMessage]="fullyCuratedAlert" > </nz-alert>
+    <ng-template #fullyCuratedAlert>
+        <p>
+          <strong>
+            This Source has been marked as fully curated by an Editor. Please double check that your intended Evidence Item does not already exist.
+          </strong>
+        </p>
+        <cvc-evidence-table [sourceId]="this.selectedSourceId" cvcHeight="150"></cvc-evidence-table>
+    </ng-template>
+    <br/>
+  </ng-container>
+  <form
+    *ngIf="model; else loadingModel"
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      [options]="options"
+      style="width: 100%"
+      (modelChange)="model = $event; onModelChange($event)">
+    </formly-form>
+  </form>
+  <ng-template #loadingModel> Loading Evidence Item... </ng-template>
+</cvc-form-submission-status-display>
+<!-- <nz-row style="background-color: #eef">
+     <nz-col nzSpan="12">
+     <h4>evidence-submit.form.html Model</h4>
+     <ngx-json-viewer [json]="model"></ngx-json-viewer>
+     </nz-col>
+     <nz-col nzSpan="12">
+     <h4>Form</h4>
+     <pre>
+     touched: {{ form.touched }}
+     </pre>
+     </nz-col>
+     </nz-row> -->

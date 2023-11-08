@@ -14,7 +14,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module'
+import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-buttons.module'
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module'
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'

@@ -1,0 +1,19 @@
+<!-- hidden field, stores field value and hooks into formly's updates -->
+<input
+  type="hidden"
+  [formControl]="formControl"
+  [formlyAttributes]="field" />
+
+<button
+  *ngrxLet="mostRecentOrg$ as organization"
+  cvcOrgSubmitButton
+  type="submit"
+  nz-button
+  [disabled]="!form.valid"
+  [nzDanger]=""
+  nzType="primary"
+  nz-tooltip
+  [nzTooltipTrigger]="organization ? 'hover' : null"
+  [nzTooltipTitle]="'For ' + organization?.name">
+  {{ props.submitLabel }}
+</button>

@@ -7,7 +7,7 @@ import {
 import { filter, map } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { AssertionState } from '@app/forms2/states/assertion.state'
+import { AssertionState } from '@app/forms/states/assertion.state'
 
 @Component({
   selector: 'cvc-assertion-popover',

@@ -7,7 +7,7 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseVariantGroupType.connection_type, null: false
 
-  scope { VariantGroupBrowseTableRow.all }
+  scope { MaterializedViews::VariantGroupBrowseTableRow.all }
 
   option(:name, type: String) do |scope, value|
     scope.where('name ILIKE ?', "%#{value}%")
