@@ -6,12 +6,10 @@ import {
   CommentListQuery,
   CommentListQueryVariables,
   CommentTagSegment,
-  DateSort,
   DateSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
-  TaggableEntity,
   UserRole,
 } from '@app/generated/civic.apollo'
 
