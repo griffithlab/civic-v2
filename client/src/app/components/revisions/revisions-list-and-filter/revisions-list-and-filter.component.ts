@@ -70,7 +70,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   unfilteredCount$!: Observable<Maybe<number>>
   isLoading$: Maybe<Observable<boolean>>
 
-  filteredSet: undefined | string = undefined
+  filteredSet: undefined | number = undefined
 
   queryRef!: QueryRef<RevisionsQuery, RevisionsQueryVariables>
 
@@ -118,10 +118,10 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
         }
 
         if (queryParams.revisionSetId) {
-          this.filteredSet = queryParams.revisionSetId
+          this.filteredSet = +queryParams.revisionSetId
           this.preselectedRevisionStatus = undefined
           input.status = undefined
-          input.revisionSetId = queryParams.revisionSetId
+          input.revisionSetId = +queryParams.revisionSetId
         }
 
         this.queryRef = this.gql.watch(input)
@@ -270,11 +270,11 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     })
   }
 
-  onRevisionSetSelected(revisionSetId: string) {
+  onRevisionSetSelected(revisionSetId: number) {
     this.filteredSet = revisionSetId
     this.queryRef.refetch({
       subject: { id: this.id, entityType: this.entityType },
-      revisionSetId: revisionSetId ? +revisionSetId : undefined,
+      revisionSetId: revisionSetId ? revisionSetId : undefined,
     })
   }
 
