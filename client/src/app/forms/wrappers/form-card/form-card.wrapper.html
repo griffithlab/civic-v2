@@ -1,7 +1,7 @@
 <nz-card
-  [nzTitle]="props.title"
+  [nzTitle]="wrapperOptions.title"
   [nzExtra]="cardExtra">
-  <nz-row [nzGutter]="props.gutter">
+  <nz-row [nzGutter]="wrapperOptions.gutter ?? null">
     <nz-col
       *ngFor="let field of field.fieldGroup"
       [nzSpan]="field.props?.colSpan || 12">

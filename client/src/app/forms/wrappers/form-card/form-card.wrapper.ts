@@ -3,9 +3,9 @@ import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { IndexableObject } from 'ng-zorro-antd/core/types'
 
-export interface CvcFormCardWrapperProps extends FormlyFieldProps {
-  title: string
-  gutter:
+type FormCardOptions = {
+  title?: string
+  gutter?:
     | string
     | number
     | IndexableObject
@@ -14,8 +14,12 @@ export interface CvcFormCardWrapperProps extends FormlyFieldProps {
     | null
 }
 
-const defaultProps = {
-  gutter: [6, 20],
+export interface CvcFormCardWrapperProps extends FormlyFieldProps {
+  formCardOptions?: FormCardOptions
+}
+
+const defaultWrapperOptions: FormCardOptions = {
+  gutter: [8, 8],
 }
 
 @Component({
@@ -27,6 +31,8 @@ export class CvcFormCardWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormCardWrapperProps>>
   implements OnInit
 {
+  wrapperOptions: FormCardOptions = { ...defaultWrapperOptions }
+
   get errorState() {
     return this.showError ? 'error' : ''
   }
@@ -36,6 +42,8 @@ export class CvcFormCardWrapper
   }
 
   ngOnInit(): void {
-    if (!this.props.gutter) this.props.gutter = defaultProps.gutter
+    if (this.props.formCardOptions) {
+      this.wrapperOptions = { ...this.props.formCardOptions }
+    }
   }
 }
