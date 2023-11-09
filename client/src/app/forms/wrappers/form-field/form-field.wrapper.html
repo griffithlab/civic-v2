@@ -1,7 +1,5 @@
-<!-- <pre>Error State: {{ errorState | json }}</pre> -->
 <nz-form-item
   [ngClass]="{
-      bordered: props.showBorder,
       disabled: props.disabled,
       error: showError,
       required: props.required,
@@ -22,7 +20,7 @@
     </nz-form-label>
   </ng-container>
   <nz-form-control
-    [nzExtra]="wrapper.showExtra && !showError ? descriptionTpl : undefined"
+    [nzExtra]="props.showExtra && !showError ? descriptionTpl : undefined"
     [nzValidateStatus]="errorState"
     [nzErrorTip]="errorTpl">
     <ng-container #fieldComponent></ng-container>

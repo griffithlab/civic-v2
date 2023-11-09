@@ -116,7 +116,7 @@ export class CvcSourceSelectField
         },
       },
       // description: 'Choose  Source type and enter its ID to select an existing Source or add a Source',
-      extraType: 'prompt',
+      
     },
   }
 

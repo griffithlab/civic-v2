@@ -73,6 +73,7 @@ export class MpFinderComponent {
             props: {
               placeholder: 'Select MP Gene',
               hideLabel: true,
+              showExtra: false,
               layout: {
                 showExtra: false,
               },
@@ -83,11 +84,12 @@ export class MpFinderComponent {
             type: 'variant-select',
             props: {
               placeholder: 'Select MP Variant',
+              hideLabel: true,
+              showExtra: false,
               requireGene: true,
               layout: {
                 showExtra: false,
               },
-              hideLabel: true,
             },
           },
         ],

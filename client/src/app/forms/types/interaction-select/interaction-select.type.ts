@@ -85,7 +85,7 @@ export class CvcInteractionSelectField
       requireMultipleTherapiesPromptFn: () =>
         `A single associated therapy does not have an Interaction type`,
       tooltip: 'Characterizes the interaction of a multi-therapy treatment',
-      extraType: 'prompt',
+      
     },
   }
 

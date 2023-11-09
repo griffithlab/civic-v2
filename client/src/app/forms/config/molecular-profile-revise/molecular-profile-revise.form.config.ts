@@ -34,11 +34,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               placeholder: 'Enter a Molecular Profile Description',
               label: 'Molecular Profile Description',
-              description: 'Provide a summary of the clinical relevance of this Molecular Profile. The Molecular Profile Summary should be a synthesis of the existing Evidence Statements for this profile. Basic information on recurrence rates and biological/functional impact of the variants may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance).',
-              extraType: 'prompt',
+              description:
+                'Provide a summary of the clinical relevance of this Molecular Profile. The Molecular Profile Summary should be a synthesis of the existing Evidence Statements for this profile. Basic information on recurrence rates and biological/functional impact of the variants may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance).',
               required: false,
               rows: 5,
-              colSpan: 24
+              colSpan: 24,
             },
           },
           {
@@ -47,9 +47,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             props: {
               label: 'Aliases',
-              description: 'List any aliases commonly used to refer to this Molecular Profile',
-              extraType: 'prompt'
-            }
+              description:
+                'List any aliases commonly used to refer to this Molecular Profile',
+            },
           },
           {
             key: 'sourceIds',
@@ -69,11 +69,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Comment',
               placeholder: 'Please enter a comment describing your revisions.',
               required: true,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',

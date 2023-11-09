@@ -5,14 +5,22 @@ import {
   Component,
   OnInit,
 } from '@angular/core'
-import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core'
+import {
+  FieldWrapper,
+  FormlyFieldConfig,
+  FormlyFieldProps,
+} from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 
 export type CvcFormFieldExtraType = 'description' | 'prompt'
 
-export interface CvcFormFieldWrapperLayout {
-  showExtra: boolean
+type FormFieldOptions = {}
+
+export interface CvcFormFieldWrapperProps extends FormlyFieldProps {
+  formFieldOptions: FormFieldOptions
 }
+
+const defaultWrapperOptions: FormFieldOptions = {}
 
 @Component({
   selector: 'cvc-form-field-wrapper',
@@ -30,7 +38,7 @@ export class CvcFormFieldWrapper
   implements OnInit, AfterViewInit
 {
   formLayout: NzFormLayoutType = 'vertical'
-  wrapper!: CvcFormFieldWrapperLayout
+  wrapperOptions: FormFieldOptions = { ...defaultWrapperOptions }
 
   get errorState() {
     return this.showError ? 'error' : ''
@@ -41,18 +49,13 @@ export class CvcFormFieldWrapper
   }
 
   ngOnInit(): void {
-    // merge local wrapper config with field config specified properties
-    try {
-      this.wrapper = {
-        showExtra:
-          this.props.layout?.showExtra !== undefined
-            ? this.props.layout.showExtra
-            : true,
-      }
-    } catch (err) {
-      console.error(err)
+    // set field props defaults
+    this.props.showExtra = this.props.showExtra ?? true
+    this.props.extraType = this.props.extraType ?? 'prompt'
+    // merge wrapper defaults with field config specified properties
+    if (this.props.formFieldOptions) {
+      this.wrapperOptions = { ...this.props.formRowOptions }
     }
-
     if (this.options.formState.formLayout) {
       this.formLayout = this.options.formState.formLayout
     }

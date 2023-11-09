@@ -118,7 +118,7 @@ export class CvcMolecularProfileSelectField
       isMultiSelect: false,
       description:
         'Select a Gene and Variant to specify a simple Molecular Profile.',
-      extraType: 'prompt',
+
       entityName: {
         singular: 'Molecular Profile',
         plural: 'Molecular Profiles',
