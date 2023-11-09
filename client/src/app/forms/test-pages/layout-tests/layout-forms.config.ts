@@ -27,192 +27,102 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
     type: 'molecular-profile-multi-select',
     props: {},
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
-    },
-    fieldGroup: [
-      <CvcEntityTypeSelectFieldOptions>{
-        key: 'evidenceType',
-        type: 'type-select',
-        props: {},
-      },
-      <CvcEntityTypeSelectFieldOptions>{
-        key: 'evidenceTypes',
-        type: 'type-multi-select',
-        props: {},
-      },
-    ],
+  <CvcEntityTypeSelectFieldOptions>{
+    key: 'evidenceType',
+    type: 'type-select',
+    props: {},
+  },
+  <CvcEntityTypeSelectFieldOptions>{
+    key: 'evidenceTypes',
+    type: 'type-multi-select',
+    props: {},
   },
 
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
-    },
-    fieldGroup: [
-      <CvcGeneSelectFieldConfig>{
-        key: 'geneId',
-        type: 'gene-select',
-      },
-      <CvcGeneSelectFieldConfig>{
-        key: 'geneIds',
-        type: 'gene-multi-select',
-        props: {},
-      },
-    ],
+  <CvcGeneSelectFieldConfig>{
+    key: 'geneId',
+    type: 'gene-select',
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
-    },
-    fieldGroup: [
-      <CvcVariantSelectFieldConfig>{
-        key: 'variantId',
-        type: 'variant-select',
-        props: {
-          requireGene: false,
-        },
-      },
-      <CvcVariantSelectFieldConfig>{
-        key: 'variantIds',
-        type: 'variant-multi-select',
-        props: {
-          requireGene: false,
-        },
-      },
-    ],
+  <CvcGeneSelectFieldConfig>{
+    key: 'geneIds',
+    type: 'gene-multi-select',
+    props: {},
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
+  <CvcVariantSelectFieldConfig>{
+    key: 'variantId',
+    type: 'variant-select',
+    props: {
+      requireGene: false,
     },
-    fieldGroup: [
-      <CvcSourceSelectFieldConfig>{
-        key: 'sourceId',
-        type: 'source-select',
-        props: {},
-      },
-      <CvcSourceSelectFieldConfig>{
-        key: 'sourceIds',
-        type: 'source-multi-select',
-        props: {},
-      },
-    ],
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
+  <CvcVariantSelectFieldConfig>{
+    key: 'variantIds',
+    type: 'variant-multi-select',
+    props: {
+      requireGene: false,
     },
-    fieldGroup: [
-      <CvcDiseaseSelectFieldConfig>{
-        key: 'diseaseId',
-        type: 'disease-select',
-        props: {},
-      },
-      <CvcDiseaseSelectFieldConfig>{
-        key: 'diseaseIds',
-        type: 'disease-multi-select',
-        props: {},
-      },
-    ],
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
-    },
-    fieldGroup: [
-      <CvcTherapySelectFieldOptions>{
-        key: 'drugId',
-        type: 'therapy-select',
-        props: {},
-      },
-      <CvcTherapySelectFieldOptions>{
-        key: 'drugIds',
-        type: 'therapy-multi-select',
-        props: {},
-      },
-    ],
+  <CvcSourceSelectFieldConfig>{
+    key: 'sourceId',
+    type: 'source-select',
+    props: {},
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
-    },
-    fieldGroup: [
-      <CvcLevelSelectFieldOptions>{
-        key: 'evidenceLevel',
-        type: 'level-select',
-        props: {},
-      },
-      <CvcLevelSelectFieldOptions>{
-        key: 'evidenceLevel',
-        type: 'level-multi-select',
-        props: {},
-      },
-    ],
+  <CvcSourceSelectFieldConfig>{
+    key: 'sourceIds',
+    type: 'source-multi-select',
+    props: {},
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
-    },
-    fieldGroup: [
-      <CvcOriginSelectFieldOptions>{
-        key: 'variantOrigin',
-        type: 'origin-select',
-        props: {},
-      },
-      <CvcOriginSelectFieldOptions>{
-        key: 'variantOrigins',
-        type: 'origin-multi-select',
-        props: {},
-      },
-    ],
+  <CvcDiseaseSelectFieldConfig>{
+    key: 'diseaseId',
+    type: 'disease-select',
+    props: {},
   },
-  {
-    wrappers: ['field-grid'],
-    props: <CvcFieldGridWrapperConfig>{
-      grid: {
-        cols: 2,
-      },
+  <CvcDiseaseSelectFieldConfig>{
+    key: 'diseaseIds',
+    type: 'disease-multi-select',
+    props: {},
+  },
+  <CvcTherapySelectFieldOptions>{
+    key: 'drugId',
+    type: 'therapy-select',
+    props: {},
+  },
+  <CvcTherapySelectFieldOptions>{
+    key: 'drugIds',
+    type: 'therapy-multi-select',
+    props: {},
+  },
+  <CvcLevelSelectFieldOptions>{
+    key: 'evidenceLevel',
+    type: 'level-select',
+    props: {},
+  },
+  <CvcLevelSelectFieldOptions>{
+    key: 'evidenceLevel',
+    type: 'level-multi-select',
+    props: {},
+  },
+  <CvcOriginSelectFieldOptions>{
+    key: 'variantOrigin',
+    type: 'origin-select',
+    props: {},
+  },
+  <CvcOriginSelectFieldOptions>{
+    key: 'variantOrigins',
+    type: 'origin-multi-select',
+    props: {},
+  },
+  <CvcTagInputOptions>{
+    key: 'tag',
+    type: 'tag-input',
+    props: {
+      label: 'Input Test',
     },
-    fieldGroup: [
-      <CvcTagInputOptions>{
-        key: 'tag',
-        type: 'tag-input',
-        props: {
-          label: 'Input Test',
-        },
-      },
-      <CvcTagInputOptions>{
-        key: 'tags',
-        type: 'tag-multi-input',
-        props: {
-          label: 'Input Multi Test',
-        },
-      },
-    ],
+  },
+  <CvcTagInputOptions>{
+    key: 'tags',
+    type: 'tag-multi-input',
+    props: {
+      label: 'Input Multi Test',
+    },
   },
 ]
