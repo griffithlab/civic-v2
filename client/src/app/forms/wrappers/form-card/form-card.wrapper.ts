@@ -12,8 +12,6 @@ export interface CvcFormCardWrapperProps extends FormlyFieldProps {
     | [number, number]
     | [IndexableObject, IndexableObject]
     | null
-  gutterHorizontal: number
-  gutterVertical: number
 }
 
 const defaultProps = {
