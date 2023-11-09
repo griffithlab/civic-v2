@@ -8,7 +8,7 @@ class Therapy < ApplicationRecord
   has_and_belongs_to_many :assertions
   has_and_belongs_to_many :therapy_aliases
 
-  validates :ncit_id, uniqueness: true 
+  validates :ncit_id, uniqueness: true, allow_nil: true
 
   def self.url_for(ncit_id:)
     if ncit_id.nil?
