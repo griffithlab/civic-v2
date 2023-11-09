@@ -1,7 +1,7 @@
 <cvc-section-navigation> </cvc-section-navigation>
 <nz-page-header class="site-page-header">
   <nz-page-header-title cvcFlaggableOptions>
-    Forms2 Test Pages
+    Form Dev Pages
   </nz-page-header-title>
   <nz-page-header-content>
     <nz-row>
@@ -18,6 +18,9 @@
                   *nzTabLink
                   nz-tab-link
                   [routerLink]="tab.routeName">
+                  <span
+                    nz-icon
+                    [nzType]="tab.iconName"></span>
                   {{ tab.tabLabel }}
                 </a>
               </nz-tab>
