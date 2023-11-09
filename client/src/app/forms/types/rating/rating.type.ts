@@ -100,7 +100,9 @@ export class CvcRatingField extends RatingMixin implements AfterViewInit {
     this.onValueChange$
       .pipe(untilDestroyed(this))
       .subscribe((rating: Maybe<number>) => {
-        if (!rating) {
+        if (!rating || rating === 0) {
+          // zero is not a valid rating, unset model instead
+          this.formControl.setValue(undefined)
           this.props.description = undefined
           this.props.extraType = 'prompt'
         } else {
