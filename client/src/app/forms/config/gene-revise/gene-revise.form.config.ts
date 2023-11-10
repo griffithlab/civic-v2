@@ -9,7 +9,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Revise Gene',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -24,7 +23,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Evidence Item',
+          formCardOptions: { title: 'Revise Gene' },
         },
         fieldGroup: [
           {
@@ -37,7 +36,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter a Gene Summary',
               label: 'Gene Summary',
               required: false,
-              rows: 5
+              rows: 5,
             },
           },
           {
@@ -58,11 +57,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Comment',
               placeholder: 'Please enter a comment describing your revisions.',
               required: true,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',
@@ -77,7 +76,4 @@ const formFieldConfig: FormlyFieldConfig[] = [
   },
 ]
 export const geneReviseFields: FormlyFieldConfig[] =
-  assignFieldConfigDefaultValues(
-    formFieldConfig,
-    geneReviseFormInitialModel
-  )
+  assignFieldConfigDefaultValues(formFieldConfig, geneReviseFormInitialModel)

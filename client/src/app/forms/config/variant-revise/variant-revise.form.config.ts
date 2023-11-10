@@ -11,7 +11,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Revise Variant',
       showDevPanel: true,
     },
     fieldGroup: [
@@ -26,7 +25,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Variant',
+          formCardOptions: { title: 'Revise Variant' },
         },
         fieldGroup: [
           {

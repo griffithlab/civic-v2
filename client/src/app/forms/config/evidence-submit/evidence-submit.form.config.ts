@@ -20,7 +20,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
     // form-layout contains the form itself and and a hideable dev panel
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Submit Evidence Item',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -37,8 +36,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'New Evidence Item',
           formCardOptions: {
+            title: 'New Evidence Item',
             gutter: [20, 20],
           },
         },

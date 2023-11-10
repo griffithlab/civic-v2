@@ -22,8 +22,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Submit Assertion',
-      showDevPanel: false,
+      showDevPanel: true,
     },
     fieldGroup: [
       {
@@ -36,7 +35,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'New Assertion',
+          formCardOptions: { title: 'New Assertion' },
         },
         fieldGroup: [
           {

@@ -21,7 +21,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Revise Evidence Item',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -36,7 +35,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Evidence Item',
+          formCardOptions: { title: 'Revise Evidence Item' },
         },
         fieldGroup: [
           <CvcMolecularProfileSelectFieldConfig>{

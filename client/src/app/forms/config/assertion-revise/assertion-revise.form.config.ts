@@ -21,7 +21,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Submit Revisions',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -35,7 +34,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Assertion',
+          formCardOptions: { title: 'Revise Assertion' },
         },
         fieldGroup: [
           {
@@ -54,29 +53,36 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            key: 'assertionDirection',
-            type: 'direction-select',
+            wrappers: ['form-row'],
             props: {
-              required: true,
-              colSpan: 8,
-              formMode: 'revise'
+              colSpan: 24,
+              formRowOptions: {
+                colSpan: 8,
+              },
             },
-          },
-          {
-            key: 'significance',
-            type: 'significance-select',
-            props: {
-              required: true,
-              colSpan: 8,
-              formMode: 'revise'
-            },
-          },
-          {
-            key: 'diseaseId',
-            type: 'disease-select',
-            props: {
-              colSpan: 8,
-            },
+            fieldGroup: [
+              {
+                key: 'assertionDirection',
+                type: 'direction-select',
+                props: {
+                  required: true,
+                  formMode: 'revise',
+                },
+              },
+              {
+                key: 'significance',
+                type: 'significance-select',
+                props: {
+                  required: true,
+                  formMode: 'revise',
+                },
+              },
+              {
+                key: 'diseaseId',
+                type: 'disease-select',
+                props: {},
+              },
+            ],
           },
           <CvcTherapySelectFieldOptions>{
             key: 'therapyIds',
@@ -105,7 +111,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'amp-category-select',
             props: {
               colSpan: 8,
-            }
+            },
           },
           {
             key: 'acmgCodeIds',
@@ -129,17 +135,17 @@ const formFieldConfig: FormlyFieldConfig[] = [
           <CvcNccnGuidelineVersionFieldOptions>{
             key: 'nccnGuidelineVersion',
             type: 'nccn-guideline-version-input',
-            props: {}
+            props: {},
           },
           <CvcFdaRegulatoryApprovalCheckboxFieldOptions>{
             key: 'fdaRegulatoryApproval',
             type: 'fda-regulatory-approval-checkbox',
-            props: {}
+            props: {},
           },
           <CvcFdaCompanionTestCheckboxFieldOptions>{
             key: 'fdaCompanionTest',
             type: 'fda-companion-test-checkbox',
-            props: {}
+            props: {},
           },
           {
             key: 'evidenceItemIds',
@@ -147,7 +153,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               required: true,
               isMultiSelect: true,
-              colSpan: 24
+              colSpan: 24,
             },
           },
           {
@@ -155,12 +161,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'textarea',
             wrappers: ['form-field'],
             props: {
-              tooltip:
-                'A short, one sentence summary of the Assertion',
+              tooltip: 'A short, one sentence summary of the Assertion',
               placeholder: 'Enter an Assertion Summary',
               label: 'Assertion Summary',
               required: true,
-              colSpan: 24
+              colSpan: 24,
             },
           },
           {
@@ -173,8 +178,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter an Assertion Statement',
               label: 'Assertion Statement',
               required: true,
-              rows: 5 ,
-              colSpan: 24
+              rows: 5,
+              colSpan: 24,
             },
           },
         ],
@@ -191,7 +196,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
