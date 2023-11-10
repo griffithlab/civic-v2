@@ -202,10 +202,22 @@ export class CvcEvidenceSelectField
       selectOpen$: this.selectOpen$,
       selectComponent: this.selectComponent,
     })
-    this.onEid$.pipe(untilDestroyed(this)).subscribe()
+
+    this.onEid$
+      .pipe(
+        // tag('evidence-select onEid$'),
+        untilDestroyed(this)
+      )
+      .subscribe()
 
     // if form value exists on init, emit it so evidence manager will be updated
-    this.onEid$.next(this.formControl.value)
+    if (
+      this.formControl.value !== undefined &&
+      this.formControl.value.length !== 0
+    ) {
+      this.onEid$.next(this.formControl.value)
+    }
+
     this.onValueChange$
       .pipe(
         withLatestFrom(this.onEid$),
