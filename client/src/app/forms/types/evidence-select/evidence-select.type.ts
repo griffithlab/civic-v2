@@ -204,10 +204,7 @@ export class CvcEvidenceSelectField
     })
 
     this.onEid$
-      .pipe(
-        // tag('evidence-select onEid$'),
-        untilDestroyed(this)
-      )
+      .pipe(tag('evidence-select onEid$'), untilDestroyed(this))
       .subscribe()
 
     // if form value exists on init, emit it so evidence manager will be updated

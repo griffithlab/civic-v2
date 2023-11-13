@@ -1,0 +1,24 @@
+<nz-row [nzGutter]="wrapperOptions.gutter ?? null">
+  <!-- handle responsive & indexed configured formGroups -->
+  <ng-container
+    *ngIf="wrapperOptions.colSpanIndexed
+    || wrapperOptions.responsive
+    || wrapperOptions.responsiveIndexed; else defaultCol">
+    <ng-container *ngIf="wrapperOptions.colSpanIndexed">
+      <nz-col
+        *ngFor="let field of field.fieldGroup; index as i"
+        [nzSpan]="wrapperOptions.colSpanIndexed[i]">
+        <formly-field [field]="field"></formly-field>
+      </nz-col>
+    </ng-container>
+  </ng-container>
+
+  <!-- default config: single colSpan for every field-->
+  <ng-template #defaultCol>
+    <nz-col
+      *ngFor="let field of field.fieldGroup"
+      [nzSpan]="wrapperOptions.colSpan ?? null">
+      <formly-field [field]="field"></formly-field>
+    </nz-col>
+  </ng-template>
+</nz-row>
