@@ -5707,6 +5707,16 @@ type Query {
     before: String
 
     """
+    List of Entrez Gene IDs to return results for
+    """
+    entrezIds: [Int!]
+
+    """
+    List of Entrez Gene symbols to return results for
+    """
+    entrezSymbols: [String!]
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
