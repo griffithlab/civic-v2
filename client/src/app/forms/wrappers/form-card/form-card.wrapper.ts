@@ -43,7 +43,10 @@ export class CvcFormCardWrapper
 
   ngOnInit(): void {
     if (this.props.formCardOptions) {
-      this.wrapperOptions = { ...this.props.formCardOptions }
+      this.wrapperOptions = {
+        ...this.wrapperOptions,
+        ...this.props.formCardOptions,
+      }
     }
   }
 }

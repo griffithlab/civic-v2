@@ -98,7 +98,7 @@ export class CvcOrgSubmitButtonComponent
 
   ngOnInit(): void {
     // set defaults
-    // this.props.submitLabel = this.props.submitLabel || defaultProps.submitLabel
+    // this.props.submitLabel = this.props.submitLabel || defaultOptions.props.submitLabel
     this.menuSelection$
       .pipe(withLatestFrom(this.viewer$))
       .subscribe(([mroId, viewer]: [number, Viewer]) => {

@@ -23,7 +23,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          formCardOptions: { title: 'Revise Evidence Item' },
+          formCardOptions: { title: 'Revise Molecular Profile' },
         },
         fieldGroup: [
           {
