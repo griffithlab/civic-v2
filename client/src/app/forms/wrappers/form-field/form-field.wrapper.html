@@ -54,6 +54,8 @@
   #errorTpl
   let-control>
   <div class="cvc-form-field-validation">
-    <formly-validation-message [field]="field"></formly-validation-message>
+    <formly-validation-message
+      *ngIf="props.showErrorTip"
+      [field]="field"></formly-validation-message>
   </div>
 </ng-template>

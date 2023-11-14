@@ -52,6 +52,8 @@ export class CvcFormFieldWrapper
     // set field props defaults
     this.props.showExtra = this.props.showExtra ?? true
     this.props.extraType = this.props.extraType ?? 'prompt'
+    this.props.showErrorTip = this.props.showErrorTip ?? true
+
     // merge wrapper defaults with field config specified properties
     if (this.props.formFieldOptions) {
       this.wrapperOptions = {

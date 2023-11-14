@@ -74,10 +74,8 @@ export class MpFinderComponent {
               placeholder: 'Select MP Gene',
               hideLabel: true,
               showExtra: false,
+              showErrorTip: false,
               required: true,
-              layout: {
-                showExtra: false,
-              },
             },
           },
           <CvcVariantSelectFieldOption>{
@@ -88,10 +86,8 @@ export class MpFinderComponent {
               hideLabel: true,
               required: true,
               showExtra: false,
+              showErrorTip: false,
               requireGene: true,
-              layout: {
-                showExtra: false,
-              },
             },
           },
         ],

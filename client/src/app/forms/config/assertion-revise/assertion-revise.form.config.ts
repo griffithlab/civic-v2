@@ -42,7 +42,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-row'],
             props: <CvcFormRowWrapperProps>{
               formRowOptions: {
-                span: 12,
+                responsive: { xs: 24, xl: 12, xxl: 8 },
               },
             },
             fieldGroup: [
@@ -154,6 +154,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   colSpan: 24,
                 },
               },
+            ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 24,
+              },
+            },
+            fieldGroup: [
               {
                 key: 'summary',
                 type: 'textarea',
