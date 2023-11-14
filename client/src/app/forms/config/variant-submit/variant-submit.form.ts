@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { CvcFieldGridWrapperConfig } from '@app/forms/wrappers/field-grid/field-grid.wrapper'
 import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
 import { Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
@@ -20,6 +19,7 @@ import {
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { Apollo, gql } from 'apollo-angular'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 
 type VariantSubmitModel = {
   geneId?: number
@@ -75,10 +75,10 @@ export class VariantSubmitForm {
 
     this.config = [
       {
-        wrappers: ['field-grid'],
-        props: <CvcFieldGridWrapperConfig>{
-          grid: {
-            cols: 2,
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            colSpan: 12,
           },
         },
         fieldGroup: [
