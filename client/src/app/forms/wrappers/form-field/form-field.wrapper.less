@@ -33,6 +33,7 @@
 :host {
   > nz-form-item {
     border-radius: @item-border-radius;
+    margin-bottom: 0; // margins set by parent field-grid or field-card wrappers
     // defaults
     > nz-form-label {
       span.label {
@@ -117,7 +118,6 @@
 // vertical layout fields displayed in a block w/ bg color & border styles
 :host(.layout-vertical) {
   > nz-form-item {
-    margin-bottom: 0; // margins set by parent field-grid or field-card wrappers
     background-color: @default-bg-color;
     border: @default-border;
     padding: @item-padding;

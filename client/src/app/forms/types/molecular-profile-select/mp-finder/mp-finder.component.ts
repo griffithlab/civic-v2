@@ -2,12 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
-import { CvcFieldGridWrapperConfig } from '@app/forms/wrappers/field-grid/field-grid.wrapper'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { MolecularProfile, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
@@ -60,10 +59,10 @@ export class MpFinderComponent {
 
     this.config = [
       {
-        wrappers: ['field-grid'],
-        props: <CvcFieldGridWrapperConfig>{
-          grid: {
-            cols: 2,
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            colSpan: 12,
           },
         },
         fieldGroup: [
