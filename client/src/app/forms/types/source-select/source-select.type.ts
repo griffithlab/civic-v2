@@ -100,6 +100,7 @@ export class CvcSourceSelectField
   showTypeSelect$: Observable<boolean>
 
   defaultSourceType: SourceSource = SourceSource.Pubmed
+  initialDescription!: Maybe<string>
 
   // FieldTypeConfig defaults
   defaultOptions: CvcSourceSelectFieldOptions = {
@@ -115,8 +116,7 @@ export class CvcSourceSelectField
           return `Search ${sourceName} Sources`
         },
       },
-      // description: 'Choose  Source type and enter its ID to select an existing Source or add a Source',
-      
+      description: 'Select Source type, then enter its ID to search Sources',
     },
   }
 
@@ -161,6 +161,8 @@ export class CvcSourceSelectField
       minSearchStrLength: this.field.props.minSearchStrLength,
     })
 
+    this.initialDescription = this.props.description
+
     this.showTypeSelect$ = this.onValueChange$.pipe(
       map((value) => {
         if (!value || (value && Array.isArray(value))) return true
@@ -185,6 +187,14 @@ export class CvcSourceSelectField
         return { citationId: citationId, sourceType: sourceType }
       })
     )
+    // hide/show prompt when field is populated/undefined
+    this.onValueChange$.pipe(untilDestroyed(this)).subscribe((sourceId) => {
+      if (sourceId) {
+        this.props.description = undefined
+      } else {
+        this.props.description = this.initialDescription
+      }
+    })
   }
 
   getTypeaheadVarsFn(
