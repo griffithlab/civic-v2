@@ -62,6 +62,7 @@ export class MpFinderComponent {
         wrappers: ['form-row'],
         props: <CvcFormRowWrapperProps>{
           formRowOptions: {
+            gutter: [8, 0], // zero vertical margin ensures no top margins set on gene, variant select fields
             span: 12,
           },
         },

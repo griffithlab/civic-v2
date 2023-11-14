@@ -19,6 +19,7 @@ type ResponsiveColConfig = {
 type FormRowOptions = {
   // nz-row gutter
   gutter?: number | [number, number] | null
+  // NOTE: if gutter[1] (vertial gutter) is set to 0, row will receive no top margin (see mp-finder config)
   // nz-col's nzSpan, nzXs - nzXXl config applied to every field
   span?: string | number | null
   responsive?: ResponsiveColConfig
@@ -71,9 +72,15 @@ export class CvcFormRowWrapper
     // margins between them to match the horizontal gutter size between
     // enclosed column blocks. This logic attempts to equalize margins.
     if (Array.isArray(this.wrapperOptions.gutter)) {
-      this.topMargin = this.wrapperOptions.gutter[1] / 2 + 'px'
-    } else if (this.wrapperOptions.gutter) {
+      if (this.wrapperOptions.gutter[1] > 0) {
+        this.topMargin = this.wrapperOptions.gutter[1] / 2 + 'px'
+      } else {
+        this.topMargin = '0'
+      }
+    } else if (this.wrapperOptions.gutter && this.wrapperOptions.gutter > 0) {
       this.topMargin = this.wrapperOptions.gutter + 'px'
+    } else {
+      this.topMargin = '0'
     }
   }
 }
