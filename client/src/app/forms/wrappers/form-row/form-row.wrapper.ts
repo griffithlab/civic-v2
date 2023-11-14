@@ -18,23 +18,18 @@ type ResponsiveColConfig = {
 
 type FormRowOptions = {
   // nz-row gutter
-  gutter?:
-    | string
-    | number
-    | IndexableObject
-    | [number, number]
-    | [IndexableObject, IndexableObject]
-    | null
+  gutter?: number | [number, number] | null
   // nz-col's nzSpan, nzXs - nzXXl config applied to every field
-  colSpan?: string | number | null
-  // NOTE: only colSpan layouts are currently supported
+  span?: string | number | null
   responsive?: ResponsiveColConfig
+  flex?: string | number | null
   // nz-col's nzXs - nzXXl applied iteratively to each field
-  colSpanIndexed?: string[] | number[] | null
+  spanIndexed?: string[] | number[] | null
   responsiveIndexed?: ResponsiveColConfig[]
-  // NOTE: colSpanIndexed and responsiveIndexed arrays will iteratively
+  flexIndexed?: string[] | number[] | null
+  // NOTE: spanIndexed and responsiveIndexed arrays will iteratively
   // populate each fields' nz-col container attributes.
-  // e.g. colSpanIndexed[0] value will set the nzSpan attribute of
+  // e.g. spanIndexed[0] value will set the nzSpan attribute of
   // the nz-col containing the field at fieldGroup[0].
   // see nz-grid's API docs for details: https://ng.ant.design/components/grid/en#api
 }
@@ -45,7 +40,7 @@ export interface CvcFormRowWrapperProps extends FormlyFieldProps {
 
 const defaultWrapperOptions: FormRowOptions = {
   gutter: [8, 8],
-  colSpan: 24,
+  span: 24,
 }
 
 @Component({
@@ -59,6 +54,7 @@ export class CvcFormRowWrapper
   implements OnInit
 {
   wrapperOptions: FormRowOptions = { ...defaultWrapperOptions }
+  topMargin: string = '0'
 
   constructor() {
     super()
@@ -70,6 +66,14 @@ export class CvcFormRowWrapper
         ...this.wrapperOptions,
         ...this.props.formRowOptions,
       }
+    }
+    // form-row wrappers stacked on each other do not provide enough
+    // margins between them to match the horizontal gutter size between
+    // enclosed column blocks. This logic attempts to equalize margins.
+    if (Array.isArray(this.wrapperOptions.gutter)) {
+      this.topMargin = this.wrapperOptions.gutter[1] / 2 + 'px'
+    } else if (this.wrapperOptions.gutter) {
+      this.topMargin = this.wrapperOptions.gutter + 'px'
     }
   }
 }

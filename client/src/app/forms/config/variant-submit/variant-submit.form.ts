@@ -76,7 +76,7 @@ export class VariantSubmitForm {
         wrappers: ['form-row'],
         props: <CvcFormRowWrapperProps>{
           formRowOptions: {
-            colSpan: 12,
+            span: 12,
           },
         },
         fieldGroup: [

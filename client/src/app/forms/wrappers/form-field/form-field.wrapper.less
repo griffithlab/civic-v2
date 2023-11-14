@@ -33,6 +33,8 @@
 :host {
   > nz-form-item {
     border-radius: @item-border-radius;
+    margin-top: 8px;
+    margin-bottom: 0;
     // defaults
     > nz-form-label {
       span.label {
@@ -45,13 +47,15 @@
         }
       }
     }
-    // if field is child of form-row wrapper, remove bottom margin.
-    // margins will be applied with form-row's gutter settings
+
+    // handy selector for selecting fields contained by a form-row wrapper
     :host-context(.form-row-wrapped) {
       > nz-form-item {
-        margin-bottom: 0; // margins set by parent field-grid or field-card wrappers
+        margin-top: 0;
+        margin-bottom: 0;
       }
     }
+
     // required state
     &.required {
       > nz-form-label {
@@ -71,6 +75,7 @@
         }
       }
     }
+
     // error state
     &.error {
       > nz-form-label {
@@ -87,6 +92,7 @@
         }
       }
     }
+
     // valid state
     &.valid {
       > nz-form-label {
@@ -103,6 +109,7 @@
         }
       }
     }
+
     &.disabled {
       > nz-form-label {
         ::ng-deep label {

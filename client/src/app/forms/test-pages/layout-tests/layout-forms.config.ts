@@ -8,7 +8,7 @@ import { CvcTagInputOptions } from '../../types/tag-input/tag-input.type'
 import { CvcVariantSelectFieldConfig } from '../../types/variant-select/variant-select.type'
 import { CvcMolecularProfileSelectFieldConfig } from '../../types/molecular-profile-select/molecular-profile-select.type'
 import { CvcDiseaseSelectFieldConfig } from '../../types/disease-select/disease-select.type'
-import { CvcEntityTypeSelectFieldOptions } from '../../types/type-select/type-select.type'
+import { CvcEntityTypeSelectFieldConfig } from '../../types/type-select/type-select.type'
 
 export const noStateFormsModel = {
   geneId: undefined,
@@ -25,12 +25,12 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
     type: 'molecular-profile-multi-select',
     props: {},
   },
-  <CvcEntityTypeSelectFieldOptions>{
+  <CvcEntityTypeSelectFieldConfig>{
     key: 'evidenceType',
     type: 'type-select',
     props: {},
   },
-  <CvcEntityTypeSelectFieldOptions>{
+  <CvcEntityTypeSelectFieldConfig>{
     key: 'evidenceTypes',
     type: 'type-multi-select',
     props: {},

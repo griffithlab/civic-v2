@@ -40,10 +40,6 @@ const optionText: { [option: string]: string } = {
     'Evidence pertains to a variant that alters biological function from the reference state.',
 }
 
-export type CvcEntityTypeSelectFieldOptions = Partial<
-  FieldTypeConfig<CvcEntityTypeSelectFieldProps>
->
-
 interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
   label: string
   placeholder: string
@@ -56,7 +52,7 @@ interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
 
 export interface CvcEntityTypeSelectFieldConfig
   extends FormlyFieldConfig<CvcEntityTypeSelectFieldProps> {
-  type: 'type-select' | Type<CvcEntityTypeSelectField>
+  type: 'type-select' | 'type-multi-select' | Type<CvcEntityTypeSelectField>
 }
 
 const EntityTypeSelectMixin = mixin(
