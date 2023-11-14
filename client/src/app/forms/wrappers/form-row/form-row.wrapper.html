@@ -1,13 +1,44 @@
-<nz-row [nzGutter]="wrapperOptions.gutter ?? null">
+<nz-row
+  [nzGutter]="wrapperOptions.gutter ?? null"
+  class="form-row-wrapped">
   <!-- handle responsive & indexed configured formGroups -->
   <ng-container
     *ngIf="wrapperOptions.colSpanIndexed
     || wrapperOptions.responsive
     || wrapperOptions.responsiveIndexed; else defaultCol">
+    <!-- indexed colspan config -->
     <ng-container *ngIf="wrapperOptions.colSpanIndexed">
       <nz-col
         *ngFor="let field of field.fieldGroup; index as i"
         [nzSpan]="wrapperOptions.colSpanIndexed[i]">
+        <formly-field [field]="field"></formly-field>
+      </nz-col>
+    </ng-container>
+
+    <!-- responsive config -->
+    <ng-container *ngIf="wrapperOptions.responsive">
+      <nz-col
+        *ngFor="let field of field.fieldGroup; index as i"
+        [nzXs]="wrapperOptions.responsive.xs ?? null"
+        [nzSm]="wrapperOptions.responsive.sm ?? null"
+        [nzMd]="wrapperOptions.responsive.md ?? null"
+        [nzLg]="wrapperOptions.responsive.lg ?? null"
+        [nzXl]="wrapperOptions.responsive.xl ?? null"
+        [nzXXl]="wrapperOptions.responsive.xxl ?? null">
+        <formly-field [field]="field"></formly-field>
+      </nz-col>
+    </ng-container>
+
+    <!-- responsive, indexed config -->
+    <ng-container *ngIf="wrapperOptions.responsiveIndexed">
+      <nz-col
+        *ngFor="let field of field.fieldGroup; index as i"
+        [nzXs]="wrapperOptions.responsiveIndexed[i].xs ?? null"
+        [nzSm]="wrapperOptions.responsiveIndexed[i].sm ?? null"
+        [nzMd]="wrapperOptions.responsiveIndexed[i].md ?? null"
+        [nzLg]="wrapperOptions.responsiveIndexed[i].lg ?? null"
+        [nzXl]="wrapperOptions.responsiveIndexed[i].xl ?? null"
+        [nzXXl]="wrapperOptions.responsiveIndexed[i].xxl ?? null">
         <formly-field [field]="field"></formly-field>
       </nz-col>
     </ng-container>

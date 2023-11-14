@@ -7,6 +7,15 @@ import {
 import { IndexableObject } from 'ng-zorro-antd/core/types'
 import { EmbeddedProperty } from 'ng-zorro-antd/grid'
 
+type ResponsiveColConfig = {
+  xs?: string | number | EmbeddedProperty | null
+  sm?: string | number | EmbeddedProperty | null
+  md?: string | number | EmbeddedProperty | null
+  lg?: string | number | EmbeddedProperty | null
+  xl?: string | number | EmbeddedProperty | null
+  xxl?: string | number | EmbeddedProperty | null
+}
+
 type FormRowOptions = {
   // nz-row gutter
   gutter?:
@@ -18,10 +27,11 @@ type FormRowOptions = {
     | null
   // nz-col's nzSpan, nzXs - nzXXl config applied to every field
   colSpan?: string | number | null
-  responsive?: string | number | EmbeddedProperty | null
+  // NOTE: only colSpan layouts are currently supported
+  responsive?: ResponsiveColConfig
   // nz-col's nzXs - nzXXl applied iteratively to each field
   colSpanIndexed?: string[] | number[] | null
-  responsiveIndexed?: string[] | number[] | EmbeddedProperty[] | null
+  responsiveIndexed?: ResponsiveColConfig[]
   // NOTE: colSpanIndexed and responsiveIndexed arrays will iteratively
   // populate each fields' nz-col container attributes.
   // e.g. colSpanIndexed[0] value will set the nzSpan attribute of
@@ -35,7 +45,7 @@ export interface CvcFormRowWrapperProps extends FormlyFieldProps {
 
 const defaultWrapperOptions: FormRowOptions = {
   gutter: [8, 8],
-  colSpan: 12,
+  colSpan: 24,
 }
 
 @Component({

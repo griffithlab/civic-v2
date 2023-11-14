@@ -38,7 +38,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
         props: <CvcFormCardWrapperProps>{
           formCardOptions: {
             title: 'New Evidence Item',
-            gutter: [20, 20],
           },
         },
         fieldGroup: [

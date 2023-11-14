@@ -5,22 +5,13 @@ import { IndexableObject } from 'ng-zorro-antd/core/types'
 
 type FormCardOptions = {
   title?: string
-  gutter?:
-    | string
-    | number
-    | IndexableObject
-    | [number, number]
-    | [IndexableObject, IndexableObject]
-    | null
 }
 
 export interface CvcFormCardWrapperProps extends FormlyFieldProps {
   formCardOptions?: FormCardOptions
 }
 
-const defaultWrapperOptions: FormCardOptions = {
-  gutter: [8, 8],
-}
+const defaultWrapperOptions: FormCardOptions = {}
 
 @Component({
   selector: 'cvc-form-card',

@@ -1,13 +1,5 @@
-<nz-card
-  [nzTitle]="wrapperOptions.title"
-  [nzExtra]="cardExtra">
-  <nz-row [nzGutter]="wrapperOptions.gutter ?? null">
-    <nz-col
-      *ngFor="let field of field.fieldGroup"
-      [nzSpan]="field.props?.colSpan || 12">
-      <formly-field [field]="field"></formly-field>
-    </nz-col>
-  </nz-row>
+<nz-card [nzTitle]="wrapperOptions.title">
+  <formly-field
+    *ngFor="let field of field.fieldGroup"
+    [field]="field"></formly-field>
 </nz-card>
-
-<ng-template #cardExtra> </ng-template>

@@ -2,15 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
 import { Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 import {
   FormGene,
   FormMolecularProfile,

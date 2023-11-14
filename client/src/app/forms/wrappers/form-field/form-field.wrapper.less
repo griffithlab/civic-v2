@@ -33,7 +33,6 @@
 :host {
   > nz-form-item {
     border-radius: @item-border-radius;
-    margin-bottom: 0; // margins set by parent field-grid or field-card wrappers
     // defaults
     > nz-form-label {
       span.label {
@@ -44,6 +43,13 @@
         path {
           color: @default-icon-color;
         }
+      }
+    }
+    // if field is child of form-row wrapper, remove bottom margin.
+    // margins will be applied with form-row's gutter settings
+    :host-context(.form-row-wrapped) {
+      > nz-form-item {
+        margin-bottom: 0; // margins set by parent field-grid or field-card wrappers
       }
     }
     // required state
