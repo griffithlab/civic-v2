@@ -160,7 +160,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-row'],
             props: <CvcFormRowWrapperProps>{
               formRowOptions: {
-                span: 24,
+                spanIndexed: [8, 16],
               },
             },
             fieldGroup: [
@@ -173,7 +173,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   placeholder: 'Enter an Assertion Summary',
                   label: 'Assertion Summary',
                   required: true,
-                  colSpan: 24,
                 },
               },
               {
@@ -187,7 +186,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   label: 'Assertion Statement',
                   required: true,
                   rows: 5,
-                  colSpan: 24,
                 },
               },
             ],
