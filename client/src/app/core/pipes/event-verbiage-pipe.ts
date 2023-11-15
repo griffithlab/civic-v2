@@ -68,6 +68,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'deprecated molecular profile'
       case(EventAction.VariantCreated):
         return 'created variant'
+      case(EventAction.ComplexMolecularProfileCreated):
+        return 'created complex molecular profile'
       default:
         return a
     }
@@ -119,6 +121,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'molecular profile deprecated'
       case(EventAction.VariantCreated):
         return 'variant created'
+      case(EventAction.ComplexMolecularProfileCreated):
+        return 'complex molecular profile created'
       default:
         return a
     }
@@ -170,6 +174,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'deprecated this molecular profile'
       case(EventAction.VariantCreated):
         return 'created this variant'
+      case(EventAction.ComplexMolecularProfileCreated):
+        return 'created this complex molecular profile'
       default:
         return a
     }

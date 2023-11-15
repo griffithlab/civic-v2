@@ -28,6 +28,8 @@ module Types::Entities
     field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
     field :is_complex, Boolean, null: false
+    field :variant_creation_activity, Types::Activities::CreateVariantActivityType, null: true
+    field :complex_molecular_profile_creation_activity, Types::Activities::CreateComplexMolecularProfileActivityType, null: true
 
     def raw_name
       object.name
@@ -57,6 +59,14 @@ module Types::Entities
 
     def deprecation_activity
       Loaders::AssociationLoader.for(MolecularProfile, :deprecation_activity).load(object)
+    end
+
+    def variant_creation_activity
+      Loaders::AssociationLoader.for(MolecularProfile, :variant_creation_activity).load(object)
+    end
+
+    def complex_molecular_profile_creation_activity
+      Loaders::AssociationLoader.for(MolecularProfile, :complex_molecular_profile_creation_activity).load(object)
     end
 
     def assertions

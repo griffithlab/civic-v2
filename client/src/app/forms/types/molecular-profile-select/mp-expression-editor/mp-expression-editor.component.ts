@@ -14,6 +14,7 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component'
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   MpParseError,
   parseMolecularProfile,
@@ -31,6 +32,7 @@ import {
   MolecularProfile,
   MolecularProfileComponentInput,
   MpExpressionEditorPrepopulateGQL,
+  Organization,
   PreviewMolecularProfileName2GQL,
   PreviewMolecularProfileName2Query,
   PreviewMolecularProfileName2QueryVariables,
@@ -161,12 +163,17 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       description: 'KIT D816V must be absent.',
     },
   ]
+  
+  viewer$: Observable<Viewer>
+  mostRecentOrg$: Observable<Maybe<Organization>>
+  mostRecentOrgId: Maybe<number>
 
   constructor(
     private previewMpGql: PreviewMolecularProfileName2GQL,
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
     private mpEditorPrepopulate: MpExpressionEditorPrepopulateGQL,
-    private networkErrorService: NetworkErrorsService
+    private networkErrorService: NetworkErrorsService,
+    private viewerService: ViewerService,
   ) {
     this.createMolecularProfileMutator = new MutatorWithState(
       this.networkErrorService
@@ -185,9 +192,18 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     this.expressionSegment$ = new Subject<Maybe<PreviewMpName2Fragment[]>>()
     this.existingMp$ = new Subject<Maybe<MolecularProfile>>()
     // this.existingMp$.pipe(tag('existingMp$')).subscribe()
+    this.viewer$ = this.viewerService.viewer$
+    this.mostRecentOrg$ = this.viewer$.pipe(pluck('mostRecentOrg'))
   }
 
   ngAfterViewInit(): void {
+    this.mostRecentOrg$
+      .pipe(
+        untilDestroyed(this)
+      )
+      .subscribe((org) => {
+        this.mostRecentOrgId = org?.id
+      })
     this.onInputChange$
       .pipe(
         // tag('onInputChange$'),
@@ -343,7 +359,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
         if ('errorMessage' in res) return
         this.state = this.createMolecularProfileMutator.mutate(
           this.createMolecularProfileGql,
-          { mpStructure: res },
+          { mpStructure: res, organizationId: this.mostRecentOrgId },
           {},
           (data) => {
             setTimeout(() => {

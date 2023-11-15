@@ -9,6 +9,7 @@
     "ActivityInterface": [
       "AcceptRevisionsActivity",
       "CommentActivity",
+      "CreateComplexMolecularProfileActivity",
       "CreateVariantActivity",
       "DeprecateVariantActivity",
       "FlagEntityActivity",

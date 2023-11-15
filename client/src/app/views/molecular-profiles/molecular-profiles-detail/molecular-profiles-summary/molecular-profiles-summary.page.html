@@ -8,13 +8,39 @@
           <nz-descriptions
             nzSize="small"
             nzBordered="true"
-            [nzColumn]="1"
+            [nzColumn]="3"
             nzLayout="vertical">
             <nz-descriptions-item
-              nzTitle="MP Expression"
-              [nzSpan]="1">
+              nzTitle="MP Expression">
               <cvc-mp-tag-name [nameSegments]="mp.parsedName"></cvc-mp-tag-name>
             </nz-descriptions-item>
+            <ng-container *ngIf="mp.complexMolecularProfileCreationActivity">
+              <nz-descriptions-item [nzTitle]="createdTitle">
+                by
+                <cvc-user-tag [user]="mp.complexMolecularProfileCreationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #createdTitle>
+                Created
+                <span nz-typography
+                  nzType="secondary">
+                  ({{ mp.complexMolecularProfileCreationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="mp.deprecationActivity">
+              <nz-descriptions-item
+                [nzTitle]="deprecatedTitle">
+                by
+                <cvc-user-tag [user]="mp.deprecationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #deprecatedTitle>
+                Deprecated
+                <span nz-typography
+                  nzType="secondary">
+                  ({{ mp.deprecationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
           </nz-descriptions>
         </nz-col>
         <nz-col [nzSpan]="24">
