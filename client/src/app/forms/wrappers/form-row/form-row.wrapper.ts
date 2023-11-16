@@ -71,6 +71,8 @@ export class CvcFormRowWrapper
     // form-row wrappers stacked on each other do not provide enough
     // margins between them to match the horizontal gutter size between
     // enclosed column blocks. This logic attempts to equalize margins.
+    // NOTE: setting horizontal gutter to zero (e.g. gutter: [8,0]) sets
+    // top margin to zero - do this for one-line forms like variant-quick-add, mp-finder
     if (Array.isArray(this.wrapperOptions.gutter)) {
       if (this.wrapperOptions.gutter[1] > 0) {
         this.topMargin = this.wrapperOptions.gutter[1] / 2 + 'px'
