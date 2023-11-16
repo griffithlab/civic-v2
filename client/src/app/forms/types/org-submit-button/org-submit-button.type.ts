@@ -34,6 +34,7 @@ import {
 
 interface CvcOrgSubmitButtonProps extends FormlyFieldProps {
   submitLabel: string
+  align?: 'left' | 'right' | 'center'
 }
 
 export interface CvcOrgSubmitButtonFieldConfig
