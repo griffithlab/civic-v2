@@ -9,7 +9,7 @@ import { CvcTextareaField } from './textarea.type'
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'textarea',
+      name: 'base-textarea',
       component: CvcTextareaField,
       wrappers: ['form-field'],
     },

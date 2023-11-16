@@ -29,7 +29,9 @@ import mixin from 'ts-mixin-extended'
 export type CvcBaseInputFieldOptions = Partial<
   FieldTypeConfig<CvcClinvarInputFieldProps>
 >
-export interface CvcClinvarInputFieldProps extends FormlyFieldProps {}
+export interface CvcClinvarInputFieldProps extends FormlyFieldProps {
+  description?: string
+}
 
 export interface CvcBaseInputFieldConfig
   extends FormlyFieldConfig<CvcClinvarInputFieldProps> {
@@ -61,6 +63,8 @@ export class CvcClinvarInputField
     props: {
       label: 'Enter value',
       placeholder: 'Enter value and hit Return',
+      description:
+        'Specify if Clinvar IDs exist, or if they are not applicable for this variant.',
     },
   }
 

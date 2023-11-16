@@ -22,7 +22,7 @@ export interface CvcTextAreaFieldProps extends FormlyFieldProps {
 
 export interface FormlyTextAreaFieldConfig
   extends FormlyFieldConfig<CvcTextAreaFieldProps> {
-  type: 'textarea' | Type<CvcTextareaField>
+  type: 'base-textarea' | Type<CvcTextareaField>
 }
 
 const TextareaMixin = mixin(

@@ -22,7 +22,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      showDevPanel: true,
+      showDevPanel: false,
     },
     fieldGroup: [
       {
@@ -42,7 +42,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-row'],
             props: <CvcFormRowWrapperProps>{
               formRowOptions: {
-                responsive: { xs: 24, xl: 12, xxl: 8 },
+                span: 24,
               },
             },
             fieldGroup: [
@@ -54,6 +54,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
                   watchVariantMolecularProfileId: true,
                 },
               },
+            ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsive: { xs: 24, lg: 12, xl: 8, xxl: 6 },
+              },
+            },
+            fieldGroup: [
               <CvcEntityTypeSelectFieldConfig>{
                 key: 'assertionType',
                 type: 'type-select',
@@ -107,23 +117,17 @@ const formFieldConfig: FormlyFieldConfig[] = [
               {
                 key: 'ampLevel',
                 type: 'amp-category-select',
-                props: {
-                  colSpan: 8,
-                },
+                props: {},
               },
               {
                 key: 'acmgCodeIds',
                 type: 'acmg-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
+                props: {},
               },
               {
                 key: 'clingenCodeIds',
                 type: 'clingen-code-multi-select',
-                props: {
-                  colSpan: 8,
-                },
+                props: {},
               },
               <CvcNccnGuidelineSelectFieldOptions>{
                 key: 'nccnGuidelineId',
@@ -145,29 +149,39 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'fda-companion-test-checkbox',
                 props: {},
               },
-              {
-                key: 'evidenceItemIds',
-                type: 'evidence-multi-select',
-                props: {
-                  required: true,
-                  isMultiSelect: true,
-                  colSpan: 24,
-                },
-              },
             ],
           },
           {
             wrappers: ['form-row'],
             props: <CvcFormRowWrapperProps>{
               formRowOptions: {
-                spanIndexed: [8, 16],
+                responsiveIndexed: [
+                  {
+                    xs: 24,
+                  },
+                  {
+                    md: 24,
+                    lg: 8,
+                  },
+                  {
+                    md: 24,
+                    lg: 16,
+                  },
+                ],
               },
             },
             fieldGroup: [
               {
+                key: 'evidenceItemIds',
+                type: 'evidence-multi-select',
+                props: {
+                  required: true,
+                  isMultiSelect: true,
+                },
+              },
+              {
                 key: 'summary',
-                type: 'textarea',
-                wrappers: ['form-field'],
+                type: 'base-textarea',
                 props: {
                   tooltip: 'A short, one sentence summary of the Assertion',
                   placeholder: 'Enter an Assertion Summary',
@@ -177,8 +191,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               },
               {
                 key: 'description',
-                type: 'textarea',
-                wrappers: ['form-field'],
+                type: 'base-textarea',
                 props: {
                   tooltip:
                     'A complete, original description of this Assertion. Limited to one paragraph.',
@@ -193,7 +206,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
@@ -211,6 +229,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'org-submit-button',
             props: {
               submitLabel: 'Submit Revisions',
+              align: 'right',
             },
           },
         ],

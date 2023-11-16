@@ -2,12 +2,24 @@
   <nz-row
     [nzGutter]="wrapperOptions.gutter ?? null"
     class="form-row-wrapped">
-    <!-- handle responsive & indexed configured formGroups -->
+    <!-- default span cols, same span val for every wrapper col -->
+    <ng-template #defaultCol>
+      <nz-col
+        *ngFor="let field of field.fieldGroup"
+        [nzSpan]="wrapperOptions.span ?? null">
+        <formly-field [field]="field"></formly-field>
+      </nz-col>
+    </ng-template>
+
+    <!-- flex, responsive & indexed col layouts -->
     <ng-container
-      *ngIf="wrapperOptions.spanIndexed
-    || wrapperOptions.responsive
-    || wrapperOptions.responsiveIndexed; else defaultCol">
-      <!-- flex config -->
+      *ngIf="wrapperOptions.flex
+          || wrapperOptions.flexIndexed
+          || wrapperOptions.spanIndexed
+          || wrapperOptions.responsive
+          || wrapperOptions.responsiveIndexed;
+          else defaultCol">
+      <!-- flex cols, same flex val for every wrapper col -->
       <ng-container *ngIf="wrapperOptions.flex">
         <nz-col
           *ngFor="let field of field.fieldGroup"
@@ -16,7 +28,7 @@
         </nz-col>
       </ng-container>
 
-      <!-- responsive config -->
+      <!-- responsive cols -->
       <ng-container *ngIf="wrapperOptions.responsive">
         <nz-col
           *ngFor="let field of field.fieldGroup"
@@ -30,7 +42,7 @@
         </nz-col>
       </ng-container>
 
-      <!-- indexed colspan config -->
+      <!-- indexed span cols -->
       <ng-container *ngIf="wrapperOptions.spanIndexed">
         <nz-col
           *ngFor="let field of field.fieldGroup; index as i"
@@ -39,7 +51,7 @@
         </nz-col>
       </ng-container>
 
-      <!-- responsive, indexed config -->
+      <!-- indexed responsive cols -->
       <ng-container *ngIf="wrapperOptions.responsiveIndexed">
         <nz-col
           *ngFor="let field of field.fieldGroup; index as i"
@@ -52,15 +64,15 @@
           <formly-field [field]="field"></formly-field>
         </nz-col>
       </ng-container>
-    </ng-container>
 
-    <!-- default config: single span for every field-->
-    <ng-template #defaultCol>
-      <nz-col
-        *ngFor="let field of field.fieldGroup"
-        [nzSpan]="wrapperOptions.span ?? null">
-        <formly-field [field]="field"></formly-field>
-      </nz-col>
-    </ng-template>
+      <!-- indexed flex cols -->
+      <ng-container *ngIf="wrapperOptions.flexIndexed">
+        <nz-col
+          *ngFor="let field of field.fieldGroup; index as i"
+          [nzFlex]="wrapperOptions.flexIndexed[i]">
+          <formly-field [field]="field"></formly-field>
+        </nz-col>
+      </ng-container>
+    </ng-container>
   </nz-row>
 </div>

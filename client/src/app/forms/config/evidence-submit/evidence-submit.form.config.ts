@@ -3,6 +3,8 @@ import { CvcDirectionSelectFieldOptions } from '@app/forms/types/direction-selec
 import { CvcDiseaseSelectFieldOptions } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms/types/interaction-select/interaction-select.type'
 import { CvcLevelSelectFieldOptions } from '@app/forms/types/level-select/level-select.type'
+import { CvcMolecularProfileSelectFieldConfig } from '@app/forms/types/molecular-profile-select/molecular-profile-select.type'
+import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-button/org-submit-button.type'
 import { CvcOriginSelectFieldOptions } from '@app/forms/types/origin-select/origin-select.type'
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcRatingFieldOptions } from '@app/forms/types/rating/rating.type'
@@ -33,9 +35,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
           hidden: true,
         },
       },
-
-      // form-card wraps the form fields in a card, providing a
-      // place to put a title, and other controls e.g. form options, status
       {
         key: 'fields',
         wrappers: ['form-card'],
@@ -49,7 +48,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-row'],
             props: <CvcFormRowWrapperProps>{
               formRowOptions: {
-                span: 12,
+                span: 24,
               },
             },
             fieldGroup: [
@@ -68,6 +67,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'source-select',
                 props: { required: true },
               },
+            ],
+          },
+          {
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsive: { xs: 24, lg: 12, xl: 8, xxl: 6 },
+              },
+            },
+            fieldGroup: [
               <CvcEntityTypeSelectFieldConfig>{
                 key: 'evidenceType',
                 type: 'type-select',
@@ -142,8 +151,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             fieldGroup: [
               {
                 key: 'description',
-                type: 'textarea',
-                wrappers: ['form-field'],
+                type: 'base-textarea',
                 props: {
                   tooltip:
                     'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. ',
@@ -159,11 +167,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
-            type: 'textarea',
+            type: 'base-textarea',
             props: {
               label: 'Comment',
               required: false,
@@ -173,11 +186,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
           {
             type: 'cvc-cancel-button',
           },
-          {
+          <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
               submitLabel: 'Submit Evidence Item',
+              align: 'right',
             },
           },
         ],
