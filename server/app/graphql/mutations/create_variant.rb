@@ -1,8 +1,8 @@
-class Mutations::AddVariant < Mutations::BaseMutation
-  description 'Add a new Variant to the database.'
+class Mutations::CreateVariant < Mutations::MutationWithOrg
+  description 'Create a new Variant to the database.'
 
   argument :name, String, required: true,
-    description: 'The name of the variant to add.',
+    description: 'The name of the variant to create.',
     validates: { allow_blank: false }
 
   argument :gene_id, Int, required: true,
@@ -17,8 +17,9 @@ class Mutations::AddVariant < Mutations::BaseMutation
   field :new, Boolean, null: false,
     description: 'True if the variant was newly created. False if the returned variant was already in the database.'
 
-  def ready?(gene_id:, **kwargs)
+  def ready?(gene_id:, organization_id: nil, **kwargs)
     validate_user_logged_in
+    validate_user_org(organization_id)
 
     if Gene.find_by(id: gene_id).blank?
       raise GraphQL::ExecutionError, "Gene with id #{gene_id} doesn't exist."
@@ -27,7 +28,12 @@ class Mutations::AddVariant < Mutations::BaseMutation
     return true
   end
 
-  def resolve(name:, gene_id:)
+  def authorized?(organization_id: nil, **kwargs)
+    validate_user_acting_as_org(user: context[:current_user], organization_id: organization_id)
+    return true
+  end
+
+  def resolve(name:, gene_id:, organization_id: nil)
     existing_variant = Variant.joins(:variant_aliases).where(gene_id: gene_id)
       .where('variants.name ILIKE ?', name)
       .or(Variant.joins(:variant_aliases).where(gene_id: gene_id).where('variant_aliases.name ILIKE ?', name))
@@ -41,7 +47,12 @@ class Mutations::AddVariant < Mutations::BaseMutation
       }
 
     else
-      cmd = Actions::CreateVariant.new(variant_name: name, gene_id: gene_id)
+      cmd = Activities::CreateVariant.new(
+        variant_name: name,
+        gene_id: gene_id,
+        originating_user: context[:current_user],
+        organization_id: organization_id,
+      )
 
       res = cmd.perform
 

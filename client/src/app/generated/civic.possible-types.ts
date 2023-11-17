@@ -9,6 +9,7 @@
     "ActivityInterface": [
       "AcceptRevisionsActivity",
       "CommentActivity",
+      "CreateVariantActivity",
       "DeprecateVariantActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",
