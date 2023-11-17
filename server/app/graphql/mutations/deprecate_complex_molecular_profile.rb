@@ -31,7 +31,7 @@ class Mutations::DeprecateComplexMolecularProfile < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Molecular Profile is already deprecated."
     end
 
-    if molecular_profile.variants.count == 1
+    if !molecular_profile.is_complex?
       raise GraphQL::ExecutionError, "Molecular Profile is not a complex molecular profile. Deprecate single variant molecular profiles by deprecating the Variant."
     end
 
