@@ -461,6 +461,13 @@ export const civicMolecularprofileFullcolor: {
   name: 'molecularprofileFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E0F4E6" cx="512" cy="512" r="448"/><path fill="#33B358" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm-17.4 72.4V494H136.4c9.1-193.6 164.7-348.9 358.2-357.6zm36 751.2V530h357c-9 193.1-164 348.3-357 357.6z"/></svg>`
 };
+export const civicNccnguidelineFullcolor: {
+  name: 'nccnguidelineFullcolor';
+  data: string;
+} = {
+  name: 'nccnguidelineFullcolor',
+  data: `<svg viewBox="0 0 1024 1024"><path fill="#E6E6ED" d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32z"/><path fill="#49566D" d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656zM275.2 247.1h65.4l84.9 150.7h.7V247.1h59.9v244.5h-65.4l-84.9-152.4h-.7v152.4h-59.9V247.1zm416.7 87.3c-3.4-24.7-22.6-37.7-49.3-37.7-41.1 0-56.8 36.3-56.8 72.6s15.8 72.6 56.8 72.6c29.8 0 46.9-17.1 49.3-45.2h63.7c-3.4 63-49.7 100-111.6 100-74 0-121.9-56.5-121.9-127.4S570 241.9 644 241.9c52.7 0 109.9 33.6 111.6 92.5h-63.7zM438.2 619.7c-3.4-24.7-22.6-37.7-49.3-37.7-41.1 0-56.8 36.3-56.8 72.6s15.8 72.6 56.8 72.6c29.8 0 46.9-17.1 49.3-45.2h63.7c-3.4 63-49.7 100-111.6 100-74 0-121.9-56.5-121.9-127.4s47.9-127.4 121.9-127.4c52.7 0 109.9 33.6 111.6 92.5h-63.7zm96.9-87.3h65.4l84.9 150.7h.7V532.4H746v244.5h-65.4l-84.9-152.4h-.7v152.4h-59.9V532.4z"/></svg>`
+};
 export const civicOrganizationFullcolor: {
   name: 'organizationFullcolor';
   data: string;
@@ -636,6 +643,13 @@ export const civicMolecularprofileOutline: {
   name: 'molecularprofileOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm-17.4 72.4V494H136.4c9.1-193.6 164.7-348.9 358.2-357.6zm36 751.2V530h357c-9 193.1-164 348.3-357 357.6z"/></svg>`
 };
+export const civicNccnguidelineOutline: {
+  name: 'nccnguidelineOutline';
+  data: string;
+} = {
+  name: 'nccnguidelineOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656zM275.2 247.1h65.4l84.9 150.7h.7V247.1h59.9v244.5h-65.4l-84.9-152.4h-.7v152.4h-59.9V247.1zm416.7 87.3c-3.4-24.7-22.6-37.7-49.3-37.7-41.1 0-56.8 36.3-56.8 72.6s15.8 72.6 56.8 72.6c29.8 0 46.9-17.1 49.3-45.2h63.7c-3.4 63-49.7 100-111.6 100-74 0-121.9-56.5-121.9-127.4S570 241.9 644 241.9c52.7 0 109.9 33.6 111.6 92.5h-63.7zM438.2 619.7c-3.4-24.7-22.6-37.7-49.3-37.7-41.1 0-56.8 36.3-56.8 72.6s15.8 72.6 56.8 72.6c29.8 0 46.9-17.1 49.3-45.2h63.7c-3.4 63-49.7 100-111.6 100-74 0-121.9-56.5-121.9-127.4s47.9-127.4 121.9-127.4c52.7 0 109.9 33.6 111.6 92.5h-63.7zm96.9-87.3h65.4l84.9 150.7h.7V532.4H746v244.5h-65.4l-84.9-152.4h-.7v152.4h-59.9V532.4z"/></svg>`
+};
 export const civicOrganizationOutline: {
   name: 'organizationOutline';
   data: string;
@@ -804,6 +818,13 @@ export const civicMolecularprofileTwotone: {
   name: 'molecularprofileTwotone',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6E6E6" cx="512" cy="512" r="448"/><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm-17.4 72.4V494H136.4c9.1-193.6 164.7-348.9 358.2-357.6zm36 751.2V530h357c-9 193.1-164 348.3-357 357.6z"/></svg>`
 };
+export const civicNccnguidelineTwotone: {
+  name: 'nccnguidelineTwotone';
+  data: string;
+} = {
+  name: 'nccnguidelineTwotone',
+  data: `<svg viewBox="0 0 1024 1024"><path fill="#333" d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656zM275.2 247.1h65.4l84.9 150.7h.7V247.1h59.9v244.5h-65.4l-84.9-152.4h-.7v152.4h-59.9V247.1zm416.7 87.3c-3.4-24.7-22.6-37.7-49.3-37.7-41.1 0-56.8 36.3-56.8 72.6s15.8 72.6 56.8 72.6c29.8 0 46.9-17.1 49.3-45.2h63.7c-3.4 63-49.7 100-111.6 100-74 0-121.9-56.5-121.9-127.4S570 241.9 644 241.9c52.7 0 109.9 33.6 111.6 92.5h-63.7zM438.2 619.7c-3.4-24.7-22.6-37.7-49.3-37.7-41.1 0-56.8 36.3-56.8 72.6s15.8 72.6 56.8 72.6c29.8 0 46.9-17.1 49.3-45.2h63.7c-3.4 63-49.7 100-111.6 100-74 0-121.9-56.5-121.9-127.4s47.9-127.4 121.9-127.4c52.7 0 109.9 33.6 111.6 92.5h-63.7zm96.9-87.3h65.4l84.9 150.7h.7V532.4H746v244.5h-65.4l-84.9-152.4h-.7v152.4h-59.9V532.4z"/></svg>`
+};
 export const civicOrganizationTwotone: {
   name: 'organizationTwotone';
   data: string;
@@ -941,6 +962,7 @@ export type CivicIcon =
   | 'flagFullcolor'
   | 'geneFullcolor'
   | 'molecularprofileFullcolor'
+  | 'nccnguidelineFullcolor'
   | 'organizationFullcolor'
   | 'phenotypeFullcolor'
   | 'queueFullcolor'
@@ -966,6 +988,7 @@ export type CivicIcon =
   | 'flagOutline'
   | 'geneOutline'
   | 'molecularprofileOutline'
+  | 'nccnguidelineOutline'
   | 'organizationOutline'
   | 'phenotypeOutline'
   | 'queueOutline'
@@ -990,6 +1013,7 @@ export type CivicIcon =
   | 'flagTwotone'
   | 'geneTwotone'
   | 'molecularprofileTwotone'
+  | 'nccnguidelineTwotone'
   | 'organizationTwotone'
   | 'phenotypeTwotone'
   | 'queueTwotone'
@@ -1067,6 +1091,7 @@ export const CivicIcon = {
   flagFullcolor: 'flagFullcolor' as CivicIcon,
   geneFullcolor: 'geneFullcolor' as CivicIcon,
   molecularprofileFullcolor: 'molecularprofileFullcolor' as CivicIcon,
+  nccnguidelineFullcolor: 'nccnguidelineFullcolor' as CivicIcon,
   organizationFullcolor: 'organizationFullcolor' as CivicIcon,
   phenotypeFullcolor: 'phenotypeFullcolor' as CivicIcon,
   queueFullcolor: 'queueFullcolor' as CivicIcon,
@@ -1092,6 +1117,7 @@ export const CivicIcon = {
   flagOutline: 'flagOutline' as CivicIcon,
   geneOutline: 'geneOutline' as CivicIcon,
   molecularprofileOutline: 'molecularprofileOutline' as CivicIcon,
+  nccnguidelineOutline: 'nccnguidelineOutline' as CivicIcon,
   organizationOutline: 'organizationOutline' as CivicIcon,
   phenotypeOutline: 'phenotypeOutline' as CivicIcon,
   queueOutline: 'queueOutline' as CivicIcon,
@@ -1116,6 +1142,7 @@ export const CivicIcon = {
   flagTwotone: 'flagTwotone' as CivicIcon,
   geneTwotone: 'geneTwotone' as CivicIcon,
   molecularprofileTwotone: 'molecularprofileTwotone' as CivicIcon,
+  nccnguidelineTwotone: 'nccnguidelineTwotone' as CivicIcon,
   organizationTwotone: 'organizationTwotone' as CivicIcon,
   phenotypeTwotone: 'phenotypeTwotone' as CivicIcon,
   queueTwotone: 'queueTwotone' as CivicIcon,
@@ -1201,6 +1228,7 @@ export const completeIconSet = [
   civicFlagFullcolor,
   civicGeneFullcolor,
   civicMolecularprofileFullcolor,
+  civicNccnguidelineFullcolor,
   civicOrganizationFullcolor,
   civicPhenotypeFullcolor,
   civicQueueFullcolor,
@@ -1226,6 +1254,7 @@ export const completeIconSet = [
   civicFlagOutline,
   civicGeneOutline,
   civicMolecularprofileOutline,
+  civicNccnguidelineOutline,
   civicOrganizationOutline,
   civicPhenotypeOutline,
   civicQueueOutline,
@@ -1250,6 +1279,7 @@ export const completeIconSet = [
   civicFlagTwotone,
   civicGeneTwotone,
   civicMolecularprofileTwotone,
+  civicNccnguidelineTwotone,
   civicOrganizationTwotone,
   civicPhenotypeTwotone,
   civicQueueTwotone,
