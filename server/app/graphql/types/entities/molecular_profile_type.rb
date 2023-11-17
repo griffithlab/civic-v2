@@ -23,8 +23,10 @@ module Types::Entities
     field :description, String, null: true
     field :molecular_profile_aliases, [String], null: false
     field :deprecated, Boolean, null: false
+    field :deprecation_reason, Types::MolecularProfileDeprecationReasonType, null: true
     field :deprecated_variants, [Types::Entities::VariantType], null: false
-    field :deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
+    field :variant_deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
+    field :complex_molecular_profile_deprecation_activity, Types::Activities::DeprecateComplexMolecularProfileActivityType, null: true
     field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
     field :is_complex, Boolean, null: false
@@ -53,12 +55,16 @@ module Types::Entities
       Loaders::AssociationLoader.for(MolecularProfile, :variants).load(object)
     end
 
-    def deprecated_variant
+    def deprecated_variants
       Loaders::AssociationLoader.for(MolecularProfile, :deprecated_variants).load(object)
     end
 
-    def deprecation_activity
-      Loaders::AssociationLoader.for(MolecularProfile, :deprecation_activity).load(object)
+    def variant_deprecation_activity
+      Loaders::AssociationLoader.for(MolecularProfile, :variant_deprecation_activity).load(object)
+    end
+
+    def complex_molecular_profile_deprecation_activity
+      Loaders::AssociationLoader.for(MolecularProfile, :complex_molecular_profile_deprecation_activity).load(object)
     end
 
     def variant_creation_activity

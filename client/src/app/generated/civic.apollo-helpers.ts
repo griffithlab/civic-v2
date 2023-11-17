@@ -596,6 +596,23 @@ export type DataReleaseFieldPolicy = {
 	variantGroupTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTsv?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DeprecateComplexMolecularProfileActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | DeprecateComplexMolecularProfileActivityKeySpecifier)[];
+export type DeprecateComplexMolecularProfileActivityFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DeprecateComplexMolecularProfilePayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | DeprecateComplexMolecularProfilePayloadKeySpecifier)[];
+export type DeprecateComplexMolecularProfilePayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DeprecateVariantActivityKeySpecifier = ('createdAt' | 'events' | 'id' | 'molecularProfiles' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | DeprecateVariantActivityKeySpecifier)[];
 export type DeprecateVariantActivityFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1015,14 +1032,15 @@ export type ModeratedObjectFieldFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MolecularProfileKeySpecifier = ('assertions' | 'comments' | 'complexMolecularProfileCreationActivity' | 'deprecated' | 'deprecatedVariants' | 'deprecationActivity' | 'description' | 'events' | 'evidenceCountsByStatus' | 'evidenceItems' | 'flagged' | 'flags' | 'id' | 'isComplex' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfileAliases' | 'molecularProfileScore' | 'name' | 'parsedName' | 'rawName' | 'revisions' | 'sources' | 'variantCreationActivity' | 'variants' | MolecularProfileKeySpecifier)[];
+export type MolecularProfileKeySpecifier = ('assertions' | 'comments' | 'complexMolecularProfileCreationActivity' | 'complexMolecularProfileDeprecationActivity' | 'deprecated' | 'deprecatedVariants' | 'deprecationReason' | 'description' | 'events' | 'evidenceCountsByStatus' | 'evidenceItems' | 'flagged' | 'flags' | 'id' | 'isComplex' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfileAliases' | 'molecularProfileScore' | 'name' | 'parsedName' | 'rawName' | 'revisions' | 'sources' | 'variantCreationActivity' | 'variantDeprecationActivity' | 'variants' | MolecularProfileKeySpecifier)[];
 export type MolecularProfileFieldPolicy = {
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	complexMolecularProfileCreationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	complexMolecularProfileDeprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecatedVariants?: FieldPolicy<any> | FieldReadFunction<any>,
-	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceCountsByStatus?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1043,6 +1061,7 @@ export type MolecularProfileFieldPolicy = {
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantCreationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantDeprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MolecularProfileAliasKeySpecifier = ('name' | MolecularProfileAliasKeySpecifier)[];
@@ -1078,7 +1097,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createMolecularProfile' | 'createVariant' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1087,6 +1106,7 @@ export type MutationFieldPolicy = {
 	addTherapy?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	createVariant?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecateComplexMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecateVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	editUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2233,6 +2253,14 @@ export type StrictTypedTypePolicies = {
 	DataRelease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DataReleaseKeySpecifier | (() => undefined | DataReleaseKeySpecifier),
 		fields?: DataReleaseFieldPolicy,
+	},
+	DeprecateComplexMolecularProfileActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeprecateComplexMolecularProfileActivityKeySpecifier | (() => undefined | DeprecateComplexMolecularProfileActivityKeySpecifier),
+		fields?: DeprecateComplexMolecularProfileActivityFieldPolicy,
+	},
+	DeprecateComplexMolecularProfilePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeprecateComplexMolecularProfilePayloadKeySpecifier | (() => undefined | DeprecateComplexMolecularProfilePayloadKeySpecifier),
+		fields?: DeprecateComplexMolecularProfilePayloadFieldPolicy,
 	},
 	DeprecateVariantActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeprecateVariantActivityKeySpecifier | (() => undefined | DeprecateVariantActivityKeySpecifier),

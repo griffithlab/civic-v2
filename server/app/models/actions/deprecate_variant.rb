@@ -30,6 +30,7 @@ module Actions
           raise "Molecular Profile #{mp.id} can't be deprecated because it has evidence items that are in accepted or submitted state."
         elsif !mp.deprecated
           mp.deprecated = true
+          mp.deprecation_reason = 'variant_deprecated'
           mp.save!
           newly_deprecated_molecular_profiles.append(mp)
         end

@@ -24,6 +24,7 @@ module Types
 
     #deprecation
     field :deprecate_variant, mutation: Mutations::DeprecateVariant
+    field :deprecate_complex_molecular_profile, mutation: Mutations::DeprecateComplexMolecularProfile
 
     #molecular profiles
     field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile

@@ -11,6 +11,7 @@
       "CommentActivity",
       "CreateComplexMolecularProfileActivity",
       "CreateVariantActivity",
+      "DeprecateComplexMolecularProfileActivity",
       "DeprecateVariantActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",

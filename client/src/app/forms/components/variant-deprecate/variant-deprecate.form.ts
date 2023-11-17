@@ -9,7 +9,7 @@ import {
   DeprecateVariantGQL,
   DeprecateVariantMutation,
   DeprecateVariantMutationVariables,
-  DeprecationReason,
+  VariantDeprecationReason,
   Maybe,
   MolecularProfilesForVariantGQL,
   Organization,
@@ -53,7 +53,7 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
   viewer$: Observable<Viewer>
 
   comment: string = ''
-  reason: Maybe<DeprecationReason>
+  reason: Maybe<VariantDeprecationReason>
   selectedOrg: Maybe<Organization>
 
   mpsToDeprecate$?: Observable<LinkableMolecularProfile[]>
