@@ -42,4 +42,11 @@ class Gene < ActiveRecord::Base
         .count
     }
   end
+
+  def editable_fields
+    [
+      :description,
+      :source_ids
+    ]
+  end
 end

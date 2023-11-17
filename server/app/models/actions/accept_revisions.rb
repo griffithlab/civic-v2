@@ -2,14 +2,13 @@ class Actions::AcceptRevisions
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :revisions, :accepting_user, :organization_id, :subject, :superseded_revisions, :comment
+  attr_reader :revisions, :accepting_user, :organization_id, :subject, :superseded_revisions
 
-  def initialize(revisions:, accepting_user:, organization_id: nil, comment: nil)
+  def initialize(revisions:, accepting_user:, organization_id: nil )
     @revisions = revisions
     @accepting_user = accepting_user
     @organization_id = organization_id
     @subject = revisions.first.subject
-    @comment = comment
   end
 
   def execute
@@ -26,16 +25,6 @@ class Actions::AcceptRevisions
       revision.save!
       supersede_conflicting_revisions(revision)
       create_event(revision)
-      unless comment.nil?
-        cmd = Actions::AddComment.new(
-          title: "",
-          body: comment,
-          commenter: accepting_user,
-          commentable: revision,
-          organization_id: organization_id
-        )
-        cmd.perform
-      end
     end
 
     subject.on_revision_accepted
@@ -50,7 +39,7 @@ class Actions::AcceptRevisions
     superseded_revisions.each do |sc|
       sc.status = 'superseded'
       sc.save!
-      Event.create!(
+      events << Event.new(
         action: 'revision superseded',
         originating_user: accepting_user,
         subject: subject,
@@ -61,7 +50,7 @@ class Actions::AcceptRevisions
   end
 
   def create_event(revision)
-    Event.create!(
+    events << Event.new(
       action: 'revision accepted',
       originating_user: accepting_user,
       subject: subject,

@@ -42,6 +42,11 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
       end
     end
 
+    subjects = revisions.map(&:subject).uniq
+    if subjects.size > 1
+      raise GraphQL::ExecutionError, "Revisions span multiple subjects"
+    end
+
     return true
   end
 
@@ -64,11 +69,11 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, comment:,  **_)
-    cmd = Actions::RejectRevisions.new(
+    cmd = Activities::RejectRevisions.new(
       revisions: revisions,
       rejecting_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform

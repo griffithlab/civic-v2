@@ -317,11 +317,9 @@
           <nz-divider></nz-divider>
           <nz-row>
             <nz-col nzSpan="16">
-              <ng-container *ngIf="revision.resolutionComment">
+              <ng-container *ngIf="revision.resolutionActivity?.parsedNote">
                 <cvc-comment-body
-                  [commentBodySegments]="
-                    revision.resolutionComment.parsedComment
-                  "></cvc-comment-body>
+                  [commentBodySegments]="revision.resolutionActivity!.parsedNote"></cvc-comment-body>
               </ng-container>
             </nz-col>
             <nz-col
@@ -331,9 +329,9 @@
               style="text-align: right">
               {{ revision.status | enumToTitle }} By
               <cvc-user-tag
-                *ngIf="revision.resolver !== undefined"
-                [user]="revision.resolver"></cvc-user-tag>
-              {{ revision.resolvedAt | timeAgo }}
+                *ngIf="revision.resolutionActivity?.user !== undefined"
+                [user]="revision.resolutionActivity!.user"></cvc-user-tag>
+              {{ revision.resolutionActivity?.createdAt | timeAgo }}
             </nz-col>
           </nz-row>
         </ng-container>
@@ -350,7 +348,7 @@
               RID{{ revision.id }}
               <span>{{ revision.linkoutData.name }} Updated</span>
             </span>
-            <ng-container *ngIf="revision.creationComment">
+            <ng-container *ngIf="revision.creationActivity?.parsedNote">
               <i
                 nz-popover
                 [nzPopoverContent]="creationCommentTemplate"
@@ -361,7 +359,7 @@
               <ng-template #creationCommentTemplate>
                 <cvc-comment-body
                   [commentBodySegments]="
-                    revision.creationComment.parsedComment
+                    revision.creationActivity!.parsedNote
                   ">
                 </cvc-comment-body>
               </ng-template>
@@ -375,13 +373,13 @@
             nzSize="small"
             (click)="$event.stopPropagation()">
             <span *nzSpaceItem>
-              <ng-container *ngIf="revision.revisor; else noRevisor">
+              <ng-container *ngIf="revision.creationActivity?.user; else noRevisor">
                 <span
                   nz-typography
                   nzType="secondary"
                   >Submitted By</span
                 >
-                <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
+                <cvc-user-tag [user]="revision.creationActivity!.user"></cvc-user-tag>
               </ng-container>
               <ng-template #noRevisor>
                 <span
@@ -423,7 +421,7 @@
                 <ng-template #loggedIn>
                   <label
                     *ngIf="
-                      viewer.isCurator && viewer.id != revision.revisor?.id;
+                      viewer.isCurator && viewer.id != revision.creationActivity?.user.id;
                       else canRevise
                     "
                     nz-checkbox

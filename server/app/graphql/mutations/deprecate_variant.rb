@@ -60,12 +60,12 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, deprecation_reason:, comment:, **kwargs)
-    cmd = Actions::DeprecateVariant.new(
+    cmd = Activities::DeprecateVariant.new(
       deprecating_user: context[:current_user],
       variant: variant,
       organization_id: organization_id,
       deprecation_reason: deprecation_reason,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform

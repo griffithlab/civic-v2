@@ -18,5 +18,9 @@ module Types::Entities
     def organization
       Loaders::RecordLoader.for(Organization).load(object.organization_id)
     end
+
+    def subject
+      Loaders::AssociationLoader.for(Event, :subject).load(object)
+    end
   end
 end

@@ -55,19 +55,19 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_evidence = InputAdaptors::EvidenceItemInputAdaptor.new(evidence_input_object: fields).perform
-    cmd = Actions::SuggestEvidenceItemRevision.new(
+    cmd = Activities::SuggestRevisionSet.new(
       existing_obj: evidence_item,
       updated_obj: updated_evidence,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
     res = cmd.perform
 
     if res.succeeded?
       {
         evidence_item: evidence_item,
-        results: res.revisions
+        results: res.revision_results
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

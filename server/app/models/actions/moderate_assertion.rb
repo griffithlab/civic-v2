@@ -1,7 +1,6 @@
 module Actions
   class ModerateAssertion
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
 
     attr_reader :assertion, :originating_user, :organization_id, :new_status
 
@@ -37,11 +36,11 @@ module Actions
                end
 
 
-      Event.create!(
+      events << Event.new(
         action: action,
         originating_user: originating_user,
         subject: assertion,
-        organization: resolve_organization(originating_user, organization_id),
+        organization_id: organization_id,
         originating_object: assertion
       )
     end

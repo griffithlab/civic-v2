@@ -4,6 +4,7 @@ class MolecularProfile < ActiveRecord::Base
   include Flaggable
   include Commentable
   include WithTimepointCounts
+  include WithActivities
 
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :sources
@@ -15,10 +16,8 @@ class MolecularProfile < ActiveRecord::Base
   has_and_belongs_to_many :deprecated_variants,
     ->() { where('variants.deprecated = TRUE') },
     class_name: 'Variant'
-  has_one :deprecation_event,
-    ->() { where(action: 'deprecated molecular profile').includes(:originating_user) },
-    as: :subject,
-    class_name: 'Event'
+
+  has_activity :deprecation_activity, activity_type: 'DeprecateVariantActivity'
 
   validates :name, presence: true
 
@@ -83,6 +82,21 @@ class MolecularProfile < ActiveRecord::Base
         .distinct
         .count
     }
+  end
+
+  def editable_fields
+    if is_complex?
+      [
+        :description,
+        :source_ids,
+        :molecular_profile_alias_ids,
+      ]
+    else
+      [
+        :description,
+        :source_ids,
+      ]
+    end
   end
 
   def unique_name_in_context

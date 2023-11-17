@@ -22,7 +22,6 @@ import {
   ValidateRevisionsForAcceptanceQuery,
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
-  VariantDetailGQL,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -101,7 +100,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     this.viewer$ = this.viewerService.viewer$
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(_: SimpleChanges) {
     this.untypedRevisons = this.revisions
     this.selectedRevisionIds = []
     if (this.queryRef) {

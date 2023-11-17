@@ -123,7 +123,7 @@
           variant.deprecationReason | enumToTitle }}.
           <cvc-comment-body
             [commentBodySegments]="
-              variant.deprecationComment?.parsedComment || []
+              variant.deprecationActivity?.parsedNote || []
             "></cvc-comment-body>
         </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
