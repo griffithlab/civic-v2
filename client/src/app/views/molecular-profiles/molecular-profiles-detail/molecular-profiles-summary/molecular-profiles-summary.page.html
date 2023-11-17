@@ -27,17 +27,31 @@
                 </span>
               </ng-template>
             </ng-container>
-            <ng-container *ngIf="mp.deprecationActivity">
+            <ng-container *ngIf="mp.complexMolecularProfileDeprecationActivity">
               <nz-descriptions-item
                 [nzTitle]="deprecatedTitle">
                 by
-                <cvc-user-tag [user]="mp.deprecationActivity.user"></cvc-user-tag>
+                <cvc-user-tag [user]="mp.complexMolecularProfileDeprecationActivity.user"></cvc-user-tag>
               </nz-descriptions-item>
               <ng-template #deprecatedTitle>
                 Deprecated
                 <span nz-typography
                   nzType="secondary">
-                  ({{ mp.deprecationActivity.createdAt | timeAgo }})
+                  ({{ mp.complexMolecularProfileDeprecationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="mp.variantDeprecationActivity">
+              <nz-descriptions-item
+                [nzTitle]="deprecatedTitle">
+                by
+                <cvc-user-tag [user]="mp.variantDeprecationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #deprecatedTitle>
+                Deprecated
+                <span nz-typography
+                  nzType="secondary">
+                  ({{ mp.variantDeprecationActivity.createdAt | timeAgo }})
                 </span>
               </ng-template>
             </ng-container>

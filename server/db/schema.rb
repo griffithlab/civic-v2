@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_27_155450) do
+ActiveRecord::Schema.define(version: 2023_11_16_184536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -528,6 +528,7 @@ ActiveRecord::Schema.define(version: 2023_10_27_155450) do
     t.boolean "flagged", default: false, null: false
     t.float "evidence_score", null: false
     t.boolean "deprecated", default: false, null: false
+    t.integer "deprecation_reason"
     t.index ["description"], name: "index_molecular_profiles_on_description"
     t.index ["name"], name: "index_molecular_profiles_on_name", unique: true
   end

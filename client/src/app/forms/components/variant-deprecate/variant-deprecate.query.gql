@@ -1,6 +1,6 @@
 mutation DeprecateVariant(
   $variantId: Int!
-  $deprecationReason: DeprecationReason!
+  $deprecationReason: VariantDeprecationReason!
   $comment: String!
   $organizationId: Int
 ) {

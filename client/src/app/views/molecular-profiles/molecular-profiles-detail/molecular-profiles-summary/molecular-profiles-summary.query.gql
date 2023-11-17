@@ -31,7 +31,16 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
       profileImagePath(size: 32)
     }
   }
-  deprecationActivity{
+  variantDeprecationActivity{
+    createdAt
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  complexMolecularProfileDeprecationActivity{
     createdAt
     user {
       id

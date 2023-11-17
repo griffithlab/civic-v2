@@ -17,12 +17,18 @@ class MolecularProfile < ActiveRecord::Base
     ->() { where('variants.deprecated = TRUE') },
     class_name: 'Variant'
 
-  has_activity :deprecation_activity, activity_type: 'DeprecateVariantActivity'
+  has_activity :variant_deprecation_activity, activity_type: 'DeprecateVariantActivity'
+  has_one :complex_molecular_profile_deprecation_activity,
+    as: :subject,
+    class_name: 'DeprecateComplexMolecularProfileActivity'
+
   has_activity :variant_creation_activity, activity_type: 'CreateVariantActivity'
   has_one :complex_molecular_profile_creation_activity,
     as: :subject,
     class_name: 'CreateComplexMolecularProfileActivity'
-  has_one :creating_user, through: :creation_activity, source: :user
+  has_one :creating_user, through: :complex_molecular_profile_creation_activity, source: :user
+
+  enum deprecation_reason: ['duplicate', 'invalid_molecular_profile', 'other', 'variant_deprecated']
 
   validates :name, presence: true
 
