@@ -5,13 +5,16 @@ import { IndexableObject } from 'ng-zorro-antd/core/types'
 
 type FormCardOptions = {
   title?: string
+  size?: 'default' | 'small'
 }
 
 export interface CvcFormCardWrapperProps extends FormlyFieldProps {
   formCardOptions?: FormCardOptions
 }
 
-const defaultWrapperOptions: FormCardOptions = {}
+const defaultWrapperOptions: FormCardOptions = {
+  size: 'default',
+}
 
 @Component({
   selector: 'cvc-form-card',

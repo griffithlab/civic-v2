@@ -121,7 +121,10 @@ const formFieldConfig: FormlyFieldConfig[] = [
               {
                 wrappers: ['form-card'],
                 props: <CvcFormCardWrapperProps>{
-                  formCardOptions: { title: `Primary (5') Coordinates` },
+                  formCardOptions: {
+                    title: `Primary (5') Coordinates`,
+                    size: 'small',
+                  },
                 },
                 fieldGroup: [
                   {
@@ -247,7 +250,10 @@ const formFieldConfig: FormlyFieldConfig[] = [
               {
                 wrappers: ['form-card'],
                 props: <CvcFormCardWrapperProps>{
-                  formCardOptions: { title: `Secondary (3') Coordinates` },
+                  formCardOptions: {
+                    title: `Secondary (3') Coordinates`,
+                    size: 'small',
+                  },
                 },
                 fieldGroup: [
                   {
