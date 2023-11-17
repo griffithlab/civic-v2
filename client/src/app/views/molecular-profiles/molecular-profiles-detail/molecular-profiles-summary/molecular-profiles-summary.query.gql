@@ -22,6 +22,24 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
   parsedName {
     ...MolecularProfileParsedName
   }
+  complexMolecularProfileCreationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  deprecationActivity{
+    createdAt
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
 }
 
 fragment MolecularProfileParsedName on MolecularProfileSegment {
