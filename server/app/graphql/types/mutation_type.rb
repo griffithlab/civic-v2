@@ -24,6 +24,7 @@ module Types
 
     #deprecation
     field :deprecate_variant, mutation: Mutations::DeprecateVariant
+    field :deprecate_complex_molecular_profile, mutation: Mutations::DeprecateComplexMolecularProfile
 
     #molecular profiles
     field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile
@@ -51,6 +52,6 @@ module Types
     #non-moderated entity creation
     field :add_disease, mutation: Mutations::AddDisease
     field :add_therapy, mutation: Mutations::AddTherapy
-    field :add_variant, mutation: Mutations::AddVariant
+    field :create_variant, mutation: Mutations::CreateVariant
   end
 end

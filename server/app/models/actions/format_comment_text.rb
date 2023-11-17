@@ -4,6 +4,10 @@ require 'sanitize'
 module Actions
   class FormatCommentText
     def self.get_segments(text:)
+      if text.blank?
+        return []
+      end
+
       linked = Rinku.auto_link(text, :all, 'target="_blank"')
       sanitized = Sanitize.fragment(linked, Sanitize::Config::BASIC)
        .gsub("\n", "<br/>")

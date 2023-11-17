@@ -1,4 +1,6 @@
 Trestle.resource(:diseases) do
+  remove_action :destroy
+
   collection do
     Disease.eager_load(:disease_aliases)
   end
@@ -32,7 +34,11 @@ Trestle.resource(:diseases) do
     row do
       col(sm: 2) { static_field :id }
       col(sm: 2) { text_field :doid }
-      col(sm: 2) { check_box :deprecated }
+      col(sm: 2) do
+        form_group :deprecated, label: false do
+          check_box :deprecated 
+        end
+      end
     end
 
     row do

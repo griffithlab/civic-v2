@@ -1,4 +1,4 @@
-class Mutations::CreateMolecularProfile < Mutations::BaseMutation
+class Mutations::CreateMolecularProfile < Mutations::MutationWithOrg
   description 'Create a new Molecular Profile in order to attach Evidence Items to it.'
 
   argument :structure, Types::MolecularProfile::MolecularProfileComponentInput,
@@ -11,7 +11,12 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
 
   attr_reader :variants
 
-  def ready?(structure: )
+  def authorized?(organization_id: nil, **kwargs)
+    validate_user_acting_as_org(user: context[:current_user], organization_id: organization_id)
+    return true
+  end
+
+  def ready?(structure: , organization_id: nil)
     validate_user_logged_in
     variant_ids = structure.variant_ids.uniq
 
@@ -30,10 +35,12 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
     return true
   end
 
-  def resolve(structure: )
-    cmd = Actions::CreateComplexMolecularProfile.new(
+  def resolve(structure:, organization_id: nil)
+    cmd = Activities::CreateComplexMolecularProfile.new(
       variants: variants,
       structure: structure,
+      originating_user: context[:current_user],
+      organization_id: organization_id,
     )
 
     res = cmd.perform

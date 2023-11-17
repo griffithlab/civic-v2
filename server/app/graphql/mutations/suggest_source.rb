@@ -55,11 +55,11 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
 
   def resolve(organization_id: nil, source_id:, molecular_profile_id: nil, disease_id: nil, comment:, **kwargs)
 
-    cmd = Actions::SuggestSource.new(
+    cmd = Activities::SuggestSource.new(
       source_id: source_id,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment,
+      note: comment,
       disease_id: disease_id,
       molecular_profile_id: molecular_profile_id
     )

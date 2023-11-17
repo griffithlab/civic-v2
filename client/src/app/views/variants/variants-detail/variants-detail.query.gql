@@ -9,8 +9,10 @@ fragment VariantDetailFields on Variant {
   name
   deprecated
   deprecationReason
-  deprecationComment {
-    ...commentListNode
+  deprecationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
   gene {
     id

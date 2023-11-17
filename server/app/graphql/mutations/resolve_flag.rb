@@ -45,11 +45,11 @@ class Mutations::ResolveFlag < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, comment:,  **_)
-    cmd = Actions::ResolveFlag.new(
+    cmd = Activities::ResolveFlag.new(
       flag: flag,
       resolving_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform

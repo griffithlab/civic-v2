@@ -51,7 +51,7 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, new_status:, **_)
-    cmd = Actions::ModerateAssertion.new(
+    cmd = Activities::ModerateAssertion.new(
       assertion: assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,

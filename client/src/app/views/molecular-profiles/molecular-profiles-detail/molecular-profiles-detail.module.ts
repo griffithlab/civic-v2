@@ -18,6 +18,8 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { ComplexMolecularProfileDeprecateFormModule } from '@app/forms/components/complex-molecular-profile-deprecate/complex-molecular-profile-deprecate.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 
 @NgModule({
   declarations: [MolecularProfilesDetailView],
@@ -32,6 +34,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     NzSpaceModule,
     NzGridModule,
     NzAlertModule,
+    NzPopoverModule,
 
     CvcContributorAvatarsModule,
     CvcTabNavigationModule,
@@ -42,6 +45,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     CvcVariantTagModule,
     CvcPipesModule,
     CvcCommentBodyModule,
+    ComplexMolecularProfileDeprecateFormModule,
   ],
 })
 export class MolecularProfilesDetailModule {}

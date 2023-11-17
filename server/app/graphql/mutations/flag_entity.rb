@@ -28,11 +28,11 @@ class Mutations::FlagEntity < Mutations::MutationWithOrg
   end
 
   def resolve(subject:, organization_id: nil, comment:)
-    cmd = Actions::FlagEntity.new(
+    cmd = Activities::FlagEntity.new(
       flagging_user: context[:current_user],
       flaggable: subject,
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform

@@ -27,4 +27,19 @@ fragment AssertionDetailFields on Assertion {
   comments {
     totalCount
   }
+  ...assertionSubmissionActivity
+}
+
+fragment assertionSubmissionActivity on Assertion {
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      id
+      displayName
+      profileImagePath(size: 32)
+    }
+  }
 }

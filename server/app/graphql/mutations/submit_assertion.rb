@@ -37,11 +37,11 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
     assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
 
 
-    cmd = Actions::SubmitAssertion.new(
+    cmd = Activities::SubmitAssertion.new(
       assertion: assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment_body: comment
+      note: comment
     )
     res = cmd.perform
 

@@ -31,6 +31,7 @@ module Types::Entities
     field :clingen_codes, [Types::Entities::ClingenCodeType], null: false
     field :amp_level, Types::AmpLevelType, null: true
     field :submission_event, Types::Entities::EventType, null: false
+    field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
     field :evidence_items, [Types::Entities::EvidenceItemType], null: false
@@ -92,6 +93,10 @@ module Types::Entities
 
     def submission_event
       Loaders::AssociationLoader.for(Assertion, :submission_event).load(object)
+    end
+
+    def submission_activity
+      Loaders::AssociationLoader.for(Assertion, :submission_activity).load(object)
     end
 
     def acceptance_event

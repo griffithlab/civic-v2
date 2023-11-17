@@ -77,7 +77,16 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     role
     profileImagePath(size: 32)
   }
-  initialComment
+  creationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
+  lastStatusUpdateActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   status
   reason
   createdAt

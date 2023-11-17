@@ -76,6 +76,29 @@
             </button>
           </span>
 
+          <!-- deprecate molecular profile btn -->
+          <span *nzSpaceItem>
+            <button
+              nz-button
+              nzSize="small"
+              *ngIf="viewer.isEditor"
+              [disabled]="mp.deprecated || mp.variants.length == 1"
+              nz-popover
+              nzPopoverTitle="Deprecate Molecular Profile"
+              nzPopoverTrigger="click"
+              [nzPopoverContent]="deprecateMolecularProfileForm"
+              nzPopoverPlacement="bottomRight">
+              Deprecate
+              <ng-template #deprecateMolecularProfileForm>
+                <div class="deprecateMolecularProfile">
+                  <cvc-complex-molecular-profile-deprecate-form
+                    [molecularProfileId]="mp.id"></cvc-complex-molecular-profile-deprecate-form>
+                </div>
+              </ng-template>
+            </button>
+          </span>
+
+
           <span *nzSpaceItem>
             <cvc-entity-subscription-button
               *ngIf="viewer.signedIn && subscribable"
@@ -93,16 +116,26 @@
           [nzMessage]="deprecationMessageTemplate"
           nzType="error"></nz-alert>
         <ng-template #deprecationMessageTemplate>
-          This Molecular Profile has been deprecated because one or more of its
-          underlying variants are deprecated
-          <ng-container *ngFor="let v of mp.deprecatedVariants">
-            <br />
-            <cvc-variant-tag [variant]="v"></cvc-variant-tag>
-            {{ v.deprecationReason | enumToTitle }}.
-            <cvc-comment-body
-              *ngIf="v.deprecationComment"
-              [commentBodySegments]="v.deprecationComment.parsedComment"></cvc-comment-body>
+          <ng-container *ngIf="mp.deprecationReason == 'VARIANT_DEPRECATED'; else directDeprecationTemplate">
+            This Molecular Profile has been deprecated because one or more of its
+            underlying variants are deprecated
+            <ng-container *ngFor="let v of mp.deprecatedVariants">
+              <br />
+              <cvc-variant-tag [variant]="v"></cvc-variant-tag>
+              {{ v.deprecationReason | enumToTitle }}.
+              <cvc-comment-body
+                *ngIf="v.deprecationActivity"
+                [commentBodySegments]="v.deprecationActivity.parsedNote"></cvc-comment-body>
+            </ng-container>
           </ng-container>
+          <ng-template #directDeprecationTemplate>
+            This Molecular Profile has been deprecated for reason: {{
+            mp.deprecationReason | enumToTitle }}.
+            <cvc-comment-body
+              [commentBodySegments]="
+                mp.complexMolecularProfileDeprecationActivity?.parsedNote || []
+              "></cvc-comment-body>
+          </ng-template>
         </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
