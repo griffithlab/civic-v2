@@ -34,7 +34,7 @@ module Activities
     end
 
     def linked_entities
-      [newly_deprecated_molecular_profiles]
+      newly_deprecated_molecular_profiles
     end
   end
 end
