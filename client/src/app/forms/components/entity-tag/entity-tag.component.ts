@@ -32,7 +32,10 @@ export type LinkableEntity = {
 export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
   entity: any
 ): entity is LinkableEntity =>
-  entity !== undefined && entity.__typename && entity.id && entity.name !== undefined
+  entity !== undefined &&
+  entity.__typename &&
+  entity.id &&
+  entity.name !== undefined
 
 export type CvcTagLabelMax =
   | '50px'
@@ -100,6 +103,7 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcHasTooltip: boolean = false
   @Input() cvcFullWidth: boolean = false
   @Input() cvcShowPopover: boolean = false
+  @Input() cvcShowIcon: boolean = true
   @Input() cvcTruncateLabel?: CvcTagLabelMax
 
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
@@ -143,7 +147,7 @@ export class CvcEntityTagComponent implements OnChanges {
     }
     // get linkable entity
     let fragment = undefined
-    if(!this.cvcDisableLink) {
+    if (!this.cvcDisableLink) {
       fragment = {
         id: `${typename}:${id}`,
         fragment: gql`
@@ -154,7 +158,7 @@ export class CvcEntityTagComponent implements OnChanges {
           }
         `,
       }
-    } else if(this.cvcHasTooltip) {
+    } else if (this.cvcHasTooltip) {
       fragment = {
         id: `${typename}:${id}`,
         fragment: gql`
@@ -165,8 +169,7 @@ export class CvcEntityTagComponent implements OnChanges {
           }
         `,
       }
-    }
-    else{
+    } else {
       fragment = {
         id: `${typename}:${id}`,
         fragment: gql`
@@ -176,8 +179,6 @@ export class CvcEntityTagComponent implements OnChanges {
           }
         `,
       }
-
-
     }
     const entity = this.apollo.client.readFragment(fragment)
     if (!isLinkableEntity(entity)) {

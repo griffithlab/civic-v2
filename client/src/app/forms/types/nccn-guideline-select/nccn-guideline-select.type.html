@@ -20,9 +20,7 @@
 <ng-container *ngrxLet="onSearch$ as searchString">
   <ng-container *ngFor="let result of result$ | ngrxPush; index as i">
     <ng-template #optionTemplates>
-      <nz-tag
-        nz-tooltip
-      >{{ result.name }}</nz-tag>
+      <nz-tag nz-tooltip>{{ result.name }}</nz-tag>
     </ng-template>
   </ng-container>
 </ng-container>
@@ -39,6 +37,7 @@
       [cvcCacheId]="'NccnGuideline:' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
+      [cvcShowIcon]="false"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
   </div>
 </ng-template>
