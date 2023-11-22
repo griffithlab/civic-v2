@@ -5,8 +5,10 @@ class Variant < ApplicationRecord
   include Commentable
   include WithTimepointCounts
 
-  belongs_to :gene
-  belongs_to :secondary_gene, class_name: 'Gene', optional: true
+  belongs_to :variant_category
+
+  belongs_to :gene, class_name: 'VariantCategories::Gene'
+  belongs_to :secondary_gene, class_name: 'VariantCategories::Gene', optional: true
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
   has_many :variant_groups, through: :variant_group_variants
@@ -95,7 +97,7 @@ class Variant < ApplicationRecord
   end
 
   def reindex_mps
-    self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
+    #self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 
   def on_revision_accepted

@@ -34,7 +34,7 @@ class MolecularProfile < ActiveRecord::Base
 
   validate :unique_name_in_context
 
-  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
+  #searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
   scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
 
   after_create -> { MaterializedViews::MolecularProfileBrowseTableRow.refresh_async }
@@ -73,7 +73,7 @@ class MolecularProfile < ActiveRecord::Base
     #TODO - we could batch these queries if it becomes an issue
     @segments ||= name.split(' ').map do |segment|
       if gene_match = segment.match(GENE_REGEX)
-        Gene.find(gene_match[:id])
+        VariantCategories::Gene.find(gene_match[:id])
       elsif variant_match = segment.match(VARIANT_REGEX)
         Variant.find(variant_match[:id])
       else

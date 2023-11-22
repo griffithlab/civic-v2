@@ -19,6 +19,8 @@ class Event < ActiveRecord::Base
 
   #TODO actions as an enum rather than freetext
 
+  serialize :state_params, JSON
+
   def capture_user_role
     self.user_role = self.originating_user.role
   end

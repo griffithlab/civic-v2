@@ -5,9 +5,10 @@ class Source < ActiveRecord::Base
   include Commentable
 
   has_many :evidence_items
-  has_and_belongs_to_many :genes
+  has_and_belongs_to_many :genes, class_name: 'VariantCategories::Gene'
   has_and_belongs_to_many :clinical_trials
   has_and_belongs_to_many :molecular_profiles
+  has_and_belongs_to_many :variant_categories
   has_many :authors_sources
   has_many :authors, through: :authors_sources
   has_many :variant_groups

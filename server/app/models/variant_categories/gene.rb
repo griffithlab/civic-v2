@@ -1,9 +1,10 @@
-class Gene < ActiveRecord::Base
+class VariantCategories::Gene < ActiveRecord::Base
   include Moderated
   include Subscribable
   include Flaggable
   include Commentable
   include WithTimepointCounts
+  include IsCategoryInstance
 
   has_many :variants
   has_many :variant_groups

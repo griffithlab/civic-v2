@@ -1,0 +1,2 @@
+class VariantCategories::Factor 
+end

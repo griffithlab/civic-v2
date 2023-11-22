@@ -34,9 +34,16 @@ module Types::Entities
     field :creation_activity, Types::Activities::CreateVariantActivityType, null: true #TODO: should try to make this non-nullable if complete backfill is possible
     field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
     field :open_cravat_url, String, null: true
+    field :variant_category, Types::Interfaces::VariantCategory, null: false
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
+    end
+
+    def variant_category
+      Loaders::AssociationLoader.for(Variant, :variant_category).load(object).then do |vc|
+        Loaders::AssociationLoader.for(VariantCategory, :category_instance).load(vc)
+      end
     end
 
     def variant_types

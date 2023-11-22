@@ -14,7 +14,7 @@ class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 
-  field :gene, Types::Entities::GeneType, null: false,
+  field :gene, Types::VariantCategories::GeneType, null: false,
     description: 'The Gene the user has proposed a Revision to.'
 
   field :results, [Types::Revisions::RevisionResult], null: false,

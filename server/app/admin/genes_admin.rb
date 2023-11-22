@@ -1,4 +1,4 @@
-Trestle.resource(:genes) do
+Trestle.resource(:genes, model: VariantCategories::Gene) do
   collection do
     Gene.includes(:flags).order(name: :asc)
   end
