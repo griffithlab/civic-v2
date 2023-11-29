@@ -115,6 +115,6 @@
     [cvcSearchString]="searchStr"
     [cvcGeneId]="onGeneId$ | ngrxPush"
     [cvcGeneName]="onGeneName$ | ngrxPush"
-    (cvcOnCreate)="onPopulate$.next($event)">
+    (cvcOnCreate)="onSelectOrCreate($event)">
   </cvc-variant-quick-add-form>
 </ng-template>

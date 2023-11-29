@@ -2,8 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
@@ -11,12 +9,7 @@ import { CvcFieldGridWrapperConfig } from '@app/forms/wrappers/field-grid/field-
 import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
 import { Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
-import {
-  FormGene,
-  FormMolecularProfile,
-  FormVariant,
-} from '@app/forms/forms.interfaces'
+import { BehaviorSubject } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { Apollo, gql } from 'apollo-angular'
@@ -58,6 +51,7 @@ export class VariantSubmitForm {
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
   layout: NzFormLayoutType = 'horizontal'
+  newlyCreated?: boolean
 
   finderState: VariantSubmitState = {
     formLayout: this.layout,
@@ -103,6 +97,7 @@ export class VariantSubmitForm {
                 showExtra: false,
               },
               hideLabel: true,
+              isNewlyCreatedCallback: (isNew: boolean): void  => {this.newlyCreated = isNew},
             },
           },
         ],
