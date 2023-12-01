@@ -82,6 +82,11 @@ fragment commentListNode on Comment {
     }
   }
   parsedComment {
+    ...parsedCommentFragment
+  }
+}
+
+fragment parsedCommentFragment on CommentBodySegment{
     __typename
     ... on CommentTagSegment {
       entityId
@@ -101,5 +106,4 @@ fragment commentListNode on Comment {
       displayName
       role
     }
-  }
 }

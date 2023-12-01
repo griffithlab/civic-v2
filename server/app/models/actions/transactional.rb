@@ -1,5 +1,9 @@
 module Actions
   module Transactional
+    def events
+      @events ||= []
+    end
+
     def errors
       @errors ||= []
     end

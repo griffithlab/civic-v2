@@ -318,6 +318,7 @@ export function EntitySelectField<
               newValue = options[0]!.id
             }
             this.formControl.setValue(newValue)
+            this.formControl.markAsTouched()
             // if onPopulate$ is called from a quick-add form in the select dropdown,
             // this will close it and cause nz-select to display the new tag
             this.selectOpen$.next(false)

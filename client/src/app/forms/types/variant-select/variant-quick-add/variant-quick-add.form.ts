@@ -26,10 +26,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { CvcOrgSubmitButtonFieldConfig } from '../../org-submit-button/org-submit-button.type'
 
 type VariantQuickAddModel = {
   name?: string
   geneId?: number
+  organizationId?: number
 }
 
 type VariantQuickAddDisplay = {
@@ -133,6 +135,13 @@ export class CvcVariantQuickAddForm implements OnChanges {
           required: true,
         },
       },
+      {
+        key: 'organizationId',
+        type: 'org-submit-button',
+        props: {
+          submitLabel: 'Add Variant',
+        },
+      }
     ]
 
     // keep form module updated w/ Inputs
@@ -177,16 +186,17 @@ export class CvcVariantQuickAddForm implements OnChanges {
       {
         name: model.name,
         geneId: model.geneId,
+        organizationId: model.organizationId,
       },
       {},
       (data) => {
         console.log('variant-quick-add submit data callback', data)
-        if (!data.addVariant) return
+        if (!data.createVariant) return
         // const vid = data.addVariant.variant.id
         this.formMessageDisplay$.next({ message: undefined })
         setTimeout(() => {
-          if (data && data.addVariant) {
-            const variant = data.addVariant
+          if (data && data.createVariant) {
+            const variant = data.createVariant
               .variant as VariantSelectTypeaheadFieldsFragment
             this.cvcOnCreate.next(variant.id)
           }

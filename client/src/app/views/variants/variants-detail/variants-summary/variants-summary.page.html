@@ -98,6 +98,44 @@
     <nz-col nzSpan="12">
       <!-- right col layout row -->
       <nz-row [nzGutter]="[8,8]">
+        <!-- BLOCK: creation and deprecation events -->
+        <nz-col [nzSpan]="24">
+         <nz-descriptions nzLayout="vertical"
+            nzSize="small"
+            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+
+            <!-- creation/deprecation curation events -->
+            <ng-container *ngIf="variant.creationActivity">
+              <nz-descriptions-item [nzTitle]="createdTitle">
+                by
+                <cvc-user-tag [user]="variant.creationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #createdTitle>
+                Created
+                <span nz-typography
+                  nzType="secondary">
+                  ({{ variant.creationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="variant.deprecationActivity">
+              <nz-descriptions-item
+                [nzTitle]="deprecatedTitle">
+                by
+                <cvc-user-tag [user]="variant.deprecationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #deprecatedTitle>
+                Deprecated
+                <span nz-typography
+                  nzType="secondary">
+                  ({{ variant.deprecationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+          </nz-descriptions>
+        </nz-col>
+
         <!-- variant related entities, attributes -->
         <nz-col [nzSpan]="24">
           <nz-descriptions

@@ -48,7 +48,7 @@ class FrontendRouter
     when /sources?/
       [ Source, :id ]
     when /allele_registry/
-      [ Variant, :allele_registry_id, ]
+      [ Variant.where(deprecated: false), :allele_registry_id, ]
     when /id/
       case tag_type
       when "AID"

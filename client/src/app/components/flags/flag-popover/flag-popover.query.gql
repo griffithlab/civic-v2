@@ -19,7 +19,9 @@ fragment flagPopover on Flag {
     name
   }
   createdAt
-  openComment {
-    comment
+  openActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
 }

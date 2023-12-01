@@ -54,19 +54,19 @@ class Mutations::SuggestMolecularProfileRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_mp = InputAdaptors::MolecularProfileInputAdaptor.new(mp_input_object: fields, existing_name: mp.name).perform
-    cmd = Actions::SuggestMolecularProfileRevision.new(
+    cmd = Activities::SuggestRevisionSet.new(
       existing_obj: mp,
       updated_obj: updated_mp,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
     res = cmd.perform
 
     if res.succeeded?
       {
         molecular_profile: mp,
-        results: res.revisions
+        results: res.revision_results
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

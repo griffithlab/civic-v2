@@ -31,9 +31,10 @@ query MpExpressionEditorPrepopulate($mpId: Int!) {
 
 # previously: createMolecularProfile
 mutation CreateMolecularProfile2(
-  $mpStructure: MolecularProfileComponentInput!
+  $mpStructure: MolecularProfileComponentInput!,
+  $organizationId: Int,
 ) {
-  createMolecularProfile(input: { structure: $mpStructure }) {
+  createMolecularProfile(input: { structure: $mpStructure, organizationId: $organizationId }) {
     molecularProfile {
       id
       name

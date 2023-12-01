@@ -1,21 +1,18 @@
 module Actions
   class FlagEntity
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
-    attr_reader :flagging_user, :flaggable, :flag, :organization_id, :comment
+    attr_reader :flagging_user, :flaggable, :flag, :organization_id
 
-    def initialize(flagging_user:, flaggable:, organization_id: nil, comment:)
+    def initialize(flagging_user:, flaggable:, organization_id: nil)
       @flagging_user = flagging_user
       @flaggable = flaggable
       @organization_id = organization_id
-      @comment = comment
     end
 
     private
     def execute
       create_flag
       mark_as_flagged
-      create_comment
       create_event
       #subscribe_user
     end
@@ -33,24 +30,13 @@ module Actions
       flaggable.save!(validate: false)
     end
 
-    def create_comment
-      cmd = Actions::AddComment.new(
-        title: "",
-        body: comment,
-        commenter: flagging_user,
-        commentable: flag,
-        organization_id: organization_id
-      )
-      cmd.perform
-    end
-
     def create_event
-      Event.create!(
+      events << Event.new(
         action: 'flagged',
         originating_user: flagging_user,
         subject: flaggable,
         originating_object: flag,
-        organization: resolve_organization(flagging_user, organization_id)
+        organization_id: organization_id,
       )
     end
 

@@ -22,7 +22,6 @@ import {
   ValidateRevisionsForAcceptanceQuery,
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
-  VariantDetailGQL,
 } from '@app/generated/civic.apollo'
 import { Observable, Subject } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
@@ -62,7 +61,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
 
   private destroy$ = new Subject<void>()
 
-  @Output() revisionSetSelectedEvent = new EventEmitter<string>()
+  @Output() revisionSetSelectedEvent = new EventEmitter<number>()
   @Output() revisionMutationCompleted = new EventEmitter<void>()
 
   //TODO: Get rid of, we need a type guard pipe in the template to narrow the type safely in the template
@@ -101,7 +100,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     this.viewer$ = this.viewerService.viewer$
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(_: SimpleChanges) {
     this.untypedRevisons = this.revisions
     this.selectedRevisionIds = []
     if (this.queryRef) {
@@ -145,7 +144,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     this.untypedRevisons = this.revisions
   }
 
-  onChangesetSelected(changesetId: string) {
+  onChangesetSelected(changesetId: number) {
     this.revisionSetSelectedEvent.emit(changesetId)
   }
 

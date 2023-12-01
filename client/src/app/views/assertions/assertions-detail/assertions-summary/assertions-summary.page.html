@@ -197,6 +197,22 @@
               by
               <cvc-user-tag
                 [user]="assertion.submissionEvent.originatingUser"></cvc-user-tag>
+              <nz-tag
+                nz-popover
+                [nzPopoverContent]="submissionCommentTemplate"
+                [nzPopoverOverlayStyle]="{'width': '300px'}"
+                *ngIf="assertion.submissionActivity!.parsedNote.length > 0">
+                <i
+                  nz-icon
+                  nzType="align-left"></i>
+              </nz-tag>
+              <ng-template #submissionCommentTemplate>
+                <cvc-comment-body
+                  [commentBodySegments]="
+                    assertion.submissionActivity!.parsedNote
+                  ">
+                </cvc-comment-body>
+              </ng-template>
             </nz-descriptions-item>
             <ng-template #submittedTitle>
               Submitted

@@ -26,6 +26,7 @@ module Types::Entities
     field :variant_hgvs, String, null: false
     field :variant_origin, Types::VariantOriginType, null: false
     field :submission_event, Types::Entities::EventType, null: false
+    field :submission_activity, Types::Activities::SubmitEvidenceItemActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
     field :assertions, [Types::Entities::AssertionType], null: false
@@ -60,6 +61,10 @@ module Types::Entities
 
     def submission_event
       Loaders::AssociationLoader.for(EvidenceItem, :submission_event).load(object)
+    end
+
+    def submission_activity
+      Loaders::AssociationLoader.for(EvidenceItem, :submission_activity).load(object)
     end
 
     def acceptance_event

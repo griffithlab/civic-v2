@@ -8,13 +8,21 @@
   <ng-container *ngIf="c.__typename == 'CommentTagSegment'">
     <ng-container [ngSwitch]="c.tagType">
       <span *ngSwitchCase="'REVISION'">
-        <cvc-revision-tag
-          [revision]="{
-            id: c.entityId,
-            name: c.displayName,
-            link: c.link,
-            revisionSetId: c.revisionSetId!
-          }"></cvc-revision-tag>
+        <!--<cvc-revision-tag-->
+          <!--[revision]="{-->
+            <!--id: c.entityId,-->
+            <!--name: c.displayName,-->
+            <!--link: c.link,-->
+            <!--revisionSetId: c.revisionSetId!-->
+          <!--}"></cvc-revision-tag>-->
+          <nz-tag>
+            <i
+              nz-icon
+              nzType="civic-revision"
+              nzTheme="twotone"
+              nzTwotoneColor="#F0673A"></i>
+            {{ c.displayName }}
+          </nz-tag>
       </span>
       <span *ngSwitchCase="'GENE'">
         <cvc-gene-tag

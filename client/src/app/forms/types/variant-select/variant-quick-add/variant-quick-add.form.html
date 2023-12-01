@@ -20,18 +20,6 @@
           (modelChange)="model = $event">
         </formly-form>
       </nz-col>
-      <nz-col nzSpan="24">
-        <button
-          type="submit"
-          nz-button
-          nzType="primary"
-          [disabled]="form.valid === false || model.name !== undefined && model.name.length < minNameLength"
-          nzBlock>
-          Add&nbsp;
-          <strong> {{ geneName$ | ngrxPush }}</strong> &nbsp;Variant&nbsp;
-          <i> {{ searchString$ | ngrxPush }} </i>
-        </button>
-      </nz-col>
     </nz-row>
   </form>
 </cvc-form-submission-status-display>

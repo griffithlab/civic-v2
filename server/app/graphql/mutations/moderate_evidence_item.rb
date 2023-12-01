@@ -51,7 +51,7 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, new_status:, **_)
-    cmd = Actions::ModerateEvidenceItem.new(
+    cmd = Activities::ModerateEvidenceItem.new(
       evidence_item: evidence_item,
       originating_user: context[:current_user],
       organization_id: organization_id,
