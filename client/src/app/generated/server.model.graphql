@@ -2699,6 +2699,16 @@ type EvidenceItemsByStatus {
   submittedCount: Int!
 }
 
+type EvidenceItemsByType {
+  diagnosticCount: Int!
+  functionalCount: Int!
+  molecularProfileId: Int!
+  oncogenicCount: Int!
+  predictiveCount: Int!
+  predisposingCount: Int!
+  prognosticCount: Int!
+}
+
 enum EvidenceLevel {
   A
   B
@@ -4003,6 +4013,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     sortBy: DateSort
   ): EventConnection!
   evidenceCountsByStatus: EvidenceItemsByStatus!
+  evidenceCountsByType: EvidenceItemsByType!
 
   """
   The collection of evidence items associated with this molecular profile.
