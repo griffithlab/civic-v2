@@ -4,10 +4,11 @@ import { CvcBaseInputField, CvcBaseInputFieldProps } from './tag-input.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { LetDirective, PushPipe } from '@ngrx/component'
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { CvcStringTagModule } from '@app/forms/components/string-tag/string-tag.module'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -23,7 +24,7 @@ const typeConfig: ConfigOption = {
       component: CvcBaseInputField,
       defaultOptions: {
         props: <CvcBaseInputFieldProps>{
-          isRepeatItem: true,
+          isMultiInput: true,
         },
       },
     },
@@ -35,11 +36,13 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetDirective, PushPipe,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(typeConfig),
-    FormlyNzFormFieldModule, // for form-field wrapper
-    NzInputModule,
     NzFormModule,
+    NzInputModule,
+    NzSelectModule,
+    NzTagModule,
     CvcStringTagModule,
   ],
   exports: [CvcBaseInputField],

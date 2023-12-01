@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   QueryList,
@@ -17,7 +18,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, from, map, withLatestFrom } from 'rxjs'
+import { BehaviorSubject, map, filter, take } from 'rxjs'
 import { $enum } from 'ts-enum-util'
 import mixin from 'ts-mixin-extended'
 
@@ -67,6 +68,7 @@ const LevelSelectMixin = mixin(
   selector: 'cvc-level-select',
   templateUrl: './level-select.type.html',
   styleUrls: ['./level-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcLevelSelectField
   extends LevelSelectMixin
@@ -75,12 +77,6 @@ export class CvcLevelSelectField
   //TODO: implement more precise types so specific enum-selects like this one can specify their enums, e.g. EvidenceLevel instead of CvcInputEnum
   // STATE SOURCE STREAMS
   levelEnum$: BehaviorSubject<CvcInputEnum[]>
-  onTypeSelect$?: BehaviorSubject<Maybe<CvcInputEnum>>
-
-  // LOCAL SOURCE STREAMS
-  // LOCAL INTERMEDIATE STREAMS
-  // LOCAL PRESENTATION STREAMS
-  placeholder$!: BehaviorSubject<string>
 
   // FieldTypeConfig defaults
   defaultOptions: CvcLevelSelectFieldOptions = {
@@ -102,19 +98,24 @@ export class CvcLevelSelectField
 
   ngAfterViewInit(): void {
     this.configureBaseField() // mixin fn
-    this.configureStateConnections() // local fn
-    this.configureEnumSelectField({
-      optionEnum$: this.levelEnum$,
-      optionTemplate$: this.optionTemplate$,
-      changeDetectorRef: this.cdr,
-    })
+    if (this.state && this.state.formReady$) {
+      this.state.formReady$
+        .pipe(
+          filter((r) => r), // only pass true values
+          take(1), // unsubscribe after 1st emit
+          untilDestroyed(this) // or form destroyed
+        )
+        .subscribe((_) => {
+          this.configureField()
+        })
+    } else {
+      this.configureField()
+    }
   }
 
-  configureStateConnections(): void {
+  configureField(): void {
     this.props.tooltip =
       'Type of study performed to produce the evidence statement'
-
-    this.placeholder$ = new BehaviorSubject<string>(this.props.placeholder)
 
     this.levelEnum$.next($enum(EvidenceLevel).map((level) => level))
 
@@ -142,5 +143,10 @@ export class CvcLevelSelectField
           this.field.formControl.markAsTouched()
         }
       })
+    this.configureEnumSelectField({
+      optionEnum$: this.levelEnum$,
+      optionTemplate$: this.optionTemplate$,
+      changeDetectorRef: this.cdr,
+    })
   }
 }

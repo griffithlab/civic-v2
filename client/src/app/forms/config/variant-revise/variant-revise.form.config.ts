@@ -34,6 +34,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'gene-select',
             props: {
               description: 'Enter an Entrez Gene for this Variant',
+              required: true,
             },
           },
           {
@@ -78,20 +79,21 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'clinvar-multi-input',
             wrappers: ['form-field'],
             props: {
-              label: "ClinVar IDs",
-              description: 'Specify if Clinvar IDs exist, or if they are not applicable for this variant.'
-            }
+              label: 'ClinVar IDs',
+              description:
+                'Specify if Clinvar IDs exist, or if they are not applicable for this variant.',
+            },
           },
           {
             key: 'variantTypeIds',
             type: 'variant-type-multi-select',
-            wrappers: ['form-field']
+            wrappers: ['form-field'],
           },
           {
             template: "<h4><u>Primary (5') Coordinates</u></h4>",
             props: {
-              colSpan: 24
-            }
+              colSpan: 24,
+            },
           },
           {
             key: 'referenceBuild',
@@ -103,13 +105,15 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
-                expression: (c: AbstractControl) => c.value ? /^\d{2,3}$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => `"${field.formControl?.value}" does not appear to be an Ensembl version number`,
+                expression: (c: AbstractControl) =>
+                  c.value ? /^\d{2,3}$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  `"${field.formControl?.value}" does not appear to be an Ensembl version number`,
               },
             },
             props: {
               label: 'Ensembl Version',
-              description: "Enter a valid Ensembl database version (e.g. 75)"
+              description: 'Enter a valid Ensembl database version (e.g. 75)',
             },
           },
           {
@@ -118,13 +122,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
-                expression: (c: AbstractControl) => c.value ? /^[ACTG\\]+$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => `"${field.formControl?.value}" contains invalid characters.`,
+                expression: (c: AbstractControl) =>
+                  c.value ? /^[ACTG\\]+$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  `"${field.formControl?.value}" contains invalid characters.`,
               },
             },
             props: {
               label: 'Reference Bases',
-              description: "The nucleotide(s) of the reference genome affected by the variant. Only used for SNVs and Indels (otherwise leave blank)"
+              description:
+                'The nucleotide(s) of the reference genome affected by the variant. Only used for SNVs and Indels (otherwise leave blank)',
             },
           },
           {
@@ -133,13 +140,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               nccnVersionNumber: {
-                expression: (c: AbstractControl) => c.value ? /^[ACTG\\]+$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => `"${field.formControl?.value}" contains invalid characters.`,
+                expression: (c: AbstractControl) =>
+                  c.value ? /^[ACTG\\]+$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  `"${field.formControl?.value}" contains invalid characters.`,
               },
             },
             props: {
               label: 'Variant Bases',
-              description: "The nucleotide(s) of the variant allele. Only used for SNVs and Indels (otherwise leave blank)"
+              description:
+                'The nucleotide(s) of the variant allele. Only used for SNVs and Indels (otherwise leave blank)',
             },
           },
           {
@@ -149,8 +159,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Chromosome',
               options: Chromosomes,
-              description: 'Specify the chromosome in which this variant occurs (e.g. 17).'
-            }
+              description:
+                'Specify the chromosome in which this variant occurs (e.g. 17).',
+            },
           },
           {
             key: 'start',
@@ -158,13 +169,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
-                expression: (c: AbstractControl) => c.value ? /^\d+$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => 'Start coordinate must be numeric',
+                expression: (c: AbstractControl) =>
+                  c.value ? /^\d+$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  'Start coordinate must be numeric',
               },
             },
             props: {
               label: 'Start',
-              description: "Enter the left/first coordinate of this variant. Must be ≤ the Stop coordinate. Coordinate must be compatible with the selected reference build."
+              description:
+                'Enter the left/first coordinate of this variant. Must be ≤ the Stop coordinate. Coordinate must be compatible with the selected reference build.',
             },
           },
           {
@@ -173,13 +187,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
-                expression: (c: AbstractControl) => c.value ? /^\d+$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => 'Stop coordinate must be numeric',
+                expression: (c: AbstractControl) =>
+                  c.value ? /^\d+$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  'Stop coordinate must be numeric',
               },
             },
             props: {
               label: 'Stop',
-              description: "Provide the right/second coordinate of this variant. Must be ≥ the Start coordinate. Coordinate must be compatible with the selected reference build."
+              description:
+                'Provide the right/second coordinate of this variant. Must be ≥ the Start coordinate. Coordinate must be compatible with the selected reference build.',
             },
           },
           {
@@ -188,14 +205,15 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             props: {
               label: 'Representative Transcript',
-              description: "Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl)."
+              description:
+                'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
             },
           },
           {
             template: "<h4><u>Secondary (3') Coordinates</u></h4>",
             props: {
-              colSpan: 24
-            }
+              colSpan: 24,
+            },
           },
           {
             key: 'chromosome2',
@@ -204,8 +222,9 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Chromosome',
               options: Chromosomes,
-              description: 'If this variant is a fusion (e.g. BCR-ABL1), specify the chromosome name, coordinates, and representative transcript for the 3-prime partner.'
-            }
+              description:
+                'If this variant is a fusion (e.g. BCR-ABL1), specify the chromosome name, coordinates, and representative transcript for the 3-prime partner.',
+            },
           },
           {
             key: 'start2',
@@ -213,13 +232,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
-                expression: (c: AbstractControl) => c.value ? /^\d+$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => 'Start coordinate must be numeric',
+                expression: (c: AbstractControl) =>
+                  c.value ? /^\d+$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  'Start coordinate must be numeric',
               },
             },
             props: {
               label: 'Start',
-              description: "Enter the left/first coordinate of this 3-prime partner fusion variant. Must be ≤ the Stop coordinate. Coordinate must be compatible with the selected reference build."
+              description:
+                'Enter the left/first coordinate of this 3-prime partner fusion variant. Must be ≤ the Stop coordinate. Coordinate must be compatible with the selected reference build.',
             },
           },
           {
@@ -228,13 +250,16 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             validators: {
               isNumeric: {
-                expression: (c: AbstractControl) => c.value ? /^\d+$/.test(c.value) : true,
-                message: (_: any, field: FormlyFieldConfig) => 'Stop coordinate must be numeric',
+                expression: (c: AbstractControl) =>
+                  c.value ? /^\d+$/.test(c.value) : true,
+                message: (_: any, field: FormlyFieldConfig) =>
+                  'Stop coordinate must be numeric',
               },
             },
             props: {
               label: 'Stop',
-              description: "Provide the right/second coordinate of this 3-prime partner fusion variant. Must be ≥ the Start coordinate. Coordinate must be compatible with the selected reference build."
+              description:
+                'Provide the right/second coordinate of this 3-prime partner fusion variant. Must be ≥ the Start coordinate. Coordinate must be compatible with the selected reference build.',
             },
           },
           {
@@ -243,7 +268,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             wrappers: ['form-field'],
             props: {
               label: 'Representative Transcript',
-              description: "Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl)."
+              description:
+                'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
             },
           },
         ],
@@ -262,7 +288,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',
@@ -277,7 +303,4 @@ const formFieldConfig: FormlyFieldConfig[] = [
   },
 ]
 export const variantReviseFields: FormlyFieldConfig[] =
-  assignFieldConfigDefaultValues(
-    formFieldConfig,
-    variantReviseFormInitialModel
-  )
+  assignFieldConfigDefaultValues(formFieldConfig, variantReviseFormInitialModel)

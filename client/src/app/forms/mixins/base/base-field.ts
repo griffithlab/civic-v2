@@ -3,7 +3,7 @@ import { BaseState } from '@app/forms/states/base.state'
 import { Maybe } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core'
-import { BehaviorSubject, filter, map, Observable } from 'rxjs'
+import { BehaviorSubject, filter, first, map, Observable } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 
@@ -56,6 +56,9 @@ export function BaseFieldType<
         this.onValueChange$ = new BehaviorSubject<Maybe<V>>(undefined)
       }
 
+      // // DEBUG
+      // // uncomment next line to limit logging to a single field
+      // if(this.field.key === 'evidenceDirection')
       // this.onValueChange$
       //   .pipe(tag(`${this.field.key} base-field onValueChange$`))
       //   .subscribe()
@@ -63,6 +66,12 @@ export function BaseFieldType<
       // emit value from onValueChange$ for every model change
       this.onModelChange$.pipe(untilDestroyed(this)).subscribe((v) => {
         this.onValueChange$.next(v)
+      })
+
+      // trigger markAsTouched once for defined values, to trigger
+      // field validation for revise forms' pre-populated model values
+      this.onValueChange$.pipe(first()).subscribe((v) => {
+        if (v !== undefined) this.formControl.markAsTouched()
       })
 
       if (
@@ -81,6 +90,7 @@ export function BaseFieldType<
           this.field.key
         )
       }
+
       // it is assumed entity state field names are
       // field key string + '$', e.g. field key 'geneId'
       // will emit value changes from state.field.geneId$
