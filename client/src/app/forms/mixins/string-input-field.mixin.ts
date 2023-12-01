@@ -11,9 +11,6 @@ export function StringTagField<TBase extends MixinConstructor<FieldType>>(
 ) {
   @Injectable()
   abstract class StringTagFieldMixin extends Base {
-    // BASE FIELD TYPE SOURCE STREAMS
-    onValueChange$?: Subject<Maybe<string | number>>
-
     // LOCAL SOURCE STREAMS
     onTagClose$!: Subject<MouseEvent> // emits on entity tag closed btn click
 
@@ -21,19 +18,7 @@ export function StringTagField<TBase extends MixinConstructor<FieldType>>(
     tagLabel$!: Subject<Maybe<string>> // emits label for tag
 
     configureStringTagField(): void {
-      if (!this.onValueChange$) {
-        console.error(
-          `${this.field.id} cannot find onValueChange$ Subject, ensure configureBaseField() has been called before configureDisplayStringTag in its AfterViewInit hook.`
-        )
-        return
-      }
-
       this.tagLabel$ = new Subject<Maybe<string>>()
-      this.onValueChange$
-        .pipe(untilDestroyed(this))
-        .subscribe((str: Maybe<string | number>) => {
-          this.tagLabel$.next(str ? str.toString() : undefined)
-        })
 
       this.onTagClose$ = new Subject<MouseEvent>()
 

@@ -29,6 +29,7 @@ module Types::Entities
     field :complex_molecular_profile_deprecation_activity, Types::Activities::DeprecateComplexMolecularProfileActivityType, null: true
     field :molecular_profile_score, Float, null: false
     field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
+    field :evidence_counts_by_type, Types::MolecularProfile::EvidenceItemsByTypeType, null: false
     field :is_complex, Boolean, null: false
     field :is_multi_variant, Boolean, null: false
     field :variant_creation_activity, Types::Activities::CreateVariantActivityType, null: true
@@ -109,6 +110,24 @@ module Types::Entities
       end
     end
 
+    def evidence_counts_by_type
+      Loaders::AssociationLoader.for(MolecularProfile, :evidence_items_by_type).load(object).then do |type|
+        if type
+          type
+        else
+          {
+            molecular_profile_id: object.id,
+            diagnostic_count: 0,
+            prognostic_count: 0,
+            predictive_count: 0,
+            predisposing_count: 0,
+            functional_count: 0,
+            oncogenic_count: 0
+          }
+        end
+      end
+    end
+    
     def is_multi_variant
       Loaders::AssociationCountLoader.for(MolecularProfile, association: :variants).load(object.id).then do |count|
         count > 1

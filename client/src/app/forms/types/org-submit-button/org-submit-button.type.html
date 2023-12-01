@@ -4,16 +4,24 @@
   [formControl]="formControl"
   [formlyAttributes]="field" />
 
-<button
-  *ngrxLet="mostRecentOrg$ as organization"
-  cvcOrgSubmitButton
-  type="submit"
-  nz-button
-  [disabled]="!form.valid"
-  [nzDanger]=""
-  nzType="primary"
-  nz-tooltip
-  [nzTooltipTrigger]="organization ? 'hover' : null"
-  [nzTooltipTitle]="'For ' + organization?.name">
-  {{ props.submitLabel }}
-</button>
+<div
+  class="btn-aligner"
+  [ngClass]="{
+  'btn-right': props.align === 'right',
+  'btn-left': props.align === 'left',
+  'btn-center': props.align === 'center',
+  }">
+  <button
+    *ngrxLet="mostRecentOrg$ as organization"
+    cvcOrgSubmitButton
+    type="submit"
+    nz-button
+    [disabled]="!form.valid"
+    [nzDanger]=""
+    nzType="primary"
+    nz-tooltip
+    [nzTooltipTrigger]="organization ? 'hover' : null"
+    [nzTooltipTitle]="'For ' + organization?.name">
+    {{ props.submitLabel }}
+  </button>
+</div>

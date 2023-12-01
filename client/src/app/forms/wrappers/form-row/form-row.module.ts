@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcFieldGridWrapper } from './field-grid.wrapper'
+import { CvcFormRowWrapper } from './form-row.wrapper'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { ReactiveFormsModule } from '@angular/forms'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 
 const wrapperConfig: ConfigOption = {
-  wrappers: [{ name: 'field-grid', component: CvcFieldGridWrapper }],
+  wrappers: [{ name: 'form-row', component: CvcFormRowWrapper }],
 }
 @NgModule({
-  declarations: [CvcFieldGridWrapper],
+  declarations: [CvcFormRowWrapper],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -19,4 +19,4 @@ const wrapperConfig: ConfigOption = {
     FormlyModule.forChild(wrapperConfig),
   ],
 })
-export class CvcFieldGridWrapperModule {}
+export class CvcFormRowWrapperModule {}

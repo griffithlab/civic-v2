@@ -13,6 +13,7 @@ import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -39,10 +40,6 @@ const optionText: { [option: string]: string } = {
     'Evidence pertains to a variant that alters biological function from the reference state.',
 }
 
-export type CvcEntityTypeSelectFieldOptions = Partial<
-  FieldTypeConfig<CvcEntityTypeSelectFieldProps>
->
-
 interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
   label: string
   placeholder: string
@@ -50,11 +47,12 @@ interface CvcEntityTypeSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   description?: string
   tooltip?: string
+  extraType?: CvcFormFieldExtraType
 }
 
 export interface CvcEntityTypeSelectFieldConfig
   extends FormlyFieldConfig<CvcEntityTypeSelectFieldProps> {
-  type: 'type-select' | Type<CvcEntityTypeSelectField>
+  type: 'type-select' | 'type-multi-select' | Type<CvcEntityTypeSelectField>
 }
 
 const EntityTypeSelectMixin = mixin(
@@ -123,6 +121,7 @@ export class CvcEntityTypeSelectField
         } else {
           this.props.description = optionText[v]
           this.props.extraType = 'description'
+          this.field.formControl.markAsTouched()
         }
       })
     if (!this.state) {

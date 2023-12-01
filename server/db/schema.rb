@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_16_184536) do
+ActiveRecord::Schema.define(version: 2023_11_22_204214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1185,4 +1185,40 @@ ActiveRecord::Schema.define(version: 2023_11_16_184536) do
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
 
+  create_view "evidence_items_by_types", sql_definition: <<-SQL
+      SELECT mp.id AS molecular_profile_id,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 0) THEN 1
+              ELSE 0
+          END) AS diagnostic_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 1) THEN 1
+              ELSE 0
+          END) AS prognostic_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 2) THEN 1
+              ELSE 0
+          END) AS predictive_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 3) THEN 1
+              ELSE 0
+          END) AS predisposing_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 4) THEN 1
+              ELSE 0
+          END) AS functional_count,
+      sum(
+          CASE
+              WHEN (ei.evidence_type = 5) THEN 1
+              ELSE 0
+          END) AS oncogenic_count
+     FROM (molecular_profiles mp
+       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false) AND ((ei.status)::text <> 'rejected'::text))))
+    GROUP BY mp.id;
+  SQL
 end

@@ -95,10 +95,6 @@ export class CvcDiseaseSelectField
   extends DiseaseSelectMixin
   implements AfterViewInit
 {
-  // get template reference to quick-add form for add-entity-form wrapper props
-  @ViewChild('addDisease', { static: true })
-  addForm!: TemplateRef<any>
-
   // get option template query list to populate entity-select
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
@@ -173,11 +169,6 @@ export class CvcDiseaseSelectField
         })
     } else {
       this.configureField()
-    }
-
-    // configure add form props
-    if (this.addForm) {
-      this.field.props.addFormContent = this.addForm
     }
   } // ngAfterViewInit()
 
