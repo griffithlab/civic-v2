@@ -13,34 +13,38 @@
           nz-typography
           nzEllipsis
           nzType="secondary">
-          <i>Select or create a Molecular Profile with the expression editor </i>
+          <i
+            >Select or create a Molecular Profile with the expression editor
+          </i>
         </span>
       </div>
 
       <!-- using inline-block here to shrink select to size of its tag contents,
       reducing the changes a user will click within it and cause the search dropdown to appear -->
       <div
-        style="display: inline-block"
+        class="select-container"
         *ngIf="display.showSelect && !editorOpen">
-        <cvc-entity-select
-          [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-          [cvcCustomTemplate]="selectedTemplate"
-          [cvcFormControl]="formControl"
-          [cvcFormlyAttributes]="field"
-          [cvcEntityName]="props.entityName"
-          [cvcPlaceholder]="props.placeholder"
-          [cvcResults]="result$ | ngrxPush"
-          [cvcDisabled]="props.disabled"
-          [cvcAllowClear]="false"
-          [cvcOptions]="selectOption$ | ngrxPush"
-          [cvcShowError]="showError"
-          [cvcLoading]="isLoading$ | ngrxPush"
-          [cvcBorderless]="true"
-          [cvcSuffixIcon]="null"
-          [cvcShowArrow]="false"
-          (cvcOnSearch)="onSearch$.next($event)"
-          (cvcOnModelChange)="props.change && props.change(field, $event)">
-        </cvc-entity-select>
+        <div class="limit-select-width">
+          <cvc-entity-select
+            [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+            [cvcCustomTemplate]="selectedTemplate"
+            [cvcFormControl]="formControl"
+            [cvcFormlyAttributes]="field"
+            [cvcEntityName]="props.entityName"
+            [cvcPlaceholder]="props.placeholder"
+            [cvcResults]="result$ | ngrxPush"
+            [cvcDisabled]="props.disabled"
+            [cvcAllowClear]="false"
+            [cvcOptions]="selectOption$ | ngrxPush"
+            [cvcShowError]="showError"
+            [cvcLoading]="isLoading$ | ngrxPush"
+            [cvcBorderless]="true"
+            [cvcSuffixIcon]="null"
+            [cvcShowArrow]="false"
+            (cvcOnSearch)="onSearch$.next($event)"
+            (cvcOnModelChange)="props.change && props.change(field, $event)">
+          </cvc-entity-select>
+        </div>
       </div>
     </ng-container>
   </nz-col>

@@ -23,6 +23,7 @@ import { VariantgroupReviseTestModule } from './variantgroup-revise-test/variant
 import { GeneReviseTestModule } from './gene-revise-test/gene-revise-test.module'
 import { MolecularProfileReviseTestModule } from './molecular-profile-revise-test/molecular-profile-revise-test.module'
 import { VariantReviseTestModule } from './variant-revise-test/variant-revise-test.module'
+import { VariantSubmitTestModule } from './variant-submit-test/variant-submit-test.module'
 
 @NgModule({
   declarations: [TestPagesView],
@@ -34,21 +35,22 @@ import { VariantReviseTestModule } from './variant-revise-test/variant-revise-te
     NzIconModule,
     NzTypographyModule,
     NzTabsModule,
-    EvidenceSubmitTestModule,
-    EvidenceReviseTestModule,
-    GeneReviseTestModule,
-    MolecularProfileReviseTestModule,
-    AssertionSubmitTestModule,
-    AssertionReviseTestModule,
-    VariantReviseTestModule,
-    HorizontalFormTestModule,
-    InlineFormTestModule,
-    VerticalFormTestModule,
-    TagsTestModule,
     CvcPipesModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
+    AssertionReviseTestModule,
+    AssertionSubmitTestModule,
+    EvidenceReviseTestModule,
+    EvidenceSubmitTestModule,
+    GeneReviseTestModule,
+    HorizontalFormTestModule,
+    InlineFormTestModule,
+    MolecularProfileReviseTestModule,
+    TagsTestModule,
+    VariantReviseTestModule,
+    VariantSubmitTestModule,
     VariantgroupReviseTestModule,
+    VerticalFormTestModule,
   ],
   exports: [TestPagesView],
 })

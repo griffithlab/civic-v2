@@ -4,7 +4,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: {
-      submitLabel: 'Submit Variant Group',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -19,12 +18,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: {
-          title: 'Submit Variant Group',
+          formCardOptions: { title: 'Submit Variant Group' },
         },
         fieldGroup: [
           {
             key: 'name',
-            type: 'input',
+            type: 'base-input',
             props: {
               label: 'Variant Group Name',
               required: true,
@@ -41,7 +40,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               placeholder: 'Enter a Variant Group Summary',
               label: 'Variant Group Summary',
               required: true,
-              rows: 5
+              rows: 5,
             },
           },
           {
@@ -75,7 +74,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',

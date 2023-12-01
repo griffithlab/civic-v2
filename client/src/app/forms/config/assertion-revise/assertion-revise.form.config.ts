@@ -15,13 +15,13 @@ import { CvcEntityTypeSelectFieldConfig } from '@app/forms/types/type-select/typ
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Submit Revisions',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -35,152 +35,183 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Assertion',
+          formCardOptions: { title: 'Revise Assertion' },
         },
         fieldGroup: [
           {
-            key: 'molecularProfileId',
-            type: 'molecular-profile-select',
-            props: {
-              required: true,
-              watchVariantMolecularProfileId: true,
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 24,
+              },
             },
-          },
-          <CvcEntityTypeSelectFieldConfig>{
-            key: 'assertionType',
-            type: 'type-select',
-            props: {
-              required: true,
-            },
+            fieldGroup: [
+              {
+                key: 'molecularProfileId',
+                type: 'molecular-profile-select',
+                props: {
+                  required: true,
+                  watchVariantMolecularProfileId: true,
+                },
+              },
+            ],
           },
           {
-            key: 'assertionDirection',
-            type: 'direction-select',
-            props: {
-              required: true,
-              colSpan: 8,
-              formMode: 'revise'
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsive: { xs: 24, lg: 12, xl: 8, xxl: 6 },
+              },
             },
+            fieldGroup: [
+              <CvcEntityTypeSelectFieldConfig>{
+                key: 'assertionType',
+                type: 'type-select',
+                props: {
+                  required: true,
+                },
+              },
+              {
+                key: 'assertionDirection',
+                type: 'direction-select',
+                props: {
+                  required: true,
+                  formMode: 'revise',
+                },
+              },
+              {
+                key: 'significance',
+                type: 'significance-select',
+                props: {
+                  required: true,
+                  formMode: 'revise',
+                },
+              },
+              {
+                key: 'diseaseId',
+                type: 'disease-select',
+                props: {},
+              },
+              <CvcTherapySelectFieldOptions>{
+                key: 'therapyIds',
+                type: 'therapy-multi-select',
+                props: {},
+              },
+              <CvcInteractionSelectFieldOptions>{
+                key: 'therapyInteractionType',
+                type: 'interaction-select',
+                props: {},
+              },
+              <CvcOriginSelectFieldOptions>{
+                key: 'variantOrigin',
+                type: 'origin-select',
+                props: {
+                  required: true,
+                },
+              },
+              <CvcPhenotypeSelectFieldOptions>{
+                key: 'phenotypeIds',
+                type: 'phenotype-multi-select',
+                props: {},
+              },
+              {
+                key: 'ampLevel',
+                type: 'amp-category-select',
+                props: {},
+              },
+              {
+                key: 'acmgCodeIds',
+                type: 'acmg-code-multi-select',
+                props: {},
+              },
+              {
+                key: 'clingenCodeIds',
+                type: 'clingen-code-multi-select',
+                props: {},
+              },
+              <CvcNccnGuidelineSelectFieldOptions>{
+                key: 'nccnGuidelineId',
+                type: 'nccn-guideline-select',
+                props: {},
+              },
+              <CvcNccnGuidelineVersionFieldOptions>{
+                key: 'nccnGuidelineVersion',
+                type: 'nccn-guideline-version-input',
+                props: {},
+              },
+              <CvcFdaRegulatoryApprovalCheckboxFieldOptions>{
+                key: 'fdaRegulatoryApproval',
+                type: 'fda-regulatory-approval-checkbox',
+                props: {},
+              },
+              <CvcFdaCompanionTestCheckboxFieldOptions>{
+                key: 'fdaCompanionTest',
+                type: 'fda-companion-test-checkbox',
+                props: {},
+              },
+            ],
           },
           {
-            key: 'significance',
-            type: 'significance-select',
-            props: {
-              required: true,
-              colSpan: 8,
-              formMode: 'revise'
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsiveIndexed: [
+                  {
+                    xs: 24,
+                  },
+                  {
+                    md: 24,
+                    lg: 8,
+                  },
+                  {
+                    md: 24,
+                    lg: 16,
+                  },
+                ],
+              },
             },
-          },
-          {
-            key: 'diseaseId',
-            type: 'disease-select',
-            props: {
-              colSpan: 8,
-            },
-          },
-          <CvcTherapySelectFieldOptions>{
-            key: 'therapyIds',
-            type: 'therapy-multi-select',
-            props: {},
-          },
-          <CvcInteractionSelectFieldOptions>{
-            key: 'therapyInteractionType',
-            type: 'interaction-select',
-            props: {},
-          },
-          <CvcOriginSelectFieldOptions>{
-            key: 'variantOrigin',
-            type: 'origin-select',
-            props: {
-              required: true,
-            },
-          },
-          <CvcPhenotypeSelectFieldOptions>{
-            key: 'phenotypeIds',
-            type: 'phenotype-multi-select',
-            props: {},
-          },
-          {
-            key: 'ampLevel',
-            type: 'amp-category-select',
-            props: {
-              colSpan: 8,
-            }
-          },
-          {
-            key: 'acmgCodeIds',
-            type: 'acmg-code-multi-select',
-            props: {
-              colSpan: 8,
-            },
-          },
-          {
-            key: 'clingenCodeIds',
-            type: 'clingen-code-multi-select',
-            props: {
-              colSpan: 8,
-            },
-          },
-          <CvcNccnGuidelineSelectFieldOptions>{
-            key: 'nccnGuidelineId',
-            type: 'nccn-guideline-select',
-            props: {},
-          },
-          <CvcNccnGuidelineVersionFieldOptions>{
-            key: 'nccnGuidelineVersion',
-            type: 'nccn-guideline-version-input',
-            props: {}
-          },
-          <CvcFdaRegulatoryApprovalCheckboxFieldOptions>{
-            key: 'fdaRegulatoryApproval',
-            type: 'fda-regulatory-approval-checkbox',
-            props: {}
-          },
-          <CvcFdaCompanionTestCheckboxFieldOptions>{
-            key: 'fdaCompanionTest',
-            type: 'fda-companion-test-checkbox',
-            props: {}
-          },
-          {
-            key: 'evidenceItemIds',
-            type: 'evidence-multi-select',
-            props: {
-              required: true,
-              isMultiSelect: true,
-              colSpan: 24
-            },
-          },
-          {
-            key: 'summary',
-            type: 'textarea',
-            wrappers: ['form-field'],
-            props: {
-              tooltip:
-                'A short, one sentence summary of the Assertion',
-              placeholder: 'Enter an Assertion Summary',
-              label: 'Assertion Summary',
-              required: true,
-              colSpan: 24
-            },
-          },
-          {
-            key: 'description',
-            type: 'textarea',
-            wrappers: ['form-field'],
-            props: {
-              tooltip:
-                'A complete, original description of this Assertion. Limited to one paragraph.',
-              placeholder: 'Enter an Assertion Statement',
-              label: 'Assertion Statement',
-              required: true,
-              rows: 5 ,
-              colSpan: 24
-            },
+            fieldGroup: [
+              {
+                key: 'evidenceItemIds',
+                type: 'evidence-multi-select',
+                props: {
+                  required: true,
+                  isMultiSelect: true,
+                },
+              },
+              {
+                key: 'summary',
+                type: 'base-textarea',
+                props: {
+                  tooltip: 'A short, one sentence summary of the Assertion',
+                  placeholder: 'Enter an Assertion Summary',
+                  label: 'Assertion Summary',
+                  required: true,
+                },
+              },
+              {
+                key: 'description',
+                type: 'base-textarea',
+                props: {
+                  tooltip:
+                    'A complete, original description of this Assertion. Limited to one paragraph.',
+                  placeholder: 'Enter an Assertion Statement',
+                  label: 'Assertion Statement',
+                  required: true,
+                  rows: 5,
+                },
+              },
+            ],
           },
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
@@ -191,13 +222,14 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
               submitLabel: 'Submit Revisions',
+              align: 'right',
             },
           },
         ],

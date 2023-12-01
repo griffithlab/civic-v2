@@ -67,7 +67,7 @@ const optionText: any = {
   },
   Assertion: {
     PREDICTIVE: {
-      SUPPORTS: "Support the variant's response to a drug",
+      SUPPORTS: "Supports the variant's response to a drug",
       DOES_NOT_SUPPORT:
         'Does not support, or was inconclusive of an interaction between the variant and a drug',
     },
@@ -115,7 +115,7 @@ export interface CvcDirectionSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   requireTypePromptFn: (entityName: string) => string
   tooltip?: string
-  extraType?: CvcFormFieldExtraType,
+  extraType?: CvcFormFieldExtraType
   formMode: 'revise' | 'add' | 'clone'
 }
 
@@ -164,7 +164,7 @@ export class CvcDirectionSelectField
         `Select ${entityType ? entityType + ' ' : ''}${entityName} Direction`,
       requireTypePromptFn: (entityName: string) =>
         `Select ${entityName} Type to select its Direction`,
-      formMode: 'add'
+      formMode: 'add',
     },
   }
 
@@ -274,6 +274,7 @@ export class CvcDirectionSelectField
         if (!et || !ed || !this.state) return
         this.props.extraType = 'description'
         this.props.description = optionText[this.state.entityName][et][ed]
+        this.field.formControl.markAsTouched()
       })
   }
 }

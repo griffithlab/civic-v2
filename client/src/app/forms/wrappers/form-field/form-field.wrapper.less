@@ -1,73 +1,155 @@
 @import 'themes/default.less';
 
-@helpIconSize: 14px;
-@helpIconColor: #cfcfdf;
+@default-border: 1px solid @blue-1;
+@default-bg-color: @blue-1;
+@default-label-color: @blue-7;
+@default-icon-color: @blue-4;
 
-.layout-vertical ::ng-deep nz-form-item:first-of-type {
-  flex-wrap: nowrap;
-  flex-direction: column;
-}
+@disabled-border: 1px solid @grey-3;
+@disabled-bg-color: @grey-3;
+@disabled-label-color: @text-color-secondary;
+@disabled-icon-color: @grey-5;
 
-.layout-horizontal ::ng-deep nz-form-item:first-of-type {
-  flex-direction: inherit;
-  nz-form-label {
-    text-align: right;
-    line-height: 28px;
-    white-space: inherit;
-    padding: inherit;
-  }
-}
+@required-border: 1px solid @blue-4;
+@required-bg-color: @blue-1;
+@required-label-color: @blue-7;
+@required-icon-color: @blue-5;
 
-.layout-inline ::ng-deep nz-form-item:first-of-type {
-  flex-direction: inherit;
-  nz-form-label {
-    height: 28px;
-    line-height: 28px;
-    white-space: inherit;
-    padding: inherit;
-  }
-}
+@error-border: 1px solid @red-4;
+@error-bg-color: @red-1;
+@error-label-color: @red-7;
+@error-icon-color: @red-5;
 
-.cvc-field-label() {
-  label {
-    // embolden required labels
-    &.ant-form-item-required {
-      font-weight: 500;
+@valid-border: 1px solid @green-4;
+@valid-bg-color: @green-1;
+@valid-label-color: @green-7;
+@valid-icon-color: @green-5;
 
-      &:before {
-        border: 1px solid @error-color;
-        height: 1em;
-        content: '';
+@item-border-radius: 4px;
+@item-padding: 4px 8px;
+@item-border: @default-border;
+@item-background-color: @default-bg-color;
+
+:host {
+  > nz-form-item {
+    border-radius: @item-border-radius;
+    margin-top: 8px;
+    margin-bottom: 0;
+    // defaults
+    > nz-form-label {
+      span.label {
+        color: @default-label-color;
       }
+      ::ng-deep span.anticon {
+        margin-left: 0.25em;
+        path {
+          color: @default-icon-color;
+        }
+      }
+    }
 
+    // handy selector for selecting fields contained by a form-row wrapper
+    :host-context(.form-row-wrapped) {
+      > nz-form-item {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    // required state
+    &.required {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border: 1px solid @required-label-color;
+            height: 1em;
+            content: '';
+          }
+          span.label {
+            color: @required-label-color;
+            font-weight: 600;
+          }
+          ::ng-deep span.anticon path {
+            color: @required-icon-color;
+          }
+        }
+      }
+    }
+
+    // error state
+    &.error {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border-color: @error-label-color;
+          }
+          span.label {
+            color: @error-label-color;
+          }
+          ::ng-deep span.anticon path {
+            color: @error-icon-color;
+          }
+        }
+      }
+    }
+
+    // valid state
+    &.valid {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border-color: @valid-label-color;
+          }
+          span.label {
+            color: @valid-label-color;
+          }
+          ::ng-deep span.anticon path {
+            color: @valid-icon-color;
+          }
+        }
+      }
+    }
+
+    &.disabled {
+      > nz-form-label {
+        ::ng-deep label {
+          &:before {
+            border-color: @disabled-label-color;
+          }
+          span.label {
+            color: @disabled-label-color;
+          }
+          ::ng-deep span.anticon path {
+            color: @disabled-icon-color;
+          }
+        }
+      }
     }
   }
-
-  ::ng-deep span.label {
-    padding-right: 4px;
-  }
-
-  &.disabled label ::ng-deep span.label {
-    color: @text-color-secondary;
-  }
-
-  &.error label ::ng-deep span.label {
-    color: @error-color;
-  }
-
-  &.valid label ::ng-deep span.label {
-    color: @error-color;
-  }
 }
 
-.cvc-form-field-card() {
-  background-color: white;
-  border: 1px solid #d9d9d9;
-  padding: 4px 8px;
-  border-radius: 6px;
-  &.disabled {
-    border: 1px solid #f5f5f5;
-    background-color: #f5f5f5;
+// vertical layout fields displayed in a block w/ bg color & border styles
+:host(.layout-vertical) {
+  > nz-form-item {
+    background-color: @default-bg-color;
+    border: @default-border;
+    padding: @item-padding;
+    &.required {
+      background-color: @required-bg-color;
+      border: @required-border;
+    }
+    &.error {
+      background-color: @error-bg-color;
+      border: @error-border;
+    }
+    &.valid {
+      background-color: @valid-bg-color;
+      border: @valid-border;
+    }
+    &.disabled {
+      background-color: @disabled-bg-color;
+      border: @disabled-border;
+    }
   }
 }
 
@@ -88,27 +170,4 @@
 
 .cvc-form-field-validation {
   font-weight: 600;
-}
-
-nz-form-item.layout-horizontal {
-  ::ng-deep nz-form-label:first-of-type {
-    .cvc-field-label();
-  }
-}
-
-nz-form-item.layout-vertical {
-  .cvc-form-field-card();
-  ::ng-deep nz-form-label:first-of-type {
-    .cvc-field-label();
-  }
-
-  margin-bottom: @margin-lg;
-}
-
-nz-form-item.layout-inline {
-  ::ng-deep nz-form-label:first-of-type {
-    .cvc-field-label();
-    text-align: right;
-    margin-right: 6px;
-  }
 }

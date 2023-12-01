@@ -31,7 +31,7 @@ export class HorizontalFormPage implements OnInit {
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Horizontal Field Layout, No State',
+          formCardOptions: { title: 'Horizontal Field Layout, No State' },
         },
         fieldGroup: noStateFormsFieldConfig,
       },

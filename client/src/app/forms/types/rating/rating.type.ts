@@ -6,6 +6,7 @@ import {
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import { Maybe } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -34,6 +35,7 @@ interface CvcRatingFieldProps extends FormlyFieldProps {
   description?: string
   tooltip?: string
   hoverText: string[]
+  extraType?: CvcFormFieldExtraType
 }
 
 export interface CvcRatingSelectFieldConfig
@@ -52,10 +54,7 @@ const RatingMixin = mixin(
   styleUrls: ['./rating.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcRatingField
-  extends RatingMixin
-  implements AfterViewInit
-{
+export class CvcRatingField extends RatingMixin implements AfterViewInit {
   // LOCAL SOURCE STREAMS
   rating$: BehaviorSubject<Maybe<number>>
 
@@ -81,7 +80,7 @@ export class CvcRatingField
     this.configureBaseField() // mixin fn
     this.configureStateConnections() // local fn
 
-    if(this.formControl.value) {
+    if (this.formControl.value) {
       this.rating$.next(this.formControl.value)
     }
 
@@ -101,10 +100,14 @@ export class CvcRatingField
     this.onValueChange$
       .pipe(untilDestroyed(this))
       .subscribe((rating: Maybe<number>) => {
-        if (!rating) {
+        if (!rating || rating === 0) {
+          // zero is not a valid rating, unset model instead
+          this.formControl.setValue(undefined)
           this.props.description = undefined
+          this.props.extraType = 'prompt'
         } else {
           this.props.description = optionText[rating]
+          this.props.extraType = 'description'
         }
       })
   }
