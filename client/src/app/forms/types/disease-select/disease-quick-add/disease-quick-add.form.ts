@@ -81,7 +81,7 @@ export class CvcDiseaseQuickAddForm {
     this.fields = [
       {
         key: 'doid',
-        type: 'input',
+        type: 'base-input',
         props: {
           label: 'DOID',
           keydown: (k, e) => {
@@ -93,9 +93,7 @@ export class CvcDiseaseQuickAddForm {
       },
       {
         key: 'name',
-        // type: 'input',
         props: {
-          // label: 'Disease Name',
           hidden: true,
           required: true,
         },

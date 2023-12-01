@@ -1,17 +1,37 @@
-<nz-select nzAllowClear [nzOptions]="this.selectOptions" [ngModel]="this.selectModel" (ngModelChange)="optionSelected($event)" >
-</nz-select>
-
-<div *ngIf="showClinvarIdEntry$ | ngrxPush">
-  <cvc-string-tag
-    *ngFor="let tag of clinvarIds$ | ngrxPush"
-    [cvcMode]="'closeable'"
-    [cvcLabel]="tag"
-    (cvcOnClose)="tagClosed(tag)"></cvc-string-tag>
-
-    <input nz-input 
-      (keydown.enter)="onEnter($event)"
-      [placeholder]="this.props.placeholder" />
-</div>
-
-
-<input hidden nz-input [formControl]="formControl" [formlyAttributes]="field"/>
+<nz-row [nzGutter]="[8,8]">
+  <nz-col
+    nzSpan="24"
+    *ngIf="props.showExistenceOptions">
+    <nz-radio-group
+      [ngModel]="existenceModel$ | ngrxPush"
+      (ngModelChange)="existenceChange$.next($event)"
+      nzName="existence">
+      <label
+        *ngFor="let option of selectOptions"
+        nz-radio-button
+        [nzValue]="option.value"
+        nz-tooltip
+        [nzTooltipTitle]="option.tooltip">
+        {{ option.label }}
+      </label>
+    </nz-radio-group>
+  </nz-col>
+  <nz-col
+    nzSpan="24"
+    *ngIf="showTagSelect$ | ngrxPush">
+    <nz-select
+      nzMode="tags"
+      nzPlaceHolder="Enter ClinVar IDs"
+      nzAllowClear
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+      nzDropdownClassName="hide-dropdown"
+      (ngModelChange)="onValueChange$.next($event)">
+      <nz-option
+        *ngFor="let item of formControl.value"
+        [nzLabel]="item"
+        [nzValue]="item"
+        [nzHide]="true"></nz-option>
+    </nz-select>
+  </nz-col>
+</nz-row>

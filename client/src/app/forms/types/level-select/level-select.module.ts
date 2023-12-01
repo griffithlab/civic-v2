@@ -21,8 +21,7 @@ const typeConfig: ConfigOption = {
     },
     {
       name: 'level-multi-select',
-      wrappers: ['form-field'],
-      component: CvcLevelSelectField,
+      extends: 'level-select',
       defaultOptions: <Partial<FieldTypeConfig<CvcLevelSelectFieldProps>>>{
         props: {
           label: 'Levels',
@@ -38,7 +37,8 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    LetDirective, PushPipe,
+    LetDirective,
+    PushPipe,
     FormlyModule.forChild(typeConfig),
     NzTagModule,
     CvcPipesModule,

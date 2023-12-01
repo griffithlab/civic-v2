@@ -19,14 +19,12 @@ import {
   QuickAddVariantGQL,
   QuickAddVariantMutation,
   QuickAddVariantMutationVariables,
-  Variant,
-  VariantSelectTypeaheadFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
+import { FormlyFieldConfig } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
-import { CvcOrgSubmitButtonFieldConfig } from '../../org-submit-button/org-submit-button.type'
+import { BehaviorSubject, Subject } from 'rxjs'
+import { VariantIdWithCreationStatus } from '../variant-select.type'
 
 type VariantQuickAddModel = {
   name?: string
@@ -62,7 +60,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
     this.searchString$.next(str)
   }
 
-  @Output() cvcOnCreate = new EventEmitter<number>()
+  @Output() cvcOnCreate = new EventEmitter<VariantIdWithCreationStatus>()
 
   model: Partial<QuickAddVariantMutationVariables>
   form: UntypedFormGroup
@@ -153,7 +151,10 @@ export class CvcVariantQuickAddForm implements OnChanges {
       .pipe(untilDestroyed(this))
       .subscribe((str: Maybe<string>) => {
         this.model.name = str
-        if (str !== undefined && str.length < this.minNameLength) {
+        if (
+          str === undefined ||
+          (str !== undefined && str.length < this.minNameLength)
+        ) {
           this.formMessageDisplay$.next({
             message: `New Variant name must be at least ${this.minNameLength} characters.`,
           })
@@ -193,9 +194,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
         this.formMessageDisplay$.next({ message: undefined })
         setTimeout(() => {
           if (data && data.createVariant) {
-            const variant = data.createVariant
-              .variant as VariantSelectTypeaheadFieldsFragment
-            this.cvcOnCreate.next(variant.id)
+            this.cvcOnCreate.next({id: data.createVariant.variant.id, new: data.createVariant.new})
           }
         }, 1000)
       }

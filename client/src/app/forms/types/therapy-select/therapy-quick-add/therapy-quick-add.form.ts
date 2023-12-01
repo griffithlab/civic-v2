@@ -85,9 +85,7 @@ export class CvcTherapyQuickAddForm {
     this.fields = [
       {
         key: 'name',
-        // type: 'input',
         props: {
-          // label: 'Therapy Name',
           hidden: true,
           required: true,
         },
@@ -102,7 +100,6 @@ export class CvcTherapyQuickAddForm {
 
     // handle submit events from form
     this.onSubmit$.pipe(untilDestroyed(this)).subscribe((model) => {
-      console.log('therapy-quick-add form model submitted.', model)
       this.submitTherapy(model)
     })
   }

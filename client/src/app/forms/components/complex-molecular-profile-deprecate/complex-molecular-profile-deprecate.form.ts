@@ -15,7 +15,7 @@ import {
   EvidenceCountsForMolecularProfileGQL,
   Organization,
 } from '@app/generated/civic.apollo'
-import { Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import { ActivatedRoute } from '@angular/router'
@@ -42,7 +42,7 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
 
   success: boolean = false
   errorMessages: string[] = []
-  loading: boolean = false
+  mutationLoading$ = new BehaviorSubject(false)
 
   viewer$: Observable<Viewer>
 
@@ -50,7 +50,7 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
   reason: Maybe<MolecularProfileDeprecationReasonMutationInput>
   selectedOrg: Maybe<Organization>
 
-  hasEvidence$?: Observable<Boolean>
+  hasEvidence$?: Observable<boolean>
   isLoading$?: Observable<boolean>
 
   constructor(
@@ -98,6 +98,8 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
         organizationId: this.selectedOrg?.id,
       }
 
+      this.mutationLoading$.next(true)
+
       let state = this.deprecateComplexMolecularProfileMutator.mutate(
         this.deprecateComplexMolecularProfileGQL,
         input,
@@ -115,20 +117,16 @@ export class ComplexMolecularProfileDeprecateForm implements OnDestroy, OnInit {
         if (res) {
           this.success = true
           this.comment = ''
+          this.mutationLoading$.next(false)
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res.length > 0) {
           this.errorMessages = res
+          this.mutationLoading$.next(false)
         }
       })
-
-      state.isSubmitting$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((loading) => {
-          this.loading = loading
-        })
     }
   }
 

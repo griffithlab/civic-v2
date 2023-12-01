@@ -26,9 +26,11 @@ so apply select-item styles which mimic nz-select's multi-mode pseudo tags -->
   <nz-tag
     [nzMode]="'closeable'"
     (nzOnClose)="cvcOnClose.next($event)">
-    <span *ngIf="entity && entity.tooltip; else noTooltip"
-      nz-tooltip [nzTooltipTitle]="entity.tooltip">
-        <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+    <span
+      *ngIf="entity && entity.tooltip; else noTooltip"
+      nz-tooltip
+      [nzTooltipTitle]="entity.tooltip">
+      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
     </span>
   </nz-tag>
 </span>
@@ -39,9 +41,11 @@ pseudo-tag styles & close btn -->
 <span
   *ngIf="cvcContext === 'multi-select-item'"
   class="multi-select-item">
-  <span *ngIf="entity && entity.tooltip; else noTooltip"
-    nz-tooltip [nzTooltipTitle]="entity.tooltip">
-      <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
+  <span
+    *ngIf="entity && entity.tooltip; else noTooltip"
+    nz-tooltip
+    [nzTooltipTitle]="entity.tooltip">
+    <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </span>
 </span>
 
@@ -55,7 +59,9 @@ pseudo-tag styles & close btn -->
 </ng-template>
 
 <ng-template #popoverContent>
-  <cvc-entity-tag-popover *ngIf="this.popoverInput" [entity]="this.popoverInput"></cvc-entity-tag-popover>
+  <cvc-entity-tag-popover
+    *ngIf="this.popoverInput"
+    [entity]="this.popoverInput"></cvc-entity-tag-popover>
 </ng-template>
 
 <!-- tag contents, just the tag icon and label, used by the context templates above-->
@@ -71,7 +77,7 @@ pseudo-tag styles & close btn -->
     </a>
     <ng-template #tagLabel>
       <span
-        *ngIf="typename; else noIcon"
+        *ngIf="typename && cvcShowIcon; else noIcon"
         nz-icon
         [nzType]="typename | typenameToIcon"
         nzTheme="twotone"
@@ -88,12 +94,9 @@ pseudo-tag styles & close btn -->
     <ng-template [ngTemplateOutlet]="noIcon"></ng-template>
     CACHE-MISS ({{ cvcCacheId }})
   </ng-template>
+
   <ng-template #noIcon>
-    <span
-      nz-icon
-      class="tag-icon"
-      nzType="question-circle"
-      nzTheme="outline"></span>
+    <span class="tag-no-icon"></span>
   </ng-template>
 </ng-template>
 

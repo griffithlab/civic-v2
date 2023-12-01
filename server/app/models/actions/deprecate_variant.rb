@@ -21,7 +21,7 @@ module Actions
     def mark_variant_as_deprecated
       variant.deprecated = true
       variant.deprecation_reason = deprecation_reason
-      variant.save!
+      variant.save!(validate: false)
     end
 
     def mark_molecular_profiles_as_deprecated

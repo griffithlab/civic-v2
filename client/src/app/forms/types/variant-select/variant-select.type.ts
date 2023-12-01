@@ -30,7 +30,6 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { Apollo } from 'apollo-angular'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
@@ -39,15 +38,18 @@ import {
   map,
   Observable,
   ReplaySubject,
-  startWith,
   Subject,
   scan,
   withLatestFrom,
   filter,
   take,
 } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
+
+export interface VariantIdWithCreationStatus  {
+  new: boolean
+  id: number
+}
 
 export type CvcVariantSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcVariantSelectFieldProps>>
@@ -263,6 +265,13 @@ export class CvcVariantSelectField
     return (
       s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
     )
+  }
+
+  onSelectOrCreate(variant: VariantIdWithCreationStatus) {
+    this.onPopulate$.next(variant.id)
+    if(this.props.isNewlyCreatedCallback) {
+      this.props.isNewlyCreatedCallback(variant.new)
+    }
   }
 
   private onGeneId(gid: Maybe<number>): void {
