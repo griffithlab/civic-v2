@@ -153,7 +153,10 @@ export class CvcVariantQuickAddForm implements OnChanges {
       .pipe(untilDestroyed(this))
       .subscribe((str: Maybe<string>) => {
         this.model.name = str
-        if (str !== undefined && str.length < this.minNameLength) {
+        if (
+          str === undefined ||
+          (str !== undefined && str.length < this.minNameLength)
+        ) {
           this.formMessageDisplay$.next({
             message: `New Variant name must be at least ${this.minNameLength} characters.`,
           })
