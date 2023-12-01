@@ -15,16 +15,26 @@
 <ng-template #variantCreated>
   <ng-container *ngIf="newVariant$ | ngrxPush as variant">
     <nz-alert
+      *ngIf="newlyCreated"
       nzType="success"
       nzShowIcon
       [nzMessage]="successMessage"
-      [nzDescription]="successDescription"></nz-alert>
+      [nzDescription]="variantLink"></nz-alert>
     <ng-template #successMessage>
       New Variant {{ variant.name }} added.
     </ng-template>
-    <ng-template #successDescription>
+    <ng-template #variantLink>
       View its
       <a [routerLink]="['/variants', variant.id, 'summary']">details here</a>.
+    </ng-template>
+    <nz-alert
+      *ngIf="!newlyCreated"
+      nzType="info"
+      nzShowIcon
+      [nzMessage]="existsMessage"
+      [nzDescription]="variantLink"></nz-alert>
+    <ng-template #existsMessage>
+      Variant {{ variant.name }} already exists.
     </ng-template>
   </ng-container>
 </ng-template>

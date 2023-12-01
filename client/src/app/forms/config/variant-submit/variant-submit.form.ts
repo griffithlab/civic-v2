@@ -9,11 +9,6 @@ import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/var
 import { Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { BehaviorSubject } from 'rxjs'
-import {
-  FormGene,
-  FormMolecularProfile,
-  FormVariant,
-} from '@app/forms/forms.interfaces'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { Apollo, gql } from 'apollo-angular'
@@ -28,18 +23,6 @@ type VariantSubmitState = {
   formLayout: NzFormLayoutType
   fields: EntityFieldSubjectMap
 }
-
-// interface FormModel {
-//   fields: {
-//     gene: FormGene[]
-//     variant: FormVariant[]
-//   }
-// }
-
-// export interface SelectedVariant {
-//   variantId: number
-//   molecularProfile: FormMolecularProfile
-// }
 
 @Component({
   selector: 'cvc-variant-submit-form',
@@ -56,6 +39,7 @@ export class VariantSubmitForm {
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
   layout: NzFormLayoutType = 'horizontal'
+  newlyCreated?: boolean
 
   finderState: VariantSubmitState = {
     formLayout: this.layout,
@@ -101,6 +85,7 @@ export class VariantSubmitForm {
                 showExtra: false,
               },
               hideLabel: true,
+              isNewlyCreatedCallback: (isNew: boolean): void  => {this.newlyCreated = isNew},
             },
           },
         ],
