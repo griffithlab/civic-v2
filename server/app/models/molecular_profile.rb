@@ -51,8 +51,16 @@ class MolecularProfile < ActiveRecord::Base
     !deprecated
   end
 
+  def is_multi_variant?
+    return self.variants.count > 1
+  end
+
   def is_complex?
-    self.variants.count > 1
+    if self.is_multi_variant?
+      return true
+    else
+      return self.name.include? 'NOT'
+    end
   end
 
   GENE_REGEX = /#GID(?<id>\d+)/i
