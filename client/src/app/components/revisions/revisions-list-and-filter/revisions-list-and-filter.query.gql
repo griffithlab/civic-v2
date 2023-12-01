@@ -56,7 +56,6 @@ fragment revision on Revision {
   id
   revisionSetId
   createdAt
-  resolvedAt
   fieldName
   currentValue
   suggestedValue
@@ -111,54 +110,26 @@ fragment revision on Revision {
       }
     }
   }
-  revisor {
-    id
-    displayName
-    role
-  }
-  resolver {
-    id
-    displayName
-    role
-  }
-  creationComment {
-    parsedComment {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        link
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+  creationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
     }
   }
-  resolutionComment {
-    parsedComment {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        link
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+  resolutionActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
     }
   }
   status

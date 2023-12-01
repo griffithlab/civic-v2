@@ -1,0 +1,15 @@
+query ActivityCard($activityId: Int!) {
+  activity(id: $activityId) {
+    ...ActivityCard
+  }
+}
+
+fragment ActivityCard on ActivityInterface {
+  id
+  verbiage
+  #... on FlagEntityActivity {
+    #comment {
+      #...commentListNode
+    #}
+  #}
+}

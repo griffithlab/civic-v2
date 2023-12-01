@@ -1,10 +1,10 @@
-mutation QuickAddVariant($name: String!, $geneId: Int!) {
-  addVariant(input: { name: $name, geneId: $geneId }) {
+mutation QuickAddVariant($name: String!, $geneId: Int!, $organizationId: Int) {
+  createVariant(input: { name: $name, geneId: $geneId, organizationId: $organizationId }) {
     ...QuickAddVariantFields
   }
 }
 
-fragment QuickAddVariantFields on AddVariantPayload {
+fragment QuickAddVariantFields on CreateVariantPayload {
   clientMutationId
   new
   variant {

@@ -94,7 +94,7 @@ module Types::Queries
 
             return results + secondary_results + tertiary_results
           else
-            return results + secondar_results
+            return results + secondary_results
           end
         else
           return results

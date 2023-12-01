@@ -1,23 +1,19 @@
 module Actions
   class ResolveFlag
     include Actions::Transactional
-    include Actions::WithOriginatingOrganization
+    attr_reader :flag, :resolving_user, :organization_id, :flaggable
 
-    attr_reader :flag, :resolving_user, :organization_id, :comment, :flaggable
-
-    def initialize(flag:, resolving_user:, organization_id:, comment:)
+    def initialize(flag:, resolving_user:, organization_id:)
       @flag = flag
       @flaggable = flag.flaggable
       @resolving_user = resolving_user
       @organization_id = organization_id
-      @comment = comment
     end
 
     def execute
       resolve_flag
       update_flaggable_status
       create_event
-      create_comment
     end
 
     def resolve_flag
@@ -35,23 +31,13 @@ module Actions
     end
 
     def create_event
-      Event.create!(
+      events << Event.new(
         action: 'flag resolved',
         originating_user: resolving_user,
         subject: flaggable,
         originating_object: flag,
-        organization: resolve_organization(resolving_user, organization_id)
-      )
-    end
-
-    def create_comment
-      cmd = Actions::AddComment.new(
-        title: "",
-        body: comment,
-        commenter: resolving_user,
-        commentable: flag,
         organization_id: organization_id
-      ).perform
+      )
     end
   end
 end

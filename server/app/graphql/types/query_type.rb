@@ -138,6 +138,11 @@ module Types
       description 'Fetch a list of countries for user profiles.'
     end
 
+    field :activity, Types::Interfaces::ActivityInterface, null: true do
+      description "Find a CIViC activity record by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
@@ -180,6 +185,9 @@ module Types
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
     field :timepoint_stats, Types::CivicTimepointStats, null: false
+
+    field :activities, resolver: Resolvers::Activities
+
 
     def molecular_profile(id: )
       ::MolecularProfile.find_by(id: id)
@@ -246,6 +254,10 @@ module Types
 
     def revision(id: )
       Revision.find_by(id: id)
+    end
+
+    def activity(id: )
+      Activity.find_by(id: id)
     end
 
     def subscription_for_entity(subscribable: )

@@ -15,6 +15,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { CvcFlagPopoverComponent } from './flag-popover.component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 
 @NgModule({
   declarations: [CvcFlagPopoverComponent],
@@ -35,6 +36,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CvcVariantTagModule,
     CvcVariantGroupTagModule,
     CvcStatusTagModule,
+    CvcCommentBodyModule
   ],
   exports: [CvcFlagPopoverComponent],
 })

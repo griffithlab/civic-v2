@@ -6,6 +6,8 @@ class Event < ActiveRecord::Base
 
   has_many  :notifications
 
+  belongs_to :activity
+
   validates :originating_object, :originating_user, :subject, :action, { presence: true }
   validate :subject_is_subscribable
 

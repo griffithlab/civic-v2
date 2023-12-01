@@ -73,7 +73,7 @@
           </span>
           <ng-container *nzSpaceItem>
             <cvc-participant-list
-              listTitle="events && Action"
+              listTitle="Action"
               [participantList]="(actions$ | ngrxPush) || []"
               (participantSelectedEvent)="onActionSelected($event)">
               <ng-template

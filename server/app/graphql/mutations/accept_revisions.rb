@@ -95,11 +95,11 @@ class Mutations::AcceptRevisions < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, comment: nil, **_)
-    cmd = Actions::AcceptRevisions.new(
+    cmd = Activities::AcceptRevisions.new(
       revisions: revisions,
       accepting_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform

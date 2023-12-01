@@ -19,7 +19,8 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CommonModule,
     NzTagModule,
     NzIconModule,
-    CvcRevisionTagModule,
+    //TODO - resolve circular dependency so we can use this
+    //CvcRevisionTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,

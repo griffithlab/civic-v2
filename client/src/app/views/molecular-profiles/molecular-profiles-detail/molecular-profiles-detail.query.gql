@@ -8,10 +8,18 @@ fragment MolecularProfileDetailFields on MolecularProfile {
   id
   name
   deprecated
+  deprecationReason
+  complexMolecularProfileDeprecationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   deprecatedVariants {
     deprecationReason
-    deprecationComment {
-      ...commentListNode
+    deprecationActivity {
+      parsedNote {
+        ...parsedCommentFragment
+      }
     }
     id
     deprecated
@@ -27,5 +35,8 @@ fragment MolecularProfileDetailFields on MolecularProfile {
   }
   comments {
     totalCount
+  }
+  variants {
+    id
   }
 }

@@ -20,15 +20,30 @@ class Variant < ApplicationRecord
     class_name: "MolecularProfile",
     foreign_key: :single_variant_molecular_profile_id 
 
-  has_one :deprecation_event,
-    ->() { where(action: 'deprecated variant').includes(:originating_user) },
+  has_one :deprecation_activity,
     as: :subject,
-    class_name: 'Event'
-  has_one :deprecating_user, through: :deprecation_event, source: :originating_user
-  belongs_to :deprecation_comment, class_name: 'Comment', optional: true
+    class_name: 'DeprecateVariantActivity'
+  has_one :deprecating_user, through: :deprecation_activity, source: :user
+
+  has_one :creation_activity,
+    as: :subject,
+    class_name: 'CreateVariantActivity'
+  has_one :creating_user, through: :creation_activity, source: :user
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']
+
+  has_many :activities_linked_entities,
+    ->() { where(entity_type: 'Variant') },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_many :activities, through: :activities_linked_entities
+
+  has_one :deprecate_activity_link,
+    ->() { where(entity_type: 'Variant').eager_load(:activity).where("activities.type = 'DeprecateVariantActivity'") },
+    foreign_key: :entity_id,
+    class_name: 'ActivityLinkedEntity'
+  has_one :deprecate_activity, through: :deprecate_activity_link, source: :activity
 
   after_commit :reindex_mps
   after_create -> { MaterializedViews::VariantBrowseTableRow.refresh_async }
@@ -124,5 +139,28 @@ class Variant < ApplicationRecord
     if duplicate_name
       errors.add(:name, 'must be unique within a Gene')
     end
+  end
+
+  def editable_fields
+    [
+      :gene_id,
+      :name,
+      :variant_alias_ids,
+      :hgvs_description_ids,
+      :clinvar_entry_ids,
+      :variant_type_ids,
+      :reference_build,
+      :ensembl_version,
+      :chromosome,
+      :start,
+      :stop,
+      :reference_bases,
+      :variant_bases,
+      :representative_transcript,
+      :chromosome2,
+      :start2,
+      :stop2,
+      :representative_transcript2,
+    ]
   end
 end

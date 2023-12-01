@@ -40,9 +40,9 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
 
   def resolve(id:, organization_id: nil, new_status:, reason: nil, **_)
     if new_status != source_suggestion.status
-      cmd = Actions::UpdateSourceSuggestionStatus.new(
+      cmd = Activities::UpdateSourceSuggestionStatus.new(
         source_suggestion: source_suggestion,
-        updating_user: context[:current_user],
+        originating_user: context[:current_user],
         organization_id: organization_id,
         new_status: new_status,
         reason: reason

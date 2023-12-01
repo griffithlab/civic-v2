@@ -191,6 +191,7 @@ export class CvcInteractionSelectField
           this.props.extraType = 'description'
         } else {
           this.props.extraType = 'prompt'
+          this.field.formControl.markAsTouched()
         }
       })
   }
