@@ -10,6 +10,7 @@ import {
 import { CvcInputEnum } from '@app/forms/forms.types'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EnumSelectField } from '@app/forms/mixins/enum-select-field.mixin'
+import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import { Maybe, VariantOrigin } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
@@ -56,6 +57,7 @@ export interface CvcOriginSelectFieldProps extends FormlyFieldProps {
   isMultiSelect: boolean
   description?: string
   tooltip?: string
+  extraType?: CvcFormFieldExtraType
 }
 
 export interface CvcOriginSelectFieldConfig
@@ -140,9 +142,10 @@ export class CvcOriginSelectField
       .subscribe((origin: Maybe<VariantOrigin>) => {
         if (!origin) {
           this.props.description = undefined
+          this.props.extraType = 'prompt'
         } else {
           this.props.description = optionMap.get(origin)
-          this.field.formControl.markAsTouched()
+          this.props.extraType = 'description'
         }
       })
   }

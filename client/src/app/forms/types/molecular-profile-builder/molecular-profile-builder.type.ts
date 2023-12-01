@@ -29,7 +29,6 @@ export class CvcMolecularProfileBuilderType
           required: true,
           formLayout: 'inline',
           hideLabel: true,
-          colSpan: 12,
         },
         resetOnHide: false,
         expressions: {
@@ -51,7 +50,6 @@ export class CvcMolecularProfileBuilderType
           emitMolecularProfileId: true,
           formLayout: 'inline',
           hideLabel: true,
-          colSpan: 12,
         },
         resetOnHide: false,
         expressions: {

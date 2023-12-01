@@ -52,26 +52,29 @@ export function BaseFieldType<
         this.onValueChange$ = new BehaviorSubject<Maybe<V>>(
           this.formControl.value
         )
+
+        if (Array.isArray(this.formControl.value)) {
+          // only mark array type fields as touched if value contains elements
+          if (this.field.formControl.value.length > 0) {
+            this.formControl.markAsTouched()
+          }
+        } else {
+          this.formControl.markAsTouched()
+        }
       } else {
         this.onValueChange$ = new BehaviorSubject<Maybe<V>>(undefined)
       }
 
       // // DEBUG
       // // uncomment next line to limit logging to a single field
-      // if(this.field.key === 'evidenceDirection')
-      // this.onValueChange$
-      //   .pipe(tag(`${this.field.key} base-field onValueChange$`))
-      //   .subscribe()
+      // if (this.field.key === 'evidenceItemIds')
+      //   this.onValueChange$
+      //     .pipe(tag(`${this.field.key} base-field onValueChange$`))
+      //     .subscribe()
 
       // emit value from onValueChange$ for every model change
       this.onModelChange$.pipe(untilDestroyed(this)).subscribe((v) => {
         this.onValueChange$.next(v)
-      })
-
-      // trigger markAsTouched once for defined values, to trigger
-      // field validation for revise forms' pre-populated model values
-      this.onValueChange$.pipe(first()).subscribe((v) => {
-        if (v !== undefined) this.formControl.markAsTouched()
       })
 
       if (

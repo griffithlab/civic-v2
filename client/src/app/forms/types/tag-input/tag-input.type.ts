@@ -2,13 +2,11 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Injector,
   Type,
 } from '@angular/core'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { StringTagField } from '@app/forms/mixins/string-input-field.mixin'
 import { Maybe } from '@app/generated/civic.apollo'
-import { UntilDestroy } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
@@ -16,23 +14,17 @@ import {
 } from '@ngx-formly/core'
 import mixin from 'ts-mixin-extended'
 
-export type CvcBaseInputFieldOptions = Partial<
-  FieldTypeConfig<CvcBaseInputFieldProps>
->
-export interface CvcBaseInputFieldProps extends FormlyFieldProps {
+export type CvcTagInputOptions = Partial<FieldTypeConfig<CvcTagInputProps>>
+export interface CvcTagInputProps extends FormlyFieldProps {
   isMultiInput?: boolean
 }
 
-export interface CvcBaseInputFieldConfig
-  extends FormlyFieldConfig<CvcBaseInputFieldProps> {
-  type: 'tag-input' | 'tag-input-item' | Type<CvcBaseInputField>
+export interface CvcTagInputConfig extends FormlyFieldConfig<CvcTagInputProps> {
+  type: 'tag-input' | 'tag-input-item' | Type<CvcTagInputField>
 }
 
-const BaseInputMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcBaseInputFieldProps>,
-    Maybe<string | number>
-  >(),
+const TagInputMixin = mixin(
+  BaseFieldType<FieldTypeConfig<CvcTagInputProps>, Maybe<string | number>>(),
   StringTagField
 )
 
@@ -42,8 +34,8 @@ const BaseInputMixin = mixin(
   styleUrls: ['./tag-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
-  defaultOptions: Partial<FieldTypeConfig<CvcBaseInputFieldProps>> = {
+export class CvcTagInputField extends TagInputMixin implements AfterViewInit {
+  defaultOptions: Partial<FieldTypeConfig<CvcTagInputProps>> = {
     modelOptions: {
       // update model when focus leaves field
       // (template's keydown.enter listener blurs the field, updating the model)

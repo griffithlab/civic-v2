@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcBaseInputField, CvcBaseInputFieldProps } from './tag-input.type'
+import { CvcTagInputField, CvcTagInputProps } from './tag-input.type'
 import { ConfigOption, FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { LetDirective, PushPipe } from '@ngrx/component'
@@ -15,15 +15,15 @@ const typeConfig: ConfigOption = {
     {
       name: 'tag-input',
       wrappers: ['form-field'],
-      component: CvcBaseInputField,
+      component: CvcTagInputField,
     },
     {
       // for use in repeat-field types
       name: 'tag-multi-input',
       wrappers: ['form-field'],
-      component: CvcBaseInputField,
+      component: CvcTagInputField,
       defaultOptions: {
-        props: <CvcBaseInputFieldProps>{
+        props: <CvcTagInputProps>{
           isMultiInput: true,
         },
       },
@@ -32,7 +32,7 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcBaseInputField],
+  declarations: [CvcTagInputField],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -45,6 +45,6 @@ const typeConfig: ConfigOption = {
     NzTagModule,
     CvcStringTagModule,
   ],
-  exports: [CvcBaseInputField],
+  exports: [CvcTagInputField],
 })
-export class CvcBaseInputFieldModule {}
+export class CvcTagInputModule {}

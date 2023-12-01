@@ -31,7 +31,7 @@ export class VerticalFormPage implements OnInit {
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Vertical Field Layout, No State',
+          formCardOptions: { title: 'Vertical Field Layout, No State' },
         },
         fieldGroup: noStateFormsFieldConfig,
       },

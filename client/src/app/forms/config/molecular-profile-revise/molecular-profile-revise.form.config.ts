@@ -1,7 +1,9 @@
 import { molecularProfileReviseFormInitialModel } from '@app/forms/models/molecular-profile-revise.model'
+import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-button/org-submit-button.type'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
@@ -9,7 +11,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Revise Molecular Profile',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -24,62 +25,79 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Evidence Item',
+          formCardOptions: { title: 'Revise Molecular Profile' },
         },
         fieldGroup: [
           {
-            key: 'description',
-            type: 'textarea',
-            wrappers: ['form-field'],
-            props: {
-              placeholder: 'Enter a Molecular Profile Description',
-              label: 'Molecular Profile Description',
-              description: 'Provide a summary of the clinical relevance of this Molecular Profile. The Molecular Profile Summary should be a synthesis of the existing Evidence Statements for this profile. Basic information on recurrence rates and biological/functional impact of the variants may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance).',
-              extraType: 'prompt',
-              required: false,
-              rows: 5,
-              colSpan: 24
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                responsiveIndexed: [
+                  { md: 24, lg: 16 },
+                  { md: 24, lg: 8 },
+                  { xs: 24 },
+                ],
+              },
             },
-          },
-          {
-            key: 'aliases',
-            type: 'tag-multi-input',
-            wrappers: ['form-field'],
-            props: {
-              label: 'Aliases',
-              description: 'List any aliases commonly used to refer to this Molecular Profile',
-              extraType: 'prompt'
-            }
-          },
-          {
-            key: 'sourceIds',
-            type: 'source-multi-select',
-            wrappers: ['form-field'],
-            props: {},
+            fieldGroup: [
+              {
+                key: 'description',
+                type: 'textarea',
+                wrappers: ['form-field'],
+                props: {
+                  placeholder: 'Enter a Molecular Profile Description',
+                  label: 'Molecular Profile Description',
+                  description:
+                    'Provide a summary of the clinical relevance of this Molecular Profile. The Molecular Profile Summary should be a synthesis of the existing Evidence Statements for this profile. Basic information on recurrence rates and biological/functional impact of the variants may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance).',
+                  required: false,
+                  rows: 5,
+                },
+              },
+              {
+                key: 'aliases',
+                type: 'tag-multi-input',
+                wrappers: ['form-field'],
+                props: {
+                  label: 'Aliases',
+                  description:
+                    'List any aliases commonly used to refer to this Molecular Profile',
+                },
+              },
+              {
+                key: 'sourceIds',
+                type: 'source-multi-select',
+                wrappers: ['form-field'],
+                props: {},
+              },
+            ],
           },
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
-            type: 'textarea',
+            type: 'base-textarea',
             props: {
               label: 'Comment',
-              placeholder: 'Please enter a comment describing your revisions.',
               required: true,
-              minLength: 10
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
-          {
+          <CvcOrgSubmitButtonFieldConfig>{
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
-              submitLabel: 'Submit Molecular Profile Revisions',
+              submitLabel: 'Submit Revisions',
+              align: 'right',
             },
           },
         ],

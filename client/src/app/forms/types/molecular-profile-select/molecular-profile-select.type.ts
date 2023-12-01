@@ -115,10 +115,12 @@ export class CvcMolecularProfileSelectField
     props: {
       label: 'Molecular Profile',
       placeholder: 'Search Molecular Profiles',
+      tooltip:
+        'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated assertion.',
       isMultiSelect: false,
       description:
         'Select a Gene and Variant to specify a simple Molecular Profile.',
-      extraType: 'prompt',
+
       entityName: {
         singular: 'Molecular Profile',
         plural: 'Molecular Profiles',

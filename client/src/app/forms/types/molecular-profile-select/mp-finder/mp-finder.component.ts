@@ -2,12 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
-import { CvcFieldGridWrapperConfig } from '@app/forms/wrappers/field-grid/field-grid.wrapper'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { MolecularProfile, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
@@ -60,10 +59,11 @@ export class MpFinderComponent {
 
     this.config = [
       {
-        wrappers: ['field-grid'],
-        props: <CvcFieldGridWrapperConfig>{
-          grid: {
-            cols: 2,
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            gutter: [8, 0], // zero vertical margin ensures no top margins set on gene, variant select fields
+            span: 12,
           },
         },
         fieldGroup: [
@@ -73,9 +73,9 @@ export class MpFinderComponent {
             props: {
               placeholder: 'Select MP Gene',
               hideLabel: true,
-              layout: {
-                showExtra: false,
-              },
+              showExtra: false,
+              showErrorTip: false,
+              required: true,
             },
           },
           <CvcVariantSelectFieldOption>{
@@ -83,11 +83,11 @@ export class MpFinderComponent {
             type: 'variant-select',
             props: {
               placeholder: 'Select MP Variant',
-              requireGene: true,
-              layout: {
-                showExtra: false,
-              },
               hideLabel: true,
+              required: true,
+              showExtra: false,
+              showErrorTip: false,
+              requireGene: true,
             },
           },
         ],
