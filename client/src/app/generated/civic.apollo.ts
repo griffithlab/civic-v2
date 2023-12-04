@@ -1687,6 +1687,17 @@ export type EvidenceItemsByStatus = {
   submittedCount: Scalars['Int'];
 };
 
+export type EvidenceItemsByType = {
+  __typename: 'EvidenceItemsByType';
+  diagnosticCount: Scalars['Int'];
+  functionalCount: Scalars['Int'];
+  molecularProfileId: Scalars['Int'];
+  oncogenicCount: Scalars['Int'];
+  predictiveCount: Scalars['Int'];
+  predisposingCount: Scalars['Int'];
+  prognosticCount: Scalars['Int'];
+};
+
 export enum EvidenceLevel {
   A = 'A',
   B = 'B',
@@ -2431,6 +2442,7 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   /** List and filter events for an object */
   events: EventConnection;
   evidenceCountsByStatus: EvidenceItemsByStatus;
+  evidenceCountsByType: EvidenceItemsByType;
   /** The collection of evidence items associated with this molecular profile. */
   evidenceItems: EvidenceItemConnection;
   flagged: Scalars['Boolean'];
@@ -2438,6 +2450,7 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   flags: FlagConnection;
   id: Scalars['Int'];
   isComplex: Scalars['Boolean'];
+  isMultiVariant: Scalars['Boolean'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
@@ -3771,6 +3784,8 @@ export type QueryGeneTypeaheadArgs = {
 export type QueryGenesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  entrezIds?: InputMaybe<Array<Scalars['Int']>>;
+  entrezSymbols?: InputMaybe<Array<Scalars['String']>>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
 };
