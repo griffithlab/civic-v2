@@ -82,6 +82,14 @@ const routes: Routes = [
         },
       },
       {
+        path: 'features',
+        loadChildren: () =>
+          import('@app/views/features/features.module').then((m) => m.FeaturesModule),
+        data: {
+          breadcrumb: 'Features',
+        },
+      },
+      {
         path: 'organizations',
         loadChildren: () =>
           import('@app/views/organizations/organizations.module').then(

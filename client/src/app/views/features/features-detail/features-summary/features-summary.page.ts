@@ -1,0 +1,54 @@
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { Observable, Subscription } from 'rxjs'
+import { pluck } from 'rxjs-etc/operators'
+
+import {
+  SubscribableEntities,
+  SubscribableInput,
+  GenesSummaryGQL,
+  GeneSummaryFieldsFragment,
+  Maybe,
+} from '@app/generated/civic.apollo'
+
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+
+@Component({
+  selector: 'cvc-features-summary',
+  templateUrl: './features-summary.page.html',
+  styleUrls: ['./features-summary.page.less'],
+})
+export class FeaturesSummaryPage implements OnDestroy {
+  gene$?: Observable<Maybe<GeneSummaryFieldsFragment>>
+  loading$?: Observable<boolean>
+  viewer$?: Observable<Viewer>
+
+  subscribableEntity?: SubscribableInput
+
+  routeSub: Subscription
+
+  constructor(
+    private gql: GenesSummaryGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.viewer$ = this.viewerService.viewer$
+
+      let queryRef = this.gql.watch({ geneId: +params.featureId })
+      let observable = queryRef.valueChanges
+
+      this.subscribableEntity = {
+        id: +params.geneId,
+        entityType: SubscribableEntities.Gene,
+      }
+
+      this.gene$ = observable.pipe(pluck('data', 'gene'))
+      this.loading$ = observable.pipe(pluck('loading'))
+    })
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe()
+  }
+}

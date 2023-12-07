@@ -6011,6 +6011,11 @@ type Query {
   ): EvidenceItemConnection!
 
   """
+  Find a single feature by CIViC ID
+  """
+  feature(id: Int): Gene
+
+  """
   Find a flag by CIViC ID
   """
   flag(id: Int!): Flag
