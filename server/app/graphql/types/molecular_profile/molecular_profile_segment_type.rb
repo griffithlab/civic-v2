@@ -17,7 +17,7 @@ module Types::MolecularProfile
     def self.resolve_type(object, context)
       if object.is_a?(String)
         Types::MolecularProfile::MolecularProfileTextSegment
-      elsif object.is_a?(Gene)
+      elsif object.is_a?(Features::Gene)
         Types::Entities::GeneType
       elsif object.is_a?(Variant)
         Types::Entities::VariantType

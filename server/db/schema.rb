@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_22_204214) do
+ActiveRecord::Schema.define(version: 2023_12_04_203813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -442,6 +442,38 @@ ActiveRecord::Schema.define(version: 2023_11_22_204214) do
     t.index ["therapy_id", "evidence_item_id"], name: "idx_therapy_eid_bridge_table"
   end
 
+  create_table "feature_aliases", force: :cascade do |t|
+    t.text "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_feature_aliases_on_name"
+  end
+
+  create_table "feature_aliases_features", force: :cascade do |t|
+    t.bigint "feature_id", null: false
+    t.bigint "feature_alias_id", null: false
+    t.index ["feature_alias_id"], name: "index_feature_aliases_features_on_feature_alias_id"
+    t.index ["feature_id", "feature_alias_id"], name: "idx_feature_alias"
+    t.index ["feature_id"], name: "index_feature_aliases_features_on_feature_id"
+  end
+
+  create_table "features", force: :cascade do |t|
+    t.text "name", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "feature_instance_type", null: false
+    t.bigint "feature_instance_id", null: false
+    t.index ["feature_instance_type", "feature_instance_id"], name: "index_features_on_feature_instance"
+  end
+
+  create_table "features_sources", force: :cascade do |t|
+    t.bigint "source_id", null: false
+    t.bigint "feature_id", null: false
+    t.index ["feature_id"], name: "index_features_sources_on_feature_id"
+    t.index ["source_id"], name: "index_features_sources_on_source_id"
+  end
+
   create_table "flags", id: :serial, force: :cascade do |t|
     t.integer "flagging_user_id"
     t.integer "resolving_user_id"
@@ -868,11 +900,13 @@ ActiveRecord::Schema.define(version: 2023_11_22_204214) do
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
     t.text "open_cravat_url"
+    t.bigint "feature_id"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
     t.index ["chromosome2"], name: "index_variants_on_chromosome2"
     t.index ["deleted"], name: "index_variants_on_deleted"
+    t.index ["feature_id"], name: "index_variants_on_feature_id"
     t.index ["gene_id"], name: "index_variants_on_gene_id"
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
@@ -930,6 +964,10 @@ ActiveRecord::Schema.define(version: 2023_11_22_204214) do
   add_foreign_key "evidence_items_phenotypes", "phenotypes"
   add_foreign_key "evidence_items_therapies", "evidence_items"
   add_foreign_key "evidence_items_therapies", "therapies"
+  add_foreign_key "feature_aliases_features", "feature_aliases"
+  add_foreign_key "feature_aliases_features", "features"
+  add_foreign_key "features_sources", "features"
+  add_foreign_key "features_sources", "sources"
   add_foreign_key "gene_aliases_genes", "gene_aliases"
   add_foreign_key "gene_aliases_genes", "genes"
   add_foreign_key "genes_sources", "genes"
@@ -960,6 +998,7 @@ ActiveRecord::Schema.define(version: 2023_11_22_204214) do
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
   add_foreign_key "variants", "comments", column: "deprecation_comment_id"
+  add_foreign_key "variants", "features"
   add_foreign_key "variants", "genes"
   add_foreign_key "variants", "genes", column: "secondary_gene_id"
   add_foreign_key "variants", "molecular_profiles", column: "single_variant_molecular_profile_id"

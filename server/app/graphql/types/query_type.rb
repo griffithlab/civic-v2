@@ -206,9 +206,9 @@ module Types
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
       end
       if (id != :unspecified) 
-        Gene.find_by(id: id)
+        Features::Gene.find_by(id: id)
       else
-        Gene.find_by(name: entrez_symbol)
+        Features::Gene.find_by(name: entrez_symbol)
       end
     end
 

@@ -31,7 +31,7 @@ module Loaders
       Variant.where(id: resolved_variants.keys)
         .each { |v| resolved_variants[v.id] = v }
 
-      Gene.where(id: resolved_genes.keys)
+      Features::Gene.where(id: resolved_genes.keys)
         .each { |g| resolved_genes[g.id] = g }
 
       ids.each do |id|

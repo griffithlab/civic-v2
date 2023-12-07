@@ -19,7 +19,7 @@ module Types::Interfaces
           Types::Entities::EvidenceItemType
         when Flag
           Types::Entities::FlagType
-        when Gene
+        when Features::Gene
           Types::Entities::GeneType
         when Revision
           Types::Revisions::RevisionType

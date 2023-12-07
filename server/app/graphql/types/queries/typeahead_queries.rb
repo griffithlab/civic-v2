@@ -102,11 +102,11 @@ module Types::Queries
       end
 
       def gene_typeahead(query_term:)
-        results = Gene.where('genes.name ILIKE ?', "#{query_term}%")
+        results = Features::Gene.where('genes.name ILIKE ?', "#{query_term}%")
           .order("LENGTH(genes.name) ASC")
           .limit(10)
         if results.size < 10
-          secondary_results = Gene.eager_load(:gene_aliases)
+          secondary_results = Features::Gene.eager_load(:gene_aliases)
             .where("gene_aliases.name ILIKE ?", "#{query_term}%")
             .where.not(id: results.select('id'))
             .order("LENGTH(genes.name) ASC")
