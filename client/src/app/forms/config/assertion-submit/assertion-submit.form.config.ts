@@ -18,7 +18,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      showDevPanel: true,
+      showDevPanel: false,
     },
     fieldGroup: [
       {
