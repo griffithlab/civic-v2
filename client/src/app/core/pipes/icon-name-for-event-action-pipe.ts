@@ -52,6 +52,8 @@ export class IconNameForEventActionPipe implements PipeTransform {
         return 'civic-molecularprofile'
       case (EventAction.VariantCreated):
         return 'civic-variant'
+      case (EventAction.ComplexMolecularProfileCreated):
+        return 'civic-molecularprofile'
       default:
         return a
     }
