@@ -202,9 +202,9 @@ export class CvcVariantQuickAddForm implements OnChanges {
       const id = changes.cvcGeneName.currentValue
       this.geneName$.next(id)
     }
-    if (changes.cvcSearchString) {
+/*     if (changes.cvcSearchString) {
       const name = changes.cvcSearchString.currentValue
       this.model = { ...this.model, name: name }
-    }
+    } */
   }
 }
