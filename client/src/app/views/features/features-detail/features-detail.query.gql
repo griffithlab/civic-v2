@@ -1,21 +1,22 @@
-query GeneDetail($geneId: Int!) {
-  gene(id: $geneId) {
-    ...GeneDetailFields
+query FeatureDetail($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureDetailFields
   }
 }
 
-fragment GeneDetailFields on Gene {
+fragment FeatureDetailFields on FeatureInterface {
   id
   name
-  officialName
-  entrezId
-  flags(state: OPEN) {
-    totalCount
+  ... on Gene {
+    officialName
   }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
+  # flags(state: OPEN) {
+  #   totalCount
+  # }
+  # revisions(status: NEW) {
+  #   totalCount
+  # }
+  # comments {
+  #   totalCount
+  # }
 }

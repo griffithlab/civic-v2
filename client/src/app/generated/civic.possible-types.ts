@@ -65,6 +65,9 @@
       "Variant",
       "VariantGroup"
     ],
+    "FeatureInterface": [
+      "Gene"
+    ],
     "Flaggable": [
       "Assertion",
       "BrowseGene",

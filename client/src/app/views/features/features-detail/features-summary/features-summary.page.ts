@@ -6,8 +6,8 @@ import { pluck } from 'rxjs-etc/operators'
 import {
   SubscribableEntities,
   SubscribableInput,
-  GenesSummaryGQL,
-  GeneSummaryFieldsFragment,
+  FeaturesSummaryGQL,
+  FeatureSummaryFieldsFragment,
   Maybe,
 } from '@app/generated/civic.apollo'
 
@@ -19,7 +19,7 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
   styleUrls: ['./features-summary.page.less'],
 })
 export class FeaturesSummaryPage implements OnDestroy {
-  gene$?: Observable<Maybe<GeneSummaryFieldsFragment>>
+  feature$?: Observable<Maybe<FeatureSummaryFieldsFragment>>
   loading$?: Observable<boolean>
   viewer$?: Observable<Viewer>
 
@@ -28,22 +28,22 @@ export class FeaturesSummaryPage implements OnDestroy {
   routeSub: Subscription
 
   constructor(
-    private gql: GenesSummaryGQL,
+    private gql: FeaturesSummaryGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.viewer$ = this.viewerService.viewer$
 
-      let queryRef = this.gql.watch({ geneId: +params.featureId })
+      let queryRef = this.gql.watch({ featureId: +params.featureId })
       let observable = queryRef.valueChanges
 
-      this.subscribableEntity = {
-        id: +params.geneId,
+/*       this.subscribableEntity = {
+        id: +params.featureId,
         entityType: SubscribableEntities.Gene,
-      }
+      } */
 
-      this.gene$ = observable.pipe(pluck('data', 'gene'))
+      this.feature$ = observable.pipe(pluck('data', 'feature'))
       this.loading$ = observable.pipe(pluck('loading'))
     })
   }

@@ -14,6 +14,6 @@ fragment GeneSelectTypeaheadFields on Gene {
   id
   entrezId
   name
-  geneAliases
+  featureAliases
   link
 }

@@ -28,15 +28,15 @@
       <span
         nz-typography
         nzType="secondary">
-        <ng-container *ngIf="result.geneAliases.length > 0; else noAliases">
+        <ng-container *ngIf="result.featureAliases.length > 0; else noAliases">
           <em>
             <span
               nz-typography
               nzType="secondary"
               nz-tooltip
-              [nzTooltipTitle]="result.geneAliases.join(', ')"
+              [nzTooltipTitle]="result.featureAliases.join(', ')"
               [innerHtml]="
-                result.geneAliases.join(', ')
+                result.featureAliases.join(', ')
                   | highlightTypeahead : searchString
               "></span
           ></em>

@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import {
-  GeneDetailFieldsFragment,
-  GeneDetailGQL,
+  FeatureDetailFieldsFragment,
+  FeatureDetailGQL,
   Maybe,
   SubscribableEntities,
   SubscribableInput,
@@ -20,9 +20,9 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 })
 export class FeaturesDetailView implements OnDestroy {
   loading$?: Observable<boolean>
-  gene$?: Observable<Maybe<GeneDetailFieldsFragment>>
+  feature$?: Observable<Maybe<FeatureDetailFieldsFragment>>
   viewer$: Observable<Viewer>
-  flagsTotal$?: Observable<number>
+  //flagsTotal$?: Observable<number>
   routeSub: Subscription
   subscribable?: SubscribableInput
 
@@ -57,7 +57,7 @@ export class FeaturesDetailView implements OnDestroy {
   ]
 
   constructor(
-    private gql: GeneDetailGQL,
+    private gql: FeatureDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
@@ -65,28 +65,30 @@ export class FeaturesDetailView implements OnDestroy {
     this.viewer$ = this.viewerService.viewer$
 
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ geneId: +params.featureId }).valueChanges
+      let observable = this.gql.watch({ featureId: +params.featureId }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.gene$ = observable.pipe(pluck('data', 'gene'))
+      this.feature$ = observable.pipe(pluck('data', 'feature'))
 
-      this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'))
+      //this.flagsTotal$ = this.feature$.pipe(pluck('flags', 'totalCount'))
 
-      this.gene$
+      this.feature$
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (geneResp) => {
+          next: (featureResp) => {
             this.tabs$.next(
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    badgeCount: geneResp?.revisions.totalCount,
+                    // badgeCount: featureResp?.revisions.totalCount,
+                    badgeCount: 0,
                     ...tab,
                   }
                 } else if (tab.tabLabel === 'Comments') {
                   return {
-                    badgeCount: geneResp?.comments.totalCount,
+                    //badgeCount: featureResp?.comments.totalCount,
+                    badgeCount: 0,
                     badgeColor: '#cccccc',
                     ...tab,
                   }

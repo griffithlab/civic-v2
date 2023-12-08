@@ -1,24 +1,24 @@
-<ng-container *ngIf="gene$ | async as gene">
-  <cvc-section-navigation [displayName]="gene.name"> </cvc-section-navigation>
-  <div
-    cvcFlaggable
-    [flags]="flagsTotal$ | ngrxPush">
+<ng-container *ngIf="feature$ | async as feature">
+  <cvc-section-navigation [displayName]="feature.name"> </cvc-section-navigation>
+  <div>
+<!--     cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush"> -->
     <nz-page-header class="site-page-header">
       <!-- title -->
-      <nz-page-header-title
-        cvcFlaggableOptions
-        [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
+      <nz-page-header-title>
+        <!-- cvcFlaggableOptions
+        [ngClass]="{ 'flagged': feature.flags.totalCount > 0 }"> -->
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Gene' | entityColor"
           nzType="civic-gene"></i>
-        {{ gene.name }}
+        {{ feature.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
       <nz-page-header-subtitle>
-        {{ gene.officialName }}
+        {{ feature.officialName }}
       </nz-page-header-subtitle>
 
       <!-- header action btns, actions menu -->
@@ -30,7 +30,7 @@
           <!-- add revision btn -->
           <span *nzSpaceItem>
             <button
-              [routerLink]="['/features', gene.id, 'revise']"
+              [routerLink]="['/features', feature.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

@@ -1,16 +1,15 @@
-query GenesSummary($geneId: Int!) {
-  gene(id: $geneId) {
-    ...GeneSummaryFields
+query FeaturesSummary($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSummaryFields
   }
 }
 
-fragment GeneSummaryFields on Gene {
+fragment FeatureSummaryFields on FeatureInterface {
+  __typename
   description
-  entrezId
-  geneAliases
+  featureAliases
   id
   name
-  officialName
   sources {
     id
     citation
@@ -27,21 +26,25 @@ fragment GeneSummaryFields on Gene {
       }
     }
   }
-  myGeneInfoDetails
-  lastSubmittedRevisionEvent {
-    originatingUser {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
+  ... on Gene {
+    entrezId
+    officialName
+    myGeneInfoDetails
   }
-  lastAcceptedRevisionEvent {
-    originatingUser {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
-  }
+  # lastSubmittedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+  # lastAcceptedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
 }

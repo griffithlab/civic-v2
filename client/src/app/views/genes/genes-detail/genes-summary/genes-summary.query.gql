@@ -7,7 +7,7 @@ query GenesSummary($geneId: Int!) {
 fragment GeneSummaryFields on Gene {
   description
   entrezId
-  geneAliases
+  featureAliases
   id
   name
   officialName
