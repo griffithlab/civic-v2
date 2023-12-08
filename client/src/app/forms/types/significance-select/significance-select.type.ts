@@ -122,7 +122,6 @@ interface CvcSignificanceSelectFieldProps extends FormlyFieldProps {
   tooltip?: string
   description?: string
   extraType?: CvcFormFieldExtraType
-  formMode: 'revise' | 'add' | 'clone'
 }
 
 export interface CvcSignificanceSelectFieldConfig
@@ -170,7 +169,6 @@ export class CvcSignificanceSelectField
       requireTypePromptFn: (entityName: string) =>
         `Select ${entityName} Type to select its Significance`,
       tooltip: 'Clinical impact of the variant',
-      formMode: 'add',
     },
   }
 
@@ -247,7 +245,10 @@ export class CvcSignificanceSelectField
     this.onTypeSelect$ = this.state.fields[etName]
     // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
     this.onTypeSelect$
-      .pipe(skip(this.props.formMode === 'add' ? 0 : 1), untilDestroyed(this))
+      .pipe(
+        skip(this.options.formState.formMode === 'add' ? 0 : 1),
+        untilDestroyed(this)
+      )
       .subscribe((et: Maybe<CvcInputEnum>) => {
         if (!et) {
           this.props.disabled = true

@@ -3,16 +3,12 @@ import { CvcDirectionSelectFieldOptions } from '@app/forms/types/direction-selec
 import { CvcDiseaseSelectFieldOptions } from '@app/forms/types/disease-select/disease-select.type'
 import { CvcInteractionSelectFieldOptions } from '@app/forms/types/interaction-select/interaction-select.type'
 import { CvcLevelSelectFieldOptions } from '@app/forms/types/level-select/level-select.type'
-import { CvcMolecularProfileSelectFieldConfig } from '@app/forms/types/molecular-profile-select/molecular-profile-select.type'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-button/org-submit-button.type'
 import { CvcOriginSelectFieldOptions } from '@app/forms/types/origin-select/origin-select.type'
 import { CvcPhenotypeSelectFieldOptions } from '@app/forms/types/phenotype-select/phenotype-select.type'
 import { CvcRatingFieldOptions } from '@app/forms/types/rating/rating.type'
 import { CvcSignificanceSelectFieldOptions } from '@app/forms/types/significance-select/significance-select.type'
-import {
-  CvcSourceSelectFieldConfig,
-  CvcSourceSelectFieldOptions,
-} from '@app/forms/types/source-select/source-select.type'
+import { CvcSourceSelectFieldConfig } from '@app/forms/types/source-select/source-select.type'
 import { CvcTherapySelectFieldOptions } from '@app/forms/types/therapy-select/therapy-select.type'
 import { CvcEntityTypeSelectFieldConfig } from '@app/forms/types/type-select/type-select.type'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
@@ -22,7 +18,6 @@ import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wr
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
-  // form-layout wrapper embeds the form in an nz-grid row, allowing the form to be placed adjacent to other controls or page elements. Currently, it provides a toggleable dev panel. Could be used to add a preview of the entity being added/edited, or more extensive feedback like lists of similar entities, etc.
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
@@ -87,7 +82,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'direction-select',
                 props: {
                   required: true,
-                  formMode: 'revise',
                 },
               },
               <CvcSignificanceSelectFieldOptions>{
@@ -95,7 +89,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'significance-select',
                 props: {
                   required: true,
-                  formMode: 'revise',
                 },
               },
               <CvcDiseaseSelectFieldOptions>{

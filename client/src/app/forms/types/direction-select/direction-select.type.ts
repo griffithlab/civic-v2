@@ -116,7 +116,6 @@ export interface CvcDirectionSelectFieldProps extends FormlyFieldProps {
   requireTypePromptFn: (entityName: string) => string
   tooltip?: string
   extraType?: CvcFormFieldExtraType
-  formMode: 'revise' | 'add' | 'clone'
 }
 
 export interface CvcDirectionSelectFieldConfig
@@ -164,7 +163,6 @@ export class CvcDirectionSelectField
         `Select ${entityType ? entityType + ' ' : ''}${entityName} Direction`,
       requireTypePromptFn: (entityName: string) =>
         `Select ${entityName} Type to select its Direction`,
-      formMode: 'add',
     },
   }
 
@@ -246,7 +244,10 @@ export class CvcDirectionSelectField
     this.onEntityType$ = this.state.fields[etName]
     // if new entityType received, reset field, then based on entityType value, toggle disabled state, update placeholder
     this.onEntityType$
-      .pipe(skip(this.props.formMode === 'add' ? 0 : 1), untilDestroyed(this))
+      .pipe(
+        skip(this.options.formState.formMode === 'add' ? 0 : 1),
+        untilDestroyed(this)
+      )
       .subscribe((et: Maybe<CvcInputEnum>) => {
         if (!et) {
           this.props.disabled = true

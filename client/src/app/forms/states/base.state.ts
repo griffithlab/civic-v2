@@ -1,6 +1,4 @@
-import {
-  formatEvidenceEnum,
-} from '@app/core/utilities/enum-formatters/format-evidence-enum'
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import {
   AssertionSignificance,
   AssertionDirection,
@@ -21,6 +19,8 @@ export type EntityType = EvidenceType | AssertionType
 export type EntitySignificance = EvidenceSignificance | AssertionSignificance
 
 export type EntityDirection = EvidenceDirection | AssertionDirection
+
+export type CvcFormMode = 'revise' | 'add' | 'clone'
 
 export type ValidEntity = {
   entityType: EntityType
@@ -52,6 +52,7 @@ export type NoStateFormOptions = { formState: { formLayout: NzFormLayoutType } }
 export interface IEntityState {
   formReady$: Subject<boolean>
   formLayout: NzFormLayoutType
+  formMode: CvcFormMode
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[]
   getSignificanceOptions: (et: EntityType) => EntitySignificance[]
@@ -77,6 +78,7 @@ export interface IEntityState {
 class BaseState implements IEntityState {
   formReady$ = new Subject<boolean>()
   formLayout: NzFormLayoutType = 'vertical'
+  formMode: CvcFormMode = 'add'
   fields: EntityFieldSubjectMap
   enums: EntityFieldSubjectMap
   options: EntityFieldSubjectMap
