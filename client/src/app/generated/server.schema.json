@@ -28683,6 +28683,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "featureId",
+                  "description": "Filter molecular profiles to the CIViC ID of the feature(s) involved.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "variantId",
                   "description": "Filter molecular profiles by the CIViC ID of an involved variant.",
                   "type": {
@@ -30949,6 +30961,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "featureId",
+                  "description": "Filter variant types by internal CIViC id a feature",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": "Sort order for the variant type. Defaults to most recent.",
                   "type": {
@@ -31040,6 +31064,18 @@
                 {
                   "name": "geneId",
                   "description": "Gene that variants are associated with.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "featureId",
+                  "description": "Feature that the variants are associated with.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",

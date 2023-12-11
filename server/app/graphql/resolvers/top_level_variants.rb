@@ -18,6 +18,10 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
     scope.where(gene_id: value)
   end
 
+  option(:feature_id, type: GraphQL::Types::Int, description: 'Feature that the variants are associated with.') do |scope, value|
+    scope.where(feature_id: value)
+  end
+
   option(:variant_type_ids, type: [GraphQL::Types::Int], description: 'A list of CIViC identifiers for variant types') do  |scope, value|
     if value.size > 0
       scope.joins(:variant_types).where(variant_types: { id: value })

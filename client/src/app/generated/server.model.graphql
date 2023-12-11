@@ -6141,6 +6141,11 @@ type Query {
     evidenceStatusFilter: MolecularProfileDisplayFilter
 
     """
+    Filter molecular profiles to the CIViC ID of the feature(s) involved.
+    """
+    featureId: Int
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -6655,6 +6660,11 @@ type Query {
     before: String
 
     """
+    Filter variant types by internal CIViC id a feature
+    """
+    featureId: Int
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -6708,6 +6718,11 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+
+    """
+    Feature that the variants are associated with.
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.

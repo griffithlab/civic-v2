@@ -3829,6 +3829,7 @@ export type QueryMolecularProfilesArgs = {
   alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -4098,6 +4099,7 @@ export type QueryVariantTypeTypeaheadArgs = {
 export type QueryVariantTypesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
@@ -4112,6 +4114,7 @@ export type QueryVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
@@ -6227,6 +6230,7 @@ export type BrowseMolecularProfilesFieldsFragment = { __typename: 'BrowseMolecul
 
 export type MolecularProfileMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   mpName?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -6643,6 +6647,7 @@ export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, 
 
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
@@ -6656,12 +6661,12 @@ export type VariantsMenuQueryVariables = Exact<{
 
 export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean } | undefined }> } };
 
-export type VariantTypesForGeneQueryVariables = Exact<{
-  geneId?: InputMaybe<Scalars['Int']>;
+export type VariantTypesForFeatureQueryVariables = Exact<{
+  featureId?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type VariantTypesForGeneQuery = { __typename: 'Query', variantTypes: { __typename: 'BrowseVariantTypeConnection', edges: Array<{ __typename: 'BrowseVariantTypeEdge', node?: { __typename: 'BrowseVariantType', id: number, name: string, link: string } | undefined }> } };
+export type VariantTypesForFeatureQuery = { __typename: 'Query', variantTypes: { __typename: 'BrowseVariantTypeConnection', edges: Array<{ __typename: 'BrowseVariantTypeEdge', node?: { __typename: 'BrowseVariantType', id: number, name: string, link: string } | undefined }> } };
 
 export type MenuVariantTypeFragment = { __typename: 'BrowseVariantType', id: number, name: string, link: string };
 
@@ -11029,9 +11034,10 @@ export const BrowseMolecularProfilesDocument = gql`
     }
   }
 export const MolecularProfileMenuDocument = gql`
-    query MolecularProfileMenu($geneId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: MolecularProfileDisplayFilter) {
+    query MolecularProfileMenu($geneId: Int, $featureId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: MolecularProfileDisplayFilter) {
   molecularProfiles(
     geneId: $geneId
+    featureId: $featureId
     name: $mpName
     evidenceStatusFilter: $evidenceStatusFilter
     first: $first
@@ -12183,9 +12189,10 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $variantTypeIds: [Int!], $hasNoVariantType: Boolean, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($geneId: Int, $featureId: Int, $variantName: String, $variantTypeIds: [Int!], $hasNoVariantType: Boolean, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
     geneId: $geneId
+    featureId: $featureId
     name: $variantName
     variantTypeIds: $variantTypeIds
     hasNoVariantType: $hasNoVariantType
@@ -12222,9 +12229,9 @@ export const VariantsMenuDocument = gql`
       super(apollo);
     }
   }
-export const VariantTypesForGeneDocument = gql`
-    query VariantTypesForGene($geneId: Int) {
-  variantTypes(geneId: $geneId, first: 50) {
+export const VariantTypesForFeatureDocument = gql`
+    query VariantTypesForFeature($featureId: Int) {
+  variantTypes(featureId: $featureId, first: 50) {
     edges {
       node {
         ...menuVariantType
@@ -12237,8 +12244,8 @@ export const VariantTypesForGeneDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class VariantTypesForGeneGQL extends Apollo.Query<VariantTypesForGeneQuery, VariantTypesForGeneQueryVariables> {
-    document = VariantTypesForGeneDocument;
+  export class VariantTypesForFeatureGQL extends Apollo.Query<VariantTypesForFeatureQuery, VariantTypesForFeatureQueryVariables> {
+    document = VariantTypesForFeatureDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
