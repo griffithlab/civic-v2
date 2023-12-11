@@ -781,11 +781,12 @@ export type FdaCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FeatureInterfaceKeySpecifier = ('description' | 'featureAliases' | 'id' | 'name' | 'sources' | 'variants' | FeatureInterfaceKeySpecifier)[];
+export type FeatureInterfaceKeySpecifier = ('description' | 'featureAliases' | 'id' | 'link' | 'name' | 'sources' | 'variants' | FeatureInterfaceKeySpecifier)[];
 export type FeatureInterfaceFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>

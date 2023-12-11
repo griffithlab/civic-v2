@@ -4,4 +4,8 @@ class Feature < ApplicationRecord
   has_and_belongs_to_many :sources
 
   has_many :variants
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/features/#{self.id}")
+  end
 end

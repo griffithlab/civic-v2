@@ -25,10 +25,6 @@ module Features
       }
     end
 
-    def link
-      Rails.application.routes.url_helpers.url_for("/genes/#{self.id}")
-    end
-
     def display_name
       name
     end

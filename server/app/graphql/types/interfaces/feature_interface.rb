@@ -10,6 +10,7 @@ module Types::Interfaces
     field :feature_aliases, [String], null: false
     field :sources, [Types::Entities::SourceType], null: false
     field :variants, resolver: Resolvers::Variants
+    field :link, String, null: false
 
     orphan_types(
       Types::Entities::GeneType
@@ -31,6 +32,10 @@ module Types::Interfaces
 
     def variants
       Loaders::AssociationLoader.for(Feature, :variants).load(object)
+    end
+
+    def link
+      object.feature.link
     end
 
     definition_methods do

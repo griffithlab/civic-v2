@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module'
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
@@ -39,7 +39,7 @@ import { VariantsDetailView } from './variants-detail.view'
     CvcContributorAvatarsModule,
     CvcTabNavigationModule,
     CvcFlaggableModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
     CvcPipesModule,
