@@ -70,6 +70,7 @@
     ],
     "Flaggable": [
       "Assertion",
+      "BrowseFeature",
       "BrowseGene",
       "EvidenceItem",
       "Gene",

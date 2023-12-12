@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcGenesTableModule } from '@app/components/genes/genes-table/genes-table.module'
+import { CvcFeaturesTableModule } from '@app/components/features/features-table/features-table.module'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -23,7 +23,7 @@ import { FeaturesHomePage } from './features-home.page'
     NzGridModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
-    CvcGenesTableModule,
+    CvcFeaturesTableModule,
   ],
   exports: [FeaturesHomePage],
 })

@@ -878,6 +878,121 @@ type BrowseDiseaseEdge {
   node: BrowseDisease
 }
 
+type BrowseFeature implements Flaggable {
+  assertionCount: Int!
+  description: String!
+  diseases: [Disease!]
+  evidenceItemCount: Int!
+  featureAliases: [String!]
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  id: Int!
+  link: String!
+  molecularProfileCount: Int!
+  name: String!
+  therapies: [Therapy!]
+  variantCount: Int!
+}
+
+"""
+The connection type for BrowseFeature.
+"""
+type BrowseFeatureConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseFeatureEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseFeature!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseFeatureEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseFeature
+}
+
 type BrowseGene implements Flaggable {
   assertionCount: Int!
   description: String!
@@ -2836,6 +2951,29 @@ interface FeatureInterface {
     """
     name: String
   ): VariantConnection!
+}
+
+input FeaturesSort {
+  """
+  Available columns for sorting
+  """
+  column: FeaturesSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum FeaturesSortColumns {
+  assertionCount
+  diseaseName
+  evidenceItemCount
+  featureAlias
+  featureName
+  molecularProfileCount
+  therapyName
+  variantCount
 }
 
 type FieldName {
@@ -5535,6 +5673,32 @@ type Query {
     name: String
     sortBy: DiseasesSort
   ): BrowseDiseaseConnection!
+  browseFeatures(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    diseaseName: String
+    featureAlias: String
+    featureName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    sortBy: FeaturesSort
+    therapyName: String
+  ): BrowseFeatureConnection!
   browseGenes(
     """
     Returns the elements in the list that come after the specified cursor.
