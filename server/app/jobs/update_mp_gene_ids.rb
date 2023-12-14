@@ -3,8 +3,9 @@ class UpdateMpGeneIds < ApplicationJob
 
   def perform(variant)
     @variant = variant
+    #(\z|\s) needed so that #VID12 wont match #VID123
     @regex = Regexp.new(
-      MolecularProfile::GENE_REGEX.source + " #VID#{variant.id}",
+      MolecularProfile::GENE_REGEX.source + " #VID#{variant.id}(\z|\s)",
       Regexp::IGNORECASE
     )
 
