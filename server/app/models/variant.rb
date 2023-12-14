@@ -84,6 +84,7 @@ class Variant < ApplicationRecord
   end
 
   def on_revision_accepted
+    UpdateMpGeneIds.perform_later(self)
     SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
     GenerateOpenCravatLink.perform_later(self)
     update_single_variant_mp_aliases
