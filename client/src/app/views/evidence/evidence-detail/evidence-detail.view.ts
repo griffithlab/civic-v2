@@ -97,6 +97,11 @@ export class EvidenceDetailView implements OnDestroy {
                     badgeCount: evidenceResponse?.revisions.totalCount,
                     ...tab,
                   }
+                } else if (tab.tabLabel === 'Flags') {
+                  return {
+                    badgeCount: evidenceResponse?.flags.totalCount,
+                    ...tab,
+                  }
                 } else if (tab.tabLabel === 'Comments') {
                   return {
                     badgeCount: evidenceResponse?.comments.totalCount,

@@ -19,29 +19,5 @@ fragment GeneSummaryFields on Gene {
     displayType
     sourceType
   }
-  variants {
-    edges {
-      node {
-        id
-        name
-      }
-    }
-  }
   myGeneInfoDetails
-  lastSubmittedRevisionEvent {
-    originatingUser {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
-  }
-  lastAcceptedRevisionEvent {
-    originatingUser {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
-  }
 }

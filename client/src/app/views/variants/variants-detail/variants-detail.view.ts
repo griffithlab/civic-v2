@@ -92,6 +92,11 @@ export class VariantsDetailView implements OnDestroy {
                     badgeCount: variantResp?.revisions.totalCount,
                     ...tab,
                   }
+                } else if (tab.tabLabel === 'Flags') {
+                  return {
+                    badgeCount: variantResp?.flags.totalCount,
+                    ...tab,
+                  }
                 } else if (tab.tabLabel === 'Comments') {
                   return {
                     badgeCount: variantResp?.comments.totalCount,

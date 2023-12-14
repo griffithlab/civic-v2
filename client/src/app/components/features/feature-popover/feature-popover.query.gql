@@ -4,11 +4,13 @@ query FeaturePopover($featureId: Int!) {
   }
 }
 
-fragment featurePopover on FeatureInterface {
+fragment featurePopover on Feature {
   id
   name
-  ... on Gene {
-    officialName
+  featureInstance {
+    ... on Gene {
+      officialName
+    }
   }
   featureAliases
   variants {
@@ -20,7 +22,7 @@ fragment featurePopover on FeatureInterface {
   # comments {
   #   totalCount
   # }
-  # flags(state: OPEN) {
-  #   totalCount
-  # }
+  flags(state: OPEN) {
+    totalCount
+  }
 }

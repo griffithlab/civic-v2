@@ -9,5 +9,9 @@ module IsFeatureInstance
     delegate :feature_aliases, to: :feature
     delegate :sources, to: :feature
     delegate :variants, to: :feature
+
+    delegate :flagged, to: :feature
+    delegate :flags, to: :feature
+    delegate :most_recent_flag, to: :feature
   end
 end

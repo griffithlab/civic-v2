@@ -43,7 +43,7 @@ fragment BrowseFeaturesFields on BrowseFeature {
   id
   name
   link
-  #flagged
+  flagged
   featureAliases
   diseases {
     name

@@ -1,9 +1,6 @@
 module Types::Entities
-  class GeneType < Types::BaseObject
-    implements Types::Interfaces::FeatureInterface
-
+  class GeneType < Types::Entities::FeatureType
     implements Types::Interfaces::Commentable
-    implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::MolecularProfileComponent

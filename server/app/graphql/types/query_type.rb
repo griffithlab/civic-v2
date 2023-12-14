@@ -60,7 +60,7 @@ module Types
       argument :entrez_symbol, String, required: false
     end
 
-    field :feature, Types::Entities::GeneType, null: true do
+    field :feature, Types::Entities::FeatureType, null: true do
       description "Find a single feature by CIViC ID"
       argument :id, Int, required: false
     end
@@ -219,7 +219,7 @@ module Types
     end
 
     def feature(id: )
-      Feature.find_by(id: id).feature_instance
+      Feature.find_by(id: id)
     end
 
     def variant(id: )

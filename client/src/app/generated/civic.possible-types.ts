@@ -65,7 +65,7 @@
       "Variant",
       "VariantGroup"
     ],
-    "FeatureInterface": [
+    "FeatureInstance": [
       "Gene"
     ],
     "Flaggable": [
@@ -73,6 +73,7 @@
       "BrowseFeature",
       "BrowseGene",
       "EvidenceItem",
+      "Feature",
       "Gene",
       "MolecularProfile",
       "Variant",

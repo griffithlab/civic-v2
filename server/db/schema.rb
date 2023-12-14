@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_12_145853) do
+ActiveRecord::Schema.define(version: 2023_12_13_150951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -464,6 +464,7 @@ ActiveRecord::Schema.define(version: 2023_12_12_145853) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "feature_instance_type", null: false
     t.bigint "feature_instance_id", null: false
+    t.boolean "flagged", default: false, null: false
     t.index ["feature_instance_type", "feature_instance_id"], name: "index_features_on_feature_instance"
   end
 
@@ -1263,6 +1264,7 @@ ActiveRecord::Schema.define(version: 2023_12_12_145853) do
   create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_features.id,
       outer_features.name,
+      outer_features.flagged,
       array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
       json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
@@ -1303,4 +1305,6 @@ ActiveRecord::Schema.define(version: 2023_12_12_145853) do
     WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false))
     GROUP BY outer_features.id, outer_features.name;
   SQL
+  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
+
 end

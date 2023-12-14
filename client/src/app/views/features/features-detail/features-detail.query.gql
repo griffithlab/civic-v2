@@ -4,15 +4,17 @@ query FeatureDetail($featureId: Int!) {
   }
 }
 
-fragment FeatureDetailFields on FeatureInterface {
+fragment FeatureDetailFields on Feature {
   id
   name
-  ... on Gene {
-    officialName
+  featureInstance {
+    ... on Gene {
+      officialName
+    }
   }
-  # flags(state: OPEN) {
-  #   totalCount
-  # }
+  flags(state: OPEN) {
+    totalCount
+  }
   # revisions(status: NEW) {
   #   totalCount
   # }

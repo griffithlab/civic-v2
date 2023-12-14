@@ -14,7 +14,7 @@ export class FeaturesFlagsPage implements OnInit {
     const geneId: number = +this.route.snapshot.params['featureId']
 
     this.flaggable = {
-      entityType: FlaggableEntities.Gene,
+      entityType: FlaggableEntities.Feature,
       id: geneId,
     }
   }

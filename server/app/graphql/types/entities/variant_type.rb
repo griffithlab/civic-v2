@@ -11,8 +11,8 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :gene, Types::Entities::GeneType, null: false
-    field :feature, Types::Interfaces::FeatureInterface, null: false
+    field :gene, "Types::Entities::GeneType", null: false
+    field :feature, Types::Entities::FeatureType, null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
@@ -41,9 +41,7 @@ module Types::Entities
     end
 
     def feature
-      Loaders::AssociationLoader.for(Variant, :feature).load(object).then do |f|
-        Loaders::AssociationLoader.for(Feature, :feature_instance).load(f)
-      end
+      Loaders::AssociationLoader.for(Variant, :feature).load(object)
     end
 
     def variant_types

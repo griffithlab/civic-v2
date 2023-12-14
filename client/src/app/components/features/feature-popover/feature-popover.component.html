@@ -10,7 +10,8 @@
           nzTheme="twotone"
           [nzTwotoneColor]="'Gene' | entityColor"
           nzType="civic-gene"></i>
-        {{ feature.officialName }}
+        {{ feature.featureInstance.__typename }} - {{ feature.name }}
+        <!-- {{ feature.officialName }} -->
       </ng-template>
 
       <nz-descriptions
@@ -42,7 +43,7 @@
                 <i
                   nz-icon
                   nzType="civic-flag"></i>
-                Flags <!-- ({{ feature.flags.totalCount }}) -->
+                Flags ({{ feature.flags.totalCount }})
               </nz-tag>
             </a>
             <a

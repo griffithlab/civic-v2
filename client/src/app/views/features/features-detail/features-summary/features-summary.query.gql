@@ -4,32 +4,28 @@ query FeaturesSummary($featureId: Int!) {
   }
 }
 
-fragment FeatureSummaryFields on FeatureInterface {
-  __typename
-  description
-  featureAliases
+fragment FeatureSummaryFields on Feature{
   id
   name
-  sources {
-    id
-    citation
-    link
-    sourceUrl
-    displayType
-    sourceType
-  }
-  variants {
-    edges {
-      node {
+  featureInstance {
+    __typename
+    ... on Gene {
+      id
+      description
+      featureAliases
+      name
+      sources {
         id
-        name
+        citation
+        link
+        sourceUrl
+        displayType
+        sourceType
       }
+      entrezId
+      officialName
+      myGeneInfoDetails
     }
-  }
-  ... on Gene {
-    entrezId
-    officialName
-    myGeneInfoDetails
   }
   # lastSubmittedRevisionEvent {
   #   originatingUser {

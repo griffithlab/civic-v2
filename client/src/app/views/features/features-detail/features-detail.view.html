@@ -1,24 +1,26 @@
 <ng-container *ngIf="feature$ | async as feature">
   <cvc-section-navigation [displayName]="feature.name"> </cvc-section-navigation>
-  <div>
-<!--     cvcFlaggable
-    [flags]="flagsTotal$ | ngrxPush"> -->
+  <div
+    cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
       <!-- title -->
-      <nz-page-header-title>
-        <!-- cvcFlaggableOptions
-        [ngClass]="{ 'flagged': feature.flags.totalCount > 0 }"> -->
+      <nz-page-header-title
+        cvcFlaggableOptions
+        [ngClass]="{ 'flagged': feature.flags.totalCount > 0 }">
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Gene' | entityColor"
           nzType="civic-gene"></i>
-        {{ feature.name }}
+        {{ feature.featureInstance.__typename }} - {{ feature.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
       <nz-page-header-subtitle>
-        {{ feature.officialName }}
+        <ng-container *ngIf="feature.featureInstance.__typename == 'Gene'">
+          {{ feature.featureInstance.officialName }}
+        </ng-container>
       </nz-page-header-subtitle>
 
       <!-- header action btns, actions menu -->

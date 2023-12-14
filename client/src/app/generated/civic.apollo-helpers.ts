@@ -812,10 +812,13 @@ export type FdaCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FeatureInterfaceKeySpecifier = ('description' | 'featureAliases' | 'id' | 'link' | 'name' | 'sources' | 'variants' | FeatureInterfaceKeySpecifier)[];
-export type FeatureInterfaceFieldPolicy = {
+export type FeatureKeySpecifier = ('description' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'id' | 'link' | 'name' | 'sources' | 'variants' | FeatureKeySpecifier)[];
+export type FeatureFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -890,13 +893,14 @@ export type FlaggableFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneKeySpecifier = ('comments' | 'description' | 'entrezId' | 'events' | 'featureAliases' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
+export type GeneKeySpecifier = ('comments' | 'description' | 'entrezId' | 'events' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
 export type GeneFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	entrezId?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2402,9 +2406,9 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | FdaCodeKeySpecifier | (() => undefined | FdaCodeKeySpecifier),
 		fields?: FdaCodeFieldPolicy,
 	},
-	FeatureInterface?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | FeatureInterfaceKeySpecifier | (() => undefined | FeatureInterfaceKeySpecifier),
-		fields?: FeatureInterfaceFieldPolicy,
+	Feature?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FeatureKeySpecifier | (() => undefined | FeatureKeySpecifier),
+		fields?: FeatureFieldPolicy,
 	},
 	FieldName?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FieldNameKeySpecifier | (() => undefined | FieldNameKeySpecifier),

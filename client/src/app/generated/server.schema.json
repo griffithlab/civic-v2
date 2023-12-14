@@ -14572,8 +14572,8 @@
           "possibleTypes": null
         },
         {
-          "kind": "INTERFACE",
-          "name": "FeatureInterface",
+          "kind": "OBJECT",
+          "name": "Feature",
           "description": "The Feature that a Variant can belong to",
           "fields": [
             {
@@ -14611,6 +14611,151 @@
                       "ofType": null
                     }
                   }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "featureInstance",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "FeatureInstance",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "flagged",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "flags",
+              "description": "List and filter flags.",
+              "args": [
+                {
+                  "name": "flaggingUserId",
+                  "description": "Limit to flags added by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "resolvingUserId",
+                  "description": "Limit to flags resolved by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "state",
+                  "description": "Limit to flags in a particular state",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FlagState",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the flags. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FlagConnection",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -14766,6 +14911,22 @@
               "deprecationReason": null
             }
           ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Flaggable",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "UNION",
+          "name": "FeatureInstance",
+          "description": "The specific type of a feature instance",
+          "fields": null,
           "inputFields": null,
           "interfaces": null,
           "enumValues": null,
@@ -16115,6 +16276,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "Feature",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Gene",
               "ofType": null
             },
@@ -16145,6 +16311,12 @@
           "enumValues": [
             {
               "name": "GENE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -16238,7 +16410,7 @@
         {
           "kind": "OBJECT",
           "name": "Gene",
-          "description": null,
+          "description": "The Feature that a Variant can belong to",
           "fields": [
             {
               "name": "comments",
@@ -16529,6 +16701,22 @@
                       "ofType": null
                     }
                   }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "featureInstance",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "FeatureInstance",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -17006,17 +17194,7 @@
           "interfaces": [
             {
               "kind": "INTERFACE",
-              "name": "FeatureInterface",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
               "name": "Commentable",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Flaggable",
               "ofType": null
             },
             {
@@ -17032,6 +17210,11 @@
             {
               "kind": "INTERFACE",
               "name": "MolecularProfileComponent",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Flaggable",
               "ofType": null
             }
           ],
@@ -29030,7 +29213,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Gene",
+                "name": "Feature",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -41510,8 +41693,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "INTERFACE",
-                  "name": "FeatureInterface",
+                  "kind": "OBJECT",
+                  "name": "Feature",
                   "ofType": null
                 }
               },

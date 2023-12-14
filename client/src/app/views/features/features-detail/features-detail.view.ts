@@ -22,7 +22,7 @@ export class FeaturesDetailView implements OnDestroy {
   loading$?: Observable<boolean>
   feature$?: Observable<Maybe<FeatureDetailFieldsFragment>>
   viewer$: Observable<Viewer>
-  //flagsTotal$?: Observable<number>
+  flagsTotal$?: Observable<number>
   routeSub: Subscription
   subscribable?: SubscribableInput
 
@@ -71,7 +71,7 @@ export class FeaturesDetailView implements OnDestroy {
 
       this.feature$ = observable.pipe(pluck('data', 'feature'))
 
-      //this.flagsTotal$ = this.feature$.pipe(pluck('flags', 'totalCount'))
+      this.flagsTotal$ = this.feature$.pipe(pluck('flags', 'totalCount'))
 
       this.feature$
         .pipe(takeUntil(this.destroy$))
@@ -83,6 +83,11 @@ export class FeaturesDetailView implements OnDestroy {
                   return {
                     // badgeCount: featureResp?.revisions.totalCount,
                     badgeCount: 0,
+                    ...tab,
+                  }
+                } else if (tab.tabLabel === 'Flags') {
+                  return {
+                    badgeCount: featureResp?.flags.totalCount,
                     ...tab,
                   }
                 } else if (tab.tabLabel === 'Comments') {
