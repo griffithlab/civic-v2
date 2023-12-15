@@ -40,7 +40,7 @@ import { pluck } from 'rxjs-etc/operators'
 
 export interface MolecularProfileTableUserFilters {
   variantNameInput?: Maybe<string>
-  geneSymbolInput?: Maybe<string>
+  featureNameInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
   therapyNameInput?: Maybe<string>
 }
@@ -92,7 +92,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   // filters
   mpNameInput: Maybe<string>
   variantNameInput: Maybe<string>
-  geneSymbolInput: Maybe<string>
+  featureNameInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   therapyNameInput: Maybe<string>
   aliasInput: Maybe<string>
@@ -209,7 +209,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
         therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         molecularProfileAlias: this.aliasInput ? this.aliasInput : undefined,
-        entrezSymbol: this.geneSymbolInput,
+        featureName: this.featureNameInput,
       })
       .then(() => this.scrollIndex$.next(0))
 

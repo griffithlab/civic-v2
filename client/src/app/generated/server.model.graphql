@@ -1114,7 +1114,7 @@ type BrowseMolecularProfile {
   assertionCount: Int!
   diseases: [LinkableDisease!]!
   evidenceItemCount: Int!
-  genes: [LinkableGene!]!
+  features: [LinkableFeature!]!
   id: Int!
   link: String!
   molecularProfileScore: Float!
@@ -3954,12 +3954,6 @@ type LinkableFeature {
   name: String!
 }
 
-type LinkableGene {
-  id: Int!
-  link: String!
-  name: String!
-}
-
 type LinkableTherapy {
   id: Int!
   link: String!
@@ -5799,7 +5793,7 @@ type Query {
     """
     before: String
     diseaseName: String
-    entrezSymbol: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.

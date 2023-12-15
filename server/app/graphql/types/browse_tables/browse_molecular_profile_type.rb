@@ -8,8 +8,6 @@ module Types::BrowseTables
       field :name, String, null: false
     end
 
-    class LinkableGene < LinkableTag
-    end
     class LinkableVariant < LinkableTag
     end
     class LinkableDisease < LinkableTag
@@ -21,7 +19,7 @@ module Types::BrowseTables
     field :name, String, null: false
     field :diseases, [LinkableDisease], null: false
     field :therapies, [LinkableTherapy], null: false
-    field :genes, [LinkableGene], null: false
+    field :features, [LinkableFeatureType], null: false
     field :variants,[LinkableVariant], null: false
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
@@ -44,10 +42,10 @@ module Types::BrowseTables
       Rails.application.routes.url_helpers.url_for("/molecular-profiles/#{object.id}")
     end
 
-    def genes
-      Array(object.genes)
-        .sort_by { |g| g['name'] }
-        .map { |g| { name: g['name'], id: g['id'], link: "/genes/#{g['id']}"} }
+    def features
+      Array(object.features)
+        .sort_by { |f| f['name'] }
+        .map { |f| { name: f['name'], id: f['id'], link: "/features/#{f['id']}"} }
     end
 
     def variants

@@ -28,7 +28,7 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   end
 
   option(:variant_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('variants'), "#{value}%") }
-  option(:entrez_symbol, type: String)  { |scope, value| scope.where(json_name_query_for_column('genes'), "#{value}%") }
+  option(:feature_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('features'), "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:therapy_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
   option(:molecular_profile_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
