@@ -1,6 +1,6 @@
 query BrowseVariants(
   $variantName: String
-  $entrezSymbol: String
+  $featureName: String
   $diseaseName: String
   $therapyName: String
   $variantAlias: String
@@ -16,7 +16,7 @@ query BrowseVariants(
 ) {
   browseVariants(
     variantName: $variantName
-    entrezSymbol: $entrezSymbol
+    featureName: $featureName
     diseaseName: $diseaseName
     therapyName: $therapyName
     variantAlias: $variantAlias
@@ -53,9 +53,9 @@ fragment BrowseVariantsFields on BrowseVariant {
   id
   name
   link
-  geneId
-  geneName
-  geneLink
+  featureId
+  featureName
+  featureLink
   diseases {
     id
     name

@@ -25,7 +25,7 @@ import {
 
 export const columnKeyToSortColumnMap: VariantManagerColSortMap = {
   diseases: VariantsSortColumns.DiseaseName,
-  gene: VariantsSortColumns.EntrezSymbol,
+  feature: VariantsSortColumns.FeatureName,
   therapies: VariantsSortColumns.TherapyName,
   variant: VariantsSortColumns.VariantName,
 }
@@ -37,7 +37,7 @@ export const columnKeyToQueryVariableMap: VariantManagerColQueryMap = {
   diseases: 'diseaseName',
   therapies: 'therapyName',
   variant: 'variantName',
-  gene: 'entrezSymbol',
+  feature: 'featureName',
   aliases: 'variantAlias'
 }
 
@@ -114,8 +114,8 @@ export class VariantManagerConfig {
         },
       },
       {
-        key: 'gene',
-        label: 'Gene',
+        key: 'feature',
+        label: 'Feature',
         type: 'entity-tag',
         width: '135px',
         tag: {
@@ -124,7 +124,7 @@ export class VariantManagerConfig {
         sort: {},
         filter: {
           inputType: 'default',
-          options: [{ key: 'Filter Gene Name', value: null }],
+          options: [{ key: 'Filter Feature Name', value: null }],
         },
       },
       {

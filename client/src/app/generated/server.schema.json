@@ -6509,7 +6509,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneId",
+              "name": "featureId",
               "description": null,
               "args": [],
               "type": {
@@ -6525,7 +6525,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneLink",
+              "name": "featureLink",
               "description": null,
               "args": [],
               "type": {
@@ -6541,7 +6541,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneName",
+              "name": "featureName",
               "description": null,
               "args": [],
               "type": {
@@ -27908,7 +27908,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "entrezSymbol",
+                  "name": "featureName",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -44340,7 +44340,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "entrezSymbol",
+              "name": "featureName",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

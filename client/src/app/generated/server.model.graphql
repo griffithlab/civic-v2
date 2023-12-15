@@ -1385,9 +1385,9 @@ type BrowseTherapyEdge {
 type BrowseVariant {
   aliases: [VariantAlias!]!
   diseases: [Disease!]!
-  geneId: Int!
-  geneLink: String!
-  geneName: String!
+  featureId: Int!
+  featureLink: String!
+  featureName: String!
   id: Int!
   link: String!
   name: String!
@@ -5878,7 +5878,7 @@ type Query {
     """
     before: String
     diseaseName: String
-    entrezSymbol: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.
@@ -9754,7 +9754,7 @@ input VariantsSort {
 
 enum VariantsSortColumns {
   diseaseName
-  entrezSymbol
+  featureName
   therapyName
   variantName
 }

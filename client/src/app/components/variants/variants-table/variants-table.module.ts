@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module'
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module'
@@ -39,7 +39,7 @@ import { CvcVariantsTableComponent } from './variants-table.component'
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcPlainTagOverflowModule,

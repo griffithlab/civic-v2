@@ -5,17 +5,14 @@ import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueCategory } from '@app/forms/components/empty-value/empty-value.component'
 import { CvcTagLabelMax } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
-  EvidenceItem,
   VariantManagerFieldsFragment,
   VariantManagerQuery,
   VariantManagerQueryVariables,
-  EvidenceSortColumns,
   Maybe,
-  PageInfo,
   SortDirection,
   BrowseVariant,
   VariantsSortColumns,
-  Gene,
+  Feature,
 } from '@app/generated/civic.apollo'
 import { GraphQLError } from 'graphql'
 import {
@@ -46,7 +43,7 @@ export type VariantManagerConnection = VariantManagerQuery['browseVariants']
 type VariantManagerRowDataExtra = {
   variant: Pick<BrowseVariant, 'id' | 'name' | 'link'>
   // need evidence object for entity tag in selectEntity column
-  gene: Pick<Gene, 'id' | 'name' | 'link'>
+  feature: Pick<Feature, 'id' | 'name' | 'link'>
   // additional boolean column to handle row selected state
   selected: boolean
 }
@@ -57,9 +54,9 @@ export type VariantManagerRowData = Pick<
   VariantManagerFieldsFragment,
   | 'id'
   | 'name'
-  | 'geneId'
-  | 'geneName'
-  | 'geneLink'
+  | 'featureId'
+  | 'featureName'
+  | 'featureLink'
   | 'diseases'
   | 'therapies'
   | 'aliases'
@@ -74,7 +71,7 @@ export type ConvertedQueryVar = keyof Pick<
   | 'variantAlias'
   | 'diseaseName'
   | 'therapyName'
-  | 'entrezSymbol'
+  | 'featureName'
   | 'variantAlias'
 >
 
