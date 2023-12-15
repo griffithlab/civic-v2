@@ -815,8 +815,8 @@ type BrowseDisease {
   displayName: String!
   doid: String
   evidenceItemCount: Int!
-  geneCount: Int!
-  geneNames: [String!]!
+  featureCount: Int!
+  features: [LinkableFeature!]!
   id: Int!
   link: String!
   name: String!
@@ -2215,7 +2215,7 @@ enum DiseasesSortColumns {
   ASSERTION_COUNT
   DOID
   EVIDENCE_ITEM_COUNT
-  GENE_COUNT
+  FEATURE_COUNT
   NAME
   VARIANT_COUNT
 }
@@ -3943,6 +3943,12 @@ type LeaderboardUserEdge {
 }
 
 type LinkableDisease {
+  id: Int!
+  link: String!
+  name: String!
+}
+
+type LinkableFeature {
   id: Int!
   link: String!
   name: String!
@@ -5715,12 +5721,12 @@ type Query {
     """
     before: String
     doid: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
-    geneNames: String
     id: Int
 
     """

@@ -492,8 +492,8 @@ export type BrowseDisease = {
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
-  geneCount: Scalars['Int'];
-  geneNames: Array<Scalars['String']>;
+  featureCount: Scalars['Int'];
+  features: Array<LinkableFeature>;
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -1412,7 +1412,7 @@ export enum DiseasesSortColumns {
   AssertionCount = 'ASSERTION_COUNT',
   Doid = 'DOID',
   EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
-  GeneCount = 'GENE_COUNT',
+  FeatureCount = 'FEATURE_COUNT',
   Name = 'NAME',
   VariantCount = 'VARIANT_COUNT'
 }
@@ -2401,6 +2401,13 @@ export type LeaderboardUserEdge = {
 
 export type LinkableDisease = {
   __typename: 'LinkableDisease';
+  id: Scalars['Int'];
+  link: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type LinkableFeature = {
+  __typename: 'LinkableFeature';
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -6165,13 +6172,13 @@ export type BrowseDiseasesQueryVariables = Exact<{
   sortBy?: InputMaybe<DiseasesSort>;
   name?: InputMaybe<Scalars['String']>;
   doid?: InputMaybe<Scalars['String']>;
-  geneNames?: InputMaybe<Scalars['String']>;
+  featureName?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, geneNames: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, geneCount: number, link: string } | undefined }> } };
+export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseDiseaseRowFieldsFragment = { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, geneNames: Array<string>, assertionCount: number, evidenceItemCount: number, variantCount: number, geneCount: number, link: string };
+export type BrowseDiseaseRowFieldsFragment = { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> };
 
 export type EventFeedCountQueryVariables = Exact<{
   subject?: InputMaybe<SubscribableQueryInput>;
@@ -8094,11 +8101,15 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   name
   doid
   diseaseUrl
-  geneNames
+  features {
+    id
+    name
+    link
+  }
   assertionCount
   evidenceItemCount
   variantCount
-  geneCount
+  featureCount
   link
 }
     `;
@@ -10835,7 +10846,7 @@ export const DiseasePopoverDocument = gql`
     }
   }
 export const BrowseDiseasesDocument = gql`
-    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $geneNames: String) {
+    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $featureName: String) {
   browseDiseases(
     first: $first
     last: $last
@@ -10844,7 +10855,7 @@ export const BrowseDiseasesDocument = gql`
     sortBy: $sortBy
     name: $name
     doid: $doid
-    geneNames: $geneNames
+    featureName: $featureName
   ) {
     pageInfo {
       endCursor

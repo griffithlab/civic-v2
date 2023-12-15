@@ -8,7 +8,7 @@ import {
 } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
-export type SupportedPileupTags = 'therapy' | 'disease' | 'gene' | 'organization' | 'variant' | 'variant-type'
+export type SupportedPileupTags = 'therapy' | 'disease' | 'gene' | 'feature' | 'organization' | 'variant' | 'variant-type'
 
 export type TagInfo = {
   id: number

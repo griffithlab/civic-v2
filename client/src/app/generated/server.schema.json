@@ -3680,7 +3680,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneCount",
+              "name": "featureCount",
               "description": null,
               "args": [],
               "type": {
@@ -3709,8 +3709,8 @@
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
+                      "kind": "OBJECT",
+                      "name": "LinkableFeature",
                       "ofType": null
                     }
                   }
@@ -11372,7 +11372,7 @@
               "deprecationReason": null
             },
             {
-              "name": "GENE_COUNT",
+              "name": "FEATURE_COUNT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -19023,6 +19023,65 @@
         {
           "kind": "OBJECT",
           "name": "LinkableDisease",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "link",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "LinkableFeature",
           "description": null,
           "fields": [
             {
@@ -27098,7 +27157,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "geneNames",
+                  "name": "featureName",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
