@@ -92,7 +92,7 @@
       "Variant"
     ],
     "MolecularProfileSegment": [
-      "Gene",
+      "Feature",
       "MolecularProfileTextSegment",
       "Variant"
     ],

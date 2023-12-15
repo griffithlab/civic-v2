@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcMolecularProfileVariantCardComponent } from './molecular-profile-variant-card.component'
@@ -19,6 +18,7 @@ import { RouterModule } from '@angular/router'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @NgModule({
   declarations: [CvcMolecularProfileVariantCardComponent],
@@ -35,7 +35,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
     NzSpaceModule,
     CvcPipesModule,
     CvcVariantTagModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcVariantTypeTagModule,

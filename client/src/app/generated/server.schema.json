@@ -3696,7 +3696,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneNames",
+              "name": "features",
               "description": null,
               "args": [],
               "type": {
@@ -21776,7 +21776,7 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "Gene",
+              "name": "Feature",
               "ofType": null
             },
             {

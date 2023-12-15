@@ -4550,7 +4550,7 @@ type MolecularProfileNamePreview {
 A segment of a molecular profile. Either a string representing a boolean
 operator or a tag component representing a gene or variant
 """
-union MolecularProfileSegment = Gene | MolecularProfileTextSegment | Variant
+union MolecularProfileSegment = Feature | MolecularProfileTextSegment | Variant
 
 type MolecularProfileTextSegment {
   text: String!

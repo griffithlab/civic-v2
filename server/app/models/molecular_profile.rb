@@ -82,13 +82,17 @@ class MolecularProfile < ActiveRecord::Base
     #TODO - we could batch these queries if it becomes an issue
     @segments ||= name.split(' ').map do |segment|
       if gene_match = segment.match(GENE_REGEX)
-        Features::Gene.find(gene_match[:id])
+        nil
       elsif variant_match = segment.match(VARIANT_REGEX)
-        Variant.find(variant_match[:id])
+        v = Variant.find(variant_match[:id])
+        g = Feature.find(v.feature_id)
+        [v, g]
       else
         segment
       end
+        .flatten
     end
+    @segements ||= s.flatten
   end
 
   def self.timepoint_query
