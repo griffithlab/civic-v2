@@ -3,7 +3,8 @@
     *ngFor="let tag of displayedTags"
     [ngClass]="{
       'matched-tag':
-        matchingText && tag.name.toLowerCase().includes(matchingText)
+        matchingText &&
+        tag.name.toLowerCase().includes(matchingText.toLowerCase())
     }">
     <ng-container
       [ngTemplateOutlet]="tagTemplate"
