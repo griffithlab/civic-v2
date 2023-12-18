@@ -1,5 +1,6 @@
 class Feature < ApplicationRecord
   include Flaggable
+  include Commentable
   include Subscribable
 
   delegated_type :feature_instance, types: %w[ Features::Gene ]

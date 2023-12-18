@@ -1840,7 +1840,7 @@ interface Commentable {
 enum CommentableEntities {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   SOURCE
   VARIANT

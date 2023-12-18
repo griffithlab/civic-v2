@@ -17,7 +17,7 @@ export class GenesCommentsPage {
     const geneId: number = +this.route.snapshot.params['geneId']
     this.commentable = {
       id: geneId,
-      entityType: CommentableEntities.Gene,
+      entityType: CommentableEntities.Feature,
     }
   }
 }

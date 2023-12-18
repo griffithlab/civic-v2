@@ -14,10 +14,10 @@ export class FeaturesCommentsPage {
   commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {
-    const geneId: number = +this.route.snapshot.params['featureId']
+    const featureId: number = +this.route.snapshot.params['featureId']
     this.commentable = {
-      id: geneId,
-      entityType: CommentableEntities.Gene,
+      id: featureId,
+      entityType: CommentableEntities.Feature,
     }
   }
 }

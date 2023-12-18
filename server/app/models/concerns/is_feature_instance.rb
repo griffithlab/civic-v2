@@ -13,5 +13,8 @@ module IsFeatureInstance
     delegate :flagged, to: :feature
     delegate :flags, to: :feature
     delegate :most_recent_flag, to: :feature
+
+    delegate :comments, to: :feature
+    delegate :last_comment_event, to: :feature
   end
 end

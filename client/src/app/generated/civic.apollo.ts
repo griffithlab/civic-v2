@@ -1122,7 +1122,7 @@ export type CommentableCommentsArgs = {
 export enum CommentableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
-  Gene = 'GENE',
+  Feature = 'FEATURE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Source = 'SOURCE',
   Variant = 'VARIANT',

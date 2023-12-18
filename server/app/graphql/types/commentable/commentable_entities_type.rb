@@ -1,6 +1,6 @@
 module Types::Commentable
   class CommentableEntitiesType < Types::BaseEnum
-    value 'GENE'
+    value 'FEATURE'
     value 'VARIANT'
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
