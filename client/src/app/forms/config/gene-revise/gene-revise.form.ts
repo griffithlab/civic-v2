@@ -23,7 +23,7 @@ import { geneReviseFields } from './gene-revise.form.config'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcGeneReviseForm implements OnInit, AfterViewInit {
-  @Input() geneId!: number
+  @Input() featureId!: number
   model?: GeneReviseModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
@@ -49,19 +49,19 @@ export class CvcGeneReviseForm implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.url = `/genes/${this.geneId}/revisions`
+    this.url = `/features/${this.featureId}/revisions`
   }
 
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ geneId: this.geneId })
+      .fetch({ featureId: this.featureId })
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: ({ data: { gene } }) => {
-          if (gene) {
+        next: ({ data: { feature } }) => {
+          if (feature) {
             this.model = {
-              id: gene.id,
-              fields: geneToModelFields(gene),
+              id: feature.id,
+              fields: geneToModelFields(feature),
             }
             this.cdr.detectChanges()
           }
@@ -76,8 +76,8 @@ export class CvcGeneReviseForm implements OnInit, AfterViewInit {
   }
 
   onSubmit(model: GeneReviseModel) {
-    if(!this.geneId) {return}
-    let input = geneFormModelToReviseInput(this.geneId, model)
+    if(!this.featureId) {return}
+    let input = geneFormModelToReviseInput(this.featureId, model)
     if (input) {
       this.mutationState = this.reviseEvidenceMutator.mutate(this.submitRevisionsGQL, { input: input})
     }

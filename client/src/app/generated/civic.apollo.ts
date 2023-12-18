@@ -2539,6 +2539,7 @@ export type ModerateEvidenceItemPayload = {
 export enum ModeratedEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
+  Feature = 'FEATURE',
   Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Variant = 'VARIANT',
@@ -7076,13 +7077,13 @@ export type FullyCuratedSourceQueryVariables = Exact<{
 export type FullyCuratedSourceQuery = { __typename: 'Query', source?: { __typename: 'Source', fullyCurated: boolean } | undefined };
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
-  geneId: Scalars['Int'];
+  featureId: Scalars['Int'];
 }>;
 
 
-export type GeneRevisableFieldsQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
+export type GeneRevisableFieldsQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> } | undefined };
 
-export type RevisableGeneFieldsFragment = { __typename: 'Gene', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
+export type RevisableGeneFieldsFragment = { __typename: 'Feature', id: number, description: string, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: string }> };
 
 export type SuggestGeneRevisionMutationVariables = Exact<{
   input: SuggestGeneRevisionInput;
@@ -9220,7 +9221,7 @@ export const SubmittableEvidenceFieldsFragmentDoc = gql`
 }
     `;
 export const RevisableGeneFieldsFragmentDoc = gql`
-    fragment RevisableGeneFields on Gene {
+    fragment RevisableGeneFields on Feature {
   id
   description
   sources {
@@ -13171,8 +13172,8 @@ export const FullyCuratedSourceDocument = gql`
     }
   }
 export const GeneRevisableFieldsDocument = gql`
-    query GeneRevisableFields($geneId: Int!) {
-  gene(id: $geneId) {
+    query GeneRevisableFields($featureId: Int!) {
+  feature(id: $featureId) {
     ...RevisableGeneFields
   }
 }

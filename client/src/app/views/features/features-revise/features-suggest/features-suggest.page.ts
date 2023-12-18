@@ -8,12 +8,12 @@ import { Subscription } from 'rxjs'
   styleUrls: ['./features-suggest.page.less'],
 })
 export class FeaturesSuggestPage implements OnDestroy {
-  geneId?: number
+  featureId?: number
   routeParams$: Subscription
 
   constructor(private route: ActivatedRoute) {
     this.routeParams$ = this.route.params.subscribe((params) => {
-      this.geneId = +params.featureId
+      this.featureId = +params.featureId
     })
   }
 

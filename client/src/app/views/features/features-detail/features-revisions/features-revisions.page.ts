@@ -9,15 +9,15 @@ import { Subscription } from 'rxjs'
   styleUrls: ['./features-revisions.page.less'],
 })
 export class FeaturesRevisionsPage implements OnDestroy {
-  geneId!: number
+  featureId!: number
   entityType!: ModeratedEntities
 
   routeSub: Subscription
 
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.geneId = +params.featureId
-      this.entityType = ModeratedEntities['Gene']
+      this.featureId = +params.featureId
+      this.entityType = ModeratedEntities.Feature
     })
   }
 

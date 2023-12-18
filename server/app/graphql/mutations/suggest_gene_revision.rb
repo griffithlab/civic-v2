@@ -1,8 +1,8 @@
 class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
-  description 'Suggest a Revision to a Gene entity.'
+  description 'Suggest a Revision to a Feature entity of instance type "Gene".'
 
   argument :id, Int, required: true,
-    description: 'The ID of the Gene to suggest a Revision to.'
+    description: 'The ID of the Feature of instance type "Gene" to suggest a Revision to.'
 
   argument :fields, Types::Revisions::GeneFields, required: true,
     description: <<~DOC.strip
@@ -32,9 +32,11 @@ class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
     validate_user_logged_in
     validate_user_org(organization_id)
 
-    gene = Gene.find_by(id: id)
+    gene = Feature.find_by(id: id)&.feature_instance
     if gene.nil?
-      raise GraphQL::ExecutionError, "Gene with id #{id} doesn't exist."
+      raise GraphQL::ExecutionError, "Feature with id #{id} doesn't exist."
+    elsif !gene.is_a?(Features::Gene)
+      raise GraphQL::ExecutionError, "Feature with id #{id} is not a Gene feature."
     end
 
     @gene = gene

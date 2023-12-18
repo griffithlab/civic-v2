@@ -1,6 +1,5 @@
 module Features
   class Gene < ActiveRecord::Base
-    include Moderated
     include Subscribable
     include WithTimepointCounts
     include IsFeatureInstance

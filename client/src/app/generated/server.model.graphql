@@ -4128,6 +4128,7 @@ Enumeration of all moderated CIViC entities.
 enum ModeratedEntities {
   ASSERTION
   EVIDENCE_ITEM
+  FEATURE
   GENE
   MOLECULAR_PROFILE
   VARIANT

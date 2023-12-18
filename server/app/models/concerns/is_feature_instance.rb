@@ -8,6 +8,7 @@ module IsFeatureInstance
     delegate :description, to: :feature
     delegate :feature_aliases, to: :feature
     delegate :sources, to: :feature
+    delegate :source_ids, to: :feature
     delegate :variants, to: :feature
 
     delegate :flagged, to: :feature
@@ -16,5 +17,12 @@ module IsFeatureInstance
 
     delegate :comments, to: :feature
     delegate :last_comment_event, to: :feature
+
+    delegate :revisions, to: :feature
+    delegate :open_revisions, to: :feature
+    delegate :last_accepted_revision, to: :feature
+    delegate :last_accepted_revision_event, to: :feature
+    delegate :events, to: :feature
+    delegate :last_submitted_revision_event, to: :feature
   end
 end
