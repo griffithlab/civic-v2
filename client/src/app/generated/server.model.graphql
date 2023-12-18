@@ -2914,8 +2914,41 @@ type FdaCode {
 """
 The Feature that a Variant can belong to
 """
-type Feature implements Flaggable {
+type Feature implements EventSubject & Flaggable {
   description: String!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   featureAliases: [String!]!
   featureInstance: FeatureInstance!
   flagged: Boolean!

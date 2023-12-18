@@ -1,6 +1,7 @@
 module Types::Entities
   class FeatureType < Types::BaseObject
     implements Types::Interfaces::Flaggable
+    implements Types::Interfaces::EventSubject
 
     description 'The Feature that a Variant can belong to'
 

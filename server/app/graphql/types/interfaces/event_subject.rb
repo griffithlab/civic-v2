@@ -15,6 +15,8 @@ module Types::Interfaces
         case object
         when Features::Gene
           Types::Entities::GeneType
+        when Feature
+          Types::Entities::FeatureType
         when Variant
           Types::Entities::VariantType
         when EvidenceItem

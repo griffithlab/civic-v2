@@ -812,9 +812,10 @@ export type FdaCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FeatureKeySpecifier = ('description' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'id' | 'link' | 'name' | 'sources' | 'variants' | FeatureKeySpecifier)[];
+export type FeatureKeySpecifier = ('description' | 'events' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'id' | 'link' | 'name' | 'sources' | 'variants' | FeatureKeySpecifier)[];
 export type FeatureFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,

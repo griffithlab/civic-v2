@@ -54,6 +54,7 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "Feature",
       "Flag",
       "Gene",
       "MolecularProfile",
