@@ -53,7 +53,7 @@ module Types::Entities
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id)
     end
 
-    def variant
+    def variants
       Loaders::AssociationLoader.for(MolecularProfile, :variants).load(object)
     end
 
