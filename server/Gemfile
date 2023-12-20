@@ -28,6 +28,9 @@ gem 'search_object_graphql', '0.3.1'
 
 gem 'scenic', '~>1.5.4'
 
+#entrez symbol downloads
+gem 'net-ftp', '~>0.3.3'
+
 #higher performance json encoding
 gem 'oj', '~> 3.13.10'
 

@@ -235,6 +235,9 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    net-ftp (0.3.3)
+      net-protocol
+      time
     net-imap (0.3.7)
       date
       net-protocol
@@ -444,6 +447,8 @@ GEM
       net-ssh (>= 2.8.0)
     thor (1.2.2)
     tilt (2.3.0)
+    time (0.3.0)
+      date
     timeout (0.4.0)
     trestle (0.9.8)
       activemodel (>= 4.2.0)
@@ -505,6 +510,7 @@ DEPENDENCIES
   htmlentities (~> 4.3.4)
   image_processing (~> 1.12.2)
   listen (~> 3.3)
+  net-ftp (~> 0.3.3)
   obo (~> 0.1.5)
   oj (~> 3.13.10)
   omniauth (~> 2.0.2)
