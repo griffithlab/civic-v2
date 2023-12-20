@@ -32,6 +32,7 @@
     "Commentable": [
       "Assertion",
       "EvidenceItem",
+      "Feature",
       "Flag",
       "Gene",
       "MolecularProfile",
@@ -89,6 +90,7 @@
       "ScalarFieldDiff"
     ],
     "MolecularProfileComponent": [
+      "Feature",
       "Gene",
       "Variant"
     ],
@@ -100,6 +102,7 @@
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
+      "Feature",
       "Gene",
       "MolecularProfile",
       "Variant",

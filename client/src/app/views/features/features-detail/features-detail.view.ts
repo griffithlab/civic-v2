@@ -81,8 +81,7 @@ export class FeaturesDetailView implements OnDestroy {
               this.defaultTabs.map((tab) => {
                 if (tab.tabLabel === 'Revisions') {
                   return {
-                    // badgeCount: featureResp?.revisions.totalCount,
-                    badgeCount: 0,
+                    badgeCount: featureResp?.revisions.totalCount,
                     ...tab,
                   }
                 } else if (tab.tabLabel === 'Flags') {
@@ -92,8 +91,7 @@ export class FeaturesDetailView implements OnDestroy {
                   }
                 } else if (tab.tabLabel === 'Comments') {
                   return {
-                    //badgeCount: featureResp?.comments.totalCount,
-                    badgeCount: 0,
+                    badgeCount: featureResp?.comments.totalCount,
                     badgeColor: '#cccccc',
                     ...tab,
                   }

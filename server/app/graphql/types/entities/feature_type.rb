@@ -2,6 +2,9 @@ module Types::Entities
   class FeatureType < Types::BaseObject
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::MolecularProfileComponent
+    implements Types::Interfaces::Commentable
+    implements Types::Interfaces::WithRevisions
 
     description 'The Feature that a Variant can belong to'
 

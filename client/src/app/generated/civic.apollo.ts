@@ -1840,8 +1840,10 @@ export type FdaCode = {
 };
 
 /** The Feature that a Variant can belong to */
-export type Feature = EventSubject & Flaggable & {
+export type Feature = Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions & {
   __typename: 'Feature';
+  /** List and filter comments. */
+  comments: CommentConnection;
   description: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
@@ -1852,11 +1854,30 @@ export type Feature = EventSubject & Flaggable & {
   flags: FlagConnection;
   fullName?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  lastAcceptedRevisionEvent?: Maybe<Event>;
+  lastCommentEvent?: Maybe<Event>;
+  lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
   sources: Array<Source>;
   /** List and filter variants. */
   variants: VariantConnection;
+};
+
+
+/** The Feature that a Variant can belong to */
+export type FeatureCommentsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  mentionedEntity?: InputMaybe<TaggableEntityInput>;
+  mentionedRole?: InputMaybe<UserRole>;
+  mentionedUserId?: InputMaybe<Scalars['Int']>;
+  originatingUserId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<DateSort>;
 };
 
 
@@ -1883,6 +1904,20 @@ export type FeatureFlagsArgs = {
   resolvingUserId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<DateSort>;
   state?: InputMaybe<FlagState>;
+};
+
+
+/** The Feature that a Variant can belong to */
+export type FeatureRevisionsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  fieldName?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  originatingUserId?: InputMaybe<Scalars['Int']>;
+  revisionSetId?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<DateSort>;
+  status?: InputMaybe<RevisionStatus>;
 };
 
 
@@ -6163,9 +6198,9 @@ export type CommentPopoverQueryVariables = Exact<{
 }>;
 
 
-export type CommentPopoverQuery = { __typename: 'Query', comment?: { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined };
+export type CommentPopoverQuery = { __typename: 'Query', comment?: { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | undefined };
 
-export type CommentPopoverFragment = { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
+export type CommentPopoverFragment = { __typename: 'Comment', id: number, name: string, createdAt: any, title?: string | undefined, comment: string, commenter: { __typename: 'User', id: number, displayName: string, role: UserRole }, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } };
 
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
@@ -7588,9 +7623,9 @@ export type FeatureDetailQueryVariables = Exact<{
 }>;
 
 
-export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type FeaturesSummaryQueryVariables = Exact<{
   featureId: Scalars['Int'];
@@ -9830,6 +9865,12 @@ export const FeatureDetailFieldsFragmentDoc = gql`
     __typename
   }
   flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
     totalCount
   }
 }

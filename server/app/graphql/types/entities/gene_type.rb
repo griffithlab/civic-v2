@@ -1,8 +1,5 @@
 module Types::Entities
   class GeneType < Types::Entities::FeatureType
-    implements Types::Interfaces::Commentable
-    implements Types::Interfaces::WithRevisions
-    implements Types::Interfaces::MolecularProfileComponent
 
     field :entrez_id, Int, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
