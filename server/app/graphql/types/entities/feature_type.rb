@@ -7,16 +7,13 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :full_name, String, null: true
     field :description, String, null: false
     field :feature_aliases, [String], null: false
     field :sources, [Types::Entities::SourceType], null: false
     field :variants, resolver: Resolvers::Variants
     field :link, String, null: false
     field :feature_instance, Types::FeatureInstanceType, null: false
-
-    #orphan_types(
-    #  Types::Entities::GeneType
-    #)
 
     def id
       object.id

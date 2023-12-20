@@ -2997,6 +2997,7 @@ type Feature implements EventSubject & Flaggable {
     """
     state: FlagState
   ): FlagConnection!
+  fullName: String
   id: Int!
   link: String!
   name: String!
@@ -3515,6 +3516,7 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     """
     state: FlagState
   ): FlagConnection!
+  fullName: String
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -3522,7 +3524,6 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
   link: String!
   myGeneInfoDetails: JSON
   name: String!
-  officialName: String!
 
   """
   List and filter revisions.

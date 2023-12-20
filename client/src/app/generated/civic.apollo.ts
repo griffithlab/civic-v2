@@ -1850,6 +1850,7 @@ export type Feature = EventSubject & Flaggable & {
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  fullName?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -2107,6 +2108,7 @@ export type Gene = Commentable & EventSubject & Flaggable & MolecularProfileComp
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  fullName?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
@@ -2114,7 +2116,6 @@ export type Gene = Commentable & EventSubject & Flaggable & MolecularProfileComp
   link: Scalars['String'];
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
-  officialName: Scalars['String'];
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
@@ -6275,9 +6276,9 @@ export type FeaturePopoverQueryVariables = Exact<{
 }>;
 
 
-export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, featureInstance: { __typename: 'Gene', officialName: string }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, featureInstance: { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, featureInstance: { __typename: 'Gene', officialName: string }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, featureInstance: { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']>;
@@ -6329,9 +6330,9 @@ export type GenePopoverQueryVariables = Exact<{
 }>;
 
 
-export type GenePopoverQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, officialName: string, featureAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type GenePopoverQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type GenePopoverFragment = { __typename: 'Gene', id: number, name: string, officialName: string, featureAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type GenePopoverFragment = { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseGenesQueryVariables = Exact<{
   entrezSymbol?: InputMaybe<Scalars['String']>;
@@ -7587,36 +7588,36 @@ export type FeatureDetailQueryVariables = Exact<{
 }>;
 
 
-export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureInstance: { __typename: 'Gene', officialName: string }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, featureInstance: { __typename: 'Gene', officialName: string }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type FeaturesSummaryQueryVariables = Exact<{
   featureId: Scalars['Int'];
 }>;
 
 
-export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, name: string, entrezId: number, officialName: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
+export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, name: string, entrezId: number, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
 
-export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, name: string, entrezId: number, officialName: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
+export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, name: string, entrezId: number, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
 
 export type GeneDetailQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
 
 
-export type GeneDetailQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, officialName: string, entrezId: number, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type GeneDetailQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, entrezId: number, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type GeneDetailFieldsFragment = { __typename: 'Gene', id: number, name: string, officialName: string, entrezId: number, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type GeneDetailFieldsFragment = { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, entrezId: number, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type GenesSummaryQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
 
 
-export type GenesSummaryQuery = { __typename: 'Query', gene?: { __typename: 'Gene', description: string, entrezId: number, featureAliases: Array<string>, id: number, name: string, officialName: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } | undefined };
+export type GenesSummaryQuery = { __typename: 'Query', gene?: { __typename: 'Gene', description: string, entrezId: number, featureAliases: Array<string>, id: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } | undefined };
 
-export type GeneSummaryFieldsFragment = { __typename: 'Gene', description: string, entrezId: number, featureAliases: Array<string>, id: number, name: string, officialName: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
+export type GeneSummaryFieldsFragment = { __typename: 'Gene', description: string, entrezId: number, featureAliases: Array<string>, id: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
 
 export type MolecularProfileDetailQueryVariables = Exact<{
   mpId: Scalars['Int'];
@@ -8306,9 +8307,7 @@ export const FeaturePopoverFragmentDoc = gql`
   id
   name
   featureInstance {
-    ... on Gene {
-      officialName
-    }
+    __typename
   }
   featureAliases
   variants {
@@ -8433,7 +8432,7 @@ export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
   name
-  officialName
+  fullName
   featureAliases
   variants {
     totalCount
@@ -9826,10 +9825,9 @@ export const FeatureDetailFieldsFragmentDoc = gql`
     fragment FeatureDetailFields on Feature {
   id
   name
+  fullName
   featureInstance {
-    ... on Gene {
-      officialName
-    }
+    __typename
   }
   flags(state: OPEN) {
     totalCount
@@ -9840,6 +9838,7 @@ export const FeatureSummaryFieldsFragmentDoc = gql`
     fragment FeatureSummaryFields on Feature {
   id
   name
+  fullName
   featureInstance {
     __typename
     ... on Gene {
@@ -9856,7 +9855,6 @@ export const FeatureSummaryFieldsFragmentDoc = gql`
         sourceType
       }
       entrezId
-      officialName
       myGeneInfoDetails
     }
   }
@@ -9866,7 +9864,7 @@ export const GeneDetailFieldsFragmentDoc = gql`
     fragment GeneDetailFields on Gene {
   id
   name
-  officialName
+  fullName
   entrezId
   flags(state: OPEN) {
     totalCount
@@ -9886,7 +9884,6 @@ export const GeneSummaryFieldsFragmentDoc = gql`
   featureAliases
   id
   name
-  officialName
   sources {
     id
     citation

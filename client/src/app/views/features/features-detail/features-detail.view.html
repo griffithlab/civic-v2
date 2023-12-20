@@ -1,5 +1,6 @@
 <ng-container *ngIf="feature$ | async as feature">
-  <cvc-section-navigation [displayName]="feature.name"> </cvc-section-navigation>
+  <cvc-section-navigation [displayName]="feature.name">
+  </cvc-section-navigation>
   <div
     cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
@@ -18,8 +19,8 @@
 
       <!-- subtitle -->
       <nz-page-header-subtitle>
-        <ng-container *ngIf="feature.featureInstance.__typename == 'Gene'">
-          {{ feature.featureInstance.officialName }}
+        <ng-container *ngIf="feature.fullName">
+          {{ feature.fullName }}
         </ng-container>
       </nz-page-header-subtitle>
 

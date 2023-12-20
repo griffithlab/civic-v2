@@ -8,9 +8,7 @@ fragment featurePopover on Feature {
   id
   name
   featureInstance {
-    ... on Gene {
-      officialName
-    }
+    __typename
   }
   featureAliases
   variants {

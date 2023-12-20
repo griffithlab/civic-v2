@@ -11,7 +11,6 @@
           [nzTwotoneColor]="'Gene' | entityColor"
           nzType="civic-gene"></i>
         {{ feature.featureInstance.__typename }} - {{ feature.name }}
-        <!-- {{ feature.officialName }} -->
       </ng-template>
 
       <nz-descriptions
@@ -23,7 +22,9 @@
           nzTitle="Aliases"
           nzSpan="2"
           *ngIf="feature.featureAliases.length > 0">
-          <nz-tag *ngFor="let alias of feature.featureAliases">{{ alias }}</nz-tag>
+          <nz-tag *ngFor="let alias of feature.featureAliases">{{
+            alias
+          }}</nz-tag>
         </nz-descriptions-item>
 
         <!-- variant count-->
@@ -53,7 +54,8 @@
                 <i
                   nz-icon
                   nzType="civic-revision"></i>
-                Revisions <!-- ({{ feature.revisions.totalCount }}) -->
+                Revisions
+                <!-- ({{ feature.revisions.totalCount }}) -->
               </nz-tag>
             </a>
             <a
@@ -63,7 +65,8 @@
                 <i
                   nz-icon
                   nzType="civic-comment"></i>
-                Comments <!-- ({{ feature.comments.totalCount }}) -->
+                Comments
+                <!-- ({{ feature.comments.totalCount }}) -->
               </nz-tag>
             </a>
           </nz-space>

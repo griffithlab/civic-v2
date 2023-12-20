@@ -7,6 +7,7 @@ query FeaturesSummary($featureId: Int!) {
 fragment FeatureSummaryFields on Feature{
   id
   name
+  fullName
   featureInstance {
     __typename
     ... on Gene {
@@ -23,7 +24,6 @@ fragment FeatureSummaryFields on Feature{
         sourceType
       }
       entrezId
-      officialName
       myGeneInfoDetails
     }
   }

@@ -6,6 +6,7 @@ module IsFeatureInstance
 
     delegate :name, to: :feature
     delegate :description, to: :feature
+    delegate :full_name, to: :feature
     delegate :feature_aliases, to: :feature
     delegate :sources, to: :feature
     delegate :source_ids, to: :feature

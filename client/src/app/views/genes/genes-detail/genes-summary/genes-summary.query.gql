@@ -10,7 +10,6 @@ fragment GeneSummaryFields on Gene {
   featureAliases
   id
   name
-  officialName
   sources {
     id
     citation

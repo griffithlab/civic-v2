@@ -7,7 +7,7 @@ query GeneDetail($geneId: Int!) {
 fragment GeneDetailFields on Gene {
   id
   name
-  officialName
+  fullName
   entrezId
   flags(state: OPEN) {
     totalCount

@@ -7,10 +7,9 @@ query FeatureDetail($featureId: Int!) {
 fragment FeatureDetailFields on Feature {
   id
   name
+  fullName
   featureInstance {
-    ... on Gene {
-      officialName
-    }
+    __typename
   }
   flags(state: OPEN) {
     totalCount
