@@ -711,7 +711,8 @@ ActiveRecord::Schema.define(version: 2023_12_15_180038) do
     t.integer "source_type", null: false
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
-    t.boolean "fully_curated", default: false, null: false
+    #t.boolean "fully_curated", default: false, null: false
+    t.text "status", default: "fully_curated", null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
