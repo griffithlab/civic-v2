@@ -55,7 +55,7 @@
   let-selected>
   <div class="ant-select-selection-item-content">
     <cvc-entity-tag
-      [cvcCacheId]="'Gene:' + selected.nzValue"
+      [cvcCacheId]="'Feature:' + selected.nzValue"
       [cvcContext]="props.isMultiSelect ? 'multi-select-item' : 'select-item'"
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>

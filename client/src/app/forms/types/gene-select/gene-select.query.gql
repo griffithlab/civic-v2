@@ -1,19 +1,24 @@
-query GeneSelectTypeahead($entrezSymbol: String!) {
-  geneTypeahead(queryTerm: $entrezSymbol) {
-    ...GeneSelectTypeaheadFields
+query FeatureSelectTypeahead($queryTerm: String!, $featureType: FeatureInstanceTypes) {
+  featureTypeahead(queryTerm: $queryTerm, featureType: $featureType) {
+    ...FeatureSelectTypeaheadFields
   }
 }
 
-query GeneSelectTag($geneId: Int!) {
-  gene(id: $geneId) {
-    ...GeneSelectTypeaheadFields
+query FeatureSelectTag($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSelectTypeaheadFields
   }
 }
 
-fragment GeneSelectTypeaheadFields on Gene {
+fragment FeatureSelectTypeaheadFields on Feature {
   id
-  entrezId
   name
   featureAliases
   link
+  featureInstance {
+    __typename
+    ... on Gene {
+      entrezId
+    }
+  }
 }

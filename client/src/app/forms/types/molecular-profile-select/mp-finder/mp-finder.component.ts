@@ -17,7 +17,7 @@ import { tag } from 'rxjs-spy/operators'
 import { CvcVariantSelectFieldOption } from '../../variant-select/variant-select.type'
 
 type MpFinderModel = {
-  geneId?: number
+  featureId?: number
   variantId?: number
 }
 
@@ -44,7 +44,7 @@ export class MpFinderComponent {
   finderState: MpFinderState = {
     formLayout: 'horizontal',
     fields: {
-      geneId$: new BehaviorSubject<Maybe<number>>(undefined),
+      featureId$: new BehaviorSubject<Maybe<number>>(undefined),
       variantId$: new BehaviorSubject<Maybe<number>>(undefined),
       variantMolecularProfile$: new BehaviorSubject<Maybe<MolecularProfile>>(
         undefined
@@ -54,7 +54,7 @@ export class MpFinderComponent {
   options: FormlyFormOptions
   constructor(private apollo: Apollo) {
     this.form = new UntypedFormGroup({})
-    this.model = { geneId: undefined, variantId: undefined }
+    this.model = { featureId: undefined, variantId: undefined }
     this.options = { formState: this.finderState }
 
     this.config = [
@@ -62,16 +62,16 @@ export class MpFinderComponent {
         wrappers: ['form-row'],
         props: <CvcFormRowWrapperProps>{
           formRowOptions: {
-            gutter: [8, 0], // zero vertical margin ensures no top margins set on gene, variant select fields
+            gutter: [8, 0], // zero vertical margin ensures no top margins set on feature, variant select fields
             span: 12,
           },
         },
         fieldGroup: [
           {
-            key: 'geneId',
+            key: 'featureId',
             type: 'gene-select',
             props: {
-              placeholder: 'Select MP Gene',
+              placeholder: 'Select MP Feature',
               hideLabel: true,
               showExtra: false,
               showErrorTip: false,
@@ -87,7 +87,7 @@ export class MpFinderComponent {
               required: true,
               showExtra: false,
               showErrorTip: false,
-              requireGene: true,
+              requireFeature: true,
             },
           },
         ],
@@ -100,7 +100,7 @@ export class MpFinderComponent {
     const variant = this.getSelectedVariant(model.variantId)
     if (variant) {
       this.model = {
-        geneId: undefined,
+        featureId: undefined,
         variantId: undefined,
       }
       this.cvcOnSelect.next(variant.singleVariantMolecularProfile)

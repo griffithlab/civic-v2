@@ -1975,9 +1975,9 @@ input CreateVariantInput {
   clientMutationId: String
 
   """
-  The CIViC ID of the Gene to which the new variant belongs.
+  The CIViC ID of the Feature to which the new variant belongs.
   """
-  geneId: Int!
+  featureId: Int!
 
   """
   The name of the variant to create.
@@ -3140,6 +3140,10 @@ type Feature implements Commentable & EventSubject & Flaggable & MolecularProfil
 The specific type of a feature instance
 """
 union FeatureInstance = Gene
+
+enum FeatureInstanceTypes {
+  GENE
+}
 
 input FeaturesSort {
   """
@@ -6375,6 +6379,11 @@ type Query {
   feature(id: Int): Feature
 
   """
+  Retrieve Features of a specific instance type for a search term.
+  """
+  featureTypeahead(featureType: FeatureInstanceTypes, queryTerm: String!): [Feature!]!
+
+  """
   Find a flag by CIViC ID
   """
   flag(id: Int!): Flag
@@ -6429,11 +6438,6 @@ type Query {
   Find a single gene by CIViC ID or Entrez symbol
   """
   gene(entrezSymbol: String, id: Int): Gene
-
-  """
-  Retrieve gene typeahead fields for a search term.
-  """
-  geneTypeahead(queryTerm: String!): [Gene!]!
 
   """
   List and filter genes.

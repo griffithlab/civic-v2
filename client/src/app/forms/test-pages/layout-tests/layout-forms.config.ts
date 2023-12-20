@@ -37,11 +37,11 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
   },
 
   <CvcGeneSelectFieldConfig>{
-    key: 'geneId',
+    key: 'featureId',
     type: 'gene-select',
   },
   <CvcGeneSelectFieldConfig>{
-    key: 'geneIds',
+    key: 'featureIds',
     type: 'gene-multi-select',
     props: {},
   },
@@ -49,14 +49,14 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
     key: 'variantId',
     type: 'variant-select',
     props: {
-      requireGene: false,
+      requireFeature: false,
     },
   },
   <CvcVariantSelectFieldConfig>{
     key: 'variantIds',
     type: 'variant-multi-select',
     props: {
-      requireGene: false,
+      requireFeature: false,
     },
   },
   <CvcSourceSelectFieldConfig>{

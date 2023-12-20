@@ -1235,8 +1235,8 @@ export type CreateVariantActivity = ActivityInterface & {
 export type CreateVariantInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The CIViC ID of the Gene to which the new variant belongs. */
-  geneId: Scalars['Int'];
+  /** The CIViC ID of the Feature to which the new variant belongs. */
+  featureId: Scalars['Int'];
   /** The name of the variant to create. */
   name: Scalars['String'];
   /**
@@ -1932,6 +1932,10 @@ export type FeatureVariantsArgs = {
 
 /** The specific type of a feature instance */
 export type FeatureInstance = Gene;
+
+export enum FeatureInstanceTypes {
+  Gene = 'GENE'
+}
 
 export type FeaturesSort = {
   /** Available columns for sorting */
@@ -3574,14 +3578,14 @@ export type Query = {
   evidenceItems: EvidenceItemConnection;
   /** Find a single feature by CIViC ID */
   feature?: Maybe<Feature>;
+  /** Retrieve Features of a specific instance type for a search term. */
+  featureTypeahead: Array<Feature>;
   /** Find a flag by CIViC ID */
   flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
   /** Find a single gene by CIViC ID or Entrez symbol */
   gene?: Maybe<Gene>;
-  /** Retrieve gene typeahead fields for a search term. */
-  geneTypeahead: Array<Gene>;
   /** List and filter genes. */
   genes: GeneConnection;
   /** Find a molecular profile by CIViC ID */
@@ -3952,6 +3956,12 @@ export type QueryFeatureArgs = {
 };
 
 
+export type QueryFeatureTypeaheadArgs = {
+  featureType?: InputMaybe<FeatureInstanceTypes>;
+  queryTerm: Scalars['String'];
+};
+
+
 export type QueryFlagArgs = {
   id: Scalars['Int'];
 };
@@ -3973,11 +3983,6 @@ export type QueryFlagsArgs = {
 export type QueryGeneArgs = {
   entrezSymbol?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
-};
-
-
-export type QueryGeneTypeaheadArgs = {
-  queryTerm: Scalars['String'];
 };
 
 
@@ -6976,6 +6981,13 @@ export type LinkableTherapyQueryVariables = Exact<{
 
 export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
 
+export type LinkableFeatureQueryVariables = Exact<{
+  featureId: Scalars['Int'];
+}>;
+
+
+export type LinkableFeatureQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, link: string } | undefined };
+
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -7329,21 +7341,22 @@ export type EvidenceSelectTagQuery = { __typename: 'Query', evidenceItem?: { __t
 
 export type EvidenceSelectTypeaheadFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, status: EvidenceStatus };
 
-export type GeneSelectTypeaheadQueryVariables = Exact<{
-  entrezSymbol: Scalars['String'];
+export type FeatureSelectTypeaheadQueryVariables = Exact<{
+  queryTerm: Scalars['String'];
+  featureType?: InputMaybe<FeatureInstanceTypes>;
 }>;
 
 
-export type GeneSelectTypeaheadQuery = { __typename: 'Query', geneTypeahead: Array<{ __typename: 'Gene', id: number, entrezId: number, name: string, featureAliases: Array<string>, link: string }> };
+export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Gene', entrezId: number } }> };
 
-export type GeneSelectTagQueryVariables = Exact<{
-  geneId: Scalars['Int'];
+export type FeatureSelectTagQueryVariables = Exact<{
+  featureId: Scalars['Int'];
 }>;
 
 
-export type GeneSelectTagQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, entrezId: number, name: string, featureAliases: Array<string>, link: string } | undefined };
+export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Gene', entrezId: number } } | undefined };
 
-export type GeneSelectTypeaheadFieldsFragment = { __typename: 'Gene', id: number, entrezId: number, name: string, featureAliases: Array<string>, link: string };
+export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Gene', entrezId: number } };
 
 export type MolecularProfileSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -7504,7 +7517,7 @@ export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: nu
 
 export type QuickAddVariantMutationVariables = Exact<{
   name: Scalars['String'];
-  geneId: Scalars['Int'];
+  featureId: Scalars['Int'];
   organizationId?: InputMaybe<Scalars['Int']>;
 }>;
 
@@ -7515,7 +7528,7 @@ export type QuickAddVariantFieldsFragment = { __typename: 'CreateVariantPayload'
 
 export type VariantSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
-  geneId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -9446,13 +9459,18 @@ export const EvidenceSelectTypeaheadFieldsFragmentDoc = gql`
   status
 }
     `;
-export const GeneSelectTypeaheadFieldsFragmentDoc = gql`
-    fragment GeneSelectTypeaheadFields on Gene {
+export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
+    fragment FeatureSelectTypeaheadFields on Feature {
   id
-  entrezId
   name
   featureAliases
   link
+  featureInstance {
+    __typename
+    ... on Gene {
+      entrezId
+    }
+  }
 }
     `;
 export const PreviewMpName2FragmentDoc = gql`
@@ -12816,6 +12834,26 @@ export const LinkableTherapyDocument = gql`
       super(apollo);
     }
   }
+export const LinkableFeatureDocument = gql`
+    query LinkableFeature($featureId: Int!) {
+  feature(id: $featureId) {
+    id
+    name
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkableFeatureGQL extends Apollo.Query<LinkableFeatureQuery, LinkableFeatureQueryVariables> {
+    document = LinkableFeatureDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const FlagEntityDocument = gql`
     mutation FlagEntity($input: FlagEntityInput!) {
   flagEntity(input: $input) {
@@ -13734,37 +13772,37 @@ export const EvidenceSelectTagDocument = gql`
       super(apollo);
     }
   }
-export const GeneSelectTypeaheadDocument = gql`
-    query GeneSelectTypeahead($entrezSymbol: String!) {
-  geneTypeahead(queryTerm: $entrezSymbol) {
-    ...GeneSelectTypeaheadFields
+export const FeatureSelectTypeaheadDocument = gql`
+    query FeatureSelectTypeahead($queryTerm: String!, $featureType: FeatureInstanceTypes) {
+  featureTypeahead(queryTerm: $queryTerm, featureType: $featureType) {
+    ...FeatureSelectTypeaheadFields
   }
 }
-    ${GeneSelectTypeaheadFieldsFragmentDoc}`;
+    ${FeatureSelectTypeaheadFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class GeneSelectTypeaheadGQL extends Apollo.Query<GeneSelectTypeaheadQuery, GeneSelectTypeaheadQueryVariables> {
-    document = GeneSelectTypeaheadDocument;
+  export class FeatureSelectTypeaheadGQL extends Apollo.Query<FeatureSelectTypeaheadQuery, FeatureSelectTypeaheadQueryVariables> {
+    document = FeatureSelectTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const GeneSelectTagDocument = gql`
-    query GeneSelectTag($geneId: Int!) {
-  gene(id: $geneId) {
-    ...GeneSelectTypeaheadFields
+export const FeatureSelectTagDocument = gql`
+    query FeatureSelectTag($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSelectTypeaheadFields
   }
 }
-    ${GeneSelectTypeaheadFieldsFragmentDoc}`;
+    ${FeatureSelectTypeaheadFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class GeneSelectTagGQL extends Apollo.Query<GeneSelectTagQuery, GeneSelectTagQueryVariables> {
-    document = GeneSelectTagDocument;
+  export class FeatureSelectTagGQL extends Apollo.Query<FeatureSelectTagQuery, FeatureSelectTagQueryVariables> {
+    document = FeatureSelectTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -14130,9 +14168,9 @@ export const VariantManagerDocument = gql`
     }
   }
 export const QuickAddVariantDocument = gql`
-    mutation QuickAddVariant($name: String!, $geneId: Int!, $organizationId: Int) {
+    mutation QuickAddVariant($name: String!, $featureId: Int!, $organizationId: Int) {
   createVariant(
-    input: {name: $name, geneId: $geneId, organizationId: $organizationId}
+    input: {name: $name, featureId: $featureId, organizationId: $organizationId}
   ) {
     ...QuickAddVariantFields
   }
@@ -14150,8 +14188,8 @@ export const QuickAddVariantDocument = gql`
     }
   }
 export const VariantSelectTypeaheadDocument = gql`
-    query VariantSelectTypeahead($name: String!, $geneId: Int) {
-  variants(name: $name, geneId: $geneId, first: 50) {
+    query VariantSelectTypeahead($name: String!, $featureId: Int) {
+  variants(name: $name, featureId: $featureId, first: 50) {
     totalCount
     edges {
       node {

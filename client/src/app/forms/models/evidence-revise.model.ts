@@ -6,7 +6,7 @@ export interface EvidenceReviseModel extends FormReviseBaseModel {
 }
 export const evidenceItemReviseFieldsDefaults = <EvidenceItemFields>{
   // gene, variant included for initial input type development
-  geneId: undefined, // debug
+  featureId: undefined, // debug
   variantId: undefined, // debug
   significance: undefined,
   description: undefined,

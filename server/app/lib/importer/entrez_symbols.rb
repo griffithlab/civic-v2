@@ -38,9 +38,11 @@ module Importer
         feature = Feature.create!(
           name: line['Symbol_from_nomenclature_authority'],
           full_name: line['description'],
-          description: ''
+          description: '',
+          feature_instance: gene
         )
-        gene.feature = feature
+        #TODO delete when we remove this column
+        gene.name = line['Symbol_from_nomenclature_authority']
         gene.save!
       else
         feature = gene.feature

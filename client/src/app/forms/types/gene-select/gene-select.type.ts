@@ -17,13 +17,14 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  GeneSelectTagGQL,
-  GeneSelectTagQuery,
-  GeneSelectTagQueryVariables,
-  GeneSelectTypeaheadFieldsFragment,
-  GeneSelectTypeaheadGQL,
-  GeneSelectTypeaheadQuery,
-  GeneSelectTypeaheadQueryVariables,
+    FeatureInstanceTypes,
+  FeatureSelectTagGQL,
+  FeatureSelectTagQuery,
+  FeatureSelectTagQueryVariables,
+  FeatureSelectTypeaheadFieldsFragment,
+  FeatureSelectTypeaheadGQL,
+  FeatureSelectTypeaheadQuery,
+  FeatureSelectTypeaheadQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
@@ -55,11 +56,11 @@ const GeneSelectMixin = mixin(
     Maybe<number | number[]>
   >(),
   EntitySelectField<
-    GeneSelectTypeaheadQuery,
-    GeneSelectTypeaheadQueryVariables,
-    GeneSelectTypeaheadFieldsFragment,
-    GeneSelectTagQuery,
-    GeneSelectTagQueryVariables,
+    FeatureSelectTypeaheadQuery,
+    FeatureSelectTypeaheadQueryVariables,
+    FeatureSelectTypeaheadFieldsFragment,
+    FeatureSelectTagQuery,
+    FeatureSelectTagQueryVariables,
     Maybe<number | number[]>
   >()
 )
@@ -84,14 +85,15 @@ export class CvcGeneSelectField
       description:
         'Entrez Gene Symbol',
     },
+    featureType: FeatureInstanceTypes.Gene
   }
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
 
   constructor(
-    private taq: GeneSelectTypeaheadGQL,
-    private tq: GeneSelectTagGQL,
+    private taq: FeatureSelectTypeaheadGQL,
+    private tq: FeatureSelectTagGQL,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super()
@@ -117,39 +119,39 @@ export class CvcGeneSelectField
     // this.onOpenChange$.pipe(tag('gene-select onOpenChange$')).subscribe()
   } // ngAfterViewInit()
 
-  getTypeaheadVarsFn(str: string): GeneSelectTypeaheadQueryVariables {
-    return { entrezSymbol: str }
+  getTypeaheadVarsFn(str: string): FeatureSelectTypeaheadQueryVariables {
+    return { queryTerm: str, featureType: this.props.featureType }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<GeneSelectTypeaheadQuery>) {
-    return r.data.geneTypeahead
+  getTypeaheadResultsFn(r: ApolloQueryResult<FeatureSelectTypeaheadQuery>) {
+    return r.data.featureTypeahead
   }
 
-  getTagQueryVarsFn(id: number): GeneSelectTagQueryVariables {
-    return { geneId: id }
+  getTagQueryVarsFn(id: number): FeatureSelectTagQueryVariables {
+    return { featureId: id }
   }
 
   getTagQueryResultsFn(
-    r: ApolloQueryResult<GeneSelectTagQuery>
-  ): Maybe<GeneSelectTypeaheadFieldsFragment> {
-    return r.data.gene
+    r: ApolloQueryResult<FeatureSelectTagQuery>
+  ): Maybe<FeatureSelectTypeaheadFieldsFragment> {
+    return r.data.feature
   }
 
   getSelectedItemOptionFn(
-    gene: GeneSelectTypeaheadFieldsFragment
+    feature: FeatureSelectTypeaheadFieldsFragment
   ): NzSelectOptionInterface {
-    return { value: gene.id, label: gene.name }
+    return { value: feature.id, label: feature.name }
   }
 
   getSelectOptionsFn(
-    results: GeneSelectTypeaheadFieldsFragment[],
+    results: FeatureSelectTypeaheadFieldsFragment[],
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (gene: GeneSelectTypeaheadFieldsFragment, index: number) => {
+      (feature: FeatureSelectTypeaheadFieldsFragment, index: number) => {
         return <NzSelectOptionInterface>{
-          label: tplRefs.get(index) || gene.name,
-          value: gene.id,
+          label: tplRefs.get(index) || feature.name,
+          value: feature.id,
         }
       }
     )

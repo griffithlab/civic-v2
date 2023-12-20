@@ -1,5 +1,5 @@
-query VariantSelectTypeahead($name: String!, $geneId: Int) {
-  variants(name: $name, geneId: $geneId, first: 50) {
+query VariantSelectTypeahead($name: String!, $featureId: Int) {
+  variants(name: $name, featureId: $featureId, first: 50) {
     totalCount
     edges {
       node {

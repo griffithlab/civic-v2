@@ -10067,8 +10067,8 @@
               "deprecationReason": null
             },
             {
-              "name": "geneId",
-              "description": "The CIViC ID of the Gene to which the new variant belongs.",
+              "name": "featureId",
+              "description": "The CIViC ID of the Feature to which the new variant belongs.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -15378,6 +15378,23 @@
               "ofType": null
             }
           ]
+        },
+        {
+          "kind": "ENUM",
+          "name": "FeatureInstanceTypes",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "GENE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
         },
         {
           "kind": "INPUT_OBJECT",
@@ -29668,6 +29685,59 @@
               "deprecationReason": null
             },
             {
+              "name": "featureTypeahead",
+              "description": "Retrieve Features of a specific instance type for a search term.",
+              "args": [
+                {
+                  "name": "queryTerm",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "featureType",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FeatureInstanceTypes",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Feature",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "flag",
               "description": "Find a flag by CIViC ID",
               "args": [
@@ -29854,47 +29924,6 @@
                 "kind": "OBJECT",
                 "name": "Gene",
                 "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "geneTypeahead",
-              "description": "Retrieve gene typeahead fields for a search term.",
-              "args": [
-                {
-                  "name": "queryTerm",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                }
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "Gene",
-                      "ofType": null
-                    }
-                  }
-                }
               },
               "isDeprecated": false,
               "deprecationReason": null
