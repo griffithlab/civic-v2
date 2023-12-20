@@ -940,7 +940,7 @@ export type CivicTimepointStats = {
   comments: TimePointCounts;
   diseases: TimePointCounts;
   evidenceItems: TimePointCounts;
-  genes: TimePointCounts;
+  features: TimePointCounts;
   molecularProfiles: TimePointCounts;
   revisions: TimePointCounts;
   sources: TimePointCounts;
@@ -2857,7 +2857,7 @@ export type Mutation = {
   suggestAssertionRevision?: Maybe<SuggestAssertionRevisionPayload>;
   /** Suggest a Revision to an EvidenceItem entity. */
   suggestEvidenceItemRevision?: Maybe<SuggestEvidenceItemRevisionPayload>;
-  /** Suggest a Revision to a Gene entity. */
+  /** Suggest a Revision to a Feature entity of instance type "Gene". */
   suggestGeneRevision?: Maybe<SuggestGeneRevisionPayload>;
   /** Suggest a Revision to a MolecularProfile entity. */
   suggestMolecularProfileRevision?: Maybe<SuggestMolecularProfileRevisionPayload>;
@@ -5042,7 +5042,7 @@ export type SuggestGeneRevisionInput = {
    * If no change is desired for a particular field, pass in the current value of that field.
    */
   fields: GeneFields;
-  /** The ID of the Gene to suggest a Revision to. */
+  /** The ID of the Feature of instance type "Gene" to suggest a Revision to. */
   id: Scalars['Int'];
   /**
    * The ID of the organization to credit the user's contributions to.
@@ -6583,7 +6583,7 @@ export type ModerateAssertionMutation = { __typename: 'Mutation', moderateAssert
 export type CivicStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CivicStatsQuery = { __typename: 'Query', timepointStats: { __typename: 'CivicTimepointStats', assertions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, diseases: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, therapies: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, evidenceItems: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, genes: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, revisions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, sources: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, users: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, variants: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, comments: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, molecularProfiles: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number } } };
+export type CivicStatsQuery = { __typename: 'Query', timepointStats: { __typename: 'CivicTimepointStats', assertions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, diseases: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, therapies: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, evidenceItems: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, features: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, revisions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, sources: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, users: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, variants: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, comments: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, molecularProfiles: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number } } };
 
 export type TimepointCountFragment = { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number };
 
@@ -11830,7 +11830,7 @@ export const CivicStatsDocument = gql`
     evidenceItems {
       ...TimepointCount
     }
-    genes {
+    features {
       ...TimepointCount
     }
     revisions {

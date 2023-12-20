@@ -1587,7 +1587,7 @@ type CivicTimepointStats {
   comments: TimePointCounts!
   diseases: TimePointCounts!
   evidenceItems: TimePointCounts!
-  genes: TimePointCounts!
+  features: TimePointCounts!
   molecularProfiles: TimePointCounts!
   revisions: TimePointCounts!
   sources: TimePointCounts!
@@ -4831,7 +4831,7 @@ type Mutation {
   ): SuggestEvidenceItemRevisionPayload
 
   """
-  Suggest a Revision to a Gene entity.
+  Suggest a Revision to a Feature entity of instance type "Gene".
   """
   suggestGeneRevision(
     """
@@ -8228,7 +8228,7 @@ input SuggestGeneRevisionInput {
   fields: GeneFields!
 
   """
-  The ID of the Gene to suggest a Revision to.
+  The ID of the Feature of instance type "Gene" to suggest a Revision to.
   """
   id: Int!
 

@@ -1,7 +1,6 @@
 module Features
   class Gene < ActiveRecord::Base
     include Subscribable
-    include WithTimepointCounts
     include IsFeatureInstance
 
     #has_many :variants
@@ -24,18 +23,6 @@ module Features
 
     def display_name
       name
-    end
-
-    def self.timepoint_query
-      ->(x) {
-        self.joins(variants: { molecular_profiles: [:evidence_items] })
-          .group('genes.id')
-          .select('genes.id')
-          .where("evidence_items.status != 'rejected'")
-          .having('MIN(evidence_items.created_at) >= ?', x)
-          .distinct
-          .count
-      }
     end
 
     def editable_fields

@@ -7504,7 +7504,7 @@
               "deprecationReason": null
             },
             {
-              "name": "genes",
+              "name": "features",
               "description": null,
               "args": [],
               "type": {
@@ -22641,7 +22641,7 @@
             },
             {
               "name": "suggestGeneRevision",
-              "description": "Suggest a Revision to a Gene entity.",
+              "description": "Suggest a Revision to a Feature entity of instance type \"Gene\".",
               "args": [
                 {
                   "name": "input",
@@ -37948,7 +37948,7 @@
             },
             {
               "name": "id",
-              "description": "The ID of the Gene to suggest a Revision to.",
+              "description": "The ID of the Feature of instance type \"Gene\" to suggest a Revision to.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
