@@ -11,9 +11,7 @@ module Loaders
 
       MolecularProfile.where(id: ids).each do |mp|
         mps[mp.id] = mp.name.split(' ').map do |segment|
-          if gene_match = segment.match(MolecularProfile::GENE_REGEX)
-            nil
-          elsif variant_match = segment.match(MolecularProfile::VARIANT_REGEX)
+          if variant_match = segment.match(MolecularProfile::VARIANT_REGEX)
             variant_id = variant_match[:id].to_i
             resolved_variants[variant_id] = nil
             ->(features, vars) { [ features[vars[variant_id].feature_id], vars[variant_id] ] }
@@ -21,7 +19,6 @@ module Loaders
             ->(features, vars) { segment }
           end
         end
-          .compact
       end
 
       Variant.where(id: resolved_variants.keys)
