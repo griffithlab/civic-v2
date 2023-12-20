@@ -87,8 +87,8 @@ module Actions
       case type.upcase
       when 'V'
         [Variant, 'VARIANT']
-      when 'G'
-        [Gene, 'GENE']
+      when 'F'
+        [Feature, 'FEATURE']
       when 'VG'
         [VariantGroup, 'VARIANT_GROUP']
       when 'E'
@@ -103,11 +103,11 @@ module Actions
     end
 
     def self.split_regex
-      @split_regex ||= Regexp.new(/\s*(#(?:a|v|g|vg|e|r|mp)(?:id)?\d+)\b/i)
+      @split_regex ||= Regexp.new(/\s*(#(?:a|v|f|vg|e|r|mp)(?:id)?\d+)\b/i)
     end
 
     def self.scan_regex
-      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
+      @scan_regex ||= Regexp.new(/#(?<type>a|v|f|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
     end
   end
 end

@@ -128,8 +128,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
 
   tagForEntityTypeAndId(entityType: TaggableEntity, id: number): string {
     switch (entityType) {
-      case TaggableEntity.Gene:
-        return `GID${id}`
+      case TaggableEntity.Feature:
+        return `FID${id}`
       case TaggableEntity.Variant:
         return `VID${id}`
       case TaggableEntity.VariantGroup:

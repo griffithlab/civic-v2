@@ -1,6 +1,6 @@
 module Types::Commentable
   class TaggableEntity < Types::BaseEnum
-    value 'GENE'
+    value 'FEATURE'
     value 'VARIANT'
     value 'VARIANT_GROUP'
     value 'EVIDENCE_ITEM'

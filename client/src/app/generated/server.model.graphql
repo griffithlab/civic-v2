@@ -8522,7 +8522,7 @@ type SuggestVariantRevisionPayload {
 enum TaggableEntity {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   REVISION
   ROLE
