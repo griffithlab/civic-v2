@@ -7,7 +7,7 @@ query VariantRevisableFields($variantId: Int!) {
 fragment RevisableVariantFields on Variant {
   id
   name
-  gene {
+  feature {
     id
     name
   }

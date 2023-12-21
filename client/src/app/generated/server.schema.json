@@ -43254,8 +43254,8 @@
               "deprecationReason": null
             },
             {
-              "name": "geneId",
-              "description": "The ID of the Gene this Variant corresponds to.",
+              "name": "featureId",
+              "description": "The ID of the Feature this Variant corresponds to.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

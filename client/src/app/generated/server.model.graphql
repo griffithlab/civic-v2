@@ -9463,9 +9463,9 @@ input VariantFields {
   ensemblVersion: NullableIntInput!
 
   """
-  The ID of the Gene this Variant corresponds to.
+  The ID of the Feature this Variant corresponds to.
   """
-  geneId: Int!
+  featureId: Int!
 
   """
   List of HGVS descriptions for the Variant.

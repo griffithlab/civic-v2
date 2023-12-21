@@ -16,7 +16,7 @@ export type VariantFields = {
   start2?: number
   stop2?: number
   representativeTranscript2?: string
-  geneId?: number
+  featureId?: number
   referenceBases?: string
   variantBases?: string
 }

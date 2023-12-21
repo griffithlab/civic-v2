@@ -5775,8 +5775,8 @@ export type VariantFields = {
   clinvarIds: ClinvarInput;
   /** The Ensembl database version. */
   ensemblVersion: NullableIntInput;
-  /** The ID of the Gene this Variant corresponds to. */
-  geneId: Scalars['Int'];
+  /** The ID of the Feature this Variant corresponds to. */
+  featureId: Scalars['Int'];
   /** List of HGVS descriptions for the Variant. */
   hgvsDescriptions: Array<Scalars['String']>;
   /** The Variant's name. */
@@ -7175,9 +7175,9 @@ export type VariantRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type VariantRevisableFieldsQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
+export type VariantRevisableFieldsQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, feature: { __typename: 'Feature', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
 
-export type RevisableVariantFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
+export type RevisableVariantFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, clinvarIds: Array<string>, ensemblVersion?: number | undefined, hgvsDescriptions: Array<string>, referenceBuild?: ReferenceBuild | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, feature: { __typename: 'Feature', id: number, name: string }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, primaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
 
 export type CoordinateFieldsFragment = { __typename: 'Coordinate', chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined };
 
@@ -9305,7 +9305,7 @@ export const RevisableVariantFieldsFragmentDoc = gql`
     fragment RevisableVariantFields on Variant {
   id
   name
-  gene {
+  feature {
     id
     name
   }

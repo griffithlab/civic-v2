@@ -41,7 +41,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             },
             fieldGroup: [
               {
-                key: 'geneId',
+                key: 'featureId',
                 type: 'gene-select',
                 props: {
                   description: 'Enter an Entrez Gene for this Variant',

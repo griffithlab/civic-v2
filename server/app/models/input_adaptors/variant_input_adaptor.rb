@@ -8,7 +8,7 @@ class InputAdaptors::VariantInputAdaptor
 
   def perform
     Variant.new(
-      gene_id: input.gene_id,
+      feature_id: input.feature_id,
       name: input.name,
       variant_type_ids: input.variant_type_ids,
       reference_build: input.reference_build,

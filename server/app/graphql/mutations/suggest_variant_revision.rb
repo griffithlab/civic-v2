@@ -38,8 +38,8 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
 
     @variant = variant
 
-    if !Gene.find(fields.gene_id)
-      raise GraphQL::ExecutionError, "Provided gene id: #{fields.gene_id} is not found."
+    if !Feature.find_by(id: fields.feature_id)
+      raise GraphQL::ExecutionError, "Provided feature id: #{fields.feature_id} is not found."
     end
 
     existing_variant_type_ids = VariantType.where(id: fields.variant_type_ids).pluck(:id)
