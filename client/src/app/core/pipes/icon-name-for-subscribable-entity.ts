@@ -19,7 +19,7 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case 'FEATURE':
       case 'Feature':
       case SubscribableEntities.Feature:
-        return 'civic-gene'
+        return 'civic-feature'
       case SubscribableEntities.Revision:
       case 'REVISION':
       case 'Revision':

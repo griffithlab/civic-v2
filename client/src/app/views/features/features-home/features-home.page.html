@@ -10,8 +10,8 @@
         <i
           nz-icon
           nzTheme="twotone"
-          [nzTwotoneColor]="'Gene' | entityColor"
-          nzType="civic-gene"></i>
+          [nzTwotoneColor]="'Feature' | entityColor"
+          nzType="civic-feature"></i>
       </nz-col>
       <nz-col
         nzFlex="0 1 600px"
@@ -22,8 +22,8 @@
           nzEllipsis
           nzExpandable
           [nzEllipsisRows]="2">
-          CIViC Features include a feature-level summary, a link to the Drug Gene
-          Interation Database, and extensive gene details from MyGene.info.
+          CIViC Features include a feature-level summary, a link to the Drug
+          Gene Interation Database, and extensive gene details from MyGene.info.
         </p>
       </nz-col>
       <nz-col
@@ -64,7 +64,8 @@
     <nz-row>
       <nz-col [nzSpan]="24">
         <div class="content">
-          <cvc-features-table cvcTitle="Browse All Features"></cvc-features-table>
+          <cvc-features-table
+            cvcTitle="Browse All Features"></cvc-features-table>
         </div>
       </nz-col>
     </nz-row>

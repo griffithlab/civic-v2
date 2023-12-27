@@ -71,7 +71,7 @@
           nzTooltipTitle="Feature Count">
           <i
             nz-icon
-            nzType="civic-gene"></i>
+            nzType="civic-feature"></i>
           Count
         </th>
         <th
@@ -163,9 +163,9 @@
 
             <ng-template #noDoid> -- </ng-template>
           </td>
-          <td
-            class="overflow-ellipsis">
-            <cvc-tag-overflow tagType="feature"
+          <td class="overflow-ellipsis">
+            <cvc-tag-overflow
+              tagType="feature"
               [tags]="disease.features"
               [maxDisplayCount]="5"
               [matchingText]="featureNameInput">
