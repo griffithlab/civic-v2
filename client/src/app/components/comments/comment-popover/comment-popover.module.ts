@@ -8,10 +8,10 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @NgModule({
   declarations: [CvcCommentPopoverComponent],
@@ -21,7 +21,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     PushPipe,
     NzCardModule,
     NzGridModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcUserTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,

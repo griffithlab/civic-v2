@@ -73,7 +73,6 @@
     "Flaggable": [
       "Assertion",
       "BrowseFeature",
-      "BrowseGene",
       "EvidenceItem",
       "Feature",
       "Gene",

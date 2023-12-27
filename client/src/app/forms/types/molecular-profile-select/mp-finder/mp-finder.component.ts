@@ -69,7 +69,7 @@ export class MpFinderComponent {
         fieldGroup: [
           {
             key: 'featureId',
-            type: 'gene-select',
+            type: 'feature-select',
             props: {
               placeholder: 'Select MP Feature',
               hideLabel: true,

@@ -4,7 +4,6 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -39,7 +38,6 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
     CvcContributorAvatarsModule,
     CvcTabNavigationModule,
     CvcFlaggableModule,
-    CvcGeneTagModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
     CvcVariantTagModule,

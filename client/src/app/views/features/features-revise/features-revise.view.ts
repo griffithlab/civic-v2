@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
-  GeneDetailFieldsFragment,
-  GeneDetailGQL,
+  FeatureSummaryFieldsFragment,
+  FeaturesSummaryGQL,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { Observable, Subscription } from 'rxjs'
@@ -17,7 +17,7 @@ import { pluck } from 'rxjs-etc/operators'
 })
 export class FeaturesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>
-  gene$?: Observable<Maybe<GeneDetailFieldsFragment>>
+  feature$?: Observable<Maybe<FeatureSummaryFieldsFragment>>
   commentsTotal$?: Observable<number>
   revisionsTotal$?: Observable<number>
   flagsTotal$?: Observable<number>
@@ -25,22 +25,22 @@ export class FeaturesReviseView implements OnInit, OnDestroy {
   isSignedIn$?: Observable<boolean>
 
   constructor(
-    private gql: GeneDetailGQL,
+    private gql: FeaturesSummaryGQL,
     private route: ActivatedRoute,
     private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ geneId: +params.featureId }).valueChanges
+      let observable = this.gql.watch({ featureId: +params.featureId }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
-      this.gene$ = observable.pipe(pluck('data', 'gene'))
+      this.feature$ = observable.pipe(pluck('data', 'feature'))
 
-      this.commentsTotal$ = this.gene$.pipe(pluck('comments', 'totalCount'))
+      this.commentsTotal$ = this.feature$.pipe(pluck('comments', 'totalCount'))
 
-      this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'))
+      this.flagsTotal$ = this.feature$.pipe(pluck('flags', 'totalCount'))
 
-      this.revisionsTotal$ = this.gene$.pipe(pluck('revisions', 'totalCount'))
+      this.revisionsTotal$ = this.feature$.pipe(pluck('revisions', 'totalCount'))
     })
   }
 

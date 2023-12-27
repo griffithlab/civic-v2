@@ -6,7 +6,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module'
@@ -22,7 +21,6 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcTherapyTagModule,
     CvcDiseaseTagModule,
     CvcOrganizationTagModule,
-    CvcGeneTagModule,
     CvcFeatureTagModule,
     CvcVariantTagModule,
     CvcVariantTypeTagModule,

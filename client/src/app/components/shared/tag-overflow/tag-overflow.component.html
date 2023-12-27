@@ -60,11 +60,6 @@
         [disease]="tag"
         [truncateLongName]="true"></cvc-disease-tag>
     </ng-container>
-    <ng-container *ngSwitchCase="'gene'">
-      <cvc-gene-tag
-        [gene]="tag"
-        [truncateLongName]="true"></cvc-gene-tag>
-    </ng-container>
     <ng-container *ngSwitchCase="'feature'">
       <cvc-feature-tag
         [feature]="tag"

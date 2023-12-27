@@ -16,9 +16,9 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case 'EvidenceItem':
       case SubscribableEntities.EvidenceItem:
         return 'civic-evidence'
-      case 'GENE':
-      case 'Gene':
-      case SubscribableEntities.Gene:
+      case 'FEATURE':
+      case 'Feature':
+      case SubscribableEntities.Feature:
         return 'civic-gene'
       case SubscribableEntities.Revision:
       case 'REVISION':

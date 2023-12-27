@@ -23,7 +23,7 @@ export class GenesSummaryPage implements OnInit {
     else {
       this.subscribableEntity = {
         id: this.gene.id,
-        entityType: SubscribableEntities.Gene,
+        entityType: SubscribableEntities.Feature,
       }
     }
   }

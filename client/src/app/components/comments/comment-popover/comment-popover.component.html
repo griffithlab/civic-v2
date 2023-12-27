@@ -11,10 +11,10 @@
             [user]="c.commenter"></cvc-user-tag
           >commented on
           <ng-container [ngSwitch]="c.commentable.__typename">
-            <cvc-gene-tag
-              *ngSwitchCase="'Gene'"
+            <cvc-feature-tag
+              *ngSwitchCase="'Feature'"
               [enablePopover]="false"
-              [gene]="c.commentable"></cvc-gene-tag>
+              [feature]="c.commentable"></cvc-feature-tag>
             <cvc-assertion-tag
               *ngSwitchCase="'Assertion'"
               [enablePopover]="false"

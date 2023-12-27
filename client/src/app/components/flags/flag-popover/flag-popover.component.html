@@ -23,10 +23,10 @@
 
       <ng-template #subject>
         <ng-container [ngSwitch]="f.flaggable.__typename">
-          <cvc-gene-tag
-            *ngSwitchCase="'Gene'"
+          <cvc-feature-tag
+            *ngSwitchCase="'Feature'"
             [enablePopover]="false"
-            [gene]="f.flaggable"></cvc-gene-tag>
+            [feature]="f.flaggable"></cvc-feature-tag>
           <cvc-assertion-tag
             *ngSwitchCase="'Assertion'"
             [enablePopover]="false"

@@ -32,11 +32,11 @@ import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import mixin from 'ts-mixin-extended'
 
-export type CvcGeneSelectFieldOption = Partial<
-  FieldTypeConfig<Partial<CvcGeneSelectFieldProps>>
+export type CvcFeatureSelectFieldOption = Partial<
+  FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
 >
 
-export interface CvcGeneSelectFieldProps extends FormlyFieldProps {
+export interface CvcFeatureSelectFieldProps extends FormlyFieldProps {
   placeholder: string
   isMultiSelect: boolean
   selectMessages?: CvcEntitySelectMessageOptions
@@ -45,14 +45,14 @@ export interface CvcGeneSelectFieldProps extends FormlyFieldProps {
   extraType?: CvcFormFieldExtraType
 }
 
-export interface CvcGeneSelectFieldConfig
-  extends FormlyFieldConfig<CvcGeneSelectFieldProps> {
-  type: 'gene-select' | 'gene-multi-select' | Type<CvcGeneSelectField>
+export interface CvcFeatureSelectFieldConfig
+  extends FormlyFieldConfig<CvcFeatureSelectFieldProps> {
+  type: 'feature-select' | 'feature-multi-select' | Type<CvcFeatureSelectField>
 }
 
-const GeneSelectMixin = mixin(
+const FeatureSelectMixin = mixin(
   BaseFieldType<
-    FieldTypeConfig<CvcGeneSelectFieldProps>,
+    FieldTypeConfig<CvcFeatureSelectFieldProps>,
     Maybe<number | number[]>
   >(),
   EntitySelectField<
@@ -66,24 +66,24 @@ const GeneSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-gene-select',
-  templateUrl: './gene-select.type.html',
-  styleUrls: ['./gene-select.type.less'],
+  selector: 'cvc-feature-select',
+  templateUrl: './feature-select.type.html',
+  styleUrls: ['./feature-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcGeneSelectField
-  extends GeneSelectMixin
+export class CvcFeatureSelectField
+  extends FeatureSelectMixin
   implements AfterViewInit
 {
   // FieldTypeConfig defaults
   defaultOptions = {
     props: {
-      label: 'Gene',
-      placeholder: 'Search Genes',
+      label: 'Feature',
+      placeholder: 'Search Features',
       isMultiSelect: false,
-      entityName: { singular: 'Gene', plural: 'Genes' },
+      entityName: { singular: 'Feature', plural: 'Features' },
       description:
-        'Entrez Gene Symbol',
+        'Feature Name',
     },
     featureType: FeatureInstanceTypes.Gene
   }
@@ -116,7 +116,7 @@ export class CvcGeneSelectField
       selectOpen$: this.selectOpen$,
       selectComponent: this.selectComponent,
     })
-    // this.onOpenChange$.pipe(tag('gene-select onOpenChange$')).subscribe()
+    // this.onOpenChange$.pipe(tag('feature-select onOpenChange$')).subscribe()
   } // ngAfterViewInit()
 
   getTypeaheadVarsFn(str: string): FeatureSelectTypeaheadQueryVariables {

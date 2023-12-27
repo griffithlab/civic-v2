@@ -105,7 +105,7 @@ export class FeaturesDetailView implements OnDestroy {
 
       this.subscribable = {
         id: +params.featureId,
-        entityType: SubscribableEntities.Gene,
+        entityType: SubscribableEntities.Feature,
       }
     })
   }

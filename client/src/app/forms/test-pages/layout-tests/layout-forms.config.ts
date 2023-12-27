@@ -1,6 +1,6 @@
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { CvcTherapySelectFieldOptions } from '../../types/therapy-select/therapy-select.type'
-import { CvcGeneSelectFieldConfig } from '../../types/gene-select/gene-select.type'
+import { CvcFeatureSelectFieldConfig } from '../../types/feature-select/feature-select.type'
 import { CvcLevelSelectFieldOptions } from '../../types/level-select/level-select.type'
 import { CvcOriginSelectFieldOptions } from '../../types/origin-select/origin-select.type'
 import { CvcSourceSelectFieldConfig } from '../../types/source-select/source-select.type'
@@ -36,13 +36,13 @@ export const noStateFormsFieldConfig: FormlyFieldConfig[] = [
     props: {},
   },
 
-  <CvcGeneSelectFieldConfig>{
+  <CvcFeatureSelectFieldConfig>{
     key: 'featureId',
-    type: 'gene-select',
+    type: 'feature-select',
   },
-  <CvcGeneSelectFieldConfig>{
+  <CvcFeatureSelectFieldConfig>{
     key: 'featureIds',
-    type: 'gene-multi-select',
+    type: 'feature-multi-select',
     props: {},
   },
   <CvcVariantSelectFieldConfig>{

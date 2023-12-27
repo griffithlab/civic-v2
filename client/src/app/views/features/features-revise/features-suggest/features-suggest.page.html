@@ -1,4 +1,4 @@
-<ng-container *ngIf="featureId; else loadingGene">
+<ng-container *ngIf="featureId; else loadingFeature">
   <cvc-gene-revise-form [featureId]="featureId"> </cvc-gene-revise-form>
 </ng-container>
-<ng-template #loadingGene>Loading Feature...</ng-template>
+<ng-template #loadingFeature>Loading Feature...</ng-template>

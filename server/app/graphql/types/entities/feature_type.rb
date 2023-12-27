@@ -53,16 +53,5 @@ module Types::Entities
     def feature_instance
       object.feature_instance
     end
-
-    #definition_methods do
-    #  def resolve_type(object, context)
-    #    case object
-    #    when Features::Gene
-    #      Types::Entities::GeneType
-    #    else
-    #      raise "Unexpected Feature type #{object.class}"
-    #    end
-    #  end
-    #end
   end
 end

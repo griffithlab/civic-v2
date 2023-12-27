@@ -73,14 +73,15 @@ const routes: Routes = [
           breadcrumb: 'Evidence',
         },
       },
-      {
+/*       {
         path: 'genes',
         loadChildren: () =>
           import('@app/views/genes/genes.module').then((m) => m.GenesModule),
         data: {
           breadcrumb: 'Genes',
         },
-      },
+      } ,
+*/
       {
         path: 'features',
         loadChildren: () =>

@@ -1,5 +1,4 @@
 query VariantsMenu(
-  $geneId: Int,
   $featureId: Int,
   $variantName: String,
   $variantTypeIds: [Int!],
@@ -11,7 +10,6 @@ query VariantsMenu(
   $sortBy: VariantMenuSort
 ) {
   variants(
-    geneId: $geneId,
     featureId: $featureId,
     name: $variantName,
     variantTypeIds: $variantTypeIds,

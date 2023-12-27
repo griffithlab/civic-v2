@@ -42,7 +42,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             fieldGroup: [
               {
                 key: 'featureId',
-                type: 'gene-select',
+                type: 'feature-select',
                 props: {
                   description: 'Enter an Entrez Gene for this Variant',
                   required: true,

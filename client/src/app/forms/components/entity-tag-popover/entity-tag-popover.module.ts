@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { CvcDiseasePopoverModule } from "@app/components/diseases/cvc-disease-popover/cvc-disease-popover.module";
 import { CvcEvidencePopoverModule } from "@app/components/evidence/evidence-popover/evidence-popover.module";
-import { CvcGenePopoverModule } from "@app/components/genes/gene-popover/gene-popover.module";
+import { CvcFeaturePopoverModule } from "@app/components/features/feature-popover/feature-popover.module";
 import { CvcMolecularProfilePopoverModule } from "@app/components/molecular-profiles/molecular-profile-popover/molecular-profile-popover.module";
 import { CvcPhenotypePopoverModule } from "@app/components/phenotypes/phenotype-popover/phenotype-popover.module";
 import { CvcSourcePopoverModule } from "@app/components/sources/source-popover/source-popover.module";
@@ -20,7 +20,7 @@ import { CvcEntityTagPopoverComponent } from "./entity-tag-popover.component";
     CvcTherapyPopoverModule,
     CvcPhenotypePopoverModule,
     CvcEvidencePopoverModule,
-    CvcGenePopoverModule,
+    CvcFeaturePopoverModule,
     CvcVariantPopoverModule,
   ],
   exports: [CvcEntityTagPopoverComponent],

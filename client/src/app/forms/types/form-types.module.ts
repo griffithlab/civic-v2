@@ -15,7 +15,7 @@ import { CvcDirectionSelectModule } from './direction-select/direction-select.mo
 import { CvcDiseaseSelectModule } from './disease-select/disease-select.module'
 import { CvcEntityTypeSelectModule } from './type-select/type-select.module'
 import { CvcEvidenceSelectFieldModule } from './evidence-select/evidence-select.module'
-import { CvcGeneSelectModule } from './gene-select/gene-select.module'
+import { CvcFeatureSelectModule } from './feature-select/feature-select.module'
 import { CvcInteractionSelectModule } from './interaction-select/interaction-select.module'
 import { CvcLevelSelectModule } from './level-select/level-select.module'
 import { CvcMolecularProfileSelectModule } from './molecular-profile-select/molecular-profile-select.module'
@@ -51,7 +51,7 @@ import { CvcVariantTypeSelectModule } from './variant-type-select/variant-type-s
     CvcDiseaseSelectModule,
     CvcEntityTypeSelectModule,
     CvcEvidenceSelectFieldModule,
-    CvcGeneSelectModule,
+    CvcFeatureSelectModule,
     CvcInteractionSelectModule,
     CvcLevelSelectModule,
     CvcMolecularProfileSelectModule,

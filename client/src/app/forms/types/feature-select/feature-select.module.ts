@@ -18,25 +18,25 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
-  CvcGeneSelectField,
-  CvcGeneSelectFieldConfig,
-  CvcGeneSelectFieldProps,
-} from './gene-select.type'
+  CvcFeatureSelectField,
+  CvcFeatureSelectFieldConfig,
+  CvcFeatureSelectFieldProps,
+} from './feature-select.type'
 
 const typeConfig: ConfigOption = {
   types: [
     {
-      name: 'gene-select',
+      name: 'feature-select',
       wrappers: ['form-field'],
-      component: CvcGeneSelectField,
+      component: CvcFeatureSelectField,
     },
     {
-      name: 'gene-multi-select',
+      name: 'feature-multi-select',
       wrappers: ['form-field'],
-      component: CvcGeneSelectField,
-      defaultOptions: <CvcGeneSelectFieldConfig>{
+      component: CvcFeatureSelectField,
+      defaultOptions: <CvcFeatureSelectFieldConfig>{
         props: {
-          label: 'Genes',
+          label: 'Features',
           isMultiSelect: true,
         },
       },
@@ -45,7 +45,7 @@ const typeConfig: ConfigOption = {
 }
 
 @NgModule({
-  declarations: [CvcGeneSelectField],
+  declarations: [CvcFeatureSelectField],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -67,6 +67,6 @@ const typeConfig: ConfigOption = {
     CvcPipesModule,
     CvcEntityTagModule,
   ],
-  exports: [CvcGeneSelectField],
+  exports: [CvcFeatureSelectField],
 })
-export class CvcGeneSelectModule {}
+export class CvcFeatureSelectModule {}

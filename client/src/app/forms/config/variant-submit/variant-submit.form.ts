@@ -66,7 +66,7 @@ export class VariantSubmitForm {
         fieldGroup: [
           {
             key: 'featureId',
-            type: 'gene-select',
+            type: 'feature-select',
             props: {
               placeholder: `Select New Variant's Feature`,
               layout: {

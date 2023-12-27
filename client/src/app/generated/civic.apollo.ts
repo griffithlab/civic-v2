@@ -586,65 +586,6 @@ export type BrowseFeatureEdge = {
   node?: Maybe<BrowseFeature>;
 };
 
-export type BrowseGene = Flaggable & {
-  __typename: 'BrowseGene';
-  assertionCount: Scalars['Int'];
-  description: Scalars['String'];
-  diseases?: Maybe<Array<Disease>>;
-  entrezId: Scalars['Int'];
-  evidenceItemCount: Scalars['Int'];
-  flagged: Scalars['Boolean'];
-  /** List and filter flags. */
-  flags: FlagConnection;
-  geneAliases?: Maybe<Array<Scalars['String']>>;
-  id: Scalars['Int'];
-  link: Scalars['String'];
-  molecularProfileCount: Scalars['Int'];
-  name: Scalars['String'];
-  therapies?: Maybe<Array<Therapy>>;
-  variantCount: Scalars['Int'];
-};
-
-
-export type BrowseGeneFlagsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  flaggingUserId?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  resolvingUserId?: InputMaybe<Scalars['Int']>;
-  sortBy?: InputMaybe<DateSort>;
-  state?: InputMaybe<FlagState>;
-};
-
-/** The connection type for BrowseGene. */
-export type BrowseGeneConnection = {
-  __typename: 'BrowseGeneConnection';
-  /** A list of edges. */
-  edges: Array<BrowseGeneEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
-  /** The last time the data in this browse table was refreshed */
-  lastUpdated: Scalars['ISO8601DateTime'];
-  /** A list of nodes. */
-  nodes: Array<BrowseGene>;
-  /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int'];
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
-  totalCount: Scalars['Int'];
-};
-
-/** An edge in a connection. */
-export type BrowseGeneEdge = {
-  __typename: 'BrowseGeneEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node?: Maybe<BrowseGene>;
-};
-
 export type BrowseMolecularProfile = {
   __typename: 'BrowseMolecularProfile';
   aliases: Array<MolecularProfileAlias>;
@@ -2119,7 +2060,6 @@ export enum FlaggableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
-  Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
@@ -2269,24 +2209,6 @@ export type GeneSearchFilter = {
   openRevisionCount?: InputMaybe<IntSearchInput>;
   subFilters?: InputMaybe<Array<GeneSearchFilter>>;
 };
-
-export type GenesSort = {
-  /** Available columns for sorting */
-  column: GenesSortColumns;
-  /** Sort direction */
-  direction: SortDirection;
-};
-
-export enum GenesSortColumns {
-  AssertionCount = 'assertionCount',
-  DiseaseName = 'diseaseName',
-  EntrezSymbol = 'entrezSymbol',
-  EvidenceItemCount = 'evidenceItemCount',
-  GeneAlias = 'geneAlias',
-  MolecularProfileCount = 'molecularProfileCount',
-  TherapyName = 'therapyName',
-  VariantCount = 'variantCount'
-}
 
 export type IntSearchInput = {
   comparisonOperator: IntSearchOperator;
@@ -2580,7 +2502,6 @@ export enum ModeratedEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
-  Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
@@ -3541,7 +3462,6 @@ export type Query = {
   assertions: AssertionConnection;
   browseDiseases: BrowseDiseaseConnection;
   browseFeatures: BrowseFeatureConnection;
-  browseGenes: BrowseGeneConnection;
   browseMolecularProfiles: BrowseMolecularProfileConnection;
   browseSources: BrowseSourceConnection;
   browseVariantGroups: BrowseVariantGroupConnection;
@@ -3748,19 +3668,6 @@ export type QueryBrowseFeaturesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<FeaturesSort>;
-  therapyName?: InputMaybe<Scalars['String']>;
-};
-
-
-export type QueryBrowseGenesArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  diseaseName?: InputMaybe<Scalars['String']>;
-  entrezSymbol?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  geneAlias?: InputMaybe<Scalars['String']>;
-  last?: InputMaybe<Scalars['Int']>;
-  sortBy?: InputMaybe<GenesSort>;
   therapyName?: InputMaybe<Scalars['String']>;
 };
 
@@ -4253,7 +4160,6 @@ export type QueryVariantGroupsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  geneId?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
 };
 
@@ -4293,7 +4199,6 @@ export type QueryVariantsArgs = {
   before?: InputMaybe<Scalars['String']>;
   featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
-  geneId?: InputMaybe<Scalars['Int']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -4941,7 +4846,6 @@ export enum SubscribableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
-  Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
   SourceSuggestion = 'SOURCE_SUGGESTION',
@@ -5642,7 +5546,6 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
-  gene: Gene;
   hgvsDescriptions: Array<Scalars['String']>;
   id: Scalars['Int'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
@@ -6351,46 +6254,20 @@ export type FlagListQueryVariables = Exact<{
 }>;
 
 
-export type FlagListQuery = { __typename: 'Query', flags: { __typename: 'FlagConnection', totalCount: number, unfilteredCountForSubject?: number | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueFlaggingUsers: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }>, uniqueResolvingUsers?: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }> | undefined, edges: Array<{ __typename: 'FlagEdge', node?: { __typename: 'Flag', id: number, state: FlagState, flaggable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'BrowseFeature', id: number, name: string, link: string } | { __typename: 'BrowseGene', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, openActivity: { __typename: 'FlagEntityActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, resolutionActivity?: { __typename: 'ResolveFlagActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined }> } };
+export type FlagListQuery = { __typename: 'Query', flags: { __typename: 'FlagConnection', totalCount: number, unfilteredCountForSubject?: number | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueFlaggingUsers: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }>, uniqueResolvingUsers?: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }> | undefined, edges: Array<{ __typename: 'FlagEdge', node?: { __typename: 'Flag', id: number, state: FlagState, flaggable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'BrowseFeature', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, openActivity: { __typename: 'FlagEntityActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, resolutionActivity?: { __typename: 'ResolveFlagActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined }> } };
 
-export type FlagListFragment = { __typename: 'FlagConnection', totalCount: number, unfilteredCountForSubject?: number | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueFlaggingUsers: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }>, uniqueResolvingUsers?: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }> | undefined, edges: Array<{ __typename: 'FlagEdge', node?: { __typename: 'Flag', id: number, state: FlagState, flaggable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'BrowseFeature', id: number, name: string, link: string } | { __typename: 'BrowseGene', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, openActivity: { __typename: 'FlagEntityActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, resolutionActivity?: { __typename: 'ResolveFlagActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined }> };
+export type FlagListFragment = { __typename: 'FlagConnection', totalCount: number, unfilteredCountForSubject?: number | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean }, uniqueFlaggingUsers: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }>, uniqueResolvingUsers?: Array<{ __typename: 'User', username: string, id: number, profileImagePath?: string | undefined }> | undefined, edges: Array<{ __typename: 'FlagEdge', node?: { __typename: 'Flag', id: number, state: FlagState, flaggable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'BrowseFeature', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, openActivity: { __typename: 'FlagEntityActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, resolutionActivity?: { __typename: 'ResolveFlagActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined }> };
 
-export type FlagFragment = { __typename: 'Flag', id: number, state: FlagState, flaggable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'BrowseFeature', id: number, name: string, link: string } | { __typename: 'BrowseGene', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, openActivity: { __typename: 'FlagEntityActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, resolutionActivity?: { __typename: 'ResolveFlagActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
+export type FlagFragment = { __typename: 'Flag', id: number, state: FlagState, flaggable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'BrowseFeature', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, openActivity: { __typename: 'FlagEntityActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } }, resolutionActivity?: { __typename: 'ResolveFlagActivity', id: number, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }>, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
 
 export type FlagPopoverQueryVariables = Exact<{
   flagId: Scalars['Int'];
 }>;
 
 
-export type FlagPopoverQuery = { __typename: 'Query', flag?: { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseFeature', id: number, link: string, name: string } | { __typename: 'BrowseGene', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Feature', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | undefined };
+export type FlagPopoverQuery = { __typename: 'Query', flag?: { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseFeature', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Feature', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | undefined };
 
-export type FlagPopoverFragment = { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseFeature', id: number, link: string, name: string } | { __typename: 'BrowseGene', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Feature', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
-
-export type GenePopoverQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GenePopoverQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
-
-export type GenePopoverFragment = { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
-
-export type BrowseGenesQueryVariables = Exact<{
-  entrezSymbol?: InputMaybe<Scalars['String']>;
-  therapyName?: InputMaybe<Scalars['String']>;
-  geneAlias?: InputMaybe<Scalars['String']>;
-  diseaseName?: InputMaybe<Scalars['String']>;
-  sortBy?: InputMaybe<GenesSort>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  before?: InputMaybe<Scalars['String']>;
-  after?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
-
-export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
+export type FlagPopoverFragment = { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseFeature', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Feature', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
 
 export type QuicksearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -6850,7 +6727,6 @@ export type VariantPopoverQuery = { __typename: 'Query', variant?: { __typename:
 export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, alleleRegistryId?: string | undefined, feature: { __typename: 'Feature', id: number, name: string, link: string }, molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type VariantsMenuQueryVariables = Exact<{
-  geneId?: InputMaybe<Scalars['Int']>;
   featureId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
@@ -7646,27 +7522,11 @@ export type FeaturesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, name: string, entrezId: number, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
+export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
 
-export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, name: string, entrezId: number, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
+export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
 
-export type GeneDetailQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GeneDetailQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, entrezId: number, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
-
-export type GeneDetailFieldsFragment = { __typename: 'Gene', id: number, name: string, fullName?: string | undefined, entrezId: number, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
-
-export type GenesSummaryQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GenesSummaryQuery = { __typename: 'Query', gene?: { __typename: 'Gene', description: string, entrezId: number, featureAliases: Array<string>, id: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } | undefined };
-
-export type GeneSummaryFieldsFragment = { __typename: 'Gene', description: string, entrezId: number, featureAliases: Array<string>, id: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
+export type GeneSummaryFieldsFragment = { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
 
 export type MolecularProfileDetailQueryVariables = Exact<{
   mpId: Scalars['Int'];
@@ -8477,50 +8337,6 @@ export const FlagPopoverFragmentDoc = gql`
   }
 }
     ${ParsedCommentFragmentFragmentDoc}`;
-export const GenePopoverFragmentDoc = gql`
-    fragment genePopover on Gene {
-  id
-  name
-  fullName
-  featureAliases
-  variants {
-    totalCount
-  }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
-  flags(state: OPEN) {
-    totalCount
-  }
-}
-    `;
-export const BrowseGenesFieldsFragmentDoc = gql`
-    fragment BrowseGenesFields on BrowseGene {
-  id
-  entrezId
-  name
-  link
-  flagged
-  geneAliases
-  diseases {
-    name
-    id
-    link
-  }
-  therapies {
-    name
-    id
-    link
-  }
-  variantCount
-  evidenceItemCount
-  assertionCount
-  molecularProfileCount
-}
-    `;
 export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
@@ -9894,55 +9710,12 @@ export const FeatureDetailFieldsFragmentDoc = gql`
   }
 }
     `;
-export const FeatureSummaryFieldsFragmentDoc = gql`
-    fragment FeatureSummaryFields on Feature {
-  id
-  name
-  fullName
-  featureInstance {
-    __typename
-    ... on Gene {
-      id
-      description
-      featureAliases
-      name
-      sources {
-        id
-        citation
-        link
-        sourceUrl
-        displayType
-        sourceType
-      }
-      entrezId
-      myGeneInfoDetails
-    }
-  }
-}
-    `;
-export const GeneDetailFieldsFragmentDoc = gql`
-    fragment GeneDetailFields on Gene {
-  id
-  name
-  fullName
-  entrezId
-  flags(state: OPEN) {
-    totalCount
-  }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
-}
-    `;
 export const GeneSummaryFieldsFragmentDoc = gql`
     fragment GeneSummaryFields on Gene {
-  description
-  entrezId
-  featureAliases
   id
+  description
+  featureAliases
+  entrezId
   name
   sources {
     id
@@ -9955,6 +9728,19 @@ export const GeneSummaryFieldsFragmentDoc = gql`
   myGeneInfoDetails
 }
     `;
+export const FeatureSummaryFieldsFragmentDoc = gql`
+    fragment FeatureSummaryFields on Feature {
+  id
+  name
+  fullName
+  featureInstance {
+    __typename
+    ... on Gene {
+      ...GeneSummaryFields
+    }
+  }
+}
+    ${GeneSummaryFieldsFragmentDoc}`;
 export const MolecularProfileDetailFieldsFragmentDoc = gql`
     fragment MolecularProfileDetailFields on MolecularProfile {
   id
@@ -11189,67 +10975,6 @@ export const FlagPopoverDocument = gql`
   })
   export class FlagPopoverGQL extends Apollo.Query<FlagPopoverQuery, FlagPopoverQueryVariables> {
     document = FlagPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GenePopoverDocument = gql`
-    query GenePopover($geneId: Int!) {
-  gene(id: $geneId) {
-    ...genePopover
-  }
-}
-    ${GenePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
-    document = GenePopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseGenesDocument = gql`
-    query BrowseGenes($entrezSymbol: String, $therapyName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
-  browseGenes(
-    entrezSymbol: $entrezSymbol
-    therapyName: $therapyName
-    geneAlias: $geneAlias
-    diseaseName: $diseaseName
-    sortBy: $sortBy
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    edges {
-      cursor
-      node {
-        ...BrowseGenesFields
-      }
-    }
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    lastUpdated
-    totalCount
-    filteredCount
-    pageCount
-  }
-}
-    ${BrowseGenesFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
-    document = BrowseGenesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -12492,9 +12217,8 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $featureId: Int, $variantName: String, $variantTypeIds: [Int!], $hasNoVariantType: Boolean, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($featureId: Int, $variantName: String, $variantTypeIds: [Int!], $hasNoVariantType: Boolean, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
-    geneId: $geneId
     featureId: $featureId
     name: $variantName
     variantTypeIds: $variantTypeIds
@@ -14459,42 +14183,6 @@ export const FeaturesSummaryDocument = gql`
   })
   export class FeaturesSummaryGQL extends Apollo.Query<FeaturesSummaryQuery, FeaturesSummaryQueryVariables> {
     document = FeaturesSummaryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneDetailDocument = gql`
-    query GeneDetail($geneId: Int!) {
-  gene(id: $geneId) {
-    ...GeneDetailFields
-  }
-}
-    ${GeneDetailFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
-    document = GeneDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GenesSummaryDocument = gql`
-    query GenesSummary($geneId: Int!) {
-  gene(id: $geneId) {
-    ...GeneSummaryFields
-  }
-}
-    ${GeneSummaryFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
-    document = GenesSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

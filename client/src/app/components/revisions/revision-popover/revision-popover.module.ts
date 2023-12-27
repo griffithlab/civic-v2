@@ -8,7 +8,6 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -17,6 +16,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { RevisionListDiffModule } from '../revision-list-diff/revision-list-diff.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @NgModule({
   declarations: [CvcRevisionPopoverComponent],
@@ -30,7 +30,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     NzSpaceModule,
     NzDescriptionsModule,
     CvcPipesModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcUserTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,

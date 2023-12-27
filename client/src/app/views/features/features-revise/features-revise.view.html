@@ -1,5 +1,5 @@
-<ng-container *ngIf="gene$ | async as gene">
-  <cvc-section-navigation [displayName]="gene.name"> </cvc-section-navigation>
+<ng-container *ngIf="feature$ | async as feature">
+  <cvc-section-navigation [displayName]="feature.name"> </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
     <!-- title -->
@@ -10,11 +10,11 @@
         nzTheme="twotone"
         [nzTwotoneColor]="'Gene' | entityColor"
         nzType="civic-gene"></i>
-      {{ gene.name }}
+      {{ feature.name }}
     </nz-page-header-title>
 
     <!-- subtitle -->
-    <nz-page-header-subtitle> {{ gene.fullName }} </nz-page-header-subtitle>
+    <nz-page-header-subtitle> {{ feature.fullName }} </nz-page-header-subtitle>
 
     <nz-page-header-content>
       <div class="content">

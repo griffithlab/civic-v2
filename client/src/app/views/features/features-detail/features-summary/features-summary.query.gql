@@ -11,20 +11,7 @@ fragment FeatureSummaryFields on Feature{
   featureInstance {
     __typename
     ... on Gene {
-      id
-      description
-      featureAliases
-      name
-      sources {
-        id
-        citation
-        link
-        sourceUrl
-        displayType
-        sourceType
-      }
-      entrezId
-      myGeneInfoDetails
+      ... GeneSummaryFields
     }
   }
   # lastSubmittedRevisionEvent {
@@ -43,4 +30,21 @@ fragment FeatureSummaryFields on Feature{
   #     profileImagePath(size: 32)
   #   }
   # }
+}
+
+fragment GeneSummaryFields on Gene {
+  id
+  description
+  featureAliases
+  entrezId
+  name
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  myGeneInfoDetails
 }

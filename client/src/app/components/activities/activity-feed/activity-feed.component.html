@@ -26,9 +26,9 @@
           {{ activity.verbiage }}
           <ng-container
             [ngSwitch]="activity.subject.__typename">
-            <cvc-gene-tag
-              *ngSwitchCase="'Gene'"
-              [gene]="activity.subject"></cvc-gene-tag>
+            <cvc-feature-tag
+              *ngSwitchCase="'Feature'"
+              [feature]="activity.subject"></cvc-feature-tag>
             <cvc-assertion-tag
               *ngSwitchCase="'Assertion'"
               [assertion]="activity.subject"></cvc-assertion-tag>

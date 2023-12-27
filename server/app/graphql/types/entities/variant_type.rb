@@ -11,7 +11,6 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :gene, "Types::Entities::GeneType", null: false
     field :feature, Types::Entities::FeatureType, null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
@@ -35,10 +34,6 @@ module Types::Entities
     field :creation_activity, Types::Activities::CreateVariantActivityType, null: true #TODO: should try to make this non-nullable if complete backfill is possible
     field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
     field :open_cravat_url, String, null: true
-
-    def gene
-      Loaders::RecordLoader.for(Features::Gene).load(object.gene_id)
-    end
 
     def feature
       Loaders::AssociationLoader.for(Variant, :feature).load(object)

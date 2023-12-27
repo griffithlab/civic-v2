@@ -993,122 +993,6 @@ type BrowseFeatureEdge {
   node: BrowseFeature
 }
 
-type BrowseGene implements Flaggable {
-  assertionCount: Int!
-  description: String!
-  diseases: [Disease!]
-  entrezId: Int!
-  evidenceItemCount: Int!
-  flagged: Boolean!
-
-  """
-  List and filter flags.
-  """
-  flags(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Limit to flags added by a certain user
-    """
-    flaggingUserId: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Limit to flags resolved by a certain user
-    """
-    resolvingUserId: Int
-
-    """
-    Sort order for the flags. Defaults to most recent.
-    """
-    sortBy: DateSort
-
-    """
-    Limit to flags in a particular state
-    """
-    state: FlagState
-  ): FlagConnection!
-  geneAliases: [String!]
-  id: Int!
-  link: String!
-  molecularProfileCount: Int!
-  name: String!
-  therapies: [Therapy!]
-  variantCount: Int!
-}
-
-"""
-The connection type for BrowseGene.
-"""
-type BrowseGeneConnection {
-  """
-  A list of edges.
-  """
-  edges: [BrowseGeneEdge!]!
-
-  """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
-  The last time the data in this browse table was refreshed
-  """
-  lastUpdated: ISO8601DateTime!
-
-  """
-  A list of nodes.
-  """
-  nodes: [BrowseGene!]!
-
-  """
-  Total number of pages, based on filtered count and pagesize.
-  """
-  pageCount: Int!
-
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  The total number of records of this type, regardless of any filtering.
-  """
-  totalCount: Int!
-}
-
-"""
-An edge in a connection.
-"""
-type BrowseGeneEdge {
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-
-  """
-  The item at the end of the edge.
-  """
-  node: BrowseGene
-}
-
 type BrowseMolecularProfile {
   aliases: [MolecularProfileAlias!]!
   assertionCount: Int!
@@ -3465,7 +3349,6 @@ enum FlaggableEntities {
   ASSERTION
   EVIDENCE_ITEM
   FEATURE
-  GENE
   MOLECULAR_PROFILE
   VARIANT
   VARIANT_GROUP
@@ -3783,29 +3666,6 @@ input GeneSearchFilter {
   id: IntSearchInput
   openRevisionCount: IntSearchInput
   subFilters: [GeneSearchFilter!]
-}
-
-input GenesSort {
-  """
-  Available columns for sorting
-  """
-  column: GenesSortColumns!
-
-  """
-  Sort direction
-  """
-  direction: SortDirection!
-}
-
-enum GenesSortColumns {
-  assertionCount
-  diseaseName
-  entrezSymbol
-  evidenceItemCount
-  geneAlias
-  molecularProfileCount
-  therapyName
-  variantCount
 }
 
 """
@@ -4236,7 +4096,6 @@ enum ModeratedEntities {
   ASSERTION
   EVIDENCE_ITEM
   FEATURE
-  GENE
   MOLECULAR_PROFILE
   VARIANT
   VARIANT_GROUP
@@ -5897,32 +5756,6 @@ type Query {
     sortBy: FeaturesSort
     therapyName: String
   ): BrowseFeatureConnection!
-  browseGenes(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    diseaseName: String
-    entrezSymbol: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-    geneAlias: String
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    sortBy: GenesSort
-    therapyName: String
-  ): BrowseGeneConnection!
   browseMolecularProfiles(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -6983,11 +6816,6 @@ type Query {
     first: Int
 
     """
-    Gene that variant groups are associated with.
-    """
-    geneId: Int
-
-    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -7091,11 +6919,6 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
-
-    """
-    Gene that variants are associated with.
-    """
-    geneId: Int
 
     """
     Return Variants lacking an assigned VariantType
@@ -8115,7 +7938,6 @@ enum SubscribableEntities {
   ASSERTION
   EVIDENCE_ITEM
   FEATURE
-  GENE
   MOLECULAR_PROFILE
   REVISION
   SOURCE_SUGGESTION
@@ -9281,7 +9103,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     state: FlagState
   ): FlagConnection!
-  gene: Gene!
   hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
