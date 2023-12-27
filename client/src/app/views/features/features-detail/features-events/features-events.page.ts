@@ -17,7 +17,7 @@ export class FeaturesEventsPage {
     const geneId: number = +this.route.snapshot.params['featureId']
     this.subscribable = {
       id: geneId,
-      entityType: SubscribableEntities.Gene,
+      entityType: SubscribableEntities.Feature,
     }
   }
 }

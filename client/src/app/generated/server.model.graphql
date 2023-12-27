@@ -8114,6 +8114,7 @@ Enumeration of all subscribable CIViC entities.
 enum SubscribableEntities {
   ASSERTION
   EVIDENCE_ITEM
+  FEATURE
   GENE
   MOLECULAR_PROFILE
   REVISION

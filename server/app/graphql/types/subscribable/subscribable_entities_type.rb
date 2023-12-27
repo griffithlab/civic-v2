@@ -2,6 +2,7 @@ module Types::Subscribable
   class SubscribableEntitiesType < Types::BaseEnum
     description 'Enumeration of all subscribable CIViC entities.'
     value 'GENE', value: 'Features::Gene'
+    value 'FEATURE', value: 'Feature'
     value 'VARIANT', value: 'Variant'
     value 'EVIDENCE_ITEM', value: 'EvidenceItem'
     value 'ASSERTION', value: 'Assertion'

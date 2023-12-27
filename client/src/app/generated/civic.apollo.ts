@@ -4940,6 +4940,7 @@ export type Subscribable = {
 export enum SubscribableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
+  Feature = 'FEATURE',
   Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
