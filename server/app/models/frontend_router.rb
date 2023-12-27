@@ -13,7 +13,7 @@ class FrontendRouter
       nil
     else
       obj = entity.find_by!(query_field => id)
-      adaptor = "LinkAdaptors::#{obj.class}".constantize.new(obj)
+      adaptor = "LinkAdaptors::#{obj.class.to_s.demodulize}".constantize.new(obj)
       "#{domain}#{adaptor.base_path}"
     end
   end
@@ -22,7 +22,11 @@ class FrontendRouter
   def query_info
     case id_type
     when /genes?/
-      [ Gene, :id, ]
+      [ 
+        Feature.where(feature_instance_type: "Features::Gene"), :feature_instance_id, 
+      ]
+    when /features?/
+      [ Feature, :id, ]
     when /variants?\z/
       [ Variant, :id, ]
     when /evidence/, /evidence_items?/
@@ -30,9 +34,11 @@ class FrontendRouter
     when /molecular_profiles?/, /molecular-profiles?/
       [ MolecularProfile, :id, ]
     when /entrez_id/
-      [ Gene, :entrez_id, ]
+      [ Features::Gene, :entrez_id ]
     when /entrez_name/
-      [ Gene, :name , ]
+      [ 
+        Feature.where(feature_instance_type: "Features::Gene"), :name, 
+      ]
     when /variant_groups?/
       [ VariantGroup, :id, ]
     when /revisions?/
@@ -54,7 +60,11 @@ class FrontendRouter
       when "AID"
         [ Assertion, :id ]
       when "GID"
-        [ Gene, :id ]
+        [ 
+          Feature.where(feature_instance_type: "Features::Gene"), :feature_instance_id, 
+        ]
+      when "FID"
+        [ Feature, :id ]
       when "VID"
         [ Variant, :id ]
       when "MPID"
@@ -72,7 +82,7 @@ class FrontendRouter
   end
 
   def remove_tag(id_with_tag)
-    match = id_with_tag.upcase.match(/^(AID|GID|VID|EID|SID|MPID)(\d+)$/)
+    match = id_with_tag.upcase.match(/^(AID|GID|FID|VID|EID|SID|MPID)(\d+)$/)
     if match
       match.captures
     else
