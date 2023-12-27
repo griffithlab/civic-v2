@@ -440,19 +440,19 @@ export const civicEvidenceitemFullcolor: {
   name: 'evidenceitemFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#FEEEE1" cx="512" cy="512" r="448"/><path fill="#F68F37" d="M195.2 195.2c-175 175-175 458.6 0 633.6s458.6 175 633.6 0 175-458.6 0-633.6-458.6-174.9-633.6 0zM476 137.7V476H137.7c17-179 159.4-321.3 338.3-338.3zM137.7 548H476v338.3c-179-17-321.3-159.4-338.3-338.3zM548 886.3V548h338.3c-17 179-159.4 321.3-338.3 338.3zM886.3 476H548V137.7c179 17 321.3 159.4 338.3 338.3z"/></svg>`
 };
+export const civicFeatureFullcolor: {
+  name: 'featureFullcolor';
+  data: string;
+} = {
+  name: 'featureFullcolor',
+  data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6F7FD" cx="512" cy="512" r="448"/><path fill="#07AFF0" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
+};
 export const civicFlagFullcolor: {
   name: 'flagFullcolor';
   data: string;
 } = {
   name: 'flagFullcolor',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#FBE3E6" cx="512" cy="512" r="448"/><path fill="#E24759" d="M774.9 553.6c7.4 6.2 4.9 18.2-4.5 20.8L433.6 666c-6.4 1.7-13-2-14.7-8.4L341.2 372c-1.7-6.4 2-13 8.4-14.7C709 259.5 690.9 261 698.4 269c3 3.3 4 8 2.5 12.2-58.6 162.9-61 159.8-51.8 167.5l125.8 104.9zM960 512c0 247.4-200.6 448-448 448S64 759.4 64 512 264.6 64 512 64s448 200.6 448 448zm-72 0c0-207.7-168.3-376-376-376S136 304.3 136 512c0 157.7 96.9 292.6 234.5 348.5L241.6 386.6c-5.2-19.2 6.1-39 25.3-44.2 19.2-5.2 39 6.1 44.2 25.3l140.2 515.5c19.8 3.2 40.1 4.9 60.8 4.9C719.7 888 888 719.7 888 512z"/></svg>`
-};
-export const civicGeneFullcolor: {
-  name: 'geneFullcolor';
-  data: string;
-} = {
-  name: 'geneFullcolor',
-  data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6F7FD" cx="512" cy="512" r="448"/><path fill="#07AFF0" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
 };
 export const civicMolecularprofileFullcolor: {
   name: 'molecularprofileFullcolor';
@@ -615,19 +615,19 @@ export const civicEvidenceitemOutline: {
   name: 'evidenceitemOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M195.2 195.2c-175 175-175 458.6 0 633.6s458.6 175 633.6 0 175-458.6 0-633.6-458.6-174.9-633.6 0zM476 137.7V476H137.7c17-179 159.4-321.3 338.3-338.3zM137.7 548H476v338.3c-179-17-321.3-159.4-338.3-338.3zM548 886.3V548h338.3c-17 179-159.4 321.3-338.3 338.3zM886.3 476H548V137.7c179 17 321.3 159.4 338.3 338.3z"/></svg>`
 };
+export const civicFeatureOutline: {
+  name: 'featureOutline';
+  data: string;
+} = {
+  name: 'featureOutline',
+  data: `<svg viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
+};
 export const civicFlagOutline: {
   name: 'flagOutline';
   data: string;
 } = {
   name: 'flagOutline',
   data: `<svg viewBox="0 0 1024 1024"><path d="M774.9 553.6c7.4 6.2 4.9 18.2-4.5 20.8L433.6 666c-6.4 1.7-13-2-14.7-8.4L341.2 372c-1.7-6.4 2-13 8.4-14.7C709 259.5 690.9 261 698.4 269c3 3.3 4 8 2.5 12.2-58.6 162.9-61 159.8-51.8 167.5l125.8 104.9zM960 512c0 247.4-200.6 448-448 448S64 759.4 64 512 264.6 64 512 64s448 200.6 448 448zm-72 0c0-207.7-168.3-376-376-376S136 304.3 136 512c0 157.7 96.9 292.6 234.5 348.5L241.6 386.6c-5.2-19.2 6.1-39 25.3-44.2 19.2-5.2 39 6.1 44.2 25.3l140.2 515.5c19.8 3.2 40.1 4.9 60.8 4.9C719.7 888 888 719.7 888 512z"/></svg>`
-};
-export const civicGeneOutline: {
-  name: 'geneOutline';
-  data: string;
-} = {
-  name: 'geneOutline',
-  data: `<svg viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
 };
 export const civicMolecularprofileOutline: {
   name: 'molecularprofileOutline';
@@ -783,19 +783,19 @@ export const civicEvidenceitemTwotone: {
   name: 'evidenceitemTwotone',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6E6E6" cx="512" cy="512" r="448"/><path fill="#333" d="M195.2 195.2c-175 175-175 458.6 0 633.6s458.6 175 633.6 0 175-458.6 0-633.6-458.6-174.9-633.6 0zM476 137.7V476H137.7c17-179 159.4-321.3 338.3-338.3zM137.7 548H476v338.3c-179-17-321.3-159.4-338.3-338.3zM548 886.3V548h338.3c-17 179-159.4 321.3-338.3 338.3zM886.3 476H548V137.7c179 17 321.3 159.4 338.3 338.3z"/></svg>`
 };
+export const civicFeatureTwotone: {
+  name: 'featureTwotone';
+  data: string;
+} = {
+  name: 'featureTwotone',
+  data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6E6E6" cx="512" cy="512" r="448"/><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
+};
 export const civicFlagTwotone: {
   name: 'flagTwotone';
   data: string;
 } = {
   name: 'flagTwotone',
   data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6E6E6" cx="512" cy="512" r="448"/><path fill="#333" d="M774.9 553.6c7.4 6.2 4.9 18.2-4.5 20.8L433.6 666c-6.4 1.7-13-2-14.7-8.4L341.2 372c-1.7-6.4 2-13 8.4-14.7C709 259.5 690.9 261 698.4 269c3 3.3 4 8 2.5 12.2-58.6 162.9-61 159.8-51.8 167.5l125.8 104.9zM960 512c0 247.4-200.6 448-448 448S64 759.4 64 512 264.6 64 512 64s448 200.6 448 448zm-72 0c0-207.7-168.3-376-376-376S136 304.3 136 512c0 157.7 96.9 292.6 234.5 348.5L241.6 386.6c-5.2-19.2 6.1-39 25.3-44.2 19.2-5.2 39 6.1 44.2 25.3l140.2 515.5c19.8 3.2 40.1 4.9 60.8 4.9C719.7 888 888 719.7 888 512z"/></svg>`
-};
-export const civicGeneTwotone: {
-  name: 'geneTwotone';
-  data: string;
-} = {
-  name: 'geneTwotone',
-  data: `<svg viewBox="0 0 1024 1024"><circle fill="#E6E6E6" cx="512" cy="512" r="448"/><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM246.1 246.1C473.6 18.6 857 165.3 886.3 476H137.7c8-84.6 44.8-166.3 108.4-229.9z"/></svg>`
 };
 export const civicMolecularprofileTwotone: {
   name: 'molecularprofileTwotone';
@@ -938,8 +938,8 @@ export type CivicIcon =
   | 'eventFullcolor'
   | 'evidenceFullcolor'
   | 'evidenceitemFullcolor'
+  | 'featureFullcolor'
   | 'flagFullcolor'
-  | 'geneFullcolor'
   | 'molecularprofileFullcolor'
   | 'organizationFullcolor'
   | 'phenotypeFullcolor'
@@ -963,8 +963,8 @@ export type CivicIcon =
   | 'eventOutline'
   | 'evidenceOutline'
   | 'evidenceitemOutline'
+  | 'featureOutline'
   | 'flagOutline'
-  | 'geneOutline'
   | 'molecularprofileOutline'
   | 'organizationOutline'
   | 'phenotypeOutline'
@@ -987,8 +987,8 @@ export type CivicIcon =
   | 'eventTwotone'
   | 'evidenceTwotone'
   | 'evidenceitemTwotone'
+  | 'featureTwotone'
   | 'flagTwotone'
-  | 'geneTwotone'
   | 'molecularprofileTwotone'
   | 'organizationTwotone'
   | 'phenotypeTwotone'
@@ -1064,8 +1064,8 @@ export const CivicIcon = {
   eventFullcolor: 'eventFullcolor' as CivicIcon,
   evidenceFullcolor: 'evidenceFullcolor' as CivicIcon,
   evidenceitemFullcolor: 'evidenceitemFullcolor' as CivicIcon,
+  featureFullcolor: 'featureFullcolor' as CivicIcon,
   flagFullcolor: 'flagFullcolor' as CivicIcon,
-  geneFullcolor: 'geneFullcolor' as CivicIcon,
   molecularprofileFullcolor: 'molecularprofileFullcolor' as CivicIcon,
   organizationFullcolor: 'organizationFullcolor' as CivicIcon,
   phenotypeFullcolor: 'phenotypeFullcolor' as CivicIcon,
@@ -1089,8 +1089,8 @@ export const CivicIcon = {
   eventOutline: 'eventOutline' as CivicIcon,
   evidenceOutline: 'evidenceOutline' as CivicIcon,
   evidenceitemOutline: 'evidenceitemOutline' as CivicIcon,
+  featureOutline: 'featureOutline' as CivicIcon,
   flagOutline: 'flagOutline' as CivicIcon,
-  geneOutline: 'geneOutline' as CivicIcon,
   molecularprofileOutline: 'molecularprofileOutline' as CivicIcon,
   organizationOutline: 'organizationOutline' as CivicIcon,
   phenotypeOutline: 'phenotypeOutline' as CivicIcon,
@@ -1113,8 +1113,8 @@ export const CivicIcon = {
   eventTwotone: 'eventTwotone' as CivicIcon,
   evidenceTwotone: 'evidenceTwotone' as CivicIcon,
   evidenceitemTwotone: 'evidenceitemTwotone' as CivicIcon,
+  featureTwotone: 'featureTwotone' as CivicIcon,
   flagTwotone: 'flagTwotone' as CivicIcon,
-  geneTwotone: 'geneTwotone' as CivicIcon,
   molecularprofileTwotone: 'molecularprofileTwotone' as CivicIcon,
   organizationTwotone: 'organizationTwotone' as CivicIcon,
   phenotypeTwotone: 'phenotypeTwotone' as CivicIcon,
@@ -1198,8 +1198,8 @@ export const completeIconSet = [
   civicEventFullcolor,
   civicEvidenceFullcolor,
   civicEvidenceitemFullcolor,
+  civicFeatureFullcolor,
   civicFlagFullcolor,
-  civicGeneFullcolor,
   civicMolecularprofileFullcolor,
   civicOrganizationFullcolor,
   civicPhenotypeFullcolor,
@@ -1223,8 +1223,8 @@ export const completeIconSet = [
   civicEventOutline,
   civicEvidenceOutline,
   civicEvidenceitemOutline,
+  civicFeatureOutline,
   civicFlagOutline,
-  civicGeneOutline,
   civicMolecularprofileOutline,
   civicOrganizationOutline,
   civicPhenotypeOutline,
@@ -1247,8 +1247,8 @@ export const completeIconSet = [
   civicEventTwotone,
   civicEvidenceTwotone,
   civicEvidenceitemTwotone,
+  civicFeatureTwotone,
   civicFlagTwotone,
-  civicGeneTwotone,
   civicMolecularprofileTwotone,
   civicOrganizationTwotone,
   civicPhenotypeTwotone,

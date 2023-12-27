@@ -255,11 +255,11 @@
    :class: 'cvc-icon'
 
 
-.. |fullcolor-flag| image:: /images/icons/fullcolor/flag-fullcolor.svg
+.. |fullcolor-feature| image:: /images/icons/fullcolor/feature-fullcolor.svg
    :class: 'cvc-icon'
 
 
-.. |fullcolor-gene| image:: /images/icons/fullcolor/gene-fullcolor.svg
+.. |fullcolor-flag| image:: /images/icons/fullcolor/flag-fullcolor.svg
    :class: 'cvc-icon'
 
 
@@ -351,11 +351,11 @@
    :class: 'cvc-icon'
 
 
-.. |outline-flag| image:: /images/icons/outline/flag-outline.svg
+.. |outline-feature| image:: /images/icons/outline/feature-outline.svg
    :class: 'cvc-icon'
 
 
-.. |outline-gene| image:: /images/icons/outline/gene-outline.svg
+.. |outline-flag| image:: /images/icons/outline/flag-outline.svg
    :class: 'cvc-icon'
 
 
@@ -447,11 +447,11 @@
    :class: 'cvc-icon'
 
 
-.. |twotone-flag| image:: /images/icons/twotone/flag-twotone.svg
+.. |twotone-feature| image:: /images/icons/twotone/feature-twotone.svg
    :class: 'cvc-icon'
 
 
-.. |twotone-gene| image:: /images/icons/twotone/gene-twotone.svg
+.. |twotone-flag| image:: /images/icons/twotone/flag-twotone.svg
    :class: 'cvc-icon'
 
 
