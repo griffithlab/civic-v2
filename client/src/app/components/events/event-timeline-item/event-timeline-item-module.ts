@@ -9,7 +9,6 @@ import { CvcCommentTagModule } from '@app/components/comments/comment-tag/commen
 import { CvcFlagTagModule } from '@app/components/flags/flag-tag/flag-tag.module'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzGridModule } from 'ng-zorro-antd/grid'
@@ -21,6 +20,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { RouterModule } from '@angular/router'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [CvcEventTimelineItemComponent],
@@ -41,7 +41,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcFeatureTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
-    CvcVariantTagModule,
+    CvcFeatureVariantTagModule,
     CvcOrganizationTagModule,
     CvcSourceTagModule,
     CvcVariantGroupTagModule,

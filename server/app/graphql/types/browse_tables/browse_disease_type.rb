@@ -1,9 +1,6 @@
+require_relative '../linkable_tag.rb'
+
 module Types::BrowseTables
-  class LinkableFeatureType < Types::BaseObject
-    field :id, Int, null: false
-    field :name, String, null: false
-    field :link, String, null: false
-  end
 
   class BrowseDiseaseType < Types::BaseObject
     connection_type_class(Types::Connections::BrowseTableConnection)
@@ -13,7 +10,7 @@ module Types::BrowseTables
     field :name, String, null: false
     field :doid, String, null: true
     field :disease_url, String, null: true
-    field :features, [Types::BrowseTables::LinkableFeatureType], null: false
+    field :features, [Types::LinkableFeature], null: false
     field :variant_count, Int, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false

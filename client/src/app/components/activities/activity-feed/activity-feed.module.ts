@@ -32,6 +32,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { CvcActivityCardModule } from '../activity-card/activity-card.module'
 import { CvcCollapsibleCardModule } from '../collapsible-card/collapsible-card.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [CvcActivityFeedComponent],
@@ -69,7 +70,8 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcMolecularProfileTagModule,
     CvcRevisionTagModule,
     CvcActivityCardModule,
-    CvcCollapsibleCardModule
+    CvcCollapsibleCardModule,
+    CvcFeatureVariantTagModule
   ],
   exports: [CvcActivityFeedComponent],
 })

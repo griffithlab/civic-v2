@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
@@ -22,7 +22,7 @@ import { CvcVariantGroupPopoverComponent } from './variant-group-popover.compone
     NzIconModule,
 
     CvcSourceTagModule,
-    CvcVariantTagModule,
+    CvcFeatureVariantTagModule,
     CvcTagListModule,
     CvcPipesModule,
   ],

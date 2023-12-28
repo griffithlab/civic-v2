@@ -70,6 +70,12 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          feature {
+            link
+            id
+            name
+          }
         }
         addedObjects {
           id
@@ -78,6 +84,12 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          feature {
+            link
+            id
+            name
+          }
         }
         removedObjects {
           id
@@ -86,6 +98,12 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          feature {
+            link
+            id
+            name
+          }
         }
         keptObjects {
           id
@@ -94,6 +112,12 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          feature {
+            link
+            id
+            name
+          }
         }
         suggestedObjects {
           id
@@ -102,6 +126,12 @@ fragment revision on Revision {
           entityType
           link
           deleted
+          deprecated
+          feature {
+            link
+            id
+            name
+          }
         }
       }
       ... on ScalarFieldDiff {

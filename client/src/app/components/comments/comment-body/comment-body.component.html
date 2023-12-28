@@ -33,13 +33,14 @@
           }"></cvc-feature-tag>
       </span>
       <span *ngSwitchCase="'VARIANT'">
-        <cvc-variant-tag
+        <cvc-feature-variant-tag
           [variant]="{
             id: c.entityId,
             name: c.displayName,
             link: c.link,
-            deprecated: c.deprecated
-          }"></cvc-variant-tag>
+            deprecated: c.deprecated,
+            feature: c.feature
+          }"></cvc-feature-variant-tag>
       </span>
       <span *ngSwitchCase="'VARIANT_GROUP'">
         <cvc-variant-group-tag

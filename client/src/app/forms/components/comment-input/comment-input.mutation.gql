@@ -1,29 +1,6 @@
 query previewComment($commentText: String!) {
   previewCommentText(commentText: $commentText) {
-    ...previewComment
-  }
-}
-
-fragment previewComment on CommentBodySegment {
-  __typename
-  ... on CommentTagSegment {
-    entityId
-    displayName
-    tagType
-    link
-    status
-    deprecated
-    __typename
-  }
-  ... on CommentTextSegment {
-    text
-    __typename
-  }
-  ... on User {
-    id
-    displayName
-    role
-    __typename
+    ...parsedCommentFragment
   }
 }
 

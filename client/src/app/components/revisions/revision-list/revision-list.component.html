@@ -247,12 +247,14 @@
               <ng-template
                 #itemTemplate
                 let-item>
-                <cvc-variant-tag
+                <cvc-feature-variant-tag
                   [variant]="{
                     id: item.id,
                     name: item.displayName,
-                    link: item.link
-                  }"></cvc-variant-tag>
+                    link: item.link,
+                    feature: item.feature,
+                    deprecated: item.deprecated
+                  }"></cvc-feature-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -263,12 +265,14 @@
               <ng-template
                 #itemTemplate
                 let-item>
-                <cvc-variant-tag
+                <cvc-feature-variant-tag
                   [variant]="{
                     id: item.id,
                     name: item.displayName,
-                    link: item.link
-                  }"></cvc-variant-tag>
+                    link: item.link,
+                    feature: item.feature,
+                    deprecated: item.deprecated
+                  }"></cvc-feature-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>

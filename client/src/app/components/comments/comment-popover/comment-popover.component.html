@@ -23,10 +23,10 @@
               *ngSwitchCase="'EvidenceItem'"
               [enablePopover]="false"
               [evidence]="c.commentable"></cvc-evidence-tag>
-            <cvc-variant-tag
+            <cvc-feature-variant-tag
               *ngSwitchCase="'Variant'"
               [enablePopover]="false"
-              [variant]="c.commentable"></cvc-variant-tag>
+              [variant]="c.commentable"></cvc-feature-variant-tag>
             <!-- NOTE: #UPDATE had to use $any here, [revision] attr was complaining about
             missing linkableRevision on c.commentable -->
             <cvc-revision-tag

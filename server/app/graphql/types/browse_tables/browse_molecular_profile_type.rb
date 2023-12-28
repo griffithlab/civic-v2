@@ -1,26 +1,15 @@
+require_relative '../linkable_tag.rb'
+
 module Types::BrowseTables
   class BrowseMolecularProfileType < Types::BaseObject
     connection_type_class(Types::Connections::BrowseTableConnection)
 
-    class LinkableTag < Types::BaseObject
-      field :id, Int, null: false
-      field :link, String, null: false
-      field :name, String, null: false
-    end
-
-    class LinkableVariant < LinkableTag
-    end
-    class LinkableDisease < LinkableTag
-    end
-    class LinkableTherapy < LinkableTag
-    end
-
     field :id, Int, null: false
     field :name, String, null: false
-    field :diseases, [LinkableDisease], null: false
-    field :therapies, [LinkableTherapy], null: false
-    field :features, [LinkableFeatureType], null: false
-    field :variants,[LinkableVariant], null: false
+    field :diseases, [Types::LinkableDisease], null: false
+    field :therapies, [Types::LinkableTherapy], null: false
+    field :features, [Types::LinkableFeature], null: false
+    field :variants,[Types::LinkableVariant], null: false
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false

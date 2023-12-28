@@ -32,6 +32,8 @@ module Actions
                   deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
                   link: referenced_item.link,
                   revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
+                  feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil
+
                 }
               else
                 split_segment
@@ -73,6 +75,7 @@ module Actions
             tag_type: tag_type,
             status: status_value_for_referenced_entity(referenced_item),
             deprecated: self.deprecation_value_for_referenced_entity(referenced_item),
+            feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
           }
           end
         else

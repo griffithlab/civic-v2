@@ -1652,6 +1652,7 @@ type CommentTagSegment {
   deprecated: Boolean
   displayName: String!
   entityId: Int!
+  feature: LinkableFeature
   link: String!
   revisionSetId: Int
   status: EvidenceStatus
@@ -3961,6 +3962,8 @@ type LinkableTherapy {
 }
 
 type LinkableVariant {
+  deprecated: Boolean
+  feature: LinkableFeature
   id: Int!
   link: String!
   name: String!
@@ -4128,9 +4131,11 @@ input ModeratedInput {
 
 type ModeratedObjectField {
   deleted: Boolean!
+  deprecated: Boolean
   displayName: String
   displayType: String
   entityType: String!
+  feature: LinkableFeature
   id: Int!
   link: String
 }

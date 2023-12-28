@@ -30,7 +30,9 @@ module Types::Interfaces
         when Source
           Types::Entities::SourceType
         when MolecularProfile
-          Types::Entities::MolecularProfile
+          Types::Entities::MolecularProfileType
+        when Feature
+          Types::Entities::FeatureType
         else
           raise "Unexpected Commentable type: #{object.class}"
         end

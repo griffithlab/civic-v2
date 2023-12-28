@@ -13,12 +13,12 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module'
 import { MolecularProfileDetailRoutingModule } from './molecular-profiles-detail-routing.module'
 import { MolecularProfilesDetailView } from './molecular-profiles-detail.view'
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { ComplexMolecularProfileDeprecateFormModule } from '@app/forms/components/complex-molecular-profile-deprecate/complex-molecular-profile-deprecate.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [MolecularProfilesDetailView],
@@ -40,7 +40,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
     CvcFlaggableModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
-    CvcVariantTagModule,
+    CvcFeatureVariantTagModule,
     CvcPipesModule,
     CvcCommentBodyModule,
     ComplexMolecularProfileDeprecateFormModule,

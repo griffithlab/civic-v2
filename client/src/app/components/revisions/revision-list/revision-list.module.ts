@@ -14,7 +14,6 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module'
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
@@ -37,6 +36,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -68,7 +68,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcDiseaseTagModule,
     CvcTherapyTagModule,
     CvcPhenotypeTagModule,
-    CvcVariantTagModule,
+    CvcFeatureVariantTagModule,
     CvcEvidenceTagModule,
     CvcVariantTypeTagModule,
     CvcStatusTagModule,

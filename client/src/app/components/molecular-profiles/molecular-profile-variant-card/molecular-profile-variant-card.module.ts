@@ -19,6 +19,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [CvcMolecularProfileVariantCardComponent],
@@ -43,6 +44,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcTagListModule,
     CvcMolecularProfileTagModule,
     CvcCoordinatesCardModule,
+    CvcFeatureVariantTagModule
   ],
   exports: [CvcMolecularProfileVariantCardComponent],
 })
