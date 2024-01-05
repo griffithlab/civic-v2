@@ -4,7 +4,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: {
-      submitLabel: 'Submit Source Suggestion',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -19,7 +18,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: {
-          title: 'Submit Source Suggestion',
+          formCardOptions: { title: 'Submit Source Suggestion' },
         },
         fieldGroup: [
           {
@@ -27,7 +26,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'molecular-profile-select',
             props: {
               required: false,
-              description: 'Select a Molecular Profile for this Source Suggestion, if applicable.',
+              description:
+                'Select a Molecular Profile for this Source Suggestion, if applicable.',
               watchVariantMolecularProfileId: true,
             },
           },
@@ -53,11 +53,11 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Comment',
               required: true,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',

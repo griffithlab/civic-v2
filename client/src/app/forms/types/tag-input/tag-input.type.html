@@ -1,13 +1,43 @@
-<div>
-  <cvc-string-tag
-    *ngFor="let tag of tags$ | ngrxPush"
-    [cvcMode]="this.props.disabled ? 'default' : 'closeable'"
-    [cvcLabel]="tag"
-    (cvcOnClose)="tagClosed(tag)"></cvc-string-tag>
-    <input nz-input
-      [disabled]="this.props.disabled"
-      (keydown.enter)="onEnter($event)"
-      [placeholder]="this.props.placeholder" />
-</div>
+<ng-container *ngIf="props.isMultiInput; else singleInputField">
+  <nz-select
+    nzMode="tags"
+    nzPlaceHolder="Please select"
+    nzAllowClear
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    nzDropdownClassName="hide-dropdown"
+    (ngModelChange)="onValueChange$.next($event)">
+    <nz-option
+      *ngFor="let item of formControl.value"
+      [nzLabel]="item"
+      [nzValue]="item"
+      [nzHide]="true"></nz-option>
+  </nz-select>
+</ng-container>
 
-<input hidden nz-input [formControl]="formControl" [formlyAttributes]="field"/>
+<ng-template #singleInputField>
+  <nz-tag
+    *ngIf="tagLabel$ | ngrxPush as tagLabel"
+    [nzMode]="'closeable'"
+    (nzOnClose)="onTagClose$.next($event)">
+    {{ tagLabel }}
+  </nz-tag>
+
+  <ng-container *ngIf="!(tagLabel$ | ngrxPush)">
+    <input
+      *ngIf="props.type !== 'number'; else numberTmp"
+      nz-input
+      #baseInputTxt
+      [formControl]="formControl"
+      (keydown.enter)="baseInputTxt.blur()"
+      [type]="props.type || 'text'"
+      [formlyAttributes]="field" />
+    <ng-template #numberTmp>
+      <nz-input-number
+        #baseInputNum
+        (keydown.enter)="baseInputNum.blur()"
+        [formControl]="formControl"
+        [formlyAttributes]="field"></nz-input-number>
+    </ng-template>
+  </ng-container>
+</ng-template>

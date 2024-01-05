@@ -2,10 +2,12 @@ module Actions
   class CreateVariant
     include Actions::Transactional
 
-    attr_reader :variant, :molecular_profile
+    attr_reader :variant, :molecular_profile, :originating_user, :organization_id
 
-    def initialize(variant_name:, gene_id:)
+    def initialize(variant_name:, gene_id:, originating_user:, organization_id: nil)
       @variant = Variant.new(name: variant_name, gene_id: gene_id)
+      @originating_user = originating_user
+      @organization_id = organization_id
     end
 
     private
@@ -24,6 +26,16 @@ module Actions
       variant.save! #actually validate
       mp.variants = [variant]
       mp.save!
+
+      event = Event.new(
+        action: 'variant created',
+        originating_user: originating_user,
+        subject: variant,
+        organization_id: organization_id,
+        originating_object: variant
+      )
+
+      events << event
 
       @molecular_profile = mp
     end

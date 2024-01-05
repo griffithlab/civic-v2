@@ -237,10 +237,9 @@ export function EntitySelectField<
           })
         ) // end this.response$
 
-        this.onOpenChange$
-          .subscribe((change: boolean) => {
-            if (change) this.onSearch$.next('')
-          })
+        this.onOpenChange$.subscribe((change: boolean) => {
+          if (change) this.onSearch$.next('')
+        })
 
         this.response$
           .pipe(

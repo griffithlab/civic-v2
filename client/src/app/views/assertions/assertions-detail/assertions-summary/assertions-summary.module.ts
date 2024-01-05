@@ -22,6 +22,8 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-value.module'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -38,6 +40,7 @@ import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-va
     NzIconModule,
     NzDescriptionsModule,
     NzToolTipModule,
+    NzPopoverModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,
@@ -50,6 +53,7 @@ import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-va
     CvcAttributeTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
+    CvcCommentBodyModule,
   ],
   exports: [AssertionsSummaryPage],
 })

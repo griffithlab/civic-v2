@@ -41,6 +41,7 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
+import { tag } from 'rxjs-spy/operators'
 import {
   columnKeyToQueryVariableMap,
   columnKeyToSortColumnMap,

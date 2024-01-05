@@ -53,65 +53,35 @@ fragment flagList on FlagConnection {
 fragment flag on Flag {
   id
   state
-  createdAt
-  resolvedAt
   flaggable {
     id
     name
     link
   }
-  flaggingUser {
+  openActivity {
     id
-    displayName
-    role
-    profileImagePath(size: 32)
-  }
-  resolvingUser {
-    id
-    displayName
-    role
-    profileImagePath(size: 32)
-  }
-  openComment {
-    __typename
-    parsedComment {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        link
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
     }
   }
-  resolutionComment {
-    __typename
-    parsedComment {
-      __typename
-      ... on CommentTagSegment {
-        entityId
-        displayName
-        tagType
-        link
-        __typename
-      }
-      ... on CommentTextSegment {
-        text
-      }
-      ... on User {
-        id
-        displayName
-        role
-      }
+  resolutionActivity {
+    id
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
     }
   }
 }

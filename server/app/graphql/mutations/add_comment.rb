@@ -30,11 +30,11 @@ class Mutations::AddComment < Mutations::MutationWithOrg
   end
 
   def resolve(title: nil, body:, subject:, organization_id: nil)
-    cmd = Actions::AddComment.new(
+    cmd = Activities::AddComment.new(
       title: title,
       body: body,
-      commenter: context[:current_user],
-      commentable: subject,
+      originating_user: context[:current_user],
+      subject: subject,
       organization_id: organization_id
     )
 

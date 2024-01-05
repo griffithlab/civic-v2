@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -18,7 +17,6 @@ import { CvcEnumSelectComponent } from './enum-select.component';
     CommonModule,
     ReactiveFormsModule,
     FormlyModule.forChild(),
-    FormlyNzFormFieldModule,
     NzIconModule,
     NzFormModule,
     NzSelectModule,

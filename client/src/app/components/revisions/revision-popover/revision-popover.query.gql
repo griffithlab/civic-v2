@@ -9,10 +9,15 @@ fragment revisionPopover on Revision {
   name
   link
   status
-  revisor {
-    id
-    displayName
-    role
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
   subject {
     id
@@ -22,8 +27,5 @@ fragment revisionPopover on Revision {
   createdAt
   linkoutData {
     name
-  }
-  creationComment {
-    comment
   }
 }

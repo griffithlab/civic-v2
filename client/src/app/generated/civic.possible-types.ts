@@ -6,6 +6,24 @@
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
+    "ActivityInterface": [
+      "AcceptRevisionsActivity",
+      "CommentActivity",
+      "CreateComplexMolecularProfileActivity",
+      "CreateVariantActivity",
+      "DeprecateComplexMolecularProfileActivity",
+      "DeprecateVariantActivity",
+      "FlagEntityActivity",
+      "ModerateAssertionActivity",
+      "ModerateEvidenceItemActivity",
+      "RejectRevisionsActivity",
+      "ResolveFlagActivity",
+      "SubmitAssertionActivity",
+      "SubmitEvidenceItemActivity",
+      "SuggestRevisionSetActivity",
+      "SuggestSourceActivity",
+      "UpdateSourceSuggestionStatusActivity"
+    ],
     "CommentBodySegment": [
       "CommentTagSegment",
       "CommentTextSegment",
@@ -36,9 +54,11 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "Flag",
       "Gene",
       "MolecularProfile",
       "Revision",
+      "RevisionSet",
       "Source",
       "SourcePopover",
       "SourceSuggestion",

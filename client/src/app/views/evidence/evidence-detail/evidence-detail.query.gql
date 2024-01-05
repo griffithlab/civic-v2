@@ -32,4 +32,19 @@ fragment EvidenceDetailFields on EvidenceItem {
   comments {
     totalCount
   }
+  ...evidenceSubmissionActivity
+}
+
+fragment evidenceSubmissionActivity on EvidenceItem {
+  submissionActivity {
+    createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    user {
+      id
+      displayName
+      profileImagePath(size: 32)
+    }
+  }
 }

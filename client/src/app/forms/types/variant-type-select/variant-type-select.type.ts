@@ -108,7 +108,7 @@ export class CvcVariantTypeSelectField
       },
       description:
         'Add one or more variant types from the <a href="http://www.sequenceontology.org/browser/" target="_blank">Sequence Ontology</a> (e.g., missense, loss-of-function). Be specific as possible, avoid the addition of root concepts, and use the sequence_variant tree of the sequence ontology.',
-      extraType: 'prompt',
+      
     },
   }
 

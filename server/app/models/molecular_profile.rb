@@ -4,21 +4,32 @@ class MolecularProfile < ActiveRecord::Base
   include Flaggable
   include Commentable
   include WithTimepointCounts
+  include WithActivities
 
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :sources
   has_many :assertions
   has_many :evidence_items
   has_one :evidence_items_by_status
+  has_one :evidence_items_by_type
   has_and_belongs_to_many :molecular_profile_aliases, join_table: :molecular_profile_aliases_molecular_profiles
   has_many :source_suggestions
   has_and_belongs_to_many :deprecated_variants,
     ->() { where('variants.deprecated = TRUE') },
     class_name: 'Variant'
-  has_one :deprecation_event,
-    ->() { where(action: 'deprecated molecular profile').includes(:originating_user) },
+
+  has_activity :variant_deprecation_activity, activity_type: 'DeprecateVariantActivity'
+  has_one :complex_molecular_profile_deprecation_activity,
     as: :subject,
-    class_name: 'Event'
+    class_name: 'DeprecateComplexMolecularProfileActivity'
+
+  has_activity :variant_creation_activity, activity_type: 'CreateVariantActivity'
+  has_one :complex_molecular_profile_creation_activity,
+    as: :subject,
+    class_name: 'CreateComplexMolecularProfileActivity'
+  has_one :creating_user, through: :complex_molecular_profile_creation_activity, source: :user
+
+  enum deprecation_reason: ['duplicate', 'invalid_molecular_profile', 'other', 'variant_deprecated']
 
   validates :name, presence: true
 
@@ -40,8 +51,16 @@ class MolecularProfile < ActiveRecord::Base
     !deprecated
   end
 
+  def is_multi_variant?
+    return self.variants.count > 1
+  end
+
   def is_complex?
-    self.variants.count > 1
+    if self.is_multi_variant?
+      return true
+    else
+      return self.name.include? 'NOT'
+    end
   end
 
   GENE_REGEX = /#GID(?<id>\d+)/i
@@ -83,6 +102,21 @@ class MolecularProfile < ActiveRecord::Base
         .distinct
         .count
     }
+  end
+
+  def editable_fields
+    if is_complex?
+      [
+        :description,
+        :source_ids,
+        :molecular_profile_alias_ids,
+      ]
+    else
+      [
+        :description,
+        :source_ids,
+      ]
+    end
   end
 
   def unique_name_in_context

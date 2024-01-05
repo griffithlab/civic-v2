@@ -2,24 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { CvcFieldGridWrapperConfig } from '@app/forms/wrappers/field-grid/field-grid.wrapper'
 import { CvcVariantSelectFieldOption } from '@app/forms/types/variant-select/variant-select.type'
 import { Maybe, Variant } from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
-import {
-  FormGene,
-  FormMolecularProfile,
-  FormVariant,
-} from '@app/forms/forms.interfaces'
+import { BehaviorSubject } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { Apollo, gql } from 'apollo-angular'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 
 type VariantSubmitModel = {
   geneId?: number
@@ -30,18 +23,6 @@ type VariantSubmitState = {
   formLayout: NzFormLayoutType
   fields: EntityFieldSubjectMap
 }
-
-// interface FormModel {
-//   fields: {
-//     gene: FormGene[]
-//     variant: FormVariant[]
-//   }
-// }
-
-// export interface SelectedVariant {
-//   variantId: number
-//   molecularProfile: FormMolecularProfile
-// }
 
 @Component({
   selector: 'cvc-variant-submit-form',
@@ -58,6 +39,7 @@ export class VariantSubmitForm {
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
   layout: NzFormLayoutType = 'horizontal'
+  newlyCreated?: boolean
 
   finderState: VariantSubmitState = {
     formLayout: this.layout,
@@ -75,10 +57,10 @@ export class VariantSubmitForm {
 
     this.config = [
       {
-        wrappers: ['field-grid'],
-        props: <CvcFieldGridWrapperConfig>{
-          grid: {
-            cols: 2,
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            span: 12,
           },
         },
         fieldGroup: [
@@ -103,6 +85,7 @@ export class VariantSubmitForm {
                 showExtra: false,
               },
               hideLabel: true,
+              isNewlyCreatedCallback: (isNew: boolean): void  => {this.newlyCreated = isNew},
             },
           },
         ],

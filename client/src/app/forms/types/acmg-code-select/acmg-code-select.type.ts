@@ -1,38 +1,42 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    QueryList,
-    TemplateRef,
-    Type,
-    ViewChildren
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  QueryList,
+  TemplateRef,
+  Type,
+  ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum'
 import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
-import { StringSelectField } from '@app/forms/mixins/string-select-field.mixin'
 import { EntityType } from '@app/forms/states/base.state'
 import {
   AcmgCodeSelectTagGQL,
   AcmgCodeSelectTagQuery,
-    AcmgCodeSelectTagQueryVariables,
-    AcmgCodeSelectTypeaheadFieldsFragment,
-    AcmgCodeSelectTypeaheadGQL,
-    AcmgCodeSelectTypeaheadQuery,
-    AcmgCodeSelectTypeaheadQueryVariables,
-    Maybe,
+  AcmgCodeSelectTagQueryVariables,
+  AcmgCodeSelectTypeaheadFieldsFragment,
+  AcmgCodeSelectTypeaheadGQL,
+  AcmgCodeSelectTypeaheadQuery,
+  AcmgCodeSelectTypeaheadQueryVariables,
+  Maybe,
 } from '@app/generated/civic.apollo'
 import { untilDestroyed } from '@ngneat/until-destroy'
 import {
-    FieldTypeConfig,
-    FormlyFieldConfig,
-    FormlyFieldProps
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
-import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  Subject,
+} from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import mixin from 'ts-mixin-extended'
 
@@ -60,7 +64,10 @@ export interface CvcAcmgCodeSelectFieldProps extends FormlyFieldProps {
 // field types in some expressions
 export interface CvcAcmgCodeSelectFieldConfig
   extends FormlyFieldConfig<CvcAcmgCodeSelectFieldProps> {
-  type: 'acmg-code-select' | 'acmg-code-multi-select' | Type<CvcAcmgCodeSelectField>
+  type:
+    | 'acmg-code-select'
+    | 'acmg-code-multi-select'
+    | Type<CvcAcmgCodeSelectField>
 }
 
 const AcmgCodeSelectMixin = mixin(
@@ -100,7 +107,8 @@ export class CvcAcmgCodeSelectField
       entityName: { singular: 'ACMG/AMP Code', plural: 'ACMG/AMP Codes' },
       isMultiSelect: false,
       requireType: true,
-      tooltip: 'If applicable, please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP.',
+      tooltip:
+        'If applicable, please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP.',
       // TODO: implement labels/placeholders w/ string replacement using typescript
       // template strings: https://www.codevscolor.com/typescript-template-string
       placeholder: 'Search ACMG/AMP Codes',
@@ -173,52 +181,50 @@ export class CvcAcmgCodeSelectField
     this.placeholder$.next(this.props.placeholders)
     if (!this.onRequiresAcmgCode$ || !this.onEntityType$) return
     // update field placeholders & required status on state input events
-    combineLatest([
-      this.onRequiresAcmgCode$,
-      this.onEntityType$
-    ]).pipe(
-        distinctUntilChanged(),
-        untilDestroyed(this)
+    combineLatest([this.onRequiresAcmgCode$, this.onEntityType$])
+      .pipe(distinctUntilChanged(), untilDestroyed(this))
+      .subscribe(
+        ([requiresAcmgCode, entityType]: [boolean, Maybe<EntityType>]) => {
+          // ACMG Codes are not associated with this entity type
+          if (!requiresAcmgCode && entityType) {
+            this.props.required = false
+            this.props.disabled = true
+            // no ACMG Code required, entity type specified
+            this.props.description = `${formatEvidenceEnum(entityType)} ${
+              this.state!.entityName
+            } does not include associated ACMG/AMP Code(s)`
+            this.props.extraType = 'prompt'
+            this.resetField()
+            this.cdr.markForCheck()
+          }
+          // if type required, toggle field required property off and show a 'Select Type..' prompt
+          else if (this.props.requireType && !entityType) {
+            this.props.required = false
+            this.props.disabled = true
+            // no ACMG Code required, entity type not specified
+            this.props.description = this.props.requireTypePromptFn(
+              this.state!.entityName,
+              this.props.isMultiSelect
+            )
+            this.props.extraType = 'prompt'
+          }
+          // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresAcmgCode$ if entityType provided)
+          else if (requiresAcmgCode) {
+            this.props.required = true
+            this.props.disabled = false
+            ;(this.props.description =
+              'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.'),
+              (this.props.extraType = 'description')
+          }
+          // field currently has a value, but state indicates no ACMG Code is required, or no type is provided && type is required, so reset field
+          else if (
+            (!requiresAcmgCode && this.formControl.value) ||
+            (this.props.requireType && !entityType && this.formControl.value)
+          ) {
+            this.resetField()
+          }
+        }
       )
-      .subscribe(([requiresAcmgCode, entityType]: [boolean, Maybe<EntityType>]) => {
-        // ACMG Codes are not associated with this entity type
-        if (!requiresAcmgCode && entityType) {
-          this.props.required = false
-          this.props.disabled = true
-          // no ACMG Code required, entity type specified
-          this.props.description = `${formatEvidenceEnum(entityType)} ${
-            this.state!.entityName
-          } does not include associated ACMG/AMP Code(s)`
-          this.props.extraType = 'prompt'
-          this.resetField()
-          this.cdr.markForCheck()
-        }
-        // if type required, toggle field required property off and show a 'Select Type..' prompt
-        else if (this.props.requireType && !entityType) {
-          this.props.required = false
-          this.props.disabled = true
-          // no ACMG Code required, entity type not specified
-          this.props.description = this.props.requireTypePromptFn(
-            this.state!.entityName,
-            this.props.isMultiSelect
-          )
-          this.props.extraType = 'prompt'
-        }
-        // state indicates ACMG Code is required, set required, unset disabled, and show the placeholder (state will only return true from requiresAcmgCode$ if entityType provided)
-        else if (requiresAcmgCode) {
-          this.props.required = true
-          this.props.disabled = false
-          this.props.description = 'Please provide evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>. Review all codes and select each one that applies. If a code is not applied, it is inferred to not be met.',
-          this.props.extraType = 'description'
-        }
-        // field currently has a value, but state indicates no ACMG Code is required, or no type is provided && type is required, so reset field
-        else if (
-          (!requiresAcmgCode && this.formControl.value) ||
-          (this.props.requireType && !entityType && this.formControl.value)
-        ) {
-          this.resetField()
-        }
-      })
   }
 
   getTypeaheadVarsFn(str: string): AcmgCodeSelectTypeaheadQueryVariables {

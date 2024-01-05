@@ -1,10 +1,10 @@
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: {
-      submitLabel: 'Revise Variant Group',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -14,27 +14,24 @@ const formFieldConfig: FormlyFieldConfig[] = [
           hidden: true,
         },
       },
-      // form-card wraps the form fields in a card, providing a place to put a title, and other controls e.g. form options, status
       {
         key: 'fields',
         wrappers: ['form-card'],
         props: {
-          title: 'Revise Variant Group',
+          formCardOptions: { title: 'Revise Variant Group' },
         },
         fieldGroup: [
           {
             key: 'name',
-            type: 'input',
+            type: 'base-input',
             props: {
               label: 'Variant Group Name',
               required: true,
-              colSpan: 24,
             },
           },
           {
             key: 'description',
-            type: 'textarea',
-            wrappers: ['form-field'],
+            type: 'base-textarea',
             props: {
               tooltip:
                 'User-defined summary of the clinical relevance of this Variant Group.',
@@ -56,7 +53,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Variants',
               required: true,
-              colSpan: 24,
               requireGene: false,
               showManagerBtn: true,
             },
@@ -64,7 +60,12 @@ const formFieldConfig: FormlyFieldConfig[] = [
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
@@ -82,6 +83,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             type: 'org-submit-button',
             props: {
               submitLabel: 'Submit Variant Group Revision',
+              align: 'right',
             },
           },
         ],

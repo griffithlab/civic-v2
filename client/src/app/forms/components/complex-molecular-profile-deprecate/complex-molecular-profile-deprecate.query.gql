@@ -1,0 +1,31 @@
+mutation DeprecateComplexMolecularProfile(
+  $molecularProfileId: Int!
+  $deprecationReason: MolecularProfileDeprecationReasonMutationInput!
+  $comment: String!
+  $organizationId: Int
+) {
+  deprecateComplexMolecularProfile(
+    input: {
+      molecularProfileId: $molecularProfileId
+      deprecationReason: $deprecationReason
+      comment: $comment
+      organizationId: $organizationId
+    }
+  ) {
+    molecularProfile {
+      id
+      name
+    }
+  }
+}
+query EvidenceCountsForMolecularProfile($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    id
+    name
+    link
+    evidenceCountsByStatus {
+      submittedCount
+      acceptedCount
+    }
+  }
+}

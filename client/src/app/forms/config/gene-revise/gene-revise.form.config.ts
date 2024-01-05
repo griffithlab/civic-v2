@@ -2,6 +2,7 @@ import { geneReviseFormInitialModel } from '@app/forms/models/gene-revise.model'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
+import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { FormlyFieldConfig } from '@ngx-formly/core'
 
 const formFieldConfig: FormlyFieldConfig[] = [
@@ -9,7 +10,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
   {
     wrappers: ['form-layout'],
     props: <CvcFormLayoutWrapperProps>{
-      submitLabel: 'Revise Gene',
       showDevPanel: false,
     },
     fieldGroup: [
@@ -24,51 +24,67 @@ const formFieldConfig: FormlyFieldConfig[] = [
         key: 'fields',
         wrappers: ['form-card'],
         props: <CvcFormCardWrapperProps>{
-          title: 'Revise Evidence Item',
+          formCardOptions: { title: 'Revise Gene' },
         },
         fieldGroup: [
           {
-            key: 'description',
-            type: 'textarea',
-            wrappers: ['form-field'],
-            props: {
-              tooltip:
-                'User-defined summary of the clinical relevance of this Gene.',
-              placeholder: 'Enter a Gene Summary',
-              label: 'Gene Summary',
-              required: false,
-              rows: 5
+            wrappers: ['form-row'],
+            props: <CvcFormRowWrapperProps>{
+              formRowOptions: {
+                span: 24,
+              },
             },
-          },
-          {
-            key: 'sourceIds',
-            type: 'source-multi-select',
-            wrappers: ['form-field'],
-            props: {},
+            fieldGroup: [
+              {
+                key: 'description',
+                type: 'base-textarea',
+                wrappers: ['form-field'],
+                props: {
+                  tooltip:
+                    'User-defined summary of the clinical relevance of this Gene.',
+                  placeholder: 'Enter a Gene Summary',
+                  label: 'Gene Summary',
+                  required: false,
+                  rows: 5,
+                },
+              },
+              {
+                key: 'sourceIds',
+                type: 'source-multi-select',
+                wrappers: ['form-field'],
+                props: {},
+              },
+            ],
           },
         ],
       },
       {
-        wrappers: ['form-footer'],
+        wrappers: ['form-row'],
+        props: <CvcFormRowWrapperProps>{
+          formRowOptions: {
+            spanIndexed: [24, 12, 12],
+          },
+        },
         fieldGroup: [
           {
             key: 'comment',
-            type: 'textarea',
+            type: 'base-textarea',
             props: {
               label: 'Comment',
               placeholder: 'Please enter a comment describing your revisions.',
               required: true,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
-            type: 'cvc-cancel-button'
+            type: 'cvc-cancel-button',
           },
           {
             key: 'organizationId',
             type: 'org-submit-button',
             props: {
               submitLabel: 'Submit Gene Revisions',
+              align: 'right',
             },
           },
         ],
@@ -77,7 +93,4 @@ const formFieldConfig: FormlyFieldConfig[] = [
   },
 ]
 export const geneReviseFields: FormlyFieldConfig[] =
-  assignFieldConfigDefaultValues(
-    formFieldConfig,
-    geneReviseFormInitialModel
-  )
+  assignFieldConfigDefaultValues(formFieldConfig, geneReviseFormInitialModel)

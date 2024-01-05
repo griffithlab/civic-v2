@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module'
@@ -57,6 +58,7 @@ import { CvcSourceSuggestionsTableComponent } from './source-suggestions-table.c
     CvcUpdateSourceSuggestionFormModule,
     CvcUserTagModule,
     CvcMolecularProfileTagModule,
+    CvcCommentBodyModule,
   ],
   exports: [CvcSourceSuggestionsTableComponent],
 })

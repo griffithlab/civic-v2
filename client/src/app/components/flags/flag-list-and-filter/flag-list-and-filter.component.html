@@ -27,57 +27,59 @@
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
-      <cvc-participant-list
-        listTitle="Flag State"
-        [preselectedOption]="this.selectableStates[0]"
-        [participantList]="selectableStates"
-        (participantSelectedEvent)="onStateSelected($event)">
-        <ng-template
-          #itemTemplate
-          let-state>
-          <span>{{ state.displayName }}</span>
-        </ng-template>
-      </cvc-participant-list>
-      <cvc-participant-list
-        listTitle="Flagging Users"
-        [participantList]="(uniqueFlaggingUsers$ | ngrxPush) || []"
-        (participantSelectedEvent)="onFlaggingUsersSelected($event)">
-        <ng-template
-          #itemTemplate
-          let-user>
-          <nz-avatar
-            *ngIf="user.profileImagePath; else noAvatar"
-            nz-comment-avatar
-            [nzSrc]="user.profileImagePath">
-          </nz-avatar>
-          <ng-template #noAvatar>
-            <nz-avatar
-              nz-comment-avatar
-              [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+      <nz-space nzDirection="vertical">
+        <cvc-participant-list *nzSpaceItem
+          listTitle="Flag State"
+          [preselectedOption]="this.selectableStates[0]"
+          [participantList]="selectableStates"
+          (participantSelectedEvent)="onStateSelected($event)">
+          <ng-template
+            #itemTemplate
+            let-state>
+            <span>{{ state.displayName }}</span>
           </ng-template>
-          <span>{{ user.username }}</span>
-        </ng-template>
-      </cvc-participant-list>
-      <cvc-participant-list
-        listTitle="Resolving Users"
-        [participantList]="(uniqueResolvingUsers$ | ngrxPush) || []"
-        (participantSelectedEvent)="onResolvingUsersSelected($event)">
-        <ng-template
-          #itemTemplate
-          let-user>
-          <nz-avatar
-            *ngIf="user.profileImagePath; else noAvatar"
-            nz-comment-avatar
-            [nzSrc]="user.profileImagePath">
-          </nz-avatar>
-          <ng-template #noAvatar>
+        </cvc-participant-list>
+        <cvc-participant-list *nzSpaceItem
+          listTitle="Flagging Users"
+          [participantList]="(uniqueFlaggingUsers$ | ngrxPush) || []"
+          (participantSelectedEvent)="onFlaggingUsersSelected($event)">
+          <ng-template
+            #itemTemplate
+            let-user>
             <nz-avatar
+              *ngIf="user.profileImagePath; else noAvatar"
               nz-comment-avatar
-              [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+              [nzSrc]="user.profileImagePath">
+            </nz-avatar>
+            <ng-template #noAvatar>
+              <nz-avatar
+                nz-comment-avatar
+                [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+            </ng-template>
+            <span>{{ user.username }}</span>
           </ng-template>
-          <span>{{ user.username }}</span>
-        </ng-template>
-      </cvc-participant-list>
+        </cvc-participant-list>
+        <cvc-participant-list *nzSpaceItem
+          listTitle="Resolving Users"
+          [participantList]="(uniqueResolvingUsers$ | ngrxPush) || []"
+          (participantSelectedEvent)="onResolvingUsersSelected($event)">
+          <ng-template
+            #itemTemplate
+            let-user>
+            <nz-avatar
+              *ngIf="user.profileImagePath; else noAvatar"
+              nz-comment-avatar
+              [nzSrc]="user.profileImagePath">
+            </nz-avatar>
+            <ng-template #noAvatar>
+              <nz-avatar
+                nz-comment-avatar
+                [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+            </ng-template>
+            <span>{{ user.username }}</span>
+          </ng-template>
+        </cvc-participant-list>
+      </nz-space>
     </nz-col>
   </nz-row>
 </ng-container>

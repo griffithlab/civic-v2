@@ -1,6 +1,5 @@
 class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
   description 'Suggest a Revision to a Variant entity.'
-
   argument :id, Int, required: true,
     description: 'The ID of the Variant to suggest a Revision to.'
 
@@ -60,19 +59,19 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
     updated_variant = InputAdaptors::VariantInputAdaptor.new(variant_input_object: fields).perform
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
 
-    cmd = Actions::SuggestVariantRevision.new(
+    cmd = Activities::SuggestRevisionSet.new(
       existing_obj: variant,
       updated_obj: updated_variant,
       originating_user: context[:current_user],
       organization_id: organization_id,
-      comment: comment
+      note: comment
     )
     res = cmd.perform
 
     if res.succeeded?
       {
         variant: variant,
-        results: res.revisions
+        results: res.revision_results
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

@@ -51,9 +51,6 @@ export class CvcViewerButtonComponent implements OnInit {
         )
     }
     this.addVariantModalVisible$ = new BehaviorSubject<boolean>(false)
-    this.addVariantModalVisible$
-      .pipe(tag('addVariantModalVisible$'))
-      .subscribe()
   }
 
   ngOnInit(): void {

@@ -72,7 +72,7 @@
           nzSize="small"
           nzLayout="vertical">
           <nz-descriptions-item nzTitle="Comment">
-            {{ f.openComment.comment }}
+            <cvc-comment-body [commentBodySegments]="f.openActivity.parsedNote"></cvc-comment-body>
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-space>

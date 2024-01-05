@@ -15,3 +15,21 @@ form,
   cursor: default;
   border-radius: 2px;
 }
+.select-container {
+  // mimic the appearance of the full width populated selects displayed by
+  // the other fields. Can't display a full-width select for reasons detailed below.
+  padding: 0;
+  background-color: white;
+  cursor: default;
+  border-radius: 2px;
+  border: 1px solid rgb(217, 217, 217);
+  .limit-select-width {
+    // using inline-block will cause its child select element to shrink to fit
+    // its contents, otherwise users might click in the empty area of the select
+    // and display a confusing dropdown which we should ideally suppress.
+    display: inline-block;
+    // adjustments to get select bg height same as Editor button
+    margin-top: -1px;
+    margin-bottom: -1px;
+  }
+}

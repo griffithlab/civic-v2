@@ -40,6 +40,13 @@ class EvidenceItem < ActiveRecord::Base
     class_name: 'Event'
   has_one :rejector, through: :rejection_event, source: :originating_user
 
+  has_many :activities, as: :subject, class_name: 'Activity'
+
+  has_one :submission_activity,
+    ->() { where(type: 'SubmitEvidenceItemActivity') },
+    as: :subject,
+    class_name: 'Activity'
+
   validates :rating, inclusion: [1, 2, 3, 4, 5]
 
 
@@ -71,4 +78,21 @@ class EvidenceItem < ActiveRecord::Base
     }
   end
 
+  def editable_fields
+    [
+      :molecular_profile_id,
+      :variant_origin,
+      :source_id,
+      :evidence_type,
+      :significance,
+      :disease_id,
+      :description,
+      :evidence_level,
+      :evidence_direction,
+      :phenotype_ids,
+      :rating,
+      :therapy_interaction_type,
+      :therapy_ids
+    ]
+  end
 end

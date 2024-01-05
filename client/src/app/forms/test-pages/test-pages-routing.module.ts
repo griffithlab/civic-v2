@@ -14,6 +14,7 @@ import { VariantgroupReviseTestPage } from './variantgroup-revise-test/variantgr
 import { GeneReviseTestPage } from './gene-revise-test/gene-revise-test.page'
 import { MolecularProfileReviseTestPage } from './molecular-profile-revise-test/molecular-profile-revise-test.page'
 import { VariantReviseTestPage } from './variant-revise-test/variant-revise-test.page'
+import { VariantSubmitTestPage } from './variant-submit-test/variant-submit-test.page'
 
 const routes: Routes = [
   {
@@ -25,77 +26,84 @@ const routes: Routes = [
         path: 'evidence-submit-test',
         component: EvidenceSubmitTestPage,
         data: {
-          breadcrumb: 'Evidence Submit Test',
+          breadcrumb: 'Evidence Submit Form',
         },
       },
       {
         path: 'evidence-revise-test',
         component: EvidenceReviseTestPage,
         data: {
-          breadcrumb: 'Evidence Revise Test',
+          breadcrumb: 'Evidence Revise Form',
         },
       },
       {
         path: 'assertion-submit-test',
         component: AssertionSubmitTestPage,
         data: {
-          breadcrumb: 'Assertion Submit Test',
+          breadcrumb: 'Assertion Submit Form',
         },
       },
       {
         path: 'assertion-revise-test',
         component: AssertionReviseTestPage,
         data: {
-          breadcrumb: 'Assertion Revise Test',
+          breadcrumb: 'Assertion Revise Form',
         },
       },
       {
         path: 'variantgroup-revise-test',
         component: VariantgroupReviseTestPage,
         data: {
-          breadcrumb: 'Variant Group Revise Test',
+          breadcrumb: 'Variant Group Revise Form',
         },
       },
       {
         path: 'gene-revise-test',
         component: GeneReviseTestPage,
         data: {
-          breadcrumb: 'Gene Revise Test',
+          breadcrumb: 'Gene Revise Form',
         },
       },
       {
         path: 'mp-revise-test',
         component: MolecularProfileReviseTestPage,
         data: {
-          breadcrumb: 'MP Revise Test',
+          breadcrumb: 'MP Revise Form',
+        },
+      },
+      {
+        path: 'variant-submit-test',
+        component: VariantSubmitTestPage,
+        data: {
+          breadcrumb: 'Variant Submit Form',
         },
       },
       {
         path: 'variant-revise-test',
         component: VariantReviseTestPage,
         data: {
-          breadcrumb: 'Variant Revise Test',
+          breadcrumb: 'Variant Revise Form',
         },
       },
       {
         path: 'vertical-form',
         component: VerticalFormPage,
         data: {
-          breadcrumb: 'Nonstate',
+          breadcrumb: 'Vertical Layout Test',
         },
       },
       {
         path: 'inline-form',
         component: InlineFormPage,
         data: {
-          breadcrumb: 'Inline',
+          breadcrumb: 'Inline Layout Test',
         },
       },
       {
         path: 'horizontal-form',
         component: HorizontalFormPage,
         data: {
-          breadcrumb: 'Horizontal',
+          breadcrumb: 'Horizontal Layout Test',
         },
       },
       {

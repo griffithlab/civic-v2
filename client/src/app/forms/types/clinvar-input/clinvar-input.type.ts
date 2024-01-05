@@ -9,18 +9,28 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { StringTagField } from '@app/forms/mixins/string-input-field.mixin'
 import { ClinvarOptions } from '@app/forms/utilities/input-formatters'
 import { Maybe } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import {
   FieldTypeConfig,
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
+import {
+  BehaviorSubject,
+  Subject,
+  map,
+  Observable,
+  withLatestFrom,
+  combineLatest,
+  tap,
+} from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
 export type CvcBaseInputFieldOptions = Partial<
   FieldTypeConfig<CvcClinvarInputFieldProps>
 >
 export interface CvcClinvarInputFieldProps extends FormlyFieldProps {
+  description?: string
 }
 
 export interface CvcBaseInputFieldConfig
@@ -29,20 +39,21 @@ export interface CvcBaseInputFieldConfig
 }
 
 const BaseInputMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcClinvarInputFieldProps>,
-    Maybe<string[]>
-  >(),
+  BaseFieldType<FieldTypeConfig<CvcClinvarInputFieldProps>, string[]>(),
   StringTagField
 )
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-clinvar-input',
   templateUrl: './clinvar-input.type.html',
   styleUrls: ['./clinvar-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcClinvarInputField extends BaseInputMixin implements AfterViewInit {
+export class CvcClinvarInputField
+  extends BaseInputMixin
+  implements AfterViewInit
+{
   defaultOptions: Partial<FieldTypeConfig<CvcClinvarInputFieldProps>> = {
     modelOptions: {
       // update model when focus leaves field
@@ -51,7 +62,9 @@ export class CvcClinvarInputField extends BaseInputMixin implements AfterViewIni
     },
     props: {
       label: 'Enter value',
-      placeholder: 'Enter value and hit Return'
+      placeholder: 'Enter value and hit Return',
+      description:
+        'Specify if Clinvar IDs exist, or if they are not applicable for this variant.',
     },
   }
 
@@ -61,87 +74,101 @@ export class CvcClinvarInputField extends BaseInputMixin implements AfterViewIni
   showClinvarIdEntry$ = new BehaviorSubject<boolean>(false)
   selectModel: Maybe<ClinvarOptions> = undefined
 
+  existenceChange$: Subject<Maybe<ClinvarOptions>>
+  existenceModel$: BehaviorSubject<Maybe<ClinvarOptions>>
+  showTagSelect$: BehaviorSubject<boolean>
+
   selectOptions = [
     {
+      value: undefined,
+      label: 'Unspecified',
+      tooltip: 'Existence of ClinVar IDs for this variant is unspecified.',
+    },
+    {
       value: ClinvarOptions.NotApplicable,
-      label: 'Clinvar IDs not applicable for this variant',
+      label: 'Not Applicable',
+      tooltip: 'ClinVar IDs are not applicable to this variant.',
     },
     {
       value: ClinvarOptions.NoneFound,
-      label: 'Clinvar IDs do not exist for this variant',
+      label: 'Were Not Found',
+      tooltip: 'A search was performed, and no ClinVar IDs were found.',
     },
     {
       value: ClinvarOptions.Found,
-      label: 'Clinvar IDs were found for this variant',
-    },
-    {
-      value: undefined,
-      label: '',
+      label: 'Were Found',
+      tooltip:
+        'A search was performed, and ClinVar IDs were found (enter IDs below).',
     },
   ]
 
   constructor(private cdr: ChangeDetectorRef) {
     super()
-  }
+    this.existenceChange$ = new Subject<Maybe<ClinvarOptions>>()
+    this.existenceModel$ = new BehaviorSubject<Maybe<ClinvarOptions>>(undefined)
+    this.showTagSelect$ = new BehaviorSubject<boolean>(false)
 
-  optionSelected(e: number) {
-    const selectedOption = (e as ClinvarOptions)
-    this.values.clear()
-    this.clinvarIds$.next([])
-    if (selectedOption !== undefined && selectedOption !== null) {
-      if(selectedOption == ClinvarOptions.Found) {
-        this.showClinvarIdEntry$.next(true)
-        this.formControl.setValue([])
-      } else if (selectedOption == ClinvarOptions.NoneFound) {
-        this.showClinvarIdEntry$.next(false)
-        this.formControl.setValue(['NONE FOUND'])
-      } else if (selectedOption == ClinvarOptions.NotApplicable) {
-        console.log("HERE")
-        this.showClinvarIdEntry$.next(false)
-        this.formControl.setValue(['NA'])
-     }
-    } else {
-      this.showClinvarIdEntry$.next(false)
-      this.formControl.setValue([])
-      this.clinvarIds$.next([])
-    }
-  }
-
-  onEnter(e: Event) {
-    let target = (e.target as HTMLInputElement)
-    if(target.value) {
-      this.values.add(target.value)
-      target.value = ''
-    }
-    let arr = Array.from(this.values)
-    this.clinvarIds$.next(arr)
-    this.formControl.setValue(arr)
-  }
-
-  tagClosed(tag: string) {
-    this.values.delete(tag)
-    let arr = Array.from(this.values)
-    this.clinvarIds$.next(arr)
-    this.formControl.setValue(arr)
-    this.clinvarIds$.next(arr)
+    // this.existenceChange$.pipe(
+    //   withLatestFrom(this.formControl.valueChanges),
+    //   map(([opts, value]: [Maybe<ClinvarOptions>, Maybe<string[]>]) => {
+    //     return opts === ClinvarOptions.Found || this.formControl.value
+    //   })
+    // )
   }
 
   ngAfterViewInit(): void {
     this.configureBaseField()
     this.configureStringTagField()
-    const val = this.formControl.value
-    if(val && Array.isArray(val)) {
-      if(val[0] == "NONE FOUND") {
-        this.selectModel = ClinvarOptions.NoneFound
-      } else if(val[0] == 'N/A') {
-        this.selectModel = ClinvarOptions.NotApplicable
+
+    // show id select based on form field value
+    // if undefined or array contains NOT FOUND or NA set false
+    // else set true
+    this.onValueChange$.pipe(untilDestroyed(this)).subscribe((value) => {
+      if (value === undefined) {
+        this.existenceModel$.next(undefined)
+        this.showTagSelect$.next(false)
+      } else if (value.includes('NONE FOUND') || value.includes('NA')) {
+        if (value.includes('NONE FOUND')) {
+          this.existenceModel$.next(ClinvarOptions.NoneFound)
+        } else if (value.includes('NA')) {
+          this.existenceModel$.next(ClinvarOptions.NotApplicable)
+        }
+        this.showTagSelect$.next(false)
       } else {
-        this.selectModel = ClinvarOptions.Found
-        val.forEach(v => this.values.add(v))
-        this.showClinvarIdEntry$.next(true)
+        this.existenceModel$.next(ClinvarOptions.Found)
+        this.showTagSelect$.next(true)
       }
-      this.clinvarIds$.next(val)
-      this.cdr.detectChanges()
-    }
+    })
+
+    // set form control value when existenceChange$ updates
+    this.existenceChange$
+      .pipe(
+        map((option) => {
+          const value = this.formControl.value
+          if (option === undefined && this.formControl.value !== undefined) {
+            this.formControl.setValue(undefined)
+          } else if (
+            option === ClinvarOptions.NoneFound &&
+            !value.includes('NONE FOUND')
+          ) {
+            this.formControl.setValue(['NONE FOUND'])
+          } else if (
+            option === ClinvarOptions.NotApplicable &&
+            !value.includes('NA')
+          ) {
+            this.formControl.setValue(['NA'])
+          } else if (option === ClinvarOptions.Found) {
+            if (
+              value === undefined ||
+              value.includes('NONE FOUND') ||
+              value.includes('NA')
+            ) {
+              this.formControl.setValue([])
+            }
+          }
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe()
   }
 }

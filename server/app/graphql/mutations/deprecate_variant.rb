@@ -5,7 +5,7 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
     required: true,
     description: 'The CIViC ID of the variant to deprecate.'
 
-  argument :deprecation_reason, Types::DeprecationReasonType,
+  argument :deprecation_reason, Types::VariantDeprecationReasonType,
     required: true,
     description: "The reason for deprecation this variant."
 
@@ -53,19 +53,19 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
     if !Role.user_is_at_least_a?(current_user, :editor)
-      raise GraphQL::ExecutionError, 'User must be an editor in order to moderate Assertions.'
+      raise GraphQL::ExecutionError, 'User must be an editor in order to deprecate Variants.'
     end
 
     return true
   end
 
   def resolve(organization_id: nil, deprecation_reason:, comment:, **kwargs)
-    cmd = Actions::DeprecateVariant.new(
+    cmd = Activities::DeprecateVariant.new(
       deprecating_user: context[:current_user],
       variant: variant,
       organization_id: organization_id,
       deprecation_reason: deprecation_reason,
-      comment: comment
+      note: comment
     )
 
     res = cmd.perform
