@@ -17,6 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { VariantsDetailRoutingModule } from './variants-detail-routing.module'
 import { VariantsDetailView } from './variants-detail.view'
 
@@ -35,6 +36,7 @@ import { VariantsDetailView } from './variants-detail.view'
     NzGridModule,
     NzAlertModule,
     NzPopoverModule,
+    NzTypographyModule,
 
     CvcContributorAvatarsModule,
     CvcTabNavigationModule,

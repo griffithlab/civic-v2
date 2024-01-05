@@ -35,6 +35,11 @@
           nzTheme="twotone"
           [nzTwotoneColor]="'Variant' | entityColor"
           nzType="civic-variant"></i>
+        <span
+          nz-typography
+          style="color: #bbb">
+          {{ variant.feature.name }}
+        </span>
         {{ variant.name }}
       </nz-page-header-title>
 

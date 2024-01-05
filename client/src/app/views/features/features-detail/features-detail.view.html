@@ -9,12 +9,17 @@
       <nz-page-header-title
         cvcFlaggableOptions
         [ngClass]="{ 'flagged': feature.flags.totalCount > 0 }">
+        <span
+          nz-typography
+          style="color: #bbb"
+          >{{ feature.featureInstance.__typename |uppercase }}</span
+        >
         <i
           nz-icon
           nzTheme="twotone"
           [nzTwotoneColor]="'Feature' | entityColor"
           nzType="civic-feature"></i>
-        {{ feature.featureInstance.__typename }} - {{ feature.name }}
+        {{ feature.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
