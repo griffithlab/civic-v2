@@ -883,7 +883,7 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
+export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
 export type LeaderboardOrganizationFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -892,7 +892,7 @@ export type LeaderboardOrganizationFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	members?: FieldPolicy<any> | FieldReadFunction<any>,
-	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	orgAndSuborgsStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	orgStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -920,7 +920,7 @@ export type LeaderboardRankFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	rank?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardUserKeySpecifier = ('actionCount' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActionTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
+export type LeaderboardUserKeySpecifier = ('actionCount' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
 export type LeaderboardUserFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -932,7 +932,7 @@ export type LeaderboardUserFieldPolicy = {
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
-	mostRecentActionTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentOrganizationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1284,7 +1284,7 @@ export type ObjectFieldDiffFieldPolicy = {
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
+export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1292,7 +1292,7 @@ export type OrganizationFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	members?: FieldPolicy<any> | FieldReadFunction<any>,
-	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	orgAndSuborgsStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	orgStatsHash?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1844,7 +1844,7 @@ export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActionTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1855,7 +1855,7 @@ export type UserFieldPolicy = {
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
-	mostRecentActionTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentOrg?: FieldPolicy<any> | FieldReadFunction<any>,
