@@ -751,9 +751,7 @@
     name
     id
   }
-  mostRecentEvent {
-    createdAt
-  }
+  mostRecentActivityTimestamp
 }
     `,_e=t.Ps`
     fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
@@ -1025,7 +1023,7 @@
     revisions
   }
   profileImagePath(size: 64)
-  mostRecentActionTimestamp
+  mostRecentActivityTimestamp
 }
     `,en=t.Ps`
     fragment variantGroupPopoverFields on VariantGroup {
