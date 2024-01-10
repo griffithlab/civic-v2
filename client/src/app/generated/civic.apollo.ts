@@ -3672,12 +3672,8 @@ export type QueryBrowseFeaturesArgs = {
   featureName?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
-<<<<<<< HEAD
   searchScope?: InputMaybe<GeneSearchFilter>;
-  sortBy?: InputMaybe<GenesSort>;
-=======
   sortBy?: InputMaybe<FeaturesSort>;
->>>>>>> features
   therapyName?: InputMaybe<Scalars['String']>;
 };
 
@@ -6277,38 +6273,7 @@ export type FlagPopoverQueryVariables = Exact<{
 
 export type FlagPopoverQuery = { __typename: 'Query', flag?: { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseFeature', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Feature', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', deprecated: boolean, id: number, link: string, name: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } } | undefined };
 
-<<<<<<< HEAD
-export type FlagPopoverFragment = { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseGene', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', id: number, link: string, name: string } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
-
-export type GenePopoverQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GenePopoverQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, officialName: string, geneAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
-
-export type GenePopoverFragment = { __typename: 'Gene', id: number, name: string, officialName: string, geneAliases: Array<string>, variants: { __typename: 'VariantConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
-
-export type BrowseGenesQueryVariables = Exact<{
-  entrezSymbol?: InputMaybe<Scalars['String']>;
-  therapyName?: InputMaybe<Scalars['String']>;
-  geneAlias?: InputMaybe<Scalars['String']>;
-  diseaseName?: InputMaybe<Scalars['String']>;
-  sortBy?: InputMaybe<GenesSort>;
-  searchScope?: InputMaybe<GeneSearchFilter>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  before?: InputMaybe<Scalars['String']>;
-  after?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
-
-export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, flagged: boolean, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
-=======
 export type FlagPopoverFragment = { __typename: 'Flag', id: number, name: string, state: FlagState, createdAt: any, flaggingUser: { __typename: 'User', id: number, displayName: string, role: UserRole }, flaggable: { __typename: 'Assertion', id: number, link: string, name: string } | { __typename: 'BrowseFeature', id: number, link: string, name: string } | { __typename: 'EvidenceItem', id: number, link: string, name: string } | { __typename: 'Feature', id: number, link: string, name: string } | { __typename: 'Gene', id: number, link: string, name: string } | { __typename: 'MolecularProfile', id: number, link: string, name: string } | { __typename: 'Variant', deprecated: boolean, id: number, link: string, name: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'VariantGroup', id: number, link: string, name: string }, openActivity: { __typename: 'FlagEntityActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } };
->>>>>>> features
 
 export type QuicksearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -11081,71 +11046,6 @@ export const FlagPopoverDocument = gql`
       super(apollo);
     }
   }
-<<<<<<< HEAD
-export const GenePopoverDocument = gql`
-    query GenePopover($geneId: Int!) {
-  gene(id: $geneId) {
-    ...genePopover
-  }
-}
-    ${GenePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
-    document = GenePopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseGenesDocument = gql`
-    query BrowseGenes($entrezSymbol: String, $therapyName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $searchScope: GeneSearchFilter, $first: Int, $last: Int, $before: String, $after: String) {
-  browseGenes(
-    entrezSymbol: $entrezSymbol
-    therapyName: $therapyName
-    geneAlias: $geneAlias
-    diseaseName: $diseaseName
-    searchScope: $searchScope
-    sortBy: $sortBy
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    edges {
-      cursor
-      node {
-        ...BrowseGenesFields
-      }
-    }
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    lastUpdated
-    totalCount
-    filteredCount
-    pageCount
-  }
-}
-    ${BrowseGenesFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
-    document = BrowseGenesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-=======
->>>>>>> features
 export const QuicksearchDocument = gql`
     query Quicksearch($query: String!, $types: [SearchableEntities!], $highlightMatches: Boolean) {
   search(query: $query, types: $types, highlightMatches: $highlightMatches) {
