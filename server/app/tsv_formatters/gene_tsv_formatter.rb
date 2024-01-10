@@ -1,6 +1,9 @@
 class GeneTsvFormatter
   def self.objects
-    Gene.joins(variants: { molecular_profiles: [:evidence_items]}).distinct
+    Feature.joins(variants: { molecular_profiles: [:evidence_items]})
+      .where(feature_instance_type: 'Features::Gene')
+      .includes(:feature_instance)
+      .distinct
   end
 
   def self.headers
@@ -15,15 +18,15 @@ class GeneTsvFormatter
     ]
   end
 
-  def self.row_from_object(gene)
+  def self.row_from_object(feature)
     [
-      gene.id,
-      LinkAdaptors::Gene.new(gene).permalink_path(include_domain: true),
-      gene.name,
-      gene.entrez_id,
-      gene.description.squish,
-      gene.updated_at,
-      gene.flagged
+      feature.feature_instance.id,
+      LinkAdaptors::Gene.new(feature.feature_instance).permalink_path(include_domain: true),
+      feature.name,
+      feature.feature_instance.entrez_id,
+      feature.description.squish,
+      feature.updated_at,
+      feature.flagged
     ]
   end
 

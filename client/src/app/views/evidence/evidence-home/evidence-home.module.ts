@@ -6,7 +6,6 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'
 import { RouterModule } from '@angular/router'
@@ -31,7 +30,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzTypographyModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
-    CvcGeneTagModule,
     CvcEvidenceTableModule,
   ],
   exports: [EvidenceHomePage],

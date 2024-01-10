@@ -7,9 +7,11 @@ class InputAdaptors::GeneInputAdaptor
   end
 
   def perform
-    Gene.new(
+    g = Features::Gene.new()
+    Feature.new(
       description: input.description,
-      source_ids: input.source_ids
+      source_ids: input.source_ids,
+      feature_instance: g
     )
   end
 end

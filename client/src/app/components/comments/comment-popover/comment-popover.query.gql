@@ -19,6 +19,14 @@ fragment commentPopover on Comment {
     id
     name
     link
+    ...on Variant {
+      deprecated
+      feature {
+        id
+        name
+        link
+      }
+    }
     __typename
   }
 }

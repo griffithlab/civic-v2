@@ -56,7 +56,7 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
   ... on MolecularProfileTextSegment {
     text
   }
-  ... on Gene {
+  ... on Feature {
     id
     name
     link
@@ -73,7 +73,7 @@ fragment VariantMolecularProfileCardFields on Variant {
   id
   name
   link
-  gene {
+  feature {
     id
     name
     link

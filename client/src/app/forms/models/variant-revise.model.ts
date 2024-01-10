@@ -21,7 +21,7 @@ export const variantReviseFieldsDefaults: VariantFields = {
   start2: undefined,
   stop2: undefined,
   representativeTranscript2: undefined,
-  geneId: undefined,
+  featureId: undefined,
   referenceBases: undefined,
   variantBases: undefined
 }

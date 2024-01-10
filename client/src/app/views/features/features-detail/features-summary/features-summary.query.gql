@@ -1,0 +1,50 @@
+query FeaturesSummary($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSummaryFields
+  }
+}
+
+fragment FeatureSummaryFields on Feature{
+  id
+  name
+  fullName
+  featureInstance {
+    __typename
+    ... on Gene {
+      ... GeneSummaryFields
+    }
+  }
+  # lastSubmittedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+  # lastAcceptedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+}
+
+fragment GeneSummaryFields on Gene {
+  id
+  description
+  featureAliases
+  entrezId
+  name
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  myGeneInfoDetails
+}

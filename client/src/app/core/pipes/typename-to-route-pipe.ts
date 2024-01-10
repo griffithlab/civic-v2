@@ -9,6 +9,8 @@ export class TypenameToRoutePipe implements PipeTransform {
     switch (n) {
       case 'Gene':
         return 'genes'
+      case 'Feature':
+        return 'features'
       case 'Variant':
         return 'variants'
       case 'Assertion':

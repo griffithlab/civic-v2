@@ -25,10 +25,7 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
     end
   end
 
-  option(:gene_names, type: String) do |scope, value|
-    scope.where("array_to_string(gene_names, '|') ILIKE ?", "%#{value}%")
-  end
-
+  option(:feature_name, type: String) { |scope, value| scope.where(json_name_query_for_column('features'), "%#{value}%") }
 
   option(:sort_by, type: Types::BrowseTables::DiseasesSortType) do |scope, value|
     case value.column
@@ -42,9 +39,14 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
       scope.order("evidence_item_count #{value.direction}")
     when "ASSERTION_COUNT"
       scope.order("assertion_count #{value.direction}")
-    when "GENE_COUNT"
-      scope.order("gene_count #{value.direction}")
+    when "FEATURE_COUNT"
+      scope.order("feature_count #{value.direction}")
     end
+  end
+
+  def json_name_query_for_column(col)
+    raise 'Must supply a column name' if col.nil?
+    "disease_browse_table_rows.id IN (select d.id FROM disease_browse_table_rows d, json_array_elements(d.#{col}) dr where dr->>'name' ILIKE ?)"
   end
 end
 

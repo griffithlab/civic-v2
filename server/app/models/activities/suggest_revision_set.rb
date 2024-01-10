@@ -10,8 +10,13 @@ module Activities
 
     private
     def create_activity
+      subject = if existing_obj.kind_of?(IsFeatureInstance)
+        existing_obj.feature
+      else
+        existing_obj
+      end
       @activity = SuggestRevisionSetActivity.create!(
-        subject: existing_obj,
+        subject: subject,
         user: user,
         organization: organization,
         note: note

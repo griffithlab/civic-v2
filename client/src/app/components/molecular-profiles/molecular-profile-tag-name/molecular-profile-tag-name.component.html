@@ -6,13 +6,13 @@
   </span>
   <ng-container *ngIf="s.__typename == 'Variant'">
     <cvc-tag-group>
-      <!-- ugly kludge to get gene-tag to accept nameSegments[i-1] as LinkableGene -->
-      <ng-container *ngFor="let g of [nameSegments[i - 1]]">
-        <cvc-gene-tag
-          *ngIf="g.__typename == 'Gene'"
-          [gene]="g"
+      <!-- ugly kludge to get feature-tag to accept nameSegments[i-1] as LinkableFeature -->
+      <ng-container *ngFor="let f of [nameSegments[i - 1]]">
+        <cvc-feature-tag
+          *ngIf="f.__typename == 'Feature'"
+          [feature]="f"
           [enablePopover]="this.enablePopover">
-        </cvc-gene-tag>
+        </cvc-feature-tag>
       </ng-container>
 
       <cvc-variant-tag

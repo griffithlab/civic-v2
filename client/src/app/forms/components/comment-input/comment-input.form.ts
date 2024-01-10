@@ -12,7 +12,7 @@ import { Subject, Observable } from 'rxjs'
 
 import {
   PreviewCommentGQL,
-  PreviewCommentFragment,
+  ParsedCommentFragmentFragment,
   UserTypeaheadGQL,
   UserTypeaheadQuery,
   UserTypeaheadQueryVariables,
@@ -47,7 +47,7 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
 
   private destroy$ = new Subject<void>()
 
-  previewComment$?: Observable<PreviewCommentFragment[]>
+  previewComment$?: Observable<ParsedCommentFragmentFragment[]>
   previewLoading$?: Observable<boolean>
 
   suggestions: WithDisplayNameAndValue[] = []
@@ -128,8 +128,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
 
   tagForEntityTypeAndId(entityType: TaggableEntity, id: number): string {
     switch (entityType) {
-      case TaggableEntity.Gene:
-        return `GID${id}`
+      case TaggableEntity.Feature:
+        return `FID${id}`
       case TaggableEntity.Variant:
         return `VID${id}`
       case TaggableEntity.VariantGroup:

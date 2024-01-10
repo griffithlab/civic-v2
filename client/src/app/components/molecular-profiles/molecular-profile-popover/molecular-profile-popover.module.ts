@@ -9,10 +9,10 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { CvcMolecularProfileTagNameModule } from '../molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @NgModule({
   declarations: [CvcMolecularProfilePopoverComponent],
@@ -27,7 +27,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     NzTagModule,
     NzIconModule,
     NzSpaceModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcLinkTagModule,
     CvcTagListModule,
     CvcMolecularProfileTagNameModule,

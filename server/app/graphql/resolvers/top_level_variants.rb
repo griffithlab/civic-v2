@@ -14,8 +14,8 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
       .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "%#{value}%" })
   end
 
-  option(:gene_id, type: GraphQL::Types::Int, description: 'Gene that variants are associated with.') do |scope, value|
-    scope.where(gene_id: value)
+  option(:feature_id, type: GraphQL::Types::Int, description: 'Feature that the variants are associated with.') do |scope, value|
+    scope.where(feature_id: value)
   end
 
   option(:variant_type_ids, type: [GraphQL::Types::Int], description: 'A list of CIViC identifiers for variant types') do  |scope, value|

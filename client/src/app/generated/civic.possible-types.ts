@@ -32,6 +32,7 @@
     "Commentable": [
       "Assertion",
       "EvidenceItem",
+      "Feature",
       "Flag",
       "Gene",
       "MolecularProfile",
@@ -54,6 +55,7 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "Feature",
       "Flag",
       "Gene",
       "MolecularProfile",
@@ -65,10 +67,14 @@
       "Variant",
       "VariantGroup"
     ],
+    "FeatureInstance": [
+      "Gene"
+    ],
     "Flaggable": [
       "Assertion",
-      "BrowseGene",
+      "BrowseFeature",
       "EvidenceItem",
+      "Feature",
       "Gene",
       "MolecularProfile",
       "Variant",
@@ -83,17 +89,19 @@
       "ScalarFieldDiff"
     ],
     "MolecularProfileComponent": [
+      "Feature",
       "Gene",
       "Variant"
     ],
     "MolecularProfileSegment": [
-      "Gene",
+      "Feature",
       "MolecularProfileTextSegment",
       "Variant"
     ],
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
+      "Feature",
       "Gene",
       "MolecularProfile",
       "Variant",

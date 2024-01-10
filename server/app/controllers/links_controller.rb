@@ -16,6 +16,11 @@ class LinksController < ApplicationController
     end
   end
 
+  def redirect_legacy_gene_id
+    params[:idtype] = 'genes'
+    redirect
+  end
+
   private
   def submit_analytics
     if Analytics.should_submit?(request)

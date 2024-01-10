@@ -7,7 +7,7 @@ export interface EvidenceSubmitModel extends FormSubmitBaseModel {
 
 export const evidenceItemSubmitFieldsDefaults = <EvidenceItemFields>{
   // gene, variant included for initial input type development
-  geneId: undefined,
+  featureId: undefined,
   variantId: undefined,
   significance: undefined,
   description: undefined,

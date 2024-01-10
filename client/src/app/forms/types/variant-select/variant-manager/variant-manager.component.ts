@@ -13,12 +13,9 @@ import { ApolloQueryResult, gql } from '@apollo/client/core'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { LinkableEntity } from '@app/forms/components/entity-tag/entity-tag.component'
 import {
-  EvidenceItem,
-  EvidenceItemConnection,
   VariantManagerGQL,
   VariantManagerQuery,
   VariantManagerQueryVariables,
-  EvidenceSortColumns,
   Maybe,
   PageInfo,
   SortDirection,
@@ -287,11 +284,11 @@ export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
               name: row.name,
               link: row.link,
             },
-            gene: {
-              __typename: 'Gene',
-              id: row.geneId,
-              name: row.geneName,
-              link: row.geneLink,
+            feature: {
+              __typename: 'Feature',
+              id: row.featureId,
+              name: row.featureName,
+              link: row.featureLink,
             },
             selected: selected.has(row.id),
           }

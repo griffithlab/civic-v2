@@ -1,0 +1,39 @@
+<ng-container *ngIf="feature$ | async as feature">
+  <cvc-section-navigation [displayName]="feature.name">
+  </cvc-section-navigation>
+
+  <nz-page-header class="site-page-header">
+    <!-- title -->
+    <nz-page-header-title cvcFlaggableOptions>
+      REVISE
+      <i
+        nz-icon
+        nzTheme="twotone"
+        [nzTwotoneColor]="'Feature' | entityColor"
+        nzType="civic-feature"></i>
+      {{ feature.name }}
+    </nz-page-header-title>
+
+    <!-- subtitle -->
+    <nz-page-header-subtitle> {{ feature.fullName }} </nz-page-header-subtitle>
+
+    <nz-page-header-content>
+      <div class="content">
+        <div *ngIf="isSignedIn$ | ngrxPush as isSignedIn; else notSignedIn">
+          <router-outlet></router-outlet>
+        </div>
+        <ng-template #notSignedIn>
+          <nz-row
+            nzSpan="24"
+            nzJustify="center">
+            <div
+              nz-col
+              nzSpan="6">
+              <cvc-login-prompt></cvc-login-prompt>
+            </div>
+          </nz-row>
+        </ng-template>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

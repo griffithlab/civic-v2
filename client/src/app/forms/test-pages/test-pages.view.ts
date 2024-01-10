@@ -42,7 +42,7 @@ export class TestPagesView {
       },
       {
         routeName: 'gene-revise-test',
-        iconName: 'civic-gene',
+        iconName: 'civic-feature',
         tabLabel: 'Revise',
       },
       {

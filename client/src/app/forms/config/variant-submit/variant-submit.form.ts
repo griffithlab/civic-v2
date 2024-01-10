@@ -15,7 +15,7 @@ import { Apollo, gql } from 'apollo-angular'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 
 type VariantSubmitModel = {
-  geneId?: number
+  featureId?: number
   variantId?: number
 }
 
@@ -44,7 +44,7 @@ export class VariantSubmitForm {
   finderState: VariantSubmitState = {
     formLayout: this.layout,
     fields: {
-      geneId$: new BehaviorSubject<Maybe<number>>(undefined),
+      featureId$: new BehaviorSubject<Maybe<number>>(undefined),
       variantId$: new BehaviorSubject<Maybe<number>>(undefined),
     },
   }
@@ -52,7 +52,7 @@ export class VariantSubmitForm {
 
   constructor(private apollo: Apollo) {
     this.form = new UntypedFormGroup({})
-    this.model = { geneId: undefined, variantId: undefined }
+    this.model = { featureId: undefined, variantId: undefined }
     this.options = { formState: this.finderState }
 
     this.config = [
@@ -65,10 +65,10 @@ export class VariantSubmitForm {
         },
         fieldGroup: [
           {
-            key: 'geneId',
-            type: 'gene-select',
+            key: 'featureId',
+            type: 'feature-select',
             props: {
-              placeholder: `Select New Variant's Gene`,
+              placeholder: `Select New Variant's Feature`,
               layout: {
                 showExtra: false,
               },
@@ -80,7 +80,7 @@ export class VariantSubmitForm {
             type: 'variant-select',
             props: {
               placeholder: 'Enter New Variant Name',
-              requireGene: true,
+              requireFeature: true,
               layout: {
                 showExtra: false,
               },
@@ -98,7 +98,7 @@ export class VariantSubmitForm {
     const variant = this.getSelectedVariant(model.variantId)
     if (variant) {
       this.model = {
-        geneId: undefined,
+        featureId: undefined,
         variantId: undefined,
       }
       this.onVariantSelected.next(variant)

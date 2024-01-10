@@ -40,7 +40,7 @@ import { pluck } from 'rxjs-etc/operators'
 
 export interface VariantTableUserFilters {
   variantNameInput?: Maybe<string>
-  geneSymbolInput?: Maybe<string>
+  featureNameInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
   therapyNameInput?: Maybe<string>
   variantAliasInput?: Maybe<string>
@@ -90,7 +90,7 @@ export class CvcVariantsTableComponent implements OnInit {
 
   // filters
   variantNameInput: Maybe<string>
-  geneSymbolInput: Maybe<string>
+  featureNameInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   therapyNameInput: Maybe<string>
   variantAliasInput: Maybe<string>
@@ -209,7 +209,7 @@ export class CvcVariantsTableComponent implements OnInit {
         variantAlias: this.variantAliasInput
           ? this.variantAliasInput
           : undefined,
-        entrezSymbol: this.geneSymbolInput,
+        featureName: this.featureNameInput,
         variantTypeName: this.variantTypeNameInput ? this.variantTypeNameInput : undefined,
         hasNoVariantType: this.hasNoVariantTypeInput
       })

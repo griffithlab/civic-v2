@@ -62,9 +62,9 @@
           Variant Types
         </th>
         <th nzWidth="100px"
-          [nzColumnKey]="sortColumns.EntrezSymbol"
+          [nzColumnKey]="sortColumns.FeatureName"
           [nzSortFn]="true">
-          Gene
+          Feature
         </th>
         <th nzWidth="200px">
           Diseases
@@ -95,7 +95,7 @@
           </cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
+          <cvc-clearable-input-filter [(inputModel)]="featureNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -139,8 +139,8 @@
             </cvc-tag-overflow>
           </td>
           <td>
-            <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName, link: variant.geneLink}"
-              [truncateLongName]="true"></cvc-gene-tag>
+            <cvc-feature-tag [feature]="{id: variant.featureId, name: variant.featureName, link: variant.featureLink}"
+              [truncateLongName]="true"></cvc-feature-tag>
           </td>
           <td>
             <cvc-tag-overflow

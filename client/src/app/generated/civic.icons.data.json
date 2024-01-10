@@ -380,15 +380,15 @@
     },
     {
       "type": "fullcolor",
-      "filepath": "fullcolor/flag-fullcolor.svg",
-      "name": "flag",
-      "alias": "fullcolor-flag"
+      "filepath": "fullcolor/feature-fullcolor.svg",
+      "name": "feature",
+      "alias": "fullcolor-feature"
     },
     {
       "type": "fullcolor",
-      "filepath": "fullcolor/gene-fullcolor.svg",
-      "name": "gene",
-      "alias": "fullcolor-gene"
+      "filepath": "fullcolor/flag-fullcolor.svg",
+      "name": "flag",
+      "alias": "fullcolor-flag"
     },
     {
       "type": "fullcolor",
@@ -524,15 +524,15 @@
     },
     {
       "type": "outline",
-      "filepath": "outline/flag-outline.svg",
-      "name": "flag",
-      "alias": "outline-flag"
+      "filepath": "outline/feature-outline.svg",
+      "name": "feature",
+      "alias": "outline-feature"
     },
     {
       "type": "outline",
-      "filepath": "outline/gene-outline.svg",
-      "name": "gene",
-      "alias": "outline-gene"
+      "filepath": "outline/flag-outline.svg",
+      "name": "flag",
+      "alias": "outline-flag"
     },
     {
       "type": "outline",
@@ -668,15 +668,15 @@
     },
     {
       "type": "twotone",
-      "filepath": "twotone/flag-twotone.svg",
-      "name": "flag",
-      "alias": "twotone-flag"
+      "filepath": "twotone/feature-twotone.svg",
+      "name": "feature",
+      "alias": "twotone-feature"
     },
     {
       "type": "twotone",
-      "filepath": "twotone/gene-twotone.svg",
-      "name": "gene",
-      "alias": "twotone-gene"
+      "filepath": "twotone/flag-twotone.svg",
+      "name": "flag",
+      "alias": "twotone-flag"
     },
     {
       "type": "twotone",

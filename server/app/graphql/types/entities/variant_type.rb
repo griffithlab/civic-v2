@@ -11,7 +11,7 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :gene, Types::Entities::GeneType, null: false
+    field :feature, Types::Entities::FeatureType, null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
@@ -35,8 +35,8 @@ module Types::Entities
     field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
     field :open_cravat_url, String, null: true
 
-    def gene
-      Loaders::RecordLoader.for(Gene).load(object.gene_id)
+    def feature
+      Loaders::AssociationLoader.for(Variant, :feature).load(object)
     end
 
     def variant_types

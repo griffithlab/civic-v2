@@ -10,15 +10,17 @@ module Types::MolecularProfile
   class MolecularProfileSegmentType < Types::BaseUnion
 
     description "A segment of a molecular profile. Either a string representing a boolean operator or a tag component representing a gene or variant"
-    possible_types Types::MolecularProfile::MolecularProfileTextSegment, Types::Entities::GeneType, Types::Entities::VariantType
+    possible_types Types::MolecularProfile::MolecularProfileTextSegment,
+      Types::Entities::FeatureType,
+      Types::Entities::VariantType
 
 
 
     def self.resolve_type(object, context)
       if object.is_a?(String)
         Types::MolecularProfile::MolecularProfileTextSegment
-      elsif object.is_a?(Gene)
-        Types::Entities::GeneType
+      elsif object.is_a?(Feature)
+        ::Types::Entities::FeatureType
       elsif object.is_a?(Variant)
         Types::Entities::VariantType
       else

@@ -9,7 +9,7 @@ import {
 
 export type EvidenceItemFields = {
   // gene, variant included for initial input type development
-  geneId?: number
+  featureId?: number
   variantId?: number
   significance?: EvidenceSignificance
   description?: string

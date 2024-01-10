@@ -5,8 +5,10 @@ class Variant < ApplicationRecord
   include Commentable
   include WithTimepointCounts
 
-  belongs_to :gene
-  belongs_to :secondary_gene, class_name: 'Gene', optional: true
+  belongs_to :feature
+  belongs_to :gene, class_name: 'Features::Gene', optional: true
+  belongs_to :secondary_gene, class_name: 'Features::Gene', optional: true
+
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
   has_many :variant_groups, through: :variant_group_variants
@@ -117,7 +119,7 @@ class Variant < ApplicationRecord
   def unique_name_in_context
     base_query = self.class.where(
       deprecated: false,
-      gene_id: gene_id,
+      feature_id: feature_id,
       name: name
     )
 
@@ -137,13 +139,13 @@ class Variant < ApplicationRecord
                      end
 
     if duplicate_name
-      errors.add(:name, 'must be unique within a Gene')
+      errors.add(:name, 'must be unique within a Feature')
     end
   end
 
   def editable_fields
     [
-      :gene_id,
+      :feature_id,
       :name,
       :variant_alias_ids,
       :hgvs_description_ids,

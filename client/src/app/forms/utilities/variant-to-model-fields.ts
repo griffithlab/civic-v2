@@ -29,7 +29,7 @@ export function variantToModelFields(
     stop2: variant.secondaryCoordinates?.stop,
     representativeTranscript2:
       variant.secondaryCoordinates?.representativeTranscript,
-    geneId: variant.gene.id,
+    featureId: variant.feature.id,
     referenceBases: variant.referenceBases,
     variantBases: variant.variantBases,
   }
@@ -40,7 +40,7 @@ export function variantFormModelToReviseInput(
   model: VariantReviseModel
 ): Maybe<SuggestVariantRevisionInput> {
   const fields = model.fields
-  if (!model.comment || !fields.name || !fields.geneId) {
+  if (!model.comment || !fields.name || !fields.featureId) {
     return undefined
   }
 
@@ -68,7 +68,7 @@ export function variantFormModelToReviseInput(
         stop: fields.stop2 ? +fields.stop2 : undefined,
         representativeTranscript: fields.representativeTranscript2,
       },
-      geneId: fields.geneId,
+      featureId: fields.featureId,
       referenceBases: fmt.toNullableString(fields.referenceBases),
       variantBases: fmt.toNullableString(fields.variantBases),
     },

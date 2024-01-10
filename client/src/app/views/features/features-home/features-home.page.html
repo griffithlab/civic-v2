@@ -1,0 +1,73 @@
+<cvc-section-navigation> </cvc-section-navigation>
+<nz-page-header class="site-page-header">
+  <!--content-->
+  <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col
+        nzFlex="64px"
+        class="header-icon">
+        <i
+          nz-icon
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Feature' | entityColor"
+          nzType="civic-feature"></i>
+      </nz-col>
+      <nz-col
+        nzFlex="0 1 600px"
+        class="header-description">
+        <h2>Features</h2>
+        <p
+          nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
+          CIViC Features include a feature-level summary, a link to the Drug
+          Gene Interation Database, and extensive gene details from MyGene.info.
+        </p>
+      </nz-col>
+      <nz-col
+        nzFlex="auto"
+        class="header-links">
+        <nz-space
+          nzDirection="vertical"
+          class="docs-buttons">
+          <a
+            nz-button
+            href="https://civic.readthedocs.io/en/latest/model/genes.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Gene Model Docs
+          </a>
+          <a
+            nz-button
+            href="https://civic.readthedocs.io/en/latest/curating/genes.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i
+              nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Gene Curation Docs
+          </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="content">
+          <cvc-features-table
+            cvcTitle="Browse All Features"></cvc-features-table>
+        </div>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>

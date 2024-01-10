@@ -815,8 +815,8 @@ type BrowseDisease {
   displayName: String!
   doid: String
   evidenceItemCount: Int!
-  geneCount: Int!
-  geneNames: [String!]!
+  featureCount: Int!
+  features: [LinkableFeature!]!
   id: Int!
   link: String!
   name: String!
@@ -878,12 +878,12 @@ type BrowseDiseaseEdge {
   node: BrowseDisease
 }
 
-type BrowseGene implements Flaggable {
+type BrowseFeature implements Flaggable {
   assertionCount: Int!
   description: String!
   diseases: [Disease!]
-  entrezId: Int!
   evidenceItemCount: Int!
+  featureAliases: [String!]
   flagged: Boolean!
 
   """
@@ -930,7 +930,6 @@ type BrowseGene implements Flaggable {
     """
     state: FlagState
   ): FlagConnection!
-  geneAliases: [String!]
   id: Int!
   link: String!
   molecularProfileCount: Int!
@@ -940,13 +939,13 @@ type BrowseGene implements Flaggable {
 }
 
 """
-The connection type for BrowseGene.
+The connection type for BrowseFeature.
 """
-type BrowseGeneConnection {
+type BrowseFeatureConnection {
   """
   A list of edges.
   """
-  edges: [BrowseGeneEdge!]!
+  edges: [BrowseFeatureEdge!]!
 
   """
   The total number of records in this set.
@@ -961,7 +960,7 @@ type BrowseGeneConnection {
   """
   A list of nodes.
   """
-  nodes: [BrowseGene!]!
+  nodes: [BrowseFeature!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -982,7 +981,7 @@ type BrowseGeneConnection {
 """
 An edge in a connection.
 """
-type BrowseGeneEdge {
+type BrowseFeatureEdge {
   """
   A cursor for use in pagination.
   """
@@ -991,7 +990,7 @@ type BrowseGeneEdge {
   """
   The item at the end of the edge.
   """
-  node: BrowseGene
+  node: BrowseFeature
 }
 
 type BrowseMolecularProfile {
@@ -999,7 +998,7 @@ type BrowseMolecularProfile {
   assertionCount: Int!
   diseases: [LinkableDisease!]!
   evidenceItemCount: Int!
-  genes: [LinkableGene!]!
+  features: [LinkableFeature!]!
   id: Int!
   link: String!
   molecularProfileScore: Float!
@@ -1270,9 +1269,9 @@ type BrowseTherapyEdge {
 type BrowseVariant {
   aliases: [VariantAlias!]!
   diseases: [Disease!]!
-  geneId: Int!
-  geneLink: String!
-  geneName: String!
+  featureId: Int!
+  featureLink: String!
+  featureName: String!
   id: Int!
   link: String!
   name: String!
@@ -1472,7 +1471,7 @@ type CivicTimepointStats {
   comments: TimePointCounts!
   diseases: TimePointCounts!
   evidenceItems: TimePointCounts!
-  genes: TimePointCounts!
+  features: TimePointCounts!
   molecularProfiles: TimePointCounts!
   revisions: TimePointCounts!
   sources: TimePointCounts!
@@ -1653,6 +1652,7 @@ type CommentTagSegment {
   deprecated: Boolean
   displayName: String!
   entityId: Int!
+  feature: LinkableFeature
   link: String!
   revisionSetId: Int
   status: EvidenceStatus
@@ -1725,7 +1725,7 @@ interface Commentable {
 enum CommentableEntities {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   SOURCE
   VARIANT
@@ -1860,9 +1860,9 @@ input CreateVariantInput {
   clientMutationId: String
 
   """
-  The CIViC ID of the Gene to which the new variant belongs.
+  The CIViC ID of the Feature to which the new variant belongs.
   """
-  geneId: Int!
+  featureId: Int!
 
   """
   The name of the variant to create.
@@ -2100,7 +2100,7 @@ enum DiseasesSortColumns {
   ASSERTION_COUNT
   DOID
   EVIDENCE_ITEM_COUNT
-  GENE_COUNT
+  FEATURE_COUNT
   NAME
   VARIANT_COUNT
 }
@@ -2796,6 +2796,263 @@ type FdaCode {
   description: String!
 }
 
+"""
+The Feature that a Variant can belong to
+"""
+type Feature implements Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
+  description: String!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  featureAliases: [String!]!
+  featureInstance: FeatureInstance!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  fullName: String
+  id: Int!
+  lastAcceptedRevisionEvent: Event
+  lastCommentEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
+  name: String!
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionSetId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
+  sources: [Source!]!
+
+  """
+  List and filter variants.
+  """
+  variants(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Left anchored filtering for variant name and aliases.
+    """
+    name: String
+  ): VariantConnection!
+}
+
+"""
+The specific type of a feature instance
+"""
+union FeatureInstance = Gene
+
+enum FeatureInstanceTypes {
+  GENE
+}
+
+input FeaturesSort {
+  """
+  Available columns for sorting
+  """
+  column: FeaturesSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum FeaturesSortColumns {
+  assertionCount
+  diseaseName
+  evidenceItemCount
+  featureAlias
+  featureName
+  molecularProfileCount
+  therapyName
+  variantCount
+}
+
 type FieldName {
   """
   The user facing representation of the field name.
@@ -3092,7 +3349,7 @@ Enumeration of all entities in CIViC that can be flagged.
 enum FlaggableEntities {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   VARIANT
   VARIANT_GROUP
@@ -3113,6 +3370,9 @@ input FlaggableInput {
   id: Int!
 }
 
+"""
+The Feature that a Variant can belong to
+"""
 type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
   """
   List and filter comments.
@@ -3198,6 +3458,8 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     """
     sortBy: DateSort
   ): EventConnection!
+  featureAliases: [String!]!
+  featureInstance: FeatureInstance!
   flagged: Boolean!
 
   """
@@ -3244,7 +3506,7 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     """
     state: FlagState
   ): FlagConnection!
-  geneAliases: [String!]!
+  fullName: String
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -3252,7 +3514,6 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
   link: String!
   myGeneInfoDetails: JSON
   name: String!
-  officialName: String!
 
   """
   List and filter revisions.
@@ -3406,29 +3667,6 @@ input GeneSearchFilter {
   id: IntSearchInput
   openRevisionCount: IntSearchInput
   subFilters: [GeneSearchFilter!]
-}
-
-input GenesSort {
-  """
-  Available columns for sorting
-  """
-  column: GenesSortColumns!
-
-  """
-  Sort direction
-  """
-  direction: SortDirection!
-}
-
-enum GenesSortColumns {
-  assertionCount
-  diseaseName
-  entrezSymbol
-  evidenceItemCount
-  geneAlias
-  molecularProfileCount
-  therapyName
-  variantCount
 }
 
 """
@@ -3711,7 +3949,7 @@ type LinkableDisease {
   name: String!
 }
 
-type LinkableGene {
+type LinkableFeature {
   id: Int!
   link: String!
   name: String!
@@ -3724,6 +3962,8 @@ type LinkableTherapy {
 }
 
 type LinkableVariant {
+  deprecated: Boolean
+  feature: LinkableFeature
   id: Int!
   link: String!
   name: String!
@@ -3858,7 +4098,7 @@ Enumeration of all moderated CIViC entities.
 enum ModeratedEntities {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   VARIANT
   VARIANT_GROUP
@@ -3891,9 +4131,11 @@ input ModeratedInput {
 
 type ModeratedObjectField {
   deleted: Boolean!
+  deprecated: Boolean
   displayName: String
   displayType: String
   entityType: String!
+  feature: LinkableFeature
   id: Int!
   link: String
 }
@@ -4313,7 +4555,7 @@ type MolecularProfileNamePreview {
 A segment of a molecular profile. Either a string representing a boolean
 operator or a tag component representing a gene or variant
 """
-union MolecularProfileSegment = Gene | MolecularProfileTextSegment | Variant
+union MolecularProfileSegment = Feature | MolecularProfileTextSegment | Variant
 
 type MolecularProfileTextSegment {
   text: String!
@@ -4560,7 +4802,7 @@ type Mutation {
   ): SuggestEvidenceItemRevisionPayload
 
   """
-  Suggest a Revision to a Gene entity.
+  Suggest a Revision to a Feature entity of instance type "Gene".
   """
   suggestGeneRevision(
     """
@@ -5478,12 +5720,12 @@ type Query {
     """
     before: String
     doid: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
-    geneNames: String
     id: Int
 
     """
@@ -5493,7 +5735,7 @@ type Query {
     name: String
     sortBy: DiseasesSort
   ): BrowseDiseaseConnection!
-  browseGenes(
+  browseFeatures(
     """
     Returns the elements in the list that come after the specified cursor.
     """
@@ -5504,22 +5746,22 @@ type Query {
     """
     before: String
     diseaseName: String
-    entrezSymbol: String
+    featureAlias: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
-    geneAlias: String
 
     """
     Returns the last _n_ elements from the list.
     """
     last: Int
     searchScope: GeneSearchFilter
-    sortBy: GenesSort
+    sortBy: FeaturesSort
     therapyName: String
-  ): BrowseGeneConnection!
+  ): BrowseFeatureConnection!
   browseMolecularProfiles(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -5531,7 +5773,7 @@ type Query {
     """
     before: String
     diseaseName: String
-    entrezSymbol: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.
@@ -5616,7 +5858,7 @@ type Query {
     """
     before: String
     diseaseName: String
-    entrezSymbol: String
+    featureName: String
 
     """
     Returns the first _n_ elements from the list.
@@ -5971,6 +6213,16 @@ type Query {
   ): EvidenceItemConnection!
 
   """
+  Find a single feature by CIViC ID
+  """
+  feature(id: Int): Feature
+
+  """
+  Retrieve Features of a specific instance type for a search term.
+  """
+  featureTypeahead(featureType: FeatureInstanceTypes, queryTerm: String!): [Feature!]!
+
+  """
   Find a flag by CIViC ID
   """
   flag(id: Int!): Flag
@@ -6025,11 +6277,6 @@ type Query {
   Find a single gene by CIViC ID or Entrez symbol
   """
   gene(entrezSymbol: String, id: Int): Gene
-
-  """
-  Retrieve gene typeahead fields for a search term.
-  """
-  geneTypeahead(queryTerm: String!): [Gene!]!
 
   """
   List and filter genes.
@@ -6094,6 +6341,11 @@ type Query {
     Limit molecular profiles by the status of attached evidence.
     """
     evidenceStatusFilter: MolecularProfileDisplayFilter
+
+    """
+    Filter molecular profiles to the CIViC ID of the feature(s) involved.
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.
@@ -6570,11 +6822,6 @@ type Query {
     first: Int
 
     """
-    Gene that variant groups are associated with.
-    """
-    geneId: Int
-
-    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -6608,6 +6855,11 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+
+    """
+    Filter variant types by internal CIViC id a feature
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.
@@ -6665,14 +6917,14 @@ type Query {
     before: String
 
     """
+    Feature that the variants are associated with.
+    """
+    featureId: Int
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
-
-    """
-    Gene that variants are associated with.
-    """
-    geneId: Int
 
     """
     Return Variants lacking an assigned VariantType
@@ -7691,7 +7943,7 @@ Enumeration of all subscribable CIViC entities.
 enum SubscribableEntities {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   REVISION
   SOURCE_SUGGESTION
@@ -7912,7 +8164,7 @@ input SuggestGeneRevisionInput {
   fields: GeneFields!
 
   """
-  The ID of the Gene to suggest a Revision to.
+  The ID of the Feature of instance type "Gene" to suggest a Revision to.
   """
   id: Int!
 
@@ -8206,7 +8458,7 @@ type SuggestVariantRevisionPayload {
 enum TaggableEntity {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   REVISION
   ROLE
@@ -8810,6 +9062,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     sortBy: DateSort
   ): EventConnection!
+  feature: Feature!
   flagged: Boolean!
 
   """
@@ -8856,7 +9109,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     state: FlagState
   ): FlagConnection!
-  gene: Gene!
   hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
@@ -9039,9 +9291,9 @@ input VariantFields {
   ensemblVersion: NullableIntInput!
 
   """
-  The ID of the Gene this Variant corresponds to.
+  The ID of the Feature this Variant corresponds to.
   """
-  geneId: Int!
+  featureId: Int!
 
   """
   List of HGVS descriptions for the Variant.
@@ -9471,7 +9723,7 @@ input VariantsSort {
 
 enum VariantsSortColumns {
   diseaseName
-  entrezSymbol
+  featureName
   therapyName
   variantName
 }

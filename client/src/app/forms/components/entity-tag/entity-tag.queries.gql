@@ -21,3 +21,11 @@ query LinkableTherapy($therapyId: Int!) {
     link
   }
 }
+
+query LinkableFeature($featureId: Int!) {
+  feature(id: $featureId) {
+    id
+    name
+    link
+  }
+}

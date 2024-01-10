@@ -43,6 +43,11 @@ class Resolvers::TopLevelMolecularProfiles < GraphQL::Schema::Resolver
       .where('genes.id = ?', value)
   end
 
+  option(:feature_id, type: Int, description: "Filter molecular profiles to the CIViC ID of the feature(s) involved.") do |scope, value|
+    scope.joins(variants: [:feature])
+      .where('features.id = ?', value)
+  end
+
   option(:variant_id, type: Int, description: 'Filter molecular profiles by the CIViC ID of an involved variant.') do |scope, value|
     scope.joins(:variants).where('variants.id = ?', value)
   end

@@ -14,7 +14,7 @@ module Types
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
-    field :browseGenes, resolver: Resolvers::BrowseGenes
+    field :browseFeatures, resolver: Resolvers::BrowseFeatures
     field :browseVariants, resolver: Resolvers::BrowseVariants
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
@@ -57,6 +57,11 @@ module Types
       description "Find a single gene by CIViC ID or Entrez symbol"
       argument :id, Int, required: false
       argument :entrez_symbol, String, required: false
+    end
+
+    field :feature, Types::Entities::FeatureType, null: true do
+      description "Find a single feature by CIViC ID"
+      argument :id, Int, required: false
     end
 
     field :variant, Types::Entities::VariantType, null: true do
@@ -206,10 +211,14 @@ module Types
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
       end
       if (id != :unspecified) 
-        Gene.find_by(id: id)
+        Features::Gene.find_by(id: id)
       else
-        Gene.find_by(name: entrez_symbol)
+        Features::Gene.find_by(name: entrez_symbol)
       end
+    end
+
+    def feature(id: )
+      Feature.find_by(id: id)
     end
 
     def variant(id: )

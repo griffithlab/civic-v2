@@ -9,7 +9,7 @@ fragment variantPopoverFields on Variant {
   name
   variantAliases
   alleleRegistryId
-  gene {
+  feature {
     id
     name
     link

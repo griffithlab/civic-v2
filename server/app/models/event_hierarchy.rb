@@ -23,10 +23,9 @@ class EventHierarchy
       @hierarchy
     else
       hierarchy = {
-        Gene => {
+        Feature => {
           children: [
             :variants,
-            :assertions
           ],
           direct_relations: [
             :revisions,

@@ -86,6 +86,8 @@ module Types::Revisions
           display_name: obj.display_name,
           display_type: obj.respond_to?(:display_type) ? obj.display_type : nil,
           link: obj.respond_to?(:link) ? obj.link : "",
+          deprecated: obj.respond_to?(:deprecated) ? obj.deprecated : nil,
+          feature: obj.respond_to?(:feature) ? obj.feature : nil,
           deleted: false
         }
       end
@@ -100,6 +102,8 @@ module Types::Revisions
               display_name: nil,
               display_type: nil,
               link: nil,
+              deprecated: nil,
+              feature: nil,
               deleted: true
             }
           end

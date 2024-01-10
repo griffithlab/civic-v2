@@ -10,7 +10,7 @@ import {
   SortDirection,
   VariantConnection,
   MenuVariantTypeFragment,
-  VariantTypesForGeneGQL,
+  VariantTypesForFeatureGQL,
 } from '@app/generated/civic.apollo'
 import { map, debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators'
 import { Observable, Observer, Subject } from 'rxjs'
@@ -27,8 +27,8 @@ import { getEntityColor } from '@app/core/utilities/get-entity-color'
   styleUrls: ['./variants-menu.component.less'],
 })
 export class CvcVariantsMenuComponent implements OnInit {
-  @Input() geneId?: number
-  @Input() geneName?: string
+  @Input() featureId?: number
+  @Input() featureName?: string
 
 
   menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
@@ -52,15 +52,15 @@ export class CvcVariantsMenuComponent implements OnInit {
   iconColor = getEntityColor('VariantType')
 
 
-  constructor(private gql: VariantsMenuGQL, private variantTypeGql: VariantTypesForGeneGQL) { }
+  constructor(private gql: VariantsMenuGQL, private variantTypeGql: VariantTypesForFeatureGQL) { }
 
   ngOnInit() {
-    if (this.geneId === undefined) {
-      throw new Error('Must pass a gene id into variant menu component.')
+    if (this.featureId === undefined) {
+      throw new Error('Must pass a feature id into variant menu component.')
     }
 
     this.initialQueryVars = {
-      geneId: this.geneId,
+      featureId: this.featureId,
       first: this.pageSize,
     }
 
@@ -94,7 +94,7 @@ export class CvcVariantsMenuComponent implements OnInit {
       .subscribe((_) => this.refresh());
 
     this.menuVariantTypes$ = this.variantTypeGql
-      .watch({geneId: this.geneId})
+      .watch({featureId: this.featureId})
       .valueChanges
       .pipe(
         map(c => c.data?.variantTypes.edges?.map((e) => e.node)),
@@ -121,12 +121,12 @@ export class CvcVariantsMenuComponent implements OnInit {
   }
 
   refresh() {
-    if (this.geneId === undefined) {
+    if (this.featureId === undefined) {
       throw new Error('Must pass a gene id into variant menu component.')
     }
 
     this.queryRef$.refetch({
-      geneId: this.geneId,
+      featureId: this.featureId,
       variantName: this.variantNameFilter,
       hasNoVariantType: this.hasNoVariantType,
       variantTypeIds: this.variantTypeFilter?.map(vt => vt.id),

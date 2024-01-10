@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get '/links' => 'links#redirect'
   get 'links/:idtype/:id' => 'links#redirect'
+  get '/genes/:id' => 'links#redirect_legacy_gene_id'
 
   mount GraphiQL::Rails::Engine, at: "/api/graphiql", graphql_path: "/api/graphql"
 

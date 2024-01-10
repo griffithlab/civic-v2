@@ -17,7 +17,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { MolecularProfilesSummaryPage } from './molecular-profiles-summary.page'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcMolecularProfileVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-variant-card/molecular-profile-variant-card.module'
@@ -43,7 +42,6 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
     CvcTagListModule,
     CvcUserTagModule,
     CvcSourceTagModule,
-    CvcGeneTagModule,
     CvcVariantTypeTagModule,
     CvcLinkTagModule,
     CvcEmptyRevisableModule,

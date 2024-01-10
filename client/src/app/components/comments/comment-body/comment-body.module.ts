@@ -6,12 +6,13 @@ import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-ta
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [CvcCommentBodyComponent],
@@ -25,10 +26,11 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     CvcEvidenceTagModule,
     CvcVariantTagModule,
     CvcVariantGroupTagModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcUserTagModule,
     CvcOrganizationTagModule,
     CvcMolecularProfileTagModule,
+    CvcFeatureVariantTagModule
   ],
   exports: [CvcCommentBodyComponent],
 })

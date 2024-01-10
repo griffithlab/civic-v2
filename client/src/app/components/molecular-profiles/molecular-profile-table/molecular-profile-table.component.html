@@ -55,7 +55,7 @@
           Aliases
         </th>
         <th nzWidth="150px">
-          Genes
+          Features
         </th>
         <th nzWidth="200px">
           Variants
@@ -138,7 +138,7 @@
         </th>
         <th nzWidth="150px">
           <cvc-clearable-input-filter
-            [(inputModel)]="geneSymbolInput"
+            [(inputModel)]="featureNameInput"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
@@ -198,10 +198,10 @@
           </td>
           <td>
             <cvc-tag-overflow
-              tagType="gene"
-              [tags]="mp.genes"
+              tagType="feature"
+              [tags]="mp.features"
               [maxDisplayCount]="1"
-              [matchingText]="geneSymbolInput"></cvc-tag-overflow>
+              [matchingText]="featureNameInput"></cvc-tag-overflow>
           </td>
           <td>
             <cvc-tag-overflow

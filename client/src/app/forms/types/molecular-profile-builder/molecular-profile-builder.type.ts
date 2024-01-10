@@ -23,8 +23,8 @@ export class CvcMolecularProfileBuilderType
     },
     fieldGroup: [
       {
-        key: 'geneId',
-        type: 'gene-select',
+        key: 'featureId',
+        type: 'feature-select',
         props: {
           required: true,
           formLayout: 'inline',
@@ -46,7 +46,7 @@ export class CvcMolecularProfileBuilderType
         type: 'variant-select',
         props: {
           required: true,
-          requireGene: true,
+          requireFeature: true,
           emitMolecularProfileId: true,
           formLayout: 'inline',
           hideLabel: true,

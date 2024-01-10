@@ -15,17 +15,17 @@ import {
   PageInfo,
   VariantDetailGQL,
   AssertionDetailGQL,
-  GeneDetailGQL,
   EvidenceDetailGQL,
   VariantGroupDetailGQL,
   VariantSummaryGQL,
   VariantGroupsSummaryGQL,
   AssertionSummaryGQL,
-  GenesSummaryGQL,
   EvidenceSummaryGQL,
   MolecularProfileDetailGQL,
   MolecularProfileSummaryGQL,
   Revision,
+  FeatureDetailGQL,
+  FeaturesSummaryGQL,
 } from '@app/generated/civic.apollo'
 import { Observable, Subscription } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
@@ -98,8 +98,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     private variantGroupSummaryGql: VariantGroupsSummaryGQL,
     private assertionDetailGql: AssertionDetailGQL,
     private assertionSummaryGql: AssertionSummaryGQL,
-    private geneDetailGql: GeneDetailGQL,
-    private geneSummaryGql: GenesSummaryGQL,
+    private featureDetailGql: FeatureDetailGQL,
+    private featureSummaryGql: FeaturesSummaryGQL,
     private evidenceDetailGql: EvidenceDetailGQL,
     private evidenceSummaryGql: EvidenceSummaryGQL,
     private molecularProfileDetailGql: MolecularProfileDetailGQL,
@@ -201,14 +201,14 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
           variables: { evidenceId: this.id },
         })
         return
-      case ModeratedEntities.Gene:
+      case ModeratedEntities.Feature:
         this.refetchQueries.push({
-          query: this.geneDetailGql.document,
-          variables: { geneId: this.id },
+          query: this.featureDetailGql.document,
+          variables: { featureId: this.id },
         })
         this.refetchQueries.push({
-          query: this.geneSummaryGql.document,
-          variables: { geneId: this.id },
+          query: this.featureSummaryGql.document,
+          variables: { featureId: this.id },
         })
         return
       case ModeratedEntities.VariantGroup:
