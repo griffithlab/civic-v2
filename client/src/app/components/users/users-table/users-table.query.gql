@@ -48,5 +48,5 @@ fragment UserBrowseTableRowFields on User {
     revisions
   }
   profileImagePath(size: 64)
-  mostRecentActionTimestamp
+  mostRecentActivityTimestamp
 }

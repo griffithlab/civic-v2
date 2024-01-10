@@ -41,7 +41,7 @@ class Resolvers::TopLevelUsers < GraphQL::Schema::Resolver
     when 'ROLE'
       scope.reorder("users.role #{value.direction}")
     when 'LAST_ACTION'
-      scope.reorder("users.most_recent_action_timestamp #{value.direction} NULLS LAST")
+      scope.reorder("users.most_recent_activity_timestamp #{value.direction} NULLS LAST")
     end
   end
 end
