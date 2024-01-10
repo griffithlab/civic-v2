@@ -18,6 +18,7 @@ module Activities
       link_activity
       set_verbiage
       after_completed
+      update_timestamps
     end
 
     def create_activity
@@ -49,6 +50,16 @@ module Activities
 
     def after_completed
       #no op
+    end
+
+    def update_timestamps
+      activity.user.most_recent_activity_timestamp = activity.created_at
+      activity.user.save!(validate: false)
+
+      if activity.organization_id.present?
+        activity.organization.most_recent_activity_timestamp = activity.created_at
+        activity.organization.save!(validate: false)
+      end
     end
   end
 end
