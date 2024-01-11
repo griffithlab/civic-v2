@@ -128,50 +128,50 @@
     ora "5.4.1"
     rxjs "7.8.1"
 
-"@angular-eslint/bundled-angular-compiler@16.1.0":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/bundled-angular-compiler/-/bundled-angular-compiler-16.1.0.tgz#59fd1ff6423b02d6fa7eeb9ea30581a839471f2c"
-  integrity sha512-5EFAWXuFJADr3imo/ZYshY8s0K7U7wyysnE2LXnpT9PAi5rmkzt70UNZNRuamCbXr4tdIiu+fXWOj7tUuJKnnw==
+"@angular-eslint/bundled-angular-compiler@16.1.2":
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/bundled-angular-compiler/-/bundled-angular-compiler-16.1.2.tgz#85a4b185bfc4728bd2bd8b566ab0b473c34ee87a"
+  integrity sha512-wDiHPFsKTijMcQUPNcoHOJ5kezIPCCbmDK6LHH7hAdAC/eDY9NHL5e4zQ2Xkf3/r1PFuwVLGTwwreEHlmeENDw==
 
-"@angular-eslint/eslint-plugin-template@16.1.0":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-16.1.0.tgz#3d88fba2baff4debf2d332fc3d2eea53a32b4efe"
-  integrity sha512-wQHWR5vqWGgO7mqoG5ixXeplIlz/OmxBJE9QMLPTZE8GdaTx8+F/5J37OWh84zCpD3mOa/FHYZxBDm2MfUmA1Q==
+"@angular-eslint/eslint-plugin-template@16.1.2":
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-16.1.2.tgz#64fc98b3305707c630dfb473dce0630ed0fb602f"
+  integrity sha512-2qsoUgPg9Qp4EVUJRwWcJ+8JMxBb0ma3pNBjFmY6LOd59igRYorJKfWep4Nln1EicYRDRsCLzeLHO976+b1yaQ==
   dependencies:
-    "@angular-eslint/bundled-angular-compiler" "16.1.0"
-    "@angular-eslint/utils" "16.1.0"
+    "@angular-eslint/bundled-angular-compiler" "16.1.2"
+    "@angular-eslint/utils" "16.1.2"
     "@typescript-eslint/type-utils" "5.62.0"
     "@typescript-eslint/utils" "5.62.0"
     aria-query "5.3.0"
     axobject-query "3.1.1"
 
-"@angular-eslint/eslint-plugin@16.1.0":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-16.1.0.tgz#23492eaad1d44dd90793cf0534c7177a028af226"
-  integrity sha512-BFzzJJlgQgWc8avdSBkaDWAzNSUqcwWy0L1iZSBdXGoIOxj72kLbwe99emb8M+rUfCveljQkeM2pcYu8XLbJIA==
+"@angular-eslint/eslint-plugin@16.1.2":
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-16.1.2.tgz#215037d73f0edd6e8d9c6740a4465a91db46a676"
+  integrity sha512-lYVvoKUIOg/ez15yfN4zY2A++vnIeJe1xh2ADNTmmjSh2PFV24K9YOgrTbgrY3Ul9kzGDTBkvYqslq+IvMGdIw==
   dependencies:
-    "@angular-eslint/utils" "16.1.0"
+    "@angular-eslint/utils" "16.1.2"
     "@typescript-eslint/utils" "5.62.0"
 
-"@angular-eslint/schematics@^16.1.0":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-16.1.0.tgz#ea6c7634fc781ff49217ffd0e391b3ee2c40be50"
-  integrity sha512-L1tmP3R2krHyveaRXAvn/SeDoBFNpS1VtPPrzZm1NYr1qPcAxf3NtG2nnoyVFu6WZGt59ZGHNQ/dZxnXvm0UGg==
+"@angular-eslint/schematics@^16.1.2":
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-16.1.2.tgz#97763cad56d06601d9fa592bb5836b9cf20cc431"
+  integrity sha512-319i47NU6nfaAaQTQYN7k320proTIBCueWGt+fbT11210CMqQriFmD+B85AatCwQgMgLd8Rhs1/F7YL2OOhegA==
   dependencies:
-    "@angular-eslint/eslint-plugin" "16.1.0"
-    "@angular-eslint/eslint-plugin-template" "16.1.0"
+    "@angular-eslint/eslint-plugin" "16.1.2"
+    "@angular-eslint/eslint-plugin-template" "16.1.2"
     "@nx/devkit" "16.5.1"
     ignore "5.2.4"
     nx "16.5.1"
     strip-json-comments "3.1.1"
     tmp "0.2.1"
 
-"@angular-eslint/utils@16.1.0":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/utils/-/utils-16.1.0.tgz#46e6aafc8b4ca0f6e86cca9ec36f61034f984974"
-  integrity sha512-u5XscYUq1F/7RuwyVIV2a280QL27lyQz434VYR+Np/oO21NGj5jxoRKb55xhXT9EFVs5Sy4JYeEUp6S75J/cUw==
+"@angular-eslint/utils@16.1.2":
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/utils/-/utils-16.1.2.tgz#d3cde7f9ade8f58d616c7370ab6795a589c77dde"
+  integrity sha512-2yfEK3BPSJsUhP4JCz0EB6ktu4E4+/zc9qdtZvPWNF/eww2J/oYVPjY47C/HVg4MXpjJTI8vbdkvcnxrICIkfw==
   dependencies:
-    "@angular-eslint/bundled-angular-compiler" "16.1.0"
+    "@angular-eslint/bundled-angular-compiler" "16.1.2"
     "@typescript-eslint/utils" "5.62.0"
 
 "@angular/animations@^16.1.5":
@@ -9147,10 +9147,15 @@ typed-assert@^1.0.8:
   resolved "https://registry.yarnpkg.com/typed-assert/-/typed-assert-1.0.9.tgz#8af9d4f93432c4970ec717e3006f33f135b06213"
   integrity sha512-KNNZtayBCtmnNmbo5mG47p1XsCyrx6iVqomjcZnec/1Y5GGARaxPs6r49RnSPeUP3YjNYiU9sQHAtY4BBvnZwg==
 
+typescript@5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
+  integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
+
 typescript@^4.9.4:
-  version "4.9.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
-  integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
+  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
 typical@^4.0.0:
   version "4.0.0"
@@ -9781,9 +9786,9 @@ zen-observable@0.8.15:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
-zone.js@~0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.13.1.tgz#ea06f6a80ba8ac0c68e412365ae72e2cd0787982"
-  integrity sha512-+bIeDAFEBYuXRuU3qGQvzdPap+N1zjM4KkBAiiQuVVCrHrhjDuY6VkUhNa5+U27+9w0q3fbKiMCbpJ0XzMmSWA==
+zone.js@0.14.3:
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.14.3.tgz#ac01000f4eaeec5c06526f6c112ef7d36f426f78"
+  integrity sha512-jYoNqF046Q+JfcZSItRSt+oXFcpXL88yq7XAZjb/NKTS7w2hHpKjRJ3VlFD1k75wMaRRXNUt5vrZVlygiMyHbA==
   dependencies:
     tslib "^2.3.0"
