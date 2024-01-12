@@ -33886,7 +33886,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "GENE",
+              "name": "FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

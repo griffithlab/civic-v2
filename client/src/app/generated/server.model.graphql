@@ -7341,7 +7341,7 @@ type SearchResult {
 enum SearchableEntities {
   ASSERTION
   EVIDENCE_ITEM
-  GENE
+  FEATURE
   MOLECULAR_PROFILE
   REVISION
   VARIANT
