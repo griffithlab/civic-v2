@@ -11,6 +11,18 @@ class Feature < ApplicationRecord
 
   has_many :variants
 
+  searchkick highlight: [:name, :aliases, :feature_type], callbacks: :async
+  scope :search_import, -> { includes(:feature_aliases) }
+
+  def search_data
+    {
+      name: name,
+      aliases: feature_aliases.map(&:name),
+      feature_type: feature_instance_type.demodulize
+    }
+  end
+
+
   def link
     Rails.application.routes.url_helpers.url_for("/features/#{self.id}")
   end

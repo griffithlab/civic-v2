@@ -22,7 +22,7 @@ Features::Gene.find_each do |gene|
 
   feature.save!
 
-  Variants.where(gene_id: gene.id).find_each do |variant|
+  Variant.where(gene_id: gene.id).find_each do |variant|
     variant.feature = feature
     variant.save
   end

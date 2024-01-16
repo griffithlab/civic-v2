@@ -10,6 +10,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '../feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [CvcTagOverflowComponent],
@@ -24,6 +25,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcFeatureTagModule,
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
+    CvcFeatureVariantTagModule,
   ],
   exports: [CvcTagOverflowComponent],
 })

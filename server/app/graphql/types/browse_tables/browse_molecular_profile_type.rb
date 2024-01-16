@@ -8,8 +8,7 @@ module Types::BrowseTables
     field :name, String, null: false
     field :diseases, [Types::LinkableDisease], null: false
     field :therapies, [Types::LinkableTherapy], null: false
-    field :features, [Types::LinkableFeature], null: false
-    field :variants,[Types::LinkableVariant], null: false
+    field :variants, [Types::LinkableVariant], null: false
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
@@ -40,7 +39,16 @@ module Types::BrowseTables
     def variants
       Array(object.variants)
         .sort_by { |v| v['name'] }
-        .map { |v| { name: v['name'], id: v['id'], link: "/variants/#{v['id']}"} }
+        .map do |v|
+          feature = feature_for_id(v['feature_id'])
+          {
+            name: v['name'],
+            id: v['id'],
+            link: "/variants/#{v['id']}",
+            feature: feature,
+            match_text: "#{feature['name']} #{v['name']}"
+          }
+         end
     end
 
     def diseases
@@ -59,6 +67,15 @@ module Types::BrowseTables
       object.alias_names
         .compact
         .map { |d| { name: d } }
+    end
+
+    private
+    def feature_for_id(id)
+      @features ||= Array(object.features)
+      feature = @features.find { |f| f['id'] == id }
+      feature[:link] = Rails.application.routes.url_helpers.url_for("/features/#{feature['id']}")
+
+      feature
     end
   end
 end

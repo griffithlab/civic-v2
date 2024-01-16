@@ -16,6 +16,7 @@ module Types
 
   class LinkableVariant < LinkableTag
     field :deprecated, Boolean, null: true
+    field :match_text, String, null: true
     field :feature, LinkableFeature, null: true
   end
 end
