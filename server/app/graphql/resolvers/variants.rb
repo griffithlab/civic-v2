@@ -8,7 +8,7 @@ class Resolvers::Variants < GraphQL::Schema::Resolver
 
   description 'List and filter variants.'
 
-  scope { object.variants.order('variants.name ASC').distinct }
+  scope { object.variants.where(deprecated: false).order('variants.name ASC').distinct }
 
   option(:name, type: GraphQL::Types::String, description: 'Left anchored filtering for variant name and aliases.') do |scope, value|
     scope.left_joins(:variant_aliases)
