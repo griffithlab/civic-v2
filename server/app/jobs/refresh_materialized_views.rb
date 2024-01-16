@@ -5,7 +5,7 @@ class RefreshMaterializedViews < ApplicationJob
     to_refresh = if views == 'all'
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
-                     MaterializedViews::FeatureBrowseTableRow
+                     MaterializedViews::FeatureBrowseTableRow,
                      MaterializedViews::SourceBrowseTableRow,
                      MaterializedViews::VariantBrowseTableRow,
                      MaterializedViews::VariantGroupBrowseTableRow,
