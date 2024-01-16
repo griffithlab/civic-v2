@@ -54,15 +54,16 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
   aliases {
     name
   }
-  features {
-    id
-    name
-    link
-  }
   variants {
     id
     name
     link
+    matchText
+    feature {
+      id
+      link
+      name
+    }
   }
   therapies {
     id

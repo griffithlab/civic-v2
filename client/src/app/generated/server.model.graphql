@@ -998,7 +998,6 @@ type BrowseMolecularProfile {
   assertionCount: Int!
   diseases: [LinkableDisease!]!
   evidenceItemCount: Int!
-  features: [LinkableFeature!]!
   id: Int!
   link: String!
   molecularProfileScore: Float!
@@ -3966,6 +3965,7 @@ type LinkableVariant {
   feature: LinkableFeature
   id: Int!
   link: String!
+  matchText: String
   name: String!
 }
 
