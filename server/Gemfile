@@ -32,7 +32,7 @@ gem 'scenic', '~>1.5.4'
 gem 'net-ftp', '~>0.3.3'
 
 #higher performance json encoding
-gem 'oj', '~> 3.13.10'
+gem 'oj', '~> 3.16.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
