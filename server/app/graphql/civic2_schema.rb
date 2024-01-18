@@ -3,6 +3,8 @@ class Civic2Schema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
+  trace_with GoogleAnalyticsTracer, mode: :analytics
+
   use GraphQL::Batch
 
   # Union and Interface Resolution
