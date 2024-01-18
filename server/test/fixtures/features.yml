@@ -1,0 +1,8 @@
+braf:
+  name: BRAF
+  feature_instance: braf (Features::Gene)
+
+vhl:
+  name: VHL
+  feature_instance: vhl (Features::Gene)
+
