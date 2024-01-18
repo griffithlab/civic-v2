@@ -9,7 +9,7 @@ module Types::Entities
     field :org_stats_hash, Types::StatsType, null: false
     field :org_and_suborgs_stats_hash, Types::StatsType, null: false
     field :members, Types::Entities::UserType.connection_type, null: false
-    field :most_recent_event, Types::Entities::EventType, null: true
+    field :most_recent_activity_timestamp, GraphQL::Types::ISO8601DateTime, null: true
     field :member_count, Int, null: false
     field :event_count, Int, null: false
     field :ranks, Types::Entities::RanksType, null: false
@@ -27,10 +27,6 @@ module Types::Entities
 
     def events
       Loaders::AssociationLoader.for(Organization, :events).load(object)
-    end
-
-    def most_recent_event
-      Loaders::AssociationLoader.for(Organization, :most_recent_event).load(object)
     end
 
     def sub_groups

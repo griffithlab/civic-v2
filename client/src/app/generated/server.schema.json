@@ -17794,12 +17794,12 @@
               "deprecationReason": null
             },
             {
-              "name": "mostRecentEvent",
+              "name": "mostRecentActivityTimestamp",
               "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Event",
+                "kind": "SCALAR",
+                "name": "ISO8601DateTime",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -18336,7 +18336,7 @@
               "deprecationReason": null
             },
             {
-              "name": "mostRecentActionTimestamp",
+              "name": "mostRecentActivityTimestamp",
               "description": null,
               "args": [],
               "type": {
@@ -25237,12 +25237,12 @@
               "deprecationReason": null
             },
             {
-              "name": "mostRecentEvent",
+              "name": "mostRecentActivityTimestamp",
               "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Event",
+                "kind": "SCALAR",
+                "name": "ISO8601DateTime",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -40021,7 +40021,7 @@
               "deprecationReason": null
             },
             {
-              "name": "mostRecentActionTimestamp",
+              "name": "mostRecentActivityTimestamp",
               "description": null,
               "args": [],
               "type": {

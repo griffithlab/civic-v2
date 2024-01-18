@@ -44,9 +44,7 @@ fragment OrganizationBrowseTableRowFields on Organization {
     name
     id
   }
-  mostRecentEvent {
-    createdAt
-  }
+  mostRecentActivityTimestamp
   # orgStatsHash @include(if: $cardView) {
   #   comments
   #   revisions

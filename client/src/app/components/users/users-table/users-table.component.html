@@ -176,8 +176,8 @@
           </td>
           <td nzAlign="right">
             <ng-container
-              *ngIf="user.mostRecentActionTimestamp; else eventElse">
-              {{ user.mostRecentActionTimestamp | timeAgo }}
+              *ngIf="user.mostRecentActivityTimestamp; else eventElse">
+              {{ user.mostRecentActivityTimestamp | timeAgo }}
             </ng-container>
             <ng-template #eventElse> -- </ng-template>
           </td>

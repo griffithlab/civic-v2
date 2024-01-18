@@ -2234,7 +2234,7 @@ export type LeaderboardOrganization = {
   id: Scalars['Int'];
   memberCount: Scalars['Int'];
   members: UserConnection;
-  mostRecentEvent?: Maybe<Event>;
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
   name: Scalars['String'];
   orgAndSuborgsStatsHash: Stats;
   orgStatsHash: Stats;
@@ -2308,7 +2308,7 @@ export type LeaderboardUser = {
   facebookProfile?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
-  mostRecentActionTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
   mostRecentEvent?: Maybe<Event>;
   mostRecentOrganizationId?: Maybe<Scalars['Int']>;
@@ -3276,7 +3276,7 @@ export type Organization = {
   id: Scalars['Int'];
   memberCount: Scalars['Int'];
   members: UserConnection;
-  mostRecentEvent?: Maybe<Event>;
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
   name: Scalars['String'];
   orgAndSuborgsStatsHash: Stats;
   orgStatsHash: Stats;
@@ -5388,7 +5388,7 @@ export type User = {
   facebookProfile?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
-  mostRecentActionTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
   mostRecentEvent?: Maybe<Event>;
   mostRecentOrg?: Maybe<Organization>;
@@ -6396,9 +6396,9 @@ export type OrganizationsBrowseQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'OrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'OrganizationEdge', cursor: string, node?: { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, subGroups: Array<{ __typename: 'Organization', name: string, id: number }>, mostRecentEvent?: { __typename: 'Event', createdAt: any } | undefined } | undefined }> } };
+export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'OrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'OrganizationEdge', cursor: string, node?: { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, mostRecentActivityTimestamp?: any | undefined, subGroups: Array<{ __typename: 'Organization', name: string, id: number }> } | undefined }> } };
 
-export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, subGroups: Array<{ __typename: 'Organization', name: string, id: number }>, mostRecentEvent?: { __typename: 'Event', createdAt: any } | undefined };
+export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, mostRecentActivityTimestamp?: any | undefined, subGroups: Array<{ __typename: 'Organization', name: string, id: number }> };
 
 export type PhenotypePopoverQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -6660,9 +6660,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActionTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -8485,9 +8485,7 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
     name
     id
   }
-  mostRecentEvent {
-    createdAt
-  }
+  mostRecentActivityTimestamp
 }
     `;
 export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
@@ -8811,7 +8809,7 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
     revisions
   }
   profileImagePath(size: 64)
-  mostRecentActionTimestamp
+  mostRecentActivityTimestamp
 }
     `;
 export const VariantGroupPopoverFieldsFragmentDoc = gql`

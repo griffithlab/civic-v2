@@ -12,7 +12,6 @@ class Event < ActiveRecord::Base
   validate :subject_is_subscribable
 
   before_create :capture_user_role
-  after_create :update_user_timestamp
 
   after_commit :queue_feed_updates, on: [:create]
   after_commit :update_most_recent_org, on: [:create]
@@ -21,11 +20,6 @@ class Event < ActiveRecord::Base
 
   def capture_user_role
     self.user_role = self.originating_user.role
-  end
-
-  def update_user_timestamp
-    self.originating_user.most_recent_action_timestamp = self.created_at
-    self.originating_user.save
   end
 
   private

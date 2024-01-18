@@ -1,4 +1,4 @@
-import { Injectable, Pipe } from '@angular/core'
+import { Pipe } from '@angular/core'
 
 const SECONDS_IN_MINUTE = 60
 const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
@@ -24,14 +24,16 @@ const withYearFormatter = new Intl.DateTimeFormat('en-US', withYearOptions)
 
 @Pipe({
   name: 'timeAgo',
-  pure: true
+  pure: true,
 })
 export class CivicTimeagoFormatter {
   transform(input: number | string): string {
+    if (!input) return '--'
+
     let then: number
-    if (typeof input =='number') {
+    if (typeof input == 'number') {
       then = input
-    }  else {
+    } else {
       then = Date.parse(input)
     }
 

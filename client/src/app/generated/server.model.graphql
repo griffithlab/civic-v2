@@ -3743,7 +3743,7 @@ type LeaderboardOrganization {
     """
     last: Int
   ): UserConnection!
-  mostRecentEvent: Event
+  mostRecentActivityTimestamp: ISO8601DateTime
   name: String!
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
@@ -3835,7 +3835,7 @@ type LeaderboardUser {
   facebookProfile: String
   id: Int!
   linkedinProfile: String
-  mostRecentActionTimestamp: ISO8601DateTime
+  mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
   mostRecentEvent: Event
   mostRecentOrganizationId: Int
@@ -5286,7 +5286,7 @@ type Organization {
     """
     last: Int
   ): UserConnection!
-  mostRecentEvent: Event
+  mostRecentActivityTimestamp: ISO8601DateTime
   name: String!
   orgAndSuborgsStatsHash: Stats!
   orgStatsHash: Stats!
@@ -8735,7 +8735,7 @@ type User {
   facebookProfile: String
   id: Int!
   linkedinProfile: String
-  mostRecentActionTimestamp: ISO8601DateTime
+  mostRecentActivityTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
   mostRecentEvent: Event
   mostRecentOrganizationId: Int
