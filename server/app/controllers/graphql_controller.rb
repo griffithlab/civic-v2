@@ -5,7 +5,6 @@ class GraphqlController < ApplicationController
   protect_from_forgery with: :null_session, if: :from_external_domain
 
   def execute
-    ActiveStorage::Current.host = request.base_url
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
