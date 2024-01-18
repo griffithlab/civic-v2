@@ -69,10 +69,27 @@
         nzTitle="Live Curation Activity"
         style="height: 100%"
         nzSize="small"
-        class="home-card">
-        <cvc-activity-feed [cvcFeedPrefs]="feedPrefs"></cvc-activity-feed>
+        class="home-card"
+        [nzExtra]="feedOptions">
+        <cvc-activity-feed [cvcFeedPrefs]="feedPrefs()"></cvc-activity-feed>
         <!-- <cvc-homepage-event-feed [pageSize]="23"></cvc-homepage-event-feed> -->
       </nz-card>
+      <ng-template #feedOptions>
+        <span>Page Size:</span>
+        <nz-select
+          [ngModel]="pageSize()"
+          (ngModelChange)="pageSize.set($event)">
+          <nz-option
+            [nzValue]="5"
+            nzLabel="5"></nz-option>
+          <nz-option
+            [nzValue]="10"
+            nzLabel="10"></nz-option>
+          <nz-option
+            [nzValue]="15"
+            nzLabel="15"></nz-option>
+        </nz-select>
+      </ng-template>
     </nz-col>
   </nz-row>
   <nz-row

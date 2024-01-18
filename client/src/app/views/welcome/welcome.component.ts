@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  Signal,
+  WritableSignal,
+  computed,
+  signal,
+} from '@angular/core'
 import { EventFeedMode, Maybe } from '@app/generated/civic.apollo'
-import { Observable } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { CvcNewsItem } from './news-item-list/news-item-list.component'
 import { CvcActivityFeedPrefs } from '@app/components/activities/activity-feed/activity-feed.types'
@@ -19,7 +26,9 @@ interface GithubRelease {
 })
 export class WelcomeComponent implements OnInit {
   release$?: Observable<GithubRelease>
-  feedPrefs: CvcActivityFeedPrefs
+
+  pageSize: WritableSignal<number>
+  feedPrefs: Signal<CvcActivityFeedPrefs>
 
   newsItems: CvcNewsItem[] = [
     {
@@ -71,9 +80,10 @@ export class WelcomeComponent implements OnInit {
     },
   ]
   constructor(private http: HttpClient) {
-    this.feedPrefs = {
-      pageSize: 10,
-    }
+    this.pageSize = signal(10)
+    this.feedPrefs = computed(() => ({
+      pageSize: this.pageSize(),
+    }))
   }
 
   ngOnInit() {
@@ -82,5 +92,8 @@ export class WelcomeComponent implements OnInit {
         'https://api.github.com/repos/griffithlab/civic-v2/releases?per_page=1'
       )
       .pipe(map((data) => data[0]))
+  }
+  onPageSize(size: number): void {
+    this.pageSize.set(size)
   }
 }

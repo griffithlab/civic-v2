@@ -24,6 +24,7 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
+import { NzSelectModule } from 'ng-zorro-antd/select'
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { CvcActivityFeed } from '@app/components/activities/activity-feed/activi
     NzPipesModule,
     NzDividerModule,
     NzIconModule,
+    NzSelectModule,
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
