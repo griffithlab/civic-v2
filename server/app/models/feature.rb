@@ -5,7 +5,7 @@ class Feature < ApplicationRecord
   include Subscribable
   include WithTimepointCounts
 
-  delegated_type :feature_instance, types: %w[ Features::Gene ]
+  delegated_type :feature_instance, types: %w[ Features::Gene Features::Factor ]
   has_and_belongs_to_many :feature_aliases, class_name: 'Features::FeatureAlias'
   has_and_belongs_to_many :sources
 
