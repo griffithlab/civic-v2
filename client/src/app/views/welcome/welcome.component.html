@@ -74,14 +74,11 @@
         <cvc-activity-feed
           [cvcFeedPrefs]="feedPrefs()"
           (cvcFeedInfo)="feedInfo.set($event)"></cvc-activity-feed>
-        <!-- <cvc-homepage-event-feed [pageSize]="23"></cvc-homepage-event-feed> -->
-        <h2>Welcome</h2>
-        <pre>{{ feedInfo() | json }}</pre>
       </nz-card>
       <ng-template #feedTitle>
         <span>Live Curation Activity</span>
         <span>
-          (Unfiltered: {{ feedInfo()?.actionCount?.unfiltered | number }})
+          ({{ feedInfo()?.actionCount?.unfiltered | number }} total)
         </span>
       </ng-template>
       <ng-template #feedOptions>
@@ -151,15 +148,15 @@
         CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
         <a
           [href]="release.html_url"
-          target="_blank"
-          >Release Notes</a
-        >
+          target="_blank">
+          Release Notes
+        </a>
         &bull;
         <a
           href="https://github.com/griffithlab/civic-v2/releases/"
-          target="_blank"
-          >History</a
-        >
+          target="_blank">
+          History
+        </a>
       </div>
     </nz-row>
   </ng-container>

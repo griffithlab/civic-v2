@@ -1,6 +1,8 @@
+import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
 import {
   EventAction,
   EventFeedMode,
+  Maybe,
   SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
 
@@ -34,7 +36,7 @@ export type CvcActivityFeedInfo = {
   actionCount: {
     unfiltered: number
   }
-  // participants: Maybe<TagLinkableUser[]>
+  participants?: Maybe<TagLinkableUser>[]
   // organizations: Maybe<TagLinkableOrganization[]>
   // loading: boolean
 }

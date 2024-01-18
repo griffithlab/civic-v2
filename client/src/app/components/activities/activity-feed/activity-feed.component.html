@@ -1,3 +1,6 @@
-<p>activity-feed works!</p>
-<h3>Activity Item</h3>
-<cvc-activity-item></cvc-activity-item>
+<ng-container *ngFor="let event of event$ | ngrxPush">
+  <cvc-activity-item
+    *ngIf="event"
+    [cvcActivityEvent]="event"></cvc-activity-item>
+</ng-container>
+<!-- <pre>{{ events$ | ngrxPush | json }}</pre> -->

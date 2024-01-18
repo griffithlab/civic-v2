@@ -27,6 +27,7 @@ import {
   distinctUntilChanged,
   map,
   merge,
+  filter,
 } from 'rxjs'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { QueryRef } from 'apollo-angular'
@@ -39,8 +40,9 @@ import {
 } from './activity-feed.types'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { PushPipe } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { CommonModule } from '@angular/common'
+import { isNonNulled } from 'rxjs-etc'
 
 const prefsDefaults: CvcActivityFeedPrefs = {
   mode: EventFeedMode.Unscoped,
@@ -48,14 +50,14 @@ const prefsDefaults: CvcActivityFeedPrefs = {
   pollEvents: 30000,
   includeAutomatedEvents: true,
   tagDisplay: 'displayAll',
-  showFilters: false,
+  showFilters: true,
 }
 
 @UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed',
   standalone: true,
-  imports: [CommonModule, CvcActivityItem, PushPipe],
+  imports: [CommonModule, CvcActivityItem, PushPipe, LetDirective],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,8 +82,7 @@ export class CvcActivityFeed implements OnInit, OnChanges {
   queryResult$: ReplaySubject<ApolloQueryResult<EventFeedQuery>>
 
   // PRESENTATION STREAMS
-  events$?: Observable<Maybe<EventFeedNodeFragment>[]>
-  loading$: Observable<boolean>
+  event$?: Observable<Maybe<EventFeedNodeFragment>[]>
 
   // @Output STREAMS
   feedInfo$: Observable<CvcActivityFeedInfo>
@@ -167,18 +168,21 @@ export class CvcActivityFeed implements OnInit, OnChanges {
           }
         }
       })
-    this.loading$ = this.queryResult$.pipe(
-      pluck('loading'),
-      distinctUntilChanged()
+
+    this.event$ = this.queryResult$.pipe(
+      pluck('data', 'events', 'edges'),
+      filter(isNonNulled),
+      map((edges) => edges.map((e) => e.node))
     )
+
     this.feedInfo$ = this.queryResult$.pipe(
       map((result) => {
         return <CvcActivityFeedInfo>{
           loading: result.loading,
           actionCount: {
-            total: 0,
             unfiltered: result.data?.events?.unfilteredCount,
           },
+          participants: result.data?.events?.uniqueParticipants,
         }
       })
     )
