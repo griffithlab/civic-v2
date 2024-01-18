@@ -27,6 +27,17 @@ export type CvcActivityFeedFilters = {
   userId?: number
 }
 
+export type CvcActivityFeedInfo = {
+  loading: boolean
+  // pageInfo: PageInfo
+  // pageCount: boolean
+  actionCount: {
+    unfiltered: number
+  }
+  // participants: Maybe<TagLinkableUser[]>
+  // organizations: Maybe<TagLinkableOrganization[]>
+  // loading: boolean
+}
 export type FetchMoreParams = { first: number; after: string }
 
 export type CvcActivityFeedQueryParams = {

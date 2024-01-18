@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core'
 import { CvcActivityItem } from './activity-item/activity-item.component'
@@ -30,12 +32,15 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { QueryRef } from 'apollo-angular'
 import {
   CvcActivityFeedFilters,
+  CvcActivityFeedInfo,
   CvcActivityFeedPrefs,
   CvcActivityFeedQueryParams,
   FetchMoreParams,
 } from './activity-feed.types'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { PushPipe } from '@ngrx/component'
+import { CommonModule } from '@angular/common'
 
 const prefsDefaults: CvcActivityFeedPrefs = {
   mode: EventFeedMode.Unscoped,
@@ -50,7 +55,7 @@ const prefsDefaults: CvcActivityFeedPrefs = {
 @Component({
   selector: 'cvc-activity-feed',
   standalone: true,
-  imports: [CvcActivityItem],
+  imports: [CommonModule, CvcActivityItem, PushPipe],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,6 +63,8 @@ const prefsDefaults: CvcActivityFeedPrefs = {
 export class CvcActivityFeed implements OnInit, OnChanges {
   @Input() cvcFeedPrefs: CvcActivityFeedPrefs = prefsDefaults
   @Input() cvcFeedFilters?: CvcActivityFeedFilters
+  @Output() cvcFeedInfo: EventEmitter<Maybe<CvcActivityFeedInfo>> =
+    new EventEmitter(void 0)
 
   // @Input SOURCE STREAMS
   filterChange$: BehaviorSubject<CvcActivityFeedFilters>
@@ -76,6 +83,9 @@ export class CvcActivityFeed implements OnInit, OnChanges {
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>
   loading$: Observable<boolean>
 
+  // @Output STREAMS
+  feedInfo$: Observable<CvcActivityFeedInfo>
+
   queryRef?: QueryRef<EventFeedQuery, EventFeedQueryVariables>
 
   constructor(private gql: ActivityFeedGQL) {
@@ -84,10 +94,6 @@ export class CvcActivityFeed implements OnInit, OnChanges {
     this.queryRequest$ = new Subject<EventFeedQueryVariables>()
     this.queryResult$ = new ReplaySubject<ApolloQueryResult<EventFeedQuery>>(1)
     this.onFetchMore$ = new Subject<FetchMoreParams>()
-    this.loading$ = this.queryResult$.pipe(
-      pluck('loading'),
-      distinctUntilChanged()
-    )
     // combine prefs, filters updates into a refetch query
     this.refetch$ = combineLatest([this.filterChange$, this.prefChange$]).pipe(
       map(([filters, prefs]) => {
@@ -98,6 +104,7 @@ export class CvcActivityFeed implements OnInit, OnChanges {
         return queryParams
       })
     )
+
     // convert fetchMore requests into fetch more query
     this.fetchMore$ = this.onFetchMore$.pipe(
       map((fetchParams) => {
@@ -160,11 +167,28 @@ export class CvcActivityFeed implements OnInit, OnChanges {
           }
         }
       })
+    this.loading$ = this.queryResult$.pipe(
+      pluck('loading'),
+      distinctUntilChanged()
+    )
+    this.feedInfo$ = this.queryResult$.pipe(
+      map((result) => {
+        return <CvcActivityFeedInfo>{
+          loading: result.loading,
+          actionCount: {
+            total: 0,
+            unfiltered: result.data?.events?.unfilteredCount,
+          },
+        }
+      })
+    )
+    this.feedInfo$.pipe(untilDestroyed(this)).subscribe((info) => {
+      this.cvcFeedInfo.emit(info)
+    })
   }
 
   ngOnInit() {
     console.log('activity-feed OnInit()')
-    this.queryRef = this.gql.watch()
   }
 
   ngOnChanges(changes: SimpleChanges): void {

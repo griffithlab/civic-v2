@@ -66,19 +66,30 @@
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-card
-        nzTitle="Live Curation Activity"
+        [nzTitle]="feedTitle"
         style="height: 100%"
         nzSize="small"
         class="home-card"
         [nzExtra]="feedOptions">
-        <cvc-activity-feed [cvcFeedPrefs]="feedPrefs()"></cvc-activity-feed>
+        <cvc-activity-feed
+          [cvcFeedPrefs]="feedPrefs()"
+          (cvcFeedInfo)="feedInfo.set($event)"></cvc-activity-feed>
         <!-- <cvc-homepage-event-feed [pageSize]="23"></cvc-homepage-event-feed> -->
+        <h2>Welcome</h2>
+        <pre>{{ feedInfo() | json }}</pre>
       </nz-card>
+      <ng-template #feedTitle>
+        <span>Live Curation Activity</span>
+        <span>
+          (Unfiltered: {{ feedInfo()?.actionCount?.unfiltered | number }})
+        </span>
+      </ng-template>
       <ng-template #feedOptions>
-        <span>Page Size:</span>
+        <span>Page Size: </span>
         <nz-select
           [ngModel]="pageSize()"
-          (ngModelChange)="pageSize.set($event)">
+          (ngModelChange)="pageSize.set($event)"
+          nzSize="small">
           <nz-option
             [nzValue]="5"
             nzLabel="5"></nz-option>
