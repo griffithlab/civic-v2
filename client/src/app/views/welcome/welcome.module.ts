@@ -23,6 +23,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzPipesModule } from 'ng-zorro-antd/pipes'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
+    CvcActivityFeed,
     NgxJsonViewerModule,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
