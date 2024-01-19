@@ -7,11 +7,12 @@ import {
   computed,
   signal,
 } from '@angular/core'
-import { EventFeedMode, Maybe } from '@app/generated/civic.apollo'
+import { EventAction, EventFeedMode, Maybe } from '@app/generated/civic.apollo'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { CvcNewsItem } from './news-item-list/news-item-list.component'
 import {
+  CvcActivityFeedFilters,
   CvcActivityFeedInfo,
   CvcActivityFeedPrefs,
 } from '@app/components/activities/activity-feed/activity-feed.types'
@@ -31,16 +32,38 @@ export class WelcomeComponent implements OnInit {
   release$?: Observable<GithubRelease>
 
   pageSize: WritableSignal<number>
+  originatingUserId: WritableSignal<number | null>
+  organizationId: WritableSignal<number | null>
+  eventType: WritableSignal<EventAction | null>
+  includeAutomatedEvents: WritableSignal<boolean>
   feedPrefs: Signal<CvcActivityFeedPrefs>
+  feedFilters: Signal<CvcActivityFeedFilters>
   feedInfo: WritableSignal<Maybe<CvcActivityFeedInfo>>
+  pageSizes = [5, 10, 25, 50, 100]
 
   newsItems: CvcNewsItem[]
   constructor(private http: HttpClient) {
     this.pageSize = signal(10)
+    this.originatingUserId = signal(null)
+    this.organizationId = signal(null)
+    this.eventType = signal(null)
+    this.includeAutomatedEvents = signal(false)
+
     this.feedPrefs = computed(() => ({
       pageSize: this.pageSize(),
+      includeAutomatedEvents: this.includeAutomatedEvents(),
     }))
-    this.feedInfo = signal({ loading: false, actionCount: { unfiltered: 999 } })
+    this.feedFilters = computed(() => ({
+      originatingUserId: this.originatingUserId() ?? undefined,
+      organizationId: this.organizationId() ?? undefined,
+      eventType: this.eventType() ?? undefined,
+    }))
+    this.feedInfo = signal({
+      loading: false,
+      actionCount: { unfiltered: 999 },
+      participants: [],
+    })
+
     this.newsItems = [
       {
         title: 'PUBLIC NOTICE: CIViC v1 API TO BE DEPRECATED',

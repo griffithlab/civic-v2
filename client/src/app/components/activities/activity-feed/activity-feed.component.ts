@@ -183,6 +183,8 @@ export class CvcActivityFeed implements OnInit, OnChanges {
             unfiltered: result.data?.events?.unfilteredCount,
           },
           participants: result.data?.events?.uniqueParticipants,
+          organizations: result.data?.events?.participatingOrganizations,
+          types: result.data?.events?.eventTypes,
         }
       })
     )

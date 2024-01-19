@@ -25,6 +25,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 @NgModule({
   imports: [
@@ -36,6 +38,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
     NzGridModule,
     NzCarouselModule,
     NzCardModule,
+    NzCheckboxModule,
     NzListModule,
     NzRadioModule,
     NzSpaceModule,
@@ -43,6 +46,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
     NzTypographyModule,
     NzEmptyModule,
     NzPipesModule,
+    NzPopoverModule,
     NzDividerModule,
     NzIconModule,
     NzSelectModule,

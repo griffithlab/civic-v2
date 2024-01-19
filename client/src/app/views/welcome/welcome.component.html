@@ -70,9 +70,10 @@
         style="height: 100%"
         nzSize="small"
         class="home-card"
-        [nzExtra]="feedOptions">
+        [nzExtra]="feedParameters">
         <cvc-activity-feed
           [cvcFeedPrefs]="feedPrefs()"
+          [cvcFeedFilters]="feedFilters()"
           (cvcFeedInfo)="feedInfo.set($event)"></cvc-activity-feed>
       </nz-card>
       <ng-template #feedTitle>
@@ -81,22 +82,94 @@
           ({{ feedInfo()?.actionCount?.unfiltered | number }} total)
         </span>
       </ng-template>
-      <ng-template #feedOptions>
-        <span>Page Size: </span>
+      <ng-template #feedParameters>
         <nz-select
-          [ngModel]="pageSize()"
-          (ngModelChange)="pageSize.set($event)"
+          [ngModel]="eventType()"
+          (ngModelChange)="eventType.set($event)"
+          [nzDropdownMatchSelectWidth]="false"
+          nzPlaceHolder="Type"
+          [nzAllowClear]="true"
+          [nzOptionHeightPx]="28"
           nzSize="small">
           <nz-option
-            [nzValue]="5"
-            nzLabel="5"></nz-option>
-          <nz-option
-            [nzValue]="10"
-            nzLabel="10"></nz-option>
-          <nz-option
-            [nzValue]="15"
-            nzLabel="15"></nz-option>
+            *ngFor="let type of feedInfo()?.types"
+            [nzValue]="type"
+            [nzLabel]="type"></nz-option>
         </nz-select>
+        &nbsp;
+        <nz-select
+          [ngModel]="organizationId()"
+          (ngModelChange)="organizationId.set($event)"
+          [nzDropdownMatchSelectWidth]="false"
+          nzPlaceHolder="Organization"
+          [nzAllowClear]="true"
+          [nzOptionHeightPx]="28"
+          nzSize="small">
+          <nz-option
+            *ngFor="let organization of feedInfo()?.organizations"
+            [nzValue]="organization.id"
+            [nzLabel]="organization.name"></nz-option>
+        </nz-select>
+        &nbsp;
+        <nz-select
+          [ngModel]="originatingUserId()"
+          (ngModelChange)="originatingUserId.set($event)"
+          [nzDropdownMatchSelectWidth]="false"
+          nzPlaceHolder="User"
+          [nzAllowClear]="true"
+          [nzOptionHeightPx]="28"
+          nzSize="small">
+          <nz-option
+            *ngFor="let user of feedInfo()?.participants"
+            [nzValue]="user.id"
+            [nzLabel]="user.displayName"></nz-option>
+        </nz-select>
+        &nbsp;
+        <button
+          nz-button
+          nz-popover
+          [nzPopoverContent]="settingsPopover"
+          [nzPopoverTrigger]="'click'"
+          type="button"
+          nzType="default"
+          nzSize="small">
+          <span
+            nz-icon
+            nzType="setting"
+            nzTheme="outline"></span>
+        </button>
+        <ng-template #settingsPopover>
+          <nz-row [nzGutter]="[8, 8]">
+            <nz-col
+              nzSpan="12"
+              style="text-align: right">
+              Include Automated
+            </nz-col>
+            <nz-col nzSpan="12">
+              <label
+                nz-checkbox
+                [ngModel]="includeAutomatedEvents()"
+                (ngModelChange)="includeAutomatedEvents.set($event)"></label>
+            </nz-col>
+            <nz-col
+              nzSpan="12"
+              style="text-align: right">
+              Page Size
+            </nz-col>
+            <nz-col nzSpan="12">
+              <nz-select
+                [ngModel]="pageSize()"
+                (ngModelChange)="pageSize.set($event)"
+                [nzOptionHeightPx]="28"
+                nzSize="small">
+                <nz-option
+                  *ngFor="let size of pageSizes"
+                  [nzValue]="size"
+                  [nzLabel]="size"></nz-option>
+              </nz-select>
+            </nz-col>
+          </nz-row>
+        </ng-template>
       </ng-template>
     </nz-col>
   </nz-row>

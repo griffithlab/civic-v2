@@ -1,3 +1,5 @@
+import { EventType } from '@angular/router'
+import { TagLinkableOrganization } from '@app/components/organizations/organization-tag/organization-tag.component'
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
 import {
   EventAction,
@@ -36,9 +38,9 @@ export type CvcActivityFeedInfo = {
   actionCount: {
     unfiltered: number
   }
-  participants?: Maybe<TagLinkableUser>[]
-  // organizations: Maybe<TagLinkableOrganization[]>
-  // loading: boolean
+  participants?: TagLinkableUser[]
+  organizations?: TagLinkableOrganization[]
+  types?: EventType[]
 }
 export type FetchMoreParams = { first: number; after: string }
 

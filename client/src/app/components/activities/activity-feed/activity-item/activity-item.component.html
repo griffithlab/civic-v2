@@ -1,1 +1,10 @@
-{{ cvcActivityEvent.action }}
+<div
+  style="
+    padding: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+  ">
+  {{ cvcActivityEvent.action }} by
+  {{ cvcActivityEvent.originatingUser.displayName }}
+</div>
