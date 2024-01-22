@@ -1,6 +1,14 @@
-<ng-container *ngFor="let event of event$ | ngrxPush">
-  <cvc-activity-item
-    *ngIf="event"
-    [cvcActivityEvent]="event"></cvc-activity-item>
-</ng-container>
+<nz-list nzGrid>
+  <nz-row [nzGutter]="[8, 0]">
+    <nz-col
+      *ngFor="let event of event$ | ngrxPush"
+      [nzSpan]="24">
+      <nz-list-item>
+        <cvc-activity-item
+          *ngIf="event"
+          [cvcActivityEvent]="event"></cvc-activity-item>
+      </nz-list-item>
+    </nz-col>
+  </nz-row>
+</nz-list>
 <!-- <pre>{{ events$ | ngrxPush | json }}</pre> -->

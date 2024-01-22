@@ -43,6 +43,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { CommonModule } from '@angular/common'
 import { isNonNulled } from 'rxjs-etc'
+import { NzListModule } from 'ng-zorro-antd/list'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 
 const prefsDefaults: CvcActivityFeedPrefs = {
   mode: EventFeedMode.Unscoped,
@@ -57,7 +59,14 @@ const prefsDefaults: CvcActivityFeedPrefs = {
 @Component({
   selector: 'cvc-activity-feed',
   standalone: true,
-  imports: [CommonModule, CvcActivityItem, PushPipe, LetDirective],
+  imports: [
+    CommonModule,
+    NzGridModule,
+    NzListModule,
+    CvcActivityItem,
+    PushPipe,
+    LetDirective,
+  ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
