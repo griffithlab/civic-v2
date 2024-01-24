@@ -4,13 +4,6 @@ require 'search_object/plugin/graphql'
 class Resolvers::TopLevelEvents < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
-  class EventFeedMode < Types::BaseEnum
-    description 'The context of an event feed, i.e. what is the root subject of the feed. This option is a no-op when accessing events via a parent.'
-    value 'USER', value: :user
-    value 'ORGANIZATION', value: :organization
-    value 'SUBJECT', value: :subject
-    value 'UNSCOPED', value: :unscoped
-  end
 
   type Types::Entities::EventType.connection_type, null: false
 
@@ -50,7 +43,7 @@ class Resolvers::TopLevelEvents < GraphQL::Schema::Resolver
     end
   end
 
-  option(:mode, type: EventFeedMode) do |_, _|
+  option(:mode, type: Types::Events::EventFeedMode) do |_, _|
     #accesed in connection, yuck
   end
 end

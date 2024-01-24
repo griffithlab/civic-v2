@@ -17,6 +17,20 @@ module Resolvers
       scope.where(user_id: value)
     end
 
-  end
+    option(:activity_type, type: Types::Activities::ActivityTypeInputType) do |scope, value|
+      scope.where(type: value)
+    end
 
+    option(:sort_by, type: Types::DateSortType, description: 'Sort order for the activities. Defaults to most recent.') do |scope, value|
+      scope.reorder("activities.#{value.column} #{value.direction}")
+    end
+
+    option(:subject, type: Types::Subscribable::SubscribableQueryInput) do |scope, value|
+      scope.where(subject: value)
+    end
+
+    option(:mode, type: Types::Events::EventFeedMode) do |_, _|
+      #accesed in connection, yuck
+    end
+  end
 end
