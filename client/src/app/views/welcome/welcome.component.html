@@ -78,7 +78,9 @@
       </nz-card>
       <ng-template #feedTitle>
         <span>Live Curation Activity</span>
-        <!-- <span> ({{ feedInfo()?.actionCount?.unfiltered | number }} total) </span> -->
+        <span>
+          ({{ feedInfo()?.actionCount?.unfiltered | number }} total)
+        </span>
       </ng-template>
       <ng-template #feedParameters>
         <nz-select
@@ -123,51 +125,6 @@
             [nzLabel]="user.displayName"></nz-option>
         </nz-select>
         &nbsp;
-        <button
-          nz-button
-          nz-popover
-          [nzPopoverContent]="settingsPopover"
-          [nzPopoverTrigger]="'click'"
-          type="button"
-          nzType="default"
-          nzSize="small">
-          <span
-            nz-icon
-            nzType="setting"
-            nzTheme="outline"></span>
-        </button>
-        <ng-template #settingsPopover>
-          <nz-row [nzGutter]="[8, 8]">
-            <nz-col
-              nzSpan="12"
-              style="text-align: right">
-              Include Automated
-            </nz-col>
-            <nz-col nzSpan="12">
-              <label
-                nz-checkbox
-                [ngModel]="includeAutomatedEvents()"
-                (ngModelChange)="includeAutomatedEvents.set($event)"></label>
-            </nz-col>
-            <nz-col
-              nzSpan="12"
-              style="text-align: right">
-              Page Size
-            </nz-col>
-            <nz-col nzSpan="12">
-              <nz-select
-                [ngModel]="pageSize()"
-                (ngModelChange)="pageSize.set($event)"
-                [nzOptionHeightPx]="28"
-                nzSize="small">
-                <nz-option
-                  *ngFor="let size of pageSizes"
-                  [nzValue]="size"
-                  [nzLabel]="size"></nz-option>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </ng-template>
       </ng-template>
     </nz-col>
   </nz-row>
