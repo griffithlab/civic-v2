@@ -2020,6 +2020,7 @@ ${vt}`,De=t.Ps`
   id
   name
   fullName
+  link
   featureInstance {
     __typename
     ... on Gene {
