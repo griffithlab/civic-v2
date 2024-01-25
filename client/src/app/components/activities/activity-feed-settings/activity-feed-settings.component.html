@@ -12,7 +12,25 @@
     nzTheme="outline"></span>
 </button>
 <ng-template #settingsPopover>
-  <nz-row [nzGutter]="[8, 8]">
+  <div class="popover-content">
+    <nz-row [nzGutter]="[8, 8]">
+      <nz-col
+        nzSpan="12"
+        class="option-key">
+        Include Automated Events
+      </nz-col>
+      <nz-col
+        nzSpan="12"
+        class="option-input">
+        <label></label>
+        <label
+          nz-checkbox
+          [ngModel]="cvcFeedSettingsOptions.includeAutomatedEvents"
+          (ngModelChange)="includeAutomatedEvents.set($event)"></label>
+      </nz-col>
+    </nz-row>
+  </div>
+  <!-- <nz-row [nzGutter]="[8, 8]">
     <nz-col
       nzSpan="12"
       style="text-align: right">
@@ -21,7 +39,7 @@
     <nz-col nzSpan="12">
       <label
         nz-checkbox
-        [ngModel]="includeAutomatedEvents()"
+        [ngModel]="cvcFeedSettingsOptions.includeAutomatedEvents"
         (ngModelChange)="includeAutomatedEvents.set($event)"></label>
     </nz-col>
     <nz-col
@@ -31,8 +49,7 @@
     </nz-col>
     <nz-col nzSpan="12">
       <nz-select
-        [ngModel]="pageSize()"
-        (ngModelChange)="pageSize.set($event)"
+        [ngModel]="cvcFeedSettingsOptions.pageSizes"
         [nzOptionHeightPx]="28"
         nzSize="small">
         <nz-option
@@ -41,5 +58,5 @@
           [nzLabel]="size"></nz-option>
       </nz-select>
     </nz-col>
-  </nz-row>
+  </nz-row> -->
 </ng-template>
