@@ -7519,9 +7519,9 @@ export type FeaturesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
+export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
 
-export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
+export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
 
 export type GeneSummaryFieldsFragment = { __typename: 'Gene', id: number, description: string, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
 
@@ -9780,6 +9780,7 @@ export const FeatureSummaryFieldsFragmentDoc = gql`
   id
   name
   fullName
+  link
   featureInstance {
     __typename
     ... on Gene {
