@@ -8,6 +8,7 @@ fragment FeatureSummaryFields on Feature{
   id
   name
   fullName
+  link
   featureInstance {
     __typename
     ... on Gene {

@@ -14,9 +14,7 @@
             [featureId]="feature.id"></cvc-molecular-profile-menu>
         </nz-tab>
         <nz-tab nzTitle="Variants">
-          <cvc-variant-menu
-            [featureId]="feature.id"
-            [featureName]="feature.name"></cvc-variant-menu>
+          <cvc-variant-menu [feature]="feature"></cvc-variant-menu>
         </nz-tab>
       </nz-tabset>
     </nz-col>
