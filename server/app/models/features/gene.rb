@@ -9,6 +9,7 @@ module Features
     #has_and_belongs_to_many :sources
     #has_and_belongs_to_many :gene_aliases
 
+    #TODO - move to feature?
     has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
     def display_name
