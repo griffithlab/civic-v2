@@ -1,17 +1,21 @@
-<ng-container *ngIf=" (feature$ | ngrxPush) as feature">
-  <nz-row [nzGutter]="[8,16]">
-    <ng-container [ngSwitch]="feature.featureInstance.__typename">
-      <!--<span *ngSwitchCase="'Gene'">-->
-      <!--<cvc-genes-summary-->
-      <!--[featureId]="feature.id"-->
-      <!--[gene]="feature.featureInstance"></cvc-genes-summary>-->
-      <!--</span>-->
-      <!--<span *ngSwitchCase="'Factor'">-->
-      <!--<cvc-factor-summary-->
-      <!--[featureId]="feature.id"-->
-      <!--[factor]="feature.featureInstance"></cvc-factor-summary>-->
-      <!--</span>-->
-    </ng-container>
+<ng-container *ngIf="feature$ | ngrxPush as feature">
+  <nz-row [nzGutter]="[8, 16]">
+    @switch (feature.featureInstance.__typename) {
+      @case ('Gene') {
+        <span>
+          <cvc-genes-summary
+            [featureId]="feature.id"
+            [gene]="feature.featureInstance"></cvc-genes-summary>
+        </span>
+      }
+      @case ('Factor') {
+        <span>
+          <cvc-factor-summary
+            [featureId]="feature.id"
+            [factor]="feature.featureInstance"></cvc-factor-summary>
+        </span>
+      }
+    }
 
     <!-- variant menu row -->
     <nz-col [nzSpan]="24">
