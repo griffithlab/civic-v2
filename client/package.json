@@ -65,7 +65,7 @@
     "graphql": "^16.8.1",
     "mustache": "^4.2.0",
     "ngx-json-viewer": "^3.0.2",
-    "prettier": "^2.5.1",
+    "prettier": "^3.2.4",
     "svg-to-ts": "^9.0.0",
     "svgo": "^3.0.2",
     "ts-node": "~10.9.1",
