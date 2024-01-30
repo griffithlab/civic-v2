@@ -12,8 +12,12 @@ module Features
 
     def editable_fields
       [
+        :name,
+        :full_name,
         :description,
-        :source_ids
+        :ncit_id,
+        :source_ids,
+        :feature_alias_ids
       ]
     end
   end

@@ -1,9 +1,16 @@
 <ng-container *ngIf=" (feature$ | ngrxPush) as feature">
   <nz-row [nzGutter]="[8,16]">
     <ng-container [ngSwitch]="feature.featureInstance.__typename">
-      <span *ngSwitchCase="'Gene'">
-        <cvc-genes-summary [gene]="feature.featureInstance"></cvc-genes-summary>
-      </span>
+      <!--<span *ngSwitchCase="'Gene'">-->
+      <!--<cvc-genes-summary-->
+      <!--[featureId]="feature.id"-->
+      <!--[gene]="feature.featureInstance"></cvc-genes-summary>-->
+      <!--</span>-->
+      <!--<span *ngSwitchCase="'Factor'">-->
+      <!--<cvc-factor-summary-->
+      <!--[featureId]="feature.id"-->
+      <!--[factor]="feature.featureInstance"></cvc-factor-summary>-->
+      <!--</span>-->
     </ng-container>
 
     <!-- variant menu row -->

@@ -11,7 +11,7 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :full_name, String, null: true
-    field :description, String, null: false
+    field :description, String, null: true
     field :feature_aliases, [String], null: false
     field :sources, [Types::Entities::SourceType], null: false
     field :variants, resolver: Resolvers::Variants

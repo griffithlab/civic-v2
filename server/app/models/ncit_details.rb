@@ -33,7 +33,7 @@ class NcitDetails
     end
 
     return {
-      synonyms: data["synonyms"] || [],
+      synonyms: data["synonyms"]&.select { |s| s["type"] == "FULL_SYN" } || [],
       definitions: data["definitions"] || []
     }
   end

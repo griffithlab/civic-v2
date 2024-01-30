@@ -2843,7 +2843,7 @@ type Factor implements Commentable & EventSubject & Flaggable & MolecularProfile
     """
     sortBy: DateSort
   ): CommentConnection!
-  description: String!
+  description: String
 
   """
   List and filter events for an object
@@ -3075,7 +3075,7 @@ type Feature implements Commentable & EventSubject & Flaggable & MolecularProfil
     """
     sortBy: DateSort
   ): CommentConnection!
-  description: String!
+  description: String
 
   """
   List and filter events for an object
@@ -3650,7 +3650,7 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     """
     sortBy: DateSort
   ): CommentConnection!
-  description: String!
+  description: String
   entrezId: Int!
 
   """

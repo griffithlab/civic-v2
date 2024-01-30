@@ -775,6 +775,28 @@ export type EvidenceItemsByTypeFieldPolicy = {
 	predisposingCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	prognosticCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type FactorKeySpecifier = ('comments' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'ncitDetails' | 'ncitId' | 'revisions' | 'sources' | 'variants' | FactorKeySpecifier)[];
+export type FactorFieldPolicy = {
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
+	fullName?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	ncitDetails?: FieldPolicy<any> | FieldReadFunction<any>,
+	ncitId?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	sources?: FieldPolicy<any> | FieldReadFunction<any>,
+	variants?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FdaCodeKeySpecifier = ('code' | 'description' | FdaCodeKeySpecifier)[];
 export type FdaCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1265,6 +1287,21 @@ export type NccnGuidelineKeySpecifier = ('id' | 'name' | NccnGuidelineKeySpecifi
 export type NccnGuidelineFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type NcitDefinitionKeySpecifier = ('definition' | 'source' | NcitDefinitionKeySpecifier)[];
+export type NcitDefinitionFieldPolicy = {
+	definition?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type NcitDetailsKeySpecifier = ('definitions' | 'synonyms' | NcitDetailsKeySpecifier)[];
+export type NcitDetailsFieldPolicy = {
+	definitions?: FieldPolicy<any> | FieldReadFunction<any>,
+	synonyms?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type NcitSynonymKeySpecifier = ('name' | 'source' | NcitSynonymKeySpecifier)[];
+export type NcitSynonymFieldPolicy = {
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type NotificationKeySpecifier = ('createdAt' | 'event' | 'id' | 'notifiedUser' | 'originatingUser' | 'seen' | 'subscription' | 'type' | 'updatedAt' | NotificationKeySpecifier)[];
 export type NotificationFieldPolicy = {
@@ -2368,6 +2405,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | EvidenceItemsByTypeKeySpecifier | (() => undefined | EvidenceItemsByTypeKeySpecifier),
 		fields?: EvidenceItemsByTypeFieldPolicy,
 	},
+	Factor?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FactorKeySpecifier | (() => undefined | FactorKeySpecifier),
+		fields?: FactorFieldPolicy,
+	},
 	FdaCode?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FdaCodeKeySpecifier | (() => undefined | FdaCodeKeySpecifier),
 		fields?: FdaCodeFieldPolicy,
@@ -2539,6 +2580,18 @@ export type StrictTypedTypePolicies = {
 	NccnGuideline?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NccnGuidelineKeySpecifier | (() => undefined | NccnGuidelineKeySpecifier),
 		fields?: NccnGuidelineFieldPolicy,
+	},
+	NcitDefinition?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NcitDefinitionKeySpecifier | (() => undefined | NcitDefinitionKeySpecifier),
+		fields?: NcitDefinitionFieldPolicy,
+	},
+	NcitDetails?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NcitDetailsKeySpecifier | (() => undefined | NcitDetailsKeySpecifier),
+		fields?: NcitDetailsFieldPolicy,
+	},
+	NcitSynonym?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | NcitSynonymKeySpecifier | (() => undefined | NcitSynonymKeySpecifier),
+		fields?: NcitSynonymFieldPolicy,
 	},
 	Notification?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NotificationKeySpecifier | (() => undefined | NotificationKeySpecifier),
