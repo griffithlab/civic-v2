@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
+ActiveRecord::Schema.define(version: 2024_01_30_000329) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,7 +33,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: nil, null: false
+    t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -44,8 +45,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", precision: nil, null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -61,8 +62,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.bigint "organization_id"
     t.string "subject_type", null: false
     t.bigint "subject_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.text "verbiage"
     t.text "note"
     t.index ["organization_id"], name: "index_activities_on_organization_id"
@@ -75,15 +76,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "entity_type", null: false
     t.bigint "entity_id", null: false
     t.bigint "activity_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["activity_id"], name: "index_activity_linked_entities_on_activity_id"
     t.index ["entity_type", "entity_id"], name: "index_activity_linked_entities_on_entity"
   end
 
   create_table "advanced_searches", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "params"
     t.text "search_type"
     t.text "token"
@@ -93,16 +94,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "affiliations", id: false, force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "deleted", default: false
     t.text "status", default: "submitted", null: false
     t.integer "nccn_guideline_old"
@@ -132,8 +133,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "assertions_clingen_codes", id: false, force: :cascade do |t|
     t.bigint "assertion_id", null: false
     t.bigint "clingen_code_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["assertion_id"], name: "index_assertions_clingen_codes_on_assertion_id"
     t.index ["clingen_code_id", "assertion_id"], name: "idx_clingencodes_assertions"
   end
@@ -179,7 +180,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at", precision: nil
+    t.datetime "created_at"
     t.index ["action"], name: "index_audits_on_action"
     t.index ["associated_id", "associated_type"], name: "associated_index"
     t.index ["auditable_id", "auditable_type"], name: "auditable_index"
@@ -192,24 +193,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "user_id", null: false
     t.string "provider", null: false
     t.string "uid", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
   create_table "authors", id: :serial, force: :cascade do |t|
     t.text "last_name"
     t.text "fore_name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "authors_sources", id: false, force: :cascade do |t|
     t.integer "source_id"
     t.integer "author_id"
     t.integer "author_position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["author_id", "source_id"], name: "index_authors_sources_on_author_id_and_source_id"
     t.index ["source_id", "author_id"], name: "idx_author_source_id"
     t.index ["source_id"], name: "index_authors_sources_on_source_id"
@@ -220,8 +221,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "user_id"
     t.text "tier"
     t.text "message"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["badge_id", "user_id"], name: "index_badge_awards_on_badge_id_and_user_id"
     t.index ["user_id", "badge_id"], name: "index_badge_awards_on_user_id_and_badge_id"
   end
@@ -230,8 +231,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "user_id"
     t.integer "badge_id"
     t.string "redemption_code"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["badge_id"], name: "index_badge_claims_on_badge_id"
     t.index ["user_id"], name: "index_badge_claims_on_user_id"
   end
@@ -240,8 +241,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "name", null: false
     t.text "description", null: false
     t.text "additional_fields"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "display_name"
     t.index ["name"], name: "index_badges_on_name"
   end
@@ -257,8 +258,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "nct_id"
     t.text "name"
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["nct_id"], name: "index_clinical_trials_on_nct_id"
   end
 
@@ -273,8 +274,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "clinvar_entries", id: :serial, force: :cascade do |t|
     t.string "clinvar_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["clinvar_id"], name: "index_clinvar_entries_on_clinvar_id"
   end
 
@@ -294,8 +295,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "commentable_id"
     t.integer "user_id"
     t.string "role", default: "comments"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
     t.index ["commentable_type"], name: "index_comments_on_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"
@@ -305,8 +306,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "user_id", null: false
     t.boolean "coi_present", null: false
     t.text "coi_statement"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
@@ -321,8 +322,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "definitions", id: :serial, force: :cascade do |t|
     t.string "term", null: false
     t.text "text", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["term"], name: "index_definitions_on_term"
   end
 
@@ -341,8 +342,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "diseases", id: :serial, force: :cascade do |t|
     t.text "doid"
     t.string "display_name", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "name"
     t.boolean "deprecated", default: false, null: false
     t.index ["name"], name: "index_diseases_on_name"
@@ -350,8 +351,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "domain_expert_tags", id: :serial, force: :cascade do |t|
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "domain_of_expertise_type"
     t.integer "domain_of_expertise_id"
     t.integer "user_id"
@@ -361,8 +362,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   end
 
   create_table "entity_mentions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "entity_type"
     t.bigint "entity_id"
     t.bigint "comment_id"
@@ -371,8 +372,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "action"
     t.text "description"
     t.integer "originating_user_id"
@@ -399,8 +400,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "description", null: false
     t.integer "disease_id"
     t.integer "source_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer "rating"
     t.string "status"
     t.string "variant_hgvs"
@@ -410,7 +411,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "evidence_direction"
     t.integer "significance"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
+    t.datetime "deleted_at"
     t.integer "therapy_interaction_type"
     t.boolean "flagged", default: false, null: false
     t.bigint "molecular_profile_id"
@@ -441,10 +442,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.index ["therapy_id", "evidence_item_id"], name: "idx_therapy_eid_bridge_table"
   end
 
+  create_table "factors", force: :cascade do |t|
+    t.text "ncit_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "feature_aliases", force: :cascade do |t|
     t.text "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_feature_aliases_on_name"
   end
 
@@ -459,8 +466,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "features", force: :cascade do |t|
     t.text "name", null: false
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "feature_instance_type", null: false
     t.bigint "feature_instance_id", null: false
     t.boolean "flagged", default: false, null: false
@@ -481,8 +488,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "flaggable_type"
     t.integer "flaggable_id"
     t.text "state"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["flaggable_type", "flaggable_id"], name: "index_flags_on_flaggable_type_and_flaggable_id"
     t.index ["flagging_user_id"], name: "index_flags_on_flagging_user_id"
     t.index ["resolving_user_id"], name: "index_flags_on_resolving_user_id"
@@ -506,11 +513,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "name", null: false
     t.text "description", null: false
     t.text "official_name", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "clinical_description"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
+    t.datetime "deleted_at"
     t.boolean "flagged", default: false, null: false
     t.index "char_length((name)::text)", name: "gene_name_size_idx"
     t.index ["deleted"], name: "index_genes_on_deleted"
@@ -520,15 +527,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "genes_sources", id: false, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.integer "source_id", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["gene_id", "source_id"], name: "index_genes_sources_on_gene_id_and_source_id"
   end
 
   create_table "hgvs_descriptions", id: :serial, force: :cascade do |t|
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["description"], name: "index_hgvs_descriptions_on_description"
   end
 
@@ -555,8 +562,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "molecular_profiles", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.text "description"
     t.boolean "flagged", default: false, null: false
     t.float "evidence_score", null: false
@@ -569,8 +576,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "molecular_profiles_sources", id: false, force: :cascade do |t|
     t.bigint "molecular_profile_id", null: false
     t.bigint "source_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["molecular_profile_id", "source_id"], name: "idx_mp_source_id"
   end
 
@@ -592,8 +599,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.boolean "seen", default: false
     t.integer "type"
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["created_at"], name: "index_notifications_on_created_at"
     t.index ["notified_user_id"], name: "index_notifications_on_notified_user_id"
   end
@@ -601,7 +608,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "ontologies", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "version"
-    t.datetime "import_date", precision: nil
+    t.datetime "import_date"
     t.string "permalink_format"
     t.string "civic_class"
     t.string "id_name"
@@ -612,9 +619,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "url"
     t.text "description"
     t.integer "parent_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "most_recent_activity_timestamp", precision: nil
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.datetime "most_recent_activity_timestamp"
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 
@@ -627,8 +634,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "pipeline_types", id: :serial, force: :cascade do |t|
     t.text "name", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["name"], name: "index_pipeline_types_on_name"
   end
 
@@ -649,8 +656,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   end
 
   create_table "revision_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "revisions", force: :cascade do |t|
@@ -660,8 +667,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "field_name", null: false
     t.jsonb "current_value"
     t.jsonb "suggested_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.uuid "revisionset_id"
     t.integer "revision_set_id"
     t.index ["created_at"], name: "index_revisions_on_created_at"
@@ -675,10 +682,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "role_mentions", force: :cascade do |t|
     t.integer "role", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.bigint "comment_id"
     t.index ["comment_id"], name: "index_role_mentions_on_comment_id"
+  end
+
+  create_table "solid_errors", force: :cascade do |t|
+    t.string "exception_class", null: false
+    t.string "message", null: false
+    t.string "severity", null: false
+    t.string "source"
+    t.datetime "resolved_at", precision: 6
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exception_class", "message", "severity", "source"], name: "solid_error_uniqueness_index", unique: true
+    t.index ["resolved_at"], name: "index_solid_errors_on_resolved_at"
+  end
+
+  create_table "solid_errors_occurrences", force: :cascade do |t|
+    t.bigint "error_id", null: false
+    t.text "backtrace"
+    t.json "context"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
   end
 
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
@@ -686,8 +714,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "user_id"
     t.text "initial_comment"
     t.text "status"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "reason"
     t.integer "disease_id"
     t.bigint "molecular_profile_id"
@@ -698,8 +726,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "citation_id", null: false
     t.string "study_type"
     t.text "citation"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "abstract"
     t.boolean "open_access"
     t.text "pmc_id"
@@ -713,7 +741,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "source_type", null: false
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
-    t.text "status", default: "fully_curated", null: false
+    t.boolean "fully_curated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
@@ -722,8 +750,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
     t.integer "variant_group_id", null: false
     t.integer "source_id", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
@@ -731,8 +759,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "subscribable_type"
     t.integer "subscribable_id"
     t.string "type"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "action_type"
     t.text "action_class"
     t.index ["action_type", "action_class"], name: "index_subscriptions_on_action_type_and_action_class"
@@ -746,8 +774,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.integer "moderated_id"
     t.integer "user_id", null: false
     t.string "status", default: "new", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["created_at"], name: "index_suggested_changes_on_created_at"
     t.index ["moderated_id", "moderated_type"], name: "index_suggested_changes_on_moderated_id_and_moderated_type"
     t.index ["status"], name: "index_suggested_changes_on_status"
@@ -756,8 +784,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "therapies", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "ncit_id"
     t.boolean "deprecated", default: false, null: false
     t.index ["name"], name: "index_therapies_on_name"
@@ -778,13 +806,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "tsv_releases", id: :serial, force: :cascade do |t|
     t.text "path", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_mentions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.bigint "comment_id"
     t.index ["comment_id"], name: "index_user_mentions_on_comment_id"
@@ -796,14 +824,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.string "name"
     t.string "url"
     t.string "username"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "orcid"
     t.integer "area_of_expertise"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
+    t.datetime "deleted_at"
     t.integer "role", default: 0
-    t.datetime "last_seen_at", precision: nil
+    t.datetime "last_seen_at"
     t.text "twitter_handle"
     t.text "facebook_profile"
     t.text "linkedin_profile"
@@ -813,7 +841,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.boolean "signup_complete"
     t.integer "country_id"
     t.integer "most_recent_organization_id"
-    t.datetime "most_recent_activity_timestamp", precision: nil
+    t.datetime "most_recent_activity_timestamp"
     t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
@@ -836,18 +864,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "variant_group_variants", id: false, force: :cascade do |t|
     t.integer "variant_id", null: false
     t.integer "variant_group_id", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["variant_id", "variant_group_id"], name: "index_variant_group_variants_on_variant_id_and_variant_group_id"
   end
 
   create_table "variant_groups", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
+    t.datetime "deleted_at"
     t.boolean "flagged", default: false, null: false
     t.index ["deleted"], name: "index_variant_groups_on_deleted"
   end
@@ -857,8 +885,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
     t.text "display_name", null: false
     t.text "description", null: false
     t.text "soid", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
@@ -870,18 +898,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   create_table "variant_types_variants", id: false, force: :cascade do |t|
     t.integer "variant_id", null: false
     t.integer "variant_type_id", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["variant_id", "variant_type_id"], name: "index_variant_types_variants_on_variant_id_and_variant_type_id"
   end
 
   create_table "variants", id: :serial, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.string "name", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at", precision: nil
+    t.datetime "deleted_at"
     t.text "genome_build"
     t.text "chromosome"
     t.integer "start"
@@ -924,8 +952,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
 
   create_table "view_last_updated_timestamps", force: :cascade do |t|
     t.text "view_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["view_name"], name: "index_view_last_updated_timestamps_on_view_name"
   end
 
@@ -989,6 +1017,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_212453) do
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
+  add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "subscriptions", "users"
