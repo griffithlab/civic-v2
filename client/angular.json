@@ -99,12 +99,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "main:build",
-            "proxyConfig": "proxy.config.json"
+            "proxyConfig": "proxy.config.json",
+            "buildTarget": "main:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "main:build:production"
+              "buildTarget": "main:build:production"
             }
           }
         },

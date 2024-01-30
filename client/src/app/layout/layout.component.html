@@ -37,12 +37,11 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Assertions' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-assertion"></i>
-            <span> <a routerLink="/assertions">Assertions</a> </span>
+            <a routerLink="/assertions">Assertions</a>
           </li>
 
           <li
@@ -50,12 +49,11 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Evidence' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-evidence"></i>
-            <span> <a routerLink="/evidence">Evidence</a> </span>
+            <a routerLink="/evidence">Evidence</a>
           </li>
 
           <li
@@ -63,14 +61,11 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Molecular Profiles' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-molecularprofile"></i>
-            <span>
-              <a routerLink="/molecular-profiles">Molecular Profiles</a>
-            </span>
+            <a routerLink="/molecular-profiles">Molecular Profiles</a>
           </li>
 
           <li
@@ -96,7 +91,7 @@
             <i
               nz-icon
               nzType="civic-variant"></i>
-            <span> <a routerLink="/variants">Variants</a> </span>
+            <a routerLink="/variants">Variants</a>
           </li>
 
           <li
@@ -109,7 +104,7 @@
             <i
               nz-icon
               nzType="civic-variantgroup"></i>
-            <span> <a routerLink="/variant-groups">Variant Groups</a> </span>
+            <a routerLink="/variant-groups">Variant Groups</a>
           </li>
         </ul>
       </li>
@@ -119,12 +114,11 @@
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Clinical Trials' : ''"
-        nzSelected
         nzMatchRouter>
         <i
           nz-icon
           nzType="civic-clinicaltrial"></i>
-        <span> <a routerLink="/clinical-trials">Clinical Trials</a> </span>
+        <a routerLink="/clinical-trials">Clinical Trials</a>
       </li>
 
       <li
@@ -132,12 +126,11 @@
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
-        nzSelected
         nzMatchRouter>
         <i
           nz-icon
           nzType="civic-disease"></i>
-        <span> <a routerLink="/diseases">Diseases</a> </span>
+        <a routerLink="/diseases">Diseases</a>
       </li>
 
       <li
@@ -145,12 +138,11 @@
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Therapies' : ''"
-        nzSelected
         nzMatchRouter>
         <i
           nz-icon
           nzType="civic-therapy"></i>
-        <span> <a routerLink="/therapies">Therapies</a> </span>
+        <a routerLink="/therapies">Therapies</a>
       </li>
 
       <li
@@ -158,12 +150,11 @@
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Phenotypes' : ''"
-        nzSelected
         nzMatchRouter>
         <i
           nz-icon
           nzType="civic-phenotype"></i>
-        <span> <a routerLink="/phenotypes">Phenotypes</a> </span>
+        <a routerLink="/phenotypes">Phenotypes</a>
       </li>
 
       <li
@@ -176,7 +167,7 @@
         <i
           nz-icon
           nzType="civic-source"></i>
-        <span> <a routerLink="/sources">Sources</a> </span>
+        <a routerLink="/sources">Sources</a>
       </li>
 
       <li
@@ -184,12 +175,11 @@
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
-        nzSelected
         nzMatchRouter>
         <i
           nz-icon
           nzType="civic-varianttype"></i>
-        <span> <a routerLink="/variant-types">Variant Types</a> </span>
+        <a routerLink="/variant-types">Variant Types</a>
       </li>
 
       <li
@@ -201,28 +191,22 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Activity' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-event"></i>
-            <span>
-              <a routerLink="/curation/activity"> Activity </a>
-            </span>
+            <a routerLink="/curation/activity"> Activity </a>
           </li>
           <li
             nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Pending Queues' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-queue"></i>
-            <span>
-              <a routerLink="/curation/queues">Queues</a>
-            </span>
+            <a routerLink="/curation/queues">Queues</a>
           </li>
         </ul>
       </li>
@@ -235,18 +219,15 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Users' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-curator"></i>
-            <span>
-              <a
-                routerLink="/users"
-                id="main-users"
-                >Contributors</a
-              >
-            </span>
+            <a
+              routerLink="/users"
+              id="main-users"
+              >Contributors</a
+            >
           </li>
 
           <li
@@ -254,18 +235,15 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Organizations' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="civic-organization"></i>
-            <span>
-              <a
-                routerLink="/organizations"
-                id="main-organization"
-                >Organizations</a
-              >
-            </span>
+            <a
+              routerLink="/organizations"
+              id="main-organization"
+              >Organizations</a
+            >
           </li>
         </ul>
       </li>
@@ -278,18 +256,15 @@
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Data Releases' : ''"
-            nzSelected
             nzMatchRouter>
             <i
               nz-icon
               nzType="download"></i>
-            <span>
-              <a
-                routerLink="/releases"
-                id="releases">
-                Data Releases
-              </a>
-            </span>
+            <a
+              routerLink="/releases"
+              id="releases">
+              Data Releases
+            </a>
           </li>
         </ul>
       </li>
