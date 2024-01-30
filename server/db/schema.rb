@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_18_184730) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_30_000329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -681,6 +681,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_18_184730) do
     t.index ["comment_id"], name: "index_role_mentions_on_comment_id"
   end
 
+  create_table "solid_errors", force: :cascade do |t|
+    t.string "exception_class", null: false
+    t.string "message", null: false
+    t.string "severity", null: false
+    t.string "source"
+    t.datetime "resolved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exception_class", "message", "severity", "source"], name: "solid_error_uniqueness_index", unique: true
+    t.index ["resolved_at"], name: "index_solid_errors_on_resolved_at"
+  end
+
+  create_table "solid_errors_occurrences", force: :cascade do |t|
+    t.bigint "error_id", null: false
+    t.text "backtrace"
+    t.json "context"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
+  end
+
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
@@ -713,7 +734,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_18_184730) do
     t.integer "source_type", null: false
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
-    t.text "status", default: "fully_curated", null: false
+    t.boolean "fully_curated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
@@ -989,6 +1010,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_18_184730) do
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
+  add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "subscriptions", "users"
