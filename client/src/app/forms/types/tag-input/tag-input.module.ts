@@ -16,6 +16,13 @@ const typeConfig: ConfigOption = {
       name: 'tag-input',
       wrappers: ['form-field'],
       component: CvcTagInputField,
+      defaultOptions: {
+        modelOptions: {
+          // update model when focus leaves field
+          // (template's keydown.enter listener blurs the field, updating the model)
+          updateOn: 'blur',
+        },
+      },
     },
     {
       // for use in repeat-field types

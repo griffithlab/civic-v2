@@ -36,11 +36,6 @@ const TagInputMixin = mixin(
 })
 export class CvcTagInputField extends TagInputMixin implements AfterViewInit {
   defaultOptions: Partial<FieldTypeConfig<CvcTagInputProps>> = {
-    modelOptions: {
-      // update model when focus leaves field
-      // (template's keydown.enter listener blurs the field, updating the model)
-      updateOn: 'blur',
-    },
     props: {
       label: 'Enter value',
     },
