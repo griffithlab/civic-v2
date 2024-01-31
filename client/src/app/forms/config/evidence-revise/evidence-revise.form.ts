@@ -62,6 +62,7 @@ export class CvcEvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     this.form = new UntypedFormGroup({})
     this.fields = evidenceReviseFields
     this.state = new EvidenceState()
+    this.state.formMode = 'revise'
     this.options = { formState: this.state }
     this.reviseEvidenceMutator = new MutatorWithState(networkErrorService)
   }
