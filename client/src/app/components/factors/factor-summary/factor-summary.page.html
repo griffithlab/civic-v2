@@ -56,12 +56,13 @@
           </nz-descriptions-item>
 
           <!-- aliases -->
-          <nz-descriptions-item
-            nzTitle="Aliases"
-            *ngIf="factor.featureAliases.length > 0; else noAliases">
-            <nz-tag *ngFor="let alias of factor.featureAliases">{{
-              alias
-            }}</nz-tag>
+          <nz-descriptions-item nzTitle="Aliases">
+            <ng-container
+              *ngIf="factor.featureAliases.length > 0; else noAliases">
+              <nz-tag *ngFor="let alias of factor.featureAliases">{{
+                alias
+              }}</nz-tag>
+            </ng-container>
           </nz-descriptions-item>
           <ng-template #noAliases>
             <span

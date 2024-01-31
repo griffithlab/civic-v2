@@ -1,23 +1,43 @@
 @if (ncitDetails) {
   <nz-card nzTitle="NCI Thesaurus">
     <nz-col [nzSpan]="24">
-      <nz-descriptions
-        nzTitle="Synonyms"
-        nzSize="small"
-        [nzBordered]="true"
-        [nzColumn]="2">
-        @for (synonym of synonymsBySource.keys(); track $index) {
-          <nz-descriptions-item
-            [nzTitle]="synonym"
-            [nzSpan]="2">
-            <cvc-tag-list>
-              @for (source of synonymsBySource.get(synonym); track $index) {
-                <nz-tag>{{ source }}</nz-tag>
-              }
-            </cvc-tag-list>
-          </nz-descriptions-item>
+      <nz-space nzDirection="vertical">
+        @if (ncitDetails.definitions.length > 0) {
+          <nz-descriptions
+            *nzSpaceItem
+            nzTitle="Definitions"
+            nzSize="small"
+            nzLayout="vertical"
+            [nzBordered]="true"
+            [nzColumn]="1">
+            @for (definition of ncitDetails.definitions; track $index) {
+              <nz-descriptions-item
+                [nzTitle]="definition.source"
+                [nzSpan]="1">
+                {{ definition.definition }}
+              </nz-descriptions-item>
+            }
+          </nz-descriptions>
         }
-      </nz-descriptions>
+        <nz-descriptions
+          *nzSpaceItem
+          nzTitle="Synonyms"
+          nzSize="small"
+          [nzBordered]="true"
+          [nzColumn]="2">
+          @for (synonym of synonymsBySource.keys(); track $index) {
+            <nz-descriptions-item
+              [nzTitle]="synonym"
+              [nzSpan]="2">
+              <cvc-tag-list>
+                @for (source of synonymsBySource.get(synonym); track $index) {
+                  <nz-tag>{{ source }}</nz-tag>
+                }
+              </cvc-tag-list>
+            </nz-descriptions-item>
+          }
+        </nz-descriptions>
+      </nz-space>
     </nz-col>
   </nz-card>
 }
