@@ -22,6 +22,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcFeatureTagModule } from '../feature-tag/feature-tag.module'
 import { CvcFeaturesTableComponent } from './features-table.component'
+import { NzSelectModule } from 'ng-zorro-antd/select'
 
 @NgModule({
   declarations: [CvcFeaturesTableComponent],
@@ -40,6 +41,7 @@ import { CvcFeaturesTableComponent } from './features-table.component'
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzSelectModule,
 
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,

@@ -1,7 +1,7 @@
-<nz-row [nzGutter]="[8,16]">
+<nz-row [nzGutter]="[8, 16]">
   <nz-col nzSpan="12">
     <!-- LEFT COLUMN -->
-    <nz-row [nzGutter]="[8,8]">
+    <nz-row [nzGutter]="[8, 8]">
       <!-- factor description, sources block -->
       <nz-col nzSpan="24">
         <!-- description, sources -->
@@ -59,9 +59,9 @@
           <nz-descriptions-item
             nzTitle="Aliases"
             *ngIf="factor.featureAliases.length > 0; else noAliases">
-            <nz-tag *ngFor="let alias of factor.featureAliases"
-              >{{ alias }}</nz-tag
-            >
+            <nz-tag *ngFor="let alias of factor.featureAliases">{{
+              alias
+            }}</nz-tag>
           </nz-descriptions-item>
           <ng-template #noAliases>
             <span
@@ -77,7 +77,10 @@
             nzTitle="Resources">
             <cvc-tag-list>
               <cvc-link-tag
-                [href]="'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' + factor.ncitId"
+                [href]="
+                  'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' +
+                  factor.ncitId
+                "
                 [tooltip]="'View ' + factor.name + ' in the NCI Thesaurus'">
                 NCIt
               </cvc-link-tag>
@@ -91,6 +94,6 @@
   <!-- last revision submitted/accepted, mygeneinfo col -->
   <nz-col nzSpan="12">
     <!-- ncit info -->
-    NCI STUFF HERE
+    <cvc-ncit-details [ncitDetails]="factor.ncitDetails"></cvc-ncit-details>
   </nz-col>
 </nz-row>

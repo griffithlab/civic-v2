@@ -68,6 +68,11 @@ fragment FactorSummaryFields on Factor {
     sourceType
   }
   ncitDetails {
+    ...NcitDetails
+  }
+}
+
+fragment NcitDetails on NcitDetails {
     synonyms {
       name
       source
@@ -76,5 +81,4 @@ fragment FactorSummaryFields on Factor {
       definition
       source
     }
-  }
 }

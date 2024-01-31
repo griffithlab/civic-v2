@@ -535,6 +535,8 @@ export type BrowseFeature = Flaggable & {
   diseases?: Maybe<Array<Disease>>;
   evidenceItemCount: Scalars['Int'];
   featureAliases?: Maybe<Array<Scalars['String']>>;
+  featureInstanceId: Scalars['Int'];
+  featureInstanceType: FeatureInstanceTypes;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -3782,6 +3784,7 @@ export type QueryBrowseFeaturesArgs = {
   diseaseName?: InputMaybe<Scalars['String']>;
   featureAlias?: InputMaybe<Scalars['String']>;
   featureName?: InputMaybe<Scalars['String']>;
+  featureType?: InputMaybe<FeatureInstanceTypes>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<FeaturesSort>;
@@ -6346,6 +6349,7 @@ export type BrowseFeaturesQueryVariables = Exact<{
   therapyName?: InputMaybe<Scalars['String']>;
   featureAlias?: InputMaybe<Scalars['String']>;
   diseaseName?: InputMaybe<Scalars['String']>;
+  featureType?: InputMaybe<FeatureInstanceTypes>;
   sortBy?: InputMaybe<FeaturesSort>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -6354,9 +6358,9 @@ export type BrowseFeaturesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseFeaturesQuery = { __typename: 'Query', browseFeatures: { __typename: 'BrowseFeatureConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseFeatureEdge', cursor: string, node?: { __typename: 'BrowseFeature', id: number, name: string, link: string, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
+export type BrowseFeaturesQuery = { __typename: 'Query', browseFeatures: { __typename: 'BrowseFeatureConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseFeatureEdge', cursor: string, node?: { __typename: 'BrowseFeature', id: number, name: string, link: string, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, featureInstanceType: FeatureInstanceTypes, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
 
-export type BrowseFeaturesFieldsFragment = { __typename: 'BrowseFeature', id: number, name: string, link: string, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
+export type BrowseFeaturesFieldsFragment = { __typename: 'BrowseFeature', id: number, name: string, link: string, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, featureInstanceType: FeatureInstanceTypes, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string }> | undefined };
 
 export type FlagListQueryVariables = Exact<{
   flaggable?: InputMaybe<FlaggableInput>;
@@ -7639,6 +7643,8 @@ export type GeneSummaryFieldsFragment = { __typename: 'Gene', id: number, descri
 
 export type FactorSummaryFieldsFragment = { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined };
 
+export type NcitDetailsFragment = { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> };
+
 export type MolecularProfileDetailQueryVariables = Exact<{
   mpId: Scalars['Int'];
 }>;
@@ -8382,6 +8388,7 @@ export const BrowseFeaturesFieldsFragmentDoc = gql`
   evidenceItemCount
   assertionCount
   molecularProfileCount
+  featureInstanceType
 }
     `;
 export const FlagFragmentDoc = gql`
@@ -9889,6 +9896,18 @@ export const GeneSummaryFieldsFragmentDoc = gql`
   myGeneInfoDetails
 }
     `;
+export const NcitDetailsFragmentDoc = gql`
+    fragment NcitDetails on NcitDetails {
+  synonyms {
+    name
+    source
+  }
+  definitions {
+    definition
+    source
+  }
+}
+    `;
 export const FactorSummaryFieldsFragmentDoc = gql`
     fragment FactorSummaryFields on Factor {
   id
@@ -9905,17 +9924,10 @@ export const FactorSummaryFieldsFragmentDoc = gql`
     sourceType
   }
   ncitDetails {
-    synonyms {
-      name
-      source
-    }
-    definitions {
-      definition
-      source
-    }
+    ...NcitDetails
   }
 }
-    `;
+    ${NcitDetailsFragmentDoc}`;
 export const FeatureSummaryFieldsFragmentDoc = gql`
     fragment FeatureSummaryFields on Feature {
   id
@@ -11090,12 +11102,13 @@ export const FeaturePopoverDocument = gql`
     }
   }
 export const BrowseFeaturesDocument = gql`
-    query BrowseFeatures($featureName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseFeatures($featureName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseFeatures(
     featureName: $featureName
     therapyName: $therapyName
     featureAlias: $featureAlias
     diseaseName: $diseaseName
+    featureType: $featureType
     sortBy: $sortBy
     first: $first
     last: $last

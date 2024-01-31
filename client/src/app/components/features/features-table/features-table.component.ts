@@ -18,6 +18,7 @@ import {
   BrowseFeaturesGQL,
   BrowseFeaturesQuery,
   BrowseFeaturesQueryVariables,
+  FeatureInstanceTypes,
   FeaturesSortColumns,
   Maybe,
   PageInfo,
@@ -33,7 +34,6 @@ import {
   filter,
   map,
   skip,
-  take,
   withLatestFrom,
 } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
@@ -90,11 +90,17 @@ export class CvcFeaturesTableComponent implements OnInit {
   therapyInput: Maybe<string>
   nameInput: Maybe<string>
   aliasInput: Maybe<string>
+  typeInput: Maybe<FeatureInstanceTypes>
+
+  featureTypes = FeatureInstanceTypes
 
   sortColumns: typeof FeaturesSortColumns = FeaturesSortColumns
 
   private debouncedQuery = new Subject<void>()
-  constructor(private query: BrowseFeaturesGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private query: BrowseFeaturesGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -191,6 +197,7 @@ export class CvcFeaturesTableComponent implements OnInit {
         featureAlias: this.aliasInput,
         diseaseName: this.diseaseInput,
         therapyName: this.therapyInput,
+        featureType: this.typeInput,
       })
       .then(() => this.scrollIndex$.next(0))
 
@@ -202,7 +209,10 @@ export class CvcFeaturesTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<BrowseFeaturesFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseFeaturesFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

@@ -188,13 +188,15 @@ export type BrowseDiseaseEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseFeatureKeySpecifier = ('assertionCount' | 'description' | 'diseases' | 'evidenceItemCount' | 'featureAliases' | 'flagged' | 'flags' | 'id' | 'link' | 'molecularProfileCount' | 'name' | 'therapies' | 'variantCount' | BrowseFeatureKeySpecifier)[];
+export type BrowseFeatureKeySpecifier = ('assertionCount' | 'description' | 'diseases' | 'evidenceItemCount' | 'featureAliases' | 'featureInstanceId' | 'featureInstanceType' | 'flagged' | 'flags' | 'id' | 'link' | 'molecularProfileCount' | 'name' | 'therapies' | 'variantCount' | BrowseFeatureKeySpecifier)[];
 export type BrowseFeatureFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureInstanceId?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureInstanceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,

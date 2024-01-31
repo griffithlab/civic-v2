@@ -15,6 +15,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { CvcNcitDetailsComponent } from '../ncit-details/ncit-details.component'
 
 @Component({
   standalone: true,
@@ -33,6 +34,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     CvcTagListModule,
     CvcSourceTagModule,
     CvcLinkTagModule,
+    CvcNcitDetailsComponent,
   ],
 })
 export class FactorSummaryComponent implements OnInit {

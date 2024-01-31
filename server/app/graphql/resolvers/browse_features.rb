@@ -13,6 +13,13 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
   option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:therapy_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
+  option(:feature_type, type: Types::FeatureInstanceTypes) do |scope, value|
+    if value
+      scope.where(feature_instance_type: value)
+    else
+      scope
+    end
+  end
 
   option :sort_by, type: Types::BrowseTables::FeaturesSortType do |scope, value|
     case value.column

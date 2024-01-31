@@ -3,6 +3,7 @@ query BrowseFeatures(
   $therapyName: String
   $featureAlias: String
   $diseaseName: String
+  $featureType: FeatureInstanceTypes
   $sortBy: FeaturesSort
   $first: Int
   $last: Int
@@ -14,6 +15,7 @@ query BrowseFeatures(
     therapyName: $therapyName
     featureAlias: $featureAlias
     diseaseName: $diseaseName
+    featureType: $featureType
     sortBy: $sortBy
     first: $first
     last: $last
@@ -59,4 +61,5 @@ fragment BrowseFeaturesFields on BrowseFeature {
   evidenceItemCount
   assertionCount
   molecularProfileCount
+  featureInstanceType
 }

@@ -884,6 +884,8 @@ type BrowseFeature implements Flaggable {
   diseases: [Disease!]
   evidenceItemCount: Int!
   featureAliases: [String!]
+  featureInstanceId: Int!
+  featureInstanceType: FeatureInstanceTypes!
   flagged: Boolean!
 
   """
@@ -5991,6 +5993,7 @@ type Query {
     diseaseName: String
     featureAlias: String
     featureName: String
+    featureType: FeatureInstanceTypes
 
     """
     Returns the first _n_ elements from the list.

@@ -4061,6 +4061,38 @@
               "deprecationReason": null
             },
             {
+              "name": "featureInstanceId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "featureInstanceType",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "FeatureInstanceTypes",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "flagged",
               "description": null,
               "args": [],
@@ -28064,6 +28096,18 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "featureType",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FeatureInstanceTypes",
                     "ofType": null
                   },
                   "defaultValue": null,

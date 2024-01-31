@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_30_000329) do
+ActiveRecord::Schema.define(version: 2024_01_31_205334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1180,52 +1180,6 @@ ActiveRecord::Schema.define(version: 2024_01_30_000329) do
        JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false) AND ((ei.status)::text <> 'rejected'::text))))
     GROUP BY mp.id;
   SQL
-  create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT outer_features.id,
-      outer_features.name,
-      outer_features.flagged,
-      array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
-      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
-      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT assertions.id) AS assertion_count,
-      count(DISTINCT molecular_profiles.id) AS molecular_profile_count
-     FROM ((((((((((((features outer_features
-       LEFT JOIN feature_aliases_features ON ((feature_aliases_features.feature_id = outer_features.id)))
-       LEFT JOIN feature_aliases ON ((feature_aliases.id = feature_aliases_features.feature_alias_id)))
-       JOIN variants ON ((variants.feature_id = outer_features.id)))
-       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
-       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
-       LEFT JOIN assertions ON ((assertions.molecular_profile_id = molecular_profiles.id)))
-       LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
-              count(DISTINCT evidence_items_1.id) AS total
-             FROM (((((evidence_items evidence_items_1
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
-               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
-            WHERE (variants_1.feature_id = outer_features.id)
-            GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
-       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
-              count(DISTINCT evidence_items_1.id) AS total
-             FROM ((((evidence_items evidence_items_1
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-            WHERE (variants_1.feature_id = outer_features.id)
-            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false))
-    GROUP BY outer_features.id, outer_features.name;
-  SQL
-  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
-
   create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT diseases.id,
       diseases.name,
@@ -1337,5 +1291,53 @@ ActiveRecord::Schema.define(version: 2024_01_30_000329) do
     GROUP BY outer_mps.id, outer_mps.name, outer_mps.evidence_score;
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
+
+  create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT outer_features.id,
+      outer_features.name,
+      outer_features.flagged,
+      outer_features.feature_instance_type,
+      outer_features.feature_instance_id,
+      array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT molecular_profiles.id) AS molecular_profile_count
+     FROM ((((((((((((features outer_features
+       LEFT JOIN feature_aliases_features ON ((feature_aliases_features.feature_id = outer_features.id)))
+       LEFT JOIN feature_aliases ON ((feature_aliases.id = feature_aliases_features.feature_alias_id)))
+       JOIN variants ON ((variants.feature_id = outer_features.id)))
+       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
+       LEFT JOIN assertions ON ((assertions.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM (((((evidence_items evidence_items_1
+               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
+            WHERE (variants_1.feature_id = outer_features.id)
+            GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
+       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM ((((evidence_items evidence_items_1
+               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE (variants_1.feature_id = outer_features.id)
+            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false))
+    GROUP BY outer_features.id, outer_features.name;
+  SQL
+  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
 
 end
