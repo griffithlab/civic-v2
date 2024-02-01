@@ -5,6 +5,11 @@
     border: 1px solid #ccc;
     border-radius: 2px;
   ">
-  {{ cvcActivityEvent.action }} by
   {{ cvcActivityEvent.originatingUser.displayName }}
+  {{ cvcActivityEvent.action | eventVerbiage : 'feed' }}
+  {{ cvcActivityEvent.originatingObject?.name }}
+  {{ cvcActivityEvent.action | prepositionForSubject }}
+  {{ cvcActivityEvent.subject?.name }}
+  for
+  {{ cvcActivityEvent.organization?.name }}
 </div>

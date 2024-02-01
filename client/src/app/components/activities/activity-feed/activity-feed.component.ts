@@ -24,7 +24,6 @@ import {
   Subject,
   combineLatest,
   debounceTime,
-  distinctUntilChanged,
   map,
   merge,
   filter,
@@ -46,13 +45,17 @@ import { isNonNulled } from 'rxjs-etc'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 
-const prefsDefaults: CvcActivityFeedSettings = {
+export const cvcActivityFeedSettingsDefaults: CvcActivityFeedSettings = {
   mode: EventFeedMode.Unscoped,
   pageSize: 15,
   pollEvents: 30000,
   includeAutomatedEvents: true,
   tagDisplay: 'displayAll',
   showFilters: true,
+}
+
+export const cvcActivityFeedSettingsOptions = {
+  pageSizes: [5, 10, 25, 50, 100],
 }
 
 @UntilDestroy()
@@ -72,7 +75,8 @@ const prefsDefaults: CvcActivityFeedSettings = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeed implements OnInit, OnChanges {
-  @Input() cvcFeedSettings?: CvcActivityFeedSettings = prefsDefaults
+  @Input() cvcFeedSettings?: CvcActivityFeedSettings =
+    cvcActivityFeedSettingsDefaults
   @Input() cvcFeedFilters?: CvcActivityFeedFilters
   @Output() cvcFeedInfo: EventEmitter<Maybe<CvcActivityFeedInfo>> =
     new EventEmitter(void 0)
@@ -101,11 +105,12 @@ export class CvcActivityFeed implements OnInit, OnChanges {
   constructor(private gql: ActivityFeedGQL) {
     this.filterChange$ = new BehaviorSubject<CvcActivityFeedFilters>({})
     this.prefChange$ = new BehaviorSubject<CvcActivityFeedSettings>(
-      prefsDefaults
+      cvcActivityFeedSettingsDefaults
     )
     this.queryRequest$ = new Subject<EventFeedQueryVariables>()
     this.queryResult$ = new ReplaySubject<ApolloQueryResult<EventFeedQuery>>(1)
     this.onFetchMore$ = new Subject<FetchMoreParams>()
+
     // combine prefs, filters updates into a refetch query
     this.refetch$ = combineLatest([this.filterChange$, this.prefChange$]).pipe(
       map(([filters, prefs]) => {
@@ -243,14 +248,17 @@ export class CvcActivityFeed implements OnInit, OnChanges {
   getQueryVars(params: CvcActivityFeedQueryParams): EventFeedQueryVariables {
     // showFilters is a required query var
     let queryVars: EventFeedQueryVariables = {
-      showFilters: params.prefs?.showFilters ?? prefsDefaults.showFilters!,
+      showFilters:
+        params.prefs?.showFilters ??
+        cvcActivityFeedSettingsDefaults.showFilters!,
     }
     // if this is a fetchMore query, add first & after vars,
     // else configure a refetch query
     if (params.fetchMore !== undefined) {
       queryVars = {
         ...queryVars,
-        first: params.fetchMore.first ?? prefsDefaults.pageSize,
+        first:
+          params.fetchMore.first ?? cvcActivityFeedSettingsDefaults.pageSize,
         after: params.fetchMore.after,
       }
     } else {
@@ -258,22 +266,25 @@ export class CvcActivityFeed implements OnInit, OnChanges {
         // filters and preferences exist, set and/or merge with defaults
         queryVars = {
           ...queryVars,
-          first: params.prefs.pageSize ?? prefsDefaults.pageSize,
-          mode: params.prefs.mode ?? prefsDefaults.mode,
+          first:
+            params.prefs.pageSize ?? cvcActivityFeedSettingsDefaults.pageSize,
+          mode: params.prefs.mode ?? cvcActivityFeedSettingsDefaults.mode,
           includeAutomatedEvents:
             params.prefs.includeAutomatedEvents ??
-            prefsDefaults.includeAutomatedEvents,
+            cvcActivityFeedSettingsDefaults.includeAutomatedEvents,
           originatingUserId: params.filters.originatingUserId,
           organizationId: params.filters.organizationId,
           eventType: params.filters.eventType,
+          subject: params.filters.subject,
         }
       } else {
         queryVars = {
           ...queryVars,
           ...params.filters,
-          first: prefsDefaults.pageSize,
-          mode: prefsDefaults.mode,
-          includeAutomatedEvents: prefsDefaults.includeAutomatedEvents,
+          first: cvcActivityFeedSettingsDefaults.pageSize,
+          mode: cvcActivityFeedSettingsDefaults.mode,
+          includeAutomatedEvents:
+            cvcActivityFeedSettingsDefaults.includeAutomatedEvents,
         }
       }
     }
