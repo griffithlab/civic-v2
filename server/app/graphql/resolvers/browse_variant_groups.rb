@@ -13,8 +13,8 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
     scope.where('name ILIKE ?', "%#{value}%")
   end
 
-  option(:gene_names, type: String) do |scope, value|
-    scope.where("array_to_string(gene_names, '|') ILIKE ?", "%#{value}%")
+  option(:feature_names, type: String) do |scope, value|
+    scope.where("array_to_string(feature_names, '|') ILIKE ?", "%#{value}%")
   end
 
   option(:variant_names, type: String) do |scope, value|

@@ -801,7 +801,7 @@ export type BrowseVariantEdge = {
 export type BrowseVariantGroup = {
   __typename: 'BrowseVariantGroup';
   evidenceItemCount: Scalars['Int'];
-  geneNames: Array<Scalars['String']>;
+  featureNames: Array<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
   name: Scalars['String'];
@@ -3829,8 +3829,8 @@ export type QueryBrowseSourcesArgs = {
 export type QueryBrowseVariantGroupsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  featureNames?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  geneNames?: InputMaybe<Scalars['String']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantGroupsSort>;
@@ -6796,14 +6796,14 @@ export type BrowseVariantGroupsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantGroupsSort>;
   name?: InputMaybe<Scalars['String']>;
-  geneNames?: InputMaybe<Scalars['String']>;
+  featureNames?: InputMaybe<Scalars['String']>;
   variantNames?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type BrowseVariantGroupsQuery = { __typename: 'Query', browseVariantGroups: { __typename: 'BrowseVariantGroupConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantGroupEdge', cursor: string, node?: { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, geneNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number } | undefined }> } };
+export type BrowseVariantGroupsQuery = { __typename: 'Query', browseVariantGroups: { __typename: 'BrowseVariantGroupConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantGroupEdge', cursor: string, node?: { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, featureNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number } | undefined }> } };
 
-export type BrowseVariantGroupRowFieldsFragment = { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, geneNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number };
+export type BrowseVariantGroupRowFieldsFragment = { __typename: 'BrowseVariantGroup', id: number, name: string, link: string, featureNames: Array<string>, variantNames: Array<string>, variantCount: number, evidenceItemCount: number };
 
 export type VariantTypePopoverQueryVariables = Exact<{
   variantTypeId: Scalars['Int'];
@@ -8966,7 +8966,7 @@ export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
   id
   name
   link
-  geneNames
+  featureNames
   variantNames
   variantCount
   evidenceItemCount
@@ -12293,7 +12293,7 @@ export const VariantGroupPopoverDocument = gql`
     }
   }
 export const BrowseVariantGroupsDocument = gql`
-    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $geneNames: String, $variantNames: String) {
+    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $featureNames: String, $variantNames: String) {
   browseVariantGroups(
     first: $first
     last: $last
@@ -12301,7 +12301,7 @@ export const BrowseVariantGroupsDocument = gql`
     after: $after
     sortBy: $sortBy
     name: $name
-    geneNames: $geneNames
+    featureNames: $featureNames
     variantNames: $variantNames
   ) {
     pageInfo {

@@ -6338,7 +6338,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneNames",
+              "name": "featureNames",
               "description": null,
               "args": [],
               "type": {
@@ -28550,7 +28550,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "geneNames",
+                  "name": "featureNames",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

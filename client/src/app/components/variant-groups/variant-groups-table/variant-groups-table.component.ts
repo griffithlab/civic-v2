@@ -42,7 +42,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 export interface VariantGroupTableUserFilters {
   nameInput?: Maybe<string>
-  geneNameInput?: Maybe<string>
+  featureNameInput?: Maybe<string>
   variantNameInput?: Maybe<string>
 }
 
@@ -88,7 +88,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
 
   //filters
   nameInput: Maybe<string>
-  geneNameInput: Maybe<string>
+  featureNameInput: Maybe<string>
   variantNameInput: Maybe<string>
 
   sortColumns = VariantGroupsSortColumns
@@ -191,7 +191,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
     this.queryRef
       .refetch({
         name: this.nameInput,
-        geneNames: this.geneNameInput,
+        featureNames: this.featureNameInput,
         variantNames: this.variantNameInput,
       })
       .then(() => this.scrollIndex$.next(0))
@@ -200,7 +200,10 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<BrowseVariantGroupRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseVariantGroupRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

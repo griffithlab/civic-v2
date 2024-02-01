@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_31_205334) do
+ActiveRecord::Schema.define(version: 2024_02_01_173057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1056,25 +1056,6 @@ ActiveRecord::Schema.define(version: 2024_01_31_205334) do
        JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
     GROUP BY mp.id;
   SQL
-  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT variant_groups.id,
-      variant_groups.name,
-      array_agg(DISTINCT variants.name) AS variant_names,
-      array_agg(DISTINCT genes.name) AS gene_names,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count
-     FROM ((((((variant_groups
-       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
-       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
-       JOIN genes ON ((variants.gene_id = genes.id)))
-       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY variant_groups.id, variant_groups.name;
-  SQL
-  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
-
   create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_genes.id,
       outer_genes.name,
@@ -1339,5 +1320,24 @@ ActiveRecord::Schema.define(version: 2024_01_31_205334) do
     GROUP BY outer_features.id, outer_features.name;
   SQL
   add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
+
+  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variant_groups.id,
+      variant_groups.name,
+      array_agg(DISTINCT variants.name) AS variant_names,
+      array_agg(DISTINCT features.name) AS feature_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM ((((((variant_groups
+       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
+       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
+       JOIN features ON ((variants.feature_id = features.id)))
+       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variant_groups.id, variant_groups.name;
+  SQL
+  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
 
 end

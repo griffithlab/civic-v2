@@ -361,10 +361,10 @@ export type BrowseVariantEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseVariantGroupKeySpecifier = ('evidenceItemCount' | 'geneNames' | 'id' | 'link' | 'name' | 'variantCount' | 'variantNames' | BrowseVariantGroupKeySpecifier)[];
+export type BrowseVariantGroupKeySpecifier = ('evidenceItemCount' | 'featureNames' | 'id' | 'link' | 'name' | 'variantCount' | 'variantNames' | BrowseVariantGroupKeySpecifier)[];
 export type BrowseVariantGroupFieldPolicy = {
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	geneNames?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureNames?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
