@@ -23,11 +23,10 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzPipesModule } from 'ng-zorro-antd/pipes'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { CvcActivityFeedSettings } from '@app/components/activities/activity-feed-settings/activity-feed-settings.component'
+import { CvcActivityFeedCard } from '@app/components/activities/activity-feed/activity-feed-card/activity-feed-card.component'
 
 @NgModule({
   imports: [
@@ -54,8 +53,7 @@ import { CvcActivityFeedSettings } from '@app/components/activities/activity-fee
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
-    CvcActivityFeed,
-    CvcActivityFeedSettings,
+    CvcActivityFeedCard,
     NgxJsonViewerModule,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],

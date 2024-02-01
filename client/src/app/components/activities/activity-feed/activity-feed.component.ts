@@ -34,7 +34,7 @@ import { QueryRef } from 'apollo-angular'
 import {
   CvcActivityFeedFilters,
   CvcActivityFeedInfo,
-  CvcActivityFeedPrefs,
+  CvcActivityFeedSettings,
   CvcActivityFeedQueryParams,
   FetchMoreParams,
 } from './activity-feed.types'
@@ -46,7 +46,7 @@ import { isNonNulled } from 'rxjs-etc'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 
-const prefsDefaults: CvcActivityFeedPrefs = {
+const prefsDefaults: CvcActivityFeedSettings = {
   mode: EventFeedMode.Unscoped,
   pageSize: 15,
   pollEvents: 30000,
@@ -72,14 +72,14 @@ const prefsDefaults: CvcActivityFeedPrefs = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeed implements OnInit, OnChanges {
-  @Input() cvcFeedPrefs: CvcActivityFeedPrefs = prefsDefaults
+  @Input() cvcFeedSettings?: CvcActivityFeedSettings = prefsDefaults
   @Input() cvcFeedFilters?: CvcActivityFeedFilters
   @Output() cvcFeedInfo: EventEmitter<Maybe<CvcActivityFeedInfo>> =
     new EventEmitter(void 0)
 
   // @Input SOURCE STREAMS
   filterChange$: BehaviorSubject<CvcActivityFeedFilters>
-  prefChange$: BehaviorSubject<CvcActivityFeedPrefs>
+  prefChange$: BehaviorSubject<CvcActivityFeedSettings>
 
   // SOURCE STREAMS
   onFetchMore$: Subject<FetchMoreParams>
@@ -100,7 +100,9 @@ export class CvcActivityFeed implements OnInit, OnChanges {
 
   constructor(private gql: ActivityFeedGQL) {
     this.filterChange$ = new BehaviorSubject<CvcActivityFeedFilters>({})
-    this.prefChange$ = new BehaviorSubject<CvcActivityFeedPrefs>(prefsDefaults)
+    this.prefChange$ = new BehaviorSubject<CvcActivityFeedSettings>(
+      prefsDefaults
+    )
     this.queryRequest$ = new Subject<EventFeedQueryVariables>()
     this.queryResult$ = new ReplaySubject<ApolloQueryResult<EventFeedQuery>>(1)
     this.onFetchMore$ = new Subject<FetchMoreParams>()
@@ -208,8 +210,9 @@ export class CvcActivityFeed implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('activity-feed OnChanges()')
-    if (changes.cvcFeedPrefs) {
-      const prefs: CvcActivityFeedPrefs = changes.cvcFeedPrefs.currentValue
+    if (changes.cvcFeedSettings) {
+      const prefs: CvcActivityFeedSettings =
+        changes.cvcFeedSettings.currentValue
       if (prefs !== undefined) {
         this.prefChange$.next(prefs)
       }

@@ -14,7 +14,7 @@ export type ActivityFeedTagDisplayOption =
   | 'hideOrg'
   | 'displayAll'
 
-export type CvcActivityFeedPrefs = {
+export type CvcActivityFeedSettings = {
   includeAutomatedEvents?: boolean
   mode?: EventFeedMode
   pageSize?: number
@@ -46,6 +46,6 @@ export type FetchMoreParams = { first: number; after: string }
 
 export type CvcActivityFeedQueryParams = {
   filters?: CvcActivityFeedFilters
-  prefs?: CvcActivityFeedPrefs
+  prefs?: CvcActivityFeedSettings
   fetchMore?: { first?: number; after?: string }
 }
