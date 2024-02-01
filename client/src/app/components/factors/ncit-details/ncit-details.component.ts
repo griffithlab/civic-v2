@@ -5,7 +5,7 @@ import { Maybe, NcitDetailsFragment } from '@app/generated/civic.apollo'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 
 @Component({
@@ -20,7 +20,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
     NzCardModule,
     NzTagModule,
     NzGridModule,
-    NzSpaceModule,
+    NzTabsModule,
 
     CvcTagListModule,
   ],
