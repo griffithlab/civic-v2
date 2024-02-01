@@ -53,5 +53,6 @@ module Types
     field :add_disease, mutation: Mutations::AddDisease
     field :add_therapy, mutation: Mutations::AddTherapy
     field :create_variant, mutation: Mutations::CreateVariant
+    field :create_feature, mutation: Mutations::CreateFeature
   end
 end

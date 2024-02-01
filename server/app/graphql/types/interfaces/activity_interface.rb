@@ -56,7 +56,9 @@ module Types::Interfaces
       Types::Activities::AcceptRevisionsActivityType,
       Types::Activities::CreateVariantActivityType,
       Types::Activities::DeprecateComplexMolecularProfileActivityType,
-      Types::Activities::CreateComplexMolecularProfileActivityType
+      Types::Activities::CreateComplexMolecularProfileActivityType,
+      Types::Activities::CreateFeatureActivityType,
+      Types::Activities::DeprecateFeatureActivityType,
     )
 
     definition_methods do
@@ -94,6 +96,10 @@ module Types::Interfaces
           Types::Activities::DeprecateComplexMolecularProfileActivityType
         when CreateComplexMolecularProfileActivity
           Types::Activities::CreateComplexMolecularProfileActivityType
+        when CreateFeatureActivity
+          Types::Activities::CreateFeatureActivityType
+        when DeprecateFeatureActivity
+          Types::Activities::DeprecateFeatureActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

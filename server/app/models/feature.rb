@@ -14,6 +14,8 @@ class Feature < ApplicationRecord
   searchkick highlight: [:name, :aliases, :feature_type], callbacks: :async
   scope :search_import, -> { includes(:feature_aliases) }
 
+  validates :name, presence: true, uniqueness: { scope: :feature_instance_type }
+
   def search_data
     {
       name: name,
