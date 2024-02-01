@@ -3,60 +3,103 @@
   style="height: 100%"
   nzSize="small"
   class="home-card"
-  [nzExtra]="feedParameters">
-  <cvc-activity-feed
-    [cvcFeedSettings]="feedSettings()"
-    [cvcFeedFilters]="feedFilters()"
-    (cvcFeedInfo)="feedInfo.set($event)"></cvc-activity-feed>
+  [nzExtra]="cardExta">
+  <nz-row [nzGutter]="[8, 8]">
+    <nz-col [nzSpan]="cvcFilterDisplay === 'list' ? 18 : 24">
+      <cvc-activity-feed
+        [cvcFeedSettings]="feedSettings()"
+        [cvcFeedFilters]="feedFilters()"
+        (cvcFeedInfo)="feedInfo.set($event)"></cvc-activity-feed>
+    </nz-col>
+    <nz-col
+      *ngIf="cvcFilterDisplay === 'list'"
+      nzSpan="6">
+      <nz-card
+        nzSize="small"
+        [nzTitle]="curatorsTitle"
+        nzBordered="false">
+        <ul class="facet-menu">
+          <li
+            *ngFor="let user of feedInfo()?.participants"
+            (click)="originatingUserId.set(user.id)"
+            [ngClass]="{ selected: user.id === originatingUserId() }">
+            {{ user.displayName }}
+          </li>
+        </ul>
+        <ng-template #curatorsTitle>
+          <div class="facet-title">Curators</div>
+        </ng-template>
+      </nz-card>
+      <br />
+      <nz-card
+        nzSize="small"
+        [nzTitle]="orgsTitle"
+        nzBordered="false">
+        <ul class="facet-menu">
+          <li
+            *ngFor="let organization of feedInfo()?.organizations"
+            (click)="organizationId.set(organization.id)"
+            [ngClass]="{ selected: organization.id === organizationId() }">
+            {{ organization.name }}
+          </li>
+        </ul>
+        <ng-template #orgsTitle>
+          <div class="facet-title">Organizations</div>
+        </ng-template>
+      </nz-card>
+    </nz-col>
+  </nz-row>
 </nz-card>
 <ng-template #feedTitle>
   <span>Live Curation Activity</span>
   <span> ({{ feedInfo()?.actionCount?.unfiltered | number }} total) </span>
 </ng-template>
-<ng-template #feedParameters>
+<ng-template #cardExta>
   <nz-space nzDirection="horizontal">
-    <nz-select
-      [ngModel]="eventType()"
-      (ngModelChange)="eventType.set($event)"
-      [nzDropdownMatchSelectWidth]="false"
-      nzPlaceHolder="Type"
-      [nzAllowClear]="true"
-      [nzOptionHeightPx]="28"
-      nzSize="small"
-      *nzSpaceItem>
-      <nz-option
-        *ngFor="let type of feedInfo()?.types"
-        [nzValue]="type"
-        [nzLabel]="type"></nz-option>
-    </nz-select>
-    <nz-select
-      [ngModel]="organizationId()"
-      (ngModelChange)="organizationId.set($event)"
-      [nzDropdownMatchSelectWidth]="false"
-      nzPlaceHolder="Organization"
-      [nzAllowClear]="true"
-      [nzOptionHeightPx]="28"
-      nzSize="small"
-      *nzSpaceItem>
-      <nz-option
-        *ngFor="let organization of feedInfo()?.organizations"
-        [nzValue]="organization.id"
-        [nzLabel]="organization.name"></nz-option>
-    </nz-select>
-    <nz-select
-      [ngModel]="originatingUserId()"
-      (ngModelChange)="originatingUserId.set($event)"
-      [nzDropdownMatchSelectWidth]="false"
-      nzPlaceHolder="User"
-      [nzAllowClear]="true"
-      [nzOptionHeightPx]="28"
-      nzSize="small"
-      *nzSpaceItem>
-      <nz-option
-        *ngFor="let user of feedInfo()?.participants"
-        [nzValue]="user.id"
-        [nzLabel]="user.displayName"></nz-option>
-    </nz-select>
+    <ng-container *ngIf="cvcFilterDisplay === 'select'">
+      <nz-select
+        [ngModel]="eventType()"
+        (ngModelChange)="eventType.set($event)"
+        [nzDropdownMatchSelectWidth]="false"
+        nzPlaceHolder="Type"
+        [nzAllowClear]="true"
+        [nzOptionHeightPx]="28"
+        nzSize="small"
+        *nzSpaceItem>
+        <nz-option
+          *ngFor="let type of feedInfo()?.types"
+          [nzValue]="type"
+          [nzLabel]="type"></nz-option>
+      </nz-select>
+      <nz-select
+        [ngModel]="organizationId()"
+        (ngModelChange)="organizationId.set($event)"
+        [nzDropdownMatchSelectWidth]="false"
+        nzPlaceHolder="Organization"
+        [nzAllowClear]="true"
+        [nzOptionHeightPx]="28"
+        nzSize="small"
+        *nzSpaceItem>
+        <nz-option
+          *ngFor="let organization of feedInfo()?.organizations"
+          [nzValue]="organization.id"
+          [nzLabel]="organization.name"></nz-option>
+      </nz-select>
+      <nz-select
+        [ngModel]="originatingUserId()"
+        (ngModelChange)="originatingUserId.set($event)"
+        [nzDropdownMatchSelectWidth]="false"
+        nzPlaceHolder="User"
+        [nzAllowClear]="true"
+        [nzOptionHeightPx]="28"
+        nzSize="small"
+        *nzSpaceItem>
+        <nz-option
+          *ngFor="let user of feedInfo()?.participants"
+          [nzValue]="user.id"
+          [nzLabel]="user.displayName"></nz-option>
+      </nz-select>
+    </ng-container>
     <button
       nz-button
       nz-popover

@@ -9,3 +9,24 @@
     white-space: nowrap;
   }
 }
+.facet-title {
+}
+.facet-menu {
+  margin: -12px;
+  padding: 0;
+  list-style: none;
+  max-height: 250px;
+  overflow-y: scroll;
+  li {
+    padding: 6px 4px;
+    &:hover {
+      cursor: pointer;
+      color: white;
+      background-color: blue;
+    }
+    &.selected {
+      color: white;
+      background-color: blue;
+    }
+  }
+}
