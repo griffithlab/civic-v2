@@ -40,7 +40,7 @@ export type CvcActivityFeedInfo = {
   }
   participants?: TagLinkableUser[]
   organizations?: TagLinkableOrganization[]
-  types?: EventType[]
+  types?: EventAction[]
 }
 export type FetchMoreParams = { first: number; after: string }
 

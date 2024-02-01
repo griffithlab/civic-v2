@@ -38,6 +38,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzMenuModule } from 'ng-zorro-antd/menu'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 export const cvcActivityFeedSettingsDefaults = {
   pageSize: 25,
@@ -62,6 +63,7 @@ export const cvcActivityFeedSettingsDefaults = {
     NzCardModule,
     NzSelectModule,
     NzSpaceModule,
+    CvcPipesModule,
     CvcActivityFeed,
     CvcActivityFeedSettingsButton,
   ],

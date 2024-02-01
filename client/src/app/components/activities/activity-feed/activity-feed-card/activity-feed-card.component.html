@@ -13,12 +13,52 @@
     </nz-col>
     <nz-col
       *ngIf="cvcFilterDisplay === 'list'"
-      nzSpan="6">
+      nzSpan="6"
+      class="feed-facet-sidebar">
+      <nz-card
+        nzSize="small"
+        [nzTitle]="typeTitle"
+        nzBordered="true"
+        *ngIf="feedInfo()?.types"
+        [nzExtra]="eventType() !== null ? typeExtra : undefined">
+        <ul class="facet-menu">
+          <li
+            (click)="eventType.set(null)"
+            [ngClass]="{ selected: !eventType() }">
+            Show All
+          </li>
+          <li
+            *ngFor="let type of feedInfo()?.types"
+            (click)="eventType.set(type)"
+            [ngClass]="{ selected: type === eventType() }">
+            {{ type | eventVerbiage : 'action-filter' }}
+          </li>
+        </ul>
+        <ng-template #typeTitle>
+          <div class="facet-title">Action Type</div>
+        </ng-template>
+        <ng-template #typeExtra>
+          <span
+            nz-icon
+            nzType="clear"
+            nzTheme="outline"
+            (click)="eventType.set(null)"
+            class="clear-filter"></span>
+        </ng-template>
+      </nz-card>
       <nz-card
         nzSize="small"
         [nzTitle]="curatorsTitle"
-        nzBordered="false">
+        nzBordered="true"
+        *ngIf="feedInfo()?.participants"
+        [nzExtra]="originatingUserId() != null ? curatorExtra : undefined">
+        <pre>ID {{ originatingUserId() != null | json }}</pre>
         <ul class="facet-menu">
+          <li
+            (click)="originatingUserId.set(null)"
+            [ngClass]="{ selected: !originatingUserId() }">
+            Show All
+          </li>
           <li
             *ngFor="let user of feedInfo()?.participants"
             (click)="originatingUserId.set(user.id)"
@@ -27,15 +67,29 @@
           </li>
         </ul>
         <ng-template #curatorsTitle>
-          <div class="facet-title">Curators</div>
+          <div class="facet-title">Curator</div>
+        </ng-template>
+        <ng-template #curatorExtra>
+          extra
+          <span
+            nz-icon
+            nzCurator="clear"
+            nzTheme="outline"
+            (click)="originatingUserId.set(null)"
+            class="clear-filter"></span>
         </ng-template>
       </nz-card>
-      <br />
       <nz-card
         nzSize="small"
         [nzTitle]="orgsTitle"
-        nzBordered="false">
+        nzBordered="true"
+        *ngIf="feedInfo()?.organizations">
         <ul class="facet-menu">
+          <li
+            (click)="organizationId.set(null)"
+            [ngClass]="{ selected: !organizationId() }">
+            Show All
+          </li>
           <li
             *ngFor="let organization of feedInfo()?.organizations"
             (click)="organizationId.set(organization.id)"
@@ -44,7 +98,7 @@
           </li>
         </ul>
         <ng-template #orgsTitle>
-          <div class="facet-title">Organizations</div>
+          <div class="facet-title">Organization</div>
         </ng-template>
       </nz-card>
     </nz-col>
