@@ -48,6 +48,10 @@ export class IconNameForEventActionPipe implements PipeTransform {
         return 'civic-assertion'
       case EventAction.DeprecatedVariant:
         return 'civic-variant'
+      case EventAction.DeprecatedFeature:
+        return 'civic-feature'
+      case EventAction.FeatureCreated:
+        return 'civic-feature'
       case EventAction.DeprecatedMolecularProfile:
         return 'civic-molecularprofile'
       case EventAction.ComplexMolecularProfileCreated:

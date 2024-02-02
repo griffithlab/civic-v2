@@ -2937,7 +2937,7 @@ enum EvidenceType {
 """
 The Feature that a Variant can belong to
 """
-type Factor implements Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Factor implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
   """
   List and filter comments.
   """
@@ -3173,7 +3173,7 @@ type FdaCode {
 """
 The Feature that a Variant can belong to
 """
-type Feature implements Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Feature implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
   """
   List and filter comments.
   """
@@ -3758,7 +3758,7 @@ input FlaggableInput {
 """
 The Feature that a Variant can belong to
 """
-type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
   """
   List and filter comments.
   """

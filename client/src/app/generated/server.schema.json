@@ -12472,7 +12472,22 @@
             },
             {
               "kind": "OBJECT",
+              "name": "Factor",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Feature",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Flag",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Gene",
               "ofType": null
             },
             {
@@ -15582,6 +15597,11 @@
             },
             {
               "kind": "INTERFACE",
+              "name": "EventOriginObject",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
               "name": "MolecularProfileComponent",
               "ofType": null
             },
@@ -16451,6 +16471,11 @@
             {
               "kind": "INTERFACE",
               "name": "EventSubject",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "EventOriginObject",
               "ofType": null
             },
             {
@@ -18845,6 +18870,11 @@
             {
               "kind": "INTERFACE",
               "name": "EventSubject",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "EventOriginObject",
               "ofType": null
             },
             {

@@ -2,6 +2,7 @@ module Types::Entities
   class FeatureType < Types::BaseObject
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::EventOriginObject
     implements Types::Interfaces::MolecularProfileComponent
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::WithRevisions
