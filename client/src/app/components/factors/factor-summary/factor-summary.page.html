@@ -94,6 +94,43 @@
 
   <!-- last revision submitted/accepted, mygeneinfo col -->
   <nz-col nzSpan="12">
+    <!-- BLOCK: creation and deprecation events -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+      nzBordered="true">
+      <!-- creation/deprecation curation events -->
+      <ng-container *ngIf="factor.creationActivity">
+        <nz-descriptions-item [nzTitle]="createdTitle">
+          by
+          <cvc-user-tag [user]="factor.creationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #createdTitle>
+          Created
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ factor.creationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="factor.deprecationActivity">
+        <nz-descriptions-item [nzTitle]="deprecatedTitle">
+          by
+          <cvc-user-tag [user]="factor.deprecationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #deprecatedTitle>
+          Deprecated
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ factor.deprecationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+    </nz-descriptions>
+    <br />
     <!-- ncit info -->
     <cvc-ncit-details [ncitDetails]="factor.ncitDetails"></cvc-ncit-details>
   </nz-col>

@@ -16,6 +16,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcNcitDetailsComponent } from '../ncit-details/ncit-details.component'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 
 @Component({
   standalone: true,
@@ -35,6 +37,8 @@ import { CvcNcitDetailsComponent } from '../ncit-details/ncit-details.component'
     CvcSourceTagModule,
     CvcLinkTagModule,
     CvcNcitDetailsComponent,
+    CvcPipesModule,
+    CvcUserTagModule,
   ],
 })
 export class FactorSummaryComponent implements OnInit {
