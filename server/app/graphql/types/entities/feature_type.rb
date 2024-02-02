@@ -17,6 +17,10 @@ module Types::Entities
     field :variants, resolver: Resolvers::Variants
     field :link, String, null: false
     field :feature_instance, Types::FeatureInstanceType, null: false
+    field :deprecation_activity, Types::Activities::DeprecateFeatureActivityType, null: true
+    field :deprecated, Boolean, null: false
+    field :deprecation_reason, Types::FeatureDeprecationReasonType, null: true
+    field :creation_activity, Types::Activities::CreateFeatureActivityType, null: true
 
     def id
       object.id

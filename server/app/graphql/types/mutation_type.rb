@@ -23,6 +23,7 @@ module Types
     field :resolve_flag, mutation: Mutations::ResolveFlag
 
     #deprecation
+    field :deprecate_feature, mutation: Mutations::DeprecateFeature
     field :deprecate_variant, mutation: Mutations::DeprecateVariant
     field :deprecate_complex_molecular_profile, mutation: Mutations::DeprecateComplexMolecularProfile
 

@@ -9,6 +9,18 @@ class Feature < ApplicationRecord
   has_and_belongs_to_many :feature_aliases, class_name: 'Features::FeatureAlias'
   has_and_belongs_to_many :sources
 
+  has_one :deprecation_activity,
+    as: :subject,
+    class_name: 'DeprecateFeatureActivity'
+  has_one :deprecating_user, through: :deprecation_activity, source: :user
+
+  has_one :creation_activity,
+    as: :subject,
+    class_name: 'CreateFeatureActivity'
+  has_one :creating_user, through: :creation_activity, source: :user
+
+  enum deprecation_reason: ['duplicate', 'invalid_feature', 'other']
+
   has_many :variants
 
   searchkick highlight: [:name, :aliases, :feature_type], callbacks: :async

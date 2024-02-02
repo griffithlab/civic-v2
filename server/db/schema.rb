@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_01_173057) do
+ActiveRecord::Schema.define(version: 2024_02_01_182724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -472,6 +472,8 @@ ActiveRecord::Schema.define(version: 2024_02_01_173057) do
     t.bigint "feature_instance_id", null: false
     t.boolean "flagged", default: false, null: false
     t.text "full_name"
+    t.boolean "deprecated", default: false, null: false
+    t.integer "deprecation_reason"
     t.index ["feature_instance_type", "feature_instance_id"], name: "index_features_on_feature_instance"
   end
 
