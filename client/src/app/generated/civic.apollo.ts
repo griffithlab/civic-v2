@@ -7768,22 +7768,22 @@ export type FeatureDetailQueryVariables = Exact<{
 }>;
 
 
-export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type FeatureDetailQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, deprecated: boolean, deprecationReason?: FeatureDeprecationReason | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type FeatureDetailFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, deprecated: boolean, deprecationReason?: FeatureDeprecationReason | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined, deprecated?: boolean | undefined, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> } | undefined, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type FeaturesSummaryQueryVariables = Exact<{
   featureId: Scalars['Int'];
 }>;
 
 
-export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined } | { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
+export type FeaturesSummaryQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } | undefined };
 
-export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined } | { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
+export type FeatureSummaryFieldsFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } };
 
 export type GeneSummaryFieldsFragment = { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> };
 
-export type FactorSummaryFieldsFragment = { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined };
+export type FactorSummaryFieldsFragment = { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
 
 export type NcitDetailsFragment = { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> };
 
@@ -10012,6 +10012,13 @@ export const FeatureDetailFieldsFragmentDoc = gql`
   id
   name
   fullName
+  deprecated
+  deprecationReason
+  deprecationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   featureInstance {
     __typename
   }
@@ -10025,7 +10032,7 @@ export const FeatureDetailFieldsFragmentDoc = gql`
     totalCount
   }
 }
-    `;
+    ${ParsedCommentFragmentFragmentDoc}`;
 export const GeneSummaryFieldsFragmentDoc = gql`
     fragment GeneSummaryFields on Gene {
   id
@@ -10063,6 +10070,7 @@ export const FactorSummaryFieldsFragmentDoc = gql`
   description
   featureAliases
   ncitId
+  deprecated
   sources {
     id
     citation
@@ -10073,6 +10081,24 @@ export const FactorSummaryFieldsFragmentDoc = gql`
   }
   ncitDetails {
     ...NcitDetails
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
   }
 }
     ${NcitDetailsFragmentDoc}`;

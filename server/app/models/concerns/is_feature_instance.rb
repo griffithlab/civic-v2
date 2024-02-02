@@ -7,6 +7,9 @@ module IsFeatureInstance
     delegate :name, :name=, to: :feature
     delegate :description, :description=, to: :feature
     delegate :full_name, :full_name=, to: :feature
+    delegate :deprecated, :deprecated=, to: :feature
+    delegate :deprecation_activity, :deprecating_user, to: :feature
+    delegate :creation_activity, :creating_user, to: :feature
     delegate :feature_aliases, to: :feature
     delegate :sources, to: :feature
     delegate :source_ids, to: :feature

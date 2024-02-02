@@ -8,6 +8,13 @@ fragment FeatureDetailFields on Feature {
   id
   name
   fullName
+  deprecated
+  deprecationReason
+  deprecationActivity {
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
   featureInstance {
     __typename
   }

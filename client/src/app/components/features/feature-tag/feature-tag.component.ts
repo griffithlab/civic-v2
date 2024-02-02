@@ -13,11 +13,13 @@ export interface LinkableFeature {
   name: string
   link: string
   flagged?: boolean
+  deprecated?: boolean
 }
 
 @Component({
   selector: 'cvc-feature-tag',
   templateUrl: './feature-tag.component.html',
+  styleUrl: './feature-tag.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcFeatureTagComponent extends BaseCloseableTag implements OnInit {

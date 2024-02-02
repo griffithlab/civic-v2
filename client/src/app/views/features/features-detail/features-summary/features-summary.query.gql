@@ -59,6 +59,7 @@ fragment FactorSummaryFields on Factor {
   description
   featureAliases
   ncitId
+  deprecated
   sources {
     id
     citation
@@ -69,6 +70,24 @@ fragment FactorSummaryFields on Factor {
   }
   ncitDetails {
     ...NcitDetails
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
   }
 }
 
