@@ -13,19 +13,19 @@ module Resolvers
       Activity.order(created_at: :desc).distinct
     end
 
-    option(:user_id, type: Int) do |scope, value|
+    option(:user_id, type: [Int]) do |scope, value|
       scope.where(user_id: value)
     end
 
-    option(:organization_id, type: Int) do |scope, value|
+    option(:organization_id, type: [Int]) do |scope, value|
       scope.where(organization_id: value)
     end
 
-    option(:activity_type, type: Types::Activities::ActivityTypeInputType) do |scope, value|
+    option(:activity_type, type: [Types::Activities::ActivityTypeInputType]) do |scope, value|
       scope.where(type: value)
     end
 
-    option(:subject_type, type: Types::Activities::ActivitySubjectInputType) do |scope, value|
+    option(:subject_type, type: [Types::Activities::ActivitySubjectInputType]) do |scope, value|
       scope.where(subject_type: value)
     end
 
@@ -33,7 +33,7 @@ module Resolvers
       scope.reorder("activities.#{value.column} #{value.direction}")
     end
 
-    option(:subject, type: Types::Subscribable::SubscribableQueryInput) do |scope, value|
+    option(:subject, type: [Types::Subscribable::SubscribableQueryInput]) do |scope, value|
       scope.where(subject: value)
     end
 

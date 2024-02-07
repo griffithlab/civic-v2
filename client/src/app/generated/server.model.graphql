@@ -5370,7 +5370,7 @@ type Query {
   List and filter activities
   """
   activities(
-    activityType: ActivityTypeInput
+    activityType: [ActivityTypeInput!]
 
     """
     Returns the elements in the list that come after the specified cursor.
@@ -5392,15 +5392,15 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
-    organizationId: Int
+    organizationId: [Int!]
 
     """
     Sort order for the activities. Defaults to most recent.
     """
     sortBy: DateSort
-    subject: SubscribableQueryInput
-    subjectType: ActivitySubjectInput
-    userId: Int
+    subject: [SubscribableQueryInput!]
+    subjectType: [ActivitySubjectInput!]
+    userId: [Int!]
   ): ActivityInterfaceConnection!
 
   """
