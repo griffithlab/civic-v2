@@ -25,6 +25,10 @@ module Resolvers
       scope.where(type: value)
     end
 
+    option(:subject_type, type: Types::Activities::ActivitySubjectInputType) do |scope, value|
+      scope.where(subject_type: value)
+    end
+
     option(:sort_by, type: Types::DateSortType, description: 'Sort order for the activities. Defaults to most recent.') do |scope, value|
       scope.reorder("activities.#{value.column} #{value.direction}")
     end

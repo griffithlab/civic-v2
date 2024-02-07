@@ -10,8 +10,11 @@ module Types::Connections
 
     field :unfiltered_count, Int, null: false,
       description: 'When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters.'
+
     field :activity_types, [Types::Activities::ActivityTypeInputType], null: false,
       description: 'List of activity types that have occured on this entity.'
+
+    field :subject_types, [Types::Activities::ActivitySubjectInputType], null: false
 
     def unique_participants
       #Users who's originating ids appear in the activities query,
@@ -42,6 +45,10 @@ module Types::Connections
 
     def activity_types
       unscoped_activities_base_query.distinct.pluck(:type)
+    end
+
+    def subject_types
+      unscoped_activities_base_query.distinct.pluck(:subject_type)
     end
 
     private

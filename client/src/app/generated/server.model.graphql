@@ -121,6 +121,7 @@ type ActivityInterfaceConnection {
   List of all organizations who are involved in this activity stream.
   """
   participatingOrganizations: [Organization!]!
+  subjectTypes: [ActivitySubjectInput!]!
 
   """
   The total number of records in this filtered collection.
@@ -152,6 +153,20 @@ type ActivityInterfaceEdge {
   The item at the end of the edge.
   """
   node: ActivityInterface
+}
+
+enum ActivitySubjectInput {
+  ASSERTION
+  EVIDENCE_ITEM
+  FEATURE
+  FLAG
+  MOLECULAR_PROFILE
+  REVISION
+  REVISION_SET
+  SOURCE
+  SOURCE_SUGGESTION
+  VARIANT
+  VARIANT_GROUP
 }
 
 enum ActivityTypeInput {
@@ -5384,6 +5399,7 @@ type Query {
     """
     sortBy: DateSort
     subject: SubscribableQueryInput
+    subjectType: ActivitySubjectInput
     userId: Int
   ): ActivityInterfaceConnection!
 
