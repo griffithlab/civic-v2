@@ -93,6 +93,11 @@ The connection type for ActivityInterface.
 """
 type ActivityInterfaceConnection {
   """
+  List of activity types that have occured on this entity.
+  """
+  activityTypes: [ActivityTypeInput!]!
+
+  """
   A list of edges.
   """
   edges: [ActivityInterfaceEdge!]!
@@ -113,9 +118,25 @@ type ActivityInterfaceConnection {
   pageInfo: PageInfo!
 
   """
+  List of all organizations who are involved in this activity stream.
+  """
+  participatingOrganizations: [Organization!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  When filtered on a subject, user, or organization, the total number of events
+  for that subject/user/organization, irregardless of other filters.
+  """
+  unfilteredCount: Int!
+
+  """
+  List of all users that have performed an activity on the subject entity.
+  """
+  uniqueParticipants: [User!]!
 }
 
 """
@@ -137,8 +158,10 @@ enum ActivityTypeInput {
   ACCEPT_REVISIONS
   COMMENT
   CREATE_COMPLEX_MOLECULAR_PROFILE
+  CREATE_FEATURE
   CREATE_VARIANT
   DEPRECATE_COMPLEX_MOLECULAR_PROFILE
+  DEPRECATE_FEATURE
   DEPRECATE_VARIANT
   FLAG_ENTITY
   MODERATE_ASSERTION
@@ -2366,11 +2389,11 @@ enum EventAction {
   ASSERTION_SUBMITTED
   COMMENTED
   COMPLEX_MOLECULAR_PROFILE_CREATED
+  CREATED_FEATURE
   CURATED_SOURCE_SUGGESTION
   DEPRECATED_FEATURE
   DEPRECATED_MOLECULAR_PROFILE
   DEPRECATED_VARIANT
-  FEATURE_CREATED
   FLAGGED
   FLAG_RESOLVED
   PUBLICATION_SUGGESTED
@@ -6020,6 +6043,7 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
+    organizationId: Int
 
     """
     Sort order for the activities. Defaults to most recent.

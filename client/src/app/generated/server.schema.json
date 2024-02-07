@@ -727,6 +727,30 @@
           "description": "The connection type for ActivityInterface.",
           "fields": [
             {
+              "name": "activityTypes",
+              "description": "List of activity types that have occured on this entity.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "ActivityTypeInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "edges",
               "description": "A list of edges.",
               "args": [],
@@ -807,6 +831,30 @@
               "deprecationReason": null
             },
             {
+              "name": "participatingOrganizations",
+              "description": "List of all organizations who are involved in this activity stream.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Organization",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "totalCount",
               "description": "The total number of records in this filtered collection.",
               "args": [],
@@ -817,6 +865,46 @@
                   "kind": "SCALAR",
                   "name": "Int",
                   "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "unfilteredCount",
+              "description": "When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uniqueParticipants",
+              "description": "List of all users that have performed an activity on the subject entity.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "User",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -967,6 +1055,18 @@
             },
             {
               "name": "CREATE_COMPLEX_MOLECULAR_PROFILE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CREATE_FEATURE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DEPRECATE_FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -12221,13 +12321,13 @@
               "deprecationReason": null
             },
             {
-              "name": "FEATURE_CREATED",
+              "name": "DEPRECATED_FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "DEPRECATED_FEATURE",
+              "name": "CREATED_FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -28576,6 +28676,18 @@
               "args": [
                 {
                   "name": "userId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "organizationId",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
