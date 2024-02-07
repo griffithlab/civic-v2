@@ -121,6 +121,7 @@ type ActivityInterfaceConnection {
   List of all organizations who are involved in this activity stream.
   """
   participatingOrganizations: [Organization!]!
+  subjectTypes: [ActivitySubjectInput!]!
 
   """
   The total number of records in this filtered collection.
@@ -152,6 +153,20 @@ type ActivityInterfaceEdge {
   The item at the end of the edge.
   """
   node: ActivityInterface
+}
+
+enum ActivitySubjectInput {
+  ASSERTION
+  EVIDENCE_ITEM
+  FEATURE
+  FLAG
+  MOLECULAR_PROFILE
+  REVISION
+  REVISION_SET
+  SOURCE
+  SOURCE_SUGGESTION
+  VARIANT
+  VARIANT_GROUP
 }
 
 enum ActivityTypeInput {
@@ -5355,7 +5370,7 @@ type Query {
   List and filter activities
   """
   activities(
-    activityType: ActivityTypeInput
+    activityType: [ActivityTypeInput!]
 
     """
     Returns the elements in the list that come after the specified cursor.
@@ -5377,14 +5392,15 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
-    organizationId: Int
+    organizationId: [Int!]
 
     """
     Sort order for the activities. Defaults to most recent.
     """
     sortBy: DateSort
-    subject: SubscribableQueryInput
-    userId: Int
+    subject: [SubscribableQueryInput!]
+    subjectType: [ActivitySubjectInput!]
+    userId: [Int!]
   ): ActivityInterfaceConnection!
 
   """
