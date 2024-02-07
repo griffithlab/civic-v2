@@ -100,7 +100,6 @@ class Variant < ApplicationRecord
 
   def on_revision_accepted
     SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
-    GenerateOpenCravatLink.perform_later(self)
     update_single_variant_mp_aliases
   end
 
