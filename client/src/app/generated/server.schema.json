@@ -717,6 +717,30 @@
           "description": "The connection type for ActivityInterface.",
           "fields": [
             {
+              "name": "activityTypes",
+              "description": "List of activity types that have occured on this entity.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "ActivityTypeInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "edges",
               "description": "A list of edges.",
               "args": [],
@@ -1021,6 +1045,18 @@
             },
             {
               "name": "CREATE_COMPLEX_MOLECULAR_PROFILE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CREATE_FEATURE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DEPRECATE_FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11573,6 +11609,18 @@
             },
             {
               "name": "COMPLEX_MOLECULAR_PROFILE_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DEPRECATED_FEATURE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CREATED_FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
