@@ -1,6 +1,7 @@
 module Types::Interfaces
   module ActivityInterface
     include Types::BaseInterface
+    connection_type_class Types::Connections::ActivitiesConnection
 
     description 'An activity done by a curator or editor'
 

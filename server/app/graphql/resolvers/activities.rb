@@ -17,6 +17,10 @@ module Resolvers
       scope.where(user_id: value)
     end
 
+    option(:organization_id, type: Int) do |scope, value|
+      scope.where(organization_id: value)
+    end
+
     option(:activity_type, type: Types::Activities::ActivityTypeInputType) do |scope, value|
       scope.where(type: value)
     end
