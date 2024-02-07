@@ -113,9 +113,25 @@ type ActivityInterfaceConnection {
   pageInfo: PageInfo!
 
   """
+  List of all organizations who are involved in this activity stream.
+  """
+  participatingOrganizations: [Organization!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  When filtered on a subject, user, or organization, the total number of events
+  for that subject/user/organization, irregardless of other filters.
+  """
+  unfilteredCount: Int!
+
+  """
+  List of all users that have performed an activity on the subject entity.
+  """
+  uniqueParticipants: [User!]!
 }
 
 """
@@ -5352,6 +5368,7 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
+    organizationId: Int
 
     """
     Sort order for the activities. Defaults to most recent.
