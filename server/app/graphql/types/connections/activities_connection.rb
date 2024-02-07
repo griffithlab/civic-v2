@@ -15,11 +15,11 @@ module Types::Connections
 
     def unique_participants
       #Users who's originating ids appear in the activities query,
-      #joined to events table, limited to only activities in the activities query
+      #joined to activities table, limited to only activities in the activities query
       #select the user id and the time of the newest relevant activity
       ranked_user_ids = User.where(id: unscoped_activities_base_query.select(:user_id))
         .joins(:activities)
-        .where(events: { id: unscoped_activities_base_query.select(:id) } )
+        .where(activities: { id: unscoped_activities_base_query.select(:id) } )
         .select("users.id as user_id, max(activities.created_at) newest_activity_timestamp")
         .group("users.id")
 
@@ -32,7 +32,7 @@ module Types::Connections
 
     def participating_organizations
       Organization.where(id:
-                         unscoped_events_base_query.select(:organization_id)
+                         unscoped_activities_base_query.select(:organization_id)
                         ).distinct
     end
 
