@@ -23,6 +23,8 @@ module Types::Events
     value 'DEPRECATED_MOLECULAR_PROFILE', value: 'deprecated molecular profile'
     value 'VARIANT_CREATED', value: 'variant created'
     value 'COMPLEX_MOLECULAR_PROFILE_CREATED', value: 'complex molecular profile created'
+    value 'DEPRECATED_FEATURE', value: 'deprecated feature'
+    value 'CREATED_FEATURE', value: 'created feature'
   end
 end
 

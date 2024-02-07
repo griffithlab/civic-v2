@@ -16,5 +16,7 @@ module Types::Activities
     value 'CREATE_VARIANT', value: 'CreateVariantActivity'
     value 'DEPRECATE_COMPLEX_MOLECULAR_PROFILE', value: 'DeprecateComplexMolecularProfileActivity'
     value 'CREATE_COMPLEX_MOLECULAR_PROFILE', value: 'CreateComplexMolecularProfileActivity'
+    value 'CREATE_FEATURE', value: 'CreateFeatureActivity'
+    value 'DEPRECATE_FEATURE', value: 'DeprecateFeatureActivity'
   end
 end
