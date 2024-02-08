@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :events,
     ->() { order('events.created_at DESC') },
     foreign_key: :originating_user_id
+  has_many :activities,
+    ->() { order('activities.created_at DESC') }
+
 
   has_one :most_recent_event,
     ->() { order('created_at DESC').limit(1) },
