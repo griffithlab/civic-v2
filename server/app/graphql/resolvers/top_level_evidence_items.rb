@@ -12,6 +12,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
       .all
       .order("evidence_level ASC, rating DESC, id ASC")
       .where.not(status: 'rejected')
+      .distinct
   }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the evidence item.') do |scope, value|

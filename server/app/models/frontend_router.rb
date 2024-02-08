@@ -8,11 +8,14 @@ class FrontendRouter
   end
 
   def url
-    (entity, query_field) = query_info
+    (entity, query_field, transform) = query_info
     if [entity, query_field, id].any? { |i| i.blank? }
       nil
     else
       obj = entity.find_by!(query_field => id)
+      #identity function if none defined
+      transform ||= -> {_1}
+      obj = entity.find_by!(query_field => transform.call(id))
       adaptor = "LinkAdaptors::#{obj.class.to_s.demodulize}".constantize.new(obj)
       "#{domain}#{adaptor.base_path}"
     end
@@ -22,8 +25,8 @@ class FrontendRouter
   def query_info
     case id_type
     when /genes?/
-      [ 
-        Feature.where(feature_instance_type: "Features::Gene"), :feature_instance_id, 
+      [
+        Feature.where(feature_instance_type: "Features::Gene"), :feature_instance_id,
       ]
     when /features?/
       [ Feature, :id, ]
@@ -36,8 +39,8 @@ class FrontendRouter
     when /entrez_id/
       [ Features::Gene, :entrez_id ]
     when /entrez_name/
-      [ 
-        Feature.where(feature_instance_type: "Features::Gene"), :name, 
+      [
+        Feature.where(feature_instance_type: "Features::Gene"), :name, -> { _1.upcase }
       ]
     when /variant_groups?/
       [ VariantGroup, :id, ]

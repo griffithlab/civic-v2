@@ -93,6 +93,11 @@ The connection type for ActivityInterface.
 """
 type ActivityInterfaceConnection {
   """
+  List of activity types that have occured on this entity.
+  """
+  activityTypes: [ActivityTypeInput!]!
+
+  """
   A list of edges.
   """
   edges: [ActivityInterfaceEdge!]!
@@ -113,9 +118,26 @@ type ActivityInterfaceConnection {
   pageInfo: PageInfo!
 
   """
+  List of all organizations who are involved in this activity stream.
+  """
+  participatingOrganizations: [Organization!]!
+  subjectTypes: [ActivitySubjectInput!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  When filtered on a subject, user, or organization, the total number of events
+  for that subject/user/organization, irregardless of other filters.
+  """
+  unfilteredCount: Int!
+
+  """
+  List of all users that have performed an activity on the subject entity.
+  """
+  uniqueParticipants: [User!]!
 }
 
 """
@@ -131,6 +153,41 @@ type ActivityInterfaceEdge {
   The item at the end of the edge.
   """
   node: ActivityInterface
+}
+
+enum ActivitySubjectInput {
+  ASSERTION
+  EVIDENCE_ITEM
+  FEATURE
+  FLAG
+  MOLECULAR_PROFILE
+  REVISION
+  REVISION_SET
+  SOURCE
+  SOURCE_SUGGESTION
+  VARIANT
+  VARIANT_GROUP
+}
+
+enum ActivityTypeInput {
+  ACCEPT_REVISIONS
+  COMMENT
+  CREATE_COMPLEX_MOLECULAR_PROFILE
+  CREATE_FEATURE
+  CREATE_VARIANT
+  DEPRECATE_COMPLEX_MOLECULAR_PROFILE
+  DEPRECATE_FEATURE
+  DEPRECATE_VARIANT
+  FLAG_ENTITY
+  MODERATE_ASSERTION
+  MODERATE_EVIDENCE_ITEM
+  REJECT_REVISIONS
+  RESOLVE_FLAG
+  SUBMIT_ASSERTION
+  SUBMIT_EVIDENCE_ITEM
+  SUGGEST_REVISION
+  SUGGEST_SOURCE
+  UPDATE_SOURCE_SUGGESTION
 }
 
 """
@@ -2205,7 +2262,9 @@ enum EventAction {
   ASSERTION_SUBMITTED
   COMMENTED
   COMPLEX_MOLECULAR_PROFILE_CREATED
+  CREATED_FEATURE
   CURATED_SOURCE_SUGGESTION
+  DEPRECATED_FEATURE
   DEPRECATED_MOLECULAR_PROFILE
   DEPRECATED_VARIANT
   FLAGGED
@@ -5553,6 +5612,8 @@ type Query {
   List and filter activities
   """
   activities(
+    activityType: [ActivityTypeInput!]
+
     """
     Returns the elements in the list that come after the specified cursor.
     """
@@ -5572,7 +5633,16 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
-    userId: Int
+    mode: EventFeedMode
+    organizationId: [Int!]
+
+    """
+    Sort order for the activities. Defaults to most recent.
+    """
+    sortBy: DateSort
+    subject: [SubscribableQueryInput!]
+    subjectType: [ActivitySubjectInput!]
+    userId: [Int!]
   ): ActivityInterfaceConnection!
 
   """
