@@ -39,13 +39,18 @@ export type ActivityInterfaceFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ActivityInterfaceConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | ActivityInterfaceConnectionKeySpecifier)[];
+export type ActivityInterfaceConnectionKeySpecifier = ('activityTypes' | 'edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'participatingOrganizations' | 'subjectTypes' | 'totalCount' | 'unfilteredCount' | 'uniqueParticipants' | ActivityInterfaceConnectionKeySpecifier)[];
 export type ActivityInterfaceConnectionFieldPolicy = {
+	activityTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+	participatingOrganizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	subjectTypes?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	unfilteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueParticipants?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ActivityInterfaceEdgeKeySpecifier = ('cursor' | 'node' | ActivityInterfaceEdgeKeySpecifier)[];
 export type ActivityInterfaceEdgeFieldPolicy = {

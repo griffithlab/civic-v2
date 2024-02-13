@@ -978,7 +978,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "FEATURE",
+              "name": "GENE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
