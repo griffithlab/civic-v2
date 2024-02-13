@@ -1,24 +1,33 @@
+import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
   OnInit,
-  Output,
-  SimpleChanges,
+  WritableSignal,
+  input,
+  signal,
 } from '@angular/core'
-import { CvcActivityItem } from './activity-item/activity-item.component'
 import {
   ActivityFeedGQL,
-  EventFeedMode,
-  EventFeedNodeFragment,
-  EventFeedQuery,
-  EventFeedQueryVariables,
+  ActivityFeedNodeFragment,
+  ActivityFeedQuery,
+  ActivityFeedQueryVariables,
   Maybe,
+  SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzLayoutModule } from 'ng-zorro-antd/layout'
+import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
+import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity-feed-settings.component'
 import {
-  BehaviorSubject,
+  ActivityFeedFilters,
+  ActivityFeedQueryParams,
+  ActivityFeedScope,
+  ActivityFeedSettings,
+  FetchMoreParams,
+} from './activity-feed.types'
+import { ApolloQueryResult } from '@apollo/client/core'
+import {
   Observable,
   ReplaySubject,
   Subject,
@@ -26,37 +35,14 @@ import {
   debounceTime,
   map,
   merge,
-  filter,
 } from 'rxjs'
-import { ApolloQueryResult } from '@apollo/client/core'
 import { QueryRef } from 'apollo-angular'
-import {
-  CvcActivityFeedFilters,
-  CvcActivityFeedInfo,
-  CvcActivityFeedSettings,
-  CvcActivityFeedQueryParams,
-  FetchMoreParams,
-} from './activity-feed.types'
-import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { LetDirective, PushPipe } from '@ngrx/component'
-import { CommonModule } from '@angular/common'
-import { isNonNulled } from 'rxjs-etc'
-import { NzListModule } from 'ng-zorro-antd/list'
+import { PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-
-export const cvcActivityFeedSettingsDefaults: CvcActivityFeedSettings = {
-  mode: EventFeedMode.Unscoped,
-  pageSize: 15,
-  pollEvents: 30000,
-  includeAutomatedEvents: true,
-  tagDisplay: 'displayAll',
-  showFilters: true,
-}
-
-export const cvcActivityFeedSettingsOptions = {
-  pageSizes: [5, 10, 25, 50, 100],
-}
+import { feedDefaultFilters, feedDefaultSettings } from './activity-feed.config'
+import { tag } from 'rxjs-spy/operators'
+import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-feed-filters.component'
 
 @UntilDestroy()
 @Component({
@@ -64,74 +50,74 @@ export const cvcActivityFeedSettingsOptions = {
   standalone: true,
   imports: [
     CommonModule,
-    NzGridModule,
-    NzListModule,
-    CvcActivityItem,
     PushPipe,
-    LetDirective,
+    NzGridModule,
+    NzCardModule,
+    CvcActivityFeedCounts,
+    CvcActivityFeedSettingsButton,
+    CvcActivityFeedFilterSelects,
   ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeed implements OnInit, OnChanges {
-  @Input() cvcFeedSettings?: CvcActivityFeedSettings =
-    cvcActivityFeedSettingsDefaults
-  @Input() cvcFeedFilters?: CvcActivityFeedFilters
-  @Output() cvcFeedInfo: EventEmitter<Maybe<CvcActivityFeedInfo>> =
-    new EventEmitter(void 0)
-
-  // @Input SOURCE STREAMS
-  filterChange$: BehaviorSubject<CvcActivityFeedFilters>
-  prefChange$: BehaviorSubject<CvcActivityFeedSettings>
+export class CvcActivityFeed implements OnInit {
+  // INPUTS
+  cvcTitle = input<string>('Activity Feed')
+  cvcScope = input<ActivityFeedScope>()
+  cvcSettings = input<ActivityFeedSettings>(feedDefaultSettings)
+  cvcFilters = input<ActivityFeedFilters>(feedDefaultFilters)
+  cvcShowFilters = input<boolean>(true)
+  cvcPollFeed = input<boolean>(false)
 
   // SOURCE STREAMS
-  onFetchMore$: Subject<FetchMoreParams>
+  feedSetting$: Subject<ActivityFeedSettings>
+  feedFilter$: Subject<ActivityFeedFilters>
+  nextPage$: Subject<FetchMoreParams>
 
   // INTERMEDIATE STREAMS
-  refetch$: Observable<CvcActivityFeedQueryParams>
-  fetchMore$: Observable<CvcActivityFeedQueryParams>
-  queryRequest$: Subject<EventFeedQueryVariables>
-  queryResult$: ReplaySubject<ApolloQueryResult<EventFeedQuery>>
+  refetch$: Observable<ActivityFeedQueryParams>
+  fetchMore$: Observable<ActivityFeedQueryParams>
+  queryRequest$: Subject<ActivityFeedQueryVariables>
+  queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
 
   // PRESENTATION STREAMS
-  event$?: Observable<Maybe<EventFeedNodeFragment>[]>
+  activities$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
+  // feedInfo$: Observable<CvcActivityFeedInfo>
 
-  // @Output STREAMS
-  feedInfo$: Observable<CvcActivityFeedInfo>
-
-  queryRef?: QueryRef<EventFeedQuery, EventFeedQueryVariables>
+  queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
 
   constructor(private gql: ActivityFeedGQL) {
-    this.filterChange$ = new BehaviorSubject<CvcActivityFeedFilters>({})
-    this.prefChange$ = new BehaviorSubject<CvcActivityFeedSettings>(
-      cvcActivityFeedSettingsDefaults
+    this.feedSetting$ = new Subject<ActivityFeedSettings>()
+    this.feedSetting$.pipe(tag('activity-feed feedSetting$')).subscribe()
+    this.feedFilter$ = new Subject<ActivityFeedFilters>()
+    this.queryRequest$ = new Subject<ActivityFeedQueryVariables>()
+    this.queryResult$ = new ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>(
+      1
     )
-    this.queryRequest$ = new Subject<EventFeedQueryVariables>()
-    this.queryResult$ = new ReplaySubject<ApolloQueryResult<EventFeedQuery>>(1)
-    this.onFetchMore$ = new Subject<FetchMoreParams>()
-
+    this.nextPage$ = new Subject<FetchMoreParams>()
     // combine prefs, filters updates into a refetch query
-    this.refetch$ = combineLatest([this.filterChange$, this.prefChange$]).pipe(
-      map(([filters, prefs]) => {
-        const queryParams: CvcActivityFeedQueryParams = {
-          filters: filters,
-          prefs: prefs,
-        }
-        return queryParams
+    this.refetch$ = combineLatest([this.feedSetting$, this.feedFilter$]).pipe(
+      map(([settings, filters]) => {
+        return <ActivityFeedQueryParams>{}
+        // const queryParams: CvcActivityFeedQueryParams = {
+        //   settings: settings,
+        //   filters: filters,
+        // }
+        // return queryParams
       })
     )
 
-    // convert fetchMore requests into fetch more query
-    this.fetchMore$ = this.onFetchMore$.pipe(
-      map((fetchParams) => {
-        return { fetchMore: fetchParams }
+    // convert next page requests into fetch more query
+    this.fetchMore$ = this.nextPage$.pipe(
+      map((nextParams) => {
+        return { fetchMore: nextParams }
       })
     )
 
     merge(this.refetch$, this.fetchMore$)
       .pipe(debounceTime(50), untilDestroyed(this))
-      .subscribe((params: CvcActivityFeedQueryParams) => {
+      .subscribe((params: ActivityFeedQueryParams) => {
         const queryVars = this.getQueryVars(params)
         console.log('---- activity-feed query', queryVars)
         if (!this.queryRef) {
@@ -184,110 +170,52 @@ export class CvcActivityFeed implements OnInit, OnChanges {
           }
         }
       })
-
-    this.event$ = this.queryResult$.pipe(
-      pluck('data', 'events', 'edges'),
-      filter(isNonNulled),
-      map((edges) => edges.map((e) => e.node))
-    )
-
-    this.feedInfo$ = this.queryResult$.pipe(
-      map((result) => {
-        return <CvcActivityFeedInfo>{
-          loading: result.loading,
-          actionCount: {
-            unfiltered: result.data?.events?.unfilteredCount,
-          },
-          participants: result.data?.events?.uniqueParticipants,
-          organizations: result.data?.events?.participatingOrganizations,
-          types: result.data?.events?.eventTypes,
-        }
-      })
-    )
-    this.feedInfo$.pipe(untilDestroyed(this)).subscribe((info) => {
-      this.cvcFeedInfo.emit(info)
-    })
   }
 
-  ngOnInit() {
-    console.log('activity-feed OnInit()')
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('activity-feed OnChanges()')
-    if (changes.cvcFeedSettings) {
-      const prefs: CvcActivityFeedSettings =
-        changes.cvcFeedSettings.currentValue
-      if (prefs !== undefined) {
-        this.prefChange$.next(prefs)
-      }
-    }
-    if (changes.cvcFeedFilters) {
-      const filters: CvcActivityFeedFilters =
-        changes.cvcFeedFilters.currentValue
-      if (filters !== undefined) {
-        this.filterChange$.next(filters)
-      }
-    }
-  }
-
-  // export type EventFeedQueryVariables = Exact<{
-  //   subject?: InputMaybe<SubscribableQueryInput>;
-  //   first?: InputMaybe<Scalars['Int']>;
-  //   last?: InputMaybe<Scalars['Int']>;
-  //   before?: InputMaybe<Scalars['String']>;
-  //   after?: InputMaybe<Scalars['String']>;
-  //   originatingUserId?: InputMaybe<Scalars['Int']>;
-  //   organizationId?: InputMaybe<Scalars['Int']>;
-  //   eventType?: InputMaybe<EventAction>;
-  //   mode?: InputMaybe<EventFeedMode>;
-  //   includeAutomatedEvents?: InputMaybe<Scalars['Boolean']>;
-  //   showFilters: Scalars['Boolean'];
-  // }>;
-
-  getQueryVars(params: CvcActivityFeedQueryParams): EventFeedQueryVariables {
+  getQueryVars(params: ActivityFeedQueryParams): ActivityFeedQueryVariables {
     // showFilters is a required query var
-    let queryVars: EventFeedQueryVariables = {
-      showFilters:
-        params.prefs?.showFilters ??
-        cvcActivityFeedSettingsDefaults.showFilters!,
+    let queryVars: ActivityFeedQueryVariables = {
+      showFilters: true,
     }
     // if this is a fetchMore query, add first & after vars,
     // else configure a refetch query
-    if (params.fetchMore !== undefined) {
-      queryVars = {
-        ...queryVars,
-        first:
-          params.fetchMore.first ?? cvcActivityFeedSettingsDefaults.pageSize,
-        after: params.fetchMore.after,
-      }
-    } else {
-      if (params.filters !== undefined && params.prefs !== undefined) {
-        // filters and preferences exist, set and/or merge with defaults
-        queryVars = {
-          ...queryVars,
-          first:
-            params.prefs.pageSize ?? cvcActivityFeedSettingsDefaults.pageSize,
-          mode: params.prefs.mode ?? cvcActivityFeedSettingsDefaults.mode,
-          includeAutomatedEvents:
-            params.prefs.includeAutomatedEvents ??
-            cvcActivityFeedSettingsDefaults.includeAutomatedEvents,
-          originatingUserId: params.filters.originatingUserId,
-          organizationId: params.filters.organizationId,
-          eventType: params.filters.eventType,
-          subject: params.filters.subject,
-        }
-      } else {
-        queryVars = {
-          ...queryVars,
-          ...params.filters,
-          first: cvcActivityFeedSettingsDefaults.pageSize,
-          mode: cvcActivityFeedSettingsDefaults.mode,
-          includeAutomatedEvents:
-            cvcActivityFeedSettingsDefaults.includeAutomatedEvents,
-        }
-      }
-    }
+    // if (params.fetchMore !== undefined) {
+    //   queryVars = {
+    //     ...queryVars,
+    //     first:
+    //       params.fetchMore.first ?? cvcActivityFeedSettingsDefaults.pageSize,
+    //     after: params.fetchMore.after,
+    //   }
+    // } else {
+    //   if (params.filters !== undefined && params.prefs !== undefined) {
+    //     // filters and preferences exist, set and/or merge with defaults
+    //     queryVars = {
+    //       ...queryVars,
+    //       first:
+    //         params.prefs.pageSize ?? cvcActivityFeedSettingsDefaults.pageSize,
+    //       mode: params.prefs.mode ?? cvcActivityFeedSettingsDefaults.mode,
+    //       includeAutomatedActivitys:
+    //         params.prefs.includeAutomatedActivitys ??
+    //         cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
+    //       originatingUserId: params.filters.originatingUserId,
+    //       organizationId: params.filters.organizationId,
+    //       eventType: params.filters.eventType,
+    //       subject: params.filters.subject,
+    //     }
+    //   } else {
+    //     queryVars = {
+    //       ...queryVars,
+    //       ...params.filters,
+    //       first: cvcActivityFeedSettingsDefaults.pageSize,
+    //       mode: cvcActivityFeedSettingsDefaults.mode,
+    //       includeAutomatedActivitys:
+    //         cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
+    //     }
+    //   }
+    // }
     return queryVars
+  }
+  ngOnInit(): void {
+    console.log('+++++ ngOnInit cvcSubjectType', this.cvcScope())
   }
 }

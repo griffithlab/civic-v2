@@ -14,7 +14,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { FormsModule } from '@angular/forms'
 import { NzListModule } from 'ng-zorro-antd/list'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { NgxJsonViewerModule } from 'ngx-json-viewer'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcSiteStatsCardModule } from '@app/components/shared/site-stats-card/site-stats-card.module'
 import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-event-feed/homepage-event-feed.module'
@@ -26,7 +25,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { CvcActivityFeedCard } from '@app/components/activities/activity-feed/activity-feed-card/activity-feed-card.component'
+import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 
 @NgModule({
   imports: [
@@ -53,8 +52,7 @@ import { CvcActivityFeedCard } from '@app/components/activities/activity-feed/ac
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
-    CvcActivityFeedCard,
-    NgxJsonViewerModule,
+    CvcActivityFeed,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],

@@ -3,6 +3,7 @@
   nz-popover
   [nzPopoverContent]="settingsPopover"
   [nzPopoverTrigger]="'click'"
+  nzPopoverTitle="Activity Feed Settings"
   type="button"
   nzType="default"
   nzSize="small">
@@ -14,49 +15,26 @@
 <ng-template #settingsPopover>
   <div class="popover-content">
     <nz-row [nzGutter]="[8, 8]">
+      <!-- PAGE SIZE -->
       <nz-col
         nzSpan="12"
         class="option-key">
-        Include Automated Events
+        Page Size
       </nz-col>
       <nz-col
         nzSpan="12"
         class="option-input">
-        <label></label>
-        <label
-          nz-checkbox
-          [ngModel]="includeAutomatedEvents()"
-          (ngModelChange)="includeAutomatedEvents.set($event)"></label>
+        <nz-select
+          [ngModel]="pageSize()"
+          [nzOptionHeightPx]="28"
+          (ngModelChange)="pageSize.set($event)"
+          nzSize="small">
+          <nz-option
+            *ngFor="let size of pageSizes"
+            [nzValue]="size"
+            [nzLabel]="size"></nz-option>
+        </nz-select>
       </nz-col>
     </nz-row>
   </div>
-  <!-- <nz-row [nzGutter]="[8, 8]">
-    <nz-col
-      nzSpan="12"
-      style="text-align: right">
-      Include Automated
-    </nz-col>
-    <nz-col nzSpan="12">
-      <label
-        nz-checkbox
-        [ngModel]="cvcFeedSettingsOptions.includeAutomatedEvents"
-        (ngModelChange)="includeAutomatedEvents.set($event)"></label>
-    </nz-col>
-    <nz-col
-      nzSpan="12"
-      style="text-align: right">
-      Page Size
-    </nz-col>
-    <nz-col nzSpan="12">
-      <nz-select
-        [ngModel]="cvcFeedSettingsOptions.pageSizes"
-        [nzOptionHeightPx]="28"
-        nzSize="small">
-        <nz-option
-          *ngFor="let size of pageSizes"
-          [nzValue]="size"
-          [nzLabel]="size"></nz-option>
-      </nz-select>
-    </nz-col>
-  </nz-row> -->
 </ng-template>

@@ -1,13 +1,29 @@
-<nz-list nzGrid>
-  <nz-row [nzGutter]="[8, 0]">
+<nz-card
+  [nzTitle]="cardTitle"
+  [nzExtra]="cardExtra">
+  <nz-row [nzGutter]="[8, 8]">
+    <nz-col nzSpan="19">
+      <pre>cvcScope: {{ cvcScope() | json }}</pre>
+      <pre>feedSettings: {{ feedSetting$ | ngrxPush | json }} </pre>
+      <pre>feedFilters: {{ feedFilter$ | ngrxPush | json }} </pre>
+    </nz-col>
     <nz-col
-      *ngFor="let event of event$ | ngrxPush"
-      [nzSpan]="24">
-      <nz-list-item>
-        <cvc-activity-item
-          *ngIf="event"
-          [cvcActivityEvent]="event"></cvc-activity-item>
-      </nz-list-item>
+      nzSpan="5"
+      *ngIf="cvcShowFilters()">
+      <cvc-activity-feed-filters
+        (cvcFiltersChange)="feedFilter$.next($event)"
+        [cvcFilters]="cvcFilters()">
+      </cvc-activity-feed-filters>
     </nz-col>
   </nz-row>
-</nz-list>
+</nz-card>
+<ng-template #cardTitle>
+  {{ cvcTitle() }}
+  <cvc-activity-feed-counts></cvc-activity-feed-counts>
+</ng-template>
+<ng-template #cardExtra>
+  <cvc-activity-feed-settings
+    (cvcSettingsChange)="feedSetting$.next($event)"
+    [cvcSettings]="cvcSettings()">
+  </cvc-activity-feed-settings>
+</ng-template>

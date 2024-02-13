@@ -1,37 +1,30 @@
 import { CommonModule } from '@angular/common'
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
+  OnInit,
   Output,
   Signal,
   WritableSignal,
   computed,
   effect,
+  input,
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NzButtonModule } from 'ng-zorro-antd/button'
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { CvcActivityFeedSettings } from '../activity-feed.types'
-
-export type CvcActivityFeedSettingsOptions = {
-  pageSizes: number[]
-}
-
-export const cvcActivityFeedSettingsDefaults = {
-  pageSize: 25,
-  includeAutomatedEvents: false,
-}
+import { ActivityFeedSettings } from '../activity-feed.types'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { feedDefaultSettings, pageSizeOptions } from '../activity-feed.config'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-activity-feed-settings-button',
+  selector: 'cvc-activity-feed-settings',
   standalone: true,
   imports: [
     CommonModule,
@@ -46,36 +39,24 @@ export const cvcActivityFeedSettingsDefaults = {
   ],
   templateUrl: './activity-feed-settings.component.html',
   styleUrl: './activity-feed-settings.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeedSettingsButton {
-  @Output() cvcFeedSettingsChange: EventEmitter<CvcActivityFeedSettings>
+export class CvcActivityFeedSettingsButton implements OnInit {
+  @Output() cvcSettingsChange: EventEmitter<ActivityFeedSettings>
+  cvcSettings = input.required<ActivityFeedSettings>()
 
-  feedSettings: Signal<CvcActivityFeedSettings>
-  optionsDefaults: CvcActivityFeedSettingsOptions = {
-    pageSizes: [5, 10, 25, 50, 100],
-  }
+  pageSize!: WritableSignal<number>
 
-  includeAutomatedEvents: WritableSignal<boolean> = signal(false)
-  pageSize: WritableSignal<number>
-
+  pageSizes = pageSizeOptions
   constructor() {
-    this.includeAutomatedEvents = signal(
-      cvcActivityFeedSettingsDefaults.includeAutomatedEvents
-    )
-    this.pageSize = signal(cvcActivityFeedSettingsDefaults.pageSize)
-    this.feedSettings = computed(() => ({
-      pageSize: this.pageSize(),
-      includeAutomatedEvents: this.includeAutomatedEvents(),
-    }))
+    this.cvcSettingsChange = new EventEmitter<ActivityFeedSettings>()
 
-    // Outputs
-    this.cvcFeedSettingsChange = new EventEmitter<CvcActivityFeedSettings>()
     effect(() => {
-      this.cvcFeedSettingsChange.emit({
+      this.cvcSettingsChange.emit({
         pageSize: this.pageSize(),
-        includeAutomatedEvents: this.includeAutomatedEvents(),
       })
     })
+  }
+  ngOnInit(): void {
+    this.pageSize = signal(this.cvcSettings().pageSize)
   }
 }

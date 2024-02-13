@@ -1,6 +1,7 @@
-<cvc-activity-feed-card
-  [cvcSubject]="subscribable"
-  cvcFilterDisplay="list"></cvc-activity-feed-card>
+<cvc-activity-feed
+  [cvcScope]="feedScope"
+  [cvcSettings]="{ pageSize: 50 }"
+  [cvcShowFilters]="true"></cvc-activity-feed>
 
 <!-- <cvc-event-feed
   [subscribable]="subscribable"
