@@ -3,15 +3,23 @@
   [nzExtra]="cardExtra"
   nzSize="small">
   <nz-row [nzGutter]="[8, 8]">
-    <nz-col nzSpan="19">
-      <div *ngFor="let activity of activity$ | ngrxPush">
-        <pre>{{ activity | json }}</pre>
+    <!-- ACTIVITY FEED COLUMN -->
+    <nz-col [nzSpan]="cvcShowFilters() ? 20 : 24">
+      <div
+        *ngFor="let activity of activity$ | ngrxPush"
+        class="feed-row">
+        {{ activity.user.displayName }} {{ activity.verbiage }}
+        {{ activity.subject.name }} for {{ activity.organization.name }}
       </div>
-      <pre>cvcScope: {{ cvcScope() | json }}</pre>
-      <pre>feedSettings: {{ feedSetting$ | ngrxPush | json }} </pre>
-      <pre>feedFilters: {{ feedFilter$ | ngrxPush | json }} </pre>
+      <!-- <pre>cvcScope: {{ cvcScope() | json }}</pre>
+          <pre>feedSettings: {{ feedSetting$ | ngrxPush | json }} </pre>
+          <pre>feedFilters: {{ feedFilter$ | ngrxPush | json }} </pre> -->
     </nz-col>
-    <nz-col nzSpan="5">
+    <!-- FEED FILTERS COLUMN -->
+    <nz-col [nzSpan]="cvcShowFilters() ? 4 : 0">
+      <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
+           from the DOM as with *ngIf. This causes cvc-activity-feed-filters'
+           feedFilter$ to emit, which is required to fire off an initial query -->
       <cvc-activity-feed-filters
         [cvcShowFilters]="cvcShowFilters()"
         (cvcFiltersChange)="feedFilter$.next($event)"

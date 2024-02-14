@@ -12,6 +12,7 @@ import {
   ActivityFeedNodeFragment,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
+  ActivityInterface,
   Maybe,
   SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
@@ -33,6 +34,7 @@ import {
   Subject,
   combineLatest,
   debounceTime,
+  filter,
   map,
   merge,
 } from 'rxjs'
@@ -43,6 +45,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { feedDefaultFilters, feedDefaultSettings } from './activity-feed.config'
 import { tag } from 'rxjs-spy/operators'
 import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-feed-filters.component'
+import { pluck } from 'rxjs-etc/dist/esm/operators'
+import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
@@ -83,7 +87,7 @@ export class CvcActivityFeed implements OnInit {
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
 
   // PRESENTATION STREAMS
-  activity$?: Observable<ActivityFeedNodeFragment[]>
+  activity$?: Observable<any>
   // feedInfo$: Observable<CvcActivityFeedInfo>
 
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -173,6 +177,12 @@ export class CvcActivityFeed implements OnInit {
           }
         }
       })
+
+    this.activity$ = this.queryResult$.pipe(
+      pluck('data', 'activities', 'edges'),
+      filter(isNonNulled),
+      map((edges) => edges.map((e) => e.node))
+    )
   }
 
   getQueryVars(params: ActivityFeedQueryParams): ActivityFeedQueryVariables {
