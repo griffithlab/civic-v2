@@ -14,13 +14,14 @@ import {
   EventAction,
   SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
+import { CommonModule } from '@angular/common'
 
 export const defaultFilters = {}
 
 @Component({
   selector: 'cvc-activity-feed-filters',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './activity-feed-filters.component.html',
   styleUrl: './activity-feed-filters.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +29,7 @@ export const defaultFilters = {}
 export class CvcActivityFeedFilterSelects implements OnInit {
   @Output() cvcFiltersChange: EventEmitter<ActivityFeedFilters>
   cvcFilters = input.required<ActivityFeedFilters>()
+  cvcShowFilters = input.required<boolean>()
 
   eventType!: WritableSignal<EventAction[]>
   organizationId!: WritableSignal<number[]>

@@ -1,16 +1,19 @@
 <nz-card
   [nzTitle]="cardTitle"
-  [nzExtra]="cardExtra">
+  [nzExtra]="cardExtra"
+  nzSize="small">
   <nz-row [nzGutter]="[8, 8]">
     <nz-col nzSpan="19">
+      <div *ngFor="let activity of activity$ | ngrxPush">
+        <pre>{{ activity | json }}</pre>
+      </div>
       <pre>cvcScope: {{ cvcScope() | json }}</pre>
       <pre>feedSettings: {{ feedSetting$ | ngrxPush | json }} </pre>
       <pre>feedFilters: {{ feedFilter$ | ngrxPush | json }} </pre>
     </nz-col>
-    <nz-col
-      nzSpan="5"
-      *ngIf="cvcShowFilters()">
+    <nz-col nzSpan="5">
       <cvc-activity-feed-filters
+        [cvcShowFilters]="cvcShowFilters()"
         (cvcFiltersChange)="feedFilter$.next($event)"
         [cvcFilters]="cvcFilters()">
       </cvc-activity-feed-filters>

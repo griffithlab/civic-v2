@@ -38,7 +38,7 @@ import {
 } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { PushPipe } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { feedDefaultFilters, feedDefaultSettings } from './activity-feed.config'
 import { tag } from 'rxjs-spy/operators'
@@ -51,6 +51,7 @@ import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-f
   imports: [
     CommonModule,
     PushPipe,
+    LetDirective,
     NzGridModule,
     NzCardModule,
     CvcActivityFeedCounts,
@@ -82,7 +83,7 @@ export class CvcActivityFeed implements OnInit {
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
 
   // PRESENTATION STREAMS
-  activities$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
+  activity$?: Observable<ActivityFeedNodeFragment[]>
   // feedInfo$: Observable<CvcActivityFeedInfo>
 
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -105,21 +106,26 @@ export class CvcActivityFeed implements OnInit {
         //   filters: filters,
         // }
         // return queryParams
-      })
+      }),
+      tag('----- activity-feed refetch$')
     )
 
     // convert next page requests into fetch more query
     this.fetchMore$ = this.nextPage$.pipe(
       map((nextParams) => {
         return { fetchMore: nextParams }
-      })
+      }),
+      tag('+++++ activity-feed fetchMore$')
     )
 
     merge(this.refetch$, this.fetchMore$)
-      .pipe(debounceTime(50), untilDestroyed(this))
+      .pipe(
+        debounceTime(50),
+        tag('+*+*+* activity-feed merge query'),
+        untilDestroyed(this)
+      )
       .subscribe((params: ActivityFeedQueryParams) => {
         const queryVars = this.getQueryVars(params)
-        console.log('---- activity-feed query', queryVars)
         if (!this.queryRef) {
           // this.isFetchMore$.next(false)
           // this.queryError$.next({})
@@ -130,10 +136,7 @@ export class CvcActivityFeed implements OnInit {
           // below is required to catch and forward any errors. bug report:
           // https://github.com/apollographql/apollo-client/issues/6857
           this.queryRef.valueChanges
-            .pipe(
-              // tag('queryRef.valueChanges'),
-              untilDestroyed(this)
-            )
+            .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
             .subscribe((result) => {
               this.queryResult$.next(result)
               // // queryRef.valueChanges should be emitting errors,
@@ -175,44 +178,47 @@ export class CvcActivityFeed implements OnInit {
   getQueryVars(params: ActivityFeedQueryParams): ActivityFeedQueryVariables {
     // showFilters is a required query var
     let queryVars: ActivityFeedQueryVariables = {
-      showFilters: true,
+      showFilters: this.cvcShowFilters(),
     }
     // if this is a fetchMore query, add first & after vars,
     // else configure a refetch query
-    // if (params.fetchMore !== undefined) {
-    //   queryVars = {
-    //     ...queryVars,
-    //     first:
-    //       params.fetchMore.first ?? cvcActivityFeedSettingsDefaults.pageSize,
-    //     after: params.fetchMore.after,
-    //   }
-    // } else {
-    //   if (params.filters !== undefined && params.prefs !== undefined) {
-    //     // filters and preferences exist, set and/or merge with defaults
-    //     queryVars = {
-    //       ...queryVars,
-    //       first:
-    //         params.prefs.pageSize ?? cvcActivityFeedSettingsDefaults.pageSize,
-    //       mode: params.prefs.mode ?? cvcActivityFeedSettingsDefaults.mode,
-    //       includeAutomatedActivitys:
-    //         params.prefs.includeAutomatedActivitys ??
-    //         cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
-    //       originatingUserId: params.filters.originatingUserId,
-    //       organizationId: params.filters.organizationId,
-    //       eventType: params.filters.eventType,
-    //       subject: params.filters.subject,
-    //     }
-    //   } else {
-    //     queryVars = {
-    //       ...queryVars,
-    //       ...params.filters,
-    //       first: cvcActivityFeedSettingsDefaults.pageSize,
-    //       mode: cvcActivityFeedSettingsDefaults.mode,
-    //       includeAutomatedActivitys:
-    //         cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
-    //     }
-    //   }
-    // }
+    if (params.fetchMore !== undefined) {
+      queryVars = {
+        ...queryVars,
+        // first:
+        //   params.fetchMore.first ?? cvcActivityFeedSettingsDefaults.pageSize,
+        // after: params.fetchMore.after,
+      }
+    } else {
+      queryVars = {
+        ...queryVars,
+      }
+      // if (params.filters !== undefined && params.prefs !== undefined) {
+      //   // filters and preferences exist, set and/or merge with defaults
+      //   queryVars = {
+      //     ...queryVars,
+      //     // first:
+      //     //   params.prefs.pageSize ?? cvcActivityFeedSettingsDefaults.pageSize,
+      //     // mode: params.prefs.mode ?? cvcActivityFeedSettingsDefaults.mode,
+      //     // includeAutomatedActivitys:
+      //     //   params.prefs.includeAutomatedActivitys ??
+      //     //   cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
+      //     // originatingUserId: params.filters.originatingUserId,
+      //     // organizationId: params.filters.organizationId,
+      //     // eventType: params.filters.eventType,
+      //     // subject: params.filters.subject,
+      //   }
+      // } else {
+      //   queryVars = {
+      //     ...queryVars,
+      //     ...params.filters,
+      //     first: cvcActivityFeedSettingsDefaults.pageSize,
+      //     mode: cvcActivityFeedSettingsDefaults.mode,
+      //     includeAutomatedActivitys:
+      //       cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
+      //   }
+      // }
+    }
     return queryVars
   }
   ngOnInit(): void {
