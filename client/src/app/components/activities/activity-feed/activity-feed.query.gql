@@ -52,6 +52,9 @@ fragment activityFeed on ActivityInterfaceConnection {
       ...activityFeedNode
     }
   }
+  nodes {
+    ...activityFeedNode
+  }
 }
 
 fragment activityFeedNode on ActivityInterface {

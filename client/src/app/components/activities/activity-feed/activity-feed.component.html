@@ -2,7 +2,7 @@
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra"
   nzSize="small">
-  <nz-row [nzGutter]="[8, 8]">
+  <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
       <ng-container *ngrxLet="activity$ as activities">
@@ -23,6 +23,7 @@
         [cvcFilterOptions]="feedFilterOptions()"
         [cvcFilters]="cvcFilters()">
       </cvc-activity-feed-filters>
+      <!-- <pre>feedFilter$: {{ feedFilter$ | ngrxPush | json }}</pre> -->
     </nz-col>
   </nz-row>
 </nz-card>

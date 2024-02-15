@@ -1,1 +1,86 @@
-<pre>cvcFilterOptions: {{ cvcFilterOptions() | json }}</pre>
+<nz-row [nzGutter]="[8, 8]">
+  <nz-col nzSpan="24">
+    <ng-container
+      *ngTemplateOutlet="
+        filterTitle;
+        context: { $implicit: 'Activity Type', value: eventType() }
+      "></ng-container>
+    <nz-select
+      nzPlaceHolder="Select Type"
+      nzMode="multiple"
+      [nzDropdownMatchSelectWidth]="false"
+      [ngModel]="eventType()"
+      (ngModelChange)="eventType.set($event)"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="let type of cvcFilterOptions().activityTypes"
+        [nzLabel]="type | enumToTitle"
+        [nzValue]="type"></nz-option>
+    </nz-select>
+  </nz-col>
+  <nz-col nzSpan="24">
+    <ng-container
+      *ngTemplateOutlet="
+        filterTitle;
+        context: { $implicit: 'Subject Type', value: subjectType() }
+      "></ng-container>
+    <nz-select
+      nzPlaceHolder="Select Subject Type"
+      nzMode="multiple"
+      [ngModel]="subjectType()"
+      (ngModelChange)="subjectType.set($event)"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="let subject of cvcFilterOptions().subjectTypes"
+        [nzLabel]="subject | enumToTitle"
+        [nzValue]="subject"></nz-option>
+    </nz-select>
+  </nz-col>
+  <nz-col nzSpan="24">
+    <ng-container
+      *ngTemplateOutlet="
+        filterTitle;
+        context: { $implicit: 'Participating User', value: subjectType() }
+      "></ng-container>
+    <nz-select
+      nzPlaceHolder="Select User"
+      nzMode="multiple"
+      [ngModel]="userId()"
+      (ngModelChange)="userId.set($event)"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="let user of cvcFilterOptions().uniqueParticipants"
+        [nzLabel]="user.displayName"
+        [nzValue]="user.id"></nz-option>
+    </nz-select>
+  </nz-col>
+  <nz-col nzSpan="24">
+    <ng-container
+      *ngTemplateOutlet="
+        filterTitle;
+        context: {
+          $implicit: 'Participating Organization',
+          value: subjectType()
+        }
+      "></ng-container>
+    <nz-select
+      nzPlaceHolder="Select Organization"
+      nzMode="multiple"
+      [ngModel]="organizationId()"
+      (ngModelChange)="organizationId.set($event)"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="
+          let organization of cvcFilterOptions().participatingOrganizations
+        "
+        [nzLabel]="organization.name"
+        [nzValue]="organization.id"></nz-option>
+    </nz-select>
+  </nz-col>
+</nz-row>
+<ng-template
+  #filterTitle
+  let-title
+  let-value="value">
+  <h4>{{ title }}{{ value.length > 1 ? 's' : '' }}</h4>
+</ng-template>

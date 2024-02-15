@@ -21,11 +21,13 @@ import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity
 import {
   ActivityFeedFilterOptions,
   ActivityFeedFilters,
+  ActivityFeedFilterAttributes,
   ActivityFeedModeAttributes,
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
   FetchMoreParams,
+  ActivityFeedFilterKeys,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -43,7 +45,11 @@ import { QueryRef } from 'apollo-angular'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { feedDefaultFilters, feedDefaultSettings } from './activity-feed.config'
+import {
+  feedDefaultFilters,
+  feedDefaultSettings,
+  feedFilterOptionDefaults,
+} from './activity-feed.config'
 import { tag } from 'rxjs-spy/operators'
 import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-feed-filters.component'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
@@ -84,48 +90,38 @@ export class CvcActivityFeed implements OnInit {
   nextPage$: Subject<FetchMoreParams>
 
   // INTERMEDIATE STREAMS
-  refetch$: Observable<ActivityFeedQueryParams>
+  fetch$: Observable<ActivityFeedQueryParams>
   fetchMore$: Observable<ActivityFeedQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
 
   // PRESENTATION STREAMS
   activity$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
-  // feedInfo$: Observable<CvcActivityFeedInfo>
 
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
-  // export type ActivityInterface = {
-  //   createdAt: Scalars['ISO8601DateTime'];
-  //   events: Array<Event>;
-  //   id: Scalars['Int'];
-  //   note?: Maybe<Scalars['String']>;
-  //   organization?: Maybe<Organization>;
-  //   parsedNote: Array<CommentBodySegment>;
-  //   subject: EventSubject;
-  //   user: User;
-  //   verbiage: Scalars['String'];
-  // };
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
 
   constructor(private gql: ActivityFeedGQL) {
     this.feedSetting$ = new Subject<ActivityFeedSettings>()
-    this.feedSetting$.pipe(tag('activity-feed feedSetting$')).subscribe()
     this.feedFilter$ = new Subject<ActivityFeedFilters>()
     this.queryResult$ = new ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>(
       1
     )
     this.nextPage$ = new Subject<FetchMoreParams>()
-    // combine prefs, filters updates into a refetch query
-    this.refetch$ = combineLatest([this.feedSetting$, this.feedFilter$]).pipe(
+
+    // combine prefs, filters updates into a fetch query
+    this.fetch$ = combineLatest([this.feedSetting$, this.feedFilter$]).pipe(
       map(([settings, filters]) => {
-        return <ActivityFeedQueryParams>{}
-        // const queryParams: CvcActivityFeedQueryParams = {
-        //   settings: settings,
-        //   filters: filters,
-        // }
-        // return queryParams
-      }),
-      tag('----- activity-feed refetch$')
+        // return <ActivityFeedQueryParams>{}
+        const queryParams: ActivityFeedQueryParams = {
+          settings: settings,
+          filters: filters,
+        }
+        return queryParams
+      })
+      // tag('----- activity-feed fetch$')
     )
+
+    this.feedFilter$.pipe(tag('feedFilter$')).subscribe()
 
     // convert next page requests into fetch more query
     this.fetchMore$ = this.nextPage$.pipe(
@@ -135,80 +131,71 @@ export class CvcActivityFeed implements OnInit {
       // tag('+++++ activity-feed fetchMore$')
     )
 
-    merge(this.refetch$, this.fetchMore$)
+    // subscribe to fetch & fetchMore requests
+    merge(this.fetch$, this.fetchMore$)
       .pipe(
         debounceTime(50),
         // tag('+*+*+* activity-feed merge query'),
-        withLatestFrom(this.feedSetting$, this.feedFilter$),
         untilDestroyed(this)
       )
-      .subscribe(
-        ([params, settings, filters]: [
-          ActivityFeedQueryParams,
-          ActivityFeedSettings,
-          ActivityFeedFilters
-        ]) => {
-          const queryVars = this.queryParamsToVariables(
-            params,
-            settings,
-            filters
-          )
-          if (!this.queryRef) {
-            // this.isFetchMore$.next(false)
-            // this.queryError$.next({})
-            this.queryRef = this.gql.watch(queryVars)
+      .subscribe((params: ActivityFeedQueryParams) => {
+        const queryVars = this.queryParamsToVariables(params)
+        if (!this.queryRef) {
+          // this.isFetchMore$.next(false)
+          // this.queryError$.next({})
+          this.queryRef = this.gql.watch(queryVars)
 
-            // NOTE: refetch and fetchMore results from valueChanges do not
-            // include network or queryGQL errors, so this extra queryError$ stuff
-            // below is required to catch and forward any errors. bug report:
-            // https://github.com/apollographql/apollo-client/issues/6857
-            this.queryRef.valueChanges
-              .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
-              .subscribe((result) => {
-                this.queryResult$.next(result)
-                // // queryRef.valueChanges should be emitting errors,
-                // // but updating queryError$ just in case
-                // if (result.error || result.errors) {
-                //   this.queryError$.next(this.getRequestErrors(result))
-                // }
-              })
+          // NOTE: refetch and fetchMore results from valueChanges do not
+          // include network or queryGQL errors, so this extra queryError$ stuff
+          // below is required to catch and forward any errors. bug report:
+          // https://github.com/apollographql/apollo-client/issues/6857
+          this.queryRef.valueChanges
+            .pipe(
+              // tag('queryRef.valueChanges'),
+              untilDestroyed(this)
+            )
+            .subscribe((result) => {
+              this.queryResult$.next(result)
+              // // queryRef.valueChanges should be emitting errors,
+              // // but updating queryError$ just in case
+              // if (result.error || result.errors) {
+              //   this.queryError$.next(this.getRequestErrors(result))
+              // }
+            })
+        } else {
+          //// clear errors
+          // this.queryError$.next({})
+          if (params.fetchMore !== undefined) {
+            // this.isFetchMore$.next(true)
+            this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
+              if (result.error || result.errors) {
+                console.error(result)
+                // this.queryError$.next(this.getRequestErrors(result))
+              }
+            })
           } else {
-            //// clear errors
-            // this.queryError$.next({})
-            if (params.fetchMore !== undefined) {
-              // this.isFetchMore$.next(true)
-              this.queryRef
-                .fetchMore({ variables: queryVars })
-                .then((result) => {
-                  if (result.error || result.errors) {
-                    console.error(result)
-                    // this.queryError$.next(this.getRequestErrors(result))
-                  }
-                })
-            } else {
-              // this.isFetchMore$.next(false)
-              this.queryRef
-                .refetch(queryVars)
-                .then((result) => {
-                  if (result.error || result.errors) {
-                    console.error(result)
-                    // this.queryError$.next(this.getRequestErrors(result))
-                  }
-                })
-                .then(() => {
-                  console.warn('TODO: scroll to top')
-                  // this.scrollToIndex$.next(0)
-                })
-            }
+            // this.isFetchMore$.next(false)
+            this.queryRef
+              .refetch(queryVars)
+              .then((result) => {
+                if (result.error || result.errors) {
+                  console.error(result)
+                  // this.queryError$.next(this.getRequestErrors(result))
+                }
+              })
+              .then(() => {
+                console.warn('TODO: scroll to top')
+                // this.scrollToIndex$.next(0)
+              })
           }
         }
-      )
+      })
 
     this.activity$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
       filter(isNonNulled),
-      tag('activity-feed activity$'),
-      map((edges) => edges.map((e) => e.node))
+      map((edges) => edges.map((e) => e.node)),
+      tag('activity$')
     )
 
     this.feedFilterOptions = toSignal(
@@ -217,69 +204,65 @@ export class CvcActivityFeed implements OnInit {
         filter(isNonNulled),
         map((activities) => {
           return {
-            uniqueParticipants: activities.uniqueParticipants,
-            participatingOrganizations: activities.participatingOrganizations,
-            activityTypes: activities.activityTypes,
-            subjectTypes: activities.subjectTypes,
+            uniqueParticipants: activities.uniqueParticipants ?? [],
+            participatingOrganizations:
+              activities.participatingOrganizations ?? [],
+            activityTypes: activities.activityTypes ?? [],
+            subjectTypes: activities.subjectTypes ?? [],
           } as ActivityFeedFilterOptions
         })
       ),
       {
-        initialValue: {},
+        initialValue: feedFilterOptionDefaults,
       }
     )
   }
 
   queryParamsToVariables(
-    params: ActivityFeedQueryParams,
-    settings: ActivityFeedSettings,
-    filters: ActivityFeedFilters
+    params: ActivityFeedQueryParams
   ): ActivityFeedQueryVariables {
     // showFilters is a required query var
     let queryVars: ActivityFeedQueryVariables = {
       showFilters: this.cvcShowFilters(),
     }
     // if this is a fetchMore query, add first & after vars,
-    // else configure a refetch query
+    // else configure a refetch query with new settings and filters
     if (params.fetchMore !== undefined) {
       queryVars = {
         ...queryVars,
-        first: params.fetchMore.first ?? settings.pageSize,
+        first: params.fetchMore.first ?? params.settings!.pageSize,
         after: params.fetchMore.after,
       }
     } else {
+      const pageSize = params.settings!.pageSize
+      const modeAttrs = this.feedScopeToModeAttributes(this.cvcScope())
+      const filterVars = this.filterParamsToQueryAttributes(params.filters)
       queryVars = {
         ...queryVars,
-        first: settings.pageSize,
-        ...this.feedScopeToModeAttributes(this.cvcScope()),
+        first: pageSize,
+        ...modeAttrs,
+        ...filterVars,
       }
-      // if (params.filters !== undefined && params.prefs !== undefined) {
-      //   // filters and preferences exist, set and/or merge with defaults
-      //   queryVars = {
-      //     ...queryVars,
-      //     // first:
-      //     //   params.prefs.pageSize ?? cvcActivityFeedSettingsDefaults.pageSize,
-      //     // mode: params.prefs.mode ?? cvcActivityFeedSettingsDefaults.mode,
-      //     // includeAutomatedActivitys:
-      //     //   params.prefs.includeAutomatedActivitys ??
-      //     //   cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
-      //     // originatingUserId: params.filters.originatingUserId,
-      //     // organizationId: params.filters.organizationId,
-      //     // eventType: params.filters.eventType,
-      //     // subject: params.filters.subject,
-      //   }
-      // } else {
-      //   queryVars = {
-      //     ...queryVars,
-      //     ...params.filters,
-      //     first: cvcActivityFeedSettingsDefaults.pageSize,
-      //     mode: cvcActivityFeedSettingsDefaults.mode,
-      //     includeAutomatedActivitys:
-      //       cvcActivityFeedSettingsDefaults.includeAutomatedActivitys,
-      //   }
-      // }
     }
     return queryVars
+  }
+
+  filterParamsToQueryAttributes(
+    filters: Maybe<ActivityFeedFilters>
+  ): Maybe<ActivityFeedFilterAttributes> {
+    if (!filters) return
+    let filterAttrs: ActivityFeedFilterAttributes = {}
+    const keys = Object.keys(filters) as ActivityFeedFilterKeys[]
+    keys.forEach((key) => {
+      if (filters[key] && filters[key].length > 0) {
+        console.log('filter to attr', key, filters[key])
+        filterAttrs[key] = filters[key] as any
+      } else {
+        filterAttrs[key] = undefined
+      }
+    })
+    console.log('filterAttrs', filterAttrs)
+    return filterAttrs
   }
 
   feedScopeToModeAttributes(
@@ -299,6 +282,6 @@ export class CvcActivityFeed implements OnInit {
     return modeAttrs
   }
   ngOnInit(): void {
-    console.log('+++++ ngOnInit cvcSubjectType', this.cvcScope())
+    // console.log('+++++ ngOnInit cvcSubjectType', this.cvcScope())
   }
 }

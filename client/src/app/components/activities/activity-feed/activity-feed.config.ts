@@ -1,4 +1,5 @@
 import {
+  ActivityFeedFilterOptions,
   ActivityFeedFilters,
   ActivityFeedSettings,
 } from './activity-feed.types'
@@ -12,7 +13,14 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  eventType: [],
+  activityType: [],
   subjectType: [],
   userId: [],
+}
+
+export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
+  uniqueParticipants: [],
+  participatingOrganizations: [],
+  activityTypes: [],
+  subjectTypes: [],
 }

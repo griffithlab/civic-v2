@@ -14,17 +14,29 @@ import {
   ActivityFeedFilterOptions,
 } from '../activity-feed.types'
 import {
-  EventAction,
-  SubscribableQueryInput,
+  ActivitySubjectInput,
+  ActivityTypeInput,
 } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 export const defaultFilters = {}
 
 @Component({
   selector: 'cvc-activity-feed-filters',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NzGridModule,
+    NzFormModule,
+    NzSelectModule,
+    CvcPipesModule,
+  ],
   templateUrl: './activity-feed-filters.component.html',
   styleUrl: './activity-feed-filters.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,11 +44,11 @@ export const defaultFilters = {}
 export class CvcActivityFeedFilterSelects implements OnInit {
   @Output() cvcFiltersChange: EventEmitter<ActivityFeedFilters>
   cvcFilters = input.required<ActivityFeedFilters>()
-  cvcFilterOptions = input<ActivityFeedFilterOptions>()
+  cvcFilterOptions = input.required<ActivityFeedFilterOptions>()
 
-  eventType!: WritableSignal<EventAction[]>
+  eventType!: WritableSignal<ActivityTypeInput[]>
   organizationId!: WritableSignal<number[]>
-  subjectType!: WritableSignal<SubscribableQueryInput[]>
+  subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
 
   constructor() {
@@ -44,7 +56,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
 
     effect(() => {
       this.cvcFiltersChange.emit({
-        eventType: this.eventType(),
+        activityType: this.eventType(),
         organizationId: this.organizationId(),
         subjectType: this.subjectType(),
         userId: this.userId(),
@@ -52,7 +64,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.eventType = signal(this.cvcFilters().eventType)
+    this.eventType = signal(this.cvcFilters().activityType)
     this.organizationId = signal(this.cvcFilters().organizationId)
     this.subjectType = signal(this.cvcFilters().subjectType)
     this.userId = signal(this.cvcFilters().userId)

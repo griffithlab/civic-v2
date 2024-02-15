@@ -1,7 +1,6 @@
 import { TagLinkableOrganization } from '@app/components/organizations/organization-tag/organization-tag.component'
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
 import {
-  EventAction,
   EventFeedMode,
   SubscribableQueryInput,
   AcceptRevisionsActivity,
@@ -23,6 +22,7 @@ import {
   User,
   Organization,
   ActivitySubjectInput,
+  ActivityTypeInput,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -36,55 +36,39 @@ export type ActivityFeedSettings = {
 }
 
 export type ActivityFeedFilters = {
-  eventType: EventAction[]
+  activityType: ActivityTypeInput[]
   organizationId: number[]
-  subjectType: SubscribableQueryInput[]
+  subjectType: ActivitySubjectInput[]
   userId: number[]
 }
 
+export type ActivityFeedFilterAttributes = Partial<ActivityFeedFilters>
+export type ActivityFeedFilterKeys = keyof ActivityFeedFilters
+
 export type ActivityFeedFilterOptions = {
-  activityTypes?: EventAction[]
-  uniqueParticipants?: User[]
-  participatingOrganizations?: Organization[]
-  subjectTypes?: ActivitySubjectInput[]
+  activityTypes: ActivityTypeInput[]
+  uniqueParticipants: User[]
+  participatingOrganizations: Organization[]
+  subjectTypes: ActivitySubjectInput[]
 }
 
 export type ActivityFeedInfo = {
   loading: boolean
-  // pageInfo: PageInfo
-  // pageCount: boolean
   actionCount: {
     unfiltered: number
   }
   participants?: TagLinkableUser[]
   organizations?: TagLinkableOrganization[]
-  types?: EventAction[]
+  types?: ActivityTypeInput[]
 }
+
 export type FetchMoreParams = { first: number; after: string }
 
 export type ActivityFeedQueryParams = {
   filters?: ActivityFeedFilters
   settings?: ActivityFeedSettings
-  fetchMore?: { first?: number; after?: string }
+  fetchMore?: FetchMoreParams
 }
-
-export type ActivityItem =
-  | AcceptRevisionsActivity
-  | CommentActivity
-  | CreateComplexMolecularProfileActivity
-  | CreateVariantActivity
-  | DeprecateComplexMolecularProfileActivity
-  | DeprecateVariantActivity
-  | FlagEntityActivity
-  | ModerateAssertionActivity
-  | ModerateEvidenceItemActivity
-  | RejectRevisionsActivity
-  | ResolveFlagActivity
-  | SubmitAssertionActivity
-  | SubmitEvidenceItemActivity
-  | SuggestRevisionSetActivity
-  | SuggestSourceActivity
-  | UpdateSourceSuggestionStatusActivity
 
 // fancy discriminated union type for ActivityFeedScope
 type ScopeOrganization = {
