@@ -110,3 +110,10 @@ export type ActivityFeedScope =
   | ScopeSubject
   | ScopeUser
   | ScopeUnscoped
+
+export type ActivityFeedModeAttributes = {
+  mode: EventFeedMode
+  subject?: SubscribableQueryInput
+  organizationId?: number
+  userId?: number
+}

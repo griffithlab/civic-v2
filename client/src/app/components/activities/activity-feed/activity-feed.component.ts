@@ -3,29 +3,26 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  WritableSignal,
   input,
-  signal,
 } from '@angular/core'
 import {
   ActivityFeedGQL,
   ActivityFeedNodeFragment,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
-  ActivityInterface,
+  EventFeedMode,
   Maybe,
-  SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
 import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity-feed-settings.component'
 import {
   ActivityFeedFilters,
+  ActivityFeedModeAttributes,
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
   FetchMoreParams,
-  ActivityItem,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -232,6 +229,7 @@ export class CvcActivityFeed implements OnInit {
       queryVars = {
         ...queryVars,
         first: settings.pageSize,
+        ...this.feedScopeToModeAttributes(this.cvcScope()),
       }
       // if (params.filters !== undefined && params.prefs !== undefined) {
       //   // filters and preferences exist, set and/or merge with defaults
@@ -260,6 +258,23 @@ export class CvcActivityFeed implements OnInit {
       // }
     }
     return queryVars
+  }
+
+  feedScopeToModeAttributes(
+    feedScope: Maybe<ActivityFeedScope>
+  ): Maybe<ActivityFeedModeAttributes> {
+    if (!feedScope) return
+    let modeAttrs: ActivityFeedModeAttributes = {
+      mode: feedScope.scope,
+    }
+    if (feedScope.scope === EventFeedMode.Subject) {
+      modeAttrs.subject = feedScope.subject
+    } else if (feedScope.scope === EventFeedMode.User) {
+      modeAttrs.userId = feedScope.userId
+    } else if (feedScope.scope === EventFeedMode.Organization) {
+      modeAttrs.organizationId = feedScope.organizationId
+    }
+    return modeAttrs
   }
   ngOnInit(): void {
     console.log('+++++ ngOnInit cvcSubjectType', this.cvcScope())
