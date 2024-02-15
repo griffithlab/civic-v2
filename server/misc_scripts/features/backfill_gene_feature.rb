@@ -14,7 +14,7 @@ Features::Gene.find_each do |gene|
   )
 
   gene.gene_aliases.each do |gene_alias|
-    feature_alias = Features::FeatureAlias.where(name: gene_alias.name).first_or_create
+    feature_alias = FeatureAlias.where(name: gene_alias.name).first_or_create
     feature.feature_aliases << feature_alias
   end
 

@@ -29,5 +29,7 @@ module IsFeatureInstance
     delegate :events, to: :feature
     delegate :last_submitted_revision_event, to: :feature
     delegate :link, to: :feature
+
+    delegate_missing_to :feature
   end
 end

@@ -7,11 +7,7 @@ class InputAdaptors::FactorInputAdaptor
   end
 
   def perform
-    f = Features::Factor.new(
-      ncit_id: input.ncit_id
-    )
-
-    Feature.new(
+    f = Feature.new(
       description: input.description,
       source_ids: input.source_ids,
       name: input.name,
@@ -19,12 +15,17 @@ class InputAdaptors::FactorInputAdaptor
       feature_alias_ids: get_alias_ids,
       feature_instance: f
     )
+
+    Features::Factor.new(
+      ncit_id: input.ncit_id,
+      feature: f
+    )
   end
 
   private
   def get_alias_ids
     input.aliases.map do |a|
-      FeatureAliases.get_or_create_by_name(a).id
+      FeatureAlias.get_or_create_by_name(a).id
     end
   end
 end

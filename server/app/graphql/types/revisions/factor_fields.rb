@@ -3,9 +3,9 @@ module Types::Revisions
     description 'Fields on a Factor that curators may propose revisions to.'
     argument :description, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "The Factor's description/summary text."
-    argument :name, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
+    argument :name, GraphQL::Types::String, required: true,
       description: "The Factor's display name."
-    argument :name, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
+    argument :full_name, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "The Factor's full name if applicable."
     argument :ncit_id, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "NCI Thesaurus concept ID for this Factor"

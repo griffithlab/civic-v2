@@ -6,7 +6,7 @@ class Feature < ApplicationRecord
   include WithTimepointCounts
 
   delegated_type :feature_instance, types: %w[ Features::Gene Features::Factor ]
-  has_and_belongs_to_many :feature_aliases, class_name: 'Features::FeatureAlias'
+  has_and_belongs_to_many :feature_aliases
   has_and_belongs_to_many :sources
 
   has_one :deprecation_activity,
@@ -26,7 +26,7 @@ class Feature < ApplicationRecord
   searchkick highlight: [:name, :aliases, :feature_type], callbacks: :async
   scope :search_import, -> { includes(:feature_aliases) }
 
-  validates :name, presence: true, uniqueness: { scope: :feature_instance_type }
+  validates :name, uniqueness: { scope: :feature_instance_type }
 
   def search_data
     {

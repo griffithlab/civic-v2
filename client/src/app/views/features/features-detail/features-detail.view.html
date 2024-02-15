@@ -39,6 +39,7 @@
           <span *nzSpaceItem>
             <button
               [routerLink]="['/features', feature.id, 'revise']"
+              [queryParams]="{featureType: feature.featureInstance.__typename}"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

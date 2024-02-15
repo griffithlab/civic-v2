@@ -56,10 +56,10 @@ module Importer
           if synonym.strip == '-'
             nil
           else
-            Features::FeatureAlias.where(name: synonym).first_or_create
+            FeatureAlias.where(name: synonym).first_or_create
           end
         end.compact
-        synonyms << Features::FeatureAlias.where(name: line['Symbol']).first_or_create
+        synonyms << FeatureAlias.where(name: line['Symbol']).first_or_create
         gene.feature.feature_aliases = synonyms.uniq
       end
 
