@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
 import { EventFeedMode } from '@app/generated/civic.apollo'
 
 @Component({
@@ -8,10 +9,12 @@ import { EventFeedMode } from '@app/generated/civic.apollo'
   styleUrls: ['./users-events.component.less'],
 })
 export class UsersEventsComponent {
-  userId: number
-  mode = EventFeedMode.User
+  feedScope: ActivityFeedScope
 
   constructor(private route: ActivatedRoute) {
-    this.userId = +this.route.snapshot.params['userId']
+    this.feedScope = {
+      scope: EventFeedMode.User,
+      userId: +this.route.snapshot.params['userId'],
+    }
   }
 }

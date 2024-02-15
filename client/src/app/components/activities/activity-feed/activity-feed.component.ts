@@ -3,29 +3,26 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  WritableSignal,
   input,
-  signal,
 } from '@angular/core'
 import {
   ActivityFeedGQL,
   ActivityFeedNodeFragment,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
-  ActivityInterface,
+  EventFeedMode,
   Maybe,
-  SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
 import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity-feed-settings.component'
 import {
   ActivityFeedFilters,
+  ActivityFeedModeAttributes,
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
   FetchMoreParams,
-  ActivityItem,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -37,6 +34,7 @@ import {
   filter,
   map,
   merge,
+  withLatestFrom,
 } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -129,65 +127,78 @@ export class CvcActivityFeed implements OnInit {
     this.fetchMore$ = this.nextPage$.pipe(
       map((nextParams) => {
         return { fetchMore: nextParams }
-      }),
-      tag('+++++ activity-feed fetchMore$')
+      })
+      // tag('+++++ activity-feed fetchMore$')
     )
 
     merge(this.refetch$, this.fetchMore$)
       .pipe(
         debounceTime(50),
-        tag('+*+*+* activity-feed merge query'),
+        // tag('+*+*+* activity-feed merge query'),
+        withLatestFrom(this.feedSetting$, this.feedFilter$),
         untilDestroyed(this)
       )
-      .subscribe((params: ActivityFeedQueryParams) => {
-        const queryVars = this.queryParamsToVariables(params)
-        if (!this.queryRef) {
-          // this.isFetchMore$.next(false)
-          // this.queryError$.next({})
-          this.queryRef = this.gql.watch(queryVars)
-
-          // NOTE: refetch and fetchMore results from valueChanges do not
-          // include network or queryGQL errors, so this extra queryError$ stuff
-          // below is required to catch and forward any errors. bug report:
-          // https://github.com/apollographql/apollo-client/issues/6857
-          this.queryRef.valueChanges
-            .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
-            .subscribe((result) => {
-              this.queryResult$.next(result)
-              // // queryRef.valueChanges should be emitting errors,
-              // // but updating queryError$ just in case
-              // if (result.error || result.errors) {
-              //   this.queryError$.next(this.getRequestErrors(result))
-              // }
-            })
-        } else {
-          //// clear errors
-          // this.queryError$.next({})
-          if (params.fetchMore !== undefined) {
-            // this.isFetchMore$.next(true)
-            this.queryRef.fetchMore({ variables: queryVars }).then((result) => {
-              if (result.error || result.errors) {
-                console.error(result)
-                // this.queryError$.next(this.getRequestErrors(result))
-              }
-            })
-          } else {
+      .subscribe(
+        ([params, settings, filters]: [
+          ActivityFeedQueryParams,
+          ActivityFeedSettings,
+          ActivityFeedFilters
+        ]) => {
+          const queryVars = this.queryParamsToVariables(
+            params,
+            settings,
+            filters
+          )
+          if (!this.queryRef) {
             // this.isFetchMore$.next(false)
-            this.queryRef
-              .refetch(queryVars)
-              .then((result) => {
-                if (result.error || result.errors) {
-                  console.error(result)
-                  // this.queryError$.next(this.getRequestErrors(result))
-                }
+            // this.queryError$.next({})
+            this.queryRef = this.gql.watch(queryVars)
+
+            // NOTE: refetch and fetchMore results from valueChanges do not
+            // include network or queryGQL errors, so this extra queryError$ stuff
+            // below is required to catch and forward any errors. bug report:
+            // https://github.com/apollographql/apollo-client/issues/6857
+            this.queryRef.valueChanges
+              .pipe(tag('queryRef.valueChanges'), untilDestroyed(this))
+              .subscribe((result) => {
+                this.queryResult$.next(result)
+                // // queryRef.valueChanges should be emitting errors,
+                // // but updating queryError$ just in case
+                // if (result.error || result.errors) {
+                //   this.queryError$.next(this.getRequestErrors(result))
+                // }
               })
-              .then(() => {
-                console.warn('TODO: scroll to top')
-                // this.scrollToIndex$.next(0)
-              })
+          } else {
+            //// clear errors
+            // this.queryError$.next({})
+            if (params.fetchMore !== undefined) {
+              // this.isFetchMore$.next(true)
+              this.queryRef
+                .fetchMore({ variables: queryVars })
+                .then((result) => {
+                  if (result.error || result.errors) {
+                    console.error(result)
+                    // this.queryError$.next(this.getRequestErrors(result))
+                  }
+                })
+            } else {
+              // this.isFetchMore$.next(false)
+              this.queryRef
+                .refetch(queryVars)
+                .then((result) => {
+                  if (result.error || result.errors) {
+                    console.error(result)
+                    // this.queryError$.next(this.getRequestErrors(result))
+                  }
+                })
+                .then(() => {
+                  console.warn('TODO: scroll to top')
+                  // this.scrollToIndex$.next(0)
+                })
+            }
           }
         }
-      })
+      )
 
     this.activity$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
@@ -198,7 +209,9 @@ export class CvcActivityFeed implements OnInit {
   }
 
   queryParamsToVariables(
-    params: ActivityFeedQueryParams
+    params: ActivityFeedQueryParams,
+    settings: ActivityFeedSettings,
+    filters: ActivityFeedFilters
   ): ActivityFeedQueryVariables {
     // showFilters is a required query var
     let queryVars: ActivityFeedQueryVariables = {
@@ -209,13 +222,14 @@ export class CvcActivityFeed implements OnInit {
     if (params.fetchMore !== undefined) {
       queryVars = {
         ...queryVars,
-        // first:
-        //   params.fetchMore.first ?? cvcActivityFeedSettingsDefaults.pageSize,
-        // after: params.fetchMore.after,
+        first: params.fetchMore.first ?? settings.pageSize,
+        after: params.fetchMore.after,
       }
     } else {
       queryVars = {
         ...queryVars,
+        first: settings.pageSize,
+        ...this.feedScopeToModeAttributes(this.cvcScope()),
       }
       // if (params.filters !== undefined && params.prefs !== undefined) {
       //   // filters and preferences exist, set and/or merge with defaults
@@ -244,6 +258,23 @@ export class CvcActivityFeed implements OnInit {
       // }
     }
     return queryVars
+  }
+
+  feedScopeToModeAttributes(
+    feedScope: Maybe<ActivityFeedScope>
+  ): Maybe<ActivityFeedModeAttributes> {
+    if (!feedScope) return
+    let modeAttrs: ActivityFeedModeAttributes = {
+      mode: feedScope.scope,
+    }
+    if (feedScope.scope === EventFeedMode.Subject) {
+      modeAttrs.subject = feedScope.subject
+    } else if (feedScope.scope === EventFeedMode.User) {
+      modeAttrs.userId = feedScope.userId
+    } else if (feedScope.scope === EventFeedMode.Organization) {
+      modeAttrs.organizationId = feedScope.organizationId
+    }
+    return modeAttrs
   }
   ngOnInit(): void {
     console.log('+++++ ngOnInit cvcSubjectType', this.cvcScope())
