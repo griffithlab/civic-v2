@@ -9,7 +9,10 @@ import {
   input,
   signal,
 } from '@angular/core'
-import { ActivityFeedFilters } from '../activity-feed.types'
+import {
+  ActivityFeedFilters,
+  ActivityFeedFilterOptions,
+} from '../activity-feed.types'
 import {
   EventAction,
   SubscribableQueryInput,
@@ -29,7 +32,7 @@ export const defaultFilters = {}
 export class CvcActivityFeedFilterSelects implements OnInit {
   @Output() cvcFiltersChange: EventEmitter<ActivityFeedFilters>
   cvcFilters = input.required<ActivityFeedFilters>()
-  cvcShowFilters = input.required<boolean>()
+  cvcFilterOptions = input<ActivityFeedFilterOptions>()
 
   eventType!: WritableSignal<EventAction[]>
   organizationId!: WritableSignal<number[]>

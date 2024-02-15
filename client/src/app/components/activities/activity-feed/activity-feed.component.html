@@ -19,8 +19,8 @@
            from the DOM as with *ngIf. This causes cvc-activity-feed-filters'
            feedFilter$ to emit, which is required to fire off an initial query -->
       <cvc-activity-feed-filters
-        [cvcShowFilters]="cvcShowFilters()"
         (cvcFiltersChange)="feedFilter$.next($event)"
+        [cvcFilterOptions]="feedFilterOptions()"
         [cvcFilters]="cvcFilters()">
       </cvc-activity-feed-filters>
     </nz-col>

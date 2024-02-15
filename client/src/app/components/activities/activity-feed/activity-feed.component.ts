@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  Signal,
   input,
 } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import {
   ActivityFeedGQL,
   ActivityFeedNodeFragment,
@@ -17,6 +19,7 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
 import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity-feed-settings.component'
 import {
+  ActivityFeedFilterOptions,
   ActivityFeedFilters,
   ActivityFeedModeAttributes,
   ActivityFeedQueryParams,
@@ -89,6 +92,7 @@ export class CvcActivityFeed implements OnInit {
   activity$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
   // feedInfo$: Observable<CvcActivityFeedInfo>
 
+  feedFilterOptions: Signal<ActivityFeedFilterOptions>
   // export type ActivityInterface = {
   //   createdAt: Scalars['ISO8601DateTime'];
   //   events: Array<Event>;
@@ -205,6 +209,24 @@ export class CvcActivityFeed implements OnInit {
       filter(isNonNulled),
       tag('activity-feed activity$'),
       map((edges) => edges.map((e) => e.node))
+    )
+
+    this.feedFilterOptions = toSignal(
+      this.queryResult$.pipe(
+        pluck('data', 'activities'),
+        filter(isNonNulled),
+        map((activities) => {
+          return {
+            uniqueParticipants: activities.uniqueParticipants,
+            participatingOrganizations: activities.participatingOrganizations,
+            activityTypes: activities.activityTypes,
+            subjectTypes: activities.subjectTypes,
+          } as ActivityFeedFilterOptions
+        })
+      ),
+      {
+        initialValue: {},
+      }
     )
   }
 

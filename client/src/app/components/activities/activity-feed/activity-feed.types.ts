@@ -20,6 +20,9 @@ import {
   SuggestRevisionSetActivity,
   SuggestSourceActivity,
   UpdateSourceSuggestionStatusActivity,
+  User,
+  Organization,
+  ActivitySubjectInput,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -37,6 +40,13 @@ export type ActivityFeedFilters = {
   organizationId: number[]
   subjectType: SubscribableQueryInput[]
   userId: number[]
+}
+
+export type ActivityFeedFilterOptions = {
+  activityTypes?: EventAction[]
+  uniqueParticipants?: User[]
+  participatingOrganizations?: Organization[]
+  subjectTypes?: ActivitySubjectInput[]
 }
 
 export type ActivityFeedInfo = {
