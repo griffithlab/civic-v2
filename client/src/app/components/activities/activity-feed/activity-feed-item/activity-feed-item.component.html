@@ -9,11 +9,16 @@
       nz-button
       nzSize="default"
       nzType="text"
-      nzBlock>
+      nzBlock
+      (click)="toggleDetail$.next()">
       <span
         nz-icon
         nzType="caret-right"
-        nzTheme="outline"></span>
+        nzTheme="outline"
+        [ngClass]="{
+          show: showDetails(),
+          hide: !showDetails()
+        }"></span>
     </button>
   </nz-col>
   <nz-col
@@ -29,12 +34,22 @@
     </span>
   </nz-col>
   <nz-col
-    nzFlex="50px"
+    nzFlex="100px"
     class="created">
     <span
       nz-typography
       nzType="secondary">
       {{ cvcActivity().createdAt | timeAgo }}
     </span>
+  </nz-col>
+</nz-row>
+<nz-row
+  [nzGutter]="0"
+  *ngIf="showDetails()"
+  class="details">
+  <nz-col nzSpan="24">
+    <div class="content">
+      <pre>activityDetail$: {{ activityDetail$ | ngrxPush | json }}</pre>
+    </div>
   </nz-col>
 </nz-row>

@@ -85,7 +85,6 @@ export class CvcActivityFeed implements OnInit {
   // INTERMEDIATE STREAMS
   refetch$: Observable<ActivityFeedQueryParams>
   fetchMore$: Observable<ActivityFeedQueryParams>
-  queryRequest$: Subject<ActivityFeedQueryVariables>
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
 
   // PRESENTATION STREAMS
@@ -109,7 +108,6 @@ export class CvcActivityFeed implements OnInit {
     this.feedSetting$ = new Subject<ActivityFeedSettings>()
     this.feedSetting$.pipe(tag('activity-feed feedSetting$')).subscribe()
     this.feedFilter$ = new Subject<ActivityFeedFilters>()
-    this.queryRequest$ = new Subject<ActivityFeedQueryVariables>()
     this.queryResult$ = new ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>(
       1
     )

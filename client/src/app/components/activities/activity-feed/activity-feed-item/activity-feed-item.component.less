@@ -6,7 +6,6 @@
   border: 1px solid #efefef;
   background-color: #fefeff;
   border-radius: 3px;
-  padding-right: 12px;
 }
 
 .toggle button {
@@ -15,6 +14,14 @@
   span {
     font-size: 125%;
     color: #afafbf;
+    &.hide {
+      transform: rotate(0deg);
+      transition: transform 0.2s linear;
+    }
+    &.show {
+      transform: rotate(90deg);
+      transition: transform 0.2s linear;
+    }
   }
 }
 
@@ -22,7 +29,7 @@
 .created {
   span {
     display: inline-block;
-    line-height: 28px; // must be same height as toggle button
+    line-height: 28px; // NOTE: must be same height as toggle button to vertically center description content
   }
 }
 .description {
@@ -34,7 +41,17 @@
 }
 .created {
   text-align: right;
+  span {
+    padding-right: 12px;
+  }
 }
 .header {
   flex-wrap: nowrap;
+}
+
+.details {
+  .content {
+    border-top: 1px solid #efefef;
+    padding: 6px 12px;
+  }
 }
