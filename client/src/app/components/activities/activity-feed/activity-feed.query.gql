@@ -69,8 +69,8 @@ fragment activityFeedNode on ActivityInterface {
     role
   }
   subject {
-    name
     id
+    name
     link
     ... on Source {
       citation
@@ -90,20 +90,6 @@ fragment activityFeedNode on ActivityInterface {
     }
     ... on MolecularProfile {
       deprecated
-    }
-  }
-  parsedNote {
-    ... on CommentTagSegment {
-      entityId
-      link
-      tagType
-    }
-    ... on CommentTextSegment {
-      text
-    }
-    ... on User {
-      id
-      displayName
     }
   }
 }

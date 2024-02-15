@@ -1,0 +1,40 @@
+<nz-row
+  [nzGutter]="[0, 8]"
+  nzJustify="center"
+  class="header">
+  <nz-col
+    nzFlex="10px"
+    class="toggle">
+    <button
+      nz-button
+      nzSize="default"
+      nzType="text"
+      nzBlock>
+      <span
+        nz-icon
+        nzType="caret-right"
+        nzTheme="outline"></span>
+    </button>
+  </nz-col>
+  <nz-col
+    nzFlex="auto"
+    class="description">
+    <span>
+      <strong>{{ cvcActivity().user.displayName }}</strong>
+      {{ cvcActivity().verbiage }}
+      <strong>{{ cvcActivity().subject.name }}</strong>
+      @if (cvcActivity().organization) { for
+      <strong>{{ cvcActivity().organization!.name }}</strong>
+      }
+    </span>
+  </nz-col>
+  <nz-col
+    nzFlex="50px"
+    class="created">
+    <span
+      nz-typography
+      nzType="secondary">
+      {{ cvcActivity().createdAt | timeAgo }}
+    </span>
+  </nz-col>
+</nz-row>

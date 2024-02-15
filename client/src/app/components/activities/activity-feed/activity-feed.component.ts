@@ -17,7 +17,6 @@ import {
   SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzLayoutModule } from 'ng-zorro-antd/layout'
 import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
 import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity-feed-settings.component'
 import {
@@ -26,6 +25,7 @@ import {
   ActivityFeedScope,
   ActivityFeedSettings,
   FetchMoreParams,
+  ActivityItem,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -47,6 +47,7 @@ import { tag } from 'rxjs-spy/operators'
 import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-feed-filters.component'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { isNonNulled } from 'rxjs-etc'
+import { CvcActivityFeedItem } from './activity-feed-item/activity-feed-item.component'
 
 @UntilDestroy()
 @Component({
@@ -61,6 +62,7 @@ import { isNonNulled } from 'rxjs-etc'
     CvcActivityFeedCounts,
     CvcActivityFeedSettingsButton,
     CvcActivityFeedFilterSelects,
+    CvcActivityFeedItem,
   ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
@@ -87,9 +89,20 @@ export class CvcActivityFeed implements OnInit {
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
 
   // PRESENTATION STREAMS
-  activity$?: Observable<any>
+  activity$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
   // feedInfo$: Observable<CvcActivityFeedInfo>
 
+  // export type ActivityInterface = {
+  //   createdAt: Scalars['ISO8601DateTime'];
+  //   events: Array<Event>;
+  //   id: Scalars['Int'];
+  //   note?: Maybe<Scalars['String']>;
+  //   organization?: Maybe<Organization>;
+  //   parsedNote: Array<CommentBodySegment>;
+  //   subject: EventSubject;
+  //   user: User;
+  //   verbiage: Scalars['String'];
+  // };
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
 
   constructor(private gql: ActivityFeedGQL) {
@@ -129,7 +142,7 @@ export class CvcActivityFeed implements OnInit {
         untilDestroyed(this)
       )
       .subscribe((params: ActivityFeedQueryParams) => {
-        const queryVars = this.getQueryVars(params)
+        const queryVars = this.queryParamsToVariables(params)
         if (!this.queryRef) {
           // this.isFetchMore$.next(false)
           // this.queryError$.next({})
@@ -181,11 +194,14 @@ export class CvcActivityFeed implements OnInit {
     this.activity$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
       filter(isNonNulled),
+      tag('activity-feed activity$'),
       map((edges) => edges.map((e) => e.node))
     )
   }
 
-  getQueryVars(params: ActivityFeedQueryParams): ActivityFeedQueryVariables {
+  queryParamsToVariables(
+    params: ActivityFeedQueryParams
+  ): ActivityFeedQueryVariables {
     // showFilters is a required query var
     let queryVars: ActivityFeedQueryVariables = {
       showFilters: this.cvcShowFilters(),

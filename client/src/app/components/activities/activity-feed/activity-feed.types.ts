@@ -4,6 +4,22 @@ import {
   EventAction,
   EventFeedMode,
   SubscribableQueryInput,
+  AcceptRevisionsActivity,
+  CommentActivity,
+  CreateComplexMolecularProfileActivity,
+  CreateVariantActivity,
+  DeprecateComplexMolecularProfileActivity,
+  DeprecateVariantActivity,
+  FlagEntityActivity,
+  ModerateAssertionActivity,
+  ModerateEvidenceItemActivity,
+  RejectRevisionsActivity,
+  ResolveFlagActivity,
+  SubmitAssertionActivity,
+  SubmitEvidenceItemActivity,
+  SuggestRevisionSetActivity,
+  SuggestSourceActivity,
+  UpdateSourceSuggestionStatusActivity,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -41,6 +57,24 @@ export type ActivityFeedQueryParams = {
   settings?: ActivityFeedSettings
   fetchMore?: { first?: number; after?: string }
 }
+
+export type ActivityItem =
+  | AcceptRevisionsActivity
+  | CommentActivity
+  | CreateComplexMolecularProfileActivity
+  | CreateVariantActivity
+  | DeprecateComplexMolecularProfileActivity
+  | DeprecateVariantActivity
+  | FlagEntityActivity
+  | ModerateAssertionActivity
+  | ModerateEvidenceItemActivity
+  | RejectRevisionsActivity
+  | ResolveFlagActivity
+  | SubmitAssertionActivity
+  | SubmitEvidenceItemActivity
+  | SuggestRevisionSetActivity
+  | SuggestSourceActivity
+  | UpdateSourceSuggestionStatusActivity
 
 // fancy discriminated union type for ActivityFeedScope
 type ScopeOrganization = {

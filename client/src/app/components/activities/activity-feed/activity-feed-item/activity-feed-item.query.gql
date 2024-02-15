@@ -1,0 +1,34 @@
+query ActivityItem($id: Int!) {
+  activity(id: $id) {
+    id
+    note
+    events {
+      id
+      createdAt
+      action
+      originatingObject {
+        id
+        name
+        link
+      }
+      originatingUser {
+        id
+        displayName
+      }
+    }
+    parsedNote {
+      ... on CommentTagSegment {
+        entityId
+        link
+        tagType
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+      }
+    }
+  }
+}
