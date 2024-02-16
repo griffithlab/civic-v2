@@ -14,8 +14,14 @@
       [nzOptionHeightPx]="28">
       <nz-option
         *ngFor="let type of cvcFilterOptions().activityTypes"
+        nzCustomContent
         [nzLabel]="type | enumToTitle"
-        [nzValue]="type"></nz-option>
+        [nzValue]="type">
+        <span
+          nz-icon
+          [nzType]="type | iconNameForActivityTypeInput"></span>
+        {{ type | enumToTitle }}
+      </nz-option>
     </nz-select>
   </nz-col>
   <nz-col nzSpan="24">
@@ -84,6 +90,10 @@
     </nz-select>
   </nz-col>
 </nz-row>
+
+<!-- TEMPLATES -->
+
+<!-- filter title -->
 <ng-template
   #filterTitle
   let-title
