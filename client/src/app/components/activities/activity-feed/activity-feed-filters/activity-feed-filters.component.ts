@@ -23,6 +23,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 export const defaultFilters = {}
 
@@ -32,6 +33,7 @@ export const defaultFilters = {}
   imports: [
     CommonModule,
     FormsModule,
+    NzIconModule,
     NzGridModule,
     NzFormModule,
     NzSelectModule,

@@ -32,8 +32,14 @@
       [nzOptionHeightPx]="28">
       <nz-option
         *ngFor="let subject of cvcFilterOptions().subjectTypes"
+        nzCustomContent
         [nzLabel]="subject | enumToTitle"
-        [nzValue]="subject"></nz-option>
+        [nzValue]="subject">
+        <span
+          nz-icon
+          [nzType]="subject | iconNameForSubscribableEntity"></span>
+        {{ subject | enumToTitle }}
+      </nz-option>
     </nz-select>
   </nz-col>
   <nz-col nzSpan="24">
