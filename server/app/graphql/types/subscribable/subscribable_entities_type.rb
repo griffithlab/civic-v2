@@ -1,13 +1,14 @@
 module Types::Subscribable
   class SubscribableEntitiesType < Types::BaseEnum
     description 'Enumeration of all subscribable CIViC entities.'
-    value 'GENE', value: 'Gene'
-    value 'VARIANT', value: 'Variant'
-    value 'EVIDENCE_ITEM', value: 'EvidenceItem'
     value 'ASSERTION', value: 'Assertion'
-    value 'REVISION', value: 'Revision'
-    value 'VARIANT_GROUP', value: 'VariantGroup'
-    value 'SOURCE_SUGGESTION', value: 'SourceSuggestion'
+    value 'EVIDENCE_ITEM', value: 'EvidenceItem'
+    value 'GENE', value: 'Gene'
     value 'MOLECULAR_PROFILE', value: 'MolecularProfile'
+    value 'REVISION', value: 'Revision'
+    value 'SOURCE', value: 'Source'
+    value 'SOURCE_SUGGESTION', value: 'SourceSuggestion'
+    value 'VARIANT', value: 'Variant'
+    value 'VARIANT_GROUP', value: 'VariantGroup'
   end
 end

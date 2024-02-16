@@ -4790,6 +4790,7 @@ export enum SubscribableEntities {
   Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
+  Source = 'SOURCE',
   SourceSuggestion = 'SOURCE_SUGGESTION',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
