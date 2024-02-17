@@ -28,6 +28,7 @@ import {
   ActivityFeedSettings,
   FetchMoreParams,
   ActivityFeedFilterKeys,
+  ActivityFeedCounts,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
@@ -93,12 +94,15 @@ export class CvcActivityFeed implements OnInit {
   fetch$: Observable<ActivityFeedQueryParams>
   fetchMore$: Observable<ActivityFeedQueryParams>
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
+  rowCount$: Observable<number>
 
   // PRESENTATION STREAMS
-  activity$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
+  activity$: Observable<Maybe<ActivityFeedNodeFragment>[]>
+  feedCounts$: Observable<ActivityFeedCounts>
 
-  feedFilterOptions: Signal<ActivityFeedFilterOptions>
+  // CONFIG, STATE
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
+  feedFilterOptions: Signal<ActivityFeedFilterOptions>
 
   constructor(private gql: ActivityFeedGQL) {
     this.feedSetting$ = new Subject<ActivityFeedSettings>()
@@ -196,6 +200,27 @@ export class CvcActivityFeed implements OnInit {
       filter(isNonNulled),
       map((edges) => edges.map((e) => e.node)),
       tag('activity$')
+    )
+
+    this.rowCount$ = this.queryResult$.pipe(
+      pluck('data', 'activities', 'edges'),
+      map((edges) => {
+        return edges?.length ?? 0
+      })
+    )
+
+    this.feedCounts$ = this.queryResult$.pipe(
+      pluck('data'),
+      filter(isNonNulled),
+      withLatestFrom(this.rowCount$),
+      map(([data, rowCount]) => {
+        return <ActivityFeedCounts>{
+          total: data.activities.totalCount,
+          unfiltered: data.activities.unfilteredCount,
+          page: data.activities.pageCount,
+          rows: rowCount,
+        }
+      })
     )
 
     this.feedFilterOptions = toSignal(

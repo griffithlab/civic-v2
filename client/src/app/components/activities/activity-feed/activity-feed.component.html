@@ -29,7 +29,8 @@
 </nz-card>
 <ng-template #cardTitle>
   {{ cvcTitle() }}
-  <cvc-activity-feed-counts></cvc-activity-feed-counts>
+  <cvc-activity-feed-counts
+    [cvcFeedCounts]="feedCounts$ | ngrxPush"></cvc-activity-feed-counts>
 </ng-template>
 <ng-template #cardExtra>
   <cvc-activity-feed-settings

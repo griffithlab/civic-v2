@@ -1,5 +1,7 @@
+@if (rows() > 0) {
 <span
   nz-typography
   nzType="secondary">
-  (FEED COUNTS)
+  ({{ rows() }} of {{ total() }})
 </span>
+}

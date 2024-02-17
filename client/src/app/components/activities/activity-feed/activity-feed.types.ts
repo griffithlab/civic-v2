@@ -52,14 +52,11 @@ export type ActivityFeedFilterOptions = {
   subjectTypes: ActivitySubjectInput[]
 }
 
-export type ActivityFeedInfo = {
-  loading: boolean
-  actionCount: {
-    unfiltered: number
-  }
-  participants?: TagLinkableUser[]
-  organizations?: TagLinkableOrganization[]
-  types?: ActivityTypeInput[]
+export type ActivityFeedCounts = {
+  total: number
+  unfiltered: number
+  page: number
+  rows: number
 }
 
 export type FetchMoreParams = { first: number; after: string }
