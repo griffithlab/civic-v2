@@ -2,8 +2,13 @@ import { TypePolicies } from '@apollo/client/cache'
 import { relayStylePagination } from '@apollo/client/utilities'
 import { CvcSourcePolicy } from './policies/source.policy'
 import { CvcUserPolicy } from './policies/user.policy'
+import { CvcActivityPolicy } from './policies/activity.policy'
+import {
+  StrictTypedTypePolicies,
+  TypedTypePolicies,
+} from '@app/generated/civic.apollo-helpers'
 
-export const CvcTypePolicies: TypePolicies = {
+export const CvcTypePolicies: StrictTypedTypePolicies = {
   Gene: {
     fields: {
       comments: relayStylePagination(),
@@ -14,6 +19,13 @@ export const CvcTypePolicies: TypePolicies = {
   },
   Query: {
     fields: {
+      activities: relayStylePagination([
+        'subject',
+        'organizationId',
+        'userId',
+        'activityType',
+        'subjectType',
+      ]),
       browseGenes: relayStylePagination([
         'entrezSymbol',
         'therapayName',
@@ -52,7 +64,7 @@ export const CvcTypePolicies: TypePolicies = {
         'journal',
         'clinicalTrialId',
         'id',
-        'openAccess'
+        'openAccess',
       ]),
       sourceSuggestions: relayStylePagination([
         'sourceType',
@@ -157,6 +169,4 @@ export const CvcTypePolicies: TypePolicies = {
       users: relayStylePagination(['userName', 'orgName', 'userRole']),
     },
   },
-  User: CvcUserPolicy,
-  // Source: CvcSourcePolicy,
 }
