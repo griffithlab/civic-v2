@@ -7,6 +7,7 @@ import {
   input,
   effect,
   OnInit,
+  computed,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
@@ -15,7 +16,7 @@ import {
   ActivityFeedItemGQL,
   ActivityFeedItemQuery,
   ActivityFeedItemQueryVariables,
-  ActivityFeedNodeFragment,
+  ActivityFeedFieldsFragment,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -45,12 +46,12 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
   styleUrl: './activity-feed-item.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeedItem implements OnInit {
-  cvcActivity = input.required<ActivityFeedNodeFragment>()
+export class CvcActivityFeedItem {
+  cvcActivity = input.required<ActivityFeedFieldsFragment>()
 
-  queryActivity$: Subject<ActivityFeedItemQueryVariables>
+  activityType = computed(() => this.cvcActivity().__typename)
+
   queryResult$: Observable<ApolloQueryResult<ActivityFeedItemQuery>>
-  loading$: Observable<boolean>
   activityDetail$: Observable<Maybe<ActivityFeedItemFieldsFragment>>
   toggleDetail$: Subject<void>
 
@@ -58,8 +59,6 @@ export class CvcActivityFeedItem implements OnInit {
   showDetails: WritableSignal<boolean>
 
   constructor(private gql: ActivityFeedItemGQL) {
-    this.queryActivity$ = new Subject<ActivityFeedItemQueryVariables>()
-    this.loading$ = new Observable<boolean>()
     this.activityDetail$ = new Observable<
       Maybe<ActivityFeedItemFieldsFragment>
     >()
@@ -73,17 +72,14 @@ export class CvcActivityFeedItem implements OnInit {
       this.showDetails.set(!this.showDetails())
     })
     effect(() => {
-      if (this.showDetails() && this.cvcActivity().id) {
+      if (this.showDetails()) {
         if (!this.queryRef) {
           this.queryRef = this.gql.watch({ id: this.cvcActivity().id })
-          this.queryResult$ = this.queryRef.valueChanges
-          this.loading$ = this.queryResult$.pipe(pluck('loading'))
-          this.activityDetail$ = this.queryResult$.pipe(
+          this.activityDetail$ = this.queryRef.valueChanges.pipe(
             pluck('data', 'activity')
           )
         }
       }
     })
   }
-  ngOnInit(): void {}
 }

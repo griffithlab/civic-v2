@@ -6,19 +6,40 @@ query ActivityFeedItem($id: Int!) {
 
 fragment ActivityFeedItemFields on ActivityInterface {
   id
+  verbiage
+  createdAt
   note
-  events {
+  organization {
     id
-    createdAt
-    action
-    originatingObject {
-      id
-      name
-      link
+    name
+  }
+  user {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    name
+    link
+    ... on Source {
+      citation
+      sourceType
     }
-    originatingUser {
-      id
-      displayName
+    ... on EvidenceItem {
+      status
+    }
+    ... on Assertion {
+      status
+    }
+    ... on Revision {
+      revisionSetId
+    }
+    ... on Variant {
+      deprecated
+    }
+    ... on MolecularProfile {
+      deprecated
     }
   }
   parsedNote {
@@ -31,6 +52,20 @@ fragment ActivityFeedItemFields on ActivityInterface {
       text
     }
     ... on User {
+      id
+      displayName
+    }
+  }
+  events {
+    id
+    createdAt
+    action
+    originatingObject {
+      id
+      name
+      link
+    }
+    originatingUser {
       id
       displayName
     }

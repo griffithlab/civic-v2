@@ -9,7 +9,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import {
   ActivityFeedGQL,
-  ActivityFeedNodeFragment,
+  ActivityFeedFieldsFragment,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
   EventFeedMode,
@@ -97,7 +97,7 @@ export class CvcActivityFeed implements OnInit {
   rowCount$: Observable<number>
 
   // PRESENTATION STREAMS
-  activity$: Observable<Maybe<ActivityFeedNodeFragment>[]>
+  activity$: Observable<Maybe<ActivityFeedFieldsFragment>[]>
   feedCounts$: Observable<ActivityFeedCounts>
 
   // CONFIG, STATE

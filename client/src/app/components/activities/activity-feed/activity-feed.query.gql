@@ -23,11 +23,11 @@ query ActivityFeed(
     subjectType: $subjectType
     mode: $mode
   ) {
-    ...activityFeed
+    ...ActivitiesConnectionFields
   }
 }
 
-fragment activityFeed on ActivityInterfaceConnection {
+fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   pageInfo {
     startCursor
     endCursor
@@ -51,15 +51,15 @@ fragment activityFeed on ActivityInterfaceConnection {
   edges {
     cursor
     node {
-      ...activityFeedNode
+      ...ActivityFeedFields
     }
   }
   nodes {
-    ...activityFeedNode
+    ...ActivityFeedFields
   }
 }
 
-fragment activityFeedNode on ActivityInterface {
+fragment ActivityFeedFields on ActivityInterface {
   id
   verbiage
   createdAt
@@ -69,7 +69,6 @@ fragment activityFeedNode on ActivityInterface {
   }
   user {
     id
-    username
     displayName
     role
   }
@@ -77,24 +76,5 @@ fragment activityFeedNode on ActivityInterface {
     id
     name
     link
-    ... on Source {
-      citation
-      sourceType
-    }
-    ... on EvidenceItem {
-      status
-    }
-    ... on Assertion {
-      status
-    }
-    ... on Revision {
-      revisionSetId
-    }
-    ... on Variant {
-      deprecated
-    }
-    ... on MolecularProfile {
-      deprecated
-    }
   }
 }
