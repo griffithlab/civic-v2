@@ -25,7 +25,7 @@
     nzFlex="auto"
     class="description">
     <span>
-      {{ activityType() }}
+      {{ cacheId() }}
       <strong>{{ cvcActivity().user.displayName }}</strong>
       {{ cvcActivity().verbiage }}
       <strong>{{ cvcActivity().subject.name }}</strong>
@@ -40,7 +40,7 @@
     <span
       nz-typography
       nzType="secondary">
-      {{ +cvcActivity().createdAt | timeAgo }}
+      {{ cvcActivity().createdAt | timeAgo }}
     </span>
   </nz-col>
 </nz-row>
@@ -50,7 +50,7 @@
   class="details">
   <nz-col nzSpan="24">
     <div class="content">
-      <pre>activityDetail$: {{ activityDetail$ | ngrxPush | json }}</pre>
+      {{ result$ | ngrxPush | json }}
     </div>
   </nz-col>
 </nz-row>
