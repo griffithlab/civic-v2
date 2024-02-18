@@ -10,6 +10,7 @@ query ActivityFeed(
   $subjectType: [ActivitySubjectInput!]
   $mode: EventFeedMode
   $showFilters: Boolean!
+  $requestDetails: Boolean!
 ) {
   activities(
     subject: $subject
@@ -77,4 +78,5 @@ fragment ActivityFeedFields on ActivityInterface {
     name
     link
   }
+  ...ActivityFeedItemDetails
 }

@@ -125,7 +125,7 @@ export class CvcActivityFeed implements OnInit {
       // tag('----- activity-feed fetch$')
     )
 
-    this.feedFilter$.pipe(tag('feedFilter$')).subscribe()
+    this.feedFilter$.pipe(tag('feed feedFilter$')).subscribe()
 
     // convert next page requests into fetch more query
     this.fetchMore$ = this.nextPage$.pipe(
@@ -199,7 +199,7 @@ export class CvcActivityFeed implements OnInit {
       pluck('data', 'activities', 'edges'),
       filter(isNonNulled),
       map((edges) => edges.map((e) => e.node)),
-      tag('activity$')
+      tag('feed activity$')
     )
 
     this.rowCount$ = this.queryResult$.pipe(
@@ -249,6 +249,7 @@ export class CvcActivityFeed implements OnInit {
     // showFilters is a required query var
     let queryVars: ActivityFeedQueryVariables = {
       showFilters: this.cvcShowFilters(),
+      requestDetails: false,
     }
     // if this is a fetchMore query, add first & after vars,
     // else configure a refetch query with new settings and filters

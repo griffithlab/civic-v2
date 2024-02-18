@@ -1,4 +1,4 @@
-query ActivityFeedItem($id: Int!) {
+query ActivityFeedItem($id: Int!, $requestDetails: Boolean!) {
   activity(id: $id) {
     ...ActivityFeedItemFields
   }
@@ -18,7 +18,11 @@ fragment ActivityFeedItemFields on ActivityInterface {
     displayName
     role
   }
-  subject {
+  ...ActivityFeedItemDetails
+}
+
+fragment ActivityFeedItemDetails on ActivityInterface {
+  subject @include(if: $requestDetails) {
     id
     name
     link
@@ -42,7 +46,7 @@ fragment ActivityFeedItemFields on ActivityInterface {
       deprecated
     }
   }
-  parsedNote {
+  parsedNote @include(if: $requestDetails) {
     ... on CommentTagSegment {
       entityId
       link
@@ -56,7 +60,7 @@ fragment ActivityFeedItemFields on ActivityInterface {
       displayName
     }
   }
-  events {
+  events @include(if: $requestDetails) {
     id
     createdAt
     action
