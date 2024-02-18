@@ -1,12 +1,5 @@
-import { TypePolicies } from '@apollo/client/cache'
 import { relayStylePagination } from '@apollo/client/utilities'
-import { CvcSourcePolicy } from './policies/source.policy'
-import { CvcUserPolicy } from './policies/user.policy'
-import { CvcActivityPolicy } from './policies/activity.policy'
-import {
-  StrictTypedTypePolicies,
-  TypedTypePolicies,
-} from '@app/generated/civic.apollo-helpers'
+import { StrictTypedTypePolicies } from '@app/generated/civic.apollo-helpers'
 
 export const CvcTypePolicies: StrictTypedTypePolicies = {
   Gene: {
