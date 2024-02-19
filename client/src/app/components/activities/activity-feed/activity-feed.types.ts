@@ -1,5 +1,3 @@
-import { TagLinkableOrganization } from '@app/components/organizations/organization-tag/organization-tag.component'
-import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
 import {
   EventFeedMode,
   SubscribableQueryInput,
@@ -7,8 +5,6 @@ import {
   Organization,
   ActivitySubjectInput,
   ActivityTypeInput,
-  ActivityFeedItemFieldsFragment,
-  ActivityFeedFieldsFragment,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -94,7 +90,3 @@ export type ActivityFeedModeAttributes = {
   organizationId?: number
   userId?: number
 }
-
-export type ActivityFeedFragment =
-  | ActivityFeedFieldsFragment
-  | ActivityFeedItemFieldsFragment
