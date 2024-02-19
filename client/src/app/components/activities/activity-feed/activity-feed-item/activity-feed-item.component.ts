@@ -15,7 +15,6 @@ import { ApolloClient, ApolloQueryResult } from '@apollo/client/core'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
   ActivityFeedFieldsFragment,
-  ActivityFeedItemFieldsFragment,
   ActivityFeedItemGQL,
   ActivityFeedItemQuery,
   ActivityFeedItemQueryVariables,
@@ -29,11 +28,19 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { BehaviorSubject, Observable, ReplaySubject, Subject, map } from 'rxjs'
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  filter,
+  map,
+} from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 import { tag } from 'rxjs-spy/operators'
 
-type ActivityFeedItemViewModel = {
+type ItemViewModel = {
   loading: boolean
   activity?: any
 }
@@ -56,20 +63,22 @@ type ActivityFeedItemViewModel = {
 })
 export class CvcActivityFeedItem implements OnInit {
   cvcActivity = input.required<ActivityFeedFieldsFragment>()
-  id: Signal<number>
-  typename: Signal<string>
-  cacheId: Signal<string>
+  cacheId: Signal<Maybe<string>>
   toggleDetail$: Subject<void>
 
   queryRef?: QueryRef<ActivityFeedItemQuery, ActivityFeedItemQueryVariables>
   result$?: Observable<ApolloQueryResult<ActivityFeedItemQuery>>
-  // vm: Signal<ActivityFeedItemViewModel>
+
+  loading?: Signal<boolean>
+  activity?: Signal<ActivityFeedFieldsFragment>
+
+  vm?: Signal<ItemViewModel>
 
   showDetails: WritableSignal<boolean>
-  constructor(private gql: ActivityFeedItemGQL) {
-    this.id = computed(() => this.cvcActivity().id)
-    this.typename = computed(() => this.cvcActivity().__typename)
-    this.cacheId = computed(() => `${this.id()}:${this.typename()}`)
+  constructor(private apollo: Apollo, private gql: ActivityFeedItemGQL) {
+    this.cacheId = computed(() =>
+      apollo.client.cache.identify(this.cvcActivity())
+    )
     this.showDetails = signal(false)
     this.toggleDetail$ = new Subject<void>()
     this.toggleDetail$.pipe(untilDestroyed(this)).subscribe(() => {
@@ -78,15 +87,7 @@ export class CvcActivityFeedItem implements OnInit {
     effect(() => {
       if (this.showDetails()) {
         if (!this.queryRef) {
-          // send out vm with pa, will be updated when query completes
-          // this.vm.set({ loading: false, activity: this.cvcActivity() })
-          this.queryRef = this.gql.watch({
-            id: this.cvcActivity().id,
-            requestDetails: true,
-          })
-          this.result$ = this.queryRef.valueChanges.pipe(
-            tag('item valueChanges')
-          )
+          this.watchQuery()
         }
       }
     })
@@ -99,6 +100,23 @@ export class CvcActivityFeedItem implements OnInit {
     //   this.queryRef.valueChanges.pipe(tag('item valueChanges')),
     //   { requireSync: true }
     // )
+  }
+
+  watchQuery(): void {
+    this.queryRef = this.gql.watch({
+      id: this.cvcActivity().id,
+      requestDetails: true,
+    })
+    this.result$ = this.queryRef.valueChanges.pipe(tag('item valueChanges'))
+    this.loading = toSignal(this.result$.pipe(pluck('loading')), {
+      requireSync: true,
+    })
+    this.activity = toSignal(
+      this.result$.pipe(pluck('data', 'activity'), filter(isNonNulled)),
+      {
+        requireSync: true,
+      }
+    )
   }
 }
 

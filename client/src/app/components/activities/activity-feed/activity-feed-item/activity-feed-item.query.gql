@@ -1,27 +1,10 @@
 query ActivityFeedItem($id: Int!, $requestDetails: Boolean!) {
   activity(id: $id) {
-    ...ActivityFeedItemFields
+    ...ActivityFeedFields
   }
 }
 
-fragment ActivityFeedItemFields on ActivityInterface {
-  id
-  verbiage
-  createdAt
-  note
-  organization {
-    id
-    name
-  }
-  user {
-    id
-    displayName
-    role
-  }
-  ...ActivityFeedItemDetails
-}
-
-fragment ActivityFeedItemDetails on ActivityInterface {
+fragment ActivityFeedDetailFields on ActivityInterface {
   subject @include(if: $requestDetails) {
     id
     name

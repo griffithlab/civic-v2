@@ -61,6 +61,11 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
 }
 
 fragment ActivityFeedFields on ActivityInterface {
+  ...ActivityFeedBaseFields
+  ...ActivityFeedDetailFields
+}
+
+fragment ActivityFeedBaseFields on ActivityInterface {
   id
   verbiage
   createdAt
@@ -78,5 +83,5 @@ fragment ActivityFeedFields on ActivityInterface {
     name
     link
   }
-  ...ActivityFeedItemDetails
+  ...ActivityFeedDetailFields
 }
