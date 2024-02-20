@@ -25,12 +25,14 @@
     nzFlex="auto"
     class="description">
     <span>
-      {{ cacheId() }}
-      <strong>{{ cvcActivity().user.displayName }}</strong>
-      {{ cvcActivity().verbiage }}
-      <strong>{{ cvcActivity().subject.name }}</strong>
-      @if (cvcActivity().organization) { for
-      <strong>{{ cvcActivity().organization!.name }}</strong>
+      @if (activity(); as activity) {
+        <strong>{{ activity.user.displayName }}</strong>
+        {{ activity.verbiage }}
+        <strong>{{ activity.subject.name }}</strong>
+        @if (activity.organization) {
+          for
+          <strong>{{ activity.organization!.name }}</strong>
+        }
       }
     </span>
   </nz-col>
@@ -40,7 +42,9 @@
     <span
       nz-typography
       nzType="secondary">
-      {{ cvcActivity().createdAt | timeAgo }}
+      @if (activity(); as activity) {
+        {{ activity.createdAt | timeAgo }}
+      }
     </span>
   </nz-col>
 </nz-row>
@@ -50,7 +54,7 @@
   class="details">
   <nz-col nzSpan="24">
     <div class="content">
-      {{ result$ | ngrxPush | json }}
+      <pre>{{ activity() | json }}</pre>
     </div>
   </nz-col>
 </nz-row>
