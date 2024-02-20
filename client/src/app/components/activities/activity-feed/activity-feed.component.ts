@@ -14,6 +14,7 @@ import {
   ActivityFeedQueryVariables,
   EventFeedMode,
   Maybe,
+  ActivityInterfaceEdge,
 } from '@app/generated/civic.apollo'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
@@ -40,6 +41,7 @@ import {
   filter,
   map,
   merge,
+  take,
   withLatestFrom,
 } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
@@ -57,7 +59,12 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { CvcActivityFeedItem } from './activity-feed-item/activity-feed-item.component'
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
-import { UiScrollModule } from 'ngx-ui-scroll'
+import {
+  Datasource,
+  IAdapter,
+  IDatasource,
+  UiScrollModule,
+} from 'ngx-ui-scroll'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 
 @UntilDestroy()
@@ -101,6 +108,9 @@ export class CvcActivityFeed implements OnInit {
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
   rowCount$: Observable<number>
 
+  edge$: Observable<any>
+  // edge$: Observable<ActivityInterfaceEdge[]>
+
   // PRESENTATION STREAMS
   activity$: Observable<Maybe<ActivityFeedFieldsFragment>[]>
   feedCounts$: Observable<ActivityFeedCounts>
@@ -108,6 +118,8 @@ export class CvcActivityFeed implements OnInit {
   // CONFIG, STATE
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
+  scrollDatasource: IDatasource<ActivityInterfaceEdge>
+  scrollAdapter?: IAdapter<ActivityInterfaceEdge>
 
   constructor(private gql: ActivityFeedGQL) {
     this.feedSetting$ = new Subject<ActivityFeedSettings>()
@@ -207,6 +219,13 @@ export class CvcActivityFeed implements OnInit {
       tag('feed activity$')
     )
 
+    this.edge$ = this.queryResult$.pipe(
+      pluck('data', 'activities', 'edges'),
+      filter(isNonNulled),
+      map((edges) => edges.map((e) => e as ActivityInterfaceEdge)),
+      tag('feed edge$')
+    )
+
     this.rowCount$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
       map((edges) => {
@@ -246,8 +265,23 @@ export class CvcActivityFeed implements OnInit {
         initialValue: feedFilterOptionDefaults,
       }
     )
-  }
 
+    this.scrollDatasource = this.configureDatasource()
+  }
+  configureDatasource(): IDatasource<ActivityInterfaceEdge> {
+    return new Datasource<ActivityInterfaceEdge>({
+      get: (index: number, count: number) => {
+        console.log('scrollDatasource get()', index, count)
+        return this.edge$
+        // this.fetchMore$.next({ first: count, after: index })
+      },
+      settings: {
+        bufferSize: 20,
+        startIndex: 0,
+        minIndex: 0,
+      },
+    })
+  }
   queryParamsToVariables(
     params: ActivityFeedQueryParams
   ): ActivityFeedQueryVariables {
@@ -312,7 +346,16 @@ export class CvcActivityFeed implements OnInit {
     }
     return modeAttrs
   }
+
   ngOnInit(): void {
-    // console.log('+++++ ngOnInit cvcSubjectType', this.cvcScope())
+    // this.scrollAdapter = this.scrollDatasource.adapter!
+    // this.scrollAdapter.init$.pipe(take(1)).subscribe(()=> {
+    // })
+  }
+  getActivityEdges(
+    index: number,
+    count: number
+  ): Observable<ActivityInterfaceEdge[]> {
+    return this.edge$
   }
 }
