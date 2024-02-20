@@ -1,17 +1,23 @@
 <nz-card
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra"
-  nzSize="small">
+  nzSize="small"
+  style="width: 100%">
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
-      <ng-container *ngrxLet="activity$ as activities">
-        @if (activities && activities.length > 0) {
-        <cvc-activity-feed-item
-          *ngFor="let activity of activities"
-          [cvcActivity]="activity!"></cvc-activity-feed-item>
-        }
-      </ng-container>
+      <div
+        style="border: 1px solid green"
+        cvcAutoHeightDiv="40"
+        cvcAutoHeightTarget="viewport">
+        <ng-container *ngrxLet="activity$ as activities">
+          @if (activities && activities.length > 0) {
+            <cvc-activity-feed-item
+              *ngFor="let activity of activities"
+              [cvcActivity]="activity!"></cvc-activity-feed-item>
+          }
+        </ng-container>
+      </div>
     </nz-col>
     <!-- FEED FILTERS COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">

@@ -56,6 +56,9 @@ import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-f
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { CvcActivityFeedItem } from './activity-feed-item/activity-feed-item.component'
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
+import { UiScrollModule } from 'ngx-ui-scroll'
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 
 @UntilDestroy()
 @Component({
@@ -67,10 +70,12 @@ import { CvcActivityFeedItem } from './activity-feed-item/activity-feed-item.com
     LetDirective,
     NzGridModule,
     NzCardModule,
+    UiScrollModule,
     CvcActivityFeedCounts,
     CvcActivityFeedSettingsButton,
     CvcActivityFeedFilterSelects,
     CvcActivityFeedItem,
+    CvcAutoHeightDivModule,
   ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
