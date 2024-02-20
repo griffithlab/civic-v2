@@ -38,7 +38,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
         nextFetchPolicy: 'cache-first',
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
-        // returnPartialData: true
+        returnPartialData: true,
       },
     },
   }
