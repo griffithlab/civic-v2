@@ -2,11 +2,14 @@ module IsFeatureInstance
   extend ActiveSupport::Concern
 
   included do
-    has_one :feature, as: :feature_instance, touch: true
+    has_one :feature, as: :feature_instance, touch: true, autosave: true
 
-    delegate :name, to: :feature
-    delegate :description, to: :feature
-    delegate :full_name, to: :feature
+    delegate :name, :name=, to: :feature
+    delegate :description, :description=, to: :feature
+    delegate :full_name, :full_name=, to: :feature
+    delegate :deprecated, :deprecated=, to: :feature
+    delegate :deprecation_activity, :deprecating_user, to: :feature
+    delegate :creation_activity, :creating_user, to: :feature
     delegate :feature_aliases, to: :feature
     delegate :sources, to: :feature
     delegate :source_ids, to: :feature
@@ -26,5 +29,7 @@ module IsFeatureInstance
     delegate :events, to: :feature
     delegate :last_submitted_revision_event, to: :feature
     delegate :link, to: :feature
+
+    delegate_missing_to :feature
   end
 end

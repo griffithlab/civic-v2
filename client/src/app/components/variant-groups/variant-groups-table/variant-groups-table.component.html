@@ -54,7 +54,7 @@
           Name
         </th>
         <th nzWidth="600px">Variants</th>
-        <th nzWidth="150px">Genes</th>
+        <th nzWidth="150px">Features</th>
         <th
           nzWidth="75px"
           nzRight
@@ -101,7 +101,7 @@
         </th>
         <th>
           <cvc-clearable-input-filter
-            [(inputModel)]="geneNameInput"
+            [(inputModel)]="featureNameInput"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
@@ -132,8 +132,8 @@
             <ng-container [ngTemplateOutlet]="variantNames"></ng-container>
           </td>
           <td>
-            <span *ngFor="let gene of vg.geneNames; last as isLast">
-              {{ gene }}{{ isLast ? '' : ', ' }}
+            <span *ngFor="let feature of vg.featureNames; last as isLast">
+              {{ feature }}{{ isLast ? '' : ', ' }}
             </span>
           </td>
           <td

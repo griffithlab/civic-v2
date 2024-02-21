@@ -17,7 +17,7 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-    FeatureInstanceTypes,
+  FeatureInstanceTypes,
   FeatureSelectTagGQL,
   FeatureSelectTagQuery,
   FeatureSelectTagQueryVariables,
@@ -31,6 +31,8 @@ import { FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core'
 import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import mixin from 'ts-mixin-extended'
+import { FeatureIdWithCreationStatus } from './feature-quick-add/feature-quick-add.form'
+import { BehaviorSubject } from 'rxjs'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -82,14 +84,17 @@ export class CvcFeatureSelectField
       placeholder: 'Search Features',
       isMultiSelect: false,
       entityName: { singular: 'Feature', plural: 'Features' },
-      description:
-        'Feature Name',
+      description: 'Feature Name',
     },
-    featureType: FeatureInstanceTypes.Gene
+    featureType: FeatureInstanceTypes.Gene,
   }
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
+
+  selectedFeatureType: FeatureInstanceTypes = this.defaultOptions.featureType
+  onFeatureType$?: BehaviorSubject<Maybe<FeatureInstanceTypes>> =
+    new BehaviorSubject<Maybe<FeatureInstanceTypes>>(undefined)
 
   constructor(
     private taq: FeatureSelectTypeaheadGQL,
@@ -120,7 +125,7 @@ export class CvcFeatureSelectField
   } // ngAfterViewInit()
 
   getTypeaheadVarsFn(str: string): FeatureSelectTypeaheadQueryVariables {
-    return { queryTerm: str, featureType: this.props.featureType }
+    return { queryTerm: str, featureType: this.selectedFeatureType }
   }
 
   getTypeaheadResultsFn(r: ApolloQueryResult<FeatureSelectTypeaheadQuery>) {
@@ -155,5 +160,22 @@ export class CvcFeatureSelectField
         }
       }
     )
+  }
+
+  showAddBehavior(
+    s: string,
+    results: FeatureSelectTypeaheadFieldsFragment[]
+  ): boolean {
+    const searchName = s.toLowerCase()
+    return (
+      s.length >= 3 && !results.some((v) => v.name.toLowerCase() === searchName)
+    )
+  }
+
+  onSelectOrCreate(feature: FeatureIdWithCreationStatus) {
+    this.onPopulate$.next(feature.id)
+    if (this.props.isNewlyCreatedCallback) {
+      this.props.isNewlyCreatedCallback(feature.new)
+    }
   }
 }

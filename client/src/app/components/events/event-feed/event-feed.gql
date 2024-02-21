@@ -123,6 +123,12 @@ fragment eventFeedNode on Event {
         name
       }
     }
+    ... on Feature {
+      deprecated
+      id
+      link
+      name
+    }
     ... on MolecularProfile {
       deprecated
     }

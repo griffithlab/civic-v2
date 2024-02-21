@@ -2,6 +2,7 @@ module Types::Entities
   class FeatureType < Types::BaseObject
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::EventOriginObject
     implements Types::Interfaces::MolecularProfileComponent
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::WithRevisions
@@ -11,12 +12,16 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :full_name, String, null: true
-    field :description, String, null: false
+    field :description, String, null: true
     field :feature_aliases, [String], null: false
     field :sources, [Types::Entities::SourceType], null: false
     field :variants, resolver: Resolvers::Variants
     field :link, String, null: false
     field :feature_instance, Types::FeatureInstanceType, null: false
+    field :deprecation_activity, Types::Activities::DeprecateFeatureActivityType, null: true
+    field :deprecated, Boolean, null: false
+    field :deprecation_reason, Types::FeatureDeprecationReasonType, null: true
+    field :creation_activity, Types::Activities::CreateFeatureActivityType, null: true
 
     def id
       object.id

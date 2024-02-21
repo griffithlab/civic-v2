@@ -55,6 +55,11 @@
         </th>
         <th
           nzLeft
+          nzWidth="70px">
+          Type
+        </th>
+        <th
+          nzLeft
           nzWidth="200px">
           Aliases
         </th>
@@ -126,6 +131,24 @@
             "></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
+          <nz-select
+            nzAllowClear
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            nzPlaceHolder="Type"
+            (ngModelChange)="filterChange$.next()"
+            [(ngModel)]="typeInput">
+            <nz-option
+              [nzValue]="featureTypes.Gene"
+              nzLabel="Gene">
+            </nz-option>
+            <nz-option
+              [nzValue]="featureTypes.Factor"
+              nzLabel="Factor">
+            </nz-option>
+          </nz-select>
+        </th>
+        <th nzLeft>
           <cvc-clearable-input-filter
             [(inputModel)]="aliasInput"
             (inputModelChange)="
@@ -160,6 +183,14 @@
         <tr class="data-row">
           <td nzLeft>
             <cvc-feature-tag [feature]="feature"></cvc-feature-tag>
+          </td>
+          <td>
+            <span
+              nz-typography
+              nz
+              nzType="secondary">
+              {{ feature.featureInstanceType }}
+            </span>
           </td>
           <td nzLeft>
             <cvc-plain-tag-overflow

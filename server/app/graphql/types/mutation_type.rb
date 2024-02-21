@@ -5,6 +5,7 @@ module Types
 
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
+    field :suggest_factor_revision, mutation: Mutations::SuggestFactorRevision
     field :suggest_variant_revision, mutation: Mutations::SuggestVariantRevision
     field :suggest_molecular_profile_revision, mutation: Mutations::SuggestMolecularProfileRevision
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
@@ -23,6 +24,7 @@ module Types
     field :resolve_flag, mutation: Mutations::ResolveFlag
 
     #deprecation
+    field :deprecate_feature, mutation: Mutations::DeprecateFeature
     field :deprecate_variant, mutation: Mutations::DeprecateVariant
     field :deprecate_complex_molecular_profile, mutation: Mutations::DeprecateComplexMolecularProfile
 
@@ -53,5 +55,6 @@ module Types
     field :add_disease, mutation: Mutations::AddDisease
     field :add_therapy, mutation: Mutations::AddTherapy
     field :create_variant, mutation: Mutations::CreateVariant
+    field :create_feature, mutation: Mutations::CreateFeature
   end
 end

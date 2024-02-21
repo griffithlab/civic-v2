@@ -10,8 +10,10 @@
       "AcceptRevisionsActivity",
       "CommentActivity",
       "CreateComplexMolecularProfileActivity",
+      "CreateFeatureActivity",
       "CreateVariantActivity",
       "DeprecateComplexMolecularProfileActivity",
+      "DeprecateFeatureActivity",
       "DeprecateVariantActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",
@@ -32,6 +34,7 @@
     "Commentable": [
       "Assertion",
       "EvidenceItem",
+      "Factor",
       "Feature",
       "Flag",
       "Gene",
@@ -46,7 +49,10 @@
       "Assertion",
       "Comment",
       "EvidenceItem",
+      "Factor",
+      "Feature",
       "Flag",
+      "Gene",
       "MolecularProfile",
       "Revision",
       "SourceSuggestion",
@@ -55,6 +61,7 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "Factor",
       "Feature",
       "Flag",
       "Gene",
@@ -68,12 +75,14 @@
       "VariantGroup"
     ],
     "FeatureInstance": [
+      "Factor",
       "Gene"
     ],
     "Flaggable": [
       "Assertion",
       "BrowseFeature",
       "EvidenceItem",
+      "Factor",
       "Feature",
       "Gene",
       "MolecularProfile",
@@ -89,6 +98,7 @@
       "ScalarFieldDiff"
     ],
     "MolecularProfileComponent": [
+      "Factor",
       "Feature",
       "Gene",
       "Variant"
@@ -101,6 +111,7 @@
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
+      "Factor",
       "Feature",
       "Gene",
       "MolecularProfile",

@@ -14,6 +14,9 @@ fragment FeatureSummaryFields on Feature{
     ... on Gene {
       ... GeneSummaryFields
     }
+    ... on Factor {
+      ... FactorSummaryFields
+    }
   }
   # lastSubmittedRevisionEvent {
   #   originatingUser {
@@ -48,4 +51,53 @@ fragment GeneSummaryFields on Gene {
     sourceType
   }
   myGeneInfoDetails
+}
+
+fragment FactorSummaryFields on Factor {
+  id
+  name
+  description
+  featureAliases
+  ncitId
+  deprecated
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  ncitDetails {
+    ...NcitDetails
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+}
+
+fragment NcitDetails on NcitDetails {
+    synonyms {
+      name
+      source
+    }
+    definitions {
+      definition
+      source
+    }
 }

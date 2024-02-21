@@ -9,6 +9,7 @@ import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcGeneReviseFormModule } from '@app/forms/config/gene-revise/gene-revise.form.module'
+import { CvcFactorReviseForm } from '@app/forms/config/factor-revise/factor-revise.form'
 
 @NgModule({
   declarations: [FeaturesSuggestPage],
@@ -23,6 +24,7 @@ import { CvcGeneReviseFormModule } from '@app/forms/config/gene-revise/gene-revi
     NzPageHeaderModule,
     CvcGeneReviseFormModule,
     CvcSectionNavigationModule,
+    CvcFactorReviseForm,
   ],
 })
 export class FeaturesSuggestModule {}

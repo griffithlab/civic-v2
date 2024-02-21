@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcActivityFeedComponent } from './activity-feed.component'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzFormModule } from 'ng-zorro-antd/form'
@@ -39,8 +39,8 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
   imports: [
     CommonModule,
     FormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzCardModule,
     NzIconModule,
@@ -71,7 +71,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     CvcRevisionTagModule,
     CvcActivityCardModule,
     CvcCollapsibleCardModule,
-    CvcFeatureVariantTagModule
+    CvcFeatureVariantTagModule,
   ],
   exports: [CvcActivityFeedComponent],
 })

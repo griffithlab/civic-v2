@@ -16,6 +16,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { FeaturesDetailRoutingModule } from './features-detail-routing.module'
 import { FeaturesDetailView } from './features-detail.view'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 
 @NgModule({
   declarations: [FeaturesDetailView],
@@ -30,6 +32,7 @@ import { FeaturesDetailView } from './features-detail.view'
     NzSpaceModule,
     NzTypographyModule,
     NzGridModule,
+    NzAlertModule,
     CvcPipesModule,
     CvcTabNavigationModule,
     CvcFlaggableModule,
@@ -37,6 +40,7 @@ import { FeaturesDetailView } from './features-detail.view'
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
     CvcEventFeedModule,
+    CvcCommentBodyModule,
   ],
 })
 export class FeaturesDetailModule {}

@@ -34,9 +34,9 @@ class Mutations::CreateVariant < Mutations::MutationWithOrg
   end
 
   def resolve(name:, feature_id:, organization_id: nil)
-    existing_variant = Variant.joins(:variant_aliases).where(feature_id: feature_id)
+    existing_variant = Variant.left_joins(:variant_aliases).where(feature_id: feature_id)
       .where('variants.name ILIKE ?', name)
-      .or(Variant.joins(:variant_aliases).where(feature_id: feature_id).where('variant_aliases.name ILIKE ?', name))
+      .or(Variant.left_joins(:variant_aliases).where(feature_id: feature_id).where('variant_aliases.name ILIKE ?', name))
       .first
 
     if existing_variant.present?

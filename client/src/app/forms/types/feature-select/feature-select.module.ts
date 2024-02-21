@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcEntitySelectModule } from '@app/forms/components/entity-select/entity-select.module'
 import { CvcEntityTagModule } from '@app/forms/components/entity-tag/entity-tag.module'
@@ -22,6 +22,7 @@ import {
   CvcFeatureSelectFieldConfig,
   CvcFeatureSelectFieldProps,
 } from './feature-select.type'
+import { CvcFeatureQuickAddForm } from './feature-quick-add/feature-quick-add.form'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -49,6 +50,7 @@ const typeConfig: ConfigOption = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     LetDirective,
     PushPipe,
     FormlyModule.forChild(typeConfig),
@@ -66,6 +68,7 @@ const typeConfig: ConfigOption = {
     CvcEntitySelectModule,
     CvcPipesModule,
     CvcEntityTagModule,
+    CvcFeatureQuickAddForm,
   ],
   exports: [CvcFeatureSelectField],
 })

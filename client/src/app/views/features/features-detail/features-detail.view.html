@@ -39,6 +39,7 @@
           <span *nzSpaceItem>
             <button
               [routerLink]="['/features', feature.id, 'revise']"
+              [queryParams]="{featureType: feature.featureInstance.__typename}"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
@@ -76,6 +77,19 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
+        <nz-alert
+          *ngIf="feature.deprecated"
+          nzBanner
+          [nzMessage]="deprecationMessageTemplate"
+          nzType="error"></nz-alert>
+        <ng-template #deprecationMessageTemplate>
+          This Feature has been deprecated for reason: {{
+          feature.deprecationReason | enumToTitle }}.
+          <cvc-comment-body
+            [commentBodySegments]="
+              feature.deprecationActivity?.parsedNote || []
+            "></cvc-comment-body>
+        </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
