@@ -26,6 +26,7 @@
     class="description">
     <span>
       @if (activity(); as activity) {
+        <strong style="color: red">{{ activity.id }} </strong>
         <strong>{{ activity.user.displayName }}</strong>
         {{ activity.verbiage }}
         <strong>{{ activity.subject.name }}</strong>

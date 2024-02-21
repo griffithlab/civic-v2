@@ -10,16 +10,11 @@
         style="border: 1px solid green"
         cvcAutoHeightDiv="40"
         cvcAutoHeightTarget="viewport">
-        <cvc-activity-feed-item
-          *uiScroll="let edge of scrollDatasource"
-          [cvcActivity]="edge.node"></cvc-activity-feed-item>
-        <!-- <ng-container *ngrxLet="activity$ as activities">
-                  @if (activities && activities.length > 0) {
-                    <cvc-activity-feed-item
-                      *ngFor="let activity of activities"
-                      [cvcActivity]="activity!"></cvc-activity-feed-item>
-                  }
-                </ng-container> -->
+        @if (scrollDatasource) {
+          <cvc-activity-feed-item
+            *uiScroll="let edge of scrollDatasource"
+            [cvcActivity]="edge.node"></cvc-activity-feed-item>
+        }
       </div>
     </nz-col>
     <!-- FEED FILTERS COLUMN -->
@@ -39,7 +34,7 @@
 <ng-template #cardTitle>
   {{ cvcTitle() }}
   <cvc-activity-feed-counts
-    [cvcFeedCounts]="feedCounts$ | ngrxPush"></cvc-activity-feed-counts>
+    [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
 </ng-template>
 <ng-template #cardExtra>
   <cvc-activity-feed-settings
