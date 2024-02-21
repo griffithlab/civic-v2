@@ -15,7 +15,7 @@ module Features
         :name,
         :full_name,
         :description,
-        :ncit_id,
+        :ncit_code,
         :source_ids,
         :feature_alias_ids
       ]

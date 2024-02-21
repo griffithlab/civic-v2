@@ -7588,22 +7588,33 @@ export type EvidenceSelectTagQuery = { __typename: 'Query', evidenceItem?: { __t
 
 export type EvidenceSelectTypeaheadFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, significance: EvidenceSignificance, variantOrigin: VariantOrigin, status: EvidenceStatus };
 
+export type QuickAddFeatureMutationVariables = Exact<{
+  name: Scalars['String'];
+  organizationId?: InputMaybe<Scalars['Int']>;
+  featureType: CreateableFeatureTypes;
+}>;
+
+
+export type QuickAddFeatureMutation = { __typename: 'Mutation', createFeature?: { __typename: 'CreateFeaturePayload', clientMutationId?: string | undefined, new: boolean, feature: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } } | undefined };
+
+export type QuickAddFeatureFieldsFragment = { __typename: 'CreateFeaturePayload', clientMutationId?: string | undefined, new: boolean, feature: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, name: string, myGeneInfoDetails?: any | undefined, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } };
+
 export type FeatureSelectTypeaheadQueryVariables = Exact<{
   queryTerm: Scalars['String'];
   featureType?: InputMaybe<FeatureInstanceTypes>;
 }>;
 
 
-export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene', entrezId: number } }> };
+export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Gene', entrezId: number } }> };
 
 export type FeatureSelectTagQueryVariables = Exact<{
   featureId: Scalars['Int'];
 }>;
 
 
-export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene', entrezId: number } } | undefined };
+export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Gene', entrezId: number } } | undefined };
 
-export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene', entrezId: number } };
+export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Gene', entrezId: number } };
 
 export type MolecularProfileSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -9727,6 +9738,102 @@ export const EvidenceSelectTypeaheadFieldsFragmentDoc = gql`
   status
 }
     `;
+export const GeneSummaryFieldsFragmentDoc = gql`
+    fragment GeneSummaryFields on Gene {
+  id
+  description
+  featureAliases
+  entrezId
+  name
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  myGeneInfoDetails
+}
+    `;
+export const NcitDetailsFragmentDoc = gql`
+    fragment NcitDetails on NcitDetails {
+  synonyms {
+    name
+    source
+  }
+  definitions {
+    definition
+    source
+  }
+}
+    `;
+export const FactorSummaryFieldsFragmentDoc = gql`
+    fragment FactorSummaryFields on Factor {
+  id
+  name
+  description
+  featureAliases
+  ncitId
+  deprecated
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  ncitDetails {
+    ...NcitDetails
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+}
+    ${NcitDetailsFragmentDoc}`;
+export const FeatureSummaryFieldsFragmentDoc = gql`
+    fragment FeatureSummaryFields on Feature {
+  id
+  name
+  fullName
+  link
+  featureInstance {
+    __typename
+    ... on Gene {
+      ...GeneSummaryFields
+    }
+    ... on Factor {
+      ...FactorSummaryFields
+    }
+  }
+}
+    ${GeneSummaryFieldsFragmentDoc}
+${FactorSummaryFieldsFragmentDoc}`;
+export const QuickAddFeatureFieldsFragmentDoc = gql`
+    fragment QuickAddFeatureFields on CreateFeaturePayload {
+  clientMutationId
+  new
+  feature {
+    ...FeatureSummaryFields
+  }
+}
+    ${FeatureSummaryFieldsFragmentDoc}`;
 export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
     fragment FeatureSelectTypeaheadFields on Feature {
   id
@@ -9737,6 +9844,9 @@ export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
     __typename
     ... on Gene {
       entrezId
+    }
+    ... on Factor {
+      ncitId
     }
   }
 }
@@ -10168,93 +10278,6 @@ export const FeatureDetailFieldsFragmentDoc = gql`
   }
 }
     ${ParsedCommentFragmentFragmentDoc}`;
-export const GeneSummaryFieldsFragmentDoc = gql`
-    fragment GeneSummaryFields on Gene {
-  id
-  description
-  featureAliases
-  entrezId
-  name
-  sources {
-    id
-    citation
-    link
-    sourceUrl
-    displayType
-    sourceType
-  }
-  myGeneInfoDetails
-}
-    `;
-export const NcitDetailsFragmentDoc = gql`
-    fragment NcitDetails on NcitDetails {
-  synonyms {
-    name
-    source
-  }
-  definitions {
-    definition
-    source
-  }
-}
-    `;
-export const FactorSummaryFieldsFragmentDoc = gql`
-    fragment FactorSummaryFields on Factor {
-  id
-  name
-  description
-  featureAliases
-  ncitId
-  deprecated
-  sources {
-    id
-    citation
-    link
-    sourceUrl
-    displayType
-    sourceType
-  }
-  ncitDetails {
-    ...NcitDetails
-  }
-  creationActivity {
-    user {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
-    createdAt
-  }
-  deprecationActivity {
-    user {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
-    createdAt
-  }
-}
-    ${NcitDetailsFragmentDoc}`;
-export const FeatureSummaryFieldsFragmentDoc = gql`
-    fragment FeatureSummaryFields on Feature {
-  id
-  name
-  fullName
-  link
-  featureInstance {
-    __typename
-    ... on Gene {
-      ...GeneSummaryFields
-    }
-    ... on Factor {
-      ...FactorSummaryFields
-    }
-  }
-}
-    ${GeneSummaryFieldsFragmentDoc}
-${FactorSummaryFieldsFragmentDoc}`;
 export const MolecularProfileDetailFieldsFragmentDoc = gql`
     fragment MolecularProfileDetailFields on MolecularProfile {
   id
@@ -14053,6 +14076,26 @@ export const EvidenceSelectTagDocument = gql`
   })
   export class EvidenceSelectTagGQL extends Apollo.Query<EvidenceSelectTagQuery, EvidenceSelectTagQueryVariables> {
     document = EvidenceSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuickAddFeatureDocument = gql`
+    mutation QuickAddFeature($name: String!, $organizationId: Int, $featureType: CreateableFeatureTypes!) {
+  createFeature(
+    input: {name: $name, organizationId: $organizationId, featureType: $featureType}
+  ) {
+    ...QuickAddFeatureFields
+  }
+}
+    ${QuickAddFeatureFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuickAddFeatureGQL extends Apollo.Mutation<QuickAddFeatureMutation, QuickAddFeatureMutationVariables> {
+    document = QuickAddFeatureDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

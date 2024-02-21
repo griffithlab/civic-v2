@@ -1,20 +1,40 @@
 <!-- NOTE: entity-field.mixin provides the observables passed to cvc-entity-select below -->
-<cvc-entity-select
-  [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
-  [cvcCustomTemplate]="selectedTemplate"
-  [cvcFormControl]="formControl"
-  [cvcFormlyAttributes]="field"
-  [cvcPlaceholder]="props.placeholder"
-  [cvcEntityName]="props.entityName"
-  [cvcResults]="result$ | ngrxPush"
-  [cvcOptions]="selectOption$ | ngrxPush"
-  [cvcShowError]="showError"
-  [cvcLoading]="isLoading$ | ngrxPush"
-  (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnOpenChange)="onOpenChange$.next($event)"
-  (cvcSelectComponent)="selectComponent = $event"
-  (cvcOnModelChange)="props.change && props.change(field, $event)">
-</cvc-entity-select>
+<nz-row [nzGutter]="[6, 6]">
+  <nz-col nzFlex="100px">
+    <nz-form-item>
+      <nz-select
+        [(ngModel)]="selectedFeatureType"
+        (ngModelChange)="this.onFeatureType$?.next($event)">
+        <nz-option
+          nzValue="GENE"
+          nzLabel="Gene"></nz-option>
+        <nz-option
+          nzValue="FACTOR"
+          nzLabel="Factor"></nz-option>
+      </nz-select>
+    </nz-form-item>
+  </nz-col>
+  <nz-col nzFlex="auto">
+    <cvc-entity-select
+      [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
+      [cvcCustomTemplate]="selectedTemplate"
+      [cvcFormControl]="formControl"
+      [cvcFormlyAttributes]="field"
+      [cvcPlaceholder]="props.placeholder"
+      [cvcEntityName]="props.entityName"
+      [cvcAddEntity]="addFeature"
+      [cvcAddEntityBehavior]="showAddBehavior"
+      [cvcResults]="result$ | ngrxPush"
+      [cvcOptions]="selectOption$ | ngrxPush"
+      [cvcShowError]="showError"
+      [cvcLoading]="isLoading$ | ngrxPush"
+      (cvcOnSearch)="onSearch$.next($event)"
+      (cvcOnOpenChange)="onOpenChange$.next($event)"
+      (cvcSelectComponent)="selectComponent = $event"
+      (cvcOnModelChange)="props.change && props.change(field, $event)">
+    </cvc-entity-select>
+  </nz-col>
+</nz-row>
 
 <!-- select option templates -->
 <!-- result$ updates generate an array of #optionTemplates. entity-tag-field.mixin watches #optionTemplates changes, and attaches each to an NzSelectOptionTemplateInterface an object, which are emitted from selectOption$. selectOption$ is passed to <cvc-entity-select> via [cvcOptions] above -->
@@ -60,4 +80,15 @@
       [cvcMode]="props.isMultiSelect ? 'default' : 'closeable'"
       (cvcOnClose)="onTagClose$.next(selected.nzValue)"></cvc-entity-tag>
   </div>
+</ng-template>
+
+<ng-template
+  #addFeature
+  let-searchStr
+  let-model="model">
+  <cvc-feature-quick-add-form
+    [cvcSearchString]="searchStr"
+    [cvcFeatureType]="onFeatureType$ | ngrxPush"
+    (cvcOnCreate)="onSelectOrCreate($event)">
+  </cvc-feature-quick-add-form>
 </ng-template>

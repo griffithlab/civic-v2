@@ -20,5 +20,8 @@ fragment FeatureSelectTypeaheadFields on Feature {
     ... on Gene {
       entrezId
     }
+    ... on Factor {
+      ncitId
+    }
   }
 }
