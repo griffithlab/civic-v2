@@ -52,6 +52,7 @@ import {
   feedDefaultFilters,
   feedDefaultSettings,
   feedFilterOptionDefaults,
+  feedScrollBuffer,
 } from './activity-feed.config'
 import { tag } from 'rxjs-spy/operators'
 import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-feed-filters.component'
@@ -66,6 +67,10 @@ import {
   UiScrollModule,
 } from 'ngx-ui-scroll'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
+import {
+  feedScopeToModeAttributes,
+  filterParamsToQueryAttributes,
+} from './activity-feed.functions'
 
 @UntilDestroy()
 @Component({
@@ -108,8 +113,8 @@ export class CvcActivityFeed implements OnInit {
   queryResult$: ReplaySubject<ApolloQueryResult<ActivityFeedQuery>>
   rowCount$: Observable<number>
 
-  edge$: Observable<any>
-  // edge$: Observable<ActivityInterfaceEdge[]>
+  edges: Signal<ActivityInterfaceEdge[]>
+  edge$: Observable<ActivityInterfaceEdge[]>
 
   // PRESENTATION STREAMS
   activity$: Observable<Maybe<ActivityFeedFieldsFragment>[]>
@@ -142,7 +147,7 @@ export class CvcActivityFeed implements OnInit {
       // tag('----- activity-feed fetch$')
     )
 
-    this.feedFilter$.pipe(tag('feed feedFilter$')).subscribe()
+    // this.feedFilter$.pipe(tag('feed feedFilter$')).subscribe()
 
     // convert next page requests into fetch more query
     this.fetchMore$ = this.nextPage$.pipe(
@@ -215,17 +220,17 @@ export class CvcActivityFeed implements OnInit {
     this.activity$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
       filter(isNonNulled),
-      map((edges) => edges.map((e) => e.node)),
-      tag('feed activity$')
+      map((edges) => edges.map((e) => e.node))
+      // tag('feed activity$')
     )
 
     this.edge$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
       filter(isNonNulled),
-      map((edges) => edges.map((e) => e as ActivityInterfaceEdge)),
-      tag('feed edge$')
+      map((edges) => edges.map((e) => e as ActivityInterfaceEdge))
+      // tag('feed edge$')
     )
-
+    this.edges = toSignal(this.edge$, { initialValue: [] })
     this.rowCount$ = this.queryResult$.pipe(
       pluck('data', 'activities', 'edges'),
       map((edges) => {
@@ -272,11 +277,13 @@ export class CvcActivityFeed implements OnInit {
     return new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
         console.log('scrollDatasource get()', index, count)
-        return this.edge$
+        console.log('edges():', this.edges())
+        return this.edge$.pipe(map((e) => e.slice(index, index + count)))
         // this.fetchMore$.next({ first: count, after: index })
+        //
       },
       settings: {
-        bufferSize: 20,
+        bufferSize: feedScrollBuffer,
         startIndex: 0,
         minIndex: 0,
       },
@@ -300,8 +307,8 @@ export class CvcActivityFeed implements OnInit {
       }
     } else {
       const pageSize = params.settings!.pageSize
-      const modeAttrs = this.feedScopeToModeAttributes(this.cvcScope())
-      const filterVars = this.filterParamsToQueryAttributes(params.filters)
+      const modeAttrs = feedScopeToModeAttributes(this.cvcScope())
+      const filterVars = filterParamsToQueryAttributes(params.filters)
       queryVars = {
         ...queryVars,
         first: pageSize,
@@ -312,50 +319,14 @@ export class CvcActivityFeed implements OnInit {
     return queryVars
   }
 
-  filterParamsToQueryAttributes(
-    filters: Maybe<ActivityFeedFilters>
-  ): Maybe<ActivityFeedFilterAttributes> {
-    if (!filters) return
-    let filterAttrs: ActivityFeedFilterAttributes = {}
-    const keys = Object.keys(filters) as ActivityFeedFilterKeys[]
-    keys.forEach((key) => {
-      if (filters[key] && filters[key].length > 0) {
-        console.log('filter to attr', key, filters[key])
-        filterAttrs[key] = filters[key] as any
-      } else {
-        filterAttrs[key] = undefined
-      }
-    })
-    console.log('filterAttrs', filterAttrs)
-    return filterAttrs
-  }
-
-  feedScopeToModeAttributes(
-    feedScope: Maybe<ActivityFeedScope>
-  ): Maybe<ActivityFeedModeAttributes> {
-    if (!feedScope) return
-    let modeAttrs: ActivityFeedModeAttributes = {
-      mode: feedScope.scope,
-    }
-    if (feedScope.scope === EventFeedMode.Subject) {
-      modeAttrs.subject = feedScope.subject
-    } else if (feedScope.scope === EventFeedMode.User) {
-      modeAttrs.userId = feedScope.userId
-    } else if (feedScope.scope === EventFeedMode.Organization) {
-      modeAttrs.organizationId = feedScope.organizationId
-    }
-    return modeAttrs
-  }
-
   ngOnInit(): void {
-    // this.scrollAdapter = this.scrollDatasource.adapter!
-    // this.scrollAdapter.init$.pipe(take(1)).subscribe(()=> {
-    // })
-  }
-  getActivityEdges(
-    index: number,
-    count: number
-  ): Observable<ActivityInterfaceEdge[]> {
-    return this.edge$
+    this.scrollAdapter = this.scrollDatasource.adapter
+    if (this.scrollAdapter) {
+      this.scrollAdapter.init$.pipe(take(1)).subscribe(() => {})
+      // watch for fetch$ requests & reset scroller
+      this.fetch$.pipe(untilDestroyed(this)).subscribe(() => {
+        this.scrollAdapter!.reset()
+      })
+    }
   }
 }
