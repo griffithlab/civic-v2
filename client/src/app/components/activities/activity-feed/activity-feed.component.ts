@@ -110,6 +110,7 @@ export class CvcActivityFeed implements OnInit {
   // INTERMEDIATE STREAMS
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   edge$: Observable<ActivityInterfaceEdge[]>
+  reloadScroller$?: Subject<void>
 
   // PRESENTATION STREAMS
   edges: Signal<ActivityInterfaceEdge[]>
@@ -154,7 +155,13 @@ export class CvcActivityFeed implements OnInit {
         if (!this.queryRef) {
           this.queryRef = this.gql.watch(queryVars)
         } else {
-          this.queryRef.refetch(queryVars)
+          this.queryRef.refetch(queryVars).then(() => {
+            if (this.scrollAdapter) {
+              // clear item buffer, reset viewport params, start
+              // rendering items from new query
+              this.scrollAdapter.reload()
+            }
+          })
         }
         return this.queryRef.valueChanges
       }),
@@ -184,43 +191,61 @@ export class CvcActivityFeed implements OnInit {
       map((connection) => connection.edges as ActivityInterfaceEdge[])
     )
 
+    // provide edges signal for synchronous access
+    // in scrollDatasource
     this.edges = toSignal(this.edge$, { initialValue: [] })
 
+    // initialize scroller datasource only after the
+    // initial query results available
     this.edge$.pipe(take(1)).subscribe((edges) => {
-      this.scrollDatasource = this.configureDatasource()
-      this.scrollAdapter = this.scrollDatasource.adapter
-      if (this.scrollAdapter) {
-        this.scrollAdapter.init$.pipe(take(1)).subscribe(() => {
-          console.log('ngx-ui-scroll initialized!')
-        })
-      }
+      this.configureDatasource()
+      this.configureAdapter()
     })
+
+    // kick off initial query
     this.init$.next()
   }
   ngOnInit(): void {}
-  configureDatasource(): IDatasource<ActivityInterfaceEdge> {
-    return new Datasource<ActivityInterfaceEdge>({
+
+  configureDatasource(): void {
+    this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
         const edges = this.edges()
+        // return rows from current fetched set if requested
+        // all requested rows available
         if (edges.length >= index + count) {
+          // return observable of requested rows
           return of(edges.slice(index, index + count))
         } else {
+          // or issue fetchMore query to satisfy requested row set
           const queryVars = {
             first: count,
             after: edges[index].cursor,
           }
+          // return fetchMore result, converted to observable from promise
           return from(this.queryRef!.fetchMore({ variables: queryVars })).pipe(
             map((result) => result.data.activities.edges)
           )
         }
       },
       settings: {
-        bufferSize: feedScrollBuffer,
-        startIndex: 0,
-        minIndex: 0,
+        bufferSize: feedScrollBuffer, // # of rows in fetchMore requests
+        startIndex: 0, // start row display at 0 index
+        minIndex: 0, // no negative rows
       },
     })
   }
+
+  configureAdapter(): void {
+    this.scrollAdapter = this.scrollDatasource?.adapter
+    // watch init$ (for debug, can be removed)
+    if (this.scrollAdapter) {
+      this.scrollAdapter.init$.pipe(take(1)).subscribe(() => {
+        console.log('ngx-ui-scroll initialized!')
+      })
+    }
+  }
+
   queryParamsToVariables(
     params: ActivityFeedQueryParams
   ): ActivityFeedQueryVariables {

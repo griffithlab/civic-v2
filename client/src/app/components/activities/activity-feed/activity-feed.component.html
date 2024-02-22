@@ -7,7 +7,6 @@
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
       <div
-        style="border: 1px solid green"
         cvcAutoHeightDiv="40"
         cvcAutoHeightTarget="viewport">
         @if (scrollDatasource) {
@@ -17,6 +16,7 @@
         }
       </div>
     </nz-col>
+
     <!-- FEED FILTERS COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">
       <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
@@ -32,7 +32,7 @@
   </nz-row>
 </nz-card>
 <ng-template #cardTitle>
-  {{ cvcTitle() }}
+  <span class="title">{{ cvcTitle() }}</span>
   <cvc-activity-feed-counts
     [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
 </ng-template>

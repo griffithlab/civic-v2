@@ -6,11 +6,12 @@ import {
 } from '@angular/core'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { ActivityFeedCounts } from '../activity-feed.types'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'cvc-activity-feed-counts',
   standalone: true,
-  imports: [NzTypographyModule],
+  imports: [CommonModule, NzTypographyModule],
   templateUrl: './activity-feed-counts.component.html',
   styleUrl: './activity-feed-counts.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
