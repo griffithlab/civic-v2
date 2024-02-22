@@ -65,7 +65,7 @@
     <ng-container
       *ngTemplateOutlet="
         filterTitle;
-        context: { $implicit: 'Participating User', value: subjectType() }
+        context: { $implicit: 'Participating User', value: userId() }
       "></ng-container>
     <nz-select
       nzPlaceHolder="Select User"
@@ -91,7 +91,7 @@
         filterTitle;
         context: {
           $implicit: 'Participating Organization',
-          value: subjectType()
+          value: organizationId()
         }
       "></ng-container>
     <nz-select

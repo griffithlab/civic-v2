@@ -8,14 +8,22 @@
     }
     .ant-card-head-title {
     }
+    > .ant-card-body {
+      padding: 0;
+      overflow: hidden;
+    }
     &.hide {
       > .ant-card-body {
-        display: none;
+        max-height: 0;
+        transition: max-height 0.15s ease-out;
+        // display: none;
       }
     }
     &.show {
       > .ant-card-body {
-        display: block;
+        max-height: 250px;
+        transition: max-height 0.25s ease-in;
+        // display: block;
       }
     }
   }
@@ -51,5 +59,17 @@
       transform: rotate(90deg);
       transition: transform 0.2s linear;
     }
+  }
+}
+.detail {
+  // min-height: 150px;
+  max-height: 250px;
+  border: 1px solid #EFEFEF;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  overflow-y: hidden;
+  pre {
+    font-size: 80%;
   }
 }

@@ -38,6 +38,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { Observable, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
+import { CvcCommentActivityDetails } from './activity-details/comment-activity-details/comment-activity-details.component'
 
 @UntilDestroy()
 @Component({
@@ -63,6 +64,7 @@ import { tag } from 'rxjs-spy/operators'
     CvcVariantGroupTagModule,
     CvcSourceTagModule,
     CvcMolecularProfileTagModule,
+    CvcCommentActivityDetails,
   ],
   templateUrl: './activity-feed-item.component.html',
   styleUrl: './activity-feed-item.component.less',

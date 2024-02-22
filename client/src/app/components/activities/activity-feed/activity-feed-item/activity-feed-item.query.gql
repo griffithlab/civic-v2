@@ -20,7 +20,15 @@ fragment ActivityFeedDetailFields on ActivityInterface {
       status
     }
     ... on Revision {
-      revisionSetId
+      ...RevisionDetails
+    }
+    ... on RevisionSet {
+      id
+      link
+      name
+      revisions {
+        ...RevisionDetails
+      }
     }
     ... on Variant {
       deprecated
@@ -30,17 +38,20 @@ fragment ActivityFeedDetailFields on ActivityInterface {
     }
   }
   parsedNote @include(if: $requestDetails) {
-    ... on CommentTagSegment {
-      entityId
-      link
-      tagType
-    }
-    ... on CommentTextSegment {
-      text
+    ... on CommentBodySegment {
+      ... on CommentTagSegment {
+        entityId
+        link
+        tagType
+      }
+      ... on CommentTextSegment {
+        text
+      }
     }
     ... on User {
       id
       displayName
+      role
     }
   }
   events @include(if: $requestDetails) {
@@ -57,4 +68,19 @@ fragment ActivityFeedDetailFields on ActivityInterface {
       displayName
     }
   }
+}
+
+fragment RevisionDetails on Revision {
+  id
+  revisionSetId
+  name
+  fieldName
+  suggestedValue
+}
+
+fragment CommentDetails on Comment {
+  id
+  link
+  name
+  comment
 }

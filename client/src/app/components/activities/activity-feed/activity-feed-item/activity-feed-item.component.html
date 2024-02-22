@@ -6,6 +6,11 @@
     show: showDetails(),
     hide: !showDetails()
   }">
+  <ng-container
+    *ngTemplateOutlet="
+      detail;
+      context: { $implicit: activity() }
+    "></ng-container>
 </nz-card>
 <ng-template #itemTitle>
   <div
@@ -22,7 +27,7 @@
   </div>
   <div class="description">
     @if (activity(); as activity) {
-      {{ activity.__typename }}
+      <!-- {{ activity.__typename }} -->
       <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       <span
         nz-typography
@@ -88,4 +93,18 @@
       [molecularProfile]="subject"></cvc-molecular-profile-tag>
     <span *ngSwitchDefault>{{ subject.name }}</span>
   </ng-container>
+</ng-template>
+
+<ng-template
+  #detail
+  let-activity>
+  <div class="detail">
+    <ng-container [ngSwitch]="activity.__typename">
+      <cvc-comment-activity-details
+        *ngSwitchCase="'CommentActivity'"
+        [cvcActivityDetails]="activity"></cvc-comment-activity-details>
+
+      <pre *ngSwitchDefault>{{ activity | json }}</pre>
+    </ng-container>
+  </div>
 </ng-template>
