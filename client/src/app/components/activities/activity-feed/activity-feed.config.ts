@@ -6,9 +6,9 @@ import {
 
 export const pageSizeOptions = [5, 10, 25, 50, 100]
 export const feedPollInterval = 30000
-
+export const feedScrollBuffer = 30
 export const feedDefaultSettings: ActivityFeedSettings = {
-  pageSize: 25,
+  pageSize: 50,
 }
 
 export const feedDefaultFilters: ActivityFeedFilters = {

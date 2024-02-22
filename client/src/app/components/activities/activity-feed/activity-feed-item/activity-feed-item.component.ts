@@ -7,10 +7,7 @@ import {
   input,
   effect,
   OnInit,
-  computed,
-  Signal,
 } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
@@ -18,7 +15,6 @@ import {
   ActivityFeedItemGQL,
   ActivityFeedItemQuery,
   ActivityFeedItemQueryVariables,
-  ActivityInterface,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -28,16 +24,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import {
-  BehaviorSubject,
-  Observable,
-  ReplaySubject,
-  Subject,
-  filter,
-  map,
-} from 'rxjs'
-import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/operators'
+import { Observable, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 
 @UntilDestroy()
@@ -94,23 +81,21 @@ export class CvcActivityFeedItem implements OnInit {
         requestDetails: true,
       })
       this.result$ = this.queryRef.valueChanges
-      this.result$
-        .pipe(tag('feed-item results$'), untilDestroyed(this))
-        .subscribe((result) => {
-          this.loading.set(result.loading)
-          if (result.data.activity) {
-            this.activity.update((previous) => {
-              if (previous) {
-                return {
-                  ...previous,
-                  ...result.data.activity,
-                }
-              } else {
-                return result.data.activity
+      this.result$.pipe(untilDestroyed(this)).subscribe((result) => {
+        this.loading.set(result.loading)
+        if (result.data.activity) {
+          this.activity.update((previous) => {
+            if (previous) {
+              return {
+                ...previous,
+                ...result.data.activity,
               }
-            })
-          }
-        })
+            } else {
+              return result.data.activity
+            }
+          })
+        }
+      })
     } else {
       this.queryRef.refetch({
         id: this.cvcActivity().id,

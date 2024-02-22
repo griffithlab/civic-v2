@@ -1,7 +1,7 @@
 @if (rows() > 0) {
-<span
-  nz-typography
-  nzType="secondary">
-  ({{ rows() }} of {{ total() }})
-</span>
+  <span
+    nz-typography
+    nzType="secondary">
+    {{ rows() }} of {{ total() | number }} displayed
+  </span>
 }

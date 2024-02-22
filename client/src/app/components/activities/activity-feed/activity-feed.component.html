@@ -1,18 +1,22 @@
 <nz-card
   [nzTitle]="cardTitle"
   [nzExtra]="cardExtra"
-  nzSize="small">
+  nzSize="small"
+  style="width: 100%">
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
-      <ng-container *ngrxLet="activity$ as activities">
-        @if (activities && activities.length > 0) {
-        <cvc-activity-feed-item
-          *ngFor="let activity of activities"
-          [cvcActivity]="activity!"></cvc-activity-feed-item>
+      <div
+        cvcAutoHeightDiv="40"
+        cvcAutoHeightTarget="viewport">
+        @if (scrollDatasource) {
+          <cvc-activity-feed-item
+            *uiScroll="let edge of scrollDatasource"
+            [cvcActivity]="edge.node"></cvc-activity-feed-item>
         }
-      </ng-container>
+      </div>
     </nz-col>
+
     <!-- FEED FILTERS COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">
       <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
@@ -28,9 +32,9 @@
   </nz-row>
 </nz-card>
 <ng-template #cardTitle>
-  {{ cvcTitle() }}
+  <span class="title">{{ cvcTitle() }}</span>
   <cvc-activity-feed-counts
-    [cvcFeedCounts]="feedCounts$ | ngrxPush"></cvc-activity-feed-counts>
+    [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
 </ng-template>
 <ng-template #cardExtra>
   <cvc-activity-feed-settings
