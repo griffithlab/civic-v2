@@ -1,18 +1,43 @@
 @import 'ng-zorro-antd/style/color/colors.less';
-
 :host {
+  margin-bottom: 12px;
   display: block;
-  margin-bottom: 8px;
-  border: 1px solid #efefef;
-  background-color: #fefeff;
-  border-radius: 3px;
+  ::ng-deep nz-card {
+    > .ant-card-head {
+      padding-left: 0px;
+    }
+    .ant-card-head-title {
+    }
+    &.hide {
+      > .ant-card-body {
+        display: none;
+      }
+    }
+    &.show {
+      > .ant-card-body {
+        display: block;
+      }
+    }
+  }
 }
 
-.toggle button {
-  padding: 0 4px 0 6px;
-  background-color: none;
+.description {
+  display: inline;
+  ::ng-deep nz-tag {
+    margin-right: 0;
+    border: none;
+  }
+}
+
+.toggle {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 0 8px 0 8px;
+  background-color: #efefef;
+  border-radius: 4px;
+  cursor: pointer;
   span {
-    font-size: 125%;
+    // font-size: 125%;
     color: #afafbf;
     &.hide {
       transform: rotate(0deg);
@@ -22,36 +47,5 @@
       transform: rotate(90deg);
       transition: transform 0.2s linear;
     }
-  }
-}
-
-.description,
-.created {
-  span {
-    display: inline-block;
-    line-height: 28px; // NOTE: must be same height as toggle button to vertically center description content
-  }
-}
-.description {
-  overflow: hidden;
-  span {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-.created {
-  text-align: right;
-  span {
-    padding-right: 12px;
-  }
-}
-.header {
-  flex-wrap: nowrap;
-}
-
-.details {
-  .content {
-    border-top: 1px solid #efefef;
-    padding: 6px 12px;
   }
 }

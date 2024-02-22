@@ -1,60 +1,87 @@
-<nz-row
-  [nzGutter]="[0, 8]"
-  nzJustify="center"
-  class="header">
-  <nz-col
-    nzFlex="10px"
-    class="toggle">
-    <button
-      nz-button
-      nzSize="default"
-      nzType="text"
-      nzBlock
-      (click)="toggleDetail$.next()">
+<nz-card
+  nzSize="small"
+  [nzTitle]="itemTitle"
+  [nzExtra]="itemExtra"
+  [ngClass]="{
+    show: showDetails(),
+    hide: !showDetails()
+  }">
+</nz-card>
+<ng-template #itemTitle>
+  <div class="toggle">
+    <span
+      nz-icon
+      nzType="caret-right"
+      nzTheme="outline"
+      (click)="toggleDetail$.next()"
+      [ngClass]="{
+        show: showDetails(),
+        hide: !showDetails()
+      }"></span>
+  </div>
+  <div class="description">
+    @if (activity(); as activity) {
+      <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       <span
-        nz-icon
-        nzType="caret-right"
-        nzTheme="outline"
-        [ngClass]="{
-          show: showDetails(),
-          hide: !showDetails()
-        }"></span>
-    </button>
-  </nz-col>
-  <nz-col
-    nzFlex="auto"
-    class="description">
-    <span>
-      @if (activity(); as activity) {
-        <strong>{{ activity.user.displayName }}</strong>
+        nz-typography
+        nzType="secondary">
         {{ activity.verbiage }}
-        <strong>{{ activity.subject.name }}</strong>
-        @if (activity.organization) {
+      </span>
+      <ng-container
+        *ngTemplateOutlet="
+          subject;
+          context: { $implicit: activity.subject }
+        "></ng-container>
+      @if (activity.organization) {
+        <span
+          nz-typography
+          nzType="secondary">
           for
-          <strong>{{ activity.organization!.name }}</strong>
-        }
+        </span>
+        <cvc-organization-tag
+          [org]="activity.organization"></cvc-organization-tag>
       }
-    </span>
-  </nz-col>
-  <nz-col
-    nzFlex="100px"
-    class="created">
+    }
+  </div>
+</ng-template>
+<ng-template #itemExtra>
+  @if (activity(); as activity) {
     <span
       nz-typography
       nzType="secondary">
-      @if (activity(); as activity) {
-        {{ activity.createdAt | timeAgo }}
-      }
+      {{ activity.createdAt | timeAgo }}
     </span>
-  </nz-col>
-</nz-row>
-<nz-row
-  [nzGutter]="0"
-  *ngIf="showDetails()"
-  class="details">
-  <nz-col nzSpan="24">
-    <div class="content">
-      <pre>{{ activity() | json }}</pre>
-    </div>
-  </nz-col>
-</nz-row>
+  }
+</ng-template>
+<ng-template
+  #subject
+  let-subject>
+  <ng-container [ngSwitch]="subject.__typename">
+    <cvc-gene-tag
+      *ngSwitchCase="'Gene'"
+      [gene]="subject"></cvc-gene-tag>
+    <cvc-assertion-tag
+      *ngSwitchCase="'Assertion'"
+      [assertion]="subject"></cvc-assertion-tag>
+    <cvc-evidence-tag
+      *ngSwitchCase="'EvidenceItem'"
+      [evidence]="subject"></cvc-evidence-tag>
+    <cvc-variant-tag
+      *ngSwitchCase="'Variant'"
+      [variant]="subject"></cvc-variant-tag>
+    <cvc-revision-tag
+      *ngSwitchCase="'Revision'"
+      [revision]="$any(subject)"></cvc-revision-tag>
+    <cvc-variant-group-tag
+      *ngSwitchCase="'VariantGroup'"
+      [variantgroup]="subject"></cvc-variant-group-tag>
+    <cvc-source-tag
+      *ngSwitchCase="'Source'"
+      mode="concise"
+      [source]="$any(subject)"></cvc-source-tag>
+    <cvc-molecular-profile-tag
+      *ngSwitchCase="'MolecularProfile'"
+      [molecularProfile]="subject"></cvc-molecular-profile-tag>
+    <span *ngSwitchDefault>{{ subject.name }}</span>
+  </ng-container>
+</ng-template>

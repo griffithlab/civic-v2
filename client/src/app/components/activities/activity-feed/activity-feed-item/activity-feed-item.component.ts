@@ -9,6 +9,16 @@ import {
   OnInit,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
+import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
+import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module'
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
+import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
   ActivityFeedFieldsFragment,
@@ -21,6 +31,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { PushPipe } from '@ngrx/component'
 import { Apollo, QueryRef, gql } from 'apollo-angular'
 import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
@@ -38,7 +49,18 @@ import { tag } from 'rxjs-spy/operators'
     NzTypographyModule,
     NzGridModule,
     NzButtonModule,
+    NzCardModule,
     CvcPipesModule,
+    CvcUserTagModule,
+    CvcOrganizationTagModule,
+    CvcGeneTagModule,
+    CvcAssertionsTagModule,
+    CvcEvidenceTagModule,
+    CvcVariantTagModule,
+    CvcRevisionTagModule,
+    CvcVariantGroupTagModule,
+    CvcSourceTagModule,
+    CvcMolecularProfileTagModule,
   ],
   templateUrl: './activity-feed-item.component.html',
   styleUrl: './activity-feed-item.component.less',
