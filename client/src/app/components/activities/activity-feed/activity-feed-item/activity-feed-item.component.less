@@ -29,16 +29,20 @@
   }
 }
 
+.organization {
+  display: inline-block;
+}
 .toggle {
   display: inline-block;
   margin: 0 8px;
   padding: 0 8px 0 8px;
-  background-color: #efefef;
-  border-radius: 4px;
+  background-color: @blue-1;
+  border: 1px solid @blue-2;
+  border-radius: 2px;
   cursor: pointer;
   span {
     // font-size: 125%;
-    color: #afafbf;
+    color: @blue-7;
     &.hide {
       transform: rotate(0deg);
       transition: transform 0.2s linear;

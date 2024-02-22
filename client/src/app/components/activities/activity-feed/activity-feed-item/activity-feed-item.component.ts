@@ -34,6 +34,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { Observable, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
@@ -50,6 +51,7 @@ import { tag } from 'rxjs-spy/operators'
     NzGridModule,
     NzButtonModule,
     NzCardModule,
+    NzTagModule,
     CvcPipesModule,
     CvcUserTagModule,
     CvcOrganizationTagModule,

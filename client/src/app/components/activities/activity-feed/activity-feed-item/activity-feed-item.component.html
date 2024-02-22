@@ -8,12 +8,13 @@
   }">
 </nz-card>
 <ng-template #itemTitle>
-  <div class="toggle">
+  <div
+    class="toggle"
+    (click)="toggleDetail$.next()">
     <span
       nz-icon
       nzType="caret-right"
       nzTheme="outline"
-      (click)="toggleDetail$.next()"
       [ngClass]="{
         show: showDetails(),
         hide: !showDetails()
@@ -21,6 +22,7 @@
   </div>
   <div class="description">
     @if (activity(); as activity) {
+      {{ activity.__typename }}
       <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       <span
         nz-typography
@@ -33,13 +35,15 @@
           context: { $implicit: activity.subject }
         "></ng-container>
       @if (activity.organization) {
-        <span
-          nz-typography
-          nzType="secondary">
-          for
-        </span>
-        <cvc-organization-tag
-          [org]="activity.organization"></cvc-organization-tag>
+        <div class="organization">
+          <span
+            nz-typography
+            nzType="secondary">
+            for
+          </span>
+          <cvc-organization-tag
+            [org]="activity.organization"></cvc-organization-tag>
+        </div>
       }
     }
   </div>

@@ -70,6 +70,8 @@ import {
   FetchMoreParams,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 
 @UntilDestroy()
 @Component({
@@ -81,6 +83,8 @@ import { ApolloQueryResult } from '@apollo/client/core'
     LetDirective,
     NzGridModule,
     NzCardModule,
+    NzSpinModule,
+    NzTagModule,
     UiScrollModule,
     CvcActivityFeedCounts,
     CvcActivityFeedSettingsButton,
@@ -114,7 +118,8 @@ export class CvcActivityFeed implements OnInit {
 
   // PRESENTATION STREAMS
   edges: Signal<ActivityInterfaceEdge[]>
-  loading: WritableSignal<boolean>
+  refetchLoading: WritableSignal<boolean>
+  moreLoading: WritableSignal<boolean>
   errors: WritableSignal<any>
   counts: WritableSignal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: WritableSignal<ActivityFeedFilterOptions>
@@ -131,7 +136,8 @@ export class CvcActivityFeed implements OnInit {
     this.init$ = new Subject<void>()
     this.fetchMore$ = new Subject<FetchMoreParams>()
 
-    this.loading = signal<boolean>(false)
+    this.refetchLoading = signal<boolean>(false)
+    this.moreLoading = signal<boolean>(false)
     this.errors = signal<any>(false)
     this.counts = signal<Maybe<ActivityFeedCounts>>(undefined)
     this.feedFilterOptions = signal<ActivityFeedFilterOptions>(
@@ -166,7 +172,7 @@ export class CvcActivityFeed implements OnInit {
         return this.queryRef.valueChanges
       }),
       tap((result) => {
-        this.loading.set(result.loading)
+        this.refetchLoading.set(result.loading)
       })
     )
 
@@ -222,8 +228,10 @@ export class CvcActivityFeed implements OnInit {
             first: count,
             after: edges[index].cursor,
           }
+          this.moreLoading.set(true)
           // return fetchMore result, converted to observable from promise
           return from(this.queryRef!.fetchMore({ variables: queryVars })).pipe(
+            tap(() => this.moreLoading.set(false)),
             map((result) => result.data.activities.edges)
           )
         }
