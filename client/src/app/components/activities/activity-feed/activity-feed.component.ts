@@ -34,6 +34,7 @@ import {
   Observable,
   Subject,
   combineLatest,
+  debounceTime,
   filter,
   from,
   map,
@@ -116,7 +117,7 @@ export class CvcActivityFeed implements OnInit {
   edge$: Observable<ActivityInterfaceEdge[]>
   reloadScroller$?: Subject<void>
 
-  // PRESENTATION STREAMS
+  // PRESENTATION SIGNALS
   edges: Signal<ActivityInterfaceEdge[]>
   refetchLoading: WritableSignal<boolean>
   moreLoading: WritableSignal<boolean>
@@ -124,9 +125,8 @@ export class CvcActivityFeed implements OnInit {
   counts: WritableSignal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: WritableSignal<ActivityFeedFilterOptions>
 
-  // CONFIG, STATE
+  // SERVICE REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
-
   scrollDatasource?: IDatasource<ActivityInterfaceEdge>
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
 
@@ -251,6 +251,11 @@ export class CvcActivityFeed implements OnInit {
       this.scrollAdapter.init$.pipe(take(1)).subscribe(() => {
         console.log('ngx-ui-scroll initialized!')
       })
+      this.scrollAdapter.isLoading$
+        .pipe(debounceTime(100), untilDestroyed(this))
+        .subscribe((loading) => {
+          console.log('vscroll isLoading: ', loading)
+        })
     }
   }
 

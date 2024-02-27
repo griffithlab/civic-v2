@@ -1,3 +1,4 @@
+import { ActivityTypeInput } from '@app/generated/civic.apollo'
 import {
   ActivityFeedFilterOptions,
   ActivityFeedFilters,
@@ -13,7 +14,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  activityType: [],
+  activityType: [ActivityTypeInput.Comment],
   subjectType: [],
   userId: [],
 }

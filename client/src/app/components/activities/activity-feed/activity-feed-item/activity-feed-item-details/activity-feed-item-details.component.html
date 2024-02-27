@@ -1,0 +1,18 @@
+<div class="detail">
+  @if (cvcActivity(); as activity) {
+    <!-- @if (activity | guardType: guards.isCommentActivity; as activity) {} -->
+    <!-- @switch (cvcActivity().__typename) {
+          @case ('CommentActivity') {
+            <pre>cvcActivity().__typename</pre>
+            <cvc-comment-activity-details
+
+              [cvcCommentActivity]="cvcActivity()"></cvc-comment-activity-details>
+          }
+          @default {
+            <pre>{{ cvcActivity() | json }}</pre>
+          }
+        } -->
+  } @else {
+    <p>LOADING</p>
+  }
+</div>

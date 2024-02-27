@@ -52,20 +52,15 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   edges {
     cursor
     node {
-      ...ActivityFeedFields
+      ...ActivityFeedItem
     }
   }
   nodes {
-    ...ActivityFeedFields
+    ...ActivityFeedItem
   }
 }
 
-fragment ActivityFeedFields on ActivityInterface {
-  ...ActivityFeedBaseFields
-  ...ActivityFeedDetailFields
-}
-
-fragment ActivityFeedBaseFields on ActivityInterface {
+fragment ActivityFeedItemBase on ActivityInterface {
   id
   verbiage
   createdAt
@@ -83,5 +78,88 @@ fragment ActivityFeedBaseFields on ActivityInterface {
     name
     link
   }
-  ...ActivityFeedDetailFields
+  note @include(if: $requestDetails)
+}
+
+fragment ActivityFeedItem on ActivityInterface {
+  ...ActivityFeedItemBase
+  ...CommentActivityDetails @include(if: $requestDetails)
+  # subject @include(if: $requestDetails) {
+  #   id
+  #   name
+  #   link
+  #   ... on Source {
+  #     citation
+  #     sourceType
+  #   }
+  #   ... on EvidenceItem {
+  #     status
+  #   }
+  #   ... on Assertion {
+  #     status
+  #   }
+  #   ... on Revision {
+  #     ...RevisionDetails
+  #   }
+  #   ... on RevisionSet {
+  #     id
+  #     link
+  #     name
+  #     revisions {
+  #       ...RevisionDetails
+  #     }
+  #   }
+  #   ... on Variant {
+  #     deprecated
+  #   }
+  #   ... on MolecularProfile {
+  #     deprecated
+  #   }
+  # }
+  # parsedNote @include(if: $requestDetails) {
+  #   ... on CommentBodySegment {
+  #     ... on CommentTagSegment {
+  #       entityId
+  #       link
+  #       tagType
+  #     }
+  #     ... on CommentTextSegment {
+  #       text
+  #     }
+  #   }
+  #   ... on User {
+  #     id
+  #     displayName
+  #     role
+  #   }
+  # }
+  # events @include(if: $requestDetails) {
+  #   id
+  #   createdAt
+  #   action
+  #   originatingObject {
+  #     id
+  #     name
+  #     link
+  #   }
+  #   originatingUser {
+  #     id
+  #     displayName
+  #   }
+  # }
+}
+
+fragment RevisionDetails on Revision {
+  id
+  revisionSetId
+  name
+  fieldName
+  suggestedValue
+}
+
+fragment CommentDetails on Comment {
+  id
+  link
+  name
+  comment
 }

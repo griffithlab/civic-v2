@@ -21,7 +21,7 @@ import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
-  ActivityFeedFieldsFragment,
+  ActivityFeedItemFragment,
   ActivityFeedItemGQL,
   ActivityFeedItemQuery,
   ActivityFeedItemQueryVariables,
@@ -38,7 +38,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { Observable, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
-import { CvcCommentActivityDetails } from './activity-details/comment-activity-details/comment-activity-details.component'
+import { CvcCommentActivityDetails } from './detail-components/comment-activity-details/comment-activity-details.component'
+import { CvcActivityFeedItemDetails } from './activity-feed-item-details/activity-feed-item-details.component'
 
 @UntilDestroy()
 @Component({
@@ -65,20 +66,21 @@ import { CvcCommentActivityDetails } from './activity-details/comment-activity-d
     CvcSourceTagModule,
     CvcMolecularProfileTagModule,
     CvcCommentActivityDetails,
+    CvcActivityFeedItemDetails,
   ],
   templateUrl: './activity-feed-item.component.html',
   styleUrl: './activity-feed-item.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeedItem implements OnInit {
-  cvcActivity = input.required<ActivityFeedFieldsFragment>()
+  cvcActivity = input.required<ActivityFeedItemFragment>()
   toggleDetail$: Subject<void>
 
   queryRef?: QueryRef<ActivityFeedItemQuery, ActivityFeedItemQueryVariables>
   result$?: Observable<ApolloQueryResult<ActivityFeedItemQuery>>
 
   loading: WritableSignal<boolean>
-  activity: WritableSignal<Maybe<ActivityFeedFieldsFragment>>
+  activity: WritableSignal<Maybe<ActivityFeedItemFragment>>
 
   showDetails: WritableSignal<boolean>
   constructor(private gql: ActivityFeedItemGQL) {

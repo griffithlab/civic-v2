@@ -1,0 +1,24 @@
+fragment CommentActivityDetails on CommentActivity {
+  ...ActivityFeedItemBase
+  comment {
+    id
+    comment
+    link
+    name
+    title
+  }
+  # events {
+  #   id
+  #   createdAt
+  #   action
+  #   originatingObject {
+  #     id
+  #     name
+  #     link
+  #   }
+  #   originatingUser {
+  #     id
+  #     displayName
+  #   }
+  # }
+}
