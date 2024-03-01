@@ -47,10 +47,10 @@ import {
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 import { tag } from 'rxjs-spy/operators'
-import { CvcActivityFeedCounts } from './activity-feed-counts/activity-feed-counts.component'
-import { CvcActivityFeedFilterSelects } from './activity-feed-filters/activity-feed-filters.component'
-import { CvcActivityFeedItem } from './activity-feed-item/activity-feed-item.component'
-import { CvcActivityFeedSettingsButton } from './activity-feed-settings/activity-feed-settings.component'
+import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
+import { CvcActivityFeedFilterSelects } from '@app/components/activities/activity-feed/feed-filters/feed-filters.component'
+import { CvcActivityFeedItem } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
 import {
   feedDefaultFilters,
   feedDefaultSettings,

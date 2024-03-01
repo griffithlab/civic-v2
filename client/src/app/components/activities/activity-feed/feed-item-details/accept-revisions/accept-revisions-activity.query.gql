@@ -1,0 +1,23 @@
+fragment AcceptRevisionsActivityDetail on AcceptRevisionsActivity {
+  revisions {
+    id
+    currentValue
+    fieldName
+    link
+    linkoutData {
+      name
+      currentValue {
+        __typename
+      }
+      suggestedValue {
+        __typename
+      }
+      diffValue {
+        __typename
+      }
+    }
+
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

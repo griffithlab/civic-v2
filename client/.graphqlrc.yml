@@ -33,7 +33,7 @@ extensions:
           - fragment-matcher
         config:
           apolloClientVersion: 3
-          useExplicitTyping: true
+          useExplicitTyping: false
       ./src/app/generated/civic.apollo-helpers.ts:
         plugins:
           - typescript-apollo-client-helpers
