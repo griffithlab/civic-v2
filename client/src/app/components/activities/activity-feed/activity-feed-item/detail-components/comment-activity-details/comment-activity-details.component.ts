@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, computed, input } from '@angular/core'
 import {
   ActivityFeedItemFragment,
-  CommentActivityDetailsFragment,
+  CommentActivityDetailFragment,
 } from '@app/generated/civic.apollo'
 
 @Component({
@@ -13,7 +13,7 @@ import {
   styleUrl: './comment-activity-details.component.less',
 })
 export class CvcCommentActivityDetails {
-  activity = input.required<CommentActivityDetailsFragment>({
+  activity = input.required<CommentActivityDetailFragment>({
     alias: 'cvcCommentActivity',
   })
 }

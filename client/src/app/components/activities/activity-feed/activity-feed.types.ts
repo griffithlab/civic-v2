@@ -5,6 +5,11 @@ import {
   Organization,
   ActivitySubjectInput,
   ActivityTypeInput,
+  CommentActivityDetailFragment,
+  FlagEntityActivityDetailFragment,
+  ActivityFeedItemFragment,
+  ActivityInterface,
+  ActivityFeedItemBaseFragment,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -90,3 +95,7 @@ export type ActivityFeedModeAttributes = {
   organizationId?: number
   userId?: number
 }
+
+// export type ActivityFeedItemDetail =
+//   | CommentActivityDetailFragment
+//   | FlagEntityActivityDetailFragment

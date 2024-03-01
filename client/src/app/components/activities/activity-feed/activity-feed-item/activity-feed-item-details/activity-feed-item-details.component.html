@@ -1,17 +1,12 @@
 <div class="detail">
   @if (cvcActivity(); as activity) {
-    <!-- @if (activity | guardType: guards.isCommentActivity; as activity) {} -->
-    <!-- @switch (cvcActivity().__typename) {
-          @case ('CommentActivity') {
-            <pre>cvcActivity().__typename</pre>
-            <cvc-comment-activity-details
+    <cvc-comment-activity-details
+      *ngIf="activity | guardType: guards.isCommentActivity as details"
+      [cvcCommentActivity]="details"></cvc-comment-activity-details>
 
-              [cvcCommentActivity]="cvcActivity()"></cvc-comment-activity-details>
-          }
-          @default {
-            <pre>{{ cvcActivity() | json }}</pre>
-          }
-        } -->
+    <cvc-flag-entity-activity-details
+      *ngIf="activity | guardType: guards.isFlagEntityActivity as details"
+      [cvcFlagEntityActivity]="details"></cvc-flag-entity-activity-details>
   } @else {
     <p>LOADING</p>
   }
