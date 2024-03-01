@@ -4,6 +4,8 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :subscribable, polymorphic: true
 
+  has_many :notifications, dependent: :destroy
+
   def send_notification(event)
     raise 'Implement in subclass!'
   end
