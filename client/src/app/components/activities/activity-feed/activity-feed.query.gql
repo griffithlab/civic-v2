@@ -78,7 +78,6 @@ fragment ActivityFeedItemBase on ActivityInterface {
     name
     link
   }
-  note @include(if: $requestDetails)
 }
 
 fragment ActivityFeedItem on ActivityInterface {

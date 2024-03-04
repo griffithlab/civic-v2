@@ -1,6 +1,7 @@
 query ActivityFeedItem($id: Int!, $requestDetails: Boolean!) {
   activity(id: $id) {
     ...ActivityFeedItem
+    note @include(if: $requestDetails)
   }
 }
 
