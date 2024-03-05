@@ -17,8 +17,12 @@ module Actions
       move_comments
       move_flags
       move_subscriptions
+      move_notifications
       merge_roles
       move_mentions
+      move_source_suggestions
+      merge_organizations
+      move_legacy_changes
       account_to_keep.save!
       accounts_to_merge.each { |u| u.destroy! }
     end
@@ -118,6 +122,33 @@ module Actions
 
     def merge_roles
       account_to_keep.role = Role.highest_role_for_users(account_to_keep, *accounts_to_merge)
+    end
+
+    def move_source_suggestions
+      suggestions = SourceSuggestion.where(user_id: old_account_ids)
+      suggestions.each do |s|
+        s.user_id = account_to_keep.id
+        s.save!
+      end
+    end
+
+    def merge_organizations
+      orgs_to_add = accounts_to_merge.flat_map(&:organizations)
+      accounts_to_merge.each do |user|
+        user.organizations = []
+      end
+      existing_orgs = account_to_keep.organizations
+      all_orgs = orgs_to_add + existing_orgs
+      account_to_keep.organizations = all_orgs.uniq
+    end
+
+    class SuggestedChange < ActiveRecord::Base; end
+    def move_legacy_changes
+      changes = SuggestedChange.where(user_id: old_account_ids)
+      changes.each do |sc|
+        sc.user_id = account_to_keep.id
+        sc.save!
+      end
     end
   end
 end
