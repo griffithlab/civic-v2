@@ -8833,6 +8833,10 @@ type Source implements Commentable & EventSubject {
   publicationDay: Int
   publicationMonth: Int
   publicationYear: Int
+  retracted: Boolean!
+  retractionDate: ISO8601DateTime
+  retractionNature: String
+  retractionReasons: String
   sourceType: SourceSource!
   sourceUrl: String
   title: String
@@ -8943,6 +8947,10 @@ type SourcePopover implements Commentable & EventSubject {
   publicationDay: Int
   publicationMonth: Int
   publicationYear: Int
+  retracted: Boolean!
+  retractionDate: ISO8601DateTime
+  retractionNature: String
+  retractionReasons: String
   sourceType: SourceSource!
   sourceUrl: String
   title: String

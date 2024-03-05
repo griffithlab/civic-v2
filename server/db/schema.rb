@@ -743,9 +743,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_175953) do
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
     t.boolean "fully_curated", default: false, null: false
+    t.boolean "retracted", default: false, null: false
+    t.string "retraction_nature"
+    t.datetime "retraction_date"
+    t.string "retraction_reasons"
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
+    t.index ["retracted"], name: "index_sources_on_retracted"
   end
 
   create_table "sources_variant_groups", id: false, force: :cascade do |t|

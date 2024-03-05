@@ -24,6 +24,10 @@ module Types::Entities
     field :display_type, String, null: false
     field :open_access, Boolean, null: false
     field :fully_curated, Boolean, null: false
+    field :retracted, Boolean, null: false
+    field :retraction_nature, String, null: true
+    field :retraction_date, GraphQL::Types::ISO8601DateTime, null: true
+    field :retraction_reasons, String, null: true
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)

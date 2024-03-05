@@ -22,4 +22,8 @@ fragment SourceSummaryFields on Source {
     id
     link
   }
+  retracted
+  retractionNature
+  retractionDate
+  retractionReasons
 }

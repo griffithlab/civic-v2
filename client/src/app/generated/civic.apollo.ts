@@ -5182,6 +5182,10 @@ export type Source = Commentable & EventSubject & {
   publicationDay?: Maybe<Scalars['Int']>;
   publicationMonth?: Maybe<Scalars['Int']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  retracted: Scalars['Boolean'];
+  retractionDate?: Maybe<Scalars['ISO8601DateTime']>;
+  retractionNature?: Maybe<Scalars['String']>;
+  retractionReasons?: Maybe<Scalars['String']>;
   sourceType: SourceSource;
   sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -5239,6 +5243,10 @@ export type SourcePopover = Commentable & EventSubject & {
   publicationDay?: Maybe<Scalars['Int']>;
   publicationMonth?: Maybe<Scalars['Int']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  retracted: Scalars['Boolean'];
+  retractionDate?: Maybe<Scalars['ISO8601DateTime']>;
+  retractionNature?: Maybe<Scalars['String']>;
+  retractionReasons?: Maybe<Scalars['String']>;
   sourceType: SourceSource;
   sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -8524,9 +8532,9 @@ export type SourceSummaryQueryVariables = Exact<{
 }>;
 
 
-export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined } | undefined };
+export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, retracted: boolean, retractionNature?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined } | undefined };
 
-export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined };
+export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, ascoAbstractId?: number | undefined, retracted: boolean, retractionNature?: string | undefined, retractionDate?: any | undefined, retractionReasons?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined };
 
 export type TherapyDetailQueryVariables = Exact<{
   therapyId: Scalars['Int'];
@@ -11243,6 +11251,10 @@ export const SourceSummaryFieldsFragmentDoc = gql`
     id
     link
   }
+  retracted
+  retractionNature
+  retractionDate
+  retractionReasons
 }
     `;
 export const MyChemInfoFieldsFragmentDoc = gql`
