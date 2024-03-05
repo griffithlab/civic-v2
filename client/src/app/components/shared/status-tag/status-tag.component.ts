@@ -42,7 +42,7 @@ export class CvcStatusTagComponent implements OnInit {
   ngOnInit(): void {
     if (this.status === undefined) {
       throw new Error(
-        'Must pass a valid EvidenceStatus or RevisionStatus to cvc-status-tag component'
+        'Must pass a valid EvidenceStatus, RevisionStatus, or FlagState to cvc-status-tag component'
       )
     }
   }
