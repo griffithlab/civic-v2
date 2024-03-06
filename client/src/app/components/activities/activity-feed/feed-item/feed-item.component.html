@@ -8,18 +8,13 @@
   }">
   @if (showDetails() && activity()) {
     <cvc-activity-feed-item-details
-      [cvcActivity]="cvcActivity()"></cvc-activity-feed-item-details>
-    <!-- <ng-container
-              *ngTemplateOutlet="
-                detail;
-                context: { $implicit: activity() }
-              "></ng-container> -->
+      [cvcActivityId]="activity().id"></cvc-activity-feed-item-details>
   }
 </nz-card>
 <ng-template #itemDescription>
   <div
     class="toggle"
-    (click)="toggleDetail$.next()">
+    (click)="showDetails.set(!showDetails())">
     <span
       nz-icon
       nzType="caret-right"

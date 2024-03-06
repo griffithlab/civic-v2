@@ -1,4 +1,9 @@
-import { Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component, input } from '@angular/core'
+import {
+  CreateComplexMolecularProfileActivityDetailFragment,
+  CreateVariantActivityDetailFragment,
+  Maybe,
+} from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-create-variant-activity-details',
@@ -6,5 +11,10 @@ import { Component } from '@angular/core'
   imports: [],
   templateUrl: './create-variant-activity.component.html',
   styleUrl: './create-variant-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcCreateVariantActivity {}
+export class CvcCreateVariantActivity {
+  activity = input.required<Maybe<CreateVariantActivityDetailFragment>>({
+    alias: 'cvcCreateVariantActivity',
+  })
+}
