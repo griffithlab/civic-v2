@@ -7,7 +7,7 @@
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
       <nz-spin
-        [nzSpinning]="!moreLoading() && refetchLoading()"
+        [nzSpinning]="false"
         nzSize="large"
         [nzDelay]="0">
         <div
@@ -16,7 +16,11 @@
           @if (scrollDatasource) {
             <cvc-activity-feed-item
               *uiScroll="let edge of scrollDatasource"
-              [cvcActivity]="edge.node"></cvc-activity-feed-item>
+              [cvcActivity]="edge.node"
+              [cvcInitWithDetails]="(toggledItem$ | ngrxPush)!.has(edge.node.id)"
+              (cvcOnToggleDetail)="
+                onToggleItem$.next($event)
+              "></cvc-activity-feed-item>
           }
         </div>
       </nz-spin>

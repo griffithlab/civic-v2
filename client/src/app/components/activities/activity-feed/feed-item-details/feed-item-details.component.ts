@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   input,
   OnInit,
+  Output,
   signal,
   WritableSignal,
 } from '@angular/core'
@@ -70,7 +72,6 @@ import { CvcSubmitEvidenceActivity } from '@app/components/activities/activity-f
 export class CvcActivityFeedItemDetails implements OnInit {
   cvcActivityId = input.required<number>()
 
-  toggleDetail$: Subject<void>
   queryRef?: QueryRef<ActivityFeedItemQuery, ActivityFeedItemQueryVariables>
   result$?: Observable<ApolloQueryResult<ActivityFeedItemQuery>>
 
@@ -78,7 +79,6 @@ export class CvcActivityFeedItemDetails implements OnInit {
   guards = activityFeedTypeGuards
 
   constructor(private gql: ActivityFeedItemGQL) {
-    this.toggleDetail$ = new Subject()
     this.activity = signal<Maybe<ActivityFeedItemFragment>>(undefined)
   }
 

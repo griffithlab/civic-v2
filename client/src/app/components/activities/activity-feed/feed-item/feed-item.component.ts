@@ -7,6 +7,8 @@ import {
   input,
   effect,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
@@ -40,6 +42,12 @@ import { Observable, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
+import { animate, state, style, transition, trigger } from '@angular/animations'
+
+export type FeedDetailToggle = {
+  id: number
+  showDetails: boolean
+}
 
 @UntilDestroy()
 @Component({
@@ -71,14 +79,35 @@ import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-detai
   templateUrl: './feed-item.component.html',
   styleUrl: './feed-item.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('details', [
+      state('hidden', style({ 'max-height': 0 })),
+      state('visible', style({ 'max-height': '300px' })),
+      transition('visible <=> hidden', animate('.25s ease-out')),
+      transition('hidden <=> visible', animate('.25s ease-in')),
+    ]),
+  ],
 })
-export class CvcActivityFeedItem {
+export class CvcActivityFeedItem implements OnInit {
   activity = input<Maybe<ActivityFeedItemFragment>>(undefined, {
     alias: 'cvcActivity',
   })
+  initWithDetails = input<boolean>(false, { alias: 'cvcInitWithDetails' })
+  @Output() cvcOnToggleDetail = new EventEmitter<FeedDetailToggle>()
 
-  showDetails: WritableSignal<boolean>
+  toggleDetails!: WritableSignal<boolean>
   constructor(private gql: ActivityFeedItemGQL) {
-    this.showDetails = signal(false)
+    // effect(() => {
+    //   const id = this.activity()?.id
+    //   if (id) {
+    //     this.cvcOnToggleDetail.next({
+    //       id: id,
+    //       showDetails: this.toggleDetails(),
+    //     })
+    //   }
+    // })
+  }
+  ngOnInit() {
+    this.toggleDetails = signal(this.initWithDetails())
   }
 }

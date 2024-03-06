@@ -1,6 +1,6 @@
 @import 'ng-zorro-antd/style/color/colors.less';
 :host {
-  margin-bottom: 12px;
+  padding-bottom: 12px;
   display: block;
   ::ng-deep nz-card {
     > .ant-card-head {
@@ -10,16 +10,16 @@
     }
     > .ant-card-body {
       padding: 0;
-      overflow: hidden;
+      //overflow: hidden;
     }
     &.hide {
-      > .ant-card-body {
-        max-height: 0;
-        transition: max-height 0.25s ease-out;
-      }
-      .details {
-        display: none;
-      }
+      //> .ant-card-body {
+      //  max-height: 0;
+      //  transition: max-height 0.25s ease-out;
+      //}
+      //.details {
+      //  display: none;
+      //}
       .toggle {
         span {
           transform: rotate(0deg);
@@ -28,13 +28,13 @@
       }
     }
     &.show {
-      > .ant-card-body {
-        max-height: 250px;
-        transition: max-height 0.25s ease-in;
-      }
-      .details {
-        display: block;
-      }
+      //> .ant-card-body {
+      //  max-height: 250px;
+      //  transition: max-height 0.25s ease-in;
+      //}
+      //.details {
+      //  display: block;
+      //}
       .toggle {
         span {
           transform: rotate(90deg);

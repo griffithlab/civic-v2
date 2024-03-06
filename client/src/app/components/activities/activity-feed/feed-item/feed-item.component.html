@@ -4,18 +4,28 @@
     [nzTitle]="itemDescription"
     [nzExtra]="itemDate"
     [ngClass]="{
-      show: showDetails(),
-      hide: !showDetails()
+      show: toggleDetails(),
+      hide: !toggleDetails()
     }">
-    <div class="details">
-      <cvc-activity-feed-item-details
-        [cvcActivityId]="activity.id"></cvc-activity-feed-item-details>
+    <div
+      class="details"
+      [@details]="toggleDetails() ? 'visible' : 'hidden'"
+      (@details.done)="
+        cvcOnToggleDetail.next({
+          id: activity.id,
+          showDetails: toggleDetails()
+        })
+      ">
+      @if (toggleDetails()) {
+        <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
+        </cvc-activity-feed-item-details>
+      }
     </div>
   </nz-card>
   <ng-template #itemDescription>
     <div
       class="toggle"
-      (click)="showDetails.set(!showDetails())">
+      (click)="toggleDetails.set(!toggleDetails())">
       <span
         nz-icon
         nzType="caret-right"

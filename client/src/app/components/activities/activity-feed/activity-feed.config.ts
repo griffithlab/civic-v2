@@ -11,10 +11,15 @@ export const feedScrollBuffer = 30
 export const feedDefaultSettings: ActivityFeedSettings = {
   pageSize: 50,
 }
-
+export const scrollerSettings = {
+  bufferSize: 30,
+  startIndex: 0,
+  minIndex: 0,
+}
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  activityType: [ActivityTypeInput.Comment],
+  // activityType: [ActivityTypeInput.Comment],
+  activityType: [],
   subjectType: [],
   userId: [],
 }

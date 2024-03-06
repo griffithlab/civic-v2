@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
+  input,
   OnInit,
   Signal,
-  WritableSignal,
-  input,
   signal,
+  WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
@@ -14,7 +14,6 @@ import {
   ActivityFeedGQL,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
-  ActivityInterfaceConnection,
   ActivityInterfaceEdge,
   Maybe,
 } from '@app/generated/civic.apollo'
@@ -31,14 +30,14 @@ import {
 } from 'ngx-ui-scroll'
 import {
   BehaviorSubject,
-  Observable,
-  Subject,
   combineLatest,
-  debounceTime,
+  distinctUntilChanged,
   filter,
   from,
   map,
+  Observable,
   of,
+  Subject,
   switchMap,
   take,
   tap,
@@ -46,10 +45,12 @@ import {
 } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
-import { tag } from 'rxjs-spy/operators'
 import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
 import { CvcActivityFeedFilterSelects } from '@app/components/activities/activity-feed/feed-filters/feed-filters.component'
-import { CvcActivityFeedItem } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import {
+  CvcActivityFeedItem,
+  FeedDetailToggle,
+} from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
 import {
   feedDefaultFilters,
@@ -74,6 +75,11 @@ import { ApolloQueryResult } from '@apollo/client/core'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 
+enum SizeStrategy {
+  Average = 'average',
+  Constant = 'constant',
+  Frequent = 'frequent',
+}
 @UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed',
@@ -115,15 +121,16 @@ export class CvcActivityFeed implements OnInit {
   // INTERMEDIATE STREAMS
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   edge$: Observable<ActivityInterfaceEdge[]>
-  reloadScroller$?: Subject<void>
+  onToggleItem$: Subject<FeedDetailToggle>
 
   // PRESENTATION SIGNALS
   edges: Signal<ActivityInterfaceEdge[]>
-  refetchLoading: WritableSignal<boolean>
-  moreLoading: WritableSignal<boolean>
+  refetchLoading: Signal<boolean>
+  moreLoading: Signal<boolean>
   errors: WritableSignal<any>
   counts: WritableSignal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: WritableSignal<ActivityFeedFilterOptions>
+  toggledItem$: BehaviorSubject<Set<number>>
 
   // SERVICE REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -135,6 +142,7 @@ export class CvcActivityFeed implements OnInit {
     this.feedFilter$ = new Subject<ActivityFeedFilters>()
     this.init$ = new Subject<void>()
     this.fetchMore$ = new Subject<FetchMoreParams>()
+    this.onToggleItem$ = new Subject<FeedDetailToggle>()
 
     this.refetchLoading = signal<boolean>(false)
     this.moreLoading = signal<boolean>(false)
@@ -143,6 +151,30 @@ export class CvcActivityFeed implements OnInit {
     this.feedFilterOptions = signal<ActivityFeedFilterOptions>(
       feedFilterOptionDefaults
     )
+    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
+
+    this.onToggleItem$
+      .pipe(
+        distinctUntilChanged(
+          (a, b) => a.id === b.id && a.showDetails === b.showDetails
+        ),
+        withLatestFrom(this.toggledItem$),
+        filter(
+          ([toggle, toggledIds]) =>
+            toggle.showDetails || toggledIds.has(toggle.id)
+        ),
+        tap(([toggle, toggledIds]) => {
+          toggle.showDetails
+            ? toggledIds.add(toggle.id)
+            : toggledIds.delete(toggle.id)
+          this.toggledItem$.next(toggledIds)
+          this.scrollAdapter
+            ?.check()
+            .then((result) => console.log('vscroll check result: ', result))
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe()
 
     // combine prefs, filters updates into a fetch query
     this.result$ = combineLatest([
@@ -170,10 +202,14 @@ export class CvcActivityFeed implements OnInit {
           })
         }
         return this.queryRef.valueChanges
-      }),
-      tap((result) => {
-        this.refetchLoading.set(result.loading)
       })
+      // tap((result) => {
+      //   this.refetchLoading.set(result.loading)
+      // })
+    )
+    this.refetchLoading = toSignal(
+      this.result$.pipe(pluck('loading'), distinctUntilChanged()),
+      { initialValue: false }
     )
 
     this.edge$ = this.result$.pipe(
@@ -228,10 +264,10 @@ export class CvcActivityFeed implements OnInit {
             first: count,
             after: edges[index].cursor,
           }
-          this.moreLoading.set(true)
+          // this.moreLoading.set(true)
           // return fetchMore result, converted to observable from promise
           return from(this.queryRef!.fetchMore({ variables: queryVars })).pipe(
-            tap(() => this.moreLoading.set(false)),
+            // tap(() => this.moreLoading.set(false)),
             map((result) => result.data.activities.edges)
           )
         }
@@ -240,6 +276,13 @@ export class CvcActivityFeed implements OnInit {
         bufferSize: feedScrollBuffer, // # of rows in fetchMore requests
         startIndex: 0, // start row display at 0 index
         minIndex: 0, // no negative rows
+        itemSize: 48,
+        sizeStrategy: SizeStrategy.Frequent,
+      },
+      devSettings: {
+        debug: true,
+        immediateLog: true,
+        cacheData: true,
       },
     })
   }
@@ -248,14 +291,40 @@ export class CvcActivityFeed implements OnInit {
     this.scrollAdapter = this.scrollDatasource?.adapter
     // watch init$ (for debug, can be removed)
     if (this.scrollAdapter) {
-      this.scrollAdapter.init$.pipe(take(1)).subscribe(() => {
+      const adapter = this.scrollAdapter
+      // DEBUG
+      adapter.init$.pipe(take(1)).subscribe(() => {
         console.log('ngx-ui-scroll initialized!')
       })
-      this.scrollAdapter.isLoading$
-        .pipe(debounceTime(100), untilDestroyed(this))
-        .subscribe((loading) => {
-          console.log('vscroll isLoading: ', loading)
-        })
+      // adapter.isLoading$
+      //   .pipe(debounceTime(100), untilDestroyed(this))
+      //   .subscribe((loading) => {
+      //     console.log('vscroll isLoading: ', loading)
+      //   })
+      // adapter.loopPending$.subscribe((event) => {
+      //   console.log('vscroll loopPending: ', event)
+      // })
+      // adapter.firstVisible$.subscribe((item) => {
+      //   console.log('vscroll firstVisible: ', item)
+      // })
+      // adapter.lastVisible$.subscribe((item) => {
+      //   console.log('vscroll lastVisible: ', item)
+      // })
+      // adapter.bof$.subscribe((event) => {
+      //   console.log('vscroll bof: ', event)
+      // })
+      // adapter.eof$.subscribe((event) => {
+      //   console.log('vscroll eof: ', event)
+      // })
+      // interface IReactiveOverride<Item = unknown> {
+      //   init$: Subject<boolean>;
+      //   isLoading$: Subject<boolean>;
+      //   loopPending$: Subject<boolean>;
+      //   firstVisible$: BehaviorSubject<IAdapterItem<Item>>;
+      //   lastVisible$: BehaviorSubject<IAdapterItem<Item>>;
+      //   bof$: Subject<boolean>;
+      //   eof$: Subject<boolean>;
+      // }
     }
   }
 
