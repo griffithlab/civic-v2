@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common'
-import { Component, computed, input } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core'
 import {
   ActivityFeedItemFragment,
   CommentActivityDetailFragment,
@@ -11,6 +16,7 @@ import {
   imports: [CommonModule],
   templateUrl: './comment-activity.component.html',
   styleUrl: './comment-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcCommentActivity {
   activity = input.required<CommentActivityDetailFragment>({

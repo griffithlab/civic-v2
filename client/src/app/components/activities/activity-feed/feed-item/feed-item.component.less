@@ -15,15 +15,31 @@
     &.hide {
       > .ant-card-body {
         max-height: 0;
-        transition: max-height 0.15s ease-out;
-        // display: none;
+        transition: max-height 0.25s ease-out;
+      }
+      .details {
+        display: none;
+      }
+      .toggle {
+        span {
+          transform: rotate(0deg);
+          transition: transform 0.2s linear;
+        }
       }
     }
     &.show {
       > .ant-card-body {
         max-height: 250px;
         transition: max-height 0.25s ease-in;
-        // display: block;
+      }
+      .details {
+        display: block;
+      }
+      .toggle {
+        span {
+          transform: rotate(90deg);
+          transition: transform 0.2s linear;
+        }
       }
     }
   }
@@ -51,13 +67,5 @@
   span {
     // font-size: 125%;
     color: @blue-7;
-    &.hide {
-      transform: rotate(0deg);
-      transition: transform 0.2s linear;
-    }
-    &.show {
-      transform: rotate(90deg);
-      transition: transform 0.2s linear;
-    }
   }
 }

@@ -73,7 +73,9 @@ import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-detai
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeedItem {
-  activity = input.required<ActivityFeedItemFragment>({ alias: 'cvcActivity' })
+  activity = input<Maybe<ActivityFeedItemFragment>>(undefined, {
+    alias: 'cvcActivity',
+  })
 
   showDetails: WritableSignal<boolean>
   constructor(private gql: ActivityFeedItemGQL) {

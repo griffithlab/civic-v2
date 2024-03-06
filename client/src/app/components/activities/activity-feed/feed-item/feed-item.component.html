@@ -1,31 +1,27 @@
-<nz-card
-  nzSize="small"
-  [nzTitle]="itemDescription"
-  [nzExtra]="itemDate"
-  [ngClass]="{
-    show: showDetails(),
-    hide: !showDetails()
-  }">
-  @if (showDetails() && activity()) {
-    <cvc-activity-feed-item-details
-      [cvcActivityId]="activity().id"></cvc-activity-feed-item-details>
-  }
-</nz-card>
-<ng-template #itemDescription>
-  <div
-    class="toggle"
-    (click)="showDetails.set(!showDetails())">
-    <span
-      nz-icon
-      nzType="caret-right"
-      nzTheme="outline"
-      [ngClass]="{
-        show: showDetails(),
-        hide: !showDetails()
-      }"></span>
-  </div>
-  <div class="description">
-    @if (activity(); as activity) {
+@if (activity(); as activity) {
+  <nz-card
+    nzSize="small"
+    [nzTitle]="itemDescription"
+    [nzExtra]="itemDate"
+    [ngClass]="{
+      show: showDetails(),
+      hide: !showDetails()
+    }">
+    <div class="details">
+      <cvc-activity-feed-item-details
+        [cvcActivityId]="activity.id"></cvc-activity-feed-item-details>
+    </div>
+  </nz-card>
+  <ng-template #itemDescription>
+    <div
+      class="toggle"
+      (click)="showDetails.set(!showDetails())">
+      <span
+        nz-icon
+        nzType="caret-right"
+        nzTheme="outline"></span>
+    </div>
+    <div class="description">
       <!-- {{ activity.__typename }} -->
       <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       <span
@@ -49,51 +45,48 @@
             [org]="activity.organization"></cvc-organization-tag>
         </div>
       }
-    }
-  </div>
-</ng-template>
-<ng-template #itemDate>
-  @if (activity(); as activity) {
+    </div>
+  </ng-template>
+  <ng-template #itemDate>
     <span
       nz-typography
       nzType="secondary">
       {{ activity.createdAt | timeAgo }}
     </span>
-  }
-</ng-template>
-<ng-template
-  #subject
-  let-subject>
-  <ng-container [ngSwitch]="subject.__typename">
-    <cvc-gene-tag
-      *ngSwitchCase="'Gene'"
-      [gene]="subject"></cvc-gene-tag>
-    <cvc-assertion-tag
-      *ngSwitchCase="'Assertion'"
-      [assertion]="subject"></cvc-assertion-tag>
-    <cvc-evidence-tag
-      *ngSwitchCase="'EvidenceItem'"
-      [evidence]="subject"></cvc-evidence-tag>
-    <cvc-variant-tag
-      *ngSwitchCase="'Variant'"
-      [variant]="subject"></cvc-variant-tag>
-    <cvc-revision-tag
-      *ngSwitchCase="'Revision'"
-      [revision]="$any(subject)"></cvc-revision-tag>
-    <cvc-variant-group-tag
-      *ngSwitchCase="'VariantGroup'"
-      [variantgroup]="subject"></cvc-variant-group-tag>
-    <cvc-source-tag
-      *ngSwitchCase="'Source'"
-      mode="concise"
-      [source]="$any(subject)"></cvc-source-tag>
-    <cvc-molecular-profile-tag
-      *ngSwitchCase="'MolecularProfile'"
-      [molecularProfile]="subject"></cvc-molecular-profile-tag>
-    <span *ngSwitchDefault>{{ subject.name }}</span>
-  </ng-container>
-</ng-template>
-
+  </ng-template>
+  <ng-template
+    #subject
+    let-subject>
+    <ng-container [ngSwitch]="subject.__typename">
+      <cvc-gene-tag
+        *ngSwitchCase="'Gene'"
+        [gene]="subject"></cvc-gene-tag>
+      <cvc-assertion-tag
+        *ngSwitchCase="'Assertion'"
+        [assertion]="subject"></cvc-assertion-tag>
+      <cvc-evidence-tag
+        *ngSwitchCase="'EvidenceItem'"
+        [evidence]="subject"></cvc-evidence-tag>
+      <cvc-variant-tag
+        *ngSwitchCase="'Variant'"
+        [variant]="subject"></cvc-variant-tag>
+      <cvc-revision-tag
+        *ngSwitchCase="'Revision'"
+        [revision]="$any(subject)"></cvc-revision-tag>
+      <cvc-variant-group-tag
+        *ngSwitchCase="'VariantGroup'"
+        [variantgroup]="subject"></cvc-variant-group-tag>
+      <cvc-source-tag
+        *ngSwitchCase="'Source'"
+        mode="concise"
+        [source]="$any(subject)"></cvc-source-tag>
+      <cvc-molecular-profile-tag
+        *ngSwitchCase="'MolecularProfile'"
+        [molecularProfile]="subject"></cvc-molecular-profile-tag>
+      <span *ngSwitchDefault>{{ subject.name }}</span>
+    </ng-container>
+  </ng-template>
+}
 <!-- <ng-template
   #detail
   let-activity>

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, input } from '@angular/core'
 import {
   CreateComplexMolecularProfileActivityDetailFragment,
   Maybe,
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common'
   imports: [CommonModule],
   templateUrl: './create-mp-activity.component.html',
   styleUrl: './create-mp-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcCreateMpActivity {
   activity = input.required<

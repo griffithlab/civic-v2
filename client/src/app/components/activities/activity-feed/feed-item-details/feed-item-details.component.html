@@ -1,33 +1,94 @@
 <div class="detail">
   @if (activity(); as activity) {
-    <cvc-accept-revisions-activity-details
-      *ngIf="activity | guardType: guards.isAcceptRevisionsActivity as details"
-      [cvcAcceptRevisionActivity]="
-        details
-      "></cvc-accept-revisions-activity-details>
-
-    <cvc-comment-activity-details
-      *ngIf="activity | guardType: guards.isCommentActivity as details"
-      [cvcCommentActivity]="details"></cvc-comment-activity-details>
-
-    <cvc-flag-entity-activity-details
-      *ngIf="activity | guardType: guards.isFlagEntityActivity as details"
-      [cvcFlagEntityActivity]="details"></cvc-flag-entity-activity-details>
-
-    <cvc-create-mp-activity-details
-      *ngIf="
-        activity
-          | guardType: guards.isCreateComplexMolecularProfileActivity as details
-      "
-      [cvcCreateMpActivity]="details">
-    </cvc-create-mp-activity-details>
-
-    <cvc-create-variant-activity-details
-      *ngIf="activity | guardType: guards.isCreateVariantActivity as details"
-      [cvcCreateVariantActivity]="details">
-    </cvc-create-variant-activity-details>
+    @if (activity | guardType: guards.isAcceptRevisionsActivity; as details) {
+      <cvc-accept-revisions-activity-details
+        [cvcAcceptRevisionActivity]="details">
+      </cvc-accept-revisions-activity-details>
+    }
+    @if (activity | guardType: guards.isCommentActivity; as details) {
+      <cvc-comment-activity-details [cvcCommentActivity]="details">
+      </cvc-comment-activity-details>
+    }
+    @if (
+      activity | guardType: guards.isCreateComplexMolecularProfileActivity;
+      as details
+    ) {
+      <cvc-create-mp-activity-details [cvcCreateMpActivity]="details">
+      </cvc-create-mp-activity-details>
+    }
+    @if (activity | guardType: guards.isCreateVariantActivity; as details) {
+      <cvc-create-variant-activity-details [cvcCreateVariantActivity]="details">
+      </cvc-create-variant-activity-details>
+    }
+    @if (
+      activity | guardType: guards.isDeprecateComplexMolecularProfileActivity;
+      as details
+    ) {
+      <cvc-deprecate-mp-activity-details [cvcDeprecateMpActivity]="details">
+      </cvc-deprecate-mp-activity-details>
+    }
+    @if (activity | guardType: guards.isDeprecateVariantActivity; as details) {
+      <cvc-deprecate-variant-activity-details
+        [cvcDeprecateVariantActivity]="details">
+      </cvc-deprecate-variant-activity-details>
+    }
+    @if (activity | guardType: guards.isFlagEntityActivity; as details) {
+      <cvc-flag-entity-activity-details [cvcFlagEntityActivity]="details">
+      </cvc-flag-entity-activity-details>
+    }
+    @if (activity | guardType: guards.isModerateAssertionActivity; as details) {
+      <cvc-moderate-assertion-activity-details
+        [cvcModerateAssertionActivity]="details">
+      </cvc-moderate-assertion-activity-details>
+    }
+    @if (activity | guardType: guards.isModerateEvidenceActivity; as details) {
+      <cvc-moderate-evidence-activity-details
+        [cvcModerateEvidenceActivity]="details">
+      </cvc-moderate-evidence-activity-details>
+    }
+    @if (activity | guardType: guards.isRejectRevisionsActivity; as details) {
+      <cvc-reject-revisions-activity-details
+        [cvcRejectRevisionsActivity]="details">
+      </cvc-reject-revisions-activity-details>
+    }
+    @if (activity | guardType: guards.isResolveFlagActivity; as details) {
+      <cvc-resolve-flag-activity-details [cvcResolveFlagActivity]="details">
+      </cvc-resolve-flag-activity-details>
+    }
+    @if (activity | guardType: guards.isSubmitAssertionActivity; as details) {
+      <cvc-submit-assertion-activity-details
+        [cvcSubmitAssertionActivity]="details">
+      </cvc-submit-assertion-activity-details>
+    }
+    @if (
+      activity | guardType: guards.isSubmitEvidenceItemActivity;
+      as details
+    ) {
+      <cvc-submit-evidence-activity-details
+        [cvcSubmitEvidenceActivity]="details">
+      </cvc-submit-evidence-activity-details>
+    }
+    @if (
+      activity | guardType: guards.isSuggestRevisionSetActivity;
+      as details
+    ) {
+      <cvc-suggest-revision-set-activity-details
+        [cvcSuggestRevisionSetActivity]="details">
+      </cvc-suggest-revision-set-activity-details>
+    }
+    @if (activity | guardType: guards.isSuggestSourceActivity; as details) {
+      <cvc-suggest-source-activity-details [cvcSuggestSourceActivity]="details">
+      </cvc-suggest-source-activity-details>
+    }
+    @if (
+      activity | guardType: guards.isUpdateSourceSuggestionStatusActivity;
+      as details
+    ) {
+      <cvc-update-source-suggestion-activity-details
+        [cvcUpdateSourceSuggestionStatusActivity]="details">
+      </cvc-update-source-suggestion-activity-details>
+    }
   } @else {
     <p>LOADING</p>
   }
-
 </div>

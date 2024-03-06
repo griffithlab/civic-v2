@@ -82,6 +82,20 @@ fragment ActivityFeedItemBase on ActivityInterface {
 
 fragment ActivityFeedItem on ActivityInterface {
   ...ActivityFeedItemBase
+  ...AcceptRevisionsActivityDetail @include(if: $requestDetails)
   ...CommentActivityDetail @include(if: $requestDetails)
+  ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
+  ...CreateVariantActivityDetail @include(if: $requestDetails)
+  ...DeprecateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
+  ...DeprecateVariantActivityDetail @include(if: $requestDetails)
   ...FlagEntityActivityDetail @include(if: $requestDetails)
+  ...ModerateAssertionActivityDetail @include(if: $requestDetails)
+  ...ModerateEvidenceItemActivityDetail @include(if: $requestDetails)
+  ...RejectRevisionsActivityDetail @include(if: $requestDetails)
+  ...ResolveFlagActivityDetail @include(if: $requestDetails)
+  ...SubmitAssertionActivityDetail @include(if: $requestDetails)
+  ...SubmitEvidenceItemActivityDetail @include(if: $requestDetails)
+  ...SuggestRevisionSetActivityDetail @include(if: $requestDetails)
+  ...SuggestSourceActivityDetail @include(if: $requestDetails)
+  ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
 }

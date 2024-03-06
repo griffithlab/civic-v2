@@ -158,7 +158,7 @@ export const activityFeedTypeGuards = {
     isDeprecateComplexMolecularProfileActivity,
   isDeprecateVariantActivity: isDeprecateVariantActivity,
   isModerateAssertionActivity: isModerateAssertionActivity,
-  isModerateEvidenceItemActivity: isModerateEvidenceItemActivity,
+  isModerateEvidenceActivity: isModerateEvidenceItemActivity,
   isRejectRevisionsActivity: isRejectRevisionsActivity,
   isResolveFlagActivity: isResolveFlagActivity,
   isSubmitAssertionActivity: isSubmitAssertionActivity,

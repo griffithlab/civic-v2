@@ -8,6 +8,7 @@ import {
   effect,
   input,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -36,6 +37,7 @@ import { pageSizeOptions } from '../activity-feed.config'
   ],
   templateUrl: './feed-settings.component.html',
   styleUrl: './feed-settings.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeedSettingsButton implements OnInit {
   @Output() cvcSettingsChange: EventEmitter<ActivityFeedSettings>
