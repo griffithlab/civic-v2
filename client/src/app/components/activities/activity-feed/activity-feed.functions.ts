@@ -70,6 +70,7 @@ export function queryParamsToVariables(
   const modeAttrs = feedScopeToModeAttributes(scope, params.filters)
   queryVars = {
     first: initialPageSize,
+    includeAutomatedEvents: params.settings!.includeAutomatedEvents,
     ...queryVars,
     ...filterVars,
     ...modeAttrs,

@@ -15,7 +15,7 @@ export type ActivityFeedTagDisplayOption =
 
 export type ActivityFeedSettings = {
   initialPageSize: number
-  includeAutomatedActivities?: boolean
+  includeAutomatedEvents: boolean
 }
 
 export type ActivityFeedFilters = {

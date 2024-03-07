@@ -3549,6 +3549,7 @@ export type QueryActivitiesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  includeAutomatedEvents?: InputMaybe<Scalars['Boolean']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   mode?: InputMaybe<EventFeedMode>;
   organizationId?: InputMaybe<Array<Scalars['Int']['input']>>;
@@ -5879,6 +5880,7 @@ export type ActivityFeedQueryVariables = Exact<{
   userId?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   activityType?: InputMaybe<Array<ActivityTypeInput> | ActivityTypeInput>;
   subjectType?: InputMaybe<Array<ActivitySubjectInput> | ActivitySubjectInput>;
+  includeAutomatedEvents?: InputMaybe<Scalars['Boolean']['input']>;
   mode?: InputMaybe<EventFeedMode>;
   showFilters: Scalars['Boolean']['input'];
   requestDetails: Scalars['Boolean']['input'];
@@ -10600,7 +10602,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
 export const ActivityFeedDocument = gql`
-    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!) {
+    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $includeAutomatedEvents: Boolean, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!) {
   activities(
     subject: $subject
     first: $first
@@ -10608,6 +10610,7 @@ export const ActivityFeedDocument = gql`
     before: $before
     after: $after
     userId: $userId
+    includeAutomatedEvents: $includeAutomatedEvents
     organizationId: $organizationId
     activityType: $activityType
     subjectType: $subjectType

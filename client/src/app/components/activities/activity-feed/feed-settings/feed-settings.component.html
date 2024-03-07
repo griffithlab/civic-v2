@@ -15,25 +15,18 @@
 <ng-template #settingsPopover>
   <div class="popover-content">
     <nz-row [nzGutter]="[8, 8]">
-      <!-- PAGE SIZE -->
       <nz-col
-        nzSpan="12"
+        nzSpan="18"
         class="option-key">
-        Page Size
+        Include Automated Events
       </nz-col>
       <nz-col
-        nzSpan="12"
+        nzSpan="6"
         class="option-input">
-        <nz-select
-          [ngModel]="pageSize()"
-          [nzOptionHeightPx]="28"
-          (ngModelChange)="pageSize.set($event)"
-          nzSize="small">
-          <nz-option
-            *ngFor="let size of pageSizes"
-            [nzValue]="size"
-            [nzLabel]="size"></nz-option>
-        </nz-select>
+        <label
+          nz-checkbox
+          [ngModel]="includeAutomatedEvents()"
+          (ngModelChange)="includeAutomatedEvents.set($event)"></label>
       </nz-col>
     </nz-row>
   </div>

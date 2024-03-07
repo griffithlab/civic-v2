@@ -8,6 +8,7 @@ query ActivityFeed(
   $userId: [Int!]
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
+  $includeAutomatedEvents: Boolean
   $mode: EventFeedMode
   $showFilters: Boolean!
   $requestDetails: Boolean!
@@ -19,6 +20,7 @@ query ActivityFeed(
     before: $before
     after: $after
     userId: $userId
+    includeAutomatedEvents: $includeAutomatedEvents
     organizationId: $organizationId
     activityType: $activityType
     subjectType: $subjectType
