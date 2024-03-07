@@ -1,92 +1,80 @@
 <div class="detail">
   @if (activity(); as activity) {
-    @if (activity | guardType: guards.isAcceptRevisionsActivity; as details) {
-      <cvc-accept-revisions-activity-details
-        [cvcAcceptRevisionActivity]="details">
-      </cvc-accept-revisions-activity-details>
-    }
-    @if (activity | guardType: guards.isCommentActivity; as details) {
-      <cvc-comment-activity-details [cvcCommentActivity]="details">
-      </cvc-comment-activity-details>
-    }
-    @if (
-      activity | guardType: guards.isCreateComplexMolecularProfileActivity;
-      as details
-    ) {
-      <cvc-create-mp-activity-details [cvcCreateMpActivity]="details">
-      </cvc-create-mp-activity-details>
-    }
-    @if (activity | guardType: guards.isCreateVariantActivity; as details) {
-      <cvc-create-variant-activity-details [cvcCreateVariantActivity]="details">
-      </cvc-create-variant-activity-details>
-    }
-    @if (
-      activity | guardType: guards.isDeprecateComplexMolecularProfileActivity;
-      as details
-    ) {
-      <cvc-deprecate-mp-activity-details [cvcDeprecateMpActivity]="details">
-      </cvc-deprecate-mp-activity-details>
-    }
-    @if (activity | guardType: guards.isDeprecateVariantActivity; as details) {
-      <cvc-deprecate-variant-activity-details
-        [cvcDeprecateVariantActivity]="details">
-      </cvc-deprecate-variant-activity-details>
-    }
-    @if (activity | guardType: guards.isFlagEntityActivity; as details) {
-      <cvc-flag-entity-activity-details [cvcFlagEntityActivity]="details">
-      </cvc-flag-entity-activity-details>
-    }
-    @if (activity | guardType: guards.isModerateAssertionActivity; as details) {
-      <cvc-moderate-assertion-activity-details
-        [cvcModerateAssertionActivity]="details">
-      </cvc-moderate-assertion-activity-details>
-    }
-    @if (activity | guardType: guards.isModerateEvidenceActivity; as details) {
-      <cvc-moderate-evidence-activity-details
-        [cvcModerateEvidenceActivity]="details">
-      </cvc-moderate-evidence-activity-details>
-    }
-    @if (activity | guardType: guards.isRejectRevisionsActivity; as details) {
-      <cvc-reject-revisions-activity-details
-        [cvcRejectRevisionsActivity]="details">
-      </cvc-reject-revisions-activity-details>
-    }
-    @if (activity | guardType: guards.isResolveFlagActivity; as details) {
-      <cvc-resolve-flag-activity-details [cvcResolveFlagActivity]="details">
-      </cvc-resolve-flag-activity-details>
-    }
-    @if (activity | guardType: guards.isSubmitAssertionActivity; as details) {
-      <cvc-submit-assertion-activity-details
-        [cvcSubmitAssertionActivity]="details">
-      </cvc-submit-assertion-activity-details>
-    }
-    @if (
-      activity | guardType: guards.isSubmitEvidenceItemActivity;
-      as details
-    ) {
-      <cvc-submit-evidence-activity-details
-        [cvcSubmitEvidenceActivity]="details">
-      </cvc-submit-evidence-activity-details>
-    }
-    @if (
-      activity | guardType: guards.isSuggestRevisionSetActivity;
-      as details
-    ) {
-      <cvc-suggest-revision-set-activity-details
-        [cvcSuggestRevisionSetActivity]="details">
-      </cvc-suggest-revision-set-activity-details>
-    }
-    @if (activity | guardType: guards.isSuggestSourceActivity; as details) {
-      <cvc-suggest-source-activity-details [cvcSuggestSourceActivity]="details">
-      </cvc-suggest-source-activity-details>
-    }
-    @if (
-      activity | guardType: guards.isUpdateSourceSuggestionStatusActivity;
-      as details
-    ) {
-      <cvc-update-source-suggestion-activity-details
-        [cvcUpdateSourceSuggestionStatusActivity]="details">
-      </cvc-update-source-suggestion-activity-details>
+    @switch (activity.__typename) {
+      @case ('AcceptRevisionsActivity') {
+        <cvc-accept-revisions-activity-details
+          [cvcAcceptRevisionActivity]="activity">
+        </cvc-accept-revisions-activity-details>
+      }
+      @case ('CommentActivity') {
+        <cvc-comment-activity-details [cvcCommentActivity]="activity">
+        </cvc-comment-activity-details>
+      }
+      @case ('CreateComplexMolecularProfileActivity') {
+        <cvc-create-mp-activity-details [cvcCreateMpActivity]="activity">
+        </cvc-create-mp-activity-details>
+      }
+      @case ('CreateVariantActivity') {
+        <cvc-create-variant-activity-details
+          [cvcCreateVariantActivity]="activity">
+        </cvc-create-variant-activity-details>
+      }
+      @case ('DeprecateComplexMolecularProfileActivity') {
+        <cvc-deprecate-mp-activity-details [cvcDeprecateMpActivity]="activity">
+        </cvc-deprecate-mp-activity-details>
+      }
+      @case ('DeprecateVariantActivity') {
+        <cvc-deprecate-variant-activity-details
+          [cvcDeprecateVariantActivity]="activity">
+        </cvc-deprecate-variant-activity-details>
+      }
+      @case ('FlagEntityActivity') {
+        <cvc-flag-entity-activity-details [cvcFlagEntityActivity]="activity">
+        </cvc-flag-entity-activity-details>
+      }
+      @case ('ModerateAssertionActivity') {
+        <cvc-moderate-assertion-activity-details
+          [cvcModerateAssertionActivity]="activity">
+        </cvc-moderate-assertion-activity-details>
+      }
+      @case ('ModerateEvidenceItemActivity') {
+        <cvc-moderate-evidence-activity-details
+          [cvcModerateEvidenceActivity]="activity">
+        </cvc-moderate-evidence-activity-details>
+      }
+      @case ('RejectRevisionsActivity') {
+        <cvc-reject-revisions-activity-details
+          [cvcRejectRevisionsActivity]="activity">
+        </cvc-reject-revisions-activity-details>
+      }
+      @case ('ResolveFlagActivity') {
+        <cvc-resolve-flag-activity-details [cvcResolveFlagActivity]="activity">
+        </cvc-resolve-flag-activity-details>
+      }
+      @case ('SubmitAssertionActivity') {
+        <cvc-submit-assertion-activity-details
+          [cvcSubmitAssertionActivity]="activity">
+        </cvc-submit-assertion-activity-details>
+      }
+      @case ('SubmitEvidenceItemActivity') {
+        <cvc-submit-evidence-activity-details
+          [cvcSubmitEvidenceActivity]="activity">
+        </cvc-submit-evidence-activity-details>
+      }
+      @case ('SuggestRevisionSetActivity') {
+        <cvc-suggest-revision-set-activity-details
+          [cvcSuggestRevisionSetActivity]="activity">
+        </cvc-suggest-revision-set-activity-details>
+      }
+      @case('SuggestSourceActivity') {
+        <cvc-suggest-source-activity-details [cvcSuggestSourceActivity]="activity">
+        </cvc-suggest-source-activity-details>
+      }
+      @case('UpdateSourceSuggestionStatusActivity') {
+        <cvc-update-source-suggestion-activity-details
+          [cvcUpdateSourceSuggestionStatusActivity]="activity">
+        </cvc-update-source-suggestion-activity-details>
+      }
     }
   } @else {
     <p>LOADING</p>

@@ -17,7 +17,6 @@ import {
 } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
-import { activityFeedTypeGuards } from '@app/components/activities/activity-feed/feed-item-details/feed-item-details.types'
 import { CvcFlagEntityActivity } from '@app/components/activities/activity-feed/feed-item-details/flag-entity/flag-entity-activity.component'
 import { CvcCommentActivity } from './comment/comment-activity.component'
 import { filter, Observable, Subject } from 'rxjs'
@@ -76,7 +75,6 @@ export class CvcActivityFeedItemDetails implements OnInit {
   result$?: Observable<ApolloQueryResult<ActivityFeedItemQuery>>
 
   activity: WritableSignal<Maybe<ActivityFeedItemFragment>>
-  guards = activityFeedTypeGuards
 
   constructor(private gql: ActivityFeedItemGQL) {
     this.activity = signal<Maybe<ActivityFeedItemFragment>>(undefined)
