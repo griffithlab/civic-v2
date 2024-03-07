@@ -1,14 +1,37 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
-import { assertionReviseFormInitialModel, AssertionReviseModel } from '@app/forms/models/assertion-revise.model'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
+import {
+  assertionReviseFormInitialModel,
+  AssertionReviseModel,
+} from '@app/forms/models/assertion-revise.model'
 import { AssertionState } from '@app/forms/states/assertion.state'
-import { AssertionRevisableFieldsGQL, Maybe, SuggestAssertionRevisionGQL, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables } from '@app/generated/civic.apollo'
+import {
+  AssertionRevisableFieldsGQL,
+  Maybe,
+  SuggestAssertionRevisionGQL,
+  SuggestAssertionRevisionMutation,
+  SuggestAssertionRevisionMutationVariables,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { assertionReviseFields } from './assertion-revise.form.config'
-import { assertionFormModelToReviseInput, assertionToModelFields } from '@app/forms/utilities/assertion-to-model-fields'
+import {
+  assertionFormModelToReviseInput,
+  assertionToModelFields,
+} from '@app/forms/utilities/assertion-to-model-fields'
 
 @UntilDestroy()
 @Component({
@@ -16,7 +39,9 @@ import { assertionFormModelToReviseInput, assertionToModelFields } from '@app/fo
   templateUrl: './assertion-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcAssertionReviseForm implements OnInit, AfterViewInit, OnDestroy {
+export class CvcAssertionReviseForm
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() assertionId!: number
 
   model?: AssertionReviseModel
@@ -40,20 +65,25 @@ export class CvcAssertionReviseForm implements OnInit, AfterViewInit, OnDestroy 
     private submitRevisionsGQL: SuggestAssertionRevisionGQL,
     private networkErrorService: NetworkErrorsService,
     private cdr: ChangeDetectorRef
-
   ) {
     this.form = new UntypedFormGroup({})
     this.fields = assertionReviseFields
     this.state = new AssertionState()
-    this.options = { formState: this.state}
+    this.state.formMode = 'revise'
+    this.options = { formState: this.state }
     this.reviseAssertionMutator = new MutatorWithState(networkErrorService)
   }
 
   onSubmit(model: AssertionReviseModel) {
-    if(!this.assertionId) { return }
+    if (!this.assertionId) {
+      return
+    }
     let input = assertionFormModelToReviseInput(this.assertionId, model)
     if (input) {
-      this.mutationState = this.reviseAssertionMutator.mutate(this.submitRevisionsGQL, {input: input })
+      this.mutationState = this.reviseAssertionMutator.mutate(
+        this.submitRevisionsGQL,
+        { input: input }
+      )
     }
   }
 
@@ -62,26 +92,27 @@ export class CvcAssertionReviseForm implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit(): void {
-    this.revisableFieldsGQL.fetch({assertionId: this.assertionId})
-    .pipe(untilDestroyed(this))
-    .subscribe({
-      next: ({data: { assertion }}) => {
-        if (assertion) {
-          this.model = {
-            id: assertion.id,
-            fields: assertionToModelFields(assertion)
+    this.revisableFieldsGQL
+      .fetch({ assertionId: this.assertionId })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: ({ data: { assertion } }) => {
+          if (assertion) {
+            this.model = {
+              id: assertion.id,
+              fields: assertionToModelFields(assertion),
+            }
+            this.cdr.detectChanges()
           }
-          this.cdr.detectChanges()
-        }
-      },
-      error: (error) => {
-        console.log("Error retrieving Assertion")
-        console.log(error)
-      },
-      complete: () => {
-        this.state.formReady$.next(true)
-      }
-    })
+        },
+        error: (error) => {
+          console.log('Error retrieving Assertion')
+          console.log(error)
+        },
+        complete: () => {
+          this.state.formReady$.next(true)
+        },
+      })
   }
 
   ngOnDestroy(): void {
