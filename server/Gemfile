@@ -50,8 +50,6 @@ gem 'typhoeus', '~>1.4.0'
 
 gem 'audited', '~> 5.3'
 
-gem 'graphiql-rails', '~> 1.8.0'
-
 #user comment rendering
 gem 'rinku', '~> 2.0.6'
 gem 'sanitize', '~> 6.0.2'

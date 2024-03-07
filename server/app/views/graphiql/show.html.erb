@@ -1,0 +1,150 @@
+<!--
+ *  Copyright (c) 2021 GraphQL Contributors
+ *  All rights reserved.
+ *
+ *  This source code is licensed under the license found in the
+ *  LICENSE file in the root directory of this source tree.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CIViC GraphiQL</title>
+    <style>
+      body {
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #graphiql {
+        height: 100vh;
+      }
+    </style>
+    <!--
+      This GraphiQL example depends on Promise and fetch, which are available in
+      modern browsers, but can be "polyfilled" for older browsers.
+      GraphiQL itself depends on React DOM.
+      If you do not want to rely on a CDN, you can host these files locally or
+      include them directly in your favored resource bundler.
+    -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!--
+      These two files can be found in the npm module, however you may wish to
+      copy them directly into your environment, or perhaps include them in your
+      favored resource bundler.
+     -->
+    <script
+      src="https://unpkg.com/graphiql/graphiql.min.js"
+      type="application/javascript"
+    ></script>
+    <link rel="stylesheet" href="https://unpkg.com/graphiql/graphiql.min.css" />
+    <!-- 
+      These are imports for the GraphIQL Explorer plugin.
+     -->
+    <script
+      src="https://unpkg.com/@graphiql/plugin-explorer/dist/index.umd.js"
+      crossorigin
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@graphiql/plugin-explorer/dist/style.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar is-dark is-spaced ">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://civicdb.org">
+          <img src="/assets/images/civic-logo_sidebar-expanded.png" height="28">
+        </a>
+        <a class="navbar-item" href="https://civicdb.org/api/graphiql">
+          <h1 class="title has-text-light">GraphQL Sandbox</h1>
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="https://docs.civicdb.org" target="_blank">
+            Documentation
+          </a>
+          <a class="navbar-item" href="https://civicdb.org/pages/help" target="_blank">
+            Contact
+          </a>
+        </div>
+      </div>
+    </nav>
+    <section class="section">
+      <div class="content">
+        <p>
+          Welcome to the CIViC GraphiQL Sandbox. Here you can browse the API schema 
+          and documentation as well as view example queries in the sidebar. Click the 
+          <svg height="1em" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title>docs icon</title><path d="M0.75 3C0.75 4.24264 1.75736 5.25 3 5.25H17.25M0.75 3C0.75 1.75736 1.75736 0.75 3 0.75H16.25C16.8023 0.75 17.25 1.19772 17.25 1.75V5.25M0.75 3V21C0.75 22.2426 1.75736 23.25 3 23.25H18.25C18.8023 23.25 19.25 22.8023 19.25 22.25V6.25C19.25 5.69771 18.8023 5.25 18.25 5.25H17.25" stroke="currentColor" stroke-width="1.5"></path><line x1="13" y1="11.75" x2="6" y2="11.75" stroke="currentColor" stroke-width="1.5"></line></svg>
+           icon to browse the CIViC API Documentation or <a href="https://graphql.org/learn/" target="_blank">click here</a> to learn more about GraphQL.
+        </p>
+      </div>
+      <div class="columns">
+        <div class="column is-2 is-narrow" style="margin-top: 18px;">
+          <% @examples.each do |ex| %>
+            <div class="block">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-info is-outlined" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" onclick="updateQuery(`<%= ex["query"] %>`)"><%= ex["name"] %></button>
+                  <div class="content">
+                    <p class="help">
+                    <%= ex["description"] %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="column">
+          <div id="graphiql">Loading...</div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const root = ReactDOM.createRoot(document.getElementById("graphiql"));
+      const fetcher = GraphiQL.createFetcher({
+        url: "/api/graphql",
+      });
+
+      const explorerPlugin = GraphiQLPluginExplorer.explorerPlugin();
+
+      const gql = React.createElement(GraphiQL, {
+        fetcher,
+        defaultQuery: `<%= @initial_query %>`,
+        defaultEditorToolsVisibility: true,
+        plugins: [explorerPlugin],
+      });
+
+      root.render(gql);
+
+      function updateQuery(newQuery) {
+        const newGQL = React.createElement(GraphiQL, {
+          fetcher,
+          query: newQuery,
+          defaultEditorToolsVisibility: true,
+          plugins: [explorerPlugin],
+        });
+
+        root.render(newGQL);
+      }
+    </script>
+  </body>
+</html>
