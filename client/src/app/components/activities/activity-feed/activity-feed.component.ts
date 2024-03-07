@@ -62,10 +62,7 @@ import {
   scrollerDevSettings,
   scrollerSettings,
 } from './activity-feed.config'
-import {
-  feedScopeToModeAttributes,
-  filterParamsToQueryAttributes,
-} from './activity-feed.functions'
+import { queryParamsToVariables } from './activity-feed.functions'
 import {
   ActivityFeedCounts,
   ActivityFeedFilterOptions,
@@ -81,7 +78,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { tag } from 'rxjs-spy/operators'
-import { throttleTime } from 'rxjs/operators'
+import { shareReplay, throttleTime } from 'rxjs/operators'
 
 @UntilDestroy()
 @Component({
@@ -201,7 +198,12 @@ export class CvcActivityFeed implements OnInit {
           settings: settings,
           filters: filters,
         }
-        return this.queryParamsToVariables(params)
+        return queryParamsToVariables(
+          params,
+          this.cvcScope(),
+          this.cvcShowFilters(),
+          false
+        )
       }),
       switchMap((queryVars) => {
         this.onQueryType$.next('refetch')
@@ -217,7 +219,8 @@ export class CvcActivityFeed implements OnInit {
           })
         }
         return this.queryRef.valueChanges
-      })
+      }),
+      shareReplay(1)
     )
     const loading$ = this.result$.pipe(
       pluck('loading'),
@@ -287,7 +290,7 @@ export class CvcActivityFeed implements OnInit {
           // issue fetchMore query to satisfy requested row set
           const queryVars = {
             first: count,
-            after: edges[index].cursor,
+            after: edges[index - 1].cursor,
           }
           this.onQueryType$.next('fetchMore')
           // return fetchMore result, converted to observable from promise
@@ -304,25 +307,5 @@ export class CvcActivityFeed implements OnInit {
 
   configureAdapter(): void {
     this.scrollAdapter = this.scrollDatasource?.adapter
-  }
-
-  queryParamsToVariables(
-    params: ActivityFeedQueryParams
-  ): ActivityFeedQueryVariables {
-    // showFilters is a required query var
-    let queryVars: ActivityFeedQueryVariables = {
-      showFilters: this.cvcShowFilters(),
-      requestDetails: false,
-    }
-    const pageSize = params.settings!.initialPageSize
-    const modeAttrs = feedScopeToModeAttributes(this.cvcScope())
-    const filterVars = filterParamsToQueryAttributes(params.filters)
-    queryVars = {
-      ...queryVars,
-      first: pageSize,
-      ...modeAttrs,
-      ...filterVars,
-    }
-    return queryVars
   }
 }

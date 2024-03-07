@@ -15,6 +15,7 @@ export type ActivityFeedTagDisplayOption =
 
 export type ActivityFeedSettings = {
   initialPageSize: number
+  includeAutomatedActivities?: boolean
 }
 
 export type ActivityFeedFilters = {
@@ -87,6 +88,6 @@ export type ActivityFeedScope =
 export type ActivityFeedModeAttributes = {
   mode: EventFeedMode
   subject?: SubscribableQueryInput
-  organizationId?: number
-  userId?: number
+  organizationId?: number[]
+  userId?: number[]
 }

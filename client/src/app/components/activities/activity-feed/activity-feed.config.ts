@@ -15,8 +15,8 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 }
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  // activityType: [ActivityTypeInput.Comment],
-  activityType: [],
+  activityType: [ActivityTypeInput.Comment],
+  // activityType: [],
   subjectType: [],
   userId: [],
 }
