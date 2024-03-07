@@ -1,0 +1,82 @@
+name: Gene And Variant By Name
+description: Use an Entrez Gene Symbol and Variant name search to retrieve relevant Molecular Profiles and their Evidence Items
+order: 2
+query: |
+  {
+    gene(entrezSymbol: "BRAF") {
+      variants(name: "V600") {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          name
+          id
+          link
+          alleleRegistryId
+          primaryCoordinates {
+            start
+            stop
+            chromosome
+            representativeTranscript
+          }
+          molecularProfiles {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              id
+              name
+              evidenceItems {
+                pageInfo {
+                  hasNextPage
+                  endCursor
+                }
+                nodes {
+                  id
+                  status
+                  molecularProfile {
+                    id
+                    name
+                    link
+                  }
+                  evidenceType
+                  evidenceLevel
+                  evidenceRating
+                  evidenceDirection
+                  phenotypes {
+                    id
+                    hpoId
+                    name
+                  }
+                  description
+                  disease {
+                    id
+                    doid
+                    name
+                    diseaseAliases
+                    displayName
+                  }
+                  therapies {
+                    id
+                    ncitId
+                    name
+                    therapyAliases
+                  }
+                  source {
+                    ascoAbstractId
+                    citationId
+                    pmcId
+                    sourceType
+                    title
+                  }
+                  therapyInteractionType
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
