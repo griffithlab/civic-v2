@@ -14,7 +14,7 @@ export type ActivityFeedTagDisplayOption =
   | 'hideUser'
 
 export type ActivityFeedSettings = {
-  pageSize: number
+  initialPageSize: number
 }
 
 export type ActivityFeedFilters = {

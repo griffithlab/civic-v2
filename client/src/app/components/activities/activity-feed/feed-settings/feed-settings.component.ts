@@ -51,11 +51,11 @@ export class CvcActivityFeedSettingsButton implements OnInit {
 
     effect(() => {
       this.cvcSettingsChange.emit({
-        pageSize: this.pageSize(),
+        initialPageSize: this.pageSize(),
       })
     })
   }
   ngOnInit(): void {
-    this.pageSize = signal(this.cvcSettings().pageSize)
+    this.pageSize = signal(this.cvcSettings().initialPageSize)
   }
 }

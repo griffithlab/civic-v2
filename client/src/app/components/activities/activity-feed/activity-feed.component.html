@@ -7,7 +7,7 @@
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
       <nz-spin
-        [nzSpinning]="false"
+        [nzSpinning]="refetchLoading()"
         nzSize="large"
         [nzDelay]="0">
         <div
@@ -17,7 +17,9 @@
             <cvc-activity-feed-item
               *uiScroll="let edge of scrollDatasource"
               [cvcActivity]="edge.node"
-              [cvcInitWithDetails]="(toggledItem$ | ngrxPush)!.has(edge.node.id)"
+              [cvcInitWithDetails]="
+                (toggledItem$ | ngrxPush)!.has(edge.node.id)
+              "
               (cvcOnToggleDetail)="
                 onToggleItem$.next($event)
               "></cvc-activity-feed-item>
@@ -41,21 +43,30 @@
   </nz-row>
 </nz-card>
 <ng-template #cardTitle>
-  <span class="title">{{ cvcTitle() }}</span>
-  <cvc-activity-feed-counts
-    [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
+  <nz-space nzDirection="horizontal">
+    <span
+      class="title"
+      *nzSpaceItem
+      >{{ cvcTitle() }}</span
+    >
+    <cvc-activity-feed-counts
+      *nzSpaceItem
+      [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
+    <span *nzSpaceItem>
+      <nz-tag
+        *ngIf="moreLoading()"
+        nzColor="processing">
+        <i
+          nz-icon
+          nzType="sync"
+          nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+    </span>
+  </nz-space>
 </ng-template>
 <ng-template #cardExtra>
   <div class="extra">
-    <nz-tag
-      *ngIf="moreLoading()"
-      nzColor="processing">
-      <i
-        nz-icon
-        nzType="sync"
-        nzSpin></i>
-      <span>Loading…</span>
-    </nz-tag>
     <cvc-activity-feed-settings
       (cvcSettingsChange)="feedSetting$.next($event)"
       [cvcSettings]="cvcSettings()">
