@@ -12,6 +12,7 @@ import {
 import {
   ActivityFeedFilters,
   ActivityFeedFilterOptions,
+  ActivityFeedScope,
 } from '../activity-feed.types'
 import {
   ActivitySubjectInput,
@@ -47,6 +48,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   @Output() cvcFiltersChange: EventEmitter<ActivityFeedFilters>
   cvcFilters = input.required<ActivityFeedFilters>()
   cvcFilterOptions = input.required<ActivityFeedFilterOptions>()
+  cvcScope = input.required<ActivityFeedScope>()
 
   eventType!: WritableSignal<ActivityTypeInput[]>
   organizationId!: WritableSignal<number[]>

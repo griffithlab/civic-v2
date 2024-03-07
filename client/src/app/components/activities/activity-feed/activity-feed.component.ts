@@ -15,6 +15,7 @@ import {
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
   ActivityInterfaceEdge,
+  EventFeedMode,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -29,15 +30,12 @@ import {
   UiScrollModule,
 } from 'ngx-ui-scroll'
 import {
-  asyncScheduler,
   BehaviorSubject,
   combineLatest,
-  debounceTime,
   distinctUntilChanged,
   filter,
   from,
   map,
-  merge,
   Observable,
   of,
   Subject,
@@ -57,6 +55,7 @@ import {
 import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
 import {
   feedDefaultFilters,
+  feedDefaultScope,
   feedDefaultSettings,
   feedFilterOptionDefaults,
   scrollerDevSettings,
@@ -70,15 +69,13 @@ import {
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
-  FetchMoreParams,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { tag } from 'rxjs-spy/operators'
-import { shareReplay, throttleTime } from 'rxjs/operators'
+import { shareReplay } from 'rxjs/operators'
 
 @UntilDestroy()
 @Component({
@@ -108,7 +105,7 @@ import { shareReplay, throttleTime } from 'rxjs/operators'
 export class CvcActivityFeed implements OnInit {
   // INPUTS
   cvcTitle = input<string>('Activity Feed')
-  cvcScope = input<ActivityFeedScope>()
+  cvcScope = input<ActivityFeedScope>(feedDefaultScope)
   cvcSettings = input<ActivityFeedSettings>(feedDefaultSettings)
   cvcFilters = input<ActivityFeedFilters>(feedDefaultFilters)
   cvcShowFilters = input<boolean>(true)

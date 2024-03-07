@@ -33,18 +33,22 @@
     </div>
     <div class="description">
       <!-- {{ activity.__typename }} -->
-      <cvc-user-tag [user]="activity.user"></cvc-user-tag>
+      @if (scope().scope !== 'USER') {
+        <cvc-user-tag [user]="activity.user"></cvc-user-tag>
+      }
       <span
         nz-typography
         nzType="secondary">
         {{ activity.verbiage }}
       </span>
-      <ng-container
-        *ngTemplateOutlet="
-          subject;
-          context: { $implicit: activity.subject }
-        "></ng-container>
-      @if (activity.organization) {
+      @if (scope().scope !== 'SUBJECT') {
+        <ng-container
+          *ngTemplateOutlet="
+            subject;
+            context: { $implicit: activity.subject }
+          "></ng-container>
+      }
+      @if (activity.organization && scope().scope !== 'ORGANIZATION') {
         <div class="organization">
           <span
             nz-typography

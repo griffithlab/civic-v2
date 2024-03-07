@@ -17,6 +17,7 @@
             <cvc-activity-feed-item
               *uiScroll="let edge of scrollDatasource"
               [cvcActivity]="edge.node"
+              [cvcScope]="cvcScope()"
               [cvcInitWithDetails]="
                 (toggledItem$ | ngrxPush)!.has(edge.node.id)
               "
@@ -36,7 +37,8 @@
       <cvc-activity-feed-filters
         (cvcFiltersChange)="feedFilter$.next($event)"
         [cvcFilterOptions]="feedFilterOptions()"
-        [cvcFilters]="cvcFilters()">
+        [cvcFilters]="cvcFilters()"
+        [cvcScope]="cvcScope()">
       </cvc-activity-feed-filters>
       <!-- <pre>feedFilter$: {{ feedFilter$ | ngrxPush | json }}</pre> -->
     </nz-col>

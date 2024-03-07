@@ -1,13 +1,15 @@
 import {
   ActivityInterfaceEdge,
-  ActivityTypeInput,
+  EventFeedMode,
 } from '@app/generated/civic.apollo'
 import {
   ActivityFeedFilterOptions,
   ActivityFeedFilters,
+  ActivityFeedScope,
   ActivityFeedSettings,
 } from './activity-feed.types'
 import { DevSettings, Settings } from 'vscroll/dist/typings/interfaces'
+
 export const pageSizeOptions = [5, 10, 25, 50, 100]
 export const feedPollInterval = 30000
 export const feedDefaultSettings: ActivityFeedSettings = {
@@ -18,6 +20,9 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   activityType: [],
   subjectType: [],
   userId: [],
+}
+export const feedDefaultScope: ActivityFeedScope = {
+  scope: EventFeedMode.Unscoped,
 }
 
 export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {

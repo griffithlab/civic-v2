@@ -43,6 +43,7 @@ import { tag } from 'rxjs-spy/operators'
 import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
+import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
 
 export type FeedDetailToggle = {
   id: number
@@ -93,6 +94,7 @@ export class CvcActivityFeedItem implements OnInit {
     alias: 'cvcActivity',
   })
   initWithDetails = input<boolean>(false, { alias: 'cvcInitWithDetails' })
+  scope = input.required<ActivityFeedScope>({ alias: 'cvcScope' })
   @Output() cvcOnToggleDetail = new EventEmitter<FeedDetailToggle>()
 
   toggleDetails!: WritableSignal<boolean>
