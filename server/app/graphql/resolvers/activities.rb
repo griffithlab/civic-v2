@@ -37,6 +37,14 @@ module Resolvers
       scope.where(subject: value)
     end
 
+    option(:include_automated_events, type: Boolean, default_value: true) do |scope, value|
+      if !include_automated_events
+        scope.where.not(user_id: Constants::CIVICBOT_USER_ID)
+      else
+        scope
+      end
+    end
+
     option(:mode, type: Types::Events::EventFeedMode) do |_, _|
       #accesed in connection, yuck
     end
