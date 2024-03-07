@@ -1,0 +1,4 @@
+fragment DeprecateComplexMolecularProfileActivityDetail on DeprecateComplexMolecularProfileActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

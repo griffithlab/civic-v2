@@ -1,0 +1,4 @@
+fragment SubmitAssertionActivityDetail on SubmitAssertionActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

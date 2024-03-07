@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
 import {
+  EventFeedMode,
   SubscribableEntities,
   SubscribableInput,
 } from '@app/generated/civic.apollo'
@@ -11,13 +13,17 @@ import {
   styleUrls: ['./variants-events.page.less'],
 })
 export class VariantsEventsPage {
-  subscribable: SubscribableInput
+  // subscribable: SubscribableInput
+  feedScope: ActivityFeedScope
 
   constructor(private route: ActivatedRoute) {
     const variantId: number = +this.route.snapshot.params['variantId']
-    this.subscribable = {
-      id: variantId,
-      entityType: SubscribableEntities.Variant,
+    this.feedScope = {
+      scope: EventFeedMode.Subject,
+      subject: {
+        id: variantId,
+        entityType: SubscribableEntities.Variant,
+      },
     }
   }
 }

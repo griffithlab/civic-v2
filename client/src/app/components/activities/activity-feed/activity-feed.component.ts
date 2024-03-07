@@ -1,219 +1,308 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  OnInit,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import {
   ActivityFeedGQL,
-  ActivityFeedNodeFragment,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
-  EventAction,
+  ActivityInterfaceEdge,
+  EventFeedMode,
   Maybe,
-  NotificationOrganizationFragment,
-  NotificationOriginatingUsersFragment,
-  PageInfo,
-  SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { QueryRef } from 'apollo-angular'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { Observable, Subject } from 'rxjs'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzGridModule } from 'ng-zorro-antd/grid'
 import {
+  Datasource,
+  IAdapter,
+  IDatasource,
+  UiScrollModule,
+} from 'ngx-ui-scroll'
+import {
+  BehaviorSubject,
+  combineLatest,
   distinctUntilChanged,
   filter,
+  from,
   map,
-  pluck,
-  startWith,
+  Observable,
+  of,
+  Subject,
+  switchMap,
   take,
-  takeUntil,
-} from 'rxjs/operators'
-import { TagLinkableOrganization } from '@app/components/organizations/organization-tag/organization-tag.component'
-import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
-import { environment } from 'environments/environment'
+  tap,
+  withLatestFrom,
+} from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { tag } from 'rxjs-spy/cjs/operators'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-
-// interface SelectableAction {
-//   id: EventAction
-// }
-
-// export type EventDisplayOption =
-//   | 'hideSubject'
-//   | 'hideUser'
-//   | 'hideOrg'
-//   | 'displayAll'
+import { pluck } from 'rxjs-etc/dist/esm/operators'
+import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
+import { CvcActivityFeedFilterSelects } from '@app/components/activities/activity-feed/feed-filters/feed-filters.component'
+import {
+  CvcActivityFeedItem,
+  FeedDetailToggle,
+} from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
+import {
+  feedDefaultFilters,
+  feedDefaultScope,
+  feedDefaultSettings,
+  feedFilterOptionDefaults,
+  scrollerDevSettings,
+  scrollerSettings,
+} from './activity-feed.config'
+import { queryParamsToVariables } from './activity-feed.functions'
+import {
+  ActivityFeedCounts,
+  ActivityFeedFilterOptions,
+  ActivityFeedFilters,
+  ActivityFeedQueryParams,
+  ActivityFeedScope,
+  ActivityFeedSettings,
+} from './activity-feed.types'
+import { ApolloQueryResult } from '@apollo/client/core'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { shareReplay } from 'rxjs/operators'
 
 @UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed',
+  standalone: true,
+  imports: [
+    CommonModule,
+    PushPipe,
+    LetDirective,
+    NzGridModule,
+    NzCardModule,
+    NzSpinModule,
+    NzTagModule,
+    UiScrollModule,
+    CvcActivityFeedCounts,
+    CvcActivityFeedSettingsButton,
+    CvcActivityFeedFilterSelects,
+    CvcActivityFeedItem,
+    CvcAutoHeightDivModule,
+    NzIconModule,
+    NzSpaceModule,
+  ],
   templateUrl: './activity-feed.component.html',
-  styleUrls: ['./activity-feed.component.less'],
+  styleUrl: './activity-feed.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeedComponent implements OnInit, OnDestroy {
-  // @Input() subscribable?: SubscribableQueryInput
-  // @Input() subscribableName?: string
-  // @Input() organizationId: Maybe<number>
-  @Input() userId: Maybe<number>
-  // @Input() tagDisplay: EventDisplayOption = 'displayAll'
-  // @Input() mode: EventFeedMode = EventFeedMode.Subject
-  // @Input() showFilters: boolean = true
-  @Input() pageSize = 15
-  // @Input() pollForNewEvents: boolean = true
-  // @Input() includeAutomatedEvents: boolean = true
+export class CvcActivityFeed implements OnInit {
+  // INPUTS
+  cvcTitle = input<string>('Activity Feed')
+  cvcScope = input<ActivityFeedScope>(feedDefaultScope)
+  cvcSettings = input<ActivityFeedSettings>(feedDefaultSettings)
+  cvcFilters = input<ActivityFeedFilters>(feedDefaultFilters)
+  cvcShowFilters = input<boolean>(true)
+  cvcPollFeed = input<boolean>(false)
 
-  private queryRef!: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
-  private results$!: Observable<ApolloQueryResult<ActivityFeedQuery>>
+  // SOURCE STREAMS
+  feedSetting$: Subject<ActivityFeedSettings> // initial settings, e.g. scope, context displays
+  feedFilter$: Subject<ActivityFeedFilters> // activity attribute filters
+  init$: Subject<void> // initial query trigger, called from scroller DataSource
 
-  private initialQueryVars?: ActivityFeedQueryVariables
+  // INTERMEDIATE STREAMS
+  result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
+  edge$: Observable<ActivityInterfaceEdge[]>
+  onToggleItem$: Subject<FeedDetailToggle> // item detail toggle event from feed-item
+  toggledItem$: BehaviorSubject<Set<number>> // set of item ids with details toggled
+  onQueryType$: Subject<'refetch' | 'fetchMore'>
+  // queryLoading$: Observable<boolean>
+  // scrollerLoading$: BehaviorSubject<boolean>
 
-  activities$?: Observable<Maybe<ActivityFeedNodeFragment>[]>
-  pageInfo$?: Observable<PageInfo>
-  //participants$?: Observable<Maybe<TagLinkableUser[]>>
-  //organizations$?: Observable<Maybe<TagLinkableOrganization[]>>
-  //actions$?: Observable<SelectableAction[]>
-  //unfilteredCount$?: Observable<number>
-  loading$?: Observable<boolean>
+  // PRESENTATION SIGNALS
+  edges: Signal<ActivityInterfaceEdge[]> // signal for synchronous access to all loaded rows
+  refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
+  moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
+  errors: WritableSignal<any>
+  counts: WritableSignal<Maybe<ActivityFeedCounts>>
+  feedFilterOptions: WritableSignal<ActivityFeedFilterOptions>
 
-  //newEventCount$?: Observable<number>
-  //originalEventCount?: number
-  destroy$ = new Subject<void>()
+  // SERVICE REFERENCES
+  queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
+  scrollDatasource?: IDatasource<ActivityInterfaceEdge>
+  scrollAdapter?: IAdapter<ActivityInterfaceEdge>
 
-  showChildren: boolean = false
+  constructor(private gql: ActivityFeedGQL) {
+    this.feedSetting$ = new Subject<ActivityFeedSettings>()
+    this.feedFilter$ = new Subject<ActivityFeedFilters>()
+    this.init$ = new Subject<void>()
+    this.onToggleItem$ = new Subject<FeedDetailToggle>()
+    this.onQueryType$ = new Subject<'refetch' | 'fetchMore'>()
 
-  constructor(
-    private gql: ActivityFeedGQL,
-    //private eventCountGql: ActivityFeedCountGQL
-  ) {}
+    this.refetchLoading = signal<boolean>(false)
+    this.moreLoading = signal<boolean>(false)
+    this.errors = signal<any>(false)
+    this.counts = signal<Maybe<ActivityFeedCounts>>(undefined)
+    this.feedFilterOptions = signal<ActivityFeedFilterOptions>(
+      feedFilterOptionDefaults
+    )
+    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
 
-  ngOnInit() {
-    this.initialQueryVars = {
-      //subject: this.subscribable,
-      //organizationId: this.organizationId,
-      userId: this.userId,
-      first: this.pageSize,
-      //mode: this.mode,
-      //showFilters: this.showFilters,
-      //includeAutomatedEvents: this.includeAutomatedEvents,
-    }
-
-    this.queryRef = this.gql.watch(this.initialQueryVars)
-
-    //if (this.pollForNewEvents && environment.production) {
-    //  this.newEventCount$ = this.eventCountGql
-    //    .watch(this.initialQueryVars, { fetchPolicy: 'no-cache', pollInterval: 30000 })
-    //    .valueChanges
-    //    .pipe(
-    //      filter(isNonNulled),
-    //      map(({ data }) => data?.events?.unfilteredCount),
-    //      takeUntil(this.destroy$)
-    //    )
-    //}
-
-    this.results$ = this.queryRef.valueChanges
-    // .pipe(tag('event-feed results$'))
-
-    this.pageInfo$ = this.results$.pipe(map(({ data }) => data.activities.pageInfo))
-
-    this.activities$ = this.results$
-      .pipe(pluck('data', 'activities', 'edges'),
-        filter(isNonNulled),
-        map((edges) =>  edges.map( e => e.node)),
+    this.onToggleItem$
+      .pipe(
+        distinctUntilChanged(
+          (a, b) => a.id === b.id && a.showDetails === b.showDetails
+        ),
+        withLatestFrom(this.toggledItem$),
+        filter(
+          // filter out toggles for items not in the current set
+          ([toggle, toggledIds]) =>
+            toggle.showDetails || toggledIds.has(toggle.id)
+        ),
+        tap(([toggle, toggledIds]) => {
+          // update set of toggled item ids
+          toggle.showDetails
+            ? toggledIds.add(toggle.id)
+            : toggledIds.delete(toggle.id)
+          // emit updated set for use in next toggle event
+          this.toggledItem$.next(toggledIds)
+          // get scroller to recheck item heights
+          this.scrollAdapter!.check()
+        }),
+        untilDestroyed(this)
       )
+      .subscribe()
 
-    this.loading$ = this.results$.pipe(
-      map(({ loading }) => loading),
-      distinctUntilChanged()
+    // combine prefs, filters updates into a fetch query
+    //
+    // feedSetting$ and feedFilter$ are the main input streams,
+    // emitted by filter & setting component during initializtion, and in resonse
+    // to user activity. init$ is a trigger to start the initial query,
+    // emitted from the scroller datasource
+    this.result$ = combineLatest([
+      this.init$,
+      this.feedSetting$,
+      this.feedFilter$,
+    ]).pipe(
+      map(([_init, settings, filters]) => {
+        const params = <ActivityFeedQueryParams>{
+          settings: settings,
+          filters: filters,
+        }
+        return queryParamsToVariables(
+          params,
+          this.cvcScope(),
+          this.cvcShowFilters(),
+          false
+        )
+      }),
+      switchMap((queryVars) => {
+        this.onQueryType$.next('refetch')
+        if (!this.queryRef) {
+          this.queryRef = this.gql.watch(queryVars)
+        } else {
+          this.queryRef.refetch(queryVars).then(() => {
+            if (this.scrollAdapter) {
+              // clear item buffer, reset viewport params, start
+              // rendering items from new query
+              this.scrollAdapter.reload()
+            }
+          })
+        }
+        return this.queryRef.valueChanges
+      }),
+      shareReplay(1)
+    )
+    const loading$ = this.result$.pipe(
+      pluck('loading'),
+      withLatestFrom(this.onQueryType$)
+    )
+    this.refetchLoading = toSignal(
+      loading$.pipe(
+        filter(([_loading, queryType]) => queryType === 'refetch'),
+        map(([loading]) => loading)
+      ),
+      { initialValue: false }
+    )
+    this.moreLoading = toSignal(
+      loading$.pipe(
+        filter(([_loading, queryType]) => queryType === 'fetchMore'),
+        map(([loading]) => loading)
+      ),
+      { initialValue: false }
     )
 
-    //this.unfilteredCount$ = this.results$.pipe(
-    //  map((r) => r.data),
-    //  filter(isNonNulled),
-    //  map(({ events }) => events.unfilteredCount)
-    //)
+    this.edge$ = this.result$.pipe(
+      pluck('data', 'activities'),
+      filter(isNonNulled),
+      tap((connection) => {
+        this.counts.set(<ActivityFeedCounts>{
+          total: connection.totalCount,
+          unfiltered: connection.unfilteredCount,
+          page: connection.pageCount,
+          rows: connection.edges.length,
+        })
+        this.feedFilterOptions.set(<ActivityFeedFilterOptions>{
+          uniqueParticipants: connection.uniqueParticipants ?? [],
+          participatingOrganizations:
+            connection.participatingOrganizations ?? [],
+          activityTypes: connection.activityTypes ?? [],
+          subjectTypes: connection.subjectTypes ?? [],
+        })
+      }),
+      map((connection) => connection.edges as ActivityInterfaceEdge[])
+    )
 
-    // this.unfilteredCount$
-    //   .pipe(
-    //     take(1), 
-    //     untilDestroyed(this))
-    //   .subscribe(value => this.originalEventCount = value)
+    // provide edges signal for synchronous access
+    // in scrollDatasource
+    this.edges = toSignal(this.edge$, { initialValue: [] })
 
-    // if (this.showFilters) {
-    //   this.participants$ = this.results$.pipe(
-    //     filter(isNonNulled),
-    //     map(({ data }) => data.events.uniqueParticipants)
-    //   )
+    // initialize scroller datasource only after the
+    // initial query results available
+    this.edge$.pipe(take(1)).subscribe((edges) => {
+      this.configureDatasource()
+      this.configureAdapter()
+    })
 
-    //   this.organizations$ = this.results$.pipe(
-    //     filter(isNonNulled),
-    //     map(({ data }) => data.events.participatingOrganizations)
-    //   )
-
-    //   this.actions$ = this.results$.pipe(
-    //     filter(isNonNulled),
-    //     map(({ data }) => data.events?.eventTypes?.map((et) => { return { id: et } }) || [])
-    //   )
-    // }
+    // kick off initial query
+    this.init$.next()
   }
+  ngOnInit(): void {}
 
-  fetchMore(endCursor: string) {
-    this.queryRef.fetchMore({
-      variables: {
-        first: this.pageSize,
-        after: endCursor,
+  configureDatasource(): void {
+    this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
+      get: (index: number, count: number) => {
+        const edges = this.edges()
+        // return rows from cached set, or fetch more rows
+        if (edges.length >= index + count) {
+          // return observable of requested rows
+          return of(edges.slice(index, index + count))
+        } else {
+          // issue fetchMore query to satisfy requested row set
+          const queryVars = {
+            first: count,
+            after: edges[index - 1].cursor,
+          }
+          this.onQueryType$.next('fetchMore')
+          // return fetchMore result, converted to observable from promise
+          return from(this.queryRef!.fetchMore({ variables: queryVars })).pipe(
+            // tap(() => this.moreLoading.set(false)),
+            map((result) => result.data.activities.edges)
+          )
+        }
       },
+      settings: scrollerSettings,
+      devSettings: scrollerDevSettings,
     })
   }
 
-  //onOrganizationSelected(s: Maybe<NotificationOrganizationFragment>) {
-  //  this.queryRef.refetch({
-  //    organizationId: s?.id,
-  //    showFilters: this.showFilters,
-  //  })
-  //}
-
-  //onActionSelected(a: Maybe<SelectableAction>) {
-  //  this.queryRef.refetch({
-  //    eventType: a ? a.id : undefined,
-  //    showFilters: this.showFilters,
-  //  })
-  //}
-
-  onUserSelected(s: Maybe<NotificationOriginatingUsersFragment>) {
-    this.queryRef.refetch({
-      userId: s?.id,
-      //showFilters: this.showFilters,
-    })
-  }
-
-  //refresh() {
-  //  this.queryRef.refetch().then(({ data }) => {
-  //    this.originalEventCount = data.events.unfilteredCount
-  //  })
-  //}
-
-  // onShowChildrenToggle() {
-  //   let newSubscribable: Maybe<SubscribableQueryInput>
-  //   if (this.subscribable) {
-  //     newSubscribable = {
-  //       id: this.subscribable.id,
-  //       entityType: this.subscribable.entityType,
-  //       includeChildren: this.showChildren,
-  //     }
-  //     if (this.showChildren) {
-  //       this.tagDisplay = 'displayAll'
-  //     } else {
-  //       this.tagDisplay = 'hideSubject'
-  //     }
-  //   } else {
-  //     newSubscribable = undefined
-  //   }
-
-  //   this.queryRef.refetch({
-  //     ...this.initialQueryVars,
-  //     subject: newSubscribable,
-  //     showFilters: this.showFilters,
-  //   })
-  // }
-
-  ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.unsubscribe()
+  configureAdapter(): void {
+    this.scrollAdapter = this.scrollDatasource?.adapter
   }
 }

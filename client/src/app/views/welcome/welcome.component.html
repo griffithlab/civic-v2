@@ -55,7 +55,7 @@
   <nz-row
     [nzGutter]="16"
     *nzSpaceItem>
-    <nz-col [nzSpan]="12">
+    <nz-col [nzSpan]="10">
       <nz-card
         style="height: 100%"
         nzTitle="News & Events"
@@ -64,14 +64,10 @@
         <cvc-news-item-list [cvcNewsItems]="newsItems"></cvc-news-item-list>
       </nz-card>
     </nz-col>
-    <nz-col [nzSpan]="12">
-      <nz-card
-        nzTitle="Live Curation Activity"
-        style="height: 100%"
-        nzSize="small"
-        class="home-card">
-        <cvc-homepage-event-feed [pageSize]="23"></cvc-homepage-event-feed>
-      </nz-card>
+    <nz-col [nzSpan]="14">
+      <cvc-activity-feed
+        cvcTitle="Live Activity Feed"
+        [cvcShowFilters]="false"></cvc-activity-feed>
     </nz-col>
   </nz-row>
   <nz-row
@@ -122,15 +118,15 @@
         CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
         <a
           [href]="release.html_url"
-          target="_blank"
-          >Release Notes</a
-        >
+          target="_blank">
+          Release Notes
+        </a>
         &bull;
         <a
           href="https://github.com/griffithlab/civic-v2/releases/"
-          target="_blank"
-          >History</a
-        >
+          target="_blank">
+          History
+        </a>
       </div>
     </nz-row>
   </ng-container>

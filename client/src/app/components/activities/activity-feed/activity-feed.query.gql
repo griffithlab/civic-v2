@@ -1,0 +1,103 @@
+query ActivityFeed(
+  $subject: [SubscribableQueryInput!]
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $organizationId: [Int!]
+  $userId: [Int!]
+  $activityType: [ActivityTypeInput!]
+  $subjectType: [ActivitySubjectInput!]
+  $includeAutomatedEvents: Boolean
+  $mode: EventFeedMode
+  $showFilters: Boolean!
+  $requestDetails: Boolean!
+) {
+  activities(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    userId: $userId
+    includeAutomatedEvents: $includeAutomatedEvents
+    organizationId: $organizationId
+    activityType: $activityType
+    subjectType: $subjectType
+    mode: $mode
+  ) {
+    ...ActivitiesConnectionFields
+  }
+}
+
+fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  pageCount
+  totalCount
+  unfilteredCount
+  activityTypes @include(if: $showFilters)
+  uniqueParticipants @include(if: $showFilters) {
+    id
+    displayName
+    role
+  }
+  subjectTypes @include(if: $showFilters)
+  participatingOrganizations @include(if: $showFilters) {
+    id
+    name
+  }
+  edges {
+    cursor
+    node {
+      ...ActivityFeedItem
+    }
+  }
+  nodes {
+    ...ActivityFeedItem
+  }
+}
+
+fragment ActivityFeedItemBase on ActivityInterface {
+  id
+  verbiage
+  createdAt
+  organization {
+    id
+    name
+  }
+  user {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    name
+    link
+  }
+}
+
+fragment ActivityFeedItem on ActivityInterface {
+  ...ActivityFeedItemBase
+  ...AcceptRevisionsActivityDetail @include(if: $requestDetails)
+  ...CommentActivityDetail @include(if: $requestDetails)
+  ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
+  ...CreateVariantActivityDetail @include(if: $requestDetails)
+  ...DeprecateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
+  ...DeprecateVariantActivityDetail @include(if: $requestDetails)
+  ...FlagEntityActivityDetail @include(if: $requestDetails)
+  ...ModerateAssertionActivityDetail @include(if: $requestDetails)
+  ...ModerateEvidenceItemActivityDetail @include(if: $requestDetails)
+  ...RejectRevisionsActivityDetail @include(if: $requestDetails)
+  ...ResolveFlagActivityDetail @include(if: $requestDetails)
+  ...SubmitAssertionActivityDetail @include(if: $requestDetails)
+  ...SubmitEvidenceItemActivityDetail @include(if: $requestDetails)
+  ...SuggestRevisionSetActivityDetail @include(if: $requestDetails)
+  ...SuggestSourceActivityDetail @include(if: $requestDetails)
+  ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
+}

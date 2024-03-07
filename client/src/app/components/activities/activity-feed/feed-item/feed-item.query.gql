@@ -1,0 +1,23 @@
+query ActivityFeedItem($id: Int!, $requestDetails: Boolean!) {
+  activity(id: $id) {
+    ...ActivityFeedItem
+    note @include(if: $requestDetails)
+  }
+}
+
+fragment ActivityFeedItemEvents on ActivityInterface {
+  events {
+    id
+    createdAt
+    action
+    originatingObject {
+      id
+      name
+      link
+    }
+    originatingUser {
+      id
+      displayName
+    }
+  }
+}

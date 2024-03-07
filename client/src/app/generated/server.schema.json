@@ -978,7 +978,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "FEATURE",
+              "name": "GENE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -26041,6 +26041,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "includeAutomatedEvents",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "mode",
                   "description": null,
                   "type": {
@@ -36443,13 +36455,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "GENE",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "VARIANT",
+              "name": "ASSERTION",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -36461,7 +36467,13 @@
               "deprecationReason": null
             },
             {
-              "name": "ASSERTION",
+              "name": "GENE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "MOLECULAR_PROFILE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -36473,7 +36485,7 @@
               "deprecationReason": null
             },
             {
-              "name": "VARIANT_GROUP",
+              "name": "SOURCE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -36485,7 +36497,13 @@
               "deprecationReason": null
             },
             {
-              "name": "MOLECULAR_PROFILE",
+              "name": "VARIANT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_GROUP",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

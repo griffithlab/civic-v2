@@ -41,8 +41,10 @@ nz-sider {
 
 .sidebar-menu {
   margin-top: -20px; // removes gap caused by home link's empty menu-group title
-  ::ng-deep .ant-menu-item-group-title {
-    padding-bottom: 0;
+  ::ng-deep .ant-menu-title-content {
+    .anticon {
+      margin-right: 4px;
+    }
   }
   &.is-collapsed {
     // adjusts menu for collapsed state

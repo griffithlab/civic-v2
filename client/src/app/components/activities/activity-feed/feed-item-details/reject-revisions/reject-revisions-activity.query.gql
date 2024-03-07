@@ -1,0 +1,4 @@
+fragment RejectRevisionsActivityDetail on RejectRevisionsActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

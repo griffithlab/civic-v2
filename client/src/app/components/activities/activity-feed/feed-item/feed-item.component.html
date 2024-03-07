@@ -1,0 +1,116 @@
+@if (activity(); as activity) {
+  <nz-card
+    nzSize="small"
+    [nzTitle]="itemDescription"
+    [nzExtra]="itemDate"
+    [ngClass]="{
+      show: toggleDetails(),
+      hide: !toggleDetails()
+    }">
+    <div
+      class="details"
+      [@details]="toggleDetails() ? 'visible' : 'hidden'"
+      (@details.done)="
+        cvcOnToggleDetail.next({
+          id: activity.id,
+          showDetails: toggleDetails()
+        })
+      ">
+      @if (toggleDetails()) {
+        <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
+        </cvc-activity-feed-item-details>
+      }
+    </div>
+  </nz-card>
+  <ng-template #itemDescription>
+    <div
+      class="toggle"
+      (click)="toggleDetails.set(!toggleDetails())">
+      <span
+        nz-icon
+        nzType="caret-right"
+        nzTheme="outline"></span>
+    </div>
+    <div class="description">
+      <!-- {{ activity.__typename }} -->
+      @if (scope().scope !== 'USER') {
+        <cvc-user-tag [user]="activity.user"></cvc-user-tag>
+      }
+      <span
+        nz-typography
+        nzType="secondary">
+        {{ activity.verbiage }}
+      </span>
+      @if (scope().scope !== 'SUBJECT') {
+        <ng-container
+          *ngTemplateOutlet="
+            subject;
+            context: { $implicit: activity.subject }
+          "></ng-container>
+      }
+      @if (activity.organization && scope().scope !== 'ORGANIZATION') {
+        <div class="organization">
+          <span
+            nz-typography
+            nzType="secondary">
+            for
+          </span>
+          <cvc-organization-tag
+            [org]="activity.organization"></cvc-organization-tag>
+        </div>
+      }
+    </div>
+  </ng-template>
+  <ng-template #itemDate>
+    <span
+      nz-typography
+      nzType="secondary">
+      {{ activity.createdAt | timeAgo }}
+    </span>
+  </ng-template>
+  <ng-template
+    #subject
+    let-subject>
+    <ng-container [ngSwitch]="subject.__typename">
+      <cvc-gene-tag
+        *ngSwitchCase="'Gene'"
+        [gene]="subject"></cvc-gene-tag>
+      <cvc-assertion-tag
+        *ngSwitchCase="'Assertion'"
+        [assertion]="subject"></cvc-assertion-tag>
+      <cvc-evidence-tag
+        *ngSwitchCase="'EvidenceItem'"
+        [evidence]="subject"></cvc-evidence-tag>
+      <cvc-variant-tag
+        *ngSwitchCase="'Variant'"
+        [variant]="subject"></cvc-variant-tag>
+      <cvc-revision-tag
+        *ngSwitchCase="'Revision'"
+        [revision]="$any(subject)"></cvc-revision-tag>
+      <cvc-variant-group-tag
+        *ngSwitchCase="'VariantGroup'"
+        [variantgroup]="subject"></cvc-variant-group-tag>
+      <cvc-source-tag
+        *ngSwitchCase="'Source'"
+        mode="concise"
+        [source]="$any(subject)"></cvc-source-tag>
+      <cvc-molecular-profile-tag
+        *ngSwitchCase="'MolecularProfile'"
+        [molecularProfile]="subject"></cvc-molecular-profile-tag>
+      <span *ngSwitchDefault>{{ subject.name }}</span>
+    </ng-container>
+  </ng-template>
+}
+<!-- <ng-template
+  #detail
+  let-activity>
+  <div class="detail">
+    <ng-container [ngSwitch]="activity.__typename">
+      <cvc-comment-activity-details
+        *ngSwitchCase="'CommentActivity'"
+        [cvcCommentActivity]="activity"></cvc-comment-activity-details>
+
+      <pre *ngSwitchDefault>{{ activity | json }}</pre>
+    </ng-container>
+  </div>
+</ng-template> -->

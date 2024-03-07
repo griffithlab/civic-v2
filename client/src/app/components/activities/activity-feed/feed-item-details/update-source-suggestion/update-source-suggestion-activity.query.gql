@@ -1,0 +1,4 @@
+fragment UpdateSourceSuggestionStatusActivityDetail on UpdateSourceSuggestionStatusActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

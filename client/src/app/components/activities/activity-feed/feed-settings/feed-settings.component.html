@@ -1,0 +1,33 @@
+<button
+  nz-button
+  nz-popover
+  [nzPopoverContent]="settingsPopover"
+  [nzPopoverTrigger]="'click'"
+  nzPopoverTitle="Activity Feed Settings"
+  type="button"
+  nzType="default"
+  nzSize="small">
+  <span
+    nz-icon
+    nzType="setting"
+    nzTheme="outline"></span>
+</button>
+<ng-template #settingsPopover>
+  <div class="popover-content">
+    <nz-row [nzGutter]="[8, 8]">
+      <nz-col
+        nzSpan="18"
+        class="option-key">
+        Include Automated Events
+      </nz-col>
+      <nz-col
+        nzSpan="6"
+        class="option-input">
+        <label
+          nz-checkbox
+          [ngModel]="includeAutomatedEvents()"
+          (ngModelChange)="includeAutomatedEvents.set($event)"></label>
+      </nz-col>
+    </nz-row>
+  </div>
+</ng-template>

@@ -1,0 +1,4 @@
+fragment ModerateEvidenceItemActivityDetail on ModerateEvidenceItemActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}
