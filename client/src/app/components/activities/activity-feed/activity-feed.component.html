@@ -7,7 +7,7 @@
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
       <nz-spin
-        [nzSpinning]="refetchLoading()"
+        [nzSpinning]="$refetchLoading()"
         nzSize="large"
         [nzDelay]="0">
         <div
@@ -32,11 +32,11 @@
     <!-- FEED FILTERS COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">
       <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
-           from the DOM as with *ngIf. This causes cvc-activity-feed-filters'
+           from the DOM as with *ngIf. Component initialization causes cvc-activity-feed-filters'
            feedFilter$ to emit, which is required to fire off an initial query -->
       <cvc-activity-feed-filters
-        (cvcFiltersChange)="feedFilter$.next($event)"
-        [cvcFilterOptions]="feedFilterOptions()"
+        (cvcFiltersChange)="onFilterChange$.next($event)"
+        [cvcFilterOptions]="$feedFilterOptions()"
         [cvcFilters]="cvcFilters()"
         [cvcScope]="cvcScope()">
       </cvc-activity-feed-filters>
@@ -53,10 +53,10 @@
     >
     <cvc-activity-feed-counts
       *nzSpaceItem
-      [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
+      [cvcFeedCounts]="$counts()"></cvc-activity-feed-counts>
     <span *nzSpaceItem>
       <nz-tag
-        *ngIf="moreLoading()"
+        *ngIf="$moreLoading()"
         nzColor="processing">
         <i
           nz-icon
@@ -70,7 +70,7 @@
 <ng-template #cardExtra>
   <div class="extra">
     <cvc-activity-feed-settings
-      (cvcSettingsChange)="feedSetting$.next($event)"
+      (cvcSettingsChange)="onSettingChange$.next($event)"
       [cvcSettings]="cvcSettings()">
     </cvc-activity-feed-settings>
   </div>

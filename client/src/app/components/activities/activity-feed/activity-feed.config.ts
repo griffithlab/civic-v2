@@ -46,9 +46,9 @@ export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
   bufferSize: 25, // # of rows in fetchMore requests
   startIndex: 0, // start row display at 0 index
   minIndex: 0, // no negative rows
-  itemSize: 48, // uncomment debug, immediateLog below to get itemSize, use host styles padding-bottom to adjust
+  itemSize: 48, // default px height of items. Easiest way to find this value: enable DevSettings.debug & immediateLog and height will be logged to console
   sizeStrategy: SizeStrategy.Frequent, // most items will be the same height, so use frequent rather than average
-  padding: 1.25, // load more rows when 1.25 * bufferSize are visible
+  padding: 0.5, // load more rows when padding * bufferSize are visible
 }
 
 export const scrollerDevSettings: DevSettings = {
