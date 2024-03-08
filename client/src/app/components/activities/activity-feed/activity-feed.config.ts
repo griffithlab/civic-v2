@@ -1,5 +1,7 @@
 import {
   ActivityInterfaceEdge,
+  ActivitySubjectInput,
+  ActivityTypeInput,
   EventFeedMode,
 } from '@app/generated/civic.apollo'
 import {
@@ -46,7 +48,7 @@ export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
   minIndex: 0, // no negative rows
   itemSize: 48, // uncomment debug, immediateLog below to get itemSize, use host styles padding-bottom to adjust
   sizeStrategy: SizeStrategy.Frequent, // most items will be the same height, so use frequent rather than average
-  padding: 1.25, // load more rows when 1.4 * bufferSize are visible
+  padding: 1.25, // load more rows when 1.25 * bufferSize are visible
 }
 
 export const scrollerDevSettings: DevSettings = {

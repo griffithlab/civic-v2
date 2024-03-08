@@ -211,6 +211,7 @@ export class CvcActivityFeed implements OnInit {
             if (this.scrollAdapter) {
               // clear item buffer, reset viewport params, start
               // rendering items from new query
+              // this.scrollAdapter.reload()
               this.scrollAdapter.reload()
             }
           })
@@ -279,8 +280,12 @@ export class CvcActivityFeed implements OnInit {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
         const edges = this.edges()
-        // return rows from cached set, or fetch more rows
+        if (edges.length === this.counts()!.total) {
+          // all rows have been fetched
+          return of(edges)
+        }
         if (edges.length >= index + count) {
+          // return rows from cached set, or fetch more rows
           // return observable of requested rows
           return of(edges.slice(index, index + count))
         } else {

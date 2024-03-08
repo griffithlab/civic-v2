@@ -21,7 +21,6 @@ export function filterParamsToQueryAttributes(
   const keys = Object.keys(filters) as ActivityFeedFilterKeys[]
   keys.forEach((key) => {
     if (filters[key] && filters[key].length > 0) {
-      // console.log('filter to attr', key, filters[key])
       filterAttrs[key] = filters[key] as any
     } else {
       filterAttrs[key] = undefined

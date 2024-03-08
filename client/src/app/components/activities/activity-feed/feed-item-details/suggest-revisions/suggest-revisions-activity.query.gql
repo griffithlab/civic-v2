@@ -1,4 +1,109 @@
 fragment SuggestRevisionSetActivityDetail on SuggestRevisionSetActivity {
+  revisions {
+    ...RevisionDetail
+  }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents
+}
+
+fragment RevisionDetail on Revision {
+  id
+  revisionSetId
+  createdAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+        addedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+        removedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+        keptObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+          deleted
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  creationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...ParsedNote
+    }
+  }
+  resolutionActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...ParsedNote
+    }
+  }
+  status
+}
+fragment ParsedNote on CommentBodySegment{
+  ... on CommentTagSegment {
+    entityId
+    displayName
+    tagType
+    status
+    deprecated
+    link
+    revisionSetId
+  }
+  ... on CommentTextSegment {
+    text
+  }
+  ... on User {
+    id
+    displayName
+    role
+  }
 }
