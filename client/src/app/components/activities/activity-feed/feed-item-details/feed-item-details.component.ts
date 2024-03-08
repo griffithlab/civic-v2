@@ -1,10 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EnvironmentInjector,
   EventEmitter,
+  inject,
   input,
   OnInit,
   Output,
+  runInInjectionContext,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core'
@@ -19,7 +23,13 @@ import { CommonModule } from '@angular/common'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFlagEntityActivity } from '@app/components/activities/activity-feed/feed-item-details/flag-entity/flag-entity-activity.component'
 import { CvcCommentActivity } from './comment/comment-activity.component'
-import { filter, Observable, Subject } from 'rxjs'
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  Subject,
+} from 'rxjs'
 import { QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAcceptRevisionsActivity } from '@app/components/activities/activity-feed/feed-item-details/accept-revisions/accept-revisions-activity.component'
@@ -39,6 +49,9 @@ import { CvcSuggestRevisionsActivity } from '@app/components/activities/activity
 import { CvcSuggestSourceActivity } from '@app/components/activities/activity-feed/feed-item-details/suggest-source/suggest-source-activity.component'
 import { CvcUpdateSourceSuggestionActivity } from '@app/components/activities/activity-feed/feed-item-details/update-source-suggestion/update-source-suggestion-activity.component'
 import { CvcSubmitEvidenceActivity } from '@app/components/activities/activity-feed/feed-item-details/submit-evidence/submit-evidence-activity.component'
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { startWith, throttleTime } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-activity-feed-item-details',
@@ -63,6 +76,7 @@ import { CvcSubmitEvidenceActivity } from '@app/components/activities/activity-f
     CvcSuggestSourceActivity,
     CvcUpdateSourceSuggestionActivity,
     CvcSubmitEvidenceActivity,
+    NzSkeletonModule,
   ],
   templateUrl: './feed-item-details.component.html',
   styleUrl: './feed-item-details.component.less',
@@ -71,27 +85,44 @@ import { CvcSubmitEvidenceActivity } from '@app/components/activities/activity-f
 export class CvcActivityFeedItemDetails implements OnInit {
   cvcActivityId = input.required<number>()
 
-  queryRef?: QueryRef<ActivityFeedItemQuery, ActivityFeedItemQueryVariables>
+  // SOURCE STREAMS
   result$?: Observable<ApolloQueryResult<ActivityFeedItemQuery>>
 
-  activity: WritableSignal<Maybe<ActivityFeedItemFragment>>
+  // PRESENTATION SIGNALS
+  $loading!: Signal<boolean>
+  $activity!: Signal<Maybe<ActivityFeedItemFragment>>
 
+  injector: EnvironmentInjector
+  queryRef?: QueryRef<ActivityFeedItemQuery, ActivityFeedItemQueryVariables>
   constructor(private gql: ActivityFeedItemGQL) {
-    this.activity = signal<Maybe<ActivityFeedItemFragment>>(undefined)
+    this.injector = inject(EnvironmentInjector)
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({
-      id: this.cvcActivityId(),
-      requestDetails: true,
-    })
-    this.result$ = this.queryRef.valueChanges
-    this.result$
-      .pipe(
-        pluck('data', 'activity'),
-        // tag('feed-item-detail activity'),
-        filter(isNonNulled)
+    runInInjectionContext(this.injector, () => {
+      this.queryRef = this.gql.watch({
+        id: this.cvcActivityId(),
+        requestDetails: true,
+      })
+      this.result$ = this.queryRef.valueChanges
+
+      this.$loading = toSignal(
+        this.result$.pipe(
+          pluck('loading'),
+          filter(isNonNulled),
+          debounceTime(250),
+          startWith(true)
+        ),
+        { requireSync: true }
       )
-      .subscribe((activity) => this.activity.set(activity))
+      this.$activity = toSignal(
+        this.result$.pipe(
+          pluck('data', 'activity'),
+          // tag('feed-item-detail activity'),
+          filter(isNonNulled)
+        ),
+        { initialValue: undefined }
+      )
+    })
   }
 }

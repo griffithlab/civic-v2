@@ -52,7 +52,7 @@ export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
 }
 
 export const scrollerDevSettings: DevSettings = {
-  // debug: true,
-  // immediateLog: true,
+  debug: true,
+  immediateLog: true,
   cacheData: true, // smoother scrolling
 }
