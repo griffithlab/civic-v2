@@ -59,8 +59,18 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 wrappers: ['form-field'],
                 props: {
                   label: 'Aliases',
-                  description:
-                    'List any aliases commonly used to refer to this Molecular Profile',
+                },
+                expressions: {
+                  'props.disabled': (field: FormlyFieldConfig) => {
+                    return field.options?.formState.isSimpleMp
+                  },
+                  'props.description': (field: FormlyFieldConfig) => {
+                    if (field.options?.formState.isSimpleMp) {
+                      return 'Simple Molecular Profiles inherit their Aliases from the corresponding Variant.'
+                    } else {
+                      return 'List any aliases commonly used to refer to this Molecular Profile'
+                    }
+                  },
                 },
               },
               {

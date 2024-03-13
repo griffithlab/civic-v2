@@ -80,7 +80,7 @@ export function variantFormModelToReviseInput(
 let clinvarHelper = (ids: string[]): ClinvarInput => {
   if (ids[0] == 'NONE FOUND') {
     return { noneFound: true }
-  } else if (ids[0] == 'NA') {
+  } else if (ids[0] == 'N/A') {
     return { notApplicable: true }
   } else {
     return { ids: ids.map((id) => +id) }

@@ -12,7 +12,7 @@ gem 'puma', '5.6.8'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 5.0'
+gem 'webpacker', '6.0.0.rc.6'
 
 gem 'rack-cors', '~> 1.1.1'
 
@@ -49,8 +49,6 @@ gem 'elasticsearch', '~> 7.13.0'
 gem 'typhoeus', '~>1.4.0'
 
 gem 'audited', '~> 5.3'
-
-gem 'graphiql-rails', '~> 1.8.0'
 
 #user comment rendering
 gem 'rinku', '~> 2.0.6'

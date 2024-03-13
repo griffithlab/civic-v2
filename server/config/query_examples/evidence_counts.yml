@@ -1,0 +1,25 @@
+name: Use Allele Registry ID
+description: Query for Molecular Profiles in CIViC by using a ClinGen Allele Registry ID, fetching Evidence Item counts for each
+order: 1
+query: |
+  {
+    molecularProfiles(alleleRegistryId:"CA123643") {
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        name
+        id
+        link
+        evidenceCountsByType {
+          diagnosticCount
+          predictiveCount
+          predisposingCount
+          oncogenicCount
+          functionalCount
+        }
+      }
+    }
+  
