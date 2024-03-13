@@ -5,14 +5,14 @@ class GraphqlController < ApplicationController
   protect_from_forgery with: :null_session, if: :from_external_domain
 
   def execute
-    ActiveStorage::Current.host = request.base_url
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
 
     context = {
       current_user: current_user,
-      tracers: [GraphqlAnalyticsTracer.for_request(request)]
+      trace_mode: Analytics.should_submit?(request) ? :analytics : nil,
+      request_ip: request.remote_ip
     }
 
     result = Civic2Schema.execute(query, variables: variables, context: context, operation_name: operation_name)

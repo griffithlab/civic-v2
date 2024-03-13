@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
   mount Sidekiq::Web, at: '/jobs', constraints: UserLoggedInConstraint.new
+  mount SolidErrors::Engine, at: "/errors", constraints: UserLoggedInConstraint.new
 end

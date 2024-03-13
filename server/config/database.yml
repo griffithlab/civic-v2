@@ -18,10 +18,10 @@ test:
 
 production:
   <<: *default
-  pool: 40
+  pool: 20
   username: <%=  Rails.application.credentials.dig(:database, :username) %>
   password: <%=  Rails.application.credentials.dig(:database, :password) %>
-    
+
 staging:
   <<: *default
   pool: 20
@@ -31,5 +31,5 @@ staging:
 
 headless:
   <<: *default
-  pool: 40
+  pool: 20
 
