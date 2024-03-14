@@ -37,7 +37,7 @@
       </ng-template>
     </nz-select>
   </nz-col>
-  @if (cvcScope().scope !== 'SUBJECT') {
+  @if (cvcScope().mode !== 'SUBJECT') {
     <nz-col nzSpan="24">
       <ng-container
         *ngTemplateOutlet="
@@ -63,7 +63,7 @@
       </nz-select>
     </nz-col>
   }
-  @if (cvcScope().scope !== 'USER') {
+  @if (cvcScope().mode !== 'USER') {
     <nz-col nzSpan="24">
       <ng-container
         *ngTemplateOutlet="
@@ -89,7 +89,7 @@
       </nz-select>
     </nz-col>
   }
-  @if (cvcScope().scope !== 'ORGANIZATION') {
+  @if (cvcScope().mode !== 'ORGANIZATION') {
     <nz-col nzSpan="24">
       <ng-container
         *ngTemplateOutlet="

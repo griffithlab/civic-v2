@@ -5,6 +5,7 @@ import {
   Organization,
   ActivitySubjectInput,
   ActivityTypeInput,
+  Maybe,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -14,8 +15,11 @@ export type ActivityFeedTagDisplayOption =
   | 'hideUser'
 
 export type ActivityFeedSettings = {
-  initialPageSize: number
+  first: number
+  scope: ActivityFeedScope
   includeAutomatedEvents: boolean
+  showFilters: boolean
+  requestDetails: boolean
 }
 
 export type ActivityFeedFilters = {
@@ -25,7 +29,12 @@ export type ActivityFeedFilters = {
   userId: number[]
 }
 
-export type ActivityFeedFilterAttributes = Partial<ActivityFeedFilters>
+export type ActivityFeedFilterVariables = {
+  activityType: Maybe<ActivityTypeInput[]>
+  organizationId: Maybe<number[]>
+  subjectType: Maybe<ActivitySubjectInput[]>
+  userId: Maybe<number[]>
+}
 export type ActivityFeedFilterKeys = keyof ActivityFeedFilters
 
 export type ActivityFeedFilterOptions = {
@@ -42,38 +51,43 @@ export type ActivityFeedCounts = {
   rows: number
 }
 
-export type FetchMoreParams = { first: number; after: string }
+export type FetchParams = {
+  first?: number
+  after?: string
+  before?: number
+  last?: string
+}
 
 export type ActivityFeedQueryParams = {
-  filters?: ActivityFeedFilters
-  settings?: ActivityFeedSettings
-  fetchMore?: FetchMoreParams
+  filters: ActivityFeedFilters
+  settings: ActivityFeedSettings
+  fetchMore?: FetchParams
 }
 
 // fancy discriminated union type for ActivityFeedScope
 type ScopeOrganization = {
-  scope: EventFeedMode.Organization
+  mode: EventFeedMode.Organization
   organizationId: number
   subject?: never
   userId?: never
 }
 
 type ScopeSubject = {
-  scope: EventFeedMode.Subject
+  mode: EventFeedMode.Subject
   subject: SubscribableQueryInput
   organizationId?: never
   userId?: never
 }
 
 type ScopeUser = {
-  scope: EventFeedMode.User
+  mode: EventFeedMode.User
   userId: number
   organizationId?: never
   subject?: never
 }
 
 type ScopeUnscoped = {
-  scope: EventFeedMode.Unscoped
+  mode: EventFeedMode.Unscoped
   organizationId?: never
   subject?: never
   userId?: never
@@ -85,9 +99,18 @@ export type ActivityFeedScope =
   | ScopeUser
   | ScopeUnscoped
 
-export type ActivityFeedModeAttributes = {
+export type ActivityFeedSettingsVariables = {
+  first: number
+  includeAutomatedEvents: boolean
+  showFilters: boolean
+  requestDetails: boolean
   mode: EventFeedMode
   subject?: SubscribableQueryInput
   organizationId?: number[]
   userId?: number[]
+}
+// helps with type narrowing, mainly for Object.keys()
+// from: https://www.totaltypescript.com/iterate-over-object-keys-in-typescript
+export function isKey<T extends object>(x: T, k: PropertyKey): k is keyof T {
+  return k in x
 }

@@ -4,75 +4,58 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo'
 import {
-  ActivityFeedFilterAttributes,
+  ActivityFeedFilterVariables,
   ActivityFeedFilterKeys,
   ActivityFeedFilters,
-  ActivityFeedModeAttributes,
+  ActivityFeedSettingsVariables,
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
+  isKey,
 } from './activity-feed.types'
+import { query } from '@angular/animations'
 
-export function filterParamsToQueryAttributes(
-  filters: Maybe<ActivityFeedFilters>
-): Maybe<ActivityFeedFilterAttributes> {
-  if (!filters) return
-  let filterAttrs: ActivityFeedFilterAttributes = {}
-  const keys = Object.keys(filters) as ActivityFeedFilterKeys[]
-  keys.forEach((key) => {
-    if (filters[key] && filters[key].length > 0) {
-      filterAttrs[key] = filters[key] as any
-    } else {
-      filterAttrs[key] = undefined
-    }
-  })
-  return filterAttrs
+// replace empty arrays with undefined
+function filtersToQueryVariables(
+  filters: ActivityFeedFilters
+): ActivityFeedFilterVariables {
+  return {
+    activityType:
+      filters['activityType'].length > 0 ? filters['activityType'] : undefined,
+    organizationId:
+      filters['organizationId'].length > 0
+        ? filters['organizationId']
+        : undefined,
+    subjectType:
+      filters['subjectType'].length > 0 ? filters['subjectType'] : undefined,
+    userId: filters['userId'].length > 0 ? filters['userId'] : undefined,
+  }
 }
 
-export function feedScopeToModeAttributes(
-  feedScope?: ActivityFeedScope,
-  filters?: Maybe<ActivityFeedFilters>
-): Maybe<ActivityFeedModeAttributes> {
-  if (!feedScope) return
-  let modeAttrs: ActivityFeedModeAttributes = {
-    mode: feedScope.scope,
+// convert scope object to query variables
+function settingsToQueryVariables(
+  settings: ActivityFeedSettings
+): ActivityFeedSettingsVariables {
+  const { scope, ...nonScope } = settings
+  return {
+    ...nonScope,
+    mode: scope.mode,
+    subject: scope.mode === EventFeedMode.Subject ? scope.subject : undefined,
+    organizationId:
+      scope.mode === EventFeedMode.Organization
+        ? [scope.organizationId]
+        : undefined,
+    userId: scope.mode === EventFeedMode.User ? [scope.userId] : undefined,
   }
-  // assign mode query parameters, appending any filter values
-  if (feedScope.scope === EventFeedMode.Subject) {
-    modeAttrs.subject = feedScope.subject
-  } else if (feedScope.scope === EventFeedMode.User) {
-    modeAttrs.userId = [feedScope.userId, ...(filters?.userId ?? [])]
-  } else if (feedScope.scope === EventFeedMode.Organization) {
-    modeAttrs.organizationId = [
-      feedScope.organizationId,
-      ...(filters?.organizationId ?? []),
-    ]
-  }
-  return modeAttrs
 }
 
-export function queryParamsToVariables(
-  params: ActivityFeedQueryParams,
-  scope?: ActivityFeedScope,
-  showFilters?: boolean,
-  requestDetails?: boolean
+export function queryParamsToQueryVariables(
+  params: ActivityFeedQueryParams
 ): ActivityFeedQueryVariables {
-  // showFilters is a required query var
-  let queryVars: ActivityFeedQueryVariables = {
-    showFilters: showFilters ?? true,
-    requestDetails: requestDetails ?? false,
+  // NOTE: if scope.mode is User or Organization, settingsToQueryVariables
+  // must overwrite any organizationId or userId from filters
+  return {
+    ...settingsToQueryVariables(params.settings),
+    ...filtersToQueryVariables(params.filters),
   }
-  const initialPageSize = params.settings!.initialPageSize
-  const filterVars = filterParamsToQueryAttributes(params.filters)
-  // NOTE: modeAttrs may merge existing user/organizationId filters, so it's important
-  // to call filterParamsToQueryAttributes first, and merge queryVars in the same order
-  const modeAttrs = feedScopeToModeAttributes(scope, params.filters)
-  queryVars = {
-    first: initialPageSize,
-    includeAutomatedEvents: params.settings!.includeAutomatedEvents,
-    ...queryVars,
-    ...filterVars,
-    ...modeAttrs,
-  }
-  return queryVars
 }

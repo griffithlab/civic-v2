@@ -36,6 +36,7 @@ import {
   filter,
   from,
   map,
+  merge,
   Observable,
   of,
   share,
@@ -62,7 +63,7 @@ import {
   scrollerDevSettings,
   scrollerSettings,
 } from './activity-feed.config'
-import { queryParamsToVariables } from './activity-feed.functions'
+import { queryParamsToQueryVariables } from './activity-feed.functions'
 import {
   ActivityFeedCounts,
   ActivityFeedFilterOptions,
@@ -70,7 +71,7 @@ import {
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
-  FetchMoreParams,
+  FetchParams,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
@@ -120,8 +121,9 @@ export class CvcActivityFeed implements OnInit {
   onToggleItem$: Subject<FeedDetailToggle> // item detail toggle event from feed-item
 
   // INTERMEDIATE STREAMS
-  poll$: Subject<void> // initial query trigger, called from scroller DataSource
-  fetchMore$: BehaviorSubject<Maybe<FetchMoreParams>>
+  init$: Subject<void> // initial query trigger, called from scroller DataSource
+  poll$: Subject<FetchParams>
+  fetchMore$: Subject<FetchParams>
   queryType$: Subject<'refetch' | 'fetchMore'>
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   edge$: Observable<ActivityInterfaceEdge[]>
@@ -141,10 +143,11 @@ export class CvcActivityFeed implements OnInit {
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
 
   constructor(private gql: ActivityFeedGQL) {
+    this.init$ = new Subject<void>()
     this.onSettingChange$ = new Subject<ActivityFeedSettings>()
     this.onFilterChange$ = new Subject<ActivityFeedFilters>()
-    this.poll$ = new Subject<void>()
-    this.fetchMore$ = new BehaviorSubject<Maybe<FetchMoreParams>>(undefined)
+    this.poll$ = new Subject<FetchParams>()
+    this.fetchMore$ = new Subject<FetchParams>()
     this.onToggleItem$ = new Subject<FeedDetailToggle>()
     this.queryType$ = new Subject<'refetch' | 'fetchMore'>()
 
@@ -182,22 +185,25 @@ export class CvcActivityFeed implements OnInit {
       )
       .subscribe()
 
-    this.result$ = combineLatest([
-      this.poll$,
+    const refreshChange$ = combineLatest([
       this.onSettingChange$,
       this.onFilterChange$,
+    ])
+
+    const fetchChange$ = merge(this.poll$, this.fetchMore$)
+
+    this.result$ = combineLatest([
+      this.init$,
+      refreshChange$,
+      // this.onSettingChange$,
+      // this.onFilterChange$,
     ]).pipe(
-      map(([_init, settings, filters]) => {
+      map(([_init, [settings, filters]]) => {
         const params = <ActivityFeedQueryParams>{
           settings: settings,
           filters: filters,
         }
-        return queryParamsToVariables(
-          params,
-          this.cvcScope(),
-          this.cvcShowFilters(),
-          false
-        )
+        return queryParamsToQueryVariables(params)
       }),
       switchMap((queryVars) => {
         this.queryType$.next('refetch')
@@ -268,7 +274,7 @@ export class CvcActivityFeed implements OnInit {
     })
 
     // kick off initial query
-    this.poll$.next()
+    this.init$.next()
   }
   ngOnInit(): void {}
 

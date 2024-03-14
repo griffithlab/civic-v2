@@ -15,8 +15,11 @@ import { DevSettings, Settings } from 'vscroll/dist/typings/interfaces'
 export const pageSizeOptions = [5, 10, 25, 50, 100]
 export const feedPollInterval = 30000
 export const feedDefaultSettings: ActivityFeedSettings = {
-  initialPageSize: 75,
+  first: 75,
+  scope: { mode: EventFeedMode.Unscoped },
   includeAutomatedEvents: false,
+  showFilters: true,
+  requestDetails: false,
 }
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
@@ -25,7 +28,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   userId: [],
 }
 export const feedDefaultScope: ActivityFeedScope = {
-  scope: EventFeedMode.Unscoped,
+  mode: EventFeedMode.Unscoped,
 }
 
 export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {

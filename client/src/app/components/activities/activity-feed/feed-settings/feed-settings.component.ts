@@ -43,22 +43,19 @@ export class CvcActivityFeedSettingsButton implements OnInit {
   @Output() cvcSettingsChange: EventEmitter<ActivityFeedSettings>
   cvcSettings = input.required<ActivityFeedSettings>()
 
-  pageSize!: WritableSignal<number>
   includeAutomatedEvents!: WritableSignal<boolean>
 
-  pageSizes = pageSizeOptions
   constructor() {
     this.cvcSettingsChange = new EventEmitter<ActivityFeedSettings>()
 
     effect(() => {
       this.cvcSettingsChange.emit({
-        initialPageSize: this.pageSize(),
+        ...this.cvcSettings(),
         includeAutomatedEvents: this.includeAutomatedEvents(),
       })
     })
   }
   ngOnInit(): void {
-    this.pageSize = signal(this.cvcSettings().initialPageSize)
     this.includeAutomatedEvents = signal(
       this.cvcSettings().includeAutomatedEvents
     )
