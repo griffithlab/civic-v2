@@ -17,6 +17,7 @@ module Types::BrowseTables
     field :source_url, String, null: false
     field :link, String, null: false
     field :open_access, Boolean, null: false
+    field :retraction_nature, String, null: true
 
     def source_url
       Source.url_for(source: object)

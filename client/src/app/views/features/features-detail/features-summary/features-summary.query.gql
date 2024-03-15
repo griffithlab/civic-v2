@@ -49,6 +49,7 @@ fragment GeneSummaryFields on Gene {
     sourceUrl
     displayType
     sourceType
+    retractionNature
   }
   myGeneInfoDetails
 }
@@ -67,6 +68,7 @@ fragment FactorSummaryFields on Factor {
     sourceUrl
     displayType
     sourceType
+    retractionNature
   }
   ncitDetails {
     ...NcitDetails

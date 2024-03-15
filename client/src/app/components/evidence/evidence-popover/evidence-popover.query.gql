@@ -46,6 +46,7 @@ fragment evidencePopover on EvidenceItem {
     sourceType
     displayType
     link
+    retractionNature
   }
   flags(state: OPEN) {
     totalCount

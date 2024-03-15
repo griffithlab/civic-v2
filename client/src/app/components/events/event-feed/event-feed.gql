@@ -104,6 +104,7 @@ fragment eventFeedNode on Event {
     link
     ... on Source {
       citation
+      retractionNature
       sourceType
     }
     ... on EvidenceItem {

@@ -17,19 +17,23 @@ export class CvcRetractionStatusTagComponent implements OnInit {
     if (value) {
       if (value == 'Retraction') {
         this.tagStatus = 'error'
+        this.retracted = true
       } else {
         this.tagStatus = 'warning'
+        this.retracted = false
       }
     }
   }
   @Input() retractionDate!: string
   @Input() retractionReasons!: string
+  @Input() enablePopover: boolean = true
 
   get retractionNature(): Maybe<string> {
     return this._retractionNature
   }
 
   tagStatus?: string
+  retracted?: boolean
 
   ngOnInit(): void {
     if (this.retractionNature === undefined) {

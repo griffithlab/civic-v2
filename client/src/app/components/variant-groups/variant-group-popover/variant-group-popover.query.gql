@@ -28,5 +28,6 @@ fragment variantGroupPopoverFields on VariantGroup {
     citation
     sourceType
     link
+    retractionNature
   }
 }

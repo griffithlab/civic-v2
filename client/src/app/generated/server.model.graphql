@@ -1199,6 +1199,7 @@ type BrowseSource {
   name: String
   openAccess: Boolean!
   publicationYear: Int
+  retractionNature: String
   sourceSuggestionCount: Int!
   sourceType: SourceSource!
   sourceUrl: String!

@@ -6,7 +6,7 @@
   [nzPopoverContent]="retractionPopover"
   [nzPopoverTitle]="'This Source has been identified by Retraction Watch as status: ' + (retractionNature | titlecase)"
   nzPopoverPlacement="left"
-  [nzPopoverTrigger]="'hover'">
+  [nzPopoverTrigger]="enablePopover ? 'hover' : null">
   <i *ngIf="tagStatus == 'error'"
     nz-icon
     nzType="close-circle"></i>

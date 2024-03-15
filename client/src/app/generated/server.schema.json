@@ -5729,6 +5729,18 @@
               "deprecationReason": null
             },
             {
+              "name": "retractionNature",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sourceSuggestionCount",
               "description": null,
               "args": [],
