@@ -61,4 +61,5 @@ fragment BrowseSourceRowFields on BrowseSource {
   displayType
   link
   openAccess
+  retractionNature
 }

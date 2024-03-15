@@ -39,7 +39,7 @@ export type ActivityInterfaceFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ActivityInterfaceConnectionKeySpecifier = ('activityTypes' | 'edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'participatingOrganizations' | 'totalCount' | 'unfilteredCount' | 'uniqueParticipants' | ActivityInterfaceConnectionKeySpecifier)[];
+export type ActivityInterfaceConnectionKeySpecifier = ('activityTypes' | 'edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'participatingOrganizations' | 'subjectTypes' | 'totalCount' | 'unfilteredCount' | 'uniqueParticipants' | ActivityInterfaceConnectionKeySpecifier)[];
 export type ActivityInterfaceConnectionFieldPolicy = {
 	activityTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -47,6 +47,7 @@ export type ActivityInterfaceConnectionFieldPolicy = {
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	participatingOrganizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	subjectTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	unfilteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	uniqueParticipants?: FieldPolicy<any> | FieldReadFunction<any>
@@ -279,7 +280,7 @@ export type BrowsePhenotypeEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseSourceKeySpecifier = ('authors' | 'citation' | 'citationId' | 'clinicalTrials' | 'displayType' | 'evidenceItemCount' | 'id' | 'journal' | 'link' | 'name' | 'openAccess' | 'publicationYear' | 'sourceSuggestionCount' | 'sourceType' | 'sourceUrl' | BrowseSourceKeySpecifier)[];
+export type BrowseSourceKeySpecifier = ('authors' | 'citation' | 'citationId' | 'clinicalTrials' | 'displayType' | 'evidenceItemCount' | 'id' | 'journal' | 'link' | 'name' | 'openAccess' | 'publicationYear' | 'retractionNature' | 'sourceSuggestionCount' | 'sourceType' | 'sourceUrl' | BrowseSourceKeySpecifier)[];
 export type BrowseSourceFieldPolicy = {
 	authors?: FieldPolicy<any> | FieldReadFunction<any>,
 	citation?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -293,6 +294,7 @@ export type BrowseSourceFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	openAccess?: FieldPolicy<any> | FieldReadFunction<any>,
 	publicationYear?: FieldPolicy<any> | FieldReadFunction<any>,
+	retractionNature?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>

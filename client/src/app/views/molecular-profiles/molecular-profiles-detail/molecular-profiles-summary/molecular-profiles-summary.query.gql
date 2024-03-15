@@ -15,6 +15,7 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
     citation
     link
     sourceType
+    retractionNature
   }
   variants {
     ...VariantMolecularProfileCardFields

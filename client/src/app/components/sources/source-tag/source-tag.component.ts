@@ -12,17 +12,20 @@ export interface LinkableSource {
   id: number
   displayInfo: CitationSource | string
   link: string
+  retractionNature?: string
 }
 
 export interface CitationSource {
   citation: string
   sourceType: SourceSource
+  retractionNature?: string
 }
 
 export interface SourceWithDisplayName {
   id: number
   displayName: string
   link: string
+  retractionNature?: string
 }
 
 export interface SourceWithCitation {
@@ -30,6 +33,7 @@ export interface SourceWithCitation {
   citation?: string
   sourceType: SourceSource
   link: string
+  retractionNature?: string
 }
 
 type SourceTagInput = SourceWithDisplayName | SourceWithCitation
@@ -59,6 +63,11 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
         ': ' +
         this.source.citation
     }
+    if (this.source.retractionNature == 'Retraction') {
+      this.retracted = true
+    } else {
+      this.retracted = false
+    }
   }
   get source(): SourceTagInput {
     return this._source
@@ -70,6 +79,7 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() truncateLongName: Maybe<boolean> = false
 
   displayName!: string
+  retracted?: boolean
 
   constructor(private sourceTypeDisplay: SourceTypeDisplayPipe) {
     super()
