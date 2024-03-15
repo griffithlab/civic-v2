@@ -9,6 +9,7 @@ import result from '@app/generated/civic.possible-types'
 import { ApolloModule, APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular'
 import { HttpLink } from 'apollo-angular/http'
 import { CvcTypePolicies } from './graphql.type-policies'
+import { onError } from '@apollo/client/link/error'
 
 const uri = '/api/graphql' // <-- URL of the GraphQL server
 
@@ -25,9 +26,14 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     })
     return forward(operation)
   })
-
+  const errorHandler = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) console.error('GraphQL Error:', graphQLErrors)
+    if (networkError) {
+      console.error('Network Error:', networkError)
+    }
+  })
   return {
-    link: analyticsLink.concat(http),
+    link: analyticsLink.concat(errorHandler).concat(http),
     cache: new InMemoryCache({
       possibleTypes: result.possibleTypes,
       typePolicies: typePolicies,
@@ -36,9 +42,9 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
       watchQuery: {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first',
-        errorPolicy: 'all',
+        errorPolicy: 'none',
         notifyOnNetworkStatusChange: true,
-        returnPartialData: true,
+        returnPartialData: false,
       },
     },
   }
