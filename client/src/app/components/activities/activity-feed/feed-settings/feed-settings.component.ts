@@ -19,7 +19,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { ActivityFeedSettings } from '../activity-feed.types'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { pageSizeOptions } from '../activity-feed.config'
 
 @Component({
   selector: 'cvc-activity-feed-settings',

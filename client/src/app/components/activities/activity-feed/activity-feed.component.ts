@@ -31,15 +31,19 @@ import {
 } from 'ngx-ui-scroll'
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   distinctUntilChanged,
   filter,
   from,
+  iif,
   map,
   merge,
+  mergeWith,
   Observable,
   of,
   share,
+  skipUntil,
   Subject,
   switchMap,
   take,
@@ -71,6 +75,8 @@ import {
   ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
+  FeedQueryEvent,
+  FeedQueryType,
   FetchParams,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -128,9 +134,9 @@ export class CvcActivityFeed implements OnInit {
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   edge$: Observable<ActivityInterfaceEdge[]>
   toggledItem$: BehaviorSubject<Set<number>> // set of item ids with details toggled
+  fetchComplete$: Subject<boolean>
 
   // PRESENTATION SIGNALS
-  $edges: Signal<ActivityInterfaceEdge[]> // signal for synchronous access to all loaded rows
   $refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
   $moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
   $errors: WritableSignal<any>
@@ -149,7 +155,8 @@ export class CvcActivityFeed implements OnInit {
     this.poll$ = new Subject<FetchParams>()
     this.fetchMore$ = new Subject<FetchParams>()
     this.onToggleItem$ = new Subject<FeedDetailToggle>()
-    this.queryType$ = new Subject<'refetch' | 'fetchMore'>()
+    this.queryType$ = new Subject<FeedQueryType>()
+    this.fetchComplete$ = new Subject<boolean>()
 
     this.$refetchLoading = signal<boolean>(false)
     this.$moreLoading = signal<boolean>(false)
@@ -158,66 +165,63 @@ export class CvcActivityFeed implements OnInit {
     this.$feedFilterOptions = signal<ActivityFeedFilterOptions>(
       feedFilterOptionDefaults
     )
-    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
-
-    this.onToggleItem$
-      .pipe(
-        distinctUntilChanged(
-          (a, b) => a.id === b.id && a.showDetails === b.showDetails
-        ),
-        withLatestFrom(this.toggledItem$),
-        filter(
-          // filter out toggles for items not in the current set
-          ([toggle, toggledIds]) =>
-            toggle.showDetails || toggledIds.has(toggle.id)
-        ),
-        tap(([toggle, toggledIds]) => {
-          // update set of toggled item ids
-          toggle.showDetails
-            ? toggledIds.add(toggle.id)
-            : toggledIds.delete(toggle.id)
-          // emit updated set for use in next toggle event
-          this.toggledItem$.next(toggledIds)
-          // get scroller to recheck item heights
-          this.scrollAdapter!.check()
-        }),
-        untilDestroyed(this)
-      )
-      .subscribe()
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
       this.onFilterChange$,
-    ])
-
-    const fetchChange$ = merge(this.poll$, this.fetchMore$)
-
-    this.result$ = combineLatest([
-      this.init$,
-      refreshChange$,
-      // this.onSettingChange$,
-      // this.onFilterChange$,
     ]).pipe(
-      map(([_init, [settings, filters]]) => {
-        const params = <ActivityFeedQueryParams>{
-          settings: settings,
-          filters: filters,
+      map(([settings, filters]) => {
+        return <FeedQueryEvent>{
+          type: 'refetch',
+          query: {
+            settings: settings,
+            filters: filters,
+          },
         }
-        return queryParamsToQueryVariables(params)
-      }),
-      switchMap((queryVars) => {
-        this.queryType$.next('refetch')
+      })
+    )
+
+    const fetchChange$ = merge(this.fetchMore$, this.poll$).pipe(
+      map((fetch) => {
+        return <FeedQueryEvent>{
+          type: 'fetchMore',
+          fetch: fetch,
+        }
+      })
+    )
+
+    this.result$ = this.init$.pipe(
+      switchMap(() => merge(refreshChange$, fetchChange$)),
+      switchMap((event) => {
+        this.queryType$.next(event.type)
         if (!this.queryRef) {
+          const queryVars = queryParamsToQueryVariables(event.query)
           this.queryRef = this.gql.watch(queryVars)
         } else {
-          this.queryRef.refetch(queryVars).then(() => {
-            if (this.scrollAdapter) {
-              // instruct scroller to reload rows & scroll to top
-              this.scrollAdapter.reload()
+          if (event.type === 'refetch') {
+            const queryVars = queryParamsToQueryVariables(event.query)
+            this.queryRef.refetch(queryVars).then((data) => {
+              console.log('refetch complete', data)
+              this.scrollAdapter!.reload()
+            })
+          } else if (event.type === 'fetchMore') {
+            if (this.queryRef) {
+              this.queryRef
+                .fetchMore({
+                  variables: event.fetch,
+                })
+                .then((data) => {
+                  this.fetchComplete$.next(true)
+                  console.log('fetchMore complete', data)
+                })
             }
-          })
+          }
         }
         return this.queryRef.valueChanges
+      }),
+      catchError((error) => {
+        console.error('query error', error)
+        return of(error)
       }),
       shareReplay(1)
     )
@@ -231,6 +235,7 @@ export class CvcActivityFeed implements OnInit {
       ),
       { initialValue: false }
     )
+
     this.$moreLoading = toSignal(
       this.result$.pipe(
         pluck('loading'),
@@ -260,18 +265,41 @@ export class CvcActivityFeed implements OnInit {
         })
       }),
       map((connection) => connection.edges as ActivityInterfaceEdge[]),
-      tag('------------------ edge$'),
+      // tag('------------------ edge$'),
       shareReplay(1)
     )
-
-    // provide edges signal for synchronous access in scrollDatasource
-    this.$edges = toSignal(this.edge$, { initialValue: [] })
 
     // initialize scroller datasource when initial query completes
     this.edge$.pipe(take(1)).subscribe((edges) => {
       this.configureDatasource()
       this.configureAdapter()
     })
+
+    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
+    this.onToggleItem$
+      .pipe(
+        distinctUntilChanged(
+          (a, b) => a.id === b.id && a.showDetails === b.showDetails
+        ),
+        withLatestFrom(this.toggledItem$),
+        filter(
+          // filter out toggles for items not in the current set
+          ([toggle, toggledIds]) =>
+            toggle.showDetails || toggledIds.has(toggle.id)
+        ),
+        tap(([toggle, toggledIds]) => {
+          // update set of toggled item ids
+          toggle.showDetails
+            ? toggledIds.add(toggle.id)
+            : toggledIds.delete(toggle.id)
+          // emit updated set for use in next toggle event
+          this.toggledItem$.next(toggledIds)
+          // get scroller to recheck item heights
+          this.scrollAdapter!.check()
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe()
 
     // kick off initial query
     this.init$.next()
@@ -281,30 +309,34 @@ export class CvcActivityFeed implements OnInit {
   configureDatasource(): void {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
-        const edges = this.$edges()
-        if (edges.length === this.$counts()!.total) {
-          // all rows have been fetched
-          return of(edges)
-        }
-        if (edges.length >= index + count) {
-          // return rows from cached set, or fetch more rows
-          // return observable of requested rows
-          return of(edges.slice(index, index + count))
-        } else {
-          // issue fetchMore query to satisfy requested row set
-          const queryVars = {
-            first: count,
-            after: edges[index - 1].cursor,
-          }
-          this.fetchMore$.next(queryVars)
-          // return this.edge$
-          this.queryType$.next('fetchMore')
-          // return fetchMore result, converted to observable from promise
-          return from(this.queryRef!.fetchMore({ variables: queryVars })).pipe(
-            // tap(() => this.moreLoading.set(false)),
-            map((result) => result.data.activities.edges)
-          )
-        }
+        // TODO: handle case where all rows have been fetched, using scroll adapter's eof/bof events
+        return of({ index: index, count: count }).pipe(
+          withLatestFrom(this.edge$),
+          switchMap(([params, edges]) => {
+            const { index, count } = params
+            console.log('get()', index, count)
+            if (edges.length >= index + 1 + count) {
+              // edges cached, return slice of current array
+              console.log(
+                'returning cached slice',
+                edges.slice(index, index + count)
+              )
+              return of(edges.slice(index, index + count))
+            } else {
+              // issue fetchMore query to satisfy requested row set
+              const queryVars = {
+                first: count,
+                after: edges[index - 1].cursor,
+              }
+              this.fetchComplete$.next(false)
+              this.fetchMore$.next(queryVars)
+              return this.edge$.pipe(
+                skipUntil(this.fetchComplete$),
+                map((edges) => edges.slice(index, index + count))
+              )
+            }
+          })
+        )
       },
       settings: scrollerSettings,
       devSettings: scrollerDevSettings,

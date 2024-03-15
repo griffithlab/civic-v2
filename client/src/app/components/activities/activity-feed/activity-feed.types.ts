@@ -61,8 +61,23 @@ export type FetchParams = {
 export type ActivityFeedQueryParams = {
   filters: ActivityFeedFilters
   settings: ActivityFeedSettings
-  fetchMore?: FetchParams
 }
+
+export type FeedQueryType = 'refetch' | 'fetchMore'
+
+type FeedQueryFetchMoreEvent = {
+  type: 'fetchMore'
+  fetch: FetchParams
+  query: never
+}
+
+type FeedQueryRefetchEvent = {
+  type: 'refetch'
+  query: ActivityFeedQueryParams
+  fetch: never
+}
+
+export type FeedQueryEvent = FeedQueryFetchMoreEvent | FeedQueryRefetchEvent
 
 // fancy discriminated union type for ActivityFeedScope
 type ScopeOrganization = {
