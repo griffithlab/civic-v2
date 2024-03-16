@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common'
 import {
+  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   input,
   OnInit,
+  Self,
   Signal,
   signal,
   WritableSignal,
@@ -86,6 +90,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { shareReplay } from 'rxjs/operators'
 import { tag } from 'rxjs-spy/operators'
+import { FeedScrollService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 
 @UntilDestroy()
 @Component({
@@ -110,9 +115,10 @@ import { tag } from 'rxjs-spy/operators'
   ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
+  providers: [FeedScrollService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeed implements OnInit {
+export class CvcActivityFeed {
   // INPUTS
   cvcTitle = input<string>('Activity Feed')
   cvcScope = input<ActivityFeedScope>(feedDefaultScope)
@@ -134,21 +140,25 @@ export class CvcActivityFeed implements OnInit {
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   edge$: Observable<ActivityInterfaceEdge[]>
   toggledItem$: BehaviorSubject<Set<number>> // set of item ids with details toggled
-  fetchComplete$: Subject<boolean>
+  onQueryComplete$: Subject<boolean>
 
   // PRESENTATION SIGNALS
   $refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
   $moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
   $errors: WritableSignal<any>
-  $counts: WritableSignal<Maybe<ActivityFeedCounts>>
-  $feedFilterOptions: WritableSignal<ActivityFeedFilterOptions>
+  $counts: Signal<Maybe<ActivityFeedCounts>>
+  $feedFilterOptions: Signal<ActivityFeedFilterOptions>
 
   // SERVICE REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
   scrollDatasource?: IDatasource<ActivityInterfaceEdge>
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
 
-  constructor(private gql: ActivityFeedGQL) {
+  constructor(
+    private gql: ActivityFeedGQL,
+    private elementRef: ElementRef,
+    @Self() private scrollService: FeedScrollService
+  ) {
     this.init$ = new Subject<void>()
     this.onSettingChange$ = new Subject<ActivityFeedSettings>()
     this.onFilterChange$ = new Subject<ActivityFeedFilters>()
@@ -156,9 +166,7 @@ export class CvcActivityFeed implements OnInit {
     this.fetchMore$ = new Subject<FetchParams>()
     this.onToggleItem$ = new Subject<FeedDetailToggle>()
     this.queryType$ = new Subject<FeedQueryType>()
-    this.fetchComplete$ = new Subject<boolean>()
-
-    this.$refetchLoading = signal<boolean>(false)
+    this.onQueryComplete$ = new Subject<boolean>()
     this.$moreLoading = signal<boolean>(false)
     this.$errors = signal<any>(false)
     this.$counts = signal<Maybe<ActivityFeedCounts>>(undefined)
@@ -202,6 +210,7 @@ export class CvcActivityFeed implements OnInit {
             const queryVars = queryParamsToQueryVariables(event.query)
             this.queryRef.refetch(queryVars).then((data) => {
               console.log('refetch complete', data)
+              this.onQueryComplete$.next(true)
               this.scrollAdapter!.reload()
             })
           } else if (event.type === 'fetchMore') {
@@ -211,7 +220,7 @@ export class CvcActivityFeed implements OnInit {
                   variables: event.fetch,
                 })
                 .then((data) => {
-                  this.fetchComplete$.next(true)
+                  this.onQueryComplete$.next(true)
                   console.log('fetchMore complete', data)
                 })
             }
@@ -246,34 +255,46 @@ export class CvcActivityFeed implements OnInit {
       { initialValue: false }
     )
 
-    this.edge$ = this.result$.pipe(
+    const connection$ = this.result$.pipe(
       pluck('data', 'activities'),
       filter(isNonNulled),
-      tap((connection) => {
-        this.$counts.set(<ActivityFeedCounts>{
-          total: connection.totalCount,
-          unfiltered: connection.unfilteredCount,
-          page: connection.pageCount,
-          rows: connection.edges.length,
-        })
-        this.$feedFilterOptions.set(<ActivityFeedFilterOptions>{
-          uniqueParticipants: connection.uniqueParticipants ?? [],
-          participatingOrganizations:
-            connection.participatingOrganizations ?? [],
-          activityTypes: connection.activityTypes ?? [],
-          subjectTypes: connection.subjectTypes ?? [],
-        })
-      }),
-      map((connection) => connection.edges as ActivityInterfaceEdge[]),
-      // tag('------------------ edge$'),
       shareReplay(1)
     )
 
-    // initialize scroller datasource when initial query completes
-    this.edge$.pipe(take(1)).subscribe((edges) => {
-      this.configureDatasource()
-      this.configureAdapter()
-    })
+    this.$counts = toSignal(
+      connection$.pipe(
+        map((connection) => {
+          return <ActivityFeedCounts>{
+            total: connection.totalCount,
+            unfiltered: connection.unfilteredCount,
+            page: connection.pageCount,
+            rows: connection.edges.length,
+          }
+        })
+      ),
+      { initialValue: undefined }
+    )
+    this.$feedFilterOptions = toSignal(
+      connection$.pipe(
+        map((connection) => {
+          return <ActivityFeedFilterOptions>{
+            uniqueParticipants: connection.uniqueParticipants ?? [],
+            participatingOrganizations:
+              connection.participatingOrganizations ?? [],
+            activityTypes: connection.activityTypes ?? [],
+            subjectTypes: connection.subjectTypes ?? [],
+          }
+        })
+      ),
+      { initialValue: feedFilterOptionDefaults }
+    )
+
+    this.edge$ = this.result$.pipe(
+      pluck('data', 'activities'),
+      filter(isNonNulled),
+      map((connection) => connection.edges as ActivityInterfaceEdge[])
+      // tag('edge$ ++++++++++++++')
+    )
 
     this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
     this.onToggleItem$
@@ -301,10 +322,15 @@ export class CvcActivityFeed implements OnInit {
       )
       .subscribe()
 
+    // initialize scroller datasource after initial query completes
+    this.edge$.pipe(take(1)).subscribe((edges) => {
+      this.configureDatasource()
+      this.configureAdapter()
+    })
+
     // kick off initial query
     this.init$.next()
   }
-  ngOnInit(): void {}
 
   configureDatasource(): void {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
@@ -314,13 +340,8 @@ export class CvcActivityFeed implements OnInit {
           withLatestFrom(this.edge$),
           switchMap(([params, edges]) => {
             const { index, count } = params
-            console.log('get()', index, count)
             if (edges.length >= index + 1 + count) {
               // edges cached, return slice of current array
-              console.log(
-                'returning cached slice',
-                edges.slice(index, index + count)
-              )
               return of(edges.slice(index, index + count))
             } else {
               // issue fetchMore query to satisfy requested row set
@@ -328,11 +349,12 @@ export class CvcActivityFeed implements OnInit {
                 first: count,
                 after: edges[index - 1].cursor,
               }
-              this.fetchComplete$.next(false)
+              this.onQueryComplete$.next(false)
               this.fetchMore$.next(queryVars)
               return this.edge$.pipe(
-                skipUntil(this.fetchComplete$),
+                skipUntil(this.onQueryComplete$),
                 map((edges) => edges.slice(index, index + count))
+                // tag('configureDatasource.get() ++++++++++++++')
               )
             }
           })
@@ -345,5 +367,11 @@ export class CvcActivityFeed implements OnInit {
 
   configureAdapter(): void {
     this.scrollAdapter = this.scrollDatasource?.adapter
+    if (this.scrollAdapter) {
+      this.scrollService.configure(this.scrollAdapter)
+      this.scrollService.isScrolling$
+        .pipe(tag('service.isScrolling$'))
+        .subscribe()
+    }
   }
 }
