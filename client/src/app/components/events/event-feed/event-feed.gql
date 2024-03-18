@@ -104,8 +104,8 @@ fragment eventFeedNode on Event {
     link
     ... on Source {
       citation
-      retractionNature
       sourceType
+      deprecated
     }
     ... on EvidenceItem {
       status

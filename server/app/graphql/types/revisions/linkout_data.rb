@@ -80,15 +80,22 @@ module Types::Revisions
         .gsub(' ', '')
         .constantize
       values = field_class.where(id: set).map do |obj|
+        deprecated = if obj.respond_to?(:deprecated)
+          obj.deprecated
+        elsif obj.respond_to?(:retraction_nature)
+          obj.retraction_nature == 'Retraction'
+        else
+          nil
+        end
         {
           id: obj.id,
           entity_type: obj.class.to_s,
           display_name: obj.display_name,
           display_type: obj.respond_to?(:display_type) ? obj.display_type : nil,
           link: obj.respond_to?(:link) ? obj.link : "",
-          deprecated: obj.respond_to?(:deprecated) ? obj.deprecated : nil,
           feature: obj.respond_to?(:feature) ? obj.feature : nil,
-          deleted: false
+          deleted: false,
+          deprecated: deprecated
         }
       end
 
