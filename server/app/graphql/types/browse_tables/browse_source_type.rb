@@ -18,6 +18,11 @@ module Types::BrowseTables
     field :link, String, null: false
     field :open_access, Boolean, null: false
     field :retraction_nature, String, null: true
+    field :deprecated, Boolean, null: false
+
+    def deprecated
+      object&.retraction_nature == 'Retraction'
+    end
 
     def source_url
       Source.url_for(source: object)

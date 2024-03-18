@@ -20,5 +20,5 @@ fragment SourceSelectTypeaheadFields on Source {
   citation
   citationId
   sourceType
-  retractionNature
+  deprecated
 }

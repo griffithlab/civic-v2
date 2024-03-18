@@ -1191,6 +1191,7 @@ type BrowseSource {
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]!
+  deprecated: Boolean!
   displayType: String!
   evidenceItemCount: Int!
   id: Int!
@@ -8787,6 +8788,7 @@ type Source implements Commentable & EventSubject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  deprecated: Boolean!
   displayType: String!
 
   """
@@ -8900,6 +8902,7 @@ type SourcePopover implements Commentable & EventSubject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  deprecated: Boolean!
   displayType: String!
 
   """

@@ -26,4 +26,5 @@ fragment SourceSummaryFields on Source {
   retractionNature
   retractionDate
   retractionReasons
+  deprecated
 }

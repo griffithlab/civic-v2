@@ -28,6 +28,11 @@ module Types::Entities
     field :retraction_nature, String, null: true
     field :retraction_date, GraphQL::Types::ISO8601DateTime, null: true
     field :retraction_reasons, String, null: true
+    field :deprecated, Boolean, null: false
+
+    def deprecated
+      object&.retraction_nature == 'Retraction'
+    end
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
