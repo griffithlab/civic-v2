@@ -10,16 +10,19 @@ module Types::Connections
 
     field :unfiltered_count, Int, null: false,
       description: 'When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters.'
+
     field :activity_types, [Types::Activities::ActivityTypeInputType], null: false,
       description: 'List of activity types that have occured on this entity.'
 
+    field :subject_types, [Types::Activities::ActivitySubjectInputType], null: false
+
     def unique_participants
       #Users who's originating ids appear in the activities query,
-      #joined to events table, limited to only activities in the activities query
+      #joined to activities table, limited to only activities in the activities query
       #select the user id and the time of the newest relevant activity
       ranked_user_ids = User.where(id: unscoped_activities_base_query.select(:user_id))
         .joins(:activities)
-        .where(events: { id: unscoped_activities_base_query.select(:id) } )
+        .where(activities: { id: unscoped_activities_base_query.select(:id) } )
         .select("users.id as user_id, max(activities.created_at) newest_activity_timestamp")
         .group("users.id")
 
@@ -32,7 +35,7 @@ module Types::Connections
 
     def participating_organizations
       Organization.where(id:
-                         unscoped_events_base_query.select(:organization_id)
+                         unscoped_activities_base_query.select(:organization_id)
                         ).distinct
     end
 
@@ -42,6 +45,10 @@ module Types::Connections
 
     def activity_types
       unscoped_activities_base_query.distinct.pluck(:type)
+    end
+
+    def subject_types
+      unscoped_activities_base_query.distinct.pluck(:subject_type)
     end
 
     private

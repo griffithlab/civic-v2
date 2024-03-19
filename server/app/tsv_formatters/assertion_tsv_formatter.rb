@@ -58,7 +58,6 @@ class AssertionTsvFormatter
       a.updated_at,
       LinkAdaptors::Assertion.new(a).permalink_path(include_domain: true),
       a.evidence_items.map{|ei| LinkAdaptors::EvidenceItem.new(ei).permalink_path(include_domain: true)}.join(','),
-      LinkAdaptors::Assertion.new(a).permalink_path(include_domain: true),
       LinkAdaptors::MolecularProfile.new(a.molecular_profile).permalink_path(include_domain: true),
       a.flagged
     ]
