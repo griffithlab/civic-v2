@@ -49,8 +49,9 @@ import { CvcCommentActivity } from '../feed-item-details/comment/comment-activit
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
-import { FeedScrollService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { toSignal } from '@angular/core/rxjs-interop'
+import { Scroll } from '@angular/router'
 
 export type FeedDetailToggle = {
   id: number
@@ -86,7 +87,7 @@ export type FeedDetailToggle = {
   ],
   templateUrl: './feed-item.component.html',
   styleUrl: './feed-item.component.less',
-  providers: [FeedScrollService],
+  providers: [ScrollerStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('details', [
@@ -106,11 +107,10 @@ export class CvcActivityFeedItem implements OnInit {
   @Output() cvcOnToggleDetail = new EventEmitter<FeedDetailToggle>()
 
   toggleDetails!: WritableSignal<boolean>
-  $isScrolling!: Signal<boolean>
   constructor(
     private gql: ActivityFeedItemGQL,
     private element: ElementRef,
-    @Self() private scroll: FeedScrollService,
+    @Self() private scroller: ScrollerStateService,
     private injector: EnvironmentInjector
   ) {
     // effect(() => {
@@ -125,10 +125,5 @@ export class CvcActivityFeedItem implements OnInit {
   }
   ngOnInit() {
     this.toggleDetails = signal(this.initWithDetails())
-    // runInInjectionContext(this.injector, () => {
-    //   this.$isScrolling = toSignal(this.scroll.isScrolling$, {
-    //     requireSync: true,
-    //   })
-    // })
   }
 }

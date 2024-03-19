@@ -10,6 +10,7 @@ import {
   Self,
   Signal,
   signal,
+  Type,
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
@@ -31,6 +32,7 @@ import {
   Datasource,
   IAdapter,
   IDatasource,
+  Routines,
   UiScrollModule,
 } from 'ngx-ui-scroll'
 import {
@@ -90,7 +92,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { shareReplay } from 'rxjs/operators'
 import { tag } from 'rxjs-spy/operators'
-import { FeedScrollService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import {
+  configureScrollerRoutines,
+  ScrollerState,
+  ScrollerStateService,
+} from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { IRoutines } from 'vscroll'
 
 @UntilDestroy()
 @Component({
@@ -115,7 +122,7 @@ import { FeedScrollService } from '@app/components/activities/activity-feed/feed
   ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
-  providers: [FeedScrollService],
+  providers: [ScrollerStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeed {
@@ -148,17 +155,20 @@ export class CvcActivityFeed {
   $errors: WritableSignal<any>
   $counts: Signal<Maybe<ActivityFeedCounts>>
   $feedFilterOptions: Signal<ActivityFeedFilterOptions>
+  $scroller: Signal<ScrollerState>
 
   // SERVICE REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
   scrollDatasource?: IDatasource<ActivityInterfaceEdge>
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
+  scrollerState: ScrollerStateService
+  scrollerRoutines: any
 
   constructor(
     private gql: ActivityFeedGQL,
-    private elementRef: ElementRef,
-    @Self() private scrollService: FeedScrollService
+    @Self() scrollerState: ScrollerStateService
   ) {
+    this.scrollerRoutines = configureScrollerRoutines(this)
     this.init$ = new Subject<void>()
     this.onSettingChange$ = new Subject<ActivityFeedSettings>()
     this.onFilterChange$ = new Subject<ActivityFeedFilters>()
@@ -167,12 +177,15 @@ export class CvcActivityFeed {
     this.onToggleItem$ = new Subject<FeedDetailToggle>()
     this.queryType$ = new Subject<FeedQueryType>()
     this.onQueryComplete$ = new Subject<boolean>()
+    this.$scroller = scrollerState.state.asReadonly()
     this.$moreLoading = signal<boolean>(false)
     this.$errors = signal<any>(false)
     this.$counts = signal<Maybe<ActivityFeedCounts>>(undefined)
     this.$feedFilterOptions = signal<ActivityFeedFilterOptions>(
       feedFilterOptionDefaults
     )
+
+    this.scrollerState = scrollerState
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -274,6 +287,7 @@ export class CvcActivityFeed {
       ),
       { initialValue: undefined }
     )
+
     this.$feedFilterOptions = toSignal(
       connection$.pipe(
         map((connection) => {
@@ -368,10 +382,12 @@ export class CvcActivityFeed {
   configureAdapter(): void {
     this.scrollAdapter = this.scrollDatasource?.adapter
     if (this.scrollAdapter) {
-      this.scrollService.configure(this.scrollAdapter)
-      this.scrollService.isScrolling$
-        .pipe(tag('service.isScrolling$'))
-        .subscribe()
+      // this.scrollAdapter.bof$.pipe(untilDestroyed(this)).subscribe((bof) => {
+      //   this.scrollerState.bof$.next(bof)
+      // })
+      // this.scrollAdapter.eof$.pipe(untilDestroyed(this)).subscribe((eof) => {
+      //   this.scrollerState.eof$.next(eof)
+      // })
     }
   }
 }

@@ -15,7 +15,7 @@
           cvcAutoHeightTarget="viewport">
           @if (scrollDatasource) {
             <cvc-activity-feed-item
-              *uiScroll="let edge of scrollDatasource"
+              *uiScroll="let edge of scrollDatasource; Routines: scrollerRoutines"
               [cvcActivity]="edge.node"
               [cvcScope]="cvcScope()"
               [cvcInitWithDetails]="
@@ -49,7 +49,7 @@
     <span
       class="title"
       *nzSpaceItem>
-      {{ cvcTitle() }}
+      {{ cvcTitle() }} scrolling: {{ $scroller().isScrolling }}
     </span>
     <cvc-activity-feed-counts
       *nzSpaceItem

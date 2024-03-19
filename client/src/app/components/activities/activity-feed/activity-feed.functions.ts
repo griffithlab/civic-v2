@@ -14,6 +14,10 @@ import {
   isKey,
 } from './activity-feed.types'
 import { query } from '@angular/animations'
+import { Routines } from 'ngx-ui-scroll'
+import { handler } from 'rxjs-etc'
+import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
+import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 
 // replace empty arrays with undefined
 function filtersToQueryVariables(
