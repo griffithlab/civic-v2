@@ -48,6 +48,7 @@
             [tooltip]="'View on ' + source.displayType">
             {{ source.displayType + ":" + source.citationId }}
           </cvc-link-tag>
+          <cvc-retraction-status-tag *ngIf='source.retractionNature && source.retractionDate && source.retractionReasons' [retractionNature]='source.retractionNature' [retractionDate]="source.retractionDate" [retractionReasons]="source.retractionReasons"></cvc-retraction-status-tag>
         </nz-descriptions-item>
         <nz-descriptions-item
           *ngIf="source.displayType == 'ASCO'"

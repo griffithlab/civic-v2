@@ -19,6 +19,7 @@
           [tooltip]="'View on ' + s.displayType">
           {{ s.displayType + ':' + s.citationId }}
         </cvc-link-tag>
+        <cvc-retraction-status-tag *ngIf='s.retractionNature && s.retractionDate && s.retractionReasons' [retractionNature]='s.retractionNature' [retractionDate]="s.retractionDate" [retractionReasons]="s.retractionReasons" [enablePopover]="false"></cvc-retraction-status-tag>
       </ng-template>
 
       <nz-descriptions

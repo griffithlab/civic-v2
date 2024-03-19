@@ -1191,6 +1191,7 @@ type BrowseSource {
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]!
+  deprecated: Boolean!
   displayType: String!
   evidenceItemCount: Int!
   id: Int!
@@ -1199,6 +1200,7 @@ type BrowseSource {
   name: String
   openAccess: Boolean!
   publicationYear: Int
+  retractionNature: String
   sourceSuggestionCount: Int!
   sourceType: SourceSource!
   sourceUrl: String!
@@ -7951,6 +7953,7 @@ type Source implements Commentable & EventSubject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  deprecated: Boolean!
   displayType: String!
 
   """
@@ -7998,6 +8001,10 @@ type Source implements Commentable & EventSubject {
   publicationDay: Int
   publicationMonth: Int
   publicationYear: Int
+  retracted: Boolean!
+  retractionDate: ISO8601DateTime
+  retractionNature: String
+  retractionReasons: String
   sourceType: SourceSource!
   sourceUrl: String
   title: String
@@ -8060,6 +8067,7 @@ type SourcePopover implements Commentable & EventSubject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  deprecated: Boolean!
   displayType: String!
 
   """
@@ -8108,6 +8116,10 @@ type SourcePopover implements Commentable & EventSubject {
   publicationDay: Int
   publicationMonth: Int
   publicationYear: Int
+  retracted: Boolean!
+  retractionDate: ISO8601DateTime
+  retractionNature: String
+  retractionReasons: String
   sourceType: SourceSource!
   sourceUrl: String
   title: String

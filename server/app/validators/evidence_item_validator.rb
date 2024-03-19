@@ -42,6 +42,10 @@ class EvidenceItemValidator < ActiveModel::Validator
     if record.variant_origin == 'Combined' && !record.molecular_profile.is_multi_variant?
       record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
     end
+
+    if record.source.retraction_nature == 'Retraction'
+      record.errors.add :source_id, "Source has been marked as retracted by Retraction Watch."
+    end
   end
 
   def valid_types

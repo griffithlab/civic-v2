@@ -24,6 +24,7 @@ query EvidenceFieldsFromSourceSuggestion(
       citationId
       citation
       link
+      deprecated
     }
   }
 }
@@ -48,6 +49,7 @@ fragment SubmittableEvidenceFields on EvidenceItem {
     id
     citation
     sourceType
+    deprecated
   }
   phenotypes {
     id

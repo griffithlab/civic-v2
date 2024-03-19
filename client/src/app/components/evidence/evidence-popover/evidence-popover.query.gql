@@ -46,6 +46,7 @@ fragment evidencePopover on EvidenceItem {
     sourceType
     displayType
     link
+    deprecated
   }
   flags(state: OPEN) {
     totalCount

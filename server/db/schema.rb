@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_11_150612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -743,9 +743,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
     t.boolean "fully_curated", default: false, null: false
+    t.boolean "retracted", default: false, null: false
+    t.string "retraction_nature"
+    t.datetime "retraction_date"
+    t.string "retraction_reasons"
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
+    t.index ["retracted"], name: "index_sources_on_retracted"
   end
 
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
@@ -1104,28 +1109,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
   SQL
   add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
 
-  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT sources.id,
-      sources.source_type,
-      sources.citation_id,
-      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
-      sources.publication_year,
-      sources.asco_presenter,
-      sources.journal,
-      sources.title,
-      sources.citation,
-      sources.open_access,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT source_suggestions.id) AS source_suggestion_count
-     FROM ((((sources
-       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
-       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
-       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
-    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
-  SQL
-  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
-
   create_view "evidence_items_by_types", sql_definition: <<-SQL
       SELECT mp.id AS molecular_profile_id,
       sum(
@@ -1340,5 +1323,28 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
     GROUP BY variant_groups.id, variant_groups.name;
   SQL
   add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
+
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
+      sources.publication_year,
+      sources.asco_presenter,
+      sources.journal,
+      sources.title,
+      sources.citation,
+      sources.open_access,
+      sources.retraction_nature,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT source_suggestions.id) AS source_suggestion_count
+     FROM ((((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
 end

@@ -127,3 +127,9 @@ CreateNightlyCivicpyCachePkl:
   description: Create nightly CIViCpy cache
   queue: default
   class: CreateNightlyCivicpyCachePkl
+
+FindRetractedSources:
+  cron: '0 0 * * *'
+  description: Check whether sources have been retracted
+  queue: default
+  class: FindRetractedSources

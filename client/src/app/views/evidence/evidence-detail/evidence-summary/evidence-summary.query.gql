@@ -44,6 +44,8 @@ fragment EvidenceSummaryFields on EvidenceItem {
       id
       link
     }
+    retractionNature
+    deprecated
   }
   evidenceRating
   molecularProfile {

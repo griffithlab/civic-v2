@@ -105,6 +105,7 @@ fragment eventFeedNode on Event {
     ... on Source {
       citation
       sourceType
+      deprecated
     }
     ... on EvidenceItem {
       status
