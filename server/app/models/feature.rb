@@ -41,6 +41,10 @@ class Feature < ApplicationRecord
     Rails.application.routes.url_helpers.url_for("/features/#{self.id}")
   end
 
+  def compatible_variant_type
+    feature_instance.compatible_variant_type
+  end
+
   def self.timepoint_query
     ->(x) {
       self.joins(variants: { molecular_profiles: [:evidence_items] })

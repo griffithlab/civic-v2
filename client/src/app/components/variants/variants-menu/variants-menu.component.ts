@@ -8,7 +8,6 @@ import {
   PageInfo,
   VariantMenuSortColumns,
   SortDirection,
-  VariantConnection,
   MenuVariantTypeFragment,
   VariantTypesForFeatureGQL,
 } from '@app/generated/civic.apollo'
@@ -45,7 +44,6 @@ export class CvcVariantsMenuComponent implements OnInit {
 
   private debouncedQuery = new Subject<void>()
   private result$!: Observable<ApolloQueryResult<VariantsMenuQuery>>
-  connection$!: Observable<VariantConnection>
   private initialQueryVars!: VariantsMenuQueryVariables
   pageSize = 50
 
@@ -77,21 +75,22 @@ export class CvcVariantsMenuComponent implements OnInit {
       startWith(true)
     )
 
-    this.connection$ = this.result$.pipe(
+    const connection$ = this.result$.pipe(
       map((r) => r.data?.variants),
       filter(isNonNulled)
-    ) as Observable<VariantConnection>
+    )
 
-    this.pageInfo$ = this.connection$.pipe(
+    this.pageInfo$ = connection$.pipe(
       map((c) => c.pageInfo),
       filter(isNonNulled)
     )
 
-    this.menuVariants$ = this.connection$.pipe(
-      map((c) => c.edges.map((e) => e.node), filter(isNonNulled))
+    this.menuVariants$ = connection$.pipe(
+      map((c) => c.nodes),
+      filter(isNonNulled)
     )
 
-    this.totalVariants$ = this.connection$.pipe(map((c) => c.totalCount))
+    this.totalVariants$ = connection$.pipe(map((c) => c.totalCount))
 
     this.debouncedQuery
       .pipe(debounceTime(500), untilDestroyed(this))

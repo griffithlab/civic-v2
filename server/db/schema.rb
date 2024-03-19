@@ -10,12 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2024_02_01_182724) do
-
-=======
-ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
->>>>>>> main
+ActiveRecord::Schema[7.1].define(version: 2024_03_14_185837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,11 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-<<<<<<< HEAD
-    t.datetime "created_at", null: false
-=======
     t.datetime "created_at", precision: nil, null: false
->>>>>>> main
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -452,13 +443,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
 
   create_table "factors", force: :cascade do |t|
     t.text "ncit_id"
-<<<<<<< HEAD
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-=======
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
->>>>>>> main
   end
 
   create_table "feature_aliases", force: :cascade do |t|
@@ -708,15 +694,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
     t.string "message", null: false
     t.string "severity", null: false
     t.string "source"
-<<<<<<< HEAD
-    t.datetime "resolved_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-=======
     t.datetime "resolved_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
->>>>>>> main
     t.index ["exception_class", "message", "severity", "source"], name: "solid_error_uniqueness_index", unique: true
     t.index ["resolved_at"], name: "index_solid_errors_on_resolved_at"
   end
@@ -725,13 +705,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
     t.bigint "error_id", null: false
     t.text "backtrace"
     t.json "context"
-<<<<<<< HEAD
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-=======
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
->>>>>>> main
     t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
   end
 
@@ -958,6 +933,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_182724) do
     t.integer "deprecation_comment_id"
     t.text "open_cravat_url"
     t.bigint "feature_id"
+    t.string "type", null: false
+    t.string "ncit_id"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"

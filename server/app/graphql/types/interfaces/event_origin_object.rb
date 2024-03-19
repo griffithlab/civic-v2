@@ -37,7 +37,7 @@ module Types::Interfaces
         when SourceSuggestion
           Types::Entities::SourceSuggestionType
         when Variant
-          Types::Entities::VariantType
+          Types::Interfaces::VariantInterface
         when MolecularProfile
           Types::Entities::MolecularProfileType
         when Feature

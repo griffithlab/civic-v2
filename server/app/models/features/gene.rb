@@ -19,5 +19,9 @@ module Features
         :source_ids
       ]
     end
+
+    def compatible_variant_type
+      Variants::GeneVariant
+    end
   end
 end

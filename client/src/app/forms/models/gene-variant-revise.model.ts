@@ -1,11 +1,11 @@
 import { FormReviseBaseModel } from './form-revise-base.model'
-import { VariantFields } from './variant-fields.model'
+import { GeneVariantFields } from './gene-variant-fields.model'
 
-export interface VariantReviseModel extends FormReviseBaseModel {
-  fields: VariantFields
+export interface GeneVariantReviseModel extends FormReviseBaseModel {
+  fields: GeneVariantFields
 }
 
-export const variantReviseFieldsDefaults: VariantFields = {
+export const geneVariantReviseFieldsDefaults: GeneVariantFields = {
   name: undefined,
   aliases: undefined,
   hgvsDescriptions: undefined,
@@ -23,13 +23,13 @@ export const variantReviseFieldsDefaults: VariantFields = {
   representativeTranscript2: undefined,
   featureId: undefined,
   referenceBases: undefined,
-  variantBases: undefined
+  variantBases: undefined,
 }
 
-export const variantReviseFormInitialModel: VariantReviseModel = {
+export const geneVariantReviseFormInitialModel: GeneVariantReviseModel = {
   id: undefined,
   clientMutationId: undefined,
-  fields: variantReviseFieldsDefaults,
+  fields: geneVariantReviseFieldsDefaults,
   comment: undefined,
-  organizationId: undefined
+  organizationId: undefined,
 }

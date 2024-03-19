@@ -1,9 +1,9 @@
-class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
+class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
   description 'Suggest a Revision to a Variant entity.'
   argument :id, Int, required: true,
     description: 'The ID of the Variant to suggest a Revision to.'
 
-  argument :fields, Types::Revisions::VariantFields, required: true,
+  argument :fields, Types::Revisions::GeneVariantFields, required: true,
     description: <<~DOC.strip
       The desired state of the Variant's editable fields if the change were applied.
       If no change is desired for a particular field, pass in the current value of that field.
@@ -13,7 +13,7 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 
-  field :variant, Types::Entities::VariantType, null: false,
+  field :variant, Types::Interfaces::VariantInterface, null: false,
     description: 'The Variant the user has proposed a Revision to.'
 
   field :results, [Types::Revisions::RevisionResult], null: false,
@@ -34,6 +34,10 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
     variant = Variant.find_by(id: id)
     if variant.nil?
       raise GraphQL::ExecutionError, "Variant with id #{id} doesn't exist."
+    end
+
+    if !variant.is_a?(Variants::GeneVariant)
+      raise GraphQL::ExecutionError, "Variant with id #{id} is a #{variant.type} and you called the GeneVariant mutation."
     end
 
     @variant = variant

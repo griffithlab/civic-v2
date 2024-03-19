@@ -2018,7 +2018,7 @@ type CreateVariantPayload {
   """
   The newly created Variant.
   """
-  variant: Variant!
+  variant: VariantInterface!
 }
 
 """
@@ -2127,7 +2127,7 @@ type DeprecateFeatureActivity implements ActivityInterface {
   parsedNote: [CommentBodySegment!]!
   subject: EventSubject!
   user: User!
-  variants: [Variant!]!
+  variants: [VariantInterface!]!
   verbiage: String!
 }
 
@@ -2187,7 +2187,7 @@ type DeprecateFeaturePayload {
   """
   The variants linked to this feature that are newly deprecated.
   """
-  newlyDeprecatedVariants: [Variant!]
+  newlyDeprecatedVariants: [VariantInterface!]
 }
 
 type DeprecateVariantActivity implements ActivityInterface {
@@ -2254,7 +2254,7 @@ type DeprecateVariantPayload {
   """
   The deprecated Variant.
   """
-  variant: Variant
+  variant: VariantInterface
 }
 
 type Disease {
@@ -3219,7 +3219,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+  ): VariantInterfaceConnection!
 }
 
 """
@@ -3255,6 +3255,224 @@ input FactorFields {
   Source IDs cited by the Factor's summary.
   """
   sourceIds: [Int!]!
+}
+
+type FactorVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
+  creationActivity: CreateVariantActivity
+  deprecated: Boolean!
+  deprecationActivity: DeprecateVariantActivity
+  deprecationReason: VariantDeprecationReason
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  feature: Feature!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  id: Int!
+  lastAcceptedRevisionEvent: Event
+  lastCommentEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
+  molecularProfiles(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): MolecularProfileConnection!
+  name: String!
+  ncitId: String
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionSetId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
+  singleVariantMolecularProfile: MolecularProfile!
+  singleVariantMolecularProfileId: Int!
+  variantAliases: [String!]!
+  variantTypes: [VariantType!]!
 }
 
 type FdaCode {
@@ -3488,7 +3706,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+  ): VariantInterfaceConnection!
 }
 
 enum FeatureDeprecationReason {
@@ -4075,7 +4293,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+  ): VariantInterfaceConnection!
 }
 
 """
@@ -4148,6 +4366,301 @@ input GeneSearchFilter {
   id: IntSearchInput
   openRevisionCount: IntSearchInput
   subFilters: [GeneSearchFilter!]
+}
+
+type GeneVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
+  alleleRegistryId: String
+  clinvarIds: [String!]!
+
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
+  creationActivity: CreateVariantActivity
+  deprecated: Boolean!
+  deprecationActivity: DeprecateVariantActivity
+  deprecationReason: VariantDeprecationReason
+  ensemblVersion: Int
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  feature: Feature!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  hgvsDescriptions: [String!]!
+  id: Int!
+  lastAcceptedRevisionEvent: Event
+  lastCommentEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
+  maneSelectTranscript: String
+  molecularProfiles(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): MolecularProfileConnection!
+  myVariantInfo: MyVariantInfo
+  name: String!
+  openCravatUrl: String
+  primaryCoordinates: Coordinate
+  referenceBases: String
+  referenceBuild: ReferenceBuild
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionSetId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
+  secondaryCoordinates: Coordinate
+  singleVariantMolecularProfile: MolecularProfile!
+  singleVariantMolecularProfileId: Int!
+  variantAliases: [String!]!
+  variantBases: String
+  variantTypes: [VariantType!]!
+}
+
+"""
+Fields on a GeneVariant that curators may propose revisions to.
+"""
+input GeneVariantFields {
+  """
+  List of aliases or alternate names for the Variant.
+  """
+  aliases: [String!]!
+
+  """
+  List of ClinVar IDs for the Variant.
+  """
+  clinvarIds: ClinvarInput!
+
+  """
+  The Ensembl database version.
+  """
+  ensemblVersion: NullableIntInput!
+
+  """
+  The ID of the Feature this Variant corresponds to.
+  """
+  featureId: Int!
+
+  """
+  List of HGVS descriptions for the Variant.
+  """
+  hgvsDescriptions: [String!]!
+
+  """
+  The Variant's name.
+  """
+  name: String!
+
+  """
+  The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner.
+  """
+  primaryCoordinates: CoordinateInput!
+
+  """
+  Reference bases for this variant
+  """
+  referenceBases: NullableStringInput!
+
+  """
+  The reference build for the genomic coordinates of this Variant.
+  """
+  referenceBuild: NullableReferenceBuildTypeInput!
+
+  """
+  In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null.
+  """
+  secondaryCoordinates: CoordinateInput!
+
+  """
+  Variant bases for this variant
+  """
+  variantBases: NullableStringInput!
+
+  """
+  List of IDs for the variant types for this Variant
+  """
+  variantTypeIds: [Int!]!
 }
 
 """
@@ -4700,7 +5213,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   complexMolecularProfileCreationActivity: CreateComplexMolecularProfileActivity
   complexMolecularProfileDeprecationActivity: DeprecateComplexMolecularProfileActivity
   deprecated: Boolean!
-  deprecatedVariants: [Variant!]!
+  deprecatedVariants: [VariantInterface!]!
   deprecationReason: MolecularProfileDeprecationReason
   description: String
 
@@ -4890,7 +5403,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   """
   The collection of variants included in this molecular profile. Please note the name for their relation to each other.
   """
-  variants: [Variant!]!
+  variants: [VariantInterface!]!
 }
 
 type MolecularProfileAlias {
@@ -5024,7 +5537,7 @@ input MolecularProfileFields {
 }
 
 type MolecularProfileNamePreview {
-  deprecatedVariants: [Variant!]!
+  deprecatedVariants: [VariantInterface!]!
 
   """
   The already existing MP matching this name, if it exists
@@ -5325,6 +5838,16 @@ type Mutation {
   ): SuggestGeneRevisionPayload
 
   """
+  Suggest a Revision to a Variant entity.
+  """
+  suggestGeneVariantRevision(
+    """
+    Parameters for SuggestGeneVariantRevision
+    """
+    input: SuggestGeneVariantRevisionInput!
+  ): SuggestGeneVariantRevisionPayload
+
+  """
   Suggest a Revision to a MolecularProfile entity.
   """
   suggestMolecularProfileRevision(
@@ -5353,16 +5876,6 @@ type Mutation {
     """
     input: SuggestVariantGroupRevisionInput!
   ): SuggestVariantGroupRevisionPayload
-
-  """
-  Suggest a Revision to a Variant entity.
-  """
-  suggestVariantRevision(
-    """
-    Parameters for SuggestVariantRevision
-    """
-    input: SuggestVariantRevisionInput!
-  ): SuggestVariantRevisionPayload
 
   """
   Unsubscribe from a CIViC entity to stop receiving notifications about it.
@@ -7334,7 +7847,7 @@ type Query {
   """
   Find a variant by CIViC ID
   """
-  variant(id: Int!): Variant
+  variant(id: Int!): VariantInterface
 
   """
   Find a variant group by CIViC ID
@@ -7485,7 +7998,7 @@ type Query {
     A list of CIViC identifiers for variant types
     """
     variantTypeIds: [Int!]
-  ): VariantConnection!
+  ): VariantInterfaceConnection!
   viewer: User
 }
 
@@ -8799,6 +9312,64 @@ type SuggestGeneRevisionPayload {
 }
 
 """
+Autogenerated input type of SuggestGeneVariantRevision
+"""
+input SuggestGeneVariantRevisionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Text describing the reason for the change. Will be attached to the Revision as a comment.
+  """
+  comment: String
+
+  """
+  The desired state of the Variant's editable fields if the change were applied.
+  If no change is desired for a particular field, pass in the current value of that field.
+  """
+  fields: GeneVariantFields!
+
+  """
+  The ID of the Variant to suggest a Revision to.
+  """
+  id: Int!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SuggestGeneVariantRevision.
+"""
+type SuggestGeneVariantRevisionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  A list of Revisions generated as a result of this suggestion.
+  If an existing Revision exactly matches the proposed one, it will be returned instead.
+  This is indicated via the 'newlyCreated' Boolean.
+  Revisions are stored on a per-field basis.
+  The changesetId can be used to group Revisions proposed at the same time.
+  """
+  results: [RevisionResult!]!
+
+  """
+  The Variant the user has proposed a Revision to.
+  """
+  variant: VariantInterface!
+}
+
+"""
 Autogenerated input type of SuggestMolecularProfileRevision
 """
 input SuggestMolecularProfileRevisionInput {
@@ -8992,64 +9563,6 @@ type SuggestVariantGroupRevisionPayload {
   The VariantGroup the user has proposed a Revision to.
   """
   variantGroup: VariantGroup!
-}
-
-"""
-Autogenerated input type of SuggestVariantRevision
-"""
-input SuggestVariantRevisionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  Text describing the reason for the change. Will be attached to the Revision as a comment.
-  """
-  comment: String
-
-  """
-  The desired state of the Variant's editable fields if the change were applied.
-  If no change is desired for a particular field, pass in the current value of that field.
-  """
-  fields: VariantFields!
-
-  """
-  The ID of the Variant to suggest a Revision to.
-  """
-  id: Int!
-
-  """
-  The ID of the organization to credit the user's contributions to.
-  If the user belongs to a single organization or no organizations, this field is not required.
-  This field is required if the user belongs to more than one organization.
-  The user must belong to the organization provided.
-  """
-  organizationId: Int
-}
-
-"""
-Autogenerated return type of SuggestVariantRevision.
-"""
-type SuggestVariantRevisionPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  A list of Revisions generated as a result of this suggestion.
-  If an existing Revision exactly matches the proposed one, it will be returned instead.
-  This is indicated via the 'newlyCreated' Boolean.
-  Revisions are stored on a per-field basis.
-  The changesetId can be used to group Revisions proposed at the same time.
-  """
-  results: [RevisionResult!]!
-
-  """
-  The Variant the user has proposed a Revision to.
-  """
-  variant: Variant!
 }
 
 enum TaggableEntity {
@@ -9568,10 +10081,7 @@ type ValidationErrors {
   validationErrors: [FieldValidationError!]!
 }
 
-type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
-  alleleRegistryId: String
-  clinvarIds: [String!]!
-
+type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
   """
   List and filter comments.
   """
@@ -9625,7 +10135,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
-  ensemblVersion: Int
 
   """
   List and filter events for an object
@@ -9706,13 +10215,11 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     state: FlagState
   ): FlagConnection!
-  hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   link: String!
-  maneSelectTranscript: String
   molecularProfiles(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -9734,12 +10241,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     last: Int
   ): MolecularProfileConnection!
-  myVariantInfo: MyVariantInfo
   name: String!
-  openCravatUrl: String
-  primaryCoordinates: Coordinate
-  referenceBases: String
-  referenceBuild: ReferenceBuild
 
   """
   List and filter revisions.
@@ -9790,11 +10292,9 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     status: RevisionStatus
   ): RevisionConnection!
-  secondaryCoordinates: Coordinate
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
   variantAliases: [String!]!
-  variantBases: String
   variantTypes: [VariantType!]!
 }
 
@@ -9817,121 +10317,11 @@ input VariantComponent {
   variantId: Int!
 }
 
-"""
-The connection type for Variant.
-"""
-type VariantConnection {
-  """
-  A list of edges.
-  """
-  edges: [VariantEdge!]!
-
-  """
-  A list of nodes.
-  """
-  nodes: [Variant!]!
-
-  """
-  Total number of pages, based on filtered count and pagesize.
-  """
-  pageCount: Int!
-
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  The total number of records in this filtered collection.
-  """
-  totalCount: Int!
-}
-
 enum VariantDeprecationReason {
   DUPLICATE
   FEATURE_DEPRECATED
   INVALID
   OTHER
-}
-
-"""
-An edge in a connection.
-"""
-type VariantEdge {
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-
-  """
-  The item at the end of the edge.
-  """
-  node: Variant
-}
-
-"""
-Fields on a Variant that curators may propose revisions to.
-"""
-input VariantFields {
-  """
-  List of aliases or alternate names for the Variant.
-  """
-  aliases: [String!]!
-
-  """
-  List of ClinVar IDs for the Variant.
-  """
-  clinvarIds: ClinvarInput!
-
-  """
-  The Ensembl database version.
-  """
-  ensemblVersion: NullableIntInput!
-
-  """
-  The ID of the Feature this Variant corresponds to.
-  """
-  featureId: Int!
-
-  """
-  List of HGVS descriptions for the Variant.
-  """
-  hgvsDescriptions: [String!]!
-
-  """
-  The Variant's name.
-  """
-  name: String!
-
-  """
-  The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner.
-  """
-  primaryCoordinates: CoordinateInput!
-
-  """
-  Reference bases for this variant
-  """
-  referenceBases: NullableStringInput!
-
-  """
-  The reference build for the genomic coordinates of this Variant.
-  """
-  referenceBuild: NullableReferenceBuildTypeInput!
-
-  """
-  In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null.
-  """
-  secondaryCoordinates: CoordinateInput!
-
-  """
-  Variant bases for this variant
-  """
-  variantBases: NullableStringInput!
-
-  """
-  List of IDs for the variant types for this Variant
-  """
-  variantTypeIds: [Int!]!
 }
 
 type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisions {
@@ -10150,7 +10540,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+  ): VariantInterfaceConnection!
 }
 
 """
@@ -10241,6 +10631,271 @@ enum VariantGroupsSortColumns {
   NAME
   VARIANT_COUNT
   VARIANT_NAMES
+}
+
+"""
+A taggable/linkable component of a molecular profile
+"""
+interface VariantInterface implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
+  creationActivity: CreateVariantActivity
+  deprecated: Boolean!
+  deprecationActivity: DeprecateVariantActivity
+  deprecationReason: VariantDeprecationReason
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  feature: Feature!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  id: Int!
+  lastAcceptedRevisionEvent: Event
+  lastCommentEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
+  molecularProfiles(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): MolecularProfileConnection!
+  name: String!
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionSetId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
+  singleVariantMolecularProfile: MolecularProfile!
+  singleVariantMolecularProfileId: Int!
+  variantAliases: [String!]!
+  variantTypes: [VariantType!]!
+}
+
+"""
+The connection type for VariantInterface.
+"""
+type VariantInterfaceConnection {
+  """
+  A list of edges.
+  """
+  edges: [VariantInterfaceEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [VariantInterface!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type VariantInterfaceEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: VariantInterface
 }
 
 input VariantMenuSort {

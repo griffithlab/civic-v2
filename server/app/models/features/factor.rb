@@ -20,5 +20,9 @@ module Features
         :feature_alias_ids
       ]
     end
+
+    def compatible_variant_type
+      Variants::FactorVariant
+    end
   end
 end

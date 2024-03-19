@@ -16,7 +16,7 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
   field :feature, Types::Entities::FeatureType, null: true,
     description: 'The deprecated Feature.'
 
-  field :newly_deprecated_variants, [Types::Entities::VariantType], null: true,
+  field :newly_deprecated_variants, [Types::Interfaces::VariantInterface], null: true,
     description: 'The variants linked to this feature that are newly deprecated.'
 
   field :newly_deprecated_molecular_profiles, [Types::Entities::MolecularProfileType], null: true,

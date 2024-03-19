@@ -3,7 +3,7 @@ require 'search_object/plugin/graphql'
 class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
-  type Types::Entities::VariantType.connection_type, null: false
+  type Types::Interfaces::VariantInterface.connection_type, null: false
 
   description 'List and filter variants.'
 

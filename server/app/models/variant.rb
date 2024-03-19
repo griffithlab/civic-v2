@@ -6,8 +6,6 @@ class Variant < ApplicationRecord
   include WithTimepointCounts
 
   belongs_to :feature
-  belongs_to :gene, class_name: 'Features::Gene', optional: true
-  belongs_to :secondary_gene, class_name: 'Features::Gene', optional: true
 
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
@@ -18,9 +16,9 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :hgvs_descriptions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-  belongs_to :single_variant_molecular_profile, 
+  belongs_to :single_variant_molecular_profile,
     class_name: "MolecularProfile",
-    foreign_key: :single_variant_molecular_profile_id 
+    foreign_key: :single_variant_molecular_profile_id
 
   has_one :deprecation_activity,
     as: :subject,
@@ -32,7 +30,6 @@ class Variant < ApplicationRecord
     class_name: 'CreateVariantActivity'
   has_one :creating_user, through: :creation_activity, source: :user
 
-  enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
   enum deprecation_reason: ['duplicate', 'invalid_variant', 'other', 'feature_deprecated']
 
   has_many :activities_linked_entities,
@@ -52,25 +49,17 @@ class Variant < ApplicationRecord
 
   validates :name, presence: true
 
-  validates :reference_bases, format: {
-    with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
-    message: "only allows A,C,T,G or /"
-  }, allow_nil: true
-
-  validates :variant_bases, format: {
-    with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
-    message: "only allows A,C,T,G or /"
-  }, allow_nil: true
-
   validate :unique_name_in_context
+  validate :feature_type_matches_variant_type
+  validates_with VariantFieldsValidator
 
   searchkick highlight: [:name, :aliases], callbacks: :async
-  scope :search_import, -> { includes(:variant_aliases, :gene) }
+  scope :search_import, -> { includes(:variant_aliases, :feature) }
 
   def search_data
     {
-      name: "#{gene.name} - #{name}",
-      gene: gene.name,
+      name: "#{feature.name} - #{name}",
+      feature: feature.name,
       aliases: variant_aliases.map(&:name),
     }
   end
@@ -142,26 +131,40 @@ class Variant < ApplicationRecord
     end
   end
 
+  def feature_type_matches_variant_type
+    feature_instance = feature.feature_instance
+    if compatible_features.none? { |cf| feature_instance.is_a?(cf) }
+      errors.add(:feature_id, "#{type} is not compatible with #{feature_instance.feature_instance_type.demodulize} Features")
+    end
+  end
+
   def editable_fields
+    raise StandardError.new("Implement in Variant subclass")
+  end
+
+  def forbidden_fields
+    other_editable_fields = Variant.known_subclasses
+      .reject { |c| self.is_a?(c) }
+      .flat_map { |c| c.new.editable_fields }
+
+    other_editable_fields - self.editable_fields
+  end
+
+  def required_fields
+    #Fields that this variant type _must_ have populated
+    #(Excluding name and feature id, that is handled in the parent)
+    raise StandardError.new("Implement in Variant subclass")
+  end
+
+  def compatible_features
+    #Feature types this Variant may be assigned to
+    raise StandardError.new("Implement in Variant subclass")
+  end
+
+  def self.known_subclasses
     [
-      :feature_id,
-      :name,
-      :variant_alias_ids,
-      :hgvs_description_ids,
-      :clinvar_entry_ids,
-      :variant_type_ids,
-      :reference_build,
-      :ensembl_version,
-      :chromosome,
-      :start,
-      :stop,
-      :reference_bases,
-      :variant_bases,
-      :representative_transcript,
-      :chromosome2,
-      :start2,
-      :stop2,
-      :representative_transcript2,
+      Variants::GeneVariant,
+      Variants::FactorVariant
     ]
   end
 end

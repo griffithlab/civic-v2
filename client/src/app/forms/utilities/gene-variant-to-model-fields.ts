@@ -1,16 +1,16 @@
 import {
   ClinvarInput,
   Maybe,
-  RevisableVariantFieldsFragment,
-  SuggestVariantRevisionInput,
+  RevisableGeneVariantFieldsFragment,
+  SuggestGeneVariantRevisionInput,
 } from '@app/generated/civic.apollo'
 import * as fmt from '@app/forms/utilities/input-formatters'
-import { VariantReviseModel } from '../models/variant-revise.model'
-import { VariantFields } from '../models/variant-fields.model'
+import { GeneVariantReviseModel } from '../models/gene-variant-revise.model'
+import { GeneVariantFields } from '../models/gene-variant-fields.model'
 
-export function variantToModelFields(
-  variant: RevisableVariantFieldsFragment
-): VariantFields {
+export function geneVariantToModelFields(
+  variant: RevisableGeneVariantFieldsFragment
+): GeneVariantFields {
   return {
     name: variant.name,
     aliases: variant.variantAliases,
@@ -35,10 +35,10 @@ export function variantToModelFields(
   }
 }
 
-export function variantFormModelToReviseInput(
+export function geneVariantFormModelToReviseInput(
   vid: number,
-  model: VariantReviseModel
-): Maybe<SuggestVariantRevisionInput> {
+  model: GeneVariantReviseModel
+): Maybe<SuggestGeneVariantRevisionInput> {
   const fields = model.fields
   if (!model.comment || !fields.name || !fields.featureId) {
     return undefined

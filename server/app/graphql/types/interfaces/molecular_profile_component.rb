@@ -24,7 +24,7 @@ module Types::Interfaces
         when Feature
           Types::Entities::FeatureType
         when Variant
-          Types::Entities::VariantType
+          Types::Interfaces::VariantInterface
         else
           raise "Unexpected MolecularProfileTag type: #{object.class}"
         end

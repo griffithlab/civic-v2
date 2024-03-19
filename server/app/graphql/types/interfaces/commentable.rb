@@ -24,7 +24,7 @@ module Types::Interfaces
         when Source
           Types::Entities::SourceType
         when Variant
-          Types::Entities::VariantType
+          Types::Interfaces::VariantInterface
         when VariantGroup
           Types::Entities::VariantGroupType
         when Source

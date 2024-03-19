@@ -8,7 +8,7 @@ class Mutations::CreateVariant < Mutations::MutationWithOrg
   argument :feature_id, Int, required: true,
     description: 'The CIViC ID of the Feature to which the new variant belongs.'
 
-  field :variant, Types::Entities::VariantType, null: false,
+  field :variant, Types::Interfaces::VariantInterface, null: false,
     description: 'The newly created Variant.'
 
   field :molecular_profile, Types::Entities::MolecularProfileType, null: false,

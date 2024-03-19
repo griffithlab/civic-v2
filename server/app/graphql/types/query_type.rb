@@ -64,7 +64,7 @@ module Types
       argument :id, Int, required: false
     end
 
-    field :variant, Types::Entities::VariantType, null: true do
+    field :variant, Types::Interfaces::VariantInterface, null: true do
       description "Find a variant by CIViC ID"
       argument :id, Int, required: true
     end
@@ -192,7 +192,6 @@ module Types
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
     field :activities, resolver: Resolvers::Activities
-
 
     def molecular_profile(id: )
       ::MolecularProfile.find_by(id: id)

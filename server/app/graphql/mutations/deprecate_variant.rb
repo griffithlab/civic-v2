@@ -13,7 +13,7 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text giving more context for deprecation this variant.'
 
-  field :variant, Types::Entities::VariantType, null: true,
+  field :variant, Types::Interfaces::VariantInterface, null: true,
     description: 'The deprecated Variant.'
 
   field :newly_deprecated_molecular_profiles, [Types::Entities::MolecularProfileType], null: true,

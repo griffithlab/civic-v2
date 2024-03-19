@@ -17,7 +17,7 @@ module Types::Interfaces
         when Feature
           Types::Entities::FeatureType
         when Variant
-          Types::Entities::VariantType
+          Types::Interfaces::VariantInterface
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion

@@ -39,7 +39,7 @@ export type ActivityInterfaceFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ActivityInterfaceConnectionKeySpecifier = ('activityTypes' | 'edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'participatingOrganizations' | 'totalCount' | 'unfilteredCount' | 'uniqueParticipants' | ActivityInterfaceConnectionKeySpecifier)[];
+export type ActivityInterfaceConnectionKeySpecifier = ('activityTypes' | 'edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'participatingOrganizations' | 'subjectTypes' | 'totalCount' | 'unfilteredCount' | 'uniqueParticipants' | ActivityInterfaceConnectionKeySpecifier)[];
 export type ActivityInterfaceConnectionFieldPolicy = {
 	activityTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -47,6 +47,7 @@ export type ActivityInterfaceConnectionFieldPolicy = {
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	participatingOrganizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	subjectTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	unfilteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	uniqueParticipants?: FieldPolicy<any> | FieldReadFunction<any>
@@ -846,6 +847,31 @@ export type FactorFieldPolicy = {
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type FactorVariantKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'ncitId' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | FactorVariantKeySpecifier)[];
+export type FactorVariantFieldPolicy = {
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	feature?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	ncitId?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FdaCodeKeySpecifier = ('code' | 'description' | FdaCodeKeySpecifier)[];
 export type FdaCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -981,6 +1007,42 @@ export type GeneEdgeKeySpecifier = ('cursor' | 'node' | GeneEdgeKeySpecifier)[];
 export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'ensemblVersion' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'primaryCoordinates' | 'referenceBases' | 'referenceBuild' | 'revisions' | 'secondaryCoordinates' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantBases' | 'variantTypes' | GeneVariantKeySpecifier)[];
+export type GeneVariantFieldPolicy = {
+	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
+	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	feature?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
+	hgvsDescriptions?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	maneSelectTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	myVariantInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	openCravatUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	primaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
+	referenceBases?: FieldPolicy<any> | FieldReadFunction<any>,
+	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	secondaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantBases?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
 export type LeaderboardOrganizationFieldPolicy = {
@@ -1213,7 +1275,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestGeneRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1240,10 +1302,10 @@ export type MutationFieldPolicy = {
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestFactorRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestGeneVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestMolecularProfileRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestSource?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestVariantGroupRevision?: FieldPolicy<any> | FieldReadFunction<any>,
-	suggestVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCoi?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateNotificationStatus?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1860,6 +1922,12 @@ export type SuggestGeneRevisionPayloadFieldPolicy = {
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SuggestGeneVariantRevisionPayloadKeySpecifier = ('clientMutationId' | 'results' | 'variant' | SuggestGeneVariantRevisionPayloadKeySpecifier)[];
+export type SuggestGeneVariantRevisionPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>,
+	variant?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SuggestMolecularProfileRevisionPayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | 'results' | SuggestMolecularProfileRevisionPayloadKeySpecifier)[];
 export type SuggestMolecularProfileRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1903,12 +1971,6 @@ export type SuggestVariantGroupRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type SuggestVariantRevisionPayloadKeySpecifier = ('clientMutationId' | 'results' | 'variant' | SuggestVariantRevisionPayloadKeySpecifier)[];
-export type SuggestVariantRevisionPayloadFieldPolicy = {
-	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
-	results?: FieldPolicy<any> | FieldReadFunction<any>,
-	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TherapyKeySpecifier = ('id' | 'link' | 'myChemInfo' | 'name' | 'ncitId' | 'therapyAliases' | 'therapyUrl' | TherapyKeySpecifier)[];
 export type TherapyFieldPolicy = {
@@ -2026,58 +2088,33 @@ export type ValidationErrorsFieldPolicy = {
 	genericErrors?: FieldPolicy<any> | FieldReadFunction<any>,
 	validationErrors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'ensemblVersion' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'primaryCoordinates' | 'referenceBases' | 'referenceBuild' | 'revisions' | 'secondaryCoordinates' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantBases' | 'variantTypes' | VariantKeySpecifier)[];
+export type VariantKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
-	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
-	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
-	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	feature?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
-	hgvsDescriptions?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
-	maneSelectTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
-	myVariantInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	openCravatUrl?: FieldPolicy<any> | FieldReadFunction<any>,
-	primaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
-	referenceBases?: FieldPolicy<any> | FieldReadFunction<any>,
-	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
-	secondaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
-	variantBases?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VariantAliasKeySpecifier = ('name' | VariantAliasKeySpecifier)[];
 export type VariantAliasFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type VariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
-export type VariantConnectionFieldPolicy = {
-	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type VariantEdgeKeySpecifier = ('cursor' | 'node' | VariantEdgeKeySpecifier)[];
-export type VariantEdgeFieldPolicy = {
-	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
-	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VariantGroupKeySpecifier = ('comments' | 'description' | 'events' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'revisions' | 'sources' | 'variants' | VariantGroupKeySpecifier)[];
 export type VariantGroupFieldPolicy = {
@@ -2106,6 +2143,43 @@ export type VariantGroupConnectionFieldPolicy = {
 };
 export type VariantGroupEdgeKeySpecifier = ('cursor' | 'node' | VariantGroupEdgeKeySpecifier)[];
 export type VariantGroupEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type VariantInterfaceKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | VariantInterfaceKeySpecifier)[];
+export type VariantInterfaceFieldPolicy = {
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	feature?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type VariantInterfaceConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantInterfaceConnectionKeySpecifier)[];
+export type VariantInterfaceConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type VariantInterfaceEdgeKeySpecifier = ('cursor' | 'node' | VariantInterfaceEdgeKeySpecifier)[];
+export type VariantInterfaceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -2491,6 +2565,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | FactorKeySpecifier | (() => undefined | FactorKeySpecifier),
 		fields?: FactorFieldPolicy,
 	},
+	FactorVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FactorVariantKeySpecifier | (() => undefined | FactorVariantKeySpecifier),
+		fields?: FactorVariantFieldPolicy,
+	},
 	FdaCode?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FdaCodeKeySpecifier | (() => undefined | FdaCodeKeySpecifier),
 		fields?: FdaCodeFieldPolicy,
@@ -2542,6 +2620,10 @@ export type StrictTypedTypePolicies = {
 	GeneEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GeneEdgeKeySpecifier | (() => undefined | GeneEdgeKeySpecifier),
 		fields?: GeneEdgeFieldPolicy,
+	},
+	GeneVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GeneVariantKeySpecifier | (() => undefined | GeneVariantKeySpecifier),
+		fields?: GeneVariantFieldPolicy,
 	},
 	LeaderboardOrganization?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LeaderboardOrganizationKeySpecifier | (() => undefined | LeaderboardOrganizationKeySpecifier),
@@ -2859,6 +2941,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | SuggestGeneRevisionPayloadKeySpecifier | (() => undefined | SuggestGeneRevisionPayloadKeySpecifier),
 		fields?: SuggestGeneRevisionPayloadFieldPolicy,
 	},
+	SuggestGeneVariantRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestGeneVariantRevisionPayloadKeySpecifier | (() => undefined | SuggestGeneVariantRevisionPayloadKeySpecifier),
+		fields?: SuggestGeneVariantRevisionPayloadFieldPolicy,
+	},
 	SuggestMolecularProfileRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestMolecularProfileRevisionPayloadKeySpecifier | (() => undefined | SuggestMolecularProfileRevisionPayloadKeySpecifier),
 		fields?: SuggestMolecularProfileRevisionPayloadFieldPolicy,
@@ -2878,10 +2964,6 @@ export type StrictTypedTypePolicies = {
 	SuggestVariantGroupRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestVariantGroupRevisionPayloadKeySpecifier | (() => undefined | SuggestVariantGroupRevisionPayloadKeySpecifier),
 		fields?: SuggestVariantGroupRevisionPayloadFieldPolicy,
-	},
-	SuggestVariantRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | SuggestVariantRevisionPayloadKeySpecifier | (() => undefined | SuggestVariantRevisionPayloadKeySpecifier),
-		fields?: SuggestVariantRevisionPayloadFieldPolicy,
 	},
 	Therapy?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TherapyKeySpecifier | (() => undefined | TherapyKeySpecifier),
@@ -2943,14 +3025,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | VariantAliasKeySpecifier | (() => undefined | VariantAliasKeySpecifier),
 		fields?: VariantAliasFieldPolicy,
 	},
-	VariantConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | VariantConnectionKeySpecifier | (() => undefined | VariantConnectionKeySpecifier),
-		fields?: VariantConnectionFieldPolicy,
-	},
-	VariantEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | VariantEdgeKeySpecifier | (() => undefined | VariantEdgeKeySpecifier),
-		fields?: VariantEdgeFieldPolicy,
-	},
 	VariantGroup?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantGroupKeySpecifier | (() => undefined | VariantGroupKeySpecifier),
 		fields?: VariantGroupFieldPolicy,
@@ -2962,6 +3036,18 @@ export type StrictTypedTypePolicies = {
 	VariantGroupEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantGroupEdgeKeySpecifier | (() => undefined | VariantGroupEdgeKeySpecifier),
 		fields?: VariantGroupEdgeFieldPolicy,
+	},
+	VariantInterface?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantInterfaceKeySpecifier | (() => undefined | VariantInterfaceKeySpecifier),
+		fields?: VariantInterfaceFieldPolicy,
+	},
+	VariantInterfaceConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantInterfaceConnectionKeySpecifier | (() => undefined | VariantInterfaceConnectionKeySpecifier),
+		fields?: VariantInterfaceConnectionFieldPolicy,
+	},
+	VariantInterfaceEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantInterfaceEdgeKeySpecifier | (() => undefined | VariantInterfaceEdgeKeySpecifier),
+		fields?: VariantInterfaceEdgeFieldPolicy,
 	},
 	VariantType?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantTypeKeySpecifier | (() => undefined | VariantTypeKeySpecifier),
