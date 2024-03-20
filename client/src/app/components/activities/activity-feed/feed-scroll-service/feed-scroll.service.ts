@@ -1,11 +1,24 @@
-import { computed, Injectable, Signal, signal } from '@angular/core'
+import { computed, Injectable, NgZone, Signal, signal } from '@angular/core'
 import { SignalStateService } from '@app/components/activities/activity-feed/feed-scroll-service/signal-state.service'
-import { asyncScheduler, of, Subject, switchMap, timer } from 'rxjs'
-import { throttleTime } from 'rxjs/operators'
+import {
+  asyncScheduler,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  scan,
+  Subject,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs'
+import { pairwise, shareReplay, startWith, throttleTime } from 'rxjs/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { Routines } from 'ngx-ui-scroll'
 import { tag } from 'rxjs-spy/operators'
+import { toSignal } from '@angular/core/rxjs-interop'
 
 export interface ScrollerState {
   isScrolling: boolean
@@ -16,10 +29,9 @@ export interface ScrollerState {
 export function configureScrollerRoutines(context: CvcActivityFeed) {
   return class extends Routines {
     onScroll(handler: EventListener): () => void {
-      console.log('onScroll initialized')
-      this.viewport.addEventListener('scroll', () =>
-        context.scrollerState.isScrolling$.next(true)
-      )
+      this.viewport.addEventListener('scroll', (ev: Event) => {
+        context.scrollerState.onScrollEvent$.next(ev)
+      })
       return super.onScroll(handler)
     }
   }
@@ -28,11 +40,11 @@ export function configureScrollerRoutines(context: CvcActivityFeed) {
 @UntilDestroy()
 @Injectable()
 export class ScrollerStateService extends SignalStateService<ScrollerState> {
-  isScrolling$: Subject<boolean>
+  onScrollEvent$: Subject<Event>
   bof$: Subject<boolean>
   eof$: Subject<boolean>
 
-  constructor() {
+  constructor(private zone: NgZone) {
     super()
 
     this.setIsScrolling(false)
@@ -40,7 +52,7 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
     this.setAtEnd(false)
     this.bof$ = new Subject<boolean>()
     this.eof$ = new Subject<boolean>()
-    this.isScrolling$ = new Subject<boolean>()
+    this.onScrollEvent$ = new Subject<Event>()
 
     this.bof$.pipe(untilDestroyed(this)).subscribe((bof) => {
       this.set('atBeginning', bof)
@@ -50,27 +62,28 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
       this.set('atEnd', eof)
     })
 
-    // vscroll's adapter doesn't emit scrolling events, instead
-    // providing a stream of isLoading events that indicate when
-    // it is creating/destroying items. it's a decent proxy for
-    // scrolling, after transforming its true/false pairs into
-    // a throttled stream that emits true at the beginning and
-    // false at the end.
-    this.isScrolling$
+    this.onScrollEvent$
       .pipe(
-        // emit loading events only every 500ms,
-        // transmitting the leading event
-        throttleTime(500, asyncScheduler, { leading: true, trailing: true }),
-        // if the value is false, wait 500ms
-        // and emit false if no other events emitted
-        switchMap((value) =>
-          value ? of(value) : timer(500).pipe(switchMap(() => of(false)))
-        ),
-        tag('isScrolling$'),
+        // emit the first scroll event immediately, then ignore for 250ms
+        throttleTime(250, undefined, { leading: true, trailing: false }),
+        // after the first event, switch to a new observable
+        switchMap(() => {
+          // inner observable emits true immediately (for the first event),
+          // then waits for 500ms of no events to emit false
+          return timer(500).pipe(
+            map(() => false),
+            // start with true so that we emit true immediately for the first event after the switchMap
+            startWith(true)
+          )
+        }),
+        distinctUntilChanged(),
+        shareReplay(1),
         untilDestroyed(this)
       )
       .subscribe((scrolling) => {
-        this.set('isScrolling', scrolling)
+        this.zone.run(() => {
+          this.setIsScrolling(scrolling)
+        })
       })
   }
 
@@ -85,128 +98,4 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
   setAtEnd(atEnd: boolean) {
     this.set('atEnd', atEnd)
   }
-
-  setIsLoading(loading: boolean) {
-    this.isScrolling$.next(loading)
-  }
 }
-// // scrolling.service.ts
-// import { Injectable, Signal } from '@angular/core'
-// import {
-//   asyncScheduler,
-//   BehaviorSubject,
-//   combineLatestWith,
-//   debounceTime,
-//   distinctUntilChanged,
-//   filter,
-//   fromEvent,
-//   map,
-//   merge,
-//   Observable,
-//   of,
-//   Subject,
-//   switchMap,
-//   tap,
-//   timer,
-//   withLatestFrom,
-// } from 'rxjs'
-// import { ActivityInterfaceEdge, Maybe } from '@app/generated/civic.apollo'
-// import { IAdapter } from 'ngx-ui-scroll'
-// import { combineLatest } from 'rxjs/internal/operators/combineLatest'
-// import { pairwise, shareReplay, throttleTime } from 'rxjs/operators'
-// import { tag } from 'rxjs-spy/operators'
-// import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-// import { isNonNulled } from 'rxjs-etc'
-//
-// export type FeedScrollStatus = 'started' | 'stopped' | 'top' | 'bottom'
-// export type VScrollEvent = 'loading' | 'bof' | 'eof'
-//
-// @UntilDestroy()
-// @Injectable()
-// export class FeedScrollService {
-//   private status$!: Observable<FeedScrollStatus>
-//   isScrolling$: Subject<boolean>
-//   isAtTop$: Subject<boolean>
-//   isAtBottom$: Subject<boolean>
-//   constructor() {
-//     this.isScrolling$ = new BehaviorSubject<boolean>(false)
-//     this.isAtTop$ = new BehaviorSubject<boolean>(false)
-//     this.isAtBottom$ = new BehaviorSubject<boolean>(false)
-//   }
-//
-//   configure(adapter: IAdapter<any>): void {
-//     this.status$ = merge(
-//       adapter.isLoading$.pipe(map((event) => ({ type: 'loading', event }))),
-//       adapter.bof$.pipe(map((event) => ({ type: 'bof', event }))),
-//       adapter.eof$.pipe(map((event) => ({ type: 'eof', event })))
-//     ).pipe(
-//       map(({ type, event }) => {
-//         if (type === 'loading' && event === true) {
-//           return 'started'
-//         }
-//         if (type === 'loading' && event === false) {
-//           return 'stopped'
-//         }
-//         if (type === 'bof') {
-//           return 'top'
-//         }
-//         if (type === 'eof') {
-//           return 'bottom'
-//         }
-//         return 'stopped'
-//       }),
-//       shareReplay(1)
-//     )
-//
-//     // isScrolling$
-//     this.status$
-//       .pipe(
-//         map((status) => {
-//           if (!(status === 'started' || status === 'stopped')) {
-//             return
-//           } else {
-//             return status
-//           }
-//         }),
-//         filter(isNonNulled),
-//         map((status) => status === 'started'),
-//         throttleTime(500, asyncScheduler, { leading: true, trailing: true }),
-//         switchMap((value) =>
-//           value ? of(value) : timer(500).pipe(switchMap(() => of(false)))
-//         ),
-//         tap((status) => this.isScrolling$.next(status)),
-//         untilDestroyed(this)
-//       )
-//       .subscribe()
-//
-//     // isAtTop$
-//     this.status$
-//       .pipe(
-//         filter((status) => status === 'top' || status === 'bottom'),
-//         map((status) => status === 'top'),
-//         tap((isAtTop) => {
-//           this.isAtTop$.next(isAtTop)
-//           this.isAtBottom$.next(!isAtTop)
-//         }),
-//         tag('scroll-service isAtTop$'),
-//         shareReplay(1),
-//         untilDestroyed(this)
-//       )
-//       .subscribe()
-//
-//     // isAtBottom$
-//     this.status$
-//       .pipe(
-//         filter((status) => status === 'bottom'),
-//         map((status) => status === 'bottom'),
-//         tap((isAtBottom) => {
-//           this.isAtTop$.next(!isAtBottom)
-//           this.isAtBottom$.next(isAtBottom)
-//         }),
-//         tag('scroll-service isAtBottom$'),
-//         shareReplay(1),
-//         untilDestroyed(this)
-//       )
-//       .subscribe()
-//   }
-// }
