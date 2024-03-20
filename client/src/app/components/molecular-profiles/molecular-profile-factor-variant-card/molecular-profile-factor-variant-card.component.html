@@ -1,3 +1,4 @@
+@if(variant.__typename == "FactorVariant") {
 <nz-card
   [nzTitle]="cardTitle"
   nzType="inner"
@@ -73,91 +74,6 @@
               </ng-template>
             </nz-descriptions-item>
 
-            <!-- allele reg. id -->
-            <nz-descriptions-item
-              [nzSpan]="2"
-              nzTitle="Allele Registry ID">
-              <ng-container
-                *ngIf="variant.alleleRegistryId; else noAlleleRegistry">
-                <cvc-link-tag
-                  [href]="
-                    'https://reg.genome.network/allele/' +
-                    variant.alleleRegistryId +
-                    '.html'
-                  "
-                  tooltip="View on ClinGen Allele Registry">
-                  {{ variant.alleleRegistryId }}
-                </cvc-link-tag>
-              </ng-container>
-              <ng-template #noAlleleRegistry>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None provided</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
-
-            <!-- clinvar ids-->
-            <nz-descriptions-item
-              [nzSpan]="2"
-              [nzTitle]="
-                variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'
-              ">
-              <ng-container
-                *ngIf="variant.clinvarIds.length > 0; else noClinvarIds">
-                <cvc-tag-list
-                  *ngIf="
-                    variant.clinvarIds[0] !== 'N/A';
-                    else clinvarNotApplicable
-                  ">
-                  <ng-container *ngFor="let id of variant.clinvarIds">
-                    <cvc-link-tag
-                      [href]="
-                        'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id
-                      "
-                      tooltip="View on ClinVar">
-                      {{ id }}
-                    </cvc-link-tag>
-                  </ng-container>
-                </cvc-tag-list>
-              </ng-container>
-
-              <ng-template #clinvarNotApplicable>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >N/A</span
-                >
-              </ng-template>
-
-              <ng-template #noClinvarIds>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None provided</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
-
-            <nz-descriptions-item
-              [nzSpan]="2"
-              nzTitle="OpenCRAVAT">
-              <cvc-link-tag
-                *ngIf="variant.openCravatUrl; else noCravat"
-                [href]="variant.openCravatUrl"
-                tooltip="View on OpenCRAVAT">
-                Variant Report
-              </cvc-link-tag>
-              <ng-template #noCravat>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >Allele Registry ID required.</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
-
             <nz-descriptions-item
               [nzSpan]="4"
               *ngIf="this.displayMps.length > 0"
@@ -186,18 +102,8 @@
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
-
-        <!-- coordinates -->
-        <nz-col [nzSpan]="24">
-          <nz-collapse>
-            <nz-collapse-panel nzHeader="Representative Variant Coordinates">
-              <cvc-coordinates-card
-                [displayTitle]="false"
-                [cvcCoordinates]="variant"></cvc-coordinates-card>
-            </nz-collapse-panel>
-          </nz-collapse>
-        </nz-col>
       </nz-row>
     </nz-col>
   </nz-row>
 </nz-card>
+}
