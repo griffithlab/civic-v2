@@ -14,6 +14,7 @@ import {
   EnvironmentInjector,
   runInInjectionContext,
   Signal,
+  Host,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
@@ -110,7 +111,7 @@ export class CvcActivityFeedItem implements OnInit {
   constructor(
     private gql: ActivityFeedItemGQL,
     private element: ElementRef,
-    @Self() private scroller: ScrollerStateService,
+    @Host() scroller: ScrollerStateService,
     private injector: EnvironmentInjector
   ) {
     // effect(() => {

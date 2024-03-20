@@ -22,9 +22,13 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 }
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  activityType: [],
-  subjectType: [],
   userId: [],
+  // activityType: [],
+  // subjectType: [],
+
+  // 103 items, no errors:
+  activityType: [ActivityTypeInput.FlagEntity],
+  subjectType: [ActivitySubjectInput.Variant],
 }
 export const feedDefaultScope: ActivityFeedScope = {
   mode: EventFeedMode.Unscoped,

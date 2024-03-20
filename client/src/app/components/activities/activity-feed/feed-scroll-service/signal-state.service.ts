@@ -1,4 +1,4 @@
-import { computed, Signal, signal } from '@angular/core'
+import { computed, NgZone, Signal, signal } from '@angular/core'
 
 // adapted from: https://dhilt.github.io/ngx-ui-scroll/#/experimental#routines
 

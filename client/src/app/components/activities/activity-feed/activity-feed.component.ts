@@ -1,16 +1,13 @@
 import { CommonModule } from '@angular/common'
 import {
-  AfterViewChecked,
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  Host,
   input,
-  OnInit,
+  NgZone,
   Self,
   Signal,
   signal,
-  Type,
   WritableSignal,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
@@ -20,7 +17,6 @@ import {
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
   ActivityInterfaceEdge,
-  EventFeedMode,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -32,7 +28,6 @@ import {
   Datasource,
   IAdapter,
   IDatasource,
-  Routines,
   UiScrollModule,
 } from 'ngx-ui-scroll'
 import {
@@ -41,14 +36,10 @@ import {
   combineLatest,
   distinctUntilChanged,
   filter,
-  from,
-  iif,
   map,
   merge,
-  mergeWith,
   Observable,
   of,
-  share,
   skipUntil,
   Subject,
   switchMap,
@@ -78,7 +69,6 @@ import {
   ActivityFeedCounts,
   ActivityFeedFilterOptions,
   ActivityFeedFilters,
-  ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
   FeedQueryEvent,
@@ -91,13 +81,12 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { shareReplay } from 'rxjs/operators'
-import { tag } from 'rxjs-spy/operators'
 import {
   configureScrollerRoutines,
   ScrollerState,
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
-import { IRoutines } from 'vscroll'
+import { tag } from 'rxjs-spy/operators'
 
 @UntilDestroy()
 @Component({
@@ -163,11 +152,14 @@ export class CvcActivityFeed {
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
   scrollerState: ScrollerStateService
   scrollerRoutines: any
+  zone: NgZone
 
   constructor(
     private gql: ActivityFeedGQL,
-    @Self() scrollerState: ScrollerStateService
+    private ngZone: NgZone,
+    @Host() scrollerState: ScrollerStateService
   ) {
+    this.zone = ngZone
     this.scrollerRoutines = configureScrollerRoutines(this)
     this.init$ = new Subject<void>()
     this.onSettingChange$ = new Subject<ActivityFeedSettings>()
@@ -381,13 +373,5 @@ export class CvcActivityFeed {
 
   configureAdapter(): void {
     this.scrollAdapter = this.scrollDatasource?.adapter
-    if (this.scrollAdapter) {
-      // this.scrollAdapter.bof$.pipe(untilDestroyed(this)).subscribe((bof) => {
-      //   this.scrollerState.bof$.next(bof)
-      // })
-      // this.scrollAdapter.eof$.pipe(untilDestroyed(this)).subscribe((eof) => {
-      //   this.scrollerState.eof$.next(eof)
-      // })
-    }
   }
 }
