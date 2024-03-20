@@ -132,8 +132,7 @@ class Variant < ApplicationRecord
   end
 
   def feature_type_matches_variant_type
-    feature_instance = feature.feature_instance
-    if compatible_features.none? { |cf| feature_instance.is_a?(cf) }
+    unless self.is_a?(feature.compatible_variant_type)
       errors.add(:feature_id, "#{type} is not compatible with #{feature_instance.feature_instance_type.demodulize} Features")
     end
   end
@@ -153,11 +152,6 @@ class Variant < ApplicationRecord
   def required_fields
     #Fields that this variant type _must_ have populated
     #(Excluding name and feature id, that is handled in the parent)
-    raise StandardError.new("Implement in Variant subclass")
-  end
-
-  def compatible_features
-    #Feature types this Variant may be assigned to
     raise StandardError.new("Implement in Variant subclass")
   end
 

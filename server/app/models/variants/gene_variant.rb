@@ -43,11 +43,5 @@ module Variants
     def required_fields
       []
     end
-
-    def compatible_features
-      [
-        Features::Gene
-      ]
-    end
   end
 end
