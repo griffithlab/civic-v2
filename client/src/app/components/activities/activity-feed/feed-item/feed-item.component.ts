@@ -9,6 +9,12 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ElementRef,
+  Self,
+  EnvironmentInjector,
+  runInInjectionContext,
+  Signal,
+  Host,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
@@ -38,12 +44,15 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { Observable, Subject } from 'rxjs'
+import { map, Observable, Subject, tap } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
+import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { Scroll } from '@angular/router'
 
 export type FeedDetailToggle = {
   id: number
@@ -79,6 +88,7 @@ export type FeedDetailToggle = {
   ],
   templateUrl: './feed-item.component.html',
   styleUrl: './feed-item.component.less',
+  providers: [ScrollerStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('details', [
@@ -98,7 +108,12 @@ export class CvcActivityFeedItem implements OnInit {
   @Output() cvcOnToggleDetail = new EventEmitter<FeedDetailToggle>()
 
   toggleDetails!: WritableSignal<boolean>
-  constructor(private gql: ActivityFeedItemGQL) {
+  constructor(
+    private gql: ActivityFeedItemGQL,
+    private element: ElementRef,
+    @Host() scroller: ScrollerStateService,
+    private injector: EnvironmentInjector
+  ) {
     // effect(() => {
     //   const id = this.activity()?.id
     //   if (id) {

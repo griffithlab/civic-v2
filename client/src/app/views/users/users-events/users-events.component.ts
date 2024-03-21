@@ -13,7 +13,7 @@ export class UsersEventsComponent {
 
   constructor(private route: ActivatedRoute) {
     this.feedScope = {
-      scope: EventFeedMode.User,
+      mode: EventFeedMode.User,
       userId: +this.route.snapshot.params['userId'],
     }
   }

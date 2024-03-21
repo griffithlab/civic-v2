@@ -13,7 +13,7 @@ export class OrganizationsEventsComponent {
 
   constructor(private route: ActivatedRoute) {
     this.feedScope = {
-      scope: EventFeedMode.Organization,
+      mode: EventFeedMode.Organization,
       organizationId: +this.route.snapshot.params['organizationId'],
     }
   }

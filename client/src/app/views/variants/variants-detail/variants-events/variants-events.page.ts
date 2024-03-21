@@ -19,7 +19,7 @@ export class VariantsEventsPage {
   constructor(private route: ActivatedRoute) {
     const variantId: number = +this.route.snapshot.params['variantId']
     this.feedScope = {
-      scope: EventFeedMode.Subject,
+      mode: EventFeedMode.Subject,
       subject: {
         id: variantId,
         entityType: SubscribableEntities.Variant,

@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
+  Host,
   input,
-  OnInit,
+  NgZone,
+  Self,
   Signal,
   signal,
   WritableSignal,
@@ -15,7 +17,6 @@ import {
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
   ActivityInterfaceEdge,
-  EventFeedMode,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -31,13 +32,15 @@ import {
 } from 'ngx-ui-scroll'
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   distinctUntilChanged,
   filter,
-  from,
   map,
+  merge,
   Observable,
   of,
+  skipUntil,
   Subject,
   switchMap,
   take,
@@ -61,14 +64,16 @@ import {
   scrollerDevSettings,
   scrollerSettings,
 } from './activity-feed.config'
-import { queryParamsToVariables } from './activity-feed.functions'
+import { queryParamsToQueryVariables } from './activity-feed.functions'
 import {
   ActivityFeedCounts,
   ActivityFeedFilterOptions,
   ActivityFeedFilters,
-  ActivityFeedQueryParams,
   ActivityFeedScope,
   ActivityFeedSettings,
+  FeedQueryEvent,
+  FeedQueryType,
+  FetchParams,
 } from './activity-feed.types'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
@@ -76,6 +81,12 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { shareReplay } from 'rxjs/operators'
+import {
+  configureScrollerRoutines,
+  ScrollerState,
+  ScrollerStateService,
+} from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { tag } from 'rxjs-spy/operators'
 
 @UntilDestroy()
 @Component({
@@ -100,9 +111,10 @@ import { shareReplay } from 'rxjs/operators'
   ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
+  providers: [ScrollerStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeed implements OnInit {
+export class CvcActivityFeed {
   // INPUTS
   cvcTitle = input<string>('Activity Feed')
   cvcScope = input<ActivityFeedScope>(feedDefaultScope)
@@ -112,48 +124,185 @@ export class CvcActivityFeed implements OnInit {
   cvcPollFeed = input<boolean>(false)
 
   // SOURCE STREAMS
-  feedSetting$: Subject<ActivityFeedSettings> // initial settings, e.g. scope, context displays
-  feedFilter$: Subject<ActivityFeedFilters> // activity attribute filters
-  init$: Subject<void> // initial query trigger, called from scroller DataSource
+  onSettingChange$: Subject<ActivityFeedSettings> // initial settings, e.g. scope, context displays
+  onFilterChange$: Subject<ActivityFeedFilters> // activity attribute filters
+  onToggleItem$: Subject<FeedDetailToggle> // item detail toggle event from feed-item
 
   // INTERMEDIATE STREAMS
+  init$: Subject<void> // initial query trigger, called from scroller DataSource
+  poll$: Subject<FetchParams>
+  fetchMore$: Subject<FetchParams>
+  queryType$: Subject<'refetch' | 'fetchMore'>
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   edge$: Observable<ActivityInterfaceEdge[]>
-  onToggleItem$: Subject<FeedDetailToggle> // item detail toggle event from feed-item
   toggledItem$: BehaviorSubject<Set<number>> // set of item ids with details toggled
-  onQueryType$: Subject<'refetch' | 'fetchMore'>
-  // queryLoading$: Observable<boolean>
-  // scrollerLoading$: BehaviorSubject<boolean>
+  onQueryComplete$: Subject<boolean>
 
   // PRESENTATION SIGNALS
-  edges: Signal<ActivityInterfaceEdge[]> // signal for synchronous access to all loaded rows
-  refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
-  moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
-  errors: WritableSignal<any>
-  counts: WritableSignal<Maybe<ActivityFeedCounts>>
-  feedFilterOptions: WritableSignal<ActivityFeedFilterOptions>
+  $refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
+  $moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
+  $errors: WritableSignal<any>
+  $counts: Signal<Maybe<ActivityFeedCounts>>
+  $feedFilterOptions: Signal<ActivityFeedFilterOptions>
+  $scroller: Signal<ScrollerState>
 
   // SERVICE REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
   scrollDatasource?: IDatasource<ActivityInterfaceEdge>
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
+  scrollerState: ScrollerStateService
+  scrollerRoutines: any
+  zone: NgZone
 
-  constructor(private gql: ActivityFeedGQL) {
-    this.feedSetting$ = new Subject<ActivityFeedSettings>()
-    this.feedFilter$ = new Subject<ActivityFeedFilters>()
+  constructor(
+    private gql: ActivityFeedGQL,
+    private ngZone: NgZone,
+    @Host() scrollerState: ScrollerStateService
+  ) {
+    this.zone = ngZone
+    this.scrollerRoutines = configureScrollerRoutines(this)
     this.init$ = new Subject<void>()
+    this.onSettingChange$ = new Subject<ActivityFeedSettings>()
+    this.onFilterChange$ = new Subject<ActivityFeedFilters>()
+    this.poll$ = new Subject<FetchParams>()
+    this.fetchMore$ = new Subject<FetchParams>()
     this.onToggleItem$ = new Subject<FeedDetailToggle>()
-    this.onQueryType$ = new Subject<'refetch' | 'fetchMore'>()
-
-    this.refetchLoading = signal<boolean>(false)
-    this.moreLoading = signal<boolean>(false)
-    this.errors = signal<any>(false)
-    this.counts = signal<Maybe<ActivityFeedCounts>>(undefined)
-    this.feedFilterOptions = signal<ActivityFeedFilterOptions>(
+    this.queryType$ = new Subject<FeedQueryType>()
+    this.onQueryComplete$ = new Subject<boolean>()
+    this.$scroller = scrollerState.state.asReadonly()
+    this.$moreLoading = signal<boolean>(false)
+    this.$errors = signal<any>(false)
+    this.$counts = signal<Maybe<ActivityFeedCounts>>(undefined)
+    this.$feedFilterOptions = signal<ActivityFeedFilterOptions>(
       feedFilterOptionDefaults
     )
-    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
 
+    this.scrollerState = scrollerState
+
+    const refreshChange$ = combineLatest([
+      this.onSettingChange$,
+      this.onFilterChange$,
+    ]).pipe(
+      map(([settings, filters]) => {
+        return <FeedQueryEvent>{
+          type: 'refetch',
+          query: {
+            settings: settings,
+            filters: filters,
+          },
+        }
+      })
+    )
+
+    const fetchChange$ = merge(this.fetchMore$, this.poll$).pipe(
+      map((fetch) => {
+        return <FeedQueryEvent>{
+          type: 'fetchMore',
+          fetch: fetch,
+        }
+      })
+    )
+
+    this.result$ = this.init$.pipe(
+      switchMap(() => merge(refreshChange$, fetchChange$)),
+      switchMap((event) => {
+        this.queryType$.next(event.type)
+        if (!this.queryRef) {
+          const queryVars = queryParamsToQueryVariables(event.query)
+          this.queryRef = this.gql.watch(queryVars)
+        } else {
+          if (event.type === 'refetch') {
+            const queryVars = queryParamsToQueryVariables(event.query)
+            this.queryRef.refetch(queryVars).then((data) => {
+              console.log('refetch complete', data)
+              this.onQueryComplete$.next(true)
+              this.scrollAdapter!.reload()
+            })
+          } else if (event.type === 'fetchMore') {
+            if (this.queryRef) {
+              this.queryRef
+                .fetchMore({
+                  variables: event.fetch,
+                })
+                .then((data) => {
+                  this.onQueryComplete$.next(true)
+                  console.log('fetchMore complete', data)
+                })
+            }
+          }
+        }
+        return this.queryRef.valueChanges
+      }),
+      catchError((error) => {
+        console.error('query error', error)
+        return of(error)
+      }),
+      shareReplay(1)
+    )
+
+    this.$refetchLoading = toSignal(
+      this.result$.pipe(
+        pluck('loading'),
+        withLatestFrom(this.queryType$),
+        filter(([_loading, queryType]) => queryType === 'refetch'),
+        map(([loading]) => loading)
+      ),
+      { initialValue: false }
+    )
+
+    this.$moreLoading = toSignal(
+      this.result$.pipe(
+        pluck('loading'),
+        withLatestFrom(this.queryType$),
+        filter(([_loading, queryType]) => queryType === 'fetchMore'),
+        map(([loading]) => loading)
+      ),
+      { initialValue: false }
+    )
+
+    const connection$ = this.result$.pipe(
+      pluck('data', 'activities'),
+      filter(isNonNulled),
+      shareReplay(1)
+    )
+
+    this.$counts = toSignal(
+      connection$.pipe(
+        map((connection) => {
+          return <ActivityFeedCounts>{
+            total: connection.totalCount,
+            unfiltered: connection.unfilteredCount,
+            page: connection.pageCount,
+            rows: connection.edges.length,
+          }
+        })
+      ),
+      { initialValue: undefined }
+    )
+
+    this.$feedFilterOptions = toSignal(
+      connection$.pipe(
+        map((connection) => {
+          return <ActivityFeedFilterOptions>{
+            uniqueParticipants: connection.uniqueParticipants ?? [],
+            participatingOrganizations:
+              connection.participatingOrganizations ?? [],
+            activityTypes: connection.activityTypes ?? [],
+            subjectTypes: connection.subjectTypes ?? [],
+          }
+        })
+      ),
+      { initialValue: feedFilterOptionDefaults }
+    )
+
+    this.edge$ = this.result$.pipe(
+      pluck('data', 'activities'),
+      filter(isNonNulled),
+      map((connection) => connection.edges as ActivityInterfaceEdge[])
+      // tag('edge$ ++++++++++++++')
+    )
+
+    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
     this.onToggleItem$
       .pipe(
         distinctUntilChanged(
@@ -179,93 +328,7 @@ export class CvcActivityFeed implements OnInit {
       )
       .subscribe()
 
-    // combine prefs, filters updates into a fetch query
-    //
-    // feedSetting$ and feedFilter$ are the main input streams,
-    // emitted by filter & setting component during initializtion, and in resonse
-    // to user activity. init$ is a trigger to start the initial query,
-    // emitted from the scroller datasource
-    this.result$ = combineLatest([
-      this.init$,
-      this.feedSetting$,
-      this.feedFilter$,
-    ]).pipe(
-      map(([_init, settings, filters]) => {
-        const params = <ActivityFeedQueryParams>{
-          settings: settings,
-          filters: filters,
-        }
-        return queryParamsToVariables(
-          params,
-          this.cvcScope(),
-          this.cvcShowFilters(),
-          false
-        )
-      }),
-      switchMap((queryVars) => {
-        this.onQueryType$.next('refetch')
-        if (!this.queryRef) {
-          this.queryRef = this.gql.watch(queryVars)
-        } else {
-          this.queryRef.refetch(queryVars).then(() => {
-            if (this.scrollAdapter) {
-              // clear item buffer, reset viewport params, start
-              // rendering items from new query
-              // this.scrollAdapter.reload()
-              this.scrollAdapter.reload()
-            }
-          })
-        }
-        return this.queryRef.valueChanges
-      }),
-      shareReplay(1)
-    )
-    const loading$ = this.result$.pipe(
-      pluck('loading'),
-      withLatestFrom(this.onQueryType$)
-    )
-    this.refetchLoading = toSignal(
-      loading$.pipe(
-        filter(([_loading, queryType]) => queryType === 'refetch'),
-        map(([loading]) => loading)
-      ),
-      { initialValue: false }
-    )
-    this.moreLoading = toSignal(
-      loading$.pipe(
-        filter(([_loading, queryType]) => queryType === 'fetchMore'),
-        map(([loading]) => loading)
-      ),
-      { initialValue: false }
-    )
-
-    this.edge$ = this.result$.pipe(
-      pluck('data', 'activities'),
-      filter(isNonNulled),
-      tap((connection) => {
-        this.counts.set(<ActivityFeedCounts>{
-          total: connection.totalCount,
-          unfiltered: connection.unfilteredCount,
-          page: connection.pageCount,
-          rows: connection.edges.length,
-        })
-        this.feedFilterOptions.set(<ActivityFeedFilterOptions>{
-          uniqueParticipants: connection.uniqueParticipants ?? [],
-          participatingOrganizations:
-            connection.participatingOrganizations ?? [],
-          activityTypes: connection.activityTypes ?? [],
-          subjectTypes: connection.subjectTypes ?? [],
-        })
-      }),
-      map((connection) => connection.edges as ActivityInterfaceEdge[])
-    )
-
-    // provide edges signal for synchronous access
-    // in scrollDatasource
-    this.edges = toSignal(this.edge$, { initialValue: [] })
-
-    // initialize scroller datasource only after the
-    // initial query results available
+    // initialize scroller datasource after initial query completes
     this.edge$.pipe(take(1)).subscribe((edges) => {
       this.configureDatasource()
       this.configureAdapter()
@@ -274,33 +337,34 @@ export class CvcActivityFeed implements OnInit {
     // kick off initial query
     this.init$.next()
   }
-  ngOnInit(): void {}
 
   configureDatasource(): void {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
-        const edges = this.edges()
-        if (edges.length === this.counts()!.total) {
-          // all rows have been fetched
-          return of(edges)
-        }
-        if (edges.length >= index + count) {
-          // return rows from cached set, or fetch more rows
-          // return observable of requested rows
-          return of(edges.slice(index, index + count))
-        } else {
-          // issue fetchMore query to satisfy requested row set
-          const queryVars = {
-            first: count,
-            after: edges[index - 1].cursor,
-          }
-          this.onQueryType$.next('fetchMore')
-          // return fetchMore result, converted to observable from promise
-          return from(this.queryRef!.fetchMore({ variables: queryVars })).pipe(
-            // tap(() => this.moreLoading.set(false)),
-            map((result) => result.data.activities.edges)
-          )
-        }
+        // TODO: handle case where all rows have been fetched, using scroll adapter's eof/bof events
+        return of({ index: index, count: count }).pipe(
+          withLatestFrom(this.edge$),
+          switchMap(([params, edges]) => {
+            const { index, count } = params
+            if (edges.length >= index + 1 + count) {
+              // edges cached, return slice of current array
+              return of(edges.slice(index, index + count))
+            } else {
+              // issue fetchMore query to satisfy requested row set
+              const queryVars = {
+                first: count,
+                after: edges[index - 1].cursor,
+              }
+              this.onQueryComplete$.next(false)
+              this.fetchMore$.next(queryVars)
+              return this.edge$.pipe(
+                skipUntil(this.onQueryComplete$),
+                map((edges) => edges.slice(index, index + count))
+                // tag('configureDatasource.get() ++++++++++++++')
+              )
+            }
+          })
+        )
       },
       settings: scrollerSettings,
       devSettings: scrollerDevSettings,

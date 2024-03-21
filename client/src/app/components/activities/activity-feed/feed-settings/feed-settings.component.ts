@@ -19,7 +19,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { ActivityFeedSettings } from '../activity-feed.types'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { pageSizeOptions } from '../activity-feed.config'
 
 @Component({
   selector: 'cvc-activity-feed-settings',
@@ -43,22 +42,19 @@ export class CvcActivityFeedSettingsButton implements OnInit {
   @Output() cvcSettingsChange: EventEmitter<ActivityFeedSettings>
   cvcSettings = input.required<ActivityFeedSettings>()
 
-  pageSize!: WritableSignal<number>
   includeAutomatedEvents!: WritableSignal<boolean>
 
-  pageSizes = pageSizeOptions
   constructor() {
     this.cvcSettingsChange = new EventEmitter<ActivityFeedSettings>()
 
     effect(() => {
       this.cvcSettingsChange.emit({
-        initialPageSize: this.pageSize(),
+        ...this.cvcSettings(),
         includeAutomatedEvents: this.includeAutomatedEvents(),
       })
     })
   }
   ngOnInit(): void {
-    this.pageSize = signal(this.cvcSettings().initialPageSize)
     this.includeAutomatedEvents = signal(
       this.cvcSettings().includeAutomatedEvents
     )
