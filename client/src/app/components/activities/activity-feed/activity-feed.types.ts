@@ -6,6 +6,7 @@ import {
   ActivitySubjectInput,
   ActivityTypeInput,
   Maybe,
+  ActivityFeedQueryVariables,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -73,7 +74,7 @@ type FeedQueryFetchMoreEvent = {
 
 type FeedQueryRefetchEvent = {
   type: 'refetch'
-  query: ActivityFeedQueryParams
+  query: ActivityFeedQueryVariables
   fetch: never
 }
 

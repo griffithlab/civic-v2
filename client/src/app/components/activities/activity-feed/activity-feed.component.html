@@ -20,13 +20,7 @@
                 routines: scrollerRoutines
               "
               [cvcActivity]="edge.node"
-              [cvcScope]="cvcScope()"
-              [cvcInitWithDetails]="
-                (toggledItem$ | ngrxPush)!.has(edge.node.id)
-              "
-              (cvcOnToggleDetail)="
-                onToggleItem$.next($event)
-              "></cvc-activity-feed-item>
+              [cvcScope]="cvcScope()"></cvc-activity-feed-item>
           }
         </div>
       </nz-spin>
@@ -43,7 +37,6 @@
         [cvcFilters]="cvcFilters()"
         [cvcScope]="cvcScope()">
       </cvc-activity-feed-filters>
-      <!-- <pre>feedFilter$: {{ feedFilter$ | ngrxPush | json }}</pre> -->
     </nz-col>
   </nz-row>
 </nz-card>
@@ -52,7 +45,8 @@
     <span
       class="title"
       *nzSpaceItem>
-      {{ cvcTitle() }} scrolling: {{ $scroller().isScrolling }},
+      {{ cvcTitle() }}
+      scrolling: {{ $scroller().isScrolling }},
       beginning: {{ $scroller().atBeginning }}, end: {{ $scroller().atEnd }}
     </span>
     <cvc-activity-feed-counts

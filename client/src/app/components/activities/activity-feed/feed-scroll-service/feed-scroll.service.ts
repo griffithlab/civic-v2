@@ -10,7 +10,7 @@ import {
 } from 'rxjs'
 import { shareReplay, startWith, throttleTime } from 'rxjs/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
+import { CvcActivityFeedComponent } from '@app/components/activities/activity-feed/activity-feed.component'
 import { Routines } from 'ngx-ui-scroll'
 import { tag } from 'rxjs-spy/operators'
 
@@ -20,73 +20,77 @@ export interface ScrollerState {
   atEnd: boolean
 }
 
-export function configureScrollerRoutines(context: CvcActivityFeed) {
+export function configureScrollerRoutines(
+  context: CvcActivityFeedComponent,
+  state: ScrollerStateService
+) {
   return class extends Routines {
     onScroll(handler: EventListener): () => void {
+      console.log('**** configuring scroller Routines')
+      // for every scroll event, emit the event & update position, size info
       this.viewport.addEventListener('scroll', (ev: Event) => {
-        context.scrollerState.onScrollEvent$.next(ev)
-        context.scrollerState.onScrollPosition$.next(super.getScrollPosition())
-        context.scrollerState.onScrollerSize$.next(super.getScrollerSize())
-        context.scrollerState.onViewportSize$.next(super.getViewportSize())
+        state.onScrollEvent$.next(ev)
+        state.onScrollPosition$.next(super.getScrollPosition())
+        state.onScrollerSize$.next(super.getScrollerSize())
+        state.onViewportSize$.next(super.getViewportSize())
       })
+
       // emit initial values
-      context.scrollerState.onViewportSize$.next(super.getViewportSize())
-      context.scrollerState.onScrollPosition$.next(super.getScrollPosition())
-      context.scrollerState.onScrollerSize$.next(super.getScrollerSize())
+      state.onViewportSize$.next(super.getViewportSize())
+      state.onScrollPosition$.next(super.getScrollPosition())
+      state.onScrollerSize$.next(super.getScrollerSize())
+
+      // return original onScroll handler
       return super.onScroll(handler)
     }
   }
 }
 
 @UntilDestroy()
-@Injectable()
+@Injectable({ providedIn: 'any' })
 export class ScrollerStateService extends SignalStateService<ScrollerState> {
   onScrollEvent$: Subject<Event>
   onScrollPosition$: Subject<number>
   onScrollerSize$: Subject<number>
   onViewportSize$: Subject<number>
 
-  bof$: Subject<boolean>
-  eof$: Subject<boolean>
-
   constructor(private zone: NgZone) {
     super()
 
-    this.setIsScrolling(false)
-    this.setAtBeginning(false)
-    this.setAtEnd(false)
-    this.bof$ = new Subject<boolean>()
-    this.eof$ = new Subject<boolean>()
     this.onScrollEvent$ = new Subject<Event>()
     this.onScrollPosition$ = new Subject<number>()
     this.onScrollerSize$ = new Subject<number>()
     this.onViewportSize$ = new Subject<number>()
 
-    // this.onScrollPosition$.pipe(tag('service scroll position')).subscribe()
-    // this.onScrollerSize$.pipe(tag('service scroller size')).subscribe()
-    // this.onViewportSize$.pipe(tag('service viewport size')).subscribe()
+    // initial defaults
+    this.set('atBeginning', false)
+    this.set('atEnd', false)
+    this.set('isScrolling', false)
 
+    // set isScrolling true on scroll event, then false after 400ms of no events
     this.onScrollEvent$
       .pipe(
-        // emit the first scroll event immediately, then ignore for 250ms
-        throttleTime(250, undefined, { leading: true, trailing: false }),
+        // emit the first scroll event immediately (leading: true), then throttle
+        throttleTime(200, undefined, { leading: true, trailing: false }),
         // after the first event, switch to a new observable
         switchMap(() => {
           // inner observable emits true immediately (for the first event),
-          // then waits for 500ms of no events to emit false
+          // then emits false after timer completes
           return timer(300).pipe(
             map(() => false),
-            // start with true so that we emit true immediately for the first event after the switchMap
             startWith(true)
           )
         }),
-        distinctUntilChanged(),
+        distinctUntilChanged(), // omit true events that make it past throttle time
         shareReplay(1),
         untilDestroyed(this)
       )
       .subscribe((scrolling) => {
-        this.setIsScrolling(scrolling)
+        this.zone.run(() => {
+          this.set('isScrolling', scrolling)
+        })
       })
+
     combineLatest([
       this.onViewportSize$,
       this.onScrollerSize$,
@@ -99,33 +103,8 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
         shareReplay(1),
         untilDestroyed(this)
       )
-      .subscribe()
-
-    this.bof$.pipe(untilDestroyed(this)).subscribe((bof) => {
-      this.setAtBeginning(bof)
-    })
-
-    this.eof$.pipe(untilDestroyed(this)).subscribe((eof) => {
-      console.log('setAtBeginning', eof)
-      this.setAtEnd(eof)
-    })
-  }
-
-  setIsScrolling(scrolling: boolean) {
-    this.zone.run(() => {
-      this.set('isScrolling', scrolling)
-    })
-  }
-
-  setAtBeginning(atBeginning: boolean) {
-    this.zone.run(() => {
-      this.set('atBeginning', atBeginning)
-    })
-  }
-
-  setAtEnd(atEnd: boolean) {
-    this.zone.run(() => {
-      this.set('atEnd', atEnd)
-    })
+      .subscribe(([viewportSize, scrollerSize, scrollPosition]) => {
+        this.zone.run(() => {})
+      })
   }
 }

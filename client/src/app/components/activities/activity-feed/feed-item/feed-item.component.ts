@@ -50,7 +50,10 @@ import { CvcCommentActivity } from '../feed-item-details/comment/comment-activit
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
-import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import {
+  ScrollerState,
+  ScrollerStateService,
+} from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Scroll } from '@angular/router'
 
@@ -62,34 +65,8 @@ export type FeedDetailToggle = {
 @UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed-item',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PushPipe,
-    NzIconModule,
-    NzTypographyModule,
-    NzGridModule,
-    NzButtonModule,
-    NzCardModule,
-    NzTagModule,
-    CvcPipesModule,
-    CvcUserTagModule,
-    CvcOrganizationTagModule,
-    CvcGeneTagModule,
-    CvcAssertionsTagModule,
-    CvcEvidenceTagModule,
-    CvcVariantTagModule,
-    CvcRevisionTagModule,
-    CvcVariantGroupTagModule,
-    CvcSourceTagModule,
-    CvcMolecularProfileTagModule,
-    CvcCommentActivity,
-    CvcActivityFeedItemDetails,
-  ],
   templateUrl: './feed-item.component.html',
   styleUrl: './feed-item.component.less',
-  providers: [ScrollerStateService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('details', [
       state('hidden', style({ 'max-height': 0 })),
@@ -98,22 +75,28 @@ export type FeedDetailToggle = {
       transition('hidden <=> visible', animate('.25s ease-in')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeedItem implements OnInit {
+export class CvcActivityFeedItem {
   activity = input<Maybe<ActivityFeedItemFragment>>(undefined, {
     alias: 'cvcActivity',
   })
-  initWithDetails = input<boolean>(false, { alias: 'cvcInitWithDetails' })
   scope = input.required<ActivityFeedScope>({ alias: 'cvcScope' })
-  @Output() cvcOnToggleDetail = new EventEmitter<FeedDetailToggle>()
 
-  toggleDetails!: WritableSignal<boolean>
+  $toggleDetails!: WritableSignal<boolean>
+  onToggleDone$: Subject<boolean>
+
+  $scroller: Signal<ScrollerState>
   constructor(
     private gql: ActivityFeedItemGQL,
     private element: ElementRef,
-    @Host() scroller: ScrollerStateService,
-    private injector: EnvironmentInjector
+    private injector: EnvironmentInjector,
+    private scrollerState: ScrollerStateService
   ) {
+    this.$toggleDetails = signal(false)
+    this.onToggleDone$ = new Subject()
+
+    this.$scroller = scrollerState.state.asReadonly()
     // effect(() => {
     //   const id = this.activity()?.id
     //   if (id) {
@@ -123,8 +106,5 @@ export class CvcActivityFeedItem implements OnInit {
     //     })
     //   }
     // })
-  }
-  ngOnInit() {
-    this.toggleDetails = signal(this.initWithDetails())
   }
 }

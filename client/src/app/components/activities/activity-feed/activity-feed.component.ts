@@ -1,70 +1,10 @@
-import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
-  Host,
   input,
   NgZone,
-  Self,
   Signal,
-  signal,
-  WritableSignal,
 } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
-import {
-  ActivityFeedGQL,
-  ActivityFeedQuery,
-  ActivityFeedQueryVariables,
-  ActivityInterfaceEdge,
-  Maybe,
-} from '@app/generated/civic.apollo'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { LetDirective, PushPipe } from '@ngrx/component'
-import { QueryRef } from 'apollo-angular'
-import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzGridModule } from 'ng-zorro-antd/grid'
-import {
-  Datasource,
-  IAdapter,
-  IDatasource,
-  UiScrollModule,
-} from 'ngx-ui-scroll'
-import {
-  BehaviorSubject,
-  catchError,
-  combineLatest,
-  distinctUntilChanged,
-  filter,
-  map,
-  merge,
-  Observable,
-  of,
-  skipUntil,
-  Subject,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs'
-import { isNonNulled } from 'rxjs-etc'
-import { pluck } from 'rxjs-etc/dist/esm/operators'
-import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
-import { CvcActivityFeedFilterSelects } from '@app/components/activities/activity-feed/feed-filters/feed-filters.component'
-import {
-  CvcActivityFeedItem,
-  FeedDetailToggle,
-} from '@app/components/activities/activity-feed/feed-item/feed-item.component'
-import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
-import {
-  feedDefaultFilters,
-  feedDefaultScope,
-  feedDefaultSettings,
-  feedFilterOptionDefaults,
-  scrollerDevSettings,
-  scrollerSettings,
-} from './activity-feed.config'
-import { queryParamsToQueryVariables } from './activity-feed.functions'
 import {
   ActivityFeedCounts,
   ActivityFeedFilterOptions,
@@ -74,122 +14,125 @@ import {
   FeedQueryEvent,
   FeedQueryType,
   FetchParams,
-} from './activity-feed.types'
-import { ApolloQueryResult } from '@apollo/client/core'
-import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
-import { shareReplay } from 'rxjs/operators'
+} from '@app/components/activities/activity-feed/activity-feed.types'
+import {
+  feedDefaultFilters,
+  feedDefaultScope,
+  feedDefaultSettings,
+  feedFilterOptionDefaults,
+  scrollerDevSettings,
+  scrollerSettings,
+} from '@app/components/activities/activity-feed/activity-feed.config'
 import {
   configureScrollerRoutines,
   ScrollerState,
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
-import { tag } from 'rxjs-spy/operators'
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  filter,
+  map,
+  merge,
+  Observable,
+  of,
+  skipUntil,
+  Subject,
+  switchMap,
+  take,
+  withLatestFrom,
+} from 'rxjs'
+import { FeedDetailToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import { queryParamsToQueryVariables } from '@app/components/activities/activity-feed/activity-feed.functions'
+import { shareReplay } from 'rxjs/operators'
+import { ApolloQueryResult } from '@apollo/client/core'
+import {
+  ActivityFeedGQL,
+  ActivityFeedQuery,
+  ActivityFeedQueryVariables,
+  ActivityInterfaceEdge,
+  Maybe,
+} from '@app/generated/civic.apollo'
+import { QueryRef } from 'apollo-angular'
+import { Datasource, IAdapter, IDatasource } from 'ngx-ui-scroll'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { pluck } from 'rxjs-etc/operators'
+import { isNonNulled } from 'rxjs-etc'
 
-@UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PushPipe,
-    LetDirective,
-    NzGridModule,
-    NzCardModule,
-    NzSpinModule,
-    NzTagModule,
-    UiScrollModule,
-    CvcActivityFeedCounts,
-    CvcActivityFeedSettingsButton,
-    CvcActivityFeedFilterSelects,
-    CvcActivityFeedItem,
-    CvcAutoHeightDivModule,
-    NzIconModule,
-    NzSpaceModule,
-  ],
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
-  providers: [ScrollerStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcActivityFeed {
+export class CvcActivityFeedComponent {
   // INPUTS
-  cvcTitle = input<string>('Activity Feed')
-  cvcScope = input<ActivityFeedScope>(feedDefaultScope)
+  cvcShowFilters = input<boolean>(true)
   cvcSettings = input<ActivityFeedSettings>(feedDefaultSettings)
   cvcFilters = input<ActivityFeedFilters>(feedDefaultFilters)
-  cvcShowFilters = input<boolean>(true)
-  cvcPollFeed = input<boolean>(false)
+  cvcScope = input<ActivityFeedScope>(feedDefaultScope)
+  cvcTitle = input<string>('Activity Feed')
 
   // SOURCE STREAMS
-  onSettingChange$: Subject<ActivityFeedSettings> // initial settings, e.g. scope, context displays
-  onFilterChange$: Subject<ActivityFeedFilters> // activity attribute filters
-  onToggleItem$: Subject<FeedDetailToggle> // item detail toggle event from feed-item
+  onSettingChange$: Subject<ActivityFeedSettings>
+  onFilterChange$: Subject<ActivityFeedFilters>
+  onToggleItem$: Subject<FeedDetailToggle>
 
   // INTERMEDIATE STREAMS
-  init$: Subject<void> // initial query trigger, called from scroller DataSource
   poll$: Subject<FetchParams>
   fetchMore$: Subject<FetchParams>
-  queryType$: Subject<'refetch' | 'fetchMore'>
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
+  init$: Subject<void>
+  queryType$: Subject<'refetch' | 'fetchMore'>
+  onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
   toggledItem$: BehaviorSubject<Set<number>> // set of item ids with details toggled
-  onQueryComplete$: Subject<boolean>
 
   // PRESENTATION SIGNALS
   $refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
   $moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
-  $errors: WritableSignal<any>
   $counts: Signal<Maybe<ActivityFeedCounts>>
   $feedFilterOptions: Signal<ActivityFeedFilterOptions>
   $scroller: Signal<ScrollerState>
 
-  // SERVICE REFERENCES
+  // REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
   scrollDatasource?: IDatasource<ActivityInterfaceEdge>
   scrollAdapter?: IAdapter<ActivityInterfaceEdge>
-  scrollerState: ScrollerStateService
   scrollerRoutines: any
-  zone: NgZone
 
   constructor(
     private gql: ActivityFeedGQL,
     private ngZone: NgZone,
-    @Host() scrollerState: ScrollerStateService
+    private scrollerState: ScrollerStateService
   ) {
-    this.zone = ngZone
-    this.scrollerRoutines = configureScrollerRoutines(this)
-    this.init$ = new Subject<void>()
-    this.onSettingChange$ = new Subject<ActivityFeedSettings>()
-    this.onFilterChange$ = new Subject<ActivityFeedFilters>()
-    this.poll$ = new Subject<FetchParams>()
-    this.fetchMore$ = new Subject<FetchParams>()
+    this.onSettingChange$ = new Subject()
+    this.onFilterChange$ = new Subject()
     this.onToggleItem$ = new Subject<FeedDetailToggle>()
-    this.queryType$ = new Subject<FeedQueryType>()
-    this.onQueryComplete$ = new Subject<boolean>()
-    this.$scroller = scrollerState.state.asReadonly()
-    this.$moreLoading = signal<boolean>(false)
-    this.$errors = signal<any>(false)
-    this.$counts = signal<Maybe<ActivityFeedCounts>>(undefined)
-    this.$feedFilterOptions = signal<ActivityFeedFilterOptions>(
-      feedFilterOptionDefaults
-    )
 
-    this.scrollerState = scrollerState
+    this.poll$ = new Subject()
+    this.fetchMore$ = new Subject()
+    this.init$ = new Subject()
+    this.queryType$ = new Subject()
+    this.onQueryComplete$ = new Subject()
+    this.toggledItem$ = new BehaviorSubject(new Set())
+
+    this.scrollerRoutines = configureScrollerRoutines(this, scrollerState)
+    this.$scroller = scrollerState.state.asReadonly()
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
       this.onFilterChange$,
     ]).pipe(
       map(([settings, filters]) => {
+        const queryVars = queryParamsToQueryVariables({
+          settings: settings,
+          filters: filters,
+        })
         return <FeedQueryEvent>{
           type: 'refetch',
-          query: {
-            settings: settings,
-            filters: filters,
-          },
+          query: queryVars,
         }
       })
     )
@@ -208,15 +151,13 @@ export class CvcActivityFeed {
       switchMap((event) => {
         this.queryType$.next(event.type)
         if (!this.queryRef) {
-          const queryVars = queryParamsToQueryVariables(event.query)
-          this.queryRef = this.gql.watch(queryVars)
+          this.queryRef = this.gql.watch(event.query)
         } else {
           if (event.type === 'refetch') {
-            const queryVars = queryParamsToQueryVariables(event.query)
-            this.queryRef.refetch(queryVars).then((data) => {
+            this.queryRef.refetch(event.query).then((data) => {
               console.log('refetch complete', data)
               this.onQueryComplete$.next(true)
-              this.scrollAdapter!.reload()
+              if (this.scrollAdapter) this.scrollAdapter.reload()
             })
           } else if (event.type === 'fetchMore') {
             if (this.queryRef) {
@@ -259,7 +200,6 @@ export class CvcActivityFeed {
       ),
       { initialValue: false }
     )
-
     const connection$ = this.result$.pipe(
       pluck('data', 'activities'),
       filter(isNonNulled),
@@ -302,41 +242,15 @@ export class CvcActivityFeed {
       // tag('edge$ ++++++++++++++')
     )
 
-    this.toggledItem$ = new BehaviorSubject<Set<number>>(new Set())
-    this.onToggleItem$
-      .pipe(
-        distinctUntilChanged(
-          (a, b) => a.id === b.id && a.showDetails === b.showDetails
-        ),
-        withLatestFrom(this.toggledItem$),
-        filter(
-          // filter out toggles for items not in the current set
-          ([toggle, toggledIds]) =>
-            toggle.showDetails || toggledIds.has(toggle.id)
-        ),
-        tap(([toggle, toggledIds]) => {
-          // update set of toggled item ids
-          toggle.showDetails
-            ? toggledIds.add(toggle.id)
-            : toggledIds.delete(toggle.id)
-          // emit updated set for use in next toggle event
-          this.toggledItem$.next(toggledIds)
-          // get scroller to recheck item heights
-          this.scrollAdapter!.check()
-        }),
-        untilDestroyed(this)
-      )
-      .subscribe()
+    // kick off initial query
+    this.init$.next()
 
     // initialize scroller datasource after initial query completes
     this.edge$.pipe(take(1)).subscribe((edges) => {
       this.configureDatasource()
       this.configureAdapter()
     })
-
-    // kick off initial query
-    this.init$.next()
-  }
+  } // end constructor()
 
   configureDatasource(): void {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({

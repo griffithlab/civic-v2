@@ -1,7 +1,5 @@
 import { computed, NgZone, Signal, signal } from '@angular/core'
 
-// adapted from: https://dhilt.github.io/ngx-ui-scroll/#/experimental#routines
-
 export class SignalStateService<T> {
   readonly state = signal({} as T)
 
