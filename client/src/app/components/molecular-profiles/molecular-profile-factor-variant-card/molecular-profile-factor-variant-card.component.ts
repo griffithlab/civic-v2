@@ -52,7 +52,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     CvcFeatureVariantTagModule,
   ],
 })
-export class CvcMolecularProfileGeneVariantCardComponent implements OnInit {
+export class CvcMolecularProfileFactorVariantCardComponent implements OnInit {
   @Input() variant!: VariantMolecularProfileCardFieldsFragment
   @Input() currentMolecularProfileId!: number
 

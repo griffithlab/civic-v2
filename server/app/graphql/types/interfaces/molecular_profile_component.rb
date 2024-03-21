@@ -18,6 +18,12 @@ module Types::Interfaces
       end
     end
 
+    #orphan_types(
+      #Types::Variants::GeneVariantType,
+      #Types::Variants::FactorVariantType,
+      #Types::Interfaces::VariantInterface
+    #)
+
     definition_methods do
       def resolve_type(object, context)
         case object

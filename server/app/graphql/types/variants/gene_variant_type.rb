@@ -1,6 +1,5 @@
 module Types::Variants
-  class GeneVariantType < Types::BaseObject
-    implements Types::Interfaces::VariantInterface
+  class GeneVariantType < Types::Entities::VariantType
 
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true

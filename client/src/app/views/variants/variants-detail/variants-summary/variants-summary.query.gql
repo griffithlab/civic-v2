@@ -74,6 +74,9 @@ fragment VariantSummaryFields on VariantInterface {
 
 fragment FactorVariantSummaryFields on FactorVariant {
   ncitId
+  ncitDetails {
+    ... NcitDetails
+  }
 }
 
 fragment GeneVariantSummaryFields on GeneVariant {

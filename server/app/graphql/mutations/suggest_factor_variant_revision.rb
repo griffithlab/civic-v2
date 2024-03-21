@@ -1,9 +1,9 @@
-class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
+class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
   description 'Suggest a Revision to a Variant entity.'
   argument :id, Int, required: true,
     description: 'The ID of the Variant to suggest a Revision to.'
 
-  argument :fields, Types::Revisions::GeneVariantFields, required: true,
+  argument :fields, Types::Revisions::FactorVariantFields, required: true,
     description: <<~DOC.strip
       The desired state of the Variant's editable fields if the change were applied.
       If no change is desired for a particular field, pass in the current value of that field.
@@ -13,7 +13,7 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 
-  field :variant, Types::Variants::GeneVariantType, null: false,
+  field :variant, Types::Variants::FactorVariantType, null: false,
     description: 'The Variant the user has proposed a Revision to.'
 
   field :results, [Types::Revisions::RevisionResult], null: false,
@@ -65,7 +65,7 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
   end
 
   def resolve(fields:, id:, organization_id: nil, comment: nil)
-    updated_variant = InputAdaptors::GeneVariantInputAdaptor.new(variant_input_object: fields).perform
+    updated_variant = InputAdaptors::FactorVariantInputAdaptor.new(variant_input_object: fields).perform
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
 
     cmd = Activities::SuggestRevisionSet.new(

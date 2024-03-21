@@ -8905,6 +8905,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "FactorVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -8916,6 +8921,11 @@
             {
               "kind": "OBJECT",
               "name": "Gene",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "GeneVariant",
               "ofType": null
             },
             {
@@ -8941,6 +8951,11 @@
             {
               "kind": "OBJECT",
               "name": "SourcePopover",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Variant",
               "ofType": null
             },
             {
@@ -12800,6 +12815,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "FactorVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -12820,6 +12840,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "GeneVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "MolecularProfile",
               "ofType": null
             },
@@ -12831,6 +12856,11 @@
             {
               "kind": "OBJECT",
               "name": "SourceSuggestion",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Variant",
               "ofType": null
             },
             {
@@ -13033,6 +13063,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "FactorVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -13044,6 +13079,11 @@
             {
               "kind": "OBJECT",
               "name": "Gene",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "GeneVariant",
               "ofType": null
             },
             {
@@ -13079,6 +13119,11 @@
             {
               "kind": "OBJECT",
               "name": "SourceSuggestion",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Variant",
               "ofType": null
             },
             {
@@ -16670,6 +16715,18 @@
               "deprecationReason": null
             },
             {
+              "name": "ncitDetails",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "NcitDetails",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ncitId",
               "description": null,
               "args": [],
@@ -16925,6 +16982,113 @@
               "ofType": null
             }
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "FactorVariantFields",
+          "description": "Fields on a FactorVariant that curators may propose revisions to.",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "name",
+              "description": "The Variant's name.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "aliases",
+              "description": "List of aliases or alternate names for the Variant.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "variantTypeIds",
+              "description": "List of IDs for the variant types for this Variant",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "featureId",
+              "description": "The ID of the Feature this Variant corresponds to.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ncitId",
+              "description": "NCI Thesaurus concept ID for this Factor",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "NullableStringInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -19222,6 +19386,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "FactorVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -19237,7 +19406,17 @@
             },
             {
               "kind": "OBJECT",
+              "name": "GeneVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "MolecularProfile",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Variant",
               "ofType": null
             },
             {
@@ -25494,6 +25673,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "FactorVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -25505,6 +25689,16 @@
             {
               "kind": "OBJECT",
               "name": "GeneVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "GeneVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Variant",
               "ofType": null
             },
             {
@@ -26795,6 +26989,35 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "SuggestFactorRevisionPayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "suggestFactorVariantRevision",
+              "description": "Suggest a Revision to a Variant entity.",
+              "args": [
+                {
+                  "name": "input",
+                  "description": "Parameters for SuggestFactorVariantRevision",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "SuggestFactorVariantRevisionInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SuggestFactorVariantRevisionPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -42369,6 +42592,148 @@
         },
         {
           "kind": "INPUT_OBJECT",
+          "name": "SuggestFactorVariantRevisionInput",
+          "description": "Autogenerated input type of SuggestFactorVariantRevision",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationId",
+              "description": "The ID of the organization to credit the user's contributions to.\nIf the user belongs to a single organization or no organizations, this field is not required.\nThis field is required if the user belongs to more than one organization.\nThe user must belong to the organization provided.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": "The ID of the Variant to suggest a Revision to.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "fields",
+              "description": "The desired state of the Variant's editable fields if the change were applied.\nIf no change is desired for a particular field, pass in the current value of that field.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FactorVariantFields",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": "Text describing the reason for the change. Will be attached to the Revision as a comment.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SuggestFactorVariantRevisionPayload",
+          "description": "Autogenerated return type of SuggestFactorVariantRevision.",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "results",
+              "description": "A list of Revisions generated as a result of this suggestion.\nIf an existing Revision exactly matches the proposed one, it will be returned instead.\nThis is indicated via the 'newlyCreated' Boolean.\nRevisions are stored on a per-field basis.\nThe changesetId can be used to group Revisions proposed at the same time.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "RevisionResult",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "variant",
+              "description": "The Variant the user has proposed a Revision to.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FactorVariant",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
           "name": "SuggestGeneRevisionInput",
           "description": "Autogenerated input type of SuggestGeneRevision",
           "fields": null,
@@ -42641,8 +43006,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "INTERFACE",
-                  "name": "VariantInterface",
+                  "kind": "OBJECT",
+                  "name": "GeneVariant",
                   "ofType": null
                 }
               },
@@ -49562,6 +49927,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "FactorVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Feature",
               "ofType": null
             },
@@ -49577,7 +49947,17 @@
             },
             {
               "kind": "OBJECT",
+              "name": "GeneVariant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "MolecularProfile",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Variant",
               "ofType": null
             },
             {

@@ -4,7 +4,8 @@ module Variants
       [
         :feature_id,
         :name,
-        :ncit_id
+        :ncit_id,
+        :variant_type_ids,
       ]
     end
 

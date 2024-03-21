@@ -115,7 +115,7 @@ fragment eventFeedNode on Event {
     ... on Revision {
       revisionSetId
     }
-    ... on Variant {
+    ... on VariantInterface {
       deprecated
       feature {
         id

@@ -23,7 +23,7 @@ fragment revisionPopover on Revision {
     id
     link
     name
-    ... on Variant {
+    ... on VariantInterface {
       deprecated
       feature {
         id

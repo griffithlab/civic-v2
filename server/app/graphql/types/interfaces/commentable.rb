@@ -23,8 +23,10 @@ module Types::Interfaces
           Types::Revisions::RevisionType
         when Source
           Types::Entities::SourceType
-        when Variant
-          Types::Interfaces::VariantInterface
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
         when VariantGroup
           Types::Entities::VariantGroupType
         when Source

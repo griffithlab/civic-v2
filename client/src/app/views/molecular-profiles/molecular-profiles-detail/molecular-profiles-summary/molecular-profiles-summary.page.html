@@ -133,10 +133,17 @@
             *ngFor="let v of mp.variants">
             <!-- prettier-ignore -->
             @switch(v.__typename) {
+            <!-- prettier-ignore -->
             @case('GeneVariant') {
             <cvc-mp-gene-variant-card
               [variant]="v"
               [currentMolecularProfileId]="mp.id"></cvc-mp-gene-variant-card>
+            }
+            <!-- prettier-ignore -->
+            @case('FactorVariant') {
+            <cvc-mp-factor-variant-card
+              [variant]="v"
+              [currentMolecularProfileId]="mp.id"></cvc-mp-factor-variant-card>
             } }
           </nz-col>
         </nz-row>

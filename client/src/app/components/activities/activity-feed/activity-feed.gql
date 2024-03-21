@@ -115,7 +115,7 @@ fragment activityFeedNode on ActivityInterface {
     ... on Revision {
       revisionSetId
     }
-    ... on Variant {
+    ... on VariantInterface {
       deprecated
       feature {
         id

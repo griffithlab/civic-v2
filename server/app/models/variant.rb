@@ -133,7 +133,7 @@ class Variant < ApplicationRecord
 
   def feature_type_matches_variant_type
     unless self.is_a?(feature.compatible_variant_type)
-      errors.add(:feature_id, "#{type} is not compatible with #{feature_instance.feature_instance_type.demodulize} Features")
+      errors.add(:feature_id, "#{type} is not compatible with #{feature.feature_instance_type.demodulize} Features")
     end
   end
 

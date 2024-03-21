@@ -2,6 +2,9 @@
   @switch(variantType) { @case("GeneVariant") {
   <cvc-gene-variant-revise-form [variantId]="variantId">
   </cvc-gene-variant-revise-form>
-  } @case("FactorVariant") { TBD } }
+  } @case("FactorVariant") {
+  <cvc-factor-variant-revise-form [variantId]="variantId">
+  </cvc-factor-variant-revise-form>
+  } }
 </ng-container>
 <ng-template #loadingVariant>Loading Variant...</ng-template>

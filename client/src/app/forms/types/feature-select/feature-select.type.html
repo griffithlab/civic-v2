@@ -3,6 +3,7 @@
   <nz-col nzFlex="100px">
     <nz-form-item>
       <nz-select
+        [disabled]="!props.canChangeFeatureType"
         [(ngModel)]="selectedFeatureType"
         (ngModelChange)="this.onFeatureType$?.next($event)">
         <nz-option

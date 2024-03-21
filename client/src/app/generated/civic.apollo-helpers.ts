@@ -847,7 +847,7 @@ export type FactorFieldPolicy = {
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FactorVariantKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'ncitId' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | FactorVariantKeySpecifier)[];
+export type FactorVariantKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'ncitDetails' | 'ncitId' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | FactorVariantKeySpecifier)[];
 export type FactorVariantFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -865,6 +865,7 @@ export type FactorVariantFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	ncitDetails?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1275,7 +1276,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1301,6 +1302,7 @@ export type MutationFieldPolicy = {
 	suggestAssertionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestFactorRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestFactorVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestMolecularProfileRevision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1915,6 +1917,12 @@ export type SuggestFactorRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	factor?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SuggestFactorVariantRevisionPayloadKeySpecifier = ('clientMutationId' | 'results' | 'variant' | SuggestFactorVariantRevisionPayloadKeySpecifier)[];
+export type SuggestFactorVariantRevisionPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>,
+	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SuggestGeneRevisionPayloadKeySpecifier = ('clientMutationId' | 'gene' | 'results' | SuggestGeneRevisionPayloadKeySpecifier)[];
 export type SuggestGeneRevisionPayloadFieldPolicy = {
@@ -2936,6 +2944,10 @@ export type StrictTypedTypePolicies = {
 	SuggestFactorRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestFactorRevisionPayloadKeySpecifier | (() => undefined | SuggestFactorRevisionPayloadKeySpecifier),
 		fields?: SuggestFactorRevisionPayloadFieldPolicy,
+	},
+	SuggestFactorVariantRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestFactorVariantRevisionPayloadKeySpecifier | (() => undefined | SuggestFactorVariantRevisionPayloadKeySpecifier),
+		fields?: SuggestFactorVariantRevisionPayloadFieldPolicy,
 	},
 	SuggestGeneRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestGeneRevisionPayloadKeySpecifier | (() => undefined | SuggestGeneRevisionPayloadKeySpecifier),

@@ -21,6 +21,7 @@ module Types
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :events, resolver: Resolvers::TopLevelEvents
+    field :comments, resolver: Resolvers::TopLevelComments
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
     field :notifications, resolver: Resolvers::Notifications do
@@ -160,7 +161,6 @@ module Types
       argument :permalink_id, String, required: true
     end
 
-    field :comments, resolver: Resolvers::TopLevelComments
     field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
       argument :comment_text, String, required: true
     end

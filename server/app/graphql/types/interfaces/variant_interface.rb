@@ -54,10 +54,10 @@ module Types::Interfaces
       end
     end
 
-    orphan_types(
-      Types::Variants::FactorVariantType,
-      Types::Variants::GeneVariantType,
-    )
+    #orphan_types(
+      #Types::Variants::FactorVariantType,
+      #Types::Variants::GeneVariantType,
+    #)
 
     definition_methods do
       def resolve_type(object, context)
