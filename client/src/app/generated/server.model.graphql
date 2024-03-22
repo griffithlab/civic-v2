@@ -1336,9 +1336,11 @@ type BrowseVariant {
   deprecated: Boolean!
   diseases: [Disease!]!
   featureDeprecated: Boolean!
+  featureFlagged: Boolean!
   featureId: Int!
   featureLink: String!
   featureName: String!
+  flagged: Boolean!
   id: Int!
   link: String!
   name: String!
@@ -1642,7 +1644,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTagSegmentDeprecated | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -1725,11 +1727,23 @@ type CommentTagSegment {
   tagType: TaggableEntity!
 }
 
-type CommentTagSegmentDeprecated {
+type CommentTagSegmentFlagged {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  flagged: Boolean!
+  link: String!
+  revisionSetId: Int
+  status: EvidenceStatus
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentFlaggedAndDeprecated {
   deprecated: Boolean!
   displayName: String!
   entityId: Int!
   feature: LinkableFeature
+  flagged: Boolean!
   link: String!
   revisionSetId: Int
   status: EvidenceStatus
@@ -5229,6 +5243,7 @@ type LinkableDisease {
 
 type LinkableFeature {
   deprecated: Boolean!
+  flagged: Boolean!
   id: Int!
   link: String!
   name: String!
@@ -5244,6 +5259,7 @@ type LinkableTherapy {
 type LinkableVariant {
   deprecated: Boolean!
   feature: LinkableFeature
+  flagged: Boolean!
   id: Int!
   link: String!
   matchText: String
@@ -5417,6 +5433,7 @@ type ModeratedObjectField {
   displayType: String
   entityType: String!
   feature: LinkableFeature
+  flagged: Boolean
   id: Int!
   link: String
 }

@@ -108,27 +108,36 @@ fragment activityFeedNode on ActivityInterface {
     }
     ... on EvidenceItem {
       status
+      flagged
     }
     ... on Assertion {
       status
+      flagged
     }
     ... on Revision {
       revisionSetId
     }
     ... on VariantInterface {
       deprecated
+      flagged
       feature {
         id
         name
         link
         deprecated
+        flagged
       }
     }
     ... on MolecularProfile {
       deprecated
+      flagged
     }
     ... on Feature {
       deprecated
+      flagged
+    }
+    ... on VariantGroup {
+      flagged
     }
     __typename
   }

@@ -15,11 +15,13 @@ fragment variantGroupPopoverFields on VariantGroup {
         name
         link
         deprecated
+        flagged
         feature {
           id
           name
           link
           deprecated
+          flagged
         }
       }
     }

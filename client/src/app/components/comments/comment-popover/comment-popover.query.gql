@@ -26,15 +26,24 @@ fragment commentPopover on Comment {
         name
         link
         deprecated
+        flagged
       }
+      flagged
     }
     ...on Feature {
       deprecated
+      flagged
     } 
     ...on Source {
       deprecated
       sourceType
     } 
+    ...on Assertion {
+      flagged
+    }
+    ...on EvidenceItem {
+      flagged
+    }
     __typename
   }
 }

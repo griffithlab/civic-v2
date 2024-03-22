@@ -100,14 +100,33 @@ fragment parsedCommentFragment on CommentBodySegment{
         name
         link
         deprecated
+        flagged
       }
       __typename
     }
-    ... on CommentTagSegmentDeprecated {
+    ... on CommentTagSegmentFlagged {
       entityId
       displayName
       tagType
       status
+      flagged
+      link
+      revisionSetId
+      feature {
+        id
+        name
+        link
+        deprecated
+        flagged
+      }
+      __typename
+    }
+    ... on CommentTagSegmentFlaggedAndDeprecated {
+      entityId
+      displayName
+      tagType
+      status
+      flagged
       deprecated
       link
       revisionSetId
@@ -116,6 +135,7 @@ fragment parsedCommentFragment on CommentBodySegment{
         name
         link
         deprecated
+        flagged
       }
       __typename
     }

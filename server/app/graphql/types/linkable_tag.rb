@@ -13,10 +13,12 @@ module Types
   end
 
   class LinkableFeature < LinkableTag
+    field :flagged, Boolean, null: false
   end
 
   class LinkableVariant < LinkableTag
     field :match_text, String, null: true
     field :feature, LinkableFeature, null: true
+    field :flagged, Boolean, null: false
   end
 end

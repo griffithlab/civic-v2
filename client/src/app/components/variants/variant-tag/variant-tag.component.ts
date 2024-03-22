@@ -12,7 +12,7 @@ export interface LinkableVariant {
   id: number
   name: string
   link: string
-  flagged?: boolean
+  flagged: boolean
   deprecated: boolean
 }
 

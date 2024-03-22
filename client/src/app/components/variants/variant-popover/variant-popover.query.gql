@@ -16,6 +16,7 @@ fragment variantPopoverFields on VariantInterface {
     name
     link
     deprecated
+    flagged
   }
   molecularProfiles {
     totalCount

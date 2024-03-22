@@ -11,7 +11,11 @@ module Types::Commentable
     field :feature, Types::LinkableFeature, null: true
   end
 
-  class CommentTagSegmentDeprecated < CommentTagSegment
+  class CommentTagSegmentFlagged < CommentTagSegment
+    field :flagged, GraphQL::Types::Boolean, null: false
+  end
+
+  class CommentTagSegmentFlaggedAndDeprecated < CommentTagSegmentFlagged
     field :deprecated, GraphQL::Types::Boolean, null: false
   end
 end

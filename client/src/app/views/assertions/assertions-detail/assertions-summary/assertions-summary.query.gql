@@ -25,6 +25,7 @@ fragment AssertionSummaryFields on Assertion {
       ...MolecularProfileParsedName
     }
     deprecated
+    flagged
   }
   assertionType
   assertionDirection

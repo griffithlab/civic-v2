@@ -24,11 +24,13 @@ fragment flagPopover on Flag {
         name
         link
         deprecated
+        flagged
       }
     }
     ... on Feature {
       deprecated
     }
+    flagged
   }
   createdAt
   openActivity {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_26_194304) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1333,9 +1333,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_194304) do
       outer_variants.name,
       outer_variants.deprecated,
       outer_variants.type AS category,
+      outer_variants.flagged,
       features.id AS feature_id,
       features.name AS feature_name,
       features.deprecated AS feature_deprecated,
+      features.flagged AS feature_flagged,
       array_agg(DISTINCT variant_aliases.name ORDER BY variant_aliases.name) AS alias_names,
       array_agg(DISTINCT variant_types.id) AS variant_type_ids,
       json_agg(DISTINCT jsonb_build_object('name', variant_types.display_name, 'id', variant_types.id)) FILTER (WHERE (variant_types.* IS NOT NULL)) AS variant_types,
