@@ -12,10 +12,12 @@ module Types::BrowseTables
     field :name, String, null: false
     field :link, String, null: false
     field :deprecated, Boolean, null: false
+    field :flagged, Boolean, null: false
     field :feature_id, Int, null: false
     field :feature_name, String, null: false
     field :feature_link, String, null: false
     field :feature_deprecated, Boolean, null: false
+    field :feature_flagged, Boolean, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
     field :therapies, [Types::Entities::TherapyType], null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false

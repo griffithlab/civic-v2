@@ -10,6 +10,7 @@ fragment FeatureSummaryFields on Feature{
   fullName
   link
   deprecated
+  flagged
   featureInstance {
     __typename
     ... on Gene {

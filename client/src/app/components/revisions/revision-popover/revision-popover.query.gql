@@ -25,15 +25,27 @@ fragment revisionPopover on Revision {
     name
     ... on Variant {
       deprecated
+      flagged
       feature {
         id
         name
         link
         deprecated
+        flagged
       }
     }
     ... on Feature {
       deprecated
+      flagged
+    }
+    ... on Assertion {
+      flagged
+    }
+    ... on EvidenceItem {
+      flagged
+    }
+    ... on VariantGroup {
+      flagged
     }
   }
   createdAt

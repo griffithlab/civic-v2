@@ -18,4 +18,5 @@ fragment MolecularProfileSelectTypeaheadFields on MolecularProfile {
   link
   molecularProfileAliases
   deprecated
+  flagged
 }

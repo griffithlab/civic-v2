@@ -5,7 +5,40 @@
   <ng-container *ngIf="c.__typename == 'User'">
     <cvc-user-tag [user]="c"></cvc-user-tag>
   </ng-container>
-  <ng-container *ngIf="c.__typename == 'CommentTagSegmentDeprecated'">
+  <ng-container *ngIf="c.__typename == 'CommentTagSegmentFlagged'">
+    <ng-container [ngSwitch]="c.tagType">
+      <span *ngSwitchCase="'VARIANT_GROUP'">
+        <cvc-variant-group-tag
+          [variantgroup]="{
+            id: c.entityId,
+            name: c.displayName,
+            link: c.link,
+            flagged: c.flagged
+          }"></cvc-variant-group-tag>
+      </span>
+      <span *ngSwitchCase="'EVIDENCE_ITEM'">
+        <cvc-evidence-tag
+          [evidence]="{
+            id: c.entityId,
+            name: c.displayName,
+            status: c.status,
+            link: c.link,
+            flagged: c.flagged
+          }"></cvc-evidence-tag>
+      </span>
+      <span *ngSwitchCase="'ASSERTION'">
+        <cvc-assertion-tag
+          [assertion]="{
+            id: c.entityId,
+            name: c.displayName,
+            status: c.status,
+            link: c.link,
+            flagged: c.flagged
+          }"></cvc-assertion-tag>
+      </span>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="c.__typename == 'CommentTagSegmentFlaggedAndDeprecated'">
     <ng-container [ngSwitch]="c.tagType">
       <span *ngSwitchCase="'VARIANT'">
         <cvc-feature-variant-tag
@@ -14,7 +47,8 @@
             name: c.displayName,
             link: c.link,
             deprecated: c.deprecated,
-            feature: c.feature
+            feature: c.feature,
+            flagged: c.flagged
           }"></cvc-feature-variant-tag>
       </span>
       <span *ngSwitchCase="'MOLECULAR_PROFILE'">
@@ -23,7 +57,8 @@
             id: c.entityId,
             name: c.displayName,
             link: c.link,
-            deprecated: c.deprecated
+            deprecated: c.deprecated,
+            flagged: c.flagged
           }"></cvc-molecular-profile-tag>
       </span>
       <span *ngSwitchCase="'FEATURE'">
@@ -32,7 +67,8 @@
             id: c.entityId,
             name: c.displayName,
             link: c.link,
-            deprecated: c.deprecated
+            deprecated: c.deprecated,
+            flagged: c.flagged
           }"></cvc-feature-tag>
       </span>
     </ng-container>
@@ -55,32 +91,6 @@
             nzTwotoneColor="#F0673A"></i>
           {{ c.displayName }}
         </nz-tag>
-      </span>
-      <span *ngSwitchCase="'VARIANT_GROUP'">
-        <cvc-variant-group-tag
-          [variantgroup]="{
-            id: c.entityId,
-            name: c.displayName,
-            link: c.link
-          }"></cvc-variant-group-tag>
-      </span>
-      <span *ngSwitchCase="'EVIDENCE_ITEM'">
-        <cvc-evidence-tag
-          [evidence]="{
-            id: c.entityId,
-            name: c.displayName,
-            status: c.status,
-            link: c.link
-          }"></cvc-evidence-tag>
-      </span>
-      <span *ngSwitchCase="'ASSERTION'">
-        <cvc-assertion-tag
-          [assertion]="{
-            id: c.entityId,
-            name: c.displayName,
-            status: c.status,
-            link: c.link
-          }"></cvc-assertion-tag>
       </span>
       <span *ngSwitchCase="'ORGANIZATION'">
         <cvc-organization-tag

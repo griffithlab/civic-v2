@@ -57,6 +57,7 @@ fragment BrowseVariantsFields on BrowseVariant {
   featureName
   featureLink
   featureDeprecated
+  featureFlagged
   diseases {
     id
     name
@@ -78,4 +79,5 @@ fragment BrowseVariantsFields on BrowseVariant {
     link
   }
   deprecated
+  flagged
 }

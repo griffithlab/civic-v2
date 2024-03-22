@@ -38,6 +38,7 @@ fragment evidencePopover on EvidenceItem {
     name
     link
     deprecated
+    flagged
     parsedName {
       ...MolecularProfileParsedName
     }

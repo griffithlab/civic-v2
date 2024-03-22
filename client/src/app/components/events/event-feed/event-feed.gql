@@ -109,30 +109,39 @@ fragment eventFeedNode on Event {
     }
     ... on EvidenceItem {
       status
+      flagged
     }
     ... on Assertion {
       status
+      flagged
     }
     ... on Revision {
       revisionSetId
     }
     ... on Variant {
       deprecated
+      flagged
       feature {
         id
         link
         name
         deprecated
+        flagged
       }
     }
     ... on Feature {
       deprecated
+      flagged
       id
       link
       name
     }
     ... on MolecularProfile {
       deprecated
+      flagged
+    }
+    ... on VariantGroup {
+      flagged
     }
     __typename
   }

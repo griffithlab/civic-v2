@@ -28,7 +28,8 @@
     ],
     "CommentBodySegment": [
       "CommentTagSegment",
-      "CommentTagSegmentDeprecated",
+      "CommentTagSegmentFlagged",
+      "CommentTagSegmentFlaggedAndDeprecated",
       "CommentTextSegment",
       "User"
     ],

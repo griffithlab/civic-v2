@@ -58,6 +58,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
       ...MolecularProfileParsedName
     }
     deprecated
+    flagged
   }
   flags(state: OPEN) {
     totalCount
