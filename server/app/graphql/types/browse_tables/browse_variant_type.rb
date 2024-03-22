@@ -11,9 +11,11 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :name, String, null: false
     field :link, String, null: false
+    field :deprecated, Boolean, null: false
     field :feature_id, Int, null: false
     field :feature_name, String, null: false
     field :feature_link, String, null: false
+    field :feature_deprecated, Boolean, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
     field :therapies, [Types::Entities::TherapyType], null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false
@@ -36,13 +38,13 @@ module Types::BrowseTables
     def diseases
       Array(object.diseases)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/disease/#{d['id']}" } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}", deprecated: d['deprecated'] } }
     end
 
     def therapies
       Array(object.therapies)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}" } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}", deprecated: d['deprecated'] } }
     end
 
     def variant_types

@@ -5,6 +5,38 @@
   <ng-container *ngIf="c.__typename == 'User'">
     <cvc-user-tag [user]="c"></cvc-user-tag>
   </ng-container>
+  <ng-container *ngIf="c.__typename == 'CommentTagSegmentDeprecated'">
+    <ng-container [ngSwitch]="c.tagType">
+      <span *ngSwitchCase="'VARIANT'">
+        <cvc-feature-variant-tag
+          [variant]="{
+            id: c.entityId,
+            name: c.displayName,
+            link: c.link,
+            deprecated: c.deprecated,
+            feature: c.feature
+          }"></cvc-feature-variant-tag>
+      </span>
+      <span *ngSwitchCase="'MOLECULAR_PROFILE'">
+        <cvc-molecular-profile-tag
+          [molecularProfile]="{
+            id: c.entityId,
+            name: c.displayName,
+            link: c.link,
+            deprecated: c.deprecated
+          }"></cvc-molecular-profile-tag>
+      </span>
+      <span *ngSwitchCase="'FEATURE'">
+        <cvc-feature-tag
+          [feature]="{
+            id: c.entityId,
+            name: c.displayName,
+            link: c.link,
+            deprecated: c.deprecated
+          }"></cvc-feature-tag>
+      </span>
+    </ng-container>
+  </ng-container>
   <ng-container *ngIf="c.__typename == 'CommentTagSegment'">
     <ng-container [ngSwitch]="c.tagType">
       <span *ngSwitchCase="'REVISION'">
@@ -23,24 +55,6 @@
             nzTwotoneColor="#F0673A"></i>
           {{ c.displayName }}
         </nz-tag>
-      </span>
-      <span *ngSwitchCase="'FEATURE'">
-        <cvc-feature-tag
-          [feature]="{
-            id: c.entityId,
-            name: c.displayName,
-            link: c.link
-          }"></cvc-feature-tag>
-      </span>
-      <span *ngSwitchCase="'VARIANT'">
-        <cvc-feature-variant-tag
-          [variant]="{
-            id: c.entityId,
-            name: c.displayName,
-            link: c.link,
-            deprecated: c.deprecated,
-            feature: c.feature
-          }"></cvc-feature-variant-tag>
       </span>
       <span *ngSwitchCase="'VARIANT_GROUP'">
         <cvc-variant-group-tag
@@ -74,15 +88,6 @@
             id: c.entityId,
             name: c.displayName
           }"></cvc-organization-tag>
-      </span>
-      <span *ngSwitchCase="'MOLECULAR_PROFILE'">
-        <cvc-molecular-profile-tag
-          [molecularProfile]="{
-            id: c.entityId,
-            name: c.displayName,
-            link: c.link,
-            deprecated: c.deprecated
-          }"></cvc-molecular-profile-tag>
       </span>
       <span *ngSwitchCase="'ROLE'">
         <nz-tag

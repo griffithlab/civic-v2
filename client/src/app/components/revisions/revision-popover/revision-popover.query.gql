@@ -29,7 +29,11 @@ fragment revisionPopover on Revision {
         id
         name
         link
+        deprecated
       }
+    }
+    ... on Feature {
+      deprecated
     }
   }
   createdAt

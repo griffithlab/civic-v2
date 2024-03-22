@@ -56,15 +56,18 @@ fragment BrowseVariantsFields on BrowseVariant {
   featureId
   featureName
   featureLink
+  featureDeprecated
   diseases {
     id
     name
     link
+    deprecated
   }
   therapies {
     id
     name
     link
+    deprecated
   }
   aliases {
     name
@@ -74,4 +77,5 @@ fragment BrowseVariantsFields on BrowseVariant {
     name
     link
   }
+  deprecated
 }

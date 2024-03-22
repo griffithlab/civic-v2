@@ -61,6 +61,7 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
     id
     name
     link
+    deprecated
   }
   ... on Variant {
     id
@@ -78,6 +79,7 @@ fragment VariantMolecularProfileCardFields on Variant {
     id
     name
     link
+    deprecated
   }
   molecularProfiles(first: 3) {
     totalCount
@@ -115,4 +117,5 @@ fragment VariantMolecularProfileCardFields on Variant {
   referenceBases
   variantBases
   hgvsDescriptions
+  deprecated
 }

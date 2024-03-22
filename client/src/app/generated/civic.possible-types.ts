@@ -28,6 +28,7 @@
     ],
     "CommentBodySegment": [
       "CommentTagSegment",
+      "CommentTagSegmentDeprecated",
       "CommentTextSegment",
       "User"
     ],

@@ -18,12 +18,14 @@ fragment evidencePopover on EvidenceItem {
     id
     name
     link
+    deprecated
   }
   therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id

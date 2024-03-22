@@ -57,6 +57,15 @@ fragment flag on Flag {
     id
     name
     link
+    ... on Variant {
+      deprecated
+    }
+    ... on Feature {
+      deprecated
+    }
+    ... on MolecularProfile {
+      deprecated
+    }
   }
   openActivity {
     id

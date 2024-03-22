@@ -9,6 +9,7 @@ module Types::BrowseTables
     field :assertion_count, Int, null: false
     field :therapy_url, String, null: true
     field :link, String, null: false
+    field :deprecated, Boolean, null: false
 
     def therapy_url
       Therapy.url_for(ncit_id: object.ncit_id)

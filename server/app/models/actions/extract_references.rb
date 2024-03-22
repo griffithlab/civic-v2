@@ -24,17 +24,19 @@ module Actions
               (klass, tag_type) = self.class.extract_type(match[:type])
               if referenced_item = klass.find_by(id: match[:id])
                 referenced_items << referenced_item
-                {
+                val = {
                   entity_id: referenced_item.id,
                   display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
                   tag_type: tag_type,
                   status: self.class.status_value_for_referenced_entity(referenced_item),
-                  deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
                   link: referenced_item.link,
                   revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
                   feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil
-
                 }
+                if referenced_item.respond_to?(:deprecated)
+                  val[:deprecated] = referenced_item.deprecated
+                end
+                val
               else
                 split_segment
               end
@@ -55,28 +57,23 @@ module Actions
         nil
       end
     end
-    
-    def self.deprecation_value_for_referenced_entity(item)
-      if item.is_a?(Variant) || item.is_a?(MolecularProfile)
-        item.deprecated
-      else
-        nil
-      end
-    end
 
     def self.typeahead_matches(query_term)
       if match = "##{query_term}".match(self.scan_regex)
         (klass, tag_type) = self.extract_type(match[:type])
         if referenced_items = klass.where("CAST(id as TEXT) LIKE ?", "#{match[:id]}%").order(:id).limit(10)
           return referenced_items.map do |referenced_item|
-          {
-            entity_id: referenced_item.id,
-            display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
-            tag_type: tag_type,
-            status: status_value_for_referenced_entity(referenced_item),
-            deprecated: self.deprecation_value_for_referenced_entity(referenced_item),
-            feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
-          }
+            val = {
+              entity_id: referenced_item.id,
+              display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
+              tag_type: tag_type,
+              status: status_value_for_referenced_entity(referenced_item),
+              feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
+            }
+            if referenced_item.respond_to?(:deprecated)
+              val[:deprecated] = referenced_item.deprecated
+            end
+            val
           end
         else
           return []

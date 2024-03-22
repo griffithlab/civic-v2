@@ -12,6 +12,7 @@ fragment VariantSummaryFields on Variant {
     id
     name
     link
+    deprecated
   }
   variantAliases
   alleleRegistryId
