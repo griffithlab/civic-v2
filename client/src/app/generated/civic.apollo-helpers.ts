@@ -338,9 +338,10 @@ export type BrowseTherapyEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseVariantKeySpecifier = ('aliases' | 'diseases' | 'featureId' | 'featureLink' | 'featureName' | 'id' | 'link' | 'name' | 'therapies' | 'variantTypes' | BrowseVariantKeySpecifier)[];
+export type BrowseVariantKeySpecifier = ('aliases' | 'category' | 'diseases' | 'featureId' | 'featureLink' | 'featureName' | 'id' | 'link' | 'name' | 'therapies' | 'variantTypes' | BrowseVariantKeySpecifier)[];
 export type BrowseVariantFieldPolicy = {
 	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureId?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureLink?: FieldPolicy<any> | FieldReadFunction<any>,

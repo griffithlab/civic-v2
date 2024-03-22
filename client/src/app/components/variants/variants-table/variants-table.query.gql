@@ -8,6 +8,7 @@ query BrowseVariants(
   $variantGroupId: Int
   $variantTypeName: String
   $hasNoVariantType: Boolean
+  $variantCategory: VariantCategories
   $sortBy: VariantsSort
   $first: Int
   $last: Int
@@ -24,6 +25,7 @@ query BrowseVariants(
     variantGroupId: $variantGroupId
     variantTypeName: $variantTypeName
     hasNoVariantType: $hasNoVariantType
+    category: $variantCategory
     sortBy: $sortBy
     first: $first
     last: $last
@@ -56,6 +58,7 @@ fragment BrowseVariantsFields on BrowseVariant {
   featureId
   featureName
   featureLink
+  category
   diseases {
     id
     name

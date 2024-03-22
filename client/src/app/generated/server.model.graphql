@@ -1326,6 +1326,7 @@ type BrowseTherapyEdge {
 
 type BrowseVariant {
   aliases: [VariantAlias!]!
+  category: VariantCategories!
   diseases: [Disease!]!
   featureId: Int!
   featureLink: String!
@@ -6950,6 +6951,7 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    category: VariantCategories
     diseaseName: String
     featureName: String
 
@@ -8008,6 +8010,7 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    category: VariantCategories
 
     """
     Feature that the variants are associated with.
@@ -10399,6 +10402,11 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
 
 type VariantAlias {
   name: String!
+}
+
+enum VariantCategories {
+  FACTOR
+  GENE
 }
 
 """

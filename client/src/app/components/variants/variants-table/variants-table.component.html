@@ -54,6 +54,11 @@
           Variant
         </th>
         <th
+          nzLeft
+          nzWidth="70px">
+          Category
+        </th>
+        <th
           nzWidth="100px"
           [nzColumnKey]="sortColumns.FeatureName"
           [nzSortFn]="true">
@@ -77,6 +82,24 @@
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <nz-select
+            nzAllowClear
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            nzPlaceHolder="All"
+            (ngModelChange)="filterChange$.next()"
+            [(ngModel)]="variantCategoryInput">
+            <nz-option
+              [nzValue]="variantCategories.Gene"
+              nzLabel="Gene">
+            </nz-option>
+            <nz-option
+              [nzValue]="variantCategories.Factor"
+              nzLabel="Factor">
+            </nz-option>
+          </nz-select>
         </th>
         <th>
           <cvc-clearable-input-filter
@@ -124,6 +147,13 @@
             <cvc-variant-tag
               [variant]="variant"
               [truncateLongName]="true"></cvc-variant-tag>
+          </td>
+          <td nzLeft>
+            <span
+              nz-typography
+              nzType="secondary">
+              {{ variant.category }}
+            </span>
           </td>
           <td>
             <cvc-feature-tag

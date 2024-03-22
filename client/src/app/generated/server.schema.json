@@ -6283,6 +6283,22 @@
               "deprecationReason": null
             },
             {
+              "name": "category",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "VariantCategories",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "diseases",
               "description": null,
               "args": [],
@@ -32661,6 +32677,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "category",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "VariantCategories",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": null,
                   "type": {
@@ -36723,6 +36751,18 @@
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "VariantMenuSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "category",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "VariantCategories",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -47136,6 +47176,29 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "VariantCategories",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "GENE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FACTOR",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {

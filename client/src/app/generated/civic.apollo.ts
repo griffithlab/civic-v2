@@ -806,6 +806,7 @@ export type BrowseTherapyEdge = {
 export type BrowseVariant = {
   __typename: 'BrowseVariant';
   aliases: Array<VariantAlias>;
+  category: VariantCategories;
   diseases: Array<Disease>;
   featureId: Scalars['Int'];
   featureLink: Scalars['String'];
@@ -4287,6 +4288,7 @@ export type QueryBrowseVariantGroupsArgs = {
 export type QueryBrowseVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<VariantCategories>;
   diseaseName?: InputMaybe<Scalars['String']>;
   featureName?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
@@ -4763,6 +4765,7 @@ export type QueryVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<VariantCategories>;
   featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
@@ -6265,6 +6268,11 @@ export type VariantAlias = {
   name: Scalars['String'];
 };
 
+export enum VariantCategories {
+  Factor = 'FACTOR',
+  Gene = 'GENE'
+}
+
 /** Representation of a Variant's membership in a Molecular Profile. */
 export type VariantComponent = {
   /** When set to true, this means the NOT operator will be applied to the Variant in the Molecluar Profile. */
@@ -7486,6 +7494,7 @@ export type BrowseVariantsQueryVariables = Exact<{
   variantGroupId?: InputMaybe<Scalars['Int']>;
   variantTypeName?: InputMaybe<Scalars['String']>;
   hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
+  variantCategory?: InputMaybe<VariantCategories>;
   sortBy?: InputMaybe<VariantsSort>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -7494,9 +7503,9 @@ export type BrowseVariantsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, lastUpdated: any, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
-export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
+export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> };
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8147,7 +8156,7 @@ export type VariantManagerQueryVariables = Exact<{
 }>;
 
 
-export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
+export type VariantManagerQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, category: VariantCategories, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }>, variantTypes: Array<{ __typename: 'LinkableVariantType', id: number, name: string, link: string }> } | undefined }> } };
 
 export type VariantManagerFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, featureId: number, featureName: string, featureLink: string, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
 
@@ -9745,6 +9754,7 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   featureId
   featureName
   featureLink
+  category
   diseases {
     id
     name
@@ -13250,7 +13260,7 @@ export const VariantTypesForFeatureDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $featureName: String, $diseaseName: String, $therapyName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $variantTypeName: String, $hasNoVariantType: Boolean, $variantCategory: VariantCategories, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     featureName: $featureName
@@ -13261,6 +13271,7 @@ export const BrowseVariantsDocument = gql`
     variantGroupId: $variantGroupId
     variantTypeName: $variantTypeName
     hasNoVariantType: $hasNoVariantType
+    category: $variantCategory
     sortBy: $sortBy
     first: $first
     last: $last
