@@ -16,6 +16,10 @@
             flagged: c.flagged
           }"></cvc-variant-group-tag>
       </span>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="c.__typename == 'CommentTagSegmentFlaggedAndWithStatus'">
+    <ng-container [ngSwitch]="c.tagType">
       <span *ngSwitchCase="'EVIDENCE_ITEM'">
         <cvc-evidence-tag
           [evidence]="{

@@ -92,7 +92,6 @@ fragment parsedCommentFragment on CommentBodySegment{
       entityId
       displayName
       tagType
-      status
       link
       revisionSetId
       feature {
@@ -105,6 +104,22 @@ fragment parsedCommentFragment on CommentBodySegment{
       __typename
     }
     ... on CommentTagSegmentFlagged {
+      entityId
+      displayName
+      tagType
+      flagged
+      link
+      revisionSetId
+      feature {
+        id
+        name
+        link
+        deprecated
+        flagged
+      }
+      __typename
+    }
+    ... on CommentTagSegmentFlaggedAndWithStatus {
       entityId
       displayName
       tagType
@@ -125,7 +140,6 @@ fragment parsedCommentFragment on CommentBodySegment{
       entityId
       displayName
       tagType
-      status
       flagged
       deprecated
       link

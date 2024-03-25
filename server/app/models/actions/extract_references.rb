@@ -28,13 +28,18 @@ module Actions
                   entity_id: referenced_item.id,
                   display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
                   tag_type: tag_type,
-                  status: self.class.status_value_for_referenced_entity(referenced_item),
                   link: referenced_item.link,
                   revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
                   feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil
                 }
                 if referenced_item.respond_to?(:deprecated)
                   val[:deprecated] = referenced_item.deprecated
+                end
+                if referenced_item.respond_to?(:flagged)
+                  val[:flagged] = referenced_item.flagged
+                end
+                if referenced_item.respond_to?(:status)
+                  val[:status] = referenced_item.status
                 end
                 val
               else
@@ -67,11 +72,16 @@ module Actions
               entity_id: referenced_item.id,
               display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
               tag_type: tag_type,
-              status: status_value_for_referenced_entity(referenced_item),
               feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
             }
             if referenced_item.respond_to?(:deprecated)
               val[:deprecated] = referenced_item.deprecated
+            end
+            if referenced_item.respond_to?(:flagged)
+              val[:flagged] = referenced_item.flagged
+            end
+            if referenced_item.respond_to?(:status)
+              val[:status] = referenced_item.status
             end
             val
           end

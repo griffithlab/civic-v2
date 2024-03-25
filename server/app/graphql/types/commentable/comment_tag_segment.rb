@@ -5,7 +5,6 @@ module Types::Commentable
     field :entity_id, GraphQL::Types::Int, null: false
     field :display_name, GraphQL::Types::String, null: false
     field :tag_type, Types::Commentable::TaggableEntity, null: false
-    field :status, Types::EvidenceStatusType, null: true
     field :link, GraphQL::Types::String, null: false
     field :revision_set_id, GraphQL::Types::Int, null: true
     field :feature, Types::LinkableFeature, null: true
@@ -13,6 +12,10 @@ module Types::Commentable
 
   class CommentTagSegmentFlagged < CommentTagSegment
     field :flagged, GraphQL::Types::Boolean, null: false
+  end
+
+  class CommentTagSegmentFlaggedAndWithStatus < CommentTagSegmentFlagged
+    field :status, Types::EvidenceStatusType, null: false
   end
 
   class CommentTagSegmentFlaggedAndDeprecated < CommentTagSegmentFlagged
