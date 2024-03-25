@@ -10,6 +10,7 @@ module Types::Revisions
     field :deleted, Boolean, null: false
     field :feature, Types::LinkableFeature, null: true
     field :deprecated, Boolean, null: true
+    field :flagged, Boolean, null: true
   end
 
   class ScalarFieldType < Types::BaseObject

@@ -8,21 +8,7 @@ fragment molecularProfilePopoverFields on MolecularProfile {
   id
   name
   parsedName {
-    __typename
-    ... on MolecularProfileTextSegment {
-      text
-    }
-    ... on Feature {
-      id
-      name
-      link
-    }
-    ... on Variant {
-      id
-      name
-      deprecated
-      link
-    }
+    ...MolecularProfileParsedName
   }
   molecularProfileAliases
   evidenceItems {

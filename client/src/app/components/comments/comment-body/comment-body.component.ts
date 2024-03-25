@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core'
 import {
   CommentTagSegment,
+  CommentTagSegmentFlagged,
+  CommentTagSegmentFlaggedAndDeprecated,
+  CommentTagSegmentFlaggedAndWithStatus,
   CommentTextSegment,
 } from '@app/generated/civic.apollo'
 
@@ -14,6 +17,9 @@ interface CommentBodyUserSegment {
 export type CommentSegment =
   | CommentBodyUserSegment
   | CommentTagSegment
+  | CommentTagSegmentFlagged
+  | CommentTagSegmentFlaggedAndDeprecated
+  | CommentTagSegmentFlaggedAndWithStatus
   | CommentTextSegment
 
 @Component({

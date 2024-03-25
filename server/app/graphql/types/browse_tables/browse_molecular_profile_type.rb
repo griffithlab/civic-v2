@@ -15,6 +15,7 @@ module Types::BrowseTables
     field :variant_count, Int, null: false
     field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
     field :molecular_profile_score, Float, null: false
+    field :deprecated, Boolean, null: false
 
     def molecular_profile_score
       object.evidence_score
@@ -46,7 +47,8 @@ module Types::BrowseTables
             id: v['id'],
             link: "/variants/#{v['id']}",
             feature: feature,
-            match_text: "#{feature['name']} #{v['name']}"
+            match_text: "#{feature['name']} #{v['name']}",
+            deprecated: v['deprecated']
           }
          end
     end
@@ -54,13 +56,13 @@ module Types::BrowseTables
     def diseases
       Array(object.diseases)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/disease/#{d['id']}"} }
+        .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}", deprecated: d['deprecated']} }
     end
 
     def therapies
       Array(object.therapies)
         .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"} }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}", deprecated: d['deprecated']} }
     end
 
     def aliases

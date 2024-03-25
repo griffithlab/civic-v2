@@ -16,6 +16,7 @@ module Types::BrowseTables
     field :assertion_count, Int, null: false
     field :feature_count, Int, null: false
     field :link, String, null: false
+    field :deprecated, Boolean, null: false
 
     def features
       Array(object.features)

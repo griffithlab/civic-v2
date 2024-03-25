@@ -71,10 +71,13 @@ fragment revision on Revision {
           link
           deleted
           deprecated
+          flagged
           feature {
             link
             id
             name
+            deprecated
+            flagged
           }
         }
         addedObjects {
@@ -85,10 +88,13 @@ fragment revision on Revision {
           link
           deleted
           deprecated
+          flagged
           feature {
             link
             id
             name
+            deprecated
+            flagged
           }
         }
         removedObjects {
@@ -99,10 +105,13 @@ fragment revision on Revision {
           link
           deleted
           deprecated
+          flagged
           feature {
             link
             id
             name
+            deprecated
+            flagged
           }
         }
         keptObjects {
@@ -113,10 +122,13 @@ fragment revision on Revision {
           link
           deleted
           deprecated
+          flagged
           feature {
             link
             id
             name
+            deprecated
+            flagged
           }
         }
         suggestedObjects {
@@ -127,10 +139,13 @@ fragment revision on Revision {
           link
           deleted
           deprecated
+          flagged
           feature {
             link
             id
             name
+            deprecated
+            flagged
           }
         }
       }

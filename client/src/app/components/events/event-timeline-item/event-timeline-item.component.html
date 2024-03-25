@@ -66,32 +66,44 @@
     <ng-container
       *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
       [ngSwitch]="subject.__typename">
-      <cvc-feature-tag
-        *ngSwitchCase="'Feature'"
-        [feature]="subject"></cvc-feature-tag>
-      <cvc-assertion-tag
-        *ngSwitchCase="'Assertion'"
-        [assertion]="subject"></cvc-assertion-tag>
-      <cvc-evidence-tag
-        *ngSwitchCase="'EvidenceItem'"
-        [evidence]="subject"></cvc-evidence-tag>
-      <cvc-feature-variant-tag
-        *ngSwitchCase="'Variant'"
-        [variant]="subject"></cvc-feature-variant-tag>
-      <cvc-revision-tag
-        *ngSwitchCase="'Revision'"
-        [revision]="$any(subject)"></cvc-revision-tag>
-      <cvc-variant-group-tag
-        *ngSwitchCase="'VariantGroup'"
-        [variantgroup]="subject"></cvc-variant-group-tag>
-      <cvc-source-tag
-        *ngSwitchCase="'Source'"
-        mode="concise"
-        [source]="$any(subject)"></cvc-source-tag>
-      <cvc-molecular-profile-tag
-        *ngSwitchCase="'MolecularProfile'"
-        [molecularProfile]="subject"></cvc-molecular-profile-tag>
-      <span *ngSwitchDefault>{{ subject.name }}</span>
+      @switch (subject.__typename) {
+        @case ('Feature') {
+          <cvc-feature-tag
+            [feature]="subject"></cvc-feature-tag>
+        }
+        @case ('Assertion') {
+          <cvc-assertion-tag
+            [assertion]="subject"></cvc-assertion-tag>
+        }
+        @case ('EvidenceItem') {
+          <cvc-evidence-tag
+            [evidence]="subject"></cvc-evidence-tag>
+        }
+        @case ('Variant') {
+          <cvc-feature-variant-tag
+            [variant]="subject"></cvc-feature-variant-tag>
+        }
+        @case ('Revision') {
+          <cvc-revision-tag
+            [revision]="$any(subject)"></cvc-revision-tag>
+        }
+        @case ('VariantGroup') {
+          <cvc-variant-group-tag
+            [variantgroup]="subject"></cvc-variant-group-tag>
+        }
+        @case ('Source') {
+          <cvc-source-tag
+            mode="concise"
+            [source]="$any(subject)"></cvc-source-tag>
+        }
+        @case ('MolecularProfile') {
+          <cvc-molecular-profile-tag
+            [molecularProfile]="subject"></cvc-molecular-profile-tag>
+        }
+        @default {
+          {{ subject.name }}
+        }
+      }
     </ng-container>
 
     <!-- user organization -->

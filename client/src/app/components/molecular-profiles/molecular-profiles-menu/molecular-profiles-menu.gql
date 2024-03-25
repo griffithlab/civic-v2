@@ -39,4 +39,5 @@ fragment menuMolecularProfile on MolecularProfile {
   name
   link
   flagged
+  deprecated
 }

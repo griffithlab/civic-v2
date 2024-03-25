@@ -6,5 +6,6 @@ query TherapyDetail($therapyId: Int!) {
     therapyUrl
     therapyAliases
     link
+    deprecated
   }
 }

@@ -7,5 +7,6 @@ query DiseaseDetail($diseaseId: Int!) {
     displayName
     diseaseAliases
     link
+    deprecated
   }
 }

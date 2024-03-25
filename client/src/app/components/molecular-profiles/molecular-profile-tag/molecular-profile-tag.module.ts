@@ -7,6 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcMolecularProfilePopoverModule } from '../molecular-profile-popover/molecular-profile-popover.module'
+import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-badges.module'
 
 @NgModule({
   declarations: [CvcMolecularProfileTagComponent],
@@ -18,6 +19,7 @@ import { CvcMolecularProfilePopoverModule } from '../molecular-profile-popover/m
     NzIconModule,
     CvcPipesModule,
     CvcMolecularProfilePopoverModule,
+    CvcIconBadgesModule,
   ],
   exports: [CvcMolecularProfileTagComponent],
 })

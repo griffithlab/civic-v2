@@ -84,11 +84,13 @@ fragment EvidenceManagerFields on EvidenceItem {
     id
     name
     link
+    deprecated
   }
   therapies {
     id
     name
     link
+    deprecated
   }
   molecularProfile {
     id
@@ -97,6 +99,7 @@ fragment EvidenceManagerFields on EvidenceItem {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
   }
   status
   flagged

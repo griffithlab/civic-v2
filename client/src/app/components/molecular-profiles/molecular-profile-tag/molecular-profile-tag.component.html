@@ -39,11 +39,15 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i
-    nz-icon
-    nzType="civic-molecularprofile"
-    nzTheme="twotone"
-    [nzTwotoneColor]="iconColor"></i>
+  <cvc-icon-badges
+    [flagged]="molecularProfile.flagged"
+    [entityColor]="iconColor">
+    <i
+      nz-icon
+      nzType="civic-molecularprofile"
+      nzTheme="twotone"
+      [nzTwotoneColor]="'MolecularProfile' | entityColor"></i>
+  </cvc-icon-badges>
   <!-- molecular profile name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
     {{ molecularProfile.name! | truncate : this.truncationLength }}

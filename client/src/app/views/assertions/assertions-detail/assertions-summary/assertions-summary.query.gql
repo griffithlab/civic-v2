@@ -15,6 +15,7 @@ fragment AssertionSummaryFields on Assertion {
     id
     name
     link
+    deprecated
   }
   molecularProfile {
     id
@@ -23,6 +24,8 @@ fragment AssertionSummaryFields on Assertion {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
+    flagged
   }
   assertionType
   assertionDirection
@@ -32,6 +35,7 @@ fragment AssertionSummaryFields on Assertion {
     name
     link
     id
+    deprecated
   }
   phenotypes {
     id

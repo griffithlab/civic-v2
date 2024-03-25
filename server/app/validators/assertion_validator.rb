@@ -19,10 +19,19 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :disease_id, "Disease required for #{record.assertion_type} assertion type"
     elsif !validator[:disease] && record.disease_id
       record.errors.add :disease_id, "Disease cannot be set for #{record.assertion_type} assertion type"
+    elsif validator[:disease] && record.disease&.deprecated
+      record.errors.add :disease_id, "Disease is deprecated. Select a different term. The current term may have been added into CIViC twice on accident and has been deprecated. Switch to the non-deprecated term by deleting the current term from the Revise form and re-entering it."
     end
 
-    if validator[:therapy] && record.therapy_ids.blank?
-      record.errors.add :therapy_ids, "Therapy required for #{record.assertion_type} assertion type"
+    if validator[:therapy]
+      if record.therapy_ids.blank?
+        record.errors.add :therapy_ids, "Therapy required for #{record.evidence_type} evidence type"
+      else
+        deprecated_therapies = record.therapies.select{|t| t.deprecated}
+        if deprecated_therapies.count > 0
+          record.errors.add :therapy_ids, "One or more Therapy is deprecated. Select a different term. The current term may have been added into CIViC twice on accident and has been deprecated. Switch to the non-deprecated term by deleting the current term from the Revise form and re-entering it."
+        end
+      end
     elsif !validator[:therapy] && !record.therapy_ids.blank?
       record.errors.add :therapy_ids, "Therapy cannot be set for #{record.assertion_type} assertion type"
     end

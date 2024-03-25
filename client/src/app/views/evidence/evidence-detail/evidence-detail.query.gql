@@ -17,11 +17,14 @@ fragment EvidenceDetailFields on EvidenceItem {
     id
     name
     link
+    deprecated
+    flagged
   }
   assertions {
     id
     name
     link
+    flagged
   }
   flags(state: OPEN) {
     totalCount

@@ -28,13 +28,13 @@ module Types::BrowseTables
     def diseases
       Array(object.diseases)
         .sort_by { |d| -d['total'] }
-        .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}" } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}", deprecated: d['deprecated'] } }
     end
 
     def therapies
       Array(object.therapies)
         .sort_by { |d| -d['total'] }
-        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}"  } }
+        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}", deprecated: d['deprecated'] } }
     end
   end
 end

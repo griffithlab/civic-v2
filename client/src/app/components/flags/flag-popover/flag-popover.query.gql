@@ -23,8 +23,20 @@ fragment flagPopover on Flag {
         id
         name
         link
+        deprecated
+        flagged
       }
     }
+    ... on Feature {
+      deprecated
+    }
+    ... on EvidenceItem {
+      status
+    }
+    ... on Assertion {
+      status
+    }
+    flagged
   }
   createdAt
   openActivity {

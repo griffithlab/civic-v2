@@ -56,11 +56,13 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     id
     name
     link
+    deprecated
   }
   disease {
     id
     name
     link
+    deprecated
   }
   source {
     link

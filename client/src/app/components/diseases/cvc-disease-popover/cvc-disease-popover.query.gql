@@ -10,5 +10,6 @@ query DiseasePopover($diseaseId: Int!) {
     evidenceItemCount
     molecularProfileCount
     link
+    deprecated
   }
 }

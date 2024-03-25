@@ -7,6 +7,7 @@ module Types::Entities
     field :therapy_aliases, [String], null: false
     field :link, String, null: false
     field :my_chem_info, Types::Entities::MyChemInfoType, null: true
+    field :deprecated, Boolean, null: false
 
     def therapy_aliases
       Loaders::AssociationLoader.for(Therapy, :therapy_aliases).load(object).then do |therapy_aliases|

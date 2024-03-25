@@ -69,11 +69,14 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
     id
     name
     link
+    deprecated
   }
   diseases {
     id
     name
     link
+    deprecated
   }
   link
+  deprecated
 }

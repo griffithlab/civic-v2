@@ -6,7 +6,7 @@ export interface LinkableVariantgroup {
   id: number
   name: string
   link: string
-  flagged?: boolean
+  flagged: boolean
 }
 
 @Component({

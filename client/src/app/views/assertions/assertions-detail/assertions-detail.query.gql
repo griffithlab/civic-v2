@@ -17,6 +17,8 @@ fragment AssertionDetailFields on Assertion {
     id
     name
     link
+    deprecated
+    flagged
   }
   flags(state: OPEN) {
     totalCount
