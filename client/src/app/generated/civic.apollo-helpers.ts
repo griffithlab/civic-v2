@@ -508,17 +508,16 @@ export type CommentEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentTagSegmentKeySpecifier = ('displayName' | 'entityId' | 'feature' | 'link' | 'revisionSetId' | 'status' | 'tagType' | CommentTagSegmentKeySpecifier)[];
+export type CommentTagSegmentKeySpecifier = ('displayName' | 'entityId' | 'feature' | 'link' | 'revisionSetId' | 'tagType' | CommentTagSegmentKeySpecifier)[];
 export type CommentTagSegmentFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	entityId?: FieldPolicy<any> | FieldReadFunction<any>,
 	feature?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionSetId?: FieldPolicy<any> | FieldReadFunction<any>,
-	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	tagType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentTagSegmentFlaggedKeySpecifier = ('displayName' | 'entityId' | 'feature' | 'flagged' | 'link' | 'revisionSetId' | 'status' | 'tagType' | CommentTagSegmentFlaggedKeySpecifier)[];
+export type CommentTagSegmentFlaggedKeySpecifier = ('displayName' | 'entityId' | 'feature' | 'flagged' | 'link' | 'revisionSetId' | 'tagType' | CommentTagSegmentFlaggedKeySpecifier)[];
 export type CommentTagSegmentFlaggedFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	entityId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -526,12 +525,21 @@ export type CommentTagSegmentFlaggedFieldPolicy = {
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionSetId?: FieldPolicy<any> | FieldReadFunction<any>,
-	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	tagType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentTagSegmentFlaggedAndDeprecatedKeySpecifier = ('deprecated' | 'displayName' | 'entityId' | 'feature' | 'flagged' | 'link' | 'revisionSetId' | 'status' | 'tagType' | CommentTagSegmentFlaggedAndDeprecatedKeySpecifier)[];
+export type CommentTagSegmentFlaggedAndDeprecatedKeySpecifier = ('deprecated' | 'displayName' | 'entityId' | 'feature' | 'flagged' | 'link' | 'revisionSetId' | 'tagType' | CommentTagSegmentFlaggedAndDeprecatedKeySpecifier)[];
 export type CommentTagSegmentFlaggedAndDeprecatedFieldPolicy = {
 	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	entityId?: FieldPolicy<any> | FieldReadFunction<any>,
+	feature?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisionSetId?: FieldPolicy<any> | FieldReadFunction<any>,
+	tagType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CommentTagSegmentFlaggedAndWithStatusKeySpecifier = ('displayName' | 'entityId' | 'feature' | 'flagged' | 'link' | 'revisionSetId' | 'status' | 'tagType' | CommentTagSegmentFlaggedAndWithStatusKeySpecifier)[];
+export type CommentTagSegmentFlaggedAndWithStatusFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	entityId?: FieldPolicy<any> | FieldReadFunction<any>,
 	feature?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2405,6 +2413,10 @@ export type StrictTypedTypePolicies = {
 	CommentTagSegmentFlaggedAndDeprecated?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentTagSegmentFlaggedAndDeprecatedKeySpecifier | (() => undefined | CommentTagSegmentFlaggedAndDeprecatedKeySpecifier),
 		fields?: CommentTagSegmentFlaggedAndDeprecatedFieldPolicy,
+	},
+	CommentTagSegmentFlaggedAndWithStatus?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentTagSegmentFlaggedAndWithStatusKeySpecifier | (() => undefined | CommentTagSegmentFlaggedAndWithStatusKeySpecifier),
+		fields?: CommentTagSegmentFlaggedAndWithStatusFieldPolicy,
 	},
 	CommentTextSegment?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentTextSegmentKeySpecifier | (() => undefined | CommentTextSegmentKeySpecifier),

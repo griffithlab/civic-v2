@@ -6,7 +6,7 @@ export interface LinkableAssertion {
   id: number
   name: string
   link: string
-  status?: EvidenceStatus
+  status: EvidenceStatus
   flagged: boolean
 }
 

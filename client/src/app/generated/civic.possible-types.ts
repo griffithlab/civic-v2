@@ -30,6 +30,7 @@
       "CommentTagSegment",
       "CommentTagSegmentFlagged",
       "CommentTagSegmentFlaggedAndDeprecated",
+      "CommentTagSegmentFlaggedAndWithStatus",
       "CommentTextSegment",
       "User"
     ],

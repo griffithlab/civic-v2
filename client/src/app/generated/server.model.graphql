@@ -1642,7 +1642,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -1721,7 +1721,6 @@ type CommentTagSegment {
   feature: LinkableFeature
   link: String!
   revisionSetId: Int
-  status: EvidenceStatus
   tagType: TaggableEntity!
 }
 
@@ -1732,7 +1731,6 @@ type CommentTagSegmentFlagged {
   flagged: Boolean!
   link: String!
   revisionSetId: Int
-  status: EvidenceStatus
   tagType: TaggableEntity!
 }
 
@@ -1744,7 +1742,17 @@ type CommentTagSegmentFlaggedAndDeprecated {
   flagged: Boolean!
   link: String!
   revisionSetId: Int
-  status: EvidenceStatus
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentFlaggedAndWithStatus {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  flagged: Boolean!
+  link: String!
+  revisionSetId: Int
+  status: EvidenceStatus!
   tagType: TaggableEntity!
 }
 

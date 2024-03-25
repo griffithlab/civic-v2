@@ -3,6 +3,7 @@ import {
   CommentTagSegment,
   CommentTagSegmentFlagged,
   CommentTagSegmentFlaggedAndDeprecated,
+  CommentTagSegmentFlaggedAndWithStatus,
   CommentTextSegment,
 } from '@app/generated/civic.apollo'
 
@@ -18,6 +19,7 @@ export type CommentSegment =
   | CommentTagSegment
   | CommentTagSegmentFlagged
   | CommentTagSegmentFlaggedAndDeprecated
+  | CommentTagSegmentFlaggedAndWithStatus
   | CommentTextSegment
 
 @Component({

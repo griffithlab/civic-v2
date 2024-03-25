@@ -30,6 +30,12 @@ fragment flagPopover on Flag {
     ... on Feature {
       deprecated
     }
+    ... on EvidenceItem {
+      status
+    }
+    ... on Assertion {
+      status
+    }
     flagged
   }
   createdAt
