@@ -16,8 +16,10 @@ module Types::Interfaces
         case object
         when Feature
           Types::Entities::FeatureType
-        when Variant
-          Types::Entities::VariantType
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion

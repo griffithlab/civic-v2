@@ -1,9 +1,9 @@
-class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
+class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
   description 'Suggest a Revision to a Variant entity.'
   argument :id, Int, required: true,
     description: 'The ID of the Variant to suggest a Revision to.'
 
-  argument :fields, Types::Revisions::VariantFields, required: true,
+  argument :fields, Types::Revisions::FactorVariantFields, required: true,
     description: <<~DOC.strip
       The desired state of the Variant's editable fields if the change were applied.
       If no change is desired for a particular field, pass in the current value of that field.
@@ -13,7 +13,7 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 
-  field :variant, Types::Entities::VariantType, null: false,
+  field :variant, Types::Variants::FactorVariantType, null: false,
     description: 'The Variant the user has proposed a Revision to.'
 
   field :results, [Types::Revisions::RevisionResult], null: false,
@@ -36,10 +36,19 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Variant with id #{id} doesn't exist."
     end
 
+    if !variant.is_a?(Variants::GeneVariant)
+      raise GraphQL::ExecutionError, "Variant with id #{id} is a #{variant.type} and you called the GeneVariant mutation."
+    end
+
     @variant = variant
 
-    if !Feature.find_by(id: fields.feature_id)
+    feature = Feature.find_by(id: fields.feature_id)
+    if feature.nil?
       raise GraphQL::ExecutionError, "Provided feature id: #{fields.feature_id} is not found."
+    else
+      unless variant.is_a?(feature.compatible_variant_type)
+        raise GraphQL::ExecutionError, "Provided feature type: #{feature.class} is not compatible with variant type variant.class."
+      end
     end
 
     existing_variant_type_ids = VariantType.where(id: fields.variant_type_ids).pluck(:id)
@@ -56,7 +65,7 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
   end
 
   def resolve(fields:, id:, organization_id: nil, comment: nil)
-    updated_variant = InputAdaptors::VariantInputAdaptor.new(variant_input_object: fields).perform
+    updated_variant = InputAdaptors::FactorVariantInputAdaptor.new(variant_input_object: fields).perform
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
 
     cmd = Activities::SuggestRevisionSet.new(

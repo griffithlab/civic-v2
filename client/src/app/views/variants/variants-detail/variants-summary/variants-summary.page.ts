@@ -8,7 +8,6 @@ import {
   VariantSummaryFieldsFragment,
   SubscribableInput,
   SubscribableEntities,
-  MyVariantInfoFieldsFragment,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { startWith } from 'rxjs/operators'
@@ -26,7 +25,6 @@ export class VariantsSummaryPage {
   queryRef: QueryRef<VariantSummaryQuery, VariantSummaryQueryVariables>
   loading$: Observable<boolean>
   variant$: Observable<Maybe<VariantSummaryFieldsFragment>>
-  variantInfo$: Observable<Maybe<MyVariantInfoFieldsFragment>>
 
   subscribable: SubscribableInput
 
@@ -49,10 +47,6 @@ export class VariantsSummaryPage {
     this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
     this.variant$ = observable.pipe(pluck('data', 'variant'))
-
-    this.variantInfo$ = observable.pipe(
-      pluck('data', 'variant', 'myVariantInfo')
-    )
 
     this.subscribable = {
       entityType: SubscribableEntities.Variant,

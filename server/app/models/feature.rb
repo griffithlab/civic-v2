@@ -5,7 +5,7 @@ class Feature < ApplicationRecord
   include Subscribable
   include WithTimepointCounts
 
-  delegated_type :feature_instance, types: %w[ Features::Gene Features::Factor ]
+  delegated_type :feature_instance, types: %w[ Features::Gene Features::Factor ], touch: true, autosave: true
   has_and_belongs_to_many :feature_aliases
   has_and_belongs_to_many :sources
 
@@ -39,6 +39,10 @@ class Feature < ApplicationRecord
 
   def link
     Rails.application.routes.url_helpers.url_for("/features/#{self.id}")
+  end
+
+  def compatible_variant_type
+    feature_instance.compatible_variant_type
   end
 
   def self.timepoint_query

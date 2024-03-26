@@ -33,7 +33,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
                   models: query_targets,
                   highlight: tag,
                   limit: 10,
-                  fields: ['id^10', 'name', 'aliases', 'gene', 'feature_type']
+                  fields: ['id^10', 'name', 'aliases', 'feature', 'feature_type']
                 ).with_highlights(multiple: true)
 
     results.map do |res, highlights|

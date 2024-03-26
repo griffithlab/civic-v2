@@ -15,10 +15,14 @@ module Features
         :name,
         :full_name,
         :description,
-        :ncit_code,
+        :ncit_id,
         :source_ids,
         :feature_alias_ids
       ]
+    end
+
+    def compatible_variant_type
+      Variants::FactorVariant
     end
   end
 end

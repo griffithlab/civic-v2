@@ -1,6 +1,6 @@
-import { ReferenceBuild } from "@app/generated/civic.apollo"
+import { ReferenceBuild } from '@app/generated/civic.apollo'
 
-export type VariantFields = {
+export type GeneVariantFields = {
   name?: string
   aliases?: string[]
   hgvsDescriptions?: string[]

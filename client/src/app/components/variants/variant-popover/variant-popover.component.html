@@ -38,6 +38,7 @@
           nzTitle="Allele Registry ID"
           nzSpan="2"
           *ngIf="
+            variant.__typename == 'GeneVariant' &&
             variant.alleleRegistryId &&
             variant.alleleRegistryId != 'unregistered'
           ">

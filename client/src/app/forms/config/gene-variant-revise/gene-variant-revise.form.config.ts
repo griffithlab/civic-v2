@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms'
 import { Chromosomes } from '@app/forms/utilities/input-formatters'
-import { variantReviseFormInitialModel } from '@app/forms/models/variant-revise.model'
+import { geneVariantReviseFormInitialModel } from '@app/forms/models/gene-variant-revise.model'
 import assignFieldConfigDefaultValues from '@app/forms/utilities/assign-field-default-values'
 import { CvcFormCardWrapperProps } from '@app/forms/wrappers/form-card/form-card.wrapper'
 import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-layout.wrapper'
@@ -46,6 +46,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 props: {
                   description: 'Enter an Entrez Gene for this Variant',
                   required: true,
+                  canChangeFeatureType: false,
                 },
               },
               {
@@ -359,5 +360,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
     ],
   },
 ]
-export const variantReviseFields: FormlyFieldConfig[] =
-  assignFieldConfigDefaultValues(formFieldConfig, variantReviseFormInitialModel)
+export const geneVariantReviseFields: FormlyFieldConfig[] =
+  assignFieldConfigDefaultValues(
+    formFieldConfig,
+    geneVariantReviseFormInitialModel
+  )

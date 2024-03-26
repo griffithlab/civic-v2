@@ -19,8 +19,9 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { MolecularProfilesSummaryPage } from './molecular-profiles-summary.page'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
-import { CvcMolecularProfileVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-variant-card/molecular-profile-variant-card.module'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { CvcMolecularProfileGeneVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-gene-variant-card/molecular-profile-gene-variant-card.module'
+import { CvcMolecularProfileFactorVariantCardComponent } from '@app/components/molecular-profiles/molecular-profile-factor-variant-card/molecular-profile-factor-variant-card.component'
 
 @NgModule({
   declarations: [MolecularProfilesSummaryPage],
@@ -46,7 +47,8 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
     CvcLinkTagModule,
     CvcEmptyRevisableModule,
     CvcMolecularProfileTagNameModule,
-    CvcMolecularProfileVariantCardModule,
+    CvcMolecularProfileGeneVariantCardModule,
+    CvcMolecularProfileFactorVariantCardComponent,
   ],
   exports: [MolecularProfilesSummaryPage],
 })

@@ -15,10 +15,15 @@ class Actions::AcceptRevisions
     revisions.each{|r| r.lock!}
     subject.lock!
 
+    receiver = if subject.is_a?(Feature)
+                 subject.feature_instance
+               else
+                 subject
+               end
     revisions.each do |revision|
-      subject.send("#{revision.field_name}=", revision.suggested_value)
+      receiver.send("#{revision.field_name}=", revision.suggested_value)
     end
-    subject.save!
+    receiver.save!
 
     revisions.each do |revision|
       revision.status = 'accepted'

@@ -1,5 +1,5 @@
 #Conversion from a GraphQL VariantFields input object to Variant model type
-class InputAdaptors::VariantInputAdaptor
+class InputAdaptors::GeneVariantInputAdaptor
   attr_reader :input
 
   def initialize(variant_input_object: )

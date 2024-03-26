@@ -4,11 +4,13 @@ query VariantPopover($variantId: Int!) {
   }
 }
 
-fragment variantPopoverFields on Variant {
+fragment variantPopoverFields on VariantInterface {
   id
   name
   variantAliases
-  alleleRegistryId
+  ... on GeneVariant {
+    alleleRegistryId
+  }
   feature {
     id
     name

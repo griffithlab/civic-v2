@@ -6,7 +6,8 @@ module Types
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
     field :suggest_factor_revision, mutation: Mutations::SuggestFactorRevision
-    field :suggest_variant_revision, mutation: Mutations::SuggestVariantRevision
+    field :suggest_gene_variant_revision, mutation: Mutations::SuggestGeneVariantRevision
+    field :suggest_factor_variant_revision, mutation: Mutations::SuggestFactorVariantRevision
     field :suggest_molecular_profile_revision, mutation: Mutations::SuggestMolecularProfileRevision
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
     field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision

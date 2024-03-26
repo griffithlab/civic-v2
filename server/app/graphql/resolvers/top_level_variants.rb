@@ -3,7 +3,7 @@ require 'search_object/plugin/graphql'
 class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
-  type Types::Entities::VariantType.connection_type, null: false
+  type Types::Interfaces::VariantInterface.connection_type, null: false
 
   description 'List and filter variants.'
 
@@ -46,6 +46,14 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
       scope.reorder("variants.start #{value.direction} NULLS LAST")
     when 'COORDINATE_END'
       scope.reorder("variants.stop #{value.direction} NULLS LAST")
+    end
+  end
+
+  option(:category, type: Types::VariantCategories) do |scope, value|
+    if value
+      scope.where(category: value)
+    else
+      scope
     end
   end
 end

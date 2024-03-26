@@ -4,7 +4,7 @@ query VariantSummary($variantId: Int!) {
   }
 }
 
-fragment VariantSummaryFields on Variant {
+fragment VariantSummaryFields on VariantInterface {
   id
   name
   feature {
@@ -14,33 +14,12 @@ fragment VariantSummaryFields on Variant {
     link
   }
   variantAliases
-  alleleRegistryId
-  openCravatUrl
-  maneSelectTranscript
   variantTypes {
     id
     link
     soid
     name
   }
-  hgvsDescriptions
-  clinvarIds
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
   flags(state: OPEN) {
     totalCount
   }
@@ -49,9 +28,6 @@ fragment VariantSummaryFields on Variant {
   }
   comments {
     totalCount
-  }
-  myVariantInfo {
-    ...MyVariantInfoFields
   }
   lastSubmittedRevisionEvent {
     originatingUser {
@@ -86,6 +62,47 @@ fragment VariantSummaryFields on Variant {
       profileImagePath(size: 32)
     }
     createdAt
+  }
+  ... on GeneVariant {
+    ... GeneVariantSummaryFields
+  }
+  ... on FactorVariant {
+    ... FactorVariantSummaryFields
+  }
+}
+
+
+fragment FactorVariantSummaryFields on FactorVariant {
+  ncitId
+  ncitDetails {
+    ... NcitDetails
+  }
+}
+
+fragment GeneVariantSummaryFields on GeneVariant {
+  alleleRegistryId
+  openCravatUrl
+  maneSelectTranscript
+  hgvsDescriptions
+  clinvarIds
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  secondaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  referenceBases
+  variantBases
+  myVariantInfo {
+    ...MyVariantInfoFields
   }
 }
 

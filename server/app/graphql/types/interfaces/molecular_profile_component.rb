@@ -18,13 +18,19 @@ module Types::Interfaces
       end
     end
 
+    #orphan_types(
+      #Types::Variants::GeneVariantType,
+      #Types::Variants::FactorVariantType,
+      #Types::Interfaces::VariantInterface
+    #)
+
     definition_methods do
       def resolve_type(object, context)
         case object
         when Feature
           Types::Entities::FeatureType
         when Variant
-          Types::Entities::VariantType
+          Types::Interfaces::VariantInterface
         else
           raise "Unexpected MolecularProfileTag type: #{object.class}"
         end

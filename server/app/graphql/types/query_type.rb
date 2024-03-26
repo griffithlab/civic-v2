@@ -21,6 +21,7 @@ module Types
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :events, resolver: Resolvers::TopLevelEvents
+    field :comments, resolver: Resolvers::TopLevelComments
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
     field :notifications, resolver: Resolvers::Notifications do
@@ -64,7 +65,7 @@ module Types
       argument :id, Int, required: false
     end
 
-    field :variant, Types::Entities::VariantType, null: true do
+    field :variant, Types::Interfaces::VariantInterface, null: true do
       description "Find a variant by CIViC ID"
       argument :id, Int, required: true
     end
@@ -160,7 +161,6 @@ module Types
       argument :permalink_id, String, required: true
     end
 
-    field :comments, resolver: Resolvers::TopLevelComments
     field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
       argument :comment_text, String, required: true
     end
@@ -192,7 +192,6 @@ module Types
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
     field :activities, resolver: Resolvers::Activities
-
 
     def molecular_profile(id: )
       ::MolecularProfile.find_by(id: id)

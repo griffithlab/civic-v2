@@ -1,3 +1,4 @@
+@if(variant.__typename == "GeneVariant") {
 <nz-card
   [nzTitle]="cardTitle"
   nzType="inner"
@@ -22,7 +23,7 @@
             nzBordered="true">
             <nz-descriptions-item
               [nzSpan]="4"
-              nzTitle="Variant">
+              nzTitle="Gene Variant">
               <cvc-feature-variant-tag
                 [variant]="variant"></cvc-feature-variant-tag>
             </nz-descriptions-item>
@@ -201,3 +202,4 @@
     </nz-col>
   </nz-row>
 </nz-card>
+}

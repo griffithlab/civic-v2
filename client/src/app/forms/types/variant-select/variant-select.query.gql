@@ -18,7 +18,7 @@ query VariantSelectTag($variantId: Int!) {
   }
 }
 
-fragment VariantSelectTypeaheadFields on Variant {
+fragment VariantSelectTypeaheadFields on VariantInterface {
   id
   name
   link

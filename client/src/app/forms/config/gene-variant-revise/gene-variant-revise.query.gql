@@ -1,11 +1,13 @@
-query VariantRevisableFields($variantId: Int!) {
+query GeneVariantRevisableFields($variantId: Int!) {
   variant(id: $variantId) {
-    ...RevisableVariantFields
+    id
+    ... on GeneVariant  {
+      ...RevisableGeneVariantFields
+    }
   }
 }
 
-fragment RevisableVariantFields on Variant {
-  id
+fragment RevisableGeneVariantFields on GeneVariant {
   name
   feature {
     id
@@ -39,8 +41,8 @@ fragment CoordinateFields on Coordinate {
   stop
 }
 
-mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
-  suggestVariantRevision(input: $input) {
+mutation SuggestGeneVariantRevision($input: SuggestGeneVariantRevisionInput!) {
+  suggestGeneVariantRevision(input: $input) {
     clientMutationId
     variant {
       id

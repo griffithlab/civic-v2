@@ -60,6 +60,7 @@
           <span *nzSpaceItem>
             <button
               [routerLink]="['/variants', variant.id, 'revise']"
+              [queryParams]="{variantType: variant.__typename}"
               *ngIf="viewer?.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

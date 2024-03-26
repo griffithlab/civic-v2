@@ -85,14 +85,15 @@ export class CvcFeatureSelectField
       isMultiSelect: false,
       entityName: { singular: 'Feature', plural: 'Features' },
       description: 'Feature Name',
+      featureType: FeatureInstanceTypes.Gene,
+      canChangeFeatureType: true,
     },
-    featureType: FeatureInstanceTypes.Gene,
   }
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
 
-  selectedFeatureType: FeatureInstanceTypes = this.defaultOptions.featureType
+  selectedFeatureType?: FeatureInstanceTypes = this.props.featureType
   onFeatureType$?: BehaviorSubject<Maybe<FeatureInstanceTypes>> =
     new BehaviorSubject<Maybe<FeatureInstanceTypes>>(undefined)
 
@@ -105,6 +106,7 @@ export class CvcFeatureSelectField
   }
 
   ngAfterViewInit(): void {
+    this.selectedFeatureType = this.props.featureType
     this.configureBaseField() // mixin fn
     this.configureEntitySelectField({
       // mixin fn

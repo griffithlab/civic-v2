@@ -35,9 +35,11 @@
       "Assertion",
       "EvidenceItem",
       "Factor",
+      "FactorVariant",
       "Feature",
       "Flag",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Revision",
       "Source",
@@ -50,9 +52,11 @@
       "Comment",
       "EvidenceItem",
       "Factor",
+      "FactorVariant",
       "Feature",
       "Flag",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Revision",
       "SourceSuggestion",
@@ -62,9 +66,11 @@
       "Assertion",
       "EvidenceItem",
       "Factor",
+      "FactorVariant",
       "Feature",
       "Flag",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Revision",
       "RevisionSet",
@@ -83,8 +89,10 @@
       "BrowseFeature",
       "EvidenceItem",
       "Factor",
+      "FactorVariant",
       "Feature",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Variant",
       "VariantGroup"
@@ -99,8 +107,10 @@
     ],
     "MolecularProfileComponent": [
       "Factor",
+      "FactorVariant",
       "Feature",
       "Gene",
+      "GeneVariant",
       "Variant"
     ],
     "MolecularProfileSegment": [
@@ -108,12 +118,19 @@
       "MolecularProfileTextSegment",
       "Variant"
     ],
+    "VariantInterface": [
+      "FactorVariant",
+      "GeneVariant",
+      "Variant"
+    ],
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
       "Factor",
+      "FactorVariant",
       "Feature",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Variant",
       "VariantGroup"

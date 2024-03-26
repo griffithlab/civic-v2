@@ -1,6 +1,6 @@
 module Types::Revisions
-  class VariantFields < Types::BaseInputObject
-    description 'Fields on a Variant that curators may propose revisions to.'
+  class GeneVariantFields < Types::BaseInputObject
+    description 'Fields on a GeneVariant that curators may propose revisions to.'
     argument :name, String, required: true,
       description: "The Variant's name."
     argument :aliases, [String], required: true,

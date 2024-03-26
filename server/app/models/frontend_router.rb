@@ -12,7 +12,6 @@ class FrontendRouter
     if [entity, query_field, id].any? { |i| i.blank? }
       nil
     else
-      obj = entity.find_by!(query_field => id)
       #identity function if none defined
       transform ||= -> {_1}
       obj = entity.find_by!(query_field => transform.call(id))
