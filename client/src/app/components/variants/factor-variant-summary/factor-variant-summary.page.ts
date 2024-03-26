@@ -18,6 +18,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcNcitDetailsComponent } from '@app/components/factors/ncit-details/ncit-details.component'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   standalone: true,
@@ -31,6 +32,7 @@ import { CvcNcitDetailsComponent } from '@app/components/factors/ncit-details/nc
     NzDescriptionsModule,
     NzTagModule,
     NzCardModule,
+    NzTypographyModule,
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcVariantTypeTagModule,

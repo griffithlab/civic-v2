@@ -17,14 +17,10 @@ module Variants
       message: "only allows A,C,T,G or /"
     }, allow_nil: true
 
-    def editable_fields
+    def unique_editable_fields
       [
-        :feature_id,
-        :name,
-        :variant_alias_ids,
         :hgvs_description_ids,
         :clinvar_entry_ids,
-        :variant_type_ids,
         :reference_build,
         :ensembl_version,
         :chromosome,

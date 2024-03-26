@@ -152,7 +152,7 @@
             <span
               nz-typography
               nzType="secondary">
-              {{ variant.category }}
+              {{ variant.category | titlecase }}
             </span>
           </td>
           <td>
@@ -167,7 +167,7 @@
           <td>
             <cvc-plain-tag-overflow
               [maxDisplayCount]="1"
-              [tags]="variant.aliases | pluck : 'name'"
+              [tags]="variant.aliases | pluck: 'name'"
               [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
