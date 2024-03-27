@@ -6,6 +6,7 @@ class Variant < ApplicationRecord
   include WithTimepointCounts
 
   belongs_to :feature
+  has_many :variant_coordinates, foreign_key: 'variant_id'
 
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
@@ -51,6 +52,7 @@ class Variant < ApplicationRecord
 
   validate :unique_name_in_context
   validate :feature_type_matches_variant_type
+  validate :correct_coordinate_type
   validates_with VariantFieldsValidator
 
   searchkick highlight: [:name, :aliases], callbacks: :async
@@ -102,6 +104,10 @@ class Variant < ApplicationRecord
     end
 
     svmp.molecular_profile_aliases = mp_aliases
+  end
+
+  def correct_coordinate_type
+    raise StandardError.new("Implement validation in subclass")
   end
 
   def unique_name_in_context

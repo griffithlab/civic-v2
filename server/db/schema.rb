@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_27_150519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -862,6 +862,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
     t.index ["variant_id"], name: "index_variant_aliases_variants_on_variant_id"
   end
 
+  create_table "variant_coordinates", force: :cascade do |t|
+    t.text "chromosome", null: false
+    t.bigint "start", null: false
+    t.bigint "stop", null: false
+    t.text "reference_bases"
+    t.text "variant_bases"
+    t.integer "exon_boundary"
+    t.integer "exon_offset"
+    t.integer "ensembl_version"
+    t.text "representative_transcript", null: false
+    t.integer "reference_build", null: false
+    t.bigint "variant_id", null: false
+    t.text "coordinate_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
+    t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
+    t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
+    t.index ["start"], name: "index_variant_coordinates_on_start"
+    t.index ["stop"], name: "index_variant_coordinates_on_stop"
+    t.index ["variant_id"], name: "index_variant_coordinates_on_variant_id"
+  end
+
   create_table "variant_group_variants", id: false, force: :cascade do |t|
     t.integer "variant_id", null: false
     t.integer "variant_group_id", null: false
@@ -1030,6 +1053,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
   add_foreign_key "users", "organizations", column: "most_recent_organization_id"
   add_foreign_key "variant_aliases_variants", "variant_aliases"
   add_foreign_key "variant_aliases_variants", "variants"
+  add_foreign_key "variant_coordinates", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
   add_foreign_key "variants", "comments", column: "deprecation_comment_id"
