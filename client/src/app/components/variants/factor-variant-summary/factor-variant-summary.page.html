@@ -1,162 +1,165 @@
-@if(variant.__typename == "FactorVariant") {
-<!-- variant description, details, myvariantinfo row -->
-<nz-row [nzGutter]="[8, 16]">
-  <!-- LEFT COL -->
-  <nz-col [nzSpan]="12">
-    <!-- left col layout row -->
-    <nz-row [nzGutter]="[8, 8]">
-      <!-- variant attributes block -->
-      <nz-col nzSpan="24">
-        <nz-descriptions
-          nzLayout="horizontal"
-          nzSize="small"
-          [nzColumn]="1"
-          nzBordered="true">
-          <!-- aliases -->
-          <nz-descriptions-item nzTitle="Aliases">
-            <ng-container
-              *ngIf="variant.variantAliases.length > 0; else noAliases">
-              <cvc-tag-list>
-                <nz-tag *ngFor="let alias of variant.variantAliases">{{
-                  alias
-                }}</nz-tag>
-              </cvc-tag-list>
-            </ng-container>
-            <ng-template #noAliases>
-              <span
-                nz-typography
-                nzType="secondary"
-                >None specified</span
-              >
-            </ng-template>
-          </nz-descriptions-item>
-
-          <!-- variant type(s) -->
-          <nz-descriptions-item
-            [nzTitle]="
-              variant.variantTypes.length > 1 ? 'Variant Types' : 'Variant Type'
-            ">
-            <ng-container *ngIf="variant.variantTypes.length > 0; else noTypes">
-              <cvc-tag-list>
-                <cvc-variant-type-tag
-                  [variantType]="type"
-                  *ngFor="
-                    let type of variant.variantTypes
-                  "></cvc-variant-type-tag>
-              </cvc-tag-list>
-            </ng-container>
-            <ng-template #noTypes>
-              <span
-                nz-typography
-                nzType="secondary"
-                >None specified</span
-              >
-            </ng-template>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-col>
-      <ng-container *ngIf="variant.ncitId; else noNcit">
-        <nz-col [nzSpan]="24">
-          <cvc-ncit-details
-            [ncitDetails]="variant.ncitDetails"></cvc-ncit-details>
-        </nz-col>
-      </ng-container>
-      <ng-template #noNcit>
-        <nz-col [nzSpan]="24">
-          <nz-card nzTitle="">
-            <cvc-empty-revisable
-              notification="Not available, please provide an NCIt ID">
-            </cvc-empty-revisable>
-          </nz-card>
-        </nz-col>
-      </ng-template>
-    </nz-row>
-  </nz-col>
-
-  <!-- RIGHT COLUMN -->
-  <nz-col nzSpan="12">
-    <!-- right col layout row -->
-    <nz-row [nzGutter]="[8, 8]">
-      <!-- BLOCK: creation and deprecation events -->
-      <nz-col [nzSpan]="24">
-        <nz-descriptions
-          nzLayout="vertical"
-          nzSize="small"
-          [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-          nzBordered="true">
-          <!-- creation/deprecation curation events -->
-          <ng-container *ngIf="variant.creationActivity">
-            <nz-descriptions-item [nzTitle]="createdTitle">
-              by
-              <cvc-user-tag
-                [user]="variant.creationActivity.user"></cvc-user-tag>
+@if (variant.__typename == 'FactorVariant') {
+  <!-- variant description, details, myvariantinfo row -->
+  <nz-row [nzGutter]="[8, 16]">
+    <!-- LEFT COL -->
+    <nz-col [nzSpan]="12">
+      <!-- left col layout row -->
+      <nz-row [nzGutter]="[8, 8]">
+        <!-- variant attributes block -->
+        <nz-col nzSpan="24">
+          <nz-descriptions
+            nzLayout="horizontal"
+            nzSize="small"
+            [nzColumn]="1"
+            nzBordered="true">
+            <!-- aliases -->
+            <nz-descriptions-item nzTitle="Aliases">
+              <ng-container
+                *ngIf="variant.variantAliases.length > 0; else noAliases">
+                <cvc-tag-list>
+                  <nz-tag *ngFor="let alias of variant.variantAliases">{{
+                    alias
+                  }}</nz-tag>
+                </cvc-tag-list>
+              </ng-container>
+              <ng-template #noAliases>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
+              </ng-template>
             </nz-descriptions-item>
-            <ng-template #createdTitle>
-              Created
-              <span
-                nz-typography
-                nzType="secondary">
-                ({{ variant.creationActivity.createdAt | timeAgo }})
-              </span>
-            </ng-template>
-          </ng-container>
-          <ng-container *ngIf="variant.deprecationActivity">
-            <nz-descriptions-item [nzTitle]="deprecatedTitle">
-              by
-              <cvc-user-tag
-                [user]="variant.deprecationActivity.user"></cvc-user-tag>
+
+            <!-- variant type(s) -->
+            <nz-descriptions-item
+              [nzTitle]="
+                variant.variantTypes.length > 1
+                  ? 'Variant Types'
+                  : 'Variant Type'
+              ">
+              <ng-container
+                *ngIf="variant.variantTypes.length > 0; else noTypes">
+                <cvc-tag-list>
+                  <cvc-variant-type-tag
+                    [variantType]="type"
+                    *ngFor="
+                      let type of variant.variantTypes
+                    "></cvc-variant-type-tag>
+                </cvc-tag-list>
+              </ng-container>
+              <ng-template #noTypes>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
+              </ng-template>
             </nz-descriptions-item>
-            <ng-template #deprecatedTitle>
-              Deprecated
-              <span
-                nz-typography
-                nzType="secondary">
-                ({{ variant.deprecationActivity.createdAt | timeAgo }})
-              </span>
-            </ng-template>
-          </ng-container>
-        </nz-descriptions>
-      </nz-col>
+          </nz-descriptions>
+        </nz-col>
+        <ng-template #noNcit>
+          <nz-col [nzSpan]="24">
+            <nz-card nzTitle="">
+              <cvc-empty-revisable
+                notification="Not available, please provide an NCIt ID">
+              </cvc-empty-revisable>
+            </nz-card>
+          </nz-col>
+        </ng-template>
+      </nz-row>
+    </nz-col>
 
-      <!-- variant related entities, attributes -->
-      <nz-col [nzSpan]="24">
-        <nz-descriptions
-          nzLayout="horizontal"
-          nzSize="small"
-          [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-          nzBordered="true">
-          <!-- feature -->
-          <nz-descriptions-item [nzTitle]="variant.feature.__typename">
-            <cvc-feature-tag [feature]="variant.feature"></cvc-feature-tag>
-          </nz-descriptions-item>
+    <!-- RIGHT COLUMN -->
+    <nz-col nzSpan="12">
+      <!-- right col layout row -->
+      <nz-row [nzGutter]="[8, 8]">
+        <!-- BLOCK: creation and deprecation events -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzLayout="vertical"
+            nzSize="small"
+            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+            <!-- creation/deprecation curation events -->
+            <ng-container *ngIf="variant.creationActivity">
+              <nz-descriptions-item [nzTitle]="createdTitle">
+                by
+                <cvc-user-tag
+                  [user]="variant.creationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #createdTitle>
+                Created
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  ({{ variant.creationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="variant.deprecationActivity">
+              <nz-descriptions-item [nzTitle]="deprecatedTitle">
+                by
+                <cvc-user-tag
+                  [user]="variant.deprecationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #deprecatedTitle>
+                Deprecated
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  ({{ variant.deprecationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+          </nz-descriptions>
+        </nz-col>
 
-          <nz-descriptions-item
-            *ngIf="variant.ncitId"
-            nzTitle="Resources">
-            <cvc-tag-list>
-              <cvc-link-tag
-                [href]="
-                  'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' +
-                  variant.ncitId
-                "
-                [tooltip]="'View ' + variant.name + ' in the NCI Thesaurus'">
-                NCIt: {{ variant.ncitId }}
-              </cvc-link-tag>
-            </cvc-tag-list>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-col>
-    </nz-row>
-  </nz-col>
-  <!-- END RIGHT COL -->
+        <!-- variant related entities, attributes -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzLayout="horizontal"
+            nzSize="small"
+            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+            <!-- feature -->
+            <nz-descriptions-item nzTitle="Factor">
+              <cvc-feature-tag [feature]="variant.feature"></cvc-feature-tag>
+            </nz-descriptions-item>
 
-  <!-- evidence table -->
-  <nz-col nzSpan="24">
-    <cvc-molecular-profiles-table
-      [variantId]="variant.id"
-      cvcHeight="300px"
-      cvcTitle="{{ variant.name }} Molecular Profiles">
-    </cvc-molecular-profiles-table>
-  </nz-col>
-</nz-row>
+            <nz-descriptions-item
+              *ngIf="variant.ncitId"
+              nzTitle="Resources">
+              <cvc-tag-list>
+                <cvc-link-tag
+                  [href]="
+                    'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' +
+                    variant.ncitId
+                  "
+                  [tooltip]="'View ' + variant.name + ' in the NCI Thesaurus'">
+                  NCIt: {{ variant.ncitId }}
+                </cvc-link-tag>
+              </cvc-tag-list>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-col>
+        <ng-container *ngIf="variant.ncitId; else noNcit">
+          <nz-col [nzSpan]="24">
+            <cvc-ncit-details
+              [ncitDetails]="variant.ncitDetails"></cvc-ncit-details>
+          </nz-col>
+        </ng-container>
+      </nz-row>
+    </nz-col>
+    <!-- END RIGHT COL -->
+
+    <!-- evidence table -->
+    <nz-col nzSpan="24">
+      <cvc-molecular-profiles-table
+        [variantId]="variant.id"
+        cvcHeight="300px"
+        cvcTitle="{{ variant.name }} Molecular Profiles">
+      </cvc-molecular-profiles-table>
+    </nz-col>
+  </nz-row>
 }
