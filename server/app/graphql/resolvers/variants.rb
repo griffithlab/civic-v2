@@ -4,7 +4,7 @@ require 'search_object/plugin/graphql'
 class Resolvers::Variants < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
-  type Types::Interfaces::VariantInterface.connection_type, null: false
+  type Types::Entities::VariantType.connection_type, null: false
 
   description 'List and filter variants.'
 
