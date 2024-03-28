@@ -85,22 +85,9 @@ fragment GeneVariantSummaryFields on GeneVariant {
   maneSelectTranscript
   hgvsDescriptions
   clinvarIds
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
+  coordinates {
+    ...CoordinateFields
   }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
   myVariantInfo {
     ...MyVariantInfoFields
   }

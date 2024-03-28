@@ -1,11 +1,11 @@
 import {
   ClinvarInput,
-  Coordinate,
-  CoordinateInput,
+  GeneVariantCoordinate,
+  GeneVariantCoordinateInput,
   Maybe,
-  NullableReferenceBuildTypeInput,
   ReferenceBuild,
 } from '@app/generated/civic.apollo'
+import * as fmt from '@app/forms/utilities/input-formatters'
 
 export enum ClinvarOptions {
   NotApplicable,
@@ -41,7 +41,9 @@ export function toClinvarInput(
   }
 }
 
-export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
+export function toCoordinateInput(
+  coord: Maybe<GeneVariantCoordinate>
+): GeneVariantCoordinateInput {
   if (coord) {
     return {
       chromosome: undefinedIfEmpty(coord.chromosome),
@@ -50,6 +52,10 @@ export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
       ),
       start: coord.start ? +coord.start : undefined,
       stop: coord.stop ? +coord.stop : undefined,
+      referenceBases: fmt.toNullableString(coord.referenceBases),
+      variantBases: fmt.toNullableString(coord.variantBases),
+      referenceBuild: coord.referenceBuild
+      ensemblVersion: coord.ensemblVersion
     }
   } else {
     return {
@@ -61,20 +67,20 @@ export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
   }
 }
 
-export function toNullableReferenceBuildInput(
-  build: Maybe<ReferenceBuild>
-): NullableReferenceBuildTypeInput {
-  let nRefBuild: NullableReferenceBuildTypeInput = {
-    value: undefined,
-    unset: undefined,
-  }
-  if (build) {
-    nRefBuild.value = build
-  } else {
-    nRefBuild.unset = true
-  }
-  return nRefBuild
-}
+//export function toNullableReferenceBuildInput(
+//build: Maybe<ReferenceBuild>
+//): NullableReferenceBuildTypeInput {
+//let nRefBuild: NullableReferenceBuildTypeInput = {
+//value: undefined,
+//unset: undefined,
+//}
+//if (build) {
+//nRefBuild.value = build
+//} else {
+//nRefBuild.unset = true
+//}
+//return nRefBuild
+//}
 
 export function undefinedIfEmpty(inVal: Maybe<string>): Maybe<string> {
   let outVal: Maybe<string>

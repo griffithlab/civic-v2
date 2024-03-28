@@ -1826,20 +1826,6 @@ type Contribution {
   count: Int!
 }
 
-type Coordinate {
-  chromosome: String
-  representativeTranscript: String
-  start: Int
-  stop: Int
-}
-
-input CoordinateInput {
-  chromosome: String
-  representativeTranscript: String
-  start: Int
-  stop: Int
-}
-
 type Country {
   id: Int!
   iso: String!
@@ -4453,11 +4439,11 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     """
     sortBy: DateSort
   ): CommentConnection!
+  coordinates: GeneVariantCoordinate
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
   deprecationReason: VariantDeprecationReason
-  ensemblVersion: Int
 
   """
   List and filter events for an object
@@ -4569,9 +4555,6 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   myVariantInfo: MyVariantInfo
   name: String!
   openCravatUrl: String
-  primaryCoordinates: Coordinate
-  referenceBases: String
-  referenceBuild: ReferenceBuild
 
   """
   List and filter revisions.
@@ -4622,12 +4605,48 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     """
     status: RevisionStatus
   ): RevisionConnection!
-  secondaryCoordinates: Coordinate
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
   variantAliases: [String!]!
-  variantBases: String
   variantTypes: [VariantType!]!
+}
+
+type GeneVariantCoordinate {
+  chromosome: String
+  ensemblVersion: Int
+  referenceBases: String
+  referenceBuild: ReferenceBuild
+  representativeTranscript: String
+  start: Int
+  stop: Int
+  variantBases: String
+}
+
+input GeneVariantCoordinateInput {
+  chromosome: String
+
+  """
+  The Ensembl database version.
+  """
+  ensemblVersion: Int!
+
+  """
+  Reference bases for this variant
+  """
+  referenceBases: NullableStringInput!
+
+  """
+  The reference build for the genomic coordinates of this Variant.
+  """
+  referenceBuild: ReferenceBuild!
+  representativeTranscript: String
+  start: Int
+  stop: Int
+
+  """
+  Variant bases for this variant
+  """
+  variantBases: NullableStringInput!
 }
 
 """
@@ -4645,9 +4664,9 @@ input GeneVariantFields {
   clinvarIds: ClinvarInput!
 
   """
-  The Ensembl database version.
+  The genomic coordinates for this Variant.
   """
-  ensemblVersion: NullableIntInput!
+  coordinates: GeneVariantCoordinateInput!
 
   """
   The ID of the Feature this Variant corresponds to.
@@ -4663,31 +4682,6 @@ input GeneVariantFields {
   The Variant's name.
   """
   name: String!
-
-  """
-  The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner.
-  """
-  primaryCoordinates: CoordinateInput!
-
-  """
-  Reference bases for this variant
-  """
-  referenceBases: NullableStringInput!
-
-  """
-  The reference build for the genomic coordinates of this Variant.
-  """
-  referenceBuild: NullableReferenceBuildTypeInput!
-
-  """
-  In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null.
-  """
-  secondaryCoordinates: CoordinateInput!
-
-  """
-  Variant bases for this variant
-  """
-  variantBases: NullableStringInput!
 
   """
   List of IDs for the variant types for this Variant
@@ -6254,24 +6248,6 @@ input NullableIntInput {
   The desired value for the field. Mutually exclusive with unset.
   """
   value: Int
-}
-
-"""
-An input object that represents a field value that can be "unset" or changed to null.
-To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
-This is to work around two issues with the GraphQL spec: lack of support for unions in input types
-and the inability to have an input object argument be both required _and_ nullable at the same time.
-"""
-input NullableReferenceBuildTypeInput {
-  """
-  Set to true if you wish to set the field's value to null.
-  """
-  unset: Boolean
-
-  """
-  The desired value for the field. Mutually exclusive with unset.
-  """
-  value: ReferenceBuild
 }
 
 """
