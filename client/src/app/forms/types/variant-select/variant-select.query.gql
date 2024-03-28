@@ -14,7 +14,15 @@ query VariantSelectTypeahead($name: String!, $featureId: Int) {
 
 query VariantSelectTag($variantId: Int!) {
   variant(id: $variantId) {
-    ...VariantSelectTypeaheadFields
+    ... on Variant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on GeneVariant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on FactorVariant {
+      ...VariantSelectTypeaheadFields
+    }
   }
 }
 
