@@ -1,4 +1,6 @@
 module Activities
+  RevisedObjectPair = Data.define(:existing_obj, :updated_obj)
+
   class SuggestRevisionSet < Base
     attr_reader :revision_set, :revisions, :revision_results, :existing_obj, :updated_obj
 

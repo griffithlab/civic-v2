@@ -863,15 +863,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_27_150519) do
   end
 
   create_table "variant_coordinates", force: :cascade do |t|
-    t.text "chromosome", null: false
-    t.bigint "start", null: false
-    t.bigint "stop", null: false
+    t.text "chromosome"
+    t.bigint "start"
+    t.bigint "stop"
     t.text "reference_bases"
     t.text "variant_bases"
     t.integer "exon_boundary"
     t.integer "exon_offset"
     t.integer "ensembl_version"
-    t.text "representative_transcript", null: false
+    t.text "representative_transcript"
     t.integer "reference_build", null: false
     t.bigint "variant_id", null: false
     t.text "coordinate_type", null: false

@@ -1,5 +1,5 @@
 module Types::Entities
-  class GeneCoordinateType < Types::BaseObject
+  class GeneVariantCoordinateType < Types::BaseObject
     field :representative_transcript, String, null: true
     field :chromosome, String, null: true
     field :start, Int, null: true

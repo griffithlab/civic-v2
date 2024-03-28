@@ -1,26 +1,31 @@
 <ng-container *ngIf="this.cvcVariantId && (variant$ | ngrxPush) as variant">
-  @if(variant.__typename == "GeneVariant") {
-  <ng-container
-    *ngTemplateOutlet="coordinateCard; context: { $implicit: variant }">
-  </ng-container>
+  @if (variant.__typename == 'GeneVariant') {
+    <ng-container
+      *ngTemplateOutlet="
+        coordinateCard;
+        context: { $implicit: variant.coordinates }
+      ">
+    </ng-container>
   }
 </ng-container>
 <ng-container *ngIf="this.cvcCoordinates">
-  <ng-container
-    *ngTemplateOutlet="
-      coordinateCard;
-      context: { $implicit: this.cvcCoordinates }
-    ">
-  </ng-container>
+  @if (this.cvcCoordinates.__typename == 'GeneVariant') {
+    <ng-container
+      *ngTemplateOutlet="
+        coordinateCard;
+        context: { $implicit: this.cvcCoordinates.coordinates }
+      ">
+    </ng-container>
+  }
 </ng-container>
 
 <ng-template
   #coordinateCard
-  let-variant>
+  let-coords>
   <nz-card
     [nzTitle]="displayTitle ? 'Representative Variant Coordinates' : undefined">
     <!-- check for reference build, display empty msg if missing -->
-    <ng-container *ngIf="variant.referenceBuild; else noCoordinates">
+    <ng-container *ngIf="coords.referenceBuild; else noCoordinates">
       <!-- ref build, ensembl version -->
       <nz-descriptions
         nzLayout="horizontal"
@@ -28,131 +33,75 @@
         nzBordered="true"
         nzSize="small">
         <nz-descriptions-item nzTitle="Ref. Build">
-          {{ variant.referenceBuild }}
+          {{ coords.referenceBuild }}
         </nz-descriptions-item>
 
         <nz-descriptions-item nzTitle="Ensembl Version">
-          {{ variant.ensemblVersion }}
+          {{ coords.ensemblVersion }}
         </nz-descriptions-item>
       </nz-descriptions>
 
-      <!-- primary / 5' coordinates -->
-      <ng-container *ngIf="variant.primaryCoordinates?.chromosome">
-        <nz-descriptions
-          *ngIf="variant.primaryCoordinates as coords"
-          nzTitle="{{
-            variant.secondaryCoordinates ? '5\' Coordinates' : 'Coordinates'
-          }}"
-          nzLayout="horizontal"
-          nzBordered="true"
-          nzSize="small"
-          [nzColumn]="{ xxl: 4, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
-          <!-- chr. -->
+      <nz-descriptions
+        nzTitle="Coordinates"
+        nzLayout="horizontal"
+        nzBordered="true"
+        nzSize="small"
+        [nzColumn]="{ xxl: 4, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
+        <!-- chr. -->
+        <nz-descriptions-item
+          nzTitle="Chr."
+          nzColumn="1">
+          {{ coords.chromosome }}
+        </nz-descriptions-item>
+
+        <!-- start -->
+        <nz-descriptions-item
+          nzTitle="Start"
+          nzColumn="1">
+          {{ coords.start }}
+        </nz-descriptions-item>
+
+        <!-- stop -->
+        <nz-descriptions-item
+          nzTitle="Stop"
+          nzColumn="1">
+          {{ coords.stop }}
+        </nz-descriptions-item>
+
+        <ng-container>
+          <!-- reference bases -->
           <nz-descriptions-item
-            nzTitle="Chr."
+            nzTitle="Ref. Bases"
             nzColumn="1">
-            {{ coords.chromosome }}
+            {{ coords.referenceBases | ifEmpty: '--' }}
           </nz-descriptions-item>
 
-          <!-- start -->
+          <!-- variant bases-->
           <nz-descriptions-item
-            nzTitle="Start"
+            nzTitle="Var. Bases"
             nzColumn="1">
-            {{ coords.start }}
+            {{ coords.variantBases | ifEmpty: '--' }}
           </nz-descriptions-item>
+        </ng-container>
 
-          <!-- stop -->
-          <nz-descriptions-item
-            nzTitle="Stop"
-            nzColumn="1">
-            {{ coords.stop }}
-          </nz-descriptions-item>
-
-          <ng-container *ngIf="!variant.secondaryCoordinates">
-            <!-- reference bases -->
-            <nz-descriptions-item
-              nzTitle="Ref. Bases"
-              nzColumn="1">
-              {{ variant.referenceBases | ifEmpty : '--' }}
-            </nz-descriptions-item>
-
-            <!-- variant bases-->
-            <nz-descriptions-item
-              nzTitle="Var. Bases"
-              nzColumn="1">
-              {{ variant.variantBases | ifEmpty : '--' }}
-            </nz-descriptions-item>
+        <!-- representative transcript -->
+        <nz-descriptions-item
+          nzTitle="Transcript"
+          nzColumn="5">
+          <cvc-link-tag
+            *ngIf="coords.representativeTranscript"
+            tooltip="View on Ensembl"
+            [href]="
+              'http://www.ensembl.org/Homo_sapiens/transview?transcript=' +
+              coords.representativeTranscript
+            ">
+            {{ coords.representativeTranscript }}
+          </cvc-link-tag>
+          <ng-container *ngIf="!coords.representativeTranscript">
+            --
           </ng-container>
-
-          <!-- representative transcript -->
-          <nz-descriptions-item
-            nzTitle="Transcript"
-            nzColumn="5">
-            <cvc-link-tag
-              *ngIf="coords.representativeTranscript"
-              tooltip="View on Ensembl"
-              [href]="
-                'http://www.ensembl.org/Homo_sapiens/transview?transcript=' +
-                coords.representativeTranscript
-              ">
-              {{ coords.representativeTranscript }}
-            </cvc-link-tag>
-            <ng-container *ngIf="!coords.representativeTranscript">
-              --
-            </ng-container>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </ng-container>
-
-      <!-- 3' (secondary) coordinates for fusions-->
-      <ng-container *ngIf="variant.secondaryCoordinates">
-        <nz-descriptions
-          *ngIf="variant.secondaryCoordinates as coords"
-          nzTitle="3' Coordinates"
-          nzLayout="horizontal"
-          nzBordered="true"
-          nzSize="small"
-          [nzColumn]="{ xxl: 4, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }">
-          <!-- chromosome -->
-          <nz-descriptions-item
-            nzTitle="Chr."
-            nzColumn="1">
-            {{ coords.chromosome }}
-          </nz-descriptions-item>
-
-          <!-- start -->
-          <nz-descriptions-item
-            nzTitle="Start"
-            nzColumn="1">
-            {{ coords.start }}
-          </nz-descriptions-item>
-
-          <!-- stop -->
-          <nz-descriptions-item
-            nzTitle="Stop"
-            nzColumn="1">
-            {{ coords.stop }}
-          </nz-descriptions-item>
-
-          <!-- representative transcript -->
-          <nz-descriptions-item
-            nzTitle="Transcript"
-            nzColumn="5">
-            <cvc-link-tag
-              *ngIf="coords.representativeTranscript"
-              tooltip="View on Ensembl"
-              [href]="
-                'http://www.ensembl.org/Homo_sapiens/transview?transcript=' +
-                coords.representativeTranscript
-              ">
-              {{ coords.representativeTranscript }}
-            </cvc-link-tag>
-            <ng-container *ngIf="!coords.representativeTranscript">
-              --
-            </ng-container>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
     </ng-container>
   </nz-card>
 
