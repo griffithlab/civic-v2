@@ -8043,6 +8043,7 @@ type Query {
     """
     variantTypeIds: [Int!]
   ): VariantInterfaceConnection!
+  variantsTypeahead(featureId: Int, queryTerm: String!): [Variant!]!
   viewer: User
 }
 

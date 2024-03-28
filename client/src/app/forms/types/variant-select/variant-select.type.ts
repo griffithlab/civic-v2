@@ -46,7 +46,7 @@ import {
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
 
-export interface VariantIdWithCreationStatus  {
+export interface VariantIdWithCreationStatus {
   new: boolean
   id: number
 }
@@ -224,7 +224,7 @@ export class CvcVariantSelectField
   }
 
   getTypeaheadResultsFn(r: ApolloQueryResult<VariantSelectTypeaheadQuery>) {
-    return r.data.variants.nodes
+    return r.data.variantsTypeahead
   }
 
   getTagQueryVarsFn(id: number): VariantSelectTagQueryVariables {
@@ -269,7 +269,7 @@ export class CvcVariantSelectField
 
   onSelectOrCreate(variant: VariantIdWithCreationStatus) {
     this.onPopulate$.next(variant.id)
-    if(this.props.isNewlyCreatedCallback) {
+    if (this.props.isNewlyCreatedCallback) {
       this.props.isNewlyCreatedCallback(variant.new)
     }
   }
@@ -291,7 +291,10 @@ export class CvcVariantSelectField
       // id provided, so fetch its name and update the placeholder string.
       // lastValueFrom is used b/c fetch could return 'loading' events
       lastValueFrom(
-        this.featureQuery.fetch({ featureId: fid }, { fetchPolicy: 'cache-first' })
+        this.featureQuery.fetch(
+          { featureId: fid },
+          { fetchPolicy: 'cache-first' }
+        )
       ).then(({ data }) => {
         if (!data?.feature?.name) {
           console.error(

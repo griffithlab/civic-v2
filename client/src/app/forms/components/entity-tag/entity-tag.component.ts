@@ -145,6 +145,7 @@ export class CvcEntityTagComponent implements OnChanges {
       )
       return
     }
+    console.log(typename)
     // get linkable entity
     let fragment = undefined
     if (!this.cvcDisableLink) {
