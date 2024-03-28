@@ -2124,6 +2124,19 @@ export type VariantAliasKeySpecifier = ('name' | VariantAliasKeySpecifier)[];
 export type VariantAliasFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type VariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
+export type VariantConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type VariantEdgeKeySpecifier = ('cursor' | 'node' | VariantEdgeKeySpecifier)[];
+export type VariantEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type VariantGroupKeySpecifier = ('comments' | 'description' | 'events' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'revisions' | 'sources' | 'variants' | VariantGroupKeySpecifier)[];
 export type VariantGroupFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3036,6 +3049,14 @@ export type StrictTypedTypePolicies = {
 	VariantAlias?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantAliasKeySpecifier | (() => undefined | VariantAliasKeySpecifier),
 		fields?: VariantAliasFieldPolicy,
+	},
+	VariantConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantConnectionKeySpecifier | (() => undefined | VariantConnectionKeySpecifier),
+		fields?: VariantConnectionFieldPolicy,
+	},
+	VariantEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantEdgeKeySpecifier | (() => undefined | VariantEdgeKeySpecifier),
+		fields?: VariantEdgeFieldPolicy,
 	},
 	VariantGroup?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantGroupKeySpecifier | (() => undefined | VariantGroupKeySpecifier),

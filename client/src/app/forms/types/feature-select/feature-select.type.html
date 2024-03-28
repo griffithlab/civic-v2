@@ -5,7 +5,7 @@
       <nz-select
         [disabled]="!props.canChangeFeatureType"
         [(ngModel)]="selectedFeatureType"
-        (ngModelChange)="this.onFeatureType$?.next($event)">
+        (ngModelChange)="this.onFeatureType$.next($event)">
         <nz-option
           nzValue="GENE"
           nzLabel="Gene"></nz-option>

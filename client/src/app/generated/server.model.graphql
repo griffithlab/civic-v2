@@ -3206,7 +3206,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantInterfaceConnection!
+  ): VariantConnection!
 }
 
 """
@@ -3724,7 +3724,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantInterfaceConnection!
+  ): VariantConnection!
 }
 
 enum FeatureDeprecationReason {
@@ -4311,7 +4311,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantInterfaceConnection!
+  ): VariantConnection!
 }
 
 """
@@ -10400,11 +10400,56 @@ input VariantComponent {
   variantId: Int!
 }
 
+"""
+The connection type for Variant.
+"""
+type VariantConnection {
+  """
+  A list of edges.
+  """
+  edges: [VariantEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Variant!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
 enum VariantDeprecationReason {
   DUPLICATE
   FEATURE_DEPRECATED
   INVALID
   OTHER
+}
+
+"""
+An edge in a connection.
+"""
+type VariantEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Variant
 }
 
 type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisions {
@@ -10623,7 +10668,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantInterfaceConnection!
+  ): VariantConnection!
 }
 
 """
