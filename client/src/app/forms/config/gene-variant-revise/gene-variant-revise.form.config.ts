@@ -123,7 +123,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 wrappers: ['form-card'],
                 props: <CvcFormCardWrapperProps>{
                   formCardOptions: {
-                    title: `Primary (5') Coordinates`,
+                    title: `Coordinates`,
                     size: 'small',
                   },
                 },
@@ -237,80 +237,6 @@ const formFieldConfig: FormlyFieldConfig[] = [
                       },
                       {
                         key: 'representativeTranscript',
-                        type: 'base-input',
-                        props: {
-                          label: 'Representative Transcript',
-                          description:
-                            'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
-                        },
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                wrappers: ['form-card'],
-                props: <CvcFormCardWrapperProps>{
-                  formCardOptions: {
-                    title: `Secondary (3') Coordinates`,
-                    size: 'small',
-                  },
-                },
-                fieldGroup: [
-                  {
-                    wrappers: ['form-row'],
-                    props: <CvcFormRowWrapperProps>{
-                      formRowOptions: {
-                        responsive: { xs: 24, md: 12, lg: 8, xxl: 6 },
-                      },
-                    },
-                    fieldGroup: [
-                      {
-                        key: 'chromosome2',
-                        type: 'base-select',
-                        props: {
-                          label: 'Chromosome',
-                          options: Chromosomes,
-                          description:
-                            'If this variant is a fusion (e.g. BCR-ABL1), specify the chromosome name, coordinates, and representative transcript for the 3-prime partner.',
-                        },
-                      },
-                      {
-                        key: 'start2',
-                        type: 'base-input',
-                        validators: {
-                          isNumeric: {
-                            expression: (c: AbstractControl) =>
-                              c.value ? /^\d+$/.test(c.value) : true,
-                            message: (_: any, field: FormlyFieldConfig) =>
-                              'Start coordinate must be numeric',
-                          },
-                        },
-                        props: {
-                          label: 'Start',
-                          description:
-                            'Enter the left/first coordinate of this 3-prime partner fusion variant. Must be ≤ the Stop coordinate. Coordinate must be compatible with the selected reference build.',
-                        },
-                      },
-                      {
-                        key: 'stop2',
-                        type: 'base-input',
-                        validators: {
-                          isNumeric: {
-                            expression: (c: AbstractControl) =>
-                              c.value ? /^\d+$/.test(c.value) : true,
-                            message: (_: any, field: FormlyFieldConfig) =>
-                              'Stop coordinate must be numeric',
-                          },
-                        },
-                        props: {
-                          label: 'Stop',
-                          description:
-                            'Provide the right/second coordinate of this 3-prime partner fusion variant. Must be ≥ the Start coordinate. Coordinate must be compatible with the selected reference build.',
-                        },
-                      },
-                      {
-                        key: 'representativeTranscript2',
                         type: 'base-input',
                         props: {
                           label: 'Representative Transcript',

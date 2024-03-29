@@ -8,6 +8,7 @@ import { Maybe } from '@app/generated/civic.apollo'
 })
 export class CvcEmptyRevisableComponent implements OnInit {
   @Input() notification: Maybe<string>
+  @Input() reviseFormPath: Maybe<string>
 
   constructor() {}
 

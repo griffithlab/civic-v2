@@ -10,8 +10,8 @@ class AddVariantCoordinateTable < ActiveRecord::Migration[7.1]
       t.integer :exon_offset, null: true
       t.integer :ensembl_version, null: true
       t.text :representative_transcript, index: true, null: true
-      t.integer :reference_build, null: false, index: true
-      t.references :variant, null: false, index: true
+      t.integer :reference_build, null: true, index: true
+      t.references :variant, null: true, index: true
       t.text :coordinate_type, null: false
       t.timestamps
     end

@@ -20787,9 +20787,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "GeneVariantCoordinate",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "GeneVariantCoordinate",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -21725,13 +21729,9 @@
               "name": "referenceBuild",
               "description": "The reference build for the genomic coordinates of this Variant.",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "ReferenceBuild",
-                  "ofType": null
-                }
+                "kind": "ENUM",
+                "name": "ReferenceBuild",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -21741,13 +21741,9 @@
               "name": "ensemblVersion",
               "description": "The Ensembl database version.",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,

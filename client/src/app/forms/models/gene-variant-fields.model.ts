@@ -12,7 +12,6 @@ export type GeneVariantFields = {
   start?: number
   stop?: number
   representativeTranscript?: string
-  representativeTranscript2?: string
   featureId?: number
   referenceBases?: string
   variantBases?: string

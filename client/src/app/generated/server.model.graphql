@@ -4439,7 +4439,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     """
     sortBy: DateSort
   ): CommentConnection!
-  coordinates: GeneVariantCoordinate
+  coordinates: GeneVariantCoordinate!
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -4628,7 +4628,7 @@ input GeneVariantCoordinateInput {
   """
   The Ensembl database version.
   """
-  ensemblVersion: Int!
+  ensemblVersion: Int
 
   """
   Reference bases for this variant
@@ -4638,7 +4638,7 @@ input GeneVariantCoordinateInput {
   """
   The reference build for the genomic coordinates of this Variant.
   """
-  referenceBuild: ReferenceBuild!
+  referenceBuild: ReferenceBuild
   representativeTranscript: String
   start: Int
   stop: Int
