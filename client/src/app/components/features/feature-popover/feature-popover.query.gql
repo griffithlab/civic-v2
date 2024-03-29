@@ -7,6 +7,7 @@ query FeaturePopover($featureId: Int!) {
 fragment featurePopover on Feature {
   id
   name
+  fullName
   featureInstance {
     __typename
   }

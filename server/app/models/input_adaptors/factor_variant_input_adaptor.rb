@@ -7,7 +7,7 @@ class InputAdaptors::FactorVariantInputAdaptor
   end
 
   def perform
-    Variant.new(
+    Variants::FactorVariant.new(
       feature_id: input.feature_id,
       name: input.name,
       variant_type_ids: input.variant_type_ids,
