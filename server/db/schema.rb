@@ -872,8 +872,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_27_150519) do
     t.integer "exon_offset"
     t.integer "ensembl_version"
     t.text "representative_transcript"
-    t.integer "reference_build", null: false
-    t.bigint "variant_id", null: false
+    t.integer "reference_build"
+    t.bigint "variant_id"
     t.text "coordinate_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

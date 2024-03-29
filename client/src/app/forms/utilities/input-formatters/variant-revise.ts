@@ -3,7 +3,6 @@ import {
   GeneVariantCoordinate,
   GeneVariantCoordinateInput,
   Maybe,
-  ReferenceBuild,
 } from '@app/generated/civic.apollo'
 import * as fmt from '@app/forms/utilities/input-formatters'
 
@@ -41,31 +40,31 @@ export function toClinvarInput(
   }
 }
 
-export function toCoordinateInput(
-  coord: Maybe<GeneVariantCoordinate>
-): GeneVariantCoordinateInput {
-  if (coord) {
-    return {
-      chromosome: undefinedIfEmpty(coord.chromosome),
-      representativeTranscript: undefinedIfEmpty(
-        coord.representativeTranscript
-      ),
-      start: coord.start ? +coord.start : undefined,
-      stop: coord.stop ? +coord.stop : undefined,
-      referenceBases: fmt.toNullableString(coord.referenceBases),
-      variantBases: fmt.toNullableString(coord.variantBases),
-      referenceBuild: coord.referenceBuild
-      ensemblVersion: coord.ensemblVersion
-    }
-  } else {
-    return {
-      chromosome: undefined,
-      representativeTranscript: undefined,
-      start: undefined,
-      stop: undefined,
-    }
-  }
-}
+//export function toCoordinateInput(
+//coord: Maybe<GeneVariantCoordinate>
+//): GeneVariantCoordinateInput {
+//if (coord) {
+//return {
+//chromosome: undefinedIfEmpty(coord.chromosome),
+//representativeTranscript: undefinedIfEmpty(
+//coord.representativeTranscript
+//),
+//start: coord.start ? +coord.start : undefined,
+//stop: coord.stop ? +coord.stop : undefined,
+//referenceBases: fmt.toNullableString(coord.referenceBases),
+//variantBases: fmt.toNullableString(coord.variantBases),
+//referenceBuild: coord.referenceBuild,
+//ensemblVersion: coord.ensemblVersion,
+//}
+//} else {
+//return {
+//chromosome: undefined,
+//representativeTranscript: undefined,
+//start: undefined,
+//stop: undefined,
+//}
+//}
+//}
 
 //export function toNullableReferenceBuildInput(
 //build: Maybe<ReferenceBuild>

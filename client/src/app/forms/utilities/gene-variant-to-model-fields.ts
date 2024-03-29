@@ -17,7 +17,14 @@ export function geneVariantToModelFields(
     hgvsDescriptions: variant.hgvsDescriptions,
     clinvarIds: variant.clinvarIds,
     variantTypeIds: variant.variantTypes.map((vt) => vt.id),
-    coordinates: variant.coordinates,
+    referenceBuild: variant.coordinates.referenceBuild,
+    ensemblVersion: variant.coordinates.ensemblVersion,
+    chromosome: variant.coordinates.chromosome,
+    start: variant.coordinates.start,
+    stop: variant.coordinates.stop,
+    referenceBases: variant.coordinates.referenceBases,
+    variantBases: variant.coordinates.variantBases,
+    representativeTranscript: variant.coordinates.representativeTranscript,
     featureId: variant.feature.id,
   }
 }
@@ -44,10 +51,10 @@ export function geneVariantFormModelToReviseInput(
         start: fields.start ? +fields.start : undefined,
         stop: fields.stop ? +fields.stop : undefined,
         representativeTranscript: fields.representativeTranscript,
-        ensemblVersion: fmt.toNullableInput(
-          fields.ensemblVersion ? +fields.ensemblVersion : undefined
-        ),
-        referenceBuild: fmt.toNullableInput(fields.referenceBuild),
+        ensemblVersion: fields.ensemblVersion
+          ? +fields.ensemblVersion
+          : undefined,
+        referenceBuild: fields.referenceBuild,
         referenceBases: fmt.toNullableString(fields.referenceBases),
         variantBases: fmt.toNullableString(fields.variantBases),
       },

@@ -8,9 +8,9 @@ module Types::Revisions
     }}
     argument :start, Int, required: false
     argument :stop, Int, required: false
-    argument :reference_build, Types::ReferenceBuildType, required: true,
+    argument :reference_build, Types::ReferenceBuildType, required: false,
       description: 'The reference build for the genomic coordinates of this Variant.'
-    argument :ensembl_version, GraphQL::Types::Int, required: true,
+    argument :ensembl_version, GraphQL::Types::Int, required: false,
       description: 'The Ensembl database version.'
     argument :reference_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: 'Reference bases for this variant'

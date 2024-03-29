@@ -1,7 +1,10 @@
+# run order: 1
+
 Variants::GeneVariant.find_each do |variant|
-  next if variant.start2.present?
-  next if variant.variant_types.where(name: 'transcript_fusion').exists?
-  next unless variant.start.present?
+  #maybe_fusion = [
+    #variant.start2.present?,
+    #variant.variant_types.where(name: 'transcript_fusion').exists?
+  #].all?
 
   coord = VariantCoordinate.create!(
     variant: variant,
