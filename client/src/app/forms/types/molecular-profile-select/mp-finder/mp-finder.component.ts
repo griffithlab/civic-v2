@@ -17,9 +17,7 @@ import { Apollo, gql } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { CvcVariantSelectFieldOption } from '../../variant-select/variant-select.type'
-import { EnumToTitlePipe } from '@app/core/pipes/enum-to-title-pipe'
 
 type MpFinderModel = {
   featureId?: number
@@ -45,7 +43,6 @@ export class MpFinderComponent {
   model: MpFinderModel
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
-  featureType?: CreateableFeatureTypes
 
   finderState: MpFinderState = {
     formLayout: 'horizontal',
@@ -82,9 +79,6 @@ export class MpFinderComponent {
               showExtra: false,
               showErrorTip: false,
               required: true,
-              featureTypeCallback: (ft: CreateableFeatureTypes) => {
-                this.featureType = ft
-              },
             },
           },
           <CvcVariantSelectFieldOption>{
@@ -119,11 +113,10 @@ export class MpFinderComponent {
 
   getSelectedVariant(variantId: Maybe<number>): Maybe<Variant> {
     if (!variantId) return
-    const feature = new EnumToTitlePipe().transform(this.featureType)
     const fragment = {
-      id: `${feature}Variant:${variantId}`,
+      id: `Variant:${variantId}`,
       fragment: gql`
-        fragment VariantSelectQuery on ${feature}Variant {
+        fragment VariantSelectQuery on Variant {
           id
           name
           link

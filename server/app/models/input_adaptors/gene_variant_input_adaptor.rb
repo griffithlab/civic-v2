@@ -7,7 +7,7 @@ class InputAdaptors::GeneVariantInputAdaptor
   end
 
   def perform
-    Variant.new(
+    Variants::GeneVariant.new(
       feature_id: input.feature_id,
       name: input.name,
       variant_type_ids: input.variant_type_ids,

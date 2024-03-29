@@ -32,8 +32,8 @@ import { FormlyFieldProps } from '@ngx-formly/ng-zorro-antd/form-field'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import mixin from 'ts-mixin-extended'
 import { FeatureIdWithCreationStatus } from './feature-quick-add/feature-quick-add.form'
-import { BehaviorSubject, Subscription } from 'rxjs'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { BehaviorSubject } from 'rxjs'
+import { UntilDestroy } from '@ngneat/until-destroy'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -109,12 +109,6 @@ export class CvcFeatureSelectField
 
   ngAfterViewInit(): void {
     this.selectedFeatureType = this.props.featureType
-    if (this.props.featureTypeCallback) {
-      this.onFeatureType$
-        .pipe(untilDestroyed(this))
-        .subscribe((ft) => this.props.featureTypeCallback(ft))
-      this.onFeatureType$.next(this.selectedFeatureType)
-    }
     this.configureBaseField() // mixin fn
     this.configureEntitySelectField({
       // mixin fn
