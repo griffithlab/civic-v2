@@ -56,7 +56,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
               label: 'Variants',
               required: true,
               colSpan: 24,
-              requireGene: false,
+              requireFeature: false,
               showManagerBtn: true,
             },
           },

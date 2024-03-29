@@ -4129,6 +4129,7 @@ export type Query = {
   variantTypes: BrowseVariantTypeConnection;
   /** List and filter variants. */
   variants: VariantInterfaceConnection;
+  variantsTypeahead: Array<Variant>;
   viewer?: Maybe<User>;
 };
 
@@ -4757,6 +4758,12 @@ export type QueryVariantsArgs = {
   name?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<VariantMenuSort>;
   variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+
+export type QueryVariantsTypeaheadArgs = {
+  featureId?: InputMaybe<Scalars['Int']>;
+  queryTerm: Scalars['String'];
 };
 
 export type Ranks = {
@@ -6941,9 +6948,9 @@ export type FeaturePopoverQueryVariables = Exact<{
 }>;
 
 
-export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']>;
@@ -8185,7 +8192,7 @@ export type VariantSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type VariantSelectTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantInterfaceConnection', totalCount: number, edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | undefined }>, nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'GeneVariant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } } | { __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } }> } };
+export type VariantSelectTypeaheadQuery = { __typename: 'Query', variantsTypeahead: Array<{ __typename: 'Variant', id: number, name: string, link: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, molecularProfileAliases: Array<string> } }> };
 
 export type VariantSelectTagQueryVariables = Exact<{
   variantId: Scalars['Int'];
@@ -9052,6 +9059,7 @@ export const FeaturePopoverFragmentDoc = gql`
     fragment featurePopover on Feature {
   id
   name
+  fullName
   featureInstance {
     __typename
   }
@@ -14987,16 +14995,8 @@ export const QuickAddVariantDocument = gql`
   }
 export const VariantSelectTypeaheadDocument = gql`
     query VariantSelectTypeahead($name: String!, $featureId: Int) {
-  variants(name: $name, featureId: $featureId, first: 50) {
-    totalCount
-    edges {
-      node {
-        ...VariantSelectTypeaheadFields
-      }
-    }
-    nodes {
-      ...VariantSelectTypeaheadFields
-    }
+  variantsTypeahead(queryTerm: $name, featureId: $featureId) {
+    ...VariantSelectTypeaheadFields
   }
 }
     ${VariantSelectTypeaheadFieldsFragmentDoc}`;
