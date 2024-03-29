@@ -112,6 +112,8 @@ module Constants
     'EvidenceItem' => 'evidence',
     'Gene' => 'genes',
     'Variant' => 'variants',
+    'Variants::GeneVariant' => 'variants',
+    'Variants::FactorVariant' => 'variants',
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
     'MolecularProfile' => 'molecular-profiles'
