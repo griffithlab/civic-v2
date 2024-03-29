@@ -8,7 +8,7 @@ import { environment } from './environments/environment'
 if (environment.production) {
   enableProdMode()
 } else {
-  // enable RXjs Spy on non production bulds only
+  // enable RXjs Spy on non production builds only
   const spy = create()
   // deactivate CyclePlugin, which spams console w/
   // an alert about a next cycle in table-scroll.directive.

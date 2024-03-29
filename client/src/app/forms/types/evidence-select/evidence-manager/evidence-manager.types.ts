@@ -314,7 +314,7 @@ export const colTypeGuards = {
 // These guard attributes on col options, currently not used
 // in the TypeGuard pipe,  but in logic that handles column options.
 // FIXME(?): I had hoped that the discriminated union type ColumnOptionType
-// above would have made guard functions like this unecessary, but I was unable to
+// above would have made guard functions like this unnecessary, but I was unable to
 // write some of the generic cols/prefs handling functions w/o them. Not
 // sure if this is bc the types are not constructed properly.
 export const hasSortOptions: TypeGuard<any, SortConfig> = (

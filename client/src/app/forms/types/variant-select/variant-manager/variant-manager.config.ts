@@ -41,7 +41,7 @@ export const columnKeyToQueryVariableMap: VariantManagerColQueryMap = {
   aliases: 'variantAlias'
 }
 
-// colum keys included here will be hidden in preference panel, preventing
+// column keys included here will be hidden in preference panel, preventing
 // defaults from being changed by the user
 export const omittedFromPrefs: VariantManagerColKey[] = ['selected', 'id']
 

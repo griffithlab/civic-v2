@@ -1,5 +1,5 @@
 class Mutations::UpdateCoi < Mutations::BaseMutation
-  description "Update the currentlly logged in User's Conflict of Interest statement"
+  description "Update the currently logged in User's Conflict of Interest statement"
 
   argument :coi_present, Boolean, required: true,
     description: 'Does the user report having a conflict of interest? Mark true if so.'
