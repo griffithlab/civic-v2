@@ -187,7 +187,7 @@ interface TagConfig {
 // most entity tag cols can be customized using TagConfig.
 // if showStatus set to true, tag will display status styles.
 // NOTE: use BaseColumnConfig's 'context' option if it's necessary
-// to render an entity tag in a column whos row[colKey] data
+// to render an entity tag in a column whose row[colKey] data
 // is not a LinkableEntity, e.g. variant-manager table's 'id' col
 interface EntityTagConfig {
   showStatus?: boolean // display tag status indicator styles
