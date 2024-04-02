@@ -11,21 +11,9 @@ class InputAdaptors::GeneVariantInputAdaptor
       feature_id: input.feature_id,
       name: input.name,
       variant_type_ids: input.variant_type_ids,
-      reference_build: input.reference_build,
-      ensembl_version: input.ensembl_version,
       variant_alias_ids: get_alias_ids(),
       hgvs_description_ids: get_hgvs_ids(),
       clinvar_entry_ids: get_clinvar_ids(),
-      representative_transcript: input.primary_coordinates.representative_transcript,
-      chromosome: input.primary_coordinates.chromosome,
-      start: input.primary_coordinates.start,
-      stop: input.primary_coordinates.stop,
-      reference_bases: input.reference_bases,
-      variant_bases: input.variant_bases,
-      representative_transcript2: input.secondary_coordinates.representative_transcript,
-      chromosome2: input.secondary_coordinates.chromosome,
-      start2: input.secondary_coordinates.start,
-      stop2: input.secondary_coordinates.stop,
     )
   end
 

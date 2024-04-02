@@ -1,8 +1,8 @@
 module Variants
   class GeneVariant < Variant
     belongs_to :gene, class_name: 'Features::Gene', optional: true
-    
-    has_one :variant_coordinate,
+
+    has_one :coordinates,
       ->() { where(coordinate_type: 'Gene Variant Coordinate') },
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
@@ -17,18 +17,6 @@ module Variants
       [
         :hgvs_description_ids,
         :clinvar_entry_ids,
-        :reference_build,
-        :ensembl_version,
-        :chromosome,
-        :start,
-        :stop,
-        :reference_bases,
-        :variant_bases,
-        :representative_transcript,
-        :chromosome2,
-        :start2,
-        :stop2,
-        :representative_transcript2,
       ]
     end
 

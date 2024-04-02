@@ -56,9 +56,11 @@ class Mutations::SuggestFactorRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_factor = InputAdaptors::FactorInputAdaptor.new(factor_input_object: fields).perform
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: factor, updated_obj: updated_factor)
+
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: factor,
-      updated_obj: updated_factor,
+      revised_objects: revised_objs,
+      subject: factor.feature,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment

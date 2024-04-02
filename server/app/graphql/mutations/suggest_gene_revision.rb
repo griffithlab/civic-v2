@@ -56,9 +56,11 @@ class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_gene = InputAdaptors::GeneInputAdaptor.new(gene_input_object: fields).perform
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: gene, updated_obj: updated_gene)
+
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: gene,
-      updated_obj: updated_gene,
+      revised_objects: revised_objs,
+      subject: gene.feature,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment
@@ -75,8 +77,4 @@ class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
     end
   end
 end
-
-
-
-
 

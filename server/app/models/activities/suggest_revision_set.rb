@@ -1,22 +1,16 @@
 module Activities
-  RevisedObjectPair = Data.define(:existing_obj, :updated_obj)
 
   class SuggestRevisionSet < Base
-    attr_reader :revision_set, :revisions, :revision_results, :existing_obj, :updated_obj
+    attr_reader :revision_set, :revisions, :revision_results, :revised_objects, :subject
 
-    def initialize(originating_user:, existing_obj:, updated_obj:, organization_id: nil, note:)
+    def initialize(originating_user:, revised_objects:, subject:, organization_id: nil, note:)
       super(organization_id: organization_id, user: originating_user, note: note)
-      @existing_obj = existing_obj
-      @updated_obj = updated_obj
+      @revised_objects = revised_objects
+      @subject = subject
     end
 
     private
     def create_activity
-      subject = if existing_obj.kind_of?(IsFeatureInstance)
-        existing_obj.feature
-      else
-        existing_obj
-      end
       @activity = SuggestRevisionSetActivity.create!(
         subject: subject,
         user: user,
@@ -27,8 +21,8 @@ module Activities
 
     def call_actions
       cmd = Actions::SuggestRevisionSet.new(
-        existing_obj: existing_obj,
-        updated_obj: updated_obj,
+        revised_objects: revised_objects,
+        event_subject: subject,
         originating_user: user,
         organization_id: organization&.id
       )
