@@ -1,19 +1,17 @@
 <!-- NOTE: entity-field.mixin provides the observables passed to cvc-entity-select below -->
 <nz-row [nzGutter]="[6, 6]">
   <nz-col nzFlex="100px">
-    <nz-form-item>
-      <nz-select
-        [disabled]="!props.canChangeFeatureType"
-        [(ngModel)]="selectedFeatureType"
-        (ngModelChange)="this.onFeatureType$.next($event)">
-        <nz-option
-          nzValue="GENE"
-          nzLabel="Gene"></nz-option>
-        <nz-option
-          nzValue="FACTOR"
-          nzLabel="Factor"></nz-option>
-      </nz-select>
-    </nz-form-item>
+    <nz-select
+      [disabled]="!props.canChangeFeatureType"
+      [(ngModel)]="selectedFeatureType"
+      (ngModelChange)="this.onFeatureType$.next($event)">
+      <nz-option
+        nzValue="GENE"
+        nzLabel="Gene"></nz-option>
+      <nz-option
+        nzValue="FACTOR"
+        nzLabel="Factor"></nz-option>
+    </nz-select>
   </nz-col>
   <nz-col nzFlex="auto">
     <cvc-entity-select
