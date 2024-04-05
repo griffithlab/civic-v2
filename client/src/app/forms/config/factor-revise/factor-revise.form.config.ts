@@ -61,8 +61,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 type: 'base-input',
                 props: {
                   placeholder: 'NCI Thesaurus Code',
-                  description: 'Enter the NCI Thesaurus ID for this Factor',
-                  label: 'NCI Thesaurus ID',
+                  description: 'Enter the NCI Thesaurus Code for this Factor',
+                  label: 'NCI Thesaurus Code',
                   required: false,
                 },
               },
