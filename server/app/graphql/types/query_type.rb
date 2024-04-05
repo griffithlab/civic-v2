@@ -171,6 +171,7 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
+    field :factors, resolver: Resolvers::TopLevelFactors
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
