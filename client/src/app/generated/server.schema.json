@@ -10303,8 +10303,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "INTERFACE",
-                  "name": "VariantInterface",
+                  "kind": "OBJECT",
+                  "name": "Variant",
                   "ofType": null
                 }
               },
@@ -36692,6 +36692,30 @@
                 {
                   "name": "featureId",
                   "description": "Feature that the variants are associated with.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "geneId",
+                  "description": "Feature that the variants are associated with, limited to only Gene type features.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "factorId",
+                  "description": "Feature that the variants are associated with, limited to only Factor type features.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",

@@ -2019,7 +2019,7 @@ type CreateVariantPayload {
   """
   The newly created Variant.
   """
-  variant: VariantInterface!
+  variant: Variant!
 }
 
 """
@@ -8013,6 +8013,11 @@ type Query {
     category: VariantCategories
 
     """
+    Feature that the variants are associated with, limited to only Factor type features.
+    """
+    factorId: Int
+
+    """
     Feature that the variants are associated with.
     """
     featureId: Int
@@ -8021,6 +8026,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Feature that the variants are associated with, limited to only Gene type features.
+    """
+    geneId: Int
 
     """
     Return Variants lacking an assigned VariantType

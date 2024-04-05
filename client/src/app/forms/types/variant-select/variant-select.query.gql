@@ -22,6 +22,7 @@ fragment VariantSelectTypeaheadFields on VariantInterface {
   id
   name
   link
+  deprecated
   variantAliases
   singleVariantMolecularProfileId
   singleVariantMolecularProfile {
