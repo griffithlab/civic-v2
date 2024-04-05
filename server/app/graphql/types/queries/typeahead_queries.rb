@@ -58,6 +58,24 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
+      klass.field :variants_typeahead, [Types::Entities::VariantType], null: false do
+        argument :query_term, GraphQL::Types::String, required: true
+        argument :feature_id, GraphQL::Types::Int, required: false
+      end
+
+      def variants_typeahead(query_term:, feature_id: nil)
+        scope = Variant.left_joins(:variant_aliases)
+          .where(deprecated: false)
+          .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "%#{query_term}%" })
+          .limit(20)
+
+        if feature_id
+          scope.where(feature_id: feature_id)
+        else
+          scope
+        end
+      end
+
       def disease_typeahead(query_term:)
         base_query = Disease.where(deprecated: false)
         results = base_query.where("diseases.name ILIKE ?", "%#{query_term}%")

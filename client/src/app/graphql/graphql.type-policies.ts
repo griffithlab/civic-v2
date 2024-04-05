@@ -28,6 +28,7 @@ export const CvcTypePolicies: TypePolicies = {
         'therapayName',
         'variantTypeId',
         'variantGroupId',
+        'variantCategory',
       ]),
       browseMolecularProfiles: relayStylePagination([
         'variantName',

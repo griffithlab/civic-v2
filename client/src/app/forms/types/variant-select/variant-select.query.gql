@@ -1,20 +1,20 @@
 query VariantSelectTypeahead($name: String!, $featureId: Int) {
-  variants(name: $name, featureId: $featureId, first: 50) {
-    totalCount
-    edges {
-      node {
-        ...VariantSelectTypeaheadFields
-      }
-    }
-    nodes {
-      ...VariantSelectTypeaheadFields
-    }
+  variantsTypeahead(queryTerm: $name, featureId: $featureId) {
+    ...VariantSelectTypeaheadFields
   }
 }
 
 query VariantSelectTag($variantId: Int!) {
   variant(id: $variantId) {
-    ...VariantSelectTypeaheadFields
+    ... on Variant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on GeneVariant {
+      ...VariantSelectTypeaheadFields
+    }
+    ... on FactorVariant {
+      ...VariantSelectTypeaheadFields
+    }
   }
 }
 

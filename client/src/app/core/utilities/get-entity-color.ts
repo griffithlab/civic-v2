@@ -14,6 +14,8 @@ export const EntityColors = new Map<string, string>([
   ['Source', '#f9ba45'],
   ['Therapy', '#ac3996'],
   ['Variant', '#74d34c'],
+  ['GeneVariant', '#74d34c'],
+  ['FactorVariant', '#74d34c'],
   ['VariantGroup', '#74d34c'],
   ['VariantType', '#74d34c'],
 

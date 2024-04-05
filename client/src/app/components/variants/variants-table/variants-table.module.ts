@@ -20,6 +20,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcVariantTagModule } from '../variant-tag/variant-tag.module'
 import { CvcVariantsTableComponent } from './variants-table.component'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -27,6 +29,7 @@ import { CvcVariantsTableComponent } from './variants-table.component'
     CommonModule,
     LetDirective,
     PushPipe,
+    FormsModule,
 
     NzButtonModule,
     NzCardModule,
@@ -35,6 +38,7 @@ import { CvcVariantsTableComponent } from './variants-table.component'
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzSelectModule,
 
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,

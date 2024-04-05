@@ -21,6 +21,7 @@ import {
   Maybe,
   PageInfo,
   VariantsSortColumns,
+  VariantCategories,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -32,7 +33,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -95,7 +95,10 @@ export class CvcVariantsTableComponent implements OnInit {
   therapyNameInput: Maybe<string>
   variantAliasInput: Maybe<string>
   variantTypeNameInput: Maybe<string>
+  variantCategoryInput: Maybe<VariantCategories>
   hasNoVariantTypeInput: boolean = false
+
+  variantCategories = VariantCategories
 
   private initialQueryArgs?: BrowseVariantsQueryVariables
 
@@ -115,6 +118,7 @@ export class CvcVariantsTableComponent implements OnInit {
       variantTypeId: this.variantTypeId,
       variantGroupId: this.variantGroupId,
       hasNoVariantType: this.hasNoVariantTypeInput,
+      variantCategory: this.variantCategoryInput,
     }
 
     this.queryRef = this.gql.watch(this.initialQueryArgs)
@@ -210,8 +214,11 @@ export class CvcVariantsTableComponent implements OnInit {
           ? this.variantAliasInput
           : undefined,
         featureName: this.featureNameInput,
-        variantTypeName: this.variantTypeNameInput ? this.variantTypeNameInput : undefined,
-        hasNoVariantType: this.hasNoVariantTypeInput
+        variantTypeName: this.variantTypeNameInput
+          ? this.variantTypeNameInput
+          : undefined,
+        hasNoVariantType: this.hasNoVariantTypeInput,
+        variantCategory: this.variantCategoryInput,
       })
       .then(() => this.scrollIndex$.next(0))
 
@@ -219,13 +226,15 @@ export class CvcVariantsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<BrowseVariantsFieldsFragment>): Maybe<number> {
-    return data?.id;
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseVariantsFieldsFragment>
+  ): Maybe<number> {
+    return data?.id
   }
 
   onHasNoVariantTypeInputChange(value: boolean[]) {
     this.hasNoVariantTypeInput = value[0]
     this.filterChange$.next()
   }
-
 }

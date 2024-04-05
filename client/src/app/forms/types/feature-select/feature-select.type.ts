@@ -33,6 +33,7 @@ import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import mixin from 'ts-mixin-extended'
 import { FeatureIdWithCreationStatus } from './feature-quick-add/feature-quick-add.form'
 import { BehaviorSubject } from 'rxjs'
+import { UntilDestroy } from '@ngneat/until-destroy'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -67,6 +68,7 @@ const FeatureSelectMixin = mixin(
   >()
 )
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-feature-select',
   templateUrl: './feature-select.type.html',
@@ -94,7 +96,7 @@ export class CvcFeatureSelectField
   optionTemplates?: QueryList<TemplateRef<any>>
 
   selectedFeatureType?: FeatureInstanceTypes = this.props.featureType
-  onFeatureType$?: BehaviorSubject<Maybe<FeatureInstanceTypes>> =
+  onFeatureType$: BehaviorSubject<Maybe<FeatureInstanceTypes>> =
     new BehaviorSubject<Maybe<FeatureInstanceTypes>>(undefined)
 
   constructor(

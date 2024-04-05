@@ -17,6 +17,12 @@
         nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
+        <nz-descriptions-item
+          *ngIf="feature.fullName"
+          nzSpan="2"
+          nzTitle="Full Name">
+          {{ feature.fullName }}
+        </nz-descriptions-item>
         <!-- aliases -->
         <nz-descriptions-item
           nzTitle="Aliases"

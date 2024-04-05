@@ -27,6 +27,14 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
     end
   end
 
+  option(:category, type: Types::VariantCategories) do |scope, value|
+    if value
+      scope.where(category: value)
+    else
+      scope
+    end
+  end
+
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column
     when "variantName"

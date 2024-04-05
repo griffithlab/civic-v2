@@ -7,13 +7,16 @@ import {
 import { UntypedFormGroup } from '@angular/forms'
 import { EntityFieldSubjectMap } from '@app/forms/states/base.state'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
-import { MolecularProfile, Variant } from '@app/generated/civic.apollo'
+import {
+  CreateableFeatureTypes,
+  MolecularProfile,
+  Variant,
+} from '@app/generated/civic.apollo'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { Apollo, gql } from 'apollo-angular'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { BehaviorSubject } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
 import { CvcVariantSelectFieldOption } from '../../variant-select/variant-select.type'
 
 type MpFinderModel = {

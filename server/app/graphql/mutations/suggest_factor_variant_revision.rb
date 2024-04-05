@@ -36,8 +36,8 @@ class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Variant with id #{id} doesn't exist."
     end
 
-    if !variant.is_a?(Variants::GeneVariant)
-      raise GraphQL::ExecutionError, "Variant with id #{id} is a #{variant.type} and you called the GeneVariant mutation."
+    if !variant.is_a?(Variants::FactorVariant)
+      raise GraphQL::ExecutionError, "Variant with id #{id} is a #{variant.type} and you called the FactorVariant mutation."
     end
 
     @variant = variant

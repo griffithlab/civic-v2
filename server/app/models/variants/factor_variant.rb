@@ -1,11 +1,8 @@
 module Variants
   class FactorVariant < Variant
-    def editable_fields
+    def unique_editable_fields
       [
-        :feature_id,
-        :name,
         :ncit_id,
-        :variant_type_ids,
       ]
     end
 

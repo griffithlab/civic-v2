@@ -56,4 +56,12 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
       scope.reorder("variants.stop #{value.direction} NULLS LAST")
     end
   end
+
+  option(:category, type: Types::VariantCategories) do |scope, value|
+    if value
+      scope.where(category: value)
+    else
+      scope
+    end
+  end
 end

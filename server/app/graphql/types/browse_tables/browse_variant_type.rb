@@ -18,6 +18,7 @@ module Types::BrowseTables
     field :therapies, [Types::Entities::TherapyType], null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false
     field :variant_types, [Types::BrowseTables::LinkableVariantTypeType], null: false
+    field :category, Types::VariantCategories, null: false
 
     def link
       Rails.application.routes.url_helpers.url_for("/variants/#{object.id}")

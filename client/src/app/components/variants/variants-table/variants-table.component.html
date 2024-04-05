@@ -54,6 +54,16 @@
           Variant
         </th>
         <th
+          nzLeft
+          nzWidth="70px"
+          nz-tooltip
+          nzTooltipTitle="Feature Type">
+          <i
+            nz-icon
+            nzType="civic-feature"></i>
+          Type
+        </th>
+        <th
           nzWidth="100px"
           [nzColumnKey]="sortColumns.FeatureName"
           [nzSortFn]="true">
@@ -77,6 +87,24 @@
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <nz-select
+            nzAllowClear
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            nzPlaceHolder="All"
+            (ngModelChange)="filterChange$.next()"
+            [(ngModel)]="variantCategoryInput">
+            <nz-option
+              [nzValue]="variantCategories.Gene"
+              nzLabel="Gene">
+            </nz-option>
+            <nz-option
+              [nzValue]="variantCategories.Factor"
+              nzLabel="Factor">
+            </nz-option>
+          </nz-select>
         </th>
         <th>
           <cvc-clearable-input-filter
@@ -125,6 +153,13 @@
               [variant]="variant"
               [truncateLongName]="true"></cvc-variant-tag>
           </td>
+          <td nzLeft>
+            <span
+              nz-typography
+              nzType="secondary">
+              {{ variant.category | titlecase }}
+            </span>
+          </td>
           <td>
             <cvc-feature-tag
               [feature]="{
@@ -137,7 +172,7 @@
           <td>
             <cvc-plain-tag-overflow
               [maxDisplayCount]="1"
-              [tags]="variant.aliases | pluck : 'name'"
+              [tags]="variant.aliases | pluck: 'name'"
               [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
