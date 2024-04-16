@@ -97,6 +97,11 @@ export class AssertionsDetailView implements OnDestroy {
                     badgeCount: assertionResp?.revisions.totalCount,
                     ...tab,
                   }
+                } else if (tab.tabLabel === 'Flags') {
+                  return {
+                    badgeCount: assertionResp?.flags.totalCount,
+                    ...tab,
+                  }
                 } else if (tab.tabLabel === 'Comments') {
                   return {
                     badgeCount: assertionResp?.comments.totalCount,

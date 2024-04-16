@@ -1,0 +1,27 @@
+<ng-container *ngIf="showForm$ | ngrxPush">
+  <ng-container *ngrxLet="formMessageDisplay$ as display">
+    <span>{{ display.message }}</span>
+  </ng-container>
+  <cvc-form-submission-status-display
+    [mutationState]="this.mutationState"
+    entityType="Feature"
+    [successMessage]="success">
+    <!-- FIXME: network errors (e.g. not logged in err) are not being displayed -->
+    <ng-template #success>{{ successMessage }}</ng-template>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit$.next(model)">
+      <nz-row [nzGutter]="[0, 0]">
+        <nz-col nzSpan="24">
+          <formly-form
+            [form]="form"
+            [fields]="fields"
+            [model]="model"
+            [options]="options"
+            (modelChange)="model = $event">
+          </formly-form>
+        </nz-col>
+      </nz-row>
+    </form>
+  </cvc-form-submission-status-display>
+</ng-container>

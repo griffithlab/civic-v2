@@ -1,0 +1,137 @@
+<nz-row [nzGutter]="[8, 16]">
+  <nz-col nzSpan="12">
+    <!-- LEFT COLUMN -->
+    <nz-row [nzGutter]="[8, 8]">
+      <!-- factor description, sources block -->
+      <nz-col nzSpan="24">
+        <!-- description, sources -->
+        <nz-descriptions
+          nzLayout="vertical"
+          nzSize="small"
+          nzBordered="true"
+          [nzColumn]="1">
+          <!-- description -->
+          <nz-descriptions-item nzTitle="Description">
+            <p
+              *ngIf="factor.description; else noDescription"
+              nz-typography
+              nzEllipsis
+              nzExpandable
+              [nzEllipsisRows]="8">
+              {{ factor.description }}
+            </p>
+
+            <!-- noDescription Tpl -->
+            <ng-template #noDescription>
+              <cvc-empty-revisable notification="No description provided">
+              </cvc-empty-revisable>
+            </ng-template>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+
+      <!-- sources, aliases, resource block -->
+      <nz-col nzSpan="24">
+        <nz-descriptions
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="1"
+          nzBordered="true">
+          <!-- sources -->
+          <nz-descriptions-item nzTitle="Sources">
+            <ng-container *ngIf="factor.sources.length > 0; else noSources">
+              <cvc-tag-list>
+                <cvc-source-tag
+                  *ngFor="let source of factor.sources"
+                  [source]="source"></cvc-source-tag>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noSources>
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
+            </ng-template>
+          </nz-descriptions-item>
+
+          <!-- aliases -->
+          <nz-descriptions-item nzTitle="Aliases">
+            <ng-container
+              *ngIf="factor.featureAliases.length > 0; else noAliases">
+              <nz-tag *ngFor="let alias of factor.featureAliases">{{
+                alias
+              }}</nz-tag>
+            </ng-container>
+          </nz-descriptions-item>
+          <ng-template #noAliases>
+            <span
+              nz-typography
+              nzType="secondary"
+              >None specified</span
+            >
+          </ng-template>
+
+          <!-- resource links -->
+          <nz-descriptions-item
+            *ngIf="factor.ncitId"
+            nzTitle="Resources">
+            <cvc-tag-list>
+              <cvc-link-tag
+                [href]="
+                  'https://ncithesaurus.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=' +
+                  factor.ncitId
+                "
+                [tooltip]="'View ' + factor.name + ' in the NCI Thesaurus'">
+                NCIt: {{ factor.ncitId }}
+              </cvc-link-tag>
+            </cvc-tag-list>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+    </nz-row>
+  </nz-col>
+
+  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <nz-col nzSpan="12">
+    <!-- BLOCK: creation and deprecation events -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+      nzBordered="true">
+      <!-- creation/deprecation curation events -->
+      <ng-container *ngIf="factor.creationActivity">
+        <nz-descriptions-item [nzTitle]="createdTitle">
+          by
+          <cvc-user-tag [user]="factor.creationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #createdTitle>
+          Created
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ factor.creationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="factor.deprecationActivity">
+        <nz-descriptions-item [nzTitle]="deprecatedTitle">
+          by
+          <cvc-user-tag [user]="factor.deprecationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #deprecatedTitle>
+          Deprecated
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ factor.deprecationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+    </nz-descriptions>
+    <br />
+    <!-- ncit info -->
+    <cvc-ncit-details [ncitDetails]="factor.ncitDetails"></cvc-ncit-details>
+  </nz-col>
+</nz-row>

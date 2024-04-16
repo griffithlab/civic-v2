@@ -2,7 +2,7 @@ query BrowseMolecularProfiles(
   $molecularProfileName: String
   $variantName: String
   $variantId: Int
-  $entrezSymbol: String
+  $featureName: String
   $diseaseName: String
   $therapyName: String
   $molecularProfileAlias: String
@@ -16,7 +16,7 @@ query BrowseMolecularProfiles(
     molecularProfileName: $molecularProfileName
     variantName: $variantName
     variantId: $variantId
-    entrezSymbol: $entrezSymbol
+    featureName: $featureName
     diseaseName: $diseaseName
     therapyName: $therapyName
     molecularProfileAlias: $molecularProfileAlias
@@ -54,15 +54,16 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
   aliases {
     name
   }
-  genes {
-    id
-    name
-    link
-  }
   variants {
     id
     name
     link
+    matchText
+    feature {
+      id
+      link
+      name
+    }
   }
   therapies {
     id

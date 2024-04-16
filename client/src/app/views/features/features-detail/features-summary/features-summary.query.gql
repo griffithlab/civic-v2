@@ -1,0 +1,103 @@
+query FeaturesSummary($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSummaryFields
+  }
+}
+
+fragment FeatureSummaryFields on Feature{
+  id
+  name
+  fullName
+  link
+  featureInstance {
+    __typename
+    ... on Gene {
+      ... GeneSummaryFields
+    }
+    ... on Factor {
+      ... FactorSummaryFields
+    }
+  }
+  # lastSubmittedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+  # lastAcceptedRevisionEvent {
+  #   originatingUser {
+  #     id
+  #     displayName
+  #     role
+  #     profileImagePath(size: 32)
+  #   }
+  # }
+}
+
+fragment GeneSummaryFields on Gene {
+  id
+  description
+  featureAliases
+  entrezId
+  name
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  myGeneInfoDetails
+}
+
+fragment FactorSummaryFields on Factor {
+  id
+  name
+  description
+  featureAliases
+  ncitId
+  deprecated
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+  ncitDetails {
+    ...NcitDetails
+  }
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+}
+
+fragment NcitDetails on NcitDetails {
+    synonyms {
+      name
+      source
+    }
+    definitions {
+      definition
+      source
+    }
+}

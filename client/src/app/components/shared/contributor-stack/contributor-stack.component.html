@@ -27,7 +27,7 @@
             [nzColumn]="1">
             <nz-descriptions-item nzTitle="Contributions">
               <ng-container *ngFor="let a of u.uniqueActions; last as isLast">
-                {{ a.action | eventVerbiage : 'contributor-card' : a.count }}
+                {{ a.action | eventVerbiage: 'contributor-card' : a.count }}
                 <ng-container *ngIf="!isLast">, </ng-container>
               </ng-container>
             </nz-descriptions-item>

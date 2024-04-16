@@ -11,8 +11,8 @@ module Types::Flaggable
 
     def prepare
       const = case entity_type
-      when 'GENE'
-        Gene
+      when 'FEATURE'
+        Feature
       when 'VARIANT'
         Variant
       when 'EVIDENCE_ITEM'

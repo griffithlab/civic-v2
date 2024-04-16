@@ -1,5 +1,5 @@
 query VariantsMenu(
-  $geneId: Int,
+  $featureId: Int,
   $variantName: String,
   $variantTypeIds: [Int!],
   $hasNoVariantType: Boolean
@@ -10,7 +10,7 @@ query VariantsMenu(
   $sortBy: VariantMenuSort
 ) {
   variants(
-    geneId: $geneId,
+    featureId: $featureId,
     name: $variantName,
     variantTypeIds: $variantTypeIds,
     hasNoVariantType: $hasNoVariantType,
@@ -27,20 +27,17 @@ query VariantsMenu(
       hasPreviousPage
       hasNextPage
     }
-    edges {
-      cursor
-      node {
-        ...menuVariant
-      }
+    nodes {
+      ...menuVariant
     }
   }
 }
 
-query VariantTypesForGene(
-  $geneId: Int,
+query VariantTypesForFeature(
+  $featureId: Int,
 ) {
   variantTypes(
-    geneId: $geneId,
+    featureId: $featureId,
     first: 50
   ) {
     edges {
@@ -57,7 +54,7 @@ fragment menuVariantType on BrowseVariantType {
   link
 }
 
-fragment menuVariant on Variant {
+fragment menuVariant on VariantInterface {
   id
   name
   link

@@ -1,5 +1,6 @@
 query MolecularProfileMenu(
   $geneId: Int
+  $featureId: Int
   $mpName: String
   $first: Int
   $last: Int
@@ -9,6 +10,7 @@ query MolecularProfileMenu(
 ) {
   molecularProfiles(
     geneId: $geneId
+    featureId: $featureId
     name: $mpName
     evidenceStatusFilter: $evidenceStatusFilter
     first: $first

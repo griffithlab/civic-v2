@@ -121,7 +121,7 @@
             underlying variants are deprecated
             <ng-container *ngFor="let v of mp.deprecatedVariants">
               <br />
-              <cvc-variant-tag [variant]="v"></cvc-variant-tag>
+              <cvc-feature-variant-tag [variant]="v"></cvc-feature-variant-tag>
               {{ v.deprecationReason | enumToTitle }}.
               <cvc-comment-body
                 *ngIf="v.deprecationActivity"

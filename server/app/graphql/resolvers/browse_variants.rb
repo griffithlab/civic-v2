@@ -10,7 +10,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   scope { MaterializedViews::VariantBrowseTableRow.all }
 
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
-  option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
+  option(:feature_name, type: String) { |scope, value| scope.where("feature_name ILIKE ?", "#{value}%") }
   option(:variant_type_id, type: Int)  { |scope, value| scope.where(int_array_query_for_column('variant_type_ids'), value) }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:therapy_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
@@ -27,12 +27,20 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
     end
   end
 
+  option(:category, type: Types::VariantCategories) do |scope, value|
+    if value
+      scope.where(category: value)
+    else
+      scope
+    end
+  end
+
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column
     when "variantName"
       scope.reorder "name #{value.direction}"
-    when "entrezSymbol"
-      scope.reorder "gene_name #{value.direction}"
+    when "featureName"
+      scope.reorder "feature_name #{value.direction}"
     when "therapyName"
       scope.reorder "drug_names #{value.direction}"
     when "diseaseName"

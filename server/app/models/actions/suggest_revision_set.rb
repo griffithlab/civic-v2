@@ -37,8 +37,14 @@ class Actions::SuggestRevisionSet
       next unless change_present
       any_changes = true
 
+      subject = if existing_obj.kind_of?(IsFeatureInstance)
+        existing_obj.feature
+      else
+        existing_obj
+      end
+
       cmd = Actions::SuggestRevision.new(
-        subject: existing_obj,
+        subject: subject,
         field_name: field_name,
         current_value: current_value,
         suggested_value: suggested_value,

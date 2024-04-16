@@ -25,10 +25,10 @@
           nzSpan="2"
           *ngIf="variantGroup.variants.edges.length > 0">
           <cvc-tag-list>
-            <cvc-variant-tag
+            <cvc-feature-variant-tag
               *ngFor="let variant of variantGroup.variants.edges"
               [enablePopover]="false"
-              [variant]="variant.node!"></cvc-variant-tag>
+              [variant]="variant.node!"></cvc-feature-variant-tag>
           </cvc-tag-list>
         </nz-descriptions-item>
 

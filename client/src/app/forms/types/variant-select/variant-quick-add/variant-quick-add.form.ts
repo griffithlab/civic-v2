@@ -28,7 +28,7 @@ import { VariantIdWithCreationStatus } from '../variant-select.type'
 
 type VariantQuickAddModel = {
   name?: string
-  geneId?: number
+  featureId?: number
   organizationId?: number
 }
 
@@ -44,14 +44,14 @@ type VariantQuickAddDisplay = {
 })
 export class CvcVariantQuickAddForm implements OnChanges {
   @Input()
-  set cvcGeneId(id: Maybe<number>) {
+  set cvcFeatureId(id: Maybe<number>) {
     if (!id) return
-    this.geneId$.next(id)
+    this.featureId$.next(id)
   }
   @Input()
-  set cvcGeneName(name: Maybe<string>) {
+  set cvcFeatureName(name: Maybe<string>) {
     if (!name) return
-    this.geneName$.next(name)
+    this.featureName$.next(name)
   }
 
   @Input()
@@ -76,11 +76,11 @@ export class CvcVariantQuickAddForm implements OnChanges {
 
   // SOURCE STREAMS
   onSubmit$: Subject<VariantQuickAddModel>
-  geneId$: BehaviorSubject<Maybe<number>>
+  featureId$: BehaviorSubject<Maybe<number>>
   searchString$: BehaviorSubject<Maybe<string>>
 
   // PRESENTATION STREAMS
-  geneName$: BehaviorSubject<Maybe<string>>
+  featureName$: BehaviorSubject<Maybe<string>>
   formMessageDisplay$: BehaviorSubject<VariantQuickAddDisplay>
 
   addVariantMutator: MutatorWithState<
@@ -106,8 +106,8 @@ export class CvcVariantQuickAddForm implements OnChanges {
     this.onSubmit$ = new Subject<VariantQuickAddModel>()
     this.searchString$ = new BehaviorSubject<Maybe<string>>(undefined)
 
-    this.geneName$ = new BehaviorSubject<Maybe<string>>(undefined)
-    this.geneId$ = new BehaviorSubject<Maybe<number>>(undefined)
+    this.featureName$ = new BehaviorSubject<Maybe<string>>(undefined)
+    this.featureId$ = new BehaviorSubject<Maybe<number>>(undefined)
     this.formMessageDisplay$ = new BehaviorSubject<VariantQuickAddDisplay>({
       message: 'Variant does not exist, create it?',
     })
@@ -119,7 +119,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
 
     this.fields = [
       {
-        key: 'geneId',
+        key: 'featureId',
         hide: true,
         props: {
           required: true,
@@ -143,8 +143,8 @@ export class CvcVariantQuickAddForm implements OnChanges {
     ]
 
     // keep form module updated w/ Inputs
-    this.geneId$.pipe(untilDestroyed(this)).subscribe((id: Maybe<number>) => {
-      this.model.geneId = id
+    this.featureId$.pipe(untilDestroyed(this)).subscribe((id: Maybe<number>) => {
+      this.model.featureId = id
     })
 
     this.searchString$
@@ -173,9 +173,9 @@ export class CvcVariantQuickAddForm implements OnChanges {
   }
 
   submitVariant(model: VariantQuickAddModel) {
-    if (!(model.name && model.geneId)) {
+    if (!(model.name && model.featureId)) {
       console.error(
-        `variant-quick-add form submitVariant requires model with valid name and geneId.`
+        `variant-quick-add form submitVariant requires model with valid name and featureId.`
       )
       return
     }
@@ -183,7 +183,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
       this.query,
       {
         name: model.name,
-        geneId: model.geneId,
+        featureId: model.featureId,
         organizationId: model.organizationId,
       },
       {},
@@ -202,14 +202,14 @@ export class CvcVariantQuickAddForm implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cvcGeneId) {
-      const st = changes.cvcGeneId.currentValue
-      this.geneId$.next(st)
-      this.model = { ...this.model, geneId: st }
+    if (changes.cvcFeatureId) {
+      const st = changes.cvcFeatureId.currentValue
+      this.featureId$.next(st)
+      this.model = { ...this.model, featureId: st }
     }
-    if (changes.cvcGeneName) {
-      const id = changes.cvcGeneName.currentValue
-      this.geneName$.next(id)
+    if (changes.cvcFeatureName) {
+      const id = changes.cvcFeatureName.currentValue
+      this.featureName$.next(id)
     }
 /*     if (changes.cvcSearchString) {
       const name = changes.cvcSearchString.currentValue

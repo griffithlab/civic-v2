@@ -1,6 +1,6 @@
 module Types::Quicksearch
   class SearchableEntities < Types::BaseEnum
-    value 'GENE', value: Gene
+    value 'FEATURE', value: Feature
     value 'VARIANT', value: Variant
     value 'EVIDENCE_ITEM', value: EvidenceItem
     value 'ASSERTION', value: Assertion

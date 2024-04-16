@@ -4,12 +4,9 @@ import {
   ActivityFeedNodeFragment,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
-  EventAction,
   Maybe,
-  NotificationOrganizationFragment,
   NotificationOriginatingUsersFragment,
   PageInfo,
-  SubscribableQueryInput,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -19,16 +16,9 @@ import {
   filter,
   map,
   pluck,
-  startWith,
-  take,
-  takeUntil,
 } from 'rxjs/operators'
-import { TagLinkableOrganization } from '@app/components/organizations/organization-tag/organization-tag.component'
-import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
-import { environment } from 'environments/environment'
 import { isNonNulled } from 'rxjs-etc'
-import { tag } from 'rxjs-spy/cjs/operators'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { UntilDestroy } from '@ngneat/until-destroy'
 
 // interface SelectableAction {
 //   id: EventAction
@@ -130,7 +120,7 @@ export class CvcActivityFeedComponent implements OnInit, OnDestroy {
 
     // this.unfilteredCount$
     //   .pipe(
-    //     take(1), 
+    //     take(1),
     //     untilDestroyed(this))
     //   .subscribe(value => this.originalEventCount = value)
 

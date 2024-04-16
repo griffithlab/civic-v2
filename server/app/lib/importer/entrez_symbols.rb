@@ -32,24 +32,43 @@ module Importer
     end
 
     def process_line(line)
-      gene = Gene.where(entrez_id: line['GeneID']).first_or_initialize
-      gene.name = line['Symbol_from_nomenclature_authority']
-      gene.official_name = line['description']
+      gene = Features::Gene.where(entrez_id: line['GeneID']).first_or_initialize
+
+      if gene.feature.nil?
+        feature = Feature.create!(
+          name: line['Symbol_from_nomenclature_authority'],
+          full_name: line['description'],
+          description: '',
+          feature_instance: gene
+        )
+        #TODO delete when we remove this column
+        gene.name = line['Symbol_from_nomenclature_authority']
+        gene.save!
+      else
+        feature = gene.feature
+        feature.name = line['Symbol_from_nomenclature_authority']
+        feature.full_name = line['description']
+        feature.save!
+      end
+
       if line['Synonyms'].present?
         synonyms = line['Synonyms'].split('|').map do |synonym|
           if synonym.strip == '-'
             nil
           else
-            GeneAlias.where(name: synonym).first_or_create
+            FeatureAlias.where(name: synonym).first_or_create
           end
         end.compact
-        synonyms << GeneAlias.where(name: line['Symbol']).first_or_create
-        gene.gene_aliases = synonyms.uniq
+        synonyms << FeatureAlias.where(name: line['Symbol']).first_or_create
+        gene.feature.feature_aliases = synonyms.uniq
       end
-      if gene.description.blank?
-        gene.description = ''
+
+      if feature.description.blank?
+        feature.description = ''
       end
-      gene.save
+
+      gene.save!
+      feature.save!
     end
   end
 end

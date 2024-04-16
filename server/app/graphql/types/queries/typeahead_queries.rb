@@ -11,9 +11,10 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :gene_typeahead, [Types::Entities::GeneType], null: false do
-        description "Retrieve gene typeahead fields for a search term."
+      klass.field :feature_typeahead, [Types::Entities::FeatureType], null: false do
+        description "Retrieve Features of a specific instance type for a search term."
         argument :query_term, GraphQL::Types::String, required: true
+        argument :feature_type, Types::FeatureInstanceTypes, required: false
       end
 
       klass.field :phenotype_typeahead, [Types::Entities::PhenotypeType], null: false do
@@ -55,6 +56,24 @@ module Types::Queries
       klass.field :nccn_guidelines_typeahead, [Types::Entities::NccnGuidelineType], null: false do
         description "Retrieve NCCN Guideline options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
+      end
+
+      klass.field :variants_typeahead, [Types::Entities::VariantType], null: false do
+        argument :query_term, GraphQL::Types::String, required: true
+        argument :feature_id, GraphQL::Types::Int, required: false
+      end
+
+      def variants_typeahead(query_term:, feature_id: nil)
+        scope = Variant.left_joins(:variant_aliases)
+          .where(deprecated: false)
+          .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "%#{query_term}%" })
+          .limit(20)
+
+        if feature_id
+          scope.where(feature_id: feature_id)
+        else
+          scope
+        end
       end
 
       def disease_typeahead(query_term:)
@@ -101,15 +120,22 @@ module Types::Queries
         end
       end
 
-      def gene_typeahead(query_term:)
-        results = Gene.where('genes.name ILIKE ?', "#{query_term}%")
-          .order("LENGTH(genes.name) ASC")
+      def feature_typeahead(query_term:, feature_type: nil)
+        base_query = if feature_type
+                       Feature.where(feature_instance_type: feature_type)
+                     else
+                      Feature
+                     end
+
+        results = base_query.where('features.name ILIKE ?', "#{query_term}%")
+          .order("LENGTH(features.name) ASC")
           .limit(10)
+
         if results.size < 10
-          secondary_results = Gene.eager_load(:gene_aliases)
-            .where("gene_aliases.name ILIKE ?", "#{query_term}%")
+          secondary_results = base_query.eager_load(:feature_aliases)
+            .where("feature_aliases.name ILIKE ?", "#{query_term}%")
             .where.not(id: results.select('id'))
-            .order("LENGTH(genes.name) ASC")
+            .order("LENGTH(features.name) ASC")
             .limit(10 - results.size)
           return (results + secondary_results).uniq
         else

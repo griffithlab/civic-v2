@@ -32,9 +32,9 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'accepted revision'
       case EventAction.RevisionRejected:
         return 'rejected revision'
-      case (EventAction.RevisionSuperseded):
+      case EventAction.RevisionSuperseded:
         return 'closed revision'
-      case (EventAction.Flagged):
+      case EventAction.Flagged:
         return 'opened new flag'
       case EventAction.FlagResolved:
         return 'resolved flag'
@@ -64,11 +64,15 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'reverted assertion'
       case EventAction.DeprecatedVariant:
         return 'deprecated variant'
+      case EventAction.DeprecatedFeature:
+        return 'deprecated feature'
       case EventAction.DeprecatedMolecularProfile:
         return 'deprecated molecular profile'
-      case(EventAction.VariantCreated):
+      case EventAction.VariantCreated:
         return 'created variant'
-      case(EventAction.ComplexMolecularProfileCreated):
+      case EventAction.FeatureCreated:
+        return 'created feature'
+      case EventAction.ComplexMolecularProfileCreated:
         return 'created complex molecular profile'
       default:
         return a
@@ -85,9 +89,9 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'revision accepted'
       case EventAction.RevisionRejected:
         return 'revision rejected'
-      case (EventAction.RevisionSuperseded):
+      case EventAction.RevisionSuperseded:
         return 'revision closed'
-      case (EventAction.Flagged):
+      case EventAction.Flagged:
         return 'flag opened'
       case EventAction.FlagResolved:
         return 'flag resolved'
@@ -119,9 +123,9 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'variant deprecated'
       case EventAction.DeprecatedMolecularProfile:
         return 'molecular profile deprecated'
-      case(EventAction.VariantCreated):
+      case EventAction.VariantCreated:
         return 'variant created'
-      case(EventAction.ComplexMolecularProfileCreated):
+      case EventAction.ComplexMolecularProfileCreated:
         return 'complex molecular profile created'
       default:
         return a
@@ -130,21 +134,35 @@ export class EventVerbiagePipe implements PipeTransform {
 
   private contributorVerbiage(a: EventAction, count: Maybe<number>): string {
     switch (a) {
-      case (EventAction.Commented):
-        return (count == 1) ? 'left a comment on this entity' : `left ${count} comments on this entity`
-      case (EventAction.RevisionSuggested):
-        return (count == 1) ? 'suggested a revision to this entity' : `suggested ${count} revisions on this entity`
-      case (EventAction.RevisionAccepted):
-        return (count == 1) ? 'accepted a revision to this entity' : `accepted ${count} revisions on this entity`
-      case (EventAction.RevisionRejected):
-        return (count == 1) ? 'rejected a revision to this entity' : `rejected ${count} revisions on this entity`
-      case (EventAction.RevisionSuperseded):
-        return (count == 1) ? 'closed a revision to this entity' : `closed ${count} revisions on this entity`
-      case (EventAction.Flagged):
-        return (count == 1) ? 'opened new flag on this entity' : `opened ${count} new flags on this entity`
-      case (EventAction.FlagResolved):
-        return (count == 1) ? 'resolved a flag on this entity' : `resolved ${count} flags on this entity`
-      case (EventAction.AssertionSubmitted):
+      case EventAction.Commented:
+        return count == 1
+          ? 'left a comment on this entity'
+          : `left ${count} comments on this entity`
+      case EventAction.RevisionSuggested:
+        return count == 1
+          ? 'suggested a revision to this entity'
+          : `suggested ${count} revisions on this entity`
+      case EventAction.RevisionAccepted:
+        return count == 1
+          ? 'accepted a revision to this entity'
+          : `accepted ${count} revisions on this entity`
+      case EventAction.RevisionRejected:
+        return count == 1
+          ? 'rejected a revision to this entity'
+          : `rejected ${count} revisions on this entity`
+      case EventAction.RevisionSuperseded:
+        return count == 1
+          ? 'closed a revision to this entity'
+          : `closed ${count} revisions on this entity`
+      case EventAction.Flagged:
+        return count == 1
+          ? 'opened new flag on this entity'
+          : `opened ${count} new flags on this entity`
+      case EventAction.FlagResolved:
+        return count == 1
+          ? 'resolved a flag on this entity'
+          : `resolved ${count} flags on this entity`
+      case EventAction.AssertionSubmitted:
         return 'submitted this assertion'
       case EventAction.AssertionAccepted:
         return 'accepted this assertion'
@@ -172,9 +190,13 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'deprecated this variant'
       case EventAction.DeprecatedMolecularProfile:
         return 'deprecated this molecular profile'
-      case(EventAction.VariantCreated):
+      case EventAction.DeprecatedFeature:
+        return 'deprecated this feature'
+      case EventAction.FeatureCreated:
+        return 'created this feature'
+      case EventAction.VariantCreated:
         return 'created this variant'
-      case(EventAction.ComplexMolecularProfileCreated):
+      case EventAction.ComplexMolecularProfileCreated:
         return 'created this complex molecular profile'
       default:
         return a

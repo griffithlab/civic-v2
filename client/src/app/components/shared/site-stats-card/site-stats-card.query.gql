@@ -12,7 +12,7 @@ query CivicStats {
     evidenceItems {
       ...TimepointCount
     }
-    genes {
+    features {
       ...TimepointCount
     }
     revisions {

@@ -2,7 +2,7 @@ class CivicStats
 
   def self.homepage_stats
     [
-      Gene,
+      Feature,
       Variant,
       EvidenceItem,
       Therapy,

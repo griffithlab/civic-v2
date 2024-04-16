@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module'
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module'
@@ -20,6 +20,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcVariantTagModule } from '../variant-tag/variant-tag.module'
 import { CvcVariantsTableComponent } from './variants-table.component'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -27,6 +29,7 @@ import { CvcVariantsTableComponent } from './variants-table.component'
     CommonModule,
     LetDirective,
     PushPipe,
+    FormsModule,
 
     NzButtonModule,
     NzCardModule,
@@ -35,11 +38,12 @@ import { CvcVariantsTableComponent } from './variants-table.component'
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzSelectModule,
 
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcNoMoreRowsModule,
     CvcPipesModule,
     CvcPlainTagOverflowModule,

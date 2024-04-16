@@ -26,19 +26,19 @@
         [nzExtra]="revCardHeaderExtra"
         [nzActive]="true">
         <ng-container [ngSwitch]="revision.fieldName">
-          <ng-container *ngSwitchCase="'gene_id'">
+          <ng-container *ngSwitchCase="'feature_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Gene">
+              entityType="Feature">
               <ng-template
                 #itemTemplate
                 let-item>
-                <cvc-gene-tag
-                  [gene]="{
+                <cvc-feature-tag
+                  [feature]="{
                     id: item.id,
                     name: item.displayName,
                     link: item.link
-                  }"></cvc-gene-tag>
+                  }"></cvc-feature-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -121,6 +121,19 @@
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Variant Aliases">
+              <ng-template
+                #itemTemplate
+                let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
+          <ng-container *ngSwitchCase="'feature_alias_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Feature Aliases">
               <ng-template
                 #itemTemplate
                 let-item>
@@ -247,12 +260,14 @@
               <ng-template
                 #itemTemplate
                 let-item>
-                <cvc-variant-tag
+                <cvc-feature-variant-tag
                   [variant]="{
                     id: item.id,
                     name: item.displayName,
-                    link: item.link
-                  }"></cvc-variant-tag>
+                    link: item.link,
+                    feature: item.feature,
+                    deprecated: item.deprecated
+                  }"></cvc-feature-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -263,12 +278,14 @@
               <ng-template
                 #itemTemplate
                 let-item>
-                <cvc-variant-tag
+                <cvc-feature-variant-tag
                   [variant]="{
                     id: item.id,
                     name: item.displayName,
-                    link: item.link
-                  }"></cvc-variant-tag>
+                    link: item.link,
+                    feature: item.feature,
+                    deprecated: item.deprecated
+                  }"></cvc-feature-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -319,7 +336,9 @@
             <nz-col nzSpan="16">
               <ng-container *ngIf="revision.resolutionActivity?.parsedNote">
                 <cvc-comment-body
-                  [commentBodySegments]="revision.resolutionActivity!.parsedNote"></cvc-comment-body>
+                  [commentBodySegments]="
+                    revision.resolutionActivity!.parsedNote
+                  "></cvc-comment-body>
               </ng-container>
             </nz-col>
             <nz-col
@@ -358,9 +377,7 @@
                 *nzSpaceItem></i>
               <ng-template #creationCommentTemplate>
                 <cvc-comment-body
-                  [commentBodySegments]="
-                    revision.creationActivity!.parsedNote
-                  ">
+                  [commentBodySegments]="revision.creationActivity!.parsedNote">
                 </cvc-comment-body>
               </ng-template>
             </ng-container>
@@ -373,13 +390,15 @@
             nzSize="small"
             (click)="$event.stopPropagation()">
             <span *nzSpaceItem>
-              <ng-container *ngIf="revision.creationActivity?.user; else noRevisor">
+              <ng-container
+                *ngIf="revision.creationActivity?.user; else noRevisor">
                 <span
                   nz-typography
                   nzType="secondary"
                   >Submitted By</span
                 >
-                <cvc-user-tag [user]="revision.creationActivity!.user"></cvc-user-tag>
+                <cvc-user-tag
+                  [user]="revision.creationActivity!.user"></cvc-user-tag>
               </ng-container>
               <ng-template #noRevisor>
                 <span
@@ -421,7 +440,8 @@
                 <ng-template #loggedIn>
                   <label
                     *ngIf="
-                      viewer.isCurator && viewer.id != revision.creationActivity?.user.id;
+                      viewer.isCurator &&
+                        viewer.id != revision.creationActivity?.user.id;
                       else canRevise
                     "
                     nz-checkbox

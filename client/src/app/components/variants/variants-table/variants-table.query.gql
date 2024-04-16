@@ -1,6 +1,6 @@
 query BrowseVariants(
   $variantName: String
-  $entrezSymbol: String
+  $featureName: String
   $diseaseName: String
   $therapyName: String
   $variantAlias: String
@@ -8,6 +8,7 @@ query BrowseVariants(
   $variantGroupId: Int
   $variantTypeName: String
   $hasNoVariantType: Boolean
+  $variantCategory: VariantCategories
   $sortBy: VariantsSort
   $first: Int
   $last: Int
@@ -16,7 +17,7 @@ query BrowseVariants(
 ) {
   browseVariants(
     variantName: $variantName
-    entrezSymbol: $entrezSymbol
+    featureName: $featureName
     diseaseName: $diseaseName
     therapyName: $therapyName
     variantAlias: $variantAlias
@@ -24,6 +25,7 @@ query BrowseVariants(
     variantGroupId: $variantGroupId
     variantTypeName: $variantTypeName
     hasNoVariantType: $hasNoVariantType
+    category: $variantCategory
     sortBy: $sortBy
     first: $first
     last: $last
@@ -53,9 +55,10 @@ fragment BrowseVariantsFields on BrowseVariant {
   id
   name
   link
-  geneId
-  geneName
-  geneLink
+  featureId
+  featureName
+  featureLink
+  category
   diseases {
     id
     name

@@ -72,12 +72,13 @@
             nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
+            [nzTooltipTitle]="isCollapsed ? 'Features' : ''"
+            nzSelected
             nzMatchRouter>
             <i
               nz-icon
-              nzType="civic-gene"></i>
-            <a routerLink="/genes">Genes</a>
+              nzType="civic-feature"></i>
+            <a routerLink="/features">Features</a>
           </li>
 
           <li

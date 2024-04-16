@@ -1,28 +1,14 @@
+require_relative '../linkable_tag.rb'
+
 module Types::BrowseTables
   class BrowseMolecularProfileType < Types::BaseObject
     connection_type_class(Types::Connections::BrowseTableConnection)
 
-    class LinkableTag < Types::BaseObject
-      field :id, Int, null: false
-      field :link, String, null: false
-      field :name, String, null: false
-    end
-
-    class LinkableGene < LinkableTag
-    end
-    class LinkableVariant < LinkableTag
-    end
-    class LinkableDisease < LinkableTag
-    end
-    class LinkableTherapy < LinkableTag
-    end
-
     field :id, Int, null: false
     field :name, String, null: false
-    field :diseases, [LinkableDisease], null: false
-    field :therapies, [LinkableTherapy], null: false
-    field :genes, [LinkableGene], null: false
-    field :variants,[LinkableVariant], null: false
+    field :diseases, [Types::LinkableDisease], null: false
+    field :therapies, [Types::LinkableTherapy], null: false
+    field :variants, [Types::LinkableVariant], null: false
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
@@ -44,16 +30,25 @@ module Types::BrowseTables
       Rails.application.routes.url_helpers.url_for("/molecular-profiles/#{object.id}")
     end
 
-    def genes
-      Array(object.genes)
-        .sort_by { |g| g['name'] }
-        .map { |g| { name: g['name'], id: g['id'], link: "/genes/#{g['id']}"} }
+    def features
+      Array(object.features)
+        .sort_by { |f| f['name'] }
+        .map { |f| { name: f['name'], id: f['id'], link: "/features/#{f['id']}"} }
     end
 
     def variants
       Array(object.variants)
         .sort_by { |v| v['name'] }
-        .map { |v| { name: v['name'], id: v['id'], link: "/variants/#{v['id']}"} }
+        .map do |v|
+          feature = feature_for_id(v['feature_id'])
+          {
+            name: v['name'],
+            id: v['id'],
+            link: "/variants/#{v['id']}",
+            feature: feature,
+            match_text: "#{feature['name']} #{v['name']}"
+          }
+         end
     end
 
     def diseases
@@ -72,6 +67,15 @@ module Types::BrowseTables
       object.alias_names
         .compact
         .map { |d| { name: d } }
+    end
+
+    private
+    def feature_for_id(id)
+      @features ||= Array(object.features)
+      feature = @features.find { |f| f['id'] == id }
+      feature[:link] = Rails.application.routes.url_helpers.url_for("/features/#{feature['id']}")
+
+      feature
     end
   end
 end

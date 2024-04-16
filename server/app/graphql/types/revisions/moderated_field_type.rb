@@ -1,3 +1,5 @@
+require_relative '../linkable_tag.rb'
+
 module Types::Revisions
   class ModeratedObjectField < Types::BaseObject
     field :id, Int, null: false
@@ -6,6 +8,8 @@ module Types::Revisions
     field :entity_type, String, null: false
     field :link, String, null: true
     field :deleted, Boolean, null: false
+    field :feature, Types::LinkableFeature, null: true
+    field :deprecated, Boolean, null: true
   end
 
   class ScalarFieldType < Types::BaseObject

@@ -5,7 +5,8 @@ class Source < ActiveRecord::Base
   include Commentable
 
   has_many :evidence_items
-  has_and_belongs_to_many :genes
+  has_and_belongs_to_many :features
+  has_and_belongs_to_many :genes, class_name: 'Features::Gene'
   has_and_belongs_to_many :clinical_trials
   has_and_belongs_to_many :molecular_profiles
   has_many :authors_sources

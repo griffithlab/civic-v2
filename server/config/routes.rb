@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get '/links' => 'links#redirect'
   get 'links/:idtype/:id' => 'links#redirect'
+  get '/genes/:id' => 'links#redirect_legacy_gene_id'
 
   get '/api/graphiql' => 'graphiql#show'
 

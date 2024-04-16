@@ -13,7 +13,7 @@ module Types::Entities
       description: 'The human readable name of this profile, including gene and variant names.'
     field :parsed_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false, 
       description: 'The profile name with its constituent parts as objects, suitable for building tags.'
-    field :variants, [Types::Entities::VariantType], null: false,
+    field :variants, [Types::Interfaces::VariantInterface], null: false,
       description: 'The collection of variants included in this molecular profile. Please note the name for their relation to each other.'
     field :assertions, Types::Entities::AssertionType.connection_type, null: false,
       description: 'The collection of assertions associated with this molecular profile.'
@@ -24,7 +24,7 @@ module Types::Entities
     field :molecular_profile_aliases, [String], null: false
     field :deprecated, Boolean, null: false
     field :deprecation_reason, Types::MolecularProfileDeprecationReasonType, null: true
-    field :deprecated_variants, [Types::Entities::VariantType], null: false
+    field :deprecated_variants, [Types::Interfaces::VariantInterface], null: false
     field :variant_deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
     field :complex_molecular_profile_deprecation_activity, Types::Activities::DeprecateComplexMolecularProfileActivityType, null: true
     field :molecular_profile_score, Float, null: false
@@ -53,7 +53,7 @@ module Types::Entities
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id)
     end
 
-    def variant
+    def variants
       Loaders::AssociationLoader.for(MolecularProfile, :variants).load(object)
     end
 

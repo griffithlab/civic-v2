@@ -1,19 +1,23 @@
 v600e:
   name: V600E
+  feature: braf
   gene: braf
   single_variant_molecular_profile: mp1
 
 v600k:
   name: V600K
+  feature: braf
   gene: braf
   single_variant_molecular_profile: mp2
 
 w88:
   name: W88*
+  feature: vhl
   gene: vhl
   single_variant_molecular_profile: mp3
 
 v87e:
   name: V87E (c.260T>A)
+  feature: vhl
   gene: vhl
   single_variant_molecular_profile: mp4

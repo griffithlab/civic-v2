@@ -4,23 +4,25 @@ query CoordinatesCard($variantId: Int!) {
   }
 }
 
-fragment CoordinatesCardFields on Variant {
+fragment CoordinatesCardFields on VariantInterface {
   id
   name
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
+  ... on GeneVariant {
+    referenceBuild
+    ensemblVersion
+    primaryCoordinates {
+      representativeTranscript
+      chromosome
+      start
+      stop
+    }
+    secondaryCoordinates {
+      representativeTranscript
+      chromosome
+      start
+      stop
+    }
+    referenceBases
+    variantBases
   }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
 }

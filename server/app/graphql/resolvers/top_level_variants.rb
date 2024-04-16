@@ -3,7 +3,7 @@ require 'search_object/plugin/graphql'
 class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
-  type Types::Entities::VariantType.connection_type, null: false
+  type Types::Interfaces::VariantInterface.connection_type, null: false
 
   description 'List and filter variants.'
 
@@ -14,8 +14,16 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
       .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "%#{value}%" })
   end
 
-  option(:gene_id, type: GraphQL::Types::Int, description: 'Gene that variants are associated with.') do |scope, value|
-    scope.where(gene_id: value)
+  option(:feature_id, type: GraphQL::Types::Int, description: 'Feature that the variants are associated with.') do |scope, value|
+    scope.where(feature_id: value)
+  end
+
+  option(:gene_id, type: GraphQL::Types::Int, description: 'Feature that the variants are associated with, limited to only Gene type features.') do |scope, value|
+    scope.joins(:feature).where(feature_id: value, feature: { feature_instance_type: 'Features::Gene' })
+  end
+
+  option(:factor_id, type: GraphQL::Types::Int, description: 'Feature that the variants are associated with, limited to only Factor type features.') do |scope, value|
+    scope.joins(:feature).where(feature_id: value, feature: { feature_instance_type: 'Features::Factor' })
   end
 
   option(:variant_type_ids, type: [GraphQL::Types::Int], description: 'A list of CIViC identifiers for variant types') do  |scope, value|
@@ -46,6 +54,14 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
       scope.reorder("variants.start #{value.direction} NULLS LAST")
     when 'COORDINATE_END'
       scope.reorder("variants.stop #{value.direction} NULLS LAST")
+    end
+  end
+
+  option(:category, type: Types::VariantCategories) do |scope, value|
+    if value
+      scope.where(category: value)
+    else
+      scope
     end
   end
 end

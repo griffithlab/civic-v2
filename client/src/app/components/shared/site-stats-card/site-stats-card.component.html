@@ -64,17 +64,17 @@
         </a>
       </nz-col>
       <nz-col nzFlex="1">
-        <a routerLink="/genes">
+        <a routerLink="/features">
           <nz-statistic
-                    [nzTitle]="label() + ' Genes'"
-                    [nzValue]="(stats.genes[statsType] | number)!"
-                    [nzPrefix]="geneIcon"></nz-statistic>
-          <ng-template #geneIcon>
+                    [nzTitle]="label() + ' Features'"
+                    [nzValue]="(stats.features[statsType] | number)!"
+                    [nzPrefix]="featureIcon"></nz-statistic>
+          <ng-template #featureIcon>
             <i
               nz-icon
               nzTheme="twotone"
-              [nzTwotoneColor]="'Gene' | entityColor"
-              nzType="civic-gene"></i>
+              [nzTwotoneColor]="'Feature' | entityColor"
+              nzType="civic-feature"></i>
           </ng-template>
         </a>
       </nz-col>
@@ -98,7 +98,7 @@
           <nz-statistic
                     [nzTitle]="label() + ' Molecular Profiles'"
                     [nzValue]="(stats.molecularProfiles[statsType] | number)!"
-                    [nzPrefix]="mpIcon"></nz-statistic> 
+                    [nzPrefix]="mpIcon"></nz-statistic>
           <ng-template #mpIcon>
             <i
               nz-icon
@@ -199,7 +199,7 @@
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic
-          [nzTitle]="label() + ' Genes'"
+          [nzTitle]="label() + ' Features'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">

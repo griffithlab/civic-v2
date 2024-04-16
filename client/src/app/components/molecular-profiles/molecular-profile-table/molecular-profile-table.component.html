@@ -51,15 +51,8 @@
           nzLeft>
           Name
         </th>
-        <th nzWidth="100px">
-          Aliases
-        </th>
-        <th nzWidth="150px">
-          Genes
-        </th>
-        <th nzWidth="200px">
-          Variants
-        </th>
+        <th nzWidth="110px">Aliases</th>
+        <th nzWidth="350px">Variants</th>
         <th nzWidth="250px">Diseases</th>
         <th nzWidth="180px">Therapies</th>
         <th
@@ -129,21 +122,14 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzWidth="100px">
+        <th nzWidth="110px">
           <cvc-clearable-input-filter
             [(inputModel)]="aliasInput"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzWidth="150px">
-          <cvc-clearable-input-filter
-            [(inputModel)]="geneSymbolInput"
-            (inputModelChange)="
-              filterChange$.next()
-            "></cvc-clearable-input-filter>
-        </th>
-        <th nzWidth="200px">
+        <th nzWidth="350px">
           <cvc-clearable-input-filter
             [(inputModel)]="variantNameInput"
             (inputModelChange)="
@@ -198,16 +184,9 @@
           </td>
           <td>
             <cvc-tag-overflow
-              tagType="gene"
-              [tags]="mp.genes"
-              [maxDisplayCount]="1"
-              [matchingText]="geneSymbolInput"></cvc-tag-overflow>
-          </td>
-          <td>
-            <cvc-tag-overflow
-              tagType="variant"
+              tagType="variant-feature"
               [tags]="mp.variants"
-              [maxDisplayCount]="1"
+              [maxDisplayCount]="2"
               [matchingText]="variantNameInput"></cvc-tag-overflow>
           </td>
           <td>

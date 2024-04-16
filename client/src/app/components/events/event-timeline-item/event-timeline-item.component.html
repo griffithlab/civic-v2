@@ -12,7 +12,7 @@
       *ngIf="tagDisplay != 'hideUser'"></cvc-user-tag>
 
     <!-- verb -->
-    <span nz-typography>{{ event.action | eventVerbiage : 'feed' }}&nbsp;</span>
+    <span nz-typography>{{ event.action | eventVerbiage: 'feed' }}&nbsp;</span>
 
     <!-- originating object -->
     <ng-container *ngIf="event.originatingObject as object">
@@ -66,18 +66,21 @@
     <ng-container
       *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
       [ngSwitch]="subject.__typename">
-      <cvc-gene-tag
-        *ngSwitchCase="'Gene'"
-        [gene]="subject"></cvc-gene-tag>
+      <cvc-feature-tag
+        *ngSwitchCase="'Feature'"
+        [feature]="subject"></cvc-feature-tag>
       <cvc-assertion-tag
         *ngSwitchCase="'Assertion'"
         [assertion]="subject"></cvc-assertion-tag>
       <cvc-evidence-tag
         *ngSwitchCase="'EvidenceItem'"
         [evidence]="subject"></cvc-evidence-tag>
-      <cvc-variant-tag
-        *ngSwitchCase="'Variant'"
-        [variant]="subject"></cvc-variant-tag>
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'GeneVariant'"
+        [variant]="subject"></cvc-feature-variant-tag>
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'FactorVariant'"
+        [variant]="subject"></cvc-feature-variant-tag>
       <cvc-revision-tag
         *ngSwitchCase="'Revision'"
         [revision]="$any(subject)"></cvc-revision-tag>

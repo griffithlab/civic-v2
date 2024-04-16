@@ -1,0 +1,33 @@
+<ng-container *ngIf="feature$ | ngrxPush as feature">
+  <nz-row [nzGutter]="[8, 16]">
+    @switch (feature.featureInstance.__typename) {
+      @case ('Gene') {
+        <span>
+          <cvc-genes-summary
+            [featureId]="feature.id"
+            [gene]="feature.featureInstance"></cvc-genes-summary>
+        </span>
+      }
+      @case ('Factor') {
+        <span>
+          <cvc-factor-summary
+            [featureId]="feature.id"
+            [factor]="feature.featureInstance"></cvc-factor-summary>
+        </span>
+      }
+    }
+
+    <!-- variant menu row -->
+    <nz-col [nzSpan]="24">
+      <nz-tabset nzType="card">
+        <nz-tab nzTitle="Molecular Profiles">
+          <cvc-molecular-profile-menu
+            [featureId]="feature.id"></cvc-molecular-profile-menu>
+        </nz-tab>
+        <nz-tab nzTitle="Variants">
+          <cvc-variant-menu [feature]="feature"></cvc-variant-menu>
+        </nz-tab>
+      </nz-tabset>
+    </nz-col>
+  </nz-row>
+</ng-container>

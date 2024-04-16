@@ -23,6 +23,14 @@ fragment revisionPopover on Revision {
     id
     link
     name
+    ... on VariantInterface {
+      deprecated
+      feature {
+        id
+        name
+        link
+      }
+    }
   }
   createdAt
   linkoutData {

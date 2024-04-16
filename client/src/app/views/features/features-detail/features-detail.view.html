@@ -1,0 +1,107 @@
+<ng-container *ngIf="feature$ | async as feature">
+  <cvc-section-navigation [displayName]="feature.name">
+  </cvc-section-navigation>
+  <div
+    cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
+    <nz-page-header class="site-page-header">
+      <!-- title -->
+      <nz-page-header-title
+        cvcFlaggableOptions
+        [ngClass]="{ 'flagged': feature.flags.totalCount > 0 }">
+        <span
+          nz-typography
+          style="color: #bbb"
+          >{{ feature.featureInstance.__typename |uppercase }}</span
+        >
+        <i
+          nz-icon
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Feature' | entityColor"
+          nzType="civic-feature"></i>
+        {{ feature.name }}
+      </nz-page-header-title>
+
+      <!-- subtitle -->
+      <nz-page-header-subtitle>
+        <ng-container *ngIf="feature.fullName">
+          {{ feature.fullName }}
+        </ng-container>
+      </nz-page-header-subtitle>
+
+      <!-- header action btns, actions menu -->
+      <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+        <nz-space
+          nzDirection="horizontal"
+          nzSize="small"
+          *ngrxLet="viewer$ as viewer">
+          <!-- add revision btn -->
+          <span *nzSpaceItem>
+            <button
+              [routerLink]="['/features', feature.id, 'revise']"
+              [queryParams]="{featureType: feature.featureInstance.__typename}"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Revise
+            </button>
+          </span>
+
+          <!-- add flag btn -->
+          <!-- TODO implement as flag form within popover window -->
+          <span *nzSpaceItem>
+            <button
+              routerLink="flags"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
+          </span>
+
+          <span *nzSpaceItem>
+            <cvc-entity-subscription-button
+              *ngIf="viewer.signedIn && subscribable"
+              [viewer]="viewer"
+              [subscribableId]="subscribable.id"
+              typename="Gene">
+            </cvc-entity-subscription-button>
+          </span>
+        </nz-space>
+      </nz-page-header-extra>
+
+      <nz-page-header-content>
+        <nz-alert
+          *ngIf="feature.deprecated"
+          nzBanner
+          [nzMessage]="deprecationMessageTemplate"
+          nzType="error"></nz-alert>
+        <ng-template #deprecationMessageTemplate>
+          This Feature has been deprecated for reason: {{
+          feature.deprecationReason | enumToTitle }}.
+          <cvc-comment-body
+            [commentBodySegments]="
+              feature.deprecationActivity?.parsedNote || []
+            "></cvc-comment-body>
+        </ng-template>
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
+          <ng-template #tabBarExtraContent>
+            <nz-col id="contributors-col">
+              <cvc-contributor-avatars
+                [subscribable]="subscribable"></cvc-contributor-avatars>
+            </nz-col>
+          </ng-template>
+        </cvc-tab-navigation>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </div>
+</ng-container>

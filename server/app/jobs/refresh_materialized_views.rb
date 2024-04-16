@@ -5,17 +5,17 @@ class RefreshMaterializedViews < ApplicationJob
     to_refresh = if views == 'all'
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
-                     MaterializedViews::GeneBrowseTableRow,
+                     MaterializedViews::FeatureBrowseTableRow,
                      MaterializedViews::SourceBrowseTableRow,
                      MaterializedViews::VariantBrowseTableRow,
                      MaterializedViews::VariantGroupBrowseTableRow,
                      MaterializedViews::MolecularProfileBrowseTableRow
                    ]
-                 elsif views == 'gene_only'
+                 elsif views == 'features_only'
                    [
-                     MaterializedViews::GeneBrowseTableRow
+                     MaterializedViews::FeatureBrowseTableRow
                    ]
-                 elsif views == 'except_genes'
+                 elsif views == 'except_features'
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
                      MaterializedViews::SourceBrowseTableRow,

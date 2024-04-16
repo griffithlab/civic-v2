@@ -1,10 +1,10 @@
-query GeneRevisableFields($geneId: Int!) {
-  gene(id: $geneId) {
+query GeneRevisableFields($featureId: Int!) {
+  feature(id: $featureId) {
     ...RevisableGeneFields
   }
 }
 
-fragment RevisableGeneFields on Gene {
+fragment RevisableGeneFields on Feature {
   id
   description
   sources {

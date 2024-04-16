@@ -7,10 +7,15 @@ class Resolvers::TopLevelGenes < GraphQL::Schema::Resolver
 
   description 'List and filter genes.'
 
-  scope { Gene.joins(variants: [molecular_profiles: [:evidence_items]]).order('genes.name ASC').where("evidence_items.status != 'rejected'").distinct }
+  scope do
+    Features::Gene
+      .eager_load(:feature)
+      .joins(feature: {variants: [molecular_profiles: [:evidence_items]]})
+      .order('features.name ASC').where("evidence_items.status != 'rejected'").distinct
+  end
 
   option(:entrez_symbols, type: [GraphQL::Types::String], description: 'List of Entrez Gene symbols to return results for') do |scope, value|
-    scope.where('genes.name IN (?)', value.map(&:upcase))
+    scope.where('features.name IN (?)', value.map(&:upcase))
   end
 
   option(:entrez_ids, type: [GraphQL::Types::Int], description: 'List of Entrez Gene IDs to return results for') do |scope, value|

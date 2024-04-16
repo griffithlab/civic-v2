@@ -110,8 +110,10 @@ module Constants
   DB_TYPE_TO_PATH_SEGMENT = {
     'Assertion' => 'assertions',
     'EvidenceItem' => 'evidence',
-    'Gene' => 'genes',
+    'Feature' => 'features',
     'Variant' => 'variants',
+    'Variants::GeneVariant' => 'variants',
+    'Variants::FactorVariant' => 'variants',
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
     'MolecularProfile' => 'molecular-profiles'

@@ -32,7 +32,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -40,7 +39,6 @@ import { pluck } from 'rxjs-etc/operators'
 
 export interface MolecularProfileTableUserFilters {
   variantNameInput?: Maybe<string>
-  geneSymbolInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
   therapyNameInput?: Maybe<string>
 }
@@ -92,7 +90,6 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   // filters
   mpNameInput: Maybe<string>
   variantNameInput: Maybe<string>
-  geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   therapyNameInput: Maybe<string>
   aliasInput: Maybe<string>
@@ -209,7 +206,6 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
         therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         molecularProfileAlias: this.aliasInput ? this.aliasInput : undefined,
-        entrezSymbol: this.geneSymbolInput,
       })
       .then(() => this.scrollIndex$.next(0))
 
@@ -217,7 +213,10 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<BrowseMolecularProfilesFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseMolecularProfilesFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }
