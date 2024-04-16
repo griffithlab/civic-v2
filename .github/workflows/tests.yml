@@ -9,9 +9,6 @@ jobs:
   backend_tests:
     name: Backend Tests
     runs-on: 'ubuntu-latest'
-    strategy:
-      matrix:
-        ruby: ['3.3']
     services:
         postgres:
           image: postgres:13
@@ -30,7 +27,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: '3.3'
           working-directory: ./server
 
       - name: Setup DB

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_175953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -862,6 +862,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
     t.index ["variant_id"], name: "index_variant_aliases_variants_on_variant_id"
   end
 
+  create_table "variant_coordinates", force: :cascade do |t|
+    t.text "chromosome"
+    t.bigint "start"
+    t.bigint "stop"
+    t.text "reference_bases"
+    t.text "variant_bases"
+    t.integer "exon_boundary"
+    t.integer "exon_offset"
+    t.integer "ensembl_version"
+    t.text "representative_transcript"
+    t.integer "reference_build"
+    t.bigint "variant_id"
+    t.text "coordinate_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
+    t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
+    t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
+    t.index ["start"], name: "index_variant_coordinates_on_start"
+    t.index ["stop"], name: "index_variant_coordinates_on_stop"
+    t.index ["variant_id"], name: "index_variant_coordinates_on_variant_id"
+  end
+
   create_table "variant_group_variants", id: false, force: :cascade do |t|
     t.integer "variant_id", null: false
     t.integer "variant_group_id", null: false
@@ -1030,6 +1053,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
   add_foreign_key "users", "organizations", column: "most_recent_organization_id"
   add_foreign_key "variant_aliases_variants", "variant_aliases"
   add_foreign_key "variant_aliases_variants", "variants"
+  add_foreign_key "variant_coordinates", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
   add_foreign_key "variants", "comments", column: "deprecation_comment_id"
@@ -1228,6 +1252,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
 
+  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variant_groups.id,
+      variant_groups.name,
+      array_agg(DISTINCT variants.name) AS variant_names,
+      array_agg(DISTINCT features.name) AS feature_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM ((((((variant_groups
+       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
+       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
+       JOIN features ON ((variants.feature_id = features.id)))
+       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variant_groups.id, variant_groups.name;
+  SQL
+  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
+
   create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_features.id,
       outer_features.name,
@@ -1247,7 +1290,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
        JOIN variants ON ((variants.feature_id = outer_features.id)))
        JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
        JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
        LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
        LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
@@ -1255,45 +1298,26 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
        LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM (((((evidence_items evidence_items_1
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
-               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
-            WHERE (variants_1.feature_id = outer_features.id)
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               LEFT JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               LEFT JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
+            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
             GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM ((((evidence_items evidence_items_1
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-            WHERE (variants_1.feature_id = outer_features.id)
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               LEFT JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((evidence_items.status IS NULL) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false)))
     GROUP BY outer_features.id, outer_features.name;
   SQL
   add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
-
-  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT variant_groups.id,
-      variant_groups.name,
-      array_agg(DISTINCT variants.name) AS variant_names,
-      array_agg(DISTINCT features.name) AS feature_names,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count
-     FROM ((((((variant_groups
-       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
-       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
-       JOIN features ON ((variants.feature_id = features.id)))
-       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY variant_groups.id, variant_groups.name;
-  SQL
-  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
 
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
@@ -1325,19 +1349,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_145804) do
        LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
               count(DISTINCT evidence_items_1.id) FILTER (WHERE (evidence_items_1.id IS NOT NULL)) AS total
              FROM ((((evidence_items evidence_items_1
-               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
-               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-            WHERE (molecular_profiles_variants_1.variant_id = outer_variants.id)
+               LEFT JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               LEFT JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+            WHERE ((molecular_profiles_variants_1.variant_id = outer_variants.id) AND (evidence_items_1.id IS NOT NULL))
             GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) FILTER (WHERE (evidence_items_1.id IS NOT NULL)) AS total
              FROM (((evidence_items evidence_items_1
-               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-            WHERE (molecular_profiles_variants_1.variant_id = outer_variants.id)
+               LEFT JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+            WHERE ((molecular_profiles_variants_1.variant_id = outer_variants.id) AND (evidence_items_1.id IS NOT NULL))
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
     WHERE ((((evidence_items.status)::text <> 'rejected'::text) OR (evidence_items.status IS NULL)) AND (outer_variants.deprecated = false))
     GROUP BY outer_variants.id, outer_variants.name, features.id, features.name;
