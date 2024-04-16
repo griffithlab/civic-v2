@@ -1,0 +1,56 @@
+query GeneVariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    ... on GeneVariant  {
+      ...RevisableGeneVariantFields
+    }
+  }
+}
+
+fragment RevisableGeneVariantFields on GeneVariant {
+  name
+  feature {
+    id
+    name
+  }
+  variantAliases
+  alleleRegistryId
+  clinvarIds
+  ensemblVersion
+  hgvsDescriptions
+  referenceBuild
+  variantTypes {
+    id
+    name
+    soid
+  }
+  primaryCoordinates {
+    ...CoordinateFields
+  }
+  secondaryCoordinates {
+    ...CoordinateFields
+  }
+  referenceBases
+  variantBases
+}
+
+fragment CoordinateFields on Coordinate {
+  chromosome
+  representativeTranscript
+  start
+  stop
+}
+
+mutation SuggestGeneVariantRevision($input: SuggestGeneVariantRevisionInput!) {
+  suggestGeneVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+    }
+    results {
+      id
+      fieldName
+      newlyCreated
+    }
+  }
+}

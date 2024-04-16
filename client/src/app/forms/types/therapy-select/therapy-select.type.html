@@ -31,7 +31,7 @@
         nz-typography
         nzType="secondary">
         <ng-container *ngIf="result.ncitId">
-          <strong>NCIt ID:</strong>
+          <strong>NCIt Code:</strong>
           <span
             [innerHtml]="
               result.ncitId | highlightTypeahead : searchString

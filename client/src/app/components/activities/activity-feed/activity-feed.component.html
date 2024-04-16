@@ -8,12 +8,16 @@
           *ngIf="activity"
           [nzDot]="timelineDotTemplate">
           <ng-template #timelineDotTemplate>
-            <nz-avatar nzIcon="user" [nzSrc]="activity.user.profileImagePath"></nz-avatar>
+            <nz-avatar
+              nzIcon="user"
+              [nzSrc]="activity.user.profileImagePath"></nz-avatar>
           </ng-template>
           <nz-collapse
             [nzBordered]="false"
             nzExpandIconPosition="right">
-            <cvc-collapsible-card [header]="activityHeaderTemplate" [contents]="activityContentTemplate"></cvc-collapsible-card>
+            <cvc-collapsible-card
+              [header]="activityHeaderTemplate"
+              [contents]="activityContentTemplate"></cvc-collapsible-card>
           </nz-collapse>
 
           <ng-template #activityContentTemplate>
@@ -21,55 +25,54 @@
           </ng-template>
 
           <ng-template #activityHeaderTemplate>
-
-          <cvc-user-tag [user]="activity.user"></cvc-user-tag>
-          {{ activity.verbiage }}
-          <ng-container
-            [ngSwitch]="activity.subject.__typename">
-            <cvc-gene-tag
-              *ngSwitchCase="'Gene'"
-              [gene]="activity.subject"></cvc-gene-tag>
-            <cvc-assertion-tag
-              *ngSwitchCase="'Assertion'"
-              [assertion]="activity.subject"></cvc-assertion-tag>
-            <cvc-evidence-tag
-              *ngSwitchCase="'EvidenceItem'"
-              [evidence]="activity.subject"></cvc-evidence-tag>
-            <cvc-variant-tag
-              *ngSwitchCase="'Variant'"
-              [variant]="activity.subject"></cvc-variant-tag>
-            <cvc-revision-tag
-              *ngSwitchCase="'Revision'"
-              [revision]="$any(activity.subject)"></cvc-revision-tag>
-            <cvc-variant-group-tag
-              *ngSwitchCase="'VariantGroup'"
-              [variantgroup]="activity.subject"></cvc-variant-group-tag>
-            <cvc-source-tag
-              *ngSwitchCase="'Source'"
-              mode="concise"
-              [source]="$any(activity.subject)"></cvc-source-tag>
-            <cvc-molecular-profile-tag
-              *ngSwitchCase="'MolecularProfile'"
-              [molecularProfile]="activity.subject"></cvc-molecular-profile-tag>
-            <span *ngSwitchDefault>{{ activity.subject.name }}</span>
-          </ng-container>
-          ·
-          <span
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="activity.createdAt | date">
-            {{ activity.createdAt | timeAgo }}
-          </span>
+            <cvc-user-tag [user]="activity.user"></cvc-user-tag>
+            {{ activity.verbiage }}
+            <ng-container [ngSwitch]="activity.subject.__typename">
+              <cvc-feature-tag
+                *ngSwitchCase="'Feature'"
+                [feature]="activity.subject"></cvc-feature-tag>
+              <cvc-assertion-tag
+                *ngSwitchCase="'Assertion'"
+                [assertion]="activity.subject"></cvc-assertion-tag>
+              <cvc-evidence-tag
+                *ngSwitchCase="'EvidenceItem'"
+                [evidence]="activity.subject"></cvc-evidence-tag>
+              <cvc-feature-variant-tag
+                *ngSwitchCase="'Variant'"
+                [variant]="activity.subject"></cvc-feature-variant-tag>
+              <cvc-revision-tag
+                *ngSwitchCase="'Revision'"
+                [revision]="$any(activity.subject)"></cvc-revision-tag>
+              <cvc-variant-group-tag
+                *ngSwitchCase="'VariantGroup'"
+                [variantgroup]="activity.subject"></cvc-variant-group-tag>
+              <cvc-source-tag
+                *ngSwitchCase="'Source'"
+                mode="concise"
+                [source]="$any(activity.subject)"></cvc-source-tag>
+              <cvc-molecular-profile-tag
+                *ngSwitchCase="'MolecularProfile'"
+                [molecularProfile]="
+                  activity.subject
+                "></cvc-molecular-profile-tag>
+              <span *ngSwitchDefault>{{ activity.subject.name }}</span>
+            </ng-container>
+            ·
+            <span
+              nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="activity.createdAt | date">
+              {{ activity.createdAt | timeAgo }}
+            </span>
           </ng-template>
-    
-<!--           <cvc-event-timeline-item
+
+          <!--           <cvc-event-timeline-item
             [event]="event!"
             [tagDisplay]="tagDisplay"></cvc-event-timeline-item> -->
         </nz-timeline-item>
       </ng-container>
     </nz-timeline>
   </ng-container>
-
 
   <!-- <ng-container
     *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">

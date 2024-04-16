@@ -1,8 +1,9 @@
 class VariantTsvFormatter
   def self.objects
     Variant.joins(molecular_profiles: [:evidence_items])
-      .includes(:gene, :variant_groups, :variant_types, :hgvs_descriptions, :variant_aliases)
+      .includes(:variant_groups, :variant_types, :hgvs_descriptions, :variant_aliases, :feature)
       .where("evidence_items.status = 'accepted'")
+      .where(features: { feature_instance_type: 'Features::Gene'})
       .distinct
   end
 
@@ -41,8 +42,8 @@ class VariantTsvFormatter
     [
       variant.id,
       LinkAdaptors::Variant.new(variant).permalink_path(include_domain: true),
-      variant.gene.name,
-      variant.gene.entrez_id,
+      variant.feature.name,
+      variant.feature.feature_instance.entrez_id,
       variant.name,
       variant.variant_groups.map(&:name).join(','),
       variant.chromosome,

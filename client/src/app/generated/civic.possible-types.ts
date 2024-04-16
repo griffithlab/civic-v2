@@ -10,8 +10,10 @@
       "AcceptRevisionsActivity",
       "CommentActivity",
       "CreateComplexMolecularProfileActivity",
+      "CreateFeatureActivity",
       "CreateVariantActivity",
       "DeprecateComplexMolecularProfileActivity",
+      "DeprecateFeatureActivity",
       "DeprecateVariantActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",
@@ -32,8 +34,12 @@
     "Commentable": [
       "Assertion",
       "EvidenceItem",
+      "Factor",
+      "FactorVariant",
+      "Feature",
       "Flag",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Revision",
       "Source",
@@ -45,7 +51,12 @@
       "Assertion",
       "Comment",
       "EvidenceItem",
+      "Factor",
+      "FactorVariant",
+      "Feature",
       "Flag",
+      "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Revision",
       "SourceSuggestion",
@@ -54,8 +65,12 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "Factor",
+      "FactorVariant",
+      "Feature",
       "Flag",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Revision",
       "RevisionSet",
@@ -65,11 +80,19 @@
       "Variant",
       "VariantGroup"
     ],
+    "FeatureInstance": [
+      "Factor",
+      "Gene"
+    ],
     "Flaggable": [
       "Assertion",
-      "BrowseGene",
+      "BrowseFeature",
       "EvidenceItem",
+      "Factor",
+      "FactorVariant",
+      "Feature",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Variant",
       "VariantGroup"
@@ -83,18 +106,31 @@
       "ScalarFieldDiff"
     ],
     "MolecularProfileComponent": [
+      "Factor",
+      "FactorVariant",
+      "Feature",
       "Gene",
+      "GeneVariant",
       "Variant"
     ],
     "MolecularProfileSegment": [
-      "Gene",
+      "Feature",
       "MolecularProfileTextSegment",
+      "Variant"
+    ],
+    "VariantInterface": [
+      "FactorVariant",
+      "GeneVariant",
       "Variant"
     ],
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
+      "Factor",
+      "FactorVariant",
+      "Feature",
       "Gene",
+      "GeneVariant",
       "MolecularProfile",
       "Variant",
       "VariantGroup"

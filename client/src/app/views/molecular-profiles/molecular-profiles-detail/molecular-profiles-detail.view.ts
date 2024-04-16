@@ -99,6 +99,11 @@ export class MolecularProfilesDetailView implements OnDestroy {
                     badgeCount: mpResp?.revisions.totalCount,
                     ...tab,
                   }
+                } else if (tab.tabLabel === 'Flags') {
+                  return {
+                    badgeCount: mpResp?.flags.totalCount,
+                    ...tab,
+                  }
                 } else if (tab.tabLabel === 'Comments') {
                   return {
                     badgeCount: mpResp?.comments.totalCount,

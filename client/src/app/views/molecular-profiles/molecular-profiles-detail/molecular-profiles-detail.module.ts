@@ -4,7 +4,6 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
@@ -14,12 +13,12 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module'
 import { MolecularProfileDetailRoutingModule } from './molecular-profiles-detail-routing.module'
 import { MolecularProfilesDetailView } from './molecular-profiles-detail.view'
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { ComplexMolecularProfileDeprecateFormModule } from '@app/forms/components/complex-molecular-profile-deprecate/complex-molecular-profile-deprecate.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [MolecularProfilesDetailView],
@@ -39,10 +38,9 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover'
     CvcContributorAvatarsModule,
     CvcTabNavigationModule,
     CvcFlaggableModule,
-    CvcGeneTagModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
-    CvcVariantTagModule,
+    CvcFeatureVariantTagModule,
     CvcPipesModule,
     CvcCommentBodyModule,
     ComplexMolecularProfileDeprecateFormModule,

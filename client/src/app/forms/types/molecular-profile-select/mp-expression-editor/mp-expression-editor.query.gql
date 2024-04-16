@@ -49,7 +49,7 @@ fragment PreviewMpName2 on MolecularProfileSegment {
   ... on MolecularProfileTextSegment {
     text
   }
-  ... on Gene {
+  ... on Feature {
     id
     name
     link

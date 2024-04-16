@@ -7,8 +7,8 @@ import {
 } from '@angular/core'
 import { Router } from '@angular/router'
 import { MutationState } from '@app/core/utilities/mutation-state-wrapper'
-import { Maybe } from '@app/generated/civic.apollo';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Maybe } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 @UntilDestroy()
 @Component({
@@ -18,27 +18,27 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
   private _mutationState?: MutationState
-  private currentTimer?:  ReturnType<typeof setTimeout>
+  private currentTimer?: ReturnType<typeof setTimeout>
 
   @Input() set mutationState(value: Maybe<MutationState>) {
     this._mutationState = value
-    if(this.currentTimer) {
+    if (this.currentTimer) {
       clearTimeout(this.currentTimer)
     }
 
-    if(value) {
+    if (value) {
       value.submitSuccess$.pipe(untilDestroyed(this)).subscribe((success) => {
-        if(success) {
-          this.currentTimer = setTimeout(() => { 
-              if(this.redirectUrl) {
-                this.router.navigateByUrl(this.redirectUrl) 
-              }
-            }, 2500);
+        if (success) {
+          this.currentTimer = setTimeout(() => {
+            if (this.redirectUrl) {
+              this.router.navigateByUrl(this.redirectUrl)
+            }
+          }, 2500)
         }
       })
     }
   }
-  
+
   get mutationState(): Maybe<MutationState> {
     return this._mutationState
   }
@@ -55,11 +55,12 @@ export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
     | 'Comment'
     | 'Gene'
     | 'Variant Group'
+    | 'Feature'
 
   @Input() successMessage?: TemplateRef<void>
   @Input() redirectUrl?: string
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 }

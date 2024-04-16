@@ -1,3 +1,5 @@
+require_relative '../linkable_tag.rb'
+
 module Types::Commentable
   class CommentTagSegment < Types::BaseObject
     field :entity_id, GraphQL::Types::Int, null: false
@@ -7,5 +9,6 @@ module Types::Commentable
     field :deprecated, GraphQL::Types::Boolean, null: true
     field :link, GraphQL::Types::String, null: false
     field :revision_set_id, GraphQL::Types::Int, null: true
+    field :feature, Types::LinkableFeature, null: true
   end
 end

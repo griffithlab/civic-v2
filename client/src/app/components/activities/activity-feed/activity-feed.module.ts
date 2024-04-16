@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { CvcActivityFeedComponent } from './activity-feed.component'
-import { LetModule, PushModule } from '@ngrx/component'
+import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzFormModule } from 'ng-zorro-antd/form'
@@ -21,7 +21,6 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTimelineModule } from 'ng-zorro-antd/timeline'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module'
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module'
@@ -32,14 +31,16 @@ import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/rev
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { CvcActivityCardModule } from '../activity-card/activity-card.module'
 import { CvcCollapsibleCardModule } from '../collapsible-card/collapsible-card.module'
+import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 
 @NgModule({
   declarations: [CvcActivityFeedComponent],
   imports: [
     CommonModule,
     FormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     NzButtonModule,
     NzCardModule,
     NzIconModule,
@@ -60,7 +61,7 @@ import { CvcCollapsibleCardModule } from '../collapsible-card/collapsible-card.m
     CvcParticipantListModule,
     CvcPipesModule,
     CvcUserTagModule,
-    CvcGeneTagModule,
+    CvcFeatureTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,
@@ -69,7 +70,8 @@ import { CvcCollapsibleCardModule } from '../collapsible-card/collapsible-card.m
     CvcMolecularProfileTagModule,
     CvcRevisionTagModule,
     CvcActivityCardModule,
-    CvcCollapsibleCardModule
+    CvcCollapsibleCardModule,
+    CvcFeatureVariantTagModule,
   ],
   exports: [CvcActivityFeedComponent],
 })

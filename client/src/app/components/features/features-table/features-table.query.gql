@@ -1,0 +1,65 @@
+query BrowseFeatures(
+  $featureName: String
+  $therapyName: String
+  $featureAlias: String
+  $diseaseName: String
+  $featureType: FeatureInstanceTypes
+  $sortBy: FeaturesSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  browseFeatures(
+    featureName: $featureName
+    therapyName: $therapyName
+    featureAlias: $featureAlias
+    diseaseName: $diseaseName
+    featureType: $featureType
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    edges {
+      cursor
+      node {
+        ...BrowseFeaturesFields
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    lastUpdated
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+
+fragment BrowseFeaturesFields on BrowseFeature {
+  id
+  name
+  link
+  flagged
+  featureAliases
+  diseases {
+    name
+    id
+    link
+  }
+  therapies {
+    name
+    id
+    link
+  }
+  variantCount
+  evidenceItemCount
+  assertionCount
+  molecularProfileCount
+  featureInstanceType
+}

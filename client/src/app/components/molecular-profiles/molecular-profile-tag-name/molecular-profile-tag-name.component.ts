@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MolecularProfileTextSegment } from '@app/generated/civic.apollo'
 
-type MpGene = {
+type MpFeature = {
   id: number
   link: string
   name: string
-  __typename: "Gene"
+  __typename: "Feature"
 }
 type MpVariant = {
   id: number
@@ -13,7 +13,7 @@ type MpVariant = {
   name: string
   __typename: "Variant"
 }
-type MpSegment = MpGene  | MolecularProfileTextSegment | MpVariant
+type MpSegment = MpFeature  | MolecularProfileTextSegment | MpVariant
 
 @Component({
   selector: 'cvc-mp-tag-name',

@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_10_000025) do
-
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_175953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,7 +32,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -45,8 +44,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -62,8 +61,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.bigint "organization_id"
     t.string "subject_type", null: false
     t.bigint "subject_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "verbiage"
     t.text "note"
     t.index ["organization_id"], name: "index_activities_on_organization_id"
@@ -76,15 +75,15 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "entity_type", null: false
     t.bigint "entity_id", null: false
     t.bigint "activity_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["activity_id"], name: "index_activity_linked_entities_on_activity_id"
     t.index ["entity_type", "entity_id"], name: "index_activity_linked_entities_on_entity"
   end
 
   create_table "advanced_searches", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "params"
     t.text "search_type"
     t.text "token"
@@ -94,16 +93,16 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "affiliations", id: false, force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "deleted", default: false
     t.text "status", default: "submitted", null: false
     t.integer "nccn_guideline_old"
@@ -133,8 +132,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "assertions_clingen_codes", id: false, force: :cascade do |t|
     t.bigint "assertion_id", null: false
     t.bigint "clingen_code_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["assertion_id"], name: "index_assertions_clingen_codes_on_assertion_id"
     t.index ["clingen_code_id", "assertion_id"], name: "idx_clingencodes_assertions"
   end
@@ -180,7 +179,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["action"], name: "index_audits_on_action"
     t.index ["associated_id", "associated_type"], name: "associated_index"
     t.index ["auditable_id", "auditable_type"], name: "auditable_index"
@@ -193,24 +192,24 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "user_id", null: false
     t.string "provider", null: false
     t.string "uid", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
   create_table "authors", id: :serial, force: :cascade do |t|
     t.text "last_name"
     t.text "fore_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "authors_sources", id: false, force: :cascade do |t|
     t.integer "source_id"
     t.integer "author_id"
     t.integer "author_position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["author_id", "source_id"], name: "index_authors_sources_on_author_id_and_source_id"
     t.index ["source_id", "author_id"], name: "idx_author_source_id"
     t.index ["source_id"], name: "index_authors_sources_on_source_id"
@@ -221,8 +220,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "user_id"
     t.text "tier"
     t.text "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["badge_id", "user_id"], name: "index_badge_awards_on_badge_id_and_user_id"
     t.index ["user_id", "badge_id"], name: "index_badge_awards_on_user_id_and_badge_id"
   end
@@ -231,8 +230,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "user_id"
     t.integer "badge_id"
     t.string "redemption_code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["badge_id"], name: "index_badge_claims_on_badge_id"
     t.index ["user_id"], name: "index_badge_claims_on_user_id"
   end
@@ -241,8 +240,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "name", null: false
     t.text "description", null: false
     t.text "additional_fields"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "display_name"
     t.index ["name"], name: "index_badges_on_name"
   end
@@ -258,8 +257,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "nct_id"
     t.text "name"
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["nct_id"], name: "index_clinical_trials_on_nct_id"
   end
 
@@ -274,8 +273,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "clinvar_entries", id: :serial, force: :cascade do |t|
     t.string "clinvar_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["clinvar_id"], name: "index_clinvar_entries_on_clinvar_id"
   end
 
@@ -295,8 +294,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "commentable_id"
     t.integer "user_id"
     t.string "role", default: "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
     t.index ["commentable_type"], name: "index_comments_on_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"
@@ -306,8 +305,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "user_id", null: false
     t.boolean "coi_present", null: false
     t.text "coi_statement"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
@@ -322,8 +321,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "definitions", id: :serial, force: :cascade do |t|
     t.string "term", null: false
     t.text "text", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["term"], name: "index_definitions_on_term"
   end
 
@@ -342,8 +341,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "diseases", id: :serial, force: :cascade do |t|
     t.text "doid"
     t.string "display_name", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "name"
     t.boolean "deprecated", default: false, null: false
     t.index ["name"], name: "index_diseases_on_name"
@@ -351,8 +350,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "domain_expert_tags", id: :serial, force: :cascade do |t|
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "domain_of_expertise_type"
     t.integer "domain_of_expertise_id"
     t.integer "user_id"
@@ -362,8 +361,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   end
 
   create_table "entity_mentions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "entity_type"
     t.bigint "entity_id"
     t.bigint "comment_id"
@@ -372,8 +371,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "action"
     t.text "description"
     t.integer "originating_user_id"
@@ -400,8 +399,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "description", null: false
     t.integer "disease_id"
     t.integer "source_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "rating"
     t.string "status"
     t.string "variant_hgvs"
@@ -411,7 +410,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "evidence_direction"
     t.integer "significance"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.integer "therapy_interaction_type"
     t.boolean "flagged", default: false, null: false
     t.bigint "molecular_profile_id"
@@ -442,10 +441,16 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.index ["therapy_id", "evidence_item_id"], name: "idx_therapy_eid_bridge_table"
   end
 
+  create_table "factors", force: :cascade do |t|
+    t.text "ncit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "feature_aliases", force: :cascade do |t|
     t.text "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_feature_aliases_on_name"
   end
 
@@ -460,12 +465,14 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "features", force: :cascade do |t|
     t.text "name", null: false
     t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "feature_instance_type", null: false
     t.bigint "feature_instance_id", null: false
     t.boolean "flagged", default: false, null: false
     t.text "full_name"
+    t.boolean "deprecated", default: false, null: false
+    t.integer "deprecation_reason"
     t.index ["feature_instance_type", "feature_instance_id"], name: "index_features_on_feature_instance"
   end
 
@@ -482,8 +489,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "flaggable_type"
     t.integer "flaggable_id"
     t.text "state"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["flaggable_type", "flaggable_id"], name: "index_flags_on_flaggable_type_and_flaggable_id"
     t.index ["flagging_user_id"], name: "index_flags_on_flagging_user_id"
     t.index ["resolving_user_id"], name: "index_flags_on_resolving_user_id"
@@ -507,11 +514,11 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "name", null: false
     t.text "description", null: false
     t.text "official_name", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "clinical_description"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
     t.index "char_length((name)::text)", name: "gene_name_size_idx"
     t.index ["deleted"], name: "index_genes_on_deleted"
@@ -521,15 +528,15 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "genes_sources", id: false, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.integer "source_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["gene_id", "source_id"], name: "index_genes_sources_on_gene_id_and_source_id"
   end
 
   create_table "hgvs_descriptions", id: :serial, force: :cascade do |t|
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["description"], name: "index_hgvs_descriptions_on_description"
   end
 
@@ -556,8 +563,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "molecular_profiles", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "description"
     t.boolean "flagged", default: false, null: false
     t.float "evidence_score", null: false
@@ -570,8 +577,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "molecular_profiles_sources", id: false, force: :cascade do |t|
     t.bigint "molecular_profile_id", null: false
     t.bigint "source_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["molecular_profile_id", "source_id"], name: "idx_mp_source_id"
   end
 
@@ -593,8 +600,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.boolean "seen", default: false
     t.integer "type"
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["created_at"], name: "index_notifications_on_created_at"
     t.index ["notified_user_id"], name: "index_notifications_on_notified_user_id"
   end
@@ -602,7 +609,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "ontologies", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "version"
-    t.datetime "import_date"
+    t.datetime "import_date", precision: nil
     t.string "permalink_format"
     t.string "civic_class"
     t.string "id_name"
@@ -613,9 +620,9 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "url"
     t.text "description"
     t.integer "parent_id"
-    t.datetime "created_at", precision: 6
-    t.datetime "updated_at", precision: 6
-    t.datetime "most_recent_activity_timestamp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "most_recent_activity_timestamp", precision: nil
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 
@@ -628,8 +635,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "pipeline_types", id: :serial, force: :cascade do |t|
     t.text "name", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_pipeline_types_on_name"
   end
 
@@ -650,8 +657,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   end
 
   create_table "revision_sets", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "revisions", force: :cascade do |t|
@@ -661,8 +668,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "field_name", null: false
     t.jsonb "current_value"
     t.jsonb "suggested_value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.uuid "revisionset_id"
     t.integer "revision_set_id"
     t.index ["created_at"], name: "index_revisions_on_created_at"
@@ -676,10 +683,31 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "role_mentions", force: :cascade do |t|
     t.integer "role", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "comment_id"
     t.index ["comment_id"], name: "index_role_mentions_on_comment_id"
+  end
+
+  create_table "solid_errors", force: :cascade do |t|
+    t.string "exception_class", null: false
+    t.string "message", null: false
+    t.string "severity", null: false
+    t.string "source"
+    t.datetime "resolved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exception_class", "message", "severity", "source"], name: "solid_error_uniqueness_index", unique: true
+    t.index ["resolved_at"], name: "index_solid_errors_on_resolved_at"
+  end
+
+  create_table "solid_errors_occurrences", force: :cascade do |t|
+    t.bigint "error_id", null: false
+    t.text "backtrace"
+    t.json "context"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["error_id"], name: "index_solid_errors_occurrences_on_error_id"
   end
 
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
@@ -687,8 +715,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "user_id"
     t.text "initial_comment"
     t.text "status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "reason"
     t.integer "disease_id"
     t.bigint "molecular_profile_id"
@@ -699,8 +727,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "citation_id", null: false
     t.string "study_type"
     t.text "citation"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "abstract"
     t.boolean "open_access"
     t.text "pmc_id"
@@ -714,7 +742,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "source_type", null: false
     t.integer "asco_abstract_id"
     t.text "asco_presenter"
-    t.text "status", default: "fully_curated", null: false
+    t.boolean "fully_curated", default: false, null: false
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
     t.index ["citation_id"], name: "index_sources_on_citation_id"
@@ -723,8 +751,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
     t.integer "variant_group_id", null: false
     t.integer "source_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
@@ -732,8 +760,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "subscribable_type"
     t.integer "subscribable_id"
     t.string "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "action_type"
     t.text "action_class"
     t.index ["action_type", "action_class"], name: "index_subscriptions_on_action_type_and_action_class"
@@ -747,8 +775,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "moderated_id"
     t.integer "user_id", null: false
     t.string "status", default: "new", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["created_at"], name: "index_suggested_changes_on_created_at"
     t.index ["moderated_id", "moderated_type"], name: "index_suggested_changes_on_moderated_id_and_moderated_type"
     t.index ["status"], name: "index_suggested_changes_on_status"
@@ -757,8 +785,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "therapies", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "ncit_id"
     t.boolean "deprecated", default: false, null: false
     t.index ["name"], name: "index_therapies_on_name"
@@ -779,13 +807,13 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "tsv_releases", id: :serial, force: :cascade do |t|
     t.text "path", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "user_mentions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "comment_id"
     t.index ["comment_id"], name: "index_user_mentions_on_comment_id"
@@ -797,14 +825,14 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.string "name"
     t.string "url"
     t.string "username"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "orcid"
     t.integer "area_of_expertise"
     t.boolean "deleted", default: false
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.integer "role", default: 0
-    t.datetime "last_seen_at"
+    t.datetime "last_seen_at", precision: nil
     t.text "twitter_handle"
     t.text "facebook_profile"
     t.text "linkedin_profile"
@@ -814,7 +842,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.boolean "signup_complete"
     t.integer "country_id"
     t.integer "most_recent_organization_id"
-    t.datetime "most_recent_activity_timestamp"
+    t.datetime "most_recent_activity_timestamp", precision: nil
     t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
@@ -834,21 +862,44 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.index ["variant_id"], name: "index_variant_aliases_variants_on_variant_id"
   end
 
+  create_table "variant_coordinates", force: :cascade do |t|
+    t.text "chromosome"
+    t.bigint "start"
+    t.bigint "stop"
+    t.text "reference_bases"
+    t.text "variant_bases"
+    t.integer "exon_boundary"
+    t.integer "exon_offset"
+    t.integer "ensembl_version"
+    t.text "representative_transcript"
+    t.integer "reference_build"
+    t.bigint "variant_id"
+    t.text "coordinate_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
+    t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
+    t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
+    t.index ["start"], name: "index_variant_coordinates_on_start"
+    t.index ["stop"], name: "index_variant_coordinates_on_stop"
+    t.index ["variant_id"], name: "index_variant_coordinates_on_variant_id"
+  end
+
   create_table "variant_group_variants", id: false, force: :cascade do |t|
     t.integer "variant_id", null: false
     t.integer "variant_group_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["variant_id", "variant_group_id"], name: "index_variant_group_variants_on_variant_id_and_variant_group_id"
   end
 
   create_table "variant_groups", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "deleted", default: false
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.boolean "flagged", default: false, null: false
     t.index ["deleted"], name: "index_variant_groups_on_deleted"
   end
@@ -858,8 +909,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.text "display_name", null: false
     t.text "description", null: false
     t.text "soid", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
@@ -871,18 +922,18 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   create_table "variant_types_variants", id: false, force: :cascade do |t|
     t.integer "variant_id", null: false
     t.integer "variant_type_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["variant_id", "variant_type_id"], name: "index_variant_types_variants_on_variant_id_and_variant_type_id"
   end
 
   create_table "variants", id: :serial, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.string "name", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "deleted", default: false
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.text "genome_build"
     t.text "chromosome"
     t.integer "start"
@@ -905,6 +956,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
     t.integer "deprecation_comment_id"
     t.text "open_cravat_url"
     t.bigint "feature_id"
+    t.string "type", null: false
+    t.string "ncit_id"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -925,8 +978,8 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
 
   create_table "view_last_updated_timestamps", force: :cascade do |t|
     t.text "view_name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["view_name"], name: "index_view_last_updated_timestamps_on_view_name"
   end
 
@@ -990,6 +1043,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   add_foreign_key "regulatory_agencies", "countries"
   add_foreign_key "revisions", "revision_sets"
   add_foreign_key "role_mentions", "comments"
+  add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "subscriptions", "users"
@@ -999,6 +1053,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   add_foreign_key "users", "organizations", column: "most_recent_organization_id"
   add_foreign_key "variant_aliases_variants", "variant_aliases"
   add_foreign_key "variant_aliases_variants", "variants"
+  add_foreign_key "variant_coordinates", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
   add_foreign_key "variants", "comments", column: "deprecation_comment_id"
@@ -1028,25 +1083,6 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
        JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
     GROUP BY mp.id;
   SQL
-  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT variant_groups.id,
-      variant_groups.name,
-      array_agg(DISTINCT variants.name) AS variant_names,
-      array_agg(DISTINCT genes.name) AS gene_names,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count
-     FROM ((((((variant_groups
-       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
-       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
-       JOIN genes ON ((variants.gene_id = genes.id)))
-       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY variant_groups.id, variant_groups.name;
-  SQL
-  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
-
   create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_genes.id,
       outer_genes.name,
@@ -1152,52 +1188,6 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
        JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false) AND ((ei.status)::text <> 'rejected'::text))))
     GROUP BY mp.id;
   SQL
-  create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT outer_features.id,
-      outer_features.name,
-      outer_features.flagged,
-      array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
-      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
-      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT assertions.id) AS assertion_count,
-      count(DISTINCT molecular_profiles.id) AS molecular_profile_count
-     FROM ((((((((((((features outer_features
-       LEFT JOIN feature_aliases_features ON ((feature_aliases_features.feature_id = outer_features.id)))
-       LEFT JOIN feature_aliases ON ((feature_aliases.id = feature_aliases_features.feature_alias_id)))
-       JOIN variants ON ((variants.feature_id = outer_features.id)))
-       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
-       JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
-       JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
-       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
-       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
-       LEFT JOIN assertions ON ((assertions.molecular_profile_id = molecular_profiles.id)))
-       LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
-              count(DISTINCT evidence_items_1.id) AS total
-             FROM (((((evidence_items evidence_items_1
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
-               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
-            WHERE (variants_1.feature_id = outer_features.id)
-            GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
-       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
-              count(DISTINCT evidence_items_1.id) AS total
-             FROM ((((evidence_items evidence_items_1
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-               JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
-               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-            WHERE (variants_1.feature_id = outer_features.id)
-            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false))
-    GROUP BY outer_features.id, outer_features.name;
-  SQL
-  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
-
   create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT diseases.id,
       diseases.name,
@@ -1227,7 +1217,7 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
       count(DISTINCT evidence_items.id) AS evidence_item_count,
       array_agg(DISTINCT molecular_profile_aliases.name ORDER BY molecular_profile_aliases.name) AS alias_names,
       json_agg(DISTINCT jsonb_build_object('name', features.name, 'id', features.id)) FILTER (WHERE (features.name IS NOT NULL)) AS features,
-      json_agg(DISTINCT jsonb_build_object('name', variants.name, 'id', variants.id)) FILTER (WHERE (variants.name IS NOT NULL)) AS variants,
+      json_agg(DISTINCT jsonb_build_object('name', variants.name, 'id', variants.id, 'feature_id', variants.feature_id)) FILTER (WHERE (variants.name IS NOT NULL)) AS variants,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
       json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
       count(DISTINCT assertions.id) AS assertion_count,
@@ -1262,9 +1252,77 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
 
+  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variant_groups.id,
+      variant_groups.name,
+      array_agg(DISTINCT variants.name) AS variant_names,
+      array_agg(DISTINCT features.name) AS feature_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM ((((((variant_groups
+       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
+       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
+       JOIN features ON ((variants.feature_id = features.id)))
+       LEFT JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       LEFT JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variant_groups.id, variant_groups.name;
+  SQL
+  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
+
+  create_view "feature_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT outer_features.id,
+      outer_features.name,
+      outer_features.flagged,
+      outer_features.feature_instance_type,
+      outer_features.feature_instance_id,
+      array_agg(DISTINCT feature_aliases.name ORDER BY feature_aliases.name) AS alias_names,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', therapies.name, 'id', therapies.id, 'total', therapy_count.total)) FILTER (WHERE (therapies.name IS NOT NULL)) AS therapies,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT molecular_profiles.id) AS molecular_profile_count
+     FROM ((((((((((((features outer_features
+       LEFT JOIN feature_aliases_features ON ((feature_aliases_features.feature_id = outer_features.id)))
+       LEFT JOIN feature_aliases ON ((feature_aliases.id = feature_aliases_features.feature_alias_id)))
+       JOIN variants ON ((variants.feature_id = outer_features.id)))
+       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       JOIN molecular_profiles ON ((molecular_profiles.id = molecular_profiles_variants.molecular_profile_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN evidence_items_therapies ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN therapies ON ((therapies.id = evidence_items_therapies.therapy_id)))
+       LEFT JOIN assertions ON ((assertions.molecular_profile_id = molecular_profiles.id)))
+       LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM (((((evidence_items evidence_items_1
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               LEFT JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               LEFT JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
+            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
+            GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
+       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM ((((evidence_items evidence_items_1
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+               LEFT JOIN variants variants_1 ON ((variants_1.id = molecular_profiles_variants_1.variant_id)))
+               LEFT JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE ((variants_1.feature_id = outer_features.id) AND (molecular_profiles_1.id IS NOT NULL))
+            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((evidence_items.status IS NULL) AND (molecular_profiles.deprecated = false) AND (variants.deprecated = false)))
+    GROUP BY outer_features.id, outer_features.name;
+  SQL
+  add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
+
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
       outer_variants.name,
+      outer_variants.type AS category,
       features.id AS feature_id,
       features.name AS feature_name,
       array_agg(DISTINCT variant_aliases.name ORDER BY variant_aliases.name) AS alias_names,
@@ -1291,19 +1349,19 @@ ActiveRecord::Schema.define(version: 2024_01_10_000025) do
        LEFT JOIN LATERAL ( SELECT therapies_1.id AS therapy_id,
               count(DISTINCT evidence_items_1.id) FILTER (WHERE (evidence_items_1.id IS NOT NULL)) AS total
              FROM ((((evidence_items evidence_items_1
-               JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
-               JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-            WHERE (molecular_profiles_variants_1.variant_id = outer_variants.id)
+               LEFT JOIN evidence_items_therapies evidence_items_therapies_1 ON ((evidence_items_therapies_1.evidence_item_id = evidence_items_1.id)))
+               LEFT JOIN therapies therapies_1 ON ((therapies_1.id = evidence_items_therapies_1.therapy_id)))
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+            WHERE ((molecular_profiles_variants_1.variant_id = outer_variants.id) AND (evidence_items_1.id IS NOT NULL))
             GROUP BY therapies_1.id) therapy_count ON ((therapies.id = therapy_count.therapy_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) FILTER (WHERE (evidence_items_1.id IS NOT NULL)) AS total
              FROM (((evidence_items evidence_items_1
-               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-               JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
-               JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
-            WHERE (molecular_profiles_variants_1.variant_id = outer_variants.id)
+               LEFT JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+               LEFT JOIN molecular_profiles molecular_profiles_1 ON ((molecular_profiles_1.id = evidence_items_1.molecular_profile_id)))
+               LEFT JOIN molecular_profiles_variants molecular_profiles_variants_1 ON ((molecular_profiles_variants_1.molecular_profile_id = molecular_profiles_1.id)))
+            WHERE ((molecular_profiles_variants_1.variant_id = outer_variants.id) AND (evidence_items_1.id IS NOT NULL))
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
     WHERE ((((evidence_items.status)::text <> 'rejected'::text) OR (evidence_items.status IS NULL)) AND (outer_variants.deprecated = false))
     GROUP BY outer_variants.id, outer_variants.name, features.id, features.name;

@@ -96,6 +96,11 @@ fragment parsedCommentFragment on CommentBodySegment{
       deprecated
       link
       revisionSetId
+      feature {
+        id
+        name
+        link
+      }
       __typename
     }
     ... on CommentTextSegment {

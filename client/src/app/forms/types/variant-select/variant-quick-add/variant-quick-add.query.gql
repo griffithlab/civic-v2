@@ -1,5 +1,5 @@
-mutation QuickAddVariant($name: String!, $geneId: Int!, $organizationId: Int) {
-  createVariant(input: { name: $name, geneId: $geneId, organizationId: $organizationId }) {
+mutation QuickAddVariant($name: String!, $featureId: Int!, $organizationId: Int) {
+  createVariant(input: { name: $name, featureId: $featureId, organizationId: $organizationId }) {
     ...QuickAddVariantFields
   }
 }

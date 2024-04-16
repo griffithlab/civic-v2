@@ -1,0 +1,27 @@
+query FeaturePopover($featureId: Int!) {
+  feature(id: $featureId) {
+    ...featurePopover
+  }
+}
+
+fragment featurePopover on Feature {
+  id
+  name
+  fullName
+  featureInstance {
+    __typename
+  }
+  featureAliases
+  variants {
+    totalCount
+  }
+  # revisions(status: NEW) {
+  #   totalCount
+  # }
+  # comments {
+  #   totalCount
+  # }
+  flags(state: OPEN) {
+    totalCount
+  }
+}

@@ -5,8 +5,8 @@ class Mutations::CreateVariant < Mutations::MutationWithOrg
     description: 'The name of the variant to create.',
     validates: { allow_blank: false }
 
-  argument :gene_id, Int, required: true,
-    description: 'The CIViC ID of the Gene to which the new variant belongs.'
+  argument :feature_id, Int, required: true,
+    description: 'The CIViC ID of the Feature to which the new variant belongs.'
 
   field :variant, Types::Entities::VariantType, null: false,
     description: 'The newly created Variant.'
@@ -17,12 +17,12 @@ class Mutations::CreateVariant < Mutations::MutationWithOrg
   field :new, Boolean, null: false,
     description: 'True if the variant was newly created. False if the returned variant was already in the database.'
 
-  def ready?(gene_id:, organization_id: nil, **kwargs)
+  def ready?(feature_id:, organization_id: nil, **kwargs)
     validate_user_logged_in
     validate_user_org(organization_id)
 
-    if Gene.find_by(id: gene_id).blank?
-      raise GraphQL::ExecutionError, "Gene with id #{gene_id} doesn't exist."
+    if Feature.find_by(id: feature_id).blank?
+      raise GraphQL::ExecutionError, "Feature with id #{feature_id} doesn't exist."
     end
 
     return true
@@ -33,10 +33,10 @@ class Mutations::CreateVariant < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(name:, gene_id:, organization_id: nil)
-    existing_variant = Variant.joins(:variant_aliases).where(gene_id: gene_id)
+  def resolve(name:, feature_id:, organization_id: nil)
+    existing_variant = Variant.left_joins(:variant_aliases).where(feature_id: feature_id)
       .where('variants.name ILIKE ?', name)
-      .or(Variant.joins(:variant_aliases).where(gene_id: gene_id).where('variant_aliases.name ILIKE ?', name))
+      .or(Variant.left_joins(:variant_aliases).where(feature_id: feature_id).where('variant_aliases.name ILIKE ?', name))
       .first
 
     if existing_variant.present?
@@ -49,7 +49,7 @@ class Mutations::CreateVariant < Mutations::MutationWithOrg
     else
       cmd = Activities::CreateVariant.new(
         variant_name: name,
-        gene_id: gene_id,
+        feature_id: feature_id,
         originating_user: context[:current_user],
         organization_id: organization_id,
       )

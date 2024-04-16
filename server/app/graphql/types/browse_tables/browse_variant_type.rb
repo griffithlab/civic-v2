@@ -11,20 +11,21 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :name, String, null: false
     field :link, String, null: false
-    field :gene_id, Int, null: false
-    field :gene_name, String, null: false
-    field :gene_link, String, null: false
+    field :feature_id, Int, null: false
+    field :feature_name, String, null: false
+    field :feature_link, String, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
     field :therapies, [Types::Entities::TherapyType], null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false
     field :variant_types, [Types::BrowseTables::LinkableVariantTypeType], null: false
+    field :category, Types::VariantCategories, null: false
 
     def link
       Rails.application.routes.url_helpers.url_for("/variants/#{object.id}")
     end
 
-    def gene_link
-      Rails.application.routes.url_helpers.url_for("/genes/#{object.gene_id}")
+    def feature_link
+      Rails.application.routes.url_helpers.url_for("/features/#{object.feature_id}")
     end
 
     def aliases

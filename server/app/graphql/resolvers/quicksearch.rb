@@ -10,12 +10,12 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   def resolve(query:, types: nil, highlight_matches: false)
     query_targets = if types.blank?
                       [
-                       Gene, 
+                       Feature,
                        Variant,
                        EvidenceItem,
                        Assertion,
-                       VariantGroup, 
-                       Revision, 
+                       VariantGroup,
+                       Revision,
                        MolecularProfile
                       ]
                     else
@@ -33,7 +33,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
                   models: query_targets,
                   highlight: tag,
                   limit: 10,
-                  fields: ['id^10', 'name', 'aliases', 'gene']
+                  fields: ['id^10', 'name', 'aliases', 'feature', 'feature_type']
                 ).with_highlights(multiple: true)
 
     results.map do |res, highlights|

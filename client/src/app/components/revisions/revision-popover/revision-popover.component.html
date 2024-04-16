@@ -23,10 +23,10 @@
 
       <ng-template #subject>
         <ng-container [ngSwitch]="r.subject.__typename">
-          <cvc-gene-tag
-            *ngSwitchCase="'Gene'"
+          <cvc-feature-tag
+            *ngSwitchCase="'Feature'"
             [enablePopover]="false"
-            [gene]="r.subject"></cvc-gene-tag>
+            [feature]="r.subject"></cvc-feature-tag>
           <cvc-assertion-tag
             *ngSwitchCase="'Assertion'"
             [enablePopover]="false"
@@ -35,10 +35,10 @@
             *ngSwitchCase="'EvidenceItem'"
             [enablePopover]="false"
             [evidence]="r.subject"></cvc-evidence-tag>
-          <cvc-variant-tag
+          <cvc-feature-variant-tag
             *ngSwitchCase="'Variant'"
             [enablePopover]="false"
-            [variant]="r.subject"></cvc-variant-tag>
+            [variant]="r.subject"></cvc-feature-variant-tag>
           <cvc-variant-group-tag
             *ngSwitchCase="'VariantGroup'"
             [enablePopover]="false"

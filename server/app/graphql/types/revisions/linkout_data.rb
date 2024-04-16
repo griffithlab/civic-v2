@@ -6,7 +6,7 @@ module Types::Revisions
     field :diff_value, Types::Revisions::ModeratedFieldDiffType, null: false
 
     def self.from_revision(r)
-      if r.field_name.ends_with?('_id') || r.field_name.ends_with?('_ids')
+      if (r.field_name.ends_with?('_id') || r.field_name.ends_with?('_ids')) && ! non_object_fields.include?(r.field_name)
         current_set = Set.new(Array(r.current_value))
         suggested_set = Set.new(Array(r.suggested_value))
         {
@@ -86,6 +86,8 @@ module Types::Revisions
           display_name: obj.display_name,
           display_type: obj.respond_to?(:display_type) ? obj.display_type : nil,
           link: obj.respond_to?(:link) ? obj.link : "",
+          deprecated: obj.respond_to?(:deprecated) ? obj.deprecated : nil,
+          feature: obj.respond_to?(:feature) ? obj.feature : nil,
           deleted: false
         }
       end
@@ -100,6 +102,8 @@ module Types::Revisions
               display_name: nil,
               display_type: nil,
               link: nil,
+              deprecated: nil,
+              feature: nil,
               deleted: true
             }
           end
@@ -107,6 +111,12 @@ module Types::Revisions
       end
 
       return values
+    end
+
+    def self.non_object_fields
+      @nof ||= [
+        'ncit_id'
+      ]
     end
   end
 end

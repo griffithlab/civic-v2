@@ -5,7 +5,7 @@ query BrowseVariantGroups(
   $after: String
   $sortBy: VariantGroupsSort
   $name: String
-  $geneNames: String
+  $featureNames: String
   $variantNames: String
 ) {
   browseVariantGroups(
@@ -15,7 +15,7 @@ query BrowseVariantGroups(
     after: $after
     sortBy: $sortBy
     name: $name
-    geneNames: $geneNames
+    featureNames: $featureNames
     variantNames: $variantNames
   ) {
     pageInfo {
@@ -41,7 +41,7 @@ fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
   id
   name
   link
-  geneNames
+  featureNames
   variantNames
   variantCount
   evidenceItemCount

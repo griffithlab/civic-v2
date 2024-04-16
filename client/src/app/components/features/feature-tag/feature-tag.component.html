@@ -1,0 +1,44 @@
+<ng-container *ngIf="linked; else unlinked">
+  <a [routerLink]="feature.link">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag
+    nz-popover
+    [ngClass]="{ deprecated: feature.deprecated }"
+    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
+    [nzPopoverContent]="featurePopover"
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+  <ng-template #featurePopover>
+    <cvc-feature-popover [featureId]="feature.id"></cvc-feature-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <cvc-icon-badges
+    [flagged]="feature.flagged"
+    [entityColor]="iconColor">
+    <i
+      nz-icon
+      nzType="civic-feature"
+      nzTheme="twotone"
+      [nzTwotoneColor]="'Feature' | entityColor"></i>
+  </cvc-icon-badges>
+  <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
+  <ng-container *ngIf="this.truncateLongName; else fullName">
+    {{ feature.name | truncate: 12 }}
+  </ng-container>
+  <ng-template #fullName>
+    {{ feature.name }}
+  </ng-template>
+</ng-template>

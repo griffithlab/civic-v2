@@ -32,7 +32,7 @@ query ActivityFeed(
   $last: Int
   $before: String
   $after: String
-  $userId: Int
+  $userId: [Int!]
   #$organizationId: Int
   #$eventType: EventAction
   #$mode: EventFeedMode
@@ -115,8 +115,13 @@ fragment activityFeedNode on ActivityInterface {
     ... on Revision {
       revisionSetId
     }
-    ... on Variant {
+    ... on VariantInterface {
       deprecated
+      feature {
+        id
+        name
+        link
+      }
     }
     ... on MolecularProfile {
       deprecated
@@ -125,7 +130,7 @@ fragment activityFeedNode on ActivityInterface {
   }
   ... on FlagEntityActivity {
     flag {
-      id 
+      id
       name
       link
     }

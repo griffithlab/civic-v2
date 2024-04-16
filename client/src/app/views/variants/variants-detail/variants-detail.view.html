@@ -1,6 +1,6 @@
 <ng-container *ngIf="variant$ | ngrxPush as variant">
   <cvc-section-navigation
-    [displayName]="variant.gene.name + ' ' + variant.name"
+    [displayName]="variant.feature.name + ' ' + variant.name"
     [relationsTpl]="variantRelations">
   </cvc-section-navigation>
   <ng-template #variantRelations>
@@ -15,8 +15,8 @@
       <span
         *nzSpaceItem
         class="tags">
-        <a routerLink="/genes/{{ variant.gene.id }}">
-          <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
+        <a routerLink="/features/{{ variant.feature.id }}">
+          <cvc-feature-tag [feature]="variant.feature"></cvc-feature-tag>
         </a>
       </span>
     </nz-space>
@@ -35,6 +35,11 @@
           nzTheme="twotone"
           [nzTwotoneColor]="'Variant' | entityColor"
           nzType="civic-variant"></i>
+        <span
+          nz-typography
+          style="color: #bbb">
+          {{ variant.feature.name }}
+        </span>
         {{ variant.name }}
       </nz-page-header-title>
 
@@ -55,6 +60,7 @@
           <span *nzSpaceItem>
             <button
               [routerLink]="['/variants', variant.id, 'revise']"
+              [queryParams]="{variantType: variant.__typename}"
               *ngIf="viewer?.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

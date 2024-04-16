@@ -4,16 +4,39 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
 } from '@angular/core'
 import { Maybe } from '@app/generated/civic.apollo'
 
-export type SupportedPileupTags = 'therapy' | 'disease' | 'gene' | 'organization' | 'variant' | 'variant-type'
+export type SupportedPileupTags =
+  | 'therapy'
+  | 'disease'
+  | 'gene'
+  | 'feature'
+  | 'organization'
+  | 'variant'
+  | 'variant-type'
+  | 'variant-feature'
 
 export type TagInfo = {
   id: number
   name: string
   link: string
+  matchText?: string
+}
+
+function populateMatchText(input: Maybe<TagInfo[]>): Maybe<TagInfo[]> {
+  return input?.map((t) => {
+    if (!t.matchText) {
+      return {
+        ...t,
+        matchText: t.name,
+      }
+    } else {
+      return t
+    }
+  })
 }
 
 @Component({
@@ -23,7 +46,7 @@ export type TagInfo = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcTagOverflowComponent implements OnChanges {
-  @Input() tags: Maybe<TagInfo[]>
+  @Input({ transform: populateMatchText }) tags: Maybe<TagInfo[]>
   @Input() maxDisplayCount: number = 2
   @Input() matchingText?: string
   @Input() tagType: Maybe<SupportedPileupTags>
@@ -33,15 +56,15 @@ export class CvcTagOverflowComponent implements OnChanges {
   hiddenTags?: TagInfo[]
   hiddenCount?: number
   matchedHiddenCount: number = 0
+
   constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnChanges(_: SimpleChanges): void {
     // if (this.thisOne) console.log(changes);
-
     // displayedTags: this.displayedTags,
     // hiddenTags: this.hiddenTags,
     // hiddenCount: this.hiddenCount,
     // matchingText: this.matchingText
-
     this.calculateDisplayedTags()
   }
 
@@ -55,7 +78,7 @@ export class CvcTagOverflowComponent implements OnChanges {
       if (this.hiddenTags) {
         let text = this.matchingText.toLowerCase()
         this.hiddenTags.forEach((t) => {
-          if (t.name.toLowerCase().includes(text)) {
+          if (t.matchText!.toLowerCase().includes(text)) {
             this.matchedHiddenCount += 1
           }
         })

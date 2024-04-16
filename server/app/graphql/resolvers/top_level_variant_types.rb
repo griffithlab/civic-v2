@@ -36,6 +36,10 @@ class Resolvers::TopLevelVariantTypes < GraphQL::Schema::Resolver
     scope.joins(variants: [:gene]).where(gene: {id: value})
   end
 
+  option(:feature_id, type: Int, description: 'Filter variant types by internal CIViC id a feature') do |scope, value|
+    scope.joins(variants: [:feature]).where(feature: {id: value})
+  end
+
   option(:sort_by, type: Types::BrowseTables::VariantTypeSortType, description: 'Sort order for the variant type. Defaults to most recent.') do |scope, value|
     scope.reorder("#{value.column} #{value.direction}")
   end

@@ -12,7 +12,7 @@ fragment molecularProfilePopoverFields on MolecularProfile {
     ... on MolecularProfileTextSegment {
       text
     }
-    ... on Gene {
+    ... on Feature {
       id
       name
       link

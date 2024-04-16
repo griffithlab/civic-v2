@@ -1,29 +1,22 @@
 module Loaders
   class MolecularProfileSegmentsLoader < GraphQL::Batch::Loader
-    GENE_REGEX = /#GID(?<id>\d+)/i
-    VARIANT_REGEX = /#VID(?<id>\d+)/i
-
     def initialize(model)
       @model = model
     end
 
     def perform(ids)
       mps = {}
-      resolved_genes = {}
+      resolved_features = {}
       resolved_variants = {}
 
       MolecularProfile.where(id: ids).each do |mp|
         mps[mp.id] = mp.name.split(' ').map do |segment|
-          if gene_match = segment.match(GENE_REGEX)
-            gene_id = gene_match[:id].to_i
-            resolved_genes[gene_id] = nil
-            ->(genes, vars) { genes[gene_id] }
-          elsif variant_match = segment.match(VARIANT_REGEX)
+          if variant_match = segment.match(MolecularProfile::VARIANT_REGEX)
             variant_id = variant_match[:id].to_i
             resolved_variants[variant_id] = nil
-            ->(genes, vars) { vars[variant_id] }
+            ->(features, vars) { [ features[vars[variant_id].feature_id], vars[variant_id] ] }
           else
-            ->(genes, vars) { segment }
+            ->(features, vars) { segment }
           end
         end
       end
@@ -31,12 +24,12 @@ module Loaders
       Variant.where(id: resolved_variants.keys)
         .each { |v| resolved_variants[v.id] = v }
 
-      Gene.where(id: resolved_genes.keys)
-        .each { |g| resolved_genes[g.id] = g }
+      Feature.where(id: resolved_variants.map{|id, v| v.feature_id})
+        .each { |f| resolved_features[f.id] = f }
 
       ids.each do |id|
         if mp = mps[id]
-          segments = mp.map { |s| s.call(resolved_genes, resolved_variants) }
+          segments = mp.flat_map { |s| s.call(resolved_features, resolved_variants) }
           fulfill(id, segments)
         else
           fulfill(id, nil)

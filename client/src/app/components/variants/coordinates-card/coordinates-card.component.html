@@ -1,7 +1,9 @@
 <ng-container *ngIf="this.cvcVariantId && (variant$ | ngrxPush) as variant">
+  @if(variant.__typename == "GeneVariant") {
   <ng-container
     *ngTemplateOutlet="coordinateCard; context: { $implicit: variant }">
   </ng-container>
+  }
 </ng-container>
 <ng-container *ngIf="this.cvcCoordinates">
   <ng-container
@@ -86,8 +88,13 @@
           <nz-descriptions-item
             nzTitle="Transcript"
             nzColumn="5">
-            <cvc-link-tag *ngIf="coords.representativeTranscript" tooltip="View on Ensembl"
-              [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
+            <cvc-link-tag
+              *ngIf="coords.representativeTranscript"
+              tooltip="View on Ensembl"
+              [href]="
+                'http://www.ensembl.org/Homo_sapiens/transview?transcript=' +
+                coords.representativeTranscript
+              ">
               {{ coords.representativeTranscript }}
             </cvc-link-tag>
             <ng-container *ngIf="!coords.representativeTranscript">
@@ -131,8 +138,13 @@
           <nz-descriptions-item
             nzTitle="Transcript"
             nzColumn="5">
-            <cvc-link-tag *ngIf="coords.representativeTranscript" tooltip="View on Ensembl"
-              [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
+            <cvc-link-tag
+              *ngIf="coords.representativeTranscript"
+              tooltip="View on Ensembl"
+              [href]="
+                'http://www.ensembl.org/Homo_sapiens/transview?transcript=' +
+                coords.representativeTranscript
+              ">
               {{ coords.representativeTranscript }}
             </cvc-link-tag>
             <ng-container *ngIf="!coords.representativeTranscript">

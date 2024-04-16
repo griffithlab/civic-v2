@@ -13,10 +13,12 @@ module Types::Interfaces
     definition_methods do
       def resolve_type(object, context)
         case object
-        when Gene
-          Types::Entities::GeneType
-        when Variant
-          Types::Entities::VariantType
+        when Feature
+          Types::Entities::FeatureType
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion

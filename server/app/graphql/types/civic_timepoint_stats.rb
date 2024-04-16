@@ -8,7 +8,7 @@ module Types
 
   class CivicTimepointStats < Types::BaseObject
     description 'Counts of CIViC activity over time, used for the homepage'
-    field :genes, TimePointCounts, null: false
+    field :features, TimePointCounts, null: false
     field :variants, TimePointCounts, null: false
     field :molecular_profiles, TimePointCounts, null: false
     field :revisions, TimePointCounts, null: false

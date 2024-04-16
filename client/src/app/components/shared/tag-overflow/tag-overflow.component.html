@@ -3,7 +3,7 @@
     *ngFor="let tag of displayedTags"
     [ngClass]="{
       'matched-tag':
-        matchingText && tag.name.toLowerCase().includes(matchingText)
+        matchingText && tag.matchText!.toLowerCase().includes(matchingText)
     }">
     <ng-container
       [ngTemplateOutlet]="tagTemplate"
@@ -31,7 +31,8 @@
           *ngFor="let tag of hiddenTags"
           [ngClass]="{
             'matched-tag':
-              matchingText && tag.name.toLowerCase().includes(matchingText)
+              matchingText &&
+              tag.matchText!.toLowerCase().includes(matchingText)
           }">
           <ng-container [ngSwitch]="tagType">
             <ng-container
@@ -60,10 +61,10 @@
         [disease]="tag"
         [truncateLongName]="true"></cvc-disease-tag>
     </ng-container>
-    <ng-container *ngSwitchCase="'gene'">
-      <cvc-gene-tag
-        [gene]="tag"
-        [truncateLongName]="true"></cvc-gene-tag>
+    <ng-container *ngSwitchCase="'feature'">
+      <cvc-feature-tag
+        [feature]="tag"
+        [truncateLongName]="true"></cvc-feature-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'organization'">
       <cvc-organization-tag [org]="tag"></cvc-organization-tag>
@@ -73,6 +74,11 @@
     </ng-container>
     <ng-container *ngSwitchCase="'variant-type'">
       <cvc-variant-type-tag [variantType]="tag"></cvc-variant-type-tag>
+    </ng-container>
+    <ng-container *ngSwitchCase="'variant-feature'">
+      <cvc-feature-variant-tag
+        [truncateLongName]="true"
+        [variant]="tag"></cvc-feature-variant-tag>
     </ng-container>
   </ng-container>
 </ng-template>

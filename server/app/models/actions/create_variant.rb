@@ -4,8 +4,16 @@ module Actions
 
     attr_reader :variant, :molecular_profile, :originating_user, :organization_id
 
-    def initialize(variant_name:, gene_id:, originating_user:, organization_id: nil)
-      @variant = Variant.new(name: variant_name, gene_id: gene_id)
+    def initialize(variant_name:, feature_id:, originating_user:, organization_id: nil)
+      variant_type = Feature.find(feature_id).compatible_variant_type
+
+      #TODO - REMOVE gene_id
+      @variant = Variant.new(
+        name: variant_name,
+        feature_id: feature_id,
+        type: variant_type,
+        gene_id: 999
+      )
       @originating_user = originating_user
       @organization_id = organization_id
     end

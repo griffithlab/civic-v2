@@ -16,13 +16,13 @@ FlagDuplicateAlleleRegistryIds:
   queue: default
   class: FlagDuplicateAlleleRegistryIds
 
-RefreshGeneView:
+RefreshFeatureView:
   cron: '0 */2 * * *'
-  description: Refresh the gene browse table view (every two hours)
+  description: Refresh the feature browse table view (every two hours)
   queue: default
   class: RefreshMaterializedViews
   args:
-    views: genes_only
+    views: features_only
 
 RefreshBrowseViews:
   cron: '*/10 * * * *'
@@ -30,7 +30,7 @@ RefreshBrowseViews:
   queue: default
   class: RefreshMaterializedViews
   args:
-    views: except_genes
+    views: except_features
 
 GenerateMonthlyTsvs:
   cron: '20 0 1 * *'

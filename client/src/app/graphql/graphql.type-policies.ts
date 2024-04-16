@@ -14,10 +14,11 @@ export const CvcTypePolicies: TypePolicies = {
   },
   Query: {
     fields: {
-      browseGenes: relayStylePagination([
-        'entrezSymbol',
-        'therapayName',
-        'geneAlias',
+      browseFeatures: relayStylePagination([
+        'name',
+        'featureType',
+        'therapyName',
+        'featureAlias',
         'diseaseName',
       ]),
       browseVariants: relayStylePagination([
@@ -27,6 +28,7 @@ export const CvcTypePolicies: TypePolicies = {
         'therapayName',
         'variantTypeId',
         'variantGroupId',
+        'variantCategory',
       ]),
       browseMolecularProfiles: relayStylePagination([
         'variantName',
@@ -52,7 +54,7 @@ export const CvcTypePolicies: TypePolicies = {
         'journal',
         'clinicalTrialId',
         'id',
-        'openAccess'
+        'openAccess',
       ]),
       sourceSuggestions: relayStylePagination([
         'sourceType',
@@ -73,9 +75,9 @@ export const CvcTypePolicies: TypePolicies = {
         'originatingUserId',
         'eventType',
       ]),
-      variants: relayStylePagination(['geneId', 'name']),
+      variants: relayStylePagination(['featureId', 'name']),
       molecularProfiles: relayStylePagination([
-        'geneId',
+        'featureId',
         'name',
         'evidenceStatusFilter',
       ]),

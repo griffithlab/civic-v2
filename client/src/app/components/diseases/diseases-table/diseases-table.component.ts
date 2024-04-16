@@ -39,7 +39,7 @@ import { pluck } from 'rxjs-etc/operators'
 
 export interface DiseasesTableUserFilters {
   nameInput?: Maybe<string>
-  geneNameInput?: Maybe<string>
+  featureNameInput?: Maybe<string>
   doidInput?: Maybe<string>
 }
 
@@ -83,7 +83,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   isScrolling = false
   //filters
   nameInput: Maybe<string>
-  geneNameInput: Maybe<string>
+  featureNameInput: Maybe<string>
   doidInput: Maybe<string>
 
   sortColumns: typeof DiseasesSortColumns = DiseasesSortColumns
@@ -183,7 +183,7 @@ export class CvcDiseasesTableComponent implements OnInit {
     this.queryRef
       .refetch({
         name: this.nameInput,
-        geneNames: this.geneNameInput,
+        featureName: this.featureNameInput,
         doid: this.doidInput,
       })
       .then(() => this.scrollIndex$.next(0))

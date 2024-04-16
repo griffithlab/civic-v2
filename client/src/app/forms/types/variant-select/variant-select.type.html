@@ -3,9 +3,9 @@
     <span
       nz-tooltip
       [nzTooltipTrigger]="
-        props.requireGene && !(onGeneId$ | ngrxPush) ? 'hover' : null
+        props.requireFeature && !(onFeatureId$ | ngrxPush) ? 'hover' : null
       "
-      nzTooltipTitle="Select a Gene to enable field.">
+      nzTooltipTitle="Select a Feature to enable field.">
       <cvc-entity-select
         [cvcAddEntity]="addVariant"
         [cvcAddEntityModel]="onModel$ | ngrxPush"
@@ -18,12 +18,12 @@
         [cvcEntityName]="props.entityName"
         [cvcPlaceholder]="props.placeholder"
         [cvcResults]="result$ | ngrxPush"
-        [cvcDisabled]="props.requireGene && !(onGeneId$ | ngrxPush)"
+        [cvcDisabled]="props.requireFeature && !(onFeatureId$ | ngrxPush)"
         [cvcOptions]="selectOption$ | ngrxPush"
         [cvcSelectOpen]="selectOpen$ | ngrxPush"
         [cvcShowError]="showError"
         [cvcLoading]="isLoading$ | ngrxPush"
-        [cvcParamName]="onGeneName$ | ngrxPush"
+        [cvcParamName]="onFeatureName$ | ngrxPush"
         (cvcOnSearch)="onSearch$.next($event)"
         (cvcOnOpenChange)="onOpenChange$.next($event)"
         (cvcOnModelChange)="props.change && props.change(field, $event)">
@@ -113,8 +113,8 @@
   let-model="model">
   <cvc-variant-quick-add-form
     [cvcSearchString]="searchStr"
-    [cvcGeneId]="onGeneId$ | ngrxPush"
-    [cvcGeneName]="onGeneName$ | ngrxPush"
+    [cvcFeatureId]="onFeatureId$ | ngrxPush"
+    [cvcFeatureName]="onFeatureName$ | ngrxPush"
     (cvcOnCreate)="onSelectOrCreate($event)">
   </cvc-variant-quick-add-form>
 </ng-template>

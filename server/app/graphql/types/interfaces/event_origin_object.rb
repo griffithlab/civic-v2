@@ -36,10 +36,14 @@ module Types::Interfaces
           Types::Entities::EvidenceItemType
         when SourceSuggestion
           Types::Entities::SourceSuggestionType
-        when Variant
-          Types::Entities::VariantType
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
         when MolecularProfile
           Types::Entities::MolecularProfileType
+        when Feature
+          Types::Entities::FeatureType
         else
           raise "Unexpected EventOriginObject type: #{object.class}"
         end

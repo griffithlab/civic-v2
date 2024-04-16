@@ -5,7 +5,6 @@ import {
   CoordinatesCardQuery,
   CoordinatesCardQueryVariables,
   Maybe,
-  Variant,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import { Observable } from 'rxjs'

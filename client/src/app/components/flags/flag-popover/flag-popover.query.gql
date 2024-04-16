@@ -17,6 +17,14 @@ fragment flagPopover on Flag {
     id
     link
     name
+    ...on VariantInterface {
+      deprecated
+      feature {
+        id
+        name
+        link
+      }
+    }
   }
   createdAt
   openActivity {

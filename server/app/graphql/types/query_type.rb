@@ -14,13 +14,14 @@ module Types
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
-    field :browseGenes, resolver: Resolvers::BrowseGenes
+    field :browseFeatures, resolver: Resolvers::BrowseFeatures
     field :browseVariants, resolver: Resolvers::BrowseVariants
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :events, resolver: Resolvers::TopLevelEvents
+    field :comments, resolver: Resolvers::TopLevelComments
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
     field :notifications, resolver: Resolvers::Notifications do
@@ -59,7 +60,12 @@ module Types
       argument :entrez_symbol, String, required: false
     end
 
-    field :variant, Types::Entities::VariantType, null: true do
+    field :feature, Types::Entities::FeatureType, null: true do
+      description "Find a single feature by CIViC ID"
+      argument :id, Int, required: false
+    end
+
+    field :variant, Types::Interfaces::VariantInterface, null: true do
       description "Find a variant by CIViC ID"
       argument :id, Int, required: true
     end
@@ -155,7 +161,6 @@ module Types
       argument :permalink_id, String, required: true
     end
 
-    field :comments, resolver: Resolvers::TopLevelComments
     field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
       argument :comment_text, String, required: true
     end
@@ -166,6 +171,7 @@ module Types
     end
 
     field :genes, resolver: Resolvers::TopLevelGenes
+    field :factors, resolver: Resolvers::TopLevelFactors
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 300
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
@@ -188,7 +194,6 @@ module Types
 
     field :activities, resolver: Resolvers::Activities
 
-
     def molecular_profile(id: )
       ::MolecularProfile.find_by(id: id)
     end
@@ -206,10 +211,14 @@ module Types
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
       end
       if (id != :unspecified) 
-        Gene.find_by(id: id)
+        Features::Gene.find_by(id: id)
       else
-        Gene.find_by(name: entrez_symbol)
+        Features::Gene.find_by(name: entrez_symbol)
       end
+    end
+
+    def feature(id: )
+      Feature.find_by(id: id)
     end
 
     def variant(id: )

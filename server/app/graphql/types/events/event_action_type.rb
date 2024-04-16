@@ -24,7 +24,7 @@ module Types::Events
     value 'VARIANT_CREATED', value: 'variant created'
     value 'COMPLEX_MOLECULAR_PROFILE_CREATED', value: 'complex molecular profile created'
     value 'DEPRECATED_FEATURE', value: 'deprecated feature'
-    value 'CREATED_FEATURE', value: 'created feature'
+    value 'FEATURE_CREATED', value: 'feature created'
   end
 end
 

@@ -1,55 +1,68 @@
-<ng-container *ngIf="(molecularProfile$ | ngrxPush) as mp">
+<ng-container *ngIf="molecularProfile$ | ngrxPush as mp">
   <!-- component layout row -->
-  <nz-row [nzGutter]="[8,16]">
+  <nz-row [nzGutter]="[8, 16]">
     <!-- molecular profile attributes block -->
     <nz-col [nzSpan]="24">
-      <nz-row [nzGutter]="[8,8]">
+      <nz-row [nzGutter]="[8, 8]">
         <nz-col [nzSpan]="24">
           <nz-descriptions
             nzSize="small"
             nzBordered="true"
             [nzColumn]="3"
             nzLayout="vertical">
-            <nz-descriptions-item
-              nzTitle="MP Expression">
+            <nz-descriptions-item nzTitle="MP Expression">
               <cvc-mp-tag-name [nameSegments]="mp.parsedName"></cvc-mp-tag-name>
             </nz-descriptions-item>
             <ng-container *ngIf="mp.complexMolecularProfileCreationActivity">
               <nz-descriptions-item [nzTitle]="createdTitle">
                 by
-                <cvc-user-tag [user]="mp.complexMolecularProfileCreationActivity.user"></cvc-user-tag>
+                <cvc-user-tag
+                  [user]="
+                    mp.complexMolecularProfileCreationActivity.user
+                  "></cvc-user-tag>
               </nz-descriptions-item>
               <ng-template #createdTitle>
                 Created
-                <span nz-typography
+                <span
+                  nz-typography
                   nzType="secondary">
-                  ({{ mp.complexMolecularProfileCreationActivity.createdAt | timeAgo }})
+                  ({{
+                    mp.complexMolecularProfileCreationActivity.createdAt
+                      | timeAgo
+                  }})
                 </span>
               </ng-template>
             </ng-container>
             <ng-container *ngIf="mp.complexMolecularProfileDeprecationActivity">
-              <nz-descriptions-item
-                [nzTitle]="deprecatedTitle">
+              <nz-descriptions-item [nzTitle]="deprecatedTitle">
                 by
-                <cvc-user-tag [user]="mp.complexMolecularProfileDeprecationActivity.user"></cvc-user-tag>
+                <cvc-user-tag
+                  [user]="
+                    mp.complexMolecularProfileDeprecationActivity.user
+                  "></cvc-user-tag>
               </nz-descriptions-item>
               <ng-template #deprecatedTitle>
                 Deprecated
-                <span nz-typography
+                <span
+                  nz-typography
                   nzType="secondary">
-                  ({{ mp.complexMolecularProfileDeprecationActivity.createdAt | timeAgo }})
+                  ({{
+                    mp.complexMolecularProfileDeprecationActivity.createdAt
+                      | timeAgo
+                  }})
                 </span>
               </ng-template>
             </ng-container>
             <ng-container *ngIf="mp.variantDeprecationActivity">
-              <nz-descriptions-item
-                [nzTitle]="deprecatedTitle">
+              <nz-descriptions-item [nzTitle]="deprecatedTitle">
                 by
-                <cvc-user-tag [user]="mp.variantDeprecationActivity.user"></cvc-user-tag>
+                <cvc-user-tag
+                  [user]="mp.variantDeprecationActivity.user"></cvc-user-tag>
               </nz-descriptions-item>
               <ng-template #deprecatedTitle>
                 Deprecated
-                <span nz-typography
+                <span
+                  nz-typography
                   nzType="secondary">
                   ({{ mp.variantDeprecationActivity.createdAt | timeAgo }})
                 </span>
@@ -97,10 +110,13 @@
             <!-- aliases -->
             <nz-descriptions-item nzTitle="Aliases">
               <cvc-tag-list
-                *ngIf="mp.molecularProfileAliases.length > 0; else valueUnspecified">
-                <nz-tag *ngFor="let alias of mp.molecularProfileAliases"
-                  >{{ alias }}</nz-tag
-                >
+                *ngIf="
+                  mp.molecularProfileAliases.length > 0;
+                  else valueUnspecified
+                ">
+                <nz-tag *ngFor="let alias of mp.molecularProfileAliases">{{
+                  alias
+                }}</nz-tag>
               </cvc-tag-list>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -111,13 +127,24 @@
     <!-- variant cards -->
     <nz-col nzSpan="24">
       <nz-card nzTitle="MP Variants">
-        <nz-row [nzGutter]="[8,8]">
+        <nz-row [nzGutter]="[8, 8]">
           <nz-col
             nzSpan="24"
             *ngFor="let v of mp.variants">
-            <cvc-mp-variant-card
+            <!-- prettier-ignore -->
+            @switch(v.__typename) {
+            <!-- prettier-ignore -->
+            @case('GeneVariant') {
+            <cvc-mp-gene-variant-card
               [variant]="v"
-              [currentMolecularProfileId]="mp.id"></cvc-mp-variant-card>
+              [currentMolecularProfileId]="mp.id"></cvc-mp-gene-variant-card>
+            }
+            <!-- prettier-ignore -->
+            @case('FactorVariant') {
+            <cvc-mp-factor-variant-card
+              [variant]="v"
+              [currentMolecularProfileId]="mp.id"></cvc-mp-factor-variant-card>
+            } }
           </nz-col>
         </nz-row>
       </nz-card>
@@ -138,7 +165,7 @@
       <cvc-assertions-table
         [molecularProfileId]="mp.id"
         cvcHeight="200px"
-        cvcTitle="{{mp.name}} Assertions">
+        cvcTitle="{{ mp.name }} Assertions">
       </cvc-assertions-table>
     </nz-col>
   </nz-row>

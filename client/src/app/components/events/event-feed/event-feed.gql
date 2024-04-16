@@ -115,8 +115,19 @@ fragment eventFeedNode on Event {
     ... on Revision {
       revisionSetId
     }
-    ... on Variant {
+    ... on VariantInterface {
       deprecated
+      feature {
+        id
+        link
+        name
+      }
+    }
+    ... on Feature {
+      deprecated
+      id
+      link
+      name
     }
     ... on MolecularProfile {
       deprecated

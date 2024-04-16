@@ -4,7 +4,7 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="gene">
+      [nzExtra]="feature">
       <ng-template #cardTitle>
         <i
           nz-icon
@@ -13,10 +13,10 @@
           nzType="civic-variant"></i>
         {{ variant.name }}
       </ng-template>
-      <ng-template #gene>
-        <cvc-gene-tag
+      <ng-template #feature>
+        <cvc-feature-tag
           [enablePopover]="false"
-          [gene]="variant.gene"></cvc-gene-tag>
+          [feature]="variant.feature"></cvc-feature-tag>
       </ng-template>
 
       <nz-descriptions
@@ -38,6 +38,7 @@
           nzTitle="Allele Registry ID"
           nzSpan="2"
           *ngIf="
+            variant.__typename == 'GeneVariant' &&
             variant.alleleRegistryId &&
             variant.alleleRegistryId != 'unregistered'
           ">

@@ -46,37 +46,69 @@
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
-        <th nzWidth="150px"
+        <th
+          nzWidth="150px"
           nzLeft
           [nzColumnKey]="sortColumns.VariantName"
           [nzSortFn]="true">
           Variant
         </th>
-        <th nzWidth="170px">
-          Variant Aliases
+        <th
+          nzLeft
+          nzWidth="70px"
+          nz-tooltip
+          nzTooltipTitle="Feature Type">
+          <i
+            nz-icon
+            nzType="civic-feature"></i>
+          Type
         </th>
-        <th nzWidth="180px"
+        <th
+          nzWidth="100px"
+          [nzColumnKey]="sortColumns.FeatureName"
+          [nzSortFn]="true">
+          Feature
+        </th>
+        <th nzWidth="170px">Variant Aliases</th>
+        <th
+          nzWidth="180px"
           [nzFilters]="[{ text: 'None', value: true }]"
           [nzFilterFn]="true"
           (nzFilterChange)="onHasNoVariantTypeInputChange($event)">
           Variant Types
         </th>
-        <th nzWidth="100px"
-          [nzColumnKey]="sortColumns.EntrezSymbol"
-          [nzSortFn]="true">
-          Gene
-        </th>
-        <th nzWidth="200px">
-          Diseases
-        </th>
-        <th nzWidth="180px">
-          Therapies
-        </th>
+        <th nzWidth="200px">Diseases</th>
+        <th nzWidth="180px">Therapies</th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter
             [(inputModel)]="variantNameInput"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <nz-select
+            nzAllowClear
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            nzPlaceHolder="All"
+            (ngModelChange)="filterChange$.next()"
+            [(ngModel)]="variantCategoryInput">
+            <nz-option
+              [nzValue]="variantCategories.Gene"
+              nzLabel="Gene">
+            </nz-option>
+            <nz-option
+              [nzValue]="variantCategories.Factor"
+              nzLabel="Factor">
+            </nz-option>
+          </nz-select>
+        </th>
+        <th>
+          <cvc-clearable-input-filter
+            [(inputModel)]="featureNameInput"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
@@ -93,10 +125,6 @@
             [(inputModel)]="variantTypeNameInput"
             (inputModelChange)="filterChange$.next()">
           </cvc-clearable-input-filter>
-        </th>
-        <th>
-          <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter
@@ -125,22 +153,35 @@
               [variant]="variant"
               [truncateLongName]="true"></cvc-variant-tag>
           </td>
+          <td nzLeft>
+            <span
+              nz-typography
+              nzType="secondary">
+              {{ variant.category | titlecase }}
+            </span>
+          </td>
+          <td>
+            <cvc-feature-tag
+              [feature]="{
+                id: variant.featureId,
+                name: variant.featureName,
+                link: variant.featureLink
+              }"
+              [truncateLongName]="true"></cvc-feature-tag>
+          </td>
           <td>
             <cvc-plain-tag-overflow
               [maxDisplayCount]="1"
-              [tags]="variant.aliases | pluck : 'name'"
+              [tags]="variant.aliases | pluck: 'name'"
               [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
-            <cvc-tag-overflow tagType="variant-type"
+            <cvc-tag-overflow
+              tagType="variant-type"
               [tags]="variant.variantTypes"
               [maxDisplayCount]="1"
               [matchingText]="variantTypeNameInput">
             </cvc-tag-overflow>
-          </td>
-          <td>
-            <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName, link: variant.geneLink}"
-              [truncateLongName]="true"></cvc-gene-tag>
           </td>
           <td>
             <cvc-tag-overflow

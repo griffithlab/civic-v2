@@ -1,0 +1,27 @@
+query FeatureSelectTypeahead($queryTerm: String!, $featureType: FeatureInstanceTypes) {
+  featureTypeahead(queryTerm: $queryTerm, featureType: $featureType) {
+    ...FeatureSelectTypeaheadFields
+  }
+}
+
+query FeatureSelectTag($featureId: Int!) {
+  feature(id: $featureId) {
+    ...FeatureSelectTypeaheadFields
+  }
+}
+
+fragment FeatureSelectTypeaheadFields on Feature {
+  id
+  name
+  featureAliases
+  link
+  featureInstance {
+    __typename
+    ... on Gene {
+      entrezId
+    }
+    ... on Factor {
+      ncitId
+    }
+  }
+}

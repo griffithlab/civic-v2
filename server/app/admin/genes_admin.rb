@@ -1,6 +1,6 @@
-Trestle.resource(:genes) do
+Trestle.resource(:genes, model: Features::Gene) do
   collection do
-    Gene.includes(:flags).order(name: :asc)
+    Fatures::Gene.includes(:flags).order(name: :asc)
   end
 
   search do |q|
@@ -15,8 +15,8 @@ Trestle.resource(:genes) do
   end
 
   scope :all
-  scope :with_variants, -> { Gene.joins(:variants).distinct }, default: true
-  scope :flagged, -> { Gene.where(flagged: true) }
+  scope :with_variants, -> { Features::Gene.joins(:variants).distinct }, default: true
+  scope :flagged, -> { Features::Gene.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
   table do

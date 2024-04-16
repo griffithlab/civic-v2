@@ -53,7 +53,7 @@ const formFieldConfig: FormlyFieldConfig[] = [
             props: {
               label: 'Variants',
               required: true,
-              requireGene: false,
+              requireFeature: false,
               showManagerBtn: true,
             },
           },

@@ -11,10 +11,10 @@
             [user]="c.commenter"></cvc-user-tag
           >commented on
           <ng-container [ngSwitch]="c.commentable.__typename">
-            <cvc-gene-tag
-              *ngSwitchCase="'Gene'"
+            <cvc-feature-tag
+              *ngSwitchCase="'Feature'"
               [enablePopover]="false"
-              [gene]="c.commentable"></cvc-gene-tag>
+              [feature]="c.commentable"></cvc-feature-tag>
             <cvc-assertion-tag
               *ngSwitchCase="'Assertion'"
               [enablePopover]="false"
@@ -23,10 +23,10 @@
               *ngSwitchCase="'EvidenceItem'"
               [enablePopover]="false"
               [evidence]="c.commentable"></cvc-evidence-tag>
-            <cvc-variant-tag
+            <cvc-feature-variant-tag
               *ngSwitchCase="'Variant'"
               [enablePopover]="false"
-              [variant]="c.commentable"></cvc-variant-tag>
+              [variant]="c.commentable"></cvc-feature-variant-tag>
             <!-- NOTE: #UPDATE had to use $any here, [revision] attr was complaining about
             missing linkableRevision on c.commentable -->
             <cvc-revision-tag

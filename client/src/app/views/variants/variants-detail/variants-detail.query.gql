@@ -4,7 +4,7 @@ query VariantDetail($variantId: Int!) {
   }
 }
 
-fragment VariantDetailFields on Variant {
+fragment VariantDetailFields on VariantInterface {
   id
   name
   deprecated
@@ -14,7 +14,7 @@ fragment VariantDetailFields on Variant {
       ...parsedCommentFragment
     }
   }
-  gene {
+  feature {
     id
     name
     link

@@ -9,37 +9,38 @@
     <ng-container [ngSwitch]="c.tagType">
       <span *ngSwitchCase="'REVISION'">
         <!--<cvc-revision-tag-->
-          <!--[revision]="{-->
-            <!--id: c.entityId,-->
-            <!--name: c.displayName,-->
-            <!--link: c.link,-->
-            <!--revisionSetId: c.revisionSetId!-->
-          <!--}"></cvc-revision-tag>-->
-          <nz-tag>
-            <i
-              nz-icon
-              nzType="civic-revision"
-              nzTheme="twotone"
-              nzTwotoneColor="#F0673A"></i>
-            {{ c.displayName }}
-          </nz-tag>
+        <!--[revision]="{-->
+        <!--id: c.entityId,-->
+        <!--name: c.displayName,-->
+        <!--link: c.link,-->
+        <!--revisionSetId: c.revisionSetId!-->
+        <!--}"></cvc-revision-tag>-->
+        <nz-tag>
+          <i
+            nz-icon
+            nzType="civic-revision"
+            nzTheme="twotone"
+            nzTwotoneColor="#F0673A"></i>
+          {{ c.displayName }}
+        </nz-tag>
       </span>
-      <span *ngSwitchCase="'GENE'">
-        <cvc-gene-tag
-          [gene]="{
+      <span *ngSwitchCase="'FEATURE'">
+        <cvc-feature-tag
+          [feature]="{
             id: c.entityId,
             name: c.displayName,
             link: c.link
-          }"></cvc-gene-tag>
+          }"></cvc-feature-tag>
       </span>
       <span *ngSwitchCase="'VARIANT'">
-        <cvc-variant-tag
+        <cvc-feature-variant-tag
           [variant]="{
             id: c.entityId,
             name: c.displayName,
             link: c.link,
-            deprecated: c.deprecated
-          }"></cvc-variant-tag>
+            deprecated: c.deprecated,
+            feature: c.feature
+          }"></cvc-feature-variant-tag>
       </span>
       <span *ngSwitchCase="'VARIANT_GROUP'">
         <cvc-variant-group-tag

@@ -59,19 +59,19 @@
           [nzSortFn]="true">
           DOID
         </th>
-        <th nzWidth="400px">Genes</th>
+        <th nzWidth="400px">Features</th>
         <th
           nzWidth="75px"
           nzRight
           nzAlign="right"
-          [nzColumnKey]="sortColumns.GeneCount"
+          [nzColumnKey]="sortColumns.FeatureCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Gene Count">
+          nzTooltipTitle="Feature Count">
           <i
             nz-icon
-            nzType="civic-gene"></i>
+            nzType="civic-feature"></i>
           Count
         </th>
         <th
@@ -133,7 +133,7 @@
         </th>
         <th>
           <cvc-clearable-input-filter
-            [(inputModel)]="geneNameInput"
+            [(inputModel)]="featureNameInput"
             (inputModelChange)="
               filterChange$.next()
             "></cvc-clearable-input-filter>
@@ -163,22 +163,18 @@
 
             <ng-template #noDoid> -- </ng-template>
           </td>
-          <td
-            class="overflow-ellipsis"
-            nz-tooltip
-            [nzTooltipTitle]="!isScrolling ? geneNames : ''">
-            <ng-template #geneNames>
-              <ng-container
-                *ngFor="let gene of disease.geneNames; last as isLast">
-                {{ gene }}{{ isLast ? '' : ', ' }}
-              </ng-container>
-            </ng-template>
-            <ng-container [ngTemplateOutlet]="geneNames"></ng-container>
+          <td class="overflow-ellipsis">
+            <cvc-tag-overflow
+              tagType="feature"
+              [tags]="disease.features"
+              [maxDisplayCount]="5"
+              [matchingText]="featureNameInput">
+            </cvc-tag-overflow>
           </td>
           <td
             nzRight
             nzAlign="right">
-            {{ disease.geneCount }}
+            {{ disease.featureCount }}
           </td>
           <td
             nzRight

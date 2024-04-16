@@ -8,6 +8,9 @@ import { Maybe } from '@app/generated/civic.apollo'
 export class TypenameToIconPipe implements PipeTransform {
   transform(value: Maybe<string>): string {
     if (!value) return ''
+    if (value.endsWith('Variant')) {
+      return 'civic-variant'
+    }
     return `civic-${value.replace(/_/g, '').toLowerCase()}`
   }
 }

@@ -23,7 +23,7 @@ import { isNonNulled } from 'rxjs-etc'
   styleUrls: ['./molecular-profiles-menu.component.less'],
 })
 export class CvcMolecularProfilesMenuComponent implements OnInit {
-  @Input() geneId?: number
+  @Input() featureId?: number
 
   menuMolecularProfiles$?: Observable<Maybe<MenuMolecularProfileFragment>[]>;
   totalMolecularProfiles$?: Observable<number>;
@@ -44,14 +44,14 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
   constructor(private gql: MolecularProfileMenuGQL) {}
 
   ngOnInit() {
-    if (this.geneId === undefined) {
+    if (this.featureId === undefined) {
       throw new Error(
-        'Must pass a gene id into molecular profile menu component.'
+        'Must pass a feature id into molecular profile menu component.'
       )
     }
 
     this.initialQueryVars = {
-      geneId: this.geneId,
+      featureId: this.featureId,
       evidenceStatusFilter: this.statusFilter,
       first: this.pageSize,
     }
@@ -99,13 +99,13 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
   }
 
   refresh() {
-    if (this.geneId === undefined) {
+    if (this.featureId === undefined) {
       throw new Error(
-        'Must pass a gene id into molecular profile menu component.'
+        'Must pass a feature id into molecular profile menu component.'
       )
     }
     this.queryRef$.refetch({
-      geneId: this.geneId,
+      featureId: this.featureId,
       mpName: this.mpNameFilter,
       first: this.pageSize
     });

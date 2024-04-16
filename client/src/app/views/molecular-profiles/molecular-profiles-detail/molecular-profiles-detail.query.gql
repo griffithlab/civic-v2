@@ -25,6 +25,11 @@ fragment MolecularProfileDetailFields on MolecularProfile {
     deprecated
     name
     link
+    feature {
+      id
+      name
+      link
+    }
   }
   molecularProfileAliases
   flags(state: OPEN) {

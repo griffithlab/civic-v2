@@ -19,20 +19,22 @@ module Types::Interfaces
           Types::Entities::EvidenceItemType
         when Flag
           Types::Entities::FlagType
-        when Gene
-          Types::Entities::GeneType
         when Revision
           Types::Revisions::RevisionType
         when Source
           Types::Entities::SourceType
-        when Variant
-          Types::Entities::VariantType
+        when Variants::GeneVariant
+          Types::Variants::GeneVariantType
+        when Variants::FactorVariant
+          Types::Variants::FactorVariantType
         when VariantGroup
           Types::Entities::VariantGroupType
         when Source
           Types::Entities::SourceType
         when MolecularProfile
-          Types::Entities::MolecularProfile
+          Types::Entities::MolecularProfileType
+        when Feature
+          Types::Entities::FeatureType
         else
           raise "Unexpected Commentable type: #{object.class}"
         end

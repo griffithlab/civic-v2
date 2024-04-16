@@ -56,7 +56,7 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
   ... on MolecularProfileTextSegment {
     text
   }
-  ... on Gene {
+  ... on Feature {
     id
     name
     link
@@ -69,11 +69,11 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
   }
 }
 
-fragment VariantMolecularProfileCardFields on Variant {
+fragment VariantMolecularProfileCardFields on VariantInterface {
   id
   name
   link
-  gene {
+  feature {
     id
     name
     link
@@ -87,31 +87,17 @@ fragment VariantMolecularProfileCardFields on Variant {
       deprecated
     }
   }
+  ... on GeneVariant {
+    ... GeneVariantSummaryFields
+  }
+  ... on FactorVariant {
+    ... FactorVariantSummaryFields
+  }
   variantAliases
-  clinvarIds
-  alleleRegistryId
-  openCravatUrl
   variantTypes {
     id
     link
     soid
     name
   }
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
-  hgvsDescriptions
 }

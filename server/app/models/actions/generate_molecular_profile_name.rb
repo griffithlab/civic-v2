@@ -5,7 +5,7 @@ module Actions
     end
 
     def self.generate_single_variant_mp_name(variant: )
-        "#GID#{variant.gene.id} #VID#{variant.id}"
+        "#VID#{variant.id}"
     end
 
     private

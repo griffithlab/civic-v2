@@ -17,10 +17,12 @@ Rails.application.routes.draw do
 
   get '/links' => 'links#redirect'
   get 'links/:idtype/:id' => 'links#redirect'
+  get '/genes/:id' => 'links#redirect_legacy_gene_id'
 
   get '/api/graphiql' => 'graphiql#show'
 
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
   mount Sidekiq::Web, at: '/jobs', constraints: UserLoggedInConstraint.new
+  mount SolidErrors::Engine, at: "/errors", constraints: UserLoggedInConstraint.new
 end
