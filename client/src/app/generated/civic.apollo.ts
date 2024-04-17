@@ -1951,8 +1951,8 @@ export type Factor = Commentable & EventOriginObject & EventSubject & Flaggable 
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
-  /** List and filter variants. */
-  variants: VariantConnection;
+  /** List and filter Gene variants. */
+  variants: FactorVariantConnection;
 };
 
 
@@ -2013,10 +2013,42 @@ export type FactorRevisionsArgs = {
 /** The Feature that a Variant can belong to */
 export type FactorVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<VariantCategories>;
+  factorId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  sortBy?: InputMaybe<VariantMenuSort>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+/** The connection type for Factor. */
+export type FactorConnection = {
+  __typename: 'FactorConnection';
+  /** A list of edges. */
+  edges: Array<FactorEdge>;
+  /** A list of nodes. */
+  nodes: Array<Factor>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type FactorEdge = {
+  __typename: 'FactorEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Factor>;
 };
 
 /** Fields on a Factor that curators may propose revisions to. */
@@ -2124,6 +2156,30 @@ export type FactorVariantRevisionsArgs = {
   status?: InputMaybe<RevisionStatus>;
 };
 
+/** The connection type for FactorVariant. */
+export type FactorVariantConnection = {
+  __typename: 'FactorVariantConnection';
+  /** A list of edges. */
+  edges: Array<FactorVariantEdge>;
+  /** A list of nodes. */
+  nodes: Array<FactorVariant>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type FactorVariantEdge = {
+  __typename: 'FactorVariantEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<FactorVariant>;
+};
+
 /** Fields on a FactorVariant that curators may propose revisions to. */
 export type FactorVariantFields = {
   /** List of aliases or alternate names for the Variant. */
@@ -2171,8 +2227,8 @@ export type Feature = Commentable & EventOriginObject & EventSubject & Flaggable
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
-  /** List and filter variants. */
-  variants: VariantConnection;
+  /** List and filter Gene variants. */
+  variants: VariantInterfaceConnection;
 };
 
 
@@ -2233,10 +2289,18 @@ export type FeatureRevisionsArgs = {
 /** The Feature that a Variant can belong to */
 export type FeatureVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<VariantCategories>;
+  factorId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  sortBy?: InputMaybe<VariantMenuSort>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export enum FeatureDeprecationReason {
@@ -2477,8 +2541,8 @@ export type Gene = Commentable & EventOriginObject & EventSubject & Flaggable & 
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
-  /** List and filter variants. */
-  variants: VariantConnection;
+  /** List and filter Gene variants. */
+  variants: GeneVariantConnection;
 };
 
 
@@ -2539,10 +2603,18 @@ export type GeneRevisionsArgs = {
 /** The Feature that a Variant can belong to */
 export type GeneVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<VariantCategories>;
+  factorId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  sortBy?: InputMaybe<VariantMenuSort>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** The connection type for Gene. */
@@ -2686,6 +2758,30 @@ export type GeneVariantRevisionsArgs = {
   revisionSetId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<DateSort>;
   status?: InputMaybe<RevisionStatus>;
+};
+
+/** The connection type for GeneVariant. */
+export type GeneVariantConnection = {
+  __typename: 'GeneVariantConnection';
+  /** A list of edges. */
+  edges: Array<GeneVariantEdge>;
+  /** A list of nodes. */
+  nodes: Array<GeneVariant>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type GeneVariantEdge = {
+  __typename: 'GeneVariantEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<GeneVariant>;
 };
 
 /** Fields on a GeneVariant that curators may propose revisions to. */
@@ -4056,6 +4152,8 @@ export type Query = {
   evidenceItem?: Maybe<EvidenceItem>;
   /** List and filter evidence items. */
   evidenceItems: EvidenceItemConnection;
+  /** List and filter factors. */
+  factors: FactorConnection;
   /** Find a single feature by CIViC ID */
   feature?: Maybe<Feature>;
   /** Retrieve Features of a specific instance type for a search term. */
@@ -4424,6 +4522,16 @@ export type QueryEvidenceItemsArgs = {
   userId?: InputMaybe<Scalars['Int']>;
   variantId?: InputMaybe<Scalars['Int']>;
   variantOrigin?: InputMaybe<VariantOrigin>;
+};
+
+
+export type QueryFactorsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Array<Scalars['String']>>;
+  ncitIt?: InputMaybe<Array<Scalars['String']>>;
 };
 
 
@@ -6290,36 +6398,12 @@ export type VariantComponent = {
   variantId: Scalars['Int'];
 };
 
-/** The connection type for Variant. */
-export type VariantConnection = {
-  __typename: 'VariantConnection';
-  /** A list of edges. */
-  edges: Array<VariantEdge>;
-  /** A list of nodes. */
-  nodes: Array<Variant>;
-  /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int'];
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The total number of records in this filtered collection. */
-  totalCount: Scalars['Int'];
-};
-
 export enum VariantDeprecationReason {
   Duplicate = 'DUPLICATE',
   FeatureDeprecated = 'FEATURE_DEPRECATED',
   Invalid = 'INVALID',
   Other = 'OTHER'
 }
-
-/** An edge in a connection. */
-export type VariantEdge = {
-  __typename: 'VariantEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node?: Maybe<Variant>;
-};
 
 export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'VariantGroup';
@@ -6340,8 +6424,8 @@ export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevision
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
-  /** List and filter variants. */
-  variants: VariantConnection;
+  /** List and filter Gene variants. */
+  variants: VariantInterfaceConnection;
 };
 
 
@@ -6397,10 +6481,18 @@ export type VariantGroupRevisionsArgs = {
 
 export type VariantGroupVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
+  alleleRegistryId?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<VariantCategories>;
+  factorId?: InputMaybe<Scalars['Int']>;
+  featureId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
+  hasNoVariantType?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  sortBy?: InputMaybe<VariantMenuSort>;
+  variantTypeIds?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** The connection type for VariantGroup. */
@@ -6966,9 +7058,9 @@ export type FeaturePopoverQueryVariables = Exact<{
 }>;
 
 
-export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']>;
@@ -7411,9 +7503,9 @@ export type VariantGroupPopoverQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupPopoverQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node?: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string }> } | undefined };
+export type VariantGroupPopoverQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string }> } | undefined };
 
-export type VariantGroupPopoverFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node?: { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string }> };
+export type VariantGroupPopoverFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string }> };
 
 export type BrowseVariantGroupsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
@@ -7860,9 +7952,9 @@ export type VariantGroupRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupRevisableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> } | undefined };
+export type VariantGroupRevisableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', totalCount: number, edges: Array<{ __typename: 'VariantInterfaceEdge', cursor: string, node?: { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> } | undefined };
 
-export type VariantGroupRevisableFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', totalCount: number, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> };
+export type VariantGroupRevisableFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', totalCount: number, edges: Array<{ __typename: 'VariantInterfaceEdge', cursor: string, node?: { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined }>, nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string }> }, sources: Array<{ __typename: 'Source', id: number, name: string, link: string }> };
 
 export type SuggestVariantGroupRevisionMutationVariables = Exact<{
   input: SuggestVariantGroupRevisionInput;
@@ -7876,9 +7968,9 @@ export type VariantGroupSubmittableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupSubmittableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> } | undefined };
+export type VariantGroupSubmittableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | { __typename: 'GeneVariant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | { __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> } | undefined };
 
-export type SubmittableVariantGroupFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> };
+export type SubmittableVariantGroupFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | { __typename: 'GeneVariant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | { __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> };
 
 export type SubmitVariantGroupMutationVariables = Exact<{
   input: SubmitVariantGroupInput;
@@ -8516,9 +8608,9 @@ export type VariantGroupDetailQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupDetailQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type VariantGroupDetailQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type VariantGroupDetailFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, variants: { __typename: 'VariantConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type VariantGroupDetailFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type VariantGroupsSummaryQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
