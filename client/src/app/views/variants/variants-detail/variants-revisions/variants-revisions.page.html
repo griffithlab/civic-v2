@@ -1,3 +1,14 @@
-<cvc-revisions-list-and-filter
-  [id]="this.variantId"
-  [entityType]="this.entityType"></cvc-revisions-list-and-filter>
+<nz-tabset [nzAnimated]="false">
+  <nz-tab nzTitle="Variant Fields">
+    <cvc-revisions-list-and-filter
+      [moderated]="this.variantSubject"></cvc-revisions-list-and-filter>
+  </nz-tab>
+  <nz-tab nzTitle="5' Coordinates">
+    <cvc-revisions-list-and-filter
+      [moderated]="this.coordinateSubject"></cvc-revisions-list-and-filter>
+  </nz-tab>
+  <nz-tab nzTitle="3' Coordinates">
+    <cvc-revisions-list-and-filter
+      [moderated]="this.coordinateSubject"></cvc-revisions-list-and-filter>
+  </nz-tab>
+</nz-tabset>

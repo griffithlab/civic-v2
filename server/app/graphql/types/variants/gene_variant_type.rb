@@ -10,7 +10,7 @@ module Types::Variants
     field :open_cravat_url, String, null: true
 
     def coordinates
-      Loaders::AssociationLoader.for(Variants::GeneVariant, :variant_coordinate).load(object)
+      Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object)
     end
 
     def clinvar_ids

@@ -3021,6 +3021,8 @@ export type ModeratedFieldDiff = ObjectFieldDiff | ScalarFieldDiff;
 
 /** Entity to moderate. */
 export type ModeratedInput = {
+  /** If the moderated is a variant, and you want coordinate revisons, specify the type */
+  coordinateType?: InputMaybe<VariantCoordinateTypes>;
   /** Type of moderated entity. */
   entityType: ModeratedEntities;
   /** ID of moderated entity. */
@@ -6286,6 +6288,11 @@ export type VariantConnection = {
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
+
+/** Enumeration of all valid variant coordinate types */
+export enum VariantCoordinateTypes {
+  GeneVariantCoordinate = 'GENE_VARIANT_COORDINATE'
+}
 
 export enum VariantDeprecationReason {
   Duplicate = 'DUPLICATE',

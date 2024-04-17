@@ -119,5 +119,9 @@ module Constants
     'MolecularProfile' => 'molecular-profiles'
   }
 
+  VALID_COORDINATE_TYPES = [
+    'Gene Variant Coordinate'
+  ]
+
   CIVICBOT_USER_ID = 385
 end

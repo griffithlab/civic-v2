@@ -17,9 +17,7 @@ class VariantCoordinate < ApplicationRecord
 
   validates :coordinate_type, presence: true
   validates :coordinate_type, inclusion: {
-    in: [
-      'Gene Variant Coordinate'
-    ],
+    in: Constants::VALID_COORDINATE_TYPES,
     message: "%{value} is not a valid coordinate type"
   }
 

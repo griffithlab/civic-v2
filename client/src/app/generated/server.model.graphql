@@ -5140,6 +5140,11 @@ Entity to moderate.
 """
 input ModeratedInput {
   """
+  If the moderated is a variant, and you want coordinate revisons, specify the type
+  """
+  coordinateType: VariantCoordinateTypes
+
+  """
   Type of moderated entity.
   """
   entityType: ModeratedEntities!
@@ -10429,6 +10434,13 @@ type VariantConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+}
+
+"""
+Enumeration of all valid variant coordinate types
+"""
+enum VariantCoordinateTypes {
+  GENE_VARIANT_COORDINATE
 }
 
 enum VariantDeprecationReason {
