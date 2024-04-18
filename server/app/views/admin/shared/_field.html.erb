@@ -1,0 +1,13 @@
+<%# locals: (form:, name:, type:) %>
+<div class="form-group">
+  <%= form.label name, class: "control-label" %>
+  <% if type == :text %>
+    <%= form.text_field name, required: true %>
+  <% elsif type == :date %>
+    <%= form.date_field name, required: true %>
+  <% elsif type == :boolean %>
+    <%= form.check_box name, checked: true %>
+  <% elsif type == :int %>
+    <%= form.text_field name, required: true, pattern: "\\d+" %>
+  <% end %>
+</div>
