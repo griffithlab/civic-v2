@@ -53,7 +53,7 @@ class Resolvers::Shared::Variants < GraphQL::Schema::Resolver
 
   option(:category, type: Types::VariantCategories) do |scope, value|
     if value
-      scope.where(category: value)
+      scope.where(type: value)
     else
       scope
     end
