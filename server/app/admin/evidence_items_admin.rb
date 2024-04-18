@@ -1,6 +1,6 @@
 Trestle.resource(:evidence_items) do
   collection do
-    EvidenceItem.eager_load(:flags, molecular_profile: {variants: [:gene]}).order(id: :asc)
+    EvidenceItem.eager_load(:flags, molecular_profile: {variants: [:feature]}).order(id: :asc)
   end
 
   remove_action :destroy
@@ -37,7 +37,7 @@ Trestle.resource(:evidence_items) do
     tab :evidence_item do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) { static_field evidence_item.molecular_profile.display_name }
+        col(sm: 1) { evidence_item.molecular_profile.display_name }
         col(sm: 2) do
           variant_origins = EvidenceItem.variant_origins.keys.map { |variant_origin| [variant_origin, variant_origin] }
           select :variant_origin, variant_origins
@@ -95,7 +95,7 @@ Trestle.resource(:evidence_items) do
 
       select :phenotype_ids, Phenotype.order(:hpo_class), { label: "Phenotypes" }, multiple: true
 
-      collection_select :source_id, Source.order(:description), :id, :display_name
+      collection_select :source_id, Source.order(:citation), :id, :display_name
 
       divider
 

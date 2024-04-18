@@ -1,41 +1,39 @@
-Trestle.resource(:genes, model: Features::Gene) do
+Trestle.resource(:features) do
   collection do
-    Fatures::Gene.includes(:flags).order(name: :asc)
+    Fature.includes(:flags).order(name: :asc)
   end
 
   search do |q|
-    q ? collection.where("genes.name ILIKE ?", "#{q}%") : collection
+    q ? collection.where("features.name ILIKE ?", "#{q}%") : collection
   end
 
   remove_action :destroy
   remove_action :new
 
   menu do
-    item :genes, icon: "fa fa-align-center" #TODO: see if we can use our custom icons here
+    item :features, icon: "fa fa-align-center" #TODO: see if we can use our custom icons here
   end
 
   scope :all
-  scope :with_variants, -> { Features::Gene.joins(:variants).distinct }, default: true
-  scope :flagged, -> { Features::Gene.where(flagged: true) }
+  scope :with_variants, -> { Feature.joins(:variants).distinct }, default: true
+  scope :flagged, -> { Features.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
   table do
     column :id
-    column :entrez_id
     column :name
-    column :official_name
+    column :full_name
     column :flagged
   end
 
   # Customize the form fields shown on the new/edit views.
-  form do |gene|
-    tab :gene do
+  form do |feature|
+    tab :feature do
       row do
         col(sm: 1) { static_field :id }
-        col(sm: 1) { static_field :entrez_id }
         col(sm: 1) { static_field :name }
-        col(sm: 8) { static_field :official_name }
-        if gene.flagged
+        col(sm: 8) { static_field :full_name }
+        if feature.flagged
           col do
             static_field :flagged do
               status_tag(icon("fa fa-flag"), :danger)
@@ -54,8 +52,8 @@ Trestle.resource(:genes, model: Features::Gene) do
       end
     end
 
-    tab :comments, badge: gene.comments.size do
-      table gene.comments do
+    tab :comments, badge: feature.comments.size do
+      table feature.comments do
         column :id do |comment|
           link_to comment.id, CommentsAdmin.instance_path(comment)
         end
@@ -67,8 +65,8 @@ Trestle.resource(:genes, model: Features::Gene) do
       end
     end
 
-    tab :flags, badge: gene.flags.where(state: 'open').exists? do
-      table gene.flags do
+    tab :flags, badge: feature.flags.where(state: 'open').exists? do
+      table feature.flags do
         column :id do |flag|
           link_to flag.id, FlagsAdmin.instance_path(flag)
         end
@@ -82,8 +80,8 @@ Trestle.resource(:genes, model: Features::Gene) do
       end
     end
 
-    tab :revisions, badge: gene.revisions.where(status: 'new').exists? do
-      table gene.revisions do
+    tab :revisions, badge: feature.revisions.where(status: 'new').exists? do
+      table feature.revisions do
         column :id do |revision|
           link_to revision.id, RevisionsAdmin.instance_path(revision)
         end
