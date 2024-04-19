@@ -1,6 +1,6 @@
 Trestle.resource(:features) do
   collection do
-    Fature.includes(:flags).order(name: :asc)
+    Feature.includes(:flags).order(name: :asc)
   end
 
   search do |q|
