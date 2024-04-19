@@ -1,0 +1,17 @@
+<%= content_for(:title, "Reports") %>
+<%= render "header" %>
+
+<div class="main-content-area">
+  <div class="utilities">
+  </div>
+  <div class="main-content-container">
+    <div class="main-content">
+      <%= table(@reports) do
+        column :name do |report|
+          link_to report.name, "/admin/reports/#{report.name}"
+        end
+        column :description, truncate: false
+      end %>
+    </div>
+  </div>
+</div>
