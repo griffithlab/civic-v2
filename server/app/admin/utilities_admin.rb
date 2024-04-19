@@ -1,6 +1,8 @@
 Trestle.admin(:utilities) do
   menu do
-    item :utilities, icon: "fas fa-cogs"
+    group :tools do
+      item :utilities, icon: "fas fa-cogs"
+    end
   end
 
   controller do

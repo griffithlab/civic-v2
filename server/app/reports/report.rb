@@ -1,7 +1,4 @@
 class Report
-  AVAILABLE_REPORTS = [
-    OrganizationContributions
-  ]
 
   def initialize(params)
     setup(**params)
