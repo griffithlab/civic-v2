@@ -16,7 +16,7 @@ Trestle.resource(:features) do
 
   scope :all
   scope :with_variants, -> { Feature.joins(:variants).distinct }, default: true
-  scope :flagged, -> { Features.where(flagged: true) }
+  scope :flagged, -> { Feature.where(flagged: true) }
 
   # Customize the table columns shown on the index view.
   table do
