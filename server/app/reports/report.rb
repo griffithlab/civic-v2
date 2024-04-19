@@ -1,6 +1,6 @@
 class Report
   AVAILABLE_REPORTS = [
-    ClingenCounts
+    OrganizationContributions
   ]
 
   def initialize(params)
@@ -31,7 +31,8 @@ class Report
 
   def self.inputs
     #format input_name: :type
-    #supported types :text, :date, :boolean, :int
+    #supported primitive types :text, :date, :boolean, :int
+    #or you can provide an array of objects and a select will be rendered
     {}
   end
 
