@@ -1,4 +1,8 @@
 Trestle.resource(:organizations) do
+  controller do
+    include ActiveStorage::SetCurrent
+  end
+
   menu do
     item :organizations, icon: "fa fa-users"
   end

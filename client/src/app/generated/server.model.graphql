@@ -3193,7 +3193,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
   sources: [Source!]!
 
   """
-  List and filter variants.
+  List and filter Gene variants.
   """
   variants(
     """
@@ -3202,14 +3202,40 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     after: String
 
     """
+    Find a CIViC Variant based on its ClinGen Allele Registry ID
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    category: VariantCategories
+
+    """
+    Feature that the variants are associated with, limited to only Factor type features.
+    """
+    factorId: Int
+
+    """
+    Feature that the variants are associated with.
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Feature that the variants are associated with, limited to only Gene type features.
+    """
+    geneId: Int
+
+    """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -3220,7 +3246,58 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+    sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
+  ): FactorVariantConnection!
+}
+
+"""
+The connection type for Factor.
+"""
+type FactorConnection {
+  """
+  A list of edges.
+  """
+  edges: [FactorEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Factor!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type FactorEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Factor
 }
 
 """
@@ -3478,6 +3555,51 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
 }
 
 """
+The connection type for FactorVariant.
+"""
+type FactorVariantConnection {
+  """
+  A list of edges.
+  """
+  edges: [FactorVariantEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [FactorVariant!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type FactorVariantEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: FactorVariant
+}
+
+"""
 Fields on a FactorVariant that curators may propose revisions to.
 """
 input FactorVariantFields {
@@ -3711,7 +3833,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   sources: [Source!]!
 
   """
-  List and filter variants.
+  List and filter Gene variants.
   """
   variants(
     """
@@ -3720,14 +3842,40 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     after: String
 
     """
+    Find a CIViC Variant based on its ClinGen Allele Registry ID
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    category: VariantCategories
+
+    """
+    Feature that the variants are associated with, limited to only Factor type features.
+    """
+    factorId: Int
+
+    """
+    Feature that the variants are associated with.
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Feature that the variants are associated with, limited to only Gene type features.
+    """
+    geneId: Int
+
+    """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -3738,7 +3886,13 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+    sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
+  ): VariantInterfaceConnection!
 }
 
 enum FeatureDeprecationReason {
@@ -4298,7 +4452,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
   sources: [Source!]!
 
   """
-  List and filter variants.
+  List and filter Gene variants.
   """
   variants(
     """
@@ -4307,14 +4461,40 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     after: String
 
     """
+    Find a CIViC Variant based on its ClinGen Allele Registry ID
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    category: VariantCategories
+
+    """
+    Feature that the variants are associated with, limited to only Factor type features.
+    """
+    factorId: Int
+
+    """
+    Feature that the variants are associated with.
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Feature that the variants are associated with, limited to only Gene type features.
+    """
+    geneId: Int
+
+    """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -4325,7 +4505,13 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+    sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
+  ): GeneVariantConnection!
 }
 
 """
@@ -4628,6 +4814,51 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   variantAliases: [String!]!
   variantBases: String
   variantTypes: [VariantType!]!
+}
+
+"""
+The connection type for GeneVariant.
+"""
+type GeneVariantConnection {
+  """
+  A list of edges.
+  """
+  edges: [GeneVariantEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [GeneVariant!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type GeneVariantEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: GeneVariant
 }
 
 """
@@ -7307,6 +7538,41 @@ type Query {
     """
     variantOrigin: VariantOrigin
   ): EvidenceItemConnection!
+
+  """
+  List and filter factors.
+  """
+  factors(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    List of Factor names to return
+    """
+    name: [String!]
+
+    """
+    List of NCIt Codes to return Factors for
+    """
+    ncitIt: [String!]
+  ): FactorConnection!
 
   """
   Find a single feature by CIViC ID
@@ -10436,56 +10702,11 @@ input VariantComponent {
   variantId: Int!
 }
 
-"""
-The connection type for Variant.
-"""
-type VariantConnection {
-  """
-  A list of edges.
-  """
-  edges: [VariantEdge!]!
-
-  """
-  A list of nodes.
-  """
-  nodes: [Variant!]!
-
-  """
-  Total number of pages, based on filtered count and pagesize.
-  """
-  pageCount: Int!
-
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  The total number of records in this filtered collection.
-  """
-  totalCount: Int!
-}
-
 enum VariantDeprecationReason {
   DUPLICATE
   FEATURE_DEPRECATED
   INVALID
   OTHER
-}
-
-"""
-An edge in a connection.
-"""
-type VariantEdge {
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-
-  """
-  The item at the end of the edge.
-  """
-  node: Variant
 }
 
 type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisions {
@@ -10677,7 +10898,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
   sources: [Source!]!
 
   """
-  List and filter variants.
+  List and filter Gene variants.
   """
   variants(
     """
@@ -10686,14 +10907,40 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     after: String
 
     """
+    Find a CIViC Variant based on its ClinGen Allele Registry ID
+    """
+    alleleRegistryId: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    category: VariantCategories
+
+    """
+    Feature that the variants are associated with, limited to only Factor type features.
+    """
+    factorId: Int
+
+    """
+    Feature that the variants are associated with.
+    """
+    featureId: Int
 
     """
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Feature that the variants are associated with, limited to only Gene type features.
+    """
+    geneId: Int
+
+    """
+    Return Variants lacking an assigned VariantType
+    """
+    hasNoVariantType: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -10704,7 +10951,13 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Left anchored filtering for variant name and aliases.
     """
     name: String
-  ): VariantConnection!
+    sortBy: VariantMenuSort
+
+    """
+    A list of CIViC identifiers for variant types
+    """
+    variantTypeIds: [Int!]
+  ): VariantInterfaceConnection!
 }
 
 """

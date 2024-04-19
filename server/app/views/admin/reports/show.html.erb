@@ -1,0 +1,30 @@
+<%= content_for(:title, @report.name) %>
+<%= render "header" %>
+
+<div class="main-content-area">
+  <%= render "trestle/flash/flash" %>
+  <div class="utilities">
+      Configure your report:
+  </div>
+  <div class="main-content-container">
+    <div class="main-content">
+      <%= form_with do |f| %>
+        <% @report.inputs.each do |f_name, f_type| %>
+          <%= render 'admin/shared/field', name: f_name, type: f_type, form: f  %>
+        <% end %>
+        <div class="form-group">
+          <%= f.label :format, "Format", class: "control-label" %>
+          <div class="custom-control custom-radio custom-control-inline">
+            <%= f.radio_button :format, "view", disabled: !@report.viewable?, class: "custom-control-input" %>
+            <%= f.label :format_view, "View on Web", class: "custom-control-label" %>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <%= f.radio_button :format, "download", checked: true, disabled: !@report.downloadable?, class: "custom-control-input" %>
+            <%= f.label :format_download, "Download TSV", class: "custom-control-label"  %>
+          </div>
+        </div>
+        <%= f.submit "Generate Report", class: "btn btn-success" %>
+      <% end %>
+    </div>
+  </div>
+</div>
