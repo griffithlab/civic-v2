@@ -1,10 +1,10 @@
 Trestle.resource(:assertions) do
   collection do
-    Assertion.eager_load(:flags, molecular_profile: {variants: [:gene]}).order(id: :asc)
+    Assertion.eager_load(:flags, molecular_profile: {variants: [:feature]}).order(id: :asc)
   end
 
   search do |q|
-    q ? collection.where("genes.name ILIKE ?", "#{q}%").or(collection.where("variants.name ILIKE ?", "#{q}%")) : collection
+    q ? collection.where("features.name ILIKE ?", "#{q}%").or(collection.where("variants.name ILIKE ?", "#{q}%")) : collection
   end
 
   remove_action :destroy

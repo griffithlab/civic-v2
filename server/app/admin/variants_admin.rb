@@ -20,7 +20,7 @@ Trestle.resource(:variants) do
   table do
     column :id
     column :name
-    column :gene
+    column :feature
     column :variant_aliases do |variant|
       variant.variant_aliases.map {|a| a.name }.join(', ')
     end
@@ -37,15 +37,8 @@ Trestle.resource(:variants) do
         col(sm: 1) { static_field :id }
         col(sm: 1) { static_field :name }
         col(sm: 1) do
-          static_field :gene do
-            link_to variant.gene.name, GenesAdmin.instance_path(variant.gene)
-          end
-        end
-        if variant.secondary_gene.present?
-          col(sm: 1) do
-            static_field :secondary_gene do
-              link_to variant.secondary_gene.name, GenesAdmin.instance_path(variant.secondary_gene)
-            end
+          static_field :variant do
+            link_to variant.feature.name, FeaturesAdmin.instance_path(variant.feature)
           end
         end
         if variant.flagged
