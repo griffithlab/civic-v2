@@ -5,15 +5,15 @@ Trestle.admin(:reports) do
 
   controller do
     def index
-      @reports = Report::AVAILABLE_REPORTS
+      @reports = Reports::AVAILABLE_REPORTS
     end
 
     def show
-      @report = Report::AVAILABLE_REPORTS.find { |x| params[:name] == x.name }
+      @report = Reports::AVAILABLE_REPORTS.find { |x| params[:name] == x.name }
     end
 
     def generate_report
-      @report = Report::AVAILABLE_REPORTS.find { |x| params[:name] == x.name }
+      @report = Reports::AVAILABLE_REPORTS.find { |x| params[:name] == x.name }
       report_params = params.permit(@report.inputs.keys).to_h.symbolize_keys
       #checkbox will come in as 0 or 1
       #cast it to a boolean here so reports dont have to worry about that
