@@ -40,7 +40,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
       {
         id: res.id,
         name: format_name(res.name, highlights),
-        result_type: res.class,
+        result_type: res.class.base_class,
         matching_text: format_highlights(highlights)
       }
     end
