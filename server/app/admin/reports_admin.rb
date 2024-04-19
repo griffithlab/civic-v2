@@ -1,6 +1,8 @@
 Trestle.admin(:reports) do
   menu do
-    item :reports, icon: "fas fa-file-alt"
+    group :tools do
+      item :reports, icon: "fas fa-file-alt"
+    end
   end
 
   controller do
