@@ -47,7 +47,7 @@ gem 'trestle', '~>0.9.5'
 gem 'trestle-search', '~>0.4.3'
 
 #elasticsearch
-gem 'searchkick', '~> 4.5.0'
+gem 'searchkick', '~> 5.3.0'
 gem 'elasticsearch', '~> 7.13.0'
 gem 'typhoeus', '~>1.4.0'
 
