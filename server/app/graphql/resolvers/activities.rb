@@ -37,6 +37,14 @@ module Resolvers
       scope.where(subject: value)
     end
 
+    option(:occured_before, type:  GraphQL::Types::ISO8601DateTime) do |scope, value|
+      scope.where("activities.created_at <= ?", value)
+    end
+
+    option(:occured_after, type:  GraphQL::Types::ISO8601DateTime) do |scope, value|
+      scope.where("activities.created_at >= ?", value)
+    end
+
     option(:mode, type: Types::Events::EventFeedMode) do |_, _|
       #accesed in connection, yuck
     end
