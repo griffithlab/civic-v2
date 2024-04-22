@@ -6889,6 +6889,8 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
+    occuredAfter: ISO8601DateTime
+    occuredBefore: ISO8601DateTime
     organizationId: [Int!]
 
     """
