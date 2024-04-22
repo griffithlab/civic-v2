@@ -36,7 +36,7 @@ class MolecularProfile < ActiveRecord::Base
   validate :unique_name_in_context
 
   searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
-  scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
+  scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:feature])}
 
   after_create -> { MaterializedViews::MolecularProfileBrowseTableRow.refresh_async }
 
