@@ -22,7 +22,7 @@ class MyDiseaseInfo
   def parse_response(resp)
     p = JSON.parse(resp)
     if p['hits'] && p['hits'].size > 1
-      return nil #it was ambiguous somehow, shouldnt happen with a DOID
+      return nil #it was ambiguous somehow, shouldn't happen with a DOID
     end
 
     if p['hits'] && p['hits'].size == 1
