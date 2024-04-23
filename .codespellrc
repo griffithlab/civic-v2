@@ -1,7 +1,7 @@
 [codespell]
 # Ref: https://github.com/codespell-project/codespell#using-a-config-file
 # generated/ was excluded but might need to be fixed as well!
-skip = .git*,*.svg,*.lock,*.css,.codespellrc,944.364b130270af9087.js,generated,assets,variants-summary.page.html
+skip = .git*,*.svg,*.lock,*.css,.codespellrc,*.js,generated,assets,variants-summary.page.html
 check-hidden = true
 # Ignore super long lines -- must be minimized etc
 ignore-regex = ^.{120,}|\b(AllTime|allTime)\b
