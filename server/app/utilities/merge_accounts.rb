@@ -5,7 +5,7 @@ class MergeAccounts < ActionWrapper
   end
 
   def self.description
-    "Merge two user accounts, removing one and transfering the authorizations and events to the remaining one."
+    "Merge two user accounts, removing one and transferring the authorizations and events to the remaining one."
   end
 
   def self.inputs
