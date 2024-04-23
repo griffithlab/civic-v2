@@ -184,7 +184,7 @@ interface TagConfig {
 // most entity tag cols can be customized using TagConfig.
 // if showStatus set to true, tag will display status styles.
 // NOTE: use BaseColumnConfig's 'context' option if it's necessary
-// to render an entity tag in a column whos row[colKey] data
+// to render an entity tag in a column whose row[colKey] data
 // is not a LinkableEntity, e.g. variant-manager table's 'id' col
 interface EntityTagConfig {
   showStatus?: boolean // display tag status indicator styles
@@ -329,7 +329,7 @@ export const colTypeGuards = {
 // These guard attributes on col options, currently not used
 // in the TypeGuard pipe,  but in logic that handles column options.
 // FIXME(?): I had hoped that the discriminated union type ColumnOptionType
-// above would have made guard functions like this unecessary, but I was unable to
+// above would have made guard functions like this unnecessary, but I was unable to
 // write some of the generic cols/prefs handling functions w/o them. Not
 // sure if this is bc the types are not constructed properly.
 export const hasSortOptions: TypeGuard<any, SortConfig> = (

@@ -12,7 +12,7 @@ module Types::Connections
       description: 'When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters.'
 
     field :activity_types, [Types::Activities::ActivityTypeInputType], null: false,
-      description: 'List of activity types that have occured on this entity.'
+      description: 'List of activity types that have occurred on this entity.'
 
     field :subject_types, [Types::Activities::ActivitySubjectInputType], null: false
 

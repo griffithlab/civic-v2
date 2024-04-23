@@ -46,7 +46,7 @@ module Resolvers
     end
 
     option(:mode, type: Types::Events::EventFeedMode) do |_, _|
-      #accesed in connection, yuck
+      #accessed in connection, yuck
     end
   end
 end
