@@ -106,6 +106,6 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]['id']
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
-    assert_equal(mp.variants, [@variant, v2, v3, v4])
+    assert_equal(mp.variants.to_a, [@variant, v2, v3, v4])
   end
 end
