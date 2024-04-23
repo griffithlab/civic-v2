@@ -68,7 +68,7 @@ export interface StringSelectFieldOptions<
  * TAQ = typeahead query
  * TAV = typeahead query variables
  * TAF = typeahead query optional parameters fragment
- * TAP = optional typeahead query paramters type
+ * TAP = optional typeahead query parameters type
  * */
 
 export function StringSelectField<

@@ -68,7 +68,7 @@ export class CvcOrgSubmitButtonComponent
   organizations$: Observable<Organization[]>
   mostRecentOrg$: Observable<Maybe<Organization>>
 
-  // these syncronize submit button & org dropdown button states, styles
+  // these synchronize submit button & org dropdown button states, styles
   isDisabled$: Subject<boolean>
   isHidden$: Subject<boolean>
   buttonClass$!: BehaviorSubject<string>

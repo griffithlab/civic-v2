@@ -1,8 +1,15 @@
 braf:
   name: BRAF
+  full_name: B-Raf proto-oncogene, serine/threonine kinase
   feature_instance: braf (Features::Gene)
 
 vhl:
   name: VHL
+  full_name: von Hippel-Lindau tumor suppressor
   feature_instance: vhl (Features::Gene)
 
+msi:
+  name: MSI
+  full_name: Microsatellite Instability
+  description: The description for the MSI factor
+  feature_instance: msi (Features::Factor)
