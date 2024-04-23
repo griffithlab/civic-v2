@@ -9,7 +9,7 @@
                 {{chemInfo.chebiDefinition}}
               </ng-container>
             </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="Inidications" [nzSpan]="2">
+            <nz-descriptions-item nzTitle="Indications" [nzSpan]="2">
               <ng-container *ngIf="chemInfo.indications.length > 0; else noValue">
                 <cvc-tag-list>
                   <nz-tag *ngFor="let i of chemInfo.indications">{{i}}</nz-tag>

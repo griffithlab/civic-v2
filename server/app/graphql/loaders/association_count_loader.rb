@@ -1,6 +1,6 @@
 module Loaders
   class AssociationCountLoader < GraphQL::Batch::Loader
-    def initialize(model, association: assocation)
+    def initialize(model, association: association)
       @model = model
       @association = association
     end

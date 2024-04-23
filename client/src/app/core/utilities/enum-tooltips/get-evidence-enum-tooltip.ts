@@ -83,7 +83,7 @@ export const tooltips: tooltipMap = {
   },
 }
 
-// a map of tooltips that differ based on their display context (entity type, evidence/asssertion type)
+// a map of tooltips that differ based on their display context (entity type, evidence/assertion type)
 export type ContextualTooltipMap = {
   [key: string | symbol]: {
     // TODO: type as [key in ContextualAttribute]?: {

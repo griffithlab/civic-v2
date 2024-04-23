@@ -19,7 +19,7 @@ type ResponsiveColConfig = {
 type FormRowOptions = {
   // nz-row gutter
   gutter?: number | [number, number] | null
-  // NOTE: if gutter[1] (vertial gutter) is set to 0, row will receive no top margin (see mp-finder config)
+  // NOTE: if gutter[1] (vertical gutter) is set to 0, row will receive no top margin (see mp-finder config)
   // nz-col's nzSpan, nzXs - nzXXl config applied to every field
   span?: string | number | null
   responsive?: ResponsiveColConfig
