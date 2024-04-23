@@ -1,7 +1,7 @@
 require "test_helper"
 
 class LinksControllerTest < ActionDispatch::IntegrationTest
-  test 'it should 404 rather than redirect when the entity isnt found' do
+  test "it should 404 rather than redirect when the entity isn't found" do
     get "/links/features/999999"
     assert_response :not_found
   end
