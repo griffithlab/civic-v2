@@ -238,7 +238,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       )
       .subscribe((res) => {
         // FIXME: this casting of 'res' is a total hack, need proper gate functions for this error/response
-        // logic, or refactor the parser to use rxjs error handling (which will also simplfy template logic)
+        // logic, or refactor the parser to use rxjs error handling (which will also simplify template logic)
         if (this.isMpParseError(res)) {
           const err = res as MpParseError
           this.expressionMessage$.next(undefined)

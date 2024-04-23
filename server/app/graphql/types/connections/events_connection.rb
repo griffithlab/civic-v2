@@ -6,7 +6,7 @@ module Types::Connections
       description: 'List of all users that have generated an event on the subject entity.'
 
     field :event_types, [Types::Events::EventActionType], null: false,
-      description: 'List of event types that have occured on this entity.'
+      description: 'List of event types that have occurred on this entity.'
 
     field :participating_organizations, [Types::Entities::OrganizationType], null: false,
       description: 'List of all organizations who are involved in this event stream.'

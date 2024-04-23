@@ -88,7 +88,7 @@ export interface EntitySelectFieldOptions<
  * TAF = typeahead query optional parameters fragment
  * TQ  = tag query
  * TV  = tag query variables
- * TAP = optional typeahead query paramters type
+ * TAP = optional typeahead query parameters type
  * */
 
 export function EntitySelectField<
