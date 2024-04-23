@@ -4,6 +4,7 @@ v600e:
   gene_id: 1
   type: 'Variants::GeneVariant'
   single_variant_molecular_profile: mp1
+  allele_registry_id: CAFOO
 
 v600k:
   name: V600K
