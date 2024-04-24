@@ -45,7 +45,7 @@ export const columnKeyToQueryVariableMap: EvidenceManagerColQueryMap = {
   therapies: 'therapyName',
   evidenceItem: 'id',
 }
-// colum keys included here will be hidden in preference panel, preventing
+// column keys included here will be hidden in preference panel, preventing
 // defaults from being changed by the user
 export const omittedFromPrefs: EvidenceManagerColKey[] = ['selected', 'id']
 

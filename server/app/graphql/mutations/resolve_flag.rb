@@ -1,6 +1,6 @@
 class Mutations::ResolveFlag < Mutations::MutationWithOrg
   description  <<~DOC.strip
-    Resolve a flag on a CIViC entity indicating that it was either erronously flagged or the issue has been resolved.
+    Resolve a flag on a CIViC entity indicating that it was either erroneously flagged or the issue has been resolved.
     Any user may resolve their own flag however only editors with valid conflict of interest statements can resolve other flags.
   DOC
 

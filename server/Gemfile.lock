@@ -437,9 +437,8 @@ GEM
     search_object_graphql (1.0.5)
       graphql (> 1.8)
       search_object (~> 1.2.5)
-    searchkick (4.5.2)
-      activemodel (>= 5)
-      elasticsearch (>= 6)
+    searchkick (5.3.1)
+      activemodel (>= 6.1)
       hashie
     semantic_range (3.0.0)
     sidekiq (7.2.2)
@@ -579,7 +578,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   scenic (~> 1.5.4)
   search_object_graphql (= 1.0.5)
-  searchkick (~> 4.5.0)
+  searchkick (~> 5.3.0)
   sidekiq (< 8)
   sidekiq-cron (~> 1.10.0)
   simplecov

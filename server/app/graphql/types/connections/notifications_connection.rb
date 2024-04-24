@@ -9,7 +9,7 @@ module Types::Connections
       description: 'Users who have performed an action (other than a mention) that created a notification.'
 
     field :event_types, [Types::Events::EventActionType], null: false,
-      description: 'List of event types that have occured on this entity.'
+      description: 'List of event types that have occurred on this entity.'
 
     field :organizations, [Types::Entities::OrganizationType], null: false,
       description: 'List of all organizations who are involved in this notification stream.'
