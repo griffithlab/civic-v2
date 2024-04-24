@@ -6,7 +6,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs'
 
 @NgModule({
   declarations: [VariantsRevisionsPage],
-  imports: [CommonModule, CvcRevisionsListAndFilterModule, NzTabsModule],
+  imports: [CommonModule, NzTabsModule, CvcRevisionsListAndFilterModule],
   exports: [VariantsRevisionsPage],
 })
 export class VariantsRevisionsModule {}

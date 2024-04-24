@@ -4614,6 +4614,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
 type GeneVariantCoordinate {
   chromosome: String
   ensemblVersion: Int
+  id: Int!
   referenceBases: String
   referenceBuild: ReferenceBuild
   representativeTranscript: String
@@ -5122,6 +5123,7 @@ enum ModeratedEntities {
   FEATURE
   MOLECULAR_PROFILE
   VARIANT
+  VARIANT_COORDINATES
   VARIANT_GROUP
 }
 
@@ -5139,11 +5141,6 @@ union ModeratedFieldDiff = ObjectFieldDiff | ScalarFieldDiff
 Entity to moderate.
 """
 input ModeratedInput {
-  """
-  If the moderated is a variant, and you want coordinate revisons, specify the type
-  """
-  coordinateType: VariantCoordinateTypes
-
   """
   Type of moderated entity.
   """
@@ -10434,13 +10431,6 @@ type VariantConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
-}
-
-"""
-Enumeration of all valid variant coordinate types
-"""
-enum VariantCoordinateTypes {
-  GENE_VARIANT_COORDINATE
 }
 
 enum VariantDeprecationReason {

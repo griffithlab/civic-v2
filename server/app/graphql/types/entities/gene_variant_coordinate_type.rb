@@ -1,5 +1,6 @@
 module Types::Entities
   class GeneVariantCoordinateType < Types::BaseObject
+    field :id, Int, null: false
     field :representative_transcript, String, null: true
     field :chromosome, String, null: true
     field :start, Int, null: true

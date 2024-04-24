@@ -1,14 +1,10 @@
 <nz-tabset [nzAnimated]="false">
-  <nz-tab nzTitle="Variant Fields">
-    <cvc-revisions-list-and-filter
-      [moderated]="this.variantSubject"></cvc-revisions-list-and-filter>
-  </nz-tab>
-  <nz-tab nzTitle="5' Coordinates">
-    <cvc-revisions-list-and-filter
-      [moderated]="this.coordinateSubject"></cvc-revisions-list-and-filter>
-  </nz-tab>
-  <nz-tab nzTitle="3' Coordinates">
-    <cvc-revisions-list-and-filter
-      [moderated]="this.coordinateSubject"></cvc-revisions-list-and-filter>
-  </nz-tab>
+  @for (tab of tabs(); track tab.name) {
+    <nz-tab [nzTitle]="tab.name">
+      <nz-template nz-tab>
+        <cvc-revisions-list-and-filter
+          [moderated]="tab.moderated"></cvc-revisions-list-and-filter>
+      </nz-template>
+    </nz-tab>
+  }
 </nz-tabset>

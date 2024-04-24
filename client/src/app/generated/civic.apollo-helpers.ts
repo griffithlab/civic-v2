@@ -1034,10 +1034,11 @@ export type GeneVariantFieldPolicy = {
 	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneVariantCoordinateKeySpecifier = ('chromosome' | 'ensemblVersion' | 'referenceBases' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | GeneVariantCoordinateKeySpecifier)[];
+export type GeneVariantCoordinateKeySpecifier = ('chromosome' | 'ensemblVersion' | 'id' | 'referenceBases' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | GeneVariantCoordinateKeySpecifier)[];
 export type GeneVariantCoordinateFieldPolicy = {
 	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
 	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBases?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
 	representativeTranscript?: FieldPolicy<any> | FieldReadFunction<any>,

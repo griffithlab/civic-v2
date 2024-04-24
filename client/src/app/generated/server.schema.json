@@ -21594,6 +21594,22 @@
               "deprecationReason": null
             },
             {
+              "name": "id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "referenceBases",
               "description": null,
               "args": [],
@@ -24305,6 +24321,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_COORDINATES",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -24384,18 +24406,6 @@
                   "name": "ModeratedEntities",
                   "ofType": null
                 }
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "coordinateType",
-              "description": "If the moderated is a variant, and you want coordinate revisons, specify the type",
-              "type": {
-                "kind": "ENUM",
-                "name": "VariantCoordinateTypes",
-                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -47347,23 +47357,6 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "VariantCoordinateTypes",
-          "description": "Enumeration of all valid variant coordinate types",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "GENE_VARIANT_COORDINATE",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
