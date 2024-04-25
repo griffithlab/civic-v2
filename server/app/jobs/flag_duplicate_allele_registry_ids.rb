@@ -11,7 +11,7 @@ class FlagDuplicateAlleleRegistryIds < ApplicationJob
       variants = Variant.where(id: ids)
       variants.each do |variant|
         if variant.flags.select{|f| f.state == 'open' && f.open_activity.note =~ /This Variant may be a duplicate and may need to be deprecated/ && f.open_activity.user_id == 385}.count == 0
-          Activity::FlagEntity.new(
+          Activities::FlagEntity.new(
             flagging_user: civicbot_user,
             flaggable: variant,
             organization_id: nil,
