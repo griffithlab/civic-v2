@@ -4,7 +4,7 @@ module Importer
     attr_reader :file_path, :existing_retracted_source_ids
     def initialize(file_path)
       @file_path = file_path
-      @existing_retracted_source_ids = Source.where(retracted: true).all.map{|s| s.id}
+      @existing_retracted_source_ids = Source.where(retracted: true).pluck(:id)
     end
 
     def import
