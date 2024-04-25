@@ -44,7 +44,7 @@ module Scrapers
                 civicbot_user = User.find(385)
                 (p.evidence_items + p.assertions).each do |obj|
                   if obj.flags.select{|f| f.state == 'open' && f.open_activity.note =~ /deprecated HPO term/ && f.open_activity.user_id == 385}.count == 0
-                    Activity::FlagEntity.new(
+                    Activities::FlagEntity.new(
                       flagging_user: civicbot_user,
                       flaggable: obj,
                       organization_id: nil,
