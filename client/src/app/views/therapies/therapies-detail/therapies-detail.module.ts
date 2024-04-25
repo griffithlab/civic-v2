@@ -12,6 +12,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 
 @NgModule({
   declarations: [TherapiesDetailComponent],
@@ -26,6 +27,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzDescriptionsModule,
     NzTagModule,
     NzToolTipModule,
+    NzAlertModule,
     CvcLinkTagModule,
     CvcSectionNavigationModule,
     CvcPipesModule,

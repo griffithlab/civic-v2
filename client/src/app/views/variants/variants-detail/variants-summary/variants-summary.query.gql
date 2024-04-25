@@ -12,6 +12,8 @@ fragment VariantSummaryFields on Variant {
     id
     name
     link
+    deprecated
+    flagged
   }
   variantAliases
   alleleRegistryId

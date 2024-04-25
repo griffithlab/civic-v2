@@ -51,11 +51,13 @@ fragment BrowseFeaturesFields on BrowseFeature {
     name
     id
     link
+    deprecated
   }
   therapies {
     name
     id
     link
+    deprecated
   }
   variantCount
   evidenceItemCount

@@ -12,7 +12,8 @@ export interface LinkableMolecularProfile {
   id: number
   name: string
   link: string
-  deprecated?: boolean
+  deprecated: boolean
+  flagged: boolean
 }
 
 export interface LinkableMolecularProfileSegments {
@@ -20,7 +21,8 @@ export interface LinkableMolecularProfileSegments {
   segments: MolecularProfileSegment[]
   link: string
   name?: string
-  deprecated?: boolean
+  deprecated: boolean
+  flagged: boolean
 }
 
 @Component({

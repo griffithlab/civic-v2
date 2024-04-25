@@ -18,12 +18,14 @@ fragment EvidenceSummaryFields on EvidenceItem {
     id
     name
     link
+    deprecated
   }
   therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id
@@ -55,6 +57,8 @@ fragment EvidenceSummaryFields on EvidenceItem {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
+    flagged
   }
   flags(state: OPEN) {
     totalCount

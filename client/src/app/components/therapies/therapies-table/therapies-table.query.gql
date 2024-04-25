@@ -41,4 +41,5 @@ fragment TherapyBrowseTableRowFields on BrowseTherapy {
   assertionCount
   evidenceCount
   link
+  deprecated
 }

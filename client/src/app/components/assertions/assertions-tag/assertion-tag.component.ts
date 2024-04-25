@@ -6,8 +6,8 @@ export interface LinkableAssertion {
   id: number
   name: string
   link: string
-  status?: EvidenceStatus
-  flagged?: boolean
+  status: EvidenceStatus
+  flagged: boolean
 }
 
 @Component({

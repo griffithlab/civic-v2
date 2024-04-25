@@ -15,5 +15,6 @@ fragment VariantGroupSummaryFields on VariantGroup {
     sourceUrl
     displayType
     sourceType
+    deprecated
   }
 }

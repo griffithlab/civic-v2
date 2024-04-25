@@ -95,7 +95,8 @@ module Types::Revisions
           link: obj.respond_to?(:link) ? obj.link : "",
           feature: obj.respond_to?(:feature) ? obj.feature : nil,
           deleted: false,
-          deprecated: deprecated
+          deprecated: deprecated,
+          flagged: obj.respond_to?(:flagged) ? obj.flagged : nil
         }
       end
 
@@ -111,7 +112,8 @@ module Types::Revisions
               link: nil,
               deprecated: nil,
               feature: nil,
-              deleted: true
+              deleted: true,
+              flagged: nil
             }
           end
         end

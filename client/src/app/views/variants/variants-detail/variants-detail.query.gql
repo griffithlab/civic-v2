@@ -18,6 +18,8 @@ fragment VariantDetailFields on Variant {
     id
     name
     link
+    deprecated
+    flagged
   }
   variantAliases
   flags(state: OPEN) {
