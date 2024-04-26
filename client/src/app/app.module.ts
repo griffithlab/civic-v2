@@ -21,7 +21,7 @@ import { GraphQLModule } from '@app/graphql/graphql.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { Observable } from 'rxjs'
-import { AppLoadErrorHandler } from './core/utilities/app-reload-handler'
+import { AppErrorHandler } from './core/utilities/app-error-handler'
 import { CvcForms2Module } from '@app/forms/forms.module'
 
 registerLocaleData(en)
@@ -59,7 +59,7 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     CookieService,
     {
       provide: ErrorHandler,
-      useClass: AppLoadErrorHandler,
+      useClass: AppErrorHandler,
     },
     { provide: NZ_I18N, useValue: en_US },
     {
