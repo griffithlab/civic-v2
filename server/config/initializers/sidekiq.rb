@@ -7,7 +7,7 @@ unless Rails.env.headless?
     config.on(:startup) do
       schedule_file = Rails.root.join("config", "scheduled_tasks.yml")
 
-      if File.exists?(schedule_file) && Rails.env.production?
+      if File.exist?(schedule_file) && Rails.env.production?
         Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
       end
     end
