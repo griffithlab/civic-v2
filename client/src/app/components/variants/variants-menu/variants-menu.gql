@@ -27,8 +27,11 @@ query VariantsMenu(
       hasPreviousPage
       hasNextPage
     }
-    nodes {
-      ...menuVariant
+    edges{
+      cursor
+      node {
+        ...menuVariant
+      }
     }
   }
 }

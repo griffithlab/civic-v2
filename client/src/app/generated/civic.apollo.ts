@@ -7661,7 +7661,7 @@ export type VariantsMenuQueryVariables = Exact<{
 }>;
 
 
-export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantInterfaceConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | { __typename: 'GeneVariant', id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean, deprecated: boolean }> } };
+export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantInterfaceConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantInterfaceEdge', cursor: string, node?: { __typename: 'FactorVariant', id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | { __typename: 'GeneVariant', id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean, deprecated: boolean } | undefined }> } };
 
 export type VariantTypesForFeatureQueryVariables = Exact<{
   featureId?: InputMaybe<Scalars['Int']>;
@@ -13651,8 +13651,11 @@ export const VariantsMenuDocument = gql`
       hasPreviousPage
       hasNextPage
     }
-    nodes {
-      ...menuVariant
+    edges {
+      cursor
+      node {
+        ...menuVariant
+      }
     }
   }
 }

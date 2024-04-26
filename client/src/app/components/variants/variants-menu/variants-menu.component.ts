@@ -86,8 +86,7 @@ export class CvcVariantsMenuComponent implements OnInit {
     )
 
     this.menuVariants$ = connection$.pipe(
-      map((c) => c.nodes),
-      filter(isNonNulled)
+      map((c) => c.edges.map((e) => e.node), filter(isNonNulled))
     )
 
     this.totalVariants$ = connection$.pipe(map((c) => c.totalCount))
