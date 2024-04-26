@@ -10,36 +10,45 @@
             [enablePopover]="false"
             [user]="c.commenter"></cvc-user-tag
           >commented on
-          <ng-container [ngSwitch]="c.commentable.__typename">
-            <cvc-feature-tag
-              *ngSwitchCase="'Feature'"
-              [enablePopover]="false"
-              [feature]="c.commentable"></cvc-feature-tag>
-            <cvc-assertion-tag
-              *ngSwitchCase="'Assertion'"
-              [enablePopover]="false"
-              [assertion]="c.commentable"></cvc-assertion-tag>
-            <cvc-evidence-tag
-              *ngSwitchCase="'EvidenceItem'"
-              [enablePopover]="false"
-              [evidence]="c.commentable"></cvc-evidence-tag>
-            <cvc-feature-variant-tag
-              *ngSwitchCase="'Variant'"
-              [enablePopover]="false"
-              [variant]="c.commentable"></cvc-feature-variant-tag>
+          @switch (c.commentable.__typename) {
+            @case ('Feature') {
+              <cvc-feature-tag
+                [enablePopover]="false"
+                [feature]="c.commentable"></cvc-feature-tag>
+            }
+            @case ('Assertion') {
+              <cvc-assertion-tag
+                [enablePopover]="false"
+                [assertion]="c.commentable"></cvc-assertion-tag>
+            }
+            @case ('EvidenceItem') {
+              <cvc-evidence-tag
+                [enablePopover]="false"
+                [evidence]="c.commentable"></cvc-evidence-tag>
+            }
+            @case ('Variant') {
+              <cvc-feature-variant-tag
+                [enablePopover]="false"
+                [variant]="c.commentable"></cvc-feature-variant-tag>
+            }
             <!-- NOTE: #UPDATE had to use $any here, [revision] attr was complaining about
             missing linkableRevision on c.commentable -->
-            <cvc-revision-tag
-              *ngSwitchCase="'Revision'"
-              [enablePopover]="false"
-              [revision]="$any(c.commentable)"></cvc-revision-tag>
-            <cvc-source-tag
-              *ngSwitchCase="'Source'"
-              mode="concise"
-              [enablePopover]="false"
-              [source]="$any(c.commentable)"></cvc-source-tag>
-            <span *ngSwitchDefault>{{ c.commentable.name }}</span>
-          </ng-container>
+            @case ('Revision') {
+              <cvc-revision-tag
+                [enablePopover]="false"
+                [revision]="$any(c.commentable)"></cvc-revision-tag>
+            }
+            @case ('Source') {
+              <cvc-source-tag
+                *ngSwitchCase="'Source'"
+                mode="concise"
+                [enablePopover]="false"
+                [source]="c.commentable"></cvc-source-tag>
+            }
+            @default {
+              {{ c.commentable.name }}
+            }
+          }
           {{ c.createdAt | timeAgo }}
         </span>
       </ng-template>

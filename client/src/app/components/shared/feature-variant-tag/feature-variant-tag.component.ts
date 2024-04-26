@@ -10,6 +10,7 @@ export interface LinkableFeature {
   id: number
   name: string
   link: string
+  deprecated: boolean
 }
 
 export interface LinkableVariant {
@@ -17,7 +18,7 @@ export interface LinkableVariant {
   name: string
   link: string
   flagged?: boolean
-  deprecated?: boolean
+  deprecated: boolean
   feature?: LinkableFeature
 }
 

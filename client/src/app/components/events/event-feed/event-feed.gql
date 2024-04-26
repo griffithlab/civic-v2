@@ -122,6 +122,7 @@ fragment eventFeedNode on Event {
         id
         link
         name
+        deprecated
       }
     }
     ... on Feature {

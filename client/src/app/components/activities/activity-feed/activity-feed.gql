@@ -121,9 +121,13 @@ fragment activityFeedNode on ActivityInterface {
         id
         name
         link
+        deprecated
       }
     }
     ... on MolecularProfile {
+      deprecated
+    }
+    ... on Feature {
       deprecated
     }
     __typename

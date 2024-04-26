@@ -29,6 +29,7 @@ fragment MolecularProfileDetailFields on MolecularProfile {
       id
       name
       link
+      deprecated
     }
   }
   molecularProfileAliases

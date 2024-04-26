@@ -5,12 +5,14 @@ type MpFeature = {
   id: number
   link: string
   name: string
+  deprecated: boolean
   __typename: "Feature"
 }
 type MpVariant = {
   id: number
   link: string
   name: string
+  deprecated: boolean
   __typename: "Variant"
 }
 type MpSegment = MpFeature  | MolecularProfileTextSegment | MpVariant

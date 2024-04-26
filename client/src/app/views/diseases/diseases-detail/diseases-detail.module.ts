@@ -5,6 +5,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
@@ -25,6 +26,7 @@ import { DiseasesDetailComponent } from './diseases-detail.component'
     NzPageHeaderModule,
     NzDescriptionsModule,
     NzSpaceModule,
+    NzAlertModule,
 
     CvcLinkTagModule,
     CvcSectionNavigationModule,

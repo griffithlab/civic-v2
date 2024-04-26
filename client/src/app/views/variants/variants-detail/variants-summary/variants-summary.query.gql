@@ -12,6 +12,7 @@ fragment VariantSummaryFields on VariantInterface {
     id
     name
     link
+    deprecated
   }
   variantAliases
   variantTypes {

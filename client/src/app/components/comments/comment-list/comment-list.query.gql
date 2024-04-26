@@ -93,6 +93,21 @@ fragment parsedCommentFragment on CommentBodySegment{
       displayName
       tagType
       status
+      link
+      revisionSetId
+      feature {
+        id
+        name
+        link
+        deprecated
+      }
+      __typename
+    }
+    ... on CommentTagSegmentDeprecated {
+      entityId
+      displayName
+      tagType
+      status
       deprecated
       link
       revisionSetId
@@ -100,6 +115,7 @@ fragment parsedCommentFragment on CommentBodySegment{
         id
         name
         link
+        deprecated
       }
       __typename
     }

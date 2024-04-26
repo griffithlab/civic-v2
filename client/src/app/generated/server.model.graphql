@@ -868,6 +868,7 @@ type BrowseClinicalTrialEdge {
 
 type BrowseDisease {
   assertionCount: Int!
+  deprecated: Boolean!
   diseaseUrl: String
   displayName: String!
   doid: String
@@ -937,6 +938,7 @@ type BrowseDiseaseEdge {
 
 type BrowseFeature implements Flaggable {
   assertionCount: Int!
+  deprecated: Boolean!
   description: String!
   diseases: [Disease!]
   evidenceItemCount: Int!
@@ -1055,6 +1057,7 @@ type BrowseFeatureEdge {
 type BrowseMolecularProfile {
   aliases: [MolecularProfileAlias!]!
   assertionCount: Int!
+  deprecated: Boolean!
   diseases: [LinkableDisease!]!
   evidenceItemCount: Int!
   id: Int!
@@ -1263,6 +1266,7 @@ type BrowseSourceEdge {
 
 type BrowseTherapy {
   assertionCount: Int!
+  deprecated: Boolean!
   evidenceCount: Int!
   id: Int!
   link: String!
@@ -1329,7 +1333,9 @@ type BrowseTherapyEdge {
 type BrowseVariant {
   aliases: [VariantAlias!]!
   category: VariantCategories!
+  deprecated: Boolean!
   diseases: [Disease!]!
+  featureDeprecated: Boolean!
   featureId: Int!
   featureLink: String!
   featureName: String!
@@ -1636,7 +1642,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentDeprecated | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -1710,7 +1716,17 @@ type CommentEdge {
 }
 
 type CommentTagSegment {
-  deprecated: Boolean
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  link: String!
+  revisionSetId: Int
+  status: EvidenceStatus
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentDeprecated {
+  deprecated: Boolean!
   displayName: String!
   entityId: Int!
   feature: LinkableFeature
@@ -2261,6 +2277,7 @@ type DeprecateVariantPayload {
 }
 
 type Disease {
+  deprecated: Boolean!
   diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
@@ -2273,6 +2290,7 @@ type Disease {
 
 type DiseasePopover {
   assertionCount: Int!
+  deprecated: Boolean!
   diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
@@ -5203,25 +5221,28 @@ type LeaderboardUserEdge {
 }
 
 type LinkableDisease {
+  deprecated: Boolean!
   id: Int!
   link: String!
   name: String!
 }
 
 type LinkableFeature {
+  deprecated: Boolean!
   id: Int!
   link: String!
   name: String!
 }
 
 type LinkableTherapy {
+  deprecated: Boolean!
   id: Int!
   link: String!
   name: String!
 }
 
 type LinkableVariant {
-  deprecated: Boolean
+  deprecated: Boolean!
   feature: LinkableFeature
   id: Int!
   link: String!
@@ -9985,6 +10006,7 @@ input TaggableEntityInput {
 }
 
 type Therapy {
+  deprecated: Boolean!
   id: Int!
   link: String!
   myChemInfo: MyChemInfo
@@ -10002,6 +10024,7 @@ enum TherapyInteraction {
 
 type TherapyPopover {
   assertionCount: Int!
+  deprecated: Boolean!
   evidenceItemCount: Int!
   id: Int!
   link: String!

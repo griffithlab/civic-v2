@@ -19,6 +19,7 @@ fragment variantGroupPopoverFields on VariantGroup {
           id
           name
           link
+          deprecated
         }
       }
     }

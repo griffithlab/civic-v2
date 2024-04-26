@@ -61,6 +61,7 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
     id
     name
     link
+    deprecated
   }
   ... on Variant {
     id
@@ -74,10 +75,12 @@ fragment VariantMolecularProfileCardFields on VariantInterface {
   id
   name
   link
+  deprecated
   feature {
     id
     name
     link
+    deprecated
   }
   molecularProfiles(first: 3) {
     totalCount

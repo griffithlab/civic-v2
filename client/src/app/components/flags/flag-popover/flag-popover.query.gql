@@ -23,7 +23,11 @@ fragment flagPopover on Flag {
         id
         name
         link
+        deprecated
       }
+    }
+    ... on Feature {
+      deprecated
     }
   }
   createdAt

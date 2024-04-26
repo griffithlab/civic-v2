@@ -52,4 +52,5 @@ fragment BrowseDiseaseRowFields on BrowseDisease {
   variantCount
   featureCount
   link
+  deprecated
 }

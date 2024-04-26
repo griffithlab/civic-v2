@@ -17,6 +17,7 @@ fragment EvidenceDetailFields on EvidenceItem {
     id
     name
     link
+    deprecated
   }
   assertions {
     id
