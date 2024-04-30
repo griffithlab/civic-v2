@@ -1,5 +1,6 @@
 module Reports
   AVAILABLE_REPORTS = [
-    OrganizationContributions
+    OrganizationContributions,
+    EidsWithOnsetTerms
   ]
 end
