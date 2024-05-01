@@ -18,12 +18,14 @@ fragment evidencePopover on EvidenceItem {
     id
     name
     link
+    deprecated
   }
   therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id
@@ -36,6 +38,7 @@ fragment evidencePopover on EvidenceItem {
     name
     link
     deprecated
+    flagged
     parsedName {
       ...MolecularProfileParsedName
     }
@@ -46,6 +49,7 @@ fragment evidencePopover on EvidenceItem {
     sourceType
     displayType
     link
+    deprecated
   }
   flags(state: OPEN) {
     totalCount

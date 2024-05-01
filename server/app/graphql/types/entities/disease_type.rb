@@ -8,6 +8,7 @@ module Types::Entities
     field :disease_aliases, [String], null: false
     field :link, String, null: false
     field :my_disease_info, Types::Entities::MyDiseaseInfoType, null: true
+    field :deprecated, Boolean, null: false
 
     def disease_aliases
       Loaders::AssociationLoader.for(Disease, :disease_aliases).load(object).then do |disease_aliases|

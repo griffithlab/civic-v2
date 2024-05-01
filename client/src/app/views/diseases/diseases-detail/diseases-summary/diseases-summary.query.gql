@@ -28,4 +28,5 @@ fragment DiseasesSummaryFields on Disease {
   myDiseaseInfo {
     ...MyDiseaseInfoFields
   }
+  deprecated
 }

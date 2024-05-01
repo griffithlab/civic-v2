@@ -15,10 +15,13 @@ fragment variantGroupPopoverFields on VariantGroup {
         name
         link
         deprecated
+        flagged
         feature {
           id
           name
           link
+          deprecated
+          flagged
         }
       }
     }
@@ -28,5 +31,6 @@ fragment variantGroupPopoverFields on VariantGroup {
     citation
     sourceType
     link
+    deprecated
   }
 }

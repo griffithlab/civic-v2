@@ -45,17 +45,20 @@ fragment BrowseFeaturesFields on BrowseFeature {
   id
   name
   link
+  deprecated
   flagged
   featureAliases
   diseases {
     name
     id
     link
+    deprecated
   }
   therapies {
     name
     id
     link
+    deprecated
   }
   variantCount
   evidenceItemCount

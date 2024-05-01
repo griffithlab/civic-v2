@@ -32,6 +32,8 @@ query MolecularProfilesForVariant($variantId: Int!) {
         submittedCount
         acceptedCount
       }
+      deprecated
+      flagged
     }
   }
 }
