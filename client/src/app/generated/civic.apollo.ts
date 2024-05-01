@@ -90,7 +90,7 @@ export type ActivityInterface = {
 /** The connection type for ActivityInterface. */
 export type ActivityInterfaceConnection = {
   __typename: 'ActivityInterfaceConnection';
-  /** List of activity types that have occured on this entity. */
+  /** List of activity types that have occurred on this entity. */
   activityTypes: Array<ActivityTypeInput>;
   /** A list of edges. */
   edges: Array<ActivityInterfaceEdge>;
@@ -1594,7 +1594,7 @@ export type EventConnection = {
   __typename: 'EventConnection';
   /** A list of edges. */
   edges: Array<EventEdge>;
-  /** List of event types that have occured on this entity. */
+  /** List of event types that have occurred on this entity. */
   eventTypes: Array<EventAction>;
   /** A list of nodes. */
   nodes: Array<Event>;
@@ -3305,7 +3305,7 @@ export enum MolecularProfileDisplayFilter {
   WithAccepted = 'WITH_ACCEPTED',
   /** Display only molecular profiles which have evidence in either an accepted or submitted state. */
   WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
-  /** Display molecular profiles which have at least one submited evidence item. */
+  /** Display molecular profiles which have at least one submitted evidence item. */
   WithSubmitted = 'WITH_SUBMITTED'
 }
 
@@ -3415,7 +3415,7 @@ export type Mutation = {
    */
   rejectRevisions?: Maybe<RejectRevisionsPayload>;
   /**
-   * Resolve a flag on a CIViC entity indicating that it was either erronously flagged or the issue has been resolved.
+   * Resolve a flag on a CIViC entity indicating that it was either erroneously flagged or the issue has been resolved.
    * Any user may resolve their own flag however only editors with valid conflict
    * of interest statements can resolve other flags.
    */
@@ -3448,7 +3448,7 @@ export type Mutation = {
   suggestVariantGroupRevision?: Maybe<SuggestVariantGroupRevisionPayload>;
   /** Unsubscribe from a CIViC entity to stop receiving notifications about it. */
   unsubscribe?: Maybe<UnsubscribePayload>;
-  /** Update the currentlly logged in User's Conflict of Interest statement */
+  /** Update the currently logged in User's Conflict of Interest statement */
   updateCoi?: Maybe<UpdateCoiPayload>;
   /** Mark one or more notifications as read/unread. The notification IDs provided must belong to the requesting user. */
   updateNotificationStatus?: Maybe<UpdateNotificationStatusPayload>;
@@ -3765,7 +3765,7 @@ export type NotificationConnection = {
   __typename: 'NotificationConnection';
   /** A list of edges. */
   edges: Array<NotificationEdge>;
-  /** List of event types that have occured on this entity. */
+  /** List of event types that have occurred on this entity. */
   eventTypes: Array<EventAction>;
   /** Users who have mentioned you. */
   mentioningUsers: Array<User>;
@@ -4265,6 +4265,8 @@ export type QueryActivitiesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   mode?: InputMaybe<EventFeedMode>;
+  occuredAfter?: InputMaybe<Scalars['ISO8601DateTime']>;
+  occuredBefore?: InputMaybe<Scalars['ISO8601DateTime']>;
   organizationId?: InputMaybe<Array<Scalars['Int']>>;
   sortBy?: InputMaybe<DateSort>;
   subject?: InputMaybe<Array<SubscribableQueryInput>>;
@@ -7591,7 +7593,7 @@ export type VariantsMenuQueryVariables = Exact<{
 }>;
 
 
-export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantInterfaceConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, nodes: Array<{ __typename: 'FactorVariant', id: number, name: string, link: string, flagged: boolean } | { __typename: 'GeneVariant', id: number, name: string, link: string, flagged: boolean } | { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean }> } };
+export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantInterfaceConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantInterfaceEdge', cursor: string, node?: { __typename: 'FactorVariant', id: number, name: string, link: string, flagged: boolean } | { __typename: 'GeneVariant', id: number, name: string, link: string, flagged: boolean } | { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean } | undefined }> } };
 
 export type VariantTypesForFeatureQueryVariables = Exact<{
   featureId?: InputMaybe<Scalars['Int']>;
@@ -13362,8 +13364,11 @@ export const VariantsMenuDocument = gql`
       hasPreviousPage
       hasNextPage
     }
-    nodes {
-      ...menuVariant
+    edges {
+      cursor
+      node {
+        ...menuVariant
+      }
     }
   }
 }

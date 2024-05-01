@@ -91,12 +91,12 @@ module Importer
               text += " Replaced by #{term['replaced_by']}."
             end
             obsolete_type.variants.each do |variant|
-              if variant.flags.select{|f| f.state == 'open' && f.comments.select{|c| c.text =~ /obsolete Sequence Ontology term/ && c.user_id == 385}.count > 0}.count == 0
-                Actions::FlagEntity.new(
+              if variant.flags.select{|f| f.state == 'open' && f.open_activity.note =~ /obsolete Sequence Ontology term/ && f.open_activity.user_id == 385}.count == 0
+                Activities::FlagEntity.new(
                   flagging_user: civicbot_user,
                   flaggable: variant,
                   organization_id: nil,
-                  comment: text
+                  note: text
                 ).perform
               end
             end

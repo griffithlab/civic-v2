@@ -142,8 +142,8 @@ module Importer
     def add_flags(disease, text)
       civicbot_user = User.find(385)
       (disease.evidence_items + disease.assertions).each do |obj|
-        if obj.flags.select{|f| f.state == 'open' && f.open_activity.note == text && c.open_activity.user_id == 385}.count == 0
-          Activity::FlagEntity.new(
+        if obj.flags.select{|f| f.state == 'open' && f.open_activity.note == text && f.open_activity.user_id == 385}.count == 0
+          Activities::FlagEntity.new(
             flagging_user: civicbot_user,
             flaggable: obj,
             organization_id: nil,
