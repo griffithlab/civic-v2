@@ -1,5 +1,7 @@
 module Reports
   AVAILABLE_REPORTS = [
-    OrganizationContributions
+    OrganizationContributions,
+    EidsWithOnsetTerms,
+    DiseasesWithIcdo
   ]
 end
