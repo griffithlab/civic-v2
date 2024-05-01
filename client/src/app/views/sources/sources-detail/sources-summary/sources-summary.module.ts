@@ -13,6 +13,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SourcesSummaryPage } from './sources-summary.page';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcRetractionStatusTagModule } from '@app/components/shared/retraction-status-tag/retraction-status-tag.module';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CvcEvidenceTableModule,
     CvcSourceSuggestionsTableModule,
     CvcClinicalTrialTagModule,
+    CvcRetractionStatusTagModule,
   ],
 })
 export class SourcesSummaryModule {}

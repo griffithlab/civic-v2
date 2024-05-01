@@ -12,17 +12,20 @@ export interface LinkableSource {
   id: number
   displayInfo: CitationSource | string
   link: string
+  deprecated: boolean
 }
 
 export interface CitationSource {
   citation: string
   sourceType: SourceSource
+  deprecated: boolean
 }
 
 export interface SourceWithDisplayName {
   id: number
   displayName: string
   link: string
+  deprecated: boolean
 }
 
 export interface SourceWithCitation {
@@ -30,6 +33,7 @@ export interface SourceWithCitation {
   citation?: string
   sourceType: SourceSource
   link: string
+  deprecated: boolean
 }
 
 type SourceTagInput = SourceWithDisplayName | SourceWithCitation

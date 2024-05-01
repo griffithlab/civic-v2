@@ -19,6 +19,11 @@
       </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
+        <nz-alert
+          *ngIf="disease.deprecated"
+          nzBanner
+          nzMessage="This Disease has been deprecated."
+          nzType="error"></nz-alert>
       <div class="content">
         <router-outlet></router-outlet>
       </div>

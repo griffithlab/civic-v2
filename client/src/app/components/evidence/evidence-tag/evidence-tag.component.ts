@@ -6,8 +6,8 @@ import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
 export interface LinkableEvidence {
   id: number
   name: string
-  status?: EvidenceStatus
-  flagged?: boolean
+  status: EvidenceStatus
+  flagged: boolean
   link: string
 }
 

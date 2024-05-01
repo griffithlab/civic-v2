@@ -868,6 +868,7 @@ type BrowseClinicalTrialEdge {
 
 type BrowseDisease {
   assertionCount: Int!
+  deprecated: Boolean!
   diseaseUrl: String
   displayName: String!
   doid: String
@@ -937,6 +938,7 @@ type BrowseDiseaseEdge {
 
 type BrowseFeature implements Flaggable {
   assertionCount: Int!
+  deprecated: Boolean!
   description: String!
   diseases: [Disease!]
   evidenceItemCount: Int!
@@ -1055,6 +1057,7 @@ type BrowseFeatureEdge {
 type BrowseMolecularProfile {
   aliases: [MolecularProfileAlias!]!
   assertionCount: Int!
+  deprecated: Boolean!
   diseases: [LinkableDisease!]!
   evidenceItemCount: Int!
   id: Int!
@@ -1191,6 +1194,7 @@ type BrowseSource {
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]!
+  deprecated: Boolean!
   displayType: String!
   evidenceItemCount: Int!
   id: Int!
@@ -1199,6 +1203,7 @@ type BrowseSource {
   name: String
   openAccess: Boolean!
   publicationYear: Int
+  retractionNature: String
   sourceSuggestionCount: Int!
   sourceType: SourceSource!
   sourceUrl: String!
@@ -1261,6 +1266,7 @@ type BrowseSourceEdge {
 
 type BrowseTherapy {
   assertionCount: Int!
+  deprecated: Boolean!
   evidenceCount: Int!
   id: Int!
   link: String!
@@ -1327,10 +1333,14 @@ type BrowseTherapyEdge {
 type BrowseVariant {
   aliases: [VariantAlias!]!
   category: VariantCategories!
+  deprecated: Boolean!
   diseases: [Disease!]!
+  featureDeprecated: Boolean!
+  featureFlagged: Boolean!
   featureId: Int!
   featureLink: String!
   featureName: String!
+  flagged: Boolean!
   id: Int!
   link: String!
   name: String!
@@ -1634,7 +1644,7 @@ type CommentActivity implements ActivityInterface {
 """
 Segment of a comment that can either be text or an object to be rendered as a tag
 """
-union CommentBodySegment = CommentTagSegment | CommentTextSegment | User
+union CommentBodySegment = CommentTagSegment | CommentTagSegmentFlagged | CommentTagSegmentFlaggedAndDeprecated | CommentTagSegmentFlaggedAndWithStatus | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -1708,13 +1718,43 @@ type CommentEdge {
 }
 
 type CommentTagSegment {
-  deprecated: Boolean
   displayName: String!
   entityId: Int!
   feature: LinkableFeature
   link: String!
   revisionSetId: Int
-  status: EvidenceStatus
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentFlagged {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  flagged: Boolean!
+  link: String!
+  revisionSetId: Int
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentFlaggedAndDeprecated {
+  deprecated: Boolean!
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  flagged: Boolean!
+  link: String!
+  revisionSetId: Int
+  tagType: TaggableEntity!
+}
+
+type CommentTagSegmentFlaggedAndWithStatus {
+  displayName: String!
+  entityId: Int!
+  feature: LinkableFeature
+  flagged: Boolean!
+  link: String!
+  revisionSetId: Int
+  status: EvidenceStatus!
   tagType: TaggableEntity!
 }
 
@@ -2259,6 +2299,7 @@ type DeprecateVariantPayload {
 }
 
 type Disease {
+  deprecated: Boolean!
   diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
@@ -2271,6 +2312,7 @@ type Disease {
 
 type DiseasePopover {
   assertionCount: Int!
+  deprecated: Boolean!
   diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
@@ -5201,26 +5243,31 @@ type LeaderboardUserEdge {
 }
 
 type LinkableDisease {
+  deprecated: Boolean!
   id: Int!
   link: String!
   name: String!
 }
 
 type LinkableFeature {
+  deprecated: Boolean!
+  flagged: Boolean!
   id: Int!
   link: String!
   name: String!
 }
 
 type LinkableTherapy {
+  deprecated: Boolean!
   id: Int!
   link: String!
   name: String!
 }
 
 type LinkableVariant {
-  deprecated: Boolean
+  deprecated: Boolean!
   feature: LinkableFeature
+  flagged: Boolean!
   id: Int!
   link: String!
   matchText: String
@@ -5394,6 +5441,7 @@ type ModeratedObjectField {
   displayType: String
   entityType: String!
   feature: LinkableFeature
+  flagged: Boolean
   id: Int!
   link: String
 }
@@ -8787,6 +8835,7 @@ type Source implements Commentable & EventSubject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  deprecated: Boolean!
   displayType: String!
 
   """
@@ -8834,6 +8883,10 @@ type Source implements Commentable & EventSubject {
   publicationDay: Int
   publicationMonth: Int
   publicationYear: Int
+  retracted: Boolean!
+  retractionDate: ISO8601DateTime
+  retractionNature: String
+  retractionReasons: String
   sourceType: SourceSource!
   sourceUrl: String
   title: String
@@ -8896,6 +8949,7 @@ type SourcePopover implements Commentable & EventSubject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  deprecated: Boolean!
   displayType: String!
 
   """
@@ -8944,6 +8998,10 @@ type SourcePopover implements Commentable & EventSubject {
   publicationDay: Int
   publicationMonth: Int
   publicationYear: Int
+  retracted: Boolean!
+  retractionDate: ISO8601DateTime
+  retractionNature: String
+  retractionReasons: String
   sourceType: SourceSource!
   sourceUrl: String
   title: String
@@ -9974,6 +10032,7 @@ input TaggableEntityInput {
 }
 
 type Therapy {
+  deprecated: Boolean!
   id: Int!
   link: String!
   myChemInfo: MyChemInfo
@@ -9991,6 +10050,7 @@ enum TherapyInteraction {
 
 type TherapyPopover {
   assertionCount: Int!
+  deprecated: Boolean!
   evidenceItemCount: Int!
   id: Int!
   link: String!

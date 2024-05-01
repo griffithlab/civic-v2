@@ -6,6 +6,7 @@
 
 <ng-template #tag>
   <nz-tag
+    [ngClass]="{ deprecated: disease.deprecated }"
     nz-popover
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="diseasePopover"
