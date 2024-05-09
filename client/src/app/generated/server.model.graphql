@@ -781,7 +781,6 @@ enum AssertionSortColumns {
   SIGNIFICANCE
   STATUS
   SUMMARY
-  THERAPY_NAME
 }
 
 enum AssertionType {
@@ -3008,7 +3007,6 @@ enum EvidenceSortColumns {
   ID
   SIGNIFICANCE
   STATUS
-  THERAPY_NAME
   VARIANT_ORIGIN
 }
 

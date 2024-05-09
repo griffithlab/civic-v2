@@ -2,7 +2,6 @@ module Types::BrowseTables
   class EvidenceSortColumns < Types::BaseEnum
     value 'ID'
     value 'DISEASE_NAME'
-    value 'THERAPY_NAME'
     value 'DESCRIPTION'
     value 'EVIDENCE_LEVEL'
     value 'EVIDENCE_RATING'

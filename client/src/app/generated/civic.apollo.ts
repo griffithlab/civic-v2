@@ -472,8 +472,7 @@ export enum AssertionSortColumns {
   Id = 'ID',
   Significance = 'SIGNIFICANCE',
   Status = 'STATUS',
-  Summary = 'SUMMARY',
-  TherapyName = 'THERAPY_NAME'
+  Summary = 'SUMMARY'
 }
 
 export enum AssertionType {
@@ -1941,7 +1940,6 @@ export enum EvidenceSortColumns {
   Id = 'ID',
   Significance = 'SIGNIFICANCE',
   Status = 'STATUS',
-  TherapyName = 'THERAPY_NAME',
   VariantOrigin = 'VARIANT_ORIGIN'
 }
 
