@@ -13,7 +13,11 @@ module Types
     node_nullable(false)
 
     def total_count
-      object.items&.count
+      if object.items&.is_a?(ActiveRecord::Relation)
+        object.items.reselect("#{object.items.table_name}.id").count
+      else
+        object.items&.count
+      end
     end
 
     def page_count
