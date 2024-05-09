@@ -62,4 +62,5 @@ fragment menuVariant on VariantInterface {
   name
   link
   flagged
+  deprecated
 }

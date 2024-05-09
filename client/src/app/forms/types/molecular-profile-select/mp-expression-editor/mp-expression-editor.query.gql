@@ -7,6 +7,8 @@ query PreviewMolecularProfileName2(
       id
       name
       link
+      deprecated
+      flagged
     }
     segments {
       ...PreviewMpName2
@@ -15,6 +17,8 @@ query PreviewMolecularProfileName2(
       id
       name
       link
+      deprecated
+      flagged
     }
   }
 }
@@ -26,6 +30,8 @@ query MpExpressionEditorPrepopulate($mpId: Int!) {
       ...MolecularProfileParsedName
     }
     rawName
+    deprecated
+    flagged
   }
 }
 
@@ -39,6 +45,8 @@ mutation CreateMolecularProfile2(
       id
       name
       link
+      deprecated
+      flagged
     }
   }
 }
@@ -53,10 +61,14 @@ fragment PreviewMpName2 on MolecularProfileSegment {
     id
     name
     link
+    deprecated
+    flagged
   }
   ... on Variant {
     id
     name
     link
+    deprecated
+    flagged
   }
 }

@@ -68,12 +68,7 @@
           [nzSortFn]="true">
           Disease
         </th>
-        <th
-          nzWidth="400px"
-          [nzColumnKey]="sortColumns.TherapyName"
-          [nzSortFn]="true">
-          Therapies
-        </th>
+        <th nzWidth="400px">Therapies</th>
         <th
           nzWidth="40px"
           nz-tooltip
@@ -494,7 +489,7 @@
                   nz-icon
                   [nzType]="
                     eid.therapyInteractionType
-                      | therapyInteractionEnumDisplay : 'icon-name'
+                      | therapyInteractionEnumDisplay: 'icon-name'
                   "
                   class="attribute-icon"></i>
               </nz-tag>
@@ -546,7 +541,7 @@
               ">
               <i
                 nz-icon
-                [nzType]="eid.evidenceType | evidenceEnumDisplay : 'icon-name'"
+                [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -564,7 +559,7 @@
               <i
                 nz-icon
                 [nzType]="
-                  eid.evidenceDirection | evidenceEnumDisplay : 'icon-name'
+                  eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'
                 "
                 class="attribute-icon"></i>
             </nz-tag>
@@ -580,7 +575,7 @@
               ">
               <i
                 nz-icon
-                [nzType]="eid.significance | evidenceEnumDisplay : 'icon-name'"
+                [nzType]="eid.significance | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -595,7 +590,7 @@
               ">
               <i
                 nz-icon
-                [nzType]="eid.variantOrigin | evidenceEnumDisplay : 'icon-name'"
+                [nzType]="eid.variantOrigin | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>

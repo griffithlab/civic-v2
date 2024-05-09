@@ -8,6 +8,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { CvcRetractionStatusTagModule } from '@app/components/shared/retraction-status-tag/retraction-status-tag.module'
 
 @NgModule({
   declarations: [CvcSourcePopoverComponent],
@@ -21,6 +22,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
     CvcLinkTagModule,
     CvcTagListModule,
     CvcClinicalTrialTagModule,
+    CvcRetractionStatusTagModule,
   ],
   exports: [CvcSourcePopoverComponent],
 })

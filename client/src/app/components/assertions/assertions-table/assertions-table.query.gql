@@ -75,16 +75,19 @@ fragment AssertionBrowseFields on Assertion {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
   }
   disease {
     id
     name
     link
+    deprecated
   }
   therapies {
     id
     name
     link
+    deprecated
   }
   therapyInteractionType
   summary

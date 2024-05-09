@@ -1,0 +1,45 @@
+<nz-tag
+  *ngIf="tagStatus"
+  [nzColor]="tagStatus"
+  nz-popover
+  [nzPopoverMouseEnterDelay]="0.5"
+  [nzPopoverContent]="retractionPopover"
+  [nzPopoverTitle]="'This Source has been identified by Retraction Watch as status: ' + (retractionNature | titlecase)"
+  nzPopoverPlacement="left"
+  [nzPopoverTrigger]="enablePopover ? 'hover' : null">
+  <i *ngIf="tagStatus == 'error'"
+    nz-icon
+    nzType="close-circle"></i>
+  <i *ngIf="tagStatus == 'warning'"
+    nz-icon
+    nzType="exclamation-circle"></i>
+  {{ retractionNature | titlecase }}
+</nz-tag>
+
+<ng-template #retractionPopover>
+  <nz-descriptions
+    nzBordered
+    nzSize="small"
+    [nzColumn]="1">
+    <nz-descriptions-item *ngIf="retractionDate" nzTitle="Date"
+      >{{ retractionDate | timeAgo }}</nz-descriptions-item
+    >
+    <nz-descriptions-item *ngIf="retractionReasons" nzTitle="Reasons">
+      <nz-list nzSize='small'>
+        <nz-list-item *ngFor="let reason of retractionReasons.split(';')">
+          {{ reason.replace('+', '') }}
+        </nz-list-item>
+      </nz-list>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Links">
+      <cvc-link-tag
+        href="https://retractionwatch.com/">
+        Retraction Watch Homepage
+      </cvc-link-tag>
+      <cvc-link-tag
+        href="http://retractiondatabase.org/RetractionSearch.aspx?">
+        Retraction Watch Database
+      </cvc-link-tag>
+    </nz-descriptions-item>
+  </nz-descriptions>
+</ng-template>

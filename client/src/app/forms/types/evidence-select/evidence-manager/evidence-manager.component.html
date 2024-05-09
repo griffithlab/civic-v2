@@ -25,7 +25,7 @@
           <ng-container *ngIf="!col.hidden">
             <!-- SELECT HEADER -->
             <th
-              *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
+              *ngIf="col | guardType: colGuards.isSelectCol as selectCol"
               [nzShowCheckbox]="selectCol.checkbox.th.showCheckbox || false"
               [nzWidth]="selectCol.width"
               [nzAlign]="selectCol.align ?? 'left'"
@@ -34,14 +34,16 @@
 
             <!-- ENTITY TAG HEADER -->
             <th
-              *ngIf="col | guardType : colGuards.isEntityTagCol as entityTagCol"
+              *ngIf="col | guardType: colGuards.isEntityTagCol as entityTagCol"
               [nzColumnKey]="entityTagCol.key"
               [nzAlign]="entityTagCol.align ?? 'left'"
               [nzWidth]="entityTagCol.width"
               [nzLeft]="entityTagCol.fixedLeft || false"
               [nzRight]="entityTagCol.fixedRight || false"
-              [nzShowSort]="entityTagCol.sort !== undefined"
-              [nzSortFn]="true"
+              [nzShowSort]="
+                entityTagCol.sort !== undefined && !entityTagCol.sort.disabled
+              "
+              [nzSortFn]="!entityTagCol.sort.disabled"
               [nzSortOrder]="
                 (entityTagCol.sort!.changes | ngrxPush)?.value || null
               "
@@ -61,7 +63,7 @@
 
             <!-- ENUM TAG HEADER -->
             <th
-              *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+              *ngIf="col | guardType: colGuards.isEnumTagCol as enumTagCol"
               [nzColumnKey]="enumTagCol.key"
               [nzAlign]="enumTagCol.align ?? 'left'"
               [nzWidth]="enumTagCol.width"
@@ -74,7 +76,7 @@
 
             <!-- TEXT TAG HEADER -->
             <th
-              *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
+              *ngIf="col | guardType: colGuards.isTextTagCol as textTagCol"
               [nzColumnKey]="textTagCol.key"
               [nzAlign]="textTagCol.align ?? 'left'"
               [nzWidth]="textTagCol.width"
@@ -93,7 +95,7 @@
           <ng-container *ngIf="!col.hidden">
             <!-- SELECT FILTER -->
             <th
-              *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
+              *ngIf="col | guardType: colGuards.isSelectCol as selectCol"
               [nzColumnKey]="selectCol.key"
               [nzAlign]="selectCol.align ?? 'left'"
               [nzWidth]="selectCol.width"
@@ -104,7 +106,7 @@
 
             <!-- ENTITY TAG FILTER -->
             <th
-              *ngIf="col | guardType : colGuards.isEntityTagCol as entityTagCol"
+              *ngIf="col | guardType: colGuards.isEntityTagCol as entityTagCol"
               [nzColumnKey]="entityTagCol.key"
               [nzWidth]="entityTagCol.width"
               [nzAlign]="entityTagCol.align ?? 'left'"
@@ -116,9 +118,15 @@
                 [cvcPlaceholder]="entityTagCol.filter.options[0].key"
                 [cvcModel]="entityTagCol.filter.options[0].value"
                 (cvcModelChange)="
-                  filter.transform ? 
-                  filter.changes!.next({ key: entityTagCol.key, value: filter.transform($event) }) :
-                  filter.changes!.next({ key: entityTagCol.key, value: $event })
+                  filter.transform
+                    ? filter.changes!.next({
+                        key: entityTagCol.key,
+                        value: filter.transform($event)
+                      })
+                    : filter.changes!.next({
+                        key: entityTagCol.key,
+                        value: $event
+                      })
                 ">
               </cvc-table-filter-input>
             </th>
@@ -126,15 +134,15 @@
             <!-- ENUM TAG FILTER -->
             <th
               #enumTableFilter
-              *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+              *ngIf="col | guardType: colGuards.isEnumTagCol as enumTagCol"
               [nzColumnKey]="enumTagCol.key"
               class="attribute-filter"
               [nzWidth]="enumTagCol.width"
               [nzAlign]="enumTagCol.align ?? 'left'"
               [nzLeft]="enumTagCol.fixedLeft || false"
               [nzRight]="enumTagCol.fixedRight || false"
-              [nzShowSort]="true"
-              [nzSortFn]="true"
+              [nzShowSort]="!enumTagCol.sort.disabled"
+              [nzSortFn]="!enumTagCol.sort.disabled"
               [nzSortOrder]="
                 (enumTagCol.sort!.changes | ngrxPush)?.value || null
               "
@@ -174,7 +182,7 @@
             <!-- TEXT TAG FILTER -->
             <th
               #enumTableFilter
-              *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
+              *ngIf="col | guardType: colGuards.isTextTagCol as textTagCol"
               [nzColumnKey]="textTagCol.key"
               class="attribute-filter"
               [nzWidth]="textTagCol.width"
@@ -223,7 +231,7 @@
             <ng-container *ngIf="!col.hidden">
               <!-- SELECT CELL -->
               <td
-                *ngIf="col | guardType : colGuards.isSelectCol as selectCol"
+                *ngIf="col | guardType: colGuards.isSelectCol as selectCol"
                 [nzChecked]="row.selected"
                 (nzCheckedChange)="
                   onRowSelected$.next({ id: row.id, selected: $event })
@@ -235,7 +243,7 @@
               <!-- ENTITY TAG CELL -->
               <td
                 *ngIf="
-                  col | guardType : colGuards.isEntityTagCol as entityTagCol
+                  col | guardType: colGuards.isEntityTagCol as entityTagCol
                 "
                 [nzAlign]="entityTagCol.align ?? 'left'"
                 [nzLeft]="entityTagCol.fixedLeft || false"
@@ -267,7 +275,6 @@
                   let-emphasize="emphasize">
                   <ng-container
                     *ngIf="data.length > 0; else emptyEntityTagCell">
-
                     <!-- display full size tags up to maxTags length -->
                     <cvc-entity-tag-list
                       [cvcTagTemplate]="entityTag"
@@ -332,7 +339,7 @@
 
               <!-- ENUM TAG CELL -->
               <td
-                *ngIf="col | guardType : colGuards.isEnumTagCol as enumTagCol"
+                *ngIf="col | guardType: colGuards.isEnumTagCol as enumTagCol"
                 [nzAlign]="enumTagCol.align ?? 'left'"
                 [nzLeft]="enumTagCol.fixedLeft || false"
                 [nzRight]="enumTagCol.fixedRight || false">
@@ -356,7 +363,7 @@
 
               <!-- TEXT TAG CELL -->
               <td
-                *ngIf="col | guardType : colGuards.isTextTagCol as textTagCol"
+                *ngIf="col | guardType: colGuards.isTextTagCol as textTagCol"
                 [nzAlign]="textTagCol.align ?? 'left'"
                 [nzLeft]="textTagCol.fixedLeft || false"
                 [nzRight]="textTagCol.fixedRight || false">
