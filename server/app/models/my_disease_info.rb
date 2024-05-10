@@ -30,8 +30,7 @@ class MyDiseaseInfo
 
       do_def, do_def_citations = process_do_def(data.dig('def'))
 
-      mondo_data = p['hits'][0].dig('mondo')
-      mondo_def = process_mondo_def(mondo_data)
+      mondo_def = process_mondo_def(p)
 
       return {
         'disease_ontology_exact_synonyms': Array(data.dig('synonyms', 'exact')),
@@ -44,7 +43,7 @@ class MyDiseaseInfo
         'do_def': do_def,
         'do_def_citations': do_def_citations,
         'mondo_def': mondo_def,
-        'mondo_id': mondo_data.dig('mondo')
+        'mondo_id': p['hits'][0].dig('mondo', 'mondo')
       }
     end
 
@@ -77,8 +76,8 @@ class MyDiseaseInfo
     "my_disease_info_#{disease.id}_#{disease.updated_at}"
   end
 
-  def process_mondo_def(mondo_data)
-    if md = mondo_data.dig('definition')
+  def process_mondo_def(p)
+    if md = p['hits'][0].dig('mondo', 'definition')
       md.gsub(/\[(.+)\]/, '').strip
     else
       nil
