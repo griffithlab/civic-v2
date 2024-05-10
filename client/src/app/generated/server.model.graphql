@@ -6262,6 +6262,7 @@ type MyDiseaseInfo {
   icdo: String
   mesh: String
   mondoDef: String
+  mondoId: String
   ncit: [String!]!
   omim: String
 }

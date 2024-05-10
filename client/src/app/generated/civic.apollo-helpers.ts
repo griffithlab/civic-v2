@@ -1417,7 +1417,7 @@ export type MyChemInfoFieldPolicy = {
 	pubchemCid?: FieldPolicy<any> | FieldReadFunction<any>,
 	rxnorm?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MyDiseaseInfoKeySpecifier = ('diseaseOntologyExactSynonyms' | 'diseaseOntologyRelatedSynonyms' | 'doDef' | 'doDefCitations' | 'icd10' | 'icdo' | 'mesh' | 'mondoDef' | 'ncit' | 'omim' | MyDiseaseInfoKeySpecifier)[];
+export type MyDiseaseInfoKeySpecifier = ('diseaseOntologyExactSynonyms' | 'diseaseOntologyRelatedSynonyms' | 'doDef' | 'doDefCitations' | 'icd10' | 'icdo' | 'mesh' | 'mondoDef' | 'mondoId' | 'ncit' | 'omim' | MyDiseaseInfoKeySpecifier)[];
 export type MyDiseaseInfoFieldPolicy = {
 	diseaseOntologyExactSynonyms?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseOntologyRelatedSynonyms?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1427,6 +1427,7 @@ export type MyDiseaseInfoFieldPolicy = {
 	icdo?: FieldPolicy<any> | FieldReadFunction<any>,
 	mesh?: FieldPolicy<any> | FieldReadFunction<any>,
 	mondoDef?: FieldPolicy<any> | FieldReadFunction<any>,
+	mondoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncit?: FieldPolicy<any> | FieldReadFunction<any>,
 	omim?: FieldPolicy<any> | FieldReadFunction<any>
 };
