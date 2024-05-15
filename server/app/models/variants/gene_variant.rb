@@ -1,11 +1,18 @@
 module Variants
   class GeneVariant < Variant
+    #TODO remove?
     belongs_to :gene, class_name: 'Features::Gene', optional: true
 
     has_one :coordinates,
       ->() { where(coordinate_type: 'Gene Variant Coordinate') },
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
+
+    def self.valid_coordinate_types
+      [
+       'Gene Variant Coordinate'
+      ]
+    end
 
     #TODO not used in V2, delete when Fusions added?
     #belongs_to :secondary_gene, class_name: 'Features::Gene', optional: true
