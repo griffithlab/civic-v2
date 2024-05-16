@@ -15,11 +15,11 @@ class DeprecationValidator < ActiveModel::Validator
   end
 
   def entity_type_to_field_name(record)
-    case record.class.name
-    when 'Disease'
-      'disease_id'
-    when 'Therapy'
-      'therapy_ids'
+    case record
+    when Disease
+       'disease_id'
+    when Therapy
+       'therapy_ids'
     else
       raise "No mapped field_name for class #{record.class.name}"
     end
