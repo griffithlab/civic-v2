@@ -9,7 +9,7 @@ class DeprecationValidator < ActiveModel::Validator
       end
       revisions = Revision.where(field_name: entity_type_to_field_name(record), status: 'new').select{|r| Array(r.suggested_value).include?(record.id)}
       if revisions.count > 0
-        record.errors.add :deprecated, "One or more open revisions suggest this record as a value. The subject of these revisions are: #{revisions.map{|r| [r.subject_type, r.subject_id]}.uniq}. Please close these revisions before deprecating the record."
+        record.errors.add :deprecated, "One or more open revisions suggest this record as a value. The subject of these revisions are: #{revisions.map { |r| "#{r.subject_type}:#{r.subject_id}"}.uniq.join(", ")}. Please close these revisions before deprecating the record."
       end
     end
   end
