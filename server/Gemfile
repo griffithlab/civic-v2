@@ -31,6 +31,9 @@ gem 'scenic', '~>1.5.4'
 #entrez symbol downloads
 gem 'net-ftp', '~>0.3.3'
 
+#NCIt term download
+gem 'rubyzip', '~>2.3.2'
+
 #higher performance json encoding
 gem 'oj', '~> 3.16.3'
 
