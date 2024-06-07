@@ -7,5 +7,7 @@ module Types::Quicksearch
     value 'VARIANT_GROUP', value: VariantGroup
     value 'REVISION', value: Revision
     value 'MOLECULAR_PROFILE', value: MolecularProfile
+    value 'THERAPY', value: Therapy
+    value 'DISEASE', value: Disease
   end
 end

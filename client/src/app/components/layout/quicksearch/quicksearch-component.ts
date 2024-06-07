@@ -49,6 +49,10 @@ export class CvcQuicksearchComponent {
   @ViewChild(NzSelectComponent, { static: true })
   selectNode!: NzSelectComponent
 
+  selectedEntities: SearchableEntities[] = Object.values(SearchableEntities)
+  searchableEntities = Object.keys(SearchableEntities)
+  currentSearchTerm?: string
+
   // SOURCE STREAMS
   onSearch$: Subject<string>
   onSelect$: Subject<void>
@@ -62,10 +66,12 @@ export class CvcQuicksearchComponent {
   option$: Observable<QuicksearchOption[]>
   isLoading$: Observable<boolean>
 
-
   converter = entityTypeToTypename
 
-  constructor(private gql: QuicksearchGQL, private router: Router) {
+  constructor(
+    private gql: QuicksearchGQL,
+    private router: Router
+  ) {
     this.onSearch$ = new Subject<string>()
     this.onSelect$ = new Subject<void>()
 
@@ -73,14 +79,16 @@ export class CvcQuicksearchComponent {
       skip(1), // drop initial empty string from input init
       throttleTime(300, asyncScheduler, { leading: false, trailing: true }),
       switchMap((str: string) => {
+        this.currentSearchTerm = str
+        let selectedEntities = this.selectedEntities
         // if queryRef doesn't exist, create it with watchQuery observable
         // if it does, refetch with fetchQuery observable.
         // using defer() ensures functions are not called until
         // values are emitted. otherwise they'll be called on subscribe.
         return iif(
           () => this.queryRef === undefined, // predicate
-          defer(() => watchQuery(str)), // true
-          defer(() => fetchQuery(str))
+          defer(() => watchQuery(str, selectedEntities)), // true
+          defer(() => fetchQuery(str, selectedEntities))
         ) // false
       })
     )
@@ -114,14 +122,19 @@ export class CvcQuicksearchComponent {
     })
 
     // set queryRef with watch(), return its valueChanges observable
-    const watchQuery = (str: string) => {
-      this.queryRef = this.gql.watch({ query: str, highlightMatches: true })
+    const watchQuery = (str: string, entities: Maybe<SearchableEntities[]>) => {
+      this.queryRef = this.gql.watch({
+        query: str,
+        highlightMatches: true,
+        types: entities,
+      })
       return this.queryRef.valueChanges
     }
 
     // return observable from refetch() promise
-    const fetchQuery = (str: string) =>
-      from(this.queryRef.refetch({ query: str }))
+    const fetchQuery = (str: string, entities: Maybe<SearchableEntities[]>) => {
+      return from(this.queryRef.refetch({ query: str, types: entities }))
+    }
   }
 
   urlForResult(res: SearchResult): string {
@@ -136,10 +149,28 @@ export class CvcQuicksearchComponent {
       case SearchableEntities.MolecularProfile:
         name = 'molecular-profiles'
         break
+      case SearchableEntities.Therapy:
+        name = 'therapies'
+        break
       default:
         name = `${res.resultType.toLowerCase()}s`
     }
 
     return `/${name}/${res.id}/summary`
+  }
+
+  selectedEntitiesChanged(selectedEntities: string[]) {
+    this.selectedEntities = selectedEntities.map(
+      (x) => SearchableEntities[x as keyof typeof SearchableEntities]
+    )
+
+    if (this.currentSearchTerm) {
+      this.onSearch$.next(this.currentSearchTerm)
+    }
+  }
+
+  isSelected(entity: string): boolean {
+    const x = SearchableEntities[entity as keyof typeof SearchableEntities]
+    return this.selectedEntities.includes(x)
   }
 }

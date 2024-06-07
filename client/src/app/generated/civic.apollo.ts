@@ -5195,10 +5195,12 @@ export type SearchResult = {
 
 export enum SearchableEntities {
   Assertion = 'ASSERTION',
+  Disease = 'DISEASE',
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
+  Therapy = 'THERAPY',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }

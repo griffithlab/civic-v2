@@ -9,6 +9,22 @@ class Disease < ApplicationRecord
   has_many :source_suggestions
   has_and_belongs_to_many :disease_aliases
 
+  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name, :aliases]
+  scope :search_import, -> { includes(:disease_aliases) }
+
+  def search_data
+    {
+      name: name,
+      doid: "DOID:#{doid}",
+      aliases: disease_aliases.map(&:name)
+    }
+  end
+
+  def should_index?
+    evidence_items.any?
+  end
+
+
   def disease_url
     Disease.url_for_doid(doid)
   end
