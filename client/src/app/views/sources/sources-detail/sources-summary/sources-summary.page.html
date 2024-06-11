@@ -38,17 +38,27 @@
         nzBordered
         nzSize="small"
         [nzColumn]="1">
-        <nz-descriptions-item nzTitle="Published"
-          >{{ source.publicationDate }}</nz-descriptions-item
-        >
+        <nz-descriptions-item nzTitle="Published">{{
+          source.publicationDate
+        }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="{{ source.displayType }} ID">
           <cvc-link-tag
             *ngIf="source.sourceUrl"
             [href]="source.sourceUrl"
             [tooltip]="'View on ' + source.displayType">
-            {{ source.displayType + ":" + source.citationId }}
+            {{ source.displayType + ':' + source.citationId }}
           </cvc-link-tag>
-          <cvc-retraction-status-tag *ngIf='source.retractionNature && source.retractionDate && source.retractionReasons' [retractionNature]='source.retractionNature' [retractionDate]="source.retractionDate" [retractionReasons]="source.retractionReasons"></cvc-retraction-status-tag>
+          <cvc-retraction-status-tag
+            *ngIf="
+              source.retractionNature &&
+              source.retractionDate &&
+              source.retractionReasons
+            "
+            [retractionNature]="source.retractionNature"
+            [retractionDate]="source.retractionDate"
+            [retractionReasons]="
+              source.retractionReasons
+            "></cvc-retraction-status-tag>
         </nz-descriptions-item>
         <nz-descriptions-item
           *ngIf="source.displayType == 'ASCO'"
@@ -60,12 +70,23 @@
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="PMC ID">
           <ng-container *ngIf="source.pmcId; else notAvailable">
-            {{ source.pmcId }}
+            <cvc-link-tag
+              href="https://www.ncbi.nlm.nih.gov/pmc/articles/{{
+                source.pmcId
+              }}"
+              tooltip="View on PubMed Central">
+              {{ source.pmcId }}
+            </cvc-link-tag>
           </ng-container>
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Access">
-          <span nz-tooltip [nzTooltipTitle]="source.pmcId ? 'Open' : 'Closed'">
-            <span nz-icon [nzType]="source.pmcId ? 'unlock' :'lock'" nzTheme="outline"></span>
+          <span
+            nz-tooltip
+            [nzTooltipTitle]="source.pmcId ? 'Open' : 'Closed'">
+            <span
+              nz-icon
+              [nzType]="source.pmcId ? 'unlock' : 'lock'"
+              nzTheme="outline"></span>
           </span>
         </nz-descriptions-item>
 
@@ -80,7 +101,9 @@
           <ng-template ngPluralCase="=1">
             <nz-descriptions-item nzTitle="Clinicial Trial">
               <cvc-clinical-trial-tag
-                [clinicalTrial]="source.clinicalTrials[0]"></cvc-clinical-trial-tag>
+                [clinicalTrial]="
+                  source.clinicalTrials[0]
+                "></cvc-clinical-trial-tag>
             </nz-descriptions-item>
           </ng-template>
           <ng-template ngPluralCase="other">
@@ -120,7 +143,9 @@
       <cvc-source-suggestions-table
         [sourceId]="sourceId"
         cvcHeight="400"
-        [cvcTitleTemplate]="sourceSuggestionCardTitle"></cvc-source-suggestions-table>
+        [cvcTitleTemplate]="
+          sourceSuggestionCardTitle
+        "></cvc-source-suggestions-table>
       <ng-template #sourceSuggestionCardTitle>
         Source Suggestions for {{ source.citation }}
       </ng-template>
