@@ -8,7 +8,6 @@ module Activities
       @three_prime_gene_id = three_prime_gene_id
       @five_prime_partner_status = five_prime_partner_status
       @three_prime_partner_status = three_prime_partner_status
-      @feature_instance_type = feature_instance_type
     end
 
     private

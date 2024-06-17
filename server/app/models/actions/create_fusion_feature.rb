@@ -20,9 +20,9 @@ module Actions
       @organization_id = organization_id
     end
 
-    def construct_fusion_partner_name(gene_id:, partner_status:)
+    def construct_fusion_partner_name(gene_id, partner_status)
       if partner_status == 'known'
-        Feature::Gene.find(gene_id).name
+        Features::Gene.find(gene_id).name
       elsif partner_status == 'unknown'
         '?'
       elsif partner_status == 'multiple'

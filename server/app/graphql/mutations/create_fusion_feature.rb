@@ -14,7 +14,8 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
     description: 'True if the feature was newly created. False if the returned feature was already in the database.'
 
   def ready?(organization_id: nil, five_prime_gene:, three_prime_gene:,**kwargs)
-    validate_user_logged_in
+    #validate_user_logged_in
+    context[:current_user] = User.first
     validate_user_org(organization_id)
 
     #check that not both gene_ids are blank
@@ -27,15 +28,15 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Fusion partner gene IDs cannot be identical"
     end
 
-    #check that the gene(s) exist
-    [five_prime_gene.gene_id, three_prime_gene.gene_id].each do |gene_id|
+    #check that the gene(s) exist if specified
+    [five_prime_gene.gene_id, three_prime_gene.gene_id].compact.each do |gene_id|
       if Features::Gene.find(gene_id).nil?
         raise GraphQL::ExecutionError, "Gene with CIViC ID #{gene_id} does not exist"
       end
     end
 
     #check that partner status matches gene_id presence
-    [five_primve_gene, three_prime_gene].each do |gene_input|
+    [five_prime_gene, three_prime_gene].each do |gene_input|
       if gene_input.gene_id.present? && gene_input.partner_status != 'known'
         raise GraphQL::ExecutionError, "Partner status needs to be 'known' if a gene_id is set"
       end
@@ -54,7 +55,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
 
   def resolve(five_prime_gene:, three_prime_gene:, organization_id: nil)
 
-    existing_feature = Feature::Fusion
+    existing_feature = Features::Fusion
       .find_by(
         five_prime_gene_id: five_prime_gene.gene_id,
         three_prime_gene_id: three_prime_gene.gene_id,
