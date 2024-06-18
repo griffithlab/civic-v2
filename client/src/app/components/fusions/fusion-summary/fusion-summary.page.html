@@ -1,0 +1,183 @@
+<nz-row [nzGutter]="[8, 16]">
+  <nz-col nzSpan="12">
+    <!-- LEFT COLUMN -->
+    <nz-row [nzGutter]="[8, 8]">
+      <!-- fusion description, sources block -->
+      <nz-col nzSpan="24">
+        <!-- description, sources -->
+        <nz-descriptions
+          nzLayout="vertical"
+          nzSize="small"
+          nzBordered="true"
+          [nzColumn]="1">
+          <!-- description -->
+          <nz-descriptions-item nzTitle="Description">
+            <p
+              *ngIf="fusion.description; else noDescription"
+              nz-typography
+              nzEllipsis
+              nzExpandable
+              [nzEllipsisRows]="8">
+              {{ fusion.description }}
+            </p>
+
+            <!-- noDescription Tpl -->
+            <ng-template #noDescription>
+              <cvc-empty-revisable notification="No description provided">
+              </cvc-empty-revisable>
+            </ng-template>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+
+      <!-- sources, aliases, resource block -->
+      <nz-col nzSpan="24">
+        <nz-descriptions
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="1"
+          nzBordered="true">
+          <!-- sources -->
+          <nz-descriptions-item nzTitle="Sources">
+            <ng-container *ngIf="fusion.sources.length > 0; else noSources">
+              <cvc-tag-list>
+                <cvc-source-tag
+                  *ngFor="let source of fusion.sources"
+                  [source]="source"></cvc-source-tag>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noSources>
+              <span
+                nz-typography
+                nzType="secondary"
+                >None specified</span
+              >
+            </ng-template>
+          </nz-descriptions-item>
+
+          <!-- aliases -->
+          <nz-descriptions-item nzTitle="Aliases">
+            <ng-container
+              *ngIf="fusion.featureAliases.length > 0; else noAliases">
+              <nz-tag *ngFor="let alias of fusion.featureAliases">{{
+                alias
+              }}</nz-tag>
+            </ng-container>
+          </nz-descriptions-item>
+          <ng-template #noAliases>
+            <span
+              nz-typography
+              nzType="secondary"
+              >None specified</span
+            >
+          </ng-template>
+        </nz-descriptions>
+      </nz-col>
+    </nz-row>
+  </nz-col>
+
+  <!-- last revision submitted/accepted, mygeneinfo col -->
+  <nz-col nzSpan="12">
+    <!-- BLOCK: creation and deprecation events -->
+    <nz-descriptions
+      nzLayout="vertical"
+      nzSize="small"
+      [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+      nzBordered="true">
+      <!-- creation/deprecation curation events -->
+      <ng-container *ngIf="fusion.creationActivity">
+        <nz-descriptions-item [nzTitle]="createdTitle">
+          by
+          <cvc-user-tag [user]="fusion.creationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #createdTitle>
+          Created
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ fusion.creationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="fusion.deprecationActivity">
+        <nz-descriptions-item [nzTitle]="deprecatedTitle">
+          by
+          <cvc-user-tag [user]="fusion.deprecationActivity.user"></cvc-user-tag>
+        </nz-descriptions-item>
+        <ng-template #deprecatedTitle>
+          Deprecated
+          <span
+            nz-typography
+            nzType="secondary">
+            ({{ fusion.deprecationActivity.createdAt | timeAgo }})
+          </span>
+        </ng-template>
+      </ng-container>
+    </nz-descriptions>
+    <br />
+  </nz-col>
+</nz-row>
+<nz-row [nzGutter]="[8, 16]">
+  <!-- Five Prime Partner -->
+  <nz-col nzSpan="12">
+    <nz-card
+      *ngIf="fusion.fivePrimeGene"
+      nzTitle="5' Partner"
+      [nzExtra]="fivePrimeExtra">
+      <cvc-gene-base-summary
+        *ngIf="fusion.fivePrimeGene"
+        [gene]="fusion.fivePrimeGene"></cvc-gene-base-summary>
+      <ng-template #fivePrimeExtra>
+        <cvc-feature-tag [feature]="fusion.fivePrimeGene"></cvc-feature-tag>
+      </ng-template>
+    </nz-card>
+    <nz-card
+      *ngIf="!fusion.fivePrimeGene"
+      nzTitle="5' Partner"
+      [nzExtra]="fusion.fivePrimePartnerStatus | enumToTitle">
+      <ng-container
+        *ngTemplateOutlet="
+          partnerStatusDescription;
+          context: { $implicit: fusion.fivePrimePartnerStatus }
+        ">
+      </ng-container>
+    </nz-card>
+  </nz-col>
+  <!-- Three Prime Partner -->
+  <nz-col nzSpan="12">
+    <nz-card
+      *ngIf="fusion.threePrimeGene"
+      nzTitle="3' Partner"
+      [nzExtra]="threePrimeExtra">
+      <cvc-gene-base-summary
+        *ngIf="fusion.threePrimeGene"
+        [gene]="fusion.threePrimeGene"></cvc-gene-base-summary>
+      <ng-template #threePrimeExtra>
+        <cvc-feature-tag [feature]="fusion.threePrimeGene"></cvc-feature-tag>
+      </ng-template>
+    </nz-card>
+    <nz-card
+      *ngIf="!fusion.threePrimeGene"
+      nzTitle="3' Partner"
+      [nzExtra]="fusion.threePrimePartnerStatus | enumToTitle">
+      <ng-container
+        *ngTemplateOutlet="
+          partnerStatusDescription;
+          context: { $implicit: fusion.threePrimePartnerStatus }
+        ">
+      </ng-container>
+    </nz-card>
+    <ng-template
+      #partnerStatusDescription
+      let-status>
+      @switch (status) {
+        @case ('MULTIPLE') {
+          There are Multiple possible fusion partners.
+        }
+        @case ('UNKNOWN') {
+          The fusion partner is unknown.
+        }
+      }
+    </ng-template>
+  </nz-col>
+</nz-row>

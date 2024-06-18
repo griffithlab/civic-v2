@@ -1,0 +1,101 @@
+<nz-spin [nzSpinning]="this.variantListLoading$ | ngrxPush">
+  <nz-space nzDirection="vertical">
+    <ng-container *ngrxLet="this.undeprecatedVariants$ as undeprecatedVariants">
+      <ng-container
+        *ngIf="undeprecatedVariants && undeprecatedVariants.length > 0">
+        <nz-alert
+          *nzSpaceItem
+          nzType="warning"
+          nzMessage="This action will also attempt to deprecate the following Variants and their Molecular Profiles:"
+          [nzDescription]="variantsToDeprecateTpl">
+          <ng-template #variantsToDeprecateTpl>
+            <ng-container *ngFor="let variant of undeprecatedVariants">
+              <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
+            </ng-container>
+          </ng-template>
+        </nz-alert>
+      </ng-container>
+    </ng-container>
+  </nz-space>
+</nz-spin>
+
+<nz-card nzType="inner">
+  <nz-alert
+    *ngIf="this.success"
+    nzBanner
+    nzMessage="Feature deprecated"
+    nzType="success"
+    nzCloseable
+    (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+  <nz-alert
+    *ngIf="errorMessages.length > 0"
+    nzType="error"
+    nzShowIcon
+    [nzDescription]="errorContents"
+    nzMessage="Error Deprecating Feature">
+  </nz-alert>
+  <ng-template #errorContents>
+    <ul>
+      <li *ngFor="let error of errorMessages">{{ error }}</li>
+    </ul>
+  </ng-template>
+  <nz-form-item>
+    <nz-select
+      [(ngModel)]="reason"
+      nzPlaceHolder="Select a deprecation reason"
+      style="width: 300px">
+      <nz-option
+        nzValue="DUPLICATE"
+        nzLabel="duplicate"></nz-option>
+      <nz-option
+        nzValue="INVALID"
+        nzLabel="invalid"></nz-option>
+      <nz-option
+        nzValue="OTHER"
+        nzLabel="other"></nz-option>
+    </nz-select>
+  </nz-form-item>
+  <form
+    nz-form
+    (ngSubmit)="deprecateFeature()"
+    nzLayout="vertical">
+    <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
+    <nz-spin
+      nzTip="Submitting"
+      [nzSpinning]="this.loading">
+      <nz-form-item>
+        <nz-form-control>
+          <ng-container *ngrxLet="viewer$ as viewer">
+            <cvc-form-buttons>
+              <ng-container
+                *ngIf="viewer.signedIn && viewer.isEditor; else notSignedIn">
+                <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+              </ng-container>
+              <ng-template #notSignedIn>
+                <span
+                  nz-tooltip
+                  nzTooltipTitle="Must be signed in and an editor to deprecate Features.">
+                  <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+                </span>
+              </ng-template>
+              <ng-template #submitButton>
+                <button
+                  type="submit"
+                  nz-button
+                  cvcOrgSelectorBtn
+                  nzType="primary"
+                  nzSize="small"
+                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !this.reason "
+                  nz-tooltip
+                  [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
+                  [nzTooltipTitle]="'For ' + selectedOrg?.name">
+                  Deprecate Variant
+                </button>
+              </ng-template>
+            </cvc-form-buttons>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-spin>
+  </form>
+</nz-card>

@@ -65,6 +65,30 @@
             </button>
           </span>
 
+          <!-- deprecate feature btn -->
+          <ng-container *ngIf='feature.featureInstance.__typename != "Gene"'>
+            <span *nzSpaceItem>
+              <button
+                nz-button
+                nzSize="small"
+                *ngIf="viewer.isEditor"
+                [disabled]="feature.deprecated"
+                nz-popover
+                nzPopoverTitle="Deprecate Feature"
+                nzPopoverTrigger="click"
+                [nzPopoverContent]="deprecateFeatureForm"
+                nzPopoverPlacement="bottomRight">
+                Deprecate
+                <ng-template #deprecateFeatureForm>
+                  <div class="deprecateFeature">
+                    <cvc-feature-deprecate-form
+                      [featureId]="feature.id"></cvc-feature-deprecate-form>
+                  </div>
+                </ng-template>
+              </button>
+            </span>
+          </ng-container>
+
           <span *nzSpaceItem>
             <cvc-entity-subscription-button
               *ngIf="viewer.signedIn && subscribable"

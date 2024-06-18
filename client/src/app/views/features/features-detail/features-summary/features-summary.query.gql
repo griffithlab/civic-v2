@@ -17,6 +17,9 @@ fragment FeatureSummaryFields on Feature{
     ... on Factor {
       ... FactorSummaryFields
     }
+    ... on Fusion {
+      ... FusionSummaryFields
+    }
   }
   # lastSubmittedRevisionEvent {
   #   originatingUser {
@@ -36,11 +39,10 @@ fragment FeatureSummaryFields on Feature{
   # }
 }
 
-fragment GeneSummaryFields on Gene {
+fragment FusionSummaryFields on Fusion {
   id
   description
   featureAliases
-  entrezId
   name
   sources {
     id
@@ -50,6 +52,55 @@ fragment GeneSummaryFields on Gene {
     displayType
     sourceType
   }
+  fivePrimeGene {
+    ... GeneBaseFields
+  }
+  threePrimeGene {
+    ... GeneBaseFields
+  }
+  fivePrimePartnerStatus
+  threePrimePartnerStatus
+  creationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+  deprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
+  }
+}
+
+fragment GeneBaseFields on Gene {
+  id
+  description
+  featureAliases
+  entrezId
+  deprecated
+  flagged
+  name
+  link
+  sources {
+    id
+    citation
+    link
+    sourceUrl
+    displayType
+    sourceType
+  }
+}
+
+fragment GeneSummaryFields on Gene {
+  ...GeneBaseFields
   myGeneInfoDetails
 }
 
