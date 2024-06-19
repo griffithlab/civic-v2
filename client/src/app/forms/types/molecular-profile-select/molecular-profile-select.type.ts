@@ -119,7 +119,7 @@ export class CvcMolecularProfileSelectField
         'A single variant (Simple Molecular Profile) or a combination of variants (Complex Molecular Profile) relevant to the curated assertion.',
       isMultiSelect: false,
       description:
-        'Select a Gene and Variant to specify a simple Molecular Profile.',
+        'Select a Feature and Variant to specify a simple Molecular Profile.',
 
       entityName: {
         singular: 'Molecular Profile',

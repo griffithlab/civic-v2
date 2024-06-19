@@ -3788,6 +3788,7 @@ union FeatureInstance = Factor | Fusion | Gene
 
 enum FeatureInstanceTypes {
   FACTOR
+  FUSION
   GENE
 }
 

@@ -1,0 +1,13 @@
+{{ this.model | json }}
+<form
+  nz-form
+  [nzLayout]="layout"
+  [formGroup]="form">
+  <formly-form
+    [form]="form"
+    [fields]="config"
+    [model]="model"
+    [options]="options"
+    (modelChange)="modelChange($event)">
+  </formly-form>
+</form>

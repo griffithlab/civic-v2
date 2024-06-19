@@ -15,6 +15,8 @@ class InputAdaptors::EvidenceItemInputAdaptor
     fields = evidence_input_object
 
     query_fields = evidence_fields(fields)
+    # if there is a matching rejected EID, still allow the revisions
+    query_fields[:status] = ['accepted', 'submitted']
     query_fields.delete(:description)
     query_fields.delete(:therapy_ids)
     query_fields.delete(:phenotype_ids)
@@ -56,7 +58,7 @@ class InputAdaptors::EvidenceItemInputAdaptor
     end
 
     return errors
-  end 
+  end
 
   def self.evidence_fields(input)
     {

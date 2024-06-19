@@ -81,12 +81,13 @@ export class ObserveQueryParamExtension implements FormlyExtension {
         // set param value, end if undefined
         const paramValue = params[this.paramKey!]
         if (!paramValue) {
-          sub.unsubscribe()
+          //sub.unsubscribe()
           return
         }
 
         // parse param
-        let fieldValue: Maybe<number | string | boolean | string[] | number[]> = undefined
+        let fieldValue: Maybe<number | string | boolean | string[] | number[]> =
+          undefined
         try {
           fieldValue = JSON.parse(paramValue)
         } catch (error) {
@@ -96,18 +97,21 @@ export class ObserveQueryParamExtension implements FormlyExtension {
           console.warn(
             `Note: Query values are parsed as JSON, therefore enum strings must be enclosed in double-quotes, and numeric entity IDs must be bare, unquoted.`
           )
-          sub.unsubscribe()
+          //sub.unsubscribe()
           return
         }
-        if(!fieldValue) return
+        if (!fieldValue) return
         // ensure provided value is not an object, end if it is
-        if (Object.keys(fieldValue).length > 0 && fieldValue.constructor === Object) {
+        if (
+          Object.keys(fieldValue).length > 0 &&
+          fieldValue.constructor === Object
+        ) {
           console.warn(
             `observe-query-param may only set primitive types or arrays of primitive types, param ${
               this.paramKey
             } is an object: ${JSON.stringify(fieldValue)}`
           )
-          sub.unsubscribe()
+          //sub.unsubscribe()
           return
         }
         ctrl.setValue(fieldValue)

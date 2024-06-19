@@ -20,9 +20,9 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcFeatureSelectField,
   CvcFeatureSelectFieldConfig,
-  CvcFeatureSelectFieldProps,
 } from './feature-select.type'
 import { CvcFeatureQuickAddForm } from './feature-quick-add/feature-quick-add.form'
+import { CvcFusionSelectForm } from './fusion-select/fusion-select.form'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -69,6 +69,7 @@ const typeConfig: ConfigOption = {
     CvcPipesModule,
     CvcEntityTagModule,
     CvcFeatureQuickAddForm,
+    CvcFusionSelectForm,
   ],
   exports: [CvcFeatureSelectField],
 })

@@ -2263,6 +2263,7 @@ export type FeatureInstance = Factor | Fusion | Gene;
 
 export enum FeatureInstanceTypes {
   Factor = 'FACTOR',
+  Fusion = 'FUSION',
   Gene = 'GENE'
 }
 

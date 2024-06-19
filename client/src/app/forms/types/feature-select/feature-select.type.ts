@@ -89,6 +89,7 @@ export class CvcFeatureSelectField
       description: 'Feature Name',
       featureType: FeatureInstanceTypes.Gene,
       canChangeFeatureType: true,
+      hideFeatureTypeSelect: false,
     },
   }
 
@@ -98,6 +99,8 @@ export class CvcFeatureSelectField
   selectedFeatureType?: FeatureInstanceTypes = this.props.featureType
   onFeatureType$: BehaviorSubject<Maybe<FeatureInstanceTypes>> =
     new BehaviorSubject<Maybe<FeatureInstanceTypes>>(undefined)
+
+  instanceTypes = FeatureInstanceTypes
 
   constructor(
     private taq: FeatureSelectTypeaheadGQL,
