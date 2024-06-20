@@ -4,14 +4,24 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core'
-import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms'
-import { FusionPartnerStatus, Maybe } from '@app/generated/civic.apollo'
+import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms'
+import {
+  FeatureInstanceTypes,
+  FusionPartnerStatus,
+  Maybe,
+  SelectOrCreateFusionGQL,
+  SelectOrCreateFusionMutation,
+  SelectOrCreateFusionMutationVariables,
+} from '@app/generated/civic.apollo'
 import {
   FormlyFieldConfig,
   FormlyFormOptions,
   FormlyModule,
 } from '@ngx-formly/core'
-import { BehaviorSubject } from 'rxjs'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { CommonModule } from '@angular/common'
@@ -20,14 +30,18 @@ import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { Apollo } from 'apollo-angular'
 import { UntilDestroy } from '@ngneat/until-destroy'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
+import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 
 type FusionSelectModel = {
   fivePrimeGeneId?: number
-  fivePrimePartnerStatus?: FusionPartnerStatus
+  fivePrimePartnerStatus: FusionPartnerStatus
   threePrimeGeneId?: number
-  threePrimePartnerStatus?: FusionPartnerStatus
+  threePrimePartnerStatus: FusionPartnerStatus
 }
 
 @UntilDestroy()
@@ -52,7 +66,6 @@ type FusionSelectModel = {
 export class CvcFusionSelectForm {
   @Output() onFusionSelected = new EventEmitter<number>()
 
-  modelChange$ = new BehaviorSubject<Maybe<FusionSelectModel>>(undefined)
   model: FusionSelectModel
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
@@ -60,7 +73,20 @@ export class CvcFusionSelectForm {
 
   options: FormlyFormOptions
 
-  constructor(private apollo: Apollo) {
+  selectOrCreateFusionMutator: MutatorWithState<
+    SelectOrCreateFusionGQL,
+    SelectOrCreateFusionMutation,
+    SelectOrCreateFusionMutationVariables
+  >
+
+  mutationState?: MutationState
+
+  constructor(
+    private query: SelectOrCreateFusionGQL,
+    private errors: NetworkErrorsService
+  ) {
+    this.selectOrCreateFusionMutator = new MutatorWithState(errors)
+
     this.form = new UntypedFormGroup({})
     this.model = {
       fivePrimeGeneId: undefined,
@@ -85,19 +111,77 @@ export class CvcFusionSelectForm {
       },
     ]
 
+    // if they change the five prime value
+    let fivePrimeMatchesThreePrime = (c: AbstractControl) => {
+      let model = c?.parent?.value
+      if (model) {
+        if (
+          c.value == FusionPartnerStatus.Known ||
+          model.threePrimePartnerStatus == FusionPartnerStatus.Known
+        ) {
+          return true
+        }
+      }
+      return false
+    }
+
+    // if they change the three prime value
+    let threePrimeMatchesFivePrime = (c: AbstractControl) => {
+      let model = c?.parent?.value
+      if (model) {
+        if (
+          model.fivePrimePartnerStatus == FusionPartnerStatus.Known ||
+          c.value == FusionPartnerStatus.Known
+        ) {
+          return true
+        }
+      }
+      return false
+    }
+
     this.config = [
       {
         wrappers: ['form-row'],
         props: <CvcFormRowWrapperProps>{
-          rows: 2,
           formRowOptions: {
             span: 12,
+          },
+        },
+        validators: {
+          partnerStatus: {
+            message: "At least one of 5' or 3' partner status must be Known",
+            expression: (x: AbstractControl) => {
+              const model = x.value
+              if (model) {
+                if (
+                  model.fivePrimePartnerStatus == FusionPartnerStatus.Known ||
+                  model.threePrimePartnerStatus == FusionPartnerStatus.Known
+                ) {
+                  return true
+                }
+              }
+              return false
+            },
+            errorPath: 'fivePrimePartnerStatus',
+          },
+          sameGene: {
+            message: "5' and 3' Genes must be different",
+            expression: (x: AbstractControl) => {
+              const model = x.value
+              if (model && model.fivePrimeGeneId && model.threePrimeGeneId) {
+                if (model.fivePrimeGeneId == model.threePrimeGeneId) {
+                  return false
+                }
+              }
+              return true
+            },
+            errorPath: 'fivePrimeGeneId',
           },
         },
         fieldGroup: [
           {
             key: 'fivePrimePartnerStatus',
-            type: 'select',
+            type: 'base-select',
             props: {
               required: true,
               placeholder: "5' Partner Status",
@@ -112,6 +196,7 @@ export class CvcFusionSelectForm {
               placeholder: "5' Fusion Partner",
               canChangeFeatureType: false,
               hideFeatureTypeSelect: true,
+              featureType: FeatureInstanceTypes.Gene,
               layout: {
                 showExtra: false,
               },
@@ -126,7 +211,7 @@ export class CvcFusionSelectForm {
           },
           {
             key: 'threePrimePartnerStatus',
-            type: 'select',
+            type: 'base-select',
             props: {
               required: true,
               placeholder: "3' Partner Status",
@@ -141,6 +226,7 @@ export class CvcFusionSelectForm {
               placeholder: "3' Fusion Partner",
               canChangeFeatureType: false,
               hideFeatureTypeSelect: true,
+              featureType: FeatureInstanceTypes.Gene,
               layout: {
                 showExtra: false,
               },
@@ -155,13 +241,19 @@ export class CvcFusionSelectForm {
                 FusionPartnerStatus.Known,
             },
           },
+          {
+            key: 'organizationId',
+            type: 'org-submit-button',
+            props: {
+              submitLabel: 'Select',
+            },
+          },
         ],
       },
     ]
   }
 
   modelChange(model: Maybe<FusionSelectModel>) {
-    console.log(model)
     if (model) {
       if (this.model.fivePrimePartnerStatus != FusionPartnerStatus.Known) {
         this.model = {
@@ -176,6 +268,7 @@ export class CvcFusionSelectForm {
         }
       }
 
+      //mark form as invalid here?
       if (
         model.threePrimeGeneId &&
         model.threePrimePartnerStatus != FusionPartnerStatus.Known
@@ -204,14 +297,19 @@ export class CvcFusionSelectForm {
       if (model.threePrimeGeneId == model.fivePrimeGeneId) {
         return
       }
-
-      this.onFusionSelected.next(this.getSelectedFusion(model))
     }
   }
 
-  getSelectedFusion(model: FusionSelectModel): number {
-    console.log(model)
-    // take in the model, query backend to get or create a fusion and return the id
-    return 1
+  submitFusion(model: FusionSelectModel): void {
+    this.mutationState = this.selectOrCreateFusionMutator.mutate(
+      this.query,
+      model,
+      {},
+      (data) => {
+        if (data.createFusionFeature?.feature.id) {
+          this.onFusionSelected.next(data.createFusionFeature.feature.id)
+        }
+      }
+    )
   }
 }

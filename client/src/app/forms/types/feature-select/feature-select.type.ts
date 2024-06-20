@@ -185,4 +185,9 @@ export class CvcFeatureSelectField
       this.props.isNewlyCreatedCallback(feature.new)
     }
   }
+
+  onFusionSelected(featureId: number) {
+    this.onPopulate$.next(featureId)
+    this.formControl.setValue(featureId)
+  }
 }

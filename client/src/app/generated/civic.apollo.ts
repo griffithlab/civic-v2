@@ -8186,6 +8186,17 @@ export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typenam
 
 export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion' } | { __typename: 'Gene', entrezId: number } };
 
+export type SelectOrCreateFusionMutationVariables = Exact<{
+  organizationId?: InputMaybe<Scalars['Int']>;
+  fivePrimeGeneId?: InputMaybe<Scalars['Int']>;
+  fivePrimePartnerStatus: FusionPartnerStatus;
+  threePrimeGeneId?: InputMaybe<Scalars['Int']>;
+  threePrimePartnerStatus: FusionPartnerStatus;
+}>;
+
+
+export type SelectOrCreateFusionMutation = { __typename: 'Mutation', createFusionFeature?: { __typename: 'CreateFusionFeaturePayload', new: boolean, feature: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, link: string, featureInstance: { __typename: 'Factor', id: number, name: string, description?: string | undefined, featureAliases: Array<string>, ncitId?: string | undefined, deprecated: boolean, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, ncitDetails?: { __typename: 'NcitDetails', synonyms: Array<{ __typename: 'NcitSynonym', name: string, source: string }>, definitions: Array<{ __typename: 'NcitDefinition', definition: string, source: string }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Fusion', id: number, description?: string | undefined, featureAliases: Array<string>, name: string, fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, fivePrimeGene?: { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } | undefined, threePrimeGene?: { __typename: 'Gene', id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } | undefined, creationActivity?: { __typename: 'CreateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, deprecationActivity?: { __typename: 'DeprecateFeatureActivity', createdAt: any, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | { __typename: 'Gene', myGeneInfoDetails?: any | undefined, id: number, description?: string | undefined, featureAliases: Array<string>, entrezId: number, deprecated: boolean, flagged: boolean, name: string, link: string, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, link: string, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }> } } } | undefined };
+
 export type MolecularProfileSelectTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
   geneId?: InputMaybe<Scalars['Int']>;
@@ -14907,6 +14918,29 @@ export const FeatureSelectTagDocument = gql`
   })
   export class FeatureSelectTagGQL extends Apollo.Query<FeatureSelectTagQuery, FeatureSelectTagQueryVariables> {
     document = FeatureSelectTagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SelectOrCreateFusionDocument = gql`
+    mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimePartnerStatus: FusionPartnerStatus!) {
+  createFusionFeature(
+    input: {organizationId: $organizationId, fivePrimeGene: {geneId: $fivePrimeGeneId, partnerStatus: $fivePrimePartnerStatus}, threePrimeGene: {geneId: $threePrimeGeneId, partnerStatus: $threePrimePartnerStatus}}
+  ) {
+    new
+    feature {
+      ...FeatureSummaryFields
+    }
+  }
+}
+    ${FeatureSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SelectOrCreateFusionGQL extends Apollo.Mutation<SelectOrCreateFusionMutation, SelectOrCreateFusionMutationVariables> {
+    document = SelectOrCreateFusionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

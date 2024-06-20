@@ -6,7 +6,7 @@
     <nz-select
       [disabled]="!props.canChangeFeatureType"
       [(ngModel)]="selectedFeatureType"
-      (ngModelChange)="this.onFeatureType$.next($event)">
+      (ngModelChange)="this.onFeatureType$.next($event); this.formControl.setValue(undefined)">
       <nz-option
         nzValue="GENE"
         nzLabel="Gene"></nz-option>
@@ -19,8 +19,10 @@
     </nz-select>
   </nz-col>
   <nz-col nzFlex="auto">
-    @if (this.selectedFeatureType == instanceTypes.Fusion) {
-    <cvc-fusion-select-form></cvc-fusion-select-form>
+    @if (this.selectedFeatureType == instanceTypes.Fusion &&
+    !this.model.featureId) {
+    <cvc-fusion-select-form
+      (onFusionSelected)="onFusionSelected($event)"></cvc-fusion-select-form>
     } @else {
     <cvc-entity-select
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
