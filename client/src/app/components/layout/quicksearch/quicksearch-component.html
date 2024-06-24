@@ -8,6 +8,7 @@
   nzPlaceHolder="Search CIViC"
   [nzOptionHeightPx]="28"
   [nzShowArrow]="false"
+  [nzDropdownRender]="searchEntities"
   [nzDropdownMatchSelectWidth]="false">
   <nz-option
     *ngFor="let o of (option$ | ngrxPush)"
@@ -15,7 +16,7 @@
     [nzValue]="o.result">
     <i
       nz-icon
-      style="margin-right: 0.5em;"
+      style="margin-right: 0.5em"
       nzTheme="twotone"
       [nzTwotoneColor]="converter(o.result.resultType) | entityColor"
       [nzType]="o.result.resultType | iconNameForSubscribableEntity"></i>
@@ -39,3 +40,26 @@
     Loading Data...
   </nz-option>
 </nz-select>
+
+<ng-template #searchEntities>
+  <hr />
+  <nz-checkbox-wrapper (nzOnChange)="selectedEntitiesChanged($event)">
+    <div class="entity-select">
+      @for(entity of searchableEntities; track entity) {
+      <label
+        nz-checkbox
+        [nzValue]="entity"
+        nz-tooltip
+        [nzTooltipTitle]="entity"
+        [ngModel]="isSelected(entity)">
+        <i
+          nz-icon
+          nzTheme="twotone"
+          nzTool
+          [nzTwotoneColor]="entity | entityColor"
+          [nzType]="entity | iconNameForSubscribableEntity"></i>
+      </label>
+      }
+    </div>
+  </nz-checkbox-wrapper>
+</ng-template>

@@ -10,6 +10,21 @@ class Therapy < ApplicationRecord
 
   validates :ncit_id, uniqueness: true, allow_nil: true
 
+  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name, :aliases]
+  scope :search_import, -> { includes(:therapy_aliases) }
+
+  def search_data
+    {
+      name: name,
+      ncit_id: ncit_id,
+      aliases: therapy_aliases.map(&:name)
+    }
+  end
+
+  def should_index?
+    evidence_items.any?
+  end
+
   def self.url_for(ncit_id:)
     if ncit_id.nil?
       nil
