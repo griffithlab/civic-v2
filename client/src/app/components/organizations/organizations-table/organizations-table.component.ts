@@ -14,7 +14,7 @@ import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive
 import {
   Maybe,
   OrganizationBrowseTableRowFieldsFragment,
-  OrganizationConnection,
+  BrowseOrganizationConnection,
   OrganizationsBrowseGQL,
   OrganizationsBrowseQuery,
   OrganizationsBrowseQueryVariables,
@@ -70,7 +70,7 @@ export class CvcOrganizationsTableComponent implements OnInit {
     OrganizationsBrowseQueryVariables
   >
   result$!: Observable<ApolloQueryResult<OrganizationsBrowseQuery>>
-  connection$!: Observable<OrganizationConnection>
+  connection$!: Observable<BrowseOrganizationConnection>
 
   // PRESENTATION STREAMS
   pageInfo$!: Observable<PageInfo>
@@ -126,7 +126,7 @@ export class CvcOrganizationsTableComponent implements OnInit {
     this.connection$ = this.result$.pipe(
       pluck('data', 'organizations'),
       filter(isNonNulled)
-    ) as Observable<OrganizationConnection>
+    ) as Observable<BrowseOrganizationConnection>
 
     // entity row nodes
     this.row$ = this.connection$.pipe(

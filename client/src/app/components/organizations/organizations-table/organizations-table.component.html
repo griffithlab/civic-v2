@@ -51,17 +51,27 @@
           [nzSortFn]="true">
           Organization
         </th>
-        <th nzWidth="100px">Members</th>
+        <th
+          nzWidth="100px"
+          [nzColumnKey]="sortColumns.MemberCount"
+          [nzSortFn]="true">
+          Members
+        </th>
         <th nzWidth="320px">Sub Organizations</th>
         <th
           nzWidth="80px"
           nzRight
+          [nzColumnKey]="sortColumns.ActivityCount"
+          [nzSortFn]="true"
           nzAlign="right">
           Actions
         </th>
         <th
           nzWidth="125px"
           nzRight
+          [nzColumnKey]="sortColumns.MostRecentActivityTimestamp"
+          [nzSortFn]="true"
+          [nzSortFn]="true"
           nzAlign="right">
           Last Action
         </th>
@@ -97,13 +107,13 @@
             <cvc-tag-overflow
               [maxDisplayCount]="1"
               tagType="organization"
-              [tags]="organization.subGroups">
+              [tags]="organization.childOrganizations">
             </cvc-tag-overflow>
           </td>
           <td
             nzRight
             nzAlign="right">
-            {{ organization.eventCount | number }}
+            {{ organization.activityCount | number }}
           </td>
           <td
             nzRight
