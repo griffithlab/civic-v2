@@ -43,10 +43,8 @@ fragment UserBrowseTableRowFields on BrowseUser {
     name
   }
   role
-  statsHash {
-    submittedEvidenceItems
-    revisions
-  }
+  evidenceCount
+  revisionCount
   profileImagePath(size: 64)
   mostRecentActivityTimestamp
 }

@@ -75,6 +75,8 @@
           nzRight
           nzAlign="right"
           nz-tooltip
+          [nzColumnKey]="sortColumns.EvidenceCount"
+          [nzSortFn]="true"
           nzTooltipTitle="Evidence Count">
           <i
             nz-icon
@@ -86,6 +88,8 @@
           nzRight
           nzAlign="right"
           nz-tooltip
+          [nzColumnKey]="sortColumns.RevisionCount"
+          [nzSortFn]="true"
           nzTooltipTitle="Revision Count">
           <i
             nz-icon

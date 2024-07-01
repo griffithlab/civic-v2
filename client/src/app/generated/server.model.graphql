@@ -1331,12 +1331,13 @@ type BrowseTherapyEdge {
 
 type BrowseUser {
   acceptedLicense: Boolean
-  areaOfExpertise: Int
+  areaOfExpertise: String
   bio: String
   countryId: Int
   createdAt: ISO8601DateTime
   deleted: Boolean
   deletedAt: ISO8601DateTime
+  displayName: String!
   email: String
   evidenceCount: Int!
   facebookProfile: String
@@ -1347,8 +1348,10 @@ type BrowseUser {
   mostRecentOrganizationId: Int
   name: String
   orcid: String
+  organizations: [Organization!]!
+  profileImagePath(size: Int = 56): String
   revisionCount: Int!
-  role: Int
+  role: String!
   signupComplete: Boolean
   twitterHandle: String
   updatedAt: ISO8601DateTime
