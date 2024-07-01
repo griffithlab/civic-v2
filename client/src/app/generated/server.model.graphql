@@ -1329,6 +1329,88 @@ type BrowseTherapyEdge {
   node: BrowseTherapy
 }
 
+type BrowseUser {
+  acceptedLicense: Boolean
+  areaOfExpertise: Int
+  bio: String
+  countryId: Int
+  createdAt: ISO8601DateTime
+  deleted: Boolean
+  deletedAt: ISO8601DateTime
+  email: String
+  evidenceCount: Int!
+  facebookProfile: String
+  id: Int!
+  lastSeenAt: ISO8601DateTime
+  linkedinProfile: String
+  mostRecentActivityTimestamp: ISO8601DateTime
+  mostRecentOrganizationId: Int
+  name: String
+  orcid: String
+  revisionCount: Int!
+  role: Int
+  signupComplete: Boolean
+  twitterHandle: String
+  updatedAt: ISO8601DateTime
+  url: String
+  username: String
+}
+
+"""
+The connection type for BrowseUser.
+"""
+type BrowseUserConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseUserEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseUser!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseUserEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseUser
+}
+
 type BrowseVariant {
   aliases: [VariantAlias!]!
   category: VariantCategories!
@@ -8194,7 +8276,7 @@ type Query {
     Filtering on username
     """
     username: String
-  ): UserConnection!
+  ): BrowseUserConnection!
   validateRevisionsForAcceptance(
     """
     A list of CIViC Revisions IDs to validate
@@ -10512,9 +10594,11 @@ input UsersSort {
 }
 
 enum UsersSortColumns {
+  EVIDENCE_COUNT
   ID
   LAST_ACTION
   NAME
+  REVISION_COUNT
   ROLE
 }
 

@@ -34,10 +34,10 @@ query UsersBrowse(
   }
 }
 
-fragment UserBrowseTableRowFields on User {
+fragment UserBrowseTableRowFields on BrowseUser {
   id
   name
-  displayName
+  username
   organizations {
     id
     name
