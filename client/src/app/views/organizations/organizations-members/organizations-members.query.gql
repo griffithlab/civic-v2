@@ -27,7 +27,7 @@ query OrganizationMembers(
   }
 }
 
-fragment OrganizationMembersFields on User {
+fragment OrganizationMembersFields on BrowseUser {
   id
   name
   displayName

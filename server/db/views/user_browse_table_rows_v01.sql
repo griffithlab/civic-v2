@@ -1,0 +1,28 @@
+SELECT users.id,
+  users.email,
+  users.name,
+  users.url,
+  users.username,
+  users.created_at,
+  users.updated_at,
+  users.orcid,
+  users.area_of_expertise,
+  users.deleted,
+  users.deleted_at,
+  users.role,
+  users.last_seen_at,
+  users.twitter_handle,
+  users.facebook_profile,
+  users.linkedin_profile,
+  users.accepted_license,
+  users.featured_expert,
+  users.bio,
+  users.signup_complete,
+  users.country_id,
+  users.most_recent_organization_id,
+  users.most_recent_activity_timestamp,
+  COUNT(DISTINCT events.id) FILTER (WHERE events.action = 'revision suggested') AS revision_count,
+  COUNT(DISTINCT events.id) FILTER (WHERE events.action = 'submitted') AS evidence_count
+FROM users
+LEFT OUTER JOIN events on events.originating_user_id = users.id
+GROUP BY users.id;
