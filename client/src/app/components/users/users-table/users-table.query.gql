@@ -37,6 +37,7 @@ query UsersBrowse(
 fragment UserBrowseTableRowFields on BrowseUser {
   id
   name
+  displayName
   username
   organizations {
     id
