@@ -30,6 +30,32 @@ module Actions
       end
     end
 
+    def create_representative_variant
+      stubbed_variant = Variants::FusionVariant.new(
+        feature: feature,
+        name: 'Fusion'
+      )
+
+      vicc_compliant_name = stubbed_variant.generate_vicc_name
+
+      cmd = Actions::CreateVariant.new(
+        variant_name: 'Fusion',
+        feature_id: feature.id,
+        originating_user: originating_user,
+        organization_id: organization_id,
+        additional_attrs: { vicc_compliant_name: vicc_compliant_name }
+      )
+      cmd.perform
+
+      if cmd.errors.any?
+        errors.each do |err|
+          errors << err
+        end
+      end
+
+      events << cmd.events
+    end
+
     private
     def execute
       feature.save!
@@ -42,8 +68,8 @@ module Actions
         originating_object: feature
       )
 
+      create_representative_variant
       events << event
-
     end
   end
 end

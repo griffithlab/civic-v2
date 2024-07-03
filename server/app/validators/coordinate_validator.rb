@@ -16,26 +16,33 @@ class CoordinateValidator < ActiveModel::Validator
   def validate_gene_variant_coordinates(record)
     validate_not_present(record, :exon_boundary)
     validate_not_present(record, :exon_offset)
-    require_transcript_and_build_for_coords
+    validate_not_present(record, :exon_offset_direction)
+    require_transcript_and_build_for_coords(record)
   end
 
   def validate_fusion_variant_coordinates(record)
-    require_transcript_and_build_for_coords
+    require_transcript_and_build_for_coords(record)
+
+    if record.exon_boundary.present?
+      validate_present(record, :representative_transcript, "You must specify a transcript if you supply an exon boundary")
+    end
 
     if record.exon_offset.present?
       validate_present(record, :exon_boundary, "You must specify an exon boundary if you supply an offset value")
+      validate_present(record, :exon_offset_direction, "You must specify an offset direction if you supply an offset value")
     end
 
-    if record.exon_boundary.present?
-      validate_present(record, :transcript, "You must specify a transcript if you supply an exon boundary")
+    if record.exon_offset_direction.present?
+      validate_present(record, :exon_boundary, "You must specify an exon boundary if you supply an offset direction")
+      validate_present(record, :exon_offset, "You must specify an exon offset if you supply an offset direction")
     end
   end
 
-  def require_transcript_and_build_for_coords
+  def require_transcript_and_build_for_coords(record)
     #if any of these are set
     if [:chromosome, :start, :stop].map { |field| record.send(field) }.any?(&:present?)
       validate_present(record, :reference_build, "You must specify a reference_build if you supply coordinate information")
-      validate_present(record, :transcript, "You must specify a transcript if you supply coordinate information")
+      validate_present(record, :representative_transcript, "You must specify a transcript if you supply coordinate information")
     end
   end
 

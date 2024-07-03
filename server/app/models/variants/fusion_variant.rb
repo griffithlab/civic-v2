@@ -1,6 +1,6 @@
 module Variants
   class FusionVariant < Variant
-    belongs_to :fusion, class_name: 'Features::Fusion', optional: true
+    has_one :fusion, through: :feature, source: :feature_instance, source_type: 'Features::Fusion'
 
     has_one :five_prime_coordinates,
       ->() { where(coordinate_type: 'Five Prime Fusion Coordinate') },
@@ -30,7 +30,78 @@ module Variants
     end
 
     def required_fields
-      []
+      [
+        :vicc_compliant_name
+      ]
+    end
+
+    def mp_name
+      if name == 'Fusion'
+        "#{feature.name} Fusion"
+      else
+        [
+          construct_five_prime_name(name_type: :molecular_profile),
+          construct_three_prime_name(name_type: :molecular_profile)
+        ].join("::")
+      end
+
+    end
+
+    def generate_vicc_name
+      if name == 'Fusion'
+        "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
+      else
+        "#{construct_five_prime_name(name_type: :vicc)}::#{construct_three_prime_name(name_type: :vicc)}"
+      end
+    end
+
+    def generate_name
+      if name == 'Fusion'
+        name
+      else
+        [
+          construct_five_prime_name(name_type: :civic),
+          construct_three_prime_name(name_type: :civic)
+        ].join("::")
+      end
+    end
+
+    private
+    def construct_five_prime_name(name_type:)
+          construct_partner_name(
+            name_type: name_type,
+            partner_status: fusion.five_prime_partner_status,
+            gene: fusion.five_prime_gene,
+            coords: five_prime_coordinates
+          )
+    end
+
+    def construct_three_prime_name(name_type:)
+          construct_partner_name(
+            name_type: name_type,
+            partner_status: fusion.three_prime_partner_status,
+            gene: fusion.three_prime_gene,
+            coords: three_prime_coordinates
+          )
+    end
+
+    def construct_partner_name(name_type:, partner_status:, gene:, coords:)
+      if partner_status == 'known'
+        case name_type
+        when :representative
+          "#{gene.name}(entrez:#{gene.entrez_id})"
+        when :civic
+          "e.#{coords.exon_boundary}#{coords.formatted_offset}#{coords.exon_offset}"
+        when :vicc
+          "#{coords.representative_transcript}(#{gene.name}):e.#{coords.exon_boundary}#{coords.formatted_offset}#{coords.exon_offset}"
+        when :molecular_profile
+          "#{gene.name}:e.#{coords.exon_boundary}#{coords.formatted_offset}#{coords.exon_offset}"
+        end
+      elsif partner_status == 'unknown'
+        '?'
+      elsif partner_status == 'multiple'
+        'v'
+      end
     end
 
     def correct_coordinate_type

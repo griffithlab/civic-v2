@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Output,
+  inject,
 } from '@angular/core'
 import {
   AbstractControl,
@@ -23,7 +24,6 @@ import {
   FormlyModule,
 } from '@ngx-formly/core'
 import { NzFormLayoutType } from 'ng-zorro-antd/form'
-import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { CommonModule } from '@angular/common'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -36,12 +36,17 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
+import { NZ_MODAL_DATA, NzModalModule, NzModalRef } from 'ng-zorro-antd/modal'
 
 type FusionSelectModel = {
   fivePrimeGeneId?: number
   fivePrimePartnerStatus: FusionPartnerStatus
   threePrimeGeneId?: number
   threePrimePartnerStatus: FusionPartnerStatus
+}
+
+export interface FusionSelectModalData {
+  featureId?: number
 }
 
 @UntilDestroy()
@@ -59,6 +64,7 @@ type FusionSelectModel = {
     NzFormModule,
     NzButtonModule,
     NzAlertModule,
+    NzModalModule,
     RouterModule,
     FormlyModule,
   ],
@@ -66,10 +72,13 @@ type FusionSelectModel = {
 export class CvcFusionSelectForm {
   @Output() onFusionSelected = new EventEmitter<number>()
 
+  readonly #modal = inject(NzModalRef)
+  readonly nzModalData: FusionSelectModalData = inject(NZ_MODAL_DATA)
+
   model: FusionSelectModel
   form: UntypedFormGroup
   config: FormlyFieldConfig[]
-  layout: NzFormLayoutType = 'horizontal'
+  layout: NzFormLayoutType = 'vertical'
 
   options: FormlyFormOptions
 
@@ -88,6 +97,7 @@ export class CvcFusionSelectForm {
     this.selectOrCreateFusionMutator = new MutatorWithState(errors)
 
     this.form = new UntypedFormGroup({})
+
     this.model = {
       fivePrimeGeneId: undefined,
       threePrimeGeneId: undefined,
@@ -111,41 +121,11 @@ export class CvcFusionSelectForm {
       },
     ]
 
-    // if they change the five prime value
-    let fivePrimeMatchesThreePrime = (c: AbstractControl) => {
-      let model = c?.parent?.value
-      if (model) {
-        if (
-          c.value == FusionPartnerStatus.Known ||
-          model.threePrimePartnerStatus == FusionPartnerStatus.Known
-        ) {
-          return true
-        }
-      }
-      return false
-    }
-
-    // if they change the three prime value
-    let threePrimeMatchesFivePrime = (c: AbstractControl) => {
-      let model = c?.parent?.value
-      if (model) {
-        if (
-          model.fivePrimePartnerStatus == FusionPartnerStatus.Known ||
-          c.value == FusionPartnerStatus.Known
-        ) {
-          return true
-        }
-      }
-      return false
-    }
-
     this.config = [
       {
-        wrappers: ['form-row'],
-        props: <CvcFormRowWrapperProps>{
-          formRowOptions: {
-            span: 12,
-          },
+        wrappers: ['form-layout'],
+        props: {
+          showDevPanel: false,
         },
         validators: {
           partnerStatus: {
@@ -180,73 +160,118 @@ export class CvcFusionSelectForm {
         },
         fieldGroup: [
           {
-            key: 'fivePrimePartnerStatus',
-            type: 'base-select',
+            wrappers: ['form-card'],
             props: {
-              required: true,
-              placeholder: "5' Partner Status",
-              options: selectOptions,
-              multiple: false,
-            },
-          },
-          {
-            key: 'fivePrimeGeneId',
-            type: 'feature-select',
-            props: {
-              placeholder: "5' Fusion Partner",
-              canChangeFeatureType: false,
-              hideFeatureTypeSelect: true,
-              featureType: FeatureInstanceTypes.Gene,
-              layout: {
-                showExtra: false,
+              formCardOptions: {
+                title: 'New Fusion Feature',
               },
-              hideLabel: true,
             },
-            expressions: {
-              'props.disabled': (field) =>
-                field.model.fivePrimePartnerStatus != FusionPartnerStatus.Known,
-              'props.required': (field) =>
-                field.model.fivePrimePartnerStatus == FusionPartnerStatus.Known,
-            },
-          },
-          {
-            key: 'threePrimePartnerStatus',
-            type: 'base-select',
-            props: {
-              required: true,
-              placeholder: "3' Partner Status",
-              options: selectOptions,
-              multiple: false,
-            },
-          },
-          {
-            key: 'threePrimeGeneId',
-            type: 'feature-select',
-            props: {
-              placeholder: "3' Fusion Partner",
-              canChangeFeatureType: false,
-              hideFeatureTypeSelect: true,
-              featureType: FeatureInstanceTypes.Gene,
-              layout: {
-                showExtra: false,
+            fieldGroup: [
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'fivePrimePartnerStatus',
+                    type: 'base-select',
+                    props: {
+                      label: "5' Partner Status",
+                      tooltip:
+                        "Select Known if the specific 5' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 5' Gene partners",
+                      required: true,
+                      placeholder: "5' Partner Status",
+                      options: selectOptions,
+                      multiple: false,
+                    },
+                  },
+                  {
+                    key: 'fivePrimeGeneId',
+                    type: 'feature-select',
+                    props: {
+                      label: "5' Fusion Partner",
+                      placeholder: 'Select Gene',
+                      tooltip: "Select the 5' Gene partner in the Fusion",
+                      canChangeFeatureType: false,
+                      hideFeatureTypeSelect: true,
+                      featureType: FeatureInstanceTypes.Gene,
+                    },
+                    expressions: {
+                      'props.disabled': (field) =>
+                        field.model.fivePrimePartnerStatus !=
+                        FusionPartnerStatus.Known,
+                      'props.required': (field) =>
+                        field.model.fivePrimePartnerStatus ==
+                        FusionPartnerStatus.Known,
+                    },
+                  },
+                ],
               },
-              hideLabel: true,
-            },
-            expressions: {
-              'props.disabled': (field) =>
-                field.model.threePrimePartnerStatus !=
-                FusionPartnerStatus.Known,
-              'props.required': (field) =>
-                field.model.threePrimePartnerStatus ==
-                FusionPartnerStatus.Known,
-            },
-          },
-          {
-            key: 'organizationId',
-            type: 'org-submit-button',
-            props: {
-              submitLabel: 'Select',
-            },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'threePrimePartnerStatus',
+                    type: 'base-select',
+                    props: {
+                      required: true,
+                      placeholder: "3' Partner Status",
+                      label: "3' Partner Status",
+                      tooltip:
+                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners",
+                      options: selectOptions,
+                      multiple: false,
+                    },
+                  },
+                  {
+                    key: 'threePrimeGeneId',
+                    type: 'feature-select',
+                    props: {
+                      label: "3' Fusion Partner",
+                      placeholder: 'Select Gene',
+                      tooltip: "Select the 3' Gene partner in the Fusion",
+                      canChangeFeatureType: false,
+                      hideFeatureTypeSelect: true,
+                      featureType: FeatureInstanceTypes.Gene,
+                    },
+                    expressions: {
+                      'props.disabled': (field) =>
+                        field.model.threePrimePartnerStatus !=
+                        FusionPartnerStatus.Known,
+                      'props.required': (field) =>
+                        field.model.threePrimePartnerStatus ==
+                        FusionPartnerStatus.Known,
+                    },
+                  },
+                ],
+              },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 24,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'organizationId',
+                    type: 'org-submit-button',
+                    props: {
+                      submitLabel: 'Create Fusion',
+                      align: 'right',
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -307,7 +332,11 @@ export class CvcFusionSelectForm {
       {},
       (data) => {
         if (data.createFusionFeature?.feature.id) {
-          this.onFusionSelected.next(data.createFusionFeature.feature.id)
+          const featureId = data.createFusionFeature.feature.id
+          this.onFusionSelected.next(featureId)
+          if (this.#modal) {
+            this.#modal.destroy({ featureId: featureId })
+          }
         }
       }
     )

@@ -36,6 +36,10 @@ class Feature < ApplicationRecord
     }
   end
 
+  #Name to be used when displayed as part of a Molecular Profile
+  def mp_name
+    feature_instance.mp_name
+  end
 
   def link
     Rails.application.routes.url_helpers.url_for("/features/#{self.id}")

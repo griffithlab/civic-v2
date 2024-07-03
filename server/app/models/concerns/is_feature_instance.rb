@@ -6,6 +6,11 @@ module IsFeatureInstance
 
     delegate_missing_to :feature
 
+    #Name to be used when displayed as part of a Molecular Profile
+    def mp_name
+      name
+    end
+
     #What variant type can be attached to this feature
     def compatible_variant_type
       raise StandardError.new("Must implement in FeatureInstance type")

@@ -30,6 +30,7 @@ import {
   FormlyFieldConfig,
   FormlyFieldProps,
 } from '@ngx-formly/core'
+import { NzModalService } from 'ng-zorro-antd/modal'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import {
   BehaviorSubject,
@@ -45,6 +46,11 @@ import {
   take,
 } from 'rxjs'
 import mixin from 'ts-mixin-extended'
+import {
+  CvcFusionVariantSelectForm,
+  FusionVariantSelectModalData,
+} from './fusion-variant-select/fusion-variant-select.form'
+import { LinkableFeature } from '@app/components/features/feature-tag/feature-tag.component'
 
 export interface VariantIdWithCreationStatus {
   new: boolean
@@ -108,6 +114,8 @@ export class CvcVariantSelectField
   onModel$ = new Observable<any>()
 
   selectedFeatureId?: number
+  selectedFeatureType?: string
+  selectedFeature?: LinkableFeature
 
   // FieldTypeConfig defaults
   defaultOptions = {
@@ -133,7 +141,8 @@ export class CvcVariantSelectField
     private taq: VariantSelectTypeaheadGQL,
     private tq: VariantSelectTagGQL,
     private featureQuery: LinkableFeatureGQL,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private modal: NzModalService
   ) {
     super()
     this.onFeatureName$ = new BehaviorSubject<Maybe<string>>(undefined)
@@ -269,6 +278,7 @@ export class CvcVariantSelectField
 
   onSelectOrCreate(variant: VariantIdWithCreationStatus) {
     this.onPopulate$.next(variant.id)
+    this.formControl.setValue(variant.id)
     if (this.props.isNewlyCreatedCallback) {
       this.props.isNewlyCreatedCallback(variant.new)
     }
@@ -301,6 +311,8 @@ export class CvcVariantSelectField
             `${this.field.id} could not fetch feature name for Feature:${fid}.`
           )
         } else {
+          this.selectedFeatureType = data.feature.featureType
+          this.selectedFeature = data.feature
           if (this.props.requireFeature) {
             this.props.placeholder = this.props.requireFeaturePlaceholderFn(
               data.feature.name
@@ -313,5 +325,26 @@ export class CvcVariantSelectField
         }
       })
     }
+  }
+
+  createFusionVariantModal() {
+    const modal = this.modal.create<
+      CvcFusionVariantSelectForm,
+      FusionVariantSelectModalData
+    >({
+      nzTitle: 'Add New Fusion Variant',
+      nzContent: CvcFusionVariantSelectForm,
+      nzData: { feature: this.selectedFeature },
+      nzFooter: null,
+      nzWidth: '60%',
+    })
+
+    modal.getContentComponent()
+    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
+      if (result.variantId) {
+        this.onSelectOrCreate({ id: result.variantId, new: true })
+        this.onVid$.next(result.variantId)
+      }
+    })
   }
 }

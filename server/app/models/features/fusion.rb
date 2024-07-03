@@ -27,6 +27,11 @@ module Features
     validate :partner_status_valid_for_gene_ids
     validate :at_least_one_gene_id
 
+    #When displayed as part of an MP, the Variant Name specifies the feature
+    def mp_name
+      nil
+    end
+
     def partner_status_valid_for_gene_ids
       [self.five_prime_gene, self.three_prime_gene].zip([self.five_prime_partner_status, self.three_prime_partner_status], [:five_prime_gene, :three_prime_gene]).each do |gene, status, fk|
         if gene.nil? && status == 'known'

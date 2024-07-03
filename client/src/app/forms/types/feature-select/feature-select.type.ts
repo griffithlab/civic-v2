@@ -33,7 +33,12 @@ import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import mixin from 'ts-mixin-extended'
 import { FeatureIdWithCreationStatus } from './feature-quick-add/feature-quick-add.form'
 import { BehaviorSubject } from 'rxjs'
-import { UntilDestroy } from '@ngneat/until-destroy'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { NzModalService } from 'ng-zorro-antd/modal'
+import {
+  CvcFusionSelectForm,
+  FusionSelectModalData,
+} from './fusion-select/fusion-select.form'
 
 export type CvcFeatureSelectFieldOption = Partial<
   FieldTypeConfig<Partial<CvcFeatureSelectFieldProps>>
@@ -86,7 +91,7 @@ export class CvcFeatureSelectField
       placeholder: 'Search Features',
       isMultiSelect: false,
       entityName: { singular: 'Feature', plural: 'Features' },
-      description: 'Feature Name',
+      description: '',
       featureType: FeatureInstanceTypes.Gene,
       canChangeFeatureType: true,
       hideFeatureTypeSelect: false,
@@ -105,13 +110,20 @@ export class CvcFeatureSelectField
   constructor(
     private taq: FeatureSelectTypeaheadGQL,
     private tq: FeatureSelectTagGQL,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private modal: NzModalService
   ) {
     super()
   }
 
   ngAfterViewInit(): void {
     this.selectedFeatureType = this.props.featureType
+    if (this.props.featureTypeCallback) {
+      this.onFeatureType$
+        .pipe(untilDestroyed(this))
+        .subscribe((ft) => this.props.featureTypeCallback(ft))
+      this.onFeatureType$.next(this.selectedFeatureType)
+    }
     this.configureBaseField() // mixin fn
     this.configureEntitySelectField({
       // mixin fn
@@ -189,5 +201,23 @@ export class CvcFeatureSelectField
   onFusionSelected(featureId: number) {
     this.onPopulate$.next(featureId)
     this.formControl.setValue(featureId)
+  }
+
+  createFusionModal() {
+    const modal = this.modal.create<CvcFusionSelectForm, FusionSelectModalData>(
+      {
+        nzTitle: 'Add New Fusion Feature',
+        nzContent: CvcFusionSelectForm,
+        nzData: {},
+        nzFooter: null,
+      }
+    )
+
+    modal.getContentComponent()
+    modal.afterClose.pipe(untilDestroyed(this)).subscribe((result) => {
+      if (result.featureId) {
+        this.onFusionSelected(result.featureId)
+      }
+    })
   }
 }

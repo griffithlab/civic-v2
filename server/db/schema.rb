@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_13_134015) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -897,6 +898,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_134015) do
     t.text "coordinate_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
     t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
     t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
     t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
@@ -978,6 +980,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_134015) do
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
+    t.string "vicc_compliant_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -994,6 +997,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_134015) do
     t.index ["stop"], name: "index_variants_on_stop"
     t.index ["stop2"], name: "index_variants_on_stop2"
     t.index ["variant_bases"], name: "index_variants_on_variant_bases"
+    t.index ["vicc_compliant_name"], name: "index_variants_on_vicc_compliant_name"
   end
 
   create_table "view_last_updated_timestamps", force: :cascade do |t|

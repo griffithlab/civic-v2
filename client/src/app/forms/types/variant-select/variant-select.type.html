@@ -111,10 +111,27 @@
   #addVariant
   let-searchStr
   let-model="model">
+  @if (selectedFeatureType == 'FUSION') {
+  <nz-space nzDirection="vertical">
+    <span
+      *nzSpaceItem
+      nz-typography>
+      {{searchStr}} does not match any existing Variants</span
+    >
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createFusionVariantModal()">
+      Open Fusion Variant Builder
+    </button>
+  </nz-space>
+  } @else {
   <cvc-variant-quick-add-form
     [cvcSearchString]="searchStr"
     [cvcFeatureId]="onFeatureId$ | ngrxPush"
     [cvcFeatureName]="onFeatureName$ | ngrxPush"
     (cvcOnCreate)="onSelectOrCreate($event)">
   </cvc-variant-quick-add-form>
+  }
 </ng-template>

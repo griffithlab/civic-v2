@@ -45,7 +45,9 @@ module Types::Entities
 
     def name
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
-        segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+        segments.map { |s| s.respond_to?(:mp_name) ? s.mp_name : s }
+          .compact
+          .join(' ')
       end
     end
 

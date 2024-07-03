@@ -21,6 +21,11 @@ class VariantCoordinate < ApplicationRecord
     message: "%{value} is not a valid coordinate type"
   }
 
+  enum exon_offset_direction: {
+    positive: 'positive',
+    negative: 'negative'
+  }
+
   validates_with CoordinateValidator
 
   def editable_fields
@@ -34,6 +39,16 @@ class VariantCoordinate < ApplicationRecord
       :variant_bases,
       :representative_transcript,
     ]
+  end
+
+  def formatted_offset
+    if exon_offset_direction.nil?
+      ''
+    elsif exon_offset_direction == 'positive'
+      '+'
+    elsif exon_offset_direction == 'negative'
+      '-'
+    end
   end
 
 end

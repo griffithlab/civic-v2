@@ -55,7 +55,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
 
   def resolve(five_prime_gene:, three_prime_gene:, organization_id: nil)
 
-    existing_feature = Features::Fusion
+    existing_feature_instance = Features::Fusion
       .find_by(
         five_prime_gene_id: five_prime_gene.gene_id,
         three_prime_gene_id: three_prime_gene.gene_id,
@@ -63,9 +63,9 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
         three_prime_partner_status: three_prime_gene.partner_status,
       )
 
-    if existing_feature.present?
+    if existing_feature_instance.present?
       return {
-        feature: existing_feature,
+        feature: existing_feature_instance.feature,
         new: false,
       }
 

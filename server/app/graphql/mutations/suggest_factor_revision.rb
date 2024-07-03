@@ -15,7 +15,7 @@ class Mutations::SuggestFactorRevision < Mutations::MutationWithOrg
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 
   field :factor, Types::Entities::FactorType, null: false,
-    description: 'The Gene the user has proposed a Revision to.'
+    description: 'The Factor the user has proposed a Revision to.'
 
   field :results, [Types::Revisions::RevisionResult], null: false,
     description: <<~DOC.strip

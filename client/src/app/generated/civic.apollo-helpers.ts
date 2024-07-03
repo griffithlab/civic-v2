@@ -583,6 +583,13 @@ export type CreateFusionFeaturePayloadFieldPolicy = {
 	feature?: FieldPolicy<any> | FieldReadFunction<any>,
 	new?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CreateFusionVariantPayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | 'new' | 'variant' | CreateFusionVariantPayloadKeySpecifier)[];
+export type CreateFusionVariantPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	new?: FieldPolicy<any> | FieldReadFunction<any>,
+	variant?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CreateMolecularProfilePayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | CreateMolecularProfilePayloadKeySpecifier)[];
 export type CreateMolecularProfilePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -821,7 +828,7 @@ export type EvidenceItemsByTypeFieldPolicy = {
 	predisposingCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	prognosticCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FactorKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'ncitDetails' | 'ncitId' | 'revisions' | 'sources' | 'variants' | FactorKeySpecifier)[];
+export type FactorKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'ncitDetails' | 'ncitId' | 'revisions' | 'sources' | 'variants' | FactorKeySpecifier)[];
 export type FactorFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -832,6 +839,7 @@ export type FactorFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureType?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -878,7 +886,7 @@ export type FdaCodeFieldPolicy = {
 	code?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FeatureKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'revisions' | 'sources' | 'variants' | FeatureKeySpecifier)[];
+export type FeatureKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'revisions' | 'sources' | 'variants' | FeatureKeySpecifier)[];
 export type FeatureFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -889,6 +897,7 @@ export type FeatureFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureType?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -911,6 +920,19 @@ export type FieldValidationErrorKeySpecifier = ('error' | 'fieldName' | FieldVal
 export type FieldValidationErrorFieldPolicy = {
 	error?: FieldPolicy<any> | FieldReadFunction<any>,
 	fieldName?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type FivePrimeFusionVariantCoordinateKeySpecifier = ('chromosome' | 'endExon' | 'ensemblVersion' | 'exonBoundary' | 'exonOffset' | 'id' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'stop' | FivePrimeFusionVariantCoordinateKeySpecifier)[];
+export type FivePrimeFusionVariantCoordinateFieldPolicy = {
+	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
+	endExon?: FieldPolicy<any> | FieldReadFunction<any>,
+	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
+	exonBoundary?: FieldPolicy<any> | FieldReadFunction<any>,
+	exonOffset?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
+	representativeTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	start?: FieldPolicy<any> | FieldReadFunction<any>,
+	stop?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FlagKeySpecifier = ('comments' | 'createdAt' | 'events' | 'flaggable' | 'flaggingUser' | 'id' | 'lastCommentEvent' | 'link' | 'name' | 'openActivity' | 'resolutionActivity' | 'resolvingUser' | 'state' | FlagKeySpecifier)[];
 export type FlagFieldPolicy = {
@@ -970,7 +992,7 @@ export type FlaggableFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FusionKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'fivePrimeGene' | 'fivePrimePartnerStatus' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'revisions' | 'sources' | 'threePrimeGene' | 'threePrimePartnerStatus' | 'variants' | FusionKeySpecifier)[];
+export type FusionKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'fivePrimeGene' | 'fivePrimePartnerStatus' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'revisions' | 'sources' | 'threePrimeGene' | 'threePrimePartnerStatus' | 'variants' | FusionKeySpecifier)[];
 export type FusionFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -981,6 +1003,7 @@ export type FusionFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureType?: FieldPolicy<any> | FieldReadFunction<any>,
 	fivePrimeGene?: FieldPolicy<any> | FieldReadFunction<any>,
 	fivePrimePartnerStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -998,7 +1021,35 @@ export type FusionFieldPolicy = {
 	threePrimePartnerStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'entrezId' | 'events' | 'featureAliases' | 'featureInstance' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'myGeneInfoDetails' | 'name' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
+export type FusionVariantKeySpecifier = ('clinvarIds' | 'comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfiles' | 'name' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | FusionVariantKeySpecifier)[];
+export type FusionVariantFieldPolicy = {
+	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecated?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
+	deprecationReason?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	feature?: FieldPolicy<any> | FieldReadFunction<any>,
+	fivePrimeCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
+	hgvsDescriptions?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
+	threePrimeCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GeneKeySpecifier = ('comments' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'description' | 'entrezId' | 'events' | 'featureAliases' | 'featureInstance' | 'featureType' | 'flagged' | 'flags' | 'fullName' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'myGeneInfoDetails' | 'name' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
 export type GeneFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationActivity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1010,6 +1061,7 @@ export type GeneFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	featureInstance?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureType?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1311,7 +1363,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1320,6 +1372,7 @@ export type MutationFieldPolicy = {
 	addTherapy?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	createFusionFeature?: FieldPolicy<any> | FieldReadFunction<any>,
+	createFusionVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	createVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecateComplexMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2040,6 +2093,19 @@ export type TherapyPopoverFieldPolicy = {
 	therapyAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	therapyUrl?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ThreePrimeFusionVariantCoordinateKeySpecifier = ('chromosome' | 'ensemblVersion' | 'exonBoundary' | 'exonOffset' | 'id' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'startExon' | 'stop' | ThreePrimeFusionVariantCoordinateKeySpecifier)[];
+export type ThreePrimeFusionVariantCoordinateFieldPolicy = {
+	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
+	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
+	exonBoundary?: FieldPolicy<any> | FieldReadFunction<any>,
+	exonOffset?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
+	representativeTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	start?: FieldPolicy<any> | FieldReadFunction<any>,
+	startExon?: FieldPolicy<any> | FieldReadFunction<any>,
+	stop?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type TimePointCountsKeySpecifier = ('allTime' | 'newThisMonth' | 'newThisWeek' | 'newThisYear' | TimePointCountsKeySpecifier)[];
 export type TimePointCountsFieldPolicy = {
 	allTime?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2519,6 +2585,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | CreateFusionFeaturePayloadKeySpecifier | (() => undefined | CreateFusionFeaturePayloadKeySpecifier),
 		fields?: CreateFusionFeaturePayloadFieldPolicy,
 	},
+	CreateFusionVariantPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateFusionVariantPayloadKeySpecifier | (() => undefined | CreateFusionVariantPayloadKeySpecifier),
+		fields?: CreateFusionVariantPayloadFieldPolicy,
+	},
 	CreateMolecularProfilePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateMolecularProfilePayloadKeySpecifier | (() => undefined | CreateMolecularProfilePayloadKeySpecifier),
 		fields?: CreateMolecularProfilePayloadFieldPolicy,
@@ -2643,6 +2713,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | FieldValidationErrorKeySpecifier | (() => undefined | FieldValidationErrorKeySpecifier),
 		fields?: FieldValidationErrorFieldPolicy,
 	},
+	FivePrimeFusionVariantCoordinate?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FivePrimeFusionVariantCoordinateKeySpecifier | (() => undefined | FivePrimeFusionVariantCoordinateKeySpecifier),
+		fields?: FivePrimeFusionVariantCoordinateFieldPolicy,
+	},
 	Flag?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FlagKeySpecifier | (() => undefined | FlagKeySpecifier),
 		fields?: FlagFieldPolicy,
@@ -2670,6 +2744,10 @@ export type StrictTypedTypePolicies = {
 	Fusion?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FusionKeySpecifier | (() => undefined | FusionKeySpecifier),
 		fields?: FusionFieldPolicy,
+	},
+	FusionVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FusionVariantKeySpecifier | (() => undefined | FusionVariantKeySpecifier),
+		fields?: FusionVariantFieldPolicy,
 	},
 	Gene?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GeneKeySpecifier | (() => undefined | GeneKeySpecifier),
@@ -3042,6 +3120,10 @@ export type StrictTypedTypePolicies = {
 	TherapyPopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TherapyPopoverKeySpecifier | (() => undefined | TherapyPopoverKeySpecifier),
 		fields?: TherapyPopoverFieldPolicy,
+	},
+	ThreePrimeFusionVariantCoordinate?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ThreePrimeFusionVariantCoordinateKeySpecifier | (() => undefined | ThreePrimeFusionVariantCoordinateKeySpecifier),
+		fields?: ThreePrimeFusionVariantCoordinateFieldPolicy,
 	},
 	TimePointCounts?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TimePointCountsKeySpecifier | (() => undefined | TimePointCountsKeySpecifier),

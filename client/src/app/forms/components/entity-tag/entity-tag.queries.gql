@@ -27,5 +27,6 @@ query LinkableFeature($featureId: Int!) {
     id
     name
     link
+    featureType
   }
 }

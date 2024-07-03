@@ -78,6 +78,11 @@ class Variant < ApplicationRecord
     Rails.application.routes.url_helpers.url_for("/variants/#{self.id}")
   end
 
+  #Name to be used when displayed as part of a Molecular Profile
+  def mp_name
+    name
+  end
+
   def self.timepoint_query
     ->(x) {
       self.joins(molecular_profiles: [:evidence_items])
@@ -184,7 +189,8 @@ class Variant < ApplicationRecord
   def self.known_subclasses
     [
       Variants::GeneVariant,
-      Variants::FactorVariant
+      Variants::FactorVariant,
+      Variants::FusionVariant
     ]
   end
 end

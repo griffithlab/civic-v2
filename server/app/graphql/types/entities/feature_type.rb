@@ -18,14 +18,11 @@ module Types::Entities
     field :variants, resolver: Resolvers::Variants
     field :link, String, null: false
     field :feature_instance, Types::FeatureInstanceType, null: false
+    field :feature_type, Types::FeatureInstanceTypes, null: false
     field :deprecation_activity, Types::Activities::DeprecateFeatureActivityType, null: true
     field :deprecated, Boolean, null: false
     field :deprecation_reason, Types::FeatureDeprecationReasonType, null: true
     field :creation_activity, Types::Activities::CreateFeatureActivityType, null: true
-
-    def id
-      object.id
-    end
 
     def feature_aliases
       if object.class.name == 'Feature'
@@ -57,6 +54,10 @@ module Types::Entities
 
     def feature_instance
       object.feature_instance
+    end
+
+    def feature_type
+      object.feature_instance_type
     end
   end
 end

@@ -19,11 +19,6 @@
     </nz-select>
   </nz-col>
   <nz-col nzFlex="auto">
-    @if (this.selectedFeatureType == instanceTypes.Fusion &&
-    !this.model.featureId) {
-    <cvc-fusion-select-form
-      (onFusionSelected)="onFusionSelected($event)"></cvc-fusion-select-form>
-    } @else {
     <cvc-entity-select
       [cvcSelectMode]="props.isMultiSelect ? 'multiple' : 'default'"
       [cvcCustomTemplate]="selectedTemplate"
@@ -42,7 +37,6 @@
       (cvcSelectComponent)="selectComponent = $event"
       (cvcOnModelChange)="props.change && props.change(field, $event)">
     </cvc-entity-select>
-    }
   </nz-col>
 </nz-row>
 
@@ -96,9 +90,26 @@
   #addFeature
   let-searchStr
   let-model="model">
+  @if (selectedFeatureType == 'FUSION') {
+  <nz-space nzDirection="vertical">
+    <span
+      *nzSpaceItem
+      nz-typography
+      >{{searchStr}} does not match any existing Fusions</span
+    >
+    <button
+      *nzSpaceItem
+      nz-button
+      nzType="primary"
+      (click)="createFusionModal()">
+      Open Fusion Builder
+    </button>
+  </nz-space>
+  } @else {
   <cvc-feature-quick-add-form
     [cvcSearchString]="searchStr"
     [cvcFeatureType]="onFeatureType$ | ngrxPush"
     (cvcOnCreate)="onSelectOrCreate($event)">
   </cvc-feature-quick-add-form>
+  }
 </ng-template>
