@@ -14,7 +14,8 @@ import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { EntitySelectField } from '@app/forms/mixins/entity-select-field.mixin'
 import { CvcFormFieldExtraType } from '@app/forms/wrappers/form-field/form-field.wrapper'
 import {
-  LinkableFeatureGQL,
+  FeatureSelectTagGQL,
+  FeatureSelectTypeaheadFieldsFragment,
   Maybe,
   VariantSelectTagGQL,
   VariantSelectTagQuery,
@@ -115,7 +116,7 @@ export class CvcVariantSelectField
 
   selectedFeatureId?: number
   selectedFeatureType?: string
-  selectedFeature?: LinkableFeature
+  selectedFeature?: FeatureSelectTypeaheadFieldsFragment
 
   // FieldTypeConfig defaults
   defaultOptions = {
@@ -140,7 +141,7 @@ export class CvcVariantSelectField
   constructor(
     private taq: VariantSelectTypeaheadGQL,
     private tq: VariantSelectTagGQL,
-    private featureQuery: LinkableFeatureGQL,
+    private featureQuery: FeatureSelectTagGQL,
     private changeDetectorRef: ChangeDetectorRef,
     private modal: NzModalService
   ) {

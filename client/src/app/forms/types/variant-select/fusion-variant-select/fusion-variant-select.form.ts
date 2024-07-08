@@ -11,7 +11,9 @@ import {
   UntypedFormGroup,
 } from '@angular/forms'
 import {
+  FeatureSelectTypeaheadFieldsFragment,
   FusionOffsetDirection,
+  FusionPartnerStatus,
   Maybe,
   ReferenceBuild,
   SelectOrCreateFusionVariantGQL,
@@ -55,7 +57,7 @@ type FusionVariantSelectModel = {
 }
 
 export interface FusionVariantSelectModalData {
-  feature?: LinkableFeature
+  feature?: FeatureSelectTypeaheadFieldsFragment
 }
 
 @UntilDestroy()
@@ -136,6 +138,17 @@ export class CvcFusionVariantSelectForm {
       },
     ]
 
+    let fivePrimeDisabled = false
+    let threePrimeDisabled = false
+
+    if (this.nzModalData.feature?.featureInstance.__typename == 'Fusion') {
+      const feature = this.nzModalData.feature.featureInstance
+      fivePrimeDisabled =
+        feature.fivePrimePartnerStatus != FusionPartnerStatus.Known
+      threePrimeDisabled =
+        feature.threePrimePartnerStatus != FusionPartnerStatus.Known
+    }
+
     this.config = [
       {
         wrappers: ['form-layout'],
@@ -199,7 +212,8 @@ export class CvcFusionVariantSelectForm {
                     type: 'base-input',
                     props: {
                       label: "5' Transcript",
-                      required: true,
+                      required: !fivePrimeDisabled,
+                      disabled: fivePrimeDisabled,
                       tooltip:
                         "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 5' exon you have selected",
                     },
@@ -215,7 +229,8 @@ export class CvcFusionVariantSelectForm {
                     },
                     props: {
                       label: "5' Exon End",
-                      required: true,
+                      required: !fivePrimeDisabled,
+                      disabled: fivePrimeDisabled,
                       tooltip:
                         'The exon number counted from the 5’ end of the transcript.',
                     },
@@ -233,6 +248,8 @@ export class CvcFusionVariantSelectForm {
                       label: "5' Exon Offset",
                       tooltip:
                         'A value representing the offset from the segment boundary.',
+                      required: false,
+                      disabled: fivePrimeDisabled,
                     },
                   },
                   {
@@ -268,7 +285,8 @@ export class CvcFusionVariantSelectForm {
                     key: 'threePrimeTranscript',
                     type: 'base-input',
                     props: {
-                      required: true,
+                      required: !threePrimeDisabled,
+                      disabled: threePrimeDisabled,
                       label: "3' Transcript",
                       tooltip:
                         "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 3' exon you have selected",
@@ -287,7 +305,8 @@ export class CvcFusionVariantSelectForm {
                       label: "3' Exon Start",
                       tooltip:
                         'The exon number counted from the 5’ end of the transcript.',
-                      required: true,
+                      required: !threePrimeDisabled,
+                      disabled: threePrimeDisabled,
                     },
                   },
                   {
@@ -301,6 +320,8 @@ export class CvcFusionVariantSelectForm {
                     },
                     props: {
                       label: "3' Exon Offset",
+                      disabled: threePrimeDisabled,
+                      required: false,
                       tooltip:
                         'A value representing the offset from the segment boundary.',
                     },

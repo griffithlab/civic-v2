@@ -4686,7 +4686,7 @@ input FusionVariantInput {
   fivePrimeExonEnd: Int
   fivePrimeOffset: Int
   fivePrimeOffsetDirection: FusionOffsetDirection
-  fivePrimeTranscript: String!
+  fivePrimeTranscript: String
 
   """
   The reference build for the genomic coordinates of this Variant.
@@ -4695,7 +4695,7 @@ input FusionVariantInput {
   threePrimeExonStart: Int
   threePrimeOffset: Int
   threePrimeOffsetDirection: FusionOffsetDirection
-  threePrimeTranscript: String!
+  threePrimeTranscript: String
 }
 
 """

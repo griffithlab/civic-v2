@@ -2723,13 +2723,13 @@ export type FusionVariantInput = {
   fivePrimeExonEnd?: InputMaybe<Scalars['Int']>;
   fivePrimeOffset?: InputMaybe<Scalars['Int']>;
   fivePrimeOffsetDirection?: InputMaybe<FusionOffsetDirection>;
-  fivePrimeTranscript: Scalars['String'];
+  fivePrimeTranscript?: InputMaybe<Scalars['String']>;
   /** The reference build for the genomic coordinates of this Variant. */
   referenceBuild?: InputMaybe<ReferenceBuild>;
   threePrimeExonStart?: InputMaybe<Scalars['Int']>;
   threePrimeOffset?: InputMaybe<Scalars['Int']>;
   threePrimeOffsetDirection?: InputMaybe<FusionOffsetDirection>;
-  threePrimeTranscript: Scalars['String'];
+  threePrimeTranscript?: InputMaybe<Scalars['String']>;
 };
 
 /** The Feature that a Variant can belong to */
@@ -8361,16 +8361,16 @@ export type FeatureSelectTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion' } | { __typename: 'Gene', entrezId: number } }> };
+export type FeatureSelectTypeaheadQuery = { __typename: 'Query', featureTypeahead: Array<{ __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureType: FeatureInstanceTypes, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus } | { __typename: 'Gene', entrezId: number } }> };
 
 export type FeatureSelectTagQueryVariables = Exact<{
   featureId: Scalars['Int'];
 }>;
 
 
-export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion' } | { __typename: 'Gene', entrezId: number } } | undefined };
+export type FeatureSelectTagQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureType: FeatureInstanceTypes, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus } | { __typename: 'Gene', entrezId: number } } | undefined };
 
-export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion' } | { __typename: 'Gene', entrezId: number } };
+export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: number, name: string, featureAliases: Array<string>, link: string, featureType: FeatureInstanceTypes, featureInstance: { __typename: 'Factor', ncitId?: string | undefined } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus } | { __typename: 'Gene', entrezId: number } };
 
 export type SelectOrCreateFusionMutationVariables = Exact<{
   organizationId?: InputMaybe<Scalars['Int']>;
@@ -10734,6 +10734,7 @@ export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
   name
   featureAliases
   link
+  featureType
   featureInstance {
     __typename
     ... on Gene {
@@ -10741,6 +10742,10 @@ export const FeatureSelectTypeaheadFieldsFragmentDoc = gql`
     }
     ... on Factor {
       ncitId
+    }
+    ... on Fusion {
+      fivePrimePartnerStatus
+      threePrimePartnerStatus
     }
   }
 }

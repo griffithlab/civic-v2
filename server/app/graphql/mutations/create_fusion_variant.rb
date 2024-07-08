@@ -24,6 +24,8 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
     end
 
     coordinates.each do |_, variant_coords|
+      next unless variant_coords.present?
+
       if !variant_coords.valid?
         errs = variant_coords.errors
         #no variant is present yet, ignore this for now
