@@ -36,6 +36,7 @@ fragment CoordinateFields on GeneVariantCoordinate {
   stop
   referenceBases
   variantBases
+  coordinateType
 }
 
 mutation SuggestGeneVariantRevision($input: SuggestGeneVariantRevisionInput!) {

@@ -1,10 +1,12 @@
 module Types::Variants
   class FusionVariantType < Types::Entities::VariantType
 
-    field :five_prime_coordinates, Types::Entities::FivePrimeFusionVariantCoordinateType, null: true
-    field :three_prime_coordinates, Types::Entities::ThreePrimeFusionVariantCoordinateType, null: true
+    field :five_prime_coordinates, Types::Entities::FusionVariantCoordinateType, null: true
+    field :three_prime_coordinates, Types::Entities::FusionVariantCoordinateType, null: true
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
+    field :vicc_compliant_name, String, null: false
+    field :fusion, "Types::Entities::FusionType", null: false
 
     def five_prime_coordinates
       Loaders::AssociationLoader.for(Variants::FusionVariant, :five_prime_coordinates).load(object)
@@ -12,6 +14,10 @@ module Types::Variants
 
     def three_prime_coordinates
       Loaders::AssociationLoader.for(Variants::FusionVariant, :three_prime_coordinates).load(object)
+    end
+
+    def fusion
+      Loaders::AssociationLoader.for(Variants::FusionVariant, :fusion).load(object)
     end
 
     def clinvar_ids

@@ -1826,6 +1826,12 @@ type Contribution {
   count: Int!
 }
 
+enum CoordinateType {
+  FIVE_PRIME_FUSION_COORDINATE
+  GENE_VARIANT_COORDINATE
+  THREE_PRIME_FUSION_COORDINATE
+}
+
 type Country {
   id: Int!
   iso: String!
@@ -3883,19 +3889,6 @@ type FieldValidationError {
   fieldName: String!
 }
 
-type FivePrimeFusionVariantCoordinate {
-  chromosome: String
-  endExon: Int
-  ensemblVersion: Int
-  exonBoundary: Int
-  exonOffset: Int
-  id: Int!
-  referenceBuild: ReferenceBuild
-  representativeTranscript: String
-  start: Int
-  stop: Int
-}
-
 type Flag implements Commentable & EventOriginObject & EventSubject {
   """
   List and filter comments.
@@ -4546,7 +4539,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     sortBy: DateSort
   ): EventConnection!
   feature: Feature!
-  fivePrimeCoordinates: FivePrimeFusionVariantCoordinate
+  fivePrimeCoordinates: FusionVariantCoordinate
   flagged: Boolean!
 
   """
@@ -4593,6 +4586,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     """
     state: FlagState
   ): FlagConnection!
+  fusion: Fusion!
   hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
@@ -4673,9 +4667,24 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   ): RevisionConnection!
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
-  threePrimeCoordinates: ThreePrimeFusionVariantCoordinate
+  threePrimeCoordinates: FusionVariantCoordinate
   variantAliases: [String!]!
   variantTypes: [VariantType!]!
+  viccCompliantName: String!
+}
+
+type FusionVariantCoordinate {
+  chromosome: String
+  coordinateType: CoordinateType!
+  ensemblVersion: Int
+  exonBoundary: Int
+  exonOffset: Int
+  exonOffsetDirection: FusionOffsetDirection
+  id: Int!
+  referenceBuild: ReferenceBuild
+  representativeTranscript: String
+  start: Int
+  stop: Int
 }
 
 """
@@ -5229,6 +5238,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
 
 type GeneVariantCoordinate {
   chromosome: String
+  coordinateType: CoordinateType!
   ensemblVersion: Int
   id: Int!
   referenceBases: String
@@ -10354,19 +10364,6 @@ enum TherapySortColumns {
   EVIDENCE_ITEM_COUNT
   NAME
   NCIT_ID
-}
-
-type ThreePrimeFusionVariantCoordinate {
-  chromosome: String
-  ensemblVersion: Int
-  exonBoundary: Int
-  exonOffset: Int
-  id: Int!
-  referenceBuild: ReferenceBuild
-  representativeTranscript: String
-  start: Int
-  startExon: Int
-  stop: Int
 }
 
 type TimePointCounts {

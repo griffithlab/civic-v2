@@ -12,4 +12,12 @@ fragment CoordinatesCardFields on VariantInterface {
       ...CoordinateFields
     }
   }
+  ... on FusionVariant {
+    fivePrimeCoordinates {
+      ...FusionCoordinateFields
+    }
+    threePrimeCoordinates {
+      ...FusionCoordinateFields
+    }
+  }
 }

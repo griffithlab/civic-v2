@@ -9,5 +9,6 @@ module Types::Entities
     field :ensembl_version, Int, null: true
     field :reference_bases, String, null: true
     field :variant_bases, String, null: true
+    field :coordinate_type, Types::Entities::CoordinateTypeType, null: false
   end
 end
