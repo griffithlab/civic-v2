@@ -71,7 +71,7 @@ export class VariantsRevisionsPage implements OnDestroy, OnInit {
   }
 
   updateTabs(variant: VariantCoordinateIdsFragment) {
-    if (variant.__typename == 'GeneVariant') {
+    if (variant.__typename == 'GeneVariant' && variant.coordinates) {
       this.tabs.set([
         ...this.tabs(),
         {

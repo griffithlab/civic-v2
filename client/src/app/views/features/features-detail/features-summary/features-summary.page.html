@@ -26,12 +26,23 @@
     <nz-col [nzSpan]="24">
       <nz-tabset nzType="card">
         <nz-tab nzTitle="Molecular Profiles">
-          <cvc-molecular-profile-menu
-            [featureId]="feature.id"></cvc-molecular-profile-menu>
+          <ng-template nz-tab>
+            <cvc-molecular-profile-menu
+              [featureId]="feature.id"></cvc-molecular-profile-menu>
+          </ng-template>
         </nz-tab>
         <nz-tab nzTitle="Variants">
-          <cvc-variant-menu [feature]="feature"></cvc-variant-menu>
+          <ng-template nz-tab>
+            <cvc-variant-menu [feature]="feature"></cvc-variant-menu>
+          </ng-template>
         </nz-tab>
+        @if (feature.featureInstance.__typename == 'Gene') {
+          <nz-tab nzTitle="Fusions">
+            <ng-template nz-tab>
+              <cvc-fusions-menu [geneId]="feature.id"></cvc-fusions-menu>
+            </ng-template>
+          </nz-tab>
+        }
       </nz-tabset>
     </nz-col>
   </nz-row>

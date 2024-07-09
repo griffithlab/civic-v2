@@ -4423,6 +4423,51 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   ): VariantConnection!
 }
 
+"""
+The connection type for Fusion.
+"""
+type FusionConnection {
+  """
+  A list of edges.
+  """
+  edges: [FusionEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Fusion!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type FusionEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Fusion
+}
+
 enum FusionOffsetDirection {
   NEGATIVE
   POSITIVE
@@ -5064,7 +5109,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     """
     sortBy: DateSort
   ): CommentConnection!
-  coordinates: GeneVariantCoordinate!
+  coordinates: GeneVariantCoordinate
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -7991,6 +8036,46 @@ type Query {
     """
     state: FlagState
   ): FlagConnection!
+
+  """
+  List and filter fusions.
+  """
+  fusions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    List of Entrez Gene IDs to return results for
+    """
+    entrezIds: [Int!]
+
+    """
+    List of Entrez Gene symbols to return results for
+    """
+    entrezSymbols: [String!]
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    CIViC ID of one of the Gene partners
+    """
+    genePartnerId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FusionConnection!
 
   """
   Find a single gene by CIViC ID or Entrez symbol

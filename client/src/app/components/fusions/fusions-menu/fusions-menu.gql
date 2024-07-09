@@ -1,0 +1,37 @@
+query FusionMenu(
+  $genePartnerId: Int
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  fusions(
+    genePartnerId: $genePartnerId
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...menuFusion
+      }
+    }
+  }
+}
+
+fragment menuFusion on Fusion {
+  id
+  name
+  link
+  flagged
+  deprecated
+}

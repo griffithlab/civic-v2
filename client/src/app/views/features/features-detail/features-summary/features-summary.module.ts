@@ -20,6 +20,7 @@ import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profil
 import { GenesSummaryModule } from '@app/components/genes/genes-summary/genes-summary.module'
 import { FactorSummaryComponent } from '@app/components/factors/factor-summary/factor-summary.page'
 import { FusionSummaryComponent } from '@app/components/fusions/fusion-summary/fusion-summary.page'
+import { CvcFusionsMenuModule } from '@app/components/fusions/fusions-menu/fusions-menu.module'
 
 @NgModule({
   declarations: [FeaturesSummaryPage],
@@ -46,6 +47,7 @@ import { FusionSummaryComponent } from '@app/components/fusions/fusion-summary/f
     GenesSummaryModule,
     FactorSummaryComponent,
     FusionSummaryComponent,
+    CvcFusionsMenuModule,
   ],
   exports: [FeaturesSummaryPage],
 })
