@@ -4,6 +4,7 @@ import { CvcGeneVariantSummaryComponent } from '@app/components/variants/gene-va
 import { CvcFactorVariantSummaryComponent } from '@app/components/variants/factor-variant-summary/factor-variant-summary.page'
 import { PushPipe } from '@ngrx/component'
 import { CommonModule } from '@angular/common'
+import { CvcFusionVariantSummaryComponent } from '@app/components/variants/fusion-variant-summary/fusion-variant-summary.page'
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common'
     PushPipe,
     CvcGeneVariantSummaryComponent,
     CvcFactorVariantSummaryComponent,
+    CvcFusionVariantSummaryComponent,
   ],
   exports: [VariantsSummaryPage],
 })

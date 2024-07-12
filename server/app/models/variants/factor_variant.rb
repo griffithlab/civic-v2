@@ -9,5 +9,11 @@ module Variants
     def required_fields
       []
     end
+
+    def correct_coordinate_type
+      if variant_coordinates.size > 0
+        errors.add(:variant_coordinates, "Factor Variants may not have coordinates")
+      end
+    end
   end
 end

@@ -37,6 +37,10 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Feature is already deprecated."
     end
 
+    if feature.feature_instance_type == 'Features::Gene'
+      raise GraphQL::ExecutionError, "Gene Features may not be manually deprecated."
+    end
+
     mps_with_eids = []
     feature.variants.includes(:molecular_profiles).flat_map(&:molecular_profiles).each do |mp|
       if mp.evidence_items.where("evidence_items.status != 'rejected'").count > 0

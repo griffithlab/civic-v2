@@ -21,7 +21,7 @@ import { GraphQLModule } from '@app/graphql/graphql.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { Observable } from 'rxjs'
-import { AppErrorHandler } from './core/utilities/app-error-handler'
+import { AppErrorHandler } from './core/utilities/app-reload-handler'
 import { CvcForms2Module } from '@app/forms/forms.module'
 
 registerLocaleData(en)

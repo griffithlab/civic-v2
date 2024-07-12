@@ -1,0 +1,24 @@
+@import "themes/global-variables.less";
+
+:host {
+  display: block;
+}
+
+#variant-filters {
+  // need to specify a width to the filters form, or the name filter
+  // input will change its width depending on if its nameInputClearTpl is displayed
+  // displayed
+  #name-filter-group {
+    width: 175px;
+  }
+  // all form items get a right margin which creates an unsightly gap on the right :(
+  // so we remove that here
+  nz-form-item:last-child {
+    margin-right: 0;
+  }
+}
+
+#load-more-btn {
+  // apply the same margin to the button row as the card margin
+  margin-top: @default-padding-sm;
+}

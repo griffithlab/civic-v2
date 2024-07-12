@@ -131,20 +131,29 @@
           <nz-col
             nzSpan="24"
             *ngFor="let v of mp.variants">
-            <!-- prettier-ignore -->
-            @switch(v.__typename) {
-            <!-- prettier-ignore -->
-            @case('GeneVariant') {
-            <cvc-mp-gene-variant-card
-              [variant]="v"
-              [currentMolecularProfileId]="mp.id"></cvc-mp-gene-variant-card>
+            @switch (v.__typename) {
+              @case ('GeneVariant') {
+                <cvc-mp-gene-variant-card
+                  [variant]="v"
+                  [currentMolecularProfileId]="
+                    mp.id
+                  "></cvc-mp-gene-variant-card>
+              }
+              @case ('FusionVariant') {
+                <cvc-mp-fusion-variant-card
+                  [variant]="v"
+                  [currentMolecularProfileId]="
+                    mp.id
+                  "></cvc-mp-fusion-variant-card>
+              }
+              @case ('FactorVariant') {
+                <cvc-mp-factor-variant-card
+                  [variant]="v"
+                  [currentMolecularProfileId]="
+                    mp.id
+                  "></cvc-mp-factor-variant-card>
+              }
             }
-            <!-- prettier-ignore -->
-            @case('FactorVariant') {
-            <cvc-mp-factor-variant-card
-              [variant]="v"
-              [currentMolecularProfileId]="mp.id"></cvc-mp-factor-variant-card>
-            } }
           </nz-col>
         </nz-row>
       </nz-card>

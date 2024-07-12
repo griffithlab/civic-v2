@@ -41,6 +41,8 @@
       "FactorVariant",
       "Feature",
       "Flag",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -58,6 +60,8 @@
       "FactorVariant",
       "Feature",
       "Flag",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -72,6 +76,8 @@
       "FactorVariant",
       "Feature",
       "Flag",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -85,6 +91,7 @@
     ],
     "FeatureInstance": [
       "Factor",
+      "Fusion",
       "Gene"
     ],
     "Flaggable": [
@@ -94,6 +101,8 @@
       "Factor",
       "FactorVariant",
       "Feature",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -112,6 +121,8 @@
       "Factor",
       "FactorVariant",
       "Feature",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "Variant"
@@ -123,6 +134,7 @@
     ],
     "VariantInterface": [
       "FactorVariant",
+      "FusionVariant",
       "GeneVariant",
       "Variant"
     ],
@@ -132,6 +144,8 @@
       "Factor",
       "FactorVariant",
       "Feature",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",

@@ -56,9 +56,10 @@ class Mutations::SuggestAssertionRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: assertion, updated_obj: updated_assertion)
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: assertion,
-      updated_obj: updated_assertion,
+      revised_objects: revised_objs,
+      subject: assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment

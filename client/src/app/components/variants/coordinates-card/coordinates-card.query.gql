@@ -8,21 +8,16 @@ fragment CoordinatesCardFields on VariantInterface {
   id
   name
   ... on GeneVariant {
-    referenceBuild
-    ensemblVersion
-    primaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
+    coordinates {
+      ...CoordinateFields
     }
-    secondaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
+  }
+  ... on FusionVariant {
+    fivePrimeCoordinates {
+      ...FusionCoordinateFields
     }
-    referenceBases
-    variantBases
+    threePrimeCoordinates {
+      ...FusionCoordinateFields
+    }
   }
 }

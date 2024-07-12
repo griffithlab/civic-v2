@@ -71,6 +71,9 @@ fragment VariantSummaryFields on VariantInterface {
   ... on FactorVariant {
     ... FactorVariantSummaryFields
   }
+  ... on FusionVariant {
+    ... FusionVariantSummaryFields
+  }
 }
 
 
@@ -87,25 +90,56 @@ fragment GeneVariantSummaryFields on GeneVariant {
   maneSelectTranscript
   hgvsDescriptions
   clinvarIds
-  referenceBuild
-  ensemblVersion
-  primaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
+  coordinates {
+    ...CoordinateFields
   }
-  secondaryCoordinates {
-    representativeTranscript
-    chromosome
-    start
-    stop
-  }
-  referenceBases
-  variantBases
   myVariantInfo {
     ...MyVariantInfoFields
   }
+}
+
+fragment FusionVariantSummaryFields on FusionVariant {
+  viccCompliantName
+  hgvsDescriptions
+  clinvarIds
+  fusion {
+    fivePrimePartnerStatus
+    fivePrimeGene {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
+    threePrimePartnerStatus
+    threePrimeGene {
+      id
+      name
+      link
+      deprecated
+      flagged
+    }
+  }
+  fivePrimeCoordinates {
+    ...FusionCoordinateFields
+  }
+  threePrimeCoordinates {
+    ...FusionCoordinateFields
+  }
+}
+
+fragment FusionCoordinateFields on FusionVariantCoordinate {
+  id
+  representativeTranscript
+  referenceBuild
+  ensemblVersion
+  exonOffset
+  exonBoundary
+  chromosome
+  start
+  stop
+  coordinateType
+  exonOffsetDirection
 }
 
 fragment MyVariantInfoFields on MyVariantInfo {

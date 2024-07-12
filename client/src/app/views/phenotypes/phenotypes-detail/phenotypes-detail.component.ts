@@ -26,7 +26,10 @@ export class PhenotypesDetailComponent implements OnDestroy {
   loading$?: Observable<boolean>
   phenotype$?: Observable<Maybe<Phenotype>>
 
-  constructor(private route: ActivatedRoute, private gql: PhenotypeDetailGQL) {
+  constructor(
+    private route: ActivatedRoute,
+    private gql: PhenotypeDetailGQL
+  ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.phenotypeId = +params.phenotypeId
 

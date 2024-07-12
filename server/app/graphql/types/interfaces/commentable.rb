@@ -27,6 +27,8 @@ module Types::Interfaces
           Types::Variants::GeneVariantType
         when Variants::FactorVariant
           Types::Variants::FactorVariantType
+        when Variants::FusionVariant
+          Types::Variants::FusionVariantType
         when VariantGroup
           Types::Entities::VariantGroupType
         when Source

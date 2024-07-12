@@ -111,13 +111,20 @@ module Constants
     'Assertion' => 'assertions',
     'EvidenceItem' => 'evidence',
     'Feature' => 'features',
+    'Gene' => 'features',
     'Variant' => 'variants',
     'Variants::GeneVariant' => 'variants',
     'Variants::FactorVariant' => 'variants',
+    'Variants::FusionVariant' => 'variants',
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
     'MolecularProfile' => 'molecular-profiles'
   }
+
+  VALID_COORDINATE_TYPES = [
+    Variants::GeneVariant.valid_coordinate_types,
+    Variants::FusionVariant.valid_coordinate_types
+  ].flatten
 
   CIVICBOT_USER_ID = 385
 end

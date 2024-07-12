@@ -1,0 +1,14 @@
+query CoordinateIdsForVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    ...VariantCoordinateIds
+  }
+}
+
+fragment VariantCoordinateIds on VariantInterface {
+    __typename
+  ... on GeneVariant {
+    coordinates {
+      id
+    }
+  }
+}

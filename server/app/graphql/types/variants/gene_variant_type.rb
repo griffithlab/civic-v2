@@ -1,12 +1,7 @@
 module Types::Variants
   class GeneVariantType < Types::Entities::VariantType
 
-    field :reference_build, Types::ReferenceBuildType, null: true
-    field :ensembl_version, Int, null: true
-    field :primary_coordinates, Types::Entities::CoordinateType, null: true
-    field :secondary_coordinates, Types::Entities::CoordinateType, null: true
-    field :reference_bases, String, null: true
-    field :variant_bases, String, null: true
+    field :coordinates, Types::Entities::GeneVariantCoordinateType, null: true
     field :allele_registry_id, String, null: true
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
@@ -14,47 +9,8 @@ module Types::Variants
     field :mane_select_transcript, String, null: true
     field :open_cravat_url, String, null: true
 
-
-    def primary_coordinates
-      if (object.representative_transcript.blank? && object.chromosome.blank? && object.start.blank? && object.stop.blank?)
-        return nil
-      else
-        return {
-          representative_transcript: object.representative_transcript,
-          chromosome: object.chromosome,
-          start: object.start,
-          stop: object.stop,
-        }
-      end
-    end
-
-    def secondary_coordinates
-      if (object.representative_transcript2.blank? && object.chromosome2.blank? && object.start2.blank? && object.stop2.blank?)
-        return nil
-      else
-        return {
-          representative_transcript: object.representative_transcript2,
-          chromosome: object.chromosome2,
-          start: object.start2,
-          stop: object.stop2,
-        }
-      end
-    end
-
-    def variant_bases
-      if (object.variant_bases.blank?)
-        return nil
-      else
-        return object.variant_bases
-      end
-    end
-
-    def reference_bases
-      if (object.reference_bases.blank?)
-        return nil
-      else
-        return object.reference_bases
-      end
+    def coordinates
+      Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object)
     end
 
     def clinvar_ids

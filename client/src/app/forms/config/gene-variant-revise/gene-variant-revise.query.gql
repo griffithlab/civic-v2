@@ -16,29 +16,27 @@ fragment RevisableGeneVariantFields on GeneVariant {
   variantAliases
   alleleRegistryId
   clinvarIds
-  ensemblVersion
   hgvsDescriptions
-  referenceBuild
   variantTypes {
     id
     name
     soid
   }
-  primaryCoordinates {
+  coordinates {
     ...CoordinateFields
   }
-  secondaryCoordinates {
-    ...CoordinateFields
-  }
-  referenceBases
-  variantBases
 }
 
-fragment CoordinateFields on Coordinate {
+fragment CoordinateFields on GeneVariantCoordinate {
+  referenceBuild
+  ensemblVersion
   chromosome
   representativeTranscript
   start
   stop
+  referenceBases
+  variantBases
+  coordinateType
 }
 
 mutation SuggestGeneVariantRevision($input: SuggestGeneVariantRevisionInput!) {

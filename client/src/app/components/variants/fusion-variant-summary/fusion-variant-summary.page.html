@@ -1,0 +1,198 @@
+@if (variant.__typename == 'FusionVariant') {
+  <!-- variant description, details, myvariantinfo row -->
+  <nz-row [nzGutter]="[8, 16]">
+    <!-- LEFT COL -->
+    <nz-col [nzSpan]="12">
+      <!-- left col layout row -->
+      <nz-row [nzGutter]="[8, 8]">
+        <!-- variant attributes block -->
+        <nz-col nzSpan="24">
+          <nz-descriptions
+            nzLayout="horizontal"
+            nzSize="small"
+            [nzColumn]="1"
+            nzBordered="true">
+            <!-- aliases -->
+            <nz-descriptions-item nzTitle="Aliases">
+              <ng-container
+                *ngIf="variant.variantAliases.length > 0; else noAliases">
+                <cvc-tag-list>
+                  <nz-tag *ngFor="let alias of variant.variantAliases">{{
+                    alias
+                  }}</nz-tag>
+                </cvc-tag-list>
+              </ng-container>
+              <ng-template #noAliases>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
+              </ng-template>
+            </nz-descriptions-item>
+
+            <!-- variant type(s) -->
+            <nz-descriptions-item
+              [nzTitle]="
+                variant.variantTypes.length > 1
+                  ? 'Variant Types'
+                  : 'Variant Type'
+              ">
+              <ng-container
+                *ngIf="variant.variantTypes.length > 0; else noTypes">
+                <cvc-tag-list>
+                  <cvc-variant-type-tag
+                    [variantType]="type"
+                    *ngFor="
+                      let type of variant.variantTypes
+                    "></cvc-variant-type-tag>
+                </cvc-tag-list>
+              </ng-container>
+              <ng-template #noTypes>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
+              </ng-template>
+            </nz-descriptions-item>
+
+            <!-- HGVS descriptions -->
+            <nz-descriptions-item
+              [nzTitle]="
+                variant.hgvsDescriptions.length > 1
+                  ? 'HGVS Descriptions'
+                  : 'HGVS Description'
+              ">
+              <ng-container
+                *ngIf="
+                  variant.hgvsDescriptions.length > 0;
+                  else noDescriptions
+                ">
+                <cvc-tag-list>
+                  <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{
+                    desc
+                  }}</nz-tag>
+                </cvc-tag-list>
+              </ng-container>
+              <ng-template #noDescriptions>
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >None specified</span
+                >
+              </ng-template>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-col>
+      </nz-row>
+    </nz-col>
+
+    <!-- RIGHT COLUMN -->
+    <nz-col nzSpan="12">
+      <!-- right col layout row -->
+      <nz-row [nzGutter]="[8, 8]">
+        <!-- BLOCK: creation and deprecation events -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzLayout="vertical"
+            nzSize="small"
+            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+            <!-- creation/deprecation curation events -->
+            <ng-container *ngIf="variant.creationActivity">
+              <nz-descriptions-item [nzTitle]="createdTitle">
+                by
+                <cvc-user-tag
+                  [user]="variant.creationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #createdTitle>
+                Created
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  ({{ variant.creationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="variant.deprecationActivity">
+              <nz-descriptions-item [nzTitle]="deprecatedTitle">
+                by
+                <cvc-user-tag
+                  [user]="variant.deprecationActivity.user"></cvc-user-tag>
+              </nz-descriptions-item>
+              <ng-template #deprecatedTitle>
+                Deprecated
+                <span
+                  nz-typography
+                  nzType="secondary">
+                  ({{ variant.deprecationActivity.createdAt | timeAgo }})
+                </span>
+              </ng-template>
+            </ng-container>
+          </nz-descriptions>
+        </nz-col>
+
+        <!-- variant related entities, attributes -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzLayout="horizontal"
+            nzSize="small"
+            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+            <!-- feature -->
+            <nz-descriptions-item
+              nzTitle="Fusion"
+              nzSpan="2">
+              <cvc-feature-tag [feature]="variant.feature"></cvc-feature-tag>
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="5' Partner">
+              <cvc-feature-tag
+                *ngIf="variant.fusion.fivePrimeGene; else no5Partner"
+                [feature]="variant.fusion.fivePrimeGene"></cvc-feature-tag>
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="3' Partner">
+              <cvc-feature-tag
+                *ngIf="variant.fusion.threePrimeGene; else no3Partner"
+                [feature]="variant.fusion.threePrimeGene"></cvc-feature-tag>
+            </nz-descriptions-item>
+
+            <ng-template #no5Partner>
+              <span
+                nz-typography
+                nzType="secondary"
+                >{{ variant.fusion.fivePrimePartnerStatus | enumToTitle }}</span
+              >
+            </ng-template>
+
+            <ng-template #no3Partner>
+              <span
+                nz-typography
+                nzType="secondary"
+                >{{
+                  variant.fusion.threePrimePartnerStatus | enumToTitle
+                }}</span
+              >
+            </ng-template>
+          </nz-descriptions>
+        </nz-col>
+      </nz-row>
+    </nz-col>
+    <!-- END RIGHT COL -->
+
+    <nz-col nzSpan="24">
+      <cvc-coordinates-card [cvcCoordinates]="variant"></cvc-coordinates-card>
+    </nz-col>
+
+    <!-- evidence table -->
+    <nz-col nzSpan="24">
+      <cvc-molecular-profiles-table
+        [variantId]="variant.id"
+        cvcHeight="300px"
+        cvcTitle="{{ variant.name }} Molecular Profiles">
+      </cvc-molecular-profiles-table>
+    </nz-col>
+  </nz-row>
+}

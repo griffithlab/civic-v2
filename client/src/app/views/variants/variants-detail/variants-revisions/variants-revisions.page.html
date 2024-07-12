@@ -1,3 +1,10 @@
-<cvc-revisions-list-and-filter
-  [id]="this.variantId"
-  [entityType]="this.entityType"></cvc-revisions-list-and-filter>
+<nz-tabset [nzAnimated]="false">
+  @for (tab of tabs(); track tab.name) {
+    <nz-tab [nzTitle]="tab.name">
+      <nz-template nz-tab>
+        <cvc-revisions-list-and-filter
+          [moderated]="tab.moderated"></cvc-revisions-list-and-filter>
+      </nz-template>
+    </nz-tab>
+  }
+</nz-tabset>

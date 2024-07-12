@@ -7,5 +7,6 @@ module Types::Revisions
     value 'ASSERTION', value: 'Assertion'
     value 'VARIANT_GROUP', value: 'VariantGroup'
     value 'MOLECULAR_PROFILE', value: 'MolecularProfile'
+    value 'VARIANT_COORDINATES', value: 'VariantCoordinate'
   end
 end

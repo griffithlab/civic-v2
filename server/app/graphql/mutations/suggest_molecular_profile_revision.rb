@@ -54,9 +54,11 @@ class Mutations::SuggestMolecularProfileRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_mp = InputAdaptors::MolecularProfileInputAdaptor.new(mp_input_object: fields, existing_name: mp.name).perform
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: mp, updated_obj: updated_mp)
+
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: mp,
-      updated_obj: updated_mp,
+      revised_objects: revised_objs,
+      subject: mp,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment

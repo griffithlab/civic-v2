@@ -57,5 +57,7 @@ module Types
     field :add_therapy, mutation: Mutations::AddTherapy
     field :create_variant, mutation: Mutations::CreateVariant
     field :create_feature, mutation: Mutations::CreateFeature
+    field :create_fusion_feature, mutation: Mutations::CreateFusionFeature
+    field :create_fusion_variant, mutation: Mutations::CreateFusionVariant
   end
 end

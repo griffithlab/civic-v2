@@ -2,14 +2,15 @@ class Actions::SuggestRevision
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :subject,
+  attr_reader :revision_subject,
     :field_name, :current_value,
     :suggested_value, :originating_user,
     :organization_id, :revision, :revision_set_id,
-    :revisionset_id
+    :revisionset_id, :event_subject
 
-  def initialize(subject:, field_name:, current_value:, suggested_value:, originating_user:, organization_id:, revisionset_id:, revision_set_id:)
-    @subject = subject
+  def initialize(revision_subject:, event_subject:, field_name:, current_value:, suggested_value:, originating_user:, organization_id:, revisionset_id:, revision_set_id:)
+    @revision_subject = revision_subject
+    @event_subject = event_subject
     @field_name = field_name
     @current_value = current_value
     @suggested_value = suggested_value
@@ -22,7 +23,7 @@ class Actions::SuggestRevision
 
   def execute
     possible_existing_revisions = Revision.where(
-      subject: subject,
+      subject: revision_subject,
       field_name: field_name,
       status: 'new'
     )
@@ -48,7 +49,7 @@ class Actions::SuggestRevision
       @revision = Revision.create!(
         current_value: current_value,
         suggested_value: suggested_value,
-        subject: subject,
+        subject: revision_subject,
         field_name: field_name,
         status: 'new',
         revisionset_id: revisionset_id,
@@ -60,7 +61,7 @@ class Actions::SuggestRevision
       events << Event.new(
         action: 'revision suggested',
         originating_user: originating_user,
-        subject: subject,
+        subject: event_subject,
         organization: resolve_organization(originating_user, organization_id),
         originating_object: revision
       )

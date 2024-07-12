@@ -18,6 +18,8 @@ import { FeaturesDetailRoutingModule } from './features-detail-routing.module'
 import { FeaturesDetailView } from './features-detail.view'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcFeatureDeprecateForm } from '@app/forms/components/feature-deprecate/feature-deprecate.form'
 
 @NgModule({
   declarations: [FeaturesDetailView],
@@ -33,6 +35,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     NzTypographyModule,
     NzGridModule,
     NzAlertModule,
+    NzPopoverModule,
     CvcPipesModule,
     CvcTabNavigationModule,
     CvcFlaggableModule,
@@ -41,6 +44,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     CvcEntitySubscriptionButtonModule,
     CvcEventFeedModule,
     CvcCommentBodyModule,
+    CvcFeatureDeprecateForm,
   ],
 })
 export class FeaturesDetailModule {}

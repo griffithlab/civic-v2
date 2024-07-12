@@ -19,6 +19,10 @@ module Types::Interfaces
           Types::Variants::GeneVariantType
         when Variants::FactorVariant
           Types::Variants::FactorVariantType
+        when Variants::FusionVariant
+          Types::Variants::FusionVariantType
+        when VariantCoordinate
+          Types::Entities::GeneVariantCoordinateType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion
