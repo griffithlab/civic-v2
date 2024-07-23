@@ -1123,6 +1123,75 @@ type BrowseMolecularProfileEdge {
   node: BrowseMolecularProfile
 }
 
+type BrowseOrganization {
+  activityCount: Int!
+  childOrganizations: [Organization!]!
+  createdAt: ISO8601DateTime
+  description: String!
+  id: Int!
+  memberCount: Int!
+  mostRecentActivityTimestamp: ISO8601DateTime
+  name: String!
+  parentId: Int
+  updatedAt: ISO8601DateTime
+  url: String!
+}
+
+"""
+The connection type for BrowseOrganization.
+"""
+type BrowseOrganizationConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseOrganizationEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  The last time the data in this browse table was refreshed
+  """
+  lastUpdated: ISO8601DateTime!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseOrganization!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseOrganizationEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseOrganization
+}
+
 type BrowsePhenotype {
   assertionCount: Int!
   evidenceCount: Int!
@@ -6743,51 +6812,6 @@ type Organization {
 }
 
 """
-The connection type for Organization.
-"""
-type OrganizationConnection {
-  """
-  A list of edges.
-  """
-  edges: [OrganizationEdge!]!
-
-  """
-  A list of nodes.
-  """
-  nodes: [Organization!]!
-
-  """
-  Total number of pages, based on filtered count and pagesize.
-  """
-  pageCount: Int!
-
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  The total number of records in this filtered collection.
-  """
-  totalCount: Int!
-}
-
-"""
-An edge in a connection.
-"""
-type OrganizationEdge {
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-
-  """
-  The item at the end of the edge.
-  """
-  node: Organization
-}
-
-"""
 Filter on organization id and whether or not to include the organization's subgroups
 """
 input OrganizationFilter {
@@ -6915,7 +6939,10 @@ input OrganizationSort {
 }
 
 enum OrganizationSortColumns {
+  ACTIVITY_COUNT
   ID
+  MEMBER_COUNT
+  MOST_RECENT_ACTIVITY_TIMESTAMP
   NAME
 }
 
@@ -7954,7 +7981,7 @@ type Query {
     Columm and direction to sort evidence on.
     """
     sortBy: OrganizationSort
-  ): OrganizationConnection!
+  ): BrowseOrganizationConnection!
 
   """
   Find a phenotype by CIViC ID

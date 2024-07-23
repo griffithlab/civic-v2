@@ -258,6 +258,35 @@ export type BrowseMolecularProfileEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type BrowseOrganizationKeySpecifier = ('activityCount' | 'childOrganizations' | 'createdAt' | 'description' | 'id' | 'memberCount' | 'mostRecentActivityTimestamp' | 'name' | 'parentId' | 'updatedAt' | 'url' | BrowseOrganizationKeySpecifier)[];
+export type BrowseOrganizationFieldPolicy = {
+	activityCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	childOrganizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	parentId?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BrowseOrganizationConnectionKeySpecifier = ('edges' | 'filteredCount' | 'lastUpdated' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseOrganizationConnectionKeySpecifier)[];
+export type BrowseOrganizationConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastUpdated?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BrowseOrganizationEdgeKeySpecifier = ('cursor' | 'node' | BrowseOrganizationEdgeKeySpecifier)[];
+export type BrowseOrganizationEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type BrowsePhenotypeKeySpecifier = ('assertionCount' | 'evidenceCount' | 'hpoId' | 'id' | 'link' | 'name' | 'url' | BrowsePhenotypeKeySpecifier)[];
 export type BrowsePhenotypeFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1621,19 +1650,6 @@ export type OrganizationFieldPolicy = {
 	subGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | OrganizationConnectionKeySpecifier)[];
-export type OrganizationConnectionFieldPolicy = {
-	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type OrganizationEdgeKeySpecifier = ('cursor' | 'node' | OrganizationEdgeKeySpecifier)[];
-export type OrganizationEdgeFieldPolicy = {
-	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
-	node?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type OrganizationLeaderboardsKeySpecifier = ('commentsLeaderboard' | 'moderationLeaderboard' | 'revisionsLeaderboard' | 'submissionsLeaderboard' | OrganizationLeaderboardsKeySpecifier)[];
 export type OrganizationLeaderboardsFieldPolicy = {
 	commentsLeaderboard?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2469,6 +2485,18 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | BrowseMolecularProfileEdgeKeySpecifier | (() => undefined | BrowseMolecularProfileEdgeKeySpecifier),
 		fields?: BrowseMolecularProfileEdgeFieldPolicy,
 	},
+	BrowseOrganization?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BrowseOrganizationKeySpecifier | (() => undefined | BrowseOrganizationKeySpecifier),
+		fields?: BrowseOrganizationFieldPolicy,
+	},
+	BrowseOrganizationConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BrowseOrganizationConnectionKeySpecifier | (() => undefined | BrowseOrganizationConnectionKeySpecifier),
+		fields?: BrowseOrganizationConnectionFieldPolicy,
+	},
+	BrowseOrganizationEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BrowseOrganizationEdgeKeySpecifier | (() => undefined | BrowseOrganizationEdgeKeySpecifier),
+		fields?: BrowseOrganizationEdgeFieldPolicy,
+	},
 	BrowsePhenotype?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BrowsePhenotypeKeySpecifier | (() => undefined | BrowsePhenotypeKeySpecifier),
 		fields?: BrowsePhenotypeFieldPolicy,
@@ -2984,14 +3012,6 @@ export type StrictTypedTypePolicies = {
 	Organization?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | OrganizationKeySpecifier | (() => undefined | OrganizationKeySpecifier),
 		fields?: OrganizationFieldPolicy,
-	},
-	OrganizationConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | OrganizationConnectionKeySpecifier | (() => undefined | OrganizationConnectionKeySpecifier),
-		fields?: OrganizationConnectionFieldPolicy,
-	},
-	OrganizationEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | OrganizationEdgeKeySpecifier | (() => undefined | OrganizationEdgeKeySpecifier),
-		fields?: OrganizationEdgeFieldPolicy,
 	},
 	OrganizationLeaderboards?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | OrganizationLeaderboardsKeySpecifier | (() => undefined | OrganizationLeaderboardsKeySpecifier),

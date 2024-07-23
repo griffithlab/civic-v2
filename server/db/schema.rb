@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema[7.1].define(version: 2024_06_28_151626) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1399,6 +1401,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_28_151626) do
        LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
     GROUP BY organizations.id;
   SQL
+  
   create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT users.id,
       users.email,
