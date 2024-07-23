@@ -680,6 +680,49 @@ export type BrowseMolecularProfileEdge = {
   node?: Maybe<BrowseMolecularProfile>;
 };
 
+export type BrowseOrganization = {
+  __typename: 'BrowseOrganization';
+  activityCount: Scalars['Int'];
+  childOrganizations: Array<Organization>;
+  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  memberCount: Scalars['Int'];
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  url: Scalars['String'];
+};
+
+/** The connection type for BrowseOrganization. */
+export type BrowseOrganizationConnection = {
+  __typename: 'BrowseOrganizationConnection';
+  /** A list of edges. */
+  edges: Array<BrowseOrganizationEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
+  /** A list of nodes. */
+  nodes: Array<BrowseOrganization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseOrganizationEdge = {
+  __typename: 'BrowseOrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseOrganization>;
+};
+
 export type BrowsePhenotype = {
   __typename: 'BrowsePhenotype';
   assertionCount: Scalars['Int'];
@@ -4008,30 +4051,6 @@ export type OrganizationProfileImagePathArgs = {
   size?: InputMaybe<Scalars['Int']>;
 };
 
-/** The connection type for Organization. */
-export type OrganizationConnection = {
-  __typename: 'OrganizationConnection';
-  /** A list of edges. */
-  edges: Array<OrganizationEdge>;
-  /** A list of nodes. */
-  nodes: Array<Organization>;
-  /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int'];
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The total number of records in this filtered collection. */
-  totalCount: Scalars['Int'];
-};
-
-/** An edge in a connection. */
-export type OrganizationEdge = {
-  __typename: 'OrganizationEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node?: Maybe<Organization>;
-};
-
 /** Filter on organization id and whether or not to include the organization's subgroups */
 export type OrganizationFilter = {
   /** The organization ID. */
@@ -4098,7 +4117,10 @@ export type OrganizationSort = {
 };
 
 export enum OrganizationSortColumns {
+  ActivityCount = 'ACTIVITY_COUNT',
   Id = 'ID',
+  MemberCount = 'MEMBER_COUNT',
+  MostRecentActivityTimestamp = 'MOST_RECENT_ACTIVITY_TIMESTAMP',
   Name = 'NAME'
 }
 
@@ -4230,7 +4252,7 @@ export type Query = {
   organization?: Maybe<Organization>;
   organizationLeaderboards: OrganizationLeaderboards;
   /** List and filter organizations. */
-  organizations: OrganizationConnection;
+  organizations: BrowseOrganizationConnection;
   /** Find a phenotype by CIViC ID */
   phenotype?: Maybe<Phenotype>;
   /** Retrieve popover fields for a specific phenotype. */
@@ -7302,9 +7324,9 @@ export type OrganizationsBrowseQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'OrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'OrganizationEdge', cursor: string, node?: { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, mostRecentActivityTimestamp?: any | undefined, subGroups: Array<{ __typename: 'Organization', name: string, id: number }> } | undefined }> } };
+export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'BrowseOrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', cursor: string, node?: { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
-export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, mostRecentActivityTimestamp?: any | undefined, subGroups: Array<{ __typename: 'Organization', name: string, id: number }> };
+export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
 export type PhenotypePopoverQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -9607,18 +9629,18 @@ export const OrgPopoverFragmentDoc = gql`
 }
     `;
 export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
-    fragment OrganizationBrowseTableRowFields on Organization {
+    fragment OrganizationBrowseTableRowFields on BrowseOrganization {
   id
   name
   description
   url
   memberCount
-  eventCount
-  subGroups {
-    name
-    id
-  }
+  activityCount
   mostRecentActivityTimestamp
+  childOrganizations {
+    id
+    name
+  }
 }
     `;
 export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
