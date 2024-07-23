@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_25_182325) do
+
+ActiveRecord::Schema[7.1].define(version: 2024_06_28_151626) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1398,5 +1400,36 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_182325) do
        LEFT JOIN affiliations ON ((affiliations.organization_id = organizations.id)))
        LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
     GROUP BY organizations.id;
+  SQL
+  
+  create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT users.id,
+      users.email,
+      users.name,
+      users.url,
+      users.username,
+      users.created_at,
+      users.updated_at,
+      users.orcid,
+      users.area_of_expertise,
+      users.deleted,
+      users.deleted_at,
+      users.role,
+      users.last_seen_at,
+      users.twitter_handle,
+      users.facebook_profile,
+      users.linkedin_profile,
+      users.accepted_license,
+      users.featured_expert,
+      users.bio,
+      users.signup_complete,
+      users.country_id,
+      users.most_recent_organization_id,
+      users.most_recent_activity_timestamp,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'revision suggested'::text)) AS revision_count,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'submitted'::text)) AS evidence_count
+     FROM (users
+       LEFT JOIN events ON ((events.originating_user_id = users.id)))
+    GROUP BY users.id;
   SQL
 end
