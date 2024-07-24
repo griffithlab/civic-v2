@@ -37,6 +37,8 @@ export type AssertionFields = {
   acmgCodeIds$: BehaviorSubject<Maybe<number[]>>
   clingenCodeIds$: BehaviorSubject<Maybe<number[]>>
   nccnGuidelineVersion$: BehaviorSubject<Maybe<string>>
+  description$: BehaviorSubject<Maybe<string>>
+  comment$: BehaviorSubject<Maybe<string>>
 }
 
 export type AssertionEnums = {
@@ -91,7 +93,11 @@ class AssertionState extends BaseState {
       ampLevel$: new BehaviorSubject<Maybe<AmpLevel>>(def.ampLevel),
       acmgCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.acmgCodeIds),
       clingenCodeIds$: new BehaviorSubject<Maybe<number[]>>(def.clingenCodeIds),
-      nccnGuidelineVersion$: new BehaviorSubject<Maybe<string>>(def.nccnGuidelineVersion)
+      nccnGuidelineVersion$: new BehaviorSubject<Maybe<string>>(
+        def.nccnGuidelineVersion
+      ),
+      description$: new BehaviorSubject<Maybe<string>>(undefined),
+      comment$: new BehaviorSubject<Maybe<string>>(undefined),
     }
 
     this.enums = {
@@ -127,9 +133,9 @@ class AssertionState extends BaseState {
 
     // ASSERTION TYPE SUBSCRIBERS
     this.fields.assertionType$
-    .pipe(untilDestroyed(this, 'onDestroy'))
-    .subscribe((at: Maybe<AssertionType>) => {
-      if (!at) {
+      .pipe(untilDestroyed(this, 'onDestroy'))
+      .subscribe((at: Maybe<AssertionType>) => {
+        if (!at) {
           // set all 'requires' fields to false, non-type enums to []
           Object.entries(this.requires).forEach(([key, value]) => {
             value.next(false)
@@ -137,21 +143,20 @@ class AssertionState extends BaseState {
           this.enums.significance$.next([])
           this.enums.direction$.next([])
           return
-      }
-      this.enums.significance$.next(this.getSignificanceOptions(at))
-      this.enums.direction$.next(this.getDirectionOptions(at))
+        }
+        this.enums.significance$.next(this.getSignificanceOptions(at))
+        this.enums.direction$.next(this.getDirectionOptions(at))
 
-      this.requires.requiresDisease$.next(this.requiresDisease(at))
-      this.requires.requiresTherapy$.next(this.requiresTherapy(at))
-      this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
-      this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
-      this.requires.requiresAmpLevel$.next(this.requiresAmpLevel(at))
-      this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
-    })
+        this.requires.requiresDisease$.next(this.requiresDisease(at))
+        this.requires.requiresTherapy$.next(this.requiresTherapy(at))
+        this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(at))
+        this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(at))
+        this.requires.requiresAmpLevel$.next(this.requiresAmpLevel(at))
+        this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(at))
+      })
 
     this.fields.therapyIds$
-      .pipe(
-        untilDestroyed(this, 'onDestroy'))
+      .pipe(untilDestroyed(this, 'onDestroy'))
       .subscribe((ids: Maybe<number[]>) => {
         if (ids === undefined || ids === null) {
           this.requires.requiresTherapyInteractionType$.next(false)
@@ -227,9 +232,7 @@ class AssertionState extends BaseState {
         AssertionSignificance.LikelyBenign,
         AssertionSignificance.UncertainSignificance,
       ],
-      entityDirection: [
-        AssertionDirection.Supports,
-      ],
+      entityDirection: [AssertionDirection.Supports],
       requiresDisease: true,
       requiresTherapy: false,
       requiresClingenCodes: false,
@@ -247,9 +250,7 @@ class AssertionState extends BaseState {
         AssertionSignificance.LikelyBenign,
         AssertionSignificance.UncertainSignificance,
       ],
-      entityDirection: [
-        AssertionDirection.Supports,
-      ],
+      entityDirection: [AssertionDirection.Supports],
       requiresDisease: true,
       requiresTherapy: false,
       requiresClingenCodes: true,
