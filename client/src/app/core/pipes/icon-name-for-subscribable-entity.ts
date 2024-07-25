@@ -31,11 +31,17 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case SubscribableEntities.VariantGroup:
       case 'VARIANT_GROUP':
       case 'VariantGroup':
-        return 'civic-variant-group'
+        return 'civic-variantgroup'
       case SubscribableEntities.MolecularProfile:
       case 'MOLECULAR_PROFILE':
       case 'MolecularProfile':
         return 'civic-molecularprofile'
+      case 'THERAPY':
+      case 'Therapy':
+        return 'civic-therapy'
+      case 'DISEASE':
+      case 'Disease':
+        return 'civic-disease'
       default:
         console.log('String No icon name found for ' + e)
         return 'border-outer'

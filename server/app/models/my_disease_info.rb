@@ -42,7 +42,8 @@ class MyDiseaseInfo
         'omim': data.dig('xrefs', 'omim'),
         'do_def': do_def,
         'do_def_citations': do_def_citations,
-        'mondo_def': mondo_def
+        'mondo_def': mondo_def,
+        'mondo_id': p['hits'][0].dig('mondo', 'mondo')
       }
     end
 
@@ -60,7 +61,8 @@ class MyDiseaseInfo
       'disease_ontology.xrefs.omim',
       'disease_ontology.xrefs.icd10',
       'disease_ontology.xrefs.icdo',
-      'mondo.definition'
+      'mondo.definition',
+      'mondo.mondo',
     ]
   end
 

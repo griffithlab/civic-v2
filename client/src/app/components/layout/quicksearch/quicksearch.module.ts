@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
 @NgModule({
   declarations: [CvcQuicksearchComponent],
@@ -27,6 +29,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     NzFormModule,
     NzIconModule,
     NzAutocompleteModule,
+    NzCheckboxModule,
+    NzToolTipModule,
   ],
   exports: [CvcQuicksearchComponent],
 })

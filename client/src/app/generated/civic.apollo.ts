@@ -680,6 +680,49 @@ export type BrowseMolecularProfileEdge = {
   node?: Maybe<BrowseMolecularProfile>;
 };
 
+export type BrowseOrganization = {
+  __typename: 'BrowseOrganization';
+  activityCount: Scalars['Int'];
+  childOrganizations: Array<Organization>;
+  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  memberCount: Scalars['Int'];
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  url: Scalars['String'];
+};
+
+/** The connection type for BrowseOrganization. */
+export type BrowseOrganizationConnection = {
+  __typename: 'BrowseOrganizationConnection';
+  /** A list of edges. */
+  edges: Array<BrowseOrganizationEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
+  /** A list of nodes. */
+  nodes: Array<BrowseOrganization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseOrganizationEdge = {
+  __typename: 'BrowseOrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseOrganization>;
+};
+
 export type BrowsePhenotype = {
   __typename: 'BrowsePhenotype';
   assertionCount: Scalars['Int'];
@@ -806,6 +849,70 @@ export type BrowseTherapyEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<BrowseTherapy>;
+};
+
+export type BrowseUser = {
+  __typename: 'BrowseUser';
+  acceptedLicense?: Maybe<Scalars['Boolean']>;
+  areaOfExpertise?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
+  deleted?: Maybe<Scalars['Boolean']>;
+  deletedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  displayName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  evidenceCount: Scalars['Int'];
+  facebookProfile?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  lastSeenAt?: Maybe<Scalars['ISO8601DateTime']>;
+  linkedinProfile?: Maybe<Scalars['String']>;
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  orcid?: Maybe<Scalars['String']>;
+  organizations: Array<Organization>;
+  profileImagePath?: Maybe<Scalars['String']>;
+  revisionCount: Scalars['Int'];
+  role: Scalars['String'];
+  signupComplete?: Maybe<Scalars['Boolean']>;
+  twitterHandle?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  url?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+};
+
+
+export type BrowseUserProfileImagePathArgs = {
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for BrowseUser. */
+export type BrowseUserConnection = {
+  __typename: 'BrowseUserConnection';
+  /** A list of edges. */
+  edges: Array<BrowseUserEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** The last time the data in this browse table was refreshed */
+  lastUpdated: Scalars['ISO8601DateTime'];
+  /** A list of nodes. */
+  nodes: Array<BrowseUser>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseUserEdge = {
+  __typename: 'BrowseUserEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseUser>;
 };
 
 export type BrowseVariant = {
@@ -3702,6 +3809,7 @@ export type MyDiseaseInfo = {
   icdo?: Maybe<Scalars['String']>;
   mesh?: Maybe<Scalars['String']>;
   mondoDef?: Maybe<Scalars['String']>;
+  mondoId?: Maybe<Scalars['String']>;
   ncit: Array<Scalars['String']>;
   omim?: Maybe<Scalars['String']>;
 };
@@ -4007,30 +4115,6 @@ export type OrganizationProfileImagePathArgs = {
   size?: InputMaybe<Scalars['Int']>;
 };
 
-/** The connection type for Organization. */
-export type OrganizationConnection = {
-  __typename: 'OrganizationConnection';
-  /** A list of edges. */
-  edges: Array<OrganizationEdge>;
-  /** A list of nodes. */
-  nodes: Array<Organization>;
-  /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int'];
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The total number of records in this filtered collection. */
-  totalCount: Scalars['Int'];
-};
-
-/** An edge in a connection. */
-export type OrganizationEdge = {
-  __typename: 'OrganizationEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node?: Maybe<Organization>;
-};
-
 /** Filter on organization id and whether or not to include the organization's subgroups */
 export type OrganizationFilter = {
   /** The organization ID. */
@@ -4097,7 +4181,10 @@ export type OrganizationSort = {
 };
 
 export enum OrganizationSortColumns {
+  ActivityCount = 'ACTIVITY_COUNT',
   Id = 'ID',
+  MemberCount = 'MEMBER_COUNT',
+  MostRecentActivityTimestamp = 'MOST_RECENT_ACTIVITY_TIMESTAMP',
   Name = 'NAME'
 }
 
@@ -4229,7 +4316,7 @@ export type Query = {
   organization?: Maybe<Organization>;
   organizationLeaderboards: OrganizationLeaderboards;
   /** List and filter organizations. */
-  organizations: OrganizationConnection;
+  organizations: BrowseOrganizationConnection;
   /** Find a phenotype by CIViC ID */
   phenotype?: Maybe<Phenotype>;
   /** Retrieve popover fields for a specific phenotype. */
@@ -4274,7 +4361,7 @@ export type Query = {
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
   /** List and filter users. */
-  users: UserConnection;
+  users: BrowseUserConnection;
   validateRevisionsForAcceptance: ValidationErrors;
   /** Find a variant by CIViC ID */
   variant?: Maybe<VariantInterface>;
@@ -5194,10 +5281,12 @@ export type SearchResult = {
 
 export enum SearchableEntities {
   Assertion = 'ASSERTION',
+  Disease = 'DISEASE',
   EvidenceItem = 'EVIDENCE_ITEM',
   Feature = 'FEATURE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
+  Therapy = 'THERAPY',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
@@ -6344,9 +6433,11 @@ export type UsersSort = {
 };
 
 export enum UsersSortColumns {
+  EvidenceCount = 'EVIDENCE_COUNT',
   Id = 'ID',
   LastAction = 'LAST_ACTION',
   Name = 'NAME',
+  RevisionCount = 'REVISION_COUNT',
   Role = 'ROLE'
 }
 
@@ -7299,9 +7390,9 @@ export type OrganizationsBrowseQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'OrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'OrganizationEdge', cursor: string, node?: { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, mostRecentActivityTimestamp?: any | undefined, subGroups: Array<{ __typename: 'Organization', name: string, id: number }> } | undefined }> } };
+export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'BrowseOrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', cursor: string, node?: { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
-export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, mostRecentActivityTimestamp?: any | undefined, subGroups: Array<{ __typename: 'Organization', name: string, id: number }> };
+export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'BrowseOrganization', id: number, name: string, description: string, url: string, memberCount: number, activityCount: number, mostRecentActivityTimestamp?: any | undefined, childOrganizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
 export type PhenotypePopoverQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -7563,9 +7654,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'UserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, role: string, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, role: UserRole, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }>, statsHash: { __typename: 'Stats', submittedEvidenceItems: number, revisions: number } };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, role: string, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -8450,11 +8541,11 @@ export type DiseasesSummaryQueryVariables = Exact<{
 }>;
 
 
-export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, deprecated: boolean, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined } | undefined };
+export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, deprecated: boolean, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined, mondoId?: string | undefined } | undefined } | undefined };
 
-export type MyDiseaseInfoFieldsFragment = { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined };
+export type MyDiseaseInfoFieldsFragment = { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined, mondoId?: string | undefined };
 
-export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, deprecated: boolean, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined } | undefined };
+export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string, deprecated: boolean, myDiseaseInfo?: { __typename: 'MyDiseaseInfo', diseaseOntologyExactSynonyms: Array<string>, diseaseOntologyRelatedSynonyms: Array<string>, mesh?: string | undefined, icdo?: string | undefined, icd10?: string | undefined, ncit: Array<string>, omim?: string | undefined, doDef?: string | undefined, doDefCitations: Array<string>, mondoDef?: string | undefined, mondoId?: string | undefined } | undefined };
 
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -8561,9 +8652,9 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'UserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'UserEdge', cursor: string, node?: { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, profileImagePath?: string | undefined, role: string, url?: string | undefined, areaOfExpertise?: string | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
-export type OrganizationMembersFieldsFragment = { __typename: 'User', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
+export type OrganizationMembersFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, profileImagePath?: string | undefined, role: string, url?: string | undefined, areaOfExpertise?: string | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -9604,18 +9695,18 @@ export const OrgPopoverFragmentDoc = gql`
 }
     `;
 export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
-    fragment OrganizationBrowseTableRowFields on Organization {
+    fragment OrganizationBrowseTableRowFields on BrowseOrganization {
   id
   name
   description
   url
   memberCount
-  eventCount
-  subGroups {
-    name
-    id
-  }
+  activityCount
   mostRecentActivityTimestamp
+  childOrganizations {
+    id
+    name
+  }
 }
     `;
 export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
@@ -9966,19 +10057,18 @@ export const PopoverUserFragmentDoc = gql`
 }
     `;
 export const UserBrowseTableRowFieldsFragmentDoc = gql`
-    fragment UserBrowseTableRowFields on User {
+    fragment UserBrowseTableRowFields on BrowseUser {
   id
   name
   displayName
+  username
   organizations {
     id
     name
   }
   role
-  statsHash {
-    submittedEvidenceItems
-    revisions
-  }
+  evidenceCount
+  revisionCount
   profileImagePath(size: 64)
   mostRecentActivityTimestamp
 }
@@ -10920,6 +11010,7 @@ export const MyDiseaseInfoFieldsFragmentDoc = gql`
   doDef
   doDefCitations
   mondoDef
+  mondoId
 }
     `;
 export const DiseasesSummaryFieldsFragmentDoc = gql`
@@ -11444,7 +11535,7 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
 }
     `;
 export const OrganizationMembersFieldsFragmentDoc = gql`
-    fragment OrganizationMembersFields on User {
+    fragment OrganizationMembersFields on BrowseUser {
   id
   name
   displayName

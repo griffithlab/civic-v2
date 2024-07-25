@@ -24,7 +24,8 @@ class InputAdaptors::EvidenceItemInputAdaptor
       eid_query = eid_query.where.not(id: revised_eid)
     end
 
-    if eid = eid_query.first
+    #rejected EIDs dont count towards duplicate status
+    if eid = eid_query.where(status: ['submitted', 'accepted']).first
       if eid.therapy_ids.sort == fields.therapy_ids.sort && eid.phenotype_ids.sort == fields.phenotype_ids.sort
         errors << "Existing identical Evidence Item found: EID#{eid.id}"
       end
