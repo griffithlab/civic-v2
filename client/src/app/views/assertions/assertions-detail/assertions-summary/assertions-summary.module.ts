@@ -21,9 +21,9 @@ import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attr
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
-import { CvcEmptyValueModule } from '@app/components/shared/empty-value/empty-value.module'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
