@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.1.2",
+    "@angular-devkit/core": "^18.1.2",
     "@angular-eslint/schematics": "^18.1.0",
     "@angular/cli": "^18.1.2",
     "@angular/compiler-cli": "18.1.2",
@@ -62,7 +63,9 @@
     "@graphql-codegen/typescript-operations": "^4.2.3",
     "@parcel/watcher": "^2.4.1",
     "@types/node": "^20.14.12",
+    "@typescript-eslint/utils": "^7.17.0",
     "directory-tree": "^3.5.1",
+    "eslint": "^8.56.0",
     "graphql": "^16.8.1",
     "mustache": "^4.2.0",
     "ngx-json-viewer": "^3.0.2",
