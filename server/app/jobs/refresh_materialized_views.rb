@@ -9,7 +9,9 @@ class RefreshMaterializedViews < ApplicationJob
                      MaterializedViews::SourceBrowseTableRow,
                      MaterializedViews::VariantBrowseTableRow,
                      MaterializedViews::VariantGroupBrowseTableRow,
-                     MaterializedViews::MolecularProfileBrowseTableRow
+                     MaterializedViews::MolecularProfileBrowseTableRow,
+                     MaterializedViews::UserBrowseTableRow,
+                     MaterializedViews::OrganizationBrowseTableRow
                    ]
                  elsif views == 'features_only'
                    [
@@ -21,7 +23,9 @@ class RefreshMaterializedViews < ApplicationJob
                      MaterializedViews::SourceBrowseTableRow,
                      MaterializedViews::VariantBrowseTableRow,
                      MaterializedViews::VariantGroupBrowseTableRow,
-                     MaterializedViews::MolecularProfileBrowseTableRow
+                     MaterializedViews::MolecularProfileBrowseTableRow,
+                     MaterializedViews::UserBrowseTableRow,
+                     MaterializedViews::OrganizationBrowseTableRow
                    ]
                  else
                    []
