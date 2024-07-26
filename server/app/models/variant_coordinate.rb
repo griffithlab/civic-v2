@@ -3,7 +3,7 @@ class VariantCoordinate < ApplicationRecord
 
   belongs_to :variant, touch: true
 
-  enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
+  enum reference_build: Constants::SUPPORTED_REFERENCE_BUILDS
 
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
@@ -17,16 +17,11 @@ class VariantCoordinate < ApplicationRecord
 
   validates :coordinate_type, presence: true
   validates :coordinate_type, inclusion: {
-    in: Constants::VALID_COORDINATE_TYPES,
+    in: Constants::VALID_VARIANT_COORDINATE_TYPES,
     message: "%{value} is not a valid coordinate type"
   }
 
-  enum exon_offset_direction: {
-    positive: 'positive',
-    negative: 'negative'
-  }
-
-  validates_with CoordinateValidator
+  validates_with VariantCoordinateValidator
 
   def editable_fields
     [
@@ -40,15 +35,4 @@ class VariantCoordinate < ApplicationRecord
       :representative_transcript,
     ]
   end
-
-  def formatted_offset
-    if exon_offset_direction.nil?
-      ''
-    elsif exon_offset_direction == 'positive'
-      '+'
-    elsif exon_offset_direction == 'negative'
-      '-'
-    end
-  end
-
 end

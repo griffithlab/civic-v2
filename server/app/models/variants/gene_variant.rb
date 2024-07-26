@@ -8,7 +8,7 @@ module Variants
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
 
-    def self.valid_coordinate_types
+    def self.valid_variant_coordinate_types
       [
        'Gene Variant Coordinate'
       ]

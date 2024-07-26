@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_26_152414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -444,6 +444,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
     t.integer "evidence_item_id", null: false
     t.index ["evidence_item_id"], name: "index_evidence_items_therapies_on_evidence_item_id"
     t.index ["therapy_id", "evidence_item_id"], name: "idx_therapy_eid_bridge_table"
+  end
+
+  create_table "exon_coordinates", force: :cascade do |t|
+    t.text "chromosome", null: false
+    t.enum "strand", null: false, enum_type: "exon_offset_direction"
+    t.bigint "start", null: false
+    t.bigint "stop", null: false
+    t.integer "exon", null: false
+    t.text "ensembl_id", null: false
+    t.integer "exon_offset"
+    t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
+    t.integer "ensembl_version", null: false
+    t.text "representative_transcript", null: false
+    t.integer "reference_build"
+    t.bigint "variant_id", null: false
+    t.text "coordinate_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chromosome"], name: "index_exon_coordinates_on_chromosome"
+    t.index ["representative_transcript"], name: "index_exon_coordinates_on_representative_transcript"
+    t.index ["start"], name: "index_exon_coordinates_on_start"
+    t.index ["stop"], name: "index_exon_coordinates_on_stop"
+    t.index ["variant_id"], name: "index_exon_coordinates_on_variant_id"
   end
 
   create_table "factors", force: :cascade do |t|
@@ -889,8 +912,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
     t.bigint "stop"
     t.text "reference_bases"
     t.text "variant_bases"
-    t.integer "exon_boundary"
-    t.integer "exon_offset"
     t.integer "ensembl_version"
     t.text "representative_transcript"
     t.integer "reference_build"
@@ -898,7 +919,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
     t.text "coordinate_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
     t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
     t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
     t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
@@ -1045,6 +1065,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
   add_foreign_key "evidence_items_phenotypes", "phenotypes"
   add_foreign_key "evidence_items_therapies", "evidence_items"
   add_foreign_key "evidence_items_therapies", "therapies"
+  add_foreign_key "exon_coordinates", "variants"
   add_foreign_key "feature_aliases_features", "feature_aliases"
   add_foreign_key "feature_aliases_features", "features"
   add_foreign_key "features_sources", "features"
@@ -1401,5 +1422,57 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_01_162452) do
     GROUP BY outer_variants.id, outer_variants.name, features.id, features.name;
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
+
+  create_view "organization_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT organizations.id,
+      organizations.name,
+      organizations.url,
+      organizations.description,
+      organizations.parent_id,
+      organizations.created_at,
+      organizations.updated_at,
+      organizations.most_recent_activity_timestamp,
+      count(DISTINCT activities.id) AS activity_count,
+      count(DISTINCT affiliations.user_id) AS member_count,
+      json_agg(DISTINCT jsonb_build_object('child_id', child.id, 'child_name', child.name)) FILTER (WHERE (child.id IS NOT NULL)) AS child_organizations
+     FROM (((organizations
+       LEFT JOIN activities ON ((activities.organization_id = organizations.id)))
+       LEFT JOIN affiliations ON ((affiliations.organization_id = organizations.id)))
+       LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
+    GROUP BY organizations.id;
+  SQL
+  add_index "organization_browse_table_rows", ["id"], name: "index_organization_browse_table_rows_on_id", unique: true
+
+  create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT users.id,
+      users.email,
+      users.name,
+      users.url,
+      users.username,
+      users.created_at,
+      users.updated_at,
+      users.orcid,
+      users.area_of_expertise,
+      users.deleted,
+      users.deleted_at,
+      users.role,
+      users.last_seen_at,
+      users.twitter_handle,
+      users.facebook_profile,
+      users.linkedin_profile,
+      users.accepted_license,
+      users.featured_expert,
+      users.bio,
+      users.signup_complete,
+      users.country_id,
+      users.most_recent_organization_id,
+      users.most_recent_activity_timestamp,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'revision suggested'::text)) AS revision_count,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'submitted'::text)) AS evidence_count
+     FROM (users
+       LEFT JOIN events ON ((events.originating_user_id = users.id)))
+    GROUP BY users.id;
+  SQL
+  add_index "user_browse_table_rows", ["id"], name: "index_user_browse_table_rows_on_id", unique: true
 
 end

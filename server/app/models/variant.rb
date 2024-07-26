@@ -55,7 +55,8 @@ class Variant < ApplicationRecord
   validate :correct_coordinate_type
   validates_with VariantFieldsValidator
 
-  searchkick highlight: [:name, :aliases], callbacks: :async
+  #TODO renable me
+  #searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :feature) }
 
   def self.valid_coordinate_types
@@ -97,7 +98,8 @@ class Variant < ApplicationRecord
   end
 
   def reindex_mps
-    self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
+    #TODO RENABLE ME
+    #self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 
   def on_revision_accepted

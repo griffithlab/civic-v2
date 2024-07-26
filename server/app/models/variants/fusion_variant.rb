@@ -12,10 +12,39 @@ module Variants
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
 
-    def self.valid_coordinate_types
+    has_one :five_prime_start_exon_coordinates,
+      ->() { where(coordinate_type: 'Five Prime Start Exon Coordinate') },
+      foreign_key: 'variant_id',
+      class_name: 'ExonCoordinate'
+
+    has_one :five_prime_end_exon_coordinates,
+      ->() { where(coordinate_type: 'Five Prime End Exon Coordinate') },
+      foreign_key: 'variant_id',
+      class_name: 'ExonCoordinate'
+
+    has_one :three_prime_start_exon_coordinates,
+      ->() { where(coordinate_type: 'Three Prime Start Exon Coordinate') },
+      foreign_key: 'variant_id',
+      class_name: 'ExonCoordinate'
+
+    has_one :three_prime_end_exon_coordinates,
+      ->() { where(coordinate_type: 'Three Prime End Exon Coordinate') },
+      foreign_key: 'variant_id',
+      class_name: 'ExonCoordinate'
+
+    def self.valid_variant_coordinate_types
       [
        'Five Prime Fusion Coordinate',
        'Three Prime Fusion Coordinate'
+      ]
+    end
+
+    def self.valid_exon_coordinate_types
+      [
+        'Five Prime Start Exon Coordinate',
+        'Five Prime End Exon Coordinate',
+        'Three Prime Start Exon Coordinate',
+        'Three Prime End Exon Coordinate'
       ]
     end
 

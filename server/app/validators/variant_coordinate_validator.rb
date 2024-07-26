@@ -1,4 +1,4 @@
-class CoordinateValidator < ActiveModel::Validator
+class VariantCoordinateValidator < ActiveModel::Validator
   def validate(record)
     case record.coordinate_type
     when 'Gene Variant Coordinate'
@@ -18,6 +18,14 @@ class CoordinateValidator < ActiveModel::Validator
     validate_not_present(record, :exon_offset)
     validate_not_present(record, :exon_offset_direction)
     require_transcript_and_build_for_coords(record)
+    if record.start.present?
+      validate_present(record, :stop, "You must specify a stop value if you specify a start value")
+      if record.stop.present? && record.start > record.stop
+        record.errors.add(:start, "Start coordinate must be before Stop coordinate")
+      end
+    else
+      validate_not_present(record, :stop, "You cannot specify a stop without a start.")
+    end
   end
 
   def validate_fusion_variant_coordinates(record)
