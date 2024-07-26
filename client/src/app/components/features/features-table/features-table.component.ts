@@ -42,6 +42,7 @@ export interface BrowseFeaturesTableUserFilters {
   diseaseInput?: Maybe<string>
   therapyInput?: Maybe<string>
   nameInput?: Maybe<string>
+  fullNameInput?: Maybe<string>
   aliasInput?: Maybe<string>
 }
 
@@ -89,6 +90,7 @@ export class CvcFeaturesTableComponent implements OnInit {
   diseaseInput: Maybe<string>
   therapyInput: Maybe<string>
   nameInput: Maybe<string>
+  fullNameInput: Maybe<string>
   aliasInput: Maybe<string>
   typeInput: Maybe<FeatureInstanceTypes>
 
@@ -194,6 +196,7 @@ export class CvcFeaturesTableComponent implements OnInit {
     this.queryRef
       .refetch({
         featureName: this.nameInput,
+        featureFullName: this.fullNameInput,
         featureAlias: this.aliasInput,
         diseaseName: this.diseaseInput,
         therapyName: this.therapyInput,
