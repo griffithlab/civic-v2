@@ -684,17 +684,17 @@ export type BrowseMolecularProfileEdge = {
 
 export type BrowseOrganization = {
   __typename: 'BrowseOrganization';
-  activityCount: Scalars['Int'];
+  activityCount: Scalars['Int']['output'];
   childOrganizations: Array<Organization>;
-  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
-  description: Scalars['String'];
-  id: Scalars['Int'];
-  memberCount: Scalars['Int'];
-  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
-  name: Scalars['String'];
-  parentId?: Maybe<Scalars['Int']>;
-  updatedAt?: Maybe<Scalars['ISO8601DateTime']>;
-  url: Scalars['String'];
+  createdAt?: Maybe<Scalars['ISO8601DateTime']['output']>;
+  description: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  memberCount: Scalars['Int']['output'];
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
+  name: Scalars['String']['output'];
+  parentId?: Maybe<Scalars['Int']['output']>;
+  updatedAt?: Maybe<Scalars['ISO8601DateTime']['output']>;
+  url: Scalars['String']['output'];
 };
 
 /** The connection type for BrowseOrganization. */
@@ -703,24 +703,24 @@ export type BrowseOrganizationConnection = {
   /** A list of edges. */
   edges: Array<BrowseOrganizationEdge>;
   /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  filteredCount: Scalars['Int']['output'];
   /** The last time the data in this browse table was refreshed */
-  lastUpdated: Scalars['ISO8601DateTime'];
+  lastUpdated: Scalars['ISO8601DateTime']['output'];
   /** A list of nodes. */
   nodes: Array<BrowseOrganization>;
   /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int'];
+  pageCount: Scalars['Int']['output'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The total number of records of this type, regardless of any filtering. */
-  totalCount: Scalars['Int'];
+  totalCount: Scalars['Int']['output'];
 };
 
 /** An edge in a connection. */
 export type BrowseOrganizationEdge = {
   __typename: 'BrowseOrganizationEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of the edge. */
   node?: Maybe<BrowseOrganization>;
 };
@@ -855,38 +855,58 @@ export type BrowseTherapyEdge = {
 
 export type BrowseUser = {
   __typename: 'BrowseUser';
-  acceptedLicense?: Maybe<Scalars['Boolean']>;
-  areaOfExpertise?: Maybe<Scalars['String']>;
-  bio?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
-  deleted?: Maybe<Scalars['Boolean']>;
-  deletedAt?: Maybe<Scalars['ISO8601DateTime']>;
-  displayName: Scalars['String'];
-  email?: Maybe<Scalars['String']>;
-  evidenceCount: Scalars['Int'];
-  facebookProfile?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  lastSeenAt?: Maybe<Scalars['ISO8601DateTime']>;
-  linkedinProfile?: Maybe<Scalars['String']>;
-  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
-  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
-  orcid?: Maybe<Scalars['String']>;
+  areaOfExpertise?: Maybe<AreaOfExpertise>;
+  bio?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Country>;
+  displayName: Scalars['String']['output'];
+  email?: Maybe<Scalars['String']['output']>;
+  events: EventConnection;
+  evidenceCount: Scalars['Int']['output'];
+  facebookProfile?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  linkedinProfile?: Maybe<Scalars['String']['output']>;
+  mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
+  mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentEvent?: Maybe<Event>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  /** Filterable list of notifications for the logged in user. */
+  notifications?: Maybe<NotificationConnection>;
+  orcid?: Maybe<Scalars['String']['output']>;
   organizations: Array<Organization>;
-  profileImagePath?: Maybe<Scalars['String']>;
-  revisionCount: Scalars['Int'];
-  role: Scalars['String'];
-  signupComplete?: Maybe<Scalars['Boolean']>;
-  twitterHandle?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['ISO8601DateTime']>;
-  url?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  profileImagePath?: Maybe<Scalars['String']['output']>;
+  ranks: Ranks;
+  revisionCount: Scalars['Int']['output'];
+  role: UserRole;
+  statsHash: Stats;
+  twitterHandle?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
+};
+
+
+export type BrowseUserEventsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BrowseUserNotificationsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  includeSeen?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  notificationType?: InputMaybe<NotificationReason>;
+  subscriptionId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type BrowseUserProfileImagePathArgs = {
-  size?: InputMaybe<Scalars['Int']>;
+  size?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** The connection type for BrowseUser. */
@@ -895,24 +915,24 @@ export type BrowseUserConnection = {
   /** A list of edges. */
   edges: Array<BrowseUserEdge>;
   /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  filteredCount: Scalars['Int']['output'];
   /** The last time the data in this browse table was refreshed */
-  lastUpdated: Scalars['ISO8601DateTime'];
+  lastUpdated: Scalars['ISO8601DateTime']['output'];
   /** A list of nodes. */
   nodes: Array<BrowseUser>;
   /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int'];
+  pageCount: Scalars['Int']['output'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The total number of records of this type, regardless of any filtering. */
-  totalCount: Scalars['Int'];
+  totalCount: Scalars['Int']['output'];
 };
 
 /** An edge in a connection. */
 export type BrowseUserEdge = {
   __typename: 'BrowseUserEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of the edge. */
   node?: Maybe<BrowseUser>;
 };
@@ -4115,31 +4135,6 @@ export type OrganizationMembersArgs = {
 
 export type OrganizationProfileImagePathArgs = {
   size?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The connection type for Organization. */
-export type OrganizationConnection = {
-  __typename: 'OrganizationConnection';
-  /** A list of edges. */
-  edges: Array<OrganizationEdge>;
-  /** A list of nodes. */
-  nodes: Array<Organization>;
-  /** Total number of pages, based on filtered count and pagesize. */
-  pageCount: Scalars['Int']['output'];
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The total number of records in this filtered collection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** An edge in a connection. */
-export type OrganizationEdge = {
-  __typename: 'OrganizationEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String']['output'];
-  /** The item at the end of the edge. */
-  node?: Maybe<Organization>;
 };
 
 /** Filter on organization id and whether or not to include the organization's subgroups */
@@ -7681,9 +7676,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, role: string, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, role: string, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int']['input'];
@@ -8679,9 +8674,9 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, profileImagePath?: string | undefined, role: string, url?: string | undefined, areaOfExpertise?: string | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
-export type OrganizationMembersFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, profileImagePath?: string | undefined, role: string, url?: string | undefined, areaOfExpertise?: string | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
+export type OrganizationMembersFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int']['input'];
