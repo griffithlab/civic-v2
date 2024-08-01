@@ -10,9 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_25_165912) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "exon_offset_direction", ["positive", "negative"]
+  create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
     t.text "code"
@@ -497,6 +502,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
     t.index ["state"], name: "index_flags_on_state"
   end
 
+  create_table "fusions", force: :cascade do |t|
+    t.bigint "five_prime_gene_id"
+    t.bigint "three_prime_gene_id"
+    t.enum "five_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
+    t.enum "three_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["five_prime_gene_id"], name: "index_fusions_on_five_prime_gene_id"
+    t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
+  end
+
   create_table "gene_aliases", id: :serial, force: :cascade do |t|
     t.string "name"
     t.index ["name"], name: "index_gene_aliases_on_name"
@@ -882,6 +898,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
     t.text "coordinate_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
     t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
     t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
     t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
@@ -963,6 +980,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
+    t.string "vicc_compliant_name"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -979,6 +997,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
     t.index ["stop"], name: "index_variants_on_stop"
     t.index ["stop2"], name: "index_variants_on_stop2"
     t.index ["variant_bases"], name: "index_variants_on_variant_bases"
+    t.index ["vicc_compliant_name"], name: "index_variants_on_vicc_compliant_name"
   end
 
   create_table "view_last_updated_timestamps", force: :cascade do |t|
@@ -1030,6 +1049,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
   add_foreign_key "feature_aliases_features", "features"
   add_foreign_key "features_sources", "features"
   add_foreign_key "features_sources", "sources"
+  add_foreign_key "fusions", "genes", column: "five_prime_gene_id"
+  add_foreign_key "fusions", "genes", column: "three_prime_gene_id"
   add_foreign_key "gene_aliases_genes", "gene_aliases"
   add_foreign_key "gene_aliases_genes", "genes"
   add_foreign_key "genes_sources", "genes"
@@ -1380,5 +1401,57 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_202614) do
     GROUP BY outer_variants.id, outer_variants.name, features.id, features.name;
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
+
+  create_view "organization_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT organizations.id,
+      organizations.name,
+      organizations.url,
+      organizations.description,
+      organizations.parent_id,
+      organizations.created_at,
+      organizations.updated_at,
+      organizations.most_recent_activity_timestamp,
+      count(DISTINCT activities.id) AS activity_count,
+      count(DISTINCT affiliations.user_id) AS member_count,
+      json_agg(DISTINCT jsonb_build_object('child_id', child.id, 'child_name', child.name)) FILTER (WHERE (child.id IS NOT NULL)) AS child_organizations
+     FROM (((organizations
+       LEFT JOIN activities ON ((activities.organization_id = organizations.id)))
+       LEFT JOIN affiliations ON ((affiliations.organization_id = organizations.id)))
+       LEFT JOIN organizations child ON ((child.parent_id = organizations.id)))
+    GROUP BY organizations.id;
+  SQL
+  add_index "organization_browse_table_rows", ["id"], name: "index_organization_browse_table_rows_on_id", unique: true
+
+  create_view "user_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT users.id,
+      users.email,
+      users.name,
+      users.url,
+      users.username,
+      users.created_at,
+      users.updated_at,
+      users.orcid,
+      users.area_of_expertise,
+      users.deleted,
+      users.deleted_at,
+      users.role,
+      users.last_seen_at,
+      users.twitter_handle,
+      users.facebook_profile,
+      users.linkedin_profile,
+      users.accepted_license,
+      users.featured_expert,
+      users.bio,
+      users.signup_complete,
+      users.country_id,
+      users.most_recent_organization_id,
+      users.most_recent_activity_timestamp,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'revision suggested'::text)) AS revision_count,
+      count(DISTINCT events.id) FILTER (WHERE (events.action = 'submitted'::text)) AS evidence_count
+     FROM (users
+       LEFT JOIN events ON ((events.originating_user_id = users.id)))
+    GROUP BY users.id;
+  SQL
+  add_index "user_browse_table_rows", ["id"], name: "index_user_browse_table_rows_on_id", unique: true
 
 end

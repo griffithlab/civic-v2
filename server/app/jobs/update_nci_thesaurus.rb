@@ -34,7 +34,7 @@ class UpdateNciThesaurus < ApplicationJob
   end
 
   def latest_ncit_path
-    "https://stars.renci.org/var/NCIt/ncit.obo"
+    "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/Thesaurus.FLAT.zip"
   end
 end
 
