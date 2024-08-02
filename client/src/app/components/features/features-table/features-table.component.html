@@ -54,12 +54,10 @@
           Name
         </th>
         <th
-          nzLeft
           nzWidth="70px">
           Type
         </th>
         <th
-          nzLeft
           nzWidth="200px">
           Aliases
         </th>
@@ -130,7 +128,7 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
-        <th nzLeft>
+        <th>
           <nz-select
             nzAllowClear
             nzSize="small"
@@ -148,7 +146,7 @@
             </nz-option>
           </nz-select>
         </th>
-        <th nzLeft>
+        <th>
           <cvc-clearable-input-filter
             [(inputModel)]="aliasInput"
             (inputModelChange)="
@@ -182,7 +180,7 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-feature-tag [feature]="feature"></cvc-feature-tag>
+            <cvc-feature-tag [feature]="feature!"></cvc-feature-tag>
           </td>
           <td>
             <span
@@ -192,7 +190,7 @@
               {{ feature.featureInstanceType | titlecase }}
             </span>
           </td>
-          <td nzLeft>
+          <td>
             <cvc-plain-tag-overflow
               [tags]="feature.featureAliases"
               [matchingText]="aliasInput"></cvc-plain-tag-overflow>
@@ -242,7 +240,7 @@
 <!-- card's title template -->
 <ng-template #titleTemplate>
   <ng-container *ngIf="this.cvcTitleTemplate">
-    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate!"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
