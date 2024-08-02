@@ -12,7 +12,7 @@
               nzLinkRouter
               nzType="card"
               nzSize="small"
-              [nzSelectedIndex]="selectedTabIndex">
+              [nzSelectedIndex]="selectedTabIndex ?? null">
               <nz-tab *ngFor="let tab of tabs">
                 <a
                   *nzTabLink

@@ -3,10 +3,11 @@ import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core'
 import { registerLocaleData } from '@angular/common'
 import en from '@angular/common/locales/en'
 import {
-  HttpClientModule,
-  HttpClientXsrfModule,
-  HttpClientJsonpModule,
   HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withJsonpSupport,
+  withXsrfConfiguration,
 } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { LetDirective, PushPipe } from '@ngrx/component'
@@ -32,22 +33,12 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     GraphQLModule,
-    HttpClientModule,
-    HttpClientXsrfModule,
-    HttpClientJsonpModule,
-    // LoggerModule.forRoot({
-    //   timestampFormat: 'mediumTime',
-    //   level: !environment.production
-    //     ? NgxLoggerLevel.TRACE
-    //     : NgxLoggerLevel.OFF,
-    //   enableSourceMaps: true,
-    //   serverLogLevel: NgxLoggerLevel.ERROR,
-    // }),
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
     CvcForms2Module,
@@ -56,7 +47,6 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     CvcNetworkErrorAlertModule,
   ],
   providers: [
-    CookieService,
     {
       provide: ErrorHandler,
       useClass: AppErrorHandler,
@@ -68,7 +58,11 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
       deps: [HttpClient],
       multi: true,
     },
+    provideHttpClient(
+      withInterceptorsFromDi(),
+      withJsonpSupport(),
+      withXsrfConfiguration({ cookieName: 'XSRF-TOKEN' })
+    ),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

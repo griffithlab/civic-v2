@@ -31,6 +31,8 @@ export type EvidenceFields = {
   rating$: BehaviorSubject<Maybe<number>>
   sourceId$: BehaviorSubject<Maybe<number>>
   phenotypeIds$: BehaviorSubject<Maybe<number[]>>
+  description$: BehaviorSubject<Maybe<string>>
+  comment$: BehaviorSubject<Maybe<string>>
 }
 
 export type EvidenceEnums = {
@@ -90,6 +92,8 @@ class EvidenceState extends BaseState {
       rating$: new BehaviorSubject<Maybe<number>>(def.rating),
       phenotypeIds$: new BehaviorSubject<Maybe<number[]>>(def.phenotypeIds),
       sourceId$: new BehaviorSubject<Maybe<number>>(def.sourceId),
+      description$: new BehaviorSubject<Maybe<string>>(undefined),
+      comment$: new BehaviorSubject<Maybe<string>>(undefined),
     }
 
     this.enums = {
@@ -131,7 +135,9 @@ class EvidenceState extends BaseState {
 
         this.requires.requiresDisease$.next(this.requiresDisease(et))
         this.requires.requiresTherapy$.next(this.requiresTherapy(et))
-        this.requires.requiresTherapyInteractionType$.next(this.requiresTherapy(et))
+        this.requires.requiresTherapyInteractionType$.next(
+          this.requiresTherapy(et)
+        )
         this.requires.requiresClingenCodes$.next(this.requiresClingenCodes(et))
         this.requires.requiresAcmgCodes$.next(this.requiresAcmgCodes(et))
         this.requires.allowsFdaApproval$.next(this.allowsFdaApproval(et))

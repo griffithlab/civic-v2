@@ -373,33 +373,32 @@ export type BrowseTherapyEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseUserKeySpecifier = ('acceptedLicense' | 'areaOfExpertise' | 'bio' | 'countryId' | 'createdAt' | 'deleted' | 'deletedAt' | 'displayName' | 'email' | 'evidenceCount' | 'facebookProfile' | 'id' | 'lastSeenAt' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentOrganizationId' | 'name' | 'orcid' | 'organizations' | 'profileImagePath' | 'revisionCount' | 'role' | 'signupComplete' | 'twitterHandle' | 'updatedAt' | 'url' | 'username' | BrowseUserKeySpecifier)[];
+export type BrowseUserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'evidenceCount' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'ranks' | 'revisionCount' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | BrowseUserKeySpecifier)[];
 export type BrowseUserFieldPolicy = {
-	acceptedLicense?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
-	countryId?: FieldPolicy<any> | FieldReadFunction<any>,
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleted?: FieldPolicy<any> | FieldReadFunction<any>,
-	deletedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	country?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	lastSeenAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentOrganizationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	role?: FieldPolicy<any> | FieldReadFunction<any>,
-	signupComplete?: FieldPolicy<any> | FieldReadFunction<any>,
+	statsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	twitterHandle?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
 };

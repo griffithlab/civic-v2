@@ -407,7 +407,7 @@ export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
       )
       .subscribe((e) => {
         this.isScrolling = e
-        this.cdr.detectChanges()
+        this.cdr.markForCheck()
       })
 
     // emit event from noMoreRow$ if hasNextPage false
