@@ -59,7 +59,7 @@ class Variant < ApplicationRecord
   #searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :feature) }
 
-  def self.valid_coordinate_types
+  def self.valid_variant_coordinate_types
     []
   end
 

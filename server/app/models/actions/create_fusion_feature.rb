@@ -2,9 +2,9 @@ module Actions
   class CreateFusionFeature
     include Actions::Transactional
 
-    attr_reader :feature, :originating_user, :organization_id
+    attr_reader :feature, :originating_user, :organization_id, :create_variant
 
-    def initialize(originating_user:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, organization_id: nil)
+    def initialize(originating_user:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, organization_id: nil, create_variant: true)
       feature_name = "#{construct_fusion_partner_name(five_prime_gene_id, five_prime_partner_status)}::#{construct_fusion_partner_name(three_prime_gene_id, three_prime_partner_status)}"
       fusion = Features::Fusion.create(
         five_prime_gene_id: five_prime_gene_id,
@@ -18,6 +18,7 @@ module Actions
       )
       @originating_user = originating_user
       @organization_id = organization_id
+      @create_variant = create_variant
     end
 
     def construct_fusion_partner_name(gene_id, partner_status)
@@ -68,7 +69,9 @@ module Actions
         originating_object: feature
       )
 
-      create_representative_variant
+      if create_variant
+        create_representative_variant
+      end
       events << event
     end
   end

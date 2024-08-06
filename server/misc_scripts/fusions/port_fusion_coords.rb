@@ -20,7 +20,7 @@ def create_exon_coords(variant, relation_name, coordinate_type, exon)
                       :representative_transcript2
                     end
 
-  coord = ExonCoordinate.new(
+  coord = ExonCoordinate.where(
     chromosome: exon['seq_region_name'],
     exon: exon['rank'],
     strand: strand,
@@ -30,8 +30,9 @@ def create_exon_coords(variant, relation_name, coordinate_type, exon)
     ensembl_version: variant.ensembl_version,
     representative_transcript: variant.send(transcript_name),
     reference_build: variant.reference_build,
-    coordinate_type: coordinate_type
-  )
+    coordinate_type: coordinate_type,
+    variant_id: variant.id
+  ).first_or_create
 
   rel = "#{relation_name}="
   variant.send(rel, coord)
@@ -162,6 +163,133 @@ def get_fusion_exon(transcript, position, position_type, variant)
   [e.first, nil, warning]
 end
 
+def port_variant_to_fusion(variant)
+  feature_name, possible_exons = variant.name.split(" ")
+  five_prime_gene_name, three_prime_gene_name = feature_name.split("::")
+  if five_prime_gene_name == 'v'
+    five_prime_partner_status = 'multiple'
+    five_prime_gene_id = nil
+  elsif five_prime_gene_name == '?'
+    five_prime_partner_status = 'unknown'
+    five_prime_gene_id = nil
+  else
+    five_prime_partner_status = 'known'
+    five_prime_gene_id = Features::Gene.find_by(name: five_prime_gene_name)&.id
+    if five_prime_gene_id.nil?
+      return [nil, nil]
+    end
+  end
+  if three_prime_gene_name == 'v'
+    three_prime_partner_status = 'multiple'
+    three_prime_gene_id = nil
+  elsif three_prime_gene_name == '?'
+    three_prime_partner_status = 'unknown'
+    three_prime_gene_id = nil
+  else
+    three_prime_partner_status = 'known'
+    three_prime_gene_id = Features::Gene.find_by(name: three_prime_gene_name)&.id
+    if three_prime_gene_id.nil?
+      return [nil, nil]
+    end
+  end
+
+  feature = nil
+  existing_feature_instance = Features::Fusion
+    .find_by(
+      five_prime_gene_id: five_prime_gene_id,
+      three_prime_gene_id: three_prime_gene_id,
+      five_prime_partner_status: five_prime_partner_status,
+      three_prime_partner_status: three_prime_partner_status,
+    )
+
+  if existing_feature_instance.present?
+    feature = existing_feature_instance.feature
+  else
+    variant_creation_activity = variant.creation_activity
+    if variant_creation_activity.nil?
+      originating_user = User.find(Constants::CIVICBOT_USER_ID)
+      organization_id = nil
+    else
+      originating_user = variant_creation_activity.user
+      organization_id = variant_creation_activity.organization_id
+      #TODO - handle users with multiple orgs and variant_creation_activity org id being nil
+    end
+    cmd = Activities::CreateFusionFeature.new(
+      five_prime_gene_id: five_prime_gene_id,
+      three_prime_gene_id: three_prime_gene_id,
+      five_prime_partner_status: five_prime_partner_status,
+      three_prime_partner_status: three_prime_partner_status,
+      originating_user: originating_user,
+      organization_id: organization_id,
+      create_variant: false,
+    )
+    res = cmd.perform
+
+    if res.succeeded?
+        feature = res.feature
+        #not sure if this is necessary - this would put the creation date at the time of the variant creation
+        if variant_creation_activity.present?
+          a = feature.creation_activity
+          a.created_at = variant_creation_activity.created_at
+          a.save!
+          a.events.each do |e|
+            e.created_at = variant_creation_activity.created_at
+            e.save!
+          end
+        end
+    else
+      binding.irb
+    end
+  end
+
+  variant.type = "Variants::FusionVariant"
+  variant.feature_id = feature.id
+  if possible_exons.nil?
+    variant.name = 'Fusion'
+  else
+    regex = Regexp.new(/^e(?<five_prime_exon>\d+)-e(?<three_prime_exon>\d+)$/)
+    if match = possible_exons.match(regex)
+      binding.irb
+      variant.name = "e.#{match[:five_prime_exon]}-e.#{match[:three_prime_exon]}"
+      #TODO - create matching exon and variant coordinate entries
+    else
+      #TODO - create a file to investigate what these should be named
+      variant.name = possible_exons
+    end
+  end
+  variant.save(validate: false)
+
+  [five_prime_partner_status, three_prime_partner_status]
+end
+
+def update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
+  if five_prime_partner_status == 'known'
+    five_prime_coordinate = variant.variant_coordinates.first
+    five_prime_coordinate.coordinate_type = "Five Prime Fusion Coordinate"
+    five_prime_coordinate.save
+    if three_prime_partner_status == 'known'
+      coord = VariantCoordinate.where(
+        variant: variant,
+        reference_build: variant.reference_build,
+        coordinate_type: "Three Prime Fusion Coordinate",
+        chromosome: variant.chromosome2,
+        start: variant.start2,
+        stop: variant.stop2,
+        representative_transcript: variant.representative_transcript2,
+        ensembl_version: variant.ensembl_version
+      ).first_or_create
+    end
+  elsif three_prime_partner_status == 'known'
+    three_prime_coordinate = variant.variant_coordinates.first
+    three_prime_coordinate.coordinate_type = "Three Prime Fusion Coordinate"
+    three_prime_coordinate.chromosome =  variant.chromosome2
+    three_prime_coordinate.start = variant.start2
+    three_prime_coordinate.stop = variant.stop2
+    three_prime_coordinate.representative_transcript = variant.representative_transcript2
+    three_prime_coordinate.save
+  end
+end
+
 begin
   fusions.each do |variant|
     row = [
@@ -187,6 +315,15 @@ begin
       end
 
       unmatched_coordinates_report.puts row.join("\t")
+      if variant.name.include?("::")
+        (five_prime_partner_status, three_prime_partner_status) = port_variant_to_fusion(variant)
+        if five_prime_partner_status.nil? && three_prime_partner_status.nil?
+          #TODO: capture these in a file
+          next
+        end
+        update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
+        #TODO set vicc compatible name?
+      end
       next
     end
 
@@ -307,23 +444,38 @@ begin
       end
     end
 
-    variant.type = "Variants::FusionVariant"
-    variant.save!(validate: false)
-    variant.reload
+    if variant.type == "Variants::GeneVariant"
+      (five_prime_partner_status, three_prime_partner_status) = port_variant_to_fusion(variant)
+      if five_prime_partner_status.nil? && three_prime_partner_status.nil?
+        #TODO: capture these in a file
+        next
+      end
+    end
+
+    #reload doesn't seem to work after changing variant type so this hard-refetches the variant
+    variant = Variant.find(variant.id)
+
+    update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
 
     if five_prime_start_exon
       create_exon_coords(variant, :five_prime_start_exon_coordinates, 'Five Prime Start Exon Coordinate', five_prime_start_exon)
     end
     if five_prime_stop_exon
-      create_exon_coords(variant, :five_prime_end_exon_coordinates, 'Five Prime End Exon Coordinate', five_prime_start_exon)
+      create_exon_coords(variant, :five_prime_end_exon_coordinates, 'Five Prime End Exon Coordinate', five_prime_stop_exon)
     end
     if three_prime_start_exon
-      create_exon_coords(variant, :three_prime_start_exon_coordinates, 'Three Prime Start Exon Coordinate', five_prime_start_exon)
+      create_exon_coords(variant, :three_prime_start_exon_coordinates, 'Three Prime Start Exon Coordinate', three_prime_start_exon)
     end
     if three_prime_stop_exon
-      create_exon_coords(variant, :three_prime_end_exon_coordinates, 'Three Prime End Exon Coordinate', five_prime_start_exon)
+      create_exon_coords(variant, :three_prime_end_exon_coordinates, 'Three Prime End Exon Coordinate', three_prime_stop_exon)
     end
-    variant.save!
+    variant.vicc_compliant_name = variant.generate_vicc_name
+
+    begin
+      variant.save!
+    rescue StandardError => e
+      binding.irb
+    end
 
     row << five_prime_stop_exon['rank']
     row << three_prime_start_exon['rank']
