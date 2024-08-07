@@ -1,7 +1,7 @@
 module Types::Variants
   class GeneVariantType < Types::Entities::VariantType
 
-    field :coordinates, Types::Entities::GeneVariantCoordinateType, null: true
+    field :coordinates, Types::Entities::VariantCoordinateType, null: true
     field :allele_registry_id, String, null: true
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false

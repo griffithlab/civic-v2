@@ -12,7 +12,7 @@ import {
 } from '@angular/forms'
 import {
   FeatureSelectTypeaheadFieldsFragment,
-  FusionOffsetDirection,
+  Direction,
   FusionPartnerStatus,
   Maybe,
   ReferenceBuild,
@@ -46,11 +46,11 @@ type FusionVariantSelectModel = {
   fivePrimeTranscript?: string
   fivePrimeExonEnd?: string
   fivePrimeOffset?: string
-  fivePrimeOffsetDirection?: FusionOffsetDirection
+  fivePrimeOffsetDirection?: Direction
   threePrimeTranscript?: string
   threePrimeExonStart?: string
   threePrimeOffset?: string
-  threePrimeOffsetDirection?: FusionOffsetDirection
+  threePrimeOffsetDirection?: Direction
   referenceBuild?: ReferenceBuild
   ensemblVersion?: number
   organizationId?: number
@@ -130,11 +130,11 @@ export class CvcFusionVariantSelectForm {
     const selectOptions = [
       {
         label: '+',
-        value: FusionOffsetDirection.Positive,
+        value: Direction.Positive,
       },
       {
         label: '-',
-        value: FusionOffsetDirection.Negative,
+        value: Direction.Negative,
       },
     ]
 

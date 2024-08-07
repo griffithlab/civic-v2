@@ -119,25 +119,23 @@ fragment FusionVariantSummaryFields on FusionVariant {
     }
   }
   fivePrimeCoordinates {
-    ...FusionCoordinateFields
+    ...CoordinateFields
   }
   threePrimeCoordinates {
-    ...FusionCoordinateFields
+    ...CoordinateFields
   }
-}
-
-fragment FusionCoordinateFields on FusionVariantCoordinate {
-  id
-  representativeTranscript
-  referenceBuild
-  ensemblVersion
-  exonOffset
-  exonBoundary
-  chromosome
-  start
-  stop
-  coordinateType
-  exonOffsetDirection
+  fivePrimeStartExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  fivePrimeEndExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  threePrimeStartExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  threePrimeEndExonCoordinates {
+    ...ExonCoordinateFields
+  }
 }
 
 fragment MyVariantInfoFields on MyVariantInfo {

@@ -1,8 +1,12 @@
 module Types::Variants
   class FusionVariantType < Types::Entities::VariantType
 
-    field :five_prime_coordinates, Types::Entities::FusionVariantCoordinateType, null: true
-    field :three_prime_coordinates, Types::Entities::FusionVariantCoordinateType, null: true
+    field :five_prime_coordinates, Types::Entities::VariantCoordinateType, null: false
+    field :three_prime_coordinates, Types::Entities::VariantCoordinateType, null: false
+    field :five_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
+    field :five_prime_end_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
+    field :three_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
+    field :three_prime_end_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
     field :vicc_compliant_name, String, null: false
@@ -14,6 +18,22 @@ module Types::Variants
 
     def three_prime_coordinates
       Loaders::AssociationLoader.for(Variants::FusionVariant, :three_prime_coordinates).load(object)
+    end
+
+    def five_prime_start_exon_coordinates
+      Loaders::AssociationLoader.for(Variants::FusionVariant, :five_prime_start_exon_coordinates).load(object)
+    end
+
+    def five_prime_end_exon_coordinates
+      Loaders::AssociationLoader.for(Variants::FusionVariant, :five_prime_end_exon_coordinates).load(object)
+    end
+
+    def three_prime_start_exon_coordinates
+      Loaders::AssociationLoader.for(Variants::FusionVariant, :three_prime_start_exon_coordinates).load(object)
+    end
+
+    def three_prime_end_exon_coordinates
+      Loaders::AssociationLoader.for(Variants::FusionVariant, :three_prime_end_exon_coordinates).load(object)
     end
 
     def fusion

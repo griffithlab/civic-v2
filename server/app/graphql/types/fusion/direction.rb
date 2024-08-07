@@ -1,5 +1,5 @@
 module Types::Fusion
-  class FusionOffsetDirection < Types::BaseEnum
+  class Direction < Types::BaseEnum
     value 'POSITIVE', value: 'positive'
     value 'NEGATIVE', value: 'negative'
   end

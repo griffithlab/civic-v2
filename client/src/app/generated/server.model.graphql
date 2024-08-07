@@ -1826,12 +1826,6 @@ type Contribution {
   count: Int!
 }
 
-enum CoordinateType {
-  FIVE_PRIME_FUSION_COORDINATE
-  GENE_VARIANT_COORDINATE
-  THREE_PRIME_FUSION_COORDINATE
-}
-
 type Country {
   id: Int!
   iso: String!
@@ -2345,6 +2339,11 @@ type DeprecateVariantPayload {
   The deprecated Variant.
   """
   variant: VariantInterface
+}
+
+enum Direction {
+  NEGATIVE
+  POSITIVE
 }
 
 type Disease {
@@ -3079,6 +3078,29 @@ enum EvidenceType {
   PREDICTIVE
   PREDISPOSING
   PROGNOSTIC
+}
+
+type ExonCoordinate {
+  chromosome: String
+  coordinateType: ExonCoordinateType!
+  ensemblId: String
+  ensemblVersion: Int
+  exon: Int
+  exonOffset: Int
+  exonOffsetDirection: Direction
+  id: Int!
+  referenceBuild: ReferenceBuild
+  representativeTranscript: String
+  start: Int
+  stop: Int
+  strand: Direction
+}
+
+enum ExonCoordinateType {
+  FIVE_PRIME_END_EXON_COORDINATE
+  FIVE_PRIME_START_EXON_COORDINATE
+  THREE_PRIME_END_EXON_COORDINATE
+  THREE_PRIME_START_EXON_COORDINATE
 }
 
 """
@@ -4468,11 +4490,6 @@ type FusionEdge {
   node: Fusion
 }
 
-enum FusionOffsetDirection {
-  NEGATIVE
-  POSITIVE
-}
-
 """
 The fusion partner's status and gene ID (if applicable)
 """
@@ -4584,7 +4601,9 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     sortBy: DateSort
   ): EventConnection!
   feature: Feature!
-  fivePrimeCoordinates: FusionVariantCoordinate
+  fivePrimeCoordinates: VariantCoordinate!
+  fivePrimeEndExonCoordinates: ExonCoordinate!
+  fivePrimeStartExonCoordinates: ExonCoordinate!
   flagged: Boolean!
 
   """
@@ -4712,24 +4731,12 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   ): RevisionConnection!
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
-  threePrimeCoordinates: FusionVariantCoordinate
+  threePrimeCoordinates: VariantCoordinate!
+  threePrimeEndExonCoordinates: ExonCoordinate!
+  threePrimeStartExonCoordinates: ExonCoordinate!
   variantAliases: [String!]!
   variantTypes: [VariantType!]!
   viccCompliantName: String!
-}
-
-type FusionVariantCoordinate {
-  chromosome: String
-  coordinateType: CoordinateType!
-  ensemblVersion: Int
-  exonBoundary: Int
-  exonOffset: Int
-  exonOffsetDirection: FusionOffsetDirection
-  id: Int!
-  referenceBuild: ReferenceBuild
-  representativeTranscript: String
-  start: Int
-  stop: Int
 }
 
 """
@@ -4739,7 +4746,7 @@ input FusionVariantInput {
   ensemblVersion: Int!
   fivePrimeExonEnd: Int
   fivePrimeOffset: Int
-  fivePrimeOffsetDirection: FusionOffsetDirection
+  fivePrimeOffsetDirection: Direction
   fivePrimeTranscript: String
 
   """
@@ -4748,7 +4755,7 @@ input FusionVariantInput {
   referenceBuild: ReferenceBuild
   threePrimeExonStart: Int
   threePrimeOffset: Int
-  threePrimeOffsetDirection: FusionOffsetDirection
+  threePrimeOffsetDirection: Direction
   threePrimeTranscript: String
 }
 
@@ -5109,7 +5116,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     """
     sortBy: DateSort
   ): CommentConnection!
-  coordinates: GeneVariantCoordinate
+  coordinates: VariantCoordinate
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -5279,19 +5286,6 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   singleVariantMolecularProfileId: Int!
   variantAliases: [String!]!
   variantTypes: [VariantType!]!
-}
-
-type GeneVariantCoordinate {
-  chromosome: String
-  coordinateType: CoordinateType!
-  ensemblVersion: Int
-  id: Int!
-  referenceBases: String
-  referenceBuild: ReferenceBuild
-  representativeTranscript: String
-  start: Int
-  stop: Int
-  variantBases: String
 }
 
 input GeneVariantCoordinateInput {
@@ -11163,6 +11157,25 @@ type VariantConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+}
+
+type VariantCoordinate {
+  chromosome: String
+  coordinateType: VariantCoordinateType!
+  ensemblVersion: Int
+  id: Int!
+  referenceBases: String
+  referenceBuild: ReferenceBuild
+  representativeTranscript: String
+  start: Int
+  stop: Int
+  variantBases: String
+}
+
+enum VariantCoordinateType {
+  FIVE_PRIME_FUSION_COORDINATE
+  GENE_VARIANT_COORDINATE
+  THREE_PRIME_FUSION_COORDINATE
 }
 
 enum VariantDeprecationReason {

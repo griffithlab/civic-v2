@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import {
-  CoordinateType,
+  VariantCoordinateType,
   CoordinatesCardFieldsFragment,
   CoordinatesCardGQL,
   CoordinatesCardQuery,
@@ -27,7 +27,7 @@ export class CvcCoordinatesCard implements OnInit {
   loading$?: Observable<boolean>
   variant$?: Observable<Maybe<CoordinatesCardFieldsFragment>>
 
-  coordinateTypes = CoordinateType
+  coordinateTypes = VariantCoordinateType
 
   constructor(private gql: CoordinatesCardGQL) {}
 

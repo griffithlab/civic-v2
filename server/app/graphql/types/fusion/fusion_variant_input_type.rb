@@ -5,12 +5,12 @@ module Types::Fusion
     argument :five_prime_transcript, String, required: false
     argument :five_prime_exon_end, Int, required: false
     argument :five_prime_offset, Int, required: false
-    argument :five_prime_offset_direction, Types::Fusion::FusionOffsetDirection, required: false
+    argument :five_prime_offset_direction, Types::Fusion::Direction, required: false
 
     argument :three_prime_transcript, String, required: false
     argument :three_prime_exon_start, Int, required: false
     argument :three_prime_offset, Int, required: false
-    argument :three_prime_offset_direction, Types::Fusion::FusionOffsetDirection, required: false
+    argument :three_prime_offset_direction, Types::Fusion::Direction, required: false
 
     argument :reference_build, Types::ReferenceBuildType, required: false,
       description: 'The reference build for the genomic coordinates of this Variant.'

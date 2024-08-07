@@ -9,6 +9,7 @@ import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
 
 @NgModule({
   declarations: [CvcCoordinatesCard],
@@ -18,6 +19,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
     PushPipe,
     LetDirective,
     NzCardModule,
+    NzTabsModule,
     NzDescriptionsModule,
     NzTypographyModule,
     NzGridModule,
