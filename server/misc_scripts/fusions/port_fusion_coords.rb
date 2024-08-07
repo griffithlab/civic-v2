@@ -344,7 +344,7 @@ begin
       end
 
 
-      if five_prime_strand == '-1'
+      if five_prime_strand == -1
         #<--transcript direction<----
         #stop exon-e-e-e-start_exon
         #stop_exon_start_position nnnnnnnn stop_exon_end_position-e-e-e-start_exon_start_position nnnn start_exon_end_position
@@ -402,7 +402,7 @@ begin
         next
       end
 
-      if three_prime_strand == '-1'
+      if three_prime_strand == -1
         #<--transcript direction<----
         #stop exon-e-e-e-start_exon
         #stop_exon_start_position nnnnnnnn stop_exon_end_position-e-e-e-start_exon_start_position nnnn start_exon_end_position

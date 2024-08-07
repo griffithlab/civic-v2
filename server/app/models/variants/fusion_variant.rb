@@ -13,7 +13,7 @@ module Variants
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
 
-    has_one :three_prime_cordinates,
+    has_one :three_prime_coordinates,
       ->() { where(coordinate_type: 'Three Prime Fusion Coordinate') },
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'

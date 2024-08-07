@@ -16,18 +16,17 @@ class PopulateFusionCoordinates < ApplicationJob
 
   def populate_coords(coords, secondary_coordinates)
     if coords.present? && coords.representative_transcript.present?
-      exon = get_exon_for_transcript(coords.representative_transcript, coords.exon)
-      (strand, highest_exon) = populate_exon_coordinates(coords, exon)
+      (exon, highest_exon) = get_exon_for_transcript(coords.representative_transcript, coords.exon)
+      populate_exon_coordinates(coords, exon)
 
-      if strand == '1'
-        secondary_exon = get_exon_for_transcript(secondary_coordinates.representative_transcript, 1)
+      if coords.coordinate_type =~ /Five Prime/
+        (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, 1)
         populate_exon_coordinates(secondary_coordinates, secondary_exon)
       else
-        secondary_exon = get_exon_for_transcript(secondary_coordinates.representative_transcript, highest_exon)
+        (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, highest_exon)
         populate_exon_coordinates(secondary_coordinates, secondary_exon)
       end
     end
-
   end
 
   def get_exon_for_transcript(transcript, exon_number)
@@ -49,7 +48,11 @@ class PopulateFusionCoordinates < ApplicationJob
       raise StandardError.new("No Exons Found")
     end
 
-    exon.first
+    max_exon_on_transcript = exons.select { |e| e['Parent'] == t }
+      .max_by { |e| e['rank'] }
+      .fetch('rank')
+
+    [exon.first, max_exon_on_transcript]
   end
 
   def populate_exon_coordinates(coordinates, exon)
@@ -67,18 +70,28 @@ class PopulateFusionCoordinates < ApplicationJob
     coordinates.record_state = 'fully_curated'
     coordinates.save!
 
-    [strand, exon['rank']]
+    #strand
   end
 
   def populate_representative_coordinates(coordinate, start_exon_coordinates, end_exon_coordinates)
-    if start_exon_coordinates.strand == '1'
-      coordinate.start = start_exon_coordinates.start
-      coordinate.stop = end_exon_coordinates.stop
+    if start_exon_coordinates.strand == 'positive'
+      coordinate.start = calculate_offset(start_exon_coordinates.start, start_exon_coordinates)
+      coordinate.stop = calculate_offset(end_exon_coordinates.stop, end_exon_coordinates)
     else
-      coordinate.start = end_exon_coordinates.stop
-      coordinate.stop = start_exon_coordinates.start
+      coordinate.start = calculate_offset(end_exon_coordinates.start, end_exon_coordinates)
+      coordinate.stop = calculate_offset(start_exon_coordinates.stop, start_exon_coordinates)
     end
     coordinate.record_state = 'fully_curated'
     coordinate.save!
+  end
+end
+
+def calculate_offset(pos, coords)
+  if coords.exon_offset.blank?
+    pos
+  elsif coords.exon_offset_direction == 'positive'
+    pos + coords.exon_offset
+  else
+    pos - coords.exon_offset
   end
 end
