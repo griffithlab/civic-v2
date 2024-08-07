@@ -19,29 +19,30 @@ module Types::Fusion
 
     def prepare
       five_prime_coords = if five_prime_transcript.present?
-                            VariantCoordinate.new(
-                              coordinate_type: 'Five Prime Fusion Coordinate',
+                            ExonCoordinate.new(
+                              coordinate_type: 'Five Prime End Exon Coordinate',
                               reference_build: reference_build,
                               ensembl_version: ensembl_version,
                               representative_transcript: five_prime_transcript,
                               exon_boundary: five_prime_exon_end,
                               exon_offset: five_prime_offset,
                               exon_offset_direction: five_prime_offset_direction,
-
+                              record_state: 'exons_provided'
                             )
                           else
                             nil
                           end
 
       three_prime_coords = if three_prime_transcript.present? 
-                             VariantCoordinate.new(
-                               coordinate_type: 'Three Prime Fusion Coordinate',
+                             ExonCoordinate.new(
+                               coordinate_type: 'Three Prime Start Exon Coordinate',
                                reference_build: reference_build,
                                ensembl_version: ensembl_version,
                                representative_transcript: three_prime_transcript,
                                exon_boundary: three_prime_exon_start,
                                exon_offset: three_prime_offset,
                                exon_offset_direction: three_prime_offset_direction,
+                               record_state: 'exons_provided'
                              )
                            else
                              nil

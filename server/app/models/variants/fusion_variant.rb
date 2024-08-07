@@ -2,6 +2,10 @@ module Variants
   class FusionVariant < Variant
     has_one :fusion, through: :feature, source: :feature_instance, source_type: 'Features::Fusion'
 
+    #TODO - make this
+    #validates_with FusionVariantValidator
+    #check feature partner status and corresponding stubbed coords
+
     has_many :exon_coordinates, foreign_key: 'variant_id'
 
     has_one :five_prime_coordinates,
@@ -9,7 +13,7 @@ module Variants
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
 
-    has_one :three_prime_coordinates,
+    has_one :three_prime_cordinates,
       ->() { where(coordinate_type: 'Three Prime Fusion Coordinate') },
       foreign_key: 'variant_id',
       class_name: 'VariantCoordinate'
@@ -33,6 +37,8 @@ module Variants
       ->() { where(coordinate_type: 'Three Prime End Exon Coordinate') },
       foreign_key: 'variant_id',
       class_name: 'ExonCoordinate'
+
+    after_create :populate_coordinates
 
     def self.valid_variant_coordinate_types
       [
@@ -160,6 +166,10 @@ module Variants
       if fusion.three_prime_gene.nil? && three_prime_coordinates.present?
         errors.add(:variant_coordinates, 'Cannot specify three prime coordinates if the feature lacks a three prime gene')
       end
+    end
+
+    def populate_coordinates
+      PopulateFusionCoordinates.perform_later(self)
     end
   end
 end

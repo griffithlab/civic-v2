@@ -5,6 +5,11 @@ class VariantCoordinate < ApplicationRecord
 
   enum reference_build: Constants::SUPPORTED_REFERENCE_BUILDS
 
+  enum record_state: {
+    stub: 'stub',
+    fully_curated: 'fully_curated'
+  }
+
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
     message: "only allows A,C,T,G or /"
@@ -22,6 +27,14 @@ class VariantCoordinate < ApplicationRecord
   }
 
   validates_with VariantCoordinateValidator
+
+  def self.generate_stub(variant, coordinate_type)
+    VariantCoordinate.create!(
+      variant: variant,
+      record_state: 'stub',
+      coordinate_type: coordinate_type
+    )
+  end
 
   def editable_fields
     [

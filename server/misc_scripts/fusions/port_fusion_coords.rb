@@ -45,7 +45,8 @@ missense_variants = VariantType.where(name: ['missense_variant', 'deletion', 'in
   vt.variants.where(deprecated: false).all
 end
 
-fusions = fusion_variants - missense_variants
+#fusions = fusion_variants - missense_variants
+fusions = Array(Variant.find(503))
 suspected_mps = fusion_variants.to_a.intersection(missense_variants)
 
 suspected_mps_report = File.open("fusions_that_are_mps.tsv", 'w')

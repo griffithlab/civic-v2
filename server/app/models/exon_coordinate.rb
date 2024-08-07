@@ -7,6 +7,8 @@ class ExonCoordinate < ApplicationRecord
     message: "%{value} is not a valid coordinate type"
   }
 
+  validates_with ExonCoordinateValidator
+
   enum reference_build: Constants::SUPPORTED_REFERENCE_BUILDS
 
   enum exon_offset_direction: {
@@ -18,6 +20,20 @@ class ExonCoordinate < ApplicationRecord
     positive: 'positive',
     negative: 'negative'
   }, _suffix: true
+
+  enum record_state: {
+    stub: 'stub',
+    exons_provided: 'exons_provided',
+    fully_curated: 'fully_curated'
+  }
+
+  def self.generate_stub(variant, coordinate_type)
+    ExonCoordinate.create!(
+      variant: variant,
+      record_state: 'stub',
+      coordinate_type: coordinate_type
+    )
+  end
 
   def formatted_offset
     if exon_offset_direction.nil?
