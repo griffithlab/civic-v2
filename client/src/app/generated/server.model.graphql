@@ -990,6 +990,7 @@ type BrowseFeature implements Flaggable {
     """
     state: FlagState
   ): FlagConnection!
+  fullName: String
   id: Int!
   link: String!
   molecularProfileCount: Int!
@@ -4185,6 +4186,7 @@ enum FeaturesSortColumns {
   diseaseName
   evidenceItemCount
   featureAlias
+  featureFullName
   featureName
   molecularProfileCount
   therapyName
@@ -7296,6 +7298,7 @@ type Query {
     before: String
     diseaseName: String
     featureAlias: String
+    featureFullName: String
     featureName: String
     featureType: FeatureInstanceTypes
 

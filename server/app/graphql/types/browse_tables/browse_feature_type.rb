@@ -5,6 +5,7 @@ module Types::BrowseTables
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :full_name, String, null: true
     field :link, String, null: false
     field :deprecated, Boolean, null: false
     field :description, String, null: false

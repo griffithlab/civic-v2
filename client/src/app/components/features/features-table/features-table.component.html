@@ -54,6 +54,13 @@
           Name
         </th>
         <th
+          nzWidth="150px"
+          nzLeft
+          [nzColumnKey]="sortColumns.FeatureFullName"
+          [nzSortFn]="true">
+          Full Name
+        </th>
+        <th
           nzLeft
           nzWidth="70px">
           Type
@@ -131,6 +138,13 @@
             "></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
+          <cvc-clearable-input-filter
+            [(inputModel)]="fullNameInput"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
           <nz-select
             nzAllowClear
             nzSize="small"
@@ -183,6 +197,14 @@
         <tr class="data-row">
           <td nzLeft>
             <cvc-feature-tag [feature]="feature"></cvc-feature-tag>
+          </td>
+          <td>
+            <span
+              nz-typography
+              [nzEllipsis]="true"
+              nzType="secondary">
+              {{ feature.fullName | titlecase }}
+            </span>
           </td>
           <td>
             <span

@@ -588,6 +588,7 @@ export type BrowseFeature = Flaggable & {
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  fullName?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   link: Scalars['String'];
   molecularProfileCount: Scalars['Int'];
@@ -853,33 +854,53 @@ export type BrowseTherapyEdge = {
 
 export type BrowseUser = {
   __typename: 'BrowseUser';
-  acceptedLicense?: Maybe<Scalars['Boolean']>;
-  areaOfExpertise?: Maybe<Scalars['String']>;
+  areaOfExpertise?: Maybe<AreaOfExpertise>;
   bio?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
-  deleted?: Maybe<Scalars['Boolean']>;
-  deletedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  country?: Maybe<Country>;
   displayName: Scalars['String'];
   email?: Maybe<Scalars['String']>;
+  events: EventConnection;
   evidenceCount: Scalars['Int'];
   facebookProfile?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  lastSeenAt?: Maybe<Scalars['ISO8601DateTime']>;
   linkedinProfile?: Maybe<Scalars['String']>;
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
+  mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentEvent?: Maybe<Event>;
   mostRecentOrganizationId?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  /** Filterable list of notifications for the logged in user. */
+  notifications?: Maybe<NotificationConnection>;
   orcid?: Maybe<Scalars['String']>;
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
+  ranks: Ranks;
   revisionCount: Scalars['Int'];
-  role: Scalars['String'];
-  signupComplete?: Maybe<Scalars['Boolean']>;
+  role: UserRole;
+  statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['ISO8601DateTime']>;
   url?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+
+export type BrowseUserEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type BrowseUserNotificationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  eventType?: InputMaybe<EventAction>;
+  first?: InputMaybe<Scalars['Int']>;
+  includeSeen?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['Int']>;
+  notificationType?: InputMaybe<NotificationReason>;
+  subscriptionId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -2479,6 +2500,7 @@ export enum FeaturesSortColumns {
   DiseaseName = 'diseaseName',
   EvidenceItemCount = 'evidenceItemCount',
   FeatureAlias = 'featureAlias',
+  FeatureFullName = 'featureFullName',
   FeatureName = 'featureName',
   MolecularProfileCount = 'molecularProfileCount',
   TherapyName = 'therapyName',
@@ -4467,6 +4489,7 @@ export type QueryBrowseFeaturesArgs = {
   before?: InputMaybe<Scalars['String']>;
   diseaseName?: InputMaybe<Scalars['String']>;
   featureAlias?: InputMaybe<Scalars['String']>;
+  featureFullName?: InputMaybe<Scalars['String']>;
   featureName?: InputMaybe<Scalars['String']>;
   featureType?: InputMaybe<FeatureInstanceTypes>;
   first?: InputMaybe<Scalars['Int']>;
@@ -7224,6 +7247,7 @@ export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: 
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']>;
+  featureFullName?: InputMaybe<Scalars['String']>;
   therapyName?: InputMaybe<Scalars['String']>;
   featureAlias?: InputMaybe<Scalars['String']>;
   diseaseName?: InputMaybe<Scalars['String']>;
@@ -7236,9 +7260,9 @@ export type BrowseFeaturesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseFeaturesQuery = { __typename: 'Query', browseFeatures: { __typename: 'BrowseFeatureConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseFeatureEdge', cursor: string, node?: { __typename: 'BrowseFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, featureInstanceType: FeatureInstanceTypes, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string, deprecated: boolean }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string, deprecated: boolean }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
+export type BrowseFeaturesQuery = { __typename: 'Query', browseFeatures: { __typename: 'BrowseFeatureConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseFeatureEdge', cursor: string, node?: { __typename: 'BrowseFeature', id: number, name: string, fullName?: string | undefined, link: string, deprecated: boolean, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, featureInstanceType: FeatureInstanceTypes, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string, deprecated: boolean }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string, deprecated: boolean }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
 
-export type BrowseFeaturesFieldsFragment = { __typename: 'BrowseFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, featureInstanceType: FeatureInstanceTypes, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string, deprecated: boolean }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string, deprecated: boolean }> | undefined };
+export type BrowseFeaturesFieldsFragment = { __typename: 'BrowseFeature', id: number, name: string, fullName?: string | undefined, link: string, deprecated: boolean, flagged: boolean, featureAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, molecularProfileCount: number, featureInstanceType: FeatureInstanceTypes, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string, deprecated: boolean }> | undefined, therapies?: Array<{ __typename: 'Therapy', name: string, id: number, link: string, deprecated: boolean }> | undefined };
 
 export type FlagListQueryVariables = Exact<{
   flaggable?: InputMaybe<FlaggableInput>;
@@ -7654,9 +7678,9 @@ export type UsersBrowseQueryVariables = Exact<{
 }>;
 
 
-export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, role: string, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
+export type UsersBrowseQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> } | undefined }> } };
 
-export type UserBrowseTableRowFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, role: string, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
+export type UserBrowseTableRowFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, role: UserRole, evidenceCount: number, revisionCount: number, profileImagePath?: string | undefined, mostRecentActivityTimestamp?: any | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string }> };
 
 export type VariantGroupPopoverQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -8652,9 +8676,9 @@ export type OrganizationMembersQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, profileImagePath?: string | undefined, role: string, url?: string | undefined, areaOfExpertise?: string | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
+export type OrganizationMembersQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', cursor: string, node?: { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> } | undefined }> } };
 
-export type OrganizationMembersFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username?: string | undefined, profileImagePath?: string | undefined, role: string, url?: string | undefined, areaOfExpertise?: string | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
+export type OrganizationMembersFieldsFragment = { __typename: 'BrowseUser', id: number, name?: string | undefined, displayName: string, username: string, profileImagePath?: string | undefined, role: UserRole, url?: string | undefined, areaOfExpertise?: AreaOfExpertise | undefined, orcid?: string | undefined, twitterHandle?: string | undefined, facebookProfile?: string | undefined, linkedinProfile?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, url: string }> };
 
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -9457,6 +9481,7 @@ export const BrowseFeaturesFieldsFragmentDoc = gql`
     fragment BrowseFeaturesFields on BrowseFeature {
   id
   name
+  fullName
   link
   deprecated
   flagged
@@ -12394,9 +12419,10 @@ export const FeaturePopoverDocument = gql`
     }
   }
 export const BrowseFeaturesDocument = gql`
-    query BrowseFeatures($featureName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseFeatures($featureName: String, $featureFullName: String, $therapyName: String, $featureAlias: String, $diseaseName: String, $featureType: FeatureInstanceTypes, $sortBy: FeaturesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseFeatures(
     featureName: $featureName
+    featureFullName: $featureFullName
     therapyName: $therapyName
     featureAlias: $featureAlias
     diseaseName: $diseaseName

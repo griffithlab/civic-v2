@@ -10,6 +10,7 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
   scope { MaterializedViews::FeatureBrowseTableRow.all }
 
   option(:feature_name, type: String) { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
+  option(:feature_full_name, type: String) { |scope, value| scope.where("full_name ILIKE ?", "#{value}%") }
   option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:therapy_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
@@ -25,6 +26,8 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
     case value.column
     when "featureName"
       scope.order "feature_browse_table_rows.name #{value.direction}"
+    when "featureFullName"
+      scope.order "feature_browse_table_rows.full_name #{value.direction}"
     when "therapyName"
       scope.order "drug_names #{value.direction}"
     when "geneAlias"
