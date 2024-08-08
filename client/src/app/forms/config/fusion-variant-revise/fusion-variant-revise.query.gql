@@ -1,0 +1,53 @@
+query FusionVariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    ... on FusionVariant  {
+      ...RevisableFusionVariantFields
+    }
+  }
+}
+
+fragment RevisableFusionVariantFields on FusionVariant {
+  name
+  feature {
+    id
+    name
+    link
+    deprecated
+    flagged
+    featureInstance {
+      ... on Fusion {
+        fivePrimePartnerStatus
+        threePrimePartnerStatus
+      }
+    }
+  }
+  hgvsDescriptions
+  variantAliases
+  variantTypes {
+    id
+    name
+    soid
+  }
+  fivePrimeEndExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  threePrimeStartExonCoordinates {
+    ...ExonCoordinateFields
+  }
+}
+
+#TODO - Make this for fusions server side
+mutation SuggestFusionVariantRevision($input: SuggestFactorVariantRevisionInput!) {
+  suggestFactorVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+    }
+    results {
+      id
+      fieldName
+      newlyCreated
+    }
+  }
+}

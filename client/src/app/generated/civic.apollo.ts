@@ -8188,6 +8188,22 @@ export type SuggestFactorVariantRevisionMutationVariables = Exact<{
 
 export type SuggestFactorVariantRevisionMutation = { __typename: 'Mutation', suggestFactorVariantRevision?: { __typename: 'SuggestFactorVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'FactorVariant', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
 
+export type FusionVariantRevisableFieldsQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type FusionVariantRevisableFieldsQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant', id: number } | { __typename: 'FusionVariant', id: number, name: string, hgvsDescriptions: Array<string>, variantAliases: Array<string>, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus } | { __typename: 'Gene' } }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, fivePrimeEndExonCoordinates: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType }, threePrimeStartExonCoordinates: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType } } | { __typename: 'GeneVariant', id: number } | { __typename: 'Variant', id: number } | undefined };
+
+export type RevisableFusionVariantFieldsFragment = { __typename: 'FusionVariant', name: string, hgvsDescriptions: Array<string>, variantAliases: Array<string>, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion', fivePrimePartnerStatus: FusionPartnerStatus, threePrimePartnerStatus: FusionPartnerStatus } | { __typename: 'Gene' } }, variantTypes: Array<{ __typename: 'VariantType', id: number, name: string, soid: string }>, fivePrimeEndExonCoordinates: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType }, threePrimeStartExonCoordinates: { __typename: 'ExonCoordinate', referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, chromosome?: string | undefined, representativeTranscript?: string | undefined, start?: number | undefined, stop?: number | undefined, exon?: number | undefined, exonOffset?: number | undefined, exonOffsetDirection?: Direction | undefined, ensemblId?: string | undefined, strand?: Direction | undefined, coordinateType: ExonCoordinateType } };
+
+export type SuggestFusionVariantRevisionMutationVariables = Exact<{
+  input: SuggestFactorVariantRevisionInput;
+}>;
+
+
+export type SuggestFusionVariantRevisionMutation = { __typename: 'Mutation', suggestFactorVariantRevision?: { __typename: 'SuggestFactorVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'FactorVariant', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
+
 export type GeneRevisableFieldsQueryVariables = Exact<{
   featureId: Scalars['Int'];
 }>;
@@ -10512,6 +10528,37 @@ export const RevisableFactorVariantFieldsFragmentDoc = gql`
   ncitId
 }
     `;
+export const RevisableFusionVariantFieldsFragmentDoc = gql`
+    fragment RevisableFusionVariantFields on FusionVariant {
+  name
+  feature {
+    id
+    name
+    link
+    deprecated
+    flagged
+    featureInstance {
+      ... on Fusion {
+        fivePrimePartnerStatus
+        threePrimePartnerStatus
+      }
+    }
+  }
+  hgvsDescriptions
+  variantAliases
+  variantTypes {
+    id
+    name
+    soid
+  }
+  fivePrimeEndExonCoordinates {
+    ...ExonCoordinateFields
+  }
+  threePrimeStartExonCoordinates {
+    ...ExonCoordinateFields
+  }
+}
+    ${ExonCoordinateFieldsFragmentDoc}`;
 export const RevisableGeneFieldsFragmentDoc = gql`
     fragment RevisableGeneFields on Feature {
   id
@@ -14754,6 +14801,53 @@ export const SuggestFactorVariantRevisionDocument = gql`
   })
   export class SuggestFactorVariantRevisionGQL extends Apollo.Mutation<SuggestFactorVariantRevisionMutation, SuggestFactorVariantRevisionMutationVariables> {
     document = SuggestFactorVariantRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FusionVariantRevisableFieldsDocument = gql`
+    query FusionVariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    ... on FusionVariant {
+      ...RevisableFusionVariantFields
+    }
+  }
+}
+    ${RevisableFusionVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FusionVariantRevisableFieldsGQL extends Apollo.Query<FusionVariantRevisableFieldsQuery, FusionVariantRevisableFieldsQueryVariables> {
+    document = FusionVariantRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestFusionVariantRevisionDocument = gql`
+    mutation SuggestFusionVariantRevision($input: SuggestFactorVariantRevisionInput!) {
+  suggestFactorVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+    }
+    results {
+      id
+      fieldName
+      newlyCreated
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestFusionVariantRevisionGQL extends Apollo.Mutation<SuggestFusionVariantRevisionMutation, SuggestFusionVariantRevisionMutationVariables> {
+    document = SuggestFusionVariantRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

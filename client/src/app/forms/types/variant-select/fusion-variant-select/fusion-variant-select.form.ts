@@ -60,6 +60,20 @@ export interface FusionVariantSelectModalData {
   feature?: FeatureSelectTypeaheadFieldsFragment
 }
 
+export const directionSelectOptions = [
+  {
+    label: '+',
+    value: Direction.Positive,
+  },
+  {
+    label: '-',
+    value: Direction.Negative,
+  },
+]
+
+export const isNumeric = (c: AbstractControl) =>
+  c.value ? /^\d+$/.test(c.value) : true
+
 @UntilDestroy()
 @Component({
   standalone: true,
@@ -123,20 +137,6 @@ export class CvcFusionVariantSelectForm {
       organizationId: undefined,
     }
     this.options = {}
-
-    const isNumeric = (c: AbstractControl) =>
-      c.value ? /^\d+$/.test(c.value) : true
-
-    const selectOptions = [
-      {
-        label: '+',
-        value: Direction.Positive,
-      },
-      {
-        label: '-',
-        value: Direction.Negative,
-      },
-    ]
 
     let fivePrimeDisabled = false
     let threePrimeDisabled = false
@@ -228,7 +228,7 @@ export class CvcFusionVariantSelectForm {
                       },
                     },
                     props: {
-                      label: "5' Exon End",
+                      label: "5' End Exon",
                       required: !fivePrimeDisabled,
                       disabled: fivePrimeDisabled,
                       tooltip:
@@ -261,7 +261,7 @@ export class CvcFusionVariantSelectForm {
                         'Negative values offset towards the 5’ end of the transcript and positive values offset towards the 3’ end of the transcript.',
                       required: true,
                       placeholder: "5' Offset Direction",
-                      options: selectOptions,
+                      options: directionSelectOptions,
                       multiple: false,
                     },
                     expressions: {
@@ -302,7 +302,7 @@ export class CvcFusionVariantSelectForm {
                       },
                     },
                     props: {
-                      label: "3' Exon Start",
+                      label: "3' Start Exon",
                       tooltip:
                         'The exon number counted from the 5’ end of the transcript.',
                       required: !threePrimeDisabled,
@@ -335,7 +335,7 @@ export class CvcFusionVariantSelectForm {
                         'Negative values offset towards the 5’ end of the transcript and positive values offset towards the 3’ end of the transcript.',
                       required: true,
                       placeholder: "3' Offset Direction",
-                      options: selectOptions,
+                      options: directionSelectOptions,
                       multiple: false,
                     },
                     expressions: {
