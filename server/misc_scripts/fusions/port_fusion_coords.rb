@@ -32,6 +32,7 @@ def create_exon_coords(variant, relation_name, coordinate_type, exon)
     reference_build: variant.reference_build,
     coordinate_type: coordinate_type,
     variant_id: variant.id
+    #TODO set curation status
   ).first_or_create
 
   rel = "#{relation_name}="
@@ -278,6 +279,7 @@ def update_variant_coordinates(variant, five_prime_partner_status, three_prime_p
         stop: variant.stop2,
         representative_transcript: variant.representative_transcript2,
         ensembl_version: variant.ensembl_version
+        #TODO: set curation status
       ).first_or_create
     end
   elsif three_prime_partner_status == 'known'
@@ -323,6 +325,7 @@ begin
           next
         end
         update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
+        #TODO create stub exon coordinates
         #TODO set vicc compatible name?
       end
       next
