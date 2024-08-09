@@ -15,10 +15,17 @@ module Types::Entities
       description: 'The profile name with its constituent parts as objects, suitable for building tags.'
     field :variants, [Types::Interfaces::VariantInterface], null: false,
       description: 'The collection of variants included in this molecular profile. Please note the name for their relation to each other.'
-    field :assertions, Types::Entities::AssertionType.connection_type, null: false,
-      description: 'The collection of assertions associated with this molecular profile.'
-    field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false,
-      description: 'The collection of evidence items associated with this molecular profile.'
+
+    field :assertions, Types::Entities::AssertionType.connection_type, null: false do
+      description 'The collection of assertions associated with this molecular profile.'
+      argument :include_rejected, Boolean, required: false
+    end
+
+    field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false do
+      description 'The collection of evidence items associated with this molecular profile.'
+      argument :include_rejected, Boolean, required: false
+    end
+
     field :sources, [Types::Entities::SourceType], null: false
     field :description, String, null: true
     field :molecular_profile_aliases, [String], null: false
@@ -77,12 +84,24 @@ module Types::Entities
       Loaders::AssociationLoader.for(MolecularProfile, :complex_molecular_profile_creation_activity).load(object)
     end
 
-    def assertions
-      Loaders::AssociationLoader.for(MolecularProfile, :assertions).load(object)
+    def assertions(include_rejected: false)
+      Loaders::AssociationLoader.for(MolecularProfile, :assertions).load(object).then do |a|
+        if include_rejected
+          a
+        else
+          a.reject { |x| x.status == 'rejected' }
+        end
+      end
     end
 
-    def evidence_items
-      Loaders::AssociationLoader.for(MolecularProfile, :evidence_items).load(object)
+    def evidence_items(include_rejected: false)
+      Loaders::AssociationLoader.for(MolecularProfile, :evidence_items).load(object).then do |a|
+        if include_rejected
+          a
+        else
+          a.reject { |eid| eid.status == 'rejected' }
+        end
+      end
     end
 
     def sources
