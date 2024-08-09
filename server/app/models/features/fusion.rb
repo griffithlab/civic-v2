@@ -33,17 +33,19 @@ module Features
     end
 
     def partner_status_valid_for_gene_ids
-      [self.five_prime_gene, self.three_prime_gene].zip([self.five_prime_partner_status, self.three_prime_partner_status], [:five_prime_gene, :three_prime_gene]).each do |gene, status, fk|
-        if gene.nil? && status == 'known'
-          errors.add(fk, "Partner status cannot be 'known' if the gene isn't set")
-        elsif !gene.nil? && status != 'known'
-          errors.add(fk, "Partner status has to be 'known' if gene is set")
+      if !self.in_revision_validation_context
+        [self.five_prime_gene, self.three_prime_gene].zip([self.five_prime_partner_status, self.three_prime_partner_status], [:five_prime_gene, :three_prime_gene]).each do |gene, status, fk|
+          if gene.nil? && status == 'known'
+            errors.add(fk, "Partner status cannot be 'known' if the gene isn't set")
+          elsif !gene.nil? && status != 'known'
+            errors.add(fk, "Partner status has to be 'known' if gene is set")
+          end
         end
       end
     end
 
     def at_least_one_gene_id
-      if self.five_prime_gene_id.nil? && self.three_prime_gene_id.nil?
+      if !self.in_revision_validation_context && self.five_prime_gene_id.nil? && self.three_prime_gene_id.nil?
         errors.add(:base, "One or both of the genes need to be set")
       end
     end
@@ -55,7 +57,8 @@ module Features
     def editable_fields
       [
         :description,
-        :source_ids
+        :source_ids,
+        :feature_alias_ids
       ]
     end
 

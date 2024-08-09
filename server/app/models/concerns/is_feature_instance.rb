@@ -2,7 +2,7 @@ module IsFeatureInstance
   extend ActiveSupport::Concern
 
   included do
-    has_one :feature, as: :feature_instance, touch: true, autosave: true
+    has_one :feature, as: :feature_instance, touch: true, autosave: true, inverse_of: :feature_instance
 
     delegate_missing_to :feature
 

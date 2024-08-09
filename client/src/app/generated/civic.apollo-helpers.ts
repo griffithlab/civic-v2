@@ -1373,7 +1373,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1402,6 +1402,7 @@ export type MutationFieldPolicy = {
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestFactorRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestFactorVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestFusionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestMolecularProfileRevision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2024,6 +2025,12 @@ export type SuggestFactorVariantRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SuggestFusionRevisionPayloadKeySpecifier = ('clientMutationId' | 'fusion' | 'results' | SuggestFusionRevisionPayloadKeySpecifier)[];
+export type SuggestFusionRevisionPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	fusion?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SuggestGeneRevisionPayloadKeySpecifier = ('clientMutationId' | 'gene' | 'results' | SuggestGeneRevisionPayloadKeySpecifier)[];
 export type SuggestGeneRevisionPayloadFieldPolicy = {
@@ -3099,6 +3106,10 @@ export type StrictTypedTypePolicies = {
 	SuggestFactorVariantRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestFactorVariantRevisionPayloadKeySpecifier | (() => undefined | SuggestFactorVariantRevisionPayloadKeySpecifier),
 		fields?: SuggestFactorVariantRevisionPayloadFieldPolicy,
+	},
+	SuggestFusionRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestFusionRevisionPayloadKeySpecifier | (() => undefined | SuggestFusionRevisionPayloadKeySpecifier),
+		fields?: SuggestFusionRevisionPayloadFieldPolicy,
 	},
 	SuggestGeneRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestGeneRevisionPayloadKeySpecifier | (() => undefined | SuggestGeneRevisionPayloadKeySpecifier),

@@ -1,0 +1,37 @@
+<cvc-form-submission-status-display
+  [redirectUrl]="this.url"
+  [mutationState]="this.mutationState"
+  entityType="Feature"
+  [successMessage]="success">
+  <ng-template #success>
+    Revision(s) submitted! You will be redirected to the Revisions page or can
+    view them <a href="{{this.url}}">here.</a>
+  </ng-template>
+  <form
+    *ngIf="model; else loadingModel"
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(model)">
+    <formly-form
+      [form]="form"
+      [fields]="fields"
+      [model]="model"
+      [options]="{}"
+      (modelChange)="model = $event">
+    </formly-form>
+  </form>
+  <ng-template #loadingModel> Loading Factor... </ng-template>
+</cvc-form-submission-status-display>
+<!-- <nz-row style="background-color: #eef">
+  <nz-col nzSpan="12">
+    <h4>evidence-revise.form.html Model</h4>
+    <ngx-json-viewer [json]="model"></ngx-json-viewer>
+  </nz-col>
+  <nz-col nzSpan="12">
+    <h4>Form</h4>
+    <pre>
+touched: {{ form.touched }}
+    </pre>
+  </nz-col>
+</nz-row> -->
