@@ -59,7 +59,6 @@ class Mutations::SuggestFusionRevision < Mutations::MutationWithOrg
       fusion_input_object: fields,
     ).perform
     revised_objs = Activities::RevisedObjectPair.new(existing_obj: fusion, updated_obj: updated_fusion)
-    binding.irb
 
     cmd = Activities::SuggestRevisionSet.new(
       revised_objects: revised_objs,
