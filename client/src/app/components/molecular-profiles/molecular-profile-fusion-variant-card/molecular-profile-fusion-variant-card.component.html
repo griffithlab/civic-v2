@@ -74,48 +74,6 @@
                 </ng-template>
               </nz-descriptions-item>
 
-              <!-- clinvar ids-->
-              <nz-descriptions-item
-                [nzSpan]="2"
-                [nzTitle]="
-                  variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'
-                ">
-                <ng-container
-                  *ngIf="variant.clinvarIds.length > 0; else noClinvarIds">
-                  <cvc-tag-list
-                    *ngIf="
-                      variant.clinvarIds[0] !== 'N/A';
-                      else clinvarNotApplicable
-                    ">
-                    <ng-container *ngFor="let id of variant.clinvarIds">
-                      <cvc-link-tag
-                        [href]="
-                          'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id
-                        "
-                        tooltip="View on ClinVar">
-                        {{ id }}
-                      </cvc-link-tag>
-                    </ng-container>
-                  </cvc-tag-list>
-                </ng-container>
-
-                <ng-template #clinvarNotApplicable>
-                  <span
-                    nz-typography
-                    nzType="secondary"
-                    >N/A</span
-                  >
-                </ng-template>
-
-                <ng-template #noClinvarIds>
-                  <span
-                    nz-typography
-                    nzType="secondary"
-                    >None provided</span
-                  >
-                </ng-template>
-              </nz-descriptions-item>
-
               <nz-descriptions-item
                 [nzSpan]="4"
                 *ngIf="this.displayMps.length > 0"
