@@ -38,7 +38,7 @@ module Variants
       foreign_key: 'variant_id',
       class_name: 'ExonCoordinate'
 
-    after_create :populate_coordinates
+    after_create_commit :populate_coordinates
 
     def self.valid_variant_coordinate_types
       [

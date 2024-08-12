@@ -12,6 +12,9 @@ class PopulateFusionCoordinates < ApplicationJob
       populate_coords(variant.three_prime_start_exon_coordinates, variant.three_prime_end_exon_coordinates)
       populate_representative_coordinates(variant.three_prime_coordinates, variant.three_prime_start_exon_coordinates, variant.three_prime_end_exon_coordinates)
     end
+  rescue StandardError => e
+    flag_variant(variant, e.message)
+    raise StandardError.new(e.message)
   end
 
   def populate_coords(coords, secondary_coordinates)
@@ -84,14 +87,33 @@ class PopulateFusionCoordinates < ApplicationJob
     coordinate.record_state = 'fully_curated'
     coordinate.save!
   end
-end
 
-def calculate_offset(pos, coords)
-  if coords.exon_offset.blank?
-    pos
-  elsif coords.exon_offset_direction == 'positive'
-    pos + coords.exon_offset
-  else
-    pos - coords.exon_offset
+  def calculate_offset(pos, coords)
+    if coords.exon_offset.blank?
+      pos
+    elsif coords.exon_offset_direction == 'positive'
+      pos + coords.exon_offset
+    else
+      pos - coords.exon_offset
+    end
+  end
+
+  def flag_variant(variant, error_message)
+    existing_flag = variant.flags.includes(:open_activity)
+      .where(state: 'open')
+      .select { |f| f.open_activity.note == error_message && f.open_activity.user_id == Constants::CIVICBOT_USER_ID }
+      .any?
+
+    if !existing_flag
+      civicbot_user = User.find(Constants::CIVICBOT_USER_ID)
+
+     cmd = Activities::FlagEntity.new(
+        flagging_user: civicbot_user,
+        flaggable: variant,
+        organization_id: nil,
+        note: error_message
+      ).perform
+    end
   end
 end
+
