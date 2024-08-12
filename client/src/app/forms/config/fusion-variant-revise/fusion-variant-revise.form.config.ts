@@ -7,6 +7,7 @@ import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wr
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-button/org-submit-button.type'
 import {
   directionSelectOptions,
+  isEnsemblTranscript,
   isNumeric,
 } from '@app/forms/types/variant-select/fusion-variant-select/fusion-variant-select.form'
 import { AbstractControl } from '@angular/forms'
@@ -129,6 +130,13 @@ function formFieldConfig(
                             tooltip:
                               "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 5' exon you have selected",
                           },
+                          validators: {
+                            isTranscriptId: {
+                              expression: isEnsemblTranscript,
+                              message:
+                                "5' Transcript must be a valid, human, versioned, Ensembl transcript ID",
+                            },
+                          },
                         },
                         {
                           key: 'fivePrimeExonEnd',
@@ -202,6 +210,13 @@ function formFieldConfig(
                             label: "3' Transcript",
                             tooltip:
                               "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 3' exon you have selected",
+                          },
+                          validators: {
+                            isTranscriptId: {
+                              expression: isEnsemblTranscript,
+                              message:
+                                "3' Transcript must be a valid, human, versioned, Ensembl transcript ID",
+                            },
                           },
                         },
                         {

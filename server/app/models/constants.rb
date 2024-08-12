@@ -132,4 +132,7 @@ module Constants
   ].flatten
 
   CIVICBOT_USER_ID = 385
+
+  # http://useast.ensembl.org/info/genome/stable_ids/index.html
+  ENSEMBL_TRANSCRIPT_ID_FORMAT = /\AENST\d{11}\.\d{1,2}\z/
 end

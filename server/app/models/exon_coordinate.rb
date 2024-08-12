@@ -7,6 +7,11 @@ class ExonCoordinate < ApplicationRecord
     message: "%{value} is not a valid coordinate type"
   }
 
+  validates :representative_transcript, format: {
+    with: Constants::ENSEMBL_TRANSCRIPT_ID_FORMAT,
+    message: "must be a valid, versioned, human, Ensembl transcript ID"
+  }, allow_nil: true
+
   validates_with ExonCoordinateValidator
 
   enum reference_build: Constants::SUPPORTED_REFERENCE_BUILDS

@@ -7,6 +7,7 @@ import { CvcFormLayoutWrapperProps } from '@app/forms/wrappers/form-layout/form-
 import { FormlyFieldConfig } from '@ngx-formly/core'
 import { CvcFormRowWrapperProps } from '@app/forms/wrappers/form-row/form-row.wrapper'
 import { CvcOrgSubmitButtonFieldConfig } from '@app/forms/types/org-submit-button/org-submit-button.type'
+import { isEnsemblTranscript } from '@app/forms/types/variant-select/fusion-variant-select/fusion-variant-select.form'
 
 const formFieldConfig: FormlyFieldConfig[] = [
   {
@@ -242,6 +243,13 @@ const formFieldConfig: FormlyFieldConfig[] = [
                           label: 'Representative Transcript',
                           description:
                             'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
+                        },
+                        validators: {
+                          isTranscriptId: {
+                            expression: isEnsemblTranscript,
+                            message:
+                              'Representative Transcript must be a valid, human, versioned, Ensembl transcript ID',
+                          },
                         },
                       },
                     ],

@@ -74,6 +74,10 @@ export const directionSelectOptions = [
 export const isNumeric = (c: AbstractControl) =>
   c.value ? /^\d+$/.test(c.value) : true
 
+export const isEnsemblTranscript = (c: AbstractControl) => {
+  return c.value ? /ENST\d{11}\.\d{1,2}/.test(c.value) : true
+}
+
 @UntilDestroy()
 @Component({
   standalone: true,
@@ -217,6 +221,13 @@ export class CvcFusionVariantSelectForm {
                       tooltip:
                         "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 5' exon you have selected",
                     },
+                    validators: {
+                      isTranscriptId: {
+                        expression: isEnsemblTranscript,
+                        message:
+                          "5' Transcript must be a valid, human, versioned, Ensembl transcript ID",
+                      },
+                    },
                   },
                   {
                     key: 'fivePrimeExonEnd',
@@ -290,6 +301,13 @@ export class CvcFusionVariantSelectForm {
                       label: "3' Transcript",
                       tooltip:
                         "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 3' exon you have selected",
+                    },
+                    validators: {
+                      isTranscriptId: {
+                        expression: isEnsemblTranscript,
+                        message:
+                          "5' Transcript must be a valid, human, versioned, Ensembl transcript ID",
+                      },
                     },
                   },
                   {
