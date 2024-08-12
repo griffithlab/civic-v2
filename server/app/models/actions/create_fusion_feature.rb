@@ -32,15 +32,20 @@ module Actions
     end
 
     def create_representative_variant
+      variant_name = if five_prime_partner_status == 'unknown' || three_prime_partner_status == 'unknown'
+                       'Rearrangement'
+                     else
+                       'Fusion'
+                     end
       stubbed_variant = Variants::FusionVariant.new(
         feature: feature,
-        name: 'Fusion'
+        name: variant_name
       )
 
       vicc_compliant_name = stubbed_variant.generate_vicc_name
 
       cmd = Actions::CreateVariant.new(
-        variant_name: 'Fusion',
+        variant_name: variant_name,
         feature_id: feature.id,
         originating_user: originating_user,
         organization_id: organization_id,

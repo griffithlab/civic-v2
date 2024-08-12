@@ -75,6 +75,8 @@ module Variants
     def mp_name
       if name == 'Fusion'
         "#{feature.name} Fusion"
+      elsif name == 'Rearrangement'
+        "#{feature.name} Rearrangement"
       else
         [
           construct_five_prime_name(name_type: :molecular_profile),
@@ -85,7 +87,7 @@ module Variants
     end
 
     def generate_vicc_name
-      if name == 'Fusion'
+      if name == 'Fusion' || name == 'Rearrangement'
         "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
       else
         "#{construct_five_prime_name(name_type: :vicc)}::#{construct_three_prime_name(name_type: :vicc)}"
@@ -93,7 +95,7 @@ module Variants
     end
 
     def generate_name
-      if name == 'Fusion'
+      if name == 'Fusion' || name == 'Rearrangement'
         name
       else
         [
