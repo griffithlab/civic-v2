@@ -4532,8 +4532,6 @@ enum FusionPartnerStatus {
 }
 
 type FusionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
-  clinvarIds: [String!]!
-
   """
   List and filter comments.
   """
@@ -4671,7 +4669,6 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     state: FlagState
   ): FlagConnection!
   fusion: Fusion!
-  hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event

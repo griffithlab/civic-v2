@@ -56,33 +56,6 @@
                 >
               </ng-template>
             </nz-descriptions-item>
-
-            <!-- HGVS descriptions -->
-            <nz-descriptions-item
-              [nzTitle]="
-                variant.hgvsDescriptions.length > 1
-                  ? 'HGVS Descriptions'
-                  : 'HGVS Description'
-              ">
-              <ng-container
-                *ngIf="
-                  variant.hgvsDescriptions.length > 0;
-                  else noDescriptions
-                ">
-                <cvc-tag-list>
-                  <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{
-                    desc
-                  }}</nz-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noDescriptions>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
       </nz-row>

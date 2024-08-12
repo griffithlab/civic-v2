@@ -98,8 +98,6 @@ fragment GeneVariantSummaryFields on GeneVariant {
 
 fragment FusionVariantSummaryFields on FusionVariant {
   viccCompliantName
-  hgvsDescriptions
-  clinvarIds
   fusion {
     fivePrimePartnerStatus
     fivePrimeGene {
