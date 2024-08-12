@@ -41,11 +41,4 @@ class ExonCoordinateValidator < ActiveModel::Validator
     validate_present(record, :stop)
     validate_present(record, :ensembl_id)
   end
-
-  def validate_gene_variant_coordinates(record)
-    validate_not_present(record, :exon_boundary)
-    validate_not_present(record, :exon_offset)
-    validate_not_present(record, :exon_offset_direction)
-    require_transcript_and_build_for_coords(record)
-  end
 end

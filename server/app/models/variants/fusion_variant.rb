@@ -111,7 +111,6 @@ module Variants
             name_type: name_type,
             partner_status: fusion.five_prime_partner_status,
             gene: fusion.five_prime_gene,
-            coords: five_prime_coordinates,
             exon_coords: five_prime_end_exon_coordinates,
           )
     end
@@ -121,12 +120,11 @@ module Variants
             name_type: name_type,
             partner_status: fusion.three_prime_partner_status,
             gene: fusion.three_prime_gene,
-            coords: three_prime_coordinates,
             exon_coords: three_prime_start_exon_coordinates,
           )
     end
 
-    def construct_partner_name(name_type:, partner_status:, gene:, coords:, exon_coords:)
+    def construct_partner_name(name_type:, partner_status:, gene:, exon_coords:)
       if partner_status == 'known'
         case name_type
         when :representative
@@ -134,7 +132,7 @@ module Variants
         when :civic
           "e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         when :vicc
-          "#{coords.representative_transcript}(#{gene.name}):e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
+          "#{exon_coords.representative_transcript}(#{gene.name}):e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         when :molecular_profile
           "#{gene.name}:e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         end

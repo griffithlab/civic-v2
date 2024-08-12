@@ -24,7 +24,7 @@ module Types::Fusion
                               reference_build: reference_build,
                               ensembl_version: ensembl_version,
                               representative_transcript: five_prime_transcript,
-                              exon_boundary: five_prime_exon_end,
+                              exon: five_prime_exon_end,
                               exon_offset: five_prime_offset,
                               exon_offset_direction: five_prime_offset_direction,
                               record_state: 'exons_provided'
@@ -39,7 +39,7 @@ module Types::Fusion
                                reference_build: reference_build,
                                ensembl_version: ensembl_version,
                                representative_transcript: three_prime_transcript,
-                               exon_boundary: three_prime_exon_start,
+                               exon: three_prime_exon_start,
                                exon_offset: three_prime_offset,
                                exon_offset_direction: three_prime_offset_direction,
                                record_state: 'exons_provided'
