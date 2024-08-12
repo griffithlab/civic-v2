@@ -9,7 +9,7 @@ module Actions
       @feature = Feature.new(
         name: feature_name,
       )
-      fusion = Features::Fusion.create(
+      Features::Fusion.create(
         five_prime_gene_id: five_prime_gene_id,
         three_prime_gene_id: three_prime_gene_id,
         five_prime_partner_status: five_prime_partner_status,
@@ -55,6 +55,9 @@ module Actions
       )
       cmd.perform
 
+      variant = cmd.variant
+      stub_remaining_coordinates(variant)
+
       if cmd.errors.any?
         errors.each do |err|
           errors << err
@@ -62,6 +65,19 @@ module Actions
       end
 
       events << cmd.events
+    end
+
+    def stub_remaining_coordinates(variant)
+      if five_prime_partner_status == 'known'
+        variant.five_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime Start Exon Coordinate')
+        variant.five_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime End Exon Coordinate')
+        variant.five_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Five Prime Fusion Coordinate')
+      end
+      if three_prime_partner_status == 'known'
+        variant.three_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime End Exon Coordinate')
+        variant.three_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime Start Exon Coordinate')
+        variant.three_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Three Prime Fusion Coordinate')
+      end
     end
 
     private

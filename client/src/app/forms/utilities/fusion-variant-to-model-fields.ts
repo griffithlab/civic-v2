@@ -13,21 +13,22 @@ export function fusionVariantToModelFields(
     aliases: variant.variantAliases,
     variantTypeIds: variant.variantTypes.map((vt) => vt.id),
     fivePrimeTranscript:
-      variant.fivePrimeEndExonCoordinates.representativeTranscript,
-    fivePrimeExonEnd: variant.fivePrimeEndExonCoordinates.exon?.toString(),
-    fivePrimeOffset: variant.fivePrimeEndExonCoordinates.exonOffset?.toString(),
+      variant.fivePrimeEndExonCoordinates?.representativeTranscript,
+    fivePrimeExonEnd: variant.fivePrimeEndExonCoordinates?.exon?.toString(),
+    fivePrimeOffset:
+      variant.fivePrimeEndExonCoordinates?.exonOffset?.toString(),
     fivePrimeOffsetDirection:
-      variant.fivePrimeEndExonCoordinates.exonOffsetDirection,
+      variant.fivePrimeEndExonCoordinates?.exonOffsetDirection,
     threePrimeTranscript:
-      variant.threePrimeStartExonCoordinates.representativeTranscript,
+      variant.threePrimeStartExonCoordinates?.representativeTranscript,
     threePrimeExonStart:
-      variant.threePrimeStartExonCoordinates.exon?.toString(),
+      variant.threePrimeStartExonCoordinates?.exon?.toString(),
     threePrimeOffset:
-      variant.threePrimeStartExonCoordinates.exonOffset?.toString(),
+      variant.threePrimeStartExonCoordinates?.exonOffset?.toString(),
     threePrimeOffsetDirection:
-      variant.threePrimeStartExonCoordinates.exonOffsetDirection,
-    referenceBuild: variant.fivePrimeEndExonCoordinates.referenceBuild,
-    ensemblVersion: variant.fivePrimeEndExonCoordinates.ensemblVersion,
+      variant.threePrimeStartExonCoordinates?.exonOffsetDirection,
+    referenceBuild: variant.fivePrimeEndExonCoordinates?.referenceBuild,
+    ensemblVersion: variant.fivePrimeEndExonCoordinates?.ensemblVersion,
   }
 }
 

@@ -15,8 +15,7 @@
         @if (variant.fivePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset
-                [nzAnimated]="false">
+              <nz-tabset [nzAnimated]="false">
                 <nz-tab nzTitle="5' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -59,8 +58,7 @@
         @if (variant.threePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset
-                [nzAnimated]="false">
+              <nz-tabset [nzAnimated]="false">
                 <nz-tab nzTitle="3' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -129,8 +127,7 @@
         @if (this.cvcCoordinates.fivePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset
-                [nzAnimated]="false">
+              <nz-tabset [nzAnimated]="false">
                 <nz-tab nzTitle="5' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -148,7 +145,8 @@
                       *ngTemplateOutlet="
                         exonCoordinateCard;
                         context: {
-                          $implicit: this.cvcCoordinates.fivePrimeStartExonCoordinates,
+                          $implicit:
+                            this.cvcCoordinates.fivePrimeStartExonCoordinates,
                           variant: this.cvcCoordinates
                         }
                       ">
@@ -159,7 +157,8 @@
                       *ngTemplateOutlet="
                         exonCoordinateCard;
                         context: {
-                          $implicit: this.cvcCoordinates.fivePrimeEndExonCoordinates,
+                          $implicit:
+                            this.cvcCoordinates.fivePrimeEndExonCoordinates,
                           variant: this.cvcCoordinates
                         }
                       ">
@@ -173,8 +172,7 @@
         @if (this.cvcCoordinates.threePrimeCoordinates) {
           <nz-col nzSpan="12">
             <nz-card>
-              <nz-tabset
-                [nzAnimated]="false">
+              <nz-tabset [nzAnimated]="false">
                 <nz-tab nzTitle="3' Partner Genomic Coordinates">
                   <ng-container
                     *ngTemplateOutlet="
@@ -192,7 +190,8 @@
                       *ngTemplateOutlet="
                         exonCoordinateCard;
                         context: {
-                          $implicit: this.cvcCoordinates.threePrimeStartExonCoordinates,
+                          $implicit:
+                            this.cvcCoordinates.threePrimeStartExonCoordinates,
                           variant: this.cvcCoordinates
                         }
                       ">
@@ -203,7 +202,8 @@
                       *ngTemplateOutlet="
                         exonCoordinateCard;
                         context: {
-                          $implicit: this.cvcCoordinates.threePrimeEndExonCoordinates,
+                          $implicit:
+                            this.cvcCoordinates.threePrimeEndExonCoordinates,
                           variant: this.cvcCoordinates
                         }
                       ">
@@ -231,9 +231,21 @@
   #coordinateCard
   let-variant="variant"
   let-coords>
+  <ng-template #noCoord>
+    <span
+      nz-typography
+      nzType="secondary">
+      <cvc-empty-revisable
+        reviseFormPath="/variants/{{ variant.id }}/revise/suggest?variantType={{
+          variant.__typename
+        }}"
+        notification="No coordinates specified">
+      </cvc-empty-revisable>
+    </span>
+  </ng-template>
   @if (coords) {
     <!-- check for reference build, display empty msg if missing -->
-    <ng-container *ngIf="coords.referenceBuild">
+    <ng-container *ngIf="coords.referenceBuild; else noCoord">
       <nz-descriptions
         nzLayout="horizontal"
         nzBordered="true"
@@ -253,8 +265,7 @@
         </nz-descriptions-item>
 
         <!-- representative transcript -->
-        <nz-descriptions-item
-          nzTitle="Transcript">
+        <nz-descriptions-item nzTitle="Transcript">
           <cvc-link-tag
             *ngIf="coords.representativeTranscript; else noneSpecified"
             tooltip="View on Ensembl"
@@ -267,31 +278,27 @@
         </nz-descriptions-item>
 
         <!-- chr. -->
-        <nz-descriptions-item
-          nzTitle="Chr.">
+        <nz-descriptions-item nzTitle="Chr.">
           <ng-container *ngIf="coords.chromosome; else noneSpecified">
             {{ coords.chromosome }}
           </ng-container>
         </nz-descriptions-item>
 
         <!-- start -->
-        <nz-descriptions-item
-          nzTitle="Start">
+        <nz-descriptions-item nzTitle="Start">
           <ng-container *ngIf="coords.start; else noneSpecified">
             {{ coords.start }}
           </ng-container>
         </nz-descriptions-item>
 
         <!-- stop -->
-        <nz-descriptions-item
-          nzTitle="Stop">
+        <nz-descriptions-item nzTitle="Stop">
           <ng-container *ngIf="coords.stop; else noneSpecified">
             {{ coords.stop }}
           </ng-container>
         </nz-descriptions-item>
 
         <ng-container>
-
           <!-- reference bases -->
           <nz-descriptions-item
             *ngIf="
@@ -338,9 +345,21 @@
   #exonCoordinateCard
   let-variant="variant"
   let-coords>
+  <ng-template #noCoord>
+    <span
+      nz-typography
+      nzType="secondary">
+      <cvc-empty-revisable
+        reviseFormPath="/variants/{{ variant.id }}/revise/suggest?variantType={{
+          variant.__typename
+        }}"
+        notification="No coordinates specified">
+      </cvc-empty-revisable>
+    </span>
+  </ng-template>
   @if (coords) {
     <!-- check for reference build, display empty msg if missing -->
-    <ng-container *ngIf="coords.referenceBuild">
+    <ng-container *ngIf="coords.referenceBuild; else noCoord">
       <nz-descriptions
         nzLayout="horizontal"
         nzBordered="true"
@@ -354,7 +373,9 @@
         </nz-descriptions-item>
 
         <!-- exon ensembl ID -->
-        <nz-descriptions-item nzTitle="Exon ID" nzSpan="2">
+        <nz-descriptions-item
+          nzTitle="Exon ID"
+          nzSpan="2">
           <cvc-link-tag
             *ngIf="coords.ensemblId; else noneSpecified"
             tooltip="View on Ensembl"
@@ -368,7 +389,8 @@
 
         <!-- transcript -->
         <nz-descriptions-item
-          nzTitle="Transcript" nzSpan="2">
+          nzTitle="Transcript"
+          nzSpan="2">
           <cvc-link-tag
             *ngIf="coords.representativeTranscript; else noneSpecified"
             tooltip="View on Ensembl"
@@ -388,8 +410,7 @@
         </nz-descriptions-item>
 
         <!-- chr. -->
-        <nz-descriptions-item
-          nzTitle="Chr.">
+        <nz-descriptions-item nzTitle="Chr.">
           <ng-container *ngIf="coords.chromosome; else noneSpecified">
             {{ coords.chromosome }}
           </ng-container>
@@ -397,7 +418,8 @@
 
         <!-- start -->
         <nz-descriptions-item
-          nzTitle="Start" nzSpan="2">
+          nzTitle="Start"
+          nzSpan="2">
           <ng-container *ngIf="coords.start; else noneSpecified">
             {{ coords.start }}
           </ng-container>
@@ -405,19 +427,19 @@
 
         <!-- stop -->
         <nz-descriptions-item
-          nzTitle="Stop" nzSpan="2">
+          nzTitle="Stop"
+          nzSpan="2">
           <ng-container *ngIf="coords.stop; else noneSpecified">
             {{ coords.stop }}
           </ng-container>
         </nz-descriptions-item>
 
         <!-- offset -->
-        <nz-descriptions-item
-          nzTitle="Offset">
+        <nz-descriptions-item nzTitle="Offset">
           @if (coords.exonOffset && coords.exonOffsetDirection) {
-            {{ coords.exonOffsetDirection | enumToTitle }}{{ coords.exonOffset }}
-          }
-          @else {
+            {{ coords.exonOffsetDirection | enumToTitle
+            }}{{ coords.exonOffset }}
+          } @else {
             0
           }
         </nz-descriptions-item>

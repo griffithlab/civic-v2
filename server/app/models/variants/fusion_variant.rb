@@ -169,6 +169,12 @@ module Variants
     end
 
     def populate_coordinates
+      unless self.name == 'Fusion'
+        PopulateFusionCoordinates.perform_later(self)
+      end
+    end
+
+    def on_revision_accepted
       PopulateFusionCoordinates.perform_later(self)
     end
   end

@@ -1,12 +1,12 @@
 module Types::Variants
   class FusionVariantType < Types::Entities::VariantType
 
-    field :five_prime_coordinates, Types::Entities::VariantCoordinateType, null: false
-    field :three_prime_coordinates, Types::Entities::VariantCoordinateType, null: false
-    field :five_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
-    field :five_prime_end_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
-    field :three_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
-    field :three_prime_end_exon_coordinates, Types::Entities::ExonCoordinateType, null: false
+    field :five_prime_coordinates, Types::Entities::VariantCoordinateType, null: true
+    field :three_prime_coordinates, Types::Entities::VariantCoordinateType, null: true
+    field :five_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: true
+    field :five_prime_end_exon_coordinates, Types::Entities::ExonCoordinateType, null: true
+    field :three_prime_start_exon_coordinates, Types::Entities::ExonCoordinateType, null: true
+    field :three_prime_end_exon_coordinates, Types::Entities::ExonCoordinateType, null: true
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
     field :vicc_compliant_name, String, null: false

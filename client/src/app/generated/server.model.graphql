@@ -4621,9 +4621,9 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     sortBy: DateSort
   ): EventConnection!
   feature: Feature!
-  fivePrimeCoordinates: VariantCoordinate!
-  fivePrimeEndExonCoordinates: ExonCoordinate!
-  fivePrimeStartExonCoordinates: ExonCoordinate!
+  fivePrimeCoordinates: VariantCoordinate
+  fivePrimeEndExonCoordinates: ExonCoordinate
+  fivePrimeStartExonCoordinates: ExonCoordinate
   flagged: Boolean!
 
   """
@@ -4751,9 +4751,9 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   ): RevisionConnection!
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
-  threePrimeCoordinates: VariantCoordinate!
-  threePrimeEndExonCoordinates: ExonCoordinate!
-  threePrimeStartExonCoordinates: ExonCoordinate!
+  threePrimeCoordinates: VariantCoordinate
+  threePrimeEndExonCoordinates: ExonCoordinate
+  threePrimeStartExonCoordinates: ExonCoordinate
   variantAliases: [String!]!
   variantTypes: [VariantType!]!
   viccCompliantName: String!

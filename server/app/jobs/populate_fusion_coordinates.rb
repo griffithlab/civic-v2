@@ -77,6 +77,11 @@ class PopulateFusionCoordinates < ApplicationJob
   end
 
   def populate_representative_coordinates(coordinate, start_exon_coordinates, end_exon_coordinates)
+    coordinate.chromosome = start_exon_coordinates.chromosome
+    coordinate.representative_transcript = start_exon_coordinates.representative_transcript
+    coordinate.ensembl_version = start_exon_coordinates.ensembl_version
+    coordinate.reference_build = start_exon_coordinates.reference_build
+
     if start_exon_coordinates.strand == 'positive'
       coordinate.start = calculate_offset(start_exon_coordinates.start, start_exon_coordinates)
       coordinate.stop = calculate_offset(end_exon_coordinates.stop, end_exon_coordinates)

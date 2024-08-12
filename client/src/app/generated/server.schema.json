@@ -21561,13 +21561,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "VariantCoordinate",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "VariantCoordinate",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -21577,13 +21573,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ExonCoordinate",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "ExonCoordinate",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -21593,13 +21585,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ExonCoordinate",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "ExonCoordinate",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -22084,13 +22072,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "VariantCoordinate",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "VariantCoordinate",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -22100,13 +22084,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ExonCoordinate",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "ExonCoordinate",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -22116,13 +22096,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ExonCoordinate",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "ExonCoordinate",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
