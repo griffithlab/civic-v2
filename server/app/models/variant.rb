@@ -160,8 +160,6 @@ class Variant < ApplicationRecord
 
   def shared_editable_fields
     [
-      :feature_id,
-      :name,
       :variant_type_ids,
       :variant_alias_ids,
     ]
@@ -172,14 +170,7 @@ class Variant < ApplicationRecord
   end
 
   def forbidden_fields
-    #Grab the editable fields from each variant subclass, except the current one
-    #Combine their editable fields into a list, and remove the editable fields of the current type
-    #This produces a list of fields that should not be populated on this variant type
-    other_editable_fields = Variant.known_subclasses
-      .reject { |c| self.is_a?(c) }
-      .flat_map { |c| c.new.editable_fields }
-
-    other_editable_fields - self.editable_fields
+    []
   end
 
   def required_fields

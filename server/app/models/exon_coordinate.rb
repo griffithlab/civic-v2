@@ -1,4 +1,6 @@
 class ExonCoordinate < ApplicationRecord
+  include Moderated
+
   belongs_to :variant, touch: true
 
   validates :coordinate_type, presence: true
@@ -58,5 +60,16 @@ class ExonCoordinate < ApplicationRecord
     elsif strand == 'negative'
       '-1'
     end
+  end
+
+  def editable_fields
+    [
+      :reference_build,
+      :ensembl_version,
+      :representative_transcript,
+      :exon,
+      :exon_offset,
+      :exon_offset_direction,
+    ]
   end
 end

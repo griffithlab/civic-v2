@@ -60,10 +60,7 @@ module Variants
     enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 
     def unique_editable_fields
-      [
-        :hgvs_description_ids,
-        :clinvar_entry_ids,
-      ]
+      []
     end
 
     def required_fields
@@ -103,6 +100,15 @@ module Variants
           construct_three_prime_name(name_type: :civic)
         ].join("::")
       end
+    end
+
+    def forbidden_fields
+      [
+        :ncit_id,
+        :hgvs_description_ids,
+        :clinvar_entry_ids,
+        :allele_registry_id,
+      ]
     end
 
     private

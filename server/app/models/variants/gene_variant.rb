@@ -22,6 +22,8 @@ module Variants
 
     def unique_editable_fields
       [
+        :feature_id,
+        :name,
         :hgvs_description_ids,
         :clinvar_entry_ids,
       ]
@@ -29,6 +31,13 @@ module Variants
 
     def required_fields
       []
+    end
+
+    def forbidden_fields
+      [
+        :ncit_id,
+        :vicc_compliant_name,
+      ]
     end
 
     def correct_coordinate_type

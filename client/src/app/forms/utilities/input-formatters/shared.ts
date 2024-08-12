@@ -25,3 +25,7 @@ export function toNullableInput<T>(x: Maybe<T>): {
   }
   return nullable
 }
+
+export function toNumOrUndefined(x: string | undefined): number | undefined {
+  return x ? +x : undefined
+}

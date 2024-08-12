@@ -37,9 +37,8 @@ fragment RevisableFusionVariantFields on FusionVariant {
   }
 }
 
-#TODO - Make this for fusions server side
-mutation SuggestFusionVariantRevision($input: SuggestFactorVariantRevisionInput!) {
-  suggestFactorVariantRevision(input: $input) {
+mutation SuggestFusionVariantRevision($input: SuggestFusionVariantRevisionInput!) {
+  suggestFusionVariantRevision(input: $input) {
     clientMutationId
     variant {
       id
