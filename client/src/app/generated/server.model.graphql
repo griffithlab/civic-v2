@@ -5682,6 +5682,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     Returns the first _n_ elements from the list.
     """
     first: Int
+    includeRejected: Boolean
 
     """
     Returns the last _n_ elements from the list.
@@ -5798,6 +5799,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     Returns the first _n_ elements from the list.
     """
     first: Int
+    includeRejected: Boolean
 
     """
     Returns the last _n_ elements from the list.
