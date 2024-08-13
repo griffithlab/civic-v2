@@ -38,15 +38,16 @@ module Types::Variants
       Loaders::AssociationLoader.for(Variants::FusionVariant, :fusion).load(object)
     end
 
-    def clinvar_ids
-      Loaders::AssociationLoader.for(Variant, :clinvar_entries).load(object).then do |clinvar_entries|
-        clinvar_entries.map(&:clinvar_id)
-      end
-    end
+    def open_revision_count
+      Loaders::AssociationCountLoader.for(object.class, association: :open_revisions).load(object.id).then do |count|
+        Loaders::AssociationLoader.for(Variants::FusionVariant, :exon_coordinates).load(object).then do |exon_coordinates|
+          exon_counts = Promise.all(
+            exon_coordinates.map do |ec|
+              Loaders::AssociationCountLoader.for(ExonCoordinate, association: :open_revisions).load(ec.id)
+            end)
 
-    def hgvs_descriptions
-      Loaders::AssociationLoader.for(Variant, :hgvs_descriptions).load(object).then do |hgvs|
-        hgvs.map(&:description)
+          exon_counts.then { |ec_counts| ec_counts.sum + count }
+        end
       end
     end
   end

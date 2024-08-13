@@ -8,5 +8,6 @@ module Types::Revisions
     value 'VARIANT_GROUP', value: 'VariantGroup'
     value 'MOLECULAR_PROFILE', value: 'MolecularProfile'
     value 'VARIANT_COORDINATES', value: 'VariantCoordinate'
+    value 'EXON_COORDINATES', value: 'ExonCoordinate'
   end
 end

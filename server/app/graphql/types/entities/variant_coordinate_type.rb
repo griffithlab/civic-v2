@@ -1,5 +1,7 @@
 module Types::Entities
   class VariantCoordinateType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
+
     field :id, Int, null: false
     field :representative_transcript, String, null: true
     field :chromosome, String, null: true

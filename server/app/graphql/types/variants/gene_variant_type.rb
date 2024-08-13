@@ -32,5 +32,15 @@ module Types::Variants
     def mane_select_transcript
       ManeSelectTranscript.new(object).mane_select_transcript
     end
+
+    def open_revision_count
+      Loaders::AssociationCountLoader.for(object.class, association: :open_revisions).load(object.id).then do |count|
+        Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object).then do |coord|
+          Loaders::AssociationCountLoader.for(VariantCoordinate, association: :open_revisions).load(coord.id) do |coord_count|
+            count + coord_count
+          end
+        end
+      end
+    end
   end
 end

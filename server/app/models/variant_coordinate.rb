@@ -1,5 +1,6 @@
 class VariantCoordinate < ApplicationRecord
   include Moderated
+  include Subscribable
 
   belongs_to :variant, touch: true
 
@@ -39,6 +40,14 @@ class VariantCoordinate < ApplicationRecord
       record_state: 'stub',
       coordinate_type: coordinate_type
     )
+  end
+
+  def name
+    "#{variant.name} Coordinates"
+  end
+
+  def link
+    variant.link
   end
 
   def editable_fields

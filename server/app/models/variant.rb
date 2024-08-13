@@ -7,6 +7,7 @@ class Variant < ApplicationRecord
 
   belongs_to :feature
   has_many :variant_coordinates, foreign_key: 'variant_id'
+  has_many :exon_coordinates, foreign_key: 'variant_id'
 
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants

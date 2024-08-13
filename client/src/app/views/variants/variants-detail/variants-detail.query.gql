@@ -23,9 +23,7 @@ fragment VariantDetailFields on VariantInterface {
   flags(state: OPEN) {
     totalCount
   }
-  revisions(status: NEW) {
-    totalCount
-  }
+  openRevisionCount
   comments {
     totalCount
   }

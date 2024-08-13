@@ -11,4 +11,12 @@ fragment VariantCoordinateIds on VariantInterface {
       id
     }
   }
+  ... on FusionVariant {
+    fivePrimeEndExonCoordinates {
+      id
+    }
+    threePrimeStartExonCoordinates {
+      id
+    }
+  }
 }

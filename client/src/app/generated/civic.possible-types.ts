@@ -69,6 +69,7 @@
     "EventSubject": [
       "Assertion",
       "EvidenceItem",
+      "ExonCoordinate",
       "Factor",
       "FactorVariant",
       "Feature",
@@ -84,6 +85,7 @@
       "SourcePopover",
       "SourceSuggestion",
       "Variant",
+      "VariantCoordinate",
       "VariantGroup"
     ],
     "FeatureInstance": [

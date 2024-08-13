@@ -1,5 +1,6 @@
 class ExonCoordinate < ApplicationRecord
   include Moderated
+  include Subscribable
 
   belongs_to :variant, touch: true
 
@@ -42,6 +43,14 @@ class ExonCoordinate < ApplicationRecord
     )
   end
 
+  def name
+    "#{variant.name} Coordinates"
+  end
+
+  def link
+    variant.link
+  end
+
   def formatted_offset
     if exon_offset_direction.nil?
       ''
@@ -71,5 +80,9 @@ class ExonCoordinate < ApplicationRecord
       :exon_offset,
       :exon_offset_direction,
     ]
+  end
+
+  def on_revision_accepted
+    PopulateFusionCoordinates.perform_later(self.variant)
   end
 end

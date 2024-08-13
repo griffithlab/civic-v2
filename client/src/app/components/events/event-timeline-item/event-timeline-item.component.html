@@ -97,7 +97,13 @@
       <cvc-molecular-profile-tag
         *ngSwitchCase="'MolecularProfile'"
         [molecularProfile]="subject"></cvc-molecular-profile-tag>
-      <span *ngSwitchDefault>{{ subject.name }}</span>
+      <span *ngSwitchDefault>
+        <nz-tag>
+          <a [href]="subject.link">
+            {{ subject.name }}
+          </a>
+        </nz-tag>
+      </span>
     </ng-container>
 
     <!-- user organization -->

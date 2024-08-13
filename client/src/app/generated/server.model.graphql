@@ -526,6 +526,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   name: String!
   nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
+  openRevisionCount: Int!
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   regulatoryApprovalLastUpdated: ISO8601DateTime
@@ -2803,6 +2804,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   link: String!
   molecularProfile: MolecularProfile!
   name: String!
+  openRevisionCount: Int!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
@@ -3080,15 +3082,50 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
-type ExonCoordinate {
+type ExonCoordinate implements EventSubject {
   chromosome: String
   coordinateType: ExonCoordinateType!
   ensemblId: String
   ensemblVersion: Int
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   exon: Int
   exonOffset: Int
   exonOffsetDirection: Direction
   id: Int!
+  link: String!
+  name: String!
   referenceBuild: ReferenceBuild
   representativeTranscript: String
   start: Int
@@ -3252,6 +3289,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
   name: String!
   ncitDetails: NcitDetails
   ncitId: String
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -3533,6 +3571,7 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
   name: String!
   ncitDetails: NcitDetails
   ncitId: String
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -3771,6 +3810,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -4360,6 +4400,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -4696,6 +4737,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     last: Int
   ): MolecularProfileConnection!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -4945,6 +4987,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
   link: String!
   myGeneInfoDetails: JSON
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -5269,6 +5312,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   myVariantInfo: MyVariantInfo
   name: String!
   openCravatUrl: String
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -5822,6 +5866,7 @@ Enumeration of all moderated CIViC entities.
 enum ModeratedEntities {
   ASSERTION
   EVIDENCE_ITEM
+  EXON_COORDINATES
   FEATURE
   MOLECULAR_PROFILE
   VARIANT
@@ -6066,6 +6111,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   The human readable name of this profile, including gene and variant names.
   """
   name: String!
+  openRevisionCount: Int!
 
   """
   The profile name with its constituent parts as objects, suitable for building tags.
@@ -11221,6 +11267,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     last: Int
   ): MolecularProfileConnection!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -11332,11 +11379,46 @@ type VariantConnection {
   totalCount: Int!
 }
 
-type VariantCoordinate {
+type VariantCoordinate implements EventSubject {
   chromosome: String
   coordinateType: VariantCoordinateType!
   ensemblVersion: Int
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   id: Int!
+  link: String!
+  name: String!
   referenceBases: String
   referenceBuild: ReferenceBuild
   representativeTranscript: String
@@ -11509,6 +11591,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -11846,6 +11929,7 @@ interface VariantInterface implements Commentable & EventOriginObject & EventSub
     last: Int
   ): MolecularProfileConnection!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -12036,6 +12120,7 @@ A CIViC entity that can have revisions proposed to it.
 interface WithRevisions {
   lastAcceptedRevisionEvent: Event
   lastSubmittedRevisionEvent: Event
+  openRevisionCount: Int!
 
   """
   List and filter revisions.

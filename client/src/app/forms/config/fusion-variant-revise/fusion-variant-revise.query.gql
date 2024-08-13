@@ -22,7 +22,6 @@ fragment RevisableFusionVariantFields on FusionVariant {
       }
     }
   }
-  hgvsDescriptions
   variantAliases
   variantTypes {
     id

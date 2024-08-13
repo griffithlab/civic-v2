@@ -82,6 +82,29 @@ export class VariantsRevisionsPage implements OnDestroy, OnInit {
           },
         },
       ])
+    } else if (variant.__typename == 'FusionVariant') {
+      let currentTabs = this.tabs()
+
+      if (variant.fivePrimeEndExonCoordinates) {
+        currentTabs.push({
+          name: "5' Exon End Coordinates",
+          moderated: {
+            id: variant.fivePrimeEndExonCoordinates.id,
+            entityType: ModeratedEntities.ExonCoordinates,
+          },
+        })
+      }
+      if (variant.threePrimeStartExonCoordinates) {
+        currentTabs.push({
+          name: "3' Exon Start Coordinates",
+          moderated: {
+            id: variant.threePrimeStartExonCoordinates.id,
+            entityType: ModeratedEntities.ExonCoordinates,
+          },
+        })
+      }
+
+      this.tabs.set(currentTabs)
     }
   }
 

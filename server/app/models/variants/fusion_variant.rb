@@ -6,8 +6,6 @@ module Variants
     #validates_with FusionVariantValidator
     #check feature partner status and corresponding stubbed coords
 
-    has_many :exon_coordinates, foreign_key: 'variant_id'
-
     has_one :five_prime_coordinates,
       ->() { where(coordinate_type: 'Five Prime Fusion Coordinate') },
       foreign_key: 'variant_id',
