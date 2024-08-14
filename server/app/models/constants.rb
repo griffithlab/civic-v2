@@ -135,4 +135,6 @@ module Constants
 
   # http://useast.ensembl.org/info/genome/stable_ids/index.html
   ENSEMBL_TRANSCRIPT_ID_FORMAT = /\AENST\d{11}\.\d{1,2}\z/
+
+  REPRESENTATIVE_FUSION_VARIANT_NAME = 'Fusion'
 end

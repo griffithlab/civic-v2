@@ -68,10 +68,8 @@ module Variants
     end
 
     def mp_name
-      if name == 'Fusion'
-        "#{feature.name} Fusion"
-      elsif name == 'Rearrangement'
-        "#{feature.name} Rearrangement"
+      if name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
+        "#{feature.name} #{Constants::REPRESENTATIVE_FUSION_VARIANT_NAME}"
       else
         [
           construct_five_prime_name(name_type: :molecular_profile),
@@ -82,7 +80,7 @@ module Variants
     end
 
     def generate_vicc_name
-      if name == 'Fusion' || name == 'Rearrangement'
+      if name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
         "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
       else
         "#{construct_five_prime_name(name_type: :vicc)}::#{construct_three_prime_name(name_type: :vicc)}"
@@ -90,7 +88,7 @@ module Variants
     end
 
     def generate_name
-      if name == 'Fusion' || name == 'Rearrangement'
+      if name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
         name
       else
         [
@@ -173,7 +171,7 @@ module Variants
     end
 
     def populate_coordinates
-      unless self.name == 'Fusion'
+      unless self.name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
         PopulateFusionCoordinates.perform_later(self)
       end
     end
