@@ -2,6 +2,8 @@ module Types::Variants
   class GeneVariantType < Types::Entities::VariantType
 
     field :coordinates, Types::Entities::VariantCoordinateType, null: true
+    field :primary_coordinates, Types::Entities::VariantCoordinateType, null: true,
+      deprecation_reason: "The new Fusion variant type means Gene variants no longer have primary and secondary coordinates. Use 'coordinates' instead."
     field :allele_registry_id, String, null: true
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
@@ -11,6 +13,10 @@ module Types::Variants
 
     def coordinates
       Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object)
+    end
+
+    def primary_coordinates
+      coordinates
     end
 
     def clinvar_ids

@@ -1120,7 +1120,7 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'coordinates' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'openRevisionCount' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | GeneVariantKeySpecifier)[];
+export type GeneVariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'coordinates' | 'creationActivity' | 'deprecated' | 'deprecationActivity' | 'deprecationReason' | 'events' | 'feature' | 'flagged' | 'flags' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'maneSelectTranscript' | 'molecularProfiles' | 'myVariantInfo' | 'name' | 'openCravatUrl' | 'openRevisionCount' | 'primaryCoordinates' | 'revisions' | 'singleVariantMolecularProfile' | 'singleVariantMolecularProfileId' | 'variantAliases' | 'variantTypes' | GeneVariantKeySpecifier)[];
 export type GeneVariantFieldPolicy = {
 	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1146,6 +1146,7 @@ export type GeneVariantFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	openCravatUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	openRevisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	primaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	singleVariantMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	singleVariantMolecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2251,14 +2252,6 @@ export type VariantAliasKeySpecifier = ('name' | VariantAliasKeySpecifier)[];
 export type VariantAliasFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
-export type VariantConnectionFieldPolicy = {
-	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type VariantCoordinateKeySpecifier = ('chromosome' | 'coordinateType' | 'ensemblVersion' | 'events' | 'id' | 'link' | 'name' | 'referenceBases' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | VariantCoordinateKeySpecifier)[];
 export type VariantCoordinateFieldPolicy = {
 	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2274,11 +2267,6 @@ export type VariantCoordinateFieldPolicy = {
 	start?: FieldPolicy<any> | FieldReadFunction<any>,
 	stop?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantBases?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type VariantEdgeKeySpecifier = ('cursor' | 'node' | VariantEdgeKeySpecifier)[];
-export type VariantEdgeFieldPolicy = {
-	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
-	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VariantGroupKeySpecifier = ('comments' | 'description' | 'events' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'revisions' | 'sources' | 'variants' | VariantGroupKeySpecifier)[];
 export type VariantGroupFieldPolicy = {
@@ -3228,17 +3216,9 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | VariantAliasKeySpecifier | (() => undefined | VariantAliasKeySpecifier),
 		fields?: VariantAliasFieldPolicy,
 	},
-	VariantConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | VariantConnectionKeySpecifier | (() => undefined | VariantConnectionKeySpecifier),
-		fields?: VariantConnectionFieldPolicy,
-	},
 	VariantCoordinate?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantCoordinateKeySpecifier | (() => undefined | VariantCoordinateKeySpecifier),
 		fields?: VariantCoordinateFieldPolicy,
-	},
-	VariantEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | VariantEdgeKeySpecifier | (() => undefined | VariantEdgeKeySpecifier),
-		fields?: VariantEdgeFieldPolicy,
 	},
 	VariantGroup?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantGroupKeySpecifier | (() => undefined | VariantGroupKeySpecifier),

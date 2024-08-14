@@ -16619,7 +16619,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VariantConnection",
+                  "name": "VariantInterfaceConnection",
                   "ofType": null
                 }
               },
@@ -18635,7 +18635,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VariantConnection",
+                  "name": "VariantInterfaceConnection",
                   "ofType": null
                 }
               },
@@ -21145,7 +21145,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VariantConnection",
+                  "name": "VariantInterfaceConnection",
                   "ofType": null
                 }
               },
@@ -23495,7 +23495,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VariantConnection",
+                  "name": "VariantInterfaceConnection",
                   "ofType": null
                 }
               },
@@ -24575,6 +24575,18 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "primaryCoordinates",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "VariantCoordinate",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "The new Fusion variant type means Gene variants no longer have primary and secondary coordinates. Use 'coordinates' instead."
             },
             {
               "name": "revisions",
@@ -50970,113 +50982,6 @@
         },
         {
           "kind": "OBJECT",
-          "name": "VariantConnection",
-          "description": "The connection type for Variant.",
-          "fields": [
-            {
-              "name": "edges",
-              "description": "A list of edges.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "VariantEdge",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "nodes",
-              "description": "A list of nodes.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "Variant",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pageCount",
-              "description": "Total number of pages, based on filtered count and pagesize.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pageInfo",
-              "description": "Information to aid in pagination.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PageInfo",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalCount",
-              "description": "The total number of records in this filtered collection.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "VariantCoordinate",
           "description": null,
           "fields": [
@@ -51427,45 +51332,6 @@
               "deprecationReason": null
             }
           ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "VariantEdge",
-          "description": "An edge in a connection.",
-          "fields": [
-            {
-              "name": "cursor",
-              "description": "A cursor for use in pagination.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "node",
-              "description": "The item at the end of the edge.",
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Variant",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
           "possibleTypes": null
         },
         {
@@ -52175,7 +52041,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VariantConnection",
+                  "name": "VariantInterfaceConnection",
                   "ofType": null
                 }
               },
