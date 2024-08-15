@@ -1,5 +1,7 @@
 module Types::Entities
-  class GeneVariantCoordinateType < Types::BaseObject
+  class VariantCoordinateType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
+
     field :id, Int, null: false
     field :representative_transcript, String, null: true
     field :chromosome, String, null: true
@@ -9,6 +11,6 @@ module Types::Entities
     field :ensembl_version, Int, null: true
     field :reference_bases, String, null: true
     field :variant_bases, String, null: true
-    field :coordinate_type, Types::Entities::CoordinateTypeType, null: false
+    field :coordinate_type, Types::VariantCoordinateTypeType, null: false
   end
 end

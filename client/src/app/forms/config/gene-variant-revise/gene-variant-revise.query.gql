@@ -27,7 +27,7 @@ fragment RevisableGeneVariantFields on GeneVariant {
   }
 }
 
-fragment CoordinateFields on GeneVariantCoordinate {
+fragment CoordinateFields on VariantCoordinate {
   referenceBuild
   ensemblVersion
   chromosome

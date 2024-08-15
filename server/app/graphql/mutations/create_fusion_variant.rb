@@ -47,8 +47,8 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
   def resolve(coordinates:, feature_id:, organization_id: nil)
     stubbed_variant = Variants::FusionVariant.new(
       feature_id: feature_id,
-      five_prime_coordinates: coordinates[:five_prime_coords],
-      three_prime_coordinates: coordinates[:three_prime_coords]
+      five_prime_end_exon_coordinates: coordinates[:five_prime_coords],
+      three_prime_start_exon_coordinates: coordinates[:three_prime_coords]
     )
 
     vicc_name = stubbed_variant.generate_vicc_name
@@ -65,8 +65,8 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
 
     else
       cmd = Activities::CreateFusionVariant.new(
-        three_prime_coords: coordinates[:three_prime_coords],
-        five_prime_coords: coordinates[:five_prime_coords],
+        three_prime_start_exon_coords: coordinates[:three_prime_coords],
+        five_prime_end_exon_coords: coordinates[:five_prime_coords],
         feature_id: feature_id,
         originating_user: context[:current_user],
         organization_id: organization_id,

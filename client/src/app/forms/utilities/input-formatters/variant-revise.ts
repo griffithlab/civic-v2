@@ -1,7 +1,5 @@
 import {
   ClinvarInput,
-  GeneVariantCoordinate,
-  GeneVariantCoordinateInput,
   Maybe,
 } from '@app/generated/civic.apollo'
 import * as fmt from '@app/forms/utilities/input-formatters'

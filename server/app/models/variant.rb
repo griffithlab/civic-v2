@@ -7,6 +7,7 @@ class Variant < ApplicationRecord
 
   belongs_to :feature
   has_many :variant_coordinates, foreign_key: 'variant_id'
+  has_many :exon_coordinates, foreign_key: 'variant_id'
 
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
@@ -55,10 +56,11 @@ class Variant < ApplicationRecord
   validate :correct_coordinate_type
   validates_with VariantFieldsValidator
 
-  searchkick highlight: [:name, :aliases], callbacks: :async
+  #TODO renable me
+  #searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :feature) }
 
-  def self.valid_coordinate_types
+  def self.valid_variant_coordinate_types
     []
   end
 
@@ -97,7 +99,8 @@ class Variant < ApplicationRecord
   end
 
   def reindex_mps
-    self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
+    #TODO RENABLE ME
+    #self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 
   def on_revision_accepted
@@ -158,8 +161,6 @@ class Variant < ApplicationRecord
 
   def shared_editable_fields
     [
-      :feature_id,
-      :name,
       :variant_type_ids,
       :variant_alias_ids,
     ]
@@ -170,14 +171,7 @@ class Variant < ApplicationRecord
   end
 
   def forbidden_fields
-    #Grab the editable fields from each variant subclass, except the current one
-    #Combine their editable fields into a list, and remove the editable fields of the current type
-    #This produces a list of fields that should not be populated on this variant type
-    other_editable_fields = Variant.known_subclasses
-      .reject { |c| self.is_a?(c) }
-      .flat_map { |c| c.new.editable_fields }
-
-    other_editable_fields - self.editable_fields
+    []
   end
 
   def required_fields

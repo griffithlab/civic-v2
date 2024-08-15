@@ -56,33 +56,6 @@
                 >
               </ng-template>
             </nz-descriptions-item>
-
-            <!-- HGVS descriptions -->
-            <nz-descriptions-item
-              [nzTitle]="
-                variant.hgvsDescriptions.length > 1
-                  ? 'HGVS Descriptions'
-                  : 'HGVS Description'
-              ">
-              <ng-container
-                *ngIf="
-                  variant.hgvsDescriptions.length > 0;
-                  else noDescriptions
-                ">
-                <cvc-tag-list>
-                  <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{
-                    desc
-                  }}</nz-tag>
-                </cvc-tag-list>
-              </ng-container>
-              <ng-template #noDescriptions>
-                <span
-                  nz-typography
-                  nzType="secondary"
-                  >None specified</span
-                >
-              </ng-template>
-            </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
       </nz-row>
@@ -140,6 +113,12 @@
             nzSize="small"
             [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
             nzBordered="true">
+            <!-- VICC Compliant Name -->
+            <nz-descriptions-item
+              nzTitle="VICC Compliant Name"
+              nzSpan="2">
+              {{ variant.viccCompliantName }}
+            </nz-descriptions-item>
             <!-- feature -->
             <nz-descriptions-item
               nzTitle="Fusion"

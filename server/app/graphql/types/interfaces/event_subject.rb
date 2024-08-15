@@ -22,7 +22,9 @@ module Types::Interfaces
         when Variants::FusionVariant
           Types::Variants::FusionVariantType
         when VariantCoordinate
-          Types::Entities::GeneVariantCoordinateType
+          Types::Entities::VariantCoordinateType
+        when ExonCoordinate
+          Types::Entities::ExonCoordinateType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion

@@ -14,8 +14,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
     description: 'True if the feature was newly created. False if the returned feature was already in the database.'
 
   def ready?(organization_id: nil, five_prime_gene:, three_prime_gene:,**kwargs)
-    #validate_user_logged_in
-    context[:current_user] = User.first
+    validate_user_logged_in
     validate_user_org(organization_id)
 
     #check that not both gene_ids are blank

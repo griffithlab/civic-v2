@@ -14,10 +14,37 @@ fragment CoordinatesCardFields on VariantInterface {
   }
   ... on FusionVariant {
     fivePrimeCoordinates {
-      ...FusionCoordinateFields
+      ...CoordinateFields
     }
     threePrimeCoordinates {
-      ...FusionCoordinateFields
+      ...CoordinateFields
+    }
+    fivePrimeStartExonCoordinates {
+      ...ExonCoordinateFields
+    }
+    fivePrimeEndExonCoordinates {
+      ...ExonCoordinateFields
+    }
+    threePrimeStartExonCoordinates {
+      ...ExonCoordinateFields
+    }
+    threePrimeEndExonCoordinates {
+      ...ExonCoordinateFields
     }
   }
+}
+
+fragment ExonCoordinateFields on ExonCoordinate {
+  referenceBuild
+  ensemblVersion
+  chromosome
+  representativeTranscript
+  start
+  stop
+  exon
+  exonOffset
+  exonOffsetDirection
+  ensemblId
+  strand
+  coordinateType
 }

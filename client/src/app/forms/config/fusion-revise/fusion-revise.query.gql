@@ -1,0 +1,31 @@
+query FusionRevisableFields($featureId: Int!) {
+  feature(id: $featureId) {
+    ...RevisableFusionFields
+  }
+}
+
+fragment RevisableFusionFields on Feature {
+  id
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  featureAliases
+  featureInstance {
+    __typename
+  }
+}
+
+mutation SuggestFusionRevision($input: SuggestFusionRevisionInput!) {
+  suggestFusionRevision(input: $input) {
+    clientMutationId
+    results {
+      newlyCreated
+      id
+      fieldName
+    }
+  }
+}

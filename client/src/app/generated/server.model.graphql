@@ -526,6 +526,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   name: String!
   nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
+  openRevisionCount: Int!
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   regulatoryApprovalLastUpdated: ISO8601DateTime
@@ -1865,12 +1866,6 @@ type Contribution {
   count: Int!
 }
 
-enum CoordinateType {
-  FIVE_PRIME_FUSION_COORDINATE
-  GENE_VARIANT_COORDINATE
-  THREE_PRIME_FUSION_COORDINATE
-}
-
 type Country {
   id: Int!
   iso: String!
@@ -2386,6 +2381,11 @@ type DeprecateVariantPayload {
   variant: VariantInterface
 }
 
+enum Direction {
+  NEGATIVE
+  POSITIVE
+}
+
 type Disease {
   deprecated: Boolean!
   diseaseAliases: [String!]!
@@ -2845,6 +2845,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   link: String!
   molecularProfile: MolecularProfile!
   name: String!
+  openRevisionCount: Int!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
@@ -3121,6 +3122,64 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
+type ExonCoordinate implements EventSubject {
+  chromosome: String
+  coordinateType: ExonCoordinateType!
+  ensemblId: String
+  ensemblVersion: Int
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  exon: Int
+  exonOffset: Int
+  exonOffsetDirection: Direction
+  id: Int!
+  link: String!
+  name: String!
+  referenceBuild: ReferenceBuild
+  representativeTranscript: String
+  start: Int
+  stop: Int
+  strand: Direction
+}
+
+enum ExonCoordinateType {
+  FIVE_PRIME_END_EXON_COORDINATE
+  FIVE_PRIME_START_EXON_COORDINATE
+  THREE_PRIME_END_EXON_COORDINATE
+  THREE_PRIME_START_EXON_COORDINATE
+}
+
 """
 The Feature that a Variant can belong to
 """
@@ -3270,6 +3329,7 @@ type Factor implements Commentable & EventOriginObject & EventSubject & Flaggabl
   name: String!
   ncitDetails: NcitDetails
   ncitId: String
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -3628,6 +3688,7 @@ type FactorVariant implements Commentable & EventOriginObject & EventSubject & F
   name: String!
   ncitDetails: NcitDetails
   ncitId: String
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -3911,6 +3972,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -3964,7 +4026,7 @@ type Feature implements Commentable & EventOriginObject & EventSubject & Flaggab
   sources: [Source!]!
 
   """
-  List and filter Gene variants.
+  List and filter variants.
   """
   variants(
     """
@@ -4532,6 +4594,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -4587,7 +4650,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   threePrimePartnerStatus: FusionPartnerStatus!
 
   """
-  List and filter Gene variants.
+  List and filter variants.
   """
   variants(
     """
@@ -4694,9 +4757,24 @@ type FusionEdge {
   node: Fusion
 }
 
-enum FusionOffsetDirection {
-  NEGATIVE
-  POSITIVE
+"""
+Fields on a Fusion that curators may propose revisions to.
+"""
+input FusionFields {
+  """
+  List of aliases or alternate names for the Fusion.
+  """
+  aliases: [String!]!
+
+  """
+  The Fusion's description/summary text.
+  """
+  description: NullableStringInput!
+
+  """
+  Source IDs cited by the Fusion's summary.
+  """
+  sourceIds: [Int!]!
 }
 
 """
@@ -4721,8 +4799,6 @@ enum FusionPartnerStatus {
 }
 
 type FusionVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
-  clinvarIds: [String!]!
-
   """
   List and filter comments.
   """
@@ -4810,7 +4886,9 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     sortBy: DateSort
   ): EventConnection!
   feature: Feature!
-  fivePrimeCoordinates: FusionVariantCoordinate
+  fivePrimeCoordinates: VariantCoordinate
+  fivePrimeEndExonCoordinates: ExonCoordinate
+  fivePrimeStartExonCoordinates: ExonCoordinate
   flagged: Boolean!
 
   """
@@ -4858,7 +4936,6 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     state: FlagState
   ): FlagConnection!
   fusion: Fusion!
-  hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -4886,6 +4963,7 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
     last: Int
   ): MolecularProfileConnection!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -4938,24 +5016,32 @@ type FusionVariant implements Commentable & EventOriginObject & EventSubject & F
   ): RevisionConnection!
   singleVariantMolecularProfile: MolecularProfile!
   singleVariantMolecularProfileId: Int!
-  threePrimeCoordinates: FusionVariantCoordinate
+  threePrimeCoordinates: VariantCoordinate
+  threePrimeEndExonCoordinates: ExonCoordinate
+  threePrimeStartExonCoordinates: ExonCoordinate
   variantAliases: [String!]!
   variantTypes: [VariantType!]!
   viccCompliantName: String!
 }
 
-type FusionVariantCoordinate {
-  chromosome: String
-  coordinateType: CoordinateType!
-  ensemblVersion: Int
-  exonBoundary: Int
-  exonOffset: Int
-  exonOffsetDirection: FusionOffsetDirection
-  id: Int!
-  referenceBuild: ReferenceBuild
-  representativeTranscript: String
-  start: Int
-  stop: Int
+"""
+Fields on a FusionVariant that curators may propose revisions to.
+"""
+input FusionVariantFields {
+  """
+  List of aliases or alternate names for the Variant.
+  """
+  aliases: [String!]!
+
+  """
+  The exon coordinates for this Variant.
+  """
+  coordinates: FusionVariantInput!
+
+  """
+  List of IDs for the variant types for this Variant
+  """
+  variantTypeIds: [Int!]!
 }
 
 """
@@ -4965,7 +5051,7 @@ input FusionVariantInput {
   ensemblVersion: Int!
   fivePrimeExonEnd: Int
   fivePrimeOffset: Int
-  fivePrimeOffsetDirection: FusionOffsetDirection
+  fivePrimeOffsetDirection: Direction
   fivePrimeTranscript: String
 
   """
@@ -4974,7 +5060,7 @@ input FusionVariantInput {
   referenceBuild: ReferenceBuild
   threePrimeExonStart: Int
   threePrimeOffset: Int
-  threePrimeOffsetDirection: FusionOffsetDirection
+  threePrimeOffsetDirection: Direction
   threePrimeTranscript: String
 }
 
@@ -5127,6 +5213,7 @@ type Gene implements Commentable & EventOriginObject & EventSubject & Flaggable 
   link: String!
   myGeneInfoDetails: JSON
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -5367,7 +5454,7 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
     """
     sortBy: DateSort
   ): CommentConnection!
-  coordinates: GeneVariantCoordinate
+  coordinates: VariantCoordinate
   creationActivity: CreateVariantActivity
   deprecated: Boolean!
   deprecationActivity: DeprecateVariantActivity
@@ -5483,6 +5570,8 @@ type GeneVariant implements Commentable & EventOriginObject & EventSubject & Fla
   myVariantInfo: MyVariantInfo
   name: String!
   openCravatUrl: String
+  openRevisionCount: Int!
+  primaryCoordinates: VariantCoordinate @deprecated(reason: "The new Fusion variant type means Gene variants no longer have primary and secondary coordinates. Use 'coordinates' instead.")
 
   """
   List and filter revisions.
@@ -5567,19 +5656,6 @@ type GeneVariantConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
-}
-
-type GeneVariantCoordinate {
-  chromosome: String
-  coordinateType: CoordinateType!
-  ensemblVersion: Int
-  id: Int!
-  referenceBases: String
-  referenceBuild: ReferenceBuild
-  representativeTranscript: String
-  start: Int
-  stop: Int
-  variantBases: String
 }
 
 input GeneVariantCoordinateInput {
@@ -6099,6 +6175,7 @@ Enumeration of all moderated CIViC entities.
 enum ModeratedEntities {
   ASSERTION
   EVIDENCE_ITEM
+  EXON_COORDINATES
   FEATURE
   MOLECULAR_PROFILE
   VARIANT
@@ -6344,6 +6421,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   The human readable name of this profile, including gene and variant names.
   """
   name: String!
+  openRevisionCount: Int!
 
   """
   The profile name with its constituent parts as objects, suitable for building tags.
@@ -6864,6 +6942,26 @@ type Mutation {
     """
     input: SuggestFactorVariantRevisionInput!
   ): SuggestFactorVariantRevisionPayload
+
+  """
+  Suggest a Revision to a Feature entity of instance type "Fusion".
+  """
+  suggestFusionRevision(
+    """
+    Parameters for SuggestFusionRevision
+    """
+    input: SuggestFusionRevisionInput!
+  ): SuggestFusionRevisionPayload
+
+  """
+  Suggest a Revision to a Fusion entity.
+  """
+  suggestFusionVariantRevision(
+    """
+    Parameters for SuggestFusionVariantRevision
+    """
+    input: SuggestFusionVariantRevisionInput!
+  ): SuggestFusionVariantRevisionPayload
 
   """
   Suggest a Revision to a Feature entity of instance type "Gene".
@@ -10433,6 +10531,122 @@ type SuggestFactorVariantRevisionPayload {
 }
 
 """
+Autogenerated input type of SuggestFusionRevision
+"""
+input SuggestFusionRevisionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Text describing the reason for the change. Will be attached to the Revision as a comment.
+  """
+  comment: String!
+
+  """
+  The desired state of the Fusion's editable fields if the change were applied.
+  If no change is desired for a particular field, pass in the current value of that field.
+  """
+  fields: FusionFields!
+
+  """
+  The ID of the Feature of instance type "Fusion" to suggest a Revision to.
+  """
+  id: Int!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SuggestFusionRevision.
+"""
+type SuggestFusionRevisionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The Fusion the user has proposed a Revision to.
+  """
+  fusion: Fusion!
+
+  """
+  A list of Revisions generated as a result of this suggestion.
+  If an existing Revision exactly matches the proposed one, it will be returned instead.
+  This is indicated via the 'newlyCreated' Boolean.
+  Revisions are stored on a per-field basis.
+  The changesetId can be used to group Revisions proposed at the same time.
+  """
+  results: [RevisionResult!]!
+}
+
+"""
+Autogenerated input type of SuggestFusionVariantRevision
+"""
+input SuggestFusionVariantRevisionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Text describing the reason for the change. Will be attached to the Revision as a comment.
+  """
+  comment: String
+
+  """
+  The desired state of the Variant's editable fields if the change were applied.
+  If no change is desired for a particular field, pass in the current value of that field.
+  """
+  fields: FusionVariantFields!
+
+  """
+  The ID of the Variant to suggest a Revision to.
+  """
+  id: Int!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SuggestFusionVariantRevision.
+"""
+type SuggestFusionVariantRevisionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  A list of Revisions generated as a result of this suggestion.
+  If an existing Revision exactly matches the proposed one, it will be returned instead.
+  This is indicated via the 'newlyCreated' Boolean.
+  Revisions are stored on a per-field basis.
+  The changesetId can be used to group Revisions proposed at the same time.
+  """
+  results: [RevisionResult!]!
+
+  """
+  The Variant the user has proposed a Revision to.
+  """
+  variant: FusionVariant!
+}
+
+"""
 Autogenerated input type of SuggestGeneRevision
 """
 input SuggestGeneRevisionInput {
@@ -11423,6 +11637,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     last: Int
   ): MolecularProfileConnection!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -11502,6 +11717,60 @@ input VariantComponent {
   The ID of the Variant involved in the Molecular Profile.
   """
   variantId: Int!
+}
+
+type VariantCoordinate implements EventSubject {
+  chromosome: String
+  coordinateType: VariantCoordinateType!
+  ensemblVersion: Int
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  id: Int!
+  link: String!
+  name: String!
+  referenceBases: String
+  referenceBuild: ReferenceBuild
+  representativeTranscript: String
+  start: Int
+  stop: Int
+  variantBases: String
+}
+
+enum VariantCoordinateType {
+  FIVE_PRIME_FUSION_COORDINATE
+  GENE_VARIANT_COORDINATE
+  THREE_PRIME_FUSION_COORDINATE
 }
 
 enum VariantDeprecationReason {
@@ -11647,6 +11916,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -11700,7 +11970,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
   sources: [Source!]!
 
   """
-  List and filter Gene variants.
+  List and filter variants.
   """
   variants(
     """
@@ -12016,6 +12286,7 @@ interface VariantInterface implements Commentable & EventOriginObject & EventSub
     last: Int
   ): MolecularProfileConnection!
   name: String!
+  openRevisionCount: Int!
 
   """
   List and filter revisions.
@@ -12206,6 +12477,7 @@ A CIViC entity that can have revisions proposed to it.
 interface WithRevisions {
   lastAcceptedRevisionEvent: Event
   lastSubmittedRevisionEvent: Event
+  openRevisionCount: Int!
 
   """
   List and filter revisions.

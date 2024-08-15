@@ -2,22 +2,25 @@ module Actions
   class CreateFusionFeature
     include Actions::Transactional
 
-    attr_reader :feature, :originating_user, :organization_id
+    attr_reader :feature, :originating_user, :organization_id, :create_variant, :five_prime_partner_status, :three_prime_partner_status
 
-    def initialize(originating_user:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, organization_id: nil)
+    def initialize(originating_user:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, organization_id: nil, create_variant: true)
       feature_name = "#{construct_fusion_partner_name(five_prime_gene_id, five_prime_partner_status)}::#{construct_fusion_partner_name(three_prime_gene_id, three_prime_partner_status)}"
-      fusion = Features::Fusion.create(
+      @feature = Feature.new(
+        name: feature_name,
+      )
+      Features::Fusion.create(
         five_prime_gene_id: five_prime_gene_id,
         three_prime_gene_id: three_prime_gene_id,
         five_prime_partner_status: five_prime_partner_status,
         three_prime_partner_status: three_prime_partner_status,
+        feature: feature,
       )
-      @feature = Feature.new(
-        name: feature_name,
-        feature_instance: fusion
-      )
+      @five_prime_partner_status = five_prime_partner_status
+      @three_prime_partner_status = three_prime_partner_status
       @originating_user = originating_user
       @organization_id = organization_id
+      @create_variant = create_variant
     end
 
     def construct_fusion_partner_name(gene_id, partner_status)
@@ -33,19 +36,22 @@ module Actions
     def create_representative_variant
       stubbed_variant = Variants::FusionVariant.new(
         feature: feature,
-        name: 'Fusion'
+        name: Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
       )
 
       vicc_compliant_name = stubbed_variant.generate_vicc_name
 
       cmd = Actions::CreateVariant.new(
-        variant_name: 'Fusion',
+        variant_name: variant_name,
         feature_id: feature.id,
         originating_user: originating_user,
         organization_id: organization_id,
         additional_attrs: { vicc_compliant_name: vicc_compliant_name }
       )
       cmd.perform
+
+      variant = cmd.variant
+      stub_remaining_coordinates(variant)
 
       if cmd.errors.any?
         errors.each do |err|
@@ -54,6 +60,19 @@ module Actions
       end
 
       events << cmd.events
+    end
+
+    def stub_remaining_coordinates(variant)
+      if five_prime_partner_status == 'known'
+        variant.five_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime Start Exon Coordinate')
+        variant.five_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime End Exon Coordinate')
+        variant.five_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Five Prime Fusion Coordinate')
+      end
+      if three_prime_partner_status == 'known'
+        variant.three_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime End Exon Coordinate')
+        variant.three_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime Start Exon Coordinate')
+        variant.three_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Three Prime Fusion Coordinate')
+      end
     end
 
     private
@@ -68,7 +87,9 @@ module Actions
         originating_object: feature
       )
 
-      create_representative_variant
+      if create_variant
+        create_representative_variant
+      end
       events << event
     end
   end

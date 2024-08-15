@@ -12,7 +12,7 @@ import {
 } from '@angular/forms'
 import {
   FeatureSelectTypeaheadFieldsFragment,
-  FusionOffsetDirection,
+  Direction,
   FusionPartnerStatus,
   Maybe,
   ReferenceBuild,
@@ -46,11 +46,11 @@ type FusionVariantSelectModel = {
   fivePrimeTranscript?: string
   fivePrimeExonEnd?: string
   fivePrimeOffset?: string
-  fivePrimeOffsetDirection?: FusionOffsetDirection
+  fivePrimeOffsetDirection?: Direction
   threePrimeTranscript?: string
   threePrimeExonStart?: string
   threePrimeOffset?: string
-  threePrimeOffsetDirection?: FusionOffsetDirection
+  threePrimeOffsetDirection?: Direction
   referenceBuild?: ReferenceBuild
   ensemblVersion?: number
   organizationId?: number
@@ -58,6 +58,24 @@ type FusionVariantSelectModel = {
 
 export interface FusionVariantSelectModalData {
   feature?: FeatureSelectTypeaheadFieldsFragment
+}
+
+export const directionSelectOptions = [
+  {
+    label: '+',
+    value: Direction.Positive,
+  },
+  {
+    label: '-',
+    value: Direction.Negative,
+  },
+]
+
+export const isNumeric = (c: AbstractControl) =>
+  c.value ? /^\d+$/.test(c.value) : true
+
+export const isEnsemblTranscript = (c: AbstractControl) => {
+  return c.value ? /ENST\d{11}\.\d{1,2}/.test(c.value) : true
 }
 
 @UntilDestroy()
@@ -123,20 +141,6 @@ export class CvcFusionVariantSelectForm {
       organizationId: undefined,
     }
     this.options = {}
-
-    const isNumeric = (c: AbstractControl) =>
-      c.value ? /^\d+$/.test(c.value) : true
-
-    const selectOptions = [
-      {
-        label: '+',
-        value: FusionOffsetDirection.Positive,
-      },
-      {
-        label: '-',
-        value: FusionOffsetDirection.Negative,
-      },
-    ]
 
     let fivePrimeDisabled = false
     let threePrimeDisabled = false
@@ -217,6 +221,13 @@ export class CvcFusionVariantSelectForm {
                       tooltip:
                         "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 5' exon you have selected",
                     },
+                    validators: {
+                      isTranscriptId: {
+                        expression: isEnsemblTranscript,
+                        message:
+                          "5' Transcript must be a valid, human, versioned, Ensembl transcript ID",
+                      },
+                    },
                   },
                   {
                     key: 'fivePrimeExonEnd',
@@ -228,7 +239,7 @@ export class CvcFusionVariantSelectForm {
                       },
                     },
                     props: {
-                      label: "5' Exon End",
+                      label: "5' End Exon",
                       required: !fivePrimeDisabled,
                       disabled: fivePrimeDisabled,
                       tooltip:
@@ -261,7 +272,7 @@ export class CvcFusionVariantSelectForm {
                         'Negative values offset towards the 5’ end of the transcript and positive values offset towards the 3’ end of the transcript.',
                       required: true,
                       placeholder: "5' Offset Direction",
-                      options: selectOptions,
+                      options: directionSelectOptions,
                       multiple: false,
                     },
                     expressions: {
@@ -291,6 +302,13 @@ export class CvcFusionVariantSelectForm {
                       tooltip:
                         "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 3' exon you have selected",
                     },
+                    validators: {
+                      isTranscriptId: {
+                        expression: isEnsemblTranscript,
+                        message:
+                          "5' Transcript must be a valid, human, versioned, Ensembl transcript ID",
+                      },
+                    },
                   },
                   {
                     key: 'threePrimeExonStart',
@@ -302,7 +320,7 @@ export class CvcFusionVariantSelectForm {
                       },
                     },
                     props: {
-                      label: "3' Exon Start",
+                      label: "3' Start Exon",
                       tooltip:
                         'The exon number counted from the 5’ end of the transcript.',
                       required: !threePrimeDisabled,
@@ -335,7 +353,7 @@ export class CvcFusionVariantSelectForm {
                         'Negative values offset towards the 5’ end of the transcript and positive values offset towards the 3’ end of the transcript.',
                       required: true,
                       placeholder: "3' Offset Direction",
-                      options: selectOptions,
+                      options: directionSelectOptions,
                       multiple: false,
                     },
                     expressions: {
