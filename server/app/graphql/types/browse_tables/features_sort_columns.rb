@@ -1,6 +1,7 @@
 module Types::BrowseTables
   class FeaturesSortColumns < Types::BaseEnum
     value "featureName"
+    value "featureFullName"
     value "therapyName"
     value "featureAlias"
     value "diseaseName"
