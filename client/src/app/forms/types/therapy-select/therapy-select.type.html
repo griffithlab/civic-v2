@@ -13,7 +13,7 @@
   [cvcShowError]="showError"
   [cvcSelectOpen]="selectOpen$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnOpenChange)="onOpenChange$.next($event)"
+  (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 <!-- FIXME: select does not auto-fill new entity created by therapy-quick-add form -->

@@ -3366,6 +3366,7 @@ export type MolecularProfileAssertionsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  includeRejected?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
 };
 
@@ -3399,6 +3400,7 @@ export type MolecularProfileEvidenceItemsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  includeRejected?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
 };
 

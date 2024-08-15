@@ -8,9 +8,11 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import { environment } from 'environments/environment'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, filter, Observable, Subject } from 'rxjs'
 import { tag } from 'rxjs-spy/operators'
 import { map, startWith, withLatestFrom } from 'rxjs/operators'
+import { pluck } from 'rxjs-etc/operators'
+import { isNonNulled } from 'rxjs-etc'
 
 @Component({
   selector: 'cvc-viewer-button',
@@ -39,14 +41,16 @@ export class CvcViewerButtonComponent implements OnInit {
       this.unreadCount$ = this.unreadCountGql
         .watch(undefined, { pollInterval: 5000 })
         .valueChanges.pipe(
-          map(({ data }) => data.notifications.unreadCount),
+          pluck('data', 'notifications', 'unreadCount'),
+          filter(isNonNulled),
           startWith(0)
         )
     } else {
       this.unreadCount$ = this.unreadCountGql
         .watch(undefined)
         .valueChanges.pipe(
-          map(({ data }) => data.notifications.unreadCount),
+          pluck('data', 'notifications', 'unreadCount'),
+          filter(isNonNulled),
           startWith(0)
         )
     }

@@ -4,7 +4,7 @@
       nzLinkRouter
       nzType="card"
       nzSize="small"
-      [nzSelectedIndex]="selectedTabIndex"
+      [nzSelectedIndex]="selectedTabIndex ?? null"
       [nzTabBarExtraContent]="extraTpl">
       <ng-template #extraTpl>
         <ng-container [ngTemplateOutlet]="tabBarExtraContent || null">
