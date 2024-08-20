@@ -42,7 +42,7 @@ module Types::Queries
         description "Retrieve entity type typeahead fields for a entity mention search term."
         argument :query_term, GraphQL::Types::String, required: true
       end
-      
+
       klass.field :acmg_codes_typeahead, [Types::Entities::AcmgCodeType], null: false do
         description "Retrieve ACMG Code options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
@@ -68,6 +68,7 @@ module Types::Queries
           .where(deprecated: false)
           .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "%#{query_term}%" })
           .limit(20)
+          .distinct
 
         if feature_id
           scope.where(feature_id: feature_id)
@@ -87,6 +88,7 @@ module Types::Queries
             .where("disease_aliases.name ILIKE ?", "%#{query_term}%")
             .where.not(id: results.select('id'))
             .order("LENGTH(diseases.name) ASC")
+            .distinct
             .limit(10-results.size)
           return results + secondary_results
         else
@@ -109,6 +111,7 @@ module Types::Queries
               .where("therapy_aliases.name ILIKE ?", "%#{query_term}%")
               .where.not(id: results.select('id') + secondary_results.select('id'))
               .order("LENGTH(therapies.name) ASC")
+              .distinct
               .limit(10-results.size)
 
             return results + secondary_results + tertiary_results
@@ -136,6 +139,7 @@ module Types::Queries
             .where("feature_aliases.name ILIKE ?", "#{query_term}%")
             .where.not(id: results.select('id'))
             .order("LENGTH(features.name) ASC")
+            .distinct
             .limit(10 - results.size)
           return (results + secondary_results).uniq
         else
