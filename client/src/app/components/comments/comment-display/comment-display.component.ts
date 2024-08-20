@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Comment, CommentBodySegment, Maybe, Scalars } from '@app/generated/civic.apollo'
+import { CommentBodySegment, Maybe } from '@app/generated/civic.apollo'
 
 export interface CommenterInterface {
-  displayName: string,
+  displayName: string
   profileImagePath: Maybe<string>
 }
 
-export interface CommentInterface  {
-  createdAt: string | number,
-  parsedComment: CommentBodySegment[],
+export interface CommentInterface {
+  createdAt: string | number
+  parsedComment: CommentBodySegment[]
   commenter: CommenterInterface
 }
 
