@@ -11,7 +11,15 @@
       nzIcon="civic:curator"></nz-avatar>
   </ng-template>
   <nz-comment-content>
-    <cvc-comment-body
-      [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
+    @if (comment.parsedComment.length == 0) {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i>No Comment Provided</i>
+      </span>
+    } @else {
+      <cvc-comment-body
+        [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
+    }
   </nz-comment-content>
 </nz-comment>

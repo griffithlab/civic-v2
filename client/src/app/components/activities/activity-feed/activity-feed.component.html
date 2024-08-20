@@ -29,8 +29,7 @@
             {{ activity.verbiage }}
             @switch (activity.subject.__typename) {
               @case ('Feature') {
-                <cvc-feature-tag
-                  [feature]="activity.subject"></cvc-feature-tag>
+                <cvc-feature-tag [feature]="activity.subject"></cvc-feature-tag>
               }
               @case ('Assertion') {
                 <cvc-assertion-tag
