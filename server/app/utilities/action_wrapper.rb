@@ -1,6 +1,7 @@
 class ActionWrapper
   AVAILABLE_ACTIONS = [
-    MergeAccounts
+    MergeAccounts,
+    ToggleMaintenanceMode
   ]
 
   def self.name
