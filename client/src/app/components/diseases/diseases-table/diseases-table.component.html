@@ -46,20 +46,21 @@
     <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th
-          nzWidth="300px"
+          nzWidth="200px"
           nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
         <th
-          nzWidth="150px"
+          nzWidth="100px"
           nzLeft
           [nzColumnKey]="sortColumns.Doid"
           [nzSortFn]="true">
           DOID
         </th>
-        <th nzWidth="400px">Features</th>
+        <th nzWidth="200px">Aliases</th>
+        <th nzWidth="300px">Features</th>
         <th
           nzWidth="75px"
           nzRight
@@ -133,6 +134,13 @@
         </th>
         <th>
           <cvc-clearable-input-filter
+            [(inputModel)]="diseaseAliasInput"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter
             [(inputModel)]="featureNameInput"
             (inputModelChange)="
               filterChange$.next()
@@ -162,6 +170,12 @@
             </cvc-link-tag>
 
             <ng-template #noDoid> -- </ng-template>
+          </td>
+          <td class="overflow-ellipsis">
+            <cvc-plain-tag-overflow
+              [maxDisplayCount]="1"
+              [tags]="disease.diseaseAliases"
+              [matchingText]="diseaseAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td class="overflow-ellipsis">
             <cvc-tag-overflow
