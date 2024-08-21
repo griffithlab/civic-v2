@@ -537,6 +537,7 @@ export type BrowseDisease = {
   __typename: 'BrowseDisease';
   assertionCount: Scalars['Int']['output'];
   deprecated: Scalars['Boolean']['output'];
+  diseaseAliases?: Maybe<Array<Scalars['String']['output']>>;
   diseaseUrl?: Maybe<Scalars['String']['output']>;
   displayName: Scalars['String']['output'];
   doid?: Maybe<Scalars['String']['output']>;
@@ -823,6 +824,7 @@ export type BrowseTherapy = {
   link: Scalars['String']['output'];
   name: Scalars['String']['output'];
   ncitId?: Maybe<Scalars['String']['output']>;
+  therapyAliases?: Maybe<Array<Scalars['String']['output']>>;
   therapyUrl?: Maybe<Scalars['String']['output']>;
 };
 
@@ -4478,6 +4480,7 @@ export type QueryAssertionsArgs = {
 export type QueryBrowseDiseasesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
+  diseaseAlias?: InputMaybe<Scalars['String']['input']>;
   doid?: InputMaybe<Scalars['String']['input']>;
   featureName?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -4942,6 +4945,7 @@ export type QueryTherapiesArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   ncitId?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<TherapySort>;
+  therapyAlias?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -7607,13 +7611,14 @@ export type TherapiesBrowseQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   ncitId?: InputMaybe<Scalars['String']['input']>;
+  therapyAlias?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<TherapySort>;
 }>;
 
 
-export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typename: 'BrowseTherapyConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseTherapyEdge', cursor: string, node?: { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean } | undefined }> } };
+export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typename: 'BrowseTherapyConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseTherapyEdge', cursor: string, node?: { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean, therapyAliases?: Array<string> | undefined } | undefined }> } };
 
-export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean };
+export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean, therapyAliases?: Array<string> | undefined };
 
 export type LeaderboardUserFieldsFragment = { __typename: 'LeaderboardUser', id: number, name?: string | undefined, displayName: string, actionCount: number, role: UserRole, rank: number, profileImagePath?: string | undefined };
 
@@ -10059,6 +10064,7 @@ export const TherapyBrowseTableRowFieldsFragmentDoc = gql`
   evidenceCount
   link
   deprecated
+  therapyAliases
 }
     `;
 export const LeaderboardUserFieldsFragmentDoc = gql`
@@ -13342,7 +13348,7 @@ export const TherapyPopoverDocument = gql`
     }
   }
 export const TherapiesBrowseDocument = gql`
-    query TherapiesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $sortBy: TherapySort) {
+    query TherapiesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
   therapies(
     first: $first
     last: $last
@@ -13350,6 +13356,7 @@ export const TherapiesBrowseDocument = gql`
     after: $after
     name: $name
     ncitId: $ncitId
+    therapyAlias: $therapyAlias
     sortBy: $sortBy
   ) {
     totalCount

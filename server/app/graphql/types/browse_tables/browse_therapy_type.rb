@@ -17,7 +17,8 @@ module Types::BrowseTables
     end
 
     def therapy_aliases
-      object.alias_names.compact
+      #order by size to reduce the chance of the long chemical formulas appearing the table
+      object.alias_names&.compact&.sort_by(&:size)
     end
 
     def link
