@@ -3,6 +3,7 @@ require 'search_object/plugin/graphql'
 
 class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
+  include Resolvers::Shared::SearchHelpers
 
   type Types::BrowseTables::BrowseTherapyType.connection_type, null: false
 
@@ -16,6 +17,10 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
     else
       scope.where(ncit_id: "C#{value}")
     end
+  end
+
+  option(:therapy_alias, type: String) do |scope, value|
+    scope.where(array_query_for_column('alias_names'), "%#{value}%")
   end
 
   option(:id, type: Int, description: "Filter on a therapy's internal CIViC id") do |scope, value|
