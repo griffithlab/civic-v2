@@ -10,9 +10,18 @@ module Types::BrowseTables
     field :therapy_url, String, null: true
     field :link, String, null: false
     field :deprecated, Boolean, null: false
+    field :therapy_aliases, [String], null: true
 
     def therapy_url
       Therapy.url_for(ncit_id: object.ncit_id)
+    end
+
+    def therapy_aliases
+      object.alias_names.compact
+    end
+
+    def link
+      Rails.application.routes.url_helpers.url_for("/therapies/#{object.id}")
     end
   end
 end
