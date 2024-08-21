@@ -41,10 +41,13 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
     scope.joins(:submission_event).where('events.originating_user_id = ?', value)
   end
   option(:disease_name, type: GraphQL::Types::String, description: 'Substring filtering on disease name.') do |scope, value|
-    scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
+    scope.joins('INNER JOIN diseases AS disease_names ON evidence_items.disease_id = disease_names.id ')
+      .where('disease_names.name ILIKE ?', "%#{value}%")
   end
   option(:therapy_name, type: GraphQL::Types::String, description: 'Substring filtering on therapy name.') do |scope, value|
-    scope.joins(:therapies).where('therapies.name ILIKE ?', "%#{value}%")
+    scope.joins("INNER JOIN evidence_items_therapies AS eit_names on eit_names.evidence_item_id = evidence_items.id")
+      .joins("INNER JOIN therapies AS therapy_names ON therapy_names.id = eit_names.therapy_id")
+      .where('therapy_names.name ILIKE ?', "%#{value}%")
   end
   option(:description, type: GraphQL::Types::String, description: 'Substring filtering on evidence item description.') do |scope, value|
     scope.where("evidence_items.description ILIKE ?", "%#{value}%")
