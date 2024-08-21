@@ -868,6 +868,7 @@ type BrowseClinicalTrialEdge {
 type BrowseDisease {
   assertionCount: Int!
   deprecated: Boolean!
+  diseaseAliases: [String!]
   diseaseUrl: String
   displayName: String!
   doid: String
@@ -1341,6 +1342,7 @@ type BrowseTherapy {
   link: String!
   name: String!
   ncitId: String
+  therapyAliases: [String!]
   therapyUrl: String
 }
 
@@ -7272,6 +7274,7 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    diseaseAlias: String
     doid: String
     featureName: String
 
@@ -8301,6 +8304,7 @@ type Query {
     Sort order for the therapies. Defaults to the highest evidence item count.
     """
     sortBy: TherapySort
+    therapyAlias: String
   ): BrowseTherapyConnection!
 
   """

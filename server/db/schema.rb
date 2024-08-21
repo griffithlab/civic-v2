@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_26_163525) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_21_202933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
+  create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
     t.text "code"
@@ -447,21 +449,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_163525) do
   end
 
   create_table "exon_coordinates", force: :cascade do |t|
-    t.text "chromosome", null: false
-    t.enum "strand", null: false, enum_type: "exon_offset_direction"
-    t.bigint "start", null: false
-    t.bigint "stop", null: false
-    t.integer "exon", null: false
-    t.text "ensembl_id", null: false
+    t.text "chromosome"
+    t.enum "strand", enum_type: "exon_offset_direction"
+    t.bigint "start"
+    t.bigint "stop"
+    t.integer "exon"
+    t.text "ensembl_id"
     t.integer "exon_offset"
     t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
-    t.integer "ensembl_version", null: false
-    t.text "representative_transcript", null: false
+    t.integer "ensembl_version"
+    t.text "representative_transcript"
     t.integer "reference_build"
     t.bigint "variant_id", null: false
     t.text "coordinate_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "record_state", default: "stub", null: false, enum_type: "exon_coordinate_record_state"
     t.index ["chromosome"], name: "index_exon_coordinates_on_chromosome"
     t.index ["representative_transcript"], name: "index_exon_coordinates_on_representative_transcript"
     t.index ["start"], name: "index_exon_coordinates_on_start"
@@ -729,14 +732,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_163525) do
   end
 
   create_table "solid_errors", force: :cascade do |t|
-    t.string "exception_class", null: false
-    t.string "message", null: false
-    t.string "severity", null: false
-    t.string "source"
+    t.text "exception_class", null: false
+    t.text "message", null: false
+    t.text "severity", null: false
+    t.text "source"
     t.datetime "resolved_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["exception_class", "message", "severity", "source"], name: "solid_error_uniqueness_index", unique: true
+    t.string "fingerprint", limit: 64
+    t.index ["fingerprint"], name: "index_solid_errors_on_fingerprint", unique: true
     t.index ["resolved_at"], name: "index_solid_errors_on_resolved_at"
   end
 
@@ -915,10 +919,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_163525) do
     t.integer "ensembl_version"
     t.text "representative_transcript"
     t.integer "reference_build"
-    t.bigint "variant_id"
+    t.bigint "variant_id", null: false
     t.text "coordinate_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "record_state", default: "stub", null: false, enum_type: "variant_coordinate_record_state"
     t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
     t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
     t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
@@ -1255,30 +1260,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_163525) do
   SQL
   add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
-  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT diseases.id,
-      diseases.name,
-      diseases.display_name,
-      diseases.doid,
-      diseases.deprecated,
-      json_agg(DISTINCT jsonb_build_object('name', features.name, 'id', features.id)) FILTER (WHERE (features.name IS NOT NULL)) AS features,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT assertions.id) AS assertion_count,
-      count(DISTINCT features.id) AS feature_count
-     FROM (((((((diseases
-       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
-       JOIN molecular_profiles ON ((molecular_profiles.id = evidence_items.molecular_profile_id)))
-       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.molecular_profile_id = molecular_profiles.id)))
-       JOIN variants ON ((variants.id = molecular_profiles_variants.variant_id)))
-       JOIN features ON ((features.id = variants.feature_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (diseases.deprecated = false))
-    GROUP BY diseases.id, diseases.name, diseases.doid;
-  SQL
-  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
-
   create_view "molecular_profile_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_mps.id,
       outer_mps.name,
@@ -1476,4 +1457,51 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_163525) do
   SQL
   add_index "feature_browse_table_rows", ["id"], name: "index_feature_browse_table_rows_on_id", unique: true
 
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.display_name,
+      diseases.doid,
+      diseases.deprecated,
+      array_agg(DISTINCT disease_aliases.name ORDER BY disease_aliases.name) AS alias_names,
+      json_agg(DISTINCT jsonb_build_object('name', features.name, 'id', features.id)) FILTER (WHERE (features.name IS NOT NULL)) AS features,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT features.id) AS feature_count
+     FROM (((((((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       LEFT JOIN disease_aliases_diseases ON ((disease_aliases_diseases.disease_id = diseases.id)))
+       LEFT JOIN disease_aliases ON ((disease_aliases.id = disease_aliases_diseases.disease_alias_id)))
+       JOIN molecular_profiles ON ((molecular_profiles.id = evidence_items.molecular_profile_id)))
+       JOIN molecular_profiles_variants ON ((molecular_profiles_variants.molecular_profile_id = molecular_profiles.id)))
+       JOIN variants ON ((variants.id = molecular_profiles_variants.variant_id)))
+       JOIN features ON ((features.id = variants.feature_id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (diseases.deprecated = false))
+    GROUP BY diseases.id, diseases.name, diseases.doid;
+  SQL
+  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
+
+  create_view "therapy_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT therapies.id,
+      therapies.name,
+      therapies.deprecated,
+      therapies.ncit_id,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT evidence_items.id) AS evidence_count,
+      array_agg(DISTINCT therapy_aliases.name ORDER BY therapy_aliases.name) AS alias_names
+     FROM ((((((therapies
+       JOIN evidence_items_therapies ON ((evidence_items_therapies.therapy_id = therapies.id)))
+       JOIN evidence_items ON ((evidence_items_therapies.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       LEFT JOIN therapies_therapy_aliases ON ((therapies_therapy_aliases.therapy_id = therapies.id)))
+       LEFT JOIN therapy_aliases ON ((therapy_aliases.id = therapies_therapy_aliases.therapy_alias_id)))
+    WHERE ((((evidence_items.status)::text <> 'rejected'::text) OR (assertions.status <> 'rejected'::text)) AND (therapies.deprecated = false))
+    GROUP BY therapies.id, therapies.name, therapies.deprecated, therapies.ncit_id
+   HAVING ((count(evidence_items.id) > 0) OR (count(assertions.id) > 0))
+    ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
+  SQL
 end

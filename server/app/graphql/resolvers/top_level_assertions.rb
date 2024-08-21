@@ -40,10 +40,13 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.joins(:submission_event).where('events.originating_user_id = ?', value)
   end
   option(:disease_name, type: GraphQL::Types::String, description: 'Substring filtering on disease name.') do |scope, value|
-    scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
+    scope.joins('INNER JOIN diseases AS disease_names ON assertions.disease_id = disease_names.id ')
+      .where('disease_names.name ILIKE ?', "%#{value}%")
   end
   option(:therapy_name, type: GraphQL::Types::String, description: 'Substring filtering on therapy name.') do |scope, value|
-    scope.joins(:therapies).where('therapies.name ILIKE ?', "%#{value}%")
+    scope.joins("INNER JOIN assertions_therapies AS at_names on at_names.assertion_id = assertions.id")
+      .joins("INNER JOIN therapies AS therapy_names ON therapy_names.id = at_names.therapy_id")
+      .where('therapy_names.name ILIKE ?', "%#{value}%")
   end
   option(:molecular_profile_name, type: GraphQL::Types::String, description: 'Substring filtering on molecular profile name') do |scope, value|
     results = Searchkick.search(

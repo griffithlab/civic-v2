@@ -2,8 +2,8 @@ require 'search_object'
 require 'search_object/plugin/graphql'
 
 class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
-  # include SearchObject for GraphQL
   include SearchObject.module(:graphql)
+  include Resolvers::Shared::SearchHelpers
 
   type Types::BrowseTables::BrowseDiseaseType.connection_type, null: false
 
@@ -25,7 +25,13 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
     end
   end
 
-  option(:feature_name, type: String) { |scope, value| scope.where(json_name_query_for_column('features'), "%#{value}%") }
+  option(:feature_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, 'features'), "%#{value}%")
+  end
+
+  option(:disease_alias, type: String) do |scope, value|
+    scope.where(array_query_for_column('alias_names'), "%#{value}%")
+  end
 
   option(:sort_by, type: Types::BrowseTables::DiseasesSortType) do |scope, value|
     case value.column
@@ -42,11 +48,6 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
     when "FEATURE_COUNT"
       scope.order("feature_count #{value.direction}")
     end
-  end
-
-  def json_name_query_for_column(col)
-    raise 'Must supply a column name' if col.nil?
-    "disease_browse_table_rows.id IN (select d.id FROM disease_browse_table_rows d, json_array_elements(d.#{col}) dr where dr->>'name' ILIKE ?)"
   end
 end
 
