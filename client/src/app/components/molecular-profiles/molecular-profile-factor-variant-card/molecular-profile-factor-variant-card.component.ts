@@ -22,6 +22,7 @@ import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-c
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
+import { CvcNcitDetailsComponent } from '@app/components/factors/ncit-details/ncit-details.component'
 
 @Component({
   selector: 'cvc-mp-factor-variant-card',
@@ -50,6 +51,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     CvcMolecularProfileTagModule,
     CvcCoordinatesCardModule,
     CvcFeatureVariantTagModule,
+    CvcNcitDetailsComponent,
   ],
 })
 export class CvcMolecularProfileFactorVariantCardComponent implements OnInit {
