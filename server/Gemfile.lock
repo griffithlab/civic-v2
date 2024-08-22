@@ -478,8 +478,13 @@ GEM
     solargraph-rails (1.1.0)
       activesupport
       solargraph
-    solid_errors (0.3.5)
-      rails (~> 7.0)
+    solid_errors (0.5.0)
+      actionmailer (>= 7.0)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activerecord (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -589,7 +594,7 @@ DEPENDENCIES
   simplecov-lcov
   solargraph
   solargraph-rails
-  solid_errors (~> 0.3.4)
+  solid_errors (~> 0.5.0)
   trestle (~> 0.9.5)
   trestle-search (~> 0.4.3)
   typhoeus (~> 1.4.0)
