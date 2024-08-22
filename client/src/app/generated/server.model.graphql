@@ -7111,6 +7111,7 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+    includeAutomatedEvents: Boolean
 
     """
     Returns the last _n_ elements from the list.

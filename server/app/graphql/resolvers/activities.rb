@@ -48,8 +48,8 @@ module Resolvers
     option(:mode, type: Types::Events::EventFeedMode) do |_, _|
       #accessed in connection, yuck
     end
-    
-    option(:include_automated_events, type: Boolean, default_value: true) do |scope, value|
+
+    option(:include_automated_events, type: Boolean, default_value: false) do |scope, value|
       if !include_automated_events
         scope.where.not(user_id: Constants::CIVICBOT_USER_ID)
       else
