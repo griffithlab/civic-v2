@@ -27,6 +27,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module'
 import { CvcAssertionsTableComponent } from './assertions-table.component'
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
 
 @NgModule({
   declarations: [CvcAssertionsTableComponent],
@@ -46,6 +48,8 @@ import { CvcAssertionsTableComponent } from './assertions-table.component'
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzDropDownModule,
+    NzRadioModule,
 
     CvcAssertionsTagModule,
     CvcAutoHeightCardModule,

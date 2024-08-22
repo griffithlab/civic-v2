@@ -86,13 +86,14 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.joins(:therapies).where('therapies.id = ?', value)
   end
   option(:status, type: Types::EvidenceStatusFilterType, description: "Filtering on the status of the assertion.") do |scope, value|
-    if value != 'ALL'
-      scope.unscope(where: :status).where(status: value)
-    else
+    if value == 'ALL'
       scope.unscope(where: :status)
+    elsif value == 'NON_REJECTED'
+      scope.unscope(where: :status).where.not(status: 'rejected')
+    else
+      scope.unscope(where: :status).where(status: value)
     end
   end
-
 
   option :sort_by, type: Types::BrowseTables::AssertionSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|
     case value.column

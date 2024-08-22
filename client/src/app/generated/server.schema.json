@@ -16765,6 +16765,12 @@
               "deprecationReason": null
             },
             {
+              "name": "NON_REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ALL",
               "description": null,
               "isDeprecated": false,

@@ -2084,6 +2084,7 @@ export enum EvidenceStatus {
 export enum EvidenceStatusFilter {
   Accepted = 'ACCEPTED',
   All = 'ALL',
+  NonRejected = 'NON_REJECTED',
   Rejected = 'REJECTED',
   Submitted = 'SUBMITTED'
 }

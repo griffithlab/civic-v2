@@ -71,10 +71,12 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
     scope.where(rating: value)
   end
   option(:status, type: Types::EvidenceStatusFilterType, description: 'Filtering on the evidence status.') do |scope, value|
-    if value != 'ALL'
-      scope.unscope(where: :status).where(status: value)
-    else
+    if value == 'ALL'
       scope.unscope(where: :status)
+    elsif value == 'NON_REJECTED'
+      scope.unscope(where: :status).where.not(status: 'rejected')
+    else
+      scope.unscope(where: :status).where(status: value)
     end
   end
   option(:phenotype_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC phenotype id') do |scope, value|

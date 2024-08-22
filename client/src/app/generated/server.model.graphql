@@ -3239,6 +3239,7 @@ enum EvidenceStatus {
 enum EvidenceStatusFilter {
   ACCEPTED
   ALL
+  NON_REJECTED
   REJECTED
   SUBMITTED
 }
