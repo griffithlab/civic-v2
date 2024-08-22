@@ -28,6 +28,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module'
 import { CvcEvidenceTableComponent } from './evidence-table.component'
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
 
 @NgModule({
   declarations: [CvcEvidenceTableComponent],
@@ -49,6 +51,8 @@ import { CvcEvidenceTableComponent } from './evidence-table.component'
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzDropDownModule,
+    NzRadioModule,
 
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,

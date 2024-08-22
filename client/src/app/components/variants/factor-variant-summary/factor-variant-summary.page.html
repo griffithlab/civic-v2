@@ -58,21 +58,6 @@
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
-        <ng-container *ngIf="variant.ncitId; else noNcit">
-          <nz-col [nzSpan]="24">
-            <cvc-ncit-details
-              [ncitDetails]="variant.ncitDetails"></cvc-ncit-details>
-          </nz-col>
-        </ng-container>
-        <ng-template #noNcit>
-          <nz-col [nzSpan]="24">
-            <nz-card nzTitle="">
-              <cvc-empty-revisable
-                notification="Not available, please provide an NCIt Code">
-              </cvc-empty-revisable>
-            </nz-card>
-          </nz-col>
-        </ng-template>
       </nz-row>
     </nz-col>
 
@@ -155,6 +140,15 @@
               [ncitDetails]="variant.ncitDetails"></cvc-ncit-details>
           </nz-col>
         </ng-container>
+        <ng-template #noNcit>
+          <nz-col [nzSpan]="24">
+            <nz-card nzTitle="">
+              <cvc-empty-revisable
+                notification="Not available, please provide an NCIt Code">
+              </cvc-empty-revisable>
+            </nz-card>
+          </nz-col>
+        </ng-template>
       </nz-row>
     </nz-col>
     <!-- END RIGHT COL -->

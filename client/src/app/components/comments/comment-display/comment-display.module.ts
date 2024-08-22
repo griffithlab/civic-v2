@@ -5,6 +5,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { CvcCommentBodyModule } from '../comment-body/comment-body.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @NgModule({
   declarations: [CvcCommentDisplayComponent],
@@ -12,8 +13,9 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CommonModule,
     NzCommentModule,
     NzAvatarModule,
+    NzTypographyModule,
     CvcCommentBodyModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
   exports: [CvcCommentDisplayComponent],
 })

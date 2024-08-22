@@ -17,11 +17,16 @@ module Types::BrowseTables
     field :feature_count, Int, null: false
     field :link, String, null: false
     field :deprecated, Boolean, null: false
+    field :disease_aliases, [String], null: true
 
     def features
       Array(object.features)
         .sort_by { |f| f['name'] }
         .map { |f| { name: f['name'], id: f['id'], link: "/features/#{f['id']}" } }
+    end
+
+    def disease_aliases
+      object.alias_names.compact
     end
 
     def link

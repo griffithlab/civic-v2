@@ -31,6 +31,9 @@ gem 'scenic', '~>1.5.4'
 #entrez symbol downloads
 gem 'net-ftp', '~>0.3.3'
 
+#NCIt term download
+gem 'rubyzip', '~>2.3.2'
+
 #higher performance json encoding
 gem 'oj', '~> 3.16.3'
 
@@ -69,7 +72,7 @@ gem 'obo', '~> 0.1.5'
 
 gem 'activejob-null', '~> 0.0.1'
 
-gem "solid_errors", "~> 0.3.4"
+gem "solid_errors", "~> 0.5.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

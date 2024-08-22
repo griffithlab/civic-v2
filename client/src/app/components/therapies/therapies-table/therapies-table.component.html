@@ -54,11 +54,12 @@
           Name
         </th>
         <th
-          nzWidth="100%"
+          nzWidth="15%"
           [nzColumnKey]="sortColumns.NcitId"
           [nzSortFn]="true">
           NCIt Code
         </th>
+        <th nzWidth="85%">Aliases</th>
         <th
           nzWidth="75px"
           nzRight
@@ -101,6 +102,13 @@
               filterChange$.next()
             "></cvc-clearable-input-filter>
         </th>
+        <th>
+          <cvc-clearable-input-filter
+            [(inputModel)]="therapyAliasFilter"
+            (inputModelChange)="
+              filterChange$.next()
+            "></cvc-clearable-input-filter>
+        </th>
         <th nzRight></th>
         <th nzRight></th>
       </tr>
@@ -122,6 +130,12 @@
             </cvc-link-tag>
 
             <ng-template #noNcit>--</ng-template>
+          </td>
+          <td>
+            <cvc-plain-tag-overflow
+              [maxDisplayCount]="3"
+              [tags]="therapy.therapyAliases"
+              [matchingText]="therapyAliasFilter"></cvc-plain-tag-overflow>
           </td>
           <td
             nzRight

@@ -2,7 +2,8 @@ import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Params } from '@angular/router'
 import { Maybe } from '@app/generated/civic.apollo'
 import { FormlyExtension, FormlyFieldConfig } from '@ngx-formly/core'
-import { distinctUntilKeyChanged, Subscription } from 'rxjs'
+import { distinctUntilKeyChanged, Subject, Subscription } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 
 export interface ObserveQueryParamProps {
   // if false, field will not observe query parameters
@@ -16,16 +17,20 @@ export const defaultObserveQueryParamProps = {
 }
 
 export class ObserveQueryParamExtension implements FormlyExtension {
-  paramKey: Maybe<string | number>
+  paramKey: Maybe<keyof Params>
+  // paramKey: Maybe<string | number>
   fieldParam: Maybe<string | number>
+  unSub$: Subject<void>
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+    this.unSub$ = new Subject()
+  }
   postPopulate(field: FormlyFieldConfig) {
     // only primitive values will be observed for now, so skip
     // observing params for fieldGroups, fieldArrays
     if (field.fieldGroup || field.fieldArray) return
 
-    // merge field props, end if field config has has paramKey set to false
+    // merge field props, end if field config has paramKey set to false
     const props = field.props || { ...defaultObserveQueryParamProps }
     if (props.paramKey === false) return
 
@@ -49,7 +54,7 @@ export class ObserveQueryParamExtension implements FormlyExtension {
     }
   }
 
-  getParamKey(field: FormlyFieldConfig): Maybe<string | number> {
+  getParamKey(field: FormlyFieldConfig): Maybe<keyof Params> {
     // assert props existence bc this fn only called if it exists
     const props = field!.props!
     // get queryParam from props, or use field's key if it is a string
@@ -70,8 +75,8 @@ export class ObserveQueryParamExtension implements FormlyExtension {
   }
 
   getRouteSub(route: ActivatedRoute, field: FormlyFieldConfig): Subscription {
-    const sub = route.queryParams
-      .pipe(distinctUntilKeyChanged(this.paramKey!))
+    return route.queryParams
+      .pipe(distinctUntilKeyChanged(this.paramKey!), takeUntil(this.unSub$))
       .subscribe((params: Params) => {
         // getRouteSub isn't called unless fieldGroup, fieldArray check passed,
         // hence this field's control is a FormControl
@@ -81,7 +86,7 @@ export class ObserveQueryParamExtension implements FormlyExtension {
         // set param value, end if undefined
         const paramValue = params[this.paramKey!]
         if (!paramValue) {
-          //sub.unsubscribe()
+          this.unSub$.next()
           return
         }
 
@@ -97,10 +102,13 @@ export class ObserveQueryParamExtension implements FormlyExtension {
           console.warn(
             `Note: Query values are parsed as JSON, therefore enum strings must be enclosed in double-quotes, and numeric entity IDs must be bare, unquoted.`
           )
-          //sub.unsubscribe()
+          this.unSub$.next()
           return
         }
-        if (!fieldValue) return
+        if (!fieldValue) {
+          this.unSub$.next()
+          return
+        }
         // ensure provided value is not an object, end if it is
         if (
           Object.keys(fieldValue).length > 0 &&
@@ -111,12 +119,10 @@ export class ObserveQueryParamExtension implements FormlyExtension {
               this.paramKey
             } is an object: ${JSON.stringify(fieldValue)}`
           )
-          //sub.unsubscribe()
+          this.unSub$.next()
           return
         }
         ctrl.setValue(fieldValue)
       })
-
-    return sub
   }
 }

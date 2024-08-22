@@ -30,7 +30,12 @@ export class PagesAboutPage implements OnInit {
     {
       awardee: 'Obi Griffith, Malachi Griffith, Gordana Raca',
       org: 'National Cancer Institute (NCI) of NIH',
-      award: 'UU24CA258115',
+      award: 'U24CA258115',
+    },
+    {
+      awardee: 'Malachi Griffith, Obi Griffith',
+      org: 'National Cancer Institute (NCI) of NIH',
+      award: 'U24CA275783',
     },
     {
       awardee: 'CIViC',

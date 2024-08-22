@@ -76,11 +76,16 @@
       <ng-container *ngSwitchCase="1">
         <div class="tab-padding">
           <nz-row [nzGutter]="8">
-            <nz-col [nzSpan]="12">
-              <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="2">
+            <nz-col [nzSpan]="24">
+              <nz-descriptions nzSize="small" [nzBordered]="true" [nzColumn]="1">
                 <nz-descriptions-item nzTitle="Definition">
                   <ng-container *ngIf="diseaseInfo.mondoDef; else noValue">
                     {{diseaseInfo.mondoDef}}
+                  </ng-container>
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="ID">
+                  <ng-container *ngIf="diseaseInfo.mondoId; else noValue">
+                    {{diseaseInfo.mondoId}}
                   </ng-container>
                 </nz-descriptions-item>
               </nz-descriptions>

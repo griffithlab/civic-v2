@@ -17,12 +17,12 @@ class Resolvers::Phenotypes < GraphQL::Schema::Resolver
       .having('COUNT(evidence_items.id) > 0 OR COUNT(assertions.id) > 0')
       .order('evidence_count DESC')
   end
-    
+
   option(:hpo_id, type: String, description: 'Limit to phenotypes with a specific HPO ID') do |scope, value|
     if value.upcase.starts_with?('HP:')
-      scope.where(hpo_id: value.upcase)
+      scope.where('hpo_id ILIKE ?', "#{value}%")
     else
-      scope.where(hpo_id: "HP:#{value}")
+      scope.where('hpo_id ILIKE ?', "HP:#{value}%")
     end
   end
 

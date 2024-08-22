@@ -18,6 +18,7 @@ import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcTherapyTagModule } from '../cvc-therapy-tag/cvc-therapy-tag.module'
+import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module'
 
 @NgModule({
   declarations: [CvcTherapiesTableComponent],
@@ -44,6 +45,7 @@ import { CvcTherapyTagModule } from '../cvc-therapy-tag/cvc-therapy-tag.module'
     CvcNoMoreRowsModule,
     CvcTableCountsModule,
     CvcTableScrollModule,
+    CvcPlainTagOverflowModule,
   ],
   exports: [CvcTherapiesTableComponent],
 })

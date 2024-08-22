@@ -14,7 +14,7 @@ import {
   VariantsSortColumns,
   Feature,
 } from '@app/generated/civic.apollo'
-import { GraphQLError } from 'graphql'
+import { GraphQLFormattedError } from 'graphql'
 import {
   NzTableFilterFn,
   NzTableFilterList,
@@ -289,7 +289,7 @@ export type RowSelection = {
 
 export type RequestError = {
   network?: ApolloError
-  query?: ReadonlyArray<GraphQLError>
+  query?: ReadonlyArray<GraphQLFormattedError>
 }
 
 // Type guard fns for TypeGuard pipe. Required to simplify the construction of

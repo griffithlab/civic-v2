@@ -5,11 +5,14 @@ class RefreshMaterializedViews < ApplicationJob
     to_refresh = if views == 'all'
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
+                     MaterializedViews::TherapyBrowseTableRow,
                      MaterializedViews::FeatureBrowseTableRow,
                      MaterializedViews::SourceBrowseTableRow,
                      MaterializedViews::VariantBrowseTableRow,
                      MaterializedViews::VariantGroupBrowseTableRow,
-                     MaterializedViews::MolecularProfileBrowseTableRow
+                     MaterializedViews::MolecularProfileBrowseTableRow,
+                     MaterializedViews::UserBrowseTableRow,
+                     MaterializedViews::OrganizationBrowseTableRow
                    ]
                  elsif views == 'features_only'
                    [
@@ -18,10 +21,13 @@ class RefreshMaterializedViews < ApplicationJob
                  elsif views == 'except_features'
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
+                     MaterializedViews::TherapyBrowseTableRow,
                      MaterializedViews::SourceBrowseTableRow,
                      MaterializedViews::VariantBrowseTableRow,
                      MaterializedViews::VariantGroupBrowseTableRow,
-                     MaterializedViews::MolecularProfileBrowseTableRow
+                     MaterializedViews::MolecularProfileBrowseTableRow,
+                     MaterializedViews::UserBrowseTableRow,
+                     MaterializedViews::OrganizationBrowseTableRow
                    ]
                  else
                    []

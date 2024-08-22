@@ -32,19 +32,19 @@ query OrganizationsBrowse(
   }
 }
 
-fragment OrganizationBrowseTableRowFields on Organization {
+fragment OrganizationBrowseTableRowFields on BrowseOrganization {
   id
   name
   description
-  # profileImagePath(size: 256) @include(if: $cardView)
   url
   memberCount
-  eventCount
-  subGroups {
-    name
-    id
-  }
+  activityCount
   mostRecentActivityTimestamp
+  childOrganizations {
+    id
+    name
+  }
+  # profileImagePath(size: 256) @include(if: $cardView)
   # orgStatsHash @include(if: $cardView) {
   #   comments
   #   revisions

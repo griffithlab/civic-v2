@@ -39,7 +39,7 @@
                     name: item.displayName,
                     link: item.link,
                     deprecated: item.deprecated,
-                    flagged: item.flagged
+                    flagged: item.flagged,
                   }"></cvc-feature-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -85,7 +85,7 @@
                     name: item.displayName,
                     link: item.link,
                     deprecated: item.deprecated,
-                    flagged: item.flagged
+                    flagged: item.flagged,
                   }"></cvc-molecular-profile-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -102,7 +102,7 @@
                     id: item.id,
                     name: item.displayName,
                     link: item.link,
-                    deprecated: item.deprecated
+                    deprecated: item.deprecated,
                   }"></cvc-therapy-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -119,7 +119,7 @@
                     id: item.id,
                     name: item.displayName,
                     link: item.link,
-                    deprecated: item.deprecated
+                    deprecated: item.deprecated,
                   }"></cvc-therapy-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -239,7 +239,7 @@
                   [variantType]="{
                     id: item.id,
                     name: item.displayName,
-                    link: item.link
+                    link: item.link,
                   }"></cvc-variant-type-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -255,7 +255,7 @@
                   [phenotype]="{
                     id: item.id,
                     name: item.displayName,
-                    link: item.link
+                    link: item.link,
                   }"></cvc-phenotype-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -274,7 +274,7 @@
                     link: item.link,
                     feature: item.feature,
                     deprecated: item.deprecated,
-                    flagged: item.flagged
+                    flagged: item.flagged,
                   }"></cvc-feature-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -293,7 +293,7 @@
                     link: item.link,
                     feature: item.feature,
                     deprecated: item.deprecated,
-                    flagged: item.flagged
+                    flagged: item.flagged,
                   }"></cvc-feature-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -322,7 +322,7 @@
                     name: item.displayName,
                     link: item.link,
                     status: item.status,
-                    flagged: item.flagged
+                    flagged: item.flagged,
                   }"></cvc-evidence-tag>
               </ng-template>
             </cvc-revision-list-diff>
@@ -404,11 +404,21 @@
                 *ngIf="revision.creationActivity?.user; else noRevisor">
                 <span
                   nz-typography
-                  nzType="secondary"
-                  >Submitted By</span
-                >
+                  nzType="secondary">
+                  By&nbsp;
+                </span>
                 <cvc-user-tag
                   [user]="revision.creationActivity!.user"></cvc-user-tag>
+                @if (revision.creationActivity?.organization) {
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    for&nbsp;
+                  </span>
+                  <cvc-organization-tag
+                    [org]="revision.creationActivity.organization">
+                  </cvc-organization-tag>
+                }
               </ng-container>
               <ng-template #noRevisor>
                 <span

@@ -10,5 +10,6 @@ module Types::Entities
     field :do_def, String, null: true
     field :do_def_citations, [String], null: false
     field :mondo_def, String, null: true
+    field :mondo_id, String, null: true
   end
 end
