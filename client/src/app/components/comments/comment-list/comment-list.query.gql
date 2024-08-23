@@ -68,6 +68,8 @@ fragment commentListNode on Comment {
   title
   comment
   createdAt
+  deleted
+  deletedAt
   commenter {
     id
     username

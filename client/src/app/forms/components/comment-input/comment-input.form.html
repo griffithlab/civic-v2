@@ -12,7 +12,7 @@
           [placeholder]="(viewer && viewer.canCurate) ? 'Enter comment (minimum length 10. Use @ to mention users; # to link entities)' : 'Please sign in'"
           nzMentionTrigger
           nz-input
-          rows="4"
+          [nzAutosize]="{ minRows: 4, maxRows: 100 }"
           style="width: 100%"
           [attr.disabled]="(viewer && viewer.canCurate) ? null : true"
           [(ngModel)]="commentText"

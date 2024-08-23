@@ -12,6 +12,7 @@
       "CreateComplexMolecularProfileActivity",
       "CreateFeatureActivity",
       "CreateVariantActivity",
+      "DeleteCommentActivity",
       "DeprecateComplexMolecularProfileActivity",
       "DeprecateFeatureActivity",
       "DeprecateVariantActivity",

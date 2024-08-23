@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_22_155113) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -303,6 +303,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_22_155113) do
     t.string "role", default: "comments"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.datetime "deleted_at"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
     t.index ["commentable_type"], name: "index_comments_on_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"

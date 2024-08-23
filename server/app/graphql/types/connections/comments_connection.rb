@@ -52,7 +52,7 @@ module Types::Connections
           {
             entity_id: ref.entity.id,
             display_name: ref.entity.name,
-            tag_type: ref.entity.class.to_s.underscore.upcase,
+            tag_type: ref.entity.class.base_class.to_s.underscore.upcase,
             link: ref.entity.link
           }
         end

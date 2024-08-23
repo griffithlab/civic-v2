@@ -27,6 +27,10 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  def deleted?
+    deleted_at.present?
+  end
+
   private
   def mark_events_unlinkable
     if self.commentable.respond_to?(:events)
