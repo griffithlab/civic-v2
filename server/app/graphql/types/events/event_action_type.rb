@@ -25,6 +25,7 @@ module Types::Events
     value 'COMPLEX_MOLECULAR_PROFILE_CREATED', value: 'complex molecular profile created'
     value 'DEPRECATED_FEATURE', value: 'deprecated feature'
     value 'FEATURE_CREATED', value: 'feature created'
+    value 'COMMENT_DELETED', value: 'comment deleted'
   end
 end
 

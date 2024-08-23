@@ -74,6 +74,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'created feature'
       case EventAction.ComplexMolecularProfileCreated:
         return 'created complex molecular profile'
+      case EventAction.CommentDeleted:
+        return 'deleted comment'
       default:
         return a
     }
@@ -127,6 +129,8 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'variant created'
       case EventAction.ComplexMolecularProfileCreated:
         return 'complex molecular profile created'
+      case EventAction.CommentDeleted:
+        return 'comment deleted'
       default:
         return a
     }
