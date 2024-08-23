@@ -565,6 +565,8 @@ DEPENDENCIES
   graphql-batch (~> 0.5.3)
   htmlentities (~> 4.3.4)
   image_processing (~> 1.12.2)
+  kramdown (~> 2.4.0)
+  kramdown-parser-gfm (~> 1.1.0)
   listen (~> 3.3)
   net-ftp (~> 0.3.3)
   obo (~> 0.1.5)
