@@ -1,0 +1,6 @@
+fragment SuggestSourceActivityDetail on SuggestSourceActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}
+
+

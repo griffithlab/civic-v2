@@ -28,6 +28,7 @@ import { TypenameToIconPipe } from './typename-to-icon.pipe'
 import { GuardTypePipe } from './type-guard.pipe'
 import { IsArrayPipe } from './is-array.pipe'
 import { OrdinalPipe } from './ordinal-number'
+import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.pipe'
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { OrdinalPipe } from './ordinal-number'
     CivicTimeagoFormatter,
     TypenameToIconPipe,
     IsArrayPipe,
+    IconNameForActivityTypeInputPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -91,6 +93,7 @@ import { OrdinalPipe } from './ordinal-number'
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
     TypenameToIconPipe,
+    IconNameForActivityTypeInputPipe,
   ],
   providers: [SourceTypeDisplayPipe],
 })

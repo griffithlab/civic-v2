@@ -158,8 +158,8 @@ type ActivityInterfaceEdge {
 enum ActivitySubjectInput {
   ASSERTION
   EVIDENCE_ITEM
-  FEATURE
   FLAG
+  GENE
   MOLECULAR_PROFILE
   REVISION
   REVISION_SET

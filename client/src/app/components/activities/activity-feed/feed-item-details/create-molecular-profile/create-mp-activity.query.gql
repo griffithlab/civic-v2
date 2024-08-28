@@ -1,0 +1,4 @@
+fragment CreateComplexMolecularProfileActivityDetail on CreateComplexMolecularProfileActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module'
 import { UsersEventsComponent } from './users-events.component'
+import { CvcActivityFeedModule } from '@app/components/activities/activity-feed/activity-feed.module'
 
 @NgModule({
   declarations: [UsersEventsComponent],
-  imports: [CommonModule, CvcEventFeedModule],
+  imports: [CommonModule, CvcActivityFeedModule],
 })
 export class UsersEventsModule {}

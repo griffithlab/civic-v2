@@ -1,6 +1,6 @@
 module Types::Activities
   class ActivitySubjectInputType < Types::BaseEnum
-    value 'FEATURE', value: 'Feature'
+    value 'GENE', value: 'Gene'
     value 'VARIANT', value: 'Variant'
     value 'EVIDENCE_ITEM', value: 'EvidenceItem'
     value 'ASSERTION', value: 'Assertion'

@@ -1,0 +1,8 @@
+fragment FlagEntityActivityDetail on FlagEntityActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  note
+  flag {
+    id
+  }
+}

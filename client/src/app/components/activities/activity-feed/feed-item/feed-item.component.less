@@ -1,0 +1,72 @@
+@import 'ng-zorro-antd/style/color/colors.less';
+:host {
+  padding-bottom: 8px;
+  display: block;
+  ::ng-deep nz-card {
+    > .ant-card-head {
+      padding-left: 0px;
+    }
+    .ant-card-head-title {
+    }
+    > .ant-card-body {
+      padding: 0;
+      //overflow: hidden;
+    }
+    &.hide {
+      //> .ant-card-body {
+      //  max-height: 0;
+      //  transition: max-height 0.25s ease-out;
+      //}
+      //.details {
+      //  display: none;
+      //}
+      .toggle {
+        span {
+          transform: rotate(0deg);
+          transition: transform 0.2s linear;
+        }
+      }
+    }
+    &.show {
+      //> .ant-card-body {
+      //  max-height: 250px;
+      //  transition: max-height 0.25s ease-in;
+      //}
+      //.details {
+      //  display: block;
+      //}
+      .toggle {
+        span {
+          transform: rotate(90deg);
+          transition: transform 0.2s linear;
+        }
+      }
+    }
+  }
+}
+
+.description {
+  display: inline;
+  ::ng-deep nz-tag {
+    margin-right: 0;
+    border: none;
+  }
+}
+
+.organization {
+  display: inline-block;
+}
+.toggle {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 0 8px 0 8px;
+  background-color: @blue-1;
+  border: 1px solid @blue-2;
+  border-radius: 2px;
+  cursor: pointer;
+  span {
+    height: 12px;
+    width: 12px;
+    color: @blue-7;
+  }
+}

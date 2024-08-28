@@ -1,0 +1,4 @@
+fragment DeprecateVariantActivityDetail on DeprecateVariantActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}
