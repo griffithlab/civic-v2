@@ -24,8 +24,8 @@ export class IconNameForActivityTypeInputPipe implements PipeTransform {
       'civic-molecularprofile',
     [ActivityTypeInput.CreateVariant]: 'civic-variant',
     [ActivityTypeInput.DeprecateVariant]: 'civic-variant',
-    [ActivityTypeInput.CreateFeature]: 'civic-gene',
-    [ActivityTypeInput.DeprecateFeature]: 'civic-gene',
+    [ActivityTypeInput.CreateFeature]: 'civic-feature',
+    [ActivityTypeInput.DeprecateFeature]: 'civic-feature',
   }
 
   transform(activityType: ActivityTypeInput): string {
