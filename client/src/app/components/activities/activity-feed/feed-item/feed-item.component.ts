@@ -6,15 +6,11 @@ import {
   signal,
   input,
   effect,
-  OnInit,
-  Output,
-  EventEmitter,
   ElementRef,
-  Self,
   EnvironmentInjector,
-  runInInjectionContext,
   Signal,
-  Host,
+  Inject,
+  output,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module'
@@ -31,21 +27,13 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import {
   ActivityFeedItemFragment,
   ActivityFeedItemGQL,
-  ActivityFeedItemQuery,
-  ActivityFeedItemQueryVariables,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { PushPipe } from '@ngrx/component'
-import { QueryRef } from 'apollo-angular'
-import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { map, Observable, Subject, tap } from 'rxjs'
-import { tag } from 'rxjs-spy/operators'
+import { Subject } from 'rxjs'
 import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
@@ -54,10 +42,11 @@ import {
   ScrollerState,
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { Scroll } from '@angular/router'
+import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
+import { tag } from 'rxjs-spy/operators'
+import { map } from 'rxjs/operators'
 
-export type FeedDetailToggle = {
+export type FeedItemToggle = {
   id: number
   showDetails: boolean
 }
@@ -103,7 +92,7 @@ export class CvcActivityFeedItem {
   })
   scope = input.required<ActivityFeedScope>({ alias: 'cvcScope' })
 
-  $toggleDetails!: WritableSignal<boolean>
+  $showDetails!: WritableSignal<boolean>
   onToggleDone$: Subject<boolean>
 
   $scroller: Signal<ScrollerState>
@@ -111,18 +100,26 @@ export class CvcActivityFeedItem {
     private gql: ActivityFeedItemGQL,
     private element: ElementRef,
     private injector: EnvironmentInjector,
+    @Inject(FEED_SCROLL_SERVICE_TOKEN)
     private scrollerState: ScrollerStateService
   ) {
-    this.$toggleDetails = signal(false)
+    this.$showDetails = signal(false)
     this.onToggleDone$ = new Subject()
-
+    this.onToggleDone$
+      .pipe(
+        map((show) => ({
+          id: this.activity()!.id,
+          showDetails: show,
+        }))
+      )
+      .subscribe()
     this.$scroller = scrollerState.state.asReadonly()
     // effect(() => {
     //   const id = this.activity()?.id
     //   if (id) {
-    //     this.cvcOnToggleDetail.next({
+    //     this.onToggleDetail.emit({
     //       id: id,
-    //       showDetails: this.toggleDetails(),
+    //       showDetails: this.$toggleDetails(),
     //     })
     //   }
     // })

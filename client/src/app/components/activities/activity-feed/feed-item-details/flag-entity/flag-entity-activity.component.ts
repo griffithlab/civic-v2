@@ -1,6 +1,17 @@
 import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component, input } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  input,
+  Signal,
+} from '@angular/core'
 import { FlagEntityActivityDetailFragment } from '@app/generated/civic.apollo'
+import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
+import {
+  ScrollerState,
+  ScrollerStateService,
+} from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 
 @Component({
   selector: 'cvc-flag-entity-activity-details',
@@ -14,4 +25,12 @@ export class CvcFlagEntityActivity {
   activity = input.required<FlagEntityActivityDetailFragment>({
     alias: 'cvcFlagEntityActivity',
   })
+
+  $scroller: Signal<ScrollerState>
+  constructor(
+    @Inject(FEED_SCROLL_SERVICE_TOKEN)
+    private scrollerState: ScrollerStateService
+  ) {
+    this.$scroller = scrollerState.state.asReadonly()
+  }
 }

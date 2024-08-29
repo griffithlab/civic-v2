@@ -13,34 +13,23 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { CvcActivityFeedComponent } from '@app/components/activities/activity-feed/activity-feed.component'
 import { Routines } from 'ngx-ui-scroll'
 import { tag } from 'rxjs-spy/operators'
+import { FeedItemToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 
 export interface ScrollerState {
   isScrolling: boolean
-  atBeginning: boolean
-  atEnd: boolean
+  toggledItems: Set<number>
 }
 
+// configure ngx-ui-scroll's event listners
 export function configureScrollerRoutines(
   context: CvcActivityFeedComponent,
   state: ScrollerStateService
 ) {
   return class extends Routines {
     onScroll(handler: EventListener): () => void {
-      console.log('**** configuring scroller Routines')
-      // for every scroll event, emit the event & update position, size info
       this.viewport.addEventListener('scroll', (ev: Event) => {
         state.onScrollEvent$.next(ev)
-        state.onScrollPosition$.next(super.getScrollPosition())
-        state.onScrollerSize$.next(super.getScrollerSize())
-        state.onViewportSize$.next(super.getViewportSize())
       })
-
-      // emit initial values
-      state.onViewportSize$.next(super.getViewportSize())
-      state.onScrollPosition$.next(super.getScrollPosition())
-      state.onScrollerSize$.next(super.getScrollerSize())
-
-      // return original onScroll handler
       return super.onScroll(handler)
     }
   }
@@ -50,24 +39,19 @@ export function configureScrollerRoutines(
 @Injectable({ providedIn: 'any' })
 export class ScrollerStateService extends SignalStateService<ScrollerState> {
   onScrollEvent$: Subject<Event>
-  onScrollPosition$: Subject<number>
-  onScrollerSize$: Subject<number>
-  onViewportSize$: Subject<number>
+  onToggleItem$: Subject<FeedItemToggle>
 
   constructor(private zone: NgZone) {
     super()
 
     this.onScrollEvent$ = new Subject<Event>()
-    this.onScrollPosition$ = new Subject<number>()
-    this.onScrollerSize$ = new Subject<number>()
-    this.onViewportSize$ = new Subject<number>()
+    this.onToggleItem$ = new Subject<FeedItemToggle>()
 
     // initial defaults
-    this.set('atBeginning', false)
-    this.set('atEnd', false)
     this.set('isScrolling', false)
+    this.set('toggledItems', new Set())
 
-    // set isScrolling true on scroll event, then false after 400ms of no events
+    // convert scroll event stream to throttled boolean state updates
     this.onScrollEvent$
       .pipe(
         // emit the first scroll event immediately (leading: true), then throttle
@@ -89,22 +73,6 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
         this.zone.run(() => {
           this.set('isScrolling', scrolling)
         })
-      })
-
-    combineLatest([
-      this.onViewportSize$,
-      this.onScrollerSize$,
-      this.onScrollPosition$,
-    ])
-      .pipe(
-        distinctUntilChanged(
-          ([v1, v2, v3], [v4, v5, v6]) => v1 === v4 && v2 === v5 && v3 === v6
-        ),
-        shareReplay(1),
-        untilDestroyed(this)
-      )
-      .subscribe(([viewportSize, scrollerSize, scrollPosition]) => {
-        this.zone.run(() => {})
       })
   }
 }

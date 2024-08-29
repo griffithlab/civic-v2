@@ -1,6 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
+  InjectionToken,
+  Injector,
   input,
   NgZone,
   Signal,
@@ -45,7 +48,7 @@ import {
 } from 'rxjs'
 import {
   CvcActivityFeedItem,
-  FeedDetailToggle,
+  FeedItemToggle,
 } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 import { queryParamsToQueryVariables } from '@app/components/activities/activity-feed/activity-feed.functions'
 import { shareReplay } from 'rxjs/operators'
@@ -78,6 +81,9 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CommonModule } from '@angular/common'
 
+export const FEED_SCROLL_SERVICE_TOKEN =
+  new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
+
 @Component({
   selector: 'cvc-activity-feed',
   templateUrl: './activity-feed.component.html',
@@ -98,6 +104,15 @@ import { CommonModule } from '@angular/common'
     CvcActivityFeedSettingsButton,
     CvcActivityFeedFilterSelects,
   ],
+  providers: [
+    {
+      provide: FEED_SCROLL_SERVICE_TOKEN,
+      useFactory: (zone: NgZone) => {
+        return new ScrollerStateService(zone)
+      },
+      deps: [NgZone],
+    },
+  ],
 })
 export class CvcActivityFeedComponent {
   // INPUTS
@@ -110,7 +125,7 @@ export class CvcActivityFeedComponent {
   // SOURCE STREAMS
   onSettingChange$: Subject<ActivityFeedSettings>
   onFilterChange$: Subject<ActivityFeedFilters>
-  onToggleItem$: Subject<FeedDetailToggle>
+  onToggleItem$: Subject<FeedItemToggle>
 
   // INTERMEDIATE STREAMS
   poll$: Subject<FetchParams>
@@ -138,11 +153,12 @@ export class CvcActivityFeedComponent {
   constructor(
     private gql: ActivityFeedGQL,
     private ngZone: NgZone,
+    @Inject(FEED_SCROLL_SERVICE_TOKEN)
     private scrollerState: ScrollerStateService
   ) {
     this.onSettingChange$ = new Subject()
     this.onFilterChange$ = new Subject()
-    this.onToggleItem$ = new Subject<FeedDetailToggle>()
+    this.onToggleItem$ = new Subject<FeedItemToggle>()
 
     this.poll$ = new Subject()
     this.fetchMore$ = new Subject()

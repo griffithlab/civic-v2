@@ -20,7 +20,8 @@
                 routines: scrollerRoutines
               "
               [cvcActivity]="edge.node"
-              [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+              [cvcScope]="cvcScope()"
+            ></cvc-activity-feed-item>
           }
         </div>
       </nz-spin>
@@ -47,7 +48,6 @@
       *nzSpaceItem>
       {{ cvcTitle() }}
       scrolling: {{ $scroller().isScrolling }},
-      beginning: {{ $scroller().atBeginning }}, end: {{ $scroller().atEnd }}
     </span>
     <cvc-activity-feed-counts
       *nzSpaceItem

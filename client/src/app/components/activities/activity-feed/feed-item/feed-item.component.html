@@ -4,14 +4,14 @@
     [nzTitle]="itemDescription"
     [nzExtra]="itemDate"
     [ngClass]="{
-      show: $toggleDetails(),
-      hide: !$toggleDetails()
+      show: $showDetails(),
+      hide: !$showDetails()
     }">
     <div
       class="details"
-      [@details]="$toggleDetails() ? 'visible' : 'hidden'"
-      (@details.done)="onToggleDone$.next($toggleDetails())">
-      @if ($toggleDetails()) {
+      [@details]="$showDetails() ? 'visible' : 'hidden'"
+      (@details.done)="onToggleDone$.next($showDetails())">
+      @if ($showDetails()) {
         <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
         </cvc-activity-feed-item-details>
       }
@@ -20,7 +20,7 @@
   <ng-template #itemDescription>
     <div
       class="toggle"
-      (click)="$toggleDetails.set(!$toggleDetails())">
+      (click)="$showDetails.set(!$showDetails())">
       <span
         nz-icon
         nzType="caret-right"
@@ -30,8 +30,7 @@
       <!-- {{ activity.__typename }} -->
       @if (scope().mode !== 'USER') {
         <cvc-user-tag
-          [user]="activity.user"
-          [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
+          [user]="activity.user"></cvc-user-tag>
       }
       <span
         nz-typography
@@ -111,16 +110,3 @@
     </ng-container>
   </ng-template>
 }
-<!-- <ng-template
-  #detail
-  let-activity>
-  <div class="detail">
-    <ng-container [ngSwitch]="activity.__typename">
-      <cvc-comment-activity-details
-        *ngSwitchCase="'CommentActivity'"
-        [cvcCommentActivity]="activity"></cvc-comment-activity-details>
-
-      <pre *ngSwitchDefault>{{ activity | json }}</pre>
-    </ng-container>
-  </div>
-</ng-template> -->

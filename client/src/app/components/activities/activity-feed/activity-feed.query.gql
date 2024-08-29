@@ -30,6 +30,7 @@ query ActivityFeed(
   }
 }
 
+# activities to render feed items & ui controls
 fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   pageInfo {
     startCursor
@@ -62,6 +63,7 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   }
 }
 
+# activity summary info to render each feed item
 fragment ActivityFeedItemBase on ActivityInterface {
   id
   verbiage

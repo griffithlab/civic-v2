@@ -2,15 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EnvironmentInjector,
-  EventEmitter,
+  Inject,
   inject,
   input,
   OnInit,
-  Output,
   runInInjectionContext,
   Signal,
-  signal,
-  WritableSignal,
 } from '@angular/core'
 import {
   ActivityFeedItemFragment,
@@ -23,13 +20,7 @@ import { CommonModule } from '@angular/common'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFlagEntityActivity } from '@app/components/activities/activity-feed/feed-item-details/flag-entity/flag-entity-activity.component'
 import { CvcCommentActivity } from './comment/comment-activity.component'
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  Observable,
-  Subject,
-} from 'rxjs'
+import { debounceTime, filter, Observable } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcAcceptRevisionsActivity } from '@app/components/activities/activity-feed/feed-item-details/accept-revisions/accept-revisions-activity.component'
@@ -37,7 +28,6 @@ import { CvcCreateMpActivity } from '@app/components/activities/activity-feed/fe
 import { CvcCreateVariantActivity } from '@app/components/activities/activity-feed/feed-item-details/create-variant/create-variant-activity.component'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
-import { tag } from 'rxjs-spy/operators'
 import { CvcDeprecateMpActivity } from '@app/components/activities/activity-feed/feed-item-details/deprecate-molecular-profile/deprecate-mp-activity.component'
 import { CvcDeprecateVariantActivity } from '@app/components/activities/activity-feed/feed-item-details/deprecate-variant/deprecate-variant-activity.component'
 import { CvcModerateAssertionActivity } from '@app/components/activities/activity-feed/feed-item-details/moderate-assertion/moderate-assertion-activity.component'
@@ -51,7 +41,9 @@ import { CvcUpdateSourceSuggestionActivity } from '@app/components/activities/ac
 import { CvcSubmitEvidenceActivity } from '@app/components/activities/activity-feed/feed-item-details/submit-evidence/submit-evidence-activity.component'
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { startWith, throttleTime } from 'rxjs/operators'
+import { startWith } from 'rxjs/operators'
+import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
+import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 
 @Component({
   selector: 'cvc-activity-feed-item-details',
@@ -94,7 +86,11 @@ export class CvcActivityFeedItemDetails implements OnInit {
 
   injector: EnvironmentInjector
   queryRef?: QueryRef<ActivityFeedItemQuery, ActivityFeedItemQueryVariables>
-  constructor(private gql: ActivityFeedItemGQL) {
+  constructor(
+    private gql: ActivityFeedItemGQL,
+    @Inject(FEED_SCROLL_SERVICE_TOKEN)
+    private scrollerState: ScrollerStateService
+  ) {
     this.injector = inject(EnvironmentInjector)
   }
 
