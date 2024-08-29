@@ -25,7 +25,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { CvcActivityFeedModule } from '@app/components/activities/activity-feed/activity-feed.module'
+import { CvcActivityFeedComponent } from '@app/components/activities/activity-feed/activity-feed.component'
 
 @NgModule({
   imports: [
@@ -52,7 +52,7 @@ import { CvcActivityFeedModule } from '@app/components/activities/activity-feed/
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
-    CvcActivityFeedModule,
+    CvcActivityFeedComponent,
   ],
   declarations: [WelcomeComponent, NewsItemListComponent],
   exports: [WelcomeComponent],

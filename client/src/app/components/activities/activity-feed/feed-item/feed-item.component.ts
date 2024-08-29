@@ -76,6 +76,26 @@ export type FeedDetailToggle = {
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    NzCardModule,
+    NzTypographyModule,
+    NzIconModule,
+    CvcActivityFeedItemDetails,
+    CvcPipesModule,
+    CvcUserTagModule,
+    CvcOrganizationTagModule,
+    CvcFeatureTagModule,
+    CvcAssertionsTagModule,
+    CvcEvidenceTagModule,
+    CvcVariantTagModule,
+    CvcRevisionTagModule,
+    CvcVariantGroupTagModule,
+    CvcSourceTagModule,
+    CvcMolecularProfileTagModule,
+    CvcCommentActivity,
+  ],
 })
 export class CvcActivityFeedItem {
   activity = input<Maybe<ActivityFeedItemFragment>>(undefined, {

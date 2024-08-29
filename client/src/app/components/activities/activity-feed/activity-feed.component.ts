@@ -43,7 +43,10 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs'
-import { FeedDetailToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import {
+  CvcActivityFeedItem,
+  FeedDetailToggle,
+} from '@app/components/activities/activity-feed/feed-item/feed-item.component'
 import { queryParamsToQueryVariables } from '@app/components/activities/activity-feed/activity-feed.functions'
 import { shareReplay } from 'rxjs/operators'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -55,16 +58,46 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
-import { Datasource, IAdapter, IDatasource } from 'ngx-ui-scroll'
+import {
+  Datasource,
+  IAdapter,
+  IDatasource,
+  UiScrollModule,
+} from 'ngx-ui-scroll'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
+import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
+import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
+import { CvcActivityFeedFilterSelects } from '@app/components/activities/activity-feed/feed-filters/feed-filters.component'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'cvc-activity-feed',
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    UiScrollModule,
+    NzCardModule,
+    NzGridModule,
+    NzSpaceModule,
+    NzTagModule,
+    NzSpinModule,
+    CvcActivityFeedItem,
+    CvcAutoHeightDivModule,
+    CvcActivityFeedCounts,
+    CvcActivityFeedSettingsButton,
+    CvcActivityFeedFilterSelects,
+  ],
 })
 export class CvcActivityFeedComponent {
   // INPUTS
