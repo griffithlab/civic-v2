@@ -1,16 +1,18 @@
+// noinspection TypeScriptValidateTypes
+
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcActivityFeedComponent } from '@app/components/activities/activity-feed/activity-feed.component'
-import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { CvcActivityFeedComponent } from './activity-feed.component'
+import { ScrollerStateService } from './feed-scroll-service/feed-scroll.service'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
-import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
+import { CvcActivityFeedCounts } from './feed-counts/feed-counts.component'
+import { CvcActivityFeedSettingsButton } from './feed-settings/feed-settings.component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { CvcActivityFeedFilterSelects } from '@app/components/activities/activity-feed/feed-filters/feed-filters.component'
-import { CvcActivityFeedItem } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
+import { CvcActivityFeedFilterSelects } from './feed-filters/feed-filters.component'
+import { CvcActivityFeedItem } from './feed-item/feed-item.component'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { PushPipe } from '@ngrx/component'
@@ -27,8 +29,8 @@ import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/rev
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module'
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
-import { CvcCommentActivity } from '@app/components/activities/activity-feed/feed-item-details/comment/comment-activity.component'
-import { CvcActivityFeedItemDetails } from '@app/components/activities/activity-feed/feed-item-details/feed-item-details.component'
+import { CvcCommentActivity } from './feed-item-details/comment/comment-activity.component'
+import { CvcActivityFeedItemDetails } from './feed-item-details/feed-item-details.component'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @NgModule({
@@ -67,6 +69,6 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcActivityFeedItemDetails,
   ],
   exports: [CvcActivityFeedComponent],
-  // providers: [ScrollerStateService],
+  providers: [ScrollerStateService],
 })
 export class CvcActivityFeedModule {}
