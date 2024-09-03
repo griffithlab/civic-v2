@@ -47,7 +47,7 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
     displayName
     role
   }
-  subjectTypes @include(if: $showFilters)
+  # subjectTypes @include(if: $showFilters)
   participatingOrganizations @include(if: $showFilters) {
     id
     name

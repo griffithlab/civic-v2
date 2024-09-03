@@ -59,6 +59,7 @@ import {
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
   ActivityInterfaceEdge,
+  ActivitySubjectInput,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
@@ -276,7 +277,8 @@ export class CvcActivityFeedComponent {
             participatingOrganizations:
               connection.participatingOrganizations ?? [],
             activityTypes: connection.activityTypes ?? [],
-            subjectTypes: connection.subjectTypes ?? [],
+            //subjectTypes: connection.subjectTypes ?? [],
+            subjectTypes: [ActivitySubjectInput.Variant],
           }
         })
       ),

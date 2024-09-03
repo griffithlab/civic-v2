@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { JsonPipe } from '@angular/common'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { SubmitEvidenceItemActivityDetailFragment } from '@app/generated/civic.apollo'
 
 @Component({
   selector: 'cvc-submit-evidence-activity-details',
   standalone: true,
-  imports: [JsonPipe],
+  imports: [CvcCommentBodyModule],
   templateUrl: './submit-evidence-activity.component.html',
   styleUrl: './submit-evidence-activity.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

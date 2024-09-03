@@ -1,6 +1,7 @@
 @let viewer = viewer$ | ngrxPush;
 
 <nz-comment
+  *ngrxLet="comment() as comment"
   [nzAuthor]="comment.commenter.displayName"
   [nzDatetime]="comment.createdAt | timeAgo">
   <nz-avatar

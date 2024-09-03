@@ -46,6 +46,7 @@ import {
 import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
 import { tag } from 'rxjs-spy/operators'
 import { map, skip } from 'rxjs/operators'
+import { simpleActivityTypes } from '../activity-feed.config'
 
 export type FeedItemToggle = {
   id: number
@@ -95,6 +96,8 @@ export class CvcActivityFeedItem implements OnInit {
 
   $showDetails!: WritableSignal<boolean>
   onToggleDone$: Subject<boolean>
+
+  simpleActivityTypes = simpleActivityTypes
 
   $scroller: Signal<ScrollerState>
   constructor(

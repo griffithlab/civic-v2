@@ -18,5 +18,6 @@ module Types::Activities
     value 'CREATE_COMPLEX_MOLECULAR_PROFILE', value: 'CreateComplexMolecularProfileActivity'
     value 'CREATE_FEATURE', value: 'CreateFeatureActivity'
     value 'DEPRECATE_FEATURE', value: 'DeprecateFeatureActivity'
+    value 'DELETE_COMMENT', value: 'DeleteCommentActivity'
   end
 end

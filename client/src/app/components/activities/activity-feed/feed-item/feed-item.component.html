@@ -5,7 +5,7 @@
     [nzExtra]="itemDate"
     [ngClass]="{
       show: $showDetails(),
-      hide: !$showDetails()
+      hide: !$showDetails(),
     }">
     <div
       class="details"
@@ -19,6 +19,7 @@
   </nz-card>
   <ng-template #itemDescription>
     <div
+      *ngIf="!simpleActivityTypes.has(activity.__typename)"
       class="toggle"
       (click)="$showDetails.set(!$showDetails())">
       <span
@@ -29,8 +30,7 @@
     <div class="description">
       <!-- {{ activity.__typename }} -->
       @if (scope().mode !== 'USER') {
-        <cvc-user-tag
-          [user]="activity.user"></cvc-user-tag>
+        <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       }
       <span
         nz-typography
@@ -43,7 +43,7 @@
             subject;
             context: {
               $implicit: activity.subject,
-              isScrolling: $scroller().isScrolling
+              isScrolling: $scroller().isScrolling,
             }
           "></ng-container>
       }

@@ -12,11 +12,12 @@ import {
   ScrollerState,
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 
 @Component({
   selector: 'cvc-flag-entity-activity-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CvcCommentBodyModule],
   templateUrl: './flag-entity-activity.component.html',
   styleUrl: './flag-entity-activity.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

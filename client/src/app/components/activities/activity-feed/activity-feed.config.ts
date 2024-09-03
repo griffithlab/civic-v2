@@ -28,12 +28,41 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   // subjectType: [],
 
   // 103 items, no errors:
-  activityType: [ActivityTypeInput.FlagEntity],
+  activityType: [ActivityTypeInput.Comment],
   subjectType: [ActivitySubjectInput.Variant],
 }
 export const feedDefaultScope: ActivityFeedScope = {
   mode: EventFeedMode.Unscoped,
 }
+
+export const simpleActivityTypes = new Set([
+  'CreateComplexMolecularProfileActivity',
+  'CreateVariantActivity',
+  'CreateFeatureActivity',
+  'ModerateAssertionActivity',
+  'ModerateEvidenceItemActivity',
+])
+
+//TODO: Remove me, not needed
+export const commentOnlyActivityTypes = new Set([
+  'CommentActivity',
+  'FlagEntityActivity',
+  'ResolveFlagActivity',
+  'SubmitAssertionActivity',
+  'SubmitEvidenceItemActivity',
+])
+
+//TODO: Remove me, not needed
+const complexActivityTypes = [
+  'AcceptRevisionsActivity',
+  'DeprecateComplexMolecularProfileActivity',
+  'DeprecateVariantActivity',
+  'DeprecateFeatureActivity',
+  'RejectRevisionsActivity',
+  'SuggestRevisionSetActivity',
+  'SuggestSourceActivity',
+  'UpdateSourceSuggestionStatusActivity',
+]
 
 export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
   uniqueParticipants: [],

@@ -71,6 +71,14 @@ fragment commentListNode on Comment {
   deleted
   deletedAt
   commenter {
+    ...commenterFields
+  }
+  parsedComment {
+    ...parsedCommentFragment
+  }
+}
+
+fragment commenterFields on User {
     id
     username
     displayName
@@ -82,10 +90,6 @@ fragment commentListNode on Comment {
       name
       profileImagePath(size: 32)
     }
-  }
-  parsedComment {
-    ...parsedCommentFragment
-  }
 }
 
 fragment parsedCommentFragment on CommentBodySegment{
@@ -159,8 +163,6 @@ fragment parsedCommentFragment on CommentBodySegment{
       text
     }
     ... on User {
-      id
-      displayName
-      role
+      ... commenterFields
     }
 }
