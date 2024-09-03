@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   Inject,
   InjectionToken,
   Injector,
@@ -135,7 +136,6 @@ export class CvcActivityFeedComponent {
   queryType$: Subject<'refetch' | 'fetchMore'>
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
-  toggledItem$: BehaviorSubject<Set<number>> // set of item ids with details toggled
 
   // PRESENTATION SIGNALS
   $refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
@@ -152,7 +152,7 @@ export class CvcActivityFeedComponent {
 
   constructor(
     private gql: ActivityFeedGQL,
-    private ngZone: NgZone,
+    private injector: Injector,
     @Inject(FEED_SCROLL_SERVICE_TOKEN)
     private scrollerState: ScrollerStateService
   ) {
@@ -165,10 +165,9 @@ export class CvcActivityFeedComponent {
     this.init$ = new Subject()
     this.queryType$ = new Subject()
     this.onQueryComplete$ = new Subject()
-    this.toggledItem$ = new BehaviorSubject(new Set())
 
-    this.scrollerRoutines = configureScrollerRoutines(this, scrollerState)
-    this.$scroller = scrollerState.state.asReadonly()
+    this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
+    this.$scroller = this.scrollerState.state.asReadonly()
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -336,5 +335,13 @@ export class CvcActivityFeedComponent {
 
   configureAdapter(): void {
     this.scrollAdapter = this.scrollDatasource?.adapter
+    effect(
+      () => {
+        const toggledItems = this.$scroller().toggledItems
+        console.log('toggledItems: ', Array.from(toggledItems))
+        this.scrollAdapter?.check()
+      },
+      { injector: this.injector }
+    )
   }
 }

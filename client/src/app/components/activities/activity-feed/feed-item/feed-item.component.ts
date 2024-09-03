@@ -44,7 +44,7 @@ import {
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
 import { tag } from 'rxjs-spy/operators'
-import { map } from 'rxjs/operators'
+import { map, skip } from 'rxjs/operators'
 
 export type FeedItemToggle = {
   id: number
@@ -107,21 +107,18 @@ export class CvcActivityFeedItem {
     this.onToggleDone$ = new Subject()
     this.onToggleDone$
       .pipe(
+        skip(1),
         map((show) => ({
           id: this.activity()!.id,
           showDetails: show,
-        }))
+        })),
+        // tag('feed-item.onToggleDone$'),
+        untilDestroyed(this)
       )
-      .subscribe()
+      .subscribe((item) => {
+        // console.log(`feed-item.onToggleDone$: ${item}`)
+        this.scrollerState.onToggleItem$.next(item)
+      })
     this.$scroller = scrollerState.state.asReadonly()
-    // effect(() => {
-    //   const id = this.activity()?.id
-    //   if (id) {
-    //     this.onToggleDetail.emit({
-    //       id: id,
-    //       showDetails: this.$toggleDetails(),
-    //     })
-    //   }
-    // })
   }
 }

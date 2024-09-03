@@ -74,5 +74,18 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
           this.set('isScrolling', scrolling)
         })
       })
+    this.onToggleItem$
+      .pipe(tag('feed-scroll.service onToggleItem$'),untilDestroyed(this))
+      .subscribe((item: FeedItemToggle) => {
+        this.zone.run(() => {
+          const toggledItems = this.state().toggledItems
+          if (toggledItems.has(item.id)) {
+            toggledItems.delete(item.id)
+          } else {
+            toggledItems.add(item.id)
+          }
+          this.set('toggledItems', toggledItems)
+        })
+      })
   }
 }
