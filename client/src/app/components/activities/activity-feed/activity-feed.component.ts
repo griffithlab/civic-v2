@@ -338,7 +338,6 @@ export class CvcActivityFeedComponent {
     effect(
       () => {
         const toggledItems = this.$scroller().toggledItems
-        console.log('toggledItems: ', Array.from(toggledItems))
         this.scrollAdapter?.check()
       },
       { injector: this.injector }

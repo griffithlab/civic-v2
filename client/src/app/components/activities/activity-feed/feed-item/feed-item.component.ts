@@ -10,6 +10,7 @@ import {
   EnvironmentInjector,
   Signal,
   Inject,
+  OnInit,
   output,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
@@ -86,7 +87,7 @@ export type FeedItemToggle = {
     CvcCommentActivity,
   ],
 })
-export class CvcActivityFeedItem {
+export class CvcActivityFeedItem implements OnInit {
   activity = input<Maybe<ActivityFeedItemFragment>>(undefined, {
     alias: 'cvcActivity',
   })
@@ -112,13 +113,18 @@ export class CvcActivityFeedItem {
           id: this.activity()!.id,
           showDetails: show,
         })),
-        // tag('feed-item.onToggleDone$'),
         untilDestroyed(this)
       )
       .subscribe((item) => {
-        // console.log(`feed-item.onToggleDone$: ${item}`)
         this.scrollerState.onToggleItem$.next(item)
       })
     this.$scroller = scrollerState.state.asReadonly()
+  }
+
+  ngOnInit(): void {
+    const initialDetailState = this.scrollerState
+      .state()
+      .toggledItems.has(this.activity()!.id)
+    this.$showDetails.set(initialDetailState)
   }
 }
