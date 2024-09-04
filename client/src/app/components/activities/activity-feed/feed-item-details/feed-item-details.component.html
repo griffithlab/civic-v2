@@ -28,6 +28,11 @@
           [cvcDeprecateVariantActivity]="activity">
         </cvc-deprecate-variant-activity-details>
       }
+      @case ('DeprecateFeatureActivity') {
+        <cvc-deprecate-feature-activity-details
+          [cvcDeprecateFeatureActivity]="activity">
+        </cvc-deprecate-feature-activity-details>
+      }
       @case ('FlagEntityActivity') {
         <cvc-flag-entity-activity-details [cvcFlagEntityActivity]="activity">
         </cvc-flag-entity-activity-details>
@@ -78,14 +83,14 @@
       }
     }
   } @else {
-    @if($loading()) {
+    @if ($loading()) {
       <nz-skeleton
         [nzActive]="true"
         [nzTitle]="false"
         [nzParagraph]="{
-        rows: 3,
-        width: ['100%', '100%', '100%']
-      }"></nz-skeleton>
+          rows: 3,
+          width: ['100%', '100%', '100%'],
+        }"></nz-skeleton>
     }
   }
 </div>

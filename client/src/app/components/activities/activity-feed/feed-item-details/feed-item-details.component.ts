@@ -44,6 +44,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { startWith } from 'rxjs/operators'
 import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
 import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
+import { CvcDeprecateFeatureActivity } from './deprecate-feature/deprecate-feature-activity.component'
 
 @Component({
   selector: 'cvc-activity-feed-item-details',
@@ -68,6 +69,7 @@ import { ScrollerStateService } from '@app/components/activities/activity-feed/f
     CvcSuggestSourceActivity,
     CvcUpdateSourceSuggestionActivity,
     CvcSubmitEvidenceActivity,
+    CvcDeprecateFeatureActivity,
     NzSkeletonModule,
   ],
   templateUrl: './feed-item-details.component.html',

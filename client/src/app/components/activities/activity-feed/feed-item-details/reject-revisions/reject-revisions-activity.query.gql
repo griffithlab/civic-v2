@@ -1,4 +1,22 @@
 fragment RejectRevisionsActivityDetail on RejectRevisionsActivity {
+  revisions {
+    id
+    name
+    currentValue
+    suggestedValue
+    fieldName
+    link
+    creationActivity {
+      user {
+        displayName
+        profileImagePath(size: 32)
+        id
+        role
+      }
+    }
+    createdAt
+  }
+
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents
 }

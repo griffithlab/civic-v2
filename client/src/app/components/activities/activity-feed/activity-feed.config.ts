@@ -50,12 +50,12 @@ export const commentOnlyActivityTypes = new Set([
   'ResolveFlagActivity',
   'SubmitAssertionActivity',
   'SubmitEvidenceItemActivity',
+  'DeprecateComplexMolecularProfileActivity',
 ])
 
 //TODO: Remove me, not needed
 const complexActivityTypes = [
   'AcceptRevisionsActivity',
-  'DeprecateComplexMolecularProfileActivity',
   'DeprecateVariantActivity',
   'DeprecateFeatureActivity',
   'RejectRevisionsActivity',

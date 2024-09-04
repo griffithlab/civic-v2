@@ -1,22 +1,29 @@
 fragment AcceptRevisionsActivityDetail on AcceptRevisionsActivity {
   revisions {
     id
+    name
     currentValue
+    suggestedValue
     fieldName
     link
     linkoutData {
-      name
-      currentValue {
-        __typename
-      }
-      suggestedValue {
-        __typename
-      }
-      diffValue {
-        __typename
+      ...revisionLinkoutData
+    }
+  }
+  supersededRevisions {
+    id
+    link
+    name
+    creationActivity {
+      user {
+        displayName
+        profileImagePath(size: 32)
+        id
+        role
       }
     }
-
+    fieldName
+    createdAt
   }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents

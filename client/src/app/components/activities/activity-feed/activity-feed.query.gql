@@ -92,6 +92,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...CreateVariantActivityDetail @include(if: $requestDetails)
   ...DeprecateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...DeprecateVariantActivityDetail @include(if: $requestDetails)
+  ...DeprecateFeatureActivityDetail @include(if: $requestDetails)
   ...FlagEntityActivityDetail @include(if: $requestDetails)
   ...ModerateAssertionActivityDetail @include(if: $requestDetails)
   ...ModerateEvidenceItemActivityDetail @include(if: $requestDetails)
