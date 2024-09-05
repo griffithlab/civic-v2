@@ -5,6 +5,11 @@ import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { CvcCommentBodyModule } from '../comment-body/comment-body.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { PushPipe } from '@ngrx/component'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm'
 
 @NgModule({
   declarations: [CvcCommentDisplayComponent],
@@ -12,8 +17,13 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CommonModule,
     NzCommentModule,
     NzAvatarModule,
+    NzTypographyModule,
+    NzIconModule,
+    NzToolTipModule,
+    NzPopconfirmModule,
+    PushPipe,
     CvcCommentBodyModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
   exports: [CvcCommentDisplayComponent],
 })

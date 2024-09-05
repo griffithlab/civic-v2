@@ -2,9 +2,8 @@ require 'search_object'
 require 'search_object/plugin/graphql'
 
 class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
-  # include SearchObject for GraphQL
   include SearchObject.module(:graphql)
-
+  include Resolvers::Shared::SearchHelpers
 
   type Types::BrowseTables::BrowseMolecularProfileType.connection_type, null: false
 
@@ -27,16 +26,22 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
     scope.where(id: ids)
   end
 
-  option(:variant_name, type: String)  do |scope, value| 
-    scope.where(json_name_query_for_column('variants'), "#{value}%")
-      .or(scope.where(json_name_query_for_column('features'), "#{value}"))
+  option(:variant_name, type: String)  do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, 'variants'), "#{value}%")
+      .or(scope.where(json_name_query_for_column(scope.table_name, 'features'), "#{value}"))
   end
 
-  option(:feature_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('features'), "#{value}%") }
-  option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
-  option(:therapy_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('therapies'), "%#{value}%") }
+  option(:feature_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, 'features'), "#{value}%")
+  end
+  option(:disease_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, 'diseases'), "%#{value}%")
+  end
+  option(:therapy_name, type: String) do |scope, value|
+    scope.where(json_name_query_for_column(scope.table_name, 'therapies'), "%#{value}%")
+  end
   option(:molecular_profile_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
-  option(:variant_id, type: Int) do |scope, value| 
+  option(:variant_id, type: Int) do |scope, value|
     scope.where(id: MolecularProfile.joins(:variants).where(variants: { id: value }).select('molecular_profiles.id')) 
   end
 
@@ -51,15 +56,5 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
     when "variantCount"
       scope.reorder "variant_count #{value.direction}"
     end
-  end
-
-  def json_name_query_for_column(col)
-    raise 'Must supply a column name' if col.nil?
-    "molecular_profile_browse_table_rows.id IN (select mp.id FROM molecular_profile_browse_table_rows mp, json_array_elements(mp.#{col}) d where d->>'name' ILIKE ?)"
-  end
-
-  def array_query_for_column(col)
-    raise 'Must supply a column name' if col.nil?
-    "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(name) where name ILIKE ?)"
   end
 end

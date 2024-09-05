@@ -18,8 +18,10 @@ import {
   UnsubscribeMutationVariables,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
-import { Observable, Subject } from 'rxjs'
+import { filter, Observable, Subject } from 'rxjs'
 import { map, takeUntil } from 'rxjs/operators'
+import { isNonNulled } from 'rxjs-etc'
+import { pluck } from 'rxjs-etc/operators'
 
 @Component({
   selector: 'cvc-entity-subscription-button',
@@ -92,7 +94,8 @@ export class CvcEntitySubscriptionButtonComponent implements OnInit, OnDestroy {
     })
 
     this.existingSubscription$ = this.queryRef.valueChanges.pipe(
-      map(({ data }) => data.subscriptionForEntity)
+      pluck('data', 'subscriptionForEntity'),
+      filter(isNonNulled)
     )
   }
 

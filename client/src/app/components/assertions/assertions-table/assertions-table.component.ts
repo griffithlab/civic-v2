@@ -26,6 +26,7 @@ import {
   EvidenceType,
   Maybe,
   PageInfo,
+  EvidenceLevel,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
@@ -118,6 +119,10 @@ export class CvcAssertionsTableComponent implements OnInit {
   SignificanceInput: Maybe<EvidenceSignificance>
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
+  statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+
+  availableStatusFilters = EvidenceStatusFilter
+  statusFilterVisible = false
 
   sortColumns: typeof AssertionSortColumns = AssertionSortColumns
 
@@ -144,7 +149,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
       therapyId: this.therapyId,
-      status: this.status,
+      status: this.status || EvidenceStatusFilter.NonRejected,
     })
 
     this.result$ = this.queryRef.valueChanges
@@ -255,6 +260,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       molecularProfileName: this.molecularProfileNameInput,
       therapyName: this.therapyNameInput,
       summary: this.summaryInput,
+      status: this.statusInput,
       assertionType: this.assertionTypeInput
         ? this.assertionTypeInput
         : undefined,
@@ -276,8 +282,16 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.loadedPages += 1
   }
 
+  statusChanged() {
+    this.debouncedQuery.next()
+    this.statusFilterVisible = false
+  }
+
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<AssertionBrowseFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<AssertionBrowseFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 

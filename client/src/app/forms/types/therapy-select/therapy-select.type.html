@@ -13,7 +13,7 @@
   [cvcShowError]="showError"
   [cvcSelectOpen]="selectOpen$ | ngrxPush"
   (cvcOnSearch)="onSearch$.next($event)"
-  (cvcOnOpenChange)="onOpenChange$.next($event)"
+  (cvcOnOpenChange)="onOpenChange$ ? onOpenChange$.next($event) : null"
   (cvcOnModelChange)="props.change && props.change(field, $event)">
 </cvc-entity-select>
 <!-- FIXME: select does not auto-fill new entity created by therapy-quick-add form -->
@@ -31,11 +31,12 @@
         nz-typography
         nzType="secondary">
         <ng-container *ngIf="result.ncitId">
-          <strong>NCIt Code:</strong>
+          <strong>NCIt Code: </strong>
           <span
             [innerHtml]="
               result.ncitId | highlightTypeahead : searchString
-            "></span>
+            "></span
+          >&nbsp;
         </ng-container>
         <ng-container *ngIf="result.therapyAliases.length > 0">
           <strong>Aliases: </strong>

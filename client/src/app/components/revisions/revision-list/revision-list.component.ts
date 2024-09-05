@@ -23,7 +23,7 @@ import {
   ValidateRevisionsForAcceptanceQueryVariables,
   ValidationErrorFragment,
 } from '@app/generated/civic.apollo'
-import { Observable, Subject } from 'rxjs'
+import { filter, Observable, Subject, combineLatest } from 'rxjs'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import {
   MutationState,
@@ -33,6 +33,8 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { map, startWith, takeUntil } from 'rxjs/operators'
 import { QueryRef } from 'apollo-angular'
 import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types'
+import { pluck } from 'rxjs-etc/operators'
+import { isNonNulled } from 'rxjs-etc'
 
 type SuccessType = false | 'accepted' | 'rejected'
 
@@ -120,24 +122,22 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     })
 
     this.genericErrors$ = this.queryRef.valueChanges.pipe(
-      map(({ data }) => {
-        return data.validateRevisionsForAcceptance.genericErrors
-      })
+      pluck('data', 'validateRevisionsForAcceptance', 'genericErrors'),
+      filter(isNonNulled),
+      startWith([])
     )
 
     this.validationErrors$ = this.queryRef.valueChanges.pipe(
-      map(({ data }) => {
-        return data.validateRevisionsForAcceptance.validationErrors
-      })
+      pluck('data', 'validateRevisionsForAcceptance', 'validationErrors'),
+      filter(isNonNulled),
+      startWith([])
     )
 
-    this.totalErrorCount$ = this.queryRef.valueChanges.pipe(
-      map(({ data }) => {
-        return (
-          data.validateRevisionsForAcceptance.genericErrors.length +
-          data.validateRevisionsForAcceptance.validationErrors.length
-        )
-      }),
+    this.totalErrorCount$ = combineLatest([
+      this.genericErrors$,
+      this.validationErrors$,
+    ]).pipe(
+      map(([generic, validation]) => generic.length + validation.length),
       startWith(0)
     )
 

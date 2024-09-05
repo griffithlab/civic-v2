@@ -19,6 +19,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcDiseaseTagModule } from '../cvc-disease-tag/cvc-disease-tag.module'
 import { CvcDiseasesTableComponent } from './diseases-table.component'
+import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module'
 
 @NgModule({
   declarations: [CvcDiseasesTableComponent],
@@ -46,6 +47,7 @@ import { CvcDiseasesTableComponent } from './diseases-table.component'
     CvcTableCountsModule,
     CvcTableScrollModule,
     CvcTagOverflowModule,
+    CvcPlainTagOverflowModule,
   ],
   exports: [CvcDiseasesTableComponent],
 })

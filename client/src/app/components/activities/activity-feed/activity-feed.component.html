@@ -14,7 +14,7 @@
           </ng-template>
           <nz-collapse
             [nzBordered]="false"
-            nzExpandIconPosition="right">
+            nzExpandIconPosition="end">
             <cvc-collapsible-card
               [header]="activityHeaderTemplate"
               [contents]="activityContentTemplate"></cvc-collapsible-card>
@@ -29,8 +29,7 @@
             {{ activity.verbiage }}
             @switch (activity.subject.__typename) {
               @case ('Feature') {
-                <cvc-feature-tag
-                  [feature]="activity.subject"></cvc-feature-tag>
+                <cvc-feature-tag [feature]="activity.subject"></cvc-feature-tag>
               }
               @case ('Assertion') {
                 <cvc-assertion-tag

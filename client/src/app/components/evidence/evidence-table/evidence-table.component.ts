@@ -58,6 +58,7 @@ export interface EvidenceTableUserFilters {
   evidenceRatingInput?: Maybe<number>
   molecularProfileNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
+  statusInput?: Maybe<EvidenceStatusFilter>
 }
 
 @UntilDestroy()
@@ -126,11 +127,18 @@ export class CvcEvidenceTableComponent implements OnInit {
   evidenceTypeInput: Maybe<EvidenceType>
   molecularProfileNameInput: Maybe<string>
   variantOriginInput: Maybe<VariantOrigin>
+  statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+
+  availableStatusFilters = EvidenceStatusFilter
+  statusFilterVisible = false
 
   sortColumns = EvidenceSortColumns
   evidenceLevels = EvidenceLevel
 
-  constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: EvidenceBrowseGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -160,7 +168,7 @@ export class CvcEvidenceTableComponent implements OnInit {
       phenotypeId: this.phenotypeId,
       rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
       sourceId: this.sourceId,
-      status: this.status,
+      status: this.status || EvidenceStatusFilter.NonRejected,
       userId: this.userId,
       variantId: this.variantId,
       molecularProfileId: this.molecularProfileId,
@@ -278,6 +286,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         diseaseName: this.diseaseNameInput,
         therapyName: this.therapyNameInput,
         description: this.descriptionInput,
+        status: this.statusInput,
         evidenceLevel: this.evidenceLevelInput
           ? this.evidenceLevelInput
           : undefined,
@@ -303,7 +312,15 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<EvidenceGridFieldsFragment>): Maybe<number> {
+  statusChanged() {
+    this.filterChange$.next()
+    this.statusFilterVisible = false
+  }
+
+  trackByIndex(
+    _: number,
+    data: Maybe<EvidenceGridFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

@@ -33,7 +33,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -42,6 +41,7 @@ import { pluck } from 'rxjs-etc/operators'
 export interface TherapyTableUserFilters {
   ncitIdFilter?: Maybe<string>
   nameFilter?: Maybe<string>
+  therapyAliasFilter?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -87,10 +87,14 @@ export class CvcTherapiesTableComponent implements OnInit {
   // filters
   ncitIdFilter: Maybe<string>
   nameFilter: Maybe<string>
+  therapyAliasFilter: Maybe<string>
 
   sortColumns = TherapySortColumns
 
-  constructor(private gql: TherapiesBrowseGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: TherapiesBrowseGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -186,13 +190,17 @@ export class CvcTherapiesTableComponent implements OnInit {
       .refetch({
         name: this.nameFilter,
         ncitId: this.ncitIdFilter,
+        therapyAlias: this.therapyAliasFilter,
       })
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<TherapyBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<TherapyBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

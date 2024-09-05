@@ -59,6 +59,9 @@ gem 'audited', '~> 5.3'
 #user comment rendering
 gem 'rinku', '~> 2.0.6'
 gem 'sanitize', '~> 6.0.2'
+gem 'kramdown', '~> 2.4.0'
+#GitHub style markdown
+gem 'kramdown-parser-gfm', '~> 1.1.0'
 
 gem 'angular_rails_csrf', '~> 5.0.0'
 
@@ -72,7 +75,7 @@ gem 'obo', '~> 0.1.5'
 
 gem 'activejob-null', '~> 0.0.1'
 
-gem "solid_errors", "~> 0.3.4"
+gem "solid_errors", "~> 0.5.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

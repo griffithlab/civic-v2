@@ -31,7 +31,6 @@ import {
   filter,
   map,
   skip,
-  take,
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators'
@@ -41,6 +40,7 @@ export interface DiseasesTableUserFilters {
   nameInput?: Maybe<string>
   featureNameInput?: Maybe<string>
   doidInput?: Maybe<string>
+  diseaseAliasInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -85,10 +85,14 @@ export class CvcDiseasesTableComponent implements OnInit {
   nameInput: Maybe<string>
   featureNameInput: Maybe<string>
   doidInput: Maybe<string>
+  diseaseAliasInput: Maybe<string>
 
   sortColumns: typeof DiseasesSortColumns = DiseasesSortColumns
 
-  constructor(private gql: BrowseDiseasesGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: BrowseDiseasesGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -185,13 +189,17 @@ export class CvcDiseasesTableComponent implements OnInit {
         name: this.nameInput,
         featureName: this.featureNameInput,
         doid: this.doidInput,
+        diseaseAlias: this.diseaseAliasInput,
       })
       .then(() => this.scrollIndex$.next(0))
 
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<BrowseDiseaseRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseDiseaseRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }
