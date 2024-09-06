@@ -30,6 +30,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   // 103 items, no errors:
   activityType: [ActivityTypeInput.Comment],
   subjectType: [ActivitySubjectInput.Variant],
+  dateRange: [undefined, undefined],
 }
 export const feedDefaultScope: ActivityFeedScope = {
   mode: EventFeedMode.Unscoped,
@@ -69,6 +70,7 @@ export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
   participatingOrganizations: [],
   activityTypes: [],
   subjectTypes: [],
+  dateRange: [undefined, undefined],
 }
 
 export const scrollerSettings: Settings<ActivityInterfaceEdge> = {

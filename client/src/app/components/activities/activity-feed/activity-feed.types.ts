@@ -28,6 +28,7 @@ export type ActivityFeedFilters = {
   organizationId: number[]
   subjectType: ActivitySubjectInput[]
   userId: number[]
+  dateRange: [Maybe<Date>, Maybe<Date>]
 }
 
 export type ActivityFeedFilterVariables = {
@@ -35,6 +36,8 @@ export type ActivityFeedFilterVariables = {
   organizationId: Maybe<number[]>
   subjectType: Maybe<ActivitySubjectInput[]>
   userId: Maybe<number[]>
+  occuredAfter: Maybe<string>
+  occuredBefore: Maybe<string>
 }
 export type ActivityFeedFilterKeys = keyof ActivityFeedFilters
 
@@ -43,6 +46,7 @@ export type ActivityFeedFilterOptions = {
   uniqueParticipants: User[]
   participatingOrganizations: Organization[]
   subjectTypes: ActivitySubjectInput[]
+  dateRange: [Maybe<Date>, Maybe<Date>]
 }
 
 export type ActivityFeedCounts = {

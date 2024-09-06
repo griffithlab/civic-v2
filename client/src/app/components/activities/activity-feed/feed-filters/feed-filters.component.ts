@@ -17,6 +17,7 @@ import {
 import {
   ActivitySubjectInput,
   ActivityTypeInput,
+  Maybe,
 } from '@app/generated/civic.apollo'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
@@ -54,6 +55,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   organizationId!: WritableSignal<number[]>
   subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
+  dateRange!: WritableSignal<[Maybe<Date>, Maybe<Date>]>
 
   constructor() {
     this.cvcFiltersChange = new EventEmitter<ActivityFeedFilters>()
@@ -64,6 +66,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         organizationId: this.organizationId(),
         subjectType: this.subjectType(),
         userId: this.userId(),
+        dateRange: this.dateRange(),
       })
     })
   }
