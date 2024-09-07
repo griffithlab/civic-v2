@@ -78,7 +78,6 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
     // update state toggled items on toggle events
     this.onToggleItem$
       .pipe(
-        // tag('feed-scroll.service onToggleItem$'),
         untilDestroyed(this)
       )
       .subscribe((item: FeedItemToggle) => {

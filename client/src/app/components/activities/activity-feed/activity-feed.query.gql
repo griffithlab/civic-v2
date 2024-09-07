@@ -12,6 +12,8 @@ query ActivityFeed(
   $mode: EventFeedMode
   $showFilters: Boolean!
   $requestDetails: Boolean!
+  $occurredAfter: ISO8601DateTime 
+  $occurredBefore: ISO8601DateTime 
 ) {
   activities(
     subject: $subject
@@ -25,6 +27,8 @@ query ActivityFeed(
     activityType: $activityType
     subjectType: $subjectType
     mode: $mode
+    occurredAfter: $occurredAfter
+    occurredBefore: $occurredBefore
   ) {
     ...ActivitiesConnectionFields
   }

@@ -310,6 +310,7 @@ export class CvcActivityFeedComponent {
           withLatestFrom(this.edge$),
           switchMap(([params, edges]) => {
             const { index, count } = params
+            if(edges.length === 0) return [] 
             if (edges.length >= index + 1 + count) {
               // edges cached, return slice of current array
               return of(edges.slice(index, index + count))
@@ -319,9 +320,12 @@ export class CvcActivityFeedComponent {
                 first: count,
                 after: edges[index - 1].cursor,
               }
+              // reset query complete, which will emit true from $result,
+              // so that incomplete edges are not returned in $edges.pipe below
               this.onQueryComplete$.next(false)
               this.fetchMore$.next(queryVars)
               return this.edge$.pipe(
+                // wait until query complete before returning edges slice
                 skipUntil(this.onQueryComplete$),
                 map((edges) => edges.slice(index, index + count))
                 // tag('configureDatasource.get() ++++++++++++++')

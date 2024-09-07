@@ -24,8 +24,12 @@ function filtersToQueryVariables(
     subjectType:
       filters['subjectType'].length > 0 ? filters['subjectType'] : undefined,
     userId: filters['userId'].length > 0 ? filters['userId'] : undefined,
-    occuredAfter: filters['dateRange'][0] ? filters['dateRange'][0].toISOString() : undefined,
-    occuredBefore: filters['dateRange'][1] ? filters['dateRange'][1].toISOString() : undefined,
+    occurredAfter: filters['occurredAfter']
+      ? filters['occurredAfter'].toISOString()
+      : undefined,
+    occurredBefore: filters['occurredBefore']
+      ? filters['occurredBefore'].toISOString()
+      : undefined,
   }
 }
 

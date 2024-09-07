@@ -22,7 +22,7 @@
           *ngTemplateOutlet="
             typeLabel;
             context: {
-              $implicit: { nzLabel: activity | enumToTitle, nzValue: activity }
+              $implicit: { nzLabel: activity | enumToTitle, nzValue: activity },
             }
           "></ng-container>
       </nz-option>
@@ -96,7 +96,7 @@
           filterTitle;
           context: {
             $implicit: 'Participating Organization',
-            value: organizationId()
+            value: organizationId(),
           }
         "></ng-container>
       <nz-select
@@ -120,8 +120,35 @@
       </nz-select>
     </nz-col>
   }
+  <nz-col nzSpan="12">
+    <h4>Occured After</h4>
+    <nz-date-picker
+      nzFormat="yyyy-MM-dd"
+      [ngModel]="occurredAfter()"
+      (ngModelChange)="occurredAfter.set($event)"
+      nzPlaceHolder="Select After Date">
+    </nz-date-picker>
+  </nz-col>
+  <nz-col nzSpan="12">
+    <h4>Occured Before</h4>
+    <nz-date-picker
+      nzFormat="yyyy-MM-dd"
+      [ngModel]="occurredBefore()"
+      (ngModelChange)="occurredBefore.set($event)"
+      nzPlaceHolder="Select Before Date">
+    </nz-date-picker>
+  </nz-col>
+  <!-- <nz-col nzSpan="24">
+    <pre>
+      Event Type: {{ eventType() | json }}
+      Organization Id: {{ organizationId() | json }}
+      Subject Type: {{ subjectType() | json }}
+      User ID: {{ userId() | json }}
+      occurred After: {{ occurredAfter() | json }}
+      occurred Before: {{ occurredBefore() | json }}
+    </pre>
+  </nz-col> -->
 </nz-row>
-
 <!-- TEMPLATES -->
 
 <!-- filter title -->

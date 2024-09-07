@@ -128,8 +128,8 @@ export type ActivityInterfaceEdge = {
 export enum ActivitySubjectInput {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
+  Feature = 'FEATURE',
   Flag = 'FLAG',
-  Gene = 'GENE',
   MolecularProfile = 'MOLECULAR_PROFILE',
   Revision = 'REVISION',
   RevisionSet = 'REVISION_SET',
@@ -145,6 +145,7 @@ export enum ActivityTypeInput {
   CreateComplexMolecularProfile = 'CREATE_COMPLEX_MOLECULAR_PROFILE',
   CreateFeature = 'CREATE_FEATURE',
   CreateVariant = 'CREATE_VARIANT',
+  DeleteComment = 'DELETE_COMMENT',
   DeprecateComplexMolecularProfile = 'DEPRECATE_COMPLEX_MOLECULAR_PROFILE',
   DeprecateFeature = 'DEPRECATE_FEATURE',
   DeprecateVariant = 'DEPRECATE_VARIANT',
@@ -4479,8 +4480,8 @@ export type QueryActivitiesArgs = {
   includeAutomatedEvents?: InputMaybe<Scalars['Boolean']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   mode?: InputMaybe<EventFeedMode>;
-  occuredAfter?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
-  occuredBefore?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  occurredAfter?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  occurredBefore?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
   organizationId?: InputMaybe<Array<Scalars['Int']['input']>>;
   sortBy?: InputMaybe<DateSort>;
   subject?: InputMaybe<Array<SubscribableQueryInput>>;
@@ -7003,6 +7004,8 @@ export type ActivityFeedQueryVariables = Exact<{
   mode?: InputMaybe<EventFeedMode>;
   showFilters: Scalars['Boolean']['input'];
   requestDetails: Scalars['Boolean']['input'];
+  occurredAfter?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  occurredBefore?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
 }>;
 
 
@@ -12419,7 +12422,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
     ${GeneVariantSummaryFieldsFragmentDoc}
 ${FactorVariantSummaryFieldsFragmentDoc}`;
 export const ActivityFeedDocument = gql`
-    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $includeAutomatedEvents: Boolean, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!) {
+    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $includeAutomatedEvents: Boolean, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime) {
   activities(
     subject: $subject
     first: $first
@@ -12432,6 +12435,8 @@ export const ActivityFeedDocument = gql`
     activityType: $activityType
     subjectType: $subjectType
     mode: $mode
+    occurredAfter: $occurredAfter
+    occurredBefore: $occurredBefore
   ) {
     ...ActivitiesConnectionFields
   }

@@ -15,6 +15,7 @@ export type ActivityFeedTagDisplayOption =
   | 'hideSubject'
   | 'hideUser'
 
+// settings state values (UI control values)
 export type ActivityFeedSettings = {
   first: number
   scope: ActivityFeedScope
@@ -23,30 +24,32 @@ export type ActivityFeedSettings = {
   requestDetails: boolean
 }
 
+// filter state values (UI control values)
 export type ActivityFeedFilters = {
   activityType: ActivityTypeInput[]
   organizationId: number[]
   subjectType: ActivitySubjectInput[]
   userId: number[]
-  dateRange: [Maybe<Date>, Maybe<Date>]
+  occurredAfter: Date | null
+  occurredBefore: Date | null
 }
 
+// filter query variables (query variables for the feed query)
 export type ActivityFeedFilterVariables = {
   activityType: Maybe<ActivityTypeInput[]>
   organizationId: Maybe<number[]>
   subjectType: Maybe<ActivitySubjectInput[]>
   userId: Maybe<number[]>
-  occuredAfter: Maybe<string>
-  occuredBefore: Maybe<string>
+  occurredAfter: Maybe<string>
+  occurredBefore: Maybe<string>
 }
-export type ActivityFeedFilterKeys = keyof ActivityFeedFilters
 
+export type ActivityFeedFilterKeys = keyof ActivityFeedFilters
 export type ActivityFeedFilterOptions = {
   activityTypes: ActivityTypeInput[]
   uniqueParticipants: User[]
   participatingOrganizations: Organization[]
   subjectTypes: ActivitySubjectInput[]
-  dateRange: [Maybe<Date>, Maybe<Date>]
 }
 
 export type ActivityFeedCounts = {
@@ -63,11 +66,14 @@ export type FetchParams = {
   last?: string
 }
 
+// query params object composed of filter and settings UI values,
+// to be converted to query variables for the feed query
 export type ActivityFeedQueryParams = {
   filters: ActivityFeedFilters
   settings: ActivityFeedSettings
 }
 
+// query events can either refresh the entire feed list, or fetch more results
 export type FeedQueryType = 'refetch' | 'fetchMore'
 
 type FeedQueryFetchMoreEvent = {
@@ -84,7 +90,7 @@ type FeedQueryRefetchEvent = {
 
 export type FeedQueryEvent = FeedQueryFetchMoreEvent | FeedQueryRefetchEvent
 
-// fancy discriminated union type for ActivityFeedScope
+// Organization mode feed scope queries do not specify a subject or user
 type ScopeOrganization = {
   mode: EventFeedMode.Organization
   organizationId: number
@@ -92,6 +98,7 @@ type ScopeOrganization = {
   userId?: never
 }
 
+// Subject mode feed scope queries do not specify an organization or user
 type ScopeSubject = {
   mode: EventFeedMode.Subject
   subject: SubscribableQueryInput
@@ -99,6 +106,7 @@ type ScopeSubject = {
   userId?: never
 }
 
+// User mode feed scope queries do not specify an organization or subject
 type ScopeUser = {
   mode: EventFeedMode.User
   userId: number
@@ -106,6 +114,7 @@ type ScopeUser = {
   subject?: never
 }
 
+// Unscoped mode feed queries do not specify a organization, subject, or user 
 type ScopeUnscoped = {
   mode: EventFeedMode.Unscoped
   organizationId?: never
@@ -113,6 +122,7 @@ type ScopeUnscoped = {
   userId?: never
 }
 
+// FeedScope types help configure the query & UI depending on EventFeedMode 
 export type ActivityFeedScope =
   | ScopeOrganization
   | ScopeSubject

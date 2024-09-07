@@ -26,6 +26,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 
 export const defaultFilters = {}
 
@@ -39,6 +40,7 @@ export const defaultFilters = {}
     NzGridModule,
     NzFormModule,
     NzSelectModule,
+    NzDatePickerModule,
     CvcPipesModule,
   ],
   templateUrl: './feed-filters.component.html',
@@ -55,7 +57,8 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   organizationId!: WritableSignal<number[]>
   subjectType!: WritableSignal<ActivitySubjectInput[]>
   userId!: WritableSignal<number[]>
-  dateRange!: WritableSignal<[Maybe<Date>, Maybe<Date>]>
+  occurredAfter!: WritableSignal<Date | null>
+  occurredBefore!: WritableSignal<Date | null>
 
   constructor() {
     this.cvcFiltersChange = new EventEmitter<ActivityFeedFilters>()
@@ -66,7 +69,8 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         organizationId: this.organizationId(),
         subjectType: this.subjectType(),
         userId: this.userId(),
-        dateRange: this.dateRange(),
+        occurredAfter: this.occurredAfter(),
+        occurredBefore: this.occurredBefore(),
       })
     })
   }
@@ -75,5 +79,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     this.organizationId = signal(this.cvcFilters().organizationId)
     this.subjectType = signal(this.cvcFilters().subjectType)
     this.userId = signal(this.cvcFilters().userId)
+    this.occurredAfter = signal(this.cvcFilters().occurredAfter)
+    this.occurredBefore = signal(this.cvcFilters().occurredBefore)
   }
 }

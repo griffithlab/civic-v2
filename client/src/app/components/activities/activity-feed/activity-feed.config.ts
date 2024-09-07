@@ -21,6 +21,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
   showFilters: true,
   requestDetails: false,
 }
+
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
   userId: [],
@@ -30,7 +31,8 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   // 103 items, no errors:
   activityType: [ActivityTypeInput.Comment],
   subjectType: [ActivitySubjectInput.Variant],
-  dateRange: [undefined, undefined],
+  occurredAfter: null,
+  occurredBefore: null,
 }
 export const feedDefaultScope: ActivityFeedScope = {
   mode: EventFeedMode.Unscoped,
@@ -70,7 +72,6 @@ export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
   participatingOrganizations: [],
   activityTypes: [],
   subjectTypes: [],
-  dateRange: [undefined, undefined],
 }
 
 export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
