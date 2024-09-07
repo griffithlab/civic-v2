@@ -993,7 +993,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "GENE",
+              "name": "FEATURE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -1173,6 +1173,12 @@
             },
             {
               "name": "DEPRECATE_FEATURE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DELETE_COMMENT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -34174,7 +34180,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "occuredBefore",
+                  "name": "occurredBefore",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -34186,7 +34192,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "occuredAfter",
+                  "name": "occurredAfter",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
