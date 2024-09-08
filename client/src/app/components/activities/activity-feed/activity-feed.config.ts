@@ -25,12 +25,12 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
   userId: [],
-  // activityType: [],
-  // subjectType: [],
+  activityType: [],
+  subjectType: [],
 
   // 103 items, no errors:
-  activityType: [ActivityTypeInput.Comment],
-  subjectType: [ActivitySubjectInput.Variant],
+  // activityType: [ActivityTypeInput.Comment],
+  // subjectType: [ActivitySubjectInput.Variant],
   occurredAfter: null,
   occurredBefore: null,
 }

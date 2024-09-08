@@ -29,6 +29,7 @@ import { GuardTypePipe } from './type-guard.pipe'
 import { IsArrayPipe } from './is-array.pipe'
 import { OrdinalPipe } from './ordinal-number'
 import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.pipe'
+import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.
     GuardTypePipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
+    EntityTypeToTypenamePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceEnumTooltipPipe,
@@ -70,6 +72,7 @@ import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.
     ColorNameForStatusPipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
+    EntityTypeToTypenamePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceEnumTooltipPipe,

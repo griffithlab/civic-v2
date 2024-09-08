@@ -11,7 +11,7 @@
       [nzDropdownMatchSelectWidth]="false"
       [ngModel]="eventType()"
       (ngModelChange)="eventType.set($event)"
-      [nzCustomTemplate]="typeLabel"
+      [nzCustomTemplate]="activityTypeLabel"
       [nzOptionHeightPx]="28">
       <nz-option
         *ngFor="let activity of cvcFilterOptions().activityTypes"
@@ -20,19 +20,21 @@
         [nzValue]="activity">
         <ng-container
           *ngTemplateOutlet="
-            typeLabel;
+            activityTypeLabel;
             context: {
               $implicit: { nzLabel: activity | enumToTitle, nzValue: activity },
             }
           "></ng-container>
       </nz-option>
       <ng-template
-        #typeLabel
+        #activityTypeLabel
         let-selected>
         <i
           class="select-icon"
           nz-icon
-          [nzType]="selected.nzValue | iconNameForActivityTypeInput"></i>
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Event' | entityColor"
+          nzType="civic-event"></i>
         {{ selected.nzLabel }}
       </ng-template>
     </nz-select>
@@ -49,17 +51,33 @@
         nzMode="multiple"
         [ngModel]="subjectType()"
         (ngModelChange)="subjectType.set($event)"
+        [nzCustomTemplate]="subjectTypeLabel"
         [nzOptionHeightPx]="28">
         <nz-option
           *ngFor="let subject of cvcFilterOptions().subjectTypes"
           nzCustomContent
           [nzLabel]="subject | enumToTitle"
           [nzValue]="subject">
-          <span
-            nz-icon
-            [nzType]="subject | iconNameForSubscribableEntity"></span>
-          {{ subject | enumToTitle }}
+          <ng-container
+            *ngTemplateOutlet="
+              subjectTypeLabel;
+              context: {
+                $implicit: { nzLabel: subject | enumToTitle, nzValue: subject },
+              }
+            ">
+          </ng-container>
         </nz-option>
+        <ng-template
+          #subjectTypeLabel
+          let-selected>
+          <i
+            class="select-icon"
+            nz-icon
+            nzTheme="twotone"
+            [nzTwotoneColor]="selected.nzValue | entityTypeToTypename| entityColor"
+            [nzType]="selected.nzValue | iconNameForSubscribableEntity"></i>
+          {{ selected.nzLabel }}
+        </ng-template>
       </nz-select>
     </nz-col>
   }
@@ -121,7 +139,7 @@
     </nz-col>
   }
   <nz-col nzSpan="12">
-    <h4>Occured After</h4>
+    <h4>Occurred After</h4>
     <nz-date-picker
       nzFormat="yyyy-MM-dd"
       [ngModel]="occurredAfter()"
@@ -130,7 +148,7 @@
     </nz-date-picker>
   </nz-col>
   <nz-col nzSpan="12">
-    <h4>Occured Before</h4>
+    <h4>Occurred Before</h4>
     <nz-date-picker
       nzFormat="yyyy-MM-dd"
       [ngModel]="occurredBefore()"

@@ -277,8 +277,7 @@ export class CvcActivityFeedComponent {
             participatingOrganizations:
               connection.participatingOrganizations ?? [],
             activityTypes: connection.activityTypes ?? [],
-            //subjectTypes: connection.subjectTypes ?? [],
-            subjectTypes: [ActivitySubjectInput.Variant],
+            subjectTypes: connection.subjectTypes ?? [],
           }
         })
       ),
@@ -323,6 +322,8 @@ export class CvcActivityFeedComponent {
               // reset query complete, which will emit true from $result,
               // so that incomplete edges are not returned in $edges.pipe below
               this.onQueryComplete$.next(false)
+
+              // issue query!
               this.fetchMore$.next(queryVars)
               return this.edge$.pipe(
                 // wait until query complete before returning edges slice
