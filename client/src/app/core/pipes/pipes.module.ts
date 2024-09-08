@@ -30,6 +30,7 @@ import { IsArrayPipe } from './is-array.pipe'
 import { OrdinalPipe } from './ordinal-number'
 import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.pipe'
 import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
+import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
     SourceTypeDisplayPipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    UserRoleToIconNamePipe,
     EntityColorPipe,
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
@@ -92,6 +94,7 @@ import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
     TruncatePipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    UserRoleToIconNamePipe,
     EntityColorPipe,
     DevRandomBoolPipe,
     CivicTimeagoFormatter,

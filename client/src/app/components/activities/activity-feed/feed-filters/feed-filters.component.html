@@ -74,7 +74,9 @@
             class="select-icon"
             nz-icon
             nzTheme="twotone"
-            [nzTwotoneColor]="selected.nzValue | entityTypeToTypename| entityColor"
+            [nzTwotoneColor]="
+              selected.nzValue | entityTypeToTypename | entityColor
+            "
             [nzType]="selected.nzValue | iconNameForSubscribableEntity"></i>
           {{ selected.nzLabel }}
         </ng-template>
@@ -93,20 +95,36 @@
         nzMode="multiple"
         [ngModel]="userId()"
         (ngModelChange)="userId.set($event)"
+        [nzCustomTemplate]="userLabel"
         [nzOptionHeightPx]="28">
         <nz-option
           *ngFor="let user of cvcFilterOptions().uniqueParticipants"
           nzCustomContent
           [nzLabel]="user.displayName"
           [nzValue]="user.id">
+          <ng-container
+            *ngTemplateOutlet="
+              userLabel;
+              context: {
+                $implicit: { nzLabel: user.displayName, nzValue: user.id },
+              }
+            ">
+          </ng-container>
+        </nz-option>
+        <ng-template
+          #userLabel
+          let-selected>
           <span
             nz-icon
-            nzType="civic-curator"></span>
-          {{ user.displayName }}
-        </nz-option>
+            [nzType]="'civic-curator'"
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Curator' | entityColor"></span>
+          {{ selected.nzLabel }}
+        </ng-template>
       </nz-select>
     </nz-col>
   }
+
   @if (cvcScope().mode !== 'ORGANIZATION') {
     <nz-col nzSpan="24">
       <ng-container
@@ -122,6 +140,7 @@
         nzMode="multiple"
         [ngModel]="organizationId()"
         (ngModelChange)="organizationId.set($event)"
+        [nzCustomTemplate]="organizationLabel"
         [nzOptionHeightPx]="28">
         <nz-option
           *ngFor="
@@ -130,11 +149,25 @@
           nzCustomContent
           [nzLabel]="organization.name"
           [nzValue]="organization.id">
+          <ng-container
+            *ngTemplateOutlet="
+              organizationLabel;
+              context: {
+                $implicit: { nzLabel: organization.name, nzValue: organization.id },
+              }
+            ">
+          </ng-container>
+        </nz-option>
+        <ng-template
+          #organizationLabel
+          let-selected>
           <span
             nz-icon
-            nzType="civic-organization"></span>
-          {{ organization.name }}
-        </nz-option>
+            [nzType]="'civic-organization'"
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Organization' | entityColor"></span>
+          {{ selected.nzLabel }}
+        </ng-template>
       </nz-select>
     </nz-col>
   }
