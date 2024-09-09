@@ -62,9 +62,9 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
       ...ActivityFeedItem
     }
   }
-  nodes {
-    ...ActivityFeedItem
-  }
+  #  nodes {
+  #    ...ActivityFeedItem
+  #  }
 }
 
 # activity summary info to render each feed item

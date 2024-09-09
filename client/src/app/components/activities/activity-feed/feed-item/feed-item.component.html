@@ -33,6 +33,7 @@
         <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       }
       <span
+        class="verbiage"
         nz-typography
         nzType="secondary">
         {{ activity.verbiage }}
@@ -45,11 +46,13 @@
               $implicit: activity.subject,
               isScrolling: $scroller().isScrolling,
             }
-          "></ng-container>
+          ">
+        </ng-container>
       }
       @if (activity.organization && scope().mode !== 'ORGANIZATION') {
         <div class="organization">
           <span
+            class="verbiage"
             nz-typography
             nzType="secondary">
             for

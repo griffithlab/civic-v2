@@ -59,7 +59,6 @@ import {
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
   ActivityInterfaceEdge,
-  ActivitySubjectInput,
   Maybe,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
@@ -86,7 +85,6 @@ import { NzResultModule } from 'ng-zorro-antd/result'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
-
 @Component({
   selector: 'cvc-activity-feed',
   templateUrl: './activity-feed.component.html',
@@ -313,8 +311,15 @@ export class CvcActivityFeedComponent {
           withLatestFrom(this.edge$),
           switchMap(([params, edges]) => {
             const { index, count } = params
-            if (edges.length === 0) return []
-            if (edges.length >= index + 1 + count) {
+            if (edges.length === 0) {
+              // no rows to display
+              // TODO: show empty state
+              return []
+            } else if (edges.length === this.counts()!.total) {
+              // all rows have been fetched
+              // TODO: show all rows fetched notification
+              return of(edges)
+            } else if (edges.length >= index + 1 + count) {
               // edges cached, return slice of current array
               return of(edges.slice(index, index + count))
             } else {
