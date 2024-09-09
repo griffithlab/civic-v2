@@ -7,6 +7,6 @@ class DeprecateFeatureActivity < Activity
   end
 
   def generate_verbiage
-    "deprecated #{feature.feature_instance_type.demodulize}"
+    "deprecated"
   end
 end

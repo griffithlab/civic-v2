@@ -5,6 +5,6 @@ class CreateFeatureActivity < Activity
   end
 
   def generate_verbiage
-    "created #{feature.feature_instance_type.demodulize}"
+    "created"
   end
 end

@@ -6,6 +6,6 @@ class SuggestSourceActivity < Activity
   end
 
   def generate_verbiage
-    'created a source suggestion for source'
+    'suggested'
   end
 end
