@@ -47,6 +47,8 @@ import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-f
 import { tag } from 'rxjs-spy/operators'
 import { map, skip } from 'rxjs/operators'
 import { simpleActivityTypes } from '../activity-feed.config'
+import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
+import { NzTagModule } from 'ng-zorro-antd/tag'
 
 export type FeedItemToggle = {
   id: number
@@ -73,6 +75,7 @@ export type FeedItemToggle = {
     NzCardModule,
     NzTypographyModule,
     NzIconModule,
+    NzTagModule,
     CvcActivityFeedItemDetails,
     CvcPipesModule,
     CvcUserTagModule,
@@ -86,6 +89,7 @@ export type FeedItemToggle = {
     CvcSourceTagModule,
     CvcMolecularProfileTagModule,
     CvcCommentActivity,
+    CvcFeatureVariantTagModule,
   ],
 })
 export class CvcActivityFeedItem implements OnInit {

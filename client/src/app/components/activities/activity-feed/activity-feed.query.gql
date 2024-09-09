@@ -12,8 +12,8 @@ query ActivityFeed(
   $mode: EventFeedMode
   $showFilters: Boolean!
   $requestDetails: Boolean!
-  $occurredAfter: ISO8601DateTime 
-  $occurredBefore: ISO8601DateTime 
+  $occurredAfter: ISO8601DateTime
+  $occurredBefore: ISO8601DateTime
 ) {
   activities(
     subject: $subject
@@ -85,6 +85,20 @@ fragment ActivityFeedItemBase on ActivityInterface {
     id
     name
     link
+    ... on GeneVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
   }
 }
 
@@ -94,7 +108,8 @@ fragment ActivityFeedItem on ActivityInterface {
   ...CommentActivityDetail @include(if: $requestDetails)
   ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...CreateVariantActivityDetail @include(if: $requestDetails)
-  ...DeprecateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
+  ...DeprecateComplexMolecularProfileActivityDetail
+    @include(if: $requestDetails)
   ...DeprecateVariantActivityDetail @include(if: $requestDetails)
   ...DeprecateFeatureActivityDetail @include(if: $requestDetails)
   ...FlagEntityActivityDetail @include(if: $requestDetails)

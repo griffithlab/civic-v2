@@ -26,7 +26,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
   userId: [],
   activityType: [],
-  subjectType: [],
+  subjectType: [ActivitySubjectInput.Variant],
 
   // 103 items, no errors:
   // activityType: [ActivityTypeInput.Comment],

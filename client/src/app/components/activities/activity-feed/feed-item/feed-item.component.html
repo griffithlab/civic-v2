@@ -85,10 +85,16 @@
         *ngSwitchCase="'EvidenceItem'"
         [evidence]="subject"
         [enablePopover]="!isScrolling"></cvc-evidence-tag>
-      <cvc-variant-tag
-        *ngSwitchCase="'Variant'"
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'GeneVariant'"
         [variant]="subject"
-        [enablePopover]="!isScrolling"></cvc-variant-tag>
+        [feature]="subject.feature"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'FactorVariant'"
+        [variant]="subject"
+        [feature]="subject.feature"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
       <cvc-revision-tag
         *ngSwitchCase="'Revision'"
         [revision]="$any(subject)"
@@ -106,7 +112,9 @@
         *ngSwitchCase="'MolecularProfile'"
         [molecularProfile]="subject"
         [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
-      <span *ngSwitchDefault>{{ subject.name }}</span>
+      <span *ngSwitchDefault>
+        <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
+      </span>
     </ng-container>
   </ng-template>
 }

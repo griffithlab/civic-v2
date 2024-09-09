@@ -6,8 +6,13 @@
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
+      <!--       @if (true) {
+        <nz-result
+          nzStatus="info"
+          nzTitle="No activities to show"></nz-result>
+      } -->
       <nz-spin
-        [nzSpinning]="$refetchLoading()"
+        [nzSpinning]="refetchLoading()"
         nzSize="large"
         [nzDelay]="0">
         <div
@@ -20,8 +25,7 @@
                 routines: scrollerRoutines
               "
               [cvcActivity]="edge.node"
-              [cvcScope]="cvcScope()"
-            ></cvc-activity-feed-item>
+              [cvcScope]="cvcScope()"></cvc-activity-feed-item>
           }
         </div>
       </nz-spin>
@@ -34,7 +38,7 @@
            feedFilter$ to emit, which is required to fire off an initial query -->
       <cvc-activity-feed-filters
         (cvcFiltersChange)="onFilterChange$.next($event)"
-        [cvcFilterOptions]="$feedFilterOptions()"
+        [cvcFilterOptions]="feedFilterOptions()"
         [cvcFilters]="cvcFilters()"
         [cvcScope]="cvcScope()">
       </cvc-activity-feed-filters>
@@ -47,14 +51,14 @@
       class="title"
       *nzSpaceItem>
       {{ cvcTitle() }}
-      scrolling: {{ $scroller().isScrolling }},
+      scrolling: {{ scroller().isScrolling }},
     </span>
     <cvc-activity-feed-counts
       *nzSpaceItem
-      [cvcFeedCounts]="$counts()"></cvc-activity-feed-counts>
+      [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
     <span *nzSpaceItem>
       <nz-tag
-        *ngIf="$moreLoading()"
+        *ngIf="moreLoading()"
         nzColor="processing">
         <i
           nz-icon

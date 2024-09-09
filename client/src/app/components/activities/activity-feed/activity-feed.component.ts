@@ -82,6 +82,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CommonModule } from '@angular/common'
+import { NzResultModule } from 'ng-zorro-antd/result'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
@@ -100,6 +101,7 @@ export const FEED_SCROLL_SERVICE_TOKEN =
     NzSpaceModule,
     NzTagModule,
     NzSpinModule,
+    NzResultModule,
     CvcActivityFeedItem,
     CvcAutoHeightDivModule,
     CvcActivityFeedCounts,
@@ -137,13 +139,14 @@ export class CvcActivityFeedComponent {
   queryType$: Subject<'refetch' | 'fetchMore'>
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
+  onZeroRows$: Subject<boolean>
 
   // PRESENTATION SIGNALS
-  $refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
-  $moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
-  $counts: Signal<Maybe<ActivityFeedCounts>>
-  $feedFilterOptions: Signal<ActivityFeedFilterOptions>
-  $scroller: Signal<ScrollerState>
+  refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
+  moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
+  counts: Signal<Maybe<ActivityFeedCounts>>
+  feedFilterOptions: Signal<ActivityFeedFilterOptions>
+  scroller: Signal<ScrollerState>
 
   // REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -166,9 +169,10 @@ export class CvcActivityFeedComponent {
     this.init$ = new Subject()
     this.queryType$ = new Subject()
     this.onQueryComplete$ = new Subject()
+    this.onZeroRows$ = new BehaviorSubject(false)
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
-    this.$scroller = this.scrollerState.state.asReadonly()
+    this.scroller = this.scrollerState.state.asReadonly()
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -230,7 +234,7 @@ export class CvcActivityFeedComponent {
       shareReplay(1)
     )
 
-    this.$refetchLoading = toSignal(
+    this.refetchLoading = toSignal(
       this.result$.pipe(
         pluck('loading'),
         withLatestFrom(this.queryType$),
@@ -240,7 +244,7 @@ export class CvcActivityFeedComponent {
       { initialValue: false }
     )
 
-    this.$moreLoading = toSignal(
+    this.moreLoading = toSignal(
       this.result$.pipe(
         pluck('loading'),
         withLatestFrom(this.queryType$),
@@ -255,7 +259,7 @@ export class CvcActivityFeedComponent {
       shareReplay(1)
     )
 
-    this.$counts = toSignal(
+    this.counts = toSignal(
       connection$.pipe(
         map((connection) => {
           return <ActivityFeedCounts>{
@@ -269,7 +273,7 @@ export class CvcActivityFeedComponent {
       { initialValue: undefined }
     )
 
-    this.$feedFilterOptions = toSignal(
+    this.feedFilterOptions = toSignal(
       connection$.pipe(
         map((connection) => {
           return <ActivityFeedFilterOptions>{
@@ -309,7 +313,7 @@ export class CvcActivityFeedComponent {
           withLatestFrom(this.edge$),
           switchMap(([params, edges]) => {
             const { index, count } = params
-            if(edges.length === 0) return [] 
+            if (edges.length === 0) return []
             if (edges.length >= index + 1 + count) {
               // edges cached, return slice of current array
               return of(edges.slice(index, index + count))
@@ -344,7 +348,7 @@ export class CvcActivityFeedComponent {
     this.scrollAdapter = this.scrollDatasource?.adapter
     effect(
       () => {
-        const toggledItems = this.$scroller().toggledItems
+        const toggledItems = this.scroller().toggledItems
         this.scrollAdapter?.check()
       },
       { injector: this.injector }
