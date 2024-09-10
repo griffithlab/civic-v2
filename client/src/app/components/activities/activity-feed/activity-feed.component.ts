@@ -261,8 +261,8 @@ export class CvcActivityFeedComponent {
         pluck('loading'),
         withLatestFrom(this.queryType$),
         filter(([_loading, queryType]) => queryType === 'refetch'),
-        map(([loading]) => loading),
-        tag('refetchLoading')
+        map(([loading]) => loading)
+        // tag('refetchLoading')
       ),
       { initialValue: false }
     )
@@ -272,8 +272,8 @@ export class CvcActivityFeedComponent {
         pluck('loading'),
         withLatestFrom(this.queryType$),
         filter(([_loading, queryType]) => queryType === 'fetchMore'),
-        map(([loading]) => loading),
-        tag('moreLoading')
+        map(([loading]) => loading)
+        // tag('moreLoading')
       ),
       { initialValue: false }
     )

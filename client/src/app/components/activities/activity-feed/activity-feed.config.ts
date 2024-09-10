@@ -24,8 +24,8 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  userId: [110],
-  activityType: [ActivityTypeInput.CreateVariant],
+  userId: [],
+  activityType: [ActivityTypeInput.SuggestRevision],
   subjectType: [],
 
   // 103 items, no errors:
@@ -78,7 +78,7 @@ export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
   bufferSize: 25,
   minIndex: 0,
   startIndex: 0,
-  itemSize: 48,
+  itemSize: 44,
   sizeStrategy: SizeStrategy.Frequent,
   padding: 0.5,
 }
@@ -86,5 +86,6 @@ export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
 export const scrollerDevSettings: DevSettings = {
   // debug: true,
   // immediateLog: true,
-  cacheData: true, // smoother scrolling
+  // cacheData: true, // smoother scrolling?
+  cacheData: false, // testing
 }

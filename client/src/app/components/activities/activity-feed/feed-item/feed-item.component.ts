@@ -62,8 +62,8 @@ export type FeedItemToggle = {
   styleUrl: './feed-item.component.less',
   animations: [
     trigger('details', [
-      state('hidden', style({ 'max-height': 0 })),
-      state('visible', style({ 'max-height': '300px' })),
+      state('hidden', style({ 'height': 0, 'overflow-y': 'hidden' })),
+      state('visible', style({ 'height': '*', 'overflow-y': 'hidden' })),
       transition('visible <=> hidden', animate('.25s ease-out')),
       transition('hidden <=> visible', animate('.25s ease-in')),
     ]),
