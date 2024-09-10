@@ -9,11 +9,9 @@
       <div class="feed-layers">
         <div class="messages">
           @if (zeroRows()) {
-            <div class="notice">
-              <nz-result
-                nzStatus="info"
-                nzTitle="No Activities found that match filter settings"></nz-result>
-            </div>
+            <nz-result
+              nzStatus="info"
+              nzTitle="No Activities found matchingfilter settings"></nz-result>
           }
         </div>
         <div class="scroller">

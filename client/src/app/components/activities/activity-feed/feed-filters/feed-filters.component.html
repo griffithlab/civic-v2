@@ -174,20 +174,26 @@
       </nz-select>
     </nz-col>
   }
-  <nz-col nzSpan="12">
+  <nz-col
+    nzMd="24"
+    nzLg="12">
     <h4>Occurred After</h4>
     <nz-date-picker
       nzFormat="yyyy-MM-dd"
       [ngModel]="occurredAfter()"
+      [nzDisabledDate]="disableDates.beforeToday"
       (ngModelChange)="occurredAfter.set($event)"
       nzPlaceHolder="Select Date">
     </nz-date-picker>
   </nz-col>
-  <nz-col nzSpan="12">
+  <nz-col
+    nzMd="24"
+    nzLg="12">
     <h4>Occurred Before</h4>
     <nz-date-picker
       nzFormat="yyyy-MM-dd"
       [ngModel]="occurredBefore()"
+      [nzDisabledDate]="disableDates.beforeTomorrow"
       (ngModelChange)="occurredBefore.set($event)"
       nzPlaceHolder="Select Date">
     </nz-date-picker>

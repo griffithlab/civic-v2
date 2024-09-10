@@ -27,6 +27,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
+import { disableDates } from '../activity-feed.functions'
 
 export const defaultFilters = {}
 
@@ -60,8 +61,10 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   occurredAfter!: WritableSignal<Date | null>
   occurredBefore!: WritableSignal<Date | null>
 
+  disableDates: { [key: string]: (current: Date) => boolean }
   constructor() {
     this.cvcFiltersChange = new EventEmitter<ActivityFeedFilters>()
+    this.disableDates = disableDates
 
     effect(() => {
       this.cvcFiltersChange.emit({
