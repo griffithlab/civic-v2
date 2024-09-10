@@ -6,29 +6,37 @@
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
-      <!--       @if (true) {
-        <nz-result
-          nzStatus="info"
-          nzTitle="No activities to show"></nz-result>
-      } -->
-      <nz-spin
-        [nzSpinning]="refetchLoading()"
-        nzSize="large"
-        [nzDelay]="0">
-        <div
-          cvcAutoHeightDiv="40"
-          cvcAutoHeightTarget="viewport">
-          @if (scrollDatasource) {
-            <cvc-activity-feed-item
-              *uiScroll="
-                let edge of scrollDatasource;
-                routines: scrollerRoutines
-              "
-              [cvcActivity]="edge.node"
-              [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+      <div class="feed-layers">
+        <div class="messages">
+          @if (zeroRows()) {
+            <div class="notice">
+              <nz-result
+                nzStatus="info"
+                nzTitle="No Activities found that match filter settings"></nz-result>
+            </div>
           }
         </div>
-      </nz-spin>
+        <div class="scroller">
+          <nz-spin
+            [nzSpinning]="refetchLoading()"
+            nzSize="large"
+            [nzDelay]="0">
+            <div
+              cvcAutoHeightDiv="40"
+              cvcAutoHeightTarget="viewport">
+              @if (scrollDatasource) {
+                <cvc-activity-feed-item
+                  *uiScroll="
+                    let edge of scrollDatasource;
+                    routines: scrollerRoutines
+                  "
+                  [cvcActivity]="edge.node"
+                  [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+              }
+            </div>
+          </nz-spin>
+        </div>
+      </div>
     </nz-col>
 
     <!-- FEED FILTERS COLUMN -->

@@ -16,7 +16,6 @@ import {
   ActivityFeedScope,
   ActivityFeedSettings,
   FeedQueryEvent,
-  FeedQueryType,
   FetchParams,
 } from '@app/components/activities/activity-feed/activity-feed.types'
 import {
@@ -34,7 +33,6 @@ import {
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import {
   BehaviorSubject,
-  catchError,
   combineLatest,
   filter,
   map,
@@ -51,13 +49,18 @@ import {
   CvcActivityFeedItem,
   FeedItemToggle,
 } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
-import { queryParamsToQueryVariables } from '@app/components/activities/activity-feed/activity-feed.functions'
+import {
+  connectionToFeedCounts,
+  connectionToFilterOptions,
+  queryParamsToQueryVariables,
+} from '@app/components/activities/activity-feed/activity-feed.functions'
 import { shareReplay } from 'rxjs/operators'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   ActivityFeedGQL,
   ActivityFeedQuery,
   ActivityFeedQueryVariables,
+  ActivityInterfaceConnection,
   ActivityInterfaceEdge,
   Maybe,
 } from '@app/generated/civic.apollo'
@@ -82,6 +85,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CommonModule } from '@angular/common'
 import { NzResultModule } from 'ng-zorro-antd/result'
+import { tag } from 'rxjs-spy/operators'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
@@ -142,6 +146,7 @@ export class CvcActivityFeedComponent {
   // PRESENTATION SIGNALS
   refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
   moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
+  zeroRows: Signal<boolean> // true when no rows are returned from query
   counts: Signal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
   scroller: Signal<ScrollerState>
@@ -171,6 +176,7 @@ export class CvcActivityFeedComponent {
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
+    this.zeroRows = toSignal(this.onZeroRows$, { initialValue: false })
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -189,10 +195,10 @@ export class CvcActivityFeedComponent {
     )
 
     const fetchChange$ = merge(this.fetchMore$, this.poll$).pipe(
-      map((fetch) => {
+      map((fetchParams) => {
         return <FeedQueryEvent>{
           type: 'fetchMore',
-          fetch: fetch,
+          fetch: fetchParams,
         }
       })
     )
@@ -201,6 +207,7 @@ export class CvcActivityFeedComponent {
       switchMap(() => merge(refreshChange$, fetchChange$)),
       switchMap((event) => {
         this.queryType$.next(event.type)
+        this.onZeroRows$.next(false)
         if (!this.queryRef) {
           this.queryRef = this.gql.watch(event.query)
         } else {
@@ -225,10 +232,6 @@ export class CvcActivityFeedComponent {
         }
         return this.queryRef.valueChanges
       }),
-      catchError((error) => {
-        console.error('query error', error)
-        return of(error)
-      }),
       shareReplay(1)
     )
 
@@ -237,7 +240,8 @@ export class CvcActivityFeedComponent {
         pluck('loading'),
         withLatestFrom(this.queryType$),
         filter(([_loading, queryType]) => queryType === 'refetch'),
-        map(([loading]) => loading)
+        map(([loading]) => loading),
+        tag('refetchLoading')
       ),
       { initialValue: false }
     )
@@ -247,10 +251,12 @@ export class CvcActivityFeedComponent {
         pluck('loading'),
         withLatestFrom(this.queryType$),
         filter(([_loading, queryType]) => queryType === 'fetchMore'),
-        map(([loading]) => loading)
+        map(([loading]) => loading),
+        tag('moreLoading')
       ),
       { initialValue: false }
     )
+
     const connection$ = this.result$.pipe(
       pluck('data', 'activities'),
       filter(isNonNulled),
@@ -260,12 +266,9 @@ export class CvcActivityFeedComponent {
     this.counts = toSignal(
       connection$.pipe(
         map((connection) => {
-          return <ActivityFeedCounts>{
-            total: connection.totalCount,
-            unfiltered: connection.unfilteredCount,
-            page: connection.pageCount,
-            rows: connection.edges.length,
-          }
+          return connectionToFeedCounts(
+            connection as ActivityInterfaceConnection
+          )
         })
       ),
       { initialValue: undefined }
@@ -274,13 +277,9 @@ export class CvcActivityFeedComponent {
     this.feedFilterOptions = toSignal(
       connection$.pipe(
         map((connection) => {
-          return <ActivityFeedFilterOptions>{
-            uniqueParticipants: connection.uniqueParticipants ?? [],
-            participatingOrganizations:
-              connection.participatingOrganizations ?? [],
-            activityTypes: connection.activityTypes ?? [],
-            subjectTypes: connection.subjectTypes ?? [],
-          }
+          return connectionToFilterOptions(
+            connection as ActivityInterfaceConnection
+          )
         })
       ),
       { initialValue: feedFilterOptionDefaults }
@@ -297,7 +296,7 @@ export class CvcActivityFeedComponent {
     this.init$.next()
 
     // initialize scroller datasource after initial query completes
-    this.edge$.pipe(take(1)).subscribe((edges) => {
+    this.edge$.pipe(take(1)).subscribe(() => {
       this.configureDatasource()
       this.configureAdapter()
     })
@@ -313,13 +312,13 @@ export class CvcActivityFeedComponent {
             const { index, count } = params
             if (edges.length === 0) {
               // no rows to display
-              // TODO: show empty state
+              this.onZeroRows$.next(true)
               return []
             } else if (edges.length === this.counts()!.total) {
               // all rows have been fetched
               // TODO: show all rows fetched notification
               return of(edges)
-            } else if (edges.length >= index + 1 + count) {
+            } else if (edges.length >= index + count) {
               // edges cached, return slice of current array
               return of(edges.slice(index, index + count))
             } else {

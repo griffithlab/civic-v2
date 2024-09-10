@@ -1,3 +1,32 @@
 :host {
   display: block;
 }
+
+.feed-layers {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // messages layer
+  .messages {
+    z-index: 10;
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 1px solid lightblue;
+    // Pass pointer events through to child elements
+    pointer-events: none;
+    * {
+      pointer-events: auto;
+    }
+  }
+
+  // scroller layer
+  .scroller {
+    z-index: 1;
+    position: relative;
+    display: block;
+    border: 1px solid red;
+  }
+}

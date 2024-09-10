@@ -26,7 +26,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
   userId: [],
   activityType: [],
-  subjectType: [ActivitySubjectInput.Variant],
+  subjectType: [],
 
   // 103 items, no errors:
   // activityType: [ActivityTypeInput.Comment],
@@ -76,6 +76,7 @@ export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
 
 export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
   bufferSize: 25,
+  minIndex: 0,
   startIndex: 0,
   itemSize: 48,
   sizeStrategy: SizeStrategy.Frequent,
