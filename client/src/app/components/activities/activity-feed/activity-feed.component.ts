@@ -350,6 +350,7 @@ export class CvcActivityFeedComponent {
 
   configureAdapter(): void {
     this.scrollAdapter = this.scrollDatasource?.adapter
+    // force scroller check when toggled items change
     effect(
       () => {
         const toggledItems = this.scroller().toggledItems

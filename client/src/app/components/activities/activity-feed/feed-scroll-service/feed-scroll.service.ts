@@ -17,6 +17,8 @@ import { FeedItemToggle } from '@app/components/activities/activity-feed/feed-it
 
 export interface ScrollerState {
   isScrolling: boolean
+  isAtTop: boolean
+  isAtBottom: boolean
   toggledItems: Set<number>
 }
 
@@ -29,7 +31,15 @@ export function configureScrollerRoutines(
     onScroll(handler: EventListener): () => void {
       this.viewport.addEventListener('scroll', (ev: Event) => {
         state.onScrollEvent$.next(ev)
+        state.onScrollPosition$.next(super.getScrollPosition())
+        state.onScrollerSize$.next(super.getScrollerSize())
+        state.onViewportSize$.next(super.getViewportSize())
       })
+      // emit initial values
+      state.onViewportSize$.next(super.getViewportSize())
+      state.onScrollPosition$.next(super.getScrollPosition())
+      state.onScrollerSize$.next(super.getScrollerSize())
+
       return super.onScroll(handler)
     }
   }
@@ -40,12 +50,18 @@ export function configureScrollerRoutines(
 export class ScrollerStateService extends SignalStateService<ScrollerState> {
   onScrollEvent$: Subject<Event>
   onToggleItem$: Subject<FeedItemToggle>
+  onScrollPosition$: Subject<number>
+  onScrollerSize$: Subject<number>
+  onViewportSize$: Subject<number>
 
   constructor(private zone: NgZone) {
     super()
 
     this.onScrollEvent$ = new Subject<Event>()
     this.onToggleItem$ = new Subject<FeedItemToggle>()
+    this.onScrollPosition$ = new Subject<number>()
+    this.onScrollerSize$ = new Subject<number>()
+    this.onViewportSize$ = new Subject<number>()
 
     // initial defaults
     this.set('isScrolling', false)
@@ -74,12 +90,33 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
           this.set('isScrolling', scrolling)
         })
       })
-      
-    // update state toggled items on toggle events
-    this.onToggleItem$
+
+    combineLatest([
+      this.onViewportSize$,
+      this.onScrollerSize$,
+      this.onScrollPosition$,
+    ])
       .pipe(
+        distinctUntilChanged(
+          ([v1, v2, v3], [v4, v5, v6]) => v1 === v4 && v2 === v5 && v3 === v6
+        ),
+        shareReplay(1),
         untilDestroyed(this)
       )
+      .subscribe(([viewportSize, scrollerSize, scrollPosition]) => {
+        const isAtTop = scrollPosition <= 0
+        const isAtBottom = scrollPosition + viewportSize >= scrollerSize
+        // if(scrollPosition === 0) then at top
+        // if(scrollerSize - viewportSize === scrollPosition) then at bottom
+        this.zone.run(() => {
+          this.set('isAtTop', isAtTop)
+          this.set('isAtBottom', isAtBottom)
+        })
+      })
+
+    // update state toggled items on toggle events
+    this.onToggleItem$
+      .pipe(untilDestroyed(this))
       .subscribe((item: FeedItemToggle) => {
         this.zone.run(() => {
           const toggledItems = this.state().toggledItems
