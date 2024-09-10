@@ -2,6 +2,16 @@
   display: block;
 }
 
+.feed-container {
+  // pull container flush to nz-card body edges
+  margin-top: -12px;
+  margin-bottom: -12px;
+  margin-left: -12px;
+  border-right: 1px solid #f0f0f0;
+  border-bottom-left-radius: 2px;
+  overflow: hidden;
+}
+
 .feed-layers {
   position: relative;
   display: flex;
@@ -14,17 +24,55 @@
     display: block;
     height: 100%;
     width: 100%;
-    // Pass pointer events through to child elements
+    // Pass pointer events through to lower layers
     pointer-events: none;
+    // Accept pointer events in child elements
     * {
       pointer-events: auto;
     }
   }
 
+  // scroll boundaries layer
+  .boundaries {
+    z-index: 5;
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    * {
+      pointer-events: auto;
+    }
+    .shadow-top,
+    .shadow-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 15px;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .shadow-top {
+      top: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0)
+      );
+    }
+
+    .shadow-bottom {
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    }
+  }
+
   // scroller layer
   .scroller {
-    z-index: 1;
+    z-index: 0;
     position: relative;
     display: block;
+    padding: 0 12px;
   }
 }

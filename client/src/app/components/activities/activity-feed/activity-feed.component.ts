@@ -86,6 +86,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CommonModule } from '@angular/common'
 import { NzResultModule } from 'ng-zorro-antd/result'
 import { tag } from 'rxjs-spy/operators'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { animate, state, style, transition, trigger } from '@angular/animations'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
@@ -98,6 +100,7 @@ export const FEED_SCROLL_SERVICE_TOKEN =
   imports: [
     CommonModule,
     UiScrollModule,
+    NzAlertModule,
     NzCardModule,
     NzGridModule,
     NzSpaceModule,
@@ -118,6 +121,24 @@ export const FEED_SCROLL_SERVICE_TOKEN =
       },
       deps: [NgZone],
     },
+  ],
+  animations: [
+    trigger('atTop', [
+      state('isAtTop', style({ opacity: 0 })),
+      state('isNotAtTop', style({ opacity: 1 })),
+      transition('isNotAtTop => isAtTop', [
+        animate('300ms ease-out', style({ opacity: 0 })),
+      ]),
+      transition('isAtTop => isNotAtTop', [
+        animate('300ms ease-in', style({ opacity: 1 })),
+      ]),
+    ]),
+    trigger('atBottom', [
+      state('isAtBottom', style({ opacity: 0 })),
+      state('isNotAtBottom', style({ opacity: 1 })),
+      transition('isNotAtBottom => isAtBottom', [animate('300ms ease-out')]),
+      transition('isAtBottom => isNotAtBottom', [animate('300ms ease-in')]),
+    ]),
   ],
 })
 export class CvcActivityFeedComponent {
@@ -245,7 +266,7 @@ export class CvcActivityFeedComponent {
       ),
       { initialValue: false }
     )
-
+    // TODO: figure out why moreLoading is always false in template
     this.moreLoading = toSignal(
       this.result$.pipe(
         pluck('loading'),

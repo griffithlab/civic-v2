@@ -6,33 +6,53 @@
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
-      <div class="feed-layers">
-        <div class="messages">
-          @if (zeroRows()) {
-            <nz-result
-              nzStatus="info"
-              nzTitle="No Activities found matchingfilter settings"></nz-result>
-          }
-        </div>
-        <div class="scroller">
-          <nz-spin
-            [nzSpinning]="refetchLoading()"
-            nzSize="large"
-            [nzDelay]="0">
-            <div
-              cvcAutoHeightDiv="40"
-              cvcAutoHeightTarget="viewport">
-              @if (scrollDatasource) {
-                <cvc-activity-feed-item
-                  *uiScroll="
-                    let edge of scrollDatasource;
-                    routines: scrollerRoutines
-                  "
-                  [cvcActivity]="edge.node"
-                  [cvcScope]="cvcScope()"></cvc-activity-feed-item>
-              }
-            </div>
-          </nz-spin>
+      <div class="feed-container">
+        <div class="feed-layers">
+          <!-- messages layer - TOP -->
+          <div class="messages">
+            @if (zeroRows()) {
+              <nz-result
+                nzStatus="info"
+                nzTitle="No Activities found matchingfilter settings"></nz-result>
+            }
+          </div>
+
+          <!-- scroller top/bottom dropshadows - MIDDLE -->
+          <!-- TODO: control atBottom signal with allRowsLoaded$ -->
+          <div class="boundaries">
+            <!-- <div
+              class="shadow-top"
+              [@atTop]="scroller().isAtTop ? 'isAtTop' : 'isNotAtTop'"></div> -->
+            <!-- <div
+              class="shadow-bottom"
+              [@atBottom]="
+                scroller().isAtBottom && counts()?.rows === counts()?.total
+                  ? 'isAtBottom'
+                  : 'isNotAtBottom'
+              "></div> -->
+          </div>
+
+          <!-- scroller layer - BOTTOM-->
+          <div class="scroller">
+            <nz-spin
+              [nzSpinning]="refetchLoading()"
+              nzSize="large"
+              [nzDelay]="0">
+              <div
+                cvcAutoHeightDiv="40"
+                cvcAutoHeightTarget="viewport">
+                @if (scrollDatasource) {
+                  <cvc-activity-feed-item
+                    *uiScroll="
+                      let edge of scrollDatasource;
+                      routines: scrollerRoutines
+                    "
+                    [cvcActivity]="edge.node"
+                    [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+                }
+              </div>
+            </nz-spin>
+          </div>
         </div>
       </div>
     </nz-col>
@@ -57,8 +77,6 @@
       class="title"
       *nzSpaceItem>
       {{ cvcTitle() }}
-      &nbsp;scrolling: {{ scroller().isScrolling }} &nbsp;atTop:
-      {{ scroller().isAtTop }} &nbsp;atBottom: {{ scroller().isAtBottom }}
     </span>
     <cvc-activity-feed-counts
       *nzSpaceItem
@@ -77,10 +95,8 @@
   </nz-space>
 </ng-template>
 <ng-template #cardExtra>
-  <div class="extra">
-    <cvc-activity-feed-settings
-      (cvcSettingsChange)="onSettingChange$.next($event)"
-      [cvcSettings]="cvcSettings()">
-    </cvc-activity-feed-settings>
-  </div>
+  <cvc-activity-feed-settings
+    (cvcSettingsChange)="onSettingChange$.next($event)"
+    [cvcSettings]="cvcSettings()">
+  </cvc-activity-feed-settings>
 </ng-template>

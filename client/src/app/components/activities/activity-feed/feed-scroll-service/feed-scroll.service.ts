@@ -66,8 +66,10 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
     // initial defaults
     this.set('isScrolling', false)
     this.set('toggledItems', new Set())
+    this.set('isAtTop', true)
+    this.set('isAtBottom', true)
 
-    // convert scroll event stream to throttled boolean state updates
+    // convert scroll event stream to throttled, distinct boolean state updates
     this.onScrollEvent$
       .pipe(
         // emit the first scroll event immediately (leading: true), then throttle
@@ -114,7 +116,7 @@ export class ScrollerStateService extends SignalStateService<ScrollerState> {
         })
       })
 
-    // update state toggled items on toggle events
+    // update state toggledItems on toggle events
     this.onToggleItem$
       .pipe(untilDestroyed(this))
       .subscribe((item: FeedItemToggle) => {

@@ -24,8 +24,8 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
-  userId: [],
-  activityType: [],
+  userId: [110],
+  activityType: [ActivityTypeInput.CreateVariant],
   subjectType: [],
 
   // 103 items, no errors:
