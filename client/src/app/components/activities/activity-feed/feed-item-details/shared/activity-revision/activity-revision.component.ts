@@ -4,7 +4,9 @@ import {
   Component,
   computed,
   input,
+  signal,
 } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
@@ -17,7 +19,9 @@ import {
 } from '@app/generated/civic.apollo'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzSwitchModule } from 'ng-zorro-antd/switch'
 import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 type DiffType = 'ObjectFieldDiff' | 'ScalarFieldDiff'
 
@@ -35,11 +39,15 @@ type ColumnDefinition = {
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     JsonPipe,
+    NzTypographyModule,
+    NzSwitchModule,
     NzGridModule,
     NzDescriptionsModule,
     NzTagModule,
     CvcEmptyValueModule,
+    CvcPipesModule,
   ],
   templateUrl: './activity-revision.component.html',
   styleUrl: './activity-revision.component.less',
@@ -66,5 +74,5 @@ export class CvcActivityRevision {
       throw new Error(`Unsupported diff type: ${diffType}`)
     }
   }
-  columns = { xxl: 2, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }
+  showDiffs = signal(false)
 }

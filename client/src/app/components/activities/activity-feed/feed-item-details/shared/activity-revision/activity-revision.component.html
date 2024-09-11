@@ -1,55 +1,112 @@
 @let data = revision().linkoutData;
-<nz-row>
-  <nz-col [nzSpan]="24">
-    <nz-row>
-      <nz-col>
-        <div class="revision-title">
-          <span class="name">{{ data.name }}</span>
-          <span class="id"> ({{ revision().name }})</span>
-        </div>
-      </nz-col>
-      <nz-col> </nz-col>
-    </nz-row>
-  </nz-col>
-  <nz-col [nzSpan]="24">
-    <nz-descriptions
-      [nzBordered]="true"
-      [nzSize]="'small'"
-      nzLayout="vertical"
-      [nzColumn]="4">
-      @switch (diffValue.__typename) {
-        @case ('ObjectFieldDiff') {
-          <nz-descriptions-item
-            nzTitle="Current"
-            [nzSpan]="2">
-            @let current = diffValue.currentObjects;
-            <ng-container
-              *ngTemplateOutlet="
-                diffObjects;
-                context: { $implicit: current }
-              "></ng-container>
-          </nz-descriptions-item>
-          <nz-descriptions-item
-            nzTitle="Suggested"
-            [nzSpan]="2">
-            @let suggested = diffValue.suggestedObjects;
-            <ng-container
-              *ngTemplateOutlet="
-                diffObjects;
-                context: { $implicit: suggested }
-              "></ng-container>
-          </nz-descriptions-item>
+<div class="revision-container">
+  <nz-row [nzGutter]="[0, 0]">
+    <nz-col [nzSpan]="24">
+      <nz-row [nzGutter]="[0, 0]">
+        <nz-col nzFlex="auto">
+          <div class="revision-title">
+            <span class="name">{{ data.name }}</span>
+            <span class="id"> ({{ revision().name }})</span>
+          </div>
+        </nz-col>
+        <nz-col
+          nzFlex="150px"
+          class="title-extra">
+          @if (diffValue.__typename === 'ObjectFieldDiff') {
+            <span
+              nz-typography
+              nzType="secondary">
+              Show Details
+            </span>
+            <nz-switch
+              [(ngModel)]="showDiffs"
+              nzSize="small"></nz-switch>
+          }
+        </nz-col>
+      </nz-row>
+    </nz-col>
+    <nz-col [nzSpan]="24">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzSize]="'small'"
+        nzLayout="vertical">
+        @switch (diffValue.__typename) {
+          @case ('ObjectFieldDiff') {
+            <nz-descriptions-item nzTitle="Current">
+              @let current = diffValue.currentObjects;
+              <ng-container
+                *ngTemplateOutlet="
+                  diffObjects;
+                  context: { $implicit: current }
+                "></ng-container>
+            </nz-descriptions-item>
+            @if (showDiffs() && diffValue.addedObjects.length > 0) {
+              <nz-descriptions-item nzTitle="Added">
+                @let objects = diffValue.addedObjects;
+                <ng-container
+                  *ngTemplateOutlet="
+                    diffObjects;
+                    context: { $implicit: objects }
+                  "></ng-container>
+              </nz-descriptions-item>
+            }
+            @if (showDiffs() && diffValue.removedObjects.length > 0) {
+              <nz-descriptions-item nzTitle="Removed">
+                @let objects = diffValue.removedObjects;
+                <ng-container
+                  *ngTemplateOutlet="
+                    diffObjects;
+                    context: { $implicit: objects }
+                  "></ng-container>
+              </nz-descriptions-item>
+            }
+            @if (showDiffs() && diffValue.keptObjects.length > 0) {
+              <nz-descriptions-item nzTitle="Kept">
+                @let objects = diffValue.keptObjects;
+                <ng-container
+                  *ngTemplateOutlet="
+                    diffObjects;
+                    context: { $implicit: objects }
+                  "></ng-container>
+              </nz-descriptions-item>
+            }
+            <nz-descriptions-item nzTitle="Suggested">
+              @let suggested = diffValue.suggestedObjects;
+              <ng-container
+                *ngTemplateOutlet="
+                  diffObjects;
+                  context: { $implicit: suggested }
+                "></ng-container>
+            </nz-descriptions-item>
+          }
+          @case ('ScalarFieldDiff') {
+            <nz-descriptions-item nzTitle="Current">
+              <ng-container
+                *ngTemplateOutlet="
+                  diffScalar;
+                  context: { $implicit: diffValue.left }
+                "></ng-container>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Suggested">
+              <ng-container
+                *ngTemplateOutlet="
+                  diffScalar;
+                  context: { $implicit: diffValue.right }
+                "></ng-container>
+            </nz-descriptions-item>
+          }
         }
-        @case ('ScalarFieldDiff') {
-          <nz-descriptions-item nzTitle="Scalar Field Diff">
-            <pre>{{ diffValue | json }}</pre>
-          </nz-descriptions-item>
-        }
-      }
-    </nz-descriptions>
-  </nz-col>
-</nz-row>
-
+      </nz-descriptions>
+    </nz-col>
+  </nz-row>
+</div>
+<ng-template
+  #diffScalar
+  let-diff>
+  <div
+    [innerHtml]="diff | sanitizeHtml"
+    class="diff-container"></div>
+</ng-template>
 <ng-template
   #diffObjects
   let-objects>

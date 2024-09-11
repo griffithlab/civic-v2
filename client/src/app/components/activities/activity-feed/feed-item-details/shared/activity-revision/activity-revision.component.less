@@ -1,3 +1,4 @@
+@import 'ng-zorro-antd/style/color/colors.less';
 @import 'themes/global-variables.less';
 :host {
   display: block;
@@ -11,8 +12,11 @@
   }
 }
 
+.revision-container {
+  margin-bottom: 4px;
+}
+
 .revision-title {
-  padding: 4px 0;
   font-size: 14px;
   .name {
     font-weight: 600;
@@ -22,6 +26,9 @@
     font-weight: 500;
     color: @text-color-secondary;
   }
+}
+.title-extra {
+  text-align: right;
 }
 pre {
   font-size: 6px;
@@ -34,5 +41,68 @@ pre {
   li {
     margin: 0;
     padding: 2px 0;
+  }
+}
+
+// converted from https://github.com/samg/diffy/blob/main/lib/diffy/css.rb
+.diff-container {
+  ::ng-deep .diff {
+    overflow: auto;
+    width: 100%;
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    .background {
+      padding: 4px 8px;
+    }
+
+    &.insertions .background {
+      background: @green-1;
+      color: @green-8;
+    }
+
+    &.deletions .background {
+      background: @red-1;
+      color: @red-8;
+    }
+
+    &.suggested .background {
+      background: @geekblue-1;
+      color: @geekblue-8;
+    }
+
+    &.original .background {
+      background: @geekblue-1;
+      color: @geekblue-8;
+    }
+
+    del,
+    ins {
+      text-decoration: none;
+    }
+
+    del strong {
+      font-weight: normal;
+      background: #fcc;
+    }
+
+    ins strong {
+      font-weight: normal;
+      background: #9f9;
+    }
+
+    .del {
+      font-weight: normal;
+      background: #fee;
+      color: #b00;
+    }
+
+    .ins {
+      font-weight: normal;
+      background: #dfd;
+      color: #080;
+    }
   }
 }
