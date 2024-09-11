@@ -17,4 +17,3 @@ fragment SuggestRevisionSetActivityDetail on SuggestRevisionSetActivity {
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents
 }
-

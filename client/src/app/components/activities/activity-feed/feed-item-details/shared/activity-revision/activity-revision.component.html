@@ -1,0 +1,67 @@
+@let data = revision().linkoutData;
+<nz-row>
+  <nz-col [nzSpan]="24">
+    <nz-row>
+      <nz-col>
+        <div class="revision-title">
+          <span class="name">{{ data.name }}</span>
+          <span class="id"> ({{ revision().name }})</span>
+        </div>
+      </nz-col>
+      <nz-col> </nz-col>
+    </nz-row>
+  </nz-col>
+  <nz-col [nzSpan]="24">
+    <nz-descriptions
+      [nzBordered]="true"
+      [nzSize]="'small'"
+      nzLayout="vertical"
+      [nzColumn]="4">
+      @switch (diffValue.__typename) {
+        @case ('ObjectFieldDiff') {
+          <nz-descriptions-item
+            nzTitle="Current"
+            [nzSpan]="2">
+            @let current = diffValue.currentObjects;
+            <ng-container
+              *ngTemplateOutlet="
+                diffObjects;
+                context: { $implicit: current }
+              "></ng-container>
+          </nz-descriptions-item>
+          <nz-descriptions-item
+            nzTitle="Suggested"
+            [nzSpan]="2">
+            @let suggested = diffValue.suggestedObjects;
+            <ng-container
+              *ngTemplateOutlet="
+                diffObjects;
+                context: { $implicit: suggested }
+              "></ng-container>
+          </nz-descriptions-item>
+        }
+        @case ('ScalarFieldDiff') {
+          <nz-descriptions-item nzTitle="Scalar Field Diff">
+            <pre>{{ diffValue | json }}</pre>
+          </nz-descriptions-item>
+        }
+      }
+    </nz-descriptions>
+  </nz-col>
+</nz-row>
+
+<ng-template
+  #diffObjects
+  let-objects>
+  @if (objects.length > 0) {
+    <ul class="object-list">
+      @for (object of objects; track object.id) {
+        <li>
+          <nz-tag>{{ object.displayName }}</nz-tag>
+        </li>
+      }
+    </ul>
+  } @else {
+    <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+  }
+</ng-template>

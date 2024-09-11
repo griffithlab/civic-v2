@@ -79,8 +79,8 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   }
   ngOnInit(): void {
     this.eventType = signal(this.cvcFilters().activityType)
-    this.organizationId = signal(this.cvcFilters().organizationId)
     this.subjectType = signal(this.cvcFilters().subjectType)
+    this.organizationId = signal(this.cvcFilters().organizationId)
     this.userId = signal(this.cvcFilters().userId)
     this.occurredAfter = signal(this.cvcFilters().occurredAfter)
     this.occurredBefore = signal(this.cvcFilters().occurredBefore)

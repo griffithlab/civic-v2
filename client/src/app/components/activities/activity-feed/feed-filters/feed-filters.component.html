@@ -12,6 +12,7 @@
       [ngModel]="eventType()"
       (ngModelChange)="eventType.set($event)"
       [nzCustomTemplate]="activityTypeLabel"
+      [nzOptionOverflowSize]="12"
       [nzOptionHeightPx]="28">
       <nz-option
         *ngFor="let activity of cvcFilterOptions().activityTypes"
@@ -52,7 +53,8 @@
         [ngModel]="subjectType()"
         (ngModelChange)="subjectType.set($event)"
         [nzCustomTemplate]="subjectTypeLabel"
-        [nzOptionHeightPx]="28">
+        [nzOptionHeightPx]="28"
+        [nzOptionOverflowSize]="10">
         <nz-option
           *ngFor="let subject of cvcFilterOptions().subjectTypes"
           nzCustomContent
@@ -96,6 +98,7 @@
         [ngModel]="userId()"
         (ngModelChange)="userId.set($event)"
         [nzCustomTemplate]="userLabel"
+        [nzOptionOverflowSize]="12"
         [nzOptionHeightPx]="28">
         <nz-option
           *ngFor="let user of cvcFilterOptions().uniqueParticipants"

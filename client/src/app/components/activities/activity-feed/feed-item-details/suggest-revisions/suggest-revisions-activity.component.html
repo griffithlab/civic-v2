@@ -1,1 +1,6 @@
-<pre>{{ activity() | json }}</pre>
+<div class="revisions-container">
+  @for (revision of revisions(); track revision.id) {
+    <cvc-activity-revision
+      [cvcActivityRevision]="revision"></cvc-activity-revision>
+  }
+</div>

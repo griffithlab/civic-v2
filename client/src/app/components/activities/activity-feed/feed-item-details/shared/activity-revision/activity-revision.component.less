@@ -1,0 +1,38 @@
+@import 'themes/global-variables.less';
+:host {
+  display: block;
+  ::ng-deep {
+    .ant-descriptions-item-label {
+      padding: 2px 4px !important;
+      font-weight: 500 !important;
+      font-size: 12px !important;
+      color: @text-color-secondary;
+    }
+  }
+}
+
+.revision-title {
+  padding: 4px 0;
+  font-size: 14px;
+  .name {
+    font-weight: 600;
+    color: @text-color;
+  }
+  .id {
+    font-weight: 500;
+    color: @text-color-secondary;
+  }
+}
+pre {
+  font-size: 6px;
+}
+
+.object-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    margin: 0;
+    padding: 2px 0;
+  }
+}
