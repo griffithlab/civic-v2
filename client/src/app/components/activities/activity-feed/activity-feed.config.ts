@@ -87,5 +87,5 @@ export const scrollerDevSettings: DevSettings = {
   // debug: true,
   // immediateLog: true,
   // cacheData: true, // smoother scrolling?
-  cacheData: false, // testing
+  cacheData: true, // testing
 }

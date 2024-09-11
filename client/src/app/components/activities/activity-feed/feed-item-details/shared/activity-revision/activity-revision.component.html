@@ -1,30 +1,35 @@
 @let data = revision().linkoutData;
 <div class="revision-container">
-  <nz-row [nzGutter]="[0, 0]">
-    <nz-col [nzSpan]="24">
-      <nz-row [nzGutter]="[0, 0]">
-        <nz-col nzFlex="auto">
-          <div class="revision-title">
-            <span class="name">{{ data.name }}</span>
-            <span class="id"> ({{ revision().name }})</span>
-          </div>
-        </nz-col>
-        <nz-col
-          nzFlex="150px"
-          class="title-extra">
-          @if (diffValue.__typename === 'ObjectFieldDiff') {
-            <span
-              nz-typography
-              nzType="secondary">
-              Show Details
-            </span>
-            <nz-switch
-              [(ngModel)]="showDiffs"
-              nzSize="small"></nz-switch>
-          }
-        </nz-col>
-      </nz-row>
+  <!-- revision grid-->
+  <nz-row
+    [nzGutter]="[0, 0]"
+    class="title-row">
+    <!-- revision title, controls -->
+    <nz-col
+      nzFlex="auto"
+      class="revision-title">
+      <span class="name">{{ data.name }}</span>
+      <span class="id"> ({{ revision().name }})</span>
     </nz-col>
+    <nz-col
+      nzFlex="100px"
+      class="title-extra">
+      @if (diffValue.__typename === 'ObjectFieldDiff') {
+        <span
+          nz-typography
+          nzType="secondary">
+          Details
+        </span>
+        <nz-switch
+          [(ngModel)]="showDiffs"
+          nzSize="small"></nz-switch>
+      }
+    </nz-col>
+  </nz-row>
+  <!-- revision details-->
+  <nz-row
+    [nzGutter]="[0, 0]"
+    class="details-row">
     <nz-col [nzSpan]="24">
       <nz-descriptions
         [nzBordered]="true"
