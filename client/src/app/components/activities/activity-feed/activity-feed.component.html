@@ -13,10 +13,27 @@
             @if (zeroRows()) {
               <nz-result
                 nzStatus="info"
-                nzTitle="No Activities found matchingfilter settings"></nz-result>
+                [nzTitle]="resultsMessage"></nz-result>
             }
           </div>
-
+          <ng-template #resultsMessage>
+            <div
+              style="
+                font-size: 18px;
+                font-weight: 600;
+                text-align: center;
+                color: #666;
+              ">
+              No Activities found matching
+              @if (cvcScope().mode === 'SUBJECT') {
+                specified subject
+              } @else if (cvcScope().mode === 'USER') {
+                specified contributor
+              } @else {
+                specified filters
+              }
+            </div>
+          </ng-template>
           <!-- scroller top/bottom dropshadows - MIDDLE -->
           <!-- TODO: control atBottom signal with allRowsLoaded$ -->
           <div class="boundaries">

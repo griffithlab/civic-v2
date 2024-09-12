@@ -114,7 +114,7 @@ type ScopeUser = {
   subject?: never
 }
 
-// Unscoped mode feed queries do not specify a organization, subject, or user 
+// Unscoped mode feed queries do not specify a organization, subject, or user
 type ScopeUnscoped = {
   mode: EventFeedMode.Unscoped
   organizationId?: never
@@ -122,7 +122,7 @@ type ScopeUnscoped = {
   userId?: never
 }
 
-// FeedScope types help configure the query & UI depending on EventFeedMode 
+// FeedScope types help configure the query & UI depending on EventFeedMode
 export type ActivityFeedScope =
   | ScopeOrganization
   | ScopeSubject

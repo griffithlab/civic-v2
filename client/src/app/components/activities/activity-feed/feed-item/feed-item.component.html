@@ -92,11 +92,13 @@
         *ngSwitchCase="'GeneVariant'"
         [variant]="subject"
         [feature]="subject.feature"
+        [truncateLongName]="true"
         [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
       <cvc-feature-variant-tag
         *ngSwitchCase="'FactorVariant'"
         [variant]="subject"
         [feature]="subject.feature"
+        [truncateLongName]="true"
         [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
       <cvc-revision-tag
         *ngSwitchCase="'Revision'"
@@ -114,6 +116,7 @@
       <cvc-molecular-profile-tag
         *ngSwitchCase="'MolecularProfile'"
         [molecularProfile]="subject"
+        [truncateLongName]="true"
         [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
       <span *ngSwitchDefault>
         <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
