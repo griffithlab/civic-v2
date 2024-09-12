@@ -3,6 +3,7 @@ fragment SuggestSourceActivityDetail on SuggestSourceActivity {
     ...parsedCommentFragment
   }
   sourceSuggestion {
+    id
     status
     source {
       id
@@ -26,5 +27,3 @@ fragment SuggestSourceActivityDetail on SuggestSourceActivity {
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents
 }
-
-
