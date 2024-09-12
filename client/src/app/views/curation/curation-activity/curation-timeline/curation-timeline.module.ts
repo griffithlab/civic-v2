@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { CurationTimelinePage } from './curation-timeline.page'
-import { CvcActivityFeedComponent } from '@app/components/activities/activity-feed/activity-feed.component'
+import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 
 @NgModule({
@@ -13,7 +13,7 @@ import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-hei
     NzGridModule,
     NzCardModule,
     CvcAutoHeightDivModule,
-    CvcActivityFeedComponent,
+    CvcActivityFeed,
   ],
 })
 export class CurationTimelineModule {}

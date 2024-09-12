@@ -141,7 +141,7 @@ export const FEED_SCROLL_SERVICE_TOKEN =
     ]),
   ],
 })
-export class CvcActivityFeedComponent {
+export class CvcActivityFeed {
   // INPUTS
   cvcShowFilters = input<boolean>(true)
   cvcSettings = input<ActivityFeedSettings>(feedDefaultSettings)

@@ -10,7 +10,7 @@ import {
 } from 'rxjs'
 import { shareReplay, startWith, throttleTime } from 'rxjs/operators'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { CvcActivityFeedComponent } from '@app/components/activities/activity-feed/activity-feed.component'
+import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
 import { Routines } from 'ngx-ui-scroll'
 import { tag } from 'rxjs-spy/operators'
 import { FeedItemToggle } from '@app/components/activities/activity-feed/feed-item/feed-item.component'
@@ -24,7 +24,7 @@ export interface ScrollerState {
 
 // configure ngx-ui-scroll's event listners
 export function configureScrollerRoutines(
-  context: CvcActivityFeedComponent,
+  context: CvcActivityFeed,
   state: ScrollerStateService
 ) {
   return class extends Routines {
