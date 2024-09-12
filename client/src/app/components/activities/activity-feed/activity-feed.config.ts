@@ -26,7 +26,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
   userId: [],
-  activityType: [ActivityTypeInput.UpdateSourceSuggestion],
+  activityType: [],
   subjectType: [],
 
   // 103 items, no errors:
