@@ -1,12 +1,10 @@
+@import '../shared/comment-container.mixin.less';
 :host {
   display: block;
 }
 
-.note-container {
-  margin: 8px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 8px;
+.comment-container {
+  .comment-container-mixin();
 }
 .revisions-container {
   margin: 8px;
