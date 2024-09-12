@@ -97,6 +97,7 @@
 <ng-template #cardExtra>
   <cvc-activity-feed-settings
     (cvcSettingsChange)="onSettingChange$.next($event)"
-    [cvcSettings]="cvcSettings()">
+    [cvcSettings]="cvcSettings()"
+    [cvcScope]="cvcScope()">
   </cvc-activity-feed-settings>
 </ng-template>

@@ -41,9 +41,6 @@ function filtersToQueryVariables(
 }
 
 // convert settings to mode & id query variables
-// NOTE: scope modes take precedence over any filter values
-// for org / userId or subject, so they're set to undefined
-// if the scope mode is User, Organization, or Subject
 function settingsToQueryVariables(
   settings: ActivityFeedSettings
 ): ActivityFeedSettingsVariables {
@@ -64,9 +61,12 @@ function settingsToQueryVariables(
 export function queryParamsToQueryVariables(
   params: ActivityFeedQueryParams
 ): ActivityFeedQueryVariables {
+  // NOTE: scope modes take precedence over any filter values
+  // for org / userId or subject, so it is important to call
+  // settingsToQueryVariables last, where scope-related values are set
   return {
-    ...settingsToQueryVariables(params.settings),
     ...filtersToQueryVariables(params.filters),
+    ...settingsToQueryVariables(params.settings),
   }
 }
 

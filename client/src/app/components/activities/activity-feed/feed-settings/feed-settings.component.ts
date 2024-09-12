@@ -16,7 +16,7 @@ import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzSelectModule } from 'ng-zorro-antd/select'
-import { ActivityFeedSettings } from '../activity-feed.types'
+import { ActivityFeedScope, ActivityFeedSettings } from '../activity-feed.types'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 
@@ -41,6 +41,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 export class CvcActivityFeedSettingsButton implements OnInit {
   @Output() cvcSettingsChange: EventEmitter<ActivityFeedSettings>
   cvcSettings = input.required<ActivityFeedSettings>()
+  cvcScope = input.required<ActivityFeedScope>()
 
   includeAutomatedEvents!: WritableSignal<boolean>
 
@@ -50,6 +51,7 @@ export class CvcActivityFeedSettingsButton implements OnInit {
     effect(() => {
       this.cvcSettingsChange.emit({
         ...this.cvcSettings(),
+        scope: this.cvcScope(),
         includeAutomatedEvents: this.includeAutomatedEvents(),
       })
     })
