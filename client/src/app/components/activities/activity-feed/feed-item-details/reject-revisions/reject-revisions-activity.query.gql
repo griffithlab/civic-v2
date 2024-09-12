@@ -1,20 +1,19 @@
 fragment RejectRevisionsActivityDetail on RejectRevisionsActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
   revisions {
     id
     name
+    status
     currentValue
     suggestedValue
     fieldName
     link
-    creationActivity {
-      user {
-        displayName
-        profileImagePath(size: 32)
-        id
-        role
-      }
-    }
     createdAt
+    linkoutData {
+      ...revisionLinkoutData
+    }
   }
 
   ...ActivityFeedItemBase

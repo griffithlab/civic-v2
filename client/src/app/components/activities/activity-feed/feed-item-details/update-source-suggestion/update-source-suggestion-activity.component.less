@@ -1,3 +1,20 @@
+@import '../shared/comment-container.mixin.less';
+@import 'themes/global-variables.less';
 :host {
   display: block;
+  ::ng-deep {
+    .ant-descriptions-item-label {
+      padding: 2px 4px !important;
+      font-weight: 500 !important;
+      font-size: 12px !important;
+      color: @text-color-secondary;
+    }
+  }
+}
+
+.comment-container {
+  .comment-container-mixin();
+}
+.fields-container {
+  margin: 8px;
 }

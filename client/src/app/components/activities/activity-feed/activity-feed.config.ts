@@ -14,6 +14,7 @@ import { DevSettings, Settings } from 'vscroll/dist/typings/interfaces'
 import { SizeStrategy } from 'vscroll'
 
 export const feedPollInterval = 30000
+
 export const feedDefaultSettings: ActivityFeedSettings = {
   first: 50,
   scope: { mode: EventFeedMode.Unscoped },
@@ -25,7 +26,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
   userId: [],
-  activityType: [ActivityTypeInput.SuggestRevision],
+  activityType: [ActivityTypeInput.UpdateSourceSuggestion],
   subjectType: [],
 
   // 103 items, no errors:
@@ -34,6 +35,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   occurredAfter: null,
   occurredBefore: null,
 }
+
 export const feedDefaultScope: ActivityFeedScope = {
   mode: EventFeedMode.Unscoped,
 }
