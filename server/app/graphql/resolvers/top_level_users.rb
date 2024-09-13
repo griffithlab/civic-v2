@@ -14,7 +14,7 @@ class Resolvers::TopLevelUsers < GraphQL::Schema::Resolver
     if value.include_subgroups && !value.id.nil?
       scope.joins(:organizations).where({organizations: {id: Organization.find(value.id).org_and_suborg_ids}})
     elsif !value.id.nil?
-      scope.joins(:organizations).where("id = ?", value.id)
+      scope.joins(:organizations).where("organizations.id = ?", value.id)
     else
       scope.joins(:organizations).where("name ILIKE ?", "#{value.name}%")
     end
