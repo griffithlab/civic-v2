@@ -332,15 +332,24 @@ export class CvcActivityFeed {
           withLatestFrom(this.edge$),
           switchMap(([params, edges]) => {
             const { index, count } = params
+            console.log(
+              'configureDatasource ',
+              'index: ',
+              index,
+              '; count: ',
+              count
+            )
             if (edges.length === 0) {
               // no rows to display
               this.onZeroRows$.next(true)
               return []
-            } else if (edges.length === this.counts()!.total) {
-              // all rows have been fetched
-              // TODO: show all rows fetched notification
-              return of(edges)
-            } else if (edges.length >= index + count) {
+            }
+            // else if (edges.length === this.counts()!.total) {
+            //   // edges
+            //   // TODO: show all rows fetched notification
+            //   return of(edges.slice(index, index + count))
+            // }
+            else if (edges.length >= index + count) {
               // edges cached, return slice of current array
               return of(edges.slice(index, index + count))
             } else {
