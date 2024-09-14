@@ -60,6 +60,7 @@ module Types::Interfaces
       Types::Activities::CreateComplexMolecularProfileActivityType,
       Types::Activities::CreateFeatureActivityType,
       Types::Activities::DeprecateFeatureActivityType,
+      Types::Activities::DeleteCommentActivityType,
     )
 
     definition_methods do
@@ -101,6 +102,8 @@ module Types::Interfaces
           Types::Activities::CreateFeatureActivityType
         when DeprecateFeatureActivity
           Types::Activities::DeprecateFeatureActivityType
+        when DeleteCommentActivity
+          Types::Activities::DeleteCommentActivityType
         else
           raise "Unexpected Activity type #{object.class}"
         end

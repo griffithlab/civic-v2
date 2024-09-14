@@ -10,6 +10,8 @@ export class IconNameForEventActionPipe implements PipeTransform {
     switch (a) {
       case EventAction.Commented:
         return 'civic-comment'
+      case EventAction.CommentDeleted:
+        return 'civic-comment'
       case EventAction.RevisionSuggested:
         return 'civic-revision'
       case EventAction.RevisionAccepted:
