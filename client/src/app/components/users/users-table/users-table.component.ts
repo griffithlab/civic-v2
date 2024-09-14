@@ -17,7 +17,7 @@ import {
   PageInfo,
   SortDirection,
   UserBrowseTableRowFieldsFragment,
-  UserConnection,
+  BrowseUserConnection,
   UserRole,
   UsersBrowseGQL,
   UsersBrowseQuery,
@@ -71,7 +71,7 @@ export class CvcUsersTableComponent implements OnInit {
   // INTERMEDIATE STREAMS
   queryRef!: QueryRef<UsersBrowseQuery, UsersBrowseQueryVariables>
   result$!: Observable<ApolloQueryResult<UsersBrowseQuery>>
-  connection$!: Observable<UserConnection>
+  connection$!: Observable<BrowseUserConnection>
 
   // PRESENTATION STREAMS
   pageInfo$!: Observable<PageInfo>
@@ -130,7 +130,7 @@ export class CvcUsersTableComponent implements OnInit {
     this.connection$ = this.result$.pipe(
       pluck('data', 'users'),
       filter(isNonNulled)
-    ) as Observable<UserConnection>
+    ) as Observable<BrowseUserConnection>
 
     // entity row nodes
     this.row$ = this.connection$.pipe(

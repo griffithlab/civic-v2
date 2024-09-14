@@ -14,7 +14,7 @@ import {
   PageInfo,
   SortDirection,
 } from '@app/generated/civic.apollo'
-import { GraphQLError } from 'graphql'
+import { GraphQLFormattedError } from 'graphql'
 import {
   NzTableFilterFn,
   NzTableFilterList,
@@ -90,9 +90,9 @@ export type EvidenceManagerColSortMap = {
   [key in EvidenceManagerColKey]?: EvidenceSortColumns
 }
 
-export type EvidenceManagerColQueryMap =  {
-    [key in EvidenceManagerColKey]?: ConvertedQueryVar
-  }
+export type EvidenceManagerColQueryMap = {
+  [key in EvidenceManagerColKey]?: ConvertedQueryVar
+}
 
 // array of column configs, will be rendered left-to-right in array order
 export type EvidenceManagerTableConfig = ColumnConfig[]
@@ -130,7 +130,7 @@ interface InputFilterConfig {
     inputType: 'default' | 'numeric'
     typename?: string
     options: [{ key: string; value: string | number | null }]
-    changes?: Subject<CvcFilterChange>,
+    changes?: Subject<CvcFilterChange>
     transform?: (v: string | number | null) => string | number | null
   }
 }
@@ -140,6 +140,7 @@ export interface SortConfig {
   sort: {
     default?: NzTableSortOrder
     changes?: Subject<CvcSortChange>
+    disabled?: boolean
   }
 }
 
@@ -177,7 +178,7 @@ interface TagConfig {
 // most entity tag cols can be customized using TagConfig.
 // if showStatus set to true, tag will display status styles.
 // NOTE: use BaseColumnConfig's 'context' option if it's necessary
-// to render an entity tag in a column whos row[colKey] data
+// to render an entity tag in a column whose row[colKey] data
 // is not a LinkableEntity, e.g. evidence-manager table's 'id' col
 interface EntityTagConfig {
   showStatus?: boolean // display tag status indicator styles
@@ -271,38 +272,30 @@ export type RowSelection = {
 
 export type RequestError = {
   network?: ApolloError
-  query?: ReadonlyArray<GraphQLError>
+  query?: ReadonlyArray<GraphQLFormattedError>
 }
 
 // Type guard fns for TypeGuard pipe. Required to simplify the construction of
 // generic template logic, a kludge to prevent *ngFor from getting clobbered
-export const isDefaultColumn: TypeGuard<
-  ColumnConfig,
-  DefaultColumnType
-> = (option: ColumnConfig): option is DefaultColumnType =>
-  option.type === 'default'
+export const isDefaultColumn: TypeGuard<ColumnConfig, DefaultColumnType> = (
+  option: ColumnConfig
+): option is DefaultColumnType => option.type === 'default'
 
 export const isSelectColumn: TypeGuard<ColumnConfig, SelectColumnType> = (
   option: ColumnConfig
 ): option is SelectColumnType => option.type === 'select'
 
-export const isEntityTagOptions: TypeGuard<
-  ColumnConfig,
-  EntityTagType
-> = (option: ColumnConfig): option is EntityTagType =>
-  option.type === 'entity-tag'
+export const isEntityTagOptions: TypeGuard<ColumnConfig, EntityTagType> = (
+  option: ColumnConfig
+): option is EntityTagType => option.type === 'entity-tag'
 
-export const isEnumTagOptions: TypeGuard<
-  ColumnConfig,
-  EnumTagType
-> = (option: ColumnConfig): option is EnumTagType =>
-  option.type === 'enum-tag'
+export const isEnumTagOptions: TypeGuard<ColumnConfig, EnumTagType> = (
+  option: ColumnConfig
+): option is EnumTagType => option.type === 'enum-tag'
 
-export const isTextTagOptions: TypeGuard<
-  ColumnConfig,
-  TextTagType
-> = (option: ColumnConfig): option is TextTagType =>
-  option.type === 'text-tag'
+export const isTextTagOptions: TypeGuard<ColumnConfig, TextTagType> = (
+  option: ColumnConfig
+): option is TextTagType => option.type === 'text-tag'
 
 export const colTypeGuards = {
   isSelectCol: isSelectColumn,
@@ -314,7 +307,7 @@ export const colTypeGuards = {
 // These guard attributes on col options, currently not used
 // in the TypeGuard pipe,  but in logic that handles column options.
 // FIXME(?): I had hoped that the discriminated union type ColumnOptionType
-// above would have made guard functions like this unecessary, but I was unable to
+// above would have made guard functions like this unnecessary, but I was unable to
 // write some of the generic cols/prefs handling functions w/o them. Not
 // sure if this is bc the types are not constructed properly.
 export const hasSortOptions: TypeGuard<any, SortConfig> = (

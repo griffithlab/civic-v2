@@ -43,12 +43,12 @@ module Scrapers
               else
                 civicbot_user = User.find(385)
                 (p.evidence_items + p.assertions).each do |obj|
-                  if obj.flags.select{|f| f.state == 'open' && f.comments.select{|c| c.text =~ /deprecated HPO term/ && c.user_id == 385}.count > 0}.count == 0
-                    Actions::FlagEntity.new(
+                  if obj.flags.select{|f| f.state == 'open' && f.open_activity.note =~ /deprecated HPO term/ && f.open_activity.user_id == 385}.count == 0
+                    Activities::FlagEntity.new(
                       flagging_user: civicbot_user,
                       flaggable: obj,
                       organization_id: nil,
-                      comment: "This entity uses a deprecated HPO term \"#{name}\" (#{hpo_id})"
+                      note: "This entity uses a deprecated HPO term \"#{name}\" (#{hpo_id})"
                     ).perform
                   end
                 end

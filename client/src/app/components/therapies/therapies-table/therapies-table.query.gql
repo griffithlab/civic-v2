@@ -5,6 +5,7 @@ query TherapiesBrowse(
   $after: String
   $name: String
   $ncitId: String
+  $therapyAlias: String,
   $sortBy: TherapySort
 ) {
   therapies(
@@ -14,6 +15,7 @@ query TherapiesBrowse(
     after: $after
     name: $name
     ncitId: $ncitId
+    therapyAlias: $therapyAlias
     sortBy: $sortBy
   ) {
     totalCount
@@ -41,4 +43,6 @@ fragment TherapyBrowseTableRowFields on BrowseTherapy {
   assertionCount
   evidenceCount
   link
+  deprecated
+  therapyAliases
 }

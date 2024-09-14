@@ -52,21 +52,14 @@
           [nzSortFn]="true">
           AID
         </th>
-        <th nzWidth="320px">
-          Molecular Profile
-        </th>
+        <th nzWidth="320px">Molecular Profile</th>
         <th
           nzWidth="250px"
           [nzColumnKey]="sortColumns.DiseaseName"
           [nzSortFn]="true">
           Disease
         </th>
-        <th
-          nzWidth="350px"
-          [nzColumnKey]="sortColumns.TherapyName"
-          [nzSortFn]="true">
-          Therapies
-        </th>
+        <th nzWidth="350px">Therapies</th>
         <th
           nzWidth="40px"
           nz-tooltip
@@ -144,7 +137,8 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
+          <cvc-clearable-input-filter
+            [(inputModel)]="molecularProfileNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -333,7 +327,9 @@
             <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
           </td>
           <td>
-            <cvc-molecular-profile-tag [molecularProfile]="aid.molecularProfile" [truncateLongName]="40"></cvc-molecular-profile-tag>
+            <cvc-molecular-profile-tag
+              [molecularProfile]="aid.molecularProfile"
+              [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="aid.disease.name; else diseaseElse">
@@ -379,7 +375,7 @@
                   style="color: #ac3996"
                   [nzType]="
                     aid.therapyInteractionType
-                      | therapyInteractionEnumDisplay : 'icon-name'
+                      | therapyInteractionEnumDisplay: 'icon-name'
                   "
                   class="attribute-icon"></i>
               </nz-tag>
@@ -407,31 +403,49 @@
           <td
             nzAlign="center"
             nzRight>
-            <nz-tag nz-tooltip
+            <nz-tag
+              nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="!isScrolling ? (aid.assertionType | evidenceEnumDisplay) : ''">
-              <i nz-icon
+              [nzTooltipTitle]="
+                !isScrolling ? (aid.assertionType | evidenceEnumDisplay) : ''
+              ">
+              <i
+                nz-icon
                 [nzType]="aid.assertionType | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
-          <td nzAlign="center"
+          <td
+            nzAlign="center"
             nzRight>
-            <nz-tag nz-tooltip
+            <nz-tag
+              nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="!isScrolling ? (aid.assertionDirection | evidenceEnumDisplay) : ''">
-              <i nz-icon
-                [nzType]="aid.assertionDirection | evidenceEnumDisplay: 'icon-name'"
+              [nzTooltipTitle]="
+                !isScrolling
+                  ? (aid.assertionDirection | evidenceEnumDisplay)
+                  : ''
+              ">
+              <i
+                nz-icon
+                [nzType]="
+                  aid.assertionDirection | evidenceEnumDisplay: 'icon-name'
+                "
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
-          <td nzAlign="center"
+          <td
+            nzAlign="center"
             nzRight>
-            <nz-tag nz-tooltip
+            <nz-tag
+              nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="!isScrolling ? (aid.significance | evidenceEnumDisplay) : ''">
-              <i nz-icon
-                [nzType]="aid.significance| evidenceEnumDisplay: 'icon-name'"
+              [nzTooltipTitle]="
+                !isScrolling ? (aid.significance | evidenceEnumDisplay) : ''
+              ">
+              <i
+                nz-icon
+                [nzType]="aid.significance | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -443,9 +457,9 @@
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="
-                !isScrolling ? (aid.ampLevel | formatAmp : 'verbose') : ''
+                !isScrolling ? (aid.ampLevel | formatAmp: 'verbose') : ''
               ">
-              {{ aid.ampLevel | formatAmp : 'compact' }}
+              {{ aid.ampLevel | formatAmp: 'compact' }}
             </nz-tag>
           </td>
           <td
@@ -484,4 +498,44 @@
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  <nz-filter-trigger
+    [(nzVisible)]="statusFilterVisible"
+    [nzDropdownMenu]="statusFilterMenu">
+    <span
+      nz-icon
+      nzType="filter"
+      nzTheme="fill"></span>
+  </nz-filter-trigger>
 </ng-template>
+
+<nz-dropdown-menu #statusFilterMenu>
+  <nz-radio-group
+    [(ngModel)]="statusInput"
+    (ngModelChange)="statusChanged()">
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.NonRejected"
+      >Non-Rejected</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.Accepted"
+      >Accepted</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.Submitted"
+      >Submitted</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.Rejected"
+      >Rejected</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.All"
+      >All</label
+    >
+  </nz-radio-group>
+</nz-dropdown-menu>

@@ -68,12 +68,7 @@
           [nzSortFn]="true">
           Disease
         </th>
-        <th
-          nzWidth="400px"
-          [nzColumnKey]="sortColumns.TherapyName"
-          [nzSortFn]="true">
-          Therapies
-        </th>
+        <th nzWidth="400px">Therapies</th>
         <th
           nzWidth="40px"
           nz-tooltip
@@ -402,7 +397,7 @@
               nzLabel="Combined"></nz-option>
             <nz-option
               nzValue="UNKNOWN"
-              nzLabel="Unkown"></nz-option>
+              nzLabel="Unknown"></nz-option>
             <nz-option
               nzValue="NA"
               nzLabel="N/A"></nz-option>
@@ -494,7 +489,7 @@
                   nz-icon
                   [nzType]="
                     eid.therapyInteractionType
-                      | therapyInteractionEnumDisplay : 'icon-name'
+                      | therapyInteractionEnumDisplay: 'icon-name'
                   "
                   class="attribute-icon"></i>
               </nz-tag>
@@ -546,7 +541,7 @@
               ">
               <i
                 nz-icon
-                [nzType]="eid.evidenceType | evidenceEnumDisplay : 'icon-name'"
+                [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -564,7 +559,7 @@
               <i
                 nz-icon
                 [nzType]="
-                  eid.evidenceDirection | evidenceEnumDisplay : 'icon-name'
+                  eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'
                 "
                 class="attribute-icon"></i>
             </nz-tag>
@@ -580,7 +575,7 @@
               ">
               <i
                 nz-icon
-                [nzType]="eid.significance | evidenceEnumDisplay : 'icon-name'"
+                [nzType]="eid.significance | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -595,7 +590,7 @@
               ">
               <i
                 nz-icon
-                [nzType]="eid.variantOrigin | evidenceEnumDisplay : 'icon-name'"
+                [nzType]="eid.variantOrigin | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -649,4 +644,44 @@
     <span>Loading…</span>
   </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+  <nz-filter-trigger
+    [(nzVisible)]="statusFilterVisible"
+    [nzDropdownMenu]="statusFilterMenu">
+    <span
+      nz-icon
+      nzType="filter"
+      nzTheme="fill"></span>
+  </nz-filter-trigger>
 </ng-template>
+
+<nz-dropdown-menu #statusFilterMenu>
+  <nz-radio-group
+    [(ngModel)]="statusInput"
+    (ngModelChange)="statusChanged()">
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.NonRejected"
+      >Non-Rejected</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.Accepted"
+      >Accepted</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.Submitted"
+      >Submitted</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.Rejected"
+      >Rejected</label
+    >
+    <label
+      nz-radio-button
+      [nzValue]="availableStatusFilters.All"
+      >All</label
+    >
+  </nz-radio-group>
+</nz-dropdown-menu>

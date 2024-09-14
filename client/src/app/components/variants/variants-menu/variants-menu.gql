@@ -27,8 +27,11 @@ query VariantsMenu(
       hasPreviousPage
       hasNextPage
     }
-    nodes {
-      ...menuVariant
+    edges{
+      cursor
+      node {
+        ...menuVariant
+      }
     }
   }
 }
@@ -59,4 +62,5 @@ fragment menuVariant on VariantInterface {
   name
   link
   flagged
+  deprecated
 }

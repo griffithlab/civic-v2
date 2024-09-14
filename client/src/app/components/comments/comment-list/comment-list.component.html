@@ -7,7 +7,8 @@
         <nz-card
           nzTitle="Submission Comment"
           *nzSpaceItem>
-          <cvc-comment-display [comment]="creationComment"></cvc-comment-display>
+          <cvc-comment-display
+            [comment]="creationComment"></cvc-comment-display>
         </nz-card>
       </nz-space>
     </nz-col>
@@ -53,15 +54,16 @@
           </nz-list>
         </nz-card>
         <cvc-comment-add-form
-                  id="addComment"
-                  [subject]="commentable"
-                  (commentAddedEvent)="refreshList()"
-                  *nzSpaceItem></cvc-comment-add-form>
+          id="addComment"
+          [subject]="commentable"
+          (commentAddedEvent)="refreshList()"
+          *nzSpaceItem></cvc-comment-add-form>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
       <nz-space nzDirection="vertical">
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Commenters"
           [participantList]="(commenters$ | ngrxPush) || []"
           (participantSelectedEvent)="onCommenterSelected($event)">
@@ -81,7 +83,8 @@
             <span>{{ user.displayName }}</span>
           </ng-template>
         </cvc-participant-list>
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Mentioned Users"
           [participantList]="(mentionedUsers$ | ngrxPush) || []"
           (participantSelectedEvent)="onMentionedUserSelected($event)">
@@ -101,7 +104,8 @@
             <span>{{ user.displayName }}</span>
           </ng-template>
         </cvc-participant-list>
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Mentioned Roles"
           [participantList]="(mentionedRoles$ | ngrxPush) || []"
           (participantSelectedEvent)="onMentionedRoleSelected($event)">
@@ -112,7 +116,8 @@
             <span>{{ role.tag.displayName }}s</span>
           </ng-template>
         </cvc-participant-list>
-        <cvc-participant-list *nzSpaceItem
+        <cvc-participant-list
+          *nzSpaceItem
           listTitle="Mentioned Entities"
           [participantList]="(mentionedEntities$ | ngrxPush) || []"
           (participantSelectedEvent)="onMentionedEntitySelected($event)">

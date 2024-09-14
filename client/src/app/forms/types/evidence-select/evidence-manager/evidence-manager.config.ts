@@ -32,7 +32,6 @@ export const columnKeyToSortColumnMap: EvidenceManagerColSortMap = {
   id: EvidenceSortColumns.Id,
   significance: EvidenceSortColumns.Significance,
   status: EvidenceSortColumns.Status,
-  therapies: EvidenceSortColumns.TherapyName,
   variantOrigin: EvidenceSortColumns.VariantOrigin,
 }
 
@@ -45,7 +44,7 @@ export const columnKeyToQueryVariableMap: EvidenceManagerColQueryMap = {
   therapies: 'therapyName',
   evidenceItem: 'id',
 }
-// colum keys included here will be hidden in preference panel, preventing
+// column keys included here will be hidden in preference panel, preventing
 // defaults from being changed by the user
 export const omittedFromPrefs: EvidenceManagerColKey[] = ['selected', 'id']
 
@@ -115,7 +114,7 @@ export class EvidenceManagerConfig {
             } else {
               return null
             }
-          }
+          },
         },
       },
       {
@@ -163,7 +162,9 @@ export class EvidenceManagerConfig {
         label: 'Therapies',
         type: 'entity-tag',
         width: '275px',
-        sort: {},
+        sort: {
+          disabled: true,
+        },
         tag: {
           maxTags: 2,
           truncateLabel: '150px',

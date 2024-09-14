@@ -16,8 +16,8 @@ export const CvcTypePolicies: TypePolicies = {
     fields: {
       browseFeatures: relayStylePagination([
         'name',
-        'featureInstanceType',
-        'therapayName',
+        'featureType',
+        'therapyName',
         'featureAlias',
         'diseaseName',
       ]),

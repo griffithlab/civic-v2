@@ -14,7 +14,7 @@
           </ng-template>
           <nz-collapse
             [nzBordered]="false"
-            nzExpandIconPosition="right">
+            nzExpandIconPosition="end">
             <cvc-collapsible-card
               [header]="activityHeaderTemplate"
               [contents]="activityContentTemplate"></cvc-collapsible-card>
@@ -27,37 +27,49 @@
           <ng-template #activityHeaderTemplate>
             <cvc-user-tag [user]="activity.user"></cvc-user-tag>
             {{ activity.verbiage }}
-            <ng-container [ngSwitch]="activity.subject.__typename">
-              <cvc-feature-tag
-                *ngSwitchCase="'Feature'"
-                [feature]="activity.subject"></cvc-feature-tag>
-              <cvc-assertion-tag
-                *ngSwitchCase="'Assertion'"
-                [assertion]="activity.subject"></cvc-assertion-tag>
-              <cvc-evidence-tag
-                *ngSwitchCase="'EvidenceItem'"
-                [evidence]="activity.subject"></cvc-evidence-tag>
-              <cvc-feature-variant-tag
-                *ngSwitchCase="'Variant'"
-                [variant]="activity.subject"></cvc-feature-variant-tag>
-              <cvc-revision-tag
-                *ngSwitchCase="'Revision'"
-                [revision]="$any(activity.subject)"></cvc-revision-tag>
-              <cvc-variant-group-tag
-                *ngSwitchCase="'VariantGroup'"
-                [variantgroup]="activity.subject"></cvc-variant-group-tag>
-              <cvc-source-tag
-                *ngSwitchCase="'Source'"
-                mode="concise"
-                [source]="$any(activity.subject)"></cvc-source-tag>
-              <cvc-molecular-profile-tag
-                *ngSwitchCase="'MolecularProfile'"
-                [molecularProfile]="
-                  activity.subject
-                "></cvc-molecular-profile-tag>
-              <span *ngSwitchDefault>{{ activity.subject.name }}</span>
-            </ng-container>
-            ·
+            @switch (activity.subject.__typename) {
+              @case ('Feature') {
+                <cvc-feature-tag [feature]="activity.subject"></cvc-feature-tag>
+              }
+              @case ('Assertion') {
+                <cvc-assertion-tag
+                  [assertion]="activity.subject"></cvc-assertion-tag>
+              }
+              @case ('EvidenceItem') {
+                <cvc-evidence-tag
+                  [evidence]="activity.subject"></cvc-evidence-tag>
+              }
+              @case ('GeneVariant') {
+                <cvc-feature-variant-tag
+                  [variant]="activity.subject"></cvc-feature-variant-tag>
+              }
+              @case ('FactorVariant') {
+                <cvc-feature-variant-tag
+                  [variant]="activity.subject"></cvc-feature-variant-tag>
+              }
+              @case ('Revision') {
+                <cvc-revision-tag
+                  [revision]="$any(activity.subject)"></cvc-revision-tag>
+              }
+              @case ('VariantGroup') {
+                <cvc-variant-group-tag
+                  [variantgroup]="activity.subject"></cvc-variant-group-tag>
+              }
+              @case ('Source') {
+                <cvc-source-tag
+                  mode="concise"
+                  [source]="$any(activity.subject)"></cvc-source-tag>
+              }
+              @case ('MolecularProfile') {
+                <cvc-molecular-profile-tag
+                  [molecularProfile]="
+                    activity.subject
+                  "></cvc-molecular-profile-tag>
+              }
+              @default {
+                <span *ngSwitchDefault>{{ activity.subject.name }}</span>
+              }
+            }
             <span
               nz-tooltip
               nzTooltipPlacement="top"

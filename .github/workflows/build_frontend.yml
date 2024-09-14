@@ -21,12 +21,12 @@ jobs:
         with:
           working-directory: ./server
           bundler-cache: true
-          ruby-version: '3.0'
+          ruby-version: '3.3'
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - run: npm install -g yarn
         working-directory: ./client

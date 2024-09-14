@@ -34,12 +34,14 @@ fragment assertionPopover on Assertion {
     id
     name
     link
+    deprecated
   }
   therapyInteractionType
   disease {
     id
     name
     link
+    deprecated
   }
   phenotypes {
     id
@@ -53,6 +55,8 @@ fragment assertionPopover on Assertion {
     parsedName {
       ...MolecularProfileParsedName
     }
+    deprecated
+    flagged
   }
   flags(state: OPEN) {
     totalCount

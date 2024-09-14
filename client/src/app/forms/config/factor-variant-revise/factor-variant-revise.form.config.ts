@@ -95,8 +95,8 @@ const formFieldConfig: FormlyFieldConfig[] = [
                 props: {
                   placeholder: 'NCI Thesaurus Code',
                   description:
-                    'Enter the NCI Thesaurus ID for this Factor Variant',
-                  label: 'NCI Thesaurus ID',
+                    'Enter the NCI Thesaurus Code for this Factor Variant',
+                  label: 'NCI Thesaurus Code',
                   required: false,
                 },
               },

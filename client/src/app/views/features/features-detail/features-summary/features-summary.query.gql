@@ -9,6 +9,8 @@ fragment FeatureSummaryFields on Feature{
   name
   fullName
   link
+  deprecated
+  flagged
   featureInstance {
     __typename
     ... on Gene {
@@ -51,6 +53,7 @@ fragment FusionSummaryFields on Fusion {
     sourceUrl
     displayType
     sourceType
+    deprecated
   }
   fivePrimeGene {
     ... GeneBaseFields
@@ -118,6 +121,7 @@ fragment FactorSummaryFields on Factor {
     sourceUrl
     displayType
     sourceType
+    deprecated
   }
   ncitDetails {
     ...NcitDetails

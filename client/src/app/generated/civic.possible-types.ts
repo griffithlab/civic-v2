@@ -12,6 +12,7 @@
       "CreateComplexMolecularProfileActivity",
       "CreateFeatureActivity",
       "CreateVariantActivity",
+      "DeleteCommentActivity",
       "DeprecateComplexMolecularProfileActivity",
       "DeprecateFeatureActivity",
       "DeprecateVariantActivity",
@@ -28,6 +29,9 @@
     ],
     "CommentBodySegment": [
       "CommentTagSegment",
+      "CommentTagSegmentFlagged",
+      "CommentTagSegmentFlaggedAndDeprecated",
+      "CommentTagSegmentFlaggedAndWithStatus",
       "CommentTextSegment",
       "User"
     ],

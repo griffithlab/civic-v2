@@ -2,12 +2,12 @@ module Actions
   class MergeAccounts
     include Actions::Transactional
 
-    attr_reader :account_to_keep, :accounts_to_merge, :old_account_ids
+    attr_reader :account_to_keep, :account_to_merge, :old_account_id
 
-    def initialize(account_to_keep:, accounts_to_merge_in:)
-      @account_to_keep = account_to_keep
-      @accounts_to_merge = Array(accounts_to_merge_in)
-      @old_account_ids = @accounts_to_merge.map(&:id)
+    def initialize(account_id_to_keep:, account_id_to_merge_in:)
+      @account_to_keep = User.find(account_id_to_keep)
+      @old_account_id = account_id_to_merge_in
+      @account_to_merge = User.find(account_id_to_merge_in)
     end
 
     def execute
@@ -24,12 +24,12 @@ module Actions
       merge_organizations
       move_legacy_changes
       account_to_keep.save!
-      accounts_to_merge.each { |u| u.destroy! }
+      account_to_merge.destroy!
     end
 
     private
     def move_authorizations
-      auths = Authorization.where(user_id: old_account_ids)
+      auths = Authorization.where(user_id: old_account_id)
       auths.each do |a|
         a.user_id = account_to_keep.id
         a.save!
@@ -37,7 +37,7 @@ module Actions
     end
 
     def move_activities
-      activities = Activity.where(user_id: old_account_ids)
+      activities = Activity.where(user_id: old_account_id)
       activities.each do |a|
         a.user_id = account_to_keep.id
         a.save!
@@ -45,7 +45,7 @@ module Actions
     end
 
     def move_events
-      events = Event.where(originating_user_id: old_account_ids)
+      events = Event.where(originating_user_id: old_account_id)
       events.each do |e|
         e.originating_user_id = account_to_keep.id
         e.save!
@@ -53,7 +53,7 @@ module Actions
     end
 
     def move_comments
-      comments = Comment.where(user_id: old_account_ids)
+      comments = Comment.where(user_id: old_account_id)
       comments.each do |c|
         c.user_id = account_to_keep.id
         c.save!
@@ -61,13 +61,13 @@ module Actions
     end
 
     def move_flags
-      flagging = Flag.where(flagging_user_id: old_account_ids)
+      flagging = Flag.where(flagging_user_id: old_account_id)
       flagging.each do |f|
         f.flagging_user_id = account_to_keep.id
         f.save!
       end
 
-      resolving = Flag.where(resolving_user_id: old_account_ids)
+      resolving = Flag.where(resolving_user_id: old_account_id)
       resolving.each do |f|
         f.resolving_user_id = account_to_keep.id
         f.save!
@@ -75,7 +75,7 @@ module Actions
     end
 
     def move_subscriptions
-      subs = Subscription.where(user_id: old_account_ids)
+      subs = Subscription.where(user_id: old_account_id)
       subs.each do |s|
         if Subscription.where(subscribable: s.subscribable, user_id: account_to_keep.id).exists?
           s.destroy!
@@ -87,7 +87,7 @@ module Actions
     end
 
     def move_notifications
-      notified = Notification.where(notified_user_id: old_account_ids)
+      notified = Notification.where(notified_user_id: old_account_id)
       notified.each do |n|
         if Notification.where(event_id: n.event_id, notified_user_id: account_to_keep.id).exists?
           n.destroy!
@@ -97,7 +97,7 @@ module Actions
         end
       end
 
-      notifier = Notification.where(originating_user_id: old_account_ids)
+      notifier = Notification.where(originating_user_id: old_account_id)
       notifier.each do |n|
         if Notification.where(event_id: n.event_id, originating_user_id: account_to_keep.id).exists?
           n.destroy!
@@ -109,7 +109,7 @@ module Actions
     end
 
     def move_mentions
-      mentions = UserMention.where(user_id: old_account_ids)
+      mentions = UserMention.where(user_id: old_account_id)
       mentions.each do |m|
         if UserMention.where(user_id: account_to_keep.id, comment_id: m.comment_id)
           m.destroy!
@@ -121,11 +121,11 @@ module Actions
     end
 
     def merge_roles
-      account_to_keep.role = Role.highest_role_for_users(account_to_keep, *accounts_to_merge)
+      account_to_keep.role = Role.highest_role_for_users(account_to_keep, account_to_merge)
     end
 
     def move_source_suggestions
-      suggestions = SourceSuggestion.where(user_id: old_account_ids)
+      suggestions = SourceSuggestion.where(user_id: old_account_id)
       suggestions.each do |s|
         s.user_id = account_to_keep.id
         s.save!
@@ -133,10 +133,8 @@ module Actions
     end
 
     def merge_organizations
-      orgs_to_add = accounts_to_merge.flat_map(&:organizations)
-      accounts_to_merge.each do |user|
-        user.organizations = []
-      end
+      orgs_to_add = account_to_merge.organizations
+      account_to_merge.organizations = []
       existing_orgs = account_to_keep.organizations
       all_orgs = orgs_to_add + existing_orgs
       account_to_keep.organizations = all_orgs.uniq
@@ -144,7 +142,7 @@ module Actions
 
     class SuggestedChange < ActiveRecord::Base; end
     def move_legacy_changes
-      changes = SuggestedChange.where(user_id: old_account_ids)
+      changes = SuggestedChange.where(user_id: old_account_id)
       changes.each do |sc|
         sc.user_id = account_to_keep.id
         sc.save!

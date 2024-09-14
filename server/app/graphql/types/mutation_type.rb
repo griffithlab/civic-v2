@@ -2,6 +2,7 @@ module Types
   class MutationType < Types::BaseObject
     #comments
     field :add_comment, mutation: Mutations::AddComment
+    field :delete_comment, mutation: Mutations::DeleteComment
 
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision

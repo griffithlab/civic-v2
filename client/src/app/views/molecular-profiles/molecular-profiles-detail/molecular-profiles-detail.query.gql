@@ -23,12 +23,15 @@ fragment MolecularProfileDetailFields on MolecularProfile {
     }
     id
     deprecated
+    flagged
     name
     link
     feature {
       id
       name
       link
+      deprecated
+      flagged
     }
   }
   molecularProfileAliases

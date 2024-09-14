@@ -16,7 +16,7 @@ class Resolvers::TopLevelGenes < GraphQL::Schema::Resolver
   end
 
   option(:entrez_symbols, type: [GraphQL::Types::String], description: 'List of Entrez Gene symbols to return results for') do |scope, value|
-    scope.where('genes.name IN (?)', value.map(&:upcase))
+    scope.where('features.name IN (?)', value.map(&:upcase))
   end
 
   option(:entrez_ids, type: [GraphQL::Types::Int], description: 'List of Entrez Gene IDs to return results for') do |scope, value|

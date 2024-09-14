@@ -1,4 +1,8 @@
 Trestle.resource(:users) do
+  controller do
+    include ActiveStorage::SetCurrent
+  end
+
   menu do
     item :users, icon: "fa fa-user"
   end

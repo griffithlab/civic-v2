@@ -15,6 +15,7 @@ fragment MyDiseaseInfoFields on MyDiseaseInfo {
     doDef
     doDefCitations
     mondoDef
+    mondoId
 }
 
 fragment DiseasesSummaryFields on Disease {
@@ -28,4 +29,5 @@ fragment DiseasesSummaryFields on Disease {
   myDiseaseInfo {
     ...MyDiseaseInfoFields
   }
+  deprecated
 }

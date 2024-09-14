@@ -3,21 +3,13 @@ require 'search_object/plugin/graphql'
 
 class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
+  include Resolvers::Shared::SearchHelpers
 
   type Types::BrowseTables::BrowseTherapyType.connection_type, null: false
 
   description 'List and filter Therapies from the NCI Thesaurus.'
 
-  scope do
-    Therapy.select('therapies.id, therapies.name, therapies.ncit_id, count(distinct(assertions.id)) as assertion_count, count(distinct(evidence_items.id)) as evidence_count')
-      .left_outer_joins(:assertions)
-      .left_outer_joins(:evidence_items)
-      .where("evidence_items.status != 'rejected' OR assertions.status != 'rejected'")
-      .where(deprecated: false)
-      .group('therapies.id, therapies.name, therapies.ncit_id')
-      .having('COUNT(evidence_items.id) > 0 OR COUNT(assertions.id) > 0')
-      .order('evidence_count DESC', :id)
-  end
+  scope { MaterializedViews::TherapyBrowseTableRow.all }
 
   option(:ncit_id, type: String, description: 'Limit to therapies with a specific NCIT ID') do |scope, value|
     if value.upcase.starts_with?('C')
@@ -25,6 +17,10 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
     else
       scope.where(ncit_id: "C#{value}")
     end
+  end
+
+  option(:therapy_alias, type: String) do |scope, value|
+    scope.where(array_query_for_column('alias_names'), "%#{value}%")
   end
 
   option(:id, type: Int, description: "Filter on a therapy's internal CIViC id") do |scope, value|

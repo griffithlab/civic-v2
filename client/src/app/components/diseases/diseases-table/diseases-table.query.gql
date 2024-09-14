@@ -6,6 +6,7 @@ query BrowseDiseases(
   $sortBy: DiseasesSort
   $name: String
   $doid: String
+  $diseaseAlias: String
   $featureName: String
 ) {
   browseDiseases(
@@ -16,6 +17,7 @@ query BrowseDiseases(
     sortBy: $sortBy
     name: $name
     doid: $doid
+    diseaseAlias: $diseaseAlias
     featureName: $featureName
   ) {
     pageInfo {
@@ -52,4 +54,6 @@ fragment BrowseDiseaseRowFields on BrowseDisease {
   variantCount
   featureCount
   link
+  deprecated
+  diseaseAliases
 }

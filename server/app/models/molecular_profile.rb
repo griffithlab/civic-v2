@@ -9,7 +9,15 @@ class MolecularProfile < ActiveRecord::Base
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :sources
   has_many :assertions
+  has_many :submitted_and_accepted_assertions,
+    ->() { where.not(status: 'rejected') },
+    class_name: 'Assertion'
+
   has_many :evidence_items
+  has_many :submitted_and_accepted_evidence_items,
+    ->() { where.not(status: 'rejected') },
+    class_name: 'EvidenceItem'
+
   has_one :evidence_items_by_status
   has_one :evidence_items_by_type
   has_and_belongs_to_many :molecular_profile_aliases, join_table: :molecular_profile_aliases_molecular_profiles
@@ -36,7 +44,7 @@ class MolecularProfile < ActiveRecord::Base
   validate :unique_name_in_context
 
   searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
-  scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
+  scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:feature])}
 
   after_create -> { MaterializedViews::MolecularProfileBrowseTableRow.refresh_async }
 

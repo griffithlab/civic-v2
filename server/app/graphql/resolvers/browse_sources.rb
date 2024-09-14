@@ -9,6 +9,7 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
 
   scope do
     MaterializedViews::SourceBrowseTableRow.order('source_suggestion_count desc')
+      .where.not(citation: nil)
       .order('evidence_item_count desc')
       .all
   end

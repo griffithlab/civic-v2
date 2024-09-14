@@ -16,7 +16,7 @@ Trestle.configure do |config|
   #
   # config.site_logo_small = "logo-small.png"
 
-  # Speficy a favicon to be used within the admin.
+  # Specify a favicon to be used within the admin.
   #
   # config.favicon = "favicon.ico"
 
@@ -79,7 +79,6 @@ Trestle.configure do |config|
     unless current_user && Role.user_is_at_least_a?(current_user, :admin)
       redirect_to '/'
     end
-    ActiveStorage::Current.host = request.base_url
   end
   #
   # config.after_action do |controller|

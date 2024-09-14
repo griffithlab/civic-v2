@@ -7,6 +7,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   set_fixture_class feature_genes: Features::Gene
+  set_fixture_class feature_factors: Features::Factor
 
   # Add more helper methods to be used by all tests here...
 end

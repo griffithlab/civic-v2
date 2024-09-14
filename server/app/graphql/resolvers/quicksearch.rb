@@ -16,7 +16,9 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
                        Assertion,
                        VariantGroup,
                        Revision,
-                       MolecularProfile
+                       MolecularProfile,
+                       Therapy,
+                       Disease
                       ]
                     else
                       types
@@ -33,14 +35,21 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
                   models: query_targets,
                   highlight: tag,
                   limit: 10,
-                  fields: ['id^10', 'name', 'aliases', 'feature', 'feature_type']
-                ).with_highlights(multiple: true)
+                  fields: [
+                    {'id^10' => :word },
+                    {'ncit_id' => :word },
+                    {'doid' => :word },
+                    {'name^10' => :word },
+                    {'aliases' => :word_start },
+                    {'feature' => :word },
+                    {'feature_type' => :word }
+                  ]).with_highlights(multiple: true)
 
     results.map do |res, highlights|
       {
         id: res.id,
         name: format_name(res.name, highlights),
-        result_type: res.class,
+        result_type: res.class.base_class,
         matching_text: format_highlights(highlights)
       }
     end
@@ -59,7 +68,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   def format_highlights(highlights)
     rows = highlights.map do |field_name, matches|
       next if field_name == :name
-      name = field_name.to_s.titleize
+    name = field_name.to_s.split(".").first&.titleize
       match_string = matches.join(', ')
       "#{name}: #{match_string}"
     end

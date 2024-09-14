@@ -1,5 +1,6 @@
 query BrowseFeatures(
   $featureName: String
+  $featureFullName: String
   $therapyName: String
   $featureAlias: String
   $diseaseName: String
@@ -12,6 +13,7 @@ query BrowseFeatures(
 ) {
   browseFeatures(
     featureName: $featureName
+    featureFullName: $featureFullName
     therapyName: $therapyName
     featureAlias: $featureAlias
     diseaseName: $diseaseName
@@ -44,18 +46,22 @@ query BrowseFeatures(
 fragment BrowseFeaturesFields on BrowseFeature {
   id
   name
+  fullName
   link
+  deprecated
   flagged
   featureAliases
   diseases {
     name
     id
     link
+    deprecated
   }
   therapies {
     name
     id
     link
+    deprecated
   }
   variantCount
   evidenceItemCount

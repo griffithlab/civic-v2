@@ -29,9 +29,14 @@ class Feature < ApplicationRecord
   validates :name, uniqueness: { scope: :feature_instance_type }
 
   def search_data
+    aliases = feature_aliases.map(&:name)
+    if feature_instance.is_a?(Features::Factor)
+      aliases << self.full_name
+    end
+
     {
       name: name,
-      aliases: feature_aliases.map(&:name),
+      aliases: aliases,
       feature_type: feature_instance_type.demodulize
     }
   end

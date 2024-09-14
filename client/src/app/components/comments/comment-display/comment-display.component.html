@@ -1,3 +1,5 @@
+@let viewer = viewer$ | ngrxPush;
+
 <nz-comment
   [nzAuthor]="comment.commenter.displayName"
   [nzDatetime]="comment.createdAt | timeAgo">
@@ -10,8 +12,43 @@
       nz-comment-avatar
       nzIcon="civic:curator"></nz-avatar>
   </ng-template>
+  @if (
+    viewer &&
+    viewer.signedIn &&
+    viewer.id == comment.commenter.id &&
+    comment.id &&
+    !comment.deleted
+  ) {
+    <nz-comment-action>
+      <span
+        nz-tooltip
+        nz-popconfirm
+        nzPopconfirmPlacement="right"
+        nzPopconfirmTitle="Delete This Comment?"
+        (nzOnConfirm)="deleteComment(comment.id, viewer.mostRecentOrg?.id)"
+        nzTooltipTitle="Delete"
+        nz-icon
+        nzType="delete"></span>
+    </nz-comment-action>
+  }
   <nz-comment-content>
-    <cvc-comment-body
-      [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
+    @if (comment.deleted) {
+      <span
+        nz-typography
+        nzType="secondary">
+        <i> This comment has been deleted. </i>
+      </span>
+    } @else {
+      @if (comment.parsedComment.length == 0) {
+        <span
+          nz-typography
+          nzType="secondary">
+          <i>No Comment Provided</i>
+        </span>
+      } @else {
+        <cvc-comment-body
+          [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
+      }
+    }
   </nz-comment-content>
 </nz-comment>

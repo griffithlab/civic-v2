@@ -113,6 +113,7 @@ module Constants
     'EvidenceItem' => 'evidence',
     'Feature' => 'features',
     'Gene' => 'features',
+    'Fusion' => 'features',
     'Variant' => 'variants',
     'Variants::GeneVariant' => 'variants',
     'Variants::FactorVariant' => 'variants',

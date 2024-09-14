@@ -37,6 +37,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -76,6 +77,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     CvcMolecularProfileTagModule,
     CvcPipesModule,
     CvcCommentBodyModule,
+    CvcOrganizationTagModule,
     NzCollapseModule,
     NzButtonModule,
     NzAlertModule,

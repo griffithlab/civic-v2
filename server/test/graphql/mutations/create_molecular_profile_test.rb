@@ -22,7 +22,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]['id']
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "BRAF V600E")
-    assert_equal(mp.variants, [@variant])
+    assert_equal(mp.variants.to_a, [@variant])
   end
 
   test "must be logged in" do
@@ -66,7 +66,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
-    assert_equal(mp.variants, [@variant, v2, v3, v4])
+    assert_equal(mp.variants.to_a, [@variant, v2, v3, v4])
   end
 
   test "ordering should be deterministic, at least in variant components" do
@@ -106,6 +106,6 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
     mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]['id']
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
-    assert_equal(mp.variants, [@variant, v2, v3, v4])
+    assert_equal(mp.variants.to_a, [@variant, v2, v3, v4])
   end
 end
