@@ -8,6 +8,7 @@ import {
   input,
   NgZone,
   OnInit,
+  runInInjectionContext,
   Signal,
 } from '@angular/core'
 import {
@@ -17,6 +18,8 @@ import {
   ActivityFeedScope,
   ActivityFeedSettings,
   FeedQueryEvent,
+  FeedQueryFetchMoreEvent,
+  FeedQueryRefetchEvent,
   FetchParams,
 } from '@app/components/activities/activity-feed/activity-feed.types'
 import {
@@ -64,6 +67,7 @@ import {
   ActivityInterfaceConnection,
   ActivityInterfaceEdge,
   Maybe,
+  PageInfo,
 } from '@app/generated/civic.apollo'
 import { QueryRef } from 'apollo-angular'
 import {
@@ -123,24 +127,7 @@ export const FEED_SCROLL_SERVICE_TOKEN =
       deps: [NgZone],
     },
   ],
-  animations: [
-    trigger('atTop', [
-      state('isAtTop', style({ opacity: 0 })),
-      state('isNotAtTop', style({ opacity: 1 })),
-      transition('isNotAtTop => isAtTop', [
-        animate('300ms ease-out', style({ opacity: 0 })),
-      ]),
-      transition('isAtTop => isNotAtTop', [
-        animate('300ms ease-in', style({ opacity: 1 })),
-      ]),
-    ]),
-    trigger('atBottom', [
-      state('isAtBottom', style({ opacity: 0 })),
-      state('isNotAtBottom', style({ opacity: 1 })),
-      transition('isNotAtBottom => isAtBottom', [animate('300ms ease-out')]),
-      transition('isAtBottom => isNotAtBottom', [animate('300ms ease-in')]),
-    ]),
-  ],
+  animations: [],
 })
 export class CvcActivityFeed {
   // INPUTS
@@ -163,7 +150,9 @@ export class CvcActivityFeed {
   queryType$: Subject<'refetch' | 'fetchMore'>
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
+  pageInfo$: Subject<PageInfo>
   onZeroRows$: Subject<boolean>
+  onAllRowsFetched$: Subject<boolean>
 
   // PRESENTATION SIGNALS
   refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
@@ -172,6 +161,7 @@ export class CvcActivityFeed {
   counts: Signal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
   scroller: Signal<ScrollerState>
+  allRowsFetched: Signal<boolean>
 
   // REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -193,12 +183,17 @@ export class CvcActivityFeed {
     this.fetchMore$ = new Subject()
     this.init$ = new Subject()
     this.queryType$ = new Subject()
+    this.pageInfo$ = new Subject()
     this.onQueryComplete$ = new Subject()
-    this.onZeroRows$ = new BehaviorSubject(false)
+    this.onZeroRows$ = new Subject()
+    this.onAllRowsFetched$ = new Subject()
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
     this.zeroRows = toSignal(this.onZeroRows$, { initialValue: false })
+    this.allRowsFetched = toSignal(this.onAllRowsFetched$, {
+      initialValue: false,
+    })
 
     const refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -209,7 +204,7 @@ export class CvcActivityFeed {
           settings: settings,
           filters: filters,
         })
-        return <FeedQueryEvent>{
+        return <FeedQueryRefetchEvent>{
           type: 'refetch',
           query: queryVars,
         }
@@ -218,7 +213,7 @@ export class CvcActivityFeed {
 
     const fetchChange$ = merge(this.fetchMore$, this.poll$).pipe(
       map((fetchParams) => {
-        return <FeedQueryEvent>{
+        return <FeedQueryFetchMoreEvent>{
           type: 'fetchMore',
           fetch: fetchParams,
         }
@@ -227,7 +222,7 @@ export class CvcActivityFeed {
 
     this.result$ = this.init$.pipe(
       switchMap(() => merge(refreshChange$, fetchChange$)),
-      switchMap((event) => {
+      switchMap((event: FeedQueryEvent) => {
         this.queryType$.next(event.type)
         this.onZeroRows$.next(false)
         if (!this.queryRef) {
@@ -307,6 +302,16 @@ export class CvcActivityFeed {
       { initialValue: feedFilterOptionDefaults }
     )
 
+    this.allRowsFetched = toSignal(
+      this.onAllRowsFetched$.pipe(tag('onAllRowsFetched$')),
+      // connection$.pipe(
+      //   map((connection) => {
+      //     return connection.pageInfo.hasNextPage
+      //   })
+      // ),
+      { initialValue: false }
+    )
+
     this.edge$ = this.result$.pipe(
       pluck('data', 'activities'),
       filter(isNonNulled),
@@ -327,37 +332,27 @@ export class CvcActivityFeed {
   configureDatasource(): void {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
-        // TODO: handle case where all rows have been fetched, using scroll adapter's eof/bof events
         return of({ index: index, count: count }).pipe(
           withLatestFrom(this.edge$),
           switchMap(([params, edges]) => {
             const { index, count } = params
-            if (edges.length === 0) {
-              // no rows to display
-              this.onZeroRows$.next(true)
-              return []
-            } else if (edges.length === this.counts()!.total) {
-              // all rows have been fetched
-              // TODO: show all rows fetched notification
-              return of(edges)
-            } else if (edges.length >= index + count) {
+
+            if (edges.length >= index + count) {
               // edges cached, return slice of current array
               return of(edges.slice(index, index + count))
             } else {
-              // issue fetchMore query to satisfy requested row set
+              // requested edges not cached, fetchMore to retrieve them
               const queryVars = {
                 first: count,
                 after: edges[index - 1].cursor,
               }
-              // reset query complete, which will emit true from $result,
-              // so that incomplete edges are not returned in $edges.pipe below
+              // reset query complete
               this.onQueryComplete$.next(false)
 
               // issue query!
               this.fetchMore$.next(queryVars)
               return this.edge$.pipe(
-                // wait until query complete before returning edges slice
-                skipUntil(this.onQueryComplete$),
+                skipUntil(this.onQueryComplete$), // wait until query complete (called from result$),
                 map((edges) => edges.slice(index, index + count))
                 // tag('configureDatasource.get() ++++++++++++++')
               )

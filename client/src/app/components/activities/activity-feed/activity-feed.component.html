@@ -3,6 +3,36 @@
   [nzExtra]="cardExtra"
   nzSize="small"
   style="width: 100%">
+  <ng-template #cardTitle>
+    <nz-space nzDirection="horizontal">
+      <span
+        class="title"
+        *nzSpaceItem>
+        {{ cvcTitle() }}
+      </span>
+      <cvc-activity-feed-counts
+        *nzSpaceItem
+        [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
+      <span *nzSpaceItem>
+        <nz-tag
+          *ngIf="moreLoading()"
+          nzColor="processing">
+          <i
+            nz-icon
+            nzType="sync"
+            nzSpin></i>
+          <span>Loading…</span>
+        </nz-tag>
+      </span>
+    </nz-space>
+  </ng-template>
+  <ng-template #cardExtra>
+    <cvc-activity-feed-settings
+      (cvcSettingsChange)="onSettingChange$.next($event)"
+      [cvcSettings]="cvcSettings()"
+      [cvcScope]="cvcScope()">
+    </cvc-activity-feed-settings>
+  </ng-template>
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
     <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
@@ -88,29 +118,6 @@
     </nz-col>
   </nz-row>
 </nz-card>
-<ng-template #cardTitle>
-  <nz-space nzDirection="horizontal">
-    <span
-      class="title"
-      *nzSpaceItem>
-      {{ cvcTitle() }}
-    </span>
-    <cvc-activity-feed-counts
-      *nzSpaceItem
-      [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
-    <span *nzSpaceItem>
-      <nz-tag
-        *ngIf="moreLoading()"
-        nzColor="processing">
-        <i
-          nz-icon
-          nzType="sync"
-          nzSpin></i>
-        <span>Loading…</span>
-      </nz-tag>
-    </span>
-  </nz-space>
-</ng-template>
 <ng-template #cardExtra>
   <cvc-activity-feed-settings
     (cvcSettingsChange)="onSettingChange$.next($event)"

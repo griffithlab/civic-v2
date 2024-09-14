@@ -34,6 +34,8 @@ export function connectionToFeedCounts(
     unfiltered: connection.unfilteredCount,
     page: connection.pageCount,
     rows: connection.edges.length,
+    hasNextPage: connection.pageInfo.hasNextPage,
+    hasPreviousPage: connection.pageInfo.hasPreviousPage,
   }
 }
 
