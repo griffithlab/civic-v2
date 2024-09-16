@@ -13,12 +13,14 @@ query: |
           name
           id
           link
-          alleleRegistryId
-          primaryCoordinates {
-            start
-            stop
-            chromosome
-            representativeTranscript
+          ... on GeneVariant {
+            alleleRegistryId
+            coordinates {
+              start
+              stop
+              chromosome
+              representativeTranscript
+            }
           }
           molecularProfiles {
             pageInfo {

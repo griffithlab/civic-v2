@@ -1,0 +1,17 @@
+mutation SelectOrCreateFusionVariant($organizationId: Int, $featureId: Int!, $coordinates: FusionVariantInput!) {
+  createFusionVariant(input: {
+    organizationId: $organizationId,
+    featureId: $featureId,
+    coordinates: $coordinates
+  }) {
+    ...CreateFusionVariantFields
+  }
+}
+
+fragment CreateFusionVariantFields on CreateFusionVariantPayload {
+  clientMutationId
+  new
+  variant {
+    ...VariantSelectTypeaheadFields
+  }
+}

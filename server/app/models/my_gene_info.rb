@@ -13,6 +13,8 @@ class MyGeneInfo
   def self.make_request(gene_id)
     entrez_id = Features::Gene.find_by!(id: gene_id).entrez_id
     ScrapingUtils.make_get_request(my_gene_info_url(entrez_id))
+  rescue StandardError
+    ""
   end
 
   def self.my_gene_info_url(entrez_id)

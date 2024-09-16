@@ -20,9 +20,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import {
   CvcFeatureSelectField,
   CvcFeatureSelectFieldConfig,
-  CvcFeatureSelectFieldProps,
 } from './feature-select.type'
 import { CvcFeatureQuickAddForm } from './feature-quick-add/feature-quick-add.form'
+import { CvcFusionSelectForm } from './fusion-select/fusion-select.form'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
+import { NzModalModule } from 'ng-zorro-antd/modal'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -64,11 +66,14 @@ const typeConfig: ConfigOption = {
     NzAutocompleteModule,
     NzTypographyModule,
     NzTagModule,
+    NzSpaceModule,
+    NzModalModule,
     CvcFormFieldWrapperModule,
     CvcEntitySelectModule,
     CvcPipesModule,
     CvcEntityTagModule,
     CvcFeatureQuickAddForm,
+    CvcFusionSelectForm,
   ],
   exports: [CvcFeatureSelectField],
 })

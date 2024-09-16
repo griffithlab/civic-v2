@@ -13,9 +13,21 @@
   <ng-template #defaultNotification> Not specified </ng-template>
 </ng-template>
 <ng-template #notFoundImg>
-  <i
-    nz-icon
-    nzType="civic-revision"
-    nzTheme="twotone"
-    nzTwotoneColor="#dfdfdf"></i>
+  @if (reviseFormPath) {
+    <a
+      target="_blank"
+      [href]="reviseFormPath">
+      <i
+        nz-icon
+        nzType="civic-revision"
+        nzTheme="twotone"
+        nzTwotoneColor="#dfdfdf"></i>
+    </a>
+  } @else {
+    <i
+      nz-icon
+      nzType="civic-revision"
+      nzTheme="twotone"
+      nzTwotoneColor="#dfdfdf"></i>
+  }
 </ng-template>

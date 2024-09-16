@@ -1,12 +1,9 @@
 module Types::Variants
   class GeneVariantType < Types::Entities::VariantType
 
-    field :reference_build, Types::ReferenceBuildType, null: true
-    field :ensembl_version, Int, null: true
-    field :primary_coordinates, Types::Entities::CoordinateType, null: true
-    field :secondary_coordinates, Types::Entities::CoordinateType, null: true
-    field :reference_bases, String, null: true
-    field :variant_bases, String, null: true
+    field :coordinates, Types::Entities::VariantCoordinateType, null: true
+    field :primary_coordinates, Types::Entities::VariantCoordinateType, null: true,
+      deprecation_reason: "The new Fusion variant type means Gene variants no longer have primary and secondary coordinates. Use 'coordinates' instead."
     field :allele_registry_id, String, null: true
     field :clinvar_ids, [String], null: false
     field :hgvs_descriptions, [String], null: false
@@ -14,47 +11,12 @@ module Types::Variants
     field :mane_select_transcript, String, null: true
     field :open_cravat_url, String, null: true
 
+    def coordinates
+      Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object)
+    end
 
     def primary_coordinates
-      if (object.representative_transcript.blank? && object.chromosome.blank? && object.start.blank? && object.stop.blank?)
-        return nil
-      else
-        return {
-          representative_transcript: object.representative_transcript,
-          chromosome: object.chromosome,
-          start: object.start,
-          stop: object.stop,
-        }
-      end
-    end
-
-    def secondary_coordinates
-      if (object.representative_transcript2.blank? && object.chromosome2.blank? && object.start2.blank? && object.stop2.blank?)
-        return nil
-      else
-        return {
-          representative_transcript: object.representative_transcript2,
-          chromosome: object.chromosome2,
-          start: object.start2,
-          stop: object.stop2,
-        }
-      end
-    end
-
-    def variant_bases
-      if (object.variant_bases.blank?)
-        return nil
-      else
-        return object.variant_bases
-      end
-    end
-
-    def reference_bases
-      if (object.reference_bases.blank?)
-        return nil
-      else
-        return object.reference_bases
-      end
+      coordinates
     end
 
     def clinvar_ids
@@ -75,6 +37,16 @@ module Types::Variants
 
     def mane_select_transcript
       ManeSelectTranscript.new(object).mane_select_transcript
+    end
+
+    def open_revision_count
+      Loaders::AssociationCountLoader.for(object.class, association: :open_revisions).load(object.id).then do |count|
+        Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object).then do |coord|
+          Loaders::AssociationCountLoader.for(VariantCoordinate, association: :open_revisions).load(coord.id) do |coord_count|
+            count + coord_count
+          end
+        end
+      end
     end
   end
 end

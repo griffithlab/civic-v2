@@ -7,8 +7,10 @@ module Types
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
     field :suggest_factor_revision, mutation: Mutations::SuggestFactorRevision
+    field :suggest_fusion_revision, mutation: Mutations::SuggestFusionRevision
     field :suggest_gene_variant_revision, mutation: Mutations::SuggestGeneVariantRevision
     field :suggest_factor_variant_revision, mutation: Mutations::SuggestFactorVariantRevision
+    field :suggest_fusion_variant_revision, mutation: Mutations::SuggestFusionVariantRevision
     field :suggest_molecular_profile_revision, mutation: Mutations::SuggestMolecularProfileRevision
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
     field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision
@@ -58,5 +60,7 @@ module Types
     field :add_therapy, mutation: Mutations::AddTherapy
     field :create_variant, mutation: Mutations::CreateVariant
     field :create_feature, mutation: Mutations::CreateFeature
+    field :create_fusion_feature, mutation: Mutations::CreateFusionFeature
+    field :create_fusion_variant, mutation: Mutations::CreateFusionVariant
   end
 end

@@ -5,7 +5,7 @@ class Feature < ApplicationRecord
   include Subscribable
   include WithTimepointCounts
 
-  delegated_type :feature_instance, types: %w[ Features::Gene Features::Factor ], autosave: true
+  delegated_type :feature_instance, types: %w[ Features::Gene Features::Factor Features::Fusion ], autosave: true
   has_and_belongs_to_many :feature_aliases
   has_and_belongs_to_many :sources
 
@@ -26,7 +26,7 @@ class Feature < ApplicationRecord
   searchkick highlight: [:name, :aliases, :feature_type], callbacks: :async
   scope :search_import, -> { includes(:feature_aliases) }
 
-#  validates :name, uniqueness: { scope: :feature_instance_type }
+  validates :name, uniqueness: { scope: :feature_instance_type }
 
   def search_data
     aliases = feature_aliases.map(&:name)
@@ -41,6 +41,10 @@ class Feature < ApplicationRecord
     }
   end
 
+  #Name to be used when displayed as part of a Molecular Profile
+  def mp_name
+    feature_instance.mp_name
+  end
 
   def link
     Rails.application.routes.url_helpers.url_for("/features/#{self.id}")

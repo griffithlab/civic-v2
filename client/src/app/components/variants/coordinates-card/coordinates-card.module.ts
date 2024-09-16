@@ -7,6 +7,9 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
 
 @NgModule({
   declarations: [CvcCoordinatesCard],
@@ -14,8 +17,12 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CommonModule,
     LetDirective,
     PushPipe,
+    LetDirective,
     NzCardModule,
+    NzTabsModule,
     NzDescriptionsModule,
+    NzTypographyModule,
+    NzGridModule,
     CvcPipesModule,
     CvcLinkTagModule,
     CvcEmptyRevisableModule,

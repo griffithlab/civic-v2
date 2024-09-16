@@ -3,6 +3,9 @@ module Types::Interfaces
     include Types::BaseInterface
     connection_type_class Types::Connections::VariantsConnection
 
+    #TODO: Remove Me
+    orphan_types Types::Variants::FusionVariantType
+
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
@@ -54,11 +57,6 @@ module Types::Interfaces
       end
     end
 
-    #orphan_types(
-      #Types::Variants::FactorVariantType,
-      #Types::Variants::GeneVariantType,
-    #)
-
     definition_methods do
       def resolve_type(object, context)
         case object
@@ -66,6 +64,8 @@ module Types::Interfaces
           Types::Variants::GeneVariantType
         when Variants::FactorVariant
           Types::Variants::FactorVariantType
+        when Variants::FusionVariant
+          Types::Variants::FusionVariantType
         else
           raise "Unexpected Variant type #{object.class}"
         end

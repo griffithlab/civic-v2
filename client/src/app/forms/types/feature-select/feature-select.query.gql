@@ -15,6 +15,7 @@ fragment FeatureSelectTypeaheadFields on Feature {
   name
   featureAliases
   link
+  featureType
   featureInstance {
     __typename
     ... on Gene {
@@ -22,6 +23,10 @@ fragment FeatureSelectTypeaheadFields on Feature {
     }
     ... on Factor {
       ncitId
+    }
+    ... on Fusion {
+      fivePrimePartnerStatus
+      threePrimePartnerStatus
     }
   }
 }

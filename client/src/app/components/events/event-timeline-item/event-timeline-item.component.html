@@ -64,19 +64,16 @@
 
     <!-- subject -->
     <ng-container
-        *ngIf="tagDisplay != 'hideSubject' && event.subject as subject">
+      *ngIf="tagDisplay != 'hideSubject' && event.subject as subject">
       @switch (subject.__typename) {
         @case ('Feature') {
-          <cvc-feature-tag
-            [feature]="subject"></cvc-feature-tag>
+          <cvc-feature-tag [feature]="subject"></cvc-feature-tag>
         }
         @case ('Assertion') {
-          <cvc-assertion-tag
-            [assertion]="subject"></cvc-assertion-tag>
+          <cvc-assertion-tag [assertion]="subject"></cvc-assertion-tag>
         }
         @case ('EvidenceItem') {
-          <cvc-evidence-tag
-            [evidence]="subject"></cvc-evidence-tag>
+          <cvc-evidence-tag [evidence]="subject"></cvc-evidence-tag>
         }
         @case ('GeneVariant') {
           <cvc-feature-variant-tag
@@ -86,9 +83,12 @@
           <cvc-feature-variant-tag
             [variant]="subject"></cvc-feature-variant-tag>
         }
+        @case ('FusionVariant') {
+          <cvc-feature-variant-tag
+            [variant]="subject"></cvc-feature-variant-tag>
+        }
         @case ('Revision') {
-          <cvc-revision-tag
-            [revision]="$any(subject)"></cvc-revision-tag>
+          <cvc-revision-tag [revision]="$any(subject)"></cvc-revision-tag>
         }
         @case ('VariantGroup') {
           <cvc-variant-group-tag
