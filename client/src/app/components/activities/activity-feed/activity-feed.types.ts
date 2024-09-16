@@ -76,13 +76,13 @@ export type ActivityFeedQueryParams = {
 // query events can either refresh the entire feed list, or fetch more results
 export type FeedQueryType = 'refetch' | 'fetchMore'
 
-type FeedQueryFetchMoreEvent = {
+export type FeedQueryFetchMoreEvent = {
   type: 'fetchMore'
   fetch: FetchParams
   query: never
 }
 
-type FeedQueryRefetchEvent = {
+export type FeedQueryRefetchEvent = {
   type: 'refetch'
   query: ActivityFeedQueryVariables
   fetch: never

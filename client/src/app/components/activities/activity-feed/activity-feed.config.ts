@@ -16,7 +16,7 @@ import { SizeStrategy } from 'vscroll'
 export const feedPollInterval = 30000
 
 export const feedDefaultSettings: ActivityFeedSettings = {
-  first: 60,
+  first: 50,
   scope: { mode: EventFeedMode.Unscoped },
   includeAutomatedEvents: false,
   showFilters: true,
@@ -82,7 +82,7 @@ export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
   startIndex: 0,
   itemSize: 44,
   sizeStrategy: SizeStrategy.Frequent,
-  padding: 1,
+  padding: 0.8,
 }
 
 export const scrollerDevSettings: DevSettings = {

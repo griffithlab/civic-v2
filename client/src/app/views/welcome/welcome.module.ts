@@ -8,7 +8,6 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CommonModule } from '@angular/common'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { FormsModule } from '@angular/forms'
@@ -26,6 +25,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { CvcActivityFeed } from '@app/components/activities/activity-feed/activity-feed.component'
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module'
 
 @NgModule({
   imports: [
@@ -40,7 +41,6 @@ import { CvcActivityFeed } from '@app/components/activities/activity-feed/activi
     NzCheckboxModule,
     NzListModule,
     NzRadioModule,
-    NzSpaceModule,
     NzStatisticModule,
     NzTypographyModule,
     NzEmptyModule,
@@ -50,6 +50,8 @@ import { CvcActivityFeed } from '@app/components/activities/activity-feed/activi
     NzIconModule,
     NzSelectModule,
     WelcomeRoutingModule,
+    CvcAutoHeightDivModule,
+    CvcAutoHeightCardModule,
     CvcSiteStatsCardModule,
     CvcHomepageEventFeedModule,
     CvcActivityFeed,
