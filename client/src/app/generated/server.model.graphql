@@ -157,6 +157,7 @@ type ActivityInterfaceEdge {
 
 enum ActivitySubjectInput {
   ASSERTION
+  COMMENT
   EVIDENCE_ITEM
   FEATURE
   FLAG
@@ -1836,7 +1837,7 @@ enum CoiStatus {
   VALID
 }
 
-type Comment implements EventOriginObject {
+type Comment implements EventOriginObject & EventSubject {
   comment: String!
   commentable: Commentable!
   commenter: User!
@@ -1844,6 +1845,39 @@ type Comment implements EventOriginObject {
   creationEvent: Event
   deleted: Boolean!
   deletedAt: ISO8601DateTime
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   id: Int!
   link: String!
   name: String!

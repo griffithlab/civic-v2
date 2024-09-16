@@ -11,5 +11,6 @@ module Types::Activities
     value 'MOLECULAR_PROFILE', value: 'MolecularProfile'
     value 'FLAG', value: 'Flag'
     value 'REVISION_SET', value: 'RevisionSet'
+    value 'COMMENT', value: 'Comment'
   end
 end

@@ -72,6 +72,7 @@
     ],
     "EventSubject": [
       "Assertion",
+      "Comment",
       "EvidenceItem",
       "ExonCoordinate",
       "Factor",

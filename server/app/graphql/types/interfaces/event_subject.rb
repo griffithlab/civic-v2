@@ -43,6 +43,8 @@ module Types::Interfaces
           Types::Entities::FlagType
         when RevisionSet
           Types::Entities::RevisionSetType
+        when Comment
+          Types::Entities::CommentType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end
