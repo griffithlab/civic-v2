@@ -100,10 +100,10 @@ module Variants
 
     def forbidden_fields
       [
-        :ncit_id,
-        :hgvs_description_ids,
-        :clinvar_entry_ids,
-        :allele_registry_id,
+        # :ncit_id,
+        # :hgvs_description_ids,
+        # :clinvar_entry_ids,
+        # :allele_registry_id,
       ]
     end
 
