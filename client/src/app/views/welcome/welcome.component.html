@@ -1,120 +1,102 @@
-<nz-space
-  nzDirection="vertical"
-  nzSize="middle"
-  class="space-container">
-  <nz-row *nzSpaceItem>
-    <nz-col [nzSpan]="24">
-      <nz-space
-        nzDirection="vertical"
-        nzSize="middle"
-        class="space-container">
-        <nz-carousel
-          nzAutoPlay
-          nzAutoPlaySpeed="10000"
-          *nzSpaceItem>
-          <div nz-carousel-content>
-            <h1>Welcome to CIViC</h1>
-            <h2>
-              an open-source platform supporting crowdsourced and
-              expert-moderated cancer variant curation.
-            </h2>
-          </div>
-          <div nz-carousel-content>
-            <h1>
-              Discover supported clinical interpretations <br />
-              of mutations related to cancer.
-            </h1>
-          </div>
-          <div nz-carousel-content>
-            <h1>
-              Participate with colleagues <br />to add variants and support
-              <br />for cancer-related mutations.
-            </h1>
-          </div>
-          <div nz-carousel-content>
-            <h1>
-              <a
-                class="header-link"
-                href="https://civic.readthedocs.io/en/latest/curating/editor.html"
-                target="_blank"
-                >Become an Editor! <br />Help moderate updates to CIViC</a
-              >
-            </h1>
-          </div>
-        </nz-carousel>
-      </nz-space>
-    </nz-col>
-  </nz-row>
-  <nz-row
-    *nzSpaceItem
-    [nzGutter]="16">
-    <nz-col [nzSpan]="24">
-      <cvc-site-stats-card></cvc-site-stats-card>
-    </nz-col>
-  </nz-row>
-  <nz-row
-    [nzGutter]="16"
-    *nzSpaceItem>
-    <nz-col [nzSpan]="10">
-      <nz-card
-        style="height: 100%"
-        nzTitle="News & Events"
-        nzSize="small"
-        class="home-card">
+@let rowGutter = [12, 12];
+<nz-row [nzGutter]="rowGutter">
+  <nz-col [nzSpan]="24">
+    <nz-carousel
+      nzAutoPlay
+      nzAutoPlaySpeed="10000">
+      <div nz-carousel-content>
+        <h1>Welcome to CIViC</h1>
+        <h2>
+          an open-source platform supporting crowdsourced and expert-moderated
+          cancer variant curation.
+        </h2>
+      </div>
+      <div nz-carousel-content>
+        <h1>
+          Discover supported clinical interpretations <br />
+          of mutations related to cancer.
+        </h1>
+      </div>
+      <div nz-carousel-content>
+        <h1>
+          Participate with colleagues <br />to add variants and support
+          <br />for cancer-related mutations.
+        </h1>
+      </div>
+      <div nz-carousel-content>
+        <h1>
+          <a
+            class="header-link"
+            href="https://civic.readthedocs.io/en/latest/curating/editor.html"
+            target="_blank"
+            >Become an Editor! <br />Help moderate updates to CIViC</a
+          >
+        </h1>
+      </div>
+    </nz-carousel>
+  </nz-col>
+  <nz-col [nzSpan]="24">
+    <cvc-site-stats-card></cvc-site-stats-card>
+  </nz-col>
+  <nz-col [nzSpan]="10">
+    <nz-card
+      nzTitle="News & Events"
+      nzSize="small"
+      class="home-card">
+      <div
+        cvcAutoHeightDiv="52"
+        cvcAutoHeightTarget="viewport">
         <cvc-news-item-list [cvcNewsItems]="newsItems"></cvc-news-item-list>
-      </nz-card>
-    </nz-col>
-    <nz-col [nzSpan]="14">
+      </div>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="14">
+    <div style="border-radius: 8px; overflow: hidden">
       <cvc-activity-feed
         cvcTitle="Live Activity Feed"
         [cvcShowFilters]="false"></cvc-activity-feed>
-    </nz-col>
-  </nz-row>
-  <nz-row
-    *nzSpaceItem
-    [nzGutter]="16">
-    <nz-col [nzSpan]="24">
-      <nz-card
-        nzTitle="Medical Disclaimer: This resource is intended for purely research purposes. It should not be used for emergencies or medical or professional advice."
-        nzSize="small"
-        class="home-card">
-        <p>
-          CIViC is a community-edited forum for discussion and interpretation of
-          peer-reviewed publications pertaining to the clinical relevance of
-          variants (or biomarker alterations) in cancer. These interpretations
-          may include associations between molecular alterations (or lack of
-          alteration) and one or more therapies, diagnoses, prognoses or other
-          treatment decisions. These interpretations of clinical significance
-          (or lack of clinical significance) are purely for research purposes. A
-          finding of no interpretation does not necessarily indicate lack of
-          relevance for any specific variant or biomarker alteration.
-          Interpretations are not presented in ranked order of potential or
-          predicted importance. These interpretations make no promise or
-          guarantee of any clinical benefit (or lack of clinical benefit).
-        </p>
-        <p>
-          The civicdb.org website does not provide any medical or healthcare
-          products, services or advice, and is not for medical emergencies or
-          urgent situations.
-          <strong
-            >IF YOU THINK YOU MAY HAVE A MEDICAL EMERGENCY, CALL YOUR DOCTOR OR
-            911 IMMEDIATELY</strong
-          >. Information contained on this website is not a substitute for a
-          doctor's medical judgment or advice. We recommend that you discuss
-          your specific, individual health concerns with your doctor or health
-          care professional.
-        </p>
-      </nz-card>
-    </nz-col>
-  </nz-row>
+    </div>
+  </nz-col>
+  <nz-col [nzSpan]="24">
+    <nz-card
+      nzTitle="Medical Disclaimer: This resource is intended for purely research purposes. It should not be used for emergencies or medical or professional advice."
+      nzSize="small"
+      class="home-card">
+      <p>
+        CIViC is a community-edited forum for discussion and interpretation of
+        peer-reviewed publications pertaining to the clinical relevance of
+        variants (or biomarker alterations) in cancer. These interpretations may
+        include associations between molecular alterations (or lack of
+        alteration) and one or more therapies, diagnoses, prognoses or other
+        treatment decisions. These interpretations of clinical significance (or
+        lack of clinical significance) are purely for research purposes. A
+        finding of no interpretation does not necessarily indicate lack of
+        relevance for any specific variant or biomarker alteration.
+        Interpretations are not presented in ranked order of potential or
+        predicted importance. These interpretations make no promise or guarantee
+        of any clinical benefit (or lack of clinical benefit).
+      </p>
+      <p>
+        The civicdb.org website does not provide any medical or healthcare
+        products, services or advice, and is not for medical emergencies or
+        urgent situations.
+        <strong>
+          IF YOU THINK YOU MAY HAVE A MEDICAL EMERGENCY, CALL YOUR DOCTOR OR 911
+          IMMEDIATELY</strong
+        >. Information contained on this website is not a substitute for a
+        doctor's medical judgment or advice. We recommend that you discuss your
+        specific, individual health concerns with your doctor or health care
+        professional.
+      </p>
+    </nz-card>
+  </nz-col>
   <ng-container *ngIf="this.release$ | async as release">
-    <nz-row
-      *nzSpaceItem
-      nzAlign="middle"
-      nzJustify="center">
+    <nz-col [nzSpan]="24">
       <div
         id="release-info"
-        nz-typography>
+        nz-typography
+        nzType="secondary"
+        style="text-align: right; padding-right: 12px">
         CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
         <a
           [href]="release.html_url"
@@ -128,6 +110,6 @@
           History
         </a>
       </div>
-    </nz-row>
+    </nz-col>
   </ng-container>
-</nz-space>
+</nz-row>
