@@ -99,6 +99,7 @@ fragment GeneBaseFields on Gene {
     sourceUrl
     displayType
     sourceType
+    deprecated
   }
 }
 
