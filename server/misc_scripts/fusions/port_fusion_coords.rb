@@ -33,12 +33,12 @@ def create_exon_coords(variant, relation_name, coordinate_type, exon)
     coordinate_type: coordinate_type,
     variant_id: variant.id
     #TODO set curation status
-  ).first_or_create
+  ).first_or_create!
 
   rel = "#{relation_name}="
   variant.send(rel, coord)
 rescue => e
-  binding.pry
+  binding.irb
 end
 
 fusion_variants = VariantType.where(name: 'transcript_fusion').first.variants.where(deprecated: false).all
@@ -46,8 +46,8 @@ missense_variants = VariantType.where(name: ['missense_variant', 'deletion', 'in
   vt.variants.where(deprecated: false).all
 end
 
-#fusions = fusion_variants - missense_variants
-fusions = Array(Variant.find(503))
+fusions = fusion_variants - missense_variants
+#fusions = Array(Variant.find(503))
 suspected_mps = fusion_variants.to_a.intersection(missense_variants)
 
 suspected_mps_report = File.open("fusions_that_are_mps.tsv", 'w')
@@ -99,30 +99,6 @@ def call_api(url)
   end
 end
 
-#hgnc symbol?
-# def get_ensembl_id(gene_symbol)
-#   key =  "#{gene_symbol}:ensembl_id"
-#   url ="https://grch37.rest.ensembl.org/xrefs/symbol/human/#{gene_symbol}?object_type=gene;content-type=application/json"
-#   data = call_api(url, key)
-#   ensembl_candidates = data.select { |gene| gene["id"] =~ /^ENSG/ }
-#   if ensembl_candidates.size > 1
-#     binding.irb
-#     raise StandardError.new("More than one match found for #{gene_symbol}")
-#   elsif ensembl_candidates.size == 0
-#     raise StandardError.new("No matches found for #{gene_symbol}")
-#   end
-#
-#   ensembl_candidates.first['id']
-# end
-
-# def get_exons_for_region(region)
-#   key = "#{region}::exons"
-#   url = "https://grch37.rest.ensembl.org/overlap/region/human/#{region}?feature=exon;content-type=application/json" 
-#   data = call_api(url, key)
-#   data.sort_by { |exon| exon['start'] }
-# end
-
-#exon vs cds?
 def get_exons_for_ensembl_id(ensembl_id, variant, warning = nil)
   t = ensembl_id.split('.').first
   url = "https://grch37.rest.ensembl.org/overlap/id/#{ensembl_id}?content-type=application/json;feature=exon"
@@ -251,7 +227,6 @@ def port_variant_to_fusion(variant)
   else
     regex = Regexp.new(/^e(?<five_prime_exon>\d+)-e(?<three_prime_exon>\d+)$/)
     if match = possible_exons.match(regex)
-      binding.irb
       variant.name = "e.#{match[:five_prime_exon]}-e.#{match[:three_prime_exon]}"
       #TODO - create matching exon and variant coordinate entries
     else
@@ -267,8 +242,10 @@ end
 def update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
   if five_prime_partner_status == 'known'
     five_prime_coordinate = variant.variant_coordinates.first
-    five_prime_coordinate.coordinate_type = "Five Prime Fusion Coordinate"
-    five_prime_coordinate.save
+    if five_prime_coordinate
+      five_prime_coordinate.coordinate_type = "Five Prime Fusion Coordinate"
+      five_prime_coordinate.save!
+    end
     if three_prime_partner_status == 'known'
       coord = VariantCoordinate.where(
         variant: variant,
@@ -280,16 +257,18 @@ def update_variant_coordinates(variant, five_prime_partner_status, three_prime_p
         representative_transcript: variant.representative_transcript2,
         ensembl_version: variant.ensembl_version
         #TODO: set curation status
-      ).first_or_create
+      ).first_or_create!
     end
   elsif three_prime_partner_status == 'known'
     three_prime_coordinate = variant.variant_coordinates.first
-    three_prime_coordinate.coordinate_type = "Three Prime Fusion Coordinate"
-    three_prime_coordinate.chromosome =  variant.chromosome2
-    three_prime_coordinate.start = variant.start2
-    three_prime_coordinate.stop = variant.stop2
-    three_prime_coordinate.representative_transcript = variant.representative_transcript2
-    three_prime_coordinate.save
+    if three_prime_coordinate
+      three_prime_coordinate.coordinate_type = "Three Prime Fusion Coordinate"
+      three_prime_coordinate.chromosome =  variant.chromosome2
+      three_prime_coordinate.start = variant.start2
+      three_prime_coordinate.stop = variant.stop2
+      three_prime_coordinate.representative_transcript = variant.representative_transcript2
+      three_prime_coordinate.save!
+    end
   end
 end
 
@@ -324,9 +303,18 @@ begin
           #TODO: capture these in a file
           next
         end
+        variant = Variant.find(variant.id)
         update_variant_coordinates(variant, five_prime_partner_status, three_prime_partner_status)
-        #TODO create stub exon coordinates
-        #TODO set vicc compatible name?
+        if five_prime_partner_status == 'known'
+          variant.five_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime Start Exon Coordinate')
+          variant.five_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime End Exon Coordinate')
+        end
+        if three_prime_partner_status == 'known'
+          variant.three_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime Start Exon Coordinate')
+          variant.three_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime End Exon Coordinate')
+        end
+        variant.vicc_compliant_name = variant.generate_vicc_name
+        variant.save!
       end
       next
     end
