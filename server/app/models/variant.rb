@@ -56,8 +56,7 @@ class Variant < ApplicationRecord
   validate :correct_coordinate_type
   validates_with VariantFieldsValidator
 
-  #TODO renable me
-  #searchkick highlight: [:name, :aliases], callbacks: :async
+  searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :feature) }
 
   def self.valid_variant_coordinate_types
