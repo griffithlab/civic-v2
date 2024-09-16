@@ -15,7 +15,7 @@ query: |
           link
           ... on GeneVariant {
             alleleRegistryId
-            primaryCoordinates {
+            coordinates {
               start
               stop
               chromosome
