@@ -544,7 +544,7 @@ export type CoiFieldPolicy = {
 	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'deleted' | 'deletedAt' | 'id' | 'link' | 'name' | 'parsedComment' | 'title' | CommentKeySpecifier)[];
+export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'deleted' | 'deletedAt' | 'events' | 'id' | 'link' | 'name' | 'parsedComment' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	commentable?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -553,6 +553,7 @@ export type CommentFieldPolicy = {
 	creationEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleted?: FieldPolicy<any> | FieldReadFunction<any>,
 	deletedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
