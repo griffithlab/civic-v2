@@ -57,8 +57,6 @@ export type ActivityFeedCounts = {
   unfiltered: number
   page: number
   rows: number
-  hasNextPage: boolean
-  hasPreviousPage: boolean
 }
 
 export type FetchParams = {

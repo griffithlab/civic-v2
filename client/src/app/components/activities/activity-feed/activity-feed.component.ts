@@ -335,13 +335,24 @@ export class CvcActivityFeed {
     this.scrollDatasource = new Datasource<ActivityInterfaceEdge>({
       get: (index: number, count: number) => {
         return of({ index: index, count: count }).pipe(
-          withLatestFrom(this.edge$),
-          switchMap(([params, edges]) => {
+          withLatestFrom(this.edge$, this.pageInfo$),
+          switchMap(([params, edges, pageInfo]) => {
             const { index, count } = params
+            const edgesRequired = index + count // total edges needed to satisfy request
+            const hasNextPage = pageInfo.hasNextPage
 
-            if (edges.length >= index + count) {
-              // edges cached, return slice of current array
-              return of(edges.slice(index, index + count))
+            // at top of results, all rows loaded & cached, more edges requested than available
+            if (
+              index === 0 &&
+              hasNextPage === false &&
+              edges.length <= edgesRequired
+            ) {
+              return of(edges)
+            }
+
+            // edges cached, return slice of current array
+            if (edges.length >= edgesRequired) {
+              return of(edges.slice(index, edgesRequired))
             } else {
               // requested edges not cached, fetchMore to retrieve them
               const queryVars = {
@@ -355,7 +366,7 @@ export class CvcActivityFeed {
               this.fetchMore$.next(queryVars)
               return this.edge$.pipe(
                 skipUntil(this.onQueryComplete$), // wait until query complete (called from result$),
-                map((edges) => edges.slice(index, index + count))
+                map((edges) => edges.slice(index, edgesRequired))
                 // tag('configureDatasource.get() ++++++++++++++')
               )
             }
