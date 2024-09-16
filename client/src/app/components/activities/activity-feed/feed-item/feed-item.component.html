@@ -1,0 +1,126 @@
+@if (activity(); as activity) {
+  <nz-card
+    nzSize="small"
+    [nzTitle]="itemDescription"
+    [nzExtra]="itemDate"
+    [ngClass]="{
+      show: $showDetails(),
+      hide: !$showDetails(),
+    }">
+    <div
+      class="details"
+      [@details]="$showDetails() ? 'visible' : 'hidden'"
+      (@details.done)="onToggleDone$.next($showDetails())">
+      @if ($showDetails()) {
+        <cvc-activity-feed-item-details [cvcActivityId]="activity!.id">
+        </cvc-activity-feed-item-details>
+      }
+    </div>
+  </nz-card>
+  <ng-template #itemDescription>
+    <div
+      *ngIf="!simpleActivityTypes.has(activity.__typename)"
+      class="toggle"
+      (click)="$showDetails.set(!$showDetails())">
+      <span
+        nz-icon
+        nzType="caret-right"
+        nzTheme="outline"></span>
+    </div>
+    <div class="description">
+      <!-- {{ activity.__typename }} -->
+      @if (scope().mode !== 'USER') {
+        <cvc-user-tag [user]="activity.user"></cvc-user-tag>
+      }
+      <span
+        class="verbiage"
+        nz-typography
+        nzType="secondary">
+        {{ activity.verbiage }}
+      </span>
+      @if (scope().mode !== 'SUBJECT') {
+        <ng-container
+          *ngTemplateOutlet="
+            subject;
+            context: {
+              $implicit: activity.subject,
+              isScrolling: $scroller().isScrolling,
+            }
+          ">
+        </ng-container>
+      }
+      @if (activity.organization && scope().mode !== 'ORGANIZATION') {
+        <div class="organization">
+          <span
+            class="verbiage"
+            nz-typography
+            nzType="secondary">
+            for
+          </span>
+          <cvc-organization-tag
+            [org]="activity.organization"
+            [enablePopover]="!$scroller().isScrolling"></cvc-organization-tag>
+        </div>
+      }
+    </div>
+  </ng-template>
+  <ng-template #itemDate>
+    <span
+      nz-typography
+      nzType="secondary">
+      {{ activity.createdAt | timeAgo }}
+    </span>
+  </ng-template>
+  <ng-template
+    #subject
+    let-subject
+    let-isScrolling="isScrolling">
+    <ng-container [ngSwitch]="subject.__typename">
+      <cvc-feature-tag
+        *ngSwitchCase="'Feature'"
+        [feature]="subject"
+        [enablePopover]="!isScrolling"></cvc-feature-tag>
+      <cvc-assertion-tag
+        *ngSwitchCase="'Assertion'"
+        [assertion]="subject"
+        [enablePopover]="!isScrolling"></cvc-assertion-tag>
+      <cvc-evidence-tag
+        *ngSwitchCase="'EvidenceItem'"
+        [evidence]="subject"
+        [enablePopover]="!isScrolling"></cvc-evidence-tag>
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'GeneVariant'"
+        [variant]="subject"
+        [feature]="subject.feature"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'FactorVariant'"
+        [variant]="subject"
+        [feature]="subject.feature"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      <cvc-revision-tag
+        *ngSwitchCase="'Revision'"
+        [revision]="$any(subject)"
+        [enablePopover]="!isScrolling"></cvc-revision-tag>
+      <cvc-variant-group-tag
+        *ngSwitchCase="'VariantGroup'"
+        [variantgroup]="subject"
+        [enablePopover]="!isScrolling"></cvc-variant-group-tag>
+      <cvc-source-tag
+        *ngSwitchCase="'Source'"
+        mode="concise"
+        [source]="$any(subject)"
+        [enablePopover]="!isScrolling"></cvc-source-tag>
+      <cvc-molecular-profile-tag
+        *ngSwitchCase="'MolecularProfile'"
+        [molecularProfile]="subject"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
+      <span *ngSwitchDefault>
+        <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
+      </span>
+    </ng-container>
+  </ng-template>
+}

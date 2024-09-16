@@ -5,6 +5,6 @@ class ModerateEvidenceItemActivity < Activity
 
   def generate_verbiage
     action = self.events[0].action
-    "#{action} evidence item"
+    "#{action}"
   end
 end

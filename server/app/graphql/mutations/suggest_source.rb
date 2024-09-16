@@ -33,7 +33,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       if mp.blank?
         errors << "Molecular Profile with ID #{molecular_profile_id} does not exist in CIViC"
       elsif mp.deprecated
-        errors << "Molecuarl Profile with ID #{molecular_profile_id} is deprecated"
+        errors << "Molecular Profile with ID #{molecular_profile_id} is deprecated"
       end
     end
 

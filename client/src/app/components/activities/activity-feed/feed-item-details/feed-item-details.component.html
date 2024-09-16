@@ -1,0 +1,94 @@
+@if ($activity(); as activity) {
+  @switch (activity!.__typename) {
+    @case ('AcceptRevisionsActivity') {
+      <cvc-accept-revisions-activity-details
+        [cvcAcceptRevisionActivity]="activity">
+      </cvc-accept-revisions-activity-details>
+    }
+    @case ('CommentActivity') {
+      <cvc-comment-activity-details [cvcCommentActivity]="activity">
+      </cvc-comment-activity-details>
+    }
+    @case ('CreateComplexMolecularProfileActivity') {
+      <cvc-create-mp-activity-details [cvcCreateMpActivity]="activity">
+      </cvc-create-mp-activity-details>
+    }
+    @case ('CreateVariantActivity') {
+      <cvc-create-variant-activity-details
+        [cvcCreateVariantActivity]="activity">
+      </cvc-create-variant-activity-details>
+    }
+    @case ('DeprecateComplexMolecularProfileActivity') {
+      <cvc-deprecate-mp-activity-details [cvcDeprecateMpActivity]="activity">
+      </cvc-deprecate-mp-activity-details>
+    }
+    @case ('DeprecateVariantActivity') {
+      <cvc-deprecate-variant-activity-details
+        [cvcDeprecateVariantActivity]="activity">
+      </cvc-deprecate-variant-activity-details>
+    }
+    @case ('DeprecateFeatureActivity') {
+      <cvc-deprecate-feature-activity-details
+        [cvcDeprecateFeatureActivity]="activity">
+      </cvc-deprecate-feature-activity-details>
+    }
+    @case ('FlagEntityActivity') {
+      <cvc-flag-entity-activity-details [cvcFlagEntityActivity]="activity">
+      </cvc-flag-entity-activity-details>
+    }
+    @case ('ModerateAssertionActivity') {
+      <cvc-moderate-assertion-activity-details
+        [cvcModerateAssertionActivity]="activity">
+      </cvc-moderate-assertion-activity-details>
+    }
+    @case ('ModerateEvidenceItemActivity') {
+      <cvc-moderate-evidence-activity-details
+        [cvcModerateEvidenceActivity]="activity">
+      </cvc-moderate-evidence-activity-details>
+    }
+    @case ('RejectRevisionsActivity') {
+      <cvc-reject-revisions-activity-details
+        [cvcRejectRevisionsActivity]="activity">
+      </cvc-reject-revisions-activity-details>
+    }
+    @case ('ResolveFlagActivity') {
+      <cvc-resolve-flag-activity-details [cvcResolveFlagActivity]="activity">
+      </cvc-resolve-flag-activity-details>
+    }
+    @case ('SubmitAssertionActivity') {
+      <cvc-submit-assertion-activity-details
+        [cvcSubmitAssertionActivity]="activity">
+      </cvc-submit-assertion-activity-details>
+    }
+    @case ('SubmitEvidenceItemActivity') {
+      <cvc-submit-evidence-activity-details
+        [cvcSubmitEvidenceActivity]="activity">
+      </cvc-submit-evidence-activity-details>
+    }
+    @case ('SuggestRevisionSetActivity') {
+      <cvc-suggest-revision-set-activity-details
+        [cvcSuggestRevisionSetActivity]="activity">
+      </cvc-suggest-revision-set-activity-details>
+    }
+    @case ('SuggestSourceActivity') {
+      <cvc-suggest-source-activity-details
+        [cvcSuggestSourceActivity]="activity">
+      </cvc-suggest-source-activity-details>
+    }
+    @case ('UpdateSourceSuggestionStatusActivity') {
+      <cvc-update-source-suggestion-activity-details
+        [cvcUpdateSourceSuggestionStatusActivity]="activity">
+      </cvc-update-source-suggestion-activity-details>
+    }
+  }
+} @else {
+  @if ($loading()) {
+    <nz-skeleton
+      [nzActive]="true"
+      [nzTitle]="false"
+      [nzParagraph]="{
+        rows: 3,
+        width: ['100%', '100%', '100%'],
+      }"></nz-skeleton>
+  }
+}
