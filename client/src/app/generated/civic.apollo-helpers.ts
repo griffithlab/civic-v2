@@ -968,7 +968,7 @@ export type EvidenceItemsByTypeFieldPolicy = {
 	predisposingCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	prognosticCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ExonCoordinateKeySpecifier = ('chromosome' | 'coordinateType' | 'ensemblId' | 'ensemblVersion' | 'events' | 'exon' | 'exonOffset' | 'exonOffsetDirection' | 'id' | 'link' | 'name' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'stop' | 'strand' | ExonCoordinateKeySpecifier)[];
+export type ExonCoordinateKeySpecifier = ('chromosome' | 'coordinateType' | 'ensemblId' | 'ensemblVersion' | 'events' | 'exon' | 'exonOffset' | 'exonOffsetDirection' | 'id' | 'lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'referenceBuild' | 'representativeTranscript' | 'revisions' | 'start' | 'stop' | 'strand' | ExonCoordinateKeySpecifier)[];
 export type ExonCoordinateFieldPolicy = {
 	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
 	coordinateType?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -979,10 +979,14 @@ export type ExonCoordinateFieldPolicy = {
 	exonOffset?: FieldPolicy<any> | FieldReadFunction<any>,
 	exonOffsetDirection?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	openRevisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
 	representativeTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	start?: FieldPolicy<any> | FieldReadFunction<any>,
 	stop?: FieldPolicy<any> | FieldReadFunction<any>,
 	strand?: FieldPolicy<any> | FieldReadFunction<any>
@@ -2437,18 +2441,22 @@ export type VariantAliasKeySpecifier = ('name' | VariantAliasKeySpecifier)[];
 export type VariantAliasFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantCoordinateKeySpecifier = ('chromosome' | 'coordinateType' | 'ensemblVersion' | 'events' | 'id' | 'link' | 'name' | 'referenceBases' | 'referenceBuild' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | VariantCoordinateKeySpecifier)[];
+export type VariantCoordinateKeySpecifier = ('chromosome' | 'coordinateType' | 'ensemblVersion' | 'events' | 'id' | 'lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'openRevisionCount' | 'referenceBases' | 'referenceBuild' | 'representativeTranscript' | 'revisions' | 'start' | 'stop' | 'variantBases' | VariantCoordinateKeySpecifier)[];
 export type VariantCoordinateFieldPolicy = {
 	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
 	coordinateType?: FieldPolicy<any> | FieldReadFunction<any>,
 	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	openRevisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBases?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
 	representativeTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	start?: FieldPolicy<any> | FieldReadFunction<any>,
 	stop?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantBases?: FieldPolicy<any> | FieldReadFunction<any>

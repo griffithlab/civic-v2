@@ -1,6 +1,7 @@
 module Types::Entities
   class ExonCoordinateType < Types::BaseObject
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::WithRevisions
 
     field :id, Int, null: false
     field :representative_transcript, String, null: true

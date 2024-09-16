@@ -2189,7 +2189,7 @@ export enum EvidenceType {
   Prognostic = 'PROGNOSTIC'
 }
 
-export type ExonCoordinate = EventSubject & {
+export type ExonCoordinate = EventSubject & WithRevisions & {
   __typename: 'ExonCoordinate';
   chromosome?: Maybe<Scalars['String']['output']>;
   coordinateType: ExonCoordinateType;
@@ -2201,10 +2201,15 @@ export type ExonCoordinate = EventSubject & {
   exonOffset?: Maybe<Scalars['Int']['output']>;
   exonOffsetDirection?: Maybe<Direction>;
   id: Scalars['Int']['output'];
+  lastAcceptedRevisionEvent?: Maybe<Event>;
+  lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  openRevisionCount: Scalars['Int']['output'];
   referenceBuild?: Maybe<ReferenceBuild>;
   representativeTranscript?: Maybe<Scalars['String']['output']>;
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
   start?: Maybe<Scalars['Int']['output']>;
   stop?: Maybe<Scalars['Int']['output']>;
   strand?: Maybe<Direction>;
@@ -2220,6 +2225,19 @@ export type ExonCoordinateEventsArgs = {
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   originatingUserId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<DateSort>;
+};
+
+
+export type ExonCoordinateRevisionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  fieldName?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  originatingUserId?: InputMaybe<Scalars['Int']['input']>;
+  revisionSetId?: InputMaybe<Scalars['Int']['input']>;
+  sortBy?: InputMaybe<DateSort>;
+  status?: InputMaybe<RevisionStatus>;
 };
 
 export enum ExonCoordinateType {
@@ -7124,7 +7142,7 @@ export type VariantComponent = {
   variantId: Scalars['Int']['input'];
 };
 
-export type VariantCoordinate = EventSubject & {
+export type VariantCoordinate = EventSubject & WithRevisions & {
   __typename: 'VariantCoordinate';
   chromosome?: Maybe<Scalars['String']['output']>;
   coordinateType: VariantCoordinateType;
@@ -7132,11 +7150,16 @@ export type VariantCoordinate = EventSubject & {
   /** List and filter events for an object */
   events: EventConnection;
   id: Scalars['Int']['output'];
+  lastAcceptedRevisionEvent?: Maybe<Event>;
+  lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  openRevisionCount: Scalars['Int']['output'];
   referenceBases?: Maybe<Scalars['String']['output']>;
   referenceBuild?: Maybe<ReferenceBuild>;
   representativeTranscript?: Maybe<Scalars['String']['output']>;
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
   start?: Maybe<Scalars['Int']['output']>;
   stop?: Maybe<Scalars['Int']['output']>;
   variantBases?: Maybe<Scalars['String']['output']>;
@@ -7152,6 +7175,19 @@ export type VariantCoordinateEventsArgs = {
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   originatingUserId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<DateSort>;
+};
+
+
+export type VariantCoordinateRevisionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  fieldName?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  originatingUserId?: InputMaybe<Scalars['Int']['input']>;
+  revisionSetId?: InputMaybe<Scalars['Int']['input']>;
+  sortBy?: InputMaybe<DateSort>;
+  status?: InputMaybe<RevisionStatus>;
 };
 
 export enum VariantCoordinateType {
@@ -9633,15 +9669,15 @@ export type CoordinateIdsForVariantQueryVariables = Exact<{
 }>;
 
 
-export type CoordinateIdsForVariantQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant' } | { __typename: 'FusionVariant', fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', id: number } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', id: number } | undefined } | { __typename: 'GeneVariant', coordinates?: { __typename: 'VariantCoordinate', id: number } | undefined } | { __typename: 'Variant' } | undefined };
+export type CoordinateIdsForVariantQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant', openRevisionCount: number } | { __typename: 'FusionVariant', openRevisionCount: number, fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', openRevisionCount: number, id: number } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', openRevisionCount: number, id: number } | undefined } | { __typename: 'GeneVariant', openRevisionCount: number, coordinates?: { __typename: 'VariantCoordinate', openRevisionCount: number, id: number } | undefined } | { __typename: 'Variant', openRevisionCount: number } | undefined };
 
-type VariantCoordinateIds_FactorVariant_Fragment = { __typename: 'FactorVariant' };
+type VariantCoordinateIds_FactorVariant_Fragment = { __typename: 'FactorVariant', openRevisionCount: number };
 
-type VariantCoordinateIds_FusionVariant_Fragment = { __typename: 'FusionVariant', fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', id: number } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', id: number } | undefined };
+type VariantCoordinateIds_FusionVariant_Fragment = { __typename: 'FusionVariant', openRevisionCount: number, fivePrimeEndExonCoordinates?: { __typename: 'ExonCoordinate', openRevisionCount: number, id: number } | undefined, threePrimeStartExonCoordinates?: { __typename: 'ExonCoordinate', openRevisionCount: number, id: number } | undefined };
 
-type VariantCoordinateIds_GeneVariant_Fragment = { __typename: 'GeneVariant', coordinates?: { __typename: 'VariantCoordinate', id: number } | undefined };
+type VariantCoordinateIds_GeneVariant_Fragment = { __typename: 'GeneVariant', openRevisionCount: number, coordinates?: { __typename: 'VariantCoordinate', openRevisionCount: number, id: number } | undefined };
 
-type VariantCoordinateIds_Variant_Fragment = { __typename: 'Variant' };
+type VariantCoordinateIds_Variant_Fragment = { __typename: 'Variant', openRevisionCount: number };
 
 export type VariantCoordinateIdsFragment = VariantCoordinateIds_FactorVariant_Fragment | VariantCoordinateIds_FusionVariant_Fragment | VariantCoordinateIds_GeneVariant_Fragment | VariantCoordinateIds_Variant_Fragment;
 
@@ -11936,6 +11972,7 @@ export const GeneBaseFieldsFragmentDoc = gql`
     sourceUrl
     displayType
     sourceType
+    deprecated
   }
 }
     `;
@@ -13217,16 +13254,20 @@ export const VariantDetailFieldsFragmentDoc = gql`
 export const VariantCoordinateIdsFragmentDoc = gql`
     fragment VariantCoordinateIds on VariantInterface {
   __typename
+  openRevisionCount
   ... on GeneVariant {
     coordinates {
+      openRevisionCount
       id
     }
   }
   ... on FusionVariant {
     fivePrimeEndExonCoordinates {
+      openRevisionCount
       id
     }
     threePrimeStartExonCoordinates {
+      openRevisionCount
       id
     }
   }

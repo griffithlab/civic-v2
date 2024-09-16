@@ -144,6 +144,7 @@
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
+      "ExonCoordinate",
       "Factor",
       "FactorVariant",
       "Feature",
@@ -153,6 +154,7 @@
       "GeneVariant",
       "MolecularProfile",
       "Variant",
+      "VariantCoordinate",
       "VariantGroup"
     ]
   }

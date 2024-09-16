@@ -322,7 +322,7 @@ export class CvcFusionVariantSelectForm {
                     props: {
                       label: "3' Start Exon",
                       tooltip:
-                        'The exon number counted from the 5’ end of the transcript.',
+                        'The exon number counted from the 3’ end of the transcript.',
                       required: !threePrimeDisabled,
                       disabled: threePrimeDisabled,
                     },

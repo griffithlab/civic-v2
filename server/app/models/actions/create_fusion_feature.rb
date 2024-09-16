@@ -42,7 +42,7 @@ module Actions
       vicc_compliant_name = stubbed_variant.generate_vicc_name
 
       cmd = Actions::CreateVariant.new(
-        variant_name: variant_name,
+        variant_name: stubbed_variant.name,
         feature_id: feature.id,
         originating_user: originating_user,
         organization_id: organization_id,
