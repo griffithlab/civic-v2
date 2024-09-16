@@ -15,7 +15,7 @@
       [nzOptionOverflowSize]="12"
       [nzOptionHeightPx]="28">
       <nz-option
-        *ngFor="let activity of cvcFilterOptions().activityTypes"
+        *ngFor="let activity of cvcFilterOptions().activityTypes | enumSort"
         nzCustomContent
         [nzLabel]="activity | enumToTitle"
         [nzValue]="activity">
@@ -56,7 +56,7 @@
         [nzOptionHeightPx]="28"
         [nzOptionOverflowSize]="10">
         <nz-option
-          *ngFor="let subject of cvcFilterOptions().subjectTypes"
+          *ngFor="let subject of cvcFilterOptions().subjectTypes | enumSort"
           nzCustomContent
           [nzLabel]="subject | enumToTitle"
           [nzValue]="subject">
@@ -201,16 +201,6 @@
       nzPlaceHolder="Select Date">
     </nz-date-picker>
   </nz-col>
-  <!-- <nz-col nzSpan="24">
-    <pre>
-      Event Type: {{ eventType() | json }}
-      Organization Id: {{ organizationId() | json }}
-      Subject Type: {{ subjectType() | json }}
-      User ID: {{ userId() | json }}
-      occurred After: {{ occurredAfter() | json }}
-      occurred Before: {{ occurredBefore() | json }}
-    </pre>
-  </nz-col> -->
 </nz-row>
 <!-- TEMPLATES -->
 

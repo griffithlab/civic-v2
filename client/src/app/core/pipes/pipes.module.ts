@@ -31,6 +31,7 @@ import { OrdinalPipe } from './ordinal-number'
 import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.pipe'
 import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
 import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
+import { SortEnumPipe } from './sort-enum.pipe'
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
     EntityColorPipe,
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
+    SortEnumPipe,
     TypenameToIconPipe,
     IsArrayPipe,
     IconNameForActivityTypeInputPipe,
@@ -98,6 +100,7 @@ import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
     EntityColorPipe,
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
+    SortEnumPipe,
     TypenameToIconPipe,
     IconNameForActivityTypeInputPipe,
   ],

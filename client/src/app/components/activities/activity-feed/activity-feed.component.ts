@@ -150,7 +150,7 @@ export class CvcActivityFeed {
   queryType$: Subject<'refetch' | 'fetchMore'>
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
-  pageInfo$: Subject<PageInfo>
+  pageInfo$: Observable<PageInfo>
   onZeroRows$: Subject<boolean>
   onAllRowsFetched$: Subject<boolean>
 
@@ -183,7 +183,7 @@ export class CvcActivityFeed {
     this.fetchMore$ = new Subject()
     this.init$ = new Subject()
     this.queryType$ = new Subject()
-    this.pageInfo$ = new Subject()
+    this.pageInfo$ = new Observable()
     this.onQueryComplete$ = new Subject()
     this.onZeroRows$ = new Subject()
     this.onAllRowsFetched$ = new Subject()
@@ -279,6 +279,8 @@ export class CvcActivityFeed {
       filter(isNonNulled),
       shareReplay(1)
     )
+
+    this.pageInfo$ = connection$.pipe(pluck('pageInfo'), filter(isNonNulled))
 
     this.counts = toSignal(
       connection$.pipe(
