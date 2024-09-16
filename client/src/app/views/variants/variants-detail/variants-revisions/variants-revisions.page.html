@@ -1,10 +1,23 @@
 <nz-tabset [nzAnimated]="false">
   @for (tab of tabs(); track tab.name) {
-    <nz-tab [nzTitle]="tab.name">
+    <nz-tab [nzTitle]="tabTitle">
       <nz-template nz-tab>
         <cvc-revisions-list-and-filter
           [moderated]="tab.moderated"></cvc-revisions-list-and-filter>
       </nz-template>
     </nz-tab>
+    <ng-template #tabTitle>
+      {{ tab.name }}
+      @if (tab.openCount > 0) {
+        <nz-badge
+          nzStandalone
+          [nzCount]="tab.openCount"
+          [nzStyle]="{
+            transform: 'scale(0.75, 0.75) translate(0, -2px)',
+            backgroundColor: '#ff4d4f',
+          }">
+        </nz-badge>
+      }
+    </ng-template>
   }
 </nz-tabset>

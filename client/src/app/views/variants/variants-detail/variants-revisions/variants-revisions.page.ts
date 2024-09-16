@@ -21,6 +21,7 @@ import { filter, map } from 'rxjs/operators'
 interface RevisionsTab {
   name: string
   moderated: ModeratedInput
+  openCount: number
 }
 
 @Component({
@@ -50,6 +51,7 @@ export class VariantsRevisionsPage implements OnDestroy, OnInit {
         this.tabs.set([
           {
             name: 'Variant Fields',
+            openCount: 0,
             moderated: {
               id: variantId,
               entityType: ModeratedEntities.Variant,
@@ -71,23 +73,28 @@ export class VariantsRevisionsPage implements OnDestroy, OnInit {
   }
 
   updateTabs(variant: VariantCoordinateIdsFragment) {
+    //the open revision count reported from the server includes revisions to coordinate fields
+    //so we have to do some math here to get the correct number just for the variant fields tab
+    let currentTabs = this.tabs()
     if (variant.__typename == 'GeneVariant' && variant.coordinates) {
-      this.tabs.set([
-        ...this.tabs(),
-        {
-          name: 'Variant Coordinates',
-          moderated: {
-            id: variant.coordinates.id,
-            entityType: ModeratedEntities.VariantCoordinates,
-          },
+      currentTabs[0].openCount =
+        variant.openRevisionCount - variant.coordinates.openRevisionCount
+      currentTabs.push({
+        name: 'Variant Coordinates',
+        openCount: variant.coordinates.openRevisionCount,
+        moderated: {
+          id: variant.coordinates.id,
+          entityType: ModeratedEntities.VariantCoordinates,
         },
-      ])
+      })
     } else if (variant.__typename == 'FusionVariant') {
-      let currentTabs = this.tabs()
-
+      let variantFieldCount = variant.openRevisionCount
       if (variant.fivePrimeEndExonCoordinates) {
+        variantFieldCount -=
+          variant.fivePrimeEndExonCoordinates.openRevisionCount
         currentTabs.push({
           name: "5' Exon End Coordinates",
+          openCount: variant.fivePrimeEndExonCoordinates.openRevisionCount,
           moderated: {
             id: variant.fivePrimeEndExonCoordinates.id,
             entityType: ModeratedEntities.ExonCoordinates,
@@ -95,17 +102,20 @@ export class VariantsRevisionsPage implements OnDestroy, OnInit {
         })
       }
       if (variant.threePrimeStartExonCoordinates) {
+        variantFieldCount -=
+          variant.threePrimeStartExonCoordinates.openRevisionCount
         currentTabs.push({
           name: "3' Exon Start Coordinates",
+          openCount: variant.threePrimeStartExonCoordinates.openRevisionCount,
           moderated: {
             id: variant.threePrimeStartExonCoordinates.id,
             entityType: ModeratedEntities.ExonCoordinates,
           },
         })
       }
-
-      this.tabs.set(currentTabs)
+      currentTabs[0].openCount = variantFieldCount
     }
+    this.tabs.set(currentTabs)
   }
 
   ngOnDestroy() {
