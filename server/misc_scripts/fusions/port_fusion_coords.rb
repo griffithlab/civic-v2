@@ -113,7 +113,7 @@ def get_exons_for_ensembl_id(ensembl_id, variant, warning = nil)
         return [nil, err, warning]
       end
     elsif error_message == "ID '#{ensembl_id}' not found"
-      return [nil, "Transcript doesnt exist in GRCh37 at any version: #{ensembl_id}", warning]
+      return [nil, "Transcript doesn't exist in GRCh37 at any version: #{ensembl_id}", warning]
     else
       binding.irb
       return [nil, nil, warning]

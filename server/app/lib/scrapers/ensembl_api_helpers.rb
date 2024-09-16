@@ -24,7 +24,7 @@ module Scrapers
                 return EnsemblResult.new(nil, res.error, warning)
               end
           elsif error_message == "ID '#{ensembl_id}' not found"
-            return EnsemblResult.new(nil, "Transcript doesnt exist in GRCh37 at any version: #{ensembl_id}", warning)
+            return EnsemblResult.new(nil, "Transcript doesn't exist in GRCh37 at any version: #{ensembl_id}", warning)
           else
             return EnsemblResult.new(nil, nil, warning)
           end

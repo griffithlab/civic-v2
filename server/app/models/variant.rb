@@ -98,8 +98,7 @@ class Variant < ApplicationRecord
   end
 
   def reindex_mps
-    #TODO RENABLE ME
-    #self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
+    self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 
   def on_revision_accepted
