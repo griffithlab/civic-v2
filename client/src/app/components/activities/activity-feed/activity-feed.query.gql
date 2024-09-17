@@ -99,6 +99,13 @@ fragment ActivityFeedItemBase on ActivityInterface {
         link
       }
     }
+    ... on FusionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
   }
 }
 
