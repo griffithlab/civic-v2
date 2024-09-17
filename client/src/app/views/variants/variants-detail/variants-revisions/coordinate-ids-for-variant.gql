@@ -1,0 +1,26 @@
+query CoordinateIdsForVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    ...VariantCoordinateIds
+  }
+}
+
+fragment VariantCoordinateIds on VariantInterface {
+    __typename
+    openRevisionCount
+  ... on GeneVariant {
+    coordinates {
+      openRevisionCount
+      id
+    }
+  }
+  ... on FusionVariant {
+    fivePrimeEndExonCoordinates {
+      openRevisionCount
+      id
+    }
+    threePrimeStartExonCoordinates {
+      openRevisionCount
+      id
+    }
+  }
+}

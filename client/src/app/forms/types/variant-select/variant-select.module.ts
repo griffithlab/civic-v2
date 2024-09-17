@@ -38,6 +38,7 @@ import { TableScrollerDirective } from './variant-manager/table-scroller.directi
 import { CvcVariantManagerComponent } from './variant-manager/variant-manager.component'
 import { CvcVariantQuickAddForm } from './variant-quick-add/variant-quick-add.form'
 import { CvcVariantSelectField } from './variant-select.type'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 const typeConfig: ConfigOption = {
   types: [
@@ -109,6 +110,8 @@ const typeConfig: ConfigOption = {
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzModalModule,
+    NzSpaceModule,
     PushPipe,
     ReactiveFormsModule,
   ],

@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { ModeratedEntities } from '@app/generated/civic.apollo'
+import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -8,15 +8,16 @@ import { Subscription } from 'rxjs'
   templateUrl: './evidence-revisions.page.html',
 })
 export class EvidenceRevisionsPage implements OnDestroy {
-  eid!: number
-  entityType!: ModeratedEntities
+  subject!: ModeratedInput
 
   routeSub: Subscription
 
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.eid = +params.evidenceId
-      this.entityType = ModeratedEntities['EvidenceItem']
+      this.subject = {
+        id: +params.evidenceId,
+        entityType: ModeratedEntities['EvidenceItem'],
+      }
     })
   }
 

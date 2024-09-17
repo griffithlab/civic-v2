@@ -12,7 +12,7 @@ class Mutations::CreateFeature < Mutations::MutationWithOrg
     description: 'The newly created Feature.'
 
   field :new, Boolean, null: false,
-    description: 'True if the feature was newly created. False if the returned variant was already in the database.'
+    description: 'True if the feature was newly created. False if the returned feature was already in the database.'
 
   def ready?(organization_id: nil, **kwargs)
     validate_user_logged_in

@@ -24,7 +24,7 @@ module Loaders
       Variant.where(id: resolved_variants.keys)
         .each { |v| resolved_variants[v.id] = v }
 
-      Feature.where(id: resolved_variants.map{|id, v| v.feature_id})
+      Feature.includes(:feature_instance).where(id: resolved_variants.map{|id, v| v.feature_id})
         .each { |f| resolved_features[f.id] = f }
 
       ids.each do |id|

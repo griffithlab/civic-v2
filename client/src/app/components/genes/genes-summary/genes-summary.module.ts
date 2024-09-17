@@ -17,6 +17,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profiles/molecular-profiles-menu/molecular-profiles-menu.module'
+import { CvcGeneBaseSummaryComponent } from '../gene-base-summary/gene-base-summary.page'
 
 @NgModule({
   declarations: [GenesSummaryPage],
@@ -40,6 +41,7 @@ import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profil
     CvcVariantsMenuModule,
     CvcMyGeneInfoModule,
     CvcMolecularProfilesMenuModule,
+    CvcGeneBaseSummaryComponent,
   ],
   exports: [GenesSummaryPage],
 })

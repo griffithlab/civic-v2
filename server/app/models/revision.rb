@@ -46,7 +46,11 @@ class Revision < ApplicationRecord
   end
 
   def link
-    "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.subject_type]}/#{self.subject_id}/revisions"
+    if self.subject_type == 'ExonCoordinate' || self.subject_type == 'VariantCoordinate'
+      "/variants/#{self.subject.variant.id}/revisions"
+    else
+      "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.subject_type]}/#{self.subject_id}/revisions"
+    end
   end
 
   def self.timepoint_query

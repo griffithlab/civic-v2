@@ -67,10 +67,17 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
   def resolve(fields:, id:, organization_id: nil, comment: nil)
     updated_variant = InputAdaptors::GeneVariantInputAdaptor.new(variant_input_object: fields).perform
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
+    variant_revisions_obj = Activities::RevisedObjectPair.new(existing_obj: variant, updated_obj: updated_variant)
 
+    updated_coordinates = InputAdaptors::CoordinateInputAdaptor.new(coordinate_input_object: fields.coordinates).perform
+    updated_coordinates.variant_id = variant.id
+    updated_coordinates.coordinate_type = 'Gene Variant Coordinate'
+    coordinate_revisions_obj = Activities::RevisedObjectPair.new(existing_obj: variant.coordinates, updated_obj: updated_coordinates)
+
+    #set variant id?
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: variant,
-      updated_obj: updated_variant,
+      revised_objects: [variant_revisions_obj, coordinate_revisions_obj],
+      subject: variant,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment
