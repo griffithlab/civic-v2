@@ -92,6 +92,13 @@
         link
       }
     }
+    ... on FusionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
   }
 }
     `,vn=t.J1`
