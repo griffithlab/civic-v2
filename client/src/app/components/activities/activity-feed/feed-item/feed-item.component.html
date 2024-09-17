@@ -100,6 +100,12 @@
         [feature]="subject.feature"
         [truncateLongName]="true"
         [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      <cvc-feature-variant-tag
+        *ngSwitchCase="'FusionVariant'"
+        [variant]="subject"
+        [feature]="subject.feature"
+        [truncateLongName]="true"
+        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
       <cvc-revision-tag
         *ngSwitchCase="'Revision'"
         [revision]="$any(subject)"
