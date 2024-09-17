@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { ModeratedEntities } from '@app/generated/civic.apollo'
+import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -9,15 +9,16 @@ import { Subscription } from 'rxjs'
   styleUrls: ['./features-revisions.page.less'],
 })
 export class FeaturesRevisionsPage implements OnDestroy {
-  featureId!: number
-  entityType!: ModeratedEntities
+  subject!: ModeratedInput
 
   routeSub: Subscription
 
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.featureId = +params.featureId
-      this.entityType = ModeratedEntities.Feature
+      this.subject = {
+        id: +params.featureId,
+        entityType: ModeratedEntities.Feature,
+      }
     })
   }
 

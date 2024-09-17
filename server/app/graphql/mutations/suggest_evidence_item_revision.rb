@@ -55,9 +55,10 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment:)
     updated_evidence = InputAdaptors::EvidenceItemInputAdaptor.new(evidence_input_object: fields).perform
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: evidence_item, updated_obj: updated_evidence)
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: evidence_item,
-      updated_obj: updated_evidence,
+      revised_objects: revised_objs,
+      subject: evidence_item,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment

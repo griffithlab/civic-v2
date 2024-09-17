@@ -1,10 +1,17 @@
 <ng-container *ngIf="variantId && variantType; else loadingVariant">
-  @switch(variantType) { @case("GeneVariant") {
-  <cvc-gene-variant-revise-form [variantId]="variantId">
-  </cvc-gene-variant-revise-form>
-  } @case("FactorVariant") {
-  <cvc-factor-variant-revise-form [variantId]="variantId">
-  </cvc-factor-variant-revise-form>
-  } }
+  @switch (variantType) {
+    @case ('GeneVariant') {
+      <cvc-gene-variant-revise-form [variantId]="variantId">
+      </cvc-gene-variant-revise-form>
+    }
+    @case ('FactorVariant') {
+      <cvc-factor-variant-revise-form [variantId]="variantId">
+      </cvc-factor-variant-revise-form>
+    }
+    @case ('FusionVariant') {
+      <cvc-fusion-variant-revise-form [variantId]="variantId">
+      </cvc-fusion-variant-revise-form>
+    }
+  }
 </ng-container>
 <ng-template #loadingVariant>Loading Variant...</ng-template>

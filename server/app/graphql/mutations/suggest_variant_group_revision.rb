@@ -65,10 +65,11 @@ class Mutations::SuggestVariantGroupRevision < Mutations::MutationWithOrg
       source_ids: fields.source_ids,
       variant_ids: fields.variant_ids
     )
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: variant_group, updated_obj: updated_variant_group)
 
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: variant_group,
-      updated_obj: updated_variant_group,
+      revised_objects: revised_objs,
+      subject: variant_group,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment

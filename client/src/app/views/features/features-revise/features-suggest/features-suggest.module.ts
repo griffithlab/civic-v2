@@ -10,6 +10,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module'
 import { CvcGeneReviseFormModule } from '@app/forms/config/gene-revise/gene-revise.form.module'
 import { CvcFactorReviseForm } from '@app/forms/config/factor-revise/factor-revise.form'
+import { CvcFusionReviseForm } from '@app/forms/config/fusion-revise/fusion-revise.form'
 
 @NgModule({
   declarations: [FeaturesSuggestPage],
@@ -25,6 +26,7 @@ import { CvcFactorReviseForm } from '@app/forms/config/factor-revise/factor-revi
     CvcGeneReviseFormModule,
     CvcSectionNavigationModule,
     CvcFactorReviseForm,
+    CvcFusionReviseForm
   ],
 })
 export class FeaturesSuggestModule {}

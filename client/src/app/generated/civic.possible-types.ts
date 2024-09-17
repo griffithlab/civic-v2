@@ -42,6 +42,8 @@
       "FactorVariant",
       "Feature",
       "Flag",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -59,6 +61,8 @@
       "FactorVariant",
       "Feature",
       "Flag",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -68,11 +72,15 @@
     ],
     "EventSubject": [
       "Assertion",
+      "Comment",
       "EvidenceItem",
+      "ExonCoordinate",
       "Factor",
       "FactorVariant",
       "Feature",
       "Flag",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -82,10 +90,12 @@
       "SourcePopover",
       "SourceSuggestion",
       "Variant",
+      "VariantCoordinate",
       "VariantGroup"
     ],
     "FeatureInstance": [
       "Factor",
+      "Fusion",
       "Gene"
     ],
     "Flaggable": [
@@ -95,6 +105,8 @@
       "Factor",
       "FactorVariant",
       "Feature",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
@@ -113,6 +125,8 @@
       "Factor",
       "FactorVariant",
       "Feature",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "Variant"
@@ -124,19 +138,24 @@
     ],
     "VariantInterface": [
       "FactorVariant",
+      "FusionVariant",
       "GeneVariant",
       "Variant"
     ],
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
+      "ExonCoordinate",
       "Factor",
       "FactorVariant",
       "Feature",
+      "Fusion",
+      "FusionVariant",
       "Gene",
       "GeneVariant",
       "MolecularProfile",
       "Variant",
+      "VariantCoordinate",
       "VariantGroup"
     ]
   }

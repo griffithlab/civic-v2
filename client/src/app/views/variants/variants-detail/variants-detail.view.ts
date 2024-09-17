@@ -81,35 +81,33 @@ export class VariantsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'))
 
-      this.variant$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (variantResp) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: variantResp?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Flags') {
-                  return {
-                    badgeCount: variantResp?.flags.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: variantResp?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.variant$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (variantResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: variantResp?.openRevisionCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Flags') {
+                return {
+                  badgeCount: variantResp?.flags.totalCount,
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: variantResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.variantId,

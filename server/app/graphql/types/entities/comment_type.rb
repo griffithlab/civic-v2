@@ -3,6 +3,7 @@ module Types::Entities
     connection_type_class Types::Connections::CommentsConnection
 
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::EventSubject
 
     field :id, Int, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false

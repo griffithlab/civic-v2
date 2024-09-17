@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -925,6 +925,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "record_state", default: "stub", null: false, enum_type: "variant_coordinate_record_state"
+    t.enum "exon_offset_direction", enum_type: "exon_offset_direction"
     t.index ["chromosome"], name: "index_variant_coordinates_on_chromosome"
     t.index ["reference_build"], name: "index_variant_coordinates_on_reference_build"
     t.index ["representative_transcript"], name: "index_variant_coordinates_on_representative_transcript"
@@ -1505,4 +1506,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
    HAVING ((count(evidence_items.id) > 0) OR (count(assertions.id) > 0))
     ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
   SQL
+  add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
+
 end

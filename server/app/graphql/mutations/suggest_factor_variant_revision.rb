@@ -67,10 +67,11 @@ class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
   def resolve(fields:, id:, organization_id: nil, comment: nil)
     updated_variant = InputAdaptors::FactorVariantInputAdaptor.new(variant_input_object: fields).perform
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
+    revised_objs = Activities::RevisedObjectPair.new(existing_obj: variant, updated_obj: updated_variant)
 
     cmd = Activities::SuggestRevisionSet.new(
-      existing_obj: variant,
-      updated_obj: updated_variant,
+      revised_objects: revised_objs,
+      subject: variant,
       originating_user: context[:current_user],
       organization_id: organization_id,
       note: comment

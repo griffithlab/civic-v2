@@ -19,6 +19,12 @@ module Types::Interfaces
           Types::Variants::GeneVariantType
         when Variants::FactorVariant
           Types::Variants::FactorVariantType
+        when Variants::FusionVariant
+          Types::Variants::FusionVariantType
+        when VariantCoordinate
+          Types::Entities::VariantCoordinateType
+        when ExonCoordinate
+          Types::Entities::ExonCoordinateType
         when EvidenceItem
           Types::Entities::EvidenceItemType
         when Assertion
@@ -37,6 +43,8 @@ module Types::Interfaces
           Types::Entities::FlagType
         when RevisionSet
           Types::Entities::RevisionSetType
+        when Comment
+          Types::Entities::CommentType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

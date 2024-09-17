@@ -85,7 +85,9 @@ export class VariantSubmitForm {
                 showExtra: false,
               },
               hideLabel: true,
-              isNewlyCreatedCallback: (isNew: boolean): void  => {this.newlyCreated = isNew},
+              isNewlyCreatedCallback: (isNew: boolean): void => {
+                this.newlyCreated = isNew
+              },
             },
           },
         ],
@@ -133,7 +135,9 @@ export class VariantSubmitForm {
       console.error(err)
     }
     if (!variant) {
-      console.error(`MpFinderForm could not resolve its Variant from the cache`)
+      console.error(
+        `Variant submit form could not resolve its Variant from the cache`
+      )
       return
     }
     return variant

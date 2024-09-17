@@ -1,9 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   RevisionsGQL,
@@ -26,6 +21,7 @@ import {
   Revision,
   FeatureDetailGQL,
   FeaturesSummaryGQL,
+  ModeratedInput,
 } from '@app/generated/civic.apollo'
 import { Observable, Subscription } from 'rxjs'
 import { QueryRef } from 'apollo-angular'
@@ -57,8 +53,7 @@ export interface SelectableRevisionStatus {
   styleUrls: ['./revisions-list-and-filter.component.less'],
 })
 export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
-  @Input() id!: number
-  @Input() entityType!: ModeratedEntities
+  @Input() moderated!: ModeratedInput
 
   revisions$?: Observable<Revision[]>
   pageInfo$?: Observable<PageInfo>
@@ -111,7 +106,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
       this.queryParamsSub = this.route.queryParams.subscribe((queryParams) => {
         let input: RevisionsQueryVariables = {
           first: this.defaultPageSize,
-          subject: { id: this.id, entityType: this.entityType },
+          subject: this.moderated,
           status: RevisionStatus.New,
         }
 
@@ -170,65 +165,65 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
       })
     })
 
-    switch (this.entityType) {
+    switch (this.moderated.entityType) {
       case ModeratedEntities.Variant:
         this.refetchQueries.push({
           query: this.variantDetailGql.document,
-          variables: { variantId: this.id },
+          variables: { variantId: this.moderated.id },
         })
         this.refetchQueries.push({
           query: this.variantSummaryGql.document,
-          variables: { variantId: this.id },
+          variables: { variantId: this.moderated.id },
         })
         return
       case ModeratedEntities.Assertion:
         this.refetchQueries.push({
           query: this.assertionDetailGql.document,
-          variables: { assertionId: this.id },
+          variables: { assertionId: this.moderated.id },
         })
         this.refetchQueries.push({
           query: this.assertionSummaryGql.document,
-          variables: { assertionId: this.id },
+          variables: { assertionId: this.moderated.id },
         })
         return
       case ModeratedEntities.EvidenceItem:
         this.refetchQueries.push({
           query: this.evidenceDetailGql.document,
-          variables: { evidenceId: this.id },
+          variables: { evidenceId: this.moderated.id },
         })
         this.refetchQueries.push({
           query: this.evidenceSummaryGql.document,
-          variables: { evidenceId: this.id },
+          variables: { evidenceId: this.moderated.id },
         })
         return
       case ModeratedEntities.Feature:
         this.refetchQueries.push({
           query: this.featureDetailGql.document,
-          variables: { featureId: this.id },
+          variables: { featureId: this.moderated.id },
         })
         this.refetchQueries.push({
           query: this.featureSummaryGql.document,
-          variables: { featureId: this.id },
+          variables: { featureId: this.moderated.id },
         })
         return
       case ModeratedEntities.VariantGroup:
         this.refetchQueries.push({
           query: this.variantGroupDetailGql.document,
-          variables: { variantGroupId: this.id },
+          variables: { variantGroupId: this.moderated.id },
         })
         this.refetchQueries.push({
           query: this.variantGroupSummaryGql.document,
-          variables: { variantGroupId: this.id },
+          variables: { variantGroupId: this.moderated.id },
         })
         return
       case ModeratedEntities.MolecularProfile:
         this.refetchQueries.push({
           query: this.molecularProfileDetailGql.document,
-          variables: { molecularProfileId: this.id },
+          variables: { molecularProfileId: this.moderated.id },
         })
         this.refetchQueries.push({
           query: this.molecularProfileSummaryGql.document,
-          variables: { molecularProfileId: this.id },
+          variables: { molecularProfileId: this.moderated.id },
         })
         return
     }
@@ -241,21 +236,21 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
 
   onFieldNameSelected(field: SelectableFieldName) {
     this.queryRef.refetch({
-      subject: { id: this.id, entityType: this.entityType },
+      subject: this.moderated,
       fieldName: field ? field.name : undefined,
     })
   }
 
   onRevisorSelected(user: UniqueUsers) {
     this.queryRef.refetch({
-      subject: { id: this.id, entityType: this.entityType },
+      subject: this.moderated,
       originatingUserId: user ? user.id : undefined,
     })
   }
 
   onResolverSelected(user: UniqueUsers) {
     this.queryRef.refetch({
-      subject: { id: this.id, entityType: this.entityType },
+      subject: this.moderated,
       resolvingUserId: user ? user.id : undefined,
     })
   }
@@ -263,7 +258,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   onStatusSelected(status: Maybe<SelectableRevisionStatus>) {
     this.preselectedRevisionStatus = status
     this.queryRef.refetch({
-      subject: { id: this.id, entityType: this.entityType },
+      subject: this.moderated,
       status: status ? status.value : undefined,
     })
   }
@@ -271,7 +266,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   onRevisionSetSelected(revisionSetId: number) {
     this.filteredSet = revisionSetId
     this.queryRef.refetch({
-      subject: { id: this.id, entityType: this.entityType },
+      subject: this.moderated,
       revisionSetId: revisionSetId ? revisionSetId : undefined,
     })
   }
@@ -279,7 +274,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   onSetFilterClearClicked() {
     this.filteredSet = undefined
     this.queryRef.refetch({
-      subject: { id: this.id, entityType: this.entityType },
+      subject: this.moderated,
       revisionSetId: undefined,
     })
   }

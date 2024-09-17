@@ -6,6 +6,8 @@ class Variant < ApplicationRecord
   include WithTimepointCounts
 
   belongs_to :feature
+  has_many :variant_coordinates, foreign_key: 'variant_id'
+  has_many :exon_coordinates, foreign_key: 'variant_id'
 
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
@@ -51,10 +53,15 @@ class Variant < ApplicationRecord
 
   validate :unique_name_in_context
   validate :feature_type_matches_variant_type
+  validate :correct_coordinate_type
   validates_with VariantFieldsValidator
 
   searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :feature) }
+
+  def self.valid_variant_coordinate_types
+    []
+  end
 
   def search_data
     {
@@ -70,6 +77,11 @@ class Variant < ApplicationRecord
 
   def link
     Rails.application.routes.url_helpers.url_for("/variants/#{self.id}")
+  end
+
+  #Name to be used when displayed as part of a Molecular Profile
+  def mp_name
+    name
   end
 
   def self.timepoint_query
@@ -102,6 +114,10 @@ class Variant < ApplicationRecord
     end
 
     svmp.molecular_profile_aliases = mp_aliases
+  end
+
+  def correct_coordinate_type
+    raise StandardError.new("Implement validation in subclass")
   end
 
   def unique_name_in_context
@@ -143,8 +159,6 @@ class Variant < ApplicationRecord
 
   def shared_editable_fields
     [
-      :feature_id,
-      :name,
       :variant_type_ids,
       :variant_alias_ids,
     ]
@@ -155,14 +169,7 @@ class Variant < ApplicationRecord
   end
 
   def forbidden_fields
-    #Grab the editable fields from each variant subclass, except the current one
-    #Combine their editable fields into a list, and remove the editable fields of the current type
-    #This produces a list of fields that should not be populated on this variant type
-    other_editable_fields = Variant.known_subclasses
-      .reject { |c| self.is_a?(c) }
-      .flat_map { |c| c.new.editable_fields }
-
-    other_editable_fields - self.editable_fields
+    []
   end
 
   def required_fields
@@ -174,7 +181,8 @@ class Variant < ApplicationRecord
   def self.known_subclasses
     [
       Variants::GeneVariant,
-      Variants::FactorVariant
+      Variants::FactorVariant,
+      Variants::FusionVariant
     ]
   end
 end

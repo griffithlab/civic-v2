@@ -5,8 +5,9 @@ module Constants
     'this_month' => 1.month.ago,
     'this_year' => 1.year.ago,
     'all_time' => DateTime.parse('1970-01-01 00:00:00')
-
   }
+
+  SUPPORTED_REFERENCE_BUILDS = [:GRCh38, :GRCh37, :NCBI36]
 
   DISPLAY_NAME_QUERY = 'users.username ILIKE :query OR users.email ILIKE :query OR users.name ILIKE :query'
 
@@ -111,13 +112,30 @@ module Constants
     'Assertion' => 'assertions',
     'EvidenceItem' => 'evidence',
     'Feature' => 'features',
+    'Gene' => 'features',
+    'Fusion' => 'features',
     'Variant' => 'variants',
     'Variants::GeneVariant' => 'variants',
     'Variants::FactorVariant' => 'variants',
+    'Variants::FusionVariant' => 'variants',
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
     'MolecularProfile' => 'molecular-profiles'
   }
 
+  VALID_VARIANT_COORDINATE_TYPES = [
+    Variants::GeneVariant.valid_variant_coordinate_types,
+    Variants::FusionVariant.valid_variant_coordinate_types,
+  ].flatten
+
+  VALID_EXON_COORDINATE_TYPES = [
+    Variants::FusionVariant.valid_exon_coordinate_types
+  ].flatten
+
   CIVICBOT_USER_ID = 385
+
+  # http://useast.ensembl.org/info/genome/stable_ids/index.html
+  ENSEMBL_TRANSCRIPT_ID_FORMAT = /\AENST\d{11}\.\d{1,2}\z/
+
+  REPRESENTATIVE_FUSION_VARIANT_NAME = 'Fusion'
 end

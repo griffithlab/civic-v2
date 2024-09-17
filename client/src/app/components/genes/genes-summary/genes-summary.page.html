@@ -1,100 +1,10 @@
-<nz-row [nzGutter]="[8,16]">
+<nz-row [nzGutter]="[8, 16]">
   <nz-col nzSpan="12">
-    <!-- LEFT COLUMN -->
-    <nz-row [nzGutter]="[8,8]">
-      <!-- gene description, sources block -->
-      <nz-col nzSpan="24">
-        <!-- description, sources -->
-        <nz-descriptions
-          nzLayout="vertical"
-          nzSize="small"
-          nzBordered="true"
-          [nzColumn]="1">
-          <!-- description -->
-          <nz-descriptions-item nzTitle="Description">
-            <p
-              *ngIf="gene.description; else noDescription"
-              nz-typography
-              nzEllipsis
-              nzExpandable
-              [nzEllipsisRows]="8">
-              {{ gene.description }}
-            </p>
-
-            <!-- noDescription Tpl -->
-            <ng-template #noDescription>
-              <cvc-empty-revisable notification="No description provided">
-              </cvc-empty-revisable>
-            </ng-template>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-col>
-
-      <!-- sources, aliases, resource block -->
-      <nz-col nzSpan="24">
-        <nz-descriptions
-          nzLayout="horizontal"
-          nzSize="small"
-          [nzColumn]="1"
-          nzBordered="true">
-          <!-- sources -->
-          <nz-descriptions-item nzTitle="Sources">
-            <ng-container *ngIf="gene.sources.length > 0; else noSources">
-              <cvc-tag-list>
-                <cvc-source-tag
-                  *ngFor="let source of gene.sources"
-                  [source]="source"></cvc-source-tag>
-              </cvc-tag-list>
-            </ng-container>
-            <ng-template #noSources>
-              <span
-                nz-typography
-                nzType="secondary"
-                >None specified</span
-              >
-            </ng-template>
-          </nz-descriptions-item>
-
-          <!-- aliases -->
-          <nz-descriptions-item
-            nzTitle="Aliases"
-            *ngIf="gene.featureAliases.length > 0; else noAliases">
-            <nz-tag *ngFor="let alias of gene.featureAliases"
-              >{{ alias }}</nz-tag
-            >
-          </nz-descriptions-item>
-          <ng-template #noAliases>
-            <span
-              nz-typography
-              nzType="secondary"
-              >None specified</span
-            >
-          </ng-template>
-
-          <!-- resource links -->
-          <nz-descriptions-item nzTitle="Resources">
-            <cvc-tag-list>
-              <cvc-link-tag
-                [href]="'https://dgidb.org/results?searchType=gene&searchTerms=' + gene.name"
-                [tooltip]="'View ' + gene.name + ' on DGIdb'">
-                DGIdb
-              </cvc-link-tag>
-              <cvc-link-tag
-                [href]="'https://pecan.stjude.cloud/variants/protein-paint/?gene=' + gene.name"
-                [tooltip]="'View ' + gene.name + ' on ProteinPaint'">
-                ProteinPaint
-              </cvc-link-tag>
-            </cvc-tag-list>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-col>
-    </nz-row>
+    <cvc-gene-base-summary [gene]="gene"></cvc-gene-base-summary>
   </nz-col>
-
   <!-- last revision submitted/accepted, mygeneinfo col -->
   <nz-col nzSpan="12">
     <!-- mygeneinfo -->
     <cvc-my-gene-info [geneInfo]="gene.myGeneInfoDetails"></cvc-my-gene-info>
   </nz-col>
 </nz-row>
-

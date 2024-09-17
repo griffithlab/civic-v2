@@ -23,6 +23,24 @@ export class WelcomeComponent implements OnInit {
 
   newsItems: CvcNewsItem[] = [
     {
+      title: 'Moving Beyond the Gene-Variant Data Model',
+      date: '2024-09-16',
+      htmlText: `Since its inception, CIViC’s data model has revolved around curating variants present on specific genes. While this was simple and worked well, it did not allow us to capture the full breadth of clinically relevant variants in cancer. In order to support additional variant types, we have updated the data model to include what we are calling “Features.” <br/><br/>
+
+    Instead of only being associated with a Gene, variants are now associated with a Feature. The first and most common Feature is still the Gene, but we are rolling out support for two additional Feature types: Factors and Fusions. <br/></br>
+
+    Factors can include genomic events that are not specific mutations such as <a href="https://civicdb.org/features/61746/summary" target="_blank">Microsatellite Instability</a> or <a href="https://civicdb.org/features/61745/" target="_blank">Tumor Mutational Burden</a>. Factors can be associated with terms from the <a href="https://ncithesaurus.nci.nih.gov/ncitbrowser/pages/home.jsf?version=24.07e" target="_blank">NCI Thesaurus</a>. <br/> <br/>
+
+    Meanwhile, our new Fusions model allows us to capture richer, more structured, data about the fusion partners and the fusion site at the exon level. Initially, we support a subset of the <a href="https://fusions.cancervariants.org/en/latest/" target="blank">VICC Gene Fusion Specification</a> with plans to support additional parts of the spec in the near future.`,
+    },
+    {
+      title:
+        '2024 VICC/CIViC/ClinGen Cancer Variant Curation and Coding Unconference',
+      date: '2024-08-04',
+      imageUrl: 'assets/images/cgc-hackathon-2024.jpg',
+      htmlText: `CIViC, alongside VICC and ClinGen Somatic hosted the 5th Cancer Variant Curation and Coding Unconference before the <a href="https://www.cancergenomics.org/meetings/registration.php" target="_blank">Annual Cancer Genomics Consortium Conference</a> in St. Louis. Scientists and developers gathered to discuss data standards, software improvements, and resource interoperability. Topics and summaries were <a href="https://github.com/griffithlab/civic-meeting/issues?q=is%3Aissue+is%3Aopen+label%3A2024" target="_blank">posted online</a>.`,
+    },
+    {
       title: 'PUBLIC NOTICE: CIViC v1 API TO BE DEPRECATED',
       date: '2023-10-01',
       htmlText: `<strong style="color: red;"><i>The CIViC V1 REST API will officially be retired on November 1st, 2023.</i></strong> All CIViC integrations should transition to our new V2 GraphQL API. The new API is more powerful and provides access to the newest CIViC data model, features, and data. The easiest way to get started is to try out queries and browse the documentation in the <a href="https://civicdb.org/api/graphiql" target="_blank">GraphiQL sandbox</a>.`,
@@ -74,9 +92,9 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
     this.release$ = this.http
-      .get<GithubRelease[]>(
-        'https://api.github.com/repos/griffithlab/civic-v2/releases?per_page=1'
-      )
+      .get<
+        GithubRelease[]
+      >('https://api.github.com/repos/griffithlab/civic-v2/releases?per_page=1')
       .pipe(map((data) => data[0]))
   }
 }
