@@ -42,7 +42,7 @@ module Types::Variants
     def open_revision_count
       Loaders::AssociationCountLoader.for(object.class, association: :open_revisions).load(object.id).then do |count|
         Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object).then do |coord|
-          Loaders::AssociationCountLoader.for(VariantCoordinate, association: :open_revisions).load(coord.id) do |coord_count|
+          Loaders::AssociationCountLoader.for(VariantCoordinate, association: :open_revisions).load(coord.id).then do |coord_count|
             count + coord_count
           end
         end
