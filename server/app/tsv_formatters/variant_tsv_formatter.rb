@@ -146,7 +146,7 @@ class VariantTsvFormatter
     when Variants::FusionVariant
       create_fusion_row(variant)
     else
-      raise StandardError.new("Unkown variant type for TSV export: #{variant.class}")
+      raise StandardError.new("Unknown variant type for TSV export: #{variant.class}")
     end
 
     shared_cols + variant_cols
