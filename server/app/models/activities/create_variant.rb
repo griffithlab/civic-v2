@@ -32,7 +32,17 @@ module Activities
 
       @variant = cmd.variant
       @molecular_profile = cmd.molecular_profile
+
+      stub_coordinates
+      variant.save!
+
       events << cmd.events
+    end
+
+    def stub_coordinates
+      if variant.type == 'Variants::GeneVariant'
+        variant.coordinates = VariantCoordinate.generate_stub(variant, 'Gene Variant Coordinate')
+      end
     end
 
     def linked_entities
