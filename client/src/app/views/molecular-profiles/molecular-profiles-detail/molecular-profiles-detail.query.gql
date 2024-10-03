@@ -10,6 +10,13 @@ fragment MolecularProfileDetailFields on MolecularProfile {
   deprecated
   deprecationReason
   complexMolecularProfileDeprecationActivity {
+    user {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    createdAt
     parsedNote {
       ...parsedCommentFragment
     }
