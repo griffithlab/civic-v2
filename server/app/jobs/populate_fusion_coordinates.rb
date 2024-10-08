@@ -20,14 +20,14 @@ class PopulateFusionCoordinates < ApplicationJob
   def populate_coords(coords, secondary_coordinates)
     if coords.present? && coords.representative_transcript.present?
       (exon, highest_exon) = get_exon_for_transcript(coords.representative_transcript, coords.exon)
-      populate_exon_coordinates(coords, exon)
+      populate_exon_coordinates(coords, exon, coords.exon)
 
       if coords.coordinate_type =~ /Five Prime/
         (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, 1)
-        populate_exon_coordinates(secondary_coordinates, secondary_exon)
+        populate_exon_coordinates(secondary_coordinates, secondary_exon, 1)
       else
         (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, highest_exon)
-        populate_exon_coordinates(secondary_coordinates, secondary_exon)
+        populate_exon_coordinates(secondary_coordinates, secondary_exon, highest_exon)
       end
     end
   end
@@ -58,7 +58,9 @@ class PopulateFusionCoordinates < ApplicationJob
     [exon.first, max_exon_on_transcript]
   end
 
-  def populate_exon_coordinates(coordinates, exon)
+  def populate_exon_coordinates(coordinates, exon, exon_number)
+    coordinates.exon = exon_number
+
     strand = if exon['strand'] == -1
                'negative'
              else
