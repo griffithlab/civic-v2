@@ -132,7 +132,7 @@ module Variants
         when :representative
           "#{gene.name}(entrez:#{gene.entrez_id})"
         when :civic
-          "e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
+          "e#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         when :vicc
           "#{exon_coords.representative_transcript}(#{gene.name}):e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         when :molecular_profile
