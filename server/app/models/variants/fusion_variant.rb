@@ -67,18 +67,6 @@ module Variants
       ]
     end
 
-    def mp_name
-      if name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
-        "#{feature.name} #{Constants::REPRESENTATIVE_FUSION_VARIANT_NAME}"
-      else
-        [
-          construct_five_prime_name(name_type: :molecular_profile),
-          construct_three_prime_name(name_type: :molecular_profile)
-        ].join("::")
-      end
-
-    end
-
     def generate_vicc_name
       if name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
         "#{construct_five_prime_name(name_type: :representative)}::#{construct_three_prime_name(name_type: :representative)}"
@@ -135,8 +123,6 @@ module Variants
           "e#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         when :vicc
           "#{exon_coords.representative_transcript}(#{gene.name}):e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
-        when :molecular_profile
-          "#{gene.name}:e.#{exon_coords.exon}#{exon_coords.formatted_offset}#{exon_coords.exon_offset}"
         end
       elsif partner_status == 'unknown'
         '?'
