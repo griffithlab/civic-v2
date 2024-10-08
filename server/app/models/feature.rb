@@ -42,7 +42,7 @@ class Feature < ApplicationRecord
                      else
                        if persisted?
                          base_query
-                           .where.not(feature_instance_id: id)
+                           .where.not(id: id)
                            .exists?
                        else
                          base_query
