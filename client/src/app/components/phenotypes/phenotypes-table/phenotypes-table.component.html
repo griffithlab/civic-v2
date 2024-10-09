@@ -114,7 +114,9 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-phenotype-tag [phenotype]="phenotype"></cvc-phenotype-tag>
+            <cvc-phenotype-tag
+              [phenotype]="phenotype"
+              [enablePopover]="!isScrolling"></cvc-phenotype-tag>
           </td>
           <td>
             <cvc-link-tag

@@ -120,7 +120,9 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
+            <cvc-therapy-tag
+              [therapy]="therapy"
+              [enablePopover]="!isScrolling"></cvc-therapy-tag>
           </td>
           <td>
             <cvc-link-tag

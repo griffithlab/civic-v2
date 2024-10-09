@@ -324,17 +324,21 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
+            <cvc-assertion-tag
+              [assertion]="aid"
+              [enablePopover]="!isScrolling"></cvc-assertion-tag>
           </td>
           <td>
             <cvc-molecular-profile-tag
               [molecularProfile]="aid.molecularProfile"
+              [enablePopover]="!isScrolling"
               [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="aid.disease.name; else diseaseElse">
               <cvc-disease-tag
                 [disease]="aid.disease"
+                [enablePopover]="!isScrolling"
                 [truncateLongName]="true"></cvc-disease-tag>
             </ng-container>
             <ng-template #diseaseElse>
@@ -347,6 +351,7 @@
                 <ng-container *ngFor="let therapy of aid.therapies">
                   <cvc-therapy-tag
                     [therapy]="therapy"
+                    [enablePopover]="!isScrolling"
                     [truncateLongName]="true"></cvc-therapy-tag>
                 </ng-container>
               </cvc-tag-list>
