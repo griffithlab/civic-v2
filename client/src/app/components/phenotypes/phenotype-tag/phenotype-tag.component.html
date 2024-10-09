@@ -7,26 +7,15 @@
 <ng-template #tag>
   <nz-tag
     nz-popover
-    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
-    [nzPopoverContent]="phenotypePopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="enablePopover ? phenotypePopover : undefined"
+    nzPopoverPlacement="right">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #phenotypePopover>
     <cvc-phenotype-popover [phenotypeId]="phenotype.id"></cvc-phenotype-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>

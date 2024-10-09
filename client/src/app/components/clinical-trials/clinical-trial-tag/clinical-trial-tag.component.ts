@@ -27,8 +27,8 @@ export class CvcClinicalTrialTagComponent {
   get clinicalTrial(): LinkableClinicalTrial {
     return this._clinicalTrial
   }
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
 
   constructor() {}
 }

@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { Maybe, MolecularProfileSegment } from '@app/generated/civic.apollo'
 
@@ -31,21 +31,18 @@ export interface LinkableMolecularProfileSegments {
   styleUrls: ['./molecular-profile-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcMolecularProfileTagComponent
-  extends BaseCloseableTag
-  implements OnInit
-{
+export class CvcMolecularProfileTagComponent implements OnInit {
   @Input() molecularProfile!:
     | LinkableMolecularProfile
     | LinkableMolecularProfileSegments
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: boolean | number = false
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean | number = false
+  @Input() linked?: boolean = true
 
   truncationLength: number = 20
 
   iconColor: string
   constructor() {
-    super()
     this.iconColor = getEntityColor('MolecularProfile')
   }
 
@@ -54,7 +51,6 @@ export class CvcMolecularProfileTagComponent
   }
 
   ngOnInit() {
-    super.ngOnInit()
     if (this.molecularProfile === undefined) {
       throw new Error(
         'cvc-molecular-profile-tag requires LinkableMolecularProfile input, none supplied.'

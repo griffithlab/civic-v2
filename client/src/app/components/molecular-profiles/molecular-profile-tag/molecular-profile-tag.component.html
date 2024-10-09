@@ -9,16 +9,12 @@
     *ngIf="enablePopover; else noPopover"
     [ngClass]="{ deprecated: molecularProfile.deprecated }"
     nz-popover
-    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
-    [nzPopoverContent]="popoverContent"
-    nzPopoverTrigger="hover"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="enablePopover ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
     <cvc-molecular-profile-popover
-      *ngIf="enablePopover"
       [molecularProfileId]="
         molecularProfile.id
       "></cvc-molecular-profile-popover>
@@ -26,10 +22,7 @@
 </ng-template>
 
 <ng-template #noPopover>
-  <nz-tag
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    [ngClass]="{ deprecated: molecularProfile.deprecated }"
-    (nzOnClose)="itemClosed($event)">
+  <nz-tag [ngClass]="{ deprecated: molecularProfile.deprecated }">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>
@@ -50,7 +43,7 @@
   </cvc-icon-badges>
   <!-- molecular profile name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
-    {{ molecularProfile.name! | truncate : this.truncationLength }}
+    {{ molecularProfile.name! | truncate: this.truncationLength }}
   </ng-container>
   <ng-template #fullName>
     {{ molecularProfile.name }}
