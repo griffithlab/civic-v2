@@ -18,6 +18,13 @@ class PopulateFusionCoordinates < ApplicationJob
   end
 
   def populate_coords(coords, secondary_coordinates)
+    #For representative fusions, these fields are empty when the representative exons coords are first curated/revisions accepted
+    #For all fusions, these require updating when a revision on the primary set of coords edits these fiels
+    secondary_coordinates.representative_transcript = coords.representative_transcript
+    secondary_coordinates.reference_build = coords.reference_build
+    secondary_coordinates.ensembl_version = coords.ensembl_version
+    secondary_coordinates.save!
+
     if coords.present? && coords.representative_transcript.present?
       (exon, highest_exon) = get_exon_for_transcript(coords.representative_transcript, coords.exon)
       populate_exon_coordinates(coords, exon, coords.exon)
