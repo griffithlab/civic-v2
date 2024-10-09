@@ -47,11 +47,21 @@ module Activities
 
     def stub_remaining_coordinates
       if variant.fusion.five_prime_partner_status == 'known'
-        variant.five_prime_start_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Five Prime Start Exon Coordinate')
+        e = ExonCoordinate.generate_stub(variant, 'Five Prime Start Exon Coordinate')
+        e.representative_transcript = five_prime_end_exon_coords.representative_transcript
+        e.reference_build = five_prime_end_exon_coords.reference_build
+        e.ensembl_version = five_prime_end_exon_coords.ensembl_version
+        e.save!
+        variant.five_prime_start_exon_coordinates = e
         variant.five_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Five Prime Fusion Coordinate')
       end
       if variant.fusion.three_prime_partner_status == 'known'
-        variant.three_prime_end_exon_coordinates = ExonCoordinate.generate_stub(variant, 'Three Prime End Exon Coordinate')
+        e = ExonCoordinate.generate_stub(variant, 'Three Prime End Exon Coordinate')
+        e.representative_transcript = three_prime_start_exon_coords.representative_transcript
+        e.reference_build = three_prime_start_exon_coords.reference_build
+        e.ensembl_version = three_prime_start_exon_coords.ensembl_version
+        e.save!
+        variant.three_prime_end_exon_coordinates = e
         variant.three_prime_coordinates = VariantCoordinate.generate_stub(variant, 'Three Prime Fusion Coordinate')
       end
     end

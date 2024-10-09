@@ -11,6 +11,9 @@ fragment variantPopoverFields on VariantInterface {
   ... on GeneVariant {
     alleleRegistryId
   }
+  ... on FusionVariant {
+    viccCompliantName
+  }
   feature {
     id
     name

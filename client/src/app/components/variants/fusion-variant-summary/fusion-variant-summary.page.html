@@ -71,7 +71,8 @@
             nzLayout="vertical"
             nzSize="small"
             [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true">
+            nzBordered="true"
+            *ngIf="variant.creationActivity || variant.deprecationActivity">
             <!-- creation/deprecation curation events -->
             <ng-container *ngIf="variant.creationActivity">
               <nz-descriptions-item [nzTitle]="createdTitle">

@@ -14,7 +14,7 @@
     <nz-row [nzGutter]="[8, 16]">
       <nz-col [nzSpan]="24">
         <nz-row [nzGutter]="[8, 8]">
-          <!-- gene attributes block -->
+          <!-- fusion variant attributes block -->
           <nz-col nzSpan="24">
             <nz-descriptions
               nzLayout="horizontal"
@@ -22,10 +22,16 @@
               [nzColumn]="4"
               nzBordered="true">
               <nz-descriptions-item
-                [nzSpan]="4"
+                [nzSpan]="2"
                 nzTitle="Fusion Variant">
                 <cvc-feature-variant-tag
                   [variant]="variant"></cvc-feature-variant-tag>
+              </nz-descriptions-item>
+              <!-- VICC compliant name -->
+              <nz-descriptions-item
+                [nzSpan]="2"
+                nzTitle="VICC Compliant Name">
+                {{ variant.viccCompliantName }}
               </nz-descriptions-item>
               <!-- aliases -->
               <nz-descriptions-item
