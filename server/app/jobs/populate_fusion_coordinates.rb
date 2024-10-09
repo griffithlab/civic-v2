@@ -19,7 +19,7 @@ class PopulateFusionCoordinates < ApplicationJob
 
   def populate_coords(coords, secondary_coordinates)
     #For representative fusions, these fields are empty when the representative exons coords are first curated/revisions accepted
-    #For all fusions, these require updating when a revision on the primary set of coords edits these fiels
+    #For all fusions, these require updating when a revision on the primary set of coords edits these fields
     secondary_coordinates.representative_transcript = coords.representative_transcript
     secondary_coordinates.reference_build = coords.reference_build
     secondary_coordinates.ensembl_version = coords.ensembl_version
