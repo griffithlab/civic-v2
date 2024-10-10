@@ -27,11 +27,37 @@
     </nz-space>
   </ng-template>
   <ng-template #cardExtra>
-    <cvc-activity-feed-settings
-      (cvcSettingsChange)="onSettingChange$.next($event)"
-      [cvcSettings]="cvcSettings()"
-      [cvcScope]="cvcScope()">
-    </cvc-activity-feed-settings>
+    @let currentFilters = onFilterChange$ | async;
+    <nz-space>
+      @if (newActivities() > 0) {
+        <button
+          *nzSpaceItem
+          (click)="onFilterChange$.next(currentFilters!)"
+          nz-button
+          type="primary"
+          nzType="default"
+          nzSize="small">
+          <i
+            nz-icon
+            nzType="reload"></i>
+          <span>Load {{ newActivities() }} new</span>
+          &nbsp;
+          <span>
+            @if (newActivities() > 1) {
+              activities
+            } @else {
+              activity
+            }
+          </span>
+        </button>
+      }
+      <cvc-activity-feed-settings
+        *nzSpaceItem
+        (cvcSettingsChange)="onSettingChange$.next($event)"
+        [cvcSettings]="cvcSettings()"
+        [cvcScope]="cvcScope()">
+      </cvc-activity-feed-settings>
+    </nz-space>
   </ng-template>
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->

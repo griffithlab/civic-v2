@@ -7,8 +7,6 @@ import {
   Injector,
   input,
   NgZone,
-  OnInit,
-  runInInjectionContext,
   Signal,
 } from '@angular/core'
 import {
@@ -36,9 +34,9 @@ import {
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import {
-  BehaviorSubject,
   combineLatest,
   filter,
+  interval,
   map,
   merge,
   Observable,
@@ -47,6 +45,7 @@ import {
   Subject,
   switchMap,
   take,
+  timer,
   withLatestFrom,
 } from 'rxjs'
 import {
@@ -58,7 +57,13 @@ import {
   connectionToFilterOptions,
   queryParamsToQueryVariables,
 } from '@app/components/activities/activity-feed/activity-feed.functions'
-import { shareReplay } from 'rxjs/operators'
+import {
+  distinctUntilChanged,
+  mapTo,
+  shareReplay,
+  skip,
+  startWith,
+} from 'rxjs/operators'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   ActivityFeedGQL,
@@ -92,7 +97,9 @@ import { CommonModule } from '@angular/common'
 import { NzResultModule } from 'ng-zorro-antd/result'
 import { tag } from 'rxjs-spy/operators'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { animate, state, style, transition, trigger } from '@angular/animations'
+import { CvcFeedUpdates } from './feed-updates/feed-updates.component'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
@@ -112,11 +119,14 @@ export const FEED_SCROLL_SERVICE_TOKEN =
     NzTagModule,
     NzSpinModule,
     NzResultModule,
+    NzButtonModule,
+    NzIconModule,
     CvcActivityFeedItem,
     CvcAutoHeightDivModule,
     CvcActivityFeedCounts,
     CvcActivityFeedSettingsButton,
     CvcActivityFeedFilterSelects,
+    CvcFeedUpdates,
   ],
   providers: [
     {
@@ -136,6 +146,7 @@ export class CvcActivityFeed {
   cvcFilters = input<ActivityFeedFilters>(feedDefaultFilters)
   cvcScope = input<ActivityFeedScope>(feedDefaultScope)
   cvcTitle = input<string>('Activity Feed')
+  cvcCheckInterval = input<number>(0)
 
   // SOURCE STREAMS
   onSettingChange$: Subject<ActivityFeedSettings>
@@ -145,6 +156,7 @@ export class CvcActivityFeed {
   // INTERMEDIATE STREAMS
   poll$: Subject<FetchParams>
   fetchMore$: Subject<FetchParams>
+  refreshChange$: Observable<FeedQueryRefetchEvent>
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   init$: Subject<void>
   queryType$: Subject<'refetch' | 'fetchMore'>
@@ -162,6 +174,7 @@ export class CvcActivityFeed {
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
   scroller: Signal<ScrollerState>
   allRowsFetched: Signal<boolean>
+  newActivities: Signal<number>
 
   // REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -195,7 +208,7 @@ export class CvcActivityFeed {
       initialValue: false,
     })
 
-    const refreshChange$ = combineLatest([
+    this.refreshChange$ = combineLatest([
       this.onSettingChange$,
       this.onFilterChange$,
     ]).pipe(
@@ -221,7 +234,7 @@ export class CvcActivityFeed {
     )
 
     this.result$ = this.init$.pipe(
-      switchMap(() => merge(refreshChange$, fetchChange$)),
+      switchMap(() => merge(this.refreshChange$, fetchChange$)),
       switchMap((event: FeedQueryEvent) => {
         this.queryType$.next(event.type)
         this.onZeroRows$.next(false)
@@ -329,6 +342,38 @@ export class CvcActivityFeed {
       this.configureDatasource()
       this.configureAdapter()
     })
+
+    const newActivityCount$ = this.refreshChange$.pipe(
+      switchMap((refetchEvent) => {
+        const now = new Date()
+        const interval = this.cvcCheckInterval() * 1000
+        if (interval > 0) {
+          console.log('------- newActivityCount$ setting new interval')
+          return timer(interval, interval).pipe(
+            startWith(0),
+            switchMap(() => {
+              console.log(
+                '****** newActivityCount$ checking for new activities'
+              )
+              return this.gql
+                .fetch({
+                  ...refetchEvent.query,
+                  includeConnection: false,
+                  occurredAfter: now,
+                })
+                .pipe(
+                  map((result) => result.data?.activities?.totalCount ?? 0),
+                  distinctUntilChanged()
+                )
+            })
+          )
+        } else {
+          console.log('------- newActivityCount$ no interval specified')
+          return of(0)
+        }
+      })
+    )
+    this.newActivities = toSignal(newActivityCount$, { initialValue: 0 })
   } // end constructor()
 
   configureDatasource(): void {

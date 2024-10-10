@@ -9,6 +9,8 @@ query ActivityFeed(
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
   $includeAutomatedEvents: Boolean
+  $includeConnection: Boolean = true
+  $includePageInfo: Boolean = true
   $mode: EventFeedMode
   $showFilters: Boolean!
   $requestDetails: Boolean!
@@ -30,12 +32,12 @@ query ActivityFeed(
     occurredAfter: $occurredAfter
     occurredBefore: $occurredBefore
   ) {
-    ...ActivitiesConnectionFields
+    ...ActivitiesConnectionFields @include(if: $includeConnection)
+    ...ActivitiesPageInfoFields @include(if: $includePageInfo)
   }
 }
 
-# activities to render feed items & ui controls
-fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
+fragment ActivitiesPageInfoFields on ActivityInterfaceConnection {
   pageInfo {
     startCursor
     endCursor
@@ -45,6 +47,10 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   pageCount
   totalCount
   unfilteredCount
+}
+
+# activities to render feed items & ui controls
+fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   activityTypes @include(if: $showFilters)
   uniqueParticipants @include(if: $showFilters) {
     id
