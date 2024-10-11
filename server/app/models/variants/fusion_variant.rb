@@ -2,10 +2,6 @@ module Variants
   class FusionVariant < Variant
     has_one :fusion, through: :feature, source: :feature_instance, source_type: 'Features::Fusion'
 
-    #TODO - make this
-    #validates_with FusionVariantValidator
-    #check feature partner status and corresponding stubbed coords
-
     has_one :five_prime_coordinates,
       ->() { where(coordinate_type: 'Five Prime Fusion Coordinate') },
       foreign_key: 'variant_id',
@@ -88,10 +84,10 @@ module Variants
 
     def forbidden_fields
       [
-        # :ncit_id,
-        # :hgvs_description_ids,
-        # :clinvar_entry_ids,
-        # :allele_registry_id,
+        :ncit_id,
+        :hgvs_description_ids,
+        :clinvar_entry_ids,
+        :allele_registry_id,
       ]
     end
 
