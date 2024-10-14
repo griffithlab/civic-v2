@@ -27,37 +27,11 @@
     </nz-space>
   </ng-template>
   <ng-template #cardExtra>
-    @let currentFilters = onFilterChange$ | async;
-    <nz-space>
-      @if (newActivities() > 0) {
-        <button
-          *nzSpaceItem
-          (click)="onFilterChange$.next(currentFilters!)"
-          nz-button
-          type="primary"
-          nzType="default"
-          nzSize="small">
-          <i
-            nz-icon
-            nzType="reload"></i>
-          <span>Load {{ newActivities() }} new</span>
-          &nbsp;
-          <span>
-            @if (newActivities() > 1) {
-              activities
-            } @else {
-              activity
-            }
-          </span>
-        </button>
-      }
-      <cvc-activity-feed-settings
-        *nzSpaceItem
-        (cvcSettingsChange)="onSettingChange$.next($event)"
-        [cvcSettings]="cvcSettings()"
-        [cvcScope]="cvcScope()">
-      </cvc-activity-feed-settings>
-    </nz-space>
+    <cvc-activity-feed-settings
+      (cvcSettingsChange)="onSettingChange$.next($event)"
+      [cvcSettings]="cvcSettings()"
+      [cvcScope]="cvcScope()">
+    </cvc-activity-feed-settings>
   </ng-template>
   <nz-row [nzGutter]="[16, 8]">
     <!-- ACTIVITY FEED COLUMN -->
@@ -139,6 +113,8 @@
            feedFilter$ to emit, which is required to fire off an initial query -->
       <cvc-activity-feed-filters
         (cvcFiltersChange)="onFilterChange$.next($event)"
+        [cvcRefreshChanges]="(refreshChange$ | async)!"
+        [cvcCheckInterval]="5"
         [cvcFilterOptions]="feedFilterOptions()"
         [cvcFilters]="cvcFilters()"
         [cvcScope]="cvcScope()">

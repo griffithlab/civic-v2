@@ -1,4 +1,27 @@
 <nz-row [nzGutter]="[8, 8]">
+  <nz-col
+    *ngIf="newActivities() > 0"
+    [@refreshAlertAnimation]
+    nzSpan="24">
+    <nz-alert
+      nzType="info"
+      [nzDescription]="msgTmpl"
+      [nzAction]="actionTmpl"></nz-alert>
+    <ng-template #msgTmpl>
+      {{ newActivities() }} new
+      {{ newActivities() > 1 ? 'activities' : 'activity' }} available
+    </ng-template>
+    <ng-template #actionTmpl>
+      <button
+        nz-button
+        nzSize="small"
+        nzType="default"
+        (click)="cvcFiltersChange.emit(cvcFilters())">
+        Refresh
+      </button>
+    </ng-template>
+  </nz-col>
+  <nz-col nzSpan="24"> </nz-col>
   <nz-col nzSpan="24">
     <ng-container
       *ngTemplateOutlet="
