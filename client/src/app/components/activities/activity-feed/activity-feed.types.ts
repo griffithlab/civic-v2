@@ -7,6 +7,9 @@ import {
   ActivityTypeInput,
   Maybe,
   ActivityFeedQueryVariables,
+  DateSortColumns,
+  DateSort,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 
 export type ActivityFeedTagDisplayOption =
@@ -32,6 +35,8 @@ export type ActivityFeedFilters = {
   userId: number[]
   occurredAfter: Date | null
   occurredBefore: Date | null
+  sortByColumn: DateSortColumns
+  sortByDirection: SortDirection
 }
 
 // filter query variables (query variables for the feed query)
@@ -42,6 +47,7 @@ export type ActivityFeedFilterVariables = {
   userId: Maybe<number[]>
   occurredAfter: Maybe<string>
   occurredBefore: Maybe<string>
+  sortBy: Maybe<DateSort>
 }
 
 export type ActivityFeedFilterKeys = keyof ActivityFeedFilters
@@ -50,6 +56,8 @@ export type ActivityFeedFilterOptions = {
   uniqueParticipants: User[]
   participatingOrganizations: Organization[]
   subjectTypes: ActivitySubjectInput[]
+  sortColumns: DateSortColumns[]
+  sortDirections: SortDirection[]
 }
 
 export type ActivityFeedCounts = {

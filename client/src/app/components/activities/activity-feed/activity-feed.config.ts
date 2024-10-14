@@ -2,7 +2,9 @@ import {
   ActivityInterfaceEdge,
   ActivitySubjectInput,
   ActivityTypeInput,
+  DateSortColumns,
   EventFeedMode,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import {
   ActivityFeedFilterOptions,
@@ -34,6 +36,8 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   // subjectType: [ActivitySubjectInput.Variant],
   occurredAfter: null,
   occurredBefore: null,
+  sortByColumn: DateSortColumns.Created,
+  sortByDirection: SortDirection.Desc,
 }
 
 export const feedDefaultScope: ActivityFeedScope = {
@@ -74,6 +78,8 @@ export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
   participatingOrganizations: [],
   activityTypes: [],
   subjectTypes: [],
+  sortColumns: [DateSortColumns.Created, DateSortColumns.LastModified],
+  sortDirections: [SortDirection.Desc, SortDirection.Asc],
 }
 
 export const scrollerSettings: Settings<ActivityInterfaceEdge> = {

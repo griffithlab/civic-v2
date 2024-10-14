@@ -12,6 +12,7 @@ import {
   ActivityFeedFilterOptions,
   ActivityFeedCounts,
 } from './activity-feed.types'
+import { feedFilterOptionDefaults } from './activity-feed.config'
 
 // pluck filter options from feed connection object
 export function connectionToFilterOptions(
@@ -22,6 +23,8 @@ export function connectionToFilterOptions(
     participatingOrganizations: connection.participatingOrganizations ?? [],
     activityTypes: connection.activityTypes ?? [],
     subjectTypes: connection.subjectTypes ?? [],
+    sortColumns: feedFilterOptionDefaults.sortColumns,
+    sortDirections: feedFilterOptionDefaults.sortDirections,
   }
 }
 
@@ -80,6 +83,10 @@ function filtersToQueryVariables(
     occurredBefore: filters['occurredBefore']
       ? filters['occurredBefore'].toISOString()
       : undefined,
+    sortBy: {
+      column: filters['sortByColumn'],
+      direction: filters['sortByDirection'],
+    },
   }
 }
 

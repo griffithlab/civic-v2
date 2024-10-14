@@ -6,6 +6,7 @@ import {
   Output,
   Signal,
   WritableSignal,
+  computed,
   effect,
   input,
   signal,
@@ -22,7 +23,10 @@ import {
   ActivityFeedUpdatesGQL,
   ActivitySubjectInput,
   ActivityTypeInput,
+  DateSort,
+  DateSortColumns,
   Maybe,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import { CommonModule, KeyValuePipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
@@ -93,6 +97,8 @@ export class CvcActivityFeedFilterSelects implements OnInit {
   occurredAfter!: WritableSignal<Date | null>
   occurredBefore!: WritableSignal<Date | null>
   disableDates: { [key: string]: (current: Date) => boolean }
+  sortByColumn!: WritableSignal<DateSortColumns>
+  sortByDirection!: WritableSignal<SortDirection>
   newActivities: Signal<number>
 
   constructor(private gql: ActivityFeedUpdatesGQL) {
@@ -108,6 +114,8 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         userId: this.userId(),
         occurredAfter: this.occurredAfter(),
         occurredBefore: this.occurredBefore(),
+        sortByColumn: this.sortByColumn(),
+        sortByDirection: this.sortByDirection(),
       })
     })
 
@@ -117,13 +125,11 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         const now = new Date()
         const interval = this.cvcCheckInterval() * 1000
         if (interval > 0) {
-          console.log('------- newActivityCount$ setting new interval')
+          // check for new activities every interval seconds,
+          // starting after interval seconds
           return timer(interval, interval).pipe(
             startWith(0),
             switchMap(() => {
-              console.log(
-                '****** newActivityCount$ checking for new activities'
-              )
               return this.gql
                 .fetch(
                   {
@@ -139,7 +145,6 @@ export class CvcActivityFeedFilterSelects implements OnInit {
             })
           )
         } else {
-          console.log('------- newActivityCount$ no interval specified')
           return of(0)
         }
       })
@@ -153,5 +158,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     this.userId = signal(this.cvcFilters().userId)
     this.occurredAfter = signal(this.cvcFilters().occurredAfter)
     this.occurredBefore = signal(this.cvcFilters().occurredBefore)
+    this.sortByColumn = signal(this.cvcFilters().sortByColumn)
+    this.sortByDirection = signal(this.cvcFilters().sortByDirection)
   }
 }
