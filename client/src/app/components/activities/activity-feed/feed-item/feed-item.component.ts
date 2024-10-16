@@ -69,6 +69,11 @@ export type FeedItemToggle = {
       transition('visible <=> hidden', animate('.25s ease-out')),
       transition('hidden <=> visible', animate('.25s ease-in')),
     ]),
+    trigger('toggle', [
+      state('hide', style({ transform: 'rotate(0deg)' })),
+      state('show', style({ transform: 'rotate(90deg)' })),
+      transition('hide <=> show', animate('0.2s linear')),
+    ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

@@ -18,15 +18,23 @@
     </div>
   </nz-card>
   <ng-template #itemDescription>
-    <div
-      *ngIf="!simpleActivityTypes.has(activity.__typename)"
-      class="toggle"
-      (click)="$showDetails.set(!$showDetails())">
-      <span
-        nz-icon
-        nzType="caret-right"
-        nzTheme="outline"></span>
-    </div>
+    @if (!simpleActivityTypes.has(activity.__typename)) {
+      <div
+        class="toggle"
+        (click)="$showDetails.set(!$showDetails())">
+        <span
+          nz-icon
+          nzType="caret-right"
+          nzTheme="outline"></span>
+      </div>
+    } @else {
+      <div class="no-toggle">
+        <span
+          nz-icon
+          nzType="caret-right"
+          nzTheme="outline"></span>
+      </div>
+    }
     <div class="description">
       <!-- {{ activity.__typename }} -->
       @if (scope().mode !== 'USER') {
