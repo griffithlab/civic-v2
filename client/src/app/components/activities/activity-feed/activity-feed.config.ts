@@ -30,10 +30,6 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   userId: [],
   activityType: [],
   subjectType: [],
-
-  // 103 items, no errors:
-  // activityType: [ActivityTypeInput.Comment],
-  // subjectType: [ActivitySubjectInput.Variant],
   occurredAfter: null,
   occurredBefore: null,
   sortByColumn: DateSortColumns.Created,

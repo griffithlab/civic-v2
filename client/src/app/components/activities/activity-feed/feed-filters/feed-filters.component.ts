@@ -128,7 +128,6 @@ export class CvcActivityFeedFilterSelects implements OnInit {
           // check for new activities every interval seconds,
           // starting after interval seconds
           return timer(interval, interval).pipe(
-            startWith(0),
             switchMap(() => {
               return this.gql
                 .fetch(
@@ -142,7 +141,8 @@ export class CvcActivityFeedFilterSelects implements OnInit {
                   map((result) => result.data?.activities?.totalCount ?? 0),
                   distinctUntilChanged()
                 )
-            })
+            }),
+            startWith(0)
           )
         } else {
           return of(0)

@@ -121,6 +121,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...CommentActivityDetail @include(if: $requestDetails)
   ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...CreateVariantActivityDetail @include(if: $requestDetails)
+  ...DeleteCommentActivityDetail @include(if: $requestDetails)
   ...DeprecateComplexMolecularProfileActivityDetail
     @include(if: $requestDetails)
   ...DeprecateVariantActivityDetail @include(if: $requestDetails)

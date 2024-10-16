@@ -114,7 +114,7 @@
       <cvc-activity-feed-filters
         (cvcFiltersChange)="onFilterChange$.next($event)"
         [cvcRefreshChanges]="(refreshChange$ | async)!"
-        [cvcCheckInterval]="5"
+        [cvcCheckInterval]="cvcCheckInterval()"
         [cvcFilterOptions]="feedFilterOptions()"
         [cvcFilters]="cvcFilters()"
         [cvcScope]="cvcScope()">

@@ -1,0 +1,14 @@
+fragment DeleteCommentActivityDetail on DeleteCommentActivity {
+  subject {
+    ... on Comment {
+      ...commentListNode
+      commentable {
+        id
+        name
+        link
+      }
+    }
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

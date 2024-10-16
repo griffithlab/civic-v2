@@ -75,58 +75,75 @@
     #subject
     let-subject
     let-isScrolling="isScrolling">
-    <ng-container [ngSwitch]="subject.__typename">
-      <cvc-feature-tag
-        *ngSwitchCase="'Feature'"
-        [feature]="subject"
-        [enablePopover]="!isScrolling"></cvc-feature-tag>
-      <cvc-assertion-tag
-        *ngSwitchCase="'Assertion'"
-        [assertion]="subject"
-        [enablePopover]="!isScrolling"></cvc-assertion-tag>
-      <cvc-evidence-tag
-        *ngSwitchCase="'EvidenceItem'"
-        [evidence]="subject"
-        [enablePopover]="!isScrolling"></cvc-evidence-tag>
-      <cvc-feature-variant-tag
-        *ngSwitchCase="'GeneVariant'"
-        [variant]="subject"
-        [feature]="subject.feature"
-        [truncateLongName]="true"
-        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
-      <cvc-feature-variant-tag
-        *ngSwitchCase="'FactorVariant'"
-        [variant]="subject"
-        [feature]="subject.feature"
-        [truncateLongName]="true"
-        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
-      <cvc-feature-variant-tag
-        *ngSwitchCase="'FusionVariant'"
-        [variant]="subject"
-        [feature]="subject.feature"
-        [truncateLongName]="true"
-        [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
-      <cvc-revision-tag
-        *ngSwitchCase="'Revision'"
-        [revision]="$any(subject)"
-        [enablePopover]="!isScrolling"></cvc-revision-tag>
-      <cvc-variant-group-tag
-        *ngSwitchCase="'VariantGroup'"
-        [variantgroup]="subject"
-        [enablePopover]="!isScrolling"></cvc-variant-group-tag>
-      <cvc-source-tag
-        *ngSwitchCase="'Source'"
-        mode="concise"
-        [source]="$any(subject)"
-        [enablePopover]="!isScrolling"></cvc-source-tag>
-      <cvc-molecular-profile-tag
-        *ngSwitchCase="'MolecularProfile'"
-        [molecularProfile]="subject"
-        [truncateLongName]="true"
-        [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
-      <span *ngSwitchDefault>
-        <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
-      </span>
-    </ng-container>
+    @switch (subject.__typename) {
+      @case ('Feature') {
+        <cvc-feature-tag
+          [feature]="subject"
+          [enablePopover]="!isScrolling"></cvc-feature-tag>
+      }
+      @case ('Assertion') {
+        <cvc-assertion-tag
+          [assertion]="subject"
+          [enablePopover]="!isScrolling"></cvc-assertion-tag>
+      }
+      @case ('Comment') {
+        <cvc-comment-tag
+          [comment]="subject"
+          [enablePopover]="!isScrolling"></cvc-comment-tag>
+      }
+      @case ('EvidenceItem') {
+        <cvc-evidence-tag
+          [evidence]="subject"
+          [enablePopover]="!isScrolling"></cvc-evidence-tag>
+      }
+      @case ('GeneVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('FactorVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('FusionVariant') {
+        <cvc-feature-variant-tag
+          [variant]="subject"
+          [feature]="subject.feature"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-feature-variant-tag>
+      }
+      @case ('Revision') {
+        <cvc-revision-tag
+          [revision]="$any(subject)"
+          [enablePopover]="!isScrolling"></cvc-revision-tag>
+      }
+      @case ('VariantGroup') {
+        <cvc-variant-group-tag
+          [variantgroup]="subject"
+          [enablePopover]="!isScrolling"></cvc-variant-group-tag>
+      }
+      @case ('Source') {
+        <cvc-source-tag
+          mode="concise"
+          [source]="$any(subject)"
+          [enablePopover]="!isScrolling"></cvc-source-tag>
+      }
+      @case ('MolecularProfile') {
+        <cvc-molecular-profile-tag
+          [molecularProfile]="subject"
+          [truncateLongName]="true"
+          [enablePopover]="!isScrolling"></cvc-molecular-profile-tag>
+      }
+      @default {
+        <span>
+          <nz-tag>{{ subject.__typename }} {{ subject.name }}</nz-tag>
+        </span>
+      }
+    }
   </ng-template>
 }

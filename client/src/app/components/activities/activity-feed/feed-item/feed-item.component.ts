@@ -50,6 +50,7 @@ import { simpleActivityTypes } from '../activity-feed.config'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { CvcCommentTagModule } from '../../../comments/comment-tag/comment-tag.module'
 
 export type FeedItemToggle = {
   id: number
@@ -92,6 +93,7 @@ export type FeedItemToggle = {
     CvcMolecularProfileTagModule,
     CvcCommentActivity,
     CvcFeatureVariantTagModule,
+    CvcCommentTagModule,
   ],
 })
 export class CvcActivityFeedItem implements OnInit {
