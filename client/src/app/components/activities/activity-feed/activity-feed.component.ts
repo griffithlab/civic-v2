@@ -240,7 +240,6 @@ export class CvcActivityFeed {
         } else {
           if (event.type === 'refetch') {
             this.queryRef.refetch(event.query).then((data) => {
-              console.log('refetch complete', data)
               this.onQueryComplete$.next(true)
               if (this.scrollAdapter) this.scrollAdapter.reload()
             })

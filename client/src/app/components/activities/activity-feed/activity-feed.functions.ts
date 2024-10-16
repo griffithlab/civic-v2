@@ -67,7 +67,7 @@ export const disableDates = {
 function filtersToQueryVariables(
   filters: ActivityFeedFilters
 ): ActivityFeedFilterVariables {
-  return {
+  const queryVariables = {
     activityType:
       filters['activityType'].length > 0 ? filters['activityType'] : undefined,
     organizationId:
@@ -88,6 +88,7 @@ function filtersToQueryVariables(
       direction: filters['sortByDirection'],
     },
   }
+  return queryVariables
 }
 
 // convert settings to mode & id query variables
@@ -103,7 +104,6 @@ function settingsToQueryVariables(
       ? { organizationId: [scope.organizationId] }
       : {}),
     ...(scope.mode === EventFeedMode.User ? { userId: [scope.userId] } : {}),
-    userId: scope.mode === EventFeedMode.User ? [scope.userId] : undefined,
   }
 }
 
