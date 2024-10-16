@@ -223,7 +223,7 @@ module Types
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
       end
       if (id != :unspecified)
-        Feature.find_by(feature_instance_type: 'Features::Gene', id: id).feature_instance
+        Feature.find_by(feature_instance_type: 'Features::Gene', id: id)&.feature_instance
       else
         Features::Gene.find_by(name: entrez_symbol)
       end
@@ -234,14 +234,14 @@ module Types
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or ncitId')
       end
       if (id != :unspecified)
-        Feature.find_by(feature_instance_type: 'Features::Factor', id: id).feature_instance
+        Feature.find_by(feature_instance_type: 'Features::Factor', id: id)&.feature_instance
       else
         Features::Factor.find_by(ncit_id: ncit_id)
       end
     end
 
     def fusion(id: )
-      Feature.find_by(feature_instance_type: 'Features::Fusion', id: id).feature_instance
+      Feature.find_by(feature_instance_type: 'Features::Fusion', id: id)&.feature_instance
     end
 
     def feature(id: )
