@@ -4794,6 +4794,8 @@ export type Query = {
   evidenceItem?: Maybe<EvidenceItem>;
   /** List and filter evidence items. */
   evidenceItems: EvidenceItemConnection;
+  /** Find a single gene by CIViC ID or NCIt ID */
+  factor?: Maybe<Factor>;
   /** List and filter factors. */
   factors: FactorConnection;
   /** Find a single feature by CIViC ID */
@@ -4804,6 +4806,8 @@ export type Query = {
   flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
+  /** Find a single gene by CIViC ID */
+  fusion?: Maybe<Fusion>;
   /** List and filter fusions. */
   fusions: FusionConnection;
   /** Find a single gene by CIViC ID or Entrez symbol */
@@ -5174,6 +5178,12 @@ export type QueryEvidenceItemsArgs = {
 };
 
 
+export type QueryFactorArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+  ncitId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryFactorsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -5210,6 +5220,11 @@ export type QueryFlagsArgs = {
   resolvingUserId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<DateSort>;
   state?: InputMaybe<FlagState>;
+};
+
+
+export type QueryFusionArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
