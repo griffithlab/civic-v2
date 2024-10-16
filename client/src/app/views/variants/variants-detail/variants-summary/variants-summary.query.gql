@@ -64,6 +64,9 @@ fragment VariantSummaryFields on VariantInterface {
       profileImagePath(size: 32)
     }
     createdAt
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
   ... on GeneVariant {
     ... GeneVariantSummaryFields
