@@ -24,6 +24,14 @@ module Types::Entities
     field :deprecation_reason, Types::FeatureDeprecationReasonType, null: true
     field :creation_activity, Types::Activities::CreateFeatureActivityType, null: true
 
+    def id
+      if object.class.name == 'Feature'
+        object.id
+      else
+        object.feature.id
+      end
+    end
+
     def feature_aliases
       if object.class.name == 'Feature'
         to_load = object

@@ -211,8 +211,8 @@ module Types
       if (id == :unspecified && entrez_symbol == :unspecified) || (id != :unspecified && entrez_symbol != :unspecified)
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
       end
-      if (id != :unspecified) 
-        Features::Gene.find_by(id: id)
+      if (id != :unspecified)
+        Feature.find_by(feature_instance_type: 'Features::Gene', id: id).feature_instance
       else
         Features::Gene.find_by(name: entrez_symbol)
       end
