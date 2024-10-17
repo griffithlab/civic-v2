@@ -161,7 +161,6 @@ export class CvcActivityFeed {
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
   pageInfo$: Observable<PageInfo>
-  onZeroRows$: Subject<boolean>
   onAllRowsFetched$: Subject<boolean>
 
   // PRESENTATION SIGNALS
@@ -195,12 +194,10 @@ export class CvcActivityFeed {
     this.queryType$ = new Subject()
     this.pageInfo$ = new Observable()
     this.onQueryComplete$ = new Subject()
-    this.onZeroRows$ = new Subject()
     this.onAllRowsFetched$ = new Subject()
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
-    this.zeroRows = toSignal(this.onZeroRows$, { initialValue: false })
     this.allRowsFetched = toSignal(this.onAllRowsFetched$, {
       initialValue: false,
     })
@@ -234,7 +231,6 @@ export class CvcActivityFeed {
       switchMap(() => merge(this.refreshChange$, fetchChange$)),
       switchMap((event: FeedQueryEvent) => {
         this.queryType$.next(event.type)
-        this.onZeroRows$.next(false)
         if (!this.queryRef) {
           this.queryRef = this.gql.watch(event.query)
         } else {
@@ -338,6 +334,14 @@ export class CvcActivityFeed {
       this.configureDatasource()
       this.configureAdapter()
     })
+
+    this.zeroRows = toSignal(
+      this.result$.pipe(
+        map((result) => result.data?.activities?.edges.length === 0),
+        shareReplay(1)
+      ),
+      { initialValue: false }
+    )
   } // end constructor()
 
   configureDatasource(): void {

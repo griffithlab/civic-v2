@@ -56,14 +56,15 @@
                 text-align: center;
                 color: #666;
               ">
-              No Activities found matching
+              No Activities found
               @if (cvcScope().mode === 'SUBJECT') {
-                specified subject
+                for this subject
               } @else if (cvcScope().mode === 'USER') {
-                specified contributor
-              } @else {
-                specified filters
+                for this contributor
+              } @else if (cvcScope().mode === 'ORGANIZATION') {
+                for this organization
               }
+              that match specified filters
             </div>
           </ng-template>
           <!-- scroller top/bottom dropshadows - MIDDLE -->
