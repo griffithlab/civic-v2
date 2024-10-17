@@ -1,13 +1,11 @@
 fragment DeleteCommentActivityDetail on DeleteCommentActivity {
+  comment {
+    ...commentListNode
+  }
   subject {
-    ... on Comment {
-      ...commentListNode
-      commentable {
-        id
-        name
-        link
-      }
-    }
+    id
+    name
+    link
   }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents

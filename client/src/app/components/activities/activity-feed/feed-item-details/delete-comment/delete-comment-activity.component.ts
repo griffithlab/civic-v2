@@ -12,7 +12,7 @@ import { DeleteCommentActivityDetailFragment } from '@app/generated/civic.apollo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcDeleteCommentActivity {
-  activity = input.required<any>({
+  activity = input.required<DeleteCommentActivityDetailFragment>({
     alias: 'cvcDeleteCommentActivity',
   })
 }

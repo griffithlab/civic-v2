@@ -18,6 +18,7 @@
     </div>
   </nz-card>
   <ng-template #itemDescription>
+    <!-- detail toggle -->
     @if (!simpleActivityTypes.has(activity.__typename)) {
       <div
         class="toggle"
@@ -35,23 +36,63 @@
           nzTheme="outline"></span>
       </div>
     }
+    <!-- User Tag -->
     <div class="description">
-      <!-- {{ activity.__typename }} -->
       @if (scope().mode !== 'USER') {
         <cvc-user-tag [user]="activity.user"></cvc-user-tag>
       }
-      <span
-        class="verbiage"
-        nz-typography
-        nzType="secondary">
-        {{ activity.verbiage }}
-      </span>
+      <!-- For CommentActivity, replace verbiage with 'added [comment]' -->
+      @if (activity.__typename === 'CommentActivity') {
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          added
+        </span>
+        <cvc-comment-tag
+          [comment]="activity.comment"
+          [enablePopover]="!$scroller().isScrolling"></cvc-comment-tag>
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          to
+        </span>
+      } @else {
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          {{ activity.verbiage }}
+        </span>
+      }
       @if (scope().mode !== 'SUBJECT') {
         <ng-container
           *ngTemplateOutlet="
             subject;
             context: {
               $implicit: activity.subject,
+              isScrolling: $scroller().isScrolling,
+            }
+          ">
+        </ng-container>
+      }
+      <!-- For DeleteCommentActivity, include commentable tag -->
+      @if (
+        activity.__typename === 'DeleteCommentActivity' &&
+        activity.subject.__typename === 'Comment'
+      ) {
+        <span
+          class="verbiage"
+          nz-typography
+          nzType="secondary">
+          from
+        </span>
+        <ng-container
+          *ngTemplateOutlet="
+            subject;
+            context: {
+              $implicit: activity.subject.commentable,
               isScrolling: $scroller().isScrolling,
             }
           ">

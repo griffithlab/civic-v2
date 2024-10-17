@@ -79,17 +79,16 @@ export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
 }
 
 export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
-  bufferSize: 25,
+  bufferSize: 20, // fetchmore minimum rows requested
   minIndex: 0,
   startIndex: 0,
-  itemSize: 44,
-  sizeStrategy: SizeStrategy.Frequent,
+  itemSize: 42,
+  sizeStrategy: SizeStrategy.Constant, // seems to provide better performance
   padding: 0.8,
 }
 
 export const scrollerDevSettings: DevSettings = {
   // debug: true,
   // immediateLog: true,
-  // cacheData: true, // smoother scrolling?
   cacheData: true, // testing
 }

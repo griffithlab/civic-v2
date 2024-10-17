@@ -112,6 +112,48 @@ fragment ActivityFeedItemBase on ActivityInterface {
         link
       }
     }
+    ... on Comment {
+      commentable {
+        id
+        name
+        link
+        ... on FactorVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on FusionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on GeneVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+      }
+    }
+  }
+  ... on DeleteCommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+  ... on CommentActivity {
+    comment {
+      id
+      name
+      link
+    }
   }
 }
 
