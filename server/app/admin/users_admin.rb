@@ -7,6 +7,13 @@ Trestle.resource(:users) do
     item :users, icon: "fa fa-user"
   end
 
+  scopes do
+    User.roles.keys.each do |role|
+      scope role.capitalize.pluralize, -> { User.where(role: role) }
+    end
+    scope "Admins and Editors", -> { User.where(role: ['admin', 'editor']) }
+  end
+
   search do |q|
     q ? collection.where("username ILIKE ? OR name ILIKE ?", "%#{q}%", "%#{q}%") : collection
   end

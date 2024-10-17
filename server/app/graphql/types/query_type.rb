@@ -60,6 +60,17 @@ module Types
       argument :entrez_symbol, String, required: false
     end
 
+    field :factor, Types::Entities::FactorType, null: true do
+      description "Find a single gene by CIViC ID or NCIt ID"
+      argument :id, Int, required: false
+      argument :ncit_id, String, required: false
+    end
+
+    field :fusion, Types::Entities::FusionType, null: true do
+      description "Find a single gene by CIViC ID"
+      argument :id, Int, required: false
+    end
+
     field :feature, Types::Entities::FeatureType, null: true do
       description "Find a single feature by CIViC ID"
       argument :id, Int, required: false
@@ -211,11 +222,26 @@ module Types
       if (id == :unspecified && entrez_symbol == :unspecified) || (id != :unspecified && entrez_symbol != :unspecified)
         raise GraphQL::ExecutionError.new('Must specify exactly one of id or entrezSymbol')
       end
-      if (id != :unspecified) 
-        Features::Gene.find_by(id: id)
+      if (id != :unspecified)
+        Feature.find_by(feature_instance_type: 'Features::Gene', id: id)&.feature_instance
       else
         Features::Gene.find_by(name: entrez_symbol)
       end
+    end
+
+    def factor(id: :unspecified, ncit_id: :unspecified)
+      if (id == :unspecified && ncit_id == :unspecified) || (id != :unspecified && ncit_id != :unspecified)
+        raise GraphQL::ExecutionError.new('Must specify exactly one of id or ncitId')
+      end
+      if (id != :unspecified)
+        Feature.find_by(feature_instance_type: 'Features::Factor', id: id)&.feature_instance
+      else
+        Features::Factor.find_by(ncit_id: ncit_id)
+      end
+    end
+
+    def fusion(id: )
+      Feature.find_by(feature_instance_type: 'Features::Fusion', id: id)&.feature_instance
     end
 
     def feature(id: )

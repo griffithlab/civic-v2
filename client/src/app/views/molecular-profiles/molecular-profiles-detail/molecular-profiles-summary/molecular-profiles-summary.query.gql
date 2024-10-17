@@ -49,6 +49,9 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
       role
       profileImagePath(size: 32)
     }
+    parsedNote {
+      ...parsedCommentFragment
+    }
   }
 }
 
