@@ -8724,6 +8724,11 @@ type Query {
   ): EvidenceItemConnection!
 
   """
+  Find a single gene by CIViC ID or NCIt ID
+  """
+  factor(id: Int, ncitId: String): Factor
+
+  """
   List and filter factors.
   """
   factors(
@@ -8818,6 +8823,11 @@ type Query {
     """
     state: FlagState
   ): FlagConnection!
+
+  """
+  Find a single gene by CIViC ID
+  """
+  fusion(id: Int): Fusion
 
   """
   List and filter fusions.

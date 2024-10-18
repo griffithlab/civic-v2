@@ -18,16 +18,23 @@ class PopulateFusionCoordinates < ApplicationJob
   end
 
   def populate_coords(coords, secondary_coordinates)
+    #For representative fusions, these fields are empty when the representative exons coords are first curated/revisions accepted
+    #For all fusions, these require updating when a revision on the primary set of coords edits these fields
+    secondary_coordinates.representative_transcript = coords.representative_transcript
+    secondary_coordinates.reference_build = coords.reference_build
+    secondary_coordinates.ensembl_version = coords.ensembl_version
+    secondary_coordinates.save!
+
     if coords.present? && coords.representative_transcript.present?
       (exon, highest_exon) = get_exon_for_transcript(coords.representative_transcript, coords.exon)
-      populate_exon_coordinates(coords, exon)
+      populate_exon_coordinates(coords, exon, coords.exon)
 
       if coords.coordinate_type =~ /Five Prime/
         (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, 1)
-        populate_exon_coordinates(secondary_coordinates, secondary_exon)
+        populate_exon_coordinates(secondary_coordinates, secondary_exon, 1)
       else
         (secondary_exon, _) = get_exon_for_transcript(secondary_coordinates.representative_transcript, highest_exon)
-        populate_exon_coordinates(secondary_coordinates, secondary_exon)
+        populate_exon_coordinates(secondary_coordinates, secondary_exon, highest_exon)
       end
     end
   end
@@ -58,7 +65,9 @@ class PopulateFusionCoordinates < ApplicationJob
     [exon.first, max_exon_on_transcript]
   end
 
-  def populate_exon_coordinates(coordinates, exon)
+  def populate_exon_coordinates(coordinates, exon, exon_number)
+    coordinates.exon = exon_number
+
     strand = if exon['strand'] == -1
                'negative'
              else
