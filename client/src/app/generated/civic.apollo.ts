@@ -7587,6 +7587,7 @@ export type ActivityFeedQueryVariables = Exact<{
   requestDetails: Scalars['Boolean']['input'];
   occurredAfter?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
   occurredBefore?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  sortBy?: InputMaybe<DateSort>;
 }>;
 
 
@@ -13444,7 +13445,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
 ${FactorVariantSummaryFieldsFragmentDoc}
 ${FusionVariantSummaryFieldsFragmentDoc}`;
 export const ActivityFeedDocument = gql`
-    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $includeAutomatedEvents: Boolean, $includeConnection: Boolean = true, $includePageInfo: Boolean = true, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime) {
+    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $includeAutomatedEvents: Boolean, $includeConnection: Boolean = true, $includePageInfo: Boolean = true, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime, $sortBy: DateSort) {
   activities(
     subject: $subject
     first: $first
@@ -13459,6 +13460,7 @@ export const ActivityFeedDocument = gql`
     mode: $mode
     occurredAfter: $occurredAfter
     occurredBefore: $occurredBefore
+    sortBy: $sortBy
   ) {
     ...ActivitiesConnectionFields @include(if: $includeConnection)
     ...ActivitiesPageInfoFields @include(if: $includePageInfo)

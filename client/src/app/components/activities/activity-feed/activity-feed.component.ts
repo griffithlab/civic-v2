@@ -235,6 +235,7 @@ export class CvcActivityFeed {
           this.queryRef = this.gql.watch(event.query)
         } else {
           if (event.type === 'refetch') {
+            this.onAllRowsFetched$.next(false)
             this.queryRef.refetch(event.query).then((data) => {
               this.onQueryComplete$.next(true)
               if (this.scrollAdapter) this.scrollAdapter.reload()
@@ -309,16 +310,6 @@ export class CvcActivityFeed {
       { initialValue: feedFilterOptionDefaults }
     )
 
-    this.allRowsFetched = toSignal(
-      this.onAllRowsFetched$.pipe(tag('onAllRowsFetched$')),
-      // connection$.pipe(
-      //   map((connection) => {
-      //     return connection.pageInfo.hasNextPage
-      //   })
-      // ),
-      { initialValue: false }
-    )
-
     this.edge$ = this.result$.pipe(
       pluck('data', 'activities'),
       filter(isNonNulled),
@@ -337,8 +328,7 @@ export class CvcActivityFeed {
 
     this.zeroRows = toSignal(
       this.result$.pipe(
-        map((result) => result.data?.activities?.edges.length === 0),
-        shareReplay(1)
+        map((result) => result.data?.activities?.edges.length === 0)
       ),
       { initialValue: false }
     )
@@ -360,6 +350,7 @@ export class CvcActivityFeed {
               hasNextPage === false &&
               edges.length <= edgesRequired
             ) {
+              this.onAllRowsFetched$.next(true)
               return of(edges)
             }
 

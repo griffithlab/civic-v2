@@ -21,7 +21,6 @@
       </button>
     </ng-template>
   </nz-col>
-  <nz-col nzSpan="24"> </nz-col>
   <nz-col nzSpan="24">
     <ng-container
       *ngTemplateOutlet="
@@ -224,25 +223,7 @@
       nzPlaceHolder="Select Date">
     </nz-date-picker>
   </nz-col>
-  <nz-col
-    nzMd="24"
-    nzLg="12">
-    <h4>Sort By</h4>
-    <nz-select
-      nzPlaceHolder="Select Sort By"
-      [ngModel]="sortByColumn()"
-      (ngModelChange)="sortByColumn.set($event)"
-      [nzOptionHeightPx]="28">
-      <nz-option
-        *ngFor="let sort of cvcFilterOptions().sortColumns"
-        [nzLabel]="sort | enumToTitle"
-        [nzValue]="sort">
-      </nz-option>
-    </nz-select>
-  </nz-col>
-  <nz-col
-    nzMd="24"
-    nzLg="12">
+  <nz-col nzSpan="24">
     <h4>Sort Direction</h4>
     <nz-select
       nzPlaceHolder="Select Direction"

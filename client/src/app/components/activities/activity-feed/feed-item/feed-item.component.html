@@ -39,7 +39,9 @@
     <!-- User Tag -->
     <div class="description">
       @if (scope().mode !== 'USER') {
-        <cvc-user-tag [user]="activity.user"></cvc-user-tag>
+        <cvc-user-tag
+          [user]="activity.user"
+          [enablePopover]="!$scroller().isScrolling"></cvc-user-tag>
       }
       <!-- For CommentActivity, replace verbiage with 'added [comment]' -->
       @if (activity.__typename === 'CommentActivity') {
