@@ -87,13 +87,17 @@
           [nzSortFn]="true">
           Journal
         </th>
-        <th nzWidth="80px"
+        <th
+          nzWidth="80px"
           nzRight
           nz-tooltip
           nzTooltipTitle="Open Access">
-          <i nz-icon nzType="unlock"></i>
+          <i
+            nz-icon
+            nzType="unlock"></i>
         </th>
-        <th nzWidth="75px"
+        <th
+          nzWidth="75px"
           nzRight
           nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceCount"
@@ -179,14 +183,17 @@
             "></cvc-clearable-input-filter>
         </th>
         <th nzRight>
-          <nz-select nzSize="small"
+          <nz-select
+            nzSize="small"
             nzAllowClear
             nzPlaceHolder="Choose"
             (ngModelChange)="filterChange$.next()"
             [(ngModel)]="openAccessInput">
-            <nz-option [nzValue]="true"
+            <nz-option
+              [nzValue]="true"
               nzLabel="Open"></nz-option>
-            <nz-option [nzValue]="false"
+            <nz-option
+              [nzValue]="false"
               nzLabel="Closed"></nz-option>
           </nz-select>
         </th>
@@ -203,6 +210,7 @@
           <td nzLeft>
             <cvc-source-tag
               [source]="source"
+              [enablePopover]="!isScrolling"
               [truncateLongName]="true"></cvc-source-tag>
           </td>
           <td
@@ -230,13 +238,25 @@
           <td>
             {{ source.journal }}
           </td>
-          <td nzRight nz-tooltip [nzTooltipTitle]="source.openAccess ? 'Open' : 'Closed'">
-            <span nz-icon [nzType]="source.openAccess ? 'unlock' :'lock'" nzTheme="outline"></span>
+          <td
+            nzRight
+            nz-tooltip
+            [nzTooltipTitle]="source.openAccess ? 'Open' : 'Closed'">
+            <span
+              nz-icon
+              [nzType]="source.openAccess ? 'unlock' : 'lock'"
+              nzTheme="outline"></span>
           </td>
-          <td nzAlign="right"
-            nzRight>{{source.evidenceItemCount}}</td>
-          <td nzAlign="right"
-            nzRight>{{source.sourceSuggestionCount}}</td>
+          <td
+            nzAlign="right"
+            nzRight>
+            {{ source.evidenceItemCount }}
+          </td>
+          <td
+            nzAlign="right"
+            nzRight>
+            {{ source.sourceSuggestionCount }}
+          </td>
         </tr>
       </ng-template>
     </tbody>

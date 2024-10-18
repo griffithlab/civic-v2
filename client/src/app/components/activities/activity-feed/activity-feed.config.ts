@@ -2,7 +2,9 @@ import {
   ActivityInterfaceEdge,
   ActivitySubjectInput,
   ActivityTypeInput,
+  DateSortColumns,
   EventFeedMode,
+  SortDirection,
 } from '@app/generated/civic.apollo'
 import {
   ActivityFeedFilterOptions,
@@ -28,12 +30,10 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   userId: [],
   activityType: [],
   subjectType: [],
-
-  // 103 items, no errors:
-  // activityType: [ActivityTypeInput.Comment],
-  // subjectType: [ActivitySubjectInput.Variant],
   occurredAfter: null,
   occurredBefore: null,
+  sortByColumn: DateSortColumns.Created,
+  sortByDirection: SortDirection.Desc,
 }
 
 export const feedDefaultScope: ActivityFeedScope = {
@@ -74,20 +74,21 @@ export const feedFilterOptionDefaults: ActivityFeedFilterOptions = {
   participatingOrganizations: [],
   activityTypes: [],
   subjectTypes: [],
+  sortColumns: [DateSortColumns.Created, DateSortColumns.LastModified],
+  sortDirections: [SortDirection.Desc, SortDirection.Asc],
 }
 
 export const scrollerSettings: Settings<ActivityInterfaceEdge> = {
-  bufferSize: 25,
+  bufferSize: 20, // fetchmore minimum rows requested
   minIndex: 0,
   startIndex: 0,
-  itemSize: 44,
-  sizeStrategy: SizeStrategy.Frequent,
+  itemSize: 42,
+  sizeStrategy: SizeStrategy.Constant, // seems to provide better performance
   padding: 0.8,
 }
 
 export const scrollerDevSettings: DevSettings = {
   // debug: true,
   // immediateLog: true,
-  // cacheData: true, // smoother scrolling?
   cacheData: true, // testing
 }

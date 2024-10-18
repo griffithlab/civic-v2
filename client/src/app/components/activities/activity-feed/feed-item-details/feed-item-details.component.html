@@ -18,6 +18,11 @@
         [cvcCreateVariantActivity]="activity">
       </cvc-create-variant-activity-details>
     }
+    @case ('DeleteCommentActivity') {
+      <cvc-delete-comment-activity-details
+        [cvcDeleteCommentActivity]="activity">
+      </cvc-delete-comment-activity-details>
+    }
     @case ('DeprecateComplexMolecularProfileActivity') {
       <cvc-deprecate-mp-activity-details [cvcDeprecateMpActivity]="activity">
       </cvc-deprecate-mp-activity-details>
@@ -80,15 +85,30 @@
         [cvcUpdateSourceSuggestionStatusActivity]="activity">
       </cvc-update-source-suggestion-activity-details>
     }
+    @default {
+      <h4 style="margin: 8px">Unhandled activity type</h4>
+      <pre
+        style="
+          background-color: #f0f0f0;
+          margin: 8px;
+          padding: 8px;
+          border: 1px solid #e0e0e0;
+          border-radius: 4px;
+        "
+        >{{ activity | json }}</pre
+      >
+    }
   }
 } @else {
   @if ($loading()) {
-    <nz-skeleton
-      [nzActive]="true"
-      [nzTitle]="false"
-      [nzParagraph]="{
-        rows: 3,
-        width: ['100%', '100%', '100%'],
-      }"></nz-skeleton>
+    <div class="loading-container">
+      <nz-skeleton
+        [nzActive]="true"
+        [nzTitle]="false"
+        [nzParagraph]="{
+          rows: 2,
+          width: ['100%', '100%', '100%'],
+        }"></nz-skeleton>
+    </div>
   }
 }

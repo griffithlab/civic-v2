@@ -1,4 +1,26 @@
 <nz-row [nzGutter]="[8, 8]">
+  <nz-col
+    *ngIf="newActivities() > 0"
+    [@refreshAlertAnimation]
+    nzSpan="24">
+    <nz-alert
+      nzType="info"
+      [nzDescription]="msgTmpl"
+      [nzAction]="actionTmpl"></nz-alert>
+    <ng-template #msgTmpl>
+      {{ newActivities() }} new
+      {{ newActivities() > 1 ? 'activities' : 'activity' }} available
+    </ng-template>
+    <ng-template #actionTmpl>
+      <button
+        nz-button
+        nzSize="small"
+        nzType="default"
+        (click)="cvcFiltersChange.emit(cvcFilters())">
+        Refresh
+      </button>
+    </ng-template>
+  </nz-col>
   <nz-col nzSpan="24">
     <ng-container
       *ngTemplateOutlet="
@@ -201,6 +223,26 @@
       nzPlaceHolder="Select Date">
     </nz-date-picker>
   </nz-col>
+  <nz-col nzSpan="24">
+    <h4>Sort Direction</h4>
+    <nz-select
+      nzPlaceHolder="Select Direction"
+      [ngModel]="sortByDirection()"
+      (ngModelChange)="sortByDirection.set($event)"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="let direction of cvcFilterOptions().sortDirections"
+        [nzLabel]="direction | enumToTitle"
+        [nzValue]="direction">
+      </nz-option>
+    </nz-select>
+  </nz-col>
+  <!-- <nz-col nzSpan="24">
+    <h4>Filters</h4>
+    <pre>{{ cvcFilters() | json }}</pre>
+    <h4>Filter Options</h4>
+    <pre>{{ cvcFilterOptions() | json }}</pre>
+  </nz-col> -->
 </nz-row>
 <!-- TEMPLATES -->
 

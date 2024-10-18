@@ -7,8 +7,6 @@ import {
   Injector,
   input,
   NgZone,
-  OnInit,
-  runInInjectionContext,
   Signal,
 } from '@angular/core'
 import {
@@ -36,9 +34,9 @@ import {
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import {
-  BehaviorSubject,
   combineLatest,
   filter,
+  interval,
   map,
   merge,
   Observable,
@@ -47,6 +45,7 @@ import {
   Subject,
   switchMap,
   take,
+  timer,
   withLatestFrom,
 } from 'rxjs'
 import {
@@ -58,7 +57,13 @@ import {
   connectionToFilterOptions,
   queryParamsToQueryVariables,
 } from '@app/components/activities/activity-feed/activity-feed.functions'
-import { shareReplay } from 'rxjs/operators'
+import {
+  distinctUntilChanged,
+  mapTo,
+  shareReplay,
+  skip,
+  startWith,
+} from 'rxjs/operators'
 import { ApolloQueryResult } from '@apollo/client/core'
 import {
   ActivityFeedGQL,
@@ -92,7 +97,8 @@ import { CommonModule } from '@angular/common'
 import { NzResultModule } from 'ng-zorro-antd/result'
 import { tag } from 'rxjs-spy/operators'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { animate, state, style, transition, trigger } from '@angular/animations'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
@@ -112,6 +118,8 @@ export const FEED_SCROLL_SERVICE_TOKEN =
     NzTagModule,
     NzSpinModule,
     NzResultModule,
+    NzButtonModule,
+    NzIconModule,
     CvcActivityFeedItem,
     CvcAutoHeightDivModule,
     CvcActivityFeedCounts,
@@ -136,6 +144,7 @@ export class CvcActivityFeed {
   cvcFilters = input<ActivityFeedFilters>(feedDefaultFilters)
   cvcScope = input<ActivityFeedScope>(feedDefaultScope)
   cvcTitle = input<string>('Activity Feed')
+  cvcCheckInterval = input<number>(0)
 
   // SOURCE STREAMS
   onSettingChange$: Subject<ActivityFeedSettings>
@@ -145,13 +154,13 @@ export class CvcActivityFeed {
   // INTERMEDIATE STREAMS
   poll$: Subject<FetchParams>
   fetchMore$: Subject<FetchParams>
+  refreshChange$: Observable<FeedQueryRefetchEvent>
   result$: Observable<ApolloQueryResult<ActivityFeedQuery>>
   init$: Subject<void>
   queryType$: Subject<'refetch' | 'fetchMore'>
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
   pageInfo$: Observable<PageInfo>
-  onZeroRows$: Subject<boolean>
   onAllRowsFetched$: Subject<boolean>
 
   // PRESENTATION SIGNALS
@@ -185,17 +194,15 @@ export class CvcActivityFeed {
     this.queryType$ = new Subject()
     this.pageInfo$ = new Observable()
     this.onQueryComplete$ = new Subject()
-    this.onZeroRows$ = new Subject()
     this.onAllRowsFetched$ = new Subject()
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
-    this.zeroRows = toSignal(this.onZeroRows$, { initialValue: false })
     this.allRowsFetched = toSignal(this.onAllRowsFetched$, {
       initialValue: false,
     })
 
-    const refreshChange$ = combineLatest([
+    this.refreshChange$ = combineLatest([
       this.onSettingChange$,
       this.onFilterChange$,
     ]).pipe(
@@ -221,16 +228,15 @@ export class CvcActivityFeed {
     )
 
     this.result$ = this.init$.pipe(
-      switchMap(() => merge(refreshChange$, fetchChange$)),
+      switchMap(() => merge(this.refreshChange$, fetchChange$)),
       switchMap((event: FeedQueryEvent) => {
         this.queryType$.next(event.type)
-        this.onZeroRows$.next(false)
         if (!this.queryRef) {
           this.queryRef = this.gql.watch(event.query)
         } else {
           if (event.type === 'refetch') {
+            this.onAllRowsFetched$.next(false)
             this.queryRef.refetch(event.query).then((data) => {
-              console.log('refetch complete', data)
               this.onQueryComplete$.next(true)
               if (this.scrollAdapter) this.scrollAdapter.reload()
             })
@@ -304,16 +310,6 @@ export class CvcActivityFeed {
       { initialValue: feedFilterOptionDefaults }
     )
 
-    this.allRowsFetched = toSignal(
-      this.onAllRowsFetched$.pipe(tag('onAllRowsFetched$')),
-      // connection$.pipe(
-      //   map((connection) => {
-      //     return connection.pageInfo.hasNextPage
-      //   })
-      // ),
-      { initialValue: false }
-    )
-
     this.edge$ = this.result$.pipe(
       pluck('data', 'activities'),
       filter(isNonNulled),
@@ -329,6 +325,13 @@ export class CvcActivityFeed {
       this.configureDatasource()
       this.configureAdapter()
     })
+
+    this.zeroRows = toSignal(
+      this.result$.pipe(
+        map((result) => result.data?.activities?.edges.length === 0)
+      ),
+      { initialValue: false }
+    )
   } // end constructor()
 
   configureDatasource(): void {
@@ -347,6 +350,7 @@ export class CvcActivityFeed {
               hasNextPage === false &&
               edges.length <= edgesRequired
             ) {
+              this.onAllRowsFetched$.next(true)
               return of(edges)
             }
 

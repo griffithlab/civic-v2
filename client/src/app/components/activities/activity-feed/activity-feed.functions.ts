@@ -12,6 +12,7 @@ import {
   ActivityFeedFilterOptions,
   ActivityFeedCounts,
 } from './activity-feed.types'
+import { feedFilterOptionDefaults } from './activity-feed.config'
 
 // pluck filter options from feed connection object
 export function connectionToFilterOptions(
@@ -22,6 +23,8 @@ export function connectionToFilterOptions(
     participatingOrganizations: connection.participatingOrganizations ?? [],
     activityTypes: connection.activityTypes ?? [],
     subjectTypes: connection.subjectTypes ?? [],
+    sortColumns: feedFilterOptionDefaults.sortColumns,
+    sortDirections: feedFilterOptionDefaults.sortDirections,
   }
 }
 
@@ -64,7 +67,7 @@ export const disableDates = {
 function filtersToQueryVariables(
   filters: ActivityFeedFilters
 ): ActivityFeedFilterVariables {
-  return {
+  const queryVariables = {
     activityType:
       filters['activityType'].length > 0 ? filters['activityType'] : undefined,
     organizationId:
@@ -80,7 +83,12 @@ function filtersToQueryVariables(
     occurredBefore: filters['occurredBefore']
       ? filters['occurredBefore'].toISOString()
       : undefined,
+    sortBy: {
+      column: filters['sortByColumn'],
+      direction: filters['sortByDirection'],
+    },
   }
+  return queryVariables
 }
 
 // convert settings to mode & id query variables
@@ -96,7 +104,6 @@ function settingsToQueryVariables(
       ? { organizationId: [scope.organizationId] }
       : {}),
     ...(scope.mode === EventFeedMode.User ? { userId: [scope.userId] } : {}),
-    userId: scope.mode === EventFeedMode.User ? [scope.userId] : undefined,
   }
 }
 

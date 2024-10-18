@@ -13,11 +13,12 @@ import {
   ScrollerStateService,
 } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'cvc-flag-entity-activity-details',
   standalone: true,
-  imports: [CommonModule, CvcCommentBodyModule],
+  imports: [CommonModule, CvcCommentBodyModule, NzTypographyModule],
   templateUrl: './flag-entity-activity.component.html',
   styleUrl: './flag-entity-activity.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

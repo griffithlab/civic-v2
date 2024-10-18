@@ -192,7 +192,9 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-feature-tag [feature]="feature!"></cvc-feature-tag>
+            <cvc-feature-tag
+              [feature]="feature!"
+              [enablePopover]="!isScrolling"></cvc-feature-tag>
           </td>
           <td>
             <span
@@ -219,6 +221,7 @@
             <cvc-tag-overflow
               tagType="disease"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [tags]="feature.diseases"
               [matchingText]="diseaseInput">
             </cvc-tag-overflow>
@@ -227,6 +230,7 @@
             <cvc-tag-overflow
               tagType="therapy"
               [maxDisplayCount]="1"
+              [enablePopover]="!isScrolling"
               [tags]="feature.therapies"
               [matchingText]="therapyInput">
             </cvc-tag-overflow>

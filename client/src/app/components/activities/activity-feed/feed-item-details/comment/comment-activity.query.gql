@@ -1,6 +1,11 @@
 fragment CommentActivityDetail on CommentActivity {
   comment {
     ...commentListNode
+    commentable {
+      id
+      name
+      link
+    }
   }
   ...ActivityFeedItemBase
   ...ActivityFeedItemEvents

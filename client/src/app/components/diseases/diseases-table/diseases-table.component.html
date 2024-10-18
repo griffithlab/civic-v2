@@ -159,7 +159,9 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
+            <cvc-disease-tag
+              [disease]="disease"
+              [enablePopover]="!isScrolling"></cvc-disease-tag>
           </td>
           <td nzLeft>
             <cvc-link-tag
@@ -179,6 +181,7 @@
           </td>
           <td class="overflow-ellipsis">
             <cvc-tag-overflow
+              [enablePopover]="!isScrolling"
               tagType="feature"
               [tags]="disease.features"
               [maxDisplayCount]="5"

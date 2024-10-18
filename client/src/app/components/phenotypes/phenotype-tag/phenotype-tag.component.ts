@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkablePhenotype {
@@ -19,7 +19,7 @@ export interface LinkablePhenotype {
   styleUrls: ['./phenotype-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcPhenotypeTagComponent extends BaseCloseableTag {
+export class CvcPhenotypeTagComponent {
   _phenotype!: LinkablePhenotype
   @Input()
   set phenotype(ph: LinkablePhenotype) {
@@ -33,7 +33,8 @@ export class CvcPhenotypeTagComponent extends BaseCloseableTag {
     return this._phenotype
   }
 
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() enablePopover?: boolean = true
+  @Input() linked?: boolean = true
 
   idFunction(): number {
     return this.phenotype.id

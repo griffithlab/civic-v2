@@ -50,6 +50,7 @@ import { simpleActivityTypes } from '../activity-feed.config'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzGridModule } from 'ng-zorro-antd/grid'
+import { CvcCommentTagModule } from '../../../comments/comment-tag/comment-tag.module'
 
 export type FeedItemToggle = {
   id: number
@@ -67,6 +68,11 @@ export type FeedItemToggle = {
       state('visible', style({ height: '*', 'overflow-y': 'hidden' })),
       transition('visible <=> hidden', animate('.25s ease-out')),
       transition('hidden <=> visible', animate('.25s ease-in')),
+    ]),
+    trigger('toggle', [
+      state('hide', style({ transform: 'rotate(0deg)' })),
+      state('show', style({ transform: 'rotate(90deg)' })),
+      transition('hide <=> show', animate('0.2s linear')),
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -92,6 +98,7 @@ export type FeedItemToggle = {
     CvcMolecularProfileTagModule,
     CvcCommentActivity,
     CvcFeatureVariantTagModule,
+    CvcCommentTagModule,
   ],
 })
 export class CvcActivityFeedItem implements OnInit {

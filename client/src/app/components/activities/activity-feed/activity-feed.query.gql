@@ -9,11 +9,14 @@ query ActivityFeed(
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
   $includeAutomatedEvents: Boolean
+  $includeConnection: Boolean = true
+  $includePageInfo: Boolean = true
   $mode: EventFeedMode
   $showFilters: Boolean!
   $requestDetails: Boolean!
   $occurredAfter: ISO8601DateTime
   $occurredBefore: ISO8601DateTime
+  $sortBy: DateSort
 ) {
   activities(
     subject: $subject
@@ -29,13 +32,14 @@ query ActivityFeed(
     mode: $mode
     occurredAfter: $occurredAfter
     occurredBefore: $occurredBefore
+    sortBy: $sortBy
   ) {
-    ...ActivitiesConnectionFields
+    ...ActivitiesConnectionFields @include(if: $includeConnection)
+    ...ActivitiesPageInfoFields @include(if: $includePageInfo)
   }
 }
 
-# activities to render feed items & ui controls
-fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
+fragment ActivitiesPageInfoFields on ActivityInterfaceConnection {
   pageInfo {
     startCursor
     endCursor
@@ -45,6 +49,10 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   pageCount
   totalCount
   unfilteredCount
+}
+
+# activities to render feed items & ui controls
+fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
   activityTypes @include(if: $showFilters)
   uniqueParticipants @include(if: $showFilters) {
     id
@@ -62,9 +70,6 @@ fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
       ...ActivityFeedItem
     }
   }
-  #  nodes {
-  #    ...ActivityFeedItem
-  #  }
 }
 
 # activity summary info to render each feed item
@@ -106,6 +111,48 @@ fragment ActivityFeedItemBase on ActivityInterface {
         link
       }
     }
+    ... on Comment {
+      commentable {
+        id
+        name
+        link
+        ... on FactorVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on FusionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on GeneVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+      }
+    }
+  }
+  ... on DeleteCommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+  ... on CommentActivity {
+    comment {
+      id
+      name
+      link
+    }
   }
 }
 
@@ -115,6 +162,7 @@ fragment ActivityFeedItem on ActivityInterface {
   ...CommentActivityDetail @include(if: $requestDetails)
   ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
   ...CreateVariantActivityDetail @include(if: $requestDetails)
+  ...DeleteCommentActivityDetail @include(if: $requestDetails)
   ...DeprecateComplexMolecularProfileActivityDetail
     @include(if: $requestDetails)
   ...DeprecateVariantActivityDetail @include(if: $requestDetails)

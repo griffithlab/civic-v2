@@ -22,7 +22,7 @@ export interface ScrollerState {
   toggledItems: Set<number>
 }
 
-// configure ngx-ui-scroll's event listners
+// configure ngx-ui-scroll's event listeners
 export function configureScrollerRoutines(
   context: CvcActivityFeed,
   state: ScrollerStateService

@@ -1,4 +1,14 @@
 <div class="comment-container">
-  <cvc-comment-body
-    [commentBodySegments]="activity().parsedNote"></cvc-comment-body>
+  @if (activity().parsedNote.length > 0) {
+    <cvc-comment-body
+      [commentBodySegments]="activity().parsedNote"></cvc-comment-body>
+  } @else {
+    <div class="no-note">
+      <span
+        nz-typography
+        nzType="secondary"
+        >No note provided on resolve.</span
+      >
+    </div>
+  }
 </div>

@@ -45,6 +45,7 @@ import { startWith } from 'rxjs/operators'
 import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-feed/activity-feed.component'
 import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { CvcDeprecateFeatureActivity } from './deprecate-feature/deprecate-feature-activity.component'
+import { CvcDeleteCommentActivity } from './delete-comment/delete-comment-activity.component'
 
 @Component({
   selector: 'cvc-activity-feed-item-details',
@@ -71,6 +72,7 @@ import { CvcDeprecateFeatureActivity } from './deprecate-feature/deprecate-featu
     CvcSubmitEvidenceActivity,
     CvcDeprecateFeatureActivity,
     NzSkeletonModule,
+    CvcDeleteCommentActivity,
   ],
   templateUrl: './feed-item-details.component.html',
   styleUrl: './feed-item-details.component.less',
@@ -109,7 +111,7 @@ export class CvcActivityFeedItemDetails implements OnInit {
           pluck('loading'),
           filter(isNonNulled),
           debounceTime(250),
-          startWith(true)
+          startWith(false)
         ),
         { requireSync: true }
       )

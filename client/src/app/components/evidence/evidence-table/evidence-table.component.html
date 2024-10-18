@@ -439,17 +439,21 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
+            <cvc-evidence-tag
+              [evidence]="eid"
+              [enablePopover]="!isScrolling"></cvc-evidence-tag>
           </td>
           <td *ngIf="displayMolecularProfile">
             <cvc-molecular-profile-tag
               [molecularProfile]="eid.molecularProfile"
+              [enablePopover]="!isScrolling"
               [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="eid.disease; else diseaseElse">
               <cvc-disease-tag
                 [disease]="eid.disease"
+                [enablePopover]="!isScrolling"
                 [truncateLongName]="true"></cvc-disease-tag>
             </ng-container>
             <ng-template #diseaseElse>
@@ -462,6 +466,7 @@
                 <ng-container *ngFor="let therapy of eid.therapies">
                   <cvc-therapy-tag
                     [therapy]="therapy"
+                    [enablePopover]="!isScrolling"
                     [truncateLongName]="true"></cvc-therapy-tag>
                 </ng-container>
               </cvc-tag-list>

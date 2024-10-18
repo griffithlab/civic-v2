@@ -40,8 +40,8 @@ export class CvcUserTagComponent {
   get user(): TagLinkableUser {
     return this._user
   }
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
 
   icon!: string
 }

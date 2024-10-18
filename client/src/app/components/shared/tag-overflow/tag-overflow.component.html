@@ -3,7 +3,7 @@
     *ngFor="let tag of displayedTags"
     [ngClass]="{
       'matched-tag':
-        matchingText && tag.matchText!.toLowerCase().includes(matchingText)
+        matchingText && tag.matchText!.toLowerCase().includes(matchingText),
     }">
     <ng-container
       [ngTemplateOutlet]="tagTemplate"
@@ -15,7 +15,7 @@
       class="overflow-tag"
       *ngIf="hiddenCount && hiddenCount > 0"
       nz-popover
-      [nzPopoverContent]="additionalTagPopover"
+      [nzPopoverContent]="enablePopover ? additionalTagPopover : undefined"
       nzPopoverPlacement="top"
       nzPopoverTrigger="hover">
       +<span *ngIf="matchedHiddenCount > 0">
@@ -32,7 +32,7 @@
           [ngClass]="{
             'matched-tag':
               matchingText &&
-              tag.matchText!.toLowerCase().includes(matchingText)
+              tag.matchText!.toLowerCase().includes(matchingText),
           }">
           <ng-container [ngSwitch]="tagType">
             <ng-container
@@ -54,31 +54,41 @@
     <ng-container *ngSwitchCase="'therapy'">
       <cvc-therapy-tag
         [therapy]="tag"
+        [enablePopover]="enablePopover"
         [truncateLongName]="true"></cvc-therapy-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'disease'">
       <cvc-disease-tag
         [disease]="tag"
+        [enablePopover]="enablePopover"
         [truncateLongName]="true"></cvc-disease-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'feature'">
       <cvc-feature-tag
         [feature]="tag"
+        [enablePopover]="enablePopover"
         [truncateLongName]="true"></cvc-feature-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'organization'">
-      <cvc-organization-tag [org]="tag"></cvc-organization-tag>
+      <cvc-organization-tag
+        [org]="tag"
+        [enablePopover]="enablePopover"></cvc-organization-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'variant'">
-      <cvc-variant-tag [variant]="tag"></cvc-variant-tag>
+      <cvc-variant-tag
+        [variant]="tag"
+        [enablePopover]="enablePopover"></cvc-variant-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'variant-type'">
-      <cvc-variant-type-tag [variantType]="tag"></cvc-variant-type-tag>
+      <cvc-variant-type-tag
+        [variantType]="tag"
+        [enablePopover]="enablePopover"></cvc-variant-type-tag>
     </ng-container>
     <ng-container *ngSwitchCase="'variant-feature'">
       <cvc-feature-variant-tag
         [truncateLongName]="true"
-        [variant]="tag"></cvc-feature-variant-tag>
+        [variant]="tag"
+        [enablePopover]="enablePopover"></cvc-feature-variant-tag>
     </ng-container>
   </ng-container>
 </ng-template>

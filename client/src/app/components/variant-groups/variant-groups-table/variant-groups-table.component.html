@@ -117,7 +117,9 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-variant-group-tag [variantgroup]="vg"></cvc-variant-group-tag>
+            <cvc-variant-group-tag
+              [variantgroup]="vg"
+              [enablePopover]="!isScrolling"></cvc-variant-group-tag>
           </td>
           <td
             class="overflow-ellipsis"
