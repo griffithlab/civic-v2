@@ -1,0 +1,180 @@
+query ActivityFeed(
+  $subject: [SubscribableQueryInput!]
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $organizationId: [Int!]
+  $userId: [Int!]
+  $activityType: [ActivityTypeInput!]
+  $subjectType: [ActivitySubjectInput!]
+  $includeAutomatedEvents: Boolean
+  $includeConnection: Boolean = true
+  $includePageInfo: Boolean = true
+  $mode: EventFeedMode
+  $showFilters: Boolean!
+  $requestDetails: Boolean!
+  $occurredAfter: ISO8601DateTime
+  $occurredBefore: ISO8601DateTime
+  $sortBy: DateSort
+) {
+  activities(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    userId: $userId
+    includeAutomatedEvents: $includeAutomatedEvents
+    organizationId: $organizationId
+    activityType: $activityType
+    subjectType: $subjectType
+    mode: $mode
+    occurredAfter: $occurredAfter
+    occurredBefore: $occurredBefore
+    sortBy: $sortBy
+  ) {
+    ...ActivitiesConnectionFields @include(if: $includeConnection)
+    ...ActivitiesPageInfoFields @include(if: $includePageInfo)
+  }
+}
+
+fragment ActivitiesPageInfoFields on ActivityInterfaceConnection {
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  pageCount
+  totalCount
+  unfilteredCount
+}
+
+# activities to render feed items & ui controls
+fragment ActivitiesConnectionFields on ActivityInterfaceConnection {
+  activityTypes @include(if: $showFilters)
+  uniqueParticipants @include(if: $showFilters) {
+    id
+    displayName
+    role
+  }
+  subjectTypes @include(if: $showFilters)
+  participatingOrganizations @include(if: $showFilters) {
+    id
+    name
+  }
+  edges {
+    cursor
+    node {
+      ...ActivityFeedItem
+    }
+  }
+}
+
+# activity summary info to render each feed item
+fragment ActivityFeedItemBase on ActivityInterface {
+  id
+  verbiage
+  createdAt
+  organization {
+    id
+    name
+  }
+  user {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    name
+    link
+    ... on GeneVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FactorVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on FusionVariant {
+      feature {
+        id
+        name
+        link
+      }
+    }
+    ... on Comment {
+      commentable {
+        id
+        name
+        link
+        ... on FactorVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on FusionVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+        ... on GeneVariant {
+          feature {
+            id
+            name
+            link
+          }
+        }
+      }
+    }
+  }
+  ... on DeleteCommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+  ... on CommentActivity {
+    comment {
+      id
+      name
+      link
+    }
+  }
+}
+
+fragment ActivityFeedItem on ActivityInterface {
+  ...ActivityFeedItemBase
+  ...AcceptRevisionsActivityDetail @include(if: $requestDetails)
+  ...CommentActivityDetail @include(if: $requestDetails)
+  ...CreateComplexMolecularProfileActivityDetail @include(if: $requestDetails)
+  ...CreateVariantActivityDetail @include(if: $requestDetails)
+  ...DeleteCommentActivityDetail @include(if: $requestDetails)
+  ...DeprecateComplexMolecularProfileActivityDetail
+    @include(if: $requestDetails)
+  ...DeprecateVariantActivityDetail @include(if: $requestDetails)
+  ...DeprecateFeatureActivityDetail @include(if: $requestDetails)
+  ...FlagEntityActivityDetail @include(if: $requestDetails)
+  ...ModerateAssertionActivityDetail @include(if: $requestDetails)
+  ...ModerateEvidenceItemActivityDetail @include(if: $requestDetails)
+  ...RejectRevisionsActivityDetail @include(if: $requestDetails)
+  ...ResolveFlagActivityDetail @include(if: $requestDetails)
+  ...SubmitAssertionActivityDetail @include(if: $requestDetails)
+  ...SubmitEvidenceItemActivityDetail @include(if: $requestDetails)
+  ...SuggestRevisionSetActivityDetail @include(if: $requestDetails)
+  ...SuggestSourceActivityDetail @include(if: $requestDetails)
+  ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
+}

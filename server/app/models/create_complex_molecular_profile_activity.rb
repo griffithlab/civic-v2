@@ -4,6 +4,6 @@ class CreateComplexMolecularProfileActivity < Activity
   end
 
   def generate_verbiage
-    'created complex molecular profile'
+    'created'
   end
 end

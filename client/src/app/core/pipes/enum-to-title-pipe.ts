@@ -14,6 +14,12 @@ export class EnumToTitlePipe implements PipeTransform {
         return '-'
       }
 
+      if (enum_text === 'DESC') {
+        return 'Descending'
+      }
+      if (enum_text === 'ASC') {
+        return 'Ascending'
+      }
       let str = enum_text.toLowerCase().replace(/_/g, ' ').split(' ')
       for (var i = 0; i < str.length; i++) {
         str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)

@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { Maybe } from '@app/generated/civic.apollo'
 
@@ -22,14 +22,14 @@ export interface LinkableVariant {
   styleUrls: ['./variant-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
+export class CvcVariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
 
   iconColor: string
   constructor() {
-    super()
     this.iconColor = getEntityColor('Variant')
   }
 
@@ -38,7 +38,6 @@ export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
   }
 
   ngOnInit() {
-    super.ngOnInit()
     if (this.variant === undefined) {
       throw new Error(
         'cvc-variant-tag requires LinkableVariant input, none supplied.'

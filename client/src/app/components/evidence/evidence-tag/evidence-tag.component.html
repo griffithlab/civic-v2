@@ -9,19 +9,16 @@
     [ngClass]="{
       rejected: evidence.status === 'REJECTED',
       submitted: evidence.status === 'SUBMITTED',
-      accepted: evidence.status === 'ACCEPTED'
+      accepted: evidence.status === 'ACCEPTED',
     }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="evidencePopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
+    [nzPopoverContent]="enablePopover ? evidencePopover : undefined"
+    nzPopoverPlacement="right">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
-    <cvc-evidence-popover
-      *ngIf="enablePopover"
-      [evidenceId]="evidence.id"></cvc-evidence-popover>
+    <cvc-evidence-popover [evidenceId]="evidence.id"></cvc-evidence-popover>
   </ng-template>
 </ng-template>
 

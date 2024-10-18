@@ -60,6 +60,38 @@ fragment revision on Revision {
   currentValue
   suggestedValue
   linkoutData {
+    ...revisionLinkoutData
+  }
+  creationActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+    organization {
+      id
+      name
+    }
+  }
+  resolutionActivity {
+    createdAt
+    user {
+      id
+      displayName
+      role
+    }
+    parsedNote {
+      ...parsedCommentFragment
+    }
+  }
+  status
+}
+
+fragment revisionLinkoutData on LinkoutData {
     name
     diffValue {
       ... on ObjectFieldDiff {
@@ -154,32 +186,5 @@ fragment revision on Revision {
         right
       }
     }
-  }
-  creationActivity {
-    createdAt
-    user {
-      id
-      displayName
-      role
-    }
-    parsedNote {
-      ...parsedCommentFragment
-    }
-    organization {
-      id
-      name
-    }
-  }
-  resolutionActivity {
-    createdAt
-    user {
-      id
-      displayName
-      role
-    }
-    parsedNote {
-      ...parsedCommentFragment
-    }
-  }
-  status
+
 }

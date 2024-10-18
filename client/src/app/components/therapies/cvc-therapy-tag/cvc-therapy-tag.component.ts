@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkableTherapy {
@@ -20,7 +20,7 @@ export interface LinkableTherapy {
   styleUrls: ['./cvc-therapy-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcTherapyTagComponent extends BaseCloseableTag implements OnInit {
+export class CvcTherapyTagComponent {
   _therapy!: LinkableTherapy
   @Input()
   set therapy(d: LinkableTherapy) {
@@ -31,8 +31,9 @@ export class CvcTherapyTagComponent extends BaseCloseableTag implements OnInit {
     return this._therapy
   }
 
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
 
   idFunction(): number {
     return this.therapy.id

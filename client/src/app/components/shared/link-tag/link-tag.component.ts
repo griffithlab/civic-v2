@@ -19,4 +19,5 @@ export class CvcLinkTagComponent {
 
   @Input() tooltip: Maybe<string>
   @Input() iconName: Maybe<string>
+  @Input() enablePopover?: boolean = true
 }

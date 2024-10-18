@@ -1,0 +1,31 @@
+query ActivityFeedUpdates(
+  $subject: [SubscribableQueryInput!]
+  $organizationId: [Int!]
+  $userId: [Int!]
+  $activityType: [ActivityTypeInput!]
+  $subjectType: [ActivitySubjectInput!]
+  $includeAutomatedEvents: Boolean
+  $mode: EventFeedMode
+  $occurredAfter: ISO8601DateTime
+) {
+  activities(
+    subject: $subject
+    userId: $userId
+    includeAutomatedEvents: $includeAutomatedEvents
+    organizationId: $organizationId
+    activityType: $activityType
+    subjectType: $subjectType
+    mode: $mode
+    occurredAfter: $occurredAfter
+  ) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    pageCount
+    totalCount
+    unfilteredCount
+  }
+}

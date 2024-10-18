@@ -1,0 +1,4 @@
+fragment ModerateAssertionActivityDetail on ModerateAssertionActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

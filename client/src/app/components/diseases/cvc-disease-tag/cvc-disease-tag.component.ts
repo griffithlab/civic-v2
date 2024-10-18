@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { Maybe } from '@app/generated/civic.apollo'
 
 export interface LinkableDisease {
@@ -20,7 +20,7 @@ export interface LinkableDisease {
   styleUrls: ['./cvc-disease-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcDiseaseTagComponent extends BaseCloseableTag implements OnInit {
+export class CvcDiseaseTagComponent {
   _disease!: LinkableDisease
   @Input()
   set disease(d: LinkableDisease) {
@@ -33,8 +33,9 @@ export class CvcDiseaseTagComponent extends BaseCloseableTag implements OnInit {
     return this._disease
   }
 
-  @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
 
   idFunction() {
     return this.disease.id

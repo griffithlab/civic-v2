@@ -1,0 +1,20 @@
+fragment SuggestRevisionSetActivityDetail on SuggestRevisionSetActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  revisions {
+    id
+    name
+    status
+    currentValue
+    suggestedValue
+    fieldName
+    link
+    createdAt
+    linkoutData {
+      ...revisionLinkoutData
+    }
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

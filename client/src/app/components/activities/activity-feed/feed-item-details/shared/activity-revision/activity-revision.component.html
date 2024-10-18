@@ -1,0 +1,129 @@
+@let data = revision().linkoutData;
+<div class="revision-container">
+  <!-- revision grid-->
+  <nz-row
+    [nzGutter]="[0, 0]"
+    class="title-row">
+    <!-- revision title, controls -->
+    <nz-col
+      nzFlex="auto"
+      class="revision-title">
+      <span class="name">{{ data.name }}</span>
+      <span class="id"> ({{ revision().name }})</span>
+    </nz-col>
+    <nz-col
+      nzFlex="100px"
+      class="title-extra">
+      @if (diffValue.__typename === 'ObjectFieldDiff') {
+        <span
+          nz-typography
+          nzType="secondary">
+          Details
+        </span>
+        <nz-switch
+          [(ngModel)]="showDiffs"
+          nzSize="small"></nz-switch>
+      }
+    </nz-col>
+  </nz-row>
+  <!-- revision details-->
+  <nz-row
+    [nzGutter]="[0, 0]"
+    class="details-row">
+    <nz-col [nzSpan]="24">
+      <nz-descriptions
+        [nzBordered]="true"
+        [nzSize]="'small'"
+        nzLayout="vertical">
+        @switch (diffValue.__typename) {
+          @case ('ObjectFieldDiff') {
+            <nz-descriptions-item nzTitle="Current">
+              @let current = diffValue.currentObjects;
+              <ng-container
+                *ngTemplateOutlet="
+                  diffObjects;
+                  context: { $implicit: current }
+                "></ng-container>
+            </nz-descriptions-item>
+            @if (showDiffs() && diffValue.addedObjects.length > 0) {
+              <nz-descriptions-item nzTitle="Added">
+                @let objects = diffValue.addedObjects;
+                <ng-container
+                  *ngTemplateOutlet="
+                    diffObjects;
+                    context: { $implicit: objects }
+                  "></ng-container>
+              </nz-descriptions-item>
+            }
+            @if (showDiffs() && diffValue.removedObjects.length > 0) {
+              <nz-descriptions-item nzTitle="Removed">
+                @let objects = diffValue.removedObjects;
+                <ng-container
+                  *ngTemplateOutlet="
+                    diffObjects;
+                    context: { $implicit: objects }
+                  "></ng-container>
+              </nz-descriptions-item>
+            }
+            @if (showDiffs() && diffValue.keptObjects.length > 0) {
+              <nz-descriptions-item nzTitle="Kept">
+                @let objects = diffValue.keptObjects;
+                <ng-container
+                  *ngTemplateOutlet="
+                    diffObjects;
+                    context: { $implicit: objects }
+                  "></ng-container>
+              </nz-descriptions-item>
+            }
+            <nz-descriptions-item nzTitle="Suggested">
+              @let suggested = diffValue.suggestedObjects;
+              <ng-container
+                *ngTemplateOutlet="
+                  diffObjects;
+                  context: { $implicit: suggested }
+                "></ng-container>
+            </nz-descriptions-item>
+          }
+          @case ('ScalarFieldDiff') {
+            <nz-descriptions-item nzTitle="Current">
+              <ng-container
+                *ngTemplateOutlet="
+                  diffScalar;
+                  context: { $implicit: diffValue.left }
+                "></ng-container>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Suggested">
+              <ng-container
+                *ngTemplateOutlet="
+                  diffScalar;
+                  context: { $implicit: diffValue.right }
+                "></ng-container>
+            </nz-descriptions-item>
+          }
+        }
+      </nz-descriptions>
+    </nz-col>
+  </nz-row>
+</div>
+<ng-template
+  #diffScalar
+  let-diff>
+  <div
+    [innerHtml]="diff | sanitizeHtml"
+    class="diff-container"></div>
+</ng-template>
+<ng-template
+  #diffObjects
+  let-objects>
+  @if (objects.length > 0) {
+    <ul class="object-list">
+      @for (object of objects; track object.id) {
+        <li>
+          <nz-tag>{{ object.displayName }}</nz-tag>
+        </li>
+      }
+    </ul>
+  } @else {
+    <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+  }
+</ng-template>

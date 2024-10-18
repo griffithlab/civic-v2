@@ -42,6 +42,12 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case 'DISEASE':
       case 'Disease':
         return 'civic-disease'
+      case 'SOURCE':
+      case 'Source':
+        return 'civic-source'
+      case 'COMMENT':
+      case 'Comment':
+        return 'civic-comment'
       default:
         console.log('String No icon name found for ' + e)
         return 'border-outer'

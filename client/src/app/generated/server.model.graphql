@@ -176,6 +176,7 @@ enum ActivityTypeInput {
   CREATE_COMPLEX_MOLECULAR_PROFILE
   CREATE_FEATURE
   CREATE_VARIANT
+  DELETE_COMMENT
   DEPRECATE_COMPLEX_MOLECULAR_PROFILE
   DEPRECATE_FEATURE
   DEPRECATE_VARIANT
@@ -8069,8 +8070,8 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
-    occuredAfter: ISO8601DateTime
-    occuredBefore: ISO8601DateTime
+    occurredAfter: ISO8601DateTime
+    occurredBefore: ISO8601DateTime
     organizationId: [Int!]
 
     """

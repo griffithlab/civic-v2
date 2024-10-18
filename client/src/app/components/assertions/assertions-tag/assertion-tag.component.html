@@ -9,13 +9,12 @@
     [ngClass]="{
       rejected: assertion.status === 'REJECTED',
       submitted: assertion.status === 'SUBMITTED',
-      accepted: assertion.status === 'ACCEPTED'
+      accepted: assertion.status === 'ACCEPTED',
     }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="assertionPopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
+    [nzPopoverContent]="enablePopover ? assertionPopover : undefined"
+    nzPopoverPlacement="right">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 

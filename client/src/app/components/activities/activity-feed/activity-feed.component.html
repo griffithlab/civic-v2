@@ -1,216 +1,132 @@
-<nz-spin
-  [nzSpinning]="this.loading$ | ngrxPush"
-  nzTip="Loading">
-  <ng-container *ngIf="activities$ | ngrxPush as activities">
-    <nz-timeline *ngIf="activities?.length">
-      <ng-container *ngFor="let activity of activities">
-        <nz-timeline-item
-          *ngIf="activity"
-          [nzDot]="timelineDotTemplate">
-          <ng-template #timelineDotTemplate>
-            <nz-avatar
-              nzIcon="user"
-              [nzSrc]="activity.user.profileImagePath"></nz-avatar>
-          </ng-template>
-          <nz-collapse
-            [nzBordered]="false"
-            nzExpandIconPosition="end">
-            <cvc-collapsible-card
-              [header]="activityHeaderTemplate"
-              [contents]="activityContentTemplate"></cvc-collapsible-card>
-          </nz-collapse>
-
-          <ng-template #activityContentTemplate>
-            <cvc-activity-card [activityId]="activity.id"></cvc-activity-card>
-          </ng-template>
-
-          <ng-template #activityHeaderTemplate>
-            <cvc-user-tag [user]="activity.user"></cvc-user-tag>
-            {{ activity.verbiage }}
-            @switch (activity.subject.__typename) {
-              @case ('Feature') {
-                <cvc-feature-tag [feature]="activity.subject"></cvc-feature-tag>
-              }
-              @case ('Assertion') {
-                <cvc-assertion-tag
-                  [assertion]="activity.subject"></cvc-assertion-tag>
-              }
-              @case ('EvidenceItem') {
-                <cvc-evidence-tag
-                  [evidence]="activity.subject"></cvc-evidence-tag>
-              }
-              @case ('GeneVariant') {
-                <cvc-feature-variant-tag
-                  [variant]="activity.subject"></cvc-feature-variant-tag>
-              }
-              @case ('FactorVariant') {
-                <cvc-feature-variant-tag
-                  [variant]="activity.subject"></cvc-feature-variant-tag>
-              }
-              @case ('Revision') {
-                <cvc-revision-tag
-                  [revision]="$any(activity.subject)"></cvc-revision-tag>
-              }
-              @case ('VariantGroup') {
-                <cvc-variant-group-tag
-                  [variantgroup]="activity.subject"></cvc-variant-group-tag>
-              }
-              @case ('Source') {
-                <cvc-source-tag
-                  mode="concise"
-                  [source]="$any(activity.subject)"></cvc-source-tag>
-              }
-              @case ('MolecularProfile') {
-                <cvc-molecular-profile-tag
-                  [molecularProfile]="
-                    activity.subject
-                  "></cvc-molecular-profile-tag>
-              }
-              @default {
-                <span *ngSwitchDefault>{{ activity.subject.name }}</span>
-              }
+<nz-card
+  [nzTitle]="cardTitle"
+  [nzExtra]="cardExtra"
+  nzSize="small"
+  style="width: 100%">
+  <ng-template #cardTitle>
+    <nz-space nzDirection="horizontal">
+      <span
+        class="title"
+        *nzSpaceItem>
+        {{ cvcTitle() }}
+      </span>
+      <cvc-activity-feed-counts
+        *nzSpaceItem
+        [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
+      <span *nzSpaceItem>
+        <nz-tag
+          *ngIf="moreLoading()"
+          nzColor="processing">
+          <i
+            nz-icon
+            nzType="sync"
+            nzSpin></i>
+          <span>Loading…</span>
+        </nz-tag>
+      </span>
+    </nz-space>
+  </ng-template>
+  <ng-template #cardExtra>
+    <cvc-activity-feed-settings
+      (cvcSettingsChange)="onSettingChange$.next($event)"
+      [cvcSettings]="cvcSettings()"
+      [cvcScope]="cvcScope()">
+    </cvc-activity-feed-settings>
+  </ng-template>
+  <nz-row [nzGutter]="[16, 8]">
+    <!-- ACTIVITY FEED COLUMN -->
+    <nz-col [nzSpan]="cvcShowFilters() ? 18 : 24">
+      <div
+        class="feed-container"
+        [ngClass]="{ 'feed-border': cvcShowFilters() }">
+        <div class="feed-layers">
+          <!-- messages layer - TOP -->
+          <div class="messages">
+            @if (zeroRows()) {
+              <nz-result
+                nzStatus="info"
+                [nzTitle]="resultsMessage"></nz-result>
             }
-            <span
-              nz-tooltip
-              nzTooltipPlacement="top"
-              [nzTooltipTitle]="activity.createdAt | date">
-              {{ activity.createdAt | timeAgo }}
-            </span>
+          </div>
+          <ng-template #resultsMessage>
+            <div
+              style="
+                font-size: 18px;
+                font-weight: 600;
+                text-align: center;
+                color: #666;
+              ">
+              No Activities found
+              @if (cvcScope().mode === 'SUBJECT') {
+                for this subject
+              } @else if (cvcScope().mode === 'USER') {
+                for this contributor
+              } @else if (cvcScope().mode === 'ORGANIZATION') {
+                for this organization
+              }
+              that match specified filters
+            </div>
           </ng-template>
+          <!-- scroller top/bottom dropshadows - MIDDLE -->
+          <!-- TODO: control atBottom signal with allRowsLoaded$ -->
+          <div class="boundaries">
+            <!-- <div
+              class="shadow-top"
+              [@atTop]="scroller().isAtTop ? 'isAtTop' : 'isNotAtTop'"></div> -->
+            <!-- <div
+              class="shadow-bottom"
+              [@atBottom]="
+                scroller().isAtBottom && counts()?.rows === counts()?.total
+                  ? 'isAtBottom'
+                  : 'isNotAtBottom'
+              "></div> -->
+          </div>
 
-          <!--           <cvc-event-timeline-item
-            [event]="event!"
-            [tagDisplay]="tagDisplay"></cvc-event-timeline-item> -->
-        </nz-timeline-item>
-      </ng-container>
-    </nz-timeline>
-  </ng-container>
+          <!-- scroller layer - BOTTOM-->
+          <div class="scroller">
+            <nz-spin
+              [nzSpinning]="refetchLoading()"
+              nzSize="large"
+              [nzDelay]="0">
+              <div
+                cvcAutoHeightDiv="40"
+                cvcAutoHeightTarget="viewport">
+                @if (scrollDatasource) {
+                  <cvc-activity-feed-item
+                    *uiScroll="
+                      let edge of scrollDatasource;
+                      routines: scrollerRoutines
+                    "
+                    [cvcActivity]="edge.node"
+                    [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+                }
+              </div>
+            </nz-spin>
+          </div>
+        </div>
+      </div>
+    </nz-col>
 
-  <!-- <ng-container
-    *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="this.showFilters ? '18' : '24'">
-        <nz-space
-          nzDirection="vertical"
-          style="width: 100%">
-          <nz-card
-            [nzTitle]="this.showFilters ? 'Events' : undefined"
-            [nzExtra]="refreshFeed"
-            *nzSpaceItem>
-            <ng-container *ngIf="events$ | ngrxPush as events">
-              <nz-row [nzGutter]="16">
-                <nz-col
-                  nzSpan="24"
-                  class="timeline">
-                  <ng-container *ngIf="events.length; else noEvents">
-                    <cvc-event-timeline
-                      [events]="events"
-                      [tagDisplay]="tagDisplay"></cvc-event-timeline>
-                  </ng-container>
-                  <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-                    <div
-                      nz-list-load-more
-                      *ngIf="pageInfo.hasNextPage && pageInfo.endCursor">
-                      <button
-                        nz-button
-                        nzType="default"
-                        nzSize="small"
-                        nzBlock
-                        (click)="fetchMore(pageInfo.endCursor)">
-                        Load More
-                      </button>
-                    </div>
-                  </ng-container>
-                </nz-col>
-              </nz-row>
-            </ng-container>
-            <ng-template #refreshFeed>
-              <ng-container
-                *ngIf="this.pollForNewEvents && this.originalEventCount">
-                <ng-container *ngrxLet="this.newEventCount$ as newCount">
-                  <nz-badge
-                    *ngIf="newCount && newCount > originalEventCount"
-                    [nzCount]="newCount - originalEventCount">
-                    <button
-                      nz-button
-                      nz-tooltip="Click to Refresh"
-                      (click)="refresh()">
-                      New Event(s)
-                    </button>
-                  </nz-badge>
-                </ng-container>
-              </ng-container>
-            </ng-template>
-          </nz-card>
-        </nz-space>
-      </nz-col>
-      <nz-col nzSpan="6">
-        <nz-space
-          nzDirection="vertical"
-          style="width: 100%"
-          *ngIf="showFilters">
-          <span *nzSpaceItem>
-            Show Child Events
-            <nz-switch
-              nzSize="small"
-              [(ngModel)]="showChildren"
-              (ngModelChange)="onShowChildrenToggle()"></nz-switch>
-          </span>
-          <ng-container *nzSpaceItem>
-            <cvc-participant-list
-              listTitle="events && Action"
-              [participantList]="(actions$ | ngrxPush) || []"
-              (participantSelectedEvent)="onActionSelected($event)">
-              <ng-template
-                #itemTemplate
-                let-action>
-                {{ action.id | eventVerbiage : 'action-filter' }}
-              </ng-template>
-            </cvc-participant-list>
-            <cvc-participant-list
-              *ngIf="!userId"
-              listTitle="Curator"
-              [participantList]="(participants$ | ngrxPush) || []"
-              (participantSelectedEvent)="onOriginatingUserSelected($event)">
-              <ng-template
-                #itemTemplate
-                let-user>
-                <nz-avatar
-                  *ngIf="user.profileImagePath; else noAvatar"
-                  nz-comment-avatar
-                  [nzSrc]="user.profileImagePath">
-                </nz-avatar>
-                <ng-template #noAvatar>
-                  <nz-avatar
-                    nz-comment-avatar
-                    [nzText]="
-                      user.displayName.charAt(0) | uppercase
-                    "></nz-avatar>
-                </ng-template>
-                <span>{{ user.displayName }}</span>
-              </ng-template>
-            </cvc-participant-list>
-            <cvc-participant-list
-              *ngIf="!organizationId"
-              listTitle="Organization"
-              [participantList]="(organizations$ | ngrxPush) || []"
-              (participantSelectedEvent)="onOrganizationSelected($event)">
-              <ng-template
-                #itemTemplate
-                let-organization>
-                <nz-col>
-                  {{ organization.name }}
-                </nz-col>
-              </ng-template>
-            </cvc-participant-list>
-          </ng-container>
-        </nz-space>
-      </nz-col>
-    </nz-row>
-  </ng-container>
-  <ng-template #noEvents>
-    <nz-empty
-      nzNotFoundImage="simple"
-      nzNotFoundContent="No Events"></nz-empty>
-  </ng-template> -->
-</nz-spin>
+    <!-- FEED FILTERS COLUMN -->
+    <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">
+      <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
+           from the DOM as with *ngIf. Component initialization causes cvc-activity-feed-filters'
+           feedFilter$ to emit, which is required to fire off an initial query -->
+      <cvc-activity-feed-filters
+        (cvcFiltersChange)="onFilterChange$.next($event)"
+        [cvcRefreshChanges]="(refreshChange$ | async)!"
+        [cvcCheckInterval]="cvcCheckInterval()"
+        [cvcFilterOptions]="feedFilterOptions()"
+        [cvcFilters]="cvcFilters()"
+        [cvcScope]="cvcScope()">
+      </cvc-activity-feed-filters>
+    </nz-col>
+  </nz-row>
+</nz-card>
+<ng-template #cardExtra>
+  <cvc-activity-feed-settings
+    (cvcSettingsChange)="onSettingChange$.next($event)"
+    [cvcSettings]="cvcSettings()"
+    [cvcScope]="cvcScope()">
+  </cvc-activity-feed-settings>
+</ng-template>

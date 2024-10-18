@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core'
-import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base'
+
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { Maybe } from '@app/generated/civic.apollo'
 
@@ -20,10 +20,7 @@ export interface LinkableVariantType {
   styleUrls: ['./variant-type-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcVariantTypeTagComponent
-  extends BaseCloseableTag
-  implements OnInit
-{
+export class CvcVariantTypeTagComponent {
   _variantType!: LinkableVariantType
   @Input()
   set variantType(vt: LinkableVariantType) {
@@ -37,8 +34,8 @@ export class CvcVariantTypeTagComponent
     return this._variantType
   }
 
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
 
   idFunction() {
     return this.variantType.id
@@ -46,7 +43,6 @@ export class CvcVariantTypeTagComponent
 
   iconColor: string
   constructor() {
-    super()
     this.iconColor = getEntityColor('VariantType')
   }
 }

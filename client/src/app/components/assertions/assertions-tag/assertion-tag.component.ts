@@ -30,8 +30,8 @@ export class CvcAssertionTagComponent {
   get assertion(): LinkableAssertion {
     return this._assertion
   }
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
 
   iconColor: string
 

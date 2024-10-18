@@ -1182,6 +1182,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "DELETE_COMMENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -37833,7 +37839,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "occuredBefore",
+                  "name": "occurredBefore",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -37845,7 +37851,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "occuredAfter",
+                  "name": "occurredAfter",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
