@@ -149,7 +149,6 @@ export class CvcActivityFeed {
   // SOURCE STREAMS
   onSettingChange$: Subject<ActivityFeedSettings>
   onFilterChange$: Subject<ActivityFeedFilters>
-  onToggleItem$: Subject<FeedItemToggle>
 
   // INTERMEDIATE STREAMS
   poll$: Subject<FetchParams>
@@ -161,16 +160,13 @@ export class CvcActivityFeed {
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
   pageInfo$: Observable<PageInfo>
-  onAllRowsFetched$: Subject<boolean>
 
   // PRESENTATION SIGNALS
   refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
-  moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
   zeroRows: Signal<boolean> // true when no rows are returned from query
   counts: Signal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
   scroller: Signal<ScrollerState>
-  allRowsFetched: Signal<boolean>
 
   // REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -186,7 +182,6 @@ export class CvcActivityFeed {
   ) {
     this.onSettingChange$ = new Subject()
     this.onFilterChange$ = new Subject()
-    this.onToggleItem$ = new Subject<FeedItemToggle>()
 
     this.poll$ = new Subject()
     this.fetchMore$ = new Subject()
@@ -194,13 +189,9 @@ export class CvcActivityFeed {
     this.queryType$ = new Subject()
     this.pageInfo$ = new Observable()
     this.onQueryComplete$ = new Subject()
-    this.onAllRowsFetched$ = new Subject()
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
-    this.allRowsFetched = toSignal(this.onAllRowsFetched$, {
-      initialValue: false,
-    })
 
     this.refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -235,7 +226,6 @@ export class CvcActivityFeed {
           this.queryRef = this.gql.watch(event.query)
         } else {
           if (event.type === 'refetch') {
-            this.onAllRowsFetched$.next(false)
             this.queryRef.refetch(event.query).then((data) => {
               this.onQueryComplete$.next(true)
               if (this.scrollAdapter) this.scrollAdapter.reload()
@@ -263,19 +253,9 @@ export class CvcActivityFeed {
         pluck('loading'),
         withLatestFrom(this.queryType$),
         filter(([_loading, queryType]) => queryType === 'refetch'),
-        map(([loading]) => loading)
-        // tag('refetchLoading')
-      ),
-      { initialValue: false }
-    )
-    // TODO: figure out why moreLoading is always false in template
-    this.moreLoading = toSignal(
-      this.result$.pipe(
-        pluck('loading'),
-        withLatestFrom(this.queryType$),
-        filter(([_loading, queryType]) => queryType === 'fetchMore'),
-        map(([loading]) => loading)
-        // tag('moreLoading')
+        map(([loading]) => loading),
+        distinctUntilChanged(),
+        tag('refetchLoading')
       ),
       { initialValue: false }
     )
@@ -350,7 +330,6 @@ export class CvcActivityFeed {
               hasNextPage === false &&
               edges.length <= edgesRequired
             ) {
-              this.onAllRowsFetched$.next(true)
               return of(edges)
             }
 
