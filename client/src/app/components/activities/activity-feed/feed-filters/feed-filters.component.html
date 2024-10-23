@@ -1,0 +1,255 @@
+<nz-row [nzGutter]="[8, 8]">
+  <nz-col
+    *ngIf="newActivities() > 0"
+    [@refreshAlertAnimation]
+    nzSpan="24">
+    <nz-alert
+      nzType="info"
+      [nzDescription]="msgTmpl"
+      [nzAction]="actionTmpl"></nz-alert>
+    <ng-template #msgTmpl>
+      {{ newActivities() }} new
+      {{ newActivities() > 1 ? 'activities' : 'activity' }} available
+    </ng-template>
+    <ng-template #actionTmpl>
+      <button
+        nz-button
+        nzSize="small"
+        nzType="default"
+        (click)="cvcFiltersChange.emit(cvcFilters())">
+        Refresh
+      </button>
+    </ng-template>
+  </nz-col>
+  <nz-col nzSpan="24">
+    <ng-container
+      *ngTemplateOutlet="
+        filterTitle;
+        context: { $implicit: 'Activity Type', value: eventType() }
+      "></ng-container>
+    <nz-select
+      nzPlaceHolder="Select Type"
+      nzMode="multiple"
+      [nzDropdownMatchSelectWidth]="false"
+      [ngModel]="eventType()"
+      (ngModelChange)="eventType.set($event)"
+      [nzCustomTemplate]="activityTypeLabel"
+      [nzOptionOverflowSize]="12"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="let activity of cvcFilterOptions().activityTypes | enumSort"
+        nzCustomContent
+        [nzLabel]="activity | enumToTitle"
+        [nzValue]="activity">
+        <ng-container
+          *ngTemplateOutlet="
+            activityTypeLabel;
+            context: {
+              $implicit: { nzLabel: activity | enumToTitle, nzValue: activity },
+            }
+          "></ng-container>
+      </nz-option>
+      <ng-template
+        #activityTypeLabel
+        let-selected>
+        <i
+          class="select-icon"
+          nz-icon
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Event' | entityColor"
+          nzType="civic-event"></i>
+        {{ selected.nzLabel }}
+      </ng-template>
+    </nz-select>
+  </nz-col>
+  @if (cvcScope().mode !== 'SUBJECT') {
+    <nz-col nzSpan="24">
+      <ng-container
+        *ngTemplateOutlet="
+          filterTitle;
+          context: { $implicit: 'Subject Type', value: subjectType() }
+        "></ng-container>
+      <nz-select
+        nzPlaceHolder="Select Subject Type"
+        nzMode="multiple"
+        [ngModel]="subjectType()"
+        (ngModelChange)="subjectType.set($event)"
+        [nzCustomTemplate]="subjectTypeLabel"
+        [nzOptionHeightPx]="28"
+        [nzOptionOverflowSize]="10">
+        <nz-option
+          *ngFor="let subject of cvcFilterOptions().subjectTypes | enumSort"
+          nzCustomContent
+          [nzLabel]="subject | enumToTitle"
+          [nzValue]="subject">
+          <ng-container
+            *ngTemplateOutlet="
+              subjectTypeLabel;
+              context: {
+                $implicit: { nzLabel: subject | enumToTitle, nzValue: subject },
+              }
+            ">
+          </ng-container>
+        </nz-option>
+        <ng-template
+          #subjectTypeLabel
+          let-selected>
+          <i
+            class="select-icon"
+            nz-icon
+            nzTheme="twotone"
+            [nzTwotoneColor]="
+              selected.nzValue | entityTypeToTypename | entityColor
+            "
+            [nzType]="selected.nzValue | iconNameForSubscribableEntity"></i>
+          {{ selected.nzLabel }}
+        </ng-template>
+      </nz-select>
+    </nz-col>
+  }
+  @if (cvcScope().mode !== 'USER') {
+    <nz-col nzSpan="24">
+      <ng-container
+        *ngTemplateOutlet="
+          filterTitle;
+          context: { $implicit: 'Participating User', value: userId() }
+        "></ng-container>
+      <nz-select
+        nzPlaceHolder="Select User"
+        nzMode="multiple"
+        [ngModel]="userId()"
+        (ngModelChange)="userId.set($event)"
+        [nzCustomTemplate]="userLabel"
+        [nzOptionOverflowSize]="12"
+        [nzOptionHeightPx]="28">
+        <nz-option
+          *ngFor="let user of cvcFilterOptions().uniqueParticipants"
+          nzCustomContent
+          [nzLabel]="user.displayName"
+          [nzValue]="user.id">
+          <ng-container
+            *ngTemplateOutlet="
+              userLabel;
+              context: {
+                $implicit: { nzLabel: user.displayName, nzValue: user.id },
+              }
+            ">
+          </ng-container>
+        </nz-option>
+        <ng-template
+          #userLabel
+          let-selected>
+          <span
+            nz-icon
+            [nzType]="'civic-curator'"
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Curator' | entityColor"></span>
+          {{ selected.nzLabel }}
+        </ng-template>
+      </nz-select>
+    </nz-col>
+  }
+
+  @if (cvcScope().mode !== 'ORGANIZATION') {
+    <nz-col nzSpan="24">
+      <ng-container
+        *ngTemplateOutlet="
+          filterTitle;
+          context: {
+            $implicit: 'Participating Organization',
+            value: organizationId(),
+          }
+        "></ng-container>
+      <nz-select
+        nzPlaceHolder="Select Organization"
+        nzMode="multiple"
+        [ngModel]="organizationId()"
+        (ngModelChange)="organizationId.set($event)"
+        [nzCustomTemplate]="organizationLabel"
+        [nzOptionHeightPx]="28">
+        <nz-option
+          *ngFor="
+            let organization of cvcFilterOptions().participatingOrganizations
+          "
+          nzCustomContent
+          [nzLabel]="organization.name"
+          [nzValue]="organization.id">
+          <ng-container
+            *ngTemplateOutlet="
+              organizationLabel;
+              context: {
+                $implicit: {
+                  nzLabel: organization.name,
+                  nzValue: organization.id,
+                },
+              }
+            ">
+          </ng-container>
+        </nz-option>
+        <ng-template
+          #organizationLabel
+          let-selected>
+          <span
+            nz-icon
+            [nzType]="'civic-organization'"
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Organization' | entityColor"></span>
+          {{ selected.nzLabel }}
+        </ng-template>
+      </nz-select>
+    </nz-col>
+  }
+  <nz-col
+    nzMd="24"
+    nzLg="12">
+    <h4>Occurred After</h4>
+    <nz-date-picker
+      nzFormat="yyyy-MM-dd"
+      [ngModel]="occurredAfter()"
+      [nzDisabledDate]="disableDates.beforeToday"
+      (ngModelChange)="occurredAfter.set($event)"
+      nzPlaceHolder="Select Date">
+    </nz-date-picker>
+  </nz-col>
+  <nz-col
+    nzMd="24"
+    nzLg="12">
+    <h4>Occurred Before</h4>
+    <nz-date-picker
+      nzFormat="yyyy-MM-dd"
+      [ngModel]="occurredBefore()"
+      [nzDisabledDate]="disableDates.beforeTomorrow"
+      (ngModelChange)="occurredBefore.set($event)"
+      nzPlaceHolder="Select Date">
+    </nz-date-picker>
+  </nz-col>
+  <nz-col nzSpan="24">
+    <h4>Sort Direction</h4>
+    <nz-select
+      nzPlaceHolder="Select Direction"
+      [ngModel]="sortByDirection()"
+      (ngModelChange)="sortByDirection.set($event)"
+      [nzOptionHeightPx]="28">
+      <nz-option
+        *ngFor="let direction of cvcFilterOptions().sortDirections"
+        [nzLabel]="direction | enumToTitle"
+        [nzValue]="direction">
+      </nz-option>
+    </nz-select>
+  </nz-col>
+  <!-- <nz-col nzSpan="24">
+    <h4>Filters</h4>
+    <pre>{{ cvcFilters() | json }}</pre>
+    <h4>Filter Options</h4>
+    <pre>{{ cvcFilterOptions() | json }}</pre>
+  </nz-col> -->
+</nz-row>
+<!-- TEMPLATES -->
+
+<!-- filter title -->
+<ng-template
+  #filterTitle
+  let-title
+  let-value="value">
+  <h4>{{ title }}{{ value.length > 1 ? 's' : '' }}</h4>
+</ng-template>

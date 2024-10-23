@@ -8,9 +8,8 @@
   <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="clinicalTrialPopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
+    [nzPopoverContent]="enablePopover ? clinicalTrialPopover : undefined"
+    nzPopoverPlacement="right">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 

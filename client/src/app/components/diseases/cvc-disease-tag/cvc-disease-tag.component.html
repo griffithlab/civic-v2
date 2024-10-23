@@ -8,12 +8,9 @@
   <nz-tag
     [ngClass]="{ deprecated: disease.deprecated }"
     nz-popover
-    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
-    [nzPopoverContent]="diseasePopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="enablePopover ? diseasePopover : undefined"
+    nzPopoverPlacement="right">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -33,7 +30,7 @@
     nzTheme="twotone"
     nzTwotoneColor="#E62F76"></i>
   <ng-container *ngIf="truncateLongName; else fullName">
-    {{ disease.name | truncate : 27 }}
+    {{ disease.name | truncate: 27 }}
   </ng-container>
   <ng-template #fullName>
     {{ disease.name }}

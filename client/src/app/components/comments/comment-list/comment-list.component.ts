@@ -19,7 +19,6 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component'
-import { CommentInterface } from '../comment-display/comment-display.component'
 
 interface CommentTagSegmentWithId {
   id: string
@@ -33,7 +32,7 @@ interface CommentTagSegmentWithId {
 })
 export class CvcCommentListComponent implements OnInit {
   @Input() commentable!: CommentableInput
-  @Input() creationComment?: CommentInterface
+  @Input() creationComment?: CommentListNodeFragment
 
   loading$?: Observable<boolean>
   pageInfo$?: Observable<PageInfo>

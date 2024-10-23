@@ -1,0 +1,7 @@
+fragment SubmitEvidenceItemActivityDetail on SubmitEvidenceItemActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+  parsedNote {
+    ...parsedCommentFragment
+  }
+}

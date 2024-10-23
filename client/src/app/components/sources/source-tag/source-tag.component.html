@@ -8,13 +8,9 @@
   <nz-tag
     nz-popover
     [ngClass]="{ deprecated: source.deprecated }"
-    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
-    [nzPopoverContent]="sourcePopover"
-    nzPopoverPlacement="right"
-    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
-    [(nzPopoverVisible)]="popoverVisible"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="enablePopover ? sourcePopover : undefined"
+    nzPopoverPlacement="right">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -35,7 +31,7 @@
     nzType="civic-source"></i>
   <ng-container *ngIf="this.mode === 'normal'; else concise">
     <ng-container *ngIf="truncateLongName">
-      {{ this.displayName | truncate : 50 }}
+      {{ this.displayName | truncate: 50 }}
     </ng-container>
     <ng-container *ngIf="!truncateLongName">
       {{ this.displayName }}

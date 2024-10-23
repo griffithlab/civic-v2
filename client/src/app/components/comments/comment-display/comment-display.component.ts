@@ -1,36 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, OnInit, input } from '@angular/core'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
 import {
-  CommentBodySegment,
+  CommentListNodeFragment,
   DeleteCommentGQL,
   DeleteCommentMutation,
   DeleteCommentMutationVariables,
-  Maybe,
 } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
-
-export interface CommenterInterface {
-  id: number
-  displayName: string
-  profileImagePath: Maybe<string>
-}
-
-export interface CommentInterface {
-  id?: number
-  createdAt: string | number
-  parsedComment: CommentBodySegment[]
-  commenter: CommenterInterface
-  deleted?: boolean
-}
 
 @Component({
   selector: 'cvc-comment-display',
   templateUrl: './comment-display.component.html',
 })
 export class CvcCommentDisplayComponent implements OnInit {
-  @Input() comment!: CommentInterface
+  comment = input.required<CommentListNodeFragment>()
 
   viewer$: Observable<Viewer>
 

@@ -1,0 +1,28 @@
+fragment UpdateSourceSuggestionStatusActivityDetail on UpdateSourceSuggestionStatusActivity {
+  parsedNote {
+    ...parsedCommentFragment
+  }
+  sourceSuggestion {
+    status
+    source {
+      id
+      name
+      link
+      deprecated
+    }
+    molecularProfile {
+      id
+      name
+      link
+      deprecated
+    }
+    disease {
+      id
+      name
+      link
+      deprecated
+    }
+  }
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

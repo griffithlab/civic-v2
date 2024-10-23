@@ -51,6 +51,7 @@ export class CvcTagOverflowComponent implements OnChanges {
   @Input() matchingText?: string
   @Input() tagType: Maybe<SupportedPileupTags>
   @Input() thisOne = false
+  @Input() enablePopover?: boolean = true
 
   displayedTags?: TagInfo[]
   hiddenTags?: TagInfo[]

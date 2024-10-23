@@ -28,6 +28,10 @@ import { TypenameToIconPipe } from './typename-to-icon.pipe'
 import { GuardTypePipe } from './type-guard.pipe'
 import { IsArrayPipe } from './is-array.pipe'
 import { OrdinalPipe } from './ordinal-number'
+import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.pipe'
+import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
+import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
+import { SortEnumPipe } from './sort-enum.pipe'
 
 @NgModule({
   declarations: [
@@ -37,6 +41,7 @@ import { OrdinalPipe } from './ordinal-number'
     GuardTypePipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
+    EntityTypeToTypenamePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceEnumTooltipPipe,
@@ -54,11 +59,14 @@ import { OrdinalPipe } from './ordinal-number'
     SourceTypeDisplayPipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    UserRoleToIconNamePipe,
     EntityColorPipe,
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
+    SortEnumPipe,
     TypenameToIconPipe,
     IsArrayPipe,
+    IconNameForActivityTypeInputPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -68,6 +76,7 @@ import { OrdinalPipe } from './ordinal-number'
     ColorNameForStatusPipe,
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
+    EntityTypeToTypenamePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceEnumTooltipPipe,
@@ -87,10 +96,13 @@ import { OrdinalPipe } from './ordinal-number'
     TruncatePipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    UserRoleToIconNamePipe,
     EntityColorPipe,
     DevRandomBoolPipe,
     CivicTimeagoFormatter,
+    SortEnumPipe,
     TypenameToIconPipe,
+    IconNameForActivityTypeInputPipe,
   ],
   providers: [SourceTypeDisplayPipe],
 })

@@ -13,8 +13,8 @@ export interface TagLinkableOrganization {
 })
 export class CvcOrganizationTagComponent implements OnInit {
   @Input() org!: TagLinkableOrganization
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked?: boolean = true
+  @Input() enablePopover?: boolean = true
 
   constructor() {}
 

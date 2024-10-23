@@ -45,6 +45,8 @@
     "rxjs-spy": "^8.0.2",
     "ts-enum-util": "^4.0.2",
     "ts-mixin-extended": "^1.1.1",
+    "vscroll": "1.6.1",
+    "ngx-ui-scroll": "3.2.0",
     "zone.js": "0.14.3"
   },
   "devDependencies": {

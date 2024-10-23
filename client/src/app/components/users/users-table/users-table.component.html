@@ -144,7 +144,9 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-user-tag [user]="user"></cvc-user-tag>
+            <cvc-user-tag
+              [user]="user"
+              [enablePopover]="!isScrolling"></cvc-user-tag>
           </td>
           <td class="overflow-ellipsis">
             <ng-container *ngIf="user.name; else nameElse">
@@ -163,6 +165,7 @@
               <cvc-tag-overflow
                 tagType="organization"
                 [maxDisplayCount]="1"
+                [enablePopover]="!isScrolling"
                 [tags]="user.organizations"
                 [matchingText]="orgNameInput">
               </cvc-tag-overflow>

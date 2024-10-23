@@ -176,6 +176,7 @@ enum ActivityTypeInput {
   CREATE_COMPLEX_MOLECULAR_PROFILE
   CREATE_FEATURE
   CREATE_VARIANT
+  DELETE_COMMENT
   DEPRECATE_COMPLEX_MOLECULAR_PROFILE
   DEPRECATE_FEATURE
   DEPRECATE_VARIANT
@@ -8069,8 +8070,8 @@ type Query {
     """
     last: Int
     mode: EventFeedMode
-    occuredAfter: ISO8601DateTime
-    occuredBefore: ISO8601DateTime
+    occurredAfter: ISO8601DateTime
+    occurredBefore: ISO8601DateTime
     organizationId: [Int!]
 
     """
@@ -8652,6 +8653,11 @@ type Query {
     id: Int
 
     """
+    Filter to evidence matching a list of EIDs
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -8721,6 +8727,11 @@ type Query {
     """
     variantOrigin: VariantOrigin
   ): EvidenceItemConnection!
+
+  """
+  Find a single gene by CIViC ID or NCIt ID
+  """
+  factor(id: Int, ncitId: String): Factor
 
   """
   List and filter factors.
@@ -8817,6 +8828,11 @@ type Query {
     """
     state: FlagState
   ): FlagConnection!
+
+  """
+  Find a single gene by CIViC ID
+  """
+  fusion(id: Int): Fusion
 
   """
   List and filter fusions.
