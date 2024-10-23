@@ -8653,6 +8653,11 @@ type Query {
     id: Int
 
     """
+    Filter to evidence matching a list of EIDs
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
