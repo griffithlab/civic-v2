@@ -67,7 +67,10 @@
                       routines: scrollerRoutines
                     "
                     [cvcActivity]="edge.node"
-                    [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+                    [cvcScope]="cvcScope()"
+                    [cvcShowOrganization]="showOrganization()">
+                    "></cvc-activity-feed-item
+                  >
                 }
               </div>
             </nz-spin>
@@ -77,19 +80,20 @@
     </nz-col>
 
     <!-- FEED FILTERS COLUMN -->
-    <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">
-      <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
-           from the DOM as with *ngIf. Component initialization causes cvc-activity-feed-filters'
-           feedFilter$ to emit, which is required to fire off an initial query -->
-      <cvc-activity-feed-filters
-        (cvcFiltersChange)="onFilterChange$.next($event)"
-        [cvcRefreshChanges]="(refreshChange$ | async)!"
-        [cvcCheckInterval]="cvcCheckInterval()"
-        [cvcFilterOptions]="feedFilterOptions()"
-        [cvcFilters]="cvcFilters()"
-        [cvcScope]="cvcScope()">
-      </cvc-activity-feed-filters>
-    </nz-col>
+    @if (cvcShowFilters()) {
+      <nz-col
+        [nzSm]="24"
+        [nzMd]="6">
+        <cvc-activity-feed-filters
+          (cvcFiltersChange)="onFilterChange$.next($event)"
+          [cvcRefreshChanges]="(refreshChange$ | async)!"
+          [cvcCheckInterval]="cvcCheckInterval()"
+          [cvcFilterOptions]="feedFilterOptions()"
+          [cvcFilters]="cvcFilters()"
+          [cvcScope]="cvcScope()">
+        </cvc-activity-feed-filters>
+      </nz-col>
+    }
   </nz-row>
 </nz-card>
 <ng-template #cardExtra>

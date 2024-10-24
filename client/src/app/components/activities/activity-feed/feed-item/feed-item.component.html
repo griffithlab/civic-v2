@@ -100,7 +100,11 @@
           ">
         </ng-container>
       }
-      @if (activity.organization && scope().mode !== 'ORGANIZATION') {
+      @if (
+        showOrganization() &&
+        activity.organization &&
+        scope().mode !== 'ORGANIZATION'
+      ) {
         <div class="organization">
           <span
             class="verbiage"

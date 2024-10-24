@@ -22,6 +22,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
   scope: { mode: EventFeedMode.Unscoped },
   includeAutomatedEvents: false,
   showFilters: true,
+  showOrganization: false,
   requestDetails: false,
 }
 
