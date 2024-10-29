@@ -10,6 +10,8 @@ fragment commentPopover on Comment {
   createdAt
   title
   comment
+  deleted
+  deletedAt
   commenter {
     id
     displayName
@@ -19,7 +21,7 @@ fragment commentPopover on Comment {
     id
     name
     link
-    ...on Variant {
+    ... on Variant {
       deprecated
       feature {
         id
@@ -30,19 +32,19 @@ fragment commentPopover on Comment {
       }
       flagged
     }
-    ...on Feature {
+    ... on Feature {
       deprecated
       flagged
-    } 
-    ...on Source {
+    }
+    ... on Source {
       deprecated
       sourceType
-    } 
-    ...on Assertion {
+    }
+    ... on Assertion {
       flagged
       status
     }
-    ...on EvidenceItem {
+    ... on EvidenceItem {
       flagged
       status
     }

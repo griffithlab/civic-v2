@@ -18,6 +18,6 @@ class AcceptRevisionsActivity < Activity
 
   def generate_verbiage
     rev_count = linked_revisions.size
-    "accepted #{rev_count} #{'revision'.pluralize(rev_count)} on"
+    "accepted #{rev_count} #{'revision'.pluralize(rev_count)} to"
   end
 end

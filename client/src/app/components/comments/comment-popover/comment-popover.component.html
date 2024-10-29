@@ -55,14 +55,22 @@
       <nz-row>
         <nz-col nzSpan="24">
           <div class="popover-text">
-            <p
-              nz-typography
-              *ngIf="c.title">
-              <b>{{ c.title }}</b>
-            </p>
-            <p>
-              {{ c.comment }}
-            </p>
+            @if (c.deleted) {
+              <span
+                nz-typography
+                nzType="secondary">
+                <i> This comment has been deleted. </i>
+              </span>
+            } @else {
+              <p
+                nz-typography
+                *ngIf="c.title">
+                <b>{{ c.title }}</b>
+              </p>
+              <p>
+                {{ c.comment }}
+              </p>
+            }
           </div>
         </nz-col>
       </nz-row>

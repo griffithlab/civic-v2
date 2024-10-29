@@ -4,6 +4,6 @@ class SuggestRevisionSetActivity < Activity
 
   def generate_verbiage
     rev_count = revisions.size
-    "suggested #{rev_count} #{'revisions'.pluralize(rev_count)} on"
+    "suggested #{rev_count} #{'revisions'.pluralize(rev_count)} to"
   end
 end

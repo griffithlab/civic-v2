@@ -12,6 +12,7 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-variant-tag/feature-variant-tag.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @NgModule({
   declarations: [CvcCommentPopoverComponent],
@@ -21,6 +22,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     PushPipe,
     NzCardModule,
     NzGridModule,
+    NzTypographyModule,
     CvcFeatureTagModule,
     CvcUserTagModule,
     CvcAssertionsTagModule,
@@ -29,7 +31,7 @@ import { CvcFeatureVariantTagModule } from '@app/components/shared/feature-varia
     CvcFeatureVariantTagModule,
     CvcRevisionTagModule,
     CvcSourceTagModule,
-    CvcPipesModule
+    CvcPipesModule,
   ],
   exports: [CvcCommentPopoverComponent],
 })

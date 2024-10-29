@@ -24,6 +24,7 @@ export type ActivityFeedSettings = {
   scope: ActivityFeedScope
   includeAutomatedEvents: boolean
   showFilters: boolean
+  showOrganization: boolean
   requestDetails: boolean
 }
 
