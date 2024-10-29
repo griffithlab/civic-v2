@@ -18,13 +18,13 @@ class Resolvers::TopLevelGenes < GraphQL::Schema::Resolver
   option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::AssociatedEvidenceStatusFilterType , description: 'Limit genes by the status of attached evidence.') do |scope, value|
     case value
     when 'WITH_ACCEPTED'
-      scope.joins(:evidence_items_by_status)
+      scope.joins(feature: { variants: { molecular_profiles: [:evidence_items_by_status] } })
         .where('evidence_items_by_statuses.accepted_count >= 1')
     when 'WITH_ACCEPTED_OR_SUBMITTED'
-      scope.joins(:evidence_items_by_status)
+      scope.joins(feature: { variants: { molecular_profiles: [:evidence_items_by_status] } })
         .where('evidence_items_by_statuses.accepted_count >= 1 OR evidence_items_by_statuses.submitted_count >= 1')
     when 'WITH_SUBMITTED'
-      scope.joins(:evidence_items_by_status)
+      scope.joins(feature: { variants: { molecular_profiles: [:evidence_items_by_status] } })
         .where('evidence_items_by_statuses.submitted_count >= 1')
     when 'ALL'
       scope
