@@ -2706,6 +2706,51 @@ type Disease {
   name: String!
 }
 
+"""
+The connection type for Disease.
+"""
+type DiseaseConnection {
+  """
+  A list of edges.
+  """
+  edges: [DiseaseEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Disease!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type DiseaseEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Disease
+}
+
 type DiseasePopover {
   assertionCount: Int!
   deprecated: Boolean!
@@ -8001,6 +8046,51 @@ type Phenotype {
   url: String!
 }
 
+"""
+The connection type for Phenotype.
+"""
+type PhenotypeConnection {
+  """
+  A list of edges.
+  """
+  edges: [PhenotypeEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Phenotype!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type PhenotypeEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Phenotype
+}
+
 type PhenotypePopover {
   assertionCount: Int!
   description: String
@@ -8301,6 +8391,47 @@ type Query {
     variantId: Int
     variantName: String
   ): BrowseMolecularProfileConnection!
+  browsePhenotypes(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to phenotypes with a specific HPO ID
+    """
+    hpoId: String
+
+    """
+    Filter Phenotype on internal CIViC id
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on phenotype name (class)
+    """
+    name: String
+
+    """
+    Sort order for the phenotypes. Defaults to the highest evidence item count.
+    """
+    sortBy: PhenotypeSort
+  ): BrowsePhenotypeConnection!
   browseSources(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -8332,6 +8463,48 @@ type Query {
     sourceType: SourceSource
     year: Int
   ): BrowseSourceConnection!
+  browseTherapies(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Filter on a therapy's internal CIViC id
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on therapy name
+    """
+    name: String
+
+    """
+    Limit to therapies with a specific NCIT ID
+    """
+    ncitId: String
+
+    """
+    Sort order for the therapies. Defaults to the highest evidence item count.
+    """
+    sortBy: TherapySort
+    therapyAlias: String
+  ): BrowseTherapyConnection!
   browseVariantGroups(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -8536,6 +8709,30 @@ type Query {
   Retrieve disease typeahead fields for a search term.
   """
   diseaseTypeahead(queryTerm: String!): [Disease!]!
+  diseases(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    doid: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    name: String
+  ): DiseaseConnection!
 
   """
   Retrieve entity type typeahead fields for a entity mention search term.
@@ -9115,12 +9312,7 @@ type Query {
     Wildcard match on phenotype name (class)
     """
     name: String
-
-    """
-    Sort order for the phenotypes. Defaults to the highest evidence item count.
-    """
-    sortBy: PhenotypeSort
-  ): BrowsePhenotypeConnection!
+  ): PhenotypeConnection!
   previewCommentText(commentText: String!): [CommentBodySegment!]!
   previewMolecularProfileName(structure: MolecularProfileComponentInput): MolecularProfileNamePreview!
 
@@ -9265,6 +9457,36 @@ type Query {
   sourceTypeahead(citationId: String!, sourceType: SourceSource!): [Source!]!
 
   """
+  List and filter sources.
+  """
+  sources(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    List of citation IDs to return results for
+    """
+    citationId: [String!]
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): SourceConnection!
+
+  """
   Get the active subscription for the entity and logged in user, if any
   """
   subscriptionForEntity(subscribable: SubscribableInput!): Subscription
@@ -9307,13 +9529,8 @@ type Query {
     Limit to therapies with a specific NCIT ID
     """
     ncitId: String
-
-    """
-    Sort order for the therapies. Defaults to the highest evidence item count.
-    """
-    sortBy: TherapySort
     therapyAlias: String
-  ): BrowseTherapyConnection!
+  ): TherapyConnection!
 
   """
   Find a therapy by CIViC ID
@@ -10082,6 +10299,51 @@ type Source implements Commentable & EventSubject {
   sourceType: SourceSource!
   sourceUrl: String
   title: String
+}
+
+"""
+The connection type for Source.
+"""
+type SourceConnection {
+  """
+  A list of edges.
+  """
+  edges: [SourceEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Source!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type SourceEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Source
 }
 
 type SourcePopover implements Commentable & EventSubject {
@@ -11348,6 +11610,51 @@ type Therapy {
   ncitId: String
   therapyAliases: [String!]!
   therapyUrl: String
+}
+
+"""
+The connection type for Therapy.
+"""
+type TherapyConnection {
+  """
+  A list of edges.
+  """
+  edges: [TherapyEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Therapy!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type TherapyEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Therapy
 }
 
 enum TherapyInteraction {

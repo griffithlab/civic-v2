@@ -1,5 +1,7 @@
 fragment DeleteCommentActivityDetail on DeleteCommentActivity {
   comment {
+    deleted
+    deletedAt
     ...commentListNode
   }
   subject {

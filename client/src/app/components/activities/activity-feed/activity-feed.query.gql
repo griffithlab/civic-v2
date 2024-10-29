@@ -112,10 +112,13 @@ fragment ActivityFeedItemBase on ActivityInterface {
       }
     }
     ... on Comment {
+      deleted
+      deletedAt
       commentable {
         id
         name
         link
+
         ... on FactorVariant {
           feature {
             id

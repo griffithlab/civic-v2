@@ -78,6 +78,13 @@
             }
           ">
         </ng-container>
+      } @else {
+        <span
+          class="subject-type"
+          nz-typography
+          nzType="secondary">
+          this {{ activity.subject.__typename | entityTypeToTypeLabel }}
+        </span>
       }
       <!-- For DeleteCommentActivity, include commentable tag -->
       @if (
@@ -100,7 +107,11 @@
           ">
         </ng-container>
       }
-      @if (activity.organization && scope().mode !== 'ORGANIZATION') {
+      @if (
+        showOrganization() &&
+        activity.organization &&
+        scope().mode !== 'ORGANIZATION'
+      ) {
         <div class="organization">
           <span
             class="verbiage"

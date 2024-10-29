@@ -7,6 +7,7 @@ import {
   Injector,
   input,
   NgZone,
+  OnInit,
   Signal,
 } from '@angular/core'
 import {
@@ -85,7 +86,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzGridModule } from 'ng-zorro-antd/grid'
+import { EmbeddedProperty, NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module'
 import { CvcActivityFeedCounts } from '@app/components/activities/activity-feed/feed-counts/feed-counts.component'
 import { CvcActivityFeedSettingsButton } from '@app/components/activities/activity-feed/feed-settings/feed-settings.component'
@@ -99,9 +100,16 @@ import { tag } from 'rxjs-spy/operators'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import {
+  BreakpointMap,
+  gridResponsiveMap,
+  NzBreakpointService,
+} from 'ng-zorro-antd/core/services'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
+@UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed',
   templateUrl: './activity-feed.component.html',
@@ -137,7 +145,7 @@ export const FEED_SCROLL_SERVICE_TOKEN =
   ],
   animations: [],
 })
-export class CvcActivityFeed {
+export class CvcActivityFeed implements OnInit {
   // INPUTS
   cvcShowFilters = input<boolean>(true)
   cvcSettings = input<ActivityFeedSettings>(feedDefaultSettings)
@@ -149,7 +157,6 @@ export class CvcActivityFeed {
   // SOURCE STREAMS
   onSettingChange$: Subject<ActivityFeedSettings>
   onFilterChange$: Subject<ActivityFeedFilters>
-  onToggleItem$: Subject<FeedItemToggle>
 
   // INTERMEDIATE STREAMS
   poll$: Subject<FetchParams>
@@ -161,16 +168,14 @@ export class CvcActivityFeed {
   onQueryComplete$: Subject<boolean>
   edge$: Observable<ActivityInterfaceEdge[]>
   pageInfo$: Observable<PageInfo>
-  onAllRowsFetched$: Subject<boolean>
 
   // PRESENTATION SIGNALS
   refetchLoading: Signal<boolean> // loading state for refetch, shows spinner over feed
-  moreLoading: Signal<boolean> // loading state for fetchMore, shows spinner in card header
   zeroRows: Signal<boolean> // true when no rows are returned from query
   counts: Signal<Maybe<ActivityFeedCounts>>
   feedFilterOptions: Signal<ActivityFeedFilterOptions>
   scroller: Signal<ScrollerState>
-  allRowsFetched: Signal<boolean>
+  showOrganization: Signal<boolean>
 
   // REFERENCES
   queryRef?: QueryRef<ActivityFeedQuery, ActivityFeedQueryVariables>
@@ -182,11 +187,11 @@ export class CvcActivityFeed {
     private gql: ActivityFeedGQL,
     private injector: Injector,
     @Inject(FEED_SCROLL_SERVICE_TOKEN)
-    private scrollerState: ScrollerStateService
+    private scrollerState: ScrollerStateService,
+    private breakpoints: NzBreakpointService
   ) {
     this.onSettingChange$ = new Subject()
     this.onFilterChange$ = new Subject()
-    this.onToggleItem$ = new Subject<FeedItemToggle>()
 
     this.poll$ = new Subject()
     this.fetchMore$ = new Subject()
@@ -194,13 +199,14 @@ export class CvcActivityFeed {
     this.queryType$ = new Subject()
     this.pageInfo$ = new Observable()
     this.onQueryComplete$ = new Subject()
-    this.onAllRowsFetched$ = new Subject()
 
     this.scrollerRoutines = configureScrollerRoutines(this, this.scrollerState)
     this.scroller = this.scrollerState.state.asReadonly()
-    this.allRowsFetched = toSignal(this.onAllRowsFetched$, {
-      initialValue: false,
-    })
+
+    this.showOrganization = toSignal(
+      this.onSettingChange$.pipe(map((settings) => settings.showOrganization)),
+      { initialValue: feedDefaultSettings.showOrganization }
+    )
 
     this.refreshChange$ = combineLatest([
       this.onSettingChange$,
@@ -235,7 +241,6 @@ export class CvcActivityFeed {
           this.queryRef = this.gql.watch(event.query)
         } else {
           if (event.type === 'refetch') {
-            this.onAllRowsFetched$.next(false)
             this.queryRef.refetch(event.query).then((data) => {
               this.onQueryComplete$.next(true)
               if (this.scrollAdapter) this.scrollAdapter.reload()
@@ -263,19 +268,9 @@ export class CvcActivityFeed {
         pluck('loading'),
         withLatestFrom(this.queryType$),
         filter(([_loading, queryType]) => queryType === 'refetch'),
-        map(([loading]) => loading)
+        map(([loading]) => loading),
+        distinctUntilChanged()
         // tag('refetchLoading')
-      ),
-      { initialValue: false }
-    )
-    // TODO: figure out why moreLoading is always false in template
-    this.moreLoading = toSignal(
-      this.result$.pipe(
-        pluck('loading'),
-        withLatestFrom(this.queryType$),
-        filter(([_loading, queryType]) => queryType === 'fetchMore'),
-        map(([loading]) => loading)
-        // tag('moreLoading')
       ),
       { initialValue: false }
     )
@@ -326,6 +321,20 @@ export class CvcActivityFeed {
       this.configureAdapter()
     })
 
+    // show organization if settings's showOrganization is true,
+    // or filters has organizationId specified
+    this.showOrganization = toSignal(
+      combineLatest([this.onSettingChange$, this.onFilterChange$]).pipe(
+        map(([settings, filters]) => {
+          return (
+            settings.showOrganization === true ||
+            filters.organizationId.length > 0
+          )
+        })
+      ),
+      { initialValue: feedDefaultSettings.showOrganization }
+    )
+
     this.zeroRows = toSignal(
       this.result$.pipe(
         map((result) => result.data?.activities?.edges.length === 0)
@@ -350,7 +359,6 @@ export class CvcActivityFeed {
               hasNextPage === false &&
               edges.length <= edgesRequired
             ) {
-              this.onAllRowsFetched$.next(true)
               return of(edges)
             }
 
@@ -392,5 +400,14 @@ export class CvcActivityFeed {
       },
       { injector: this.injector }
     )
+  }
+
+  ngOnInit(): void {
+    // feed-filters usually emits filter values, ensuring
+    // the merge for refreshChange$ emits on init$. So if filters
+    // are hidden, we need to emit the current filters manually:
+    if (!this.cvcShowFilters()) {
+      this.onFilterChange$.next(this.cvcFilters())
+    }
   }
 }

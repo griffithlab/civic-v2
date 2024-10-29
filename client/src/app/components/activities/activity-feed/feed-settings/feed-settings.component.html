@@ -16,6 +16,14 @@
   <div class="popover-content">
     <nz-row [nzGutter]="[8, 8]">
       <nz-col
+        nzSpan="6"
+        class="option-input">
+        <label
+          nz-checkbox
+          [ngModel]="includeAutomatedEvents()"
+          (ngModelChange)="includeAutomatedEvents.set($event)"></label>
+      </nz-col>
+      <nz-col
         nzSpan="18"
         class="option-key">
         Include Automated Events
@@ -25,8 +33,13 @@
         class="option-input">
         <label
           nz-checkbox
-          [ngModel]="includeAutomatedEvents()"
-          (ngModelChange)="includeAutomatedEvents.set($event)"></label>
+          [ngModel]="showOrganization()"
+          (ngModelChange)="showOrganization.set($event)"></label>
+      </nz-col>
+      <nz-col
+        nzSpan="18"
+        class="option-key">
+        Show Organization
       </nz-col>
     </nz-row>
   </div>

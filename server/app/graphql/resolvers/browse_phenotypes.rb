@@ -1,12 +1,10 @@
 require 'search_object'
 require 'search_object/plugin/graphql'
 
-class Resolvers::Phenotypes < GraphQL::Schema::Resolver
+class Resolvers::BrowsePhenotypes < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
   type Types::BrowseTables::BrowsePhenotypeType.connection_type, null: false
-
-  description 'List and filter Phenotypes from the Human Phenotype Ontology.'
 
   scope do
     Phenotype.select('phenotypes.id, phenotypes.hpo_class, phenotypes.hpo_id, count(distinct(assertions.id)) as assertion_count, count(distinct(evidence_items.id)) as evidence_count')
