@@ -1752,6 +1752,30 @@ export type Disease = {
   name: Scalars['String']['output'];
 };
 
+/** The connection type for Disease. */
+export type DiseaseConnection = {
+  __typename: 'DiseaseConnection';
+  /** A list of edges. */
+  edges: Array<DiseaseEdge>;
+  /** A list of nodes. */
+  nodes: Array<Disease>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type DiseaseEdge = {
+  __typename: 'DiseaseEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Disease>;
+};
+
 export type DiseasePopover = {
   __typename: 'DiseasePopover';
   assertionCount: Scalars['Int']['output'];
@@ -4718,6 +4742,30 @@ export type Phenotype = {
   url: Scalars['String']['output'];
 };
 
+/** The connection type for Phenotype. */
+export type PhenotypeConnection = {
+  __typename: 'PhenotypeConnection';
+  /** A list of edges. */
+  edges: Array<PhenotypeEdge>;
+  /** A list of nodes. */
+  nodes: Array<Phenotype>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type PhenotypeEdge = {
+  __typename: 'PhenotypeEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Phenotype>;
+};
+
 export type PhenotypePopover = {
   __typename: 'PhenotypePopover';
   assertionCount: Scalars['Int']['output'];
@@ -4762,7 +4810,9 @@ export type Query = {
   browseDiseases: BrowseDiseaseConnection;
   browseFeatures: BrowseFeatureConnection;
   browseMolecularProfiles: BrowseMolecularProfileConnection;
+  browsePhenotypes: BrowsePhenotypeConnection;
   browseSources: BrowseSourceConnection;
+  browseTherapies: BrowseTherapyConnection;
   browseVariantGroups: BrowseVariantGroupConnection;
   browseVariants: BrowseVariantConnection;
   /** Find a ClinGen code by CIViC ID */
@@ -4787,6 +4837,7 @@ export type Query = {
   diseasePopover?: Maybe<DiseasePopover>;
   /** Retrieve disease typeahead fields for a search term. */
   diseaseTypeahead: Array<Disease>;
+  diseases: DiseaseConnection;
   /** Retrieve entity type typeahead fields for a entity mention search term. */
   entityTypeahead: Array<CommentTagSegment>;
   /** List and filter events for an object */
@@ -4837,7 +4888,7 @@ export type Query = {
   /** Retrieve phenotype typeahead fields for a search term. */
   phenotypeTypeahead: Array<Phenotype>;
   /** List and filter Phenotypes from the Human Phenotype Ontology. */
-  phenotypes: BrowsePhenotypeConnection;
+  phenotypes: PhenotypeConnection;
   previewCommentText: Array<CommentBodySegment>;
   previewMolecularProfileName: MolecularProfileNamePreview;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
@@ -4858,10 +4909,12 @@ export type Query = {
   sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
+  /** List and filter sources. */
+  sources: SourceConnection;
   /** Get the active subscription for the entity and logged in user, if any */
   subscriptionForEntity?: Maybe<Subscription>;
   /** List and filter Therapies from the NCI Thesaurus. */
-  therapies: BrowseTherapyConnection;
+  therapies: TherapyConnection;
   /** Find a therapy by CIViC ID */
   therapy?: Maybe<Therapy>;
   /** Retrieve popover fields for a specific therapy. */
@@ -5008,6 +5061,18 @@ export type QueryBrowseMolecularProfilesArgs = {
 };
 
 
+export type QueryBrowsePhenotypesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  hpoId?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<PhenotypeSort>;
+};
+
+
 export type QueryBrowseSourcesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   author?: InputMaybe<Scalars['String']['input']>;
@@ -5023,6 +5088,19 @@ export type QueryBrowseSourcesArgs = {
   sortBy?: InputMaybe<SourcesSort>;
   sourceType?: InputMaybe<SourceSource>;
   year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryBrowseTherapiesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  ncitId?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<TherapySort>;
+  therapyAlias?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -5120,6 +5198,17 @@ export type QueryDiseasePopoverArgs = {
 
 export type QueryDiseaseTypeaheadArgs = {
   queryTerm: Scalars['String']['input'];
+};
+
+
+export type QueryDiseasesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  doid?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -5339,7 +5428,6 @@ export type QueryPhenotypesArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  sortBy?: InputMaybe<PhenotypeSort>;
 };
 
 
@@ -5439,6 +5527,15 @@ export type QuerySourceTypeaheadArgs = {
 };
 
 
+export type QuerySourcesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  citationId?: InputMaybe<Array<Scalars['String']['input']>>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QuerySubscriptionForEntityArgs = {
   subscribable: SubscribableInput;
 };
@@ -5452,7 +5549,6 @@ export type QueryTherapiesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   ncitId?: InputMaybe<Scalars['String']['input']>;
-  sortBy?: InputMaybe<TherapySort>;
   therapyAlias?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -5894,6 +5990,30 @@ export type SourceEventsArgs = {
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   originatingUserId?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<DateSort>;
+};
+
+/** The connection type for Source. */
+export type SourceConnection = {
+  __typename: 'SourceConnection';
+  /** A list of edges. */
+  edges: Array<SourceEdge>;
+  /** A list of nodes. */
+  nodes: Array<Source>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type SourceEdge = {
+  __typename: 'SourceEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Source>;
 };
 
 export type SourcePopover = Commentable & EventSubject & {
@@ -6752,6 +6872,30 @@ export type Therapy = {
   ncitId?: Maybe<Scalars['String']['output']>;
   therapyAliases: Array<Scalars['String']['output']>;
   therapyUrl?: Maybe<Scalars['String']['output']>;
+};
+
+/** The connection type for Therapy. */
+export type TherapyConnection = {
+  __typename: 'TherapyConnection';
+  /** A list of edges. */
+  edges: Array<TherapyEdge>;
+  /** A list of nodes. */
+  nodes: Array<Therapy>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int']['output'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** An edge in a connection. */
+export type TherapyEdge = {
+  __typename: 'TherapyEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Therapy>;
 };
 
 export enum TherapyInteraction {
@@ -8222,7 +8366,7 @@ export type PhenotypesBrowseQueryVariables = Exact<{
 }>;
 
 
-export type PhenotypesBrowseQuery = { __typename: 'Query', phenotypes: { __typename: 'BrowsePhenotypeConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowsePhenotypeEdge', cursor: string, node?: { __typename: 'BrowsePhenotype', id: number, name: string, hpoId: string, url: string, assertionCount: number, evidenceCount: number, link: string } | undefined }> } };
+export type PhenotypesBrowseQuery = { __typename: 'Query', browsePhenotypes: { __typename: 'BrowsePhenotypeConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowsePhenotypeEdge', cursor: string, node?: { __typename: 'BrowsePhenotype', id: number, name: string, hpoId: string, url: string, assertionCount: number, evidenceCount: number, link: string } | undefined }> } };
 
 export type PhenotypeBrowseTableRowFieldsFragment = { __typename: 'BrowsePhenotype', id: number, name: string, hpoId: string, url: string, assertionCount: number, evidenceCount: number, link: string };
 
@@ -8396,7 +8540,7 @@ export type TherapiesBrowseQueryVariables = Exact<{
 }>;
 
 
-export type TherapiesBrowseQuery = { __typename: 'Query', therapies: { __typename: 'BrowseTherapyConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseTherapyEdge', cursor: string, node?: { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean, therapyAliases?: Array<string> | undefined } | undefined }> } };
+export type TherapiesBrowseQuery = { __typename: 'Query', browseTherapies: { __typename: 'BrowseTherapyConnection', totalCount: number, filteredCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseTherapyEdge', cursor: string, node?: { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean, therapyAliases?: Array<string> | undefined } | undefined }> } };
 
 export type TherapyBrowseTableRowFieldsFragment = { __typename: 'BrowseTherapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, assertionCount: number, evidenceCount: number, link: string, deprecated: boolean, therapyAliases?: Array<string> | undefined };
 
@@ -14531,7 +14675,7 @@ export const PhenotypePopoverDocument = gql`
   }
 export const PhenotypesBrowseDocument = gql`
     query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
-  phenotypes(
+  browsePhenotypes(
     first: $first
     last: $last
     before: $before
@@ -14998,7 +15142,7 @@ export const TherapyPopoverDocument = gql`
   }
 export const TherapiesBrowseDocument = gql`
     query TherapiesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
-  therapies(
+  browseTherapies(
     first: $first
     last: $last
     before: $before

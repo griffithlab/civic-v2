@@ -19,10 +19,11 @@ module Types
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
+    field :browseTherapies, resolver: Resolvers::BrowseTherapies
+    field :browsePhenotypes, resolver: Resolvers::BrowsePhenotypes
     field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :events, resolver: Resolvers::TopLevelEvents
     field :comments, resolver: Resolvers::TopLevelComments
-    field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
     field :notifications, resolver: Resolvers::Notifications do
       def authorized?(object, args, context)
@@ -189,6 +190,7 @@ module Types
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
     field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles, max_page_size: 300
+    field :sources, resolver: Resolvers::TopLevelSources
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -198,7 +200,11 @@ module Types
 
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
+    field :diseases, resolver: Resolvers::TopLevelDiseases
+
     field :therapies, resolver: Resolvers::TopLevelTherapies
+
+    field :phenotypes, resolver: Resolvers::TopLevelPhenotypes
 
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
