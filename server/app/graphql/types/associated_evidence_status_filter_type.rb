@@ -1,5 +1,5 @@
 module Types
-  class MolecularProfileDisplayFilterType < Types::BaseEnum
+  class AssociatedEvidenceStatusFilterType < Types::BaseEnum
     value 'WITH_ACCEPTED',
       description: 'Display only molecular profiles which have at least one accepted evidence item.'
     value 'WITH_ACCEPTED_OR_SUBMITTED',

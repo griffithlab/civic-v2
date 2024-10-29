@@ -794,6 +794,28 @@ enum AssertionType {
   PROGNOSTIC
 }
 
+enum AssociatedEvidenceStatusFilter {
+  """
+  Display all molecular profiles regardless of attached evidence status.
+  """
+  ALL
+
+  """
+  Display only molecular profiles which have at least one accepted evidence item.
+  """
+  WITH_ACCEPTED
+
+  """
+  Display only molecular profiles which have evidence in either an accepted or submitted state.
+  """
+  WITH_ACCEPTED_OR_SUBMITTED
+
+  """
+  Display molecular profiles which have at least one submitted evidence item.
+  """
+  WITH_SUBMITTED
+}
+
 enum BooleanOperator {
   AND
   OR
@@ -6976,28 +6998,6 @@ enum MolecularProfileDeprecationReasonMutationInput {
   OTHER
 }
 
-enum MolecularProfileDisplayFilter {
-  """
-  Display all molecular profiles regardless of attached evidence status.
-  """
-  ALL
-
-  """
-  Display only molecular profiles which have at least one accepted evidence item.
-  """
-  WITH_ACCEPTED
-
-  """
-  Display only molecular profiles which have evidence in either an accepted or submitted state.
-  """
-  WITH_ACCEPTED_OR_SUBMITTED
-
-  """
-  Display molecular profiles which have at least one submitted evidence item.
-  """
-  WITH_SUBMITTED
-}
-
 """
 An edge in a connection.
 """
@@ -8945,6 +8945,11 @@ type Query {
     before: String
 
     """
+    Limit genes by the status of attached evidence.
+    """
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -9046,14 +9051,9 @@ type Query {
     before: String
 
     """
-    List of Entrez Gene IDs to return results for
+    Limit genes by the status of attached evidence.
     """
-    entrezIds: [Int!]
-
-    """
-    List of Entrez Gene symbols to return results for
-    """
-    entrezSymbols: [String!]
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
 
     """
     Returns the first _n_ elements from the list.
@@ -9101,6 +9101,11 @@ type Query {
     entrezSymbols: [String!]
 
     """
+    Limit genes by the status of attached evidence.
+    """
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -9138,7 +9143,7 @@ type Query {
     """
     Limit molecular profiles by the status of attached evidence.
     """
-    evidenceStatusFilter: MolecularProfileDisplayFilter
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
 
     """
     Filter molecular profiles to the CIViC ID of the feature(s) involved.
