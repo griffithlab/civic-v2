@@ -15,7 +15,7 @@ class Resolvers::TopLevelFactors < GraphQL::Schema::Resolver
       .distinct
   end
 
-  option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::AssociatedEvidenceStatusFilterType , description: 'Limit genes by the status of attached evidence.') do |scope, value|
+  option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::AssociatedEvidenceStatusFilterType , description: 'Limit factors by the status of attached evidence.') do |scope, value|
     case value
     when 'WITH_ACCEPTED'
       scope.joins(:evidence_items_by_status)

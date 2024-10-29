@@ -17,7 +17,7 @@ class Resolvers::TopLevelFusions < GraphQL::Schema::Resolver
       .distinct
   end
 
-  option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::AssociatedEvidenceStatusFilterType , description: 'Limit genes by the status of attached evidence.') do |scope, value|
+  option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::AssociatedEvidenceStatusFilterType , description: 'Limit fusions by the status of attached evidence.') do |scope, value|
     case value
     when 'WITH_ACCEPTED'
       scope.joins(:evidence_items_by_status)
