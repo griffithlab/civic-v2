@@ -21,6 +21,7 @@ module Types::Entities
     field :most_recent_activity_timestamp, GraphQL::Types::ISO8601DateTime, null: true
     field :most_recent_organization_id, Int, null: true
     field :ranks, Types::Entities::RanksType, null: false
+    field :email, String, null: true
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
@@ -31,12 +32,6 @@ module Types::Entities
             message: "Size must be one of [#{profile_image_sizes.join(',')}]"
           }
         }
-    end
-
-    field :email, String, null: true do
-      def authorized?(object, args, context)
-        object.id == context[:current_user]&.id
-      end
     end
 
     field :notifications, Types::Entities::NotificationType.connection_type, null: true do
@@ -52,6 +47,15 @@ module Types::Entities
 
       def authorized?(object, args, context)
         object.id == context[:current_user]&.id
+      end
+    end
+
+    def email
+      #You can only fetch your own email
+      if object.id == context[:current_user]&.id
+        object.email
+      else
+        nil
       end
     end
 
