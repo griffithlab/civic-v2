@@ -112,6 +112,8 @@
       }
     }
     ... on Comment {
+      deleted
+      deletedAt
       commentable {
         id
         name
@@ -415,6 +417,8 @@ ${Ye}`,te=t.J1`
 ${Dn}`,se=t.J1`
     fragment CommentActivityDetail on CommentActivity {
   comment {
+    deleted
+    deletedAt
     ...commentListNode
     commentable {
       id
@@ -442,6 +446,8 @@ ${Ye}`,_t=t.J1`
 ${Ye}`,mt=t.J1`
     fragment DeleteCommentActivityDetail on DeleteCommentActivity {
   comment {
+    deleted
+    deletedAt
     ...commentListNode
   }
   subject {
@@ -880,6 +886,8 @@ ${k}`,Ce=t.J1`
   createdAt
   title
   comment
+  deleted
+  deletedAt
   commenter {
     id
     displayName
@@ -4303,7 +4311,7 @@ ${Yn}`;let Ma=(()=>{class m extends t.XK{constructor(Fe){super(Fe),this.document
 }
     `;let Qn=(()=>{class m extends t.XK{constructor(Fe){super(Fe),this.document=Eo}static#e=this.\u0275fac=function(Ct){return new(Ct||m)(r.KVO(t.Ic))};static#t=this.\u0275prov=r.jDH({token:m,factory:m.\u0275fac,providedIn:"root"})}return m})();const xo=t.J1`
     query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
-  phenotypes(
+  browsePhenotypes(
     first: $first
     last: $last
     before: $before
@@ -4578,7 +4586,7 @@ ${Yn}`;let Ma=(()=>{class m extends t.XK{constructor(Fe){super(Fe),this.document
 }
     `;let Oa=(()=>{class m extends t.XK{constructor(Fe){super(Fe),this.document=Ya}static#e=this.\u0275fac=function(Ct){return new(Ct||m)(r.KVO(t.Ic))};static#t=this.\u0275prov=r.jDH({token:m,factory:m.\u0275fac,providedIn:"root"})}return m})();const wa=t.J1`
     query TherapiesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $therapyAlias: String, $sortBy: TherapySort) {
-  therapies(
+  browseTherapies(
     first: $first
     last: $last
     before: $before
