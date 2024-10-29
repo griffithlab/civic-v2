@@ -129,6 +129,7 @@ export enum ActivitySubjectInput {
   Assertion = 'ASSERTION',
   Comment = 'COMMENT',
   EvidenceItem = 'EVIDENCE_ITEM',
+  ExonCoordinate = 'EXON_COORDINATE',
   Feature = 'FEATURE',
   Flag = 'FLAG',
   MolecularProfile = 'MOLECULAR_PROFILE',
@@ -137,6 +138,7 @@ export enum ActivitySubjectInput {
   Source = 'SOURCE',
   SourceSuggestion = 'SOURCE_SUGGESTION',
   Variant = 'VARIANT',
+  VariantCoordinate = 'VARIANT_COORDINATE',
   VariantGroup = 'VARIANT_GROUP'
 }
 
@@ -5251,6 +5253,7 @@ export type QueryEvidenceItemsArgs = {
   evidenceType?: InputMaybe<EvidenceType>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileId?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
