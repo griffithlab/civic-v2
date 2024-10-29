@@ -1,12 +1,12 @@
 module Types
   class AssociatedEvidenceStatusFilterType < Types::BaseEnum
     value 'WITH_ACCEPTED',
-      description: 'Display only molecular profiles which have at least one accepted evidence item.'
+      description: 'Apply filter to an entity to display only those which have at least one accepted associated evidence item.'
     value 'WITH_ACCEPTED_OR_SUBMITTED',
-      description: 'Display only molecular profiles which have evidence in either an accepted or submitted state.'
+      description: 'Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item.'
     value 'WITH_SUBMITTED',
-      description: 'Display molecular profiles which have at least one submitted evidence item.'
+      description: 'Apply filter to an entity to display only those which have at least one submitted associated evidence item.'
     value 'ALL',
-      description: 'Display all molecular profiles regardless of attached evidence status.'
+      description: 'Apply no status filter to an entity in order to display all entities regardless of attached evidence status.'
   end
 end
