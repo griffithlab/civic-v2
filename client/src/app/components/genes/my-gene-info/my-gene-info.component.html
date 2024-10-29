@@ -25,7 +25,23 @@
               {{ info.symbol }} (ID: {{ info._id }})
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="UniProtKB ID">
-              {{ info.uniprot['Swiss-Prot'] }}
+              @if (
+                info.uniprot['Swiss-Prot'] && info.uniprot['Swiss-Prot'].trim()
+              ) {
+                <cvc-link-tag
+                  href="https://www.uniprot.org/uniprotkb/{{
+                    info.uniprot['Swiss-Prot']
+                  }}/entry"
+                  tooltip="View in UniProt">
+                  {{ info.uniprot['Swiss-Prot'] }}
+                </cvc-link-tag>
+              } @else {
+                <span
+                  nz-typography
+                  nzType="secondary"
+                  >N/A</span
+                >
+              }
             </nz-descriptions-item>
           </nz-descriptions>
           <nz-descriptions
@@ -44,7 +60,7 @@
               {{ info.genomic_pos_hg19.end }}
             </nz-descriptions-item>
           </nz-descriptions>
-          <nz-descriptions 
+          <nz-descriptions
             nzBordered="true"
             nzSize="small"
             [nzColumn]="1">
@@ -52,12 +68,20 @@
               {{ info.alias.join(', ') }}
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Protein Domains">
-              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+              <p
+                nz-typography
+                nzEllipsis
+                nzExpandable
+                [nzEllipsisRows]="3">
                 {{ info.interproList.join(', ') }}
               </p>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Pathways">
-              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+              <p
+                nz-typography
+                nzEllipsis
+                nzExpandable
+                [nzEllipsisRows]="3">
                 {{ info.pathwayList.join(', ') }}
               </p>
             </nz-descriptions-item>
