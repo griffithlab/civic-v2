@@ -798,22 +798,22 @@ enum AssertionType {
 
 enum AssociatedEvidenceStatusFilter {
   """
-  Display all molecular profiles regardless of attached evidence status.
+  Apply no status filter to an entity in order to display all entities regardless of attached evidence status.
   """
   ALL
 
   """
-  Display only molecular profiles which have at least one accepted evidence item.
+  Apply filter to an entity to display only those which have at least one accepted associated evidence item.
   """
   WITH_ACCEPTED
 
   """
-  Display only molecular profiles which have evidence in either an accepted or submitted state.
+  Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item.
   """
   WITH_ACCEPTED_OR_SUBMITTED
 
   """
-  Display molecular profiles which have at least one submitted evidence item.
+  Apply filter to an entity to display only those which have at least one submitted associated evidence item.
   """
   WITH_SUBMITTED
 }
@@ -8947,7 +8947,7 @@ type Query {
     before: String
 
     """
-    Limit genes by the status of attached evidence.
+    Limit factors by the status of attached evidence.
     """
     evidenceStatusFilter: AssociatedEvidenceStatusFilter
 
@@ -9053,7 +9053,7 @@ type Query {
     before: String
 
     """
-    Limit genes by the status of attached evidence.
+    Limit fusions by the status of attached evidence.
     """
     evidenceStatusFilter: AssociatedEvidenceStatusFilter
 

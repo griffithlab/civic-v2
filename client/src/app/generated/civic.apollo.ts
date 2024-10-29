@@ -491,13 +491,13 @@ export enum AssertionType {
 }
 
 export enum AssociatedEvidenceStatusFilter {
-  /** Display all molecular profiles regardless of attached evidence status. */
+  /** Apply no status filter to an entity in order to display all entities regardless of attached evidence status. */
   All = 'ALL',
-  /** Display only molecular profiles which have at least one accepted evidence item. */
+  /** Apply filter to an entity to display only those which have at least one accepted associated evidence item. */
   WithAccepted = 'WITH_ACCEPTED',
-  /** Display only molecular profiles which have evidence in either an accepted or submitted state. */
+  /** Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item. */
   WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
-  /** Display molecular profiles which have at least one submitted evidence item. */
+  /** Apply filter to an entity to display only those which have at least one submitted associated evidence item. */
   WithSubmitted = 'WITH_SUBMITTED'
 }
 
