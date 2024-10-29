@@ -4909,7 +4909,7 @@ export type Query = {
   sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
-  /** List and filter genes. */
+  /** List and filter sources. */
   sources: SourceConnection;
   /** Get the active subscription for the entity and logged in user, if any */
   subscriptionForEntity?: Maybe<Subscription>;

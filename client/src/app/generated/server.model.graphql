@@ -9457,7 +9457,7 @@ type Query {
   sourceTypeahead(citationId: String!, sourceType: SourceSource!): [Source!]!
 
   """
-  List and filter genes.
+  List and filter sources.
   """
   sources(
     """

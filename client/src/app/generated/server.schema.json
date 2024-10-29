@@ -43221,7 +43221,7 @@
             },
             {
               "name": "sources",
-              "description": "List and filter genes.",
+              "description": "List and filter sources.",
               "args": [
                 {
                   "name": "citationId",
