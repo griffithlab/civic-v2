@@ -5,7 +5,7 @@ class Resolvers::TopLevelSources < GraphQL::Schema::Resolver
 
   type Types::Entities::SourceType.connection_type, null: false
 
-  description 'List and filter genes.'
+  description 'List and filter sources.'
 
   scope do
     Source
