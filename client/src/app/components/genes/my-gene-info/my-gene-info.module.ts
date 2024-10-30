@@ -7,6 +7,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 
 @NgModule({
   declarations: [CvcMyGeneInfoComponent],
@@ -19,6 +20,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
     NzTableModule,
     NzTypographyModule,
     NzDescriptionsModule,
+    CvcLinkTagModule,
   ],
   exports: [CvcMyGeneInfoComponent],
 })
