@@ -12,7 +12,5 @@ module Types::Activities
     value 'FLAG', value: 'Flag'
     value 'REVISION_SET', value: 'RevisionSet'
     value 'COMMENT', value: 'Comment'
-    value 'EXON_COORDINATE', value: 'ExonCoordinate'
-    value 'VARIANT_COORDINATE', value: 'VariantCoordinate'
   end
 end
