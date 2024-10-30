@@ -490,6 +490,17 @@ export enum AssertionType {
   Prognostic = 'PROGNOSTIC'
 }
 
+export enum AssociatedEvidenceStatusFilter {
+  /** Apply no status filter to an entity in order to display all entities regardless of attached evidence status. */
+  All = 'ALL',
+  /** Apply filter to an entity to display only those which have at least one accepted associated evidence item. */
+  WithAccepted = 'WITH_ACCEPTED',
+  /** Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item. */
+  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
+  /** Apply filter to an entity to display only those which have at least one submitted associated evidence item. */
+  WithSubmitted = 'WITH_SUBMITTED'
+}
+
 export enum BooleanOperator {
   And = 'AND',
   Or = 'OR'
@@ -3965,17 +3976,6 @@ export enum MolecularProfileDeprecationReasonMutationInput {
   Other = 'OTHER'
 }
 
-export enum MolecularProfileDisplayFilter {
-  /** Display all molecular profiles regardless of attached evidence status. */
-  All = 'ALL',
-  /** Display only molecular profiles which have at least one accepted evidence item. */
-  WithAccepted = 'WITH_ACCEPTED',
-  /** Display only molecular profiles which have evidence in either an accepted or submitted state. */
-  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
-  /** Display molecular profiles which have at least one submitted evidence item. */
-  WithSubmitted = 'WITH_SUBMITTED'
-}
-
 /** An edge in a connection. */
 export type MolecularProfileEdge = {
   __typename: 'MolecularProfileEdge';
@@ -5280,6 +5280,7 @@ export type QueryFactorArgs = {
 export type QueryFactorsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -5324,8 +5325,7 @@ export type QueryFusionArgs = {
 export type QueryFusionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
-  entrezIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  entrezSymbols?: InputMaybe<Array<Scalars['String']['input']>>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   genePartnerId?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -5343,6 +5343,7 @@ export type QueryGenesArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   entrezIds?: InputMaybe<Array<Scalars['Int']['input']>>;
   entrezSymbols?: InputMaybe<Array<Scalars['String']['input']>>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -5357,7 +5358,7 @@ export type QueryMolecularProfilesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   alleleRegistryId?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
-  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   featureId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
@@ -8287,7 +8288,7 @@ export type MolecularProfileMenuQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
-  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
 }>;
 
 
@@ -14472,7 +14473,7 @@ export const BrowseMolecularProfilesDocument = gql`
     }
   }
 export const MolecularProfileMenuDocument = gql`
-    query MolecularProfileMenu($geneId: Int, $featureId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: MolecularProfileDisplayFilter) {
+    query MolecularProfileMenu($geneId: Int, $featureId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: AssociatedEvidenceStatusFilter) {
   molecularProfiles(
     geneId: $geneId
     featureId: $featureId

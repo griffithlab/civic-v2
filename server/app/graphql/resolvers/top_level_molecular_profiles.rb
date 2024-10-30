@@ -9,7 +9,7 @@ class Resolvers::TopLevelMolecularProfiles < GraphQL::Schema::Resolver
 
   scope { MolecularProfile.where(deprecated: false).order('molecular_profiles.evidence_score DESC').distinct }
 
-  option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::MolecularProfileDisplayFilterType , description: 'Limit molecular profiles by the status of attached evidence.') do |scope, value|
+  option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::AssociatedEvidenceStatusFilterType , description: 'Limit molecular profiles by the status of attached evidence.') do |scope, value|
     case value
     when 'WITH_ACCEPTED'
       scope.joins(:evidence_items_by_status)
