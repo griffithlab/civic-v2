@@ -129,6 +129,7 @@ export enum ActivitySubjectInput {
   Assertion = 'ASSERTION',
   Comment = 'COMMENT',
   EvidenceItem = 'EVIDENCE_ITEM',
+  ExonCoordinate = 'EXON_COORDINATE',
   Feature = 'FEATURE',
   Flag = 'FLAG',
   MolecularProfile = 'MOLECULAR_PROFILE',
@@ -137,6 +138,7 @@ export enum ActivitySubjectInput {
   Source = 'SOURCE',
   SourceSuggestion = 'SOURCE_SUGGESTION',
   Variant = 'VARIANT',
+  VariantCoordinate = 'VARIANT_COORDINATE',
   VariantGroup = 'VARIANT_GROUP'
 }
 
@@ -486,6 +488,17 @@ export enum AssertionType {
   Predictive = 'PREDICTIVE',
   Predisposing = 'PREDISPOSING',
   Prognostic = 'PROGNOSTIC'
+}
+
+export enum AssociatedEvidenceStatusFilter {
+  /** Apply no status filter to an entity in order to display all entities regardless of attached evidence status. */
+  All = 'ALL',
+  /** Apply filter to an entity to display only those which have at least one accepted associated evidence item. */
+  WithAccepted = 'WITH_ACCEPTED',
+  /** Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item. */
+  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
+  /** Apply filter to an entity to display only those which have at least one submitted associated evidence item. */
+  WithSubmitted = 'WITH_SUBMITTED'
 }
 
 export enum BooleanOperator {
@@ -3963,17 +3976,6 @@ export enum MolecularProfileDeprecationReasonMutationInput {
   Other = 'OTHER'
 }
 
-export enum MolecularProfileDisplayFilter {
-  /** Display all molecular profiles regardless of attached evidence status. */
-  All = 'ALL',
-  /** Display only molecular profiles which have at least one accepted evidence item. */
-  WithAccepted = 'WITH_ACCEPTED',
-  /** Display only molecular profiles which have evidence in either an accepted or submitted state. */
-  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
-  /** Display molecular profiles which have at least one submitted evidence item. */
-  WithSubmitted = 'WITH_SUBMITTED'
-}
-
 /** An edge in a connection. */
 export type MolecularProfileEdge = {
   __typename: 'MolecularProfileEdge';
@@ -5251,6 +5253,7 @@ export type QueryEvidenceItemsArgs = {
   evidenceType?: InputMaybe<EvidenceType>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   last?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileId?: InputMaybe<Scalars['Int']['input']>;
   molecularProfileName?: InputMaybe<Scalars['String']['input']>;
@@ -5277,6 +5280,7 @@ export type QueryFactorArgs = {
 export type QueryFactorsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -5321,8 +5325,7 @@ export type QueryFusionArgs = {
 export type QueryFusionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
-  entrezIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  entrezSymbols?: InputMaybe<Array<Scalars['String']['input']>>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   genePartnerId?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -5340,6 +5343,7 @@ export type QueryGenesArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   entrezIds?: InputMaybe<Array<Scalars['Int']['input']>>;
   entrezSymbols?: InputMaybe<Array<Scalars['String']['input']>>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -5354,7 +5358,7 @@ export type QueryMolecularProfilesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   alleleRegistryId?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
-  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
   featureId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   geneId?: InputMaybe<Scalars['Int']['input']>;
@@ -7850,6 +7854,20 @@ export type ActivityFeedUpdatesQueryVariables = Exact<{
 
 export type ActivityFeedUpdatesQuery = { __typename: 'Query', activities: { __typename: 'ActivityInterfaceConnection', pageCount: number, totalCount: number, unfilteredCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean } } };
 
+export type OrgFilterSearchQueryVariables = Exact<{
+  name?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type OrgFilterSearchQuery = { __typename: 'Query', organizations: { __typename: 'BrowseOrganizationConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseOrganizationEdge', node?: { __typename: 'BrowseOrganization', id: number, name: string } | undefined }> } };
+
+export type UserFilterSearchQueryVariables = Exact<{
+  name?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UserFilterSearchQuery = { __typename: 'Query', users: { __typename: 'BrowseUserConnection', pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseUserEdge', node?: { __typename: 'BrowseUser', id: number, displayName: string, name?: string | undefined, username: string, role: UserRole } | undefined }> } };
+
 export type AcceptRevisionsActivityDetailFragment = { __typename: 'AcceptRevisionsActivity', id: number, verbiage: string, createdAt: any, parsedNote: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }>, revisions: Array<{ __typename: 'Revision', id: number, name: string, status: RevisionStatus, currentValue?: any | undefined, suggestedValue?: any | undefined, fieldName: string, link: string, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', currentObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }>, suggestedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string, link?: string | undefined, deleted: boolean, deprecated?: boolean | undefined, flagged?: boolean | undefined, feature?: { __typename: 'LinkableFeature', link: string, id: number, name: string, deprecated: boolean, flagged: boolean } | undefined }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } } }>, supersededRevisions: Array<{ __typename: 'Revision', id: number, link: string, name: string, fieldName: string, createdAt: any, creationActivity?: { __typename: 'SuggestRevisionSetActivity', user: { __typename: 'User', displayName: string, profileImagePath?: string | undefined, id: number, role: UserRole } } | undefined }>, organization?: { __typename: 'Organization', id: number, name: string } | undefined, user: { __typename: 'User', id: number, displayName: string, role: UserRole }, subject: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', deleted: boolean, deletedAt?: any | undefined, id: number, name: string, link: string, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'ExonCoordinate', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'RevisionSet', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantCoordinate', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, events: Array<{ __typename: 'Event', id: number, createdAt: any, action: EventAction, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined, originatingUser: { __typename: 'User', id: number, displayName: string } }> };
 
 export type CommentActivityDetailFragment = { __typename: 'CommentActivity', id: number, verbiage: string, createdAt: any, comment: { __typename: 'Comment', id: number, name: string, link: string, deleted: boolean, deletedAt?: any | undefined, title?: string | undefined, comment: string, createdAt: any, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, commenter: { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }, parsedComment: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlagged', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndDeprecated', entityId: number, displayName: string, tagType: TaggableEntity, flagged: boolean, deprecated: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTagSegmentFlaggedAndWithStatus', entityId: number, displayName: string, tagType: TaggableEntity, status: EvidenceStatus, flagged: boolean, link: string, revisionSetId?: number | undefined, feature?: { __typename: 'LinkableFeature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, username: string, displayName: string, name?: string | undefined, role: UserRole, profileImagePath?: string | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }> }, organization?: { __typename: 'Organization', id: number, name: string } | undefined, user: { __typename: 'User', id: number, displayName: string, role: UserRole }, subject: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', deleted: boolean, deletedAt?: any | undefined, id: number, name: string, link: string, commentable: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string } } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'ExonCoordinate', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string, feature: { __typename: 'Feature', id: number, name: string, link: string } } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'RevisionSet', id: number, name: string, link: string } | { __typename: 'Source', id: number, name: string, link: string } | { __typename: 'SourcePopover', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | { __typename: 'VariantCoordinate', id: number, name: string, link: string } | { __typename: 'VariantGroup', id: number, name: string, link: string }, events: Array<{ __typename: 'Event', id: number, createdAt: any, action: EventAction, originatingObject?: { __typename: 'Assertion', id: number, name: string, link: string } | { __typename: 'Comment', id: number, name: string, link: string } | { __typename: 'EvidenceItem', id: number, name: string, link: string } | { __typename: 'Factor', id: number, name: string, link: string } | { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'Feature', id: number, name: string, link: string } | { __typename: 'Flag', id: number, name: string, link: string } | { __typename: 'Fusion', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'MolecularProfile', id: number, name: string, link: string } | { __typename: 'Revision', id: number, name: string, link: string } | { __typename: 'SourceSuggestion', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined, originatingUser: { __typename: 'User', id: number, displayName: string } }> };
@@ -8270,7 +8288,7 @@ export type MolecularProfileMenuQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
-  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  evidenceStatusFilter?: InputMaybe<AssociatedEvidenceStatusFilter>;
 }>;
 
 
@@ -13706,6 +13724,67 @@ export const ActivityFeedUpdatesDocument = gql`
       super(apollo);
     }
   }
+export const OrgFilterSearchDocument = gql`
+    query OrgFilterSearch($name: String) {
+  organizations(name: $name) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrgFilterSearchGQL extends Apollo.Query<OrgFilterSearchQuery, OrgFilterSearchQueryVariables> {
+    document = OrgFilterSearchDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserFilterSearchDocument = gql`
+    query UserFilterSearch($name: String) {
+  users(name: $name) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      node {
+        id
+        displayName
+        name
+        username
+        role
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserFilterSearchGQL extends Apollo.Query<UserFilterSearchQuery, UserFilterSearchQueryVariables> {
+    document = UserFilterSearchDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ActivityFeedItemDocument = gql`
     query ActivityFeedItem($id: Int!, $requestDetails: Boolean!) {
   activity(id: $id) {
@@ -14394,7 +14473,7 @@ export const BrowseMolecularProfilesDocument = gql`
     }
   }
 export const MolecularProfileMenuDocument = gql`
-    query MolecularProfileMenu($geneId: Int, $featureId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: MolecularProfileDisplayFilter) {
+    query MolecularProfileMenu($geneId: Int, $featureId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: AssociatedEvidenceStatusFilter) {
   molecularProfiles(
     geneId: $geneId
     featureId: $featureId

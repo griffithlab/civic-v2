@@ -10,8 +10,12 @@ module Activities
 
     private
     def create_activity
+      #Set the subject of this activity to the subject of the revision's creation activity
+      #In the case of gene/exon coordinates, the revision's subject will be the coordinate Object
+      #which we do not want. The creation activity's subject will be the Variant.
+      activity_subject = revisions.first&.creation_activity&.subject
       @activity = AcceptRevisionsActivity.create!(
-        subject: revisions.first.subject,
+        subject: activity_subject,
         user: accepting_user,
         organization: organization,
         note: note

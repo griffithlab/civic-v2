@@ -3595,6 +3595,41 @@
           "possibleTypes": null
         },
         {
+          "kind": "ENUM",
+          "name": "AssociatedEvidenceStatusFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "WITH_ACCEPTED",
+              "description": "Apply filter to an entity to display only those which have at least one accepted associated evidence item.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WITH_ACCEPTED_OR_SUBMITTED",
+              "description": "Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WITH_SUBMITTED",
+              "description": "Apply filter to an entity to display only those which have at least one submitted associated evidence item.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ALL",
+              "description": "Apply no status filter to an entity in order to display all entities regardless of attached evidence status.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
           "kind": "SCALAR",
           "name": "Boolean",
           "description": "Represents `true` or `false` values.",
@@ -32542,41 +32577,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "ENUM",
-          "name": "MolecularProfileDisplayFilter",
-          "description": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "WITH_ACCEPTED",
-              "description": "Display only molecular profiles which have at least one accepted evidence item.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "WITH_ACCEPTED_OR_SUBMITTED",
-              "description": "Display only molecular profiles which have evidence in either an accepted or submitted state.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "WITH_SUBMITTED",
-              "description": "Display molecular profiles which have at least one submitted evidence item.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ALL",
-              "description": "Display all molecular profiles regardless of attached evidence status.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "MolecularProfileEdge",
           "description": "An edge in a connection.",
@@ -41063,6 +41063,18 @@
               "description": "List and filter factors.",
               "args": [
                 {
+                  "name": "evidenceStatusFilter",
+                  "description": "Limit factors by the status of attached evidence.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "AssociatedEvidenceStatusFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "ncitIt",
                   "description": "List of NCIt Codes to return Factors for",
                   "type": {
@@ -41425,11 +41437,11 @@
               "description": "List and filter fusions.",
               "args": [
                 {
-                  "name": "genePartnerId",
-                  "description": "CIViC ID of one of the Gene partners",
+                  "name": "evidenceStatusFilter",
+                  "description": "Limit fusions by the status of attached evidence.",
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
+                    "kind": "ENUM",
+                    "name": "AssociatedEvidenceStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -41437,40 +41449,12 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "entrezSymbols",
-                  "description": "List of Entrez Gene symbols to return results for",
+                  "name": "genePartnerId",
+                  "description": "CIViC ID of one of the Gene partners",
                   "type": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "String",
-                        "ofType": null
-                      }
-                    }
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
-                  "name": "entrezIds",
-                  "description": "List of Entrez Gene IDs to return results for",
-                  "type": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Int",
-                        "ofType": null
-                      }
-                    }
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
@@ -41578,6 +41562,18 @@
               "name": "genes",
               "description": "List and filter genes.",
               "args": [
+                {
+                  "name": "evidenceStatusFilter",
+                  "description": "Limit genes by the status of attached evidence.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "AssociatedEvidenceStatusFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "entrezSymbols",
                   "description": "List of Entrez Gene symbols to return results for",
@@ -41717,7 +41713,7 @@
                   "description": "Limit molecular profiles by the status of attached evidence.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "MolecularProfileDisplayFilter",
+                    "name": "AssociatedEvidenceStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,

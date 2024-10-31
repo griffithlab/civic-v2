@@ -6,7 +6,7 @@ query MolecularProfileMenu(
   $last: Int
   $before: String
   $after: String
-  $evidenceStatusFilter: MolecularProfileDisplayFilter
+  $evidenceStatusFilter: AssociatedEvidenceStatusFilter
 ) {
   molecularProfiles(
     geneId: $geneId
