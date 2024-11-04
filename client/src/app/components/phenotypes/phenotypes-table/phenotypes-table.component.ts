@@ -121,7 +121,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
 
     // entity relay connection
     this.connection$ = this.result$.pipe(
-      pluck('data', 'phenotypes'),
+      pluck('data', 'browsePhenotypes'),
       filter(isNonNulled)
     ) as Observable<BrowsePhenotypeConnection>
 
@@ -195,7 +195,10 @@ export class CvcPhenotypesTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<PhenotypeBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<PhenotypeBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }
