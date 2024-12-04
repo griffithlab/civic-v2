@@ -88,8 +88,7 @@ module Importer
 
       unprocessed_doids.each do |doid|
         d = Disease.find_by(doid: doid)
-        revisions = Revision.where(field_name: 'disease_id').where(current_value: d.id).or(Revision.where(field_name: 'disease_id').where(suggested_value: d.id))
-        if d.evidence_items.count == 0 && d.assertions.count == 0 && d.source_suggestions.count == 0 && revisions.count == 0
+        if is_disease_with_no_relations?(d)
           d.disease_aliases.clear
           d.delete
         else
@@ -121,7 +120,7 @@ module Importer
         end
       end
       Disease.where(doid: nil).each do |d|
-        if d.evidence_items.count == 0 && d.assertions.count == 0 && d.source_suggestions.count == 0
+        if is_disease_with_no_relations?(d)
           d.disease_aliases.clear
           d.delete
         elsif ['Solid Tumor', 'Ventricular Dysfunction', 'Acute Mountain Sickness', 'Glioma', 'Low Bone Mineral Density'].include? d.name
@@ -133,6 +132,20 @@ module Importer
           add_flags(d, text)
         end
       end
+    end
+
+    def is_disease_with_no_relations?(d)
+       d.evidence_items.count == 0 &&
+       d.assertions.count == 0 &&
+       d.source_suggestions.count == 0 &&
+       revisions_count(d) == 0
+    end
+
+    def revisions_count(disease)
+      Revision.where(field_name: 'disease_id')
+        .where(current_value: disease.id)
+        .or(Revision.where(field_name: 'disease_id').where(suggested_value: disease.id))
+        .count
     end
 
     def url_from_doid(doid)
