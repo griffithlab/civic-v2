@@ -23,34 +23,28 @@ query variants($after: String) {
       id
       name
       variantAliases
-      variantBases
-      referenceBases
-      referenceBuild
-      clinvarIds
-      alleleRegistryId
-      ensemblVersion
-      gene {
-        name
-        id
-        entrezId
-      }
-      hgvsDescriptions
-      primaryCoordinates {
-        start
-        stop
-        chromosome
-        representativeTranscript
-      }
-      secondaryCoordinates{
-        start
-        stop
-        chromosome
-        representativeTranscript
-      }
-      variantTypes {
+        variantTypes {
         id
         soid
         description
+      }
+      ... on GeneVariant {
+        coordinates {
+          chromosome
+          start
+          stop
+          referenceBases
+          variantBases
+          representativeTranscript
+          referenceBuild
+        }
+      }
+      ... on FactorVariant {
+        name
+        ncitId
+      }
+      ... on FusionVariant {
+        viccCompliantName
       }
     }
   }
