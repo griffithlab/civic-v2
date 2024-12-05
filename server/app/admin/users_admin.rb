@@ -54,7 +54,7 @@ Trestle.resource(:users) do
 
     text_area :bio
 
-    collection_select :country_id, Country.order(:name), :id, :name
+    collection_select :country_id, Country.order(:name), :id, :name, {prompt: 'Choose a Country' }, include_blank: true
 
     select :organization_ids, Organization.order(:name), { label: "Organization" }, multiple: true
   end
