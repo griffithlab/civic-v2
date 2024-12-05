@@ -7,9 +7,8 @@ on:
     branches: [ main, staging]
 
 jobs:
-  run-scripts:
+  run-ruby-script:
     runs-on: 'ubuntu-latest'
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -25,6 +24,12 @@ jobs:
     - name: Run Ruby script
       run: ruby examples/fetch_variant_links.rb
 
+  run-python-script:
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -35,6 +40,12 @@ jobs:
 
     - name: Run Python script
       run: python examples/fetch_all_variants.py
+
+  run-r-script:
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
