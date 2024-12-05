@@ -1,3 +1,4 @@
+install.packages(c("ghql", "jsonlite", "dplyr"), repos="https://cloud.r-project.org")
 library(ghql)
 library(jsonlite)
 library(dplyr)
