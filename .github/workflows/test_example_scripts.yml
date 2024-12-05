@@ -41,9 +41,5 @@ jobs:
       with:
         r-version: '4.4'
 
-    - name: Install R dependencies
-      run: |
-        Rscript -e 'install.packages(c("ghql", "jsonlite", "dplyr"), repos="https://cloud.r-project.org")'
-
     - name: Run R script
       run: Rscript examples/fetch_acmg_code.R
