@@ -15,7 +15,7 @@ class GenerateTsvs < ApplicationJob
         FileUtils.cp(tmp_file.path, public_path)
         File.chmod(0644, public_path)
 
-        #symlink in legacy TSV names for backwards compatability
+        #symlink in legacy TSV names for backwards compatibility
         if e.respond_to?(:file_aliases)
           e.file_aliases.each do |fa|
             link_path = public_file_path(fa)
