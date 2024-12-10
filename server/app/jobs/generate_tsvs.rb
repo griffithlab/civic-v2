@@ -14,6 +14,15 @@ class GenerateTsvs < ApplicationJob
         public_path = public_file_path(e.file_name)
         FileUtils.cp(tmp_file.path, public_path)
         File.chmod(0644, public_path)
+
+        #symlink in legacy TSV names for backwards compatability
+        if e.respond_to?(:file_aliases)
+          e.file_aliases.each do |fa|
+            link_path = public_file_path(fa)
+            FileUtils.ln_s(public_path, link_path, force: true)
+            File.chmod(0644, link_path)
+          end
+        end
       ensure
         tmp_file.unlink
       end
@@ -22,7 +31,7 @@ class GenerateTsvs < ApplicationJob
 
   def tsvs_to_generate
     [
-      GeneTsvFormatter,
+      FeatureTsvFormatter,
       VariantTsvFormatter,
       EvidenceItemTsvFormatter,
       VariantGroupTsvFormatter,
