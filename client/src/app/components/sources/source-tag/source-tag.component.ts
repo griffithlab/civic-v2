@@ -39,11 +39,11 @@ export interface SourceWithCitation {
 type SourceTagInput = SourceWithDisplayName | SourceWithCitation
 
 @Component({
-    selector: 'cvc-source-tag',
-    templateUrl: './source-tag.component.html',
-    styleUrls: ['./source-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-source-tag',
+  templateUrl: './source-tag.component.html',
+  styleUrls: ['./source-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourceTagComponent {
   _source!: SourceTagInput

@@ -57,11 +57,11 @@ export interface SourceSuggestionTableFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-source-suggestions-table',
-    templateUrl: './source-suggestions-table.component.html',
-    styleUrls: ['./source-suggestions-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-source-suggestions-table',
+  templateUrl: './source-suggestions-table.component.html',
+  styleUrls: ['./source-suggestions-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourceSuggestionsTableComponent implements OnInit {
   @Input() cvcHeight?: string
@@ -263,7 +263,10 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<BrowseSourceSuggestionRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseSourceSuggestionRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

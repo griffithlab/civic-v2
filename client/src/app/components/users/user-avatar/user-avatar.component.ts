@@ -11,11 +11,11 @@ export interface WithProfileImageAndDisplayName {
 }
 
 @Component({
-    selector: 'cvc-user-avatar',
-    templateUrl: './user-avatar.component.html',
-    styleUrls: ['./user-avatar.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-user-avatar',
+  templateUrl: './user-avatar.component.html',
+  styleUrls: ['./user-avatar.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcUserAvatarComponent implements OnInit {
   @Input() user!: WithProfileImageAndDisplayName

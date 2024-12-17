@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
 
 @Pipe({
-    name: 'colorNameForStatus',
-    pure: true,
-    standalone: false
+  name: 'colorNameForStatus',
+  pure: true,
+  standalone: false,
 })
 export class ColorNameForStatusPipe implements PipeTransform {
   transform(status: Maybe<EvidenceStatus>): string {

@@ -45,11 +45,11 @@ const BaseInputMixin = mixin(
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-clinvar-input',
-    templateUrl: './clinvar-input.type.html',
-    styleUrls: ['./clinvar-input.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-clinvar-input',
+  templateUrl: './clinvar-input.type.html',
+  styleUrls: ['./clinvar-input.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcClinvarInputField
   extends BaseInputMixin

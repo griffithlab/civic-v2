@@ -44,11 +44,11 @@ export interface CvcOrgSubmitButtonFieldConfig
 
 @UntilDestroy({ arrayName: 'subscriptions' })
 @Component({
-    selector: 'cvc-org-submit-button',
-    templateUrl: './org-submit-button.type.html',
-    styleUrls: ['./org-submit-button.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-org-submit-button',
+  templateUrl: './org-submit-button.type.html',
+  styleUrls: ['./org-submit-button.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrgSubmitButtonComponent
   extends FieldType<FieldTypeConfig<CvcOrgSubmitButtonProps>>

@@ -17,17 +17,18 @@ export interface CvcBaseInputFieldConfig
   type: 'base-input' | Type<CvcBaseInputField>
 }
 
-const BaseInputMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcBaseInputFieldProps>,
-    Maybe<string | number>
-  >()
-)
+const BaseInputMixin =
+  mixin(
+    BaseFieldType<
+      FieldTypeConfig<CvcBaseInputFieldProps>,
+      Maybe<string | number>
+    >()
+  )
 @Component({
-    selector: 'cvc-base-input',
-    templateUrl: './input.type.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-base-input',
+  templateUrl: './input.type.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcBaseInputField extends BaseInputMixin implements AfterViewInit {
   constructor() {

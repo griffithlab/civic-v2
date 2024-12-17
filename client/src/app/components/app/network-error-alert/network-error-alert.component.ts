@@ -4,11 +4,11 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal'
 
 @Component({
-    selector: 'cvc-network-error-alert',
-    templateUrl: './network-error-alert.component.html',
-    styleUrls: ['./network-error-alert.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-network-error-alert',
+  templateUrl: './network-error-alert.component.html',
+  styleUrls: ['./network-error-alert.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcNetworkErrorAlertComponent {
   errors: NetworkErrorsService

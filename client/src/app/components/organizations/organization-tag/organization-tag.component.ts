@@ -7,10 +7,10 @@ export interface TagLinkableOrganization {
 }
 
 @Component({
-    selector: 'cvc-organization-tag',
-    templateUrl: './organization-tag.component.html',
-    styleUrls: ['./organization-tag.component.less'],
-    standalone: false
+  selector: 'cvc-organization-tag',
+  templateUrl: './organization-tag.component.html',
+  styleUrls: ['./organization-tag.component.less'],
+  standalone: false,
 })
 export class CvcOrganizationTagComponent implements OnInit {
   @Input() org!: TagLinkableOrganization

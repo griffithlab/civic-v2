@@ -15,10 +15,10 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 
 @Component({
-    selector: 'cvc-variant-groups-summary',
-    templateUrl: './variant-groups-summary.page.html',
-    styleUrls: ['./variant-groups-summary.page.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-summary',
+  templateUrl: './variant-groups-summary.page.html',
+  styleUrls: ['./variant-groups-summary.page.less'],
+  standalone: false,
 })
 export class VariantGroupsSummaryPage implements OnDestroy {
   variantGroup$?: Observable<Maybe<VariantGroupSummaryFieldsFragment>>

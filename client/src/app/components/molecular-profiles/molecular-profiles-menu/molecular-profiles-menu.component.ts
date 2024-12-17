@@ -18,19 +18,22 @@ import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-molecular-profile-menu',
-    templateUrl: './molecular-profiles-menu.component.html',
-    styleUrls: ['./molecular-profiles-menu.component.less'],
-    standalone: false
+  selector: 'cvc-molecular-profile-menu',
+  templateUrl: './molecular-profiles-menu.component.html',
+  styleUrls: ['./molecular-profiles-menu.component.less'],
+  standalone: false,
 })
 export class CvcMolecularProfilesMenuComponent implements OnInit {
   @Input() featureId?: number
 
-  menuMolecularProfiles$?: Observable<Maybe<MenuMolecularProfileFragment>[]>;
-  totalMolecularProfiles$?: Observable<number>;
-  queryRef$!: QueryRef<MolecularProfileMenuQuery, MolecularProfileMenuQueryVariables>;
-  pageInfo$?: Observable<PageInfo>;
-  loading$?: Observable<boolean>;
+  menuMolecularProfiles$?: Observable<Maybe<MenuMolecularProfileFragment>[]>
+  totalMolecularProfiles$?: Observable<number>
+  queryRef$!: QueryRef<
+    MolecularProfileMenuQuery,
+    MolecularProfileMenuQueryVariables
+  >
+  pageInfo$?: Observable<PageInfo>
+  loading$?: Observable<boolean>
 
   mpNameFilter: Maybe<string>
   statusFilter: AssociatedEvidenceStatusFilter =
@@ -40,7 +43,7 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
   private result$!: Observable<ApolloQueryResult<MolecularProfileMenuQuery>>
   connection$!: Observable<MolecularProfileConnection>
   private initialQueryVars!: MolecularProfileMenuQueryVariables
-  pageSize = 50;
+  pageSize = 50
 
   constructor(private gql: MolecularProfileMenuGQL) {}
 
@@ -61,14 +64,15 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
     this.result$ = this.queryRef$.valueChanges
 
     this.loading$ = this.result$.pipe(
-      map(({data, loading}) => (loading && !data) ),
+      map(({ data, loading }) => loading && !data),
       filter(isNonNulled),
-      startWith(true),
-    );
+      startWith(true)
+    )
 
-    this.connection$ = this.result$
-      .pipe(map(r => r.data?.molecularProfiles),
-        filter(isNonNulled)) as Observable<MolecularProfileConnection>;
+    this.connection$ = this.result$.pipe(
+      map((r) => r.data?.molecularProfiles),
+      filter(isNonNulled)
+    ) as Observable<MolecularProfileConnection>
 
     this.pageInfo$ = this.connection$.pipe(
       map((c) => c.pageInfo),
@@ -92,10 +96,12 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
     this.debouncedQuery.next()
   }
 
-  onMolecularProfileStatusFilterChanged(filter: AssociatedEvidenceStatusFilter) {
+  onMolecularProfileStatusFilterChanged(
+    filter: AssociatedEvidenceStatusFilter
+  ) {
     this.queryRef$.refetch({
       first: this.pageSize,
-      evidenceStatusFilter: filter
+      evidenceStatusFilter: filter,
     })
   }
 
@@ -108,8 +114,8 @@ export class CvcMolecularProfilesMenuComponent implements OnInit {
     this.queryRef$.refetch({
       featureId: this.featureId,
       mpName: this.mpNameFilter,
-      first: this.pageSize
-    });
+      first: this.pageSize,
+    })
   }
 
   fetchMore(endCursor: string) {

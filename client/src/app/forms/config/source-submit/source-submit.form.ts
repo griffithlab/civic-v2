@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
@@ -19,16 +19,19 @@ import { FormlyFieldConfig } from '@ngx-formly/core'
 import { sourceSuggestFields } from './source-submit.form.config'
 import { QueryRef } from 'apollo-angular'
 import { Observable, map } from 'rxjs'
-import { SourceModel, sourceFormModelToInput } from '@app/forms/utilities/source-to-model-fields'
+import {
+  SourceModel,
+  sourceFormModelToInput,
+} from '@app/forms/utilities/source-to-model-fields'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-source-submit-form',
-    templateUrl: './source-submit.form.html',
-    styleUrls: ['./source-submit.form.less'],
-    standalone: false
+  selector: 'cvc-source-submit-form',
+  templateUrl: './source-submit.form.html',
+  styleUrls: ['./source-submit.form.less'],
+  standalone: false,
 })
-export class CvcSourceSubmitForm implements OnInit{
+export class CvcSourceSubmitForm implements OnInit {
   model: SourceModel
   form: UntypedFormGroup
   fields: FormlyFieldConfig[]
@@ -44,14 +47,17 @@ export class CvcSourceSubmitForm implements OnInit{
   selectedSourceId: Maybe<number>
   url?: string
 
-  suggestionChecksQueryRef?: QueryRef<SourceSuggestionChecksQuery, SourceSuggestionChecksQueryVariables>
+  suggestionChecksQueryRef?: QueryRef<
+    SourceSuggestionChecksQuery,
+    SourceSuggestionChecksQueryVariables
+  >
   fullyCuratedSource$?: Observable<Maybe<boolean>>
   existingSourceSuggestion$?: Observable<Maybe<boolean>>
 
   constructor(
     private submitSourceGQL: SubmitSourceGQL,
     private sourceChecksGQL: SourceSuggestionChecksGQL,
-    networkErrorService: NetworkErrorsService,
+    networkErrorService: NetworkErrorsService
   ) {
     this.form = new UntypedFormGroup({})
     this.model = { fields: {} }
@@ -62,33 +68,36 @@ export class CvcSourceSubmitForm implements OnInit{
 
   ngOnInit(): void {
     this.url = '/curation/queues/pending-sources'
-    this.suggestionChecksQueryRef = this.sourceChecksGQL.watch({sourceId: 0})
+    this.suggestionChecksQueryRef = this.sourceChecksGQL.watch({ sourceId: 0 })
 
     this.fullyCuratedSource$ = this.suggestionChecksQueryRef?.valueChanges.pipe(
-        map(c => c.data?.source?.fullyCurated),
-        untilDestroyed(this)
+      map((c) => c.data?.source?.fullyCurated),
+      untilDestroyed(this)
     )
 
-    this.existingSourceSuggestion$ = this.suggestionChecksQueryRef?.valueChanges.pipe(
-        map(c => {
+    this.existingSourceSuggestion$ =
+      this.suggestionChecksQueryRef?.valueChanges.pipe(
+        map((c) => {
           const count = c.data?.sourceSuggestions?.filteredCount
-          if(count) {
+          if (count) {
             return count > 0
           } else {
             return false
           }
         }),
         untilDestroyed(this)
-    )
+      )
   }
 
   onModelChange(newModel: SourceModel) {
-    if(newModel.fields.sourceId != this.selectedSourceId) {
+    if (newModel.fields.sourceId != this.selectedSourceId) {
       this.selectedSourceId = newModel.fields.sourceId
       if (this.selectedSourceId) {
-        this.suggestionChecksQueryRef?.refetch({sourceId: this.selectedSourceId })
+        this.suggestionChecksQueryRef?.refetch({
+          sourceId: this.selectedSourceId,
+        })
       } else {
-        this.suggestionChecksQueryRef?.refetch({sourceId: 0 })
+        this.suggestionChecksQueryRef?.refetch({ sourceId: 0 })
       }
     }
   }

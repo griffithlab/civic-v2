@@ -14,10 +14,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable, Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-organizations-groups',
-    templateUrl: './organizations-groups.component.html',
-    styleUrls: ['./organizations-groups.component.less'],
-    standalone: false
+  selector: 'cvc-organizations-groups',
+  templateUrl: './organizations-groups.component.html',
+  styleUrls: ['./organizations-groups.component.less'],
+  standalone: false,
 })
 export class OrganizationsGroupsComponent implements OnDestroy {
   queryRef?: QueryRef<OrganizationGroupsQuery, OrganizationGroupsQueryVariables>

@@ -15,10 +15,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 
 @Component({
-    selector: 'cvc-molecular-profiles-summary',
-    templateUrl: './molecular-profiles-summary.page.html',
-    styleUrls: ['./molecular-profiles-summary.page.less'],
-    standalone: false
+  selector: 'cvc-molecular-profiles-summary',
+  templateUrl: './molecular-profiles-summary.page.html',
+  styleUrls: ['./molecular-profiles-summary.page.less'],
+  standalone: false,
 })
 export class MolecularProfilesSummaryPage {
   @Input() molecularProfileId: Maybe<number>

@@ -30,11 +30,11 @@ export type EntityEdge = {
 }
 
 @Component({
-    selector: 'cvc-table-counts2',
-    templateUrl: './table-counts.component.html',
-    styleUrls: ['./table-counts.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-table-counts2',
+  templateUrl: './table-counts.component.html',
+  styleUrls: ['./table-counts.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableCountsComponent implements OnInit {
   @Input() cvcTableCountsConnection!: Observable<EntityConnection>

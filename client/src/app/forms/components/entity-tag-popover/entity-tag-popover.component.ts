@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
 
 export const ENTITY_TAG_TYPES_WITH_POPOVER = [
   'MolecularProfile',
@@ -19,10 +24,10 @@ export type EntityTagPopoverInput = {
 }
 
 @Component({
-    selector: 'cvc-entity-tag-popover',
-    templateUrl: './entity-tag-popover.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-entity-tag-popover',
+  templateUrl: './entity-tag-popover.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEntityTagPopoverComponent implements OnInit {
   @Input() entity!: EntityTagPopoverInput

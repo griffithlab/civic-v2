@@ -22,9 +22,9 @@ export const EvidenceRatingLabelMap = new Map<number, string>([
   [5, 'Five Stars'],
 ])
 @Pipe({
-    name: 'evidenceEnumDisplay',
-    pure: true,
-    standalone: false
+  name: 'evidenceEnumDisplay',
+  pure: true,
+  standalone: false,
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
   transform(

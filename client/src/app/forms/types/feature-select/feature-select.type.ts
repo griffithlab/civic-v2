@@ -75,11 +75,11 @@ const FeatureSelectMixin = mixin(
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-feature-select',
-    templateUrl: './feature-select.type.html',
-    styleUrls: ['./feature-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-feature-select',
+  templateUrl: './feature-select.type.html',
+  styleUrls: ['./feature-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFeatureSelectField
   extends FeatureSelectMixin

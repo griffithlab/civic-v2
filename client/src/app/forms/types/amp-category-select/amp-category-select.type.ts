@@ -24,12 +24,30 @@ import mixin from 'ts-mixin-extended'
 
 const optionText = new Map<AmpLevel, string>([
   [AmpLevel.Na, 'Not Applicable'],
-  [AmpLevel.TierILevelA, 'Biomarkers showing therapeutic response to FDA-approved therapy, or therapy included in professional guidelines.'],
-  [AmpLevel.TierILevelB, 'Biomarkers showing therapeutic response based on well-powered studies with consensus from experts in the field.'],
-  [AmpLevel.TierIiLevelC, 'FDA-approved therapies for different tumor types or investigational therapies, or multiple small published studies with some consensus.'],
-  [AmpLevel.TierIiLevelD, 'Biomarkers that show plausible therapeutic significance based on preclinical studies.'],
-  [AmpLevel.TierIii, 'Somatic variants in cancer genes reported in the same or different cancer types with unknown clinical significance and variants in cancer genes that have not been reported in any cancers.'],
-  [AmpLevel.TierIv, 'Benign or likely benign germline variants observed at significant allele frequencies in the general population or specific subpopulation.'],
+  [
+    AmpLevel.TierILevelA,
+    'Biomarkers showing therapeutic response to FDA-approved therapy, or therapy included in professional guidelines.',
+  ],
+  [
+    AmpLevel.TierILevelB,
+    'Biomarkers showing therapeutic response based on well-powered studies with consensus from experts in the field.',
+  ],
+  [
+    AmpLevel.TierIiLevelC,
+    'FDA-approved therapies for different tumor types or investigational therapies, or multiple small published studies with some consensus.',
+  ],
+  [
+    AmpLevel.TierIiLevelD,
+    'Biomarkers that show plausible therapeutic significance based on preclinical studies.',
+  ],
+  [
+    AmpLevel.TierIii,
+    'Somatic variants in cancer genes reported in the same or different cancer types with unknown clinical significance and variants in cancer genes that have not been reported in any cancers.',
+  ],
+  [
+    AmpLevel.TierIv,
+    'Benign or likely benign germline variants observed at significant allele frequencies in the general population or specific subpopulation.',
+  ],
 ])
 
 export type CvcAmpCategorySelectFieldOptions = Partial<
@@ -59,10 +77,10 @@ const AmpCategorySelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-amp-category-select',
-    templateUrl: './amp-category-select.type.html',
-    styleUrls: ['./amp-category-select.type.less'],
-    standalone: false
+  selector: 'cvc-amp-category-select',
+  templateUrl: './amp-category-select.type.html',
+  styleUrls: ['./amp-category-select.type.less'],
+  standalone: false,
 })
 export class CvcAmpCategorySelectField
   extends AmpCategorySelectMixin
@@ -116,7 +134,6 @@ export class CvcAmpCategorySelectField
     this.props.tooltip =
       'If applicable, please provide the AMP/ASCO/CAP somatic variant classification.'
 
-
     this.ampCategoryEnum$.next($enum(AmpLevel).map((level) => level))
 
     // set up optionTemplates Observable
@@ -132,9 +149,11 @@ export class CvcAmpCategorySelectField
       })
     )
 
-    if(!this.state) return
+    if (!this.state) return
     if (!this.state.requires.requiresAmpLevel$) {
-      console.warn( `${this.field.id} field's form provides a state, but could not find requiresAmpLevel$ subject to attach.`)
+      console.warn(
+        `${this.field.id} field's form provides a state, but could not find requiresAmpLevel$ subject to attach.`
+      )
     } else {
       this.onRequiresAmpCategory$ = this.state.requires.requiresAmpLevel$
     }
@@ -144,7 +163,8 @@ export class CvcAmpCategorySelectField
       .pipe(untilDestroyed(this))
       .subscribe((level: Maybe<AmpLevel>) => {
         if (!level) {
-          this.props.description ='Select an Assertion Type to select its AMP Category'
+          this.props.description =
+            'Select an Assertion Type to select its AMP Category'
         } else {
           this.props.extraType = undefined
           this.props.description = optionText.get(level)
@@ -157,25 +177,25 @@ export class CvcAmpCategorySelectField
 
     if (!this.onRequiresAmpCategory$) return
 
-    this.onRequiresAmpCategory$.pipe(
-      distinctUntilChanged(),
-      untilDestroyed(this)
-    ).subscribe((requiresAmp) => {
-      this.props.extraType = undefined
-      if(requiresAmp) {
-        if(!this.formControl.value) {
-          this.props.extraType = 'description'
-          this.props.description = 'Please provide the AMP/ASCO/CAP <a href="https://pubmed.ncbi.nlm.nih.gov/27993330/" target="_blank">somatic variant classification</a>.'
+    this.onRequiresAmpCategory$
+      .pipe(distinctUntilChanged(), untilDestroyed(this))
+      .subscribe((requiresAmp) => {
+        this.props.extraType = undefined
+        if (requiresAmp) {
+          if (!this.formControl.value) {
+            this.props.extraType = 'description'
+            this.props.description =
+              'Please provide the AMP/ASCO/CAP <a href="https://pubmed.ncbi.nlm.nih.gov/27993330/" target="_blank">somatic variant classification</a>.'
+          }
+          this.props.required = true
+          this.props.disabled = false
+        } else {
+          this.props.required = false
+          this.props.disabled = true
+          //this.placeholder$.next()
+          this.resetField()
         }
-        this.props.required = true
-        this.props.disabled = false
-      } else {
-        this.props.required = false
-        this.props.disabled = true
-        //this.placeholder$.next()
-        this.resetField();
-      }
-      this.cdr.markForCheck()
-    })
+        this.cdr.markForCheck()
+      })
   }
 }

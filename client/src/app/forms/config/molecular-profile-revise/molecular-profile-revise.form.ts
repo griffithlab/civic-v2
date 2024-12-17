@@ -29,10 +29,10 @@ import { molecularProfileReviseFields } from './molecular-profile-revise.form.co
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-mp-revise-form',
-    templateUrl: './molecular-profile-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-mp-revise-form',
+  templateUrl: './molecular-profile-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfileReviseForm implements OnInit, AfterViewInit {
   @Input() molecularProfileId!: number

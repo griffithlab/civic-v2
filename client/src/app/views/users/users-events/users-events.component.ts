@@ -4,10 +4,10 @@ import { ActivityFeedScope } from '@app/components/activities/activity-feed/acti
 import { EventFeedMode } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-users-events',
-    templateUrl: './users-events.component.html',
-    styleUrls: ['./users-events.component.less'],
-    standalone: false
+  selector: 'cvc-users-events',
+  templateUrl: './users-events.component.html',
+  styleUrls: ['./users-events.component.less'],
+  standalone: false,
 })
 export class UsersEventsComponent {
   feedScope: ActivityFeedScope

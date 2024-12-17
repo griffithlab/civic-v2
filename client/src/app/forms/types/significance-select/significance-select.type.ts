@@ -138,10 +138,10 @@ const SignificanceSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-significance-select',
-    templateUrl: './significance-select.type.html',
-    styleUrls: ['./significance-select.type.less'],
-    standalone: false
+  selector: 'cvc-significance-select',
+  templateUrl: './significance-select.type.html',
+  styleUrls: ['./significance-select.type.less'],
+  standalone: false,
 })
 export class CvcSignificanceSelectField
   extends SignificanceSelectMixin

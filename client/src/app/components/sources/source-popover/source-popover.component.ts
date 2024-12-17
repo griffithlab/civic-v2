@@ -9,10 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-source-popover',
-    templateUrl: './source-popover.component.html',
-    styleUrls: ['./source-popover.component.less'],
-    standalone: false
+  selector: 'cvc-source-popover',
+  templateUrl: './source-popover.component.html',
+  styleUrls: ['./source-popover.component.less'],
+  standalone: false,
 })
 export class CvcSourcePopoverComponent implements OnInit {
   @Input() sourceId!: number

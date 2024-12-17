@@ -102,11 +102,11 @@ const EvidenceSelectMixin = mixin(
   >()
 )
 @Component({
-    selector: 'cvc-evidence-select',
-    templateUrl: './evidence-select.type.html',
-    styleUrls: ['./evidence-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-select',
+  templateUrl: './evidence-select.type.html',
+  styleUrls: ['./evidence-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceSelectField
   extends EvidenceSelectMixin

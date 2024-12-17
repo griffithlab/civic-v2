@@ -25,15 +25,14 @@ export interface FormlyTextAreaFieldConfig
   type: 'base-textarea' | Type<CvcTextareaField>
 }
 
-const TextareaMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcTextAreaFieldProps>, Maybe<string>>()
-)
+const TextareaMixin =
+  mixin(BaseFieldType<FieldTypeConfig<CvcTextAreaFieldProps>, Maybe<string>>())
 
 @Component({
-    selector: 'formly-field-nz-textarea',
-    templateUrl: './textarea.type.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'formly-field-nz-textarea',
+  templateUrl: './textarea.type.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTextareaField extends TextareaMixin implements AfterViewInit {
   defaultOptions: CvcTextareaFieldOptions = {

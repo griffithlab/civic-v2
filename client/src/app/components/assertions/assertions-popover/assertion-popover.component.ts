@@ -10,16 +10,15 @@ import { isNonNulled } from 'rxjs-etc'
 import { AssertionState } from '@app/forms/states/assertion.state'
 
 @Component({
-    selector: 'cvc-assertion-popover',
-    templateUrl: './assertion-popover.component.html',
-    styleUrls: ['./assertion-popover.component.less'],
-    standalone: false
+  selector: 'cvc-assertion-popover',
+  templateUrl: './assertion-popover.component.html',
+  styleUrls: ['./assertion-popover.component.less'],
+  standalone: false,
 })
 export class CvcAssertionPopoverComponent implements OnInit {
   @Input() assertionId!: number
 
   assertion$?: Observable<Maybe<AssertionPopoverFragment>>
-
 
   assertionRules = new AssertionState()
 

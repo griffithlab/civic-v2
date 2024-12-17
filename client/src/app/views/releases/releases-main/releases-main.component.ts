@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo';
-import { Observable } from 'rxjs';
-import { isNotNullish } from 'rxjs-etc';
-import { startWith, pluck, map, filter } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core'
+import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo'
+import { Observable } from 'rxjs'
+import { isNotNullish } from 'rxjs-etc'
+import { startWith, pluck, map, filter } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-releases-main',
-    templateUrl: './releases-main.component.html',
-    styleUrls: ['./releases-main.component.less'],
-    standalone: false
+  selector: 'cvc-releases-main',
+  templateUrl: './releases-main.component.html',
+  styleUrls: ['./releases-main.component.less'],
+  standalone: false,
 })
 export class ReleasesMainComponent implements OnInit {
   loading$?: Observable<boolean>

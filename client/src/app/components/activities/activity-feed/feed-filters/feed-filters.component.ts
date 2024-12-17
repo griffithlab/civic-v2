@@ -61,37 +61,37 @@ export const defaultFilters = {}
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-activity-feed-filters',
-    imports: [
-        CommonModule,
-        FormsModule,
-        KeyValuePipe,
-        NzAlertModule,
-        NzButtonModule,
-        NzIconModule,
-        NzGridModule,
-        NzFormModule,
-        NzSelectModule,
-        NzDatePickerModule,
-        CvcPipesModule,
-        CvcUserFilterSelect,
-        CvcOrgFilterSelect,
-    ],
-    templateUrl: './feed-filters.component.html',
-    styleUrls: ['./feed-filters.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        trigger('refreshAlertAnimation', [
-            transition(':enter', [
-                style({ height: 0, opacity: 0, overflow: 'hidden' }),
-                animate('250ms ease-out', style({ height: '*', opacity: 1 })),
-            ]),
-            transition(':leave', [
-                style({ overflow: 'hidden' }),
-                animate('250ms ease-in', style({ height: 0, opacity: 0 })),
-            ]),
-        ]),
-    ]
+  selector: 'cvc-activity-feed-filters',
+  imports: [
+    CommonModule,
+    FormsModule,
+    KeyValuePipe,
+    NzAlertModule,
+    NzButtonModule,
+    NzIconModule,
+    NzGridModule,
+    NzFormModule,
+    NzSelectModule,
+    NzDatePickerModule,
+    CvcPipesModule,
+    CvcUserFilterSelect,
+    CvcOrgFilterSelect,
+  ],
+  templateUrl: './feed-filters.component.html',
+  styleUrls: ['./feed-filters.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('refreshAlertAnimation', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0, overflow: 'hidden' }),
+        animate('250ms ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ overflow: 'hidden' }),
+        animate('250ms ease-in', style({ height: 0, opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class CvcActivityFeedFilterSelects implements OnInit {
   @Output() cvcFiltersChange: EventEmitter<ActivityFeedFilters>

@@ -39,10 +39,10 @@ import { isNonNulled } from 'rxjs-etc'
 type SuccessType = false | 'accepted' | 'rejected'
 
 @Component({
-    selector: 'cvc-revision-list',
-    templateUrl: './revision-list.component.html',
-    styleUrls: ['./revision-list.component.less'],
-    standalone: false
+  selector: 'cvc-revision-list',
+  templateUrl: './revision-list.component.html',
+  styleUrls: ['./revision-list.component.less'],
+  standalone: false,
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() revisions?: Revision[]

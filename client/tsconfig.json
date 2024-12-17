@@ -19,11 +19,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "lib": [
-      "es2019",
-      "dom",
-      "esnext.asynciterable"
-    ],
+    "lib": ["es2019", "dom", "esnext.asynciterable"],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

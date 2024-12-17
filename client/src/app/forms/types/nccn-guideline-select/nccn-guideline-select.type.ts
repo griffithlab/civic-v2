@@ -1,12 +1,12 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    QueryList,
-    TemplateRef,
-    Type,
-    ViewChildren
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  QueryList,
+  TemplateRef,
+  Type,
+  ViewChildren,
 } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { CvcSelectEntityName } from '@app/forms/components/entity-select/entity-select.component'
@@ -24,9 +24,9 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo'
 import {
-    FieldTypeConfig,
-    FormlyFieldConfig,
-    FormlyFieldProps
+  FieldTypeConfig,
+  FormlyFieldConfig,
+  FormlyFieldProps,
 } from '@ngx-formly/core'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 import { BehaviorSubject, Subject } from 'rxjs'
@@ -55,7 +55,10 @@ export interface CvcNccnGuidelineSelectFieldProps extends FormlyFieldProps {
 // field types in some expressions
 export interface CvcNccnGuidelineSelectFieldConfig
   extends FormlyFieldConfig<CvcNccnGuidelineSelectFieldProps> {
-  type: 'nccn-guideline-select' | 'nccn-guideline-multi-select' | Type<CvcNccnGuidelineSelectField>
+  type:
+    | 'nccn-guideline-select'
+    | 'nccn-guideline-multi-select'
+    | Type<CvcNccnGuidelineSelectField>
 }
 
 const NccnGuidelineSelectMixin = mixin(
@@ -74,11 +77,11 @@ const NccnGuidelineSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-nccn-guideline-select',
-    templateUrl: './nccn-guideline-select.type.html',
-    styleUrls: ['./nccn-guideline-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-nccn-guideline-select',
+  templateUrl: './nccn-guideline-select.type.html',
+  styleUrls: ['./nccn-guideline-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcNccnGuidelineSelectField
   extends NccnGuidelineSelectMixin
@@ -95,7 +98,8 @@ export class CvcNccnGuidelineSelectField
       entityName: { singular: 'NCCN Guideline', plural: 'NCCN Guidelines' },
       isMultiSelect: false,
       requireType: false,
-      tooltip: 'If applicable, please provide cancer (e.g., Breast Cancer) for the appropriate NCCN guideline.',
+      tooltip:
+        'If applicable, please provide cancer (e.g., Breast Cancer) for the appropriate NCCN guideline.',
       // TODO: implement labels/placeholders w/ string replacement using typescript
       // template strings: https://www.codevscolor.com/typescript-template-string
       placeholder: 'Search NCCN Guidelines',
@@ -138,7 +142,9 @@ export class CvcNccnGuidelineSelectField
     return { name: str }
   }
 
-  getTypeaheadResultsFn(r: ApolloQueryResult<NccnGuidelineSelectTypeaheadQuery>) {
+  getTypeaheadResultsFn(
+    r: ApolloQueryResult<NccnGuidelineSelectTypeaheadQuery>
+  ) {
     return r.data.nccnGuidelinesTypeahead
   }
 
@@ -148,7 +154,7 @@ export class CvcNccnGuidelineSelectField
     return r.data.nccnGuideline
   }
 
-  getTagQueryVarsFn(id: number):NccnGuidelineSelectTagQueryVariables {
+  getTagQueryVarsFn(id: number): NccnGuidelineSelectTagQueryVariables {
     return { id: id }
   }
 
@@ -163,7 +169,10 @@ export class CvcNccnGuidelineSelectField
     tplRefs: QueryList<TemplateRef<any>>
   ): NzSelectOptionInterface[] {
     return results.map(
-      (nccnGuideline: NccnGuidelineSelectTypeaheadFieldsFragment, index: number) => {
+      (
+        nccnGuideline: NccnGuidelineSelectTypeaheadFieldsFragment,
+        index: number
+      ) => {
         return <NzSelectOptionInterface>{
           label: tplRefs.get(index) || nccnGuideline.name,
           value: nccnGuideline.id,

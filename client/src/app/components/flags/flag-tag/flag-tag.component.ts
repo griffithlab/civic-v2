@@ -12,9 +12,9 @@ export interface Subject {
 }
 
 @Component({
-    selector: 'cvc-flag-tag',
-    templateUrl: './flag-tag.component.html',
-    standalone: false
+  selector: 'cvc-flag-tag',
+  templateUrl: './flag-tag.component.html',
+  standalone: false,
 })
 export class CvcFlagTagComponent implements OnInit {
   @Input() flag!: LinkableFlag

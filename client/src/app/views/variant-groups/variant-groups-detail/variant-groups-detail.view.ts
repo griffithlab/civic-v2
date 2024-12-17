@@ -14,10 +14,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-    selector: 'cvc-variant-groups-detail',
-    templateUrl: './variant-groups-detail.view.html',
-    styleUrls: ['./variant-groups-detail.view.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-detail',
+  templateUrl: './variant-groups-detail.view.html',
+  styleUrls: ['./variant-groups-detail.view.less'],
+  standalone: false,
 })
 export class VariantGroupsDetailView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>
@@ -72,30 +72,28 @@ export class VariantGroupsDetailView implements OnInit, OnDestroy {
 
       this.flagsTotal$ = this.variantGroup$.pipe(pluck('flags', 'totalCount'))
 
-      this.variantGroup$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (vgResp) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: vgResp?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: vgResp?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.variantGroup$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (vgResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: vgResp?.revisions.totalCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: vgResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.variantGroupId,

@@ -12,9 +12,9 @@ export interface Subject {
 }
 
 @Component({
-    selector: 'cvc-comment-tag',
-    templateUrl: './comment-tag.component.html',
-    standalone: false
+  selector: 'cvc-comment-tag',
+  templateUrl: './comment-tag.component.html',
+  standalone: false,
 })
 export class CvcCommentTagComponent implements OnInit {
   @Input() comment!: LinkableComment

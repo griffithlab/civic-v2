@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControlDirective, FormControlStatus } from '@angular/forms';
-import { Maybe } from '@app/generated/civic.apollo';
+import { Component, Input, OnInit } from '@angular/core'
+import { FormControlDirective, FormControlStatus } from '@angular/forms'
+import { Maybe } from '@app/generated/civic.apollo'
 
 export const statusColorMap = {
   VALID: 'success',
@@ -10,10 +10,10 @@ export const statusColorMap = {
 }
 
 @Component({
-    selector: 'cvc-form-status-tag',
-    templateUrl: './form-status-tag.component.html',
-    styleUrls: ['./form-status-tag.component.less'],
-    standalone: false
+  selector: 'cvc-form-status-tag',
+  templateUrl: './form-status-tag.component.html',
+  styleUrls: ['./form-status-tag.component.less'],
+  standalone: false,
 })
 export class CvcFormStatusTagComponent {
   _status!: Maybe<FormControlStatus>
@@ -26,5 +26,4 @@ export class CvcFormStatusTagComponent {
   get cvcFormControlStatus(): Maybe<FormControlStatus> {
     return this._status
   }
-
 }

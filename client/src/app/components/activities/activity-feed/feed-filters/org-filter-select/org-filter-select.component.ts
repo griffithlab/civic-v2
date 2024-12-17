@@ -18,16 +18,16 @@ import { tag } from 'rxjs-spy/operators'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
-    selector: 'cvc-org-filter-select',
-    imports: [
-        CommonModule,
-        FormsModule,
-        NzIconModule,
-        NzSelectModule,
-        CvcPipesModule,
-    ],
-    templateUrl: './org-filter-select.component.html',
-    styleUrl: './org-filter-select.component.less'
+  selector: 'cvc-org-filter-select',
+  imports: [
+    CommonModule,
+    FormsModule,
+    NzIconModule,
+    NzSelectModule,
+    CvcPipesModule,
+  ],
+  templateUrl: './org-filter-select.component.html',
+  styleUrl: './org-filter-select.component.less',
 })
 export class CvcOrgFilterSelect {
   cvcParticipatingOrganizations =

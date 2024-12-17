@@ -9,11 +9,11 @@ import { ActivityFeedCounts } from '../activity-feed.types'
 import { CommonModule } from '@angular/common'
 
 @Component({
-    selector: 'cvc-activity-feed-counts',
-    imports: [CommonModule, NzTypographyModule],
-    templateUrl: './feed-counts.component.html',
-    styleUrl: './feed-counts.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-activity-feed-counts',
+  imports: [CommonModule, NzTypographyModule],
+  templateUrl: './feed-counts.component.html',
+  styleUrl: './feed-counts.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeedCounts {
   cvcFeedCounts = input<ActivityFeedCounts>()

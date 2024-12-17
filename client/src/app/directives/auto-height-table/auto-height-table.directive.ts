@@ -15,9 +15,9 @@ import { NzTableComponent } from 'ng-zorro-antd/table'
 // From zorro-sharper: https://github.com/1-2-3/zorro-sharper/blob/master/README-en_US.md
 //
 @Directive({
-    // tslint:disable-next-line: directive-selector
-    selector: '[cvcAutoHeightTable]',
-    standalone: false
+  // tslint:disable-next-line: directive-selector
+  selector: '[cvcAutoHeightTable]',
+  standalone: false,
 })
 export class CvcAutoHeightTableDirective implements OnInit, AfterViewInit {
   @Input('cvcAutoHeightTable')

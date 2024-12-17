@@ -10,10 +10,10 @@ import {
 } from '../layout-forms.config'
 
 @Component({
-    selector: 'cvc-inline-form',
-    templateUrl: './inline-form.page.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-inline-form',
+  templateUrl: './inline-form.page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class InlineFormPage implements OnInit {
   model: any

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core'
 
 @Component({
-    selector: 'cvc-revision-value-diff',
-    templateUrl: './revision-value-diff.component.html',
-    styleUrls: ['./revision-value-diff.component.less'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'cvc-revision-value-diff',
+  templateUrl: './revision-value-diff.component.html',
+  styleUrls: ['./revision-value-diff.component.less'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class RevisionValueDiffComponent implements OnInit {
   @Input() currentValue?: string

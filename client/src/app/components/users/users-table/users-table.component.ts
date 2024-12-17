@@ -48,10 +48,10 @@ export interface UsersTableFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-users-table',
-    templateUrl: './users-table.component.html',
-    styleUrls: ['./users-table.component.less'],
-    standalone: false
+  selector: 'cvc-users-table',
+  templateUrl: './users-table.component.html',
+  styleUrls: ['./users-table.component.less'],
+  standalone: false,
 })
 export class CvcUsersTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -94,7 +94,10 @@ export class CvcUsersTableComponent implements OnInit {
   sortColumns = UsersSortColumns
   orgName: Maybe<OrganizationFilter>
 
-  constructor(private gql: UsersBrowseGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: UsersBrowseGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
@@ -205,7 +208,10 @@ export class CvcUsersTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<UserBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<UserBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

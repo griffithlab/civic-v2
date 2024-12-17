@@ -6,11 +6,11 @@ import {
 import { CommonModule } from '@angular/common'
 
 @Component({
-    selector: 'cvc-create-mp-activity-details',
-    imports: [CommonModule],
-    templateUrl: './create-mp-activity.component.html',
-    styleUrl: './create-mp-activity.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-create-mp-activity-details',
+  imports: [CommonModule],
+  templateUrl: './create-mp-activity.component.html',
+  styleUrl: './create-mp-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcCreateMpActivity {
   activity = input.required<

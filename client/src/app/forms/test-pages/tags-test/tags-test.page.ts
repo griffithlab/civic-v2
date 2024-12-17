@@ -19,11 +19,11 @@ type LinkableEntityData = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-nonstate-form',
-    templateUrl: './tags-test.page.html',
-    styleUrls: ['./tags-test.page.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-nonstate-form',
+  templateUrl: './tags-test.page.html',
+  styleUrls: ['./tags-test.page.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TagsTestPage implements OnInit {
   emphasizeStr$ = new BehaviorSubject<string>('')

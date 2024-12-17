@@ -7,21 +7,32 @@ import {
   OnInit,
 } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { GeneRevisableFieldsGQL, SuggestGeneRevisionGQL, SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables } from '@app/generated/civic.apollo'
+import {
+  GeneRevisableFieldsGQL,
+  SuggestGeneRevisionGQL,
+  SuggestGeneRevisionMutation,
+  SuggestGeneRevisionMutationVariables,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig } from '@ngx-formly/core'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { GeneReviseModel } from '@app/forms/models/gene-revise.model'
-import { geneFormModelToReviseInput, geneToModelFields } from '@app/forms/utilities/gene-to-model-fields'
+import {
+  geneFormModelToReviseInput,
+  geneToModelFields,
+} from '@app/forms/utilities/gene-to-model-fields'
 import { geneReviseFields } from './gene-revise.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-gene-revise-form',
-    templateUrl: './gene-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-gene-revise-form',
+  templateUrl: './gene-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcGeneReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number
@@ -71,16 +82,20 @@ export class CvcGeneReviseForm implements OnInit, AfterViewInit {
           console.error('Error retrieving Gene.')
           console.error(error)
         },
-        complete: () => {
-        },
+        complete: () => {},
       })
   }
 
   onSubmit(model: GeneReviseModel) {
-    if(!this.featureId) {return}
+    if (!this.featureId) {
+      return
+    }
     let input = geneFormModelToReviseInput(this.featureId, model)
     if (input) {
-      this.mutationState = this.reviseEvidenceMutator.mutate(this.submitRevisionsGQL, { input: input})
+      this.mutationState = this.reviseEvidenceMutator.mutate(
+        this.submitRevisionsGQL,
+        { input: input }
+      )
     }
   }
 }

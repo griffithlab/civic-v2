@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { EventAction } from '@app/generated/civic.apollo'
 
 @Pipe({
-    name: 'prepositionForSubject',
-    pure: true,
-    standalone: false
+  name: 'prepositionForSubject',
+  pure: true,
+  standalone: false,
 })
 export class PrepositionForSubjectPipe implements PipeTransform {
   transform(action: EventAction): string {

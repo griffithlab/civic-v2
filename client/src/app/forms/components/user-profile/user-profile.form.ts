@@ -27,10 +27,10 @@ import { Subject, Observable } from 'rxjs'
 import { map, takeUntil } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-user-profile-form',
-    templateUrl: './user-profile.form.html',
-    styleUrls: ['./user-profile.form.less'],
-    standalone: false
+  selector: 'cvc-user-profile-form',
+  templateUrl: './user-profile.form.html',
+  styleUrls: ['./user-profile.form.less'],
+  standalone: false,
 })
 export class CvcUserProfileForm implements OnInit, OnDestroy {
   @Input() user!: UserDetailFieldsFragment

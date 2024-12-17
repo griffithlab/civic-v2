@@ -4,10 +4,10 @@ import { ModeratedEntities, ModeratedInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-features-revisions',
-    templateUrl: './features-revisions.page.html',
-    styleUrls: ['./features-revisions.page.less'],
-    standalone: false
+  selector: 'cvc-features-revisions',
+  templateUrl: './features-revisions.page.html',
+  styleUrls: ['./features-revisions.page.less'],
+  standalone: false,
 })
 export class FeaturesRevisionsPage implements OnDestroy {
   subject!: ModeratedInput

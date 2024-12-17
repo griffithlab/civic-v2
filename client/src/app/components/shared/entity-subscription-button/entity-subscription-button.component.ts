@@ -24,10 +24,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-entity-subscription-button',
-    templateUrl: './entity-subscription-button.component.html',
-    styleUrls: ['./entity-subscription-button.component.less'],
-    standalone: false
+  selector: 'cvc-entity-subscription-button',
+  templateUrl: './entity-subscription-button.component.html',
+  styleUrls: ['./entity-subscription-button.component.less'],
+  standalone: false,
 })
 export class CvcEntitySubscriptionButtonComponent implements OnInit, OnDestroy {
   @Input() viewer!: Viewer

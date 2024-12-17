@@ -3,11 +3,11 @@ import { DeprecateVariantActivityDetailFragment } from '@app/generated/civic.apo
 import { JsonPipe } from '@angular/common'
 
 @Component({
-    selector: 'cvc-deprecate-variant-activity-details',
-    imports: [JsonPipe],
-    templateUrl: './deprecate-variant-activity.component.html',
-    styleUrl: './deprecate-variant-activity.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-deprecate-variant-activity-details',
+  imports: [JsonPipe],
+  templateUrl: './deprecate-variant-activity.component.html',
+  styleUrl: './deprecate-variant-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcDeprecateVariantActivity {
   activity = input.required<DeprecateVariantActivityDetailFragment>({

@@ -15,11 +15,11 @@ import { pluck } from 'rxjs-etc/operators'
 import { isNonNulled } from 'rxjs-etc'
 
 @Component({
-    selector: 'cvc-viewer-button',
-    templateUrl: './viewer-button.component.html',
-    styleUrls: ['./viewer-button.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-viewer-button',
+  templateUrl: './viewer-button.component.html',
+  styleUrls: ['./viewer-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcViewerButtonComponent implements OnInit {
   @Input() cvcCollapsed: boolean = false

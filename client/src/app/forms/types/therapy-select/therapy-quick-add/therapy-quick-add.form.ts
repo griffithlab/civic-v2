@@ -29,10 +29,10 @@ const therapyQuickAddInitialModel: TherapyQuickAddModel = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-therapy-quick-add-form',
-    templateUrl: './therapy-quick-add.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-therapy-quick-add-form',
+  templateUrl: './therapy-quick-add.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTherapyQuickAddForm {
   @Input()

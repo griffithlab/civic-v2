@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-    name: 'isArray',
-    standalone: false
+  name: 'isArray',
+  standalone: false,
 })
 export class IsArrayPipe implements PipeTransform {
   transform(value: unknown): boolean {

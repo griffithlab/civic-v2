@@ -80,23 +80,23 @@ export const isEnsemblTranscript = (c: AbstractControl) => {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-fusion-variant-select-form',
-    templateUrl: './fusion-variant-select.form.html',
-    styleUrls: ['./fusion-variant-select.form.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        PushPipe,
-        ReactiveFormsModule,
-        LetDirective,
-        NzFormModule,
-        NzButtonModule,
-        NzAlertModule,
-        NzModalModule,
-        RouterModule,
-        FormlyModule,
-        CvcFeatureTagModule,
-    ]
+  selector: 'cvc-fusion-variant-select-form',
+  templateUrl: './fusion-variant-select.form.html',
+  styleUrls: ['./fusion-variant-select.form.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    PushPipe,
+    ReactiveFormsModule,
+    LetDirective,
+    NzFormModule,
+    NzButtonModule,
+    NzAlertModule,
+    NzModalModule,
+    RouterModule,
+    FormlyModule,
+    CvcFeatureTagModule,
+  ],
 })
 export class CvcFusionVariantSelectForm {
   @Output() onVariantSelected = new EventEmitter<number>()

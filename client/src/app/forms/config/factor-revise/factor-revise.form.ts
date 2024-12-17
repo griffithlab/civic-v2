@@ -35,18 +35,18 @@ import { FactorReviseModel } from '@app/forms/models/factor-revise.model'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-factor-revise-form',
-    templateUrl: './factor-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        LetDirective,
-        PushPipe,
-        NzFormModule,
-        NzButtonModule,
-        CvcForms2Module,
-        CvcFormSubmissionStatusDisplayModule,
-    ]
+  selector: 'cvc-factor-revise-form',
+  templateUrl: './factor-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    LetDirective,
+    PushPipe,
+    NzFormModule,
+    NzButtonModule,
+    CvcForms2Module,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcFactorReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number

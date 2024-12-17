@@ -32,10 +32,10 @@ import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variantgroup-revise-form',
-    templateUrl: './variantgroup-revise.form.html',
-    styleUrls: ['./variantgroup-revise.form.less'],
-    standalone: false
+  selector: 'cvc-variantgroup-revise-form',
+  templateUrl: './variantgroup-revise.form.html',
+  styleUrls: ['./variantgroup-revise.form.less'],
+  standalone: false,
 })
 export class CvcVariantgroupReviseForm
   implements OnInit, AfterViewInit, OnDestroy

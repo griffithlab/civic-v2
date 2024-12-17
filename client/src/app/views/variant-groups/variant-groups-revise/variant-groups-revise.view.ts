@@ -11,10 +11,10 @@ import { startWith, map } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-variant-groups-revise-view',
-    templateUrl: './variant-groups-revise.view.html',
-    styleUrls: ['./variant-groups-revise.view.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-revise-view',
+  templateUrl: './variant-groups-revise.view.html',
+  styleUrls: ['./variant-groups-revise.view.less'],
+  standalone: false,
 })
 export class VariantGroupsReviseView implements OnInit {
   loading$?: Observable<boolean>

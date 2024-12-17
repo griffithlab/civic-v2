@@ -15,10 +15,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-user-popover',
-    templateUrl: './user-popover.component.html',
-    styleUrls: ['./user-popover.component.less'],
-    standalone: false
+  selector: 'cvc-user-popover',
+  templateUrl: './user-popover.component.html',
+  styleUrls: ['./user-popover.component.less'],
+  standalone: false,
 })
 export class CvcUserPopoverComponent implements OnInit {
   @Input() userId!: number

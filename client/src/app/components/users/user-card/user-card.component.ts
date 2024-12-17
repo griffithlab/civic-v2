@@ -12,11 +12,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-user-card',
-    templateUrl: './user-card.component.html',
-    styleUrls: ['./user-card.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcUserCardComponent implements OnInit {
   @Input() user!: OrganizationMembersFieldsFragment

@@ -10,11 +10,11 @@ import { ReplaySubject } from 'rxjs'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-add-entity-form-wrapper',
-    templateUrl: './add-entity-form.wrapper.html',
-    styleUrls: ['./add-entity-form.wrapper.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-add-entity-form-wrapper',
+  templateUrl: './add-entity-form.wrapper.html',
+  styleUrls: ['./add-entity-form.wrapper.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAddEntityFormWrapper
   extends FieldWrapper<FormlyFieldConfig>

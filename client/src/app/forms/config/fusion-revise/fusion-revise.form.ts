@@ -35,18 +35,18 @@ import { FusionReviseModel } from '@app/forms/models/fusion-revise.model'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-fusion-revise-form',
-    templateUrl: './fusion-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        LetDirective,
-        PushPipe,
-        NzFormModule,
-        NzButtonModule,
-        CvcForms2Module,
-        CvcFormSubmissionStatusDisplayModule,
-    ]
+  selector: 'cvc-fusion-revise-form',
+  templateUrl: './fusion-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    LetDirective,
+    PushPipe,
+    NzFormModule,
+    NzButtonModule,
+    CvcForms2Module,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcFusionReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number

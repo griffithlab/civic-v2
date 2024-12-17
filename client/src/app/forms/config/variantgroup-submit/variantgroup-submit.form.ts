@@ -1,7 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core'
+import { ChangeDetectorRef, Component } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import {
@@ -9,9 +6,7 @@ import {
   MutatorWithState,
 } from '@app/core/utilities/mutation-state-wrapper'
 import { VariantGroupSubmitModel } from '@app/forms/models/variant-group-submit.model'
-import {
-  variantGroupFormModelToInput,
-} from '@app/forms/utilities/variant-group-to-model-fields'
+import { variantGroupFormModelToInput } from '@app/forms/utilities/variant-group-to-model-fields'
 import {
   Maybe,
   SubmitVariantGroupGQL,
@@ -24,10 +19,10 @@ import { variantgroupSuggestFields } from './variantgroup-submit.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variantgroup-submit-form',
-    templateUrl: './variantgroup-submit.form.html',
-    styleUrls: ['./variantgroup-submit.form.less'],
-    standalone: false
+  selector: 'cvc-variantgroup-submit-form',
+  templateUrl: './variantgroup-submit.form.html',
+  styleUrls: ['./variantgroup-submit.form.less'],
+  standalone: false,
 })
 export class CvcVariantgroupSubmitForm {
   model: VariantGroupSubmitModel

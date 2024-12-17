@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-    name: 'enumSort',
-    pure: true,
-    standalone: false
+  name: 'enumSort',
+  pure: true,
+  standalone: false,
 })
 export class SortEnumPipe implements PipeTransform {
   transform<T extends string | number>(enumValues: T[]): T[] {

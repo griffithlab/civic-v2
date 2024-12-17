@@ -11,10 +11,10 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'features-revise',
-    templateUrl: './features-revise.view.html',
-    styleUrls: ['./features-revise.view.less'],
-    standalone: false
+  selector: 'features-revise',
+  templateUrl: './features-revise.view.html',
+  styleUrls: ['./features-revise.view.less'],
+  standalone: false,
 })
 export class FeaturesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>
@@ -31,7 +31,9 @@ export class FeaturesReviseView implements OnInit, OnDestroy {
     private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ featureId: +params.featureId }).valueChanges
+      let observable = this.gql.watch({
+        featureId: +params.featureId,
+      }).valueChanges
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
 
@@ -41,7 +43,9 @@ export class FeaturesReviseView implements OnInit, OnDestroy {
 
       this.flagsTotal$ = this.feature$.pipe(pluck('flags', 'totalCount'))
 
-      this.revisionsTotal$ = this.feature$.pipe(pluck('revisions', 'totalCount'))
+      this.revisionsTotal$ = this.feature$.pipe(
+        pluck('revisions', 'totalCount')
+      )
     })
   }
 

@@ -12,11 +12,11 @@ import { FormlyAttributeEvent } from '@ngx-formly/core/lib/models'
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
 
 @Component({
-    selector: 'cvc-enum-select',
-    templateUrl: './enum-select.component.html',
-    styleUrls: ['./enum-select.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-enum-select',
+  templateUrl: './enum-select.component.html',
+  styleUrls: ['./enum-select.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEnumSelectComponent {
   @Input() cvcFormControl!: UntypedFormControl

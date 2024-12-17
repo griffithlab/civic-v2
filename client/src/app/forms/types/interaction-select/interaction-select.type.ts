@@ -58,10 +58,10 @@ const InteractionSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-interaction-select',
-    templateUrl: './interaction-select.type.html',
-    styleUrls: ['./interaction-select.type.less'],
-    standalone: false
+  selector: 'cvc-interaction-select',
+  templateUrl: './interaction-select.type.html',
+  styleUrls: ['./interaction-select.type.less'],
+  standalone: false,
 })
 export class CvcInteractionSelectField
   extends InteractionSelectMixin
@@ -86,7 +86,6 @@ export class CvcInteractionSelectField
       requireMultipleTherapiesPromptFn: () =>
         `A single associated therapy does not have an Interaction type`,
       tooltip: 'Characterizes the interaction of a multi-therapy treatment',
-      
     },
   }
 

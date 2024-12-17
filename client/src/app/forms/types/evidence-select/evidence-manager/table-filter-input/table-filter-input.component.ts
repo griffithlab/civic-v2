@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 
 @Component({
-    selector: 'cvc-table-filter-input',
-    templateUrl: './table-filter-input.component.html',
-    styleUrls: ['./table-filter-input.component.less'],
-    standalone: false
+  selector: 'cvc-table-filter-input',
+  templateUrl: './table-filter-input.component.html',
+  styleUrls: ['./table-filter-input.component.less'],
+  standalone: false,
 })
 export class TableFilterInputComponent {
   @Input() cvcModel: string | number | null = null

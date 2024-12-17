@@ -9,10 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-flag-popover',
-    templateUrl: './flag-popover.component.html',
-    styleUrls: ['./flag-popover.component.less'],
-    standalone: false
+  selector: 'cvc-flag-popover',
+  templateUrl: './flag-popover.component.html',
+  styleUrls: ['./flag-popover.component.less'],
+  standalone: false,
 })
 export class CvcFlagPopoverComponent implements OnInit {
   @Input() flagId!: number

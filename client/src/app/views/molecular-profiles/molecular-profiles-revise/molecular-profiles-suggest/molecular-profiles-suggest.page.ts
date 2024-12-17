@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-molecular-profiles-suggest',
-    templateUrl: './molecular-profiles-suggest.page.html',
-    standalone: false
+  selector: 'cvc-molecular-profiles-suggest',
+  templateUrl: './molecular-profiles-suggest.page.html',
+  standalone: false,
 })
 export class MolecularProfilesSuggestPage implements OnDestroy {
   molecularProfileId?: number

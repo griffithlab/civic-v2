@@ -7,7 +7,7 @@ type MpFeature = {
   name: string
   deprecated: boolean
   flagged: boolean
-  __typename: "Feature"
+  __typename: 'Feature'
 }
 type MpVariant = {
   id: number
@@ -15,18 +15,18 @@ type MpVariant = {
   name: string
   deprecated: boolean
   flagged: boolean
-  __typename: "Variant"
+  __typename: 'Variant'
 }
-type MpSegment = MpFeature  | MolecularProfileTextSegment | MpVariant
+type MpSegment = MpFeature | MolecularProfileTextSegment | MpVariant
 
 @Component({
-    selector: 'cvc-mp-tag-name',
-    templateUrl: './molecular-profile-tag-name.component.html',
-    styleUrls: ['./molecular-profile-tag-name.component.less'],
-    standalone: false
+  selector: 'cvc-mp-tag-name',
+  templateUrl: './molecular-profile-tag-name.component.html',
+  styleUrls: ['./molecular-profile-tag-name.component.less'],
+  standalone: false,
 })
 export class CvcMolecularProfileTagNameComponent implements OnInit {
-  @Input() nameSegments!: MpSegment[];
+  @Input() nameSegments!: MpSegment[]
   @Input() enablePopover: boolean = true
 
   ngOnInit() {

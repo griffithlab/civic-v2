@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-assertions-flags',
-    templateUrl: './assertions-flags.page.html',
-    styleUrls: ['./assertions-flags.page.less'],
-    standalone: false
+  selector: 'cvc-assertions-flags',
+  templateUrl: './assertions-flags.page.html',
+  styleUrls: ['./assertions-flags.page.less'],
+  standalone: false,
 })
 export class AssertionsFlagsPage {
   flaggable: FlaggableInput

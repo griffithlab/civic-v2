@@ -17,11 +17,11 @@ export interface LinkableVariant {
 }
 
 @Component({
-    selector: 'cvc-variant-tag',
-    templateUrl: './variant-tag.component.html',
-    styleUrls: ['./variant-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variant-tag',
+  templateUrl: './variant-tag.component.html',
+  styleUrls: ['./variant-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant

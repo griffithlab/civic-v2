@@ -7,10 +7,10 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-molecular-profiles-events',
-    templateUrl: './molecular-profiles-events.page.html',
-    styleUrls: ['./molecular-profiles-events.page.less'],
-    standalone: false
+  selector: 'cvc-molecular-profiles-events',
+  templateUrl: './molecular-profiles-events.page.html',
+  styleUrls: ['./molecular-profiles-events.page.less'],
+  standalone: false,
 })
 export class MolecularProfilesEventsPage {
   feedScope: ActivityFeedScope

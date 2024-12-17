@@ -22,15 +22,16 @@ export interface FormlyCheckboxFieldConfig
   type: 'checkbox' | Type<CvcBaseCheckboxField>
 }
 
-const BaseCheckboxMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
-)
+const BaseCheckboxMixin =
+  mixin(
+    BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
+  )
 @Component({
-    selector: 'cvc-checkbox',
-    templateUrl: './checkbox.type.html',
-    styleUrls: ['./checkbox.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-checkbox',
+  templateUrl: './checkbox.type.html',
+  styleUrls: ['./checkbox.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcBaseCheckboxField
   extends BaseCheckboxMixin

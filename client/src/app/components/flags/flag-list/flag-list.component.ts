@@ -22,10 +22,10 @@ import { takeUntil } from 'rxjs/operators'
 type SuccessType = false | 'accepted' | 'rejected'
 
 @Component({
-    selector: 'cvc-flag-list',
-    templateUrl: './flag-list.component.html',
-    styleUrls: ['./flag-list.component.less'],
-    standalone: false
+  selector: 'cvc-flag-list',
+  templateUrl: './flag-list.component.html',
+  styleUrls: ['./flag-list.component.less'],
+  standalone: false,
 })
 export class FlagListComponent implements OnInit, OnDestroy {
   @Input() flags!: FlagFragment[]

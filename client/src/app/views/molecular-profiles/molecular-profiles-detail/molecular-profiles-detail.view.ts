@@ -17,10 +17,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-    selector: 'molecular-profiles-detail',
-    templateUrl: './molecular-profiles-detail.view.html',
-    styleUrls: ['./molecular-profiles-detail.view.less'],
-    standalone: false
+  selector: 'molecular-profiles-detail',
+  templateUrl: './molecular-profiles-detail.view.html',
+  styleUrls: ['./molecular-profiles-detail.view.less'],
+  standalone: false,
 })
 export class MolecularProfilesDetailView implements OnDestroy {
   queryRef?: QueryRef<

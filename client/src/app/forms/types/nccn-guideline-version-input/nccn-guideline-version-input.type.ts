@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, Type, AfterViewInit, ChangeDetectorRef } from '@angular/core'
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Type,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core'
 import { AbstractControl } from '@angular/forms'
 import { BaseFieldType } from '@app/forms/mixins/base/base-field'
 import { Maybe } from '@app/generated/civic.apollo'
@@ -23,33 +29,38 @@ export interface FormlyNccnGuidelineFieldConfig
   type: 'input' | Type<CvcNccnGuidelineVersionField>
 }
 
-const NccnGuidelineVersionMixin = mixin(
-  BaseFieldType<FieldTypeConfig<CvcNccnGuidelineFieldProps>, Maybe<string>>()
-)
+const NccnGuidelineVersionMixin =
+  mixin(
+    BaseFieldType<FieldTypeConfig<CvcNccnGuidelineFieldProps>, Maybe<string>>()
+  )
 
 @Component({
-    selector: 'cvc-nccn-guideline-version-input',
-    template: `
+  selector: 'cvc-nccn-guideline-version-input',
+  template: `
     <input
       nz-input
       placeholder="ex: 1.2023"
       [formControl]="formControl"
       [formlyAttributes]="field" />
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin implements AfterViewInit {
-  defaultDescription = "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"
+export class CvcNccnGuidelineVersionField
+  extends NccnGuidelineVersionMixin
+  implements AfterViewInit
+{
+  defaultDescription =
+    "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"
 
   defaultOptions: CvcNccnGuidelineVersionFieldOptions = {
     validators: {
       nccnVersionNumber: {
         expression: (c: AbstractControl) => {
-          if(c.value) {
+          if (c.value) {
             if (/^\d{1,2}\.\d{4}$/.test(c.value)) {
-              let year = +c.value.split(".")[1]
-              if (year >= 2000 && year <= (new Date().getFullYear() +1 ) ) {
+              let year = +c.value.split('.')[1]
+              if (year >= 2000 && year <= new Date().getFullYear() + 1) {
                 return true
               } else {
                 return false
@@ -60,10 +71,10 @@ export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin impl
           } else {
             return true
           }
-        }
-        ,
-        message: (_: any, field: FormlyFieldConfig) => `"${field.formControl?.value}" does not fit the format Version.Year`
-      }
+        },
+        message: (_: any, field: FormlyFieldConfig) =>
+          `"${field.formControl?.value}" does not fit the format Version.Year`,
+      },
     },
     props: {
       label: 'NCCN Guideline Version',
@@ -72,11 +83,13 @@ export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin impl
     },
   }
 
-  constructor(private cdr: ChangeDetectorRef) { super(); }
+  constructor(private cdr: ChangeDetectorRef) {
+    super()
+  }
 
   ngAfterViewInit(): void {
     this.configureBaseField()
-    if(this.state && this.state.formReady$) {
+    if (this.state && this.state.formReady$) {
       this.state.formReady$
         .pipe(
           filter((r) => r), // only pass true values
@@ -95,7 +108,7 @@ export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin impl
     this.state?.fields.nccnGuidelineId$
       .pipe(untilDestroyed(this))
       .subscribe((guideline: Maybe<number>) => {
-        if(guideline) {
+        if (guideline) {
           this.props.disabled = false
           this.props.required = true
           this.props.extraType = 'description'
@@ -104,10 +117,10 @@ export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin impl
           this.props.disabled = true
           this.props.required = false
           this.props.extraType = 'prompt'
-          this.props.description = 'NCCN Guideline Version is only required when NCCN Guideline is specified.'
+          this.props.description =
+            'NCCN Guideline Version is only required when NCCN Guideline is specified.'
           this.formControl.setValue(undefined)
         }
       })
   }
-
 }

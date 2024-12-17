@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EntityTagPopoverInput } from '../entity-tag-popover/entity-tag-popover.component';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { EntityTagPopoverInput } from '../entity-tag-popover/entity-tag-popover.component'
 
 @Component({
-    selector: 'cvc-string-tag',
-    templateUrl: './string-tag.component.html',
-    styleUrls: ['./string-tag.component.less'],
-    standalone: false
+  selector: 'cvc-string-tag',
+  templateUrl: './string-tag.component.html',
+  styleUrls: ['./string-tag.component.less'],
+  standalone: false,
 })
 export class CvcStringTagComponent {
   @Input() cvcLabel?: string
@@ -14,9 +14,8 @@ export class CvcStringTagComponent {
   @Input() cvcContext: 'default' | 'select-item' | 'multi-select-item' =
     'default'
   @Output() cvcOnClose: EventEmitter<MouseEvent>
-  
+
   constructor() {
     this.cvcOnClose = new EventEmitter<MouseEvent>()
   }
-
 }

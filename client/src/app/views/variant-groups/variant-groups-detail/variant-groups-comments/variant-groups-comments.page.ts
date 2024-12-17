@@ -7,10 +7,10 @@ import {
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-variant-groups-comments',
-    templateUrl: './variant-groups-comments.page.html',
-    styleUrls: ['./variant-groups-comments.page.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-comments',
+  templateUrl: './variant-groups-comments.page.html',
+  styleUrls: ['./variant-groups-comments.page.less'],
+  standalone: false,
 })
 export class VariantGroupsCommentsPage implements OnDestroy {
   commentable?: CommentableInput

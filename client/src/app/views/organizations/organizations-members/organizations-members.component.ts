@@ -1,16 +1,23 @@
-import { Component, Input, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Maybe, OrganizationMembersQuery, OrganizationMembersFieldsFragment, OrganizationMembersGQL, OrganizationMembersQueryVariables, PageInfo } from "@app/generated/civic.apollo";
-import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
-import { QueryRef } from "apollo-angular";
-import { filter, map, pluck, startWith } from "rxjs/operators";
-import { isNotNullish } from "rxjs-etc";
-import { Observable, Subscription } from 'rxjs';
+import { Component, Input, OnDestroy } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import {
+  Maybe,
+  OrganizationMembersQuery,
+  OrganizationMembersFieldsFragment,
+  OrganizationMembersGQL,
+  OrganizationMembersQueryVariables,
+  PageInfo,
+} from '@app/generated/civic.apollo'
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
+import { QueryRef } from 'apollo-angular'
+import { filter, map, pluck, startWith } from 'rxjs/operators'
+import { isNotNullish } from 'rxjs-etc'
+import { Observable, Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-organizations-members',
-    templateUrl: './organizations-members.component.html',
-    standalone: false
+  selector: 'cvc-organizations-members',
+  templateUrl: './organizations-members.component.html',
+  standalone: false,
 })
 export class OrganizationsMembersComponent implements OnDestroy {
   queryRef?: QueryRef<
@@ -39,7 +46,6 @@ export class OrganizationsMembersComponent implements OnDestroy {
 
       let observable = this.queryRef.valueChanges
       this.loading$ = observable.pipe(pluck('loading'), startWith(true))
-
 
       this.members$ = observable.pipe(
         pluck('data', 'users', 'edges'),

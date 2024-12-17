@@ -36,11 +36,11 @@ interface WithDisplayNameAndValue {
 }
 
 @Component({
-    selector: 'cvc-comment-input-form',
-    templateUrl: './comment-input.form.html',
-    styleUrls: ['./comment-input.form.less'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'cvc-comment-input-form',
+  templateUrl: './comment-input.form.html',
+  styleUrls: ['./comment-input.form.less'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CvcCommentInputForm implements OnDestroy, OnChanges {
   @Input() comment?: string

@@ -20,24 +20,24 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 
 @Component({
-    selector: 'cvc-factor-summary',
-    templateUrl: './factor-summary.page.html',
-    styleUrls: ['./factor-summary.page.less'],
-    imports: [
-        CommonModule,
-        NzGridModule,
-        NzDescriptionsModule,
-        NzTypographyModule,
-        NzSpaceModule,
-        NzTagModule,
-        CvcEmptyRevisableModule,
-        CvcTagListModule,
-        CvcSourceTagModule,
-        CvcLinkTagModule,
-        CvcNcitDetailsComponent,
-        CvcPipesModule,
-        CvcUserTagModule,
-    ]
+  selector: 'cvc-factor-summary',
+  templateUrl: './factor-summary.page.html',
+  styleUrls: ['./factor-summary.page.less'],
+  imports: [
+    CommonModule,
+    NzGridModule,
+    NzDescriptionsModule,
+    NzTypographyModule,
+    NzSpaceModule,
+    NzTagModule,
+    CvcEmptyRevisableModule,
+    CvcTagListModule,
+    CvcSourceTagModule,
+    CvcLinkTagModule,
+    CvcNcitDetailsComponent,
+    CvcPipesModule,
+    CvcUserTagModule,
+  ],
 })
 export class FactorSummaryComponent implements OnInit {
   @Input() factor!: FactorSummaryFieldsFragment

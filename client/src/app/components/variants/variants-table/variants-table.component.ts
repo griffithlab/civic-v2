@@ -48,11 +48,11 @@ export interface VariantTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variants-table',
-    templateUrl: './variants-table.component.html',
-    styleUrls: ['./variants-table.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-variants-table',
+  templateUrl: './variants-table.component.html',
+  styleUrls: ['./variants-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantsTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -105,7 +105,10 @@ export class CvcVariantsTableComponent implements OnInit {
 
   sortColumns = VariantsSortColumns
 
-  constructor(private gql: BrowseVariantsGQL, private cdr: ChangeDetectorRef) {
+  constructor(
+    private gql: BrowseVariantsGQL,
+    private cdr: ChangeDetectorRef
+  ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()

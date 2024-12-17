@@ -9,10 +9,10 @@ import { Observable } from 'rxjs'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-comment-popover',
-    templateUrl: './comment-popover.component.html',
-    styleUrls: ['./comment-popover.component.less'],
-    standalone: false
+  selector: 'cvc-comment-popover',
+  templateUrl: './comment-popover.component.html',
+  styleUrls: ['./comment-popover.component.less'],
+  standalone: false,
 })
 export class CvcCommentPopoverComponent implements OnInit {
   @Input() commentId!: number

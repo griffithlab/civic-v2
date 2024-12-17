@@ -22,26 +22,26 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @Component({
-    selector: 'cvc-fusion-summary',
-    templateUrl: './fusion-summary.page.html',
-    styleUrls: ['./fusion-summary.page.less'],
-    imports: [
-        CommonModule,
-        NzGridModule,
-        NzDescriptionsModule,
-        NzTypographyModule,
-        NzSpaceModule,
-        NzTagModule,
-        NzCardModule,
-        CvcEmptyRevisableModule,
-        CvcTagListModule,
-        CvcSourceTagModule,
-        CvcLinkTagModule,
-        CvcPipesModule,
-        CvcUserTagModule,
-        CvcGeneBaseSummaryComponent,
-        CvcFeatureTagModule,
-    ]
+  selector: 'cvc-fusion-summary',
+  templateUrl: './fusion-summary.page.html',
+  styleUrls: ['./fusion-summary.page.less'],
+  imports: [
+    CommonModule,
+    NzGridModule,
+    NzDescriptionsModule,
+    NzTypographyModule,
+    NzSpaceModule,
+    NzTagModule,
+    NzCardModule,
+    CvcEmptyRevisableModule,
+    CvcTagListModule,
+    CvcSourceTagModule,
+    CvcLinkTagModule,
+    CvcPipesModule,
+    CvcUserTagModule,
+    CvcGeneBaseSummaryComponent,
+    CvcFeatureTagModule,
+  ],
 })
 export class FusionSummaryComponent implements OnInit {
   @Input() fusion!: FusionSummaryFieldsFragment

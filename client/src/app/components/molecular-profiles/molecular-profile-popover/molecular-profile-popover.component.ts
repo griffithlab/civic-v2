@@ -9,10 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-molecular-profile-popover',
-    templateUrl: './molecular-profile-popover.component.html',
-    styleUrls: ['./molecular-profile-popover.component.less'],
-    standalone: false
+  selector: 'cvc-molecular-profile-popover',
+  templateUrl: './molecular-profile-popover.component.html',
+  styleUrls: ['./molecular-profile-popover.component.less'],
+  standalone: false,
 })
 export class CvcMolecularProfilePopoverComponent implements OnInit {
   @Input() molecularProfileId!: number

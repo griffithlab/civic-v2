@@ -46,10 +46,10 @@ export interface PhenotypesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-phenotypes-table',
-    templateUrl: './phenotypes-table.component.html',
-    styleUrls: ['./phenotypes-table.component.less'],
-    standalone: false
+  selector: 'cvc-phenotypes-table',
+  templateUrl: './phenotypes-table.component.html',
+  styleUrls: ['./phenotypes-table.component.less'],
+  standalone: false,
 })
 export class CvcPhenotypesTableComponent implements OnInit {
   @Input() cvcHeight?: number

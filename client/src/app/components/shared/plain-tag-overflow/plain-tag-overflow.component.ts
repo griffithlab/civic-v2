@@ -10,11 +10,11 @@ import {
 import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-plain-tag-overflow',
-    templateUrl: './plain-tag-overflow.component.html',
-    styleUrls: ['./plain-tag-overflow.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-plain-tag-overflow',
+  templateUrl: './plain-tag-overflow.component.html',
+  styleUrls: ['./plain-tag-overflow.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcPlainTagOverflowComponent implements OnChanges {
   @Input() tags: Maybe<string[]>

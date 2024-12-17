@@ -16,11 +16,11 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
-    selector: 'cvc-flag-entity-activity-details',
-    imports: [CommonModule, CvcCommentBodyModule, NzTypographyModule],
-    templateUrl: './flag-entity-activity.component.html',
-    styleUrl: './flag-entity-activity.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-flag-entity-activity-details',
+  imports: [CommonModule, CvcCommentBodyModule, NzTypographyModule],
+  templateUrl: './flag-entity-activity.component.html',
+  styleUrl: './flag-entity-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcFlagEntityActivity {
   activity = input.required<FlagEntityActivityDetailFragment>({

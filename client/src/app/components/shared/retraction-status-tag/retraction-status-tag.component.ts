@@ -1,15 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core'
-import {
-  Maybe,
-} from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-retraction-status-tag',
-    templateUrl: './retraction-status-tag.component.html',
-    styleUrls: ['./retraction-status-tag.component.less'],
-    standalone: false
+  selector: 'cvc-retraction-status-tag',
+  templateUrl: './retraction-status-tag.component.html',
+  styleUrls: ['./retraction-status-tag.component.less'],
+  standalone: false,
 })
-
 export class CvcRetractionStatusTagComponent implements OnInit {
   private _retractionNature?: string
 

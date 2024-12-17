@@ -67,11 +67,11 @@ const LevelSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-level-select',
-    templateUrl: './level-select.type.html',
-    styleUrls: ['./level-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-level-select',
+  templateUrl: './level-select.type.html',
+  styleUrls: ['./level-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcLevelSelectField
   extends LevelSelectMixin

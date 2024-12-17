@@ -19,27 +19,27 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @Component({
-    selector: 'cvc-gene-variant-summary',
-    templateUrl: './gene-variant-summary.page.html',
-    styleUrls: ['./gene-variant-summary.page.less'],
-    imports: [
-        CommonModule,
-        PushPipe,
-        NzGridModule,
-        NzDescriptionsModule,
-        NzTagModule,
-        NzCardModule,
-        CvcEmptyRevisableModule,
-        CvcTagListModule,
-        CvcVariantTypeTagModule,
-        CvcCoordinatesCardModule,
-        CvcLinkTagModule,
-        CvcUserTagModule,
-        CvcFeatureTagModule,
-        CvcMolecularProfilesTableModule,
-        CvcMyVariantInfoModule,
-        CvcPipesModule,
-    ]
+  selector: 'cvc-gene-variant-summary',
+  templateUrl: './gene-variant-summary.page.html',
+  styleUrls: ['./gene-variant-summary.page.less'],
+  imports: [
+    CommonModule,
+    PushPipe,
+    NzGridModule,
+    NzDescriptionsModule,
+    NzTagModule,
+    NzCardModule,
+    CvcEmptyRevisableModule,
+    CvcTagListModule,
+    CvcVariantTypeTagModule,
+    CvcCoordinatesCardModule,
+    CvcLinkTagModule,
+    CvcUserTagModule,
+    CvcFeatureTagModule,
+    CvcMolecularProfilesTableModule,
+    CvcMyVariantInfoModule,
+    CvcPipesModule,
+  ],
 })
 export class CvcGeneVariantSummaryComponent implements OnInit {
   @Input() variant!: VariantSummaryFieldsFragment

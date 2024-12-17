@@ -5,10 +5,10 @@ import { CookieService } from 'ngx-cookie-service'
 import { encodeUriString } from '@app/core/utilities/encode-uri-string'
 
 @Component({
-    selector: 'cvc-auth-options-list',
-    templateUrl: './auth-options-list.component.html',
-    styleUrls: ['./auth-options-list.component.less'],
-    standalone: false
+  selector: 'cvc-auth-options-list',
+  templateUrl: './auth-options-list.component.html',
+  styleUrls: ['./auth-options-list.component.less'],
+  standalone: false,
 })
 export class CvcAuthOptionsListComponent implements OnInit {
   location: string

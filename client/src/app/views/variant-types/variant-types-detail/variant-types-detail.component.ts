@@ -13,10 +13,10 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-variant-types-detail',
-    templateUrl: './variant-types-detail.component.html',
-    styleUrls: ['./variant-types-detail.component.less'],
-    standalone: false
+  selector: 'cvc-variant-types-detail',
+  templateUrl: './variant-types-detail.component.html',
+  styleUrls: ['./variant-types-detail.component.less'],
+  standalone: false,
 })
 export class VariantTypesDetailComponent implements OnDestroy {
   routeSub: Subscription

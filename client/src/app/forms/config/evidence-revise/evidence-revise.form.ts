@@ -31,10 +31,10 @@ import { evidenceReviseFields } from './evidence-revise.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-evidence-revise-form',
-    templateUrl: './evidence-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-revise-form',
+  templateUrl: './evidence-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() evidenceId!: number

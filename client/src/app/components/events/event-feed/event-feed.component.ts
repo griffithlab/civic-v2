@@ -44,10 +44,10 @@ export type EventDisplayOption =
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-event-feed',
-    templateUrl: './event-feed.component.html',
-    styleUrls: ['./event-feed.component.less'],
-    standalone: false
+  selector: 'cvc-event-feed',
+  templateUrl: './event-feed.component.html',
+  styleUrls: ['./event-feed.component.less'],
+  standalone: false,
 })
 export class CvcEventFeedComponent implements OnInit, OnDestroy {
   @Input() subscribable?: SubscribableQueryInput
@@ -100,9 +100,11 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     if (this.pollForNewEvents && environment.production) {
       this.newEventCount$ = this.eventCountGql
-        .watch(this.initialQueryVars, { fetchPolicy: 'no-cache', pollInterval: 30000 })
-        .valueChanges
-        .pipe(
+        .watch(this.initialQueryVars, {
+          fetchPolicy: 'no-cache',
+          pollInterval: 30000,
+        })
+        .valueChanges.pipe(
           filter(isNonNulled),
           map(({ data }) => data?.events?.unfilteredCount),
           takeUntil(this.destroy$)
@@ -114,11 +116,11 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     this.pageInfo$ = this.results$.pipe(map(({ data }) => data.events.pageInfo))
 
-    this.events$ = this.results$
-      .pipe(pluck('data', 'events', 'edges'),
-        filter(isNonNulled),
-        map((edges) =>  edges.map( e => e.node)),
-      )
+    this.events$ = this.results$.pipe(
+      pluck('data', 'events', 'edges'),
+      filter(isNonNulled),
+      map((edges) => edges.map((e) => e.node))
+    )
 
     this.loading$ = this.results$.pipe(
       map(({ loading }) => loading),
@@ -132,10 +134,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
     )
 
     this.unfilteredCount$
-      .pipe(
-        take(1), 
-        untilDestroyed(this))
-      .subscribe(value => this.originalEventCount = value)
+      .pipe(take(1), untilDestroyed(this))
+      .subscribe((value) => (this.originalEventCount = value))
 
     if (this.showFilters) {
       this.participants$ = this.results$.pipe(
@@ -150,7 +150,12 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
       this.actions$ = this.results$.pipe(
         filter(isNonNulled),
-        map(({ data }) => data.events?.eventTypes?.map((et) => { return { id: et } }) || [])
+        map(
+          ({ data }) =>
+            data.events?.eventTypes?.map((et) => {
+              return { id: et }
+            }) || []
+        )
       )
     }
   }

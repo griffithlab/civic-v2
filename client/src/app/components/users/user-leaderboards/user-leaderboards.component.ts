@@ -40,11 +40,11 @@ type UserLeaderboard = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-user-leaderboards',
-    templateUrl: './user-leaderboards.component.html',
-    styleUrls: ['./user-leaderboards.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-user-leaderboards',
+  templateUrl: './user-leaderboards.component.html',
+  styleUrls: ['./user-leaderboards.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcUserLeaderboardsComponent implements OnInit {
   // SOURCE STREAMS
@@ -280,12 +280,14 @@ export class CvcUserLeaderboardsComponent implements OnInit {
         map((result: ApolloQueryResult<UserSubmissionsLeaderboardQuery>) => {
           let rows: UserLeaderboardRow[] = []
           if (result.data && result.data.userLeaderboards) {
-            result.data.userLeaderboards.submissionsLeaderboard.edges.map((e) => {
-              if (e.node) {
-                const row = userToUserRow(e.node)
-                rows.push(row)
+            result.data.userLeaderboards.submissionsLeaderboard.edges.map(
+              (e) => {
+                if (e.node) {
+                  const row = userToUserRow(e.node)
+                  rows.push(row)
+                }
               }
-            })
+            )
           }
 
           return <UserLeaderboard>{

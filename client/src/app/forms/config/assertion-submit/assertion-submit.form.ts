@@ -1,14 +1,26 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+} from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper'
+import {
+  MutationState,
+  MutatorWithState,
+} from '@app/core/utilities/mutation-state-wrapper'
 import {
   assertionSubmitFormInitialModel,
   AssertionSubmitModel,
 } from '@app/forms/models/assertion-submit.model'
 import { AssertionState } from '@app/forms/states/assertion.state'
 import { assertionFormModelToInput } from '@app/forms/utilities/assertion-to-model-fields'
-import { SubmitAssertionGQL, SubmitAssertionMutation, SubmitAssertionMutationVariables } from '@app/generated/civic.apollo'
+import {
+  SubmitAssertionGQL,
+  SubmitAssertionMutation,
+  SubmitAssertionMutationVariables,
+} from '@app/generated/civic.apollo'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
 import { tag } from 'rxjs-spy/operators'
@@ -16,10 +28,10 @@ import { assertionSubmitFields } from './assertion-submit.form.config'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-assertion-submit-form',
-    templateUrl: './assertion-submit.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-assertion-submit-form',
+  templateUrl: './assertion-submit.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
   model: AssertionSubmitModel
@@ -38,7 +50,6 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
   newAssertionId?: number
   newAssertionUrl?: string
 
-
   constructor(
     private submitAssertionGQL: SubmitAssertionGQL,
     private networkErrorService: NetworkErrorsService
@@ -47,17 +58,17 @@ export class CvcAssertionSubmitForm implements AfterViewInit, OnDestroy {
     this.model = assertionSubmitFormInitialModel
     this.fields = assertionSubmitFields
     this.state = new AssertionState()
-    this.options = { formState: this.state}
+    this.options = { formState: this.state }
 
     this.submitAssertionMutator = new MutatorWithState(networkErrorService)
   }
 
   onSubmit(model: AssertionSubmitModel) {
     let input = assertionFormModelToInput(model)
-    if(input) {
+    if (input) {
       this.mutationState = this.submitAssertionMutator.mutate(
         this.submitAssertionGQL,
-        {input: input},
+        { input: input },
         undefined,
         (data) => {
           this.newAssertionId = data.submitAssertion?.assertion.id

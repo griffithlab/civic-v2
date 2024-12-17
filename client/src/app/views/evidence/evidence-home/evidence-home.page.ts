@@ -3,10 +3,10 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { Observable } from 'rxjs'
 
 @Component({
-    selector: 'evidence-home',
-    templateUrl: './evidence-home.page.html',
-    styleUrls: ['./evidence-home.page.less'],
-    standalone: false
+  selector: 'evidence-home',
+  templateUrl: './evidence-home.page.html',
+  styleUrls: ['./evidence-home.page.less'],
+  standalone: false,
 })
 export class EvidenceHomePage implements OnInit {
   viewer$: Observable<Viewer>

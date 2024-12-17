@@ -1,22 +1,24 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FieldWrapper, FormlyFieldConfig, FormlyFieldProps } from '@ngx-formly/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import {
+  FieldWrapper,
+  FormlyFieldConfig,
+  FormlyFieldProps,
+} from '@ngx-formly/core'
 
-export interface CvcFormFooterWrapperProps extends FormlyFieldProps {
-}
+export interface CvcFormFooterWrapperProps extends FormlyFieldProps {}
 
-const defaultProps = {
-}
+const defaultProps = {}
 
 @Component({
-    selector: 'cvc-form-footer',
-    templateUrl: './form-footer.wrapper.html',
-    styleUrls: ['./form-footer.wrapper.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-form-footer',
+  templateUrl: './form-footer.wrapper.html',
+  styleUrls: ['./form-footer.wrapper.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcFormFooterWrapper extends FieldWrapper<FormlyFieldConfig<CvcFormFooterWrapperProps>> implements OnInit {
-
-  ngOnInit(): void {
-  }
-
+export class CvcFormFooterWrapper
+  extends FieldWrapper<FormlyFieldConfig<CvcFormFooterWrapperProps>>
+  implements OnInit
+{
+  ngOnInit(): void {}
 }

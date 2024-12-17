@@ -47,10 +47,10 @@ const ReferenceBuildSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-reference-build-select',
-    templateUrl: './reference-build-select.type.html',
-    styleUrls: ['./reference-build-select.type.less'],
-    standalone: false
+  selector: 'cvc-reference-build-select',
+  templateUrl: './reference-build-select.type.html',
+  styleUrls: ['./reference-build-select.type.less'],
+  standalone: false,
 })
 export class CvcReferenceBuildSelectField
   extends ReferenceBuildSelectMixin
@@ -71,7 +71,8 @@ export class CvcReferenceBuildSelectField
       label: 'Reference Build',
       required: false,
       isMultiSelect: false,
-      description: 'Select the human genome reference sequence from which these coordinates are obtained',
+      description:
+        'Select the human genome reference sequence from which these coordinates are obtained',
       placeholder: 'Select Reference Build',
     },
   }
@@ -95,7 +96,6 @@ export class CvcReferenceBuildSelectField
   }
 
   configureStateConnections(): void {
-
     this.placeholder$ = new BehaviorSubject<string>(this.props.placeholder)
 
     this.buildEnum$.next($enum(ReferenceBuild).map((level) => level))

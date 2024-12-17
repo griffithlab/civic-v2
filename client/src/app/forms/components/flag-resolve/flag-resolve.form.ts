@@ -15,9 +15,9 @@ import { Observable } from 'rxjs'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-flag-resolve-form',
-    templateUrl: './flag-resolve.form.html',
-    standalone: false
+  selector: 'cvc-flag-resolve-form',
+  templateUrl: './flag-resolve.form.html',
+  standalone: false,
 })
 export class CvcFlagResolveForm implements OnInit {
   @Input() flag!: FlagFragment

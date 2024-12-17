@@ -13,10 +13,10 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-therapies-detail',
-    templateUrl: './therapies-detail.component.html',
-    styleUrls: ['./therapies-detail.component.less'],
-    standalone: false
+  selector: 'cvc-therapies-detail',
+  templateUrl: './therapies-detail.component.html',
+  styleUrls: ['./therapies-detail.component.less'],
+  standalone: false,
 })
 export class TherapiesDetailComponent implements OnDestroy {
   therapyId?: number
@@ -25,7 +25,10 @@ export class TherapiesDetailComponent implements OnDestroy {
   loading$?: Observable<boolean>
   therapy$?: Observable<Maybe<Therapy>>
 
-  constructor(private route: ActivatedRoute, private gql: TherapyDetailGQL) {
+  constructor(
+    private route: ActivatedRoute,
+    private gql: TherapyDetailGQL
+  ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.therapyId = +params.therapyId
 

@@ -22,10 +22,10 @@ import { LinkableFeature } from '@app/components/features/feature-tag/feature-ta
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-variant-menu',
-    templateUrl: './variants-menu.component.html',
-    styleUrls: ['./variants-menu.component.less'],
-    standalone: false
+  selector: 'cvc-variant-menu',
+  templateUrl: './variants-menu.component.html',
+  styleUrls: ['./variants-menu.component.less'],
+  standalone: false,
 })
 export class CvcVariantsMenuComponent implements OnInit {
   @Input() feature?: LinkableFeature

@@ -7,11 +7,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-    selector: 'cvc-evidence-events',
-    templateUrl: './evidence-events.page.html',
-    styleUrls: ['./evidence-events.page.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-evidence-events',
+  templateUrl: './evidence-events.page.html',
+  styleUrls: ['./evidence-events.page.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EvidenceEventsPage {
   feedScope: ActivityFeedScope

@@ -15,10 +15,10 @@ import { startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-sources-detail',
-    templateUrl: './sources-detail.view.html',
-    styleUrls: ['./sources-detail.view.less'],
-    standalone: false
+  selector: 'cvc-sources-detail',
+  templateUrl: './sources-detail.view.html',
+  styleUrls: ['./sources-detail.view.less'],
+  standalone: false,
 })
 export class SourcesDetailView implements OnDestroy {
   viewer$: Observable<Viewer>
@@ -33,17 +33,17 @@ export class SourcesDetailView implements OnDestroy {
 
   tabs$: BehaviorSubject<RouteableTab[]>
   defaultTabs: RouteableTab[] = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary',
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments',
-      },
-    ]
+    {
+      routeName: 'summary',
+      iconName: 'pic-left',
+      tabLabel: 'Summary',
+    },
+    {
+      routeName: 'comments',
+      iconName: 'civic-comment',
+      tabLabel: 'Comments',
+    },
+  ]
 
   constructor(
     private viewerService: ViewerService,

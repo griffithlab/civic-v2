@@ -19,17 +19,18 @@ export interface CvcBaseSelectFieldConfig
   type: 'base-select' | Type<CvcBaseSelectField>
 }
 
-const BaseSelectMixin = mixin(
-  BaseFieldType<
-    FieldTypeConfig<CvcBaseSelectFieldProps>,
-    Maybe<string | number>
-  >()
-)
+const BaseSelectMixin =
+  mixin(
+    BaseFieldType<
+      FieldTypeConfig<CvcBaseSelectFieldProps>,
+      Maybe<string | number>
+    >()
+  )
 @Component({
-    selector: 'cvc-base-select',
-    templateUrl: './select.type.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-base-select',
+  templateUrl: './select.type.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcBaseSelectField
   extends BaseSelectMixin

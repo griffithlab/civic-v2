@@ -4,10 +4,10 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'cvc-variant-groups-flags',
-    templateUrl: './variant-groups-flags.page.html',
-    styleUrls: ['./variant-groups-flags.page.less'],
-    standalone: false
+  selector: 'cvc-variant-groups-flags',
+  templateUrl: './variant-groups-flags.page.html',
+  styleUrls: ['./variant-groups-flags.page.less'],
+  standalone: false,
 })
 export class VariantGroupsFlagsPage implements OnDestroy {
   flaggable?: FlaggableInput

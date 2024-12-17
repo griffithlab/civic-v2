@@ -85,11 +85,11 @@ const PhenotypeSelectMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-phenotype-select',
-    templateUrl: './phenotype-select.type.html',
-    styleUrls: ['./phenotype-select.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-phenotype-select',
+  templateUrl: './phenotype-select.type.html',
+  styleUrls: ['./phenotype-select.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcPhenotypeSelectField
   extends PhenotypeSelectMixin

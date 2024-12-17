@@ -11,10 +11,10 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-    selector: 'cvc-evidence-revise',
-    templateUrl: './evidence-revise.view.html',
-    styleUrls: ['./evidence-revise.view.less'],
-    standalone: false
+  selector: 'cvc-evidence-revise',
+  templateUrl: './evidence-revise.view.html',
+  styleUrls: ['./evidence-revise.view.less'],
+  standalone: false,
 })
 export class EvidenceReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>

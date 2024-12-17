@@ -29,11 +29,11 @@ const TagInputMixin = mixin(
 )
 
 @Component({
-    selector: 'cvc-tag-input',
-    templateUrl: './tag-input.type.html',
-    styleUrls: ['./tag-input.type.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-tag-input',
+  templateUrl: './tag-input.type.html',
+  styleUrls: ['./tag-input.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTagInputField extends TagInputMixin implements AfterViewInit {
   defaultOptions: Partial<FieldTypeConfig<CvcTagInputProps>> = {

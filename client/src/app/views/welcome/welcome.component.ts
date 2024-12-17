@@ -14,10 +14,10 @@ interface GithubRelease {
 }
 
 @Component({
-    selector: 'app-welcome',
-    templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.less'],
-    standalone: false
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.less'],
+  standalone: false,
 })
 export class WelcomeComponent implements OnInit {
   release$?: Observable<GithubRelease>
