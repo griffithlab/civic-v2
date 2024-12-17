@@ -9,9 +9,10 @@ import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 
 @Component({
-  selector: 'cvc-therapy-popover',
-  templateUrl: './cvc-therapy-popover.component.html',
-  styleUrls: ['./cvc-therapy-popover.component.less'],
+    selector: 'cvc-therapy-popover',
+    templateUrl: './cvc-therapy-popover.component.html',
+    styleUrls: ['./cvc-therapy-popover.component.less'],
+    standalone: false
 })
 export class CvcTherapyPopoverComponent implements OnInit {
   @Input() therapyId!: number

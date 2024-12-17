@@ -35,23 +35,22 @@ type ColumnDefinition = {
 }
 
 @Component({
-  selector: 'cvc-activity-revision',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    JsonPipe,
-    NzTypographyModule,
-    NzSwitchModule,
-    NzGridModule,
-    NzDescriptionsModule,
-    NzTagModule,
-    CvcEmptyValueModule,
-    CvcPipesModule,
-  ],
-  templateUrl: './activity-revision.component.html',
-  styleUrl: './activity-revision.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-activity-revision',
+    imports: [
+        CommonModule,
+        FormsModule,
+        JsonPipe,
+        NzTypographyModule,
+        NzSwitchModule,
+        NzGridModule,
+        NzDescriptionsModule,
+        NzTagModule,
+        CvcEmptyValueModule,
+        CvcPipesModule,
+    ],
+    templateUrl: './activity-revision.component.html',
+    styleUrl: './activity-revision.component.less',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcActivityRevision {
   revision = input.required<Revision>({

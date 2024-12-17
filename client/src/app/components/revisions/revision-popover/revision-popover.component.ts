@@ -9,9 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { Observable } from 'rxjs'
 
 @Component({
-  selector: 'cvc-revision-popover',
-  templateUrl: './revision-popover.component.html',
-  styleUrls: ['./revision-popover.component.less'],
+    selector: 'cvc-revision-popover',
+    templateUrl: './revision-popover.component.html',
+    styleUrls: ['./revision-popover.component.less'],
+    standalone: false
 })
 export class CvcRevisionPopoverComponent implements OnInit {
   @Input() revisionId!: number

@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { getEntityColor } from '../utilities/get-entity-color'
 
 @Pipe({
-  name: 'userRoleToIconName',
+    name: 'userRoleToIconName',
+    standalone: false
 })
 export class UserRoleToIconNamePipe implements PipeTransform {
   transform(role: string): string {

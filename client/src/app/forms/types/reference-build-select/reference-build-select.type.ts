@@ -47,9 +47,10 @@ const ReferenceBuildSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-reference-build-select',
-  templateUrl: './reference-build-select.type.html',
-  styleUrls: ['./reference-build-select.type.less'],
+    selector: 'cvc-reference-build-select',
+    templateUrl: './reference-build-select.type.html',
+    styleUrls: ['./reference-build-select.type.less'],
+    standalone: false
 })
 export class CvcReferenceBuildSelectField
   extends ReferenceBuildSelectMixin

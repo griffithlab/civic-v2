@@ -7,20 +7,23 @@
     },
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["es2019", "dom", "esnext.asynciterable"],
-    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "es2019",
+      "dom",
+      "esnext.asynciterable"
+    ],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

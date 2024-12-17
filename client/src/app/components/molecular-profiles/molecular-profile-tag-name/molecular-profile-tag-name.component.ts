@@ -20,9 +20,10 @@ type MpVariant = {
 type MpSegment = MpFeature  | MolecularProfileTextSegment | MpVariant
 
 @Component({
-  selector: 'cvc-mp-tag-name',
-  templateUrl: './molecular-profile-tag-name.component.html',
-  styleUrls: ['./molecular-profile-tag-name.component.less'],
+    selector: 'cvc-mp-tag-name',
+    templateUrl: './molecular-profile-tag-name.component.html',
+    styleUrls: ['./molecular-profile-tag-name.component.less'],
+    standalone: false
 })
 export class CvcMolecularProfileTagNameComponent implements OnInit {
   @Input() nameSegments!: MpSegment[];

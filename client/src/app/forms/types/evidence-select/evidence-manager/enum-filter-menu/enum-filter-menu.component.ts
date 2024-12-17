@@ -4,10 +4,11 @@ import { NzTableFilterList } from 'ng-zorro-antd/table'
 import { CvcFilterChange } from '../evidence-manager.types'
 
 @Component({
-  selector: 'cvc-enum-filter-menu',
-  templateUrl: './enum-filter-menu.component.html',
-  styleUrls: ['./enum-filter-menu.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-enum-filter-menu',
+    templateUrl: './enum-filter-menu.component.html',
+    styleUrls: ['./enum-filter-menu.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class EnumFilterMenuComponent {
   @Input() cvcColumnKey!: string

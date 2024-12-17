@@ -12,9 +12,10 @@ export interface LinkableEvidence {
 }
 
 @Component({
-  selector: 'cvc-evidence-tag',
-  templateUrl: './evidence-tag.component.html',
-  styleUrls: ['./evidence-tag.component.less'],
+    selector: 'cvc-evidence-tag',
+    templateUrl: './evidence-tag.component.html',
+    styleUrls: ['./evidence-tag.component.less'],
+    standalone: false
 })
 export class CvcEvidenceTagComponent {
   _evidence!: LinkableEvidence

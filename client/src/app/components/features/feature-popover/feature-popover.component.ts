@@ -9,9 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-feature-popover',
-  templateUrl: './feature-popover.component.html',
-  styleUrls: ['./feature-popover.component.less'],
+    selector: 'cvc-feature-popover',
+    templateUrl: './feature-popover.component.html',
+    styleUrls: ['./feature-popover.component.less'],
+    standalone: false
 })
 export class CvcFeaturePopoverComponent implements OnInit {
   @Input() featureId!: number

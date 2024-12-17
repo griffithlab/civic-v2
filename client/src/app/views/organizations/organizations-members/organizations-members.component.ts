@@ -8,8 +8,9 @@ import { isNotNullish } from "rxjs-etc";
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cvc-organizations-members',
-  templateUrl: './organizations-members.component.html',
+    selector: 'cvc-organizations-members',
+    templateUrl: './organizations-members.component.html',
+    standalone: false
 })
 export class OrganizationsMembersComponent implements OnDestroy {
   queryRef?: QueryRef<
