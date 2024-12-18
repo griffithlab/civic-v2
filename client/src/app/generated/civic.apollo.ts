@@ -129,7 +129,6 @@ export enum ActivitySubjectInput {
   Assertion = 'ASSERTION',
   Comment = 'COMMENT',
   EvidenceItem = 'EVIDENCE_ITEM',
-  ExonCoordinate = 'EXON_COORDINATE',
   Feature = 'FEATURE',
   Flag = 'FLAG',
   MolecularProfile = 'MOLECULAR_PROFILE',
@@ -138,7 +137,6 @@ export enum ActivitySubjectInput {
   Source = 'SOURCE',
   SourceSuggestion = 'SOURCE_SUGGESTION',
   Variant = 'VARIANT',
-  VariantCoordinate = 'VARIANT_COORDINATE',
   VariantGroup = 'VARIANT_GROUP'
 }
 
