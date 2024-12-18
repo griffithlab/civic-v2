@@ -12,7 +12,6 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module'
 import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profiles/molecular-profile-table/molecular-profile-table.module'
 import { CvcMyVariantInfoModule } from '../my-variant-info/my-variant-info.module'
-import { PushPipe } from '@ngrx/component'
 import { VariantSummaryFieldsFragment } from '@app/generated/civic.apollo'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
@@ -25,7 +24,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
   styleUrls: ['./fusion-variant-summary.page.less'],
   imports: [
     CommonModule,
-    PushPipe,
     NzGridModule,
     NzDescriptionsModule,
     NzTagModule,

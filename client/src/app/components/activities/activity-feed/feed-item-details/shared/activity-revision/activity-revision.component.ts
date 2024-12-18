@@ -1,4 +1,4 @@
-import { CommonModule, JsonPipe } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,7 +39,6 @@ type ColumnDefinition = {
   imports: [
     CommonModule,
     FormsModule,
-    JsonPipe,
     NzTypographyModule,
     NzSwitchModule,
     NzGridModule,
