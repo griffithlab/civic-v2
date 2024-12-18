@@ -234,10 +234,10 @@
   optionalDependencies:
     lmdb "3.1.5"
 
-"@angular/cdk@^18.0.0":
-  version "18.1.1"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-18.1.1.tgz#022d00c48e7a7fca63e564278d93602f9b5c4c55"
-  integrity sha512-IaDjvRUgAoKnEeafrnBX+hjTR+1M3O3fV3AybBCjN4NuiPtuyOJiTMg0cTv6RbluJ/SenbT4MQq3tMpOsa9i4w==
+"@angular/cdk@^19.0.0":
+  version "19.0.3"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-19.0.3.tgz#d8b0c419a31783c603965065640f4f9b7192605c"
+  integrity sha512-sPdIKbSgNk4z02FqdTTMUS62aLVA2R/DsnOk3qdH+nEfeS4nNWQEzwrvMf6dDsTeLQ6YJLWXfZfemsGYpOoiWg==
   dependencies:
     tslib "^2.3.0"
   optionalDependencies:
@@ -336,10 +336,10 @@
   dependencies:
     "@ctrl/tinycolor" "^3.6.1"
 
-"@ant-design/icons-angular@^18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@ant-design/icons-angular/-/icons-angular-18.0.0.tgz#5415f8bf2130d35a248a5e422f36f1fd549265ac"
-  integrity sha512-nxNtHKd7MyGNnEyv22NK5hZ/Pczp63XJfej9zPjxiXm0wvJeIdMNUPOKtsdVkyPTRjRGHGe7F9M0Gv9SmyIjrQ==
+"@ant-design/icons-angular@^19.0.0":
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/@ant-design/icons-angular/-/icons-angular-19.0.0.tgz#3cf43d2fcf516d07949fd609966b7cdec09e7126"
+  integrity sha512-bBWFA1cTZwLAFTgpozkeNIHX1nXyZuiUaRzTcAfFEt85eW1X3ypMcBfS/XEVVVzkdTw5Td+E1vwzgfuUlKiYSA==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     tslib "^2.0.0"
@@ -7917,13 +7917,13 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-ng-zorro-antd@18.2.1:
-  version "18.2.1"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-18.2.1.tgz#79b303dd9507b0875e2615f0a16117efc0715bcb"
-  integrity sha512-LAG3n7no9nwB0dZMaydSFutQ3JjipC88dpM23lxJCVTjzNHIbZiRrVdJcudpCs5RItBu74PMcXcSBmpF2E6SYQ==
+ng-zorro-antd@19.0.0-beta.1:
+  version "19.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-19.0.0-beta.1.tgz#e1d36d350bcadae7e4af80b787551c273b5cc826"
+  integrity sha512-Us5cEAWirrioG8g60DQdigYXfSNSbko3HsEgXy1KGeEezzVhgsAZaHTsBvrDxxxo+zcIswWj1qPj+t61zzEbeA==
   dependencies:
-    "@angular/cdk" "^18.0.0"
-    "@ant-design/icons-angular" "^18.0.0"
+    "@angular/cdk" "^19.0.0"
+    "@ant-design/icons-angular" "^19.0.0"
     date-fns "^2.16.1"
     tslib "^2.3.0"
 
