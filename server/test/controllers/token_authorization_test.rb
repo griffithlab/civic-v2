@@ -30,29 +30,29 @@ class TokenAuthorizationTest < ActionDispatch::IntegrationTest
 
   test "getting the viewer without a bearer token" do
     post "/api/graphql", params: { query: @query_string }
-    assert_nil JSON.parse(@response.body)["data"]["viewer"]
+    assert_nil JSON.parse(@response.body).dig("data", "viewer")
   end
 
   test "getting the viewer with a bearer token" do
     post "/api/graphql", params: { query: @query_string }, headers: { "Authorization" => "Bearer #{@api_key.token}" }
-    response_data = JSON.parse(@response.body)["data"]["viewer"]
+    response_data = JSON.parse(@response.body).dig("data", "viewer")
     assert_equal response_data["id"], @user1.id
     assert_equal response_data["username"], @user1.username
   end
 
   test "getting the viewer with a revoked bearer token" do
     post "/api/graphql", params: { query: @query_string }, headers: { "Authorization" => "Bearer #{@revoked_api_key.token}" }
-    assert_nil JSON.parse(@response.body)["data"]["viewer"]
+    assert_nil JSON.parse(@response.body).dig("data", "viewer")
   end
 
   test "adding a comment without a bearer token" do
     post "/api/graphql", params: { query: @mutation_string }
-    assert_match (/You must log in to perform this mutation/), JSON.parse(@response.body)["errors"].first["message"]
+    assert_match (/You must log in to perform this mutation/), JSON.parse(@response.body).dig("errors", 0, "message")
   end
 
   test "adding a comment with a valid bearer token" do
     post "/api/graphql", params: { query: @mutation_string }, headers: { "Authorization" => "Bearer #{@api_key.token}" }
-    response_data = JSON.parse(@response.body)["data"]["addComment"]["comment"]
+    response_data = JSON.parse(@response.body).dig("data", "addComment", "comment")
     assert_not_nil response_data
     assert_equal response_data["comment"], "This is a test comment"
   end
