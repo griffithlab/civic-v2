@@ -1,0 +1,85 @@
+<nz-spin [nzSpinning]="this.loading">
+  <nz-space nzDirection="vertical">
+    <div *nzSpaceItem>
+      <nz-alert
+        *ngIf="this.success"
+        nzBanner
+        [nzMessage]="this.successMessage"
+        nzType="success"
+        nzCloseable></nz-alert>
+      <nz-form-item *ngIf="this.errorMessages.length > 0">
+        <cvc-form-errors-alert [errors]="this.errorMessages">
+        </cvc-form-errors-alert>
+      </nz-form-item>
+    </div>
+    @if(newApiKey(); as key) {
+    <nz-card *nzSpaceItem>
+      <ul nz-list>
+        <li nz-list-item>
+          {{ key.token }}
+          <span
+            nz-typography
+            nzType="secondary"
+            >{{ key.createdAt | date }}</span
+          >
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <button
+                (click)="copyKey(key.token)"
+                nz-button
+                nz-tooltip
+                nzTooltipTitle="Copy Key"
+                nzType="default"
+                nzSize="small">
+                <span
+                  nz-icon
+                  nzTheme="fill"
+                  nzType="copy"></span>
+              </button>
+            </nz-list-item-action>
+          </ul>
+        </li>
+      </ul>
+    </nz-card>
+    }
+    <nz-card *nzSpaceItem>
+      <ul nz-list>
+        @for(key of apiKeys(); track key) {
+        <li nz-list-item>
+          {{ key.reminder }}
+          <span
+            nz-typography
+            nzType="secondary"
+            >{{ key.createdAt | date }}</span
+          >
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <button
+                (click)="revokeKey(key.id)"
+                nz-button
+                nz-tooltip
+                nzTooltipTitle="Revoke Key"
+                nzType="default"
+                nzDanger
+                nzSize="small">
+                <span
+                  nz-icon
+                  nzType="delete"></span>
+              </button>
+            </nz-list-item-action>
+          </ul>
+        </li>
+        }
+      </ul>
+    </nz-card>
+    <button
+      style="float: right"
+      *nzSpaceItem
+      (click)="generateKey()"
+      nz-button
+      nz-tooltip
+      nzType="primary">
+      Generate New API Key
+    </button>
+  </nz-space>
+</nz-spin>

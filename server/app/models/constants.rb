@@ -138,4 +138,6 @@ module Constants
   ENSEMBL_TRANSCRIPT_ID_FORMAT = /\AENST\d{11}\.\d{1,2}\z/
 
   REPRESENTATIVE_FUSION_VARIANT_NAME = 'Fusion'
+
+  API_HMAC_KEY = ENV['CIVIC_API_HMAC_KEY'] || Rails.application.credentials.api_hmac_key
 end

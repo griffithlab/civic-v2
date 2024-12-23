@@ -35,7 +35,7 @@ export class UsersDetailComponent implements OnDestroy {
 
   updateCoiModalVisible = false
   updateProfileModalVisible = false
-
+  manageApiKeysModalVisible = false
   routeSub: Subscription
   viewerSub?: Subscription
 
