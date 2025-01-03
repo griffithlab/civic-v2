@@ -44,7 +44,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
       end
     end
 
-    #check that maximuim one gene has regulatory_fusion_type set
+    #check that maximum one gene has regulatory_fusion_type set
     if five_prime_gene.partner_status == 'regulatory' && three_prime_gene.partner_status == 'regulatory'
       raise GraphQL::ExecutionError, "Only one Fusion partner can be marked 'regulatory'"
     end
