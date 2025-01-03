@@ -1,13 +1,14 @@
 module Activities
   class CreateFusionFeature < Base
-    attr_reader :feature, :five_prime_gene_id, :three_prime_gene_id, :five_prime_partner_status, :three_prime_partner_status, :create_variant
+    attr_reader :feature, :five_prime_gene_id, :three_prime_gene_id, :five_prime_partner_status, :three_prime_partner_status, :create_variant, :regulatory_fusion_type
 
-    def initialize(originating_user:, organization_id:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, create_variant: true)
+    def initialize(originating_user:, organization_id:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, regulatory_fusion_type:, create_variant: true)
       super(organization_id: organization_id, user: originating_user)
       @five_prime_gene_id = five_prime_gene_id
       @three_prime_gene_id = three_prime_gene_id
       @five_prime_partner_status = five_prime_partner_status
       @three_prime_partner_status = three_prime_partner_status
+      @regulatory_fusion_type = regulatory_fusion_type
       @create_variant = create_variant
     end
 
@@ -25,6 +26,7 @@ module Activities
         three_prime_gene_id: three_prime_gene_id,
         five_prime_partner_status: five_prime_partner_status,
         three_prime_partner_status: three_prime_partner_status,
+        regulatory_fusion_type: regulatory_fusion_type,
         originating_user: user,
         organization_id: organization&.id,
         create_variant: create_variant

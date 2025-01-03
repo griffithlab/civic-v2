@@ -1,0 +1,27 @@
+braf_vhl_fusion:
+  five_prime_gene: braf
+  three_prime_gene: vhl
+  five_prime_partner_status: known
+  three_prime_partner_status: known
+  regulatory_fusion_type: reg_enhancer
+
+braf_fusion:
+  five_prime_gene: braf
+  three_prime_gene: null
+  five_prime_partner_status: known
+  three_prime_partner_status: unknown
+  regulatory_fusion_type: null
+
+vhl_fusion:
+  five_prime_gene: null
+  three_prime_gene: vhl
+  five_prime_partner_status: unknown
+  three_prime_partner_status: known
+  regulatory_fusion_type: null
+
+regulatory_fusion:
+  five_prime_gene: braf
+  three_prime_gene: vhl
+  five_prime_partner_status: regulatory
+  three_prime_partner_status: known
+  regulatory_fusion_type: reg_enhancer

@@ -138,4 +138,38 @@ module Constants
   ENSEMBL_TRANSCRIPT_ID_FORMAT = /\AENST\d{11}\.\d{1,2}\z/
 
   REPRESENTATIVE_FUSION_VARIANT_NAME = 'Fusion'
+
+  # INSDC regulatory class vocabulary as required here: https://fusions.cancervariants.org/en/latest/nomenclature.html#regulatory-nomenclature
+  REGULATORY_FUSION_TYPES = [
+      ["attenuator", "SO:0000140"],
+      ["CAAT_signal", "SO:0000172"],
+      ["DNase_I_hypersensitive_site", "SO:0000685"],
+      ["enhancer", "SO:0000165"],
+      ["enhancer_blocking_element", nil],
+      ["GC_signal", "SO:0000173"],
+      ["imprinting_control_region", nil],
+      ["insulator", "SO:0000627"],
+      ["locus_control_region", "SO:0000037"],
+      ["matrix_attachment_region", "SO:0000036"],
+      ["minus_35_signal", "SO:0000176"],
+      ["minus_10_signal", "SO:0000175"],
+      ["polyA_signal_sequence", "SO:0000551"],
+      ["promoter", "SO:0000167"],
+      ["recoding_stimulatory_region", "SO:1001268"],
+      ["recombination_enhancer", "SO:0002059"],
+      ["replication_regulatory_region", "SO:0001682"],
+      ["response_element", nil],
+      ["ribosome_binding_site", "SO:0000552"],
+      ["riboswitch", "SO:0000035"],
+      ["silencer", "SO:0000625"],
+      ["TATA_box", "SO:0000174"],
+      ["terminator", "SO:0000141"],
+      ["transcriptional_cis_regulatory_region", "SO:0001055"],
+      ["uORF", "SO:0002027"],
+      ["other", nil]
+    ].map { |(type, soid)|  ["reg_#{type}", soid] }
+
+    REGULATORY_FUSION_ENUM_TYPES = REGULATORY_FUSION_TYPES.map { |(type, _)| [type, type] }.to_h
+
+    FUSION_PARTNER_STATUSES = [ 'known', 'unknown', 'multiple', 'regulatory' ].map { [_1, _1] }.to_h
 end
