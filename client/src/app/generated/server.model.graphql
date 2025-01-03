@@ -5026,6 +5026,7 @@ type Fusion implements Commentable & EventOriginObject & EventSubject & Flaggabl
   link: String!
   name: String!
   openRevisionCount: Int!
+  regulatoryFusionType: RegulatoryFusionType
 
   """
   List and filter revisions.
@@ -5221,11 +5222,17 @@ input FusionPartnerInput {
   The status of the fusion partner
   """
   partnerStatus: FusionPartnerStatus!
+
+  """
+  If the fusion partner status is set to regulatory, what type of regulatory fusion is it?
+  """
+  regulatoryFusionType: RegulatoryFusionType
 }
 
 enum FusionPartnerStatus {
   KNOWN
   MULTIPLE
+  REGULATORY
   UNKNOWN
 }
 
@@ -9802,6 +9809,35 @@ enum ReferenceBuild {
   GRCH37
   GRCH38
   NCBI36
+}
+
+enum RegulatoryFusionType {
+  REG_ATTENUATOR
+  REG_CAAT_SIGNAL
+  REG_DNASE_I_HYPERSENSITIVE_SITE
+  REG_ENHANCER
+  REG_ENHANCER_BLOCKING_ELEMENT
+  REG_GC_SIGNAL
+  REG_IMPRINTING_CONTROL_REGION
+  REG_INSULATOR
+  REG_LOCUS_CONTROL_REGION
+  REG_MATRIX_ATTACHMENT_REGION
+  REG_MINUS_10_SIGNAL
+  REG_MINUS_35_SIGNAL
+  REG_OTHER
+  REG_POLYA_SIGNAL_SEQUENCE
+  REG_PROMOTER
+  REG_RECODING_STIMULATORY_REGION
+  REG_RECOMBINATION_ENHANCER
+  REG_REPLICATION_REGULATORY_REGION
+  REG_RESPONSE_ELEMENT
+  REG_RIBOSOME_BINDING_SITE
+  REG_RIBOSWITCH
+  REG_SILENCER
+  REG_TATA_BOX
+  REG_TERMINATOR
+  REG_TRANSCRIPTIONAL_CIS_REGULATORY_REGION
+  REG_UORF
 }
 
 type RejectRevisionsActivity implements ActivityInterface {
