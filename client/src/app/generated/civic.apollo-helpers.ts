@@ -735,13 +735,13 @@ export type CreateVariantPayloadFieldPolicy = {
 	new?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DataReleaseKeySpecifier = ('acceptedAndSubmittedVariantsVcf' | 'acceptedVariantsVcf' | 'assertionTsv' | 'evidenceTsv' | 'geneTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
+export type DataReleaseKeySpecifier = ('acceptedAndSubmittedVariantsVcf' | 'acceptedVariantsVcf' | 'assertionTsv' | 'evidenceTsv' | 'featureTsv' | 'molecularProfileTsv' | 'name' | 'variantGroupTsv' | 'variantTsv' | DataReleaseKeySpecifier)[];
 export type DataReleaseFieldPolicy = {
 	acceptedAndSubmittedVariantsVcf?: FieldPolicy<any> | FieldReadFunction<any>,
 	acceptedVariantsVcf?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertionTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceTsv?: FieldPolicy<any> | FieldReadFunction<any>,
-	geneTsv?: FieldPolicy<any> | FieldReadFunction<any>,
+	featureTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	molecularProfileTsv?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantGroupTsv?: FieldPolicy<any> | FieldReadFunction<any>,
