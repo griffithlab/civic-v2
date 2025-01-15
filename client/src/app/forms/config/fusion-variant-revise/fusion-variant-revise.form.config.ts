@@ -88,8 +88,10 @@ function formFieldConfig(
                         {
                           key: 'referenceBuild',
                           type: 'reference-build-select',
-                          props: {
-                            required: true,
+                          expressions: {
+                            'props.required': (field) =>
+                              Boolean(field.model.fivePrimeTranscript) ||
+                              Boolean(field.model.threePrimeTranscript),
                           },
                         },
                         {
@@ -107,7 +109,11 @@ function formFieldConfig(
                             label: 'Ensembl Version',
                             description:
                               'Enter a valid Ensembl database version (e.g. 75)',
-                            required: true,
+                          },
+                          expressions: {
+                            'props.required': (field) =>
+                              Boolean(field.model.fivePrimeTranscript) ||
+                              Boolean(field.model.threePrimeTranscript),
                           },
                         },
                       ],
@@ -125,10 +131,13 @@ function formFieldConfig(
                           type: 'base-input',
                           props: {
                             label: "5' Transcript",
-                            required: !fivePrimeDisabled,
                             disabled: fivePrimeDisabled,
                             tooltip:
                               "Specify a transcript ID, including version number (e.g. ENST00000348159.4) for the 5' exon you have selected",
+                          },
+                          expressions: {
+                            'props.required': (field) =>
+                              Boolean(field.model.fivePrimeExonEnd),
                           },
                           validators: {
                             isTranscriptId: {
@@ -149,10 +158,13 @@ function formFieldConfig(
                           },
                           props: {
                             label: "5' End Exon",
-                            required: !fivePrimeDisabled,
                             disabled: fivePrimeDisabled,
                             tooltip:
                               'The exon number counted from the 5’ end of the transcript.',
+                          },
+                          expressions: {
+                            'props.required': (field) =>
+                              Boolean(field.model.fivePrimeTranscript),
                           },
                         },
                         {
@@ -205,7 +217,6 @@ function formFieldConfig(
                           key: 'threePrimeTranscript',
                           type: 'base-input',
                           props: {
-                            required: !threePrimeDisabled,
                             disabled: threePrimeDisabled,
                             label: "3' Transcript",
                             tooltip:
@@ -217,6 +228,10 @@ function formFieldConfig(
                               message:
                                 "3' Transcript must be a valid, human, versioned, Ensembl transcript ID",
                             },
+                          },
+                          expressions: {
+                            'props.required': (field) =>
+                              Boolean(field.model.threePrimeExonStart),
                           },
                         },
                         {
@@ -232,8 +247,11 @@ function formFieldConfig(
                             label: "3' Start Exon",
                             tooltip:
                               'The exon number counted from the 3’ end of the transcript.',
-                            required: !threePrimeDisabled,
                             disabled: threePrimeDisabled,
+                          },
+                          expressions: {
+                            'props.required': (field) =>
+                              Boolean(field.model.threePrimeTranscript),
                           },
                         },
                         {
