@@ -26,7 +26,7 @@ class UploadTsvsToAws < ApplicationJob
   def absolute_local_path(file)
     File.join(TsvRelease.downloads_path, file)
   end
-                      
+
   def bucket_name
     'civic-aws-opendata'
   end
@@ -61,7 +61,7 @@ class UploadTsvsToAws < ApplicationJob
     {
       "AssertionSummaries/date=#{date_string}/AssertionSummaries.tsv" => "#{date_string}/#{date_string}-AssertionSummaries.tsv",
       "ClinicalEvidenceSummaries/date=#{date_string}/ClinicalEvidenceSummaries.tsv" => "#{date_string}/#{date_string}-ClinicalEvidenceSummaries.tsv",
-      "GeneSummaries/date=#{date_string}/GeneSummaries.tsv" => "#{date_string}/#{date_string}-GeneSummaries.tsv",
+      "FeatureSummaries/date=#{date_string}/FeatureSummaries.tsv" => "#{date_string}/#{date_string}-FeatureSummaries.tsv",
       "VariantGroupSummaries/date=#{date_string}/VariantGroupSummaries.tsv"=> "#{date_string}/#{date_string}-VariantGroupSummaries.tsv",
       "VariantSummaries/date=#{date_string}/VariantSummaries.tsv" => "#{date_string}/#{date_string}-VariantSummaries.tsv",
       "MolecularProfileSummaries/date=#{date_string}/MolecularProfileSummaries.tsv" => "#{date_string}/#{date_string}-MolecularProfileSummaries.tsv",

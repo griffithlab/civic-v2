@@ -86,7 +86,11 @@ class Mutations::SuggestFusionVariantRevision < Mutations::MutationWithOrg
     updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
     updated_variant.feature = variant.feature
     updated_variant.fusion = variant.feature.feature_instance
-    updated_variant.name = updated_variant.generate_name
+    if variant.name == 'Fusion'
+      updated_variant.name = 'Fusion'
+    else
+      updated_variant.name = updated_variant.generate_name
+    end
     updated_variant.vicc_compliant_name = updated_variant.generate_vicc_name
 
     variant_revisions_obj = Activities::RevisedObjectPair.new(existing_obj: variant, updated_obj: updated_variant)

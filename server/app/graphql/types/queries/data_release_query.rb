@@ -13,7 +13,7 @@ module Types::Queries
             release_name = File.basename(release)
             {
               name: release_name,
-              gene_tsv: file_or_nil(release, release_name, 'GeneSummaries.tsv'),
+              feature_tsv: file_or_nil(release, release_name, 'FeatureSummaries.tsv'),
               variant_tsv: file_or_nil(release, release_name, 'VariantSummaries.tsv'),
               variant_group_tsv: file_or_nil(release, release_name, 'VariantGroupSummaries.tsv'),
               evidence_tsv: file_or_nil(release, release_name, 'ClinicalEvidenceSummaries.tsv'),
@@ -34,7 +34,7 @@ module Types::Queries
 
         end
       end
-      
+
       def file_or_nil(path, release, filename)
         full_path = File.join(path, "#{release}-#{filename}")
         if File.exist?(full_path)

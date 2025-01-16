@@ -2436,7 +2436,7 @@ type DataRelease {
   acceptedVariantsVcf: DownloadableFile
   assertionTsv: DownloadableFile
   evidenceTsv: DownloadableFile
-  geneTsv: DownloadableFile
+  featureTsv: DownloadableFile
   molecularProfileTsv: DownloadableFile
   name: String!
   variantGroupTsv: DownloadableFile
