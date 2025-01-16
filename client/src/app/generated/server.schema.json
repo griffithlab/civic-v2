@@ -12394,7 +12394,7 @@
               "deprecationReason": null
             },
             {
-              "name": "geneTsv",
+              "name": "featureTsv",
               "description": null,
               "args": [],
               "type": {

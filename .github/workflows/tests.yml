@@ -44,6 +44,7 @@ jobs:
         env:
           CI_BUILD: true
           RAILS_ENV: test
+          CIVIC_API_HMAC_KEY: fakeKeyForTests
         run: bundle exec rails test
         working-directory: ./server
 
