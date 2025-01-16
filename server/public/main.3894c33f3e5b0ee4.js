@@ -3283,7 +3283,7 @@ ${Dn}`,ei=t.J1`
     `,Zi=t.J1`
     fragment Release on DataRelease {
   name
-  geneTsv {
+  featureTsv {
     filename
     path
   }
