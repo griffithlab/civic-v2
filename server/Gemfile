@@ -111,4 +111,5 @@ group :test do
   gem 'capybara', '>= 3.26'
   gem 'simplecov'
   gem 'simplecov-lcov'
+  gem 'mocha', require: false
 end

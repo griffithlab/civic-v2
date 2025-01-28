@@ -1,5 +1,5 @@
 class FindInvalidClinvarRecords < ApplicationJob
-  KNOWN_GOOD_ID = 16609
+  KNOWN_GOOD_ID = '16609'
 
   def perform
     #Bail early if this fails. Maybe the site is down or something.
