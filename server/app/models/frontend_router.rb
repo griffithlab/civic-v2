@@ -24,8 +24,16 @@ class FrontendRouter
   def query_info
     case id_type
     when /genes?/
-      [ 
-        Feature.where(feature_instance_type: "Features::Gene"), :feature_instance_id, 
+      [
+        Feature.where(feature_instance_type: "Features::Gene"), :id,
+      ]
+    when /fusions?/
+      [
+        Feature.where(feature_instance_type: "Features::Fusion"), :id,
+      ]
+    when /factors?/
+      [
+        Feature.where(feature_instance_type: "Features::Factor"), :id,
       ]
     when /features?/
       [ Feature, :id, ]
@@ -38,7 +46,7 @@ class FrontendRouter
     when /entrez_id/
       [ Features::Gene, :entrez_id ]
     when /entrez_name/
-      [ 
+      [
         Feature.where(feature_instance_type: "Features::Gene"), :name, -> { _1.upcase }
       ]
     when /variant_groups?/
@@ -47,10 +55,18 @@ class FrontendRouter
       [ Revision, :id ]
     when /diseases?/
       [ Disease, :id ]
+    when /doid/
+      [ Disease.where(deprecated: false), :doid, ]
     when /drugs?/
       [ Therapy, :id ]
     when /therapies?/
       [ Therapy, :id ]
+    when /ncit_id/
+      [ Therapy.where(deprecated: false), :ncit_id, ]
+    when /phenotypes?/
+      [ Phenotype, :id ]
+    when /hpo_id/
+      [ Phenotype, :hpo_id ]
     when /assertions?/
       [ Assertion, :id ]
     when /sources?/
@@ -62,8 +78,8 @@ class FrontendRouter
       when "AID"
         [ Assertion, :id ]
       when "GID"
-        [ 
-          Feature.where(feature_instance_type: "Features::Gene"), :feature_instance_id, 
+        [
+          Feature.where(feature_instance_type: "Features::Gene"), :id,
         ]
       when "FID"
         [ Feature, :id ]
