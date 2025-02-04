@@ -10,6 +10,7 @@ module Types::Variants
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
     field :mane_select_transcript, String, null: true
     field :open_cravat_url, String, null: true
+    field :open_cravat_annotations, GraphQL::Types::JSON, null: true
 
     def coordinates
       Loaders::AssociationLoader.for(Variants::GeneVariant, :coordinates).load(object)
@@ -47,6 +48,16 @@ module Types::Variants
           end
         end
       end
+    end
+
+    def open_cravat_url
+      if object.open_cravat_url_parameters.present?
+        "https://run.opencravat.org/webapps/variantreport/index.html?" + object.open_cravat_url_parameters
+      end
+    end
+
+    def open_cravat_annotations
+      OpenCravat.new(object).response
     end
   end
 end

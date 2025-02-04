@@ -160,7 +160,7 @@
           <nz-descriptions
             nzLayout="horizontal"
             nzSize="small"
-            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+            [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
             nzBordered="true">
             <!-- feature -->
             <nz-descriptions-item nzTitle="Gene">
@@ -233,35 +233,39 @@
                 >
               </ng-template>
             </nz-descriptions-item>
-
-            <nz-descriptions-item
-              *ngIf="variant.openCravatUrl"
-              nzTitle="OpenCRAVAT">
-              <cvc-link-tag
-                [href]="variant.openCravatUrl"
-                tooltip="View on OpenCRAVAT">
-                Variant Report
-              </cvc-link-tag>
-            </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
 
         <!-- myvariant info -->
-        <ng-container *ngIf="variant.myVariantInfo; else noVariantInfo">
-          <nz-col [nzSpan]="24">
+        <nz-col [nzSpan]="24">
+          <ng-container *ngIf="variant.myVariantInfo; else noVariantInfo">
             <cvc-my-variant-info
               [variantInfo]="variant.myVariantInfo"></cvc-my-variant-info>
-          </nz-col>
-        </ng-container>
-        <ng-template #noVariantInfo>
-          <nz-col [nzSpan]="24">
+          </ng-container>
+          <ng-template #noVariantInfo>
             <nz-card nzTitle="MyVariantInfo">
               <cvc-empty-revisable
                 notification="Not available, provide Representative Variant Coordinates">
               </cvc-empty-revisable>
             </nz-card>
-          </nz-col>
-        </ng-template>
+          </ng-template>
+        </nz-col>
+
+        <!-- OpenCRAVAT Annotations-->
+        <nz-col [nzSpan]="24">
+          @if (variant.openCravatAnnotations && variant.openCravatUrl) {
+            <cvc-open-cravat-annotations
+              [openCravatAnnotations]="variant.openCravatAnnotations"
+              [openCravatUrl]="variant.openCravatUrl + ''">
+            </cvc-open-cravat-annotations>
+          } @else {
+            <nz-card nzTitle="OpenCRAVAT Annotations">
+              <cvc-empty-revisable
+                notification="Not available, provide Representative Variant Coordinates">
+              </cvc-empty-revisable>
+            </nz-card>
+          }
+        </nz-col>
       </nz-row>
     </nz-col>
     <!-- END RIGHT COL -->
