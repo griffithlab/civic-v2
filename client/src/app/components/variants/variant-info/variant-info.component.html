@@ -1,0 +1,34 @@
+<nz-card
+  style="width: 100%"
+  nzSize="small">
+  <nz-card-tab>
+    <nz-tabset
+      nzSize="small"
+      [(nzSelectedIndex)]="selectedTab">
+      <nz-tab nzTitle="MyVariantInfo"> </nz-tab>
+      <nz-tab nzTitle="OpenCravat Annotations"> </nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+  @if (selectedTab() === 0) {
+    @if (variantInfo().myVariantInfo) {
+      <cvc-my-variant-info
+        [variantInfo]="variantInfo().myVariantInfo"></cvc-my-variant-info>
+    } @else {
+      <cvc-empty-revisable
+        notification="Not available, provide Representative Variant Coordinates">
+      </cvc-empty-revisable>
+    }
+  }
+  @if (selectedTab() === 1) {
+    @if (variantInfo().openCravatAnnotations && variantInfo().openCravatUrl) {
+      <cvc-open-cravat-annotations
+        [openCravatAnnotations]="variantInfo().openCravatAnnotations"
+        [openCravatUrl]="variantInfo().openCravatUrl + ''">
+      </cvc-open-cravat-annotations>
+    } @else {
+      <cvc-empty-revisable
+        notification="Not available, provide Representative Variant Coordinates">
+      </cvc-empty-revisable>
+    }
+  }
+</nz-card>

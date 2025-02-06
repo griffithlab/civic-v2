@@ -131,13 +131,14 @@
     <!-- right col layout row -->
     <nz-row [nzGutter]="[8, 8]">
       <!-- BLOCK: creation and deprecation events -->
-      <nz-col [nzSpan]="24">
+      <nz-col
+        [nzSpan]="24"
+        *ngIf="variant.creationActivity || variant.deprecationActivity">
         <nz-descriptions
           nzLayout="vertical"
           nzSize="small"
           [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-          nzBordered="true"
-          *ngIf="variant.creationActivity || variant.deprecationActivity">
+          nzBordered="true">
           <!-- creation/deprecation curation events -->
           <ng-container *ngIf="variant.creationActivity">
             <nz-descriptions-item [nzTitle]="createdTitle">
@@ -247,9 +248,17 @@
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
-
-      <!-- myvariant info -->
+      <!-- variant info -->
       <nz-col [nzSpan]="24">
+        <cvc-variant-info
+          [variantInfo]="{
+            myVariantInfo: variant.myVariantInfo,
+            openCravatAnnotations: variant.openCravatAnnotations,
+            openCravatUrl: variant.openCravatUrl
+          }"></cvc-variant-info>
+      </nz-col>
+      <!-- myvariant info -->
+      <!-- <nz-col [nzSpan]="24">
         <ng-container *ngIf="variant.myVariantInfo; else noVariantInfo">
           <cvc-my-variant-info
             [variantInfo]="variant.myVariantInfo"></cvc-my-variant-info>
@@ -261,10 +270,10 @@
             </cvc-empty-revisable>
           </nz-card>
         </ng-template>
-      </nz-col>
+      </nz-col> -->
 
       <!-- OpenCRAVAT Annotations-->
-      <nz-col [nzSpan]="24">
+      <!-- <nz-col [nzSpan]="24">
         @if (variant.openCravatAnnotations && variant.openCravatUrl) {
         <cvc-open-cravat-annotations
           [openCravatAnnotations]="variant.openCravatAnnotations"
@@ -277,7 +286,7 @@
           </cvc-empty-revisable>
         </nz-card>
         }
-      </nz-col>
+      </nz-col> -->
     </nz-row>
   </nz-col>
   <!-- END RIGHT COL -->
