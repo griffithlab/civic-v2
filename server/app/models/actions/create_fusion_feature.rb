@@ -5,7 +5,15 @@ module Actions
     attr_reader :feature, :originating_user, :organization_id, :create_variant, :five_prime_partner_status, :three_prime_partner_status, :regulatory_fusion_type
 
     def initialize(originating_user:, five_prime_gene_id:, three_prime_gene_id:, five_prime_partner_status:, three_prime_partner_status:, regulatory_fusion_type:, organization_id: nil, create_variant: true)
+      @five_prime_partner_status = five_prime_partner_status
+      @three_prime_partner_status = three_prime_partner_status
+      @regulatory_fusion_type = regulatory_fusion_type
+      @originating_user = originating_user
+      @organization_id = organization_id
+      @create_variant = create_variant
+
       feature_name = "#{construct_fusion_partner_name(five_prime_gene_id, five_prime_partner_status)}::#{construct_fusion_partner_name(three_prime_gene_id, three_prime_partner_status)}"
+
       @feature = Feature.new(
         name: feature_name,
       )
@@ -17,12 +25,6 @@ module Actions
         regulatory_fusion_type: regulatory_fusion_type,
         feature: feature,
       )
-      @five_prime_partner_status = five_prime_partner_status
-      @three_prime_partner_status = three_prime_partner_status
-      @regulatory_fusion_type = regulatory_fusion_type
-      @originating_user = originating_user
-      @organization_id = organization_id
-      @create_variant = create_variant
     end
 
     def construct_fusion_partner_name(gene_id, partner_status)

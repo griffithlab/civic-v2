@@ -44588,7 +44588,7 @@
               "deprecationReason": null
             },
             {
-              "name": "REG_ENHANCER",
+              "name": "REG_E",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -44648,7 +44648,7 @@
               "deprecationReason": null
             },
             {
-              "name": "REG_PROMOTER",
+              "name": "REG_P",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

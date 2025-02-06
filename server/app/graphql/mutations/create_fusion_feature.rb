@@ -36,10 +36,10 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
 
     #check that partner status matches gene_id presence
     [five_prime_gene, three_prime_gene].each do |gene_input|
-      if gene_input.gene_id.present? && (gene_input.partner_status != 'known' || gene_input.partner_status != 'regulatory')
+      if gene_input.gene_id.present? && (gene_input.partner_status != 'known' && gene_input.partner_status != 'regulatory')
         raise GraphQL::ExecutionError, "Partner status needs to be 'known' or 'regulatory' if a gene_id is set"
       end
-      if gene_input.gene_id.blank? && (gene_input.partner_status == 'known' && gene_input.partner_status != 'regulatory')
+      if gene_input.gene_id.blank? && (gene_input.partner_status == 'known' || gene_input.partner_status != 'regulatory')
         raise GraphQL::ExecutionError, "Partner status can't be 'known' or 'regulatory' if a gene_id is not set"
       end
     end
@@ -63,7 +63,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
   def resolve(five_prime_gene:, three_prime_gene:, organization_id: nil)
 
     #only one can be set
-    regulatory_fusion_type = five_prime_partner_status.regulatory_fusion_type || three_prime_partner_status.regulatory_fusion_type
+    regulatory_fusion_type = five_prime_gene.regulatory_fusion_type || three_prime_gene.regulatory_fusion_type
 
     existing_feature_instance = Features::Fusion
       .find_by(

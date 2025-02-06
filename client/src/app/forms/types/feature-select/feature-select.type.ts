@@ -210,6 +210,7 @@ export class CvcFeatureSelectField
         nzContent: CvcFusionSelectForm,
         nzData: {},
         nzFooter: null,
+        nzWidth: '60%',
       }
     )
 
