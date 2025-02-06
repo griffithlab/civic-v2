@@ -40,8 +40,6 @@ import { CvcVariantInfo } from '../variant-info/variant-info.component'
     CvcUserTagModule,
     CvcFeatureTagModule,
     CvcMolecularProfilesTableModule,
-    CvcMyVariantInfoModule,
-    CvcOpenCravatAnnotationsModule,
     CvcPipesModule,
     CvcVariantInfo,
   ],

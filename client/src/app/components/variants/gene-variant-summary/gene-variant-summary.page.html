@@ -257,36 +257,6 @@
             openCravatUrl: variant.openCravatUrl
           }"></cvc-variant-info>
       </nz-col>
-      <!-- myvariant info -->
-      <!-- <nz-col [nzSpan]="24">
-        <ng-container *ngIf="variant.myVariantInfo; else noVariantInfo">
-          <cvc-my-variant-info
-            [variantInfo]="variant.myVariantInfo"></cvc-my-variant-info>
-        </ng-container>
-        <ng-template #noVariantInfo>
-          <nz-card nzTitle="MyVariantInfo">
-            <cvc-empty-revisable
-              notification="Not available, provide Representative Variant Coordinates">
-            </cvc-empty-revisable>
-          </nz-card>
-        </ng-template>
-      </nz-col> -->
-
-      <!-- OpenCRAVAT Annotations-->
-      <!-- <nz-col [nzSpan]="24">
-        @if (variant.openCravatAnnotations && variant.openCravatUrl) {
-        <cvc-open-cravat-annotations
-          [openCravatAnnotations]="variant.openCravatAnnotations"
-          [openCravatUrl]="variant.openCravatUrl + ''">
-        </cvc-open-cravat-annotations>
-        } @else {
-        <nz-card nzTitle="OpenCRAVAT Annotations">
-          <cvc-empty-revisable
-            notification="Not available, provide Representative Variant Coordinates">
-          </cvc-empty-revisable>
-        </nz-card>
-        }
-      </nz-col> -->
     </nz-row>
   </nz-col>
   <!-- END RIGHT COL -->

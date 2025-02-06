@@ -1,121 +1,164 @@
 <ng-container *ngIf="openCravatAnnotations && openCravatUrl">
-  <nz-card
-    nzTitle="OpenCRAVAT Annotations"
-    [nzExtra]="openCravatUrlTemplate">
-    <ng-template #openCravatUrlTemplate>
+  <nz-tabset
+    nzSize="small"
+    [nzAnimated]="true"
+    nzTabPosition="left"
+    [nzTabBarExtraContent]="openCravatUrlTemplate">
+    <nz-tab nzTitle="Overview">
+      <ng-container *ngTemplateOutlet="overviewTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Benignity Details">
+      <ng-container *ngTemplateOutlet="benignityTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Pathogenicity Details">
+      <ng-container *ngTemplateOutlet="pathogenicityTab"></ng-container>
+    </nz-tab>
+  </nz-tabset>
+  <ng-template #openCravatUrlTemplate>
+    <div style="margin: 8px 0">
       <cvc-link-tag
         [href]="openCravatUrl"
         tooltip="View on OpenCRAVAT">
         Variant Report
       </cvc-link-tag>
-    </ng-template>
-    <nz-card-tab>
-      <nz-tabset
-        nzSize="small"
-        [nzAnimated]="true">
-        <nz-tab
-          (nzClick)="tabIndex.next(0)"
-          nzTitle="Overview">
-        </nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(1)"
-          nzTitle="Benignity Details">
-        </nz-tab>
-        <nz-tab
-          (nzClick)="tabIndex.next(2)"
-          nzTitle="Pathogenicity Details"></nz-tab>
-      </nz-tabset>
-    </nz-card-tab>
-    <ng-container [ngSwitch]="tabIndex | async">
-      <!-- Overview tab -->
-      <ng-container *ngSwitchCase="0">
-        <div nz-row [nzGutter]="8">
-          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="12">
-            <nz-card nzTitle="ACMG/AMP Benign (BP4)" nzSize="small">
-              @if ((openCravatAnnotations.benignity_counts|keyvalue).length === 0) {
-                <div nz-typography nzType="secondary">
-                  No Annotations
-                </div>
-              }
-              @for (keypar of openCravatAnnotations.benignity_counts|keyvalue; track keypar.key) {
-                <div
-                  nz-tooltip
-                  nzTooltipPlacement="topLeft"
-                  [nzTooltipTitle]="openCravatAnnotations.benignity_counts_details[keypar.key+''].join(', ')">
-                  {{ keypar.key }} ({{ keypar.value }})
-                </div>
-              }
-            </nz-card>
-          </div>
-          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="12">
-            <nz-card nzTitle="ACMG/AMP Pathogenic (PP3)" nzSize="small">
-              @if ((openCravatAnnotations.pathogenicity_counts|keyvalue).length === 0) {
-                <div>
-                  None
-                </div>
-              }
-              @for (keypar of openCravatAnnotations.pathogenicity_counts|keyvalue; track keypar.key) {
-                <div
-                  nz-tooltip
-                  nzTooltipPlacement="topLeft"
-                  [nzTooltipTitle]="openCravatAnnotations.pathogenicity_counts_details[keypar.key+''].join(', ')">
-                  {{ keypar.key }} ({{ keypar.value }})
-                </div>
-              }
-            </nz-card>
-          </div>
+    </div>
+  </ng-template>
+  <!-- Overview tab -->
+  <ng-template #overviewTab>
+    <div class="tab-content">
+      <div
+        nz-row
+        [nzGutter]="8">
+        <div
+          nz-col
+          nzXs="24"
+          nzSm="24"
+          nzMd="24"
+          nzLg="12"
+          nzXl="12">
+          <nz-card
+            nzTitle="ACMG/AMP Benign (BP4)"
+            nzSize="small">
+            @if (
+              (openCravatAnnotations.benignity_counts | keyvalue).length === 0
+            ) {
+              <div
+                nz-typography
+                nzType="secondary">
+                No Annotations
+              </div>
+            }
+            @for (
+              keypar of openCravatAnnotations.benignity_counts | keyvalue;
+              track keypar.key
+            ) {
+              <div
+                nz-tooltip
+                nzTooltipPlacement="topLeft"
+                [nzTooltipTitle]="
+                  openCravatAnnotations.benignity_counts_details[
+                    keypar.key + ''
+                  ].join(', ')
+                ">
+                {{ keypar.key }} ({{ keypar.value }})
+              </div>
+            }
+          </nz-card>
         </div>
-      </ng-container>
-      <!-- Benignity tab -->
-      <ng-container *ngSwitchCase="1">
-        <nz-table
-          [nzData]="['.']"
-          [nzFrontPagination]="false"
-          [nzShowPagination]="false"
-          nzSize="small">
-          <thead>
-            <tr>
-              <th>Predictor</th>
-              <th>Annotation</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (keypar of openCravatAnnotations.benignity|keyvalue; track keypar.key) {
-              <tr>
-                <td>{{ keypar.key }}</td>
-                <td>
-                  {{ keypar.value | ifEmpty : '--' }}
-                </td>
-              </tr>
+        <div
+          nz-col
+          nzXs="24"
+          nzSm="24"
+          nzMd="24"
+          nzLg="12"
+          nzXl="12">
+          <nz-card
+            nzTitle="ACMG/AMP Pathogenic (PP3)"
+            nzSize="small">
+            @if (
+              (openCravatAnnotations.pathogenicity_counts | keyvalue).length ===
+              0
+            ) {
+              <div>None</div>
             }
-          </tbody>
-        </nz-table>
-      </ng-container>
-      <!-- Pathogenicity tab -->
-      <ng-container *ngSwitchCase="2">
-        <nz-table
-          [nzData]="['.']"
-          [nzFrontPagination]="false"
-          [nzShowPagination]="false"
-          nzSize="small">
-          <thead>
-            <tr>
-              <th>Predictor</th>
-              <th>Annotation</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (keypar of openCravatAnnotations.pathogenicity|keyvalue; track keypar.key) {
-              <tr>
-                <td>{{ keypar.key }}</td>
-                <td>
-                  {{ keypar.value | ifEmpty : '--' }}
-                </td>
-              </tr>
+            @for (
+              keypar of openCravatAnnotations.pathogenicity_counts | keyvalue;
+              track keypar.key
+            ) {
+              <div
+                nz-tooltip
+                nzTooltipPlacement="topLeft"
+                [nzTooltipTitle]="
+                  openCravatAnnotations.pathogenicity_counts_details[
+                    keypar.key + ''
+                  ].join(', ')
+                ">
+                {{ keypar.key }} ({{ keypar.value }})
+              </div>
             }
-          </tbody>
-        </nz-table>
-      </ng-container>
-    </ng-container>
-  </nz-card>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Benignity tab -->
+  <ng-template #benignityTab>
+    <div class="tab-content">
+      <nz-table
+        [nzData]="['.']"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        nzSize="small">
+        <thead>
+          <tr>
+            <th>Predictor</th>
+            <th>Annotation</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (
+            keypar of openCravatAnnotations.benignity | keyvalue;
+            track keypar.key
+          ) {
+            <tr>
+              <td>{{ keypar.key }}</td>
+              <td>
+                {{ keypar.value | ifEmpty: '--' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-template>
+  <!-- Pathogenicity tab -->
+  <ng-template #pathogenicityTab>
+    <div class="tab-content">
+      <nz-table
+        [nzData]="['.']"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        nzSize="small">
+        <thead>
+          <tr>
+            <th>Predictor</th>
+            <th>Annotation</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (
+            keypar of openCravatAnnotations.pathogenicity | keyvalue;
+            track keypar.key
+          ) {
+            <tr>
+              <td>{{ keypar.key }}</td>
+              <td>
+                {{ keypar.value | ifEmpty: '--' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-template>
 </ng-container>
