@@ -61,9 +61,9 @@
             <ng-template #noTypes>
               <span
                 nz-typography
-                nzType="secondary"
-                >None specified</span
-              >
+                nzType="secondary">
+                None specified
+              </span>
             </ng-template>
           </nz-descriptions-item>
 
@@ -112,10 +112,102 @@
             <ng-template #noMane>
               <span
                 nz-typography
-                nzType="secondary"
-                >None found</span
-              >
+                nzType="secondary">
+                None found
+              </span>
             </ng-template>
+          </nz-descriptions-item>
+          <!-- clinvar ids-->
+          <nz-descriptions-item
+            [nzTitle]="
+                variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'
+              ">
+            <ng-container
+              *ngIf="variant.clinvarIds.length > 0; else noClinvarIds">
+              <cvc-tag-list
+                *ngIf="
+                    variant.clinvarIds[0] !== 'N/A' &&
+                      variant.clinvarIds[0] !== 'NONE FOUND';
+                    else clinvarNotApplicable
+                  ">
+                <ng-container *ngFor="let id of variant.clinvarIds">
+                  <cvc-link-tag
+                    [href]="
+                        'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id
+                      "
+                    tooltip="View on ClinVar">
+                    {{ id }}
+                  </cvc-link-tag>
+                </ng-container>
+              </cvc-tag-list>
+            </ng-container>
+
+            <ng-template #clinvarNotApplicable>
+              <span
+                nz-typography
+                nzType="secondary">
+                {{ variant.clinvarIds[0] }}
+              </span>
+            </ng-template>
+
+            <ng-template #noClinvarIds>
+              <span
+                nz-typography
+                nzType="secondary">
+                None provided
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+
+      <!-- coordinate derived attributes: allele registry id, clinvar ids, open cravat report -->
+      <nz-col [nzSpan]="24">
+        <nz-descriptions
+          nzLayout="horizontal"
+          nzSize="small"
+          [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
+          nzBordered="true">
+          <!-- allele reg. id -->
+          <nz-descriptions-item nzTitle="Allele Registry ID">
+            <cvc-link-tag
+              *ngIf="
+                  variant.alleleRegistryId &&
+                    variant.alleleRegistryId != 'unregistered';
+                  else noAlleleRegistry
+                "
+              [href]="
+                  'https://reg.genome.network/allele/' +
+                  variant.alleleRegistryId +
+                  '.html'
+                "
+              tooltip="View on ClinGen Allele Registry">
+              {{ variant.alleleRegistryId }}
+            </cvc-link-tag>
+            <ng-template #noAlleleRegistry>
+              <span
+                nz-typography
+                nzType="secondary">
+                Unregistered
+              </span>
+            </ng-template>
+          </nz-descriptions-item>
+
+          <!-- open cravat report -->
+          <nz-descriptions-item nzTitle="OpenCravat Report">
+            @if (variant.openCravatUrl) {
+            <cvc-link-tag
+              [href]="variant.openCravatUrl"
+              tooltip="View on OpenCravat">
+              Variant Report
+            </cvc-link-tag>
+            } @else {
+            <span
+              nz-typography
+              nzType="secondary">
+              Not available
+            </span>
+            }
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
@@ -173,81 +265,6 @@
         </nz-descriptions>
       </nz-col>
 
-      <!-- variant related entities, attributes -->
-      <nz-col [nzSpan]="24">
-        <nz-descriptions
-          nzLayout="horizontal"
-          nzSize="small"
-          [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
-          nzBordered="true">
-          <!-- allele reg. id -->
-          <nz-descriptions-item nzTitle="Allele Registry ID">
-            <cvc-link-tag
-              *ngIf="
-                  variant.alleleRegistryId &&
-                    variant.alleleRegistryId != 'unregistered';
-                  else noAlleleRegistry
-                "
-              [href]="
-                  'https://reg.genome.network/allele/' +
-                  variant.alleleRegistryId +
-                  '.html'
-                "
-              tooltip="View on ClinGen Allele Registry">
-              {{ variant.alleleRegistryId }}
-            </cvc-link-tag>
-            <ng-template #noAlleleRegistry>
-              <span
-                nz-typography
-                nzType="secondary"
-                >Unregistered</span
-              >
-            </ng-template>
-          </nz-descriptions-item>
-
-          <!-- clinvar ids-->
-          <nz-descriptions-item
-            [nzTitle]="
-                variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'
-              ">
-            <ng-container
-              *ngIf="variant.clinvarIds.length > 0; else noClinvarIds">
-              <cvc-tag-list
-                *ngIf="
-                    variant.clinvarIds[0] !== 'N/A' &&
-                      variant.clinvarIds[0] !== 'NONE FOUND';
-                    else clinvarNotApplicable
-                  ">
-                <ng-container *ngFor="let id of variant.clinvarIds">
-                  <cvc-link-tag
-                    [href]="
-                        'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id
-                      "
-                    tooltip="View on ClinVar">
-                    {{ id }}
-                  </cvc-link-tag>
-                </ng-container>
-              </cvc-tag-list>
-            </ng-container>
-
-            <ng-template #clinvarNotApplicable>
-              <span
-                nz-typography
-                nzType="secondary"
-                >{{ variant.clinvarIds[0] }}</span
-              >
-            </ng-template>
-
-            <ng-template #noClinvarIds>
-              <span
-                nz-typography
-                nzType="secondary"
-                >None provided</span
-              >
-            </ng-template>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-col>
       <!-- variant info -->
       <nz-col [nzSpan]="24">
         <cvc-variant-info

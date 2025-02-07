@@ -2,8 +2,7 @@
   <nz-tabset
     nzSize="small"
     [nzAnimated]="true"
-    nzTabPosition="left"
-    [nzTabBarExtraContent]="openCravatUrlTemplate">
+    nzTabPosition="left">
     <nz-tab nzTitle="Overview">
       <ng-container *ngTemplateOutlet="overviewTab"></ng-container>
     </nz-tab>
@@ -14,15 +13,6 @@
       <ng-container *ngTemplateOutlet="pathogenicityTab"></ng-container>
     </nz-tab>
   </nz-tabset>
-  <ng-template #openCravatUrlTemplate>
-    <div style="margin: 8px 0">
-      <cvc-link-tag
-        [href]="openCravatUrl"
-        tooltip="View on OpenCRAVAT">
-        Variant Report
-      </cvc-link-tag>
-    </div>
-  </ng-template>
   <!-- Overview tab -->
   <ng-template #overviewTab>
     <div class="tab-content">
