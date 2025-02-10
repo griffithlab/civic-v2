@@ -100,7 +100,7 @@ class FrontendRouter
   end
 
   def remove_tag(id_with_tag)
-    match = id_with_tag.upcase.match(/^(AID|GID|FID|VID|EID|SID|MPID)(\d+)$/)
+    match = id_with_tag&.upcase&.match(/^(AID|GID|FID|VID|EID|SID|MPID)(\d+)$/)
     if match
       match.captures
     else
