@@ -5,10 +5,19 @@ class PopulateFusionCoordinates < ApplicationJob
     end
 
     if variant.fusion.five_prime_partner_status == 'known'
+      if variant.five_prime_end_exon_coordinates.representative_transcript.blank?
+        return
+      end
+
       populate_coords(variant.five_prime_end_exon_coordinates, variant.five_prime_start_exon_coordinates)
       populate_representative_coordinates(variant.five_prime_coordinates, variant.five_prime_start_exon_coordinates, variant.five_prime_end_exon_coordinates)
     end
+
     if variant.fusion.three_prime_partner_status == 'known'
+      if variant.three_prime_start_exon_coordinates.representative_transcript.blank?
+        return
+      end
+
       populate_coords(variant.three_prime_start_exon_coordinates, variant.three_prime_end_exon_coordinates)
       populate_representative_coordinates(variant.three_prime_coordinates, variant.three_prime_start_exon_coordinates, variant.three_prime_end_exon_coordinates)
     end

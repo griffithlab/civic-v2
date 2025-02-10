@@ -80,14 +80,13 @@ module Types::Queries
       def disease_typeahead(query_term:)
         base_query = Disease.where(deprecated: false)
         results = base_query.where("diseases.name ILIKE ?", "%#{query_term}%")
-          .or(base_query.where("diseases.doid ILIKE ?", "#{query_term}%"))
+          .or(base_query.where("diseases.doid ILIKE ?", "#{query_term.gsub(/DOID:/i, "")}%"))
           .order("LENGTH(diseases.name) ASC")
           .limit(10)
         if results.size < 10
           secondary_results = base_query.eager_load(:disease_aliases)
             .where("disease_aliases.name ILIKE ?", "%#{query_term}%")
             .where.not(id: results.select('id'))
-            .order("LENGTH(diseases.name) ASC")
             .distinct
             .limit(10-results.size)
           return results + secondary_results
@@ -110,7 +109,6 @@ module Types::Queries
             tertiary_results = base_query.eager_load(:therapy_aliases)
               .where("therapy_aliases.name ILIKE ?", "%#{query_term}%")
               .where.not(id: results.select('id') + secondary_results.select('id'))
-              .order("LENGTH(therapies.name) ASC")
               .distinct
               .limit(10-results.size)
 
