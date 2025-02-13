@@ -35,7 +35,7 @@
               <div
                 nz-typography
                 nzType="secondary">
-                No Annotations
+                None found
               </div>
             }
             @for (
@@ -69,7 +69,11 @@
               (openCravatAnnotations.pathogenicity_counts | keyvalue).length ===
               0
             ) {
-              <div>None</div>
+              <div
+                nz-typography
+                nzType="secondary">
+                None found
+              </div>
             }
             @for (
               keypar of openCravatAnnotations.pathogenicity_counts | keyvalue;
@@ -152,3 +156,4 @@
     </div>
   </ng-template>
 </ng-container>
+<!-- <pre style="font-size: 8px">{{ openCravatAnnotations | json }}</pre> -->
