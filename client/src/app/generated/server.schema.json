@@ -27726,6 +27726,18 @@
               "deprecationReason": null
             },
             {
+              "name": "openCravatAnnotations",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "openCravatUrl",
               "description": null,
               "args": [],
