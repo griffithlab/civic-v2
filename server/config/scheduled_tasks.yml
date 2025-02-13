@@ -133,3 +133,9 @@ FindRetractedSources:
   description: Check whether sources have been retracted
   queue: default
   class: FindRetractedSources
+
+FindInvalidClinvarRecords:
+  cron: '0 22 1 * *'
+  description: Find and flag Variants that link to invalid ClinVar Records
+  queue: default
+  class: FindInvalidClinvarRecords
