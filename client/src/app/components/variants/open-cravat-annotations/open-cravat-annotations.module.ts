@@ -10,6 +10,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 
 @NgModule({
   declarations: [CvcOpenCravatAnnotationsComponent],
@@ -21,6 +22,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     NzToolTipModule,
     NzGridModule,
     NzTypographyModule,
+    NzDescriptionsModule,
     CvcLinkTagModule,
     CvcPipesModule,
   ],
