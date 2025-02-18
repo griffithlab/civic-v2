@@ -1,0 +1,220 @@
+<ng-container *ngIf="openCravatAnnotations && openCravatUrl">
+  <nz-tabset
+    nzSize="small"
+    [nzAnimated]="true"
+    nzTabPosition="left">
+    <nz-tab nzTitle="Overview">
+      <ng-container *ngTemplateOutlet="overviewTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Benignity Details">
+      <ng-container *ngTemplateOutlet="benignityTab"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Pathogenicity Details">
+      <ng-container *ngTemplateOutlet="pathogenicityTab"></ng-container>
+    </nz-tab>
+  </nz-tabset>
+  <!-- Overview tab -->
+  <ng-template #overviewTab>
+    <div class="tab-content">
+      <nz-descriptions
+        [nzBordered]="true"
+        nzLayout="vertical"
+        [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
+        [nzSize]="'small'">
+        <nz-descriptions-item [nzTitle]="'ACMG/AMP Benign (BP4)'">
+          @if (
+            (openCravatAnnotations.benignity_counts | keyvalue).length === 0
+          ) {
+            <div
+              nz-typography
+              nzType="secondary">
+              None found
+            </div>
+          }
+          @for (
+            keypar of openCravatAnnotations.benignity_counts | keyvalue;
+            track keypar.key
+          ) {
+            <div
+              nz-tooltip
+              nzTooltipPlacement="topLeft"
+              [nzTooltipTitle]="
+                openCravatAnnotations.benignity_counts_details[
+                  keypar.key + ''
+                ].join(', ')
+              ">
+              {{ keypar.key }} ({{ keypar.value }})
+            </div>
+          }
+        </nz-descriptions-item>
+
+        <nz-descriptions-item [nzTitle]="'ACMG/AMP Pathogenic (PP3)'">
+          @if (
+            (openCravatAnnotations.pathogenicity_counts | keyvalue).length === 0
+          ) {
+            <div
+              nz-typography
+              nzType="secondary">
+              None found
+            </div>
+          }
+          @for (
+            keypar of openCravatAnnotations.pathogenicity_counts | keyvalue;
+            track keypar.key
+          ) {
+            <div
+              nz-tooltip
+              nzTooltipPlacement="topLeft"
+              [nzTooltipTitle]="
+                openCravatAnnotations.pathogenicity_counts_details[
+                  keypar.key + ''
+                ].join(', ')
+              ">
+              {{ keypar.key }} ({{ keypar.value }})
+            </div>
+          }
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+    <!-- <div
+        nz-row
+        [nzGutter]="8">
+        <div
+          nz-col
+          nzXs="24"
+          nzSm="24"
+          nzMd="24"
+          nzLg="12"
+          nzXl="12">
+          <nz-card
+            nzTitle="ACMG/AMP Benign (BP4)"
+            nzSize="small">
+            @if (
+              (openCravatAnnotations.benignity_counts | keyvalue).length === 0
+            ) {
+              <div
+                nz-typography
+                nzType="secondary">
+                None found
+              </div>
+            }
+            @for (
+              keypar of openCravatAnnotations.benignity_counts | keyvalue;
+              track keypar.key
+            ) {
+              <div
+                nz-tooltip
+                nzTooltipPlacement="topLeft"
+                [nzTooltipTitle]="
+                  openCravatAnnotations.benignity_counts_details[
+                    keypar.key + ''
+                  ].join(', ')
+                ">
+                {{ keypar.key }} ({{ keypar.value }})
+              </div>
+            }
+          </nz-card>
+        </div>
+        <div
+          nz-col
+          nzXs="24"
+          nzSm="24"
+          nzMd="24"
+          nzLg="12"
+          nzXl="12">
+          <nz-card
+            nzTitle="ACMG/AMP Pathogenic (PP3)"
+            nzSize="small">
+            @if (
+              (openCravatAnnotations.pathogenicity_counts | keyvalue).length ===
+              0
+            ) {
+              <div
+                nz-typography
+                nzType="secondary">
+                None found
+              </div>
+            }
+            @for (
+              keypar of openCravatAnnotations.pathogenicity_counts | keyvalue;
+              track keypar.key
+            ) {
+              <div
+                nz-tooltip
+                nzTooltipPlacement="topLeft"
+                [nzTooltipTitle]="
+                  openCravatAnnotations.pathogenicity_counts_details[
+                    keypar.key + ''
+                  ].join(', ')
+                ">
+                {{ keypar.key }} ({{ keypar.value }})
+              </div>
+            }
+          </nz-card>
+        </div>
+      </div> -->
+    <!-- </div> -->
+  </ng-template>
+  <!-- Benignity tab -->
+  <ng-template #benignityTab>
+    <div class="tab-content">
+      <nz-table
+        nzBordered
+        [nzData]="['_']"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        nzSize="small">
+        <thead>
+          <tr>
+            <th>Predictor</th>
+            <th>Annotation</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (
+            keypar of openCravatAnnotations.benignity | keyvalue;
+            track keypar.key
+          ) {
+            <tr>
+              <td>{{ keypar.key }}</td>
+              <td>
+                {{ keypar.value | ifEmpty: '--' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-template>
+  <!-- Pathogenicity tab -->
+  <ng-template #pathogenicityTab>
+    <div class="tab-content">
+      <nz-table
+        [nzData]="['.']"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        nzSize="small">
+        <thead>
+          <tr>
+            <th>Predictor</th>
+            <th>Annotation</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (
+            keypar of openCravatAnnotations.pathogenicity | keyvalue;
+            track keypar.key
+          ) {
+            <tr>
+              <td>{{ keypar.key }}</td>
+              <td>
+                {{ keypar.value | ifEmpty: '--' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-template>
+</ng-container>
+<!-- <pre style="font-size: 8px">{{ openCravatAnnotations | json }}</pre> -->

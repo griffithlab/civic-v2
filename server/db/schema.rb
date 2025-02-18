@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,7 +18,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
-  create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
+  create_enum "fusion_partner_status", ["known", "unknown", "multiple", "regulatory"]
+  create_enum "regulatory_fusion_types", ["reg_attenuator", "reg_CAAT_signal", "reg_DNase_I_hypersensitive_site", "reg_enhancer", "reg_enhancer_blocking_element", "reg_GC_signal", "reg_imprinting_control_region", "reg_insulator", "reg_locus_control_region", "reg_matrix_attachment_region", "reg_minus_35_signal", "reg_minus_10_signal", "reg_polyA_signal_sequence", "reg_promoter", "reg_recoding_stimulatory_region", "reg_recombination_enhancer", "reg_replication_regulatory_region", "reg_response_element", "reg_ribosome_binding_site", "reg_riboswitch", "reg_silencer", "reg_TATA_box", "reg_terminator", "reg_transcriptional_cis_regulatory_region", "reg_uORF", "reg_other"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -536,6 +537,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
     t.enum "three_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["five_prime_gene_id"], name: "index_fusions_on_five_prime_gene_id"
     t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
   end
@@ -963,8 +965,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
+    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["display_name"], name: "index_variant_types_on_display_name"
     t.index ["name"], name: "index_variant_types_on_name"
+    t.index ["regulatory_fusion_type"], name: "index_variant_types_on_regulatory_fusion_type"
     t.index ["soid"], name: "index_variant_types_on_soid"
   end
 
@@ -1506,4 +1510,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_181636) do
    HAVING ((count(evidence_items.id) > 0) OR (count(assertions.id) > 0))
     ORDER BY (count(DISTINCT evidence_items.id)) DESC, therapies.id;
   SQL
+  add_index "therapy_browse_table_rows", ["id"], name: "index_therapy_browse_table_rows_on_id", unique: true
+
 end

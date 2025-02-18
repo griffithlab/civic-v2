@@ -6,10 +6,10 @@ class GenerateOpenCravatLink < ApplicationJob
 
     return unless coords
 
-    open_cravat_url = make_open_cravat_url(coords)
+    open_cravat_url_parameters = make_open_cravat_url_parameters(coords)
 
-    variant.open_cravat_url = open_cravat_url
-    variant.save!
+    variant.open_cravat_url_parameters = open_cravat_url_parameters
+    variant.save(validate: false)
   end
 
 
@@ -36,9 +36,7 @@ class GenerateOpenCravatLink < ApplicationJob
     "https://reg.genome.network/allele/#{variant.allele_registry_id}"
   end
 
-  def make_open_cravat_url(coords)
-    base_url = "https://run.opencravat.org/webapps/variantreport/index.html?"
-
+  def make_open_cravat_url_parameters(coords)
     start = coords["coordinates"].first["start"]
     ref = coords["coordinates"].first["referenceAllele"]
     alt = coords["coordinates"].first["allele"]
@@ -60,7 +58,7 @@ class GenerateOpenCravatLink < ApplicationJob
       alt_base: alt,
     }.to_query
 
-    base_url + query_params
+    query_params
   end
 
   #https://www.biostars.org/p/84686/

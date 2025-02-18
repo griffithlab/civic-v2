@@ -17,6 +17,8 @@ import { VariantSummaryFieldsFragment } from '@app/generated/civic.apollo'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcOpenCravatAnnotationsModule } from '../open-cravat-annotations/open-cravat-annotations.module'
+import { CvcVariantInfo } from '../variant-info/variant-info.component'
 
 @Component({
   standalone: true,
@@ -38,8 +40,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CvcUserTagModule,
     CvcFeatureTagModule,
     CvcMolecularProfilesTableModule,
-    CvcMyVariantInfoModule,
     CvcPipesModule,
+    CvcVariantInfo,
   ],
 })
 export class CvcGeneVariantSummaryComponent implements OnInit {

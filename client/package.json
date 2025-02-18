@@ -33,6 +33,7 @@
     "@angular/platform-browser-dynamic": "^18.1.2",
     "@angular/router": "^18.1.2",
     "@apollo/client": "^3.11.1",
+    "@ctrl/tinycolor": "^4.1.0",
     "@ngneat/until-destroy": "^10.0.0",
     "@ngrx/component": "^18.0.1",
     "@ngx-formly/core": "^6.3.6",
@@ -40,13 +41,13 @@
     "apollo-angular": "^7.0.2",
     "ng-zorro-antd": "18.0.1",
     "ngx-cookie-service": "^18.0.0",
+    "ngx-ui-scroll": "3.2.0",
     "rxjs": "^7.8.1",
     "rxjs-etc": "^10.6.2",
     "rxjs-spy": "^8.0.2",
     "ts-enum-util": "^4.0.2",
     "ts-mixin-extended": "^1.1.1",
     "vscroll": "1.6.1",
-    "ngx-ui-scroll": "3.2.0",
     "zone.js": "0.14.3"
   },
   "devDependencies": {
