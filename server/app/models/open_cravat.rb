@@ -21,24 +21,24 @@ class OpenCravat
   def parse_response(response)
     p = JSON.parse(response)
     benignity = {
-      'cadd_exome': p.dig("cadd_exome", "benign"),
-      'cadd': p.dig("cadd", "benign"),
-      'revel': p.dig("revel", "benign"),
-      'sift': p.dig("sift", "benign"),
-      'gerp': p.dig("gerp", "benign"),
-      'phylop': p.dig("phylop", "benign"),
-      'vest': p.dig("vest", "benign"),
-      'bayesdel': p.dig("bayesdel", "benign"),
+      'cadd_exome': p.dig("cadd_exome", "bp4_benign"),
+      'cadd': p.dig("cadd", "bp4_benign"),
+      'revel': p.dig("revel", "bp4_benign"),
+      'sift': p.dig("sift", "bp4_benign"),
+      'gerp': p.dig("gerp", "bp4_benign"),
+      'phylop': p.dig("phylop", "bp4_benign"),
+      'vest': p.dig("vest", "bp4_benign"),
+      'bayesdel': p.dig("bayesdel", "bp4_benign"),
     }
     pathogenicity = {
-      'cadd_exome': p.dig("cadd_exome", "pathogenic"),
-      'cadd': p.dig("cadd", "pathogenic"),
-      'revel': p.dig("revel", "pathogenic"),
-      'sift': p.dig("sift", "pathogenic"),
-      'fathmm': p.dig("fathmm", "fathmm_pathogenicity")&.sub("PP3 ", ""),
-      'phylop': p.dig("phylop", "pathogenic"),
-      'vest': p.dig("vest", "pathogenic"),
-      'bayesdel': p.dig("bayesdel", "pathogenic"),
+      'cadd_exome': p.dig("cadd_exome", "pp3_pathogenic"),
+      'cadd': p.dig("cadd", "pp3_pathogenic"),
+      'revel': p.dig("revel", "pp3_pathogenic"),
+      'sift': p.dig("sift", "pp3_pathogenic"),
+      'fathmm': p.dig("fathmm", "pp3_pathogenic"),
+      'phylop': p.dig("phylop", "pp3_pathogenic"),
+      'vest': p.dig("vest", "pp3_pathogenic"),
+      'bayesdel': p.dig("bayesdel", "pp3_pathogenic"),
     }
     {
       'benignity': benignity,
