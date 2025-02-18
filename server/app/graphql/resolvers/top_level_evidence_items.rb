@@ -25,6 +25,9 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the evidence item.') do |scope, value|
     scope.where("evidence_items.id = ?", value)
   end
+  option(:ids, type: [GraphQL::Types::Int], description: 'Filter to evidence matching a list of EIDs') do |scope, value|
+    scope.where("evidence_items.id IN (?)", value)
+  end
   option(:variant_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the variant.') do |scope, value|
     scope.joins(molecular_profile: [:variants]).where("variants.id = ?", value)
   end

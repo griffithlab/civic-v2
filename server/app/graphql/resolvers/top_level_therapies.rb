@@ -5,11 +5,15 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
   include Resolvers::Shared::SearchHelpers
 
-  type Types::BrowseTables::BrowseTherapyType.connection_type, null: false
+  type Types::Entities::TherapyType.connection_type, null: false
 
   description 'List and filter Therapies from the NCI Thesaurus.'
 
-  scope { MaterializedViews::TherapyBrowseTableRow.all }
+  scope {
+    Therapy
+      .where(deprecated: false)
+      .order("therapies.name ASC")
+  }
 
   option(:ncit_id, type: String, description: 'Limit to therapies with a specific NCIT ID') do |scope, value|
     if value.upcase.starts_with?('C')
@@ -29,9 +33,5 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
 
   option(:name, type: String, description: 'Wildcard match on therapy name') do |scope, value|
     scope.where('name ILIKE ?', "%#{value}%")
-  end
-
-  option(:sort_by, type: Types::BrowseTables::TherapySortType, description: 'Sort order for the therapies. Defaults to the highest evidence item count.') do |scope, value|
-    scope.reorder("#{value.column} #{value.direction}")
   end
 end

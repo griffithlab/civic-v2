@@ -13,17 +13,6 @@
       <cvc-activity-feed-counts
         *nzSpaceItem
         [cvcFeedCounts]="counts()"></cvc-activity-feed-counts>
-      <span *nzSpaceItem>
-        <nz-tag
-          *ngIf="moreLoading()"
-          nzColor="processing">
-          <i
-            nz-icon
-            nzType="sync"
-            nzSpin></i>
-          <span>Loading…</span>
-        </nz-tag>
-      </span>
     </nz-space>
   </ng-template>
   <ng-template #cardExtra>
@@ -49,13 +38,7 @@
             }
           </div>
           <ng-template #resultsMessage>
-            <div
-              style="
-                font-size: 18px;
-                font-weight: 600;
-                text-align: center;
-                color: #666;
-              ">
+            <div class="results-message">
               No Activities found
               @if (cvcScope().mode === 'SUBJECT') {
                 for this subject
@@ -64,23 +47,9 @@
               } @else if (cvcScope().mode === 'ORGANIZATION') {
                 for this organization
               }
-              that match specified filters
+              that match specified filters.
             </div>
           </ng-template>
-          <!-- scroller top/bottom dropshadows - MIDDLE -->
-          <!-- TODO: control atBottom signal with allRowsLoaded$ -->
-          <div class="boundaries">
-            <!-- <div
-              class="shadow-top"
-              [@atTop]="scroller().isAtTop ? 'isAtTop' : 'isNotAtTop'"></div> -->
-            <!-- <div
-              class="shadow-bottom"
-              [@atBottom]="
-                scroller().isAtBottom && counts()?.rows === counts()?.total
-                  ? 'isAtBottom'
-                  : 'isNotAtBottom'
-              "></div> -->
-          </div>
 
           <!-- scroller layer - BOTTOM-->
           <div class="scroller">
@@ -98,7 +67,10 @@
                       routines: scrollerRoutines
                     "
                     [cvcActivity]="edge.node"
-                    [cvcScope]="cvcScope()"></cvc-activity-feed-item>
+                    [cvcScope]="cvcScope()"
+                    [cvcShowOrganization]="showOrganization()">
+                    "></cvc-activity-feed-item
+                  >
                 }
               </div>
             </nz-spin>
@@ -108,19 +80,20 @@
     </nz-col>
 
     <!-- FEED FILTERS COLUMN -->
-    <nz-col [nzSpan]="cvcShowFilters() ? 6 : 0">
-      <!-- NOTE: setting nzSpan to 0 hides the filters column rather than removing it
-           from the DOM as with *ngIf. Component initialization causes cvc-activity-feed-filters'
-           feedFilter$ to emit, which is required to fire off an initial query -->
-      <cvc-activity-feed-filters
-        (cvcFiltersChange)="onFilterChange$.next($event)"
-        [cvcRefreshChanges]="(refreshChange$ | async)!"
-        [cvcCheckInterval]="cvcCheckInterval()"
-        [cvcFilterOptions]="feedFilterOptions()"
-        [cvcFilters]="cvcFilters()"
-        [cvcScope]="cvcScope()">
-      </cvc-activity-feed-filters>
-    </nz-col>
+    @if (cvcShowFilters()) {
+      <nz-col
+        [nzSm]="24"
+        [nzMd]="6">
+        <cvc-activity-feed-filters
+          (cvcFiltersChange)="onFilterChange$.next($event)"
+          [cvcRefreshChanges]="(refreshChange$ | async)!"
+          [cvcCheckInterval]="cvcCheckInterval()"
+          [cvcFilterOptions]="feedFilterOptions()"
+          [cvcFilters]="cvcFilters()"
+          [cvcScope]="cvcScope()">
+        </cvc-activity-feed-filters>
+      </nz-col>
+    }
   </nz-row>
 </nz-card>
 <ng-template #cardExtra>

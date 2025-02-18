@@ -58,7 +58,7 @@ export class VariantsDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 

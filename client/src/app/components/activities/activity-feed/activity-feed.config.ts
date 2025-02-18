@@ -22,6 +22,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
   scope: { mode: EventFeedMode.Unscoped },
   includeAutomatedEvents: false,
   showFilters: true,
+  showOrganization: true,
   requestDetails: false,
 }
 
@@ -46,6 +47,7 @@ export const simpleActivityTypes = new Set([
   'CreateFeatureActivity',
   'ModerateAssertionActivity',
   'ModerateEvidenceItemActivity',
+  'DeleteCommentActivity',
 ])
 
 //TODO: Remove me, not needed

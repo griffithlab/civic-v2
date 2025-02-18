@@ -10,6 +10,7 @@ import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-
 import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @NgModule({
   declarations: [VariantsReviseView],
@@ -18,6 +19,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     VariantsReviseRoutingModule,
     NzPageHeaderModule,
     NzIconModule,
+    NzTypographyModule,
     CvcPipesModule,
     CvcSectionNavigationModule,
     CvcLoginPromptModule,

@@ -1,0 +1,16 @@
+query OrgFilterSearch($name: String) {
+  organizations(name: $name) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}

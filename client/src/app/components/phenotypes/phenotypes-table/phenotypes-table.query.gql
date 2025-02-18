@@ -7,7 +7,7 @@ query PhenotypesBrowse(
   $hpoId: String
   $sortBy: PhenotypeSort
 ) {
-  phenotypes(
+  browsePhenotypes(
     first: $first
     last: $last
     before: $before

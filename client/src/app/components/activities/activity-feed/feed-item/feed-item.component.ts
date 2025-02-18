@@ -38,7 +38,10 @@ import { Subject } from 'rxjs'
 import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
-import { ActivityFeedScope } from '@app/components/activities/activity-feed/activity-feed.types'
+import {
+  ActivityFeedScope,
+  ActivityFeedSettings,
+} from '@app/components/activities/activity-feed/activity-feed.types'
 import {
   ScrollerState,
   ScrollerStateService,
@@ -106,6 +109,7 @@ export class CvcActivityFeedItem implements OnInit {
     alias: 'cvcActivity',
   })
   scope = input.required<ActivityFeedScope>({ alias: 'cvcScope' })
+  showOrganization = input.required<boolean>({ alias: 'cvcShowOrganization' })
 
   $showDetails!: WritableSignal<boolean>
   onToggleDone$: Subject<boolean>

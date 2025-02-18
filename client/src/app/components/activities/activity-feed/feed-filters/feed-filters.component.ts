@@ -27,6 +27,9 @@ import {
   DateSortColumns,
   Maybe,
   SortDirection,
+  UserFilterSearchGQL,
+  UserFilterSearchQuery,
+  UserFilterSearchQueryVariables,
 } from '@app/generated/civic.apollo'
 import { CommonModule, KeyValuePipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
@@ -40,12 +43,19 @@ import { disableDates } from '../activity-feed.functions'
 import { toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { tag } from 'rxjs-spy/operators'
-import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators'
-import { timer, filter, of } from 'rxjs'
-import { isNonNullObject } from '@apollo/client/utilities'
+import {
+  distinctUntilChanged,
+  map,
+  skip,
+  startWith,
+  switchMap,
+} from 'rxjs/operators'
+import { timer, filter, of, Subject, from } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { CvcUserFilterSelect } from './user-filter-select/user-filter-select.component'
+import { CvcOrgFilterSelect } from './org-filter-select/org-filter-select.component'
 
 export const defaultFilters = {}
 
@@ -65,6 +75,8 @@ export const defaultFilters = {}
     NzSelectModule,
     NzDatePickerModule,
     CvcPipesModule,
+    CvcUserFilterSelect,
+    CvcOrgFilterSelect,
   ],
   templateUrl: './feed-filters.component.html',
   styleUrls: ['./feed-filters.component.less'],
@@ -118,7 +130,17 @@ export class CvcActivityFeedFilterSelects implements OnInit {
         sortByDirection: this.sortByDirection(),
       })
     })
-
+    /**
+     * Observable that emits the count of new activities since the last refresh.
+     *
+     * Behavior:
+     * - Only activates if cvcCheckInterval > 0, else emits 0
+     * - Polls the API at the specified interval (cvcCheckInterval in seconds)
+     * - Uses the current filter settings but only looks for activities after the last refresh
+     * - Emits 0 initially and then the count of new activities
+     * - Only emits when the count changes (uses distinctUntilChanged)
+     * - Resets to 0 when filters change via cvcRefreshChanges
+     */
     const newActivities$ = toObservable(this.cvcRefreshChanges).pipe(
       filter(isNonNulled),
       switchMap((refetchEvent) => {
@@ -151,6 +173,7 @@ export class CvcActivityFeedFilterSelects implements OnInit {
     )
     this.newActivities = toSignal(newActivities$, { initialValue: 0 })
   }
+
   ngOnInit(): void {
     this.eventType = signal(this.cvcFilters().activityType)
     this.subjectType = signal(this.cvcFilters().subjectType)

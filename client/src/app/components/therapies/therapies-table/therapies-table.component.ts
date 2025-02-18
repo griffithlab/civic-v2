@@ -122,7 +122,7 @@ export class CvcTherapiesTableComponent implements OnInit {
     ) // skip 1st true/false sequence
 
     this.connection$ = this.result$.pipe(
-      pluck('data', 'therapies'),
+      pluck('data', 'browseTherapies'),
       filter(isNonNulled)
     ) as Observable<BrowseTherapyConnection>
 

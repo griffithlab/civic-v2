@@ -44,6 +44,7 @@ export class CvcActivityFeedSettingsButton implements OnInit {
   cvcScope = input.required<ActivityFeedScope>()
 
   includeAutomatedEvents!: WritableSignal<boolean>
+  showOrganization!: WritableSignal<boolean>
 
   constructor() {
     this.cvcSettingsChange = new EventEmitter<ActivityFeedSettings>()
@@ -53,12 +54,15 @@ export class CvcActivityFeedSettingsButton implements OnInit {
         ...this.cvcSettings(),
         scope: this.cvcScope(),
         includeAutomatedEvents: this.includeAutomatedEvents(),
+        showOrganization: this.showOrganization(),
       })
     })
   }
+
   ngOnInit(): void {
     this.includeAutomatedEvents = signal(
       this.cvcSettings().includeAutomatedEvents
     )
+    this.showOrganization = signal(this.cvcSettings().showOrganization)
   }
 }

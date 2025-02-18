@@ -32,6 +32,7 @@ import { IconNameForActivityTypeInputPipe } from './icon-name-for-activity-type.
 import { EntityTypeToTypenamePipe } from './entity-type-to-typename.pipe'
 import { UserRoleToIconNamePipe } from './user-role-to-icon-name.pipe'
 import { SortEnumPipe } from './sort-enum.pipe'
+import { EntityTypeToTypelabelPipe } from './entity-type-to-type-label.pipe'
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SortEnumPipe } from './sort-enum.pipe'
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
     EntityTypeToTypenamePipe,
+    EntityTypeToTypelabelPipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceEnumTooltipPipe,
@@ -77,6 +79,7 @@ import { SortEnumPipe } from './sort-enum.pipe'
     TherapyInteractionEnumDisplayPipe,
     EnumToTitlePipe,
     EntityTypeToTypenamePipe,
+    EntityTypeToTypelabelPipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceEnumTooltipPipe,

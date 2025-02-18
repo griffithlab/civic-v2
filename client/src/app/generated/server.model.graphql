@@ -794,6 +794,28 @@ enum AssertionType {
   PROGNOSTIC
 }
 
+enum AssociatedEvidenceStatusFilter {
+  """
+  Apply no status filter to an entity in order to display all entities regardless of attached evidence status.
+  """
+  ALL
+
+  """
+  Apply filter to an entity to display only those which have at least one accepted associated evidence item.
+  """
+  WITH_ACCEPTED
+
+  """
+  Apply filter to an entity to display only those which have at least one accepted or submitted associated evidence item.
+  """
+  WITH_ACCEPTED_OR_SUBMITTED
+
+  """
+  Apply filter to an entity to display only those which have at least one submitted associated evidence item.
+  """
+  WITH_SUBMITTED
+}
+
 enum BooleanOperator {
   AND
   OR
@@ -2414,7 +2436,7 @@ type DataRelease {
   acceptedVariantsVcf: DownloadableFile
   assertionTsv: DownloadableFile
   evidenceTsv: DownloadableFile
-  geneTsv: DownloadableFile
+  featureTsv: DownloadableFile
   molecularProfileTsv: DownloadableFile
   name: String!
   variantGroupTsv: DownloadableFile
@@ -2704,6 +2726,51 @@ type Disease {
   link: String!
   myDiseaseInfo: MyDiseaseInfo
   name: String!
+}
+
+"""
+The connection type for Disease.
+"""
+type DiseaseConnection {
+  """
+  A list of edges.
+  """
+  edges: [DiseaseEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Disease!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type DiseaseEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Disease
 }
 
 type DiseasePopover {
@@ -6931,28 +6998,6 @@ enum MolecularProfileDeprecationReasonMutationInput {
   OTHER
 }
 
-enum MolecularProfileDisplayFilter {
-  """
-  Display all molecular profiles regardless of attached evidence status.
-  """
-  ALL
-
-  """
-  Display only molecular profiles which have at least one accepted evidence item.
-  """
-  WITH_ACCEPTED
-
-  """
-  Display only molecular profiles which have evidence in either an accepted or submitted state.
-  """
-  WITH_ACCEPTED_OR_SUBMITTED
-
-  """
-  Display molecular profiles which have at least one submitted evidence item.
-  """
-  WITH_SUBMITTED
-}
-
 """
 An edge in a connection.
 """
@@ -8001,6 +8046,51 @@ type Phenotype {
   url: String!
 }
 
+"""
+The connection type for Phenotype.
+"""
+type PhenotypeConnection {
+  """
+  A list of edges.
+  """
+  edges: [PhenotypeEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Phenotype!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type PhenotypeEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Phenotype
+}
+
 type PhenotypePopover {
   assertionCount: Int!
   description: String
@@ -8302,6 +8392,47 @@ type Query {
     variantId: Int
     variantName: String
   ): BrowseMolecularProfileConnection!
+  browsePhenotypes(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to phenotypes with a specific HPO ID
+    """
+    hpoId: String
+
+    """
+    Filter Phenotype on internal CIViC id
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on phenotype name (class)
+    """
+    name: String
+
+    """
+    Sort order for the phenotypes. Defaults to the highest evidence item count.
+    """
+    sortBy: PhenotypeSort
+  ): BrowsePhenotypeConnection!
   browseSources(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -8333,6 +8464,48 @@ type Query {
     sourceType: SourceSource
     year: Int
   ): BrowseSourceConnection!
+  browseTherapies(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Filter on a therapy's internal CIViC id
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on therapy name
+    """
+    name: String
+
+    """
+    Limit to therapies with a specific NCIT ID
+    """
+    ncitId: String
+
+    """
+    Sort order for the therapies. Defaults to the highest evidence item count.
+    """
+    sortBy: TherapySort
+    therapyAlias: String
+  ): BrowseTherapyConnection!
   browseVariantGroups(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -8537,6 +8710,30 @@ type Query {
   Retrieve disease typeahead fields for a search term.
   """
   diseaseTypeahead(queryTerm: String!): [Disease!]!
+  diseases(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    doid: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    name: String
+  ): DiseaseConnection!
 
   """
   Retrieve entity type typeahead fields for a entity mention search term.
@@ -8654,6 +8851,11 @@ type Query {
     id: Int
 
     """
+    Filter to evidence matching a list of EIDs
+    """
+    ids: [Int!]
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -8742,6 +8944,11 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+
+    """
+    Limit factors by the status of attached evidence.
+    """
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
 
     """
     Returns the first _n_ elements from the list.
@@ -8845,14 +9052,9 @@ type Query {
     before: String
 
     """
-    List of Entrez Gene IDs to return results for
+    Limit fusions by the status of attached evidence.
     """
-    entrezIds: [Int!]
-
-    """
-    List of Entrez Gene symbols to return results for
-    """
-    entrezSymbols: [String!]
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
 
     """
     Returns the first _n_ elements from the list.
@@ -8900,6 +9102,11 @@ type Query {
     entrezSymbols: [String!]
 
     """
+    Limit genes by the status of attached evidence.
+    """
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -8937,7 +9144,7 @@ type Query {
     """
     Limit molecular profiles by the status of attached evidence.
     """
-    evidenceStatusFilter: MolecularProfileDisplayFilter
+    evidenceStatusFilter: AssociatedEvidenceStatusFilter
 
     """
     Filter molecular profiles to the CIViC ID of the feature(s) involved.
@@ -9111,12 +9318,7 @@ type Query {
     Wildcard match on phenotype name (class)
     """
     name: String
-
-    """
-    Sort order for the phenotypes. Defaults to the highest evidence item count.
-    """
-    sortBy: PhenotypeSort
-  ): BrowsePhenotypeConnection!
+  ): PhenotypeConnection!
   previewCommentText(commentText: String!): [CommentBodySegment!]!
   previewMolecularProfileName(structure: MolecularProfileComponentInput): MolecularProfileNamePreview!
 
@@ -9261,6 +9463,36 @@ type Query {
   sourceTypeahead(citationId: String!, sourceType: SourceSource!): [Source!]!
 
   """
+  List and filter sources.
+  """
+  sources(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    List of citation IDs to return results for
+    """
+    citationId: [String!]
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): SourceConnection!
+
+  """
   Get the active subscription for the entity and logged in user, if any
   """
   subscriptionForEntity(subscribable: SubscribableInput!): Subscription
@@ -9303,13 +9535,8 @@ type Query {
     Limit to therapies with a specific NCIT ID
     """
     ncitId: String
-
-    """
-    Sort order for the therapies. Defaults to the highest evidence item count.
-    """
-    sortBy: TherapySort
     therapyAlias: String
-  ): BrowseTherapyConnection!
+  ): TherapyConnection!
 
   """
   Find a therapy by CIViC ID
@@ -10078,6 +10305,51 @@ type Source implements Commentable & EventSubject {
   sourceType: SourceSource!
   sourceUrl: String
   title: String
+}
+
+"""
+The connection type for Source.
+"""
+type SourceConnection {
+  """
+  A list of edges.
+  """
+  edges: [SourceEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Source!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type SourceEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Source
 }
 
 type SourcePopover implements Commentable & EventSubject {
@@ -11344,6 +11616,51 @@ type Therapy {
   ncitId: String
   therapyAliases: [String!]!
   therapyUrl: String
+}
+
+"""
+The connection type for Therapy.
+"""
+type TherapyConnection {
+  """
+  A list of edges.
+  """
+  edges: [TherapyEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Therapy!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type TherapyEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Therapy
 }
 
 enum TherapyInteraction {

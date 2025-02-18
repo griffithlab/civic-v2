@@ -61,7 +61,7 @@ export class MolecularProfilesDetailView implements OnDestroy {
     {
       routeName: 'events',
       iconName: 'civic-event',
-      tabLabel: 'Events',
+      tabLabel: 'Activity',
     },
   ]
 
@@ -88,35 +88,33 @@ export class MolecularProfilesDetailView implements OnDestroy {
         pluck('flags', 'totalCount')
       )
 
-      this.molecularProfile$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (mpResp) => {
-            this.tabs$.next(
-              this.defaultTabs.map((tab) => {
-                if (tab.tabLabel === 'Revisions') {
-                  return {
-                    badgeCount: mpResp?.revisions.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Flags') {
-                  return {
-                    badgeCount: mpResp?.flags.totalCount,
-                    ...tab,
-                  }
-                } else if (tab.tabLabel === 'Comments') {
-                  return {
-                    badgeCount: mpResp?.comments.totalCount,
-                    badgeColor: '#cccccc',
-                    ...tab,
-                  }
-                } else {
-                  return tab
+      this.molecularProfile$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (mpResp) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: mpResp?.revisions.totalCount,
+                  ...tab,
                 }
-              })
-            )
-          },
-        })
+              } else if (tab.tabLabel === 'Flags') {
+                return {
+                  badgeCount: mpResp?.flags.totalCount,
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Comments') {
+                return {
+                  badgeCount: mpResp?.comments.totalCount,
+                  badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else {
+                return tab
+              }
+            })
+          )
+        },
+      })
 
       this.subscribable = {
         id: +params.molecularProfileId,

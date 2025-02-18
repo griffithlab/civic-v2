@@ -74,7 +74,12 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'status',
         'submitterId',
       ]),
-      browseDiseases: relayStylePagination(['name', 'doid', 'geneNames', 'id']),
+      browseTherapies: relayStylePagination([
+        'name',
+        'ncitId',
+        'therapyAlias',
+        'sortBy',
+      ]),
       events: relayStylePagination([
         'subject',
         'organizationId',
@@ -142,8 +147,15 @@ export const CvcTypePolicies: StrictTypedTypePolicies = {
         'resolvingUserId',
         'state',
       ]),
-      phenotypes: relayStylePagination(['hpoId', 'name', 'id']),
+      browsePhenotypes: relayStylePagination(['hpoId', 'name', 'sortBy']),
       variantTypes: relayStylePagination(['soid', 'name', 'id']),
+      browseDiseases: relayStylePagination([
+        'name',
+        'doid',
+        'diseaseAlias',
+        'featureName',
+        'sortBy',
+      ]),
       therapies: relayStylePagination(['ncitId', 'name', 'id']),
       clinicalTrials: relayStylePagination(['nctId', 'name', 'id']),
       notifications: relayStylePagination([

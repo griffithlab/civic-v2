@@ -9,8 +9,8 @@ class Resolvers::BrowseFeatures < GraphQL::Schema::Resolver
 
   scope { MaterializedViews::FeatureBrowseTableRow.all }
 
-  option(:feature_name, type: String) { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
-  option(:feature_full_name, type: String) { |scope, value| scope.where("full_name ILIKE ?", "#{value}%") }
+  option(:feature_name, type: String) { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
+  option(:feature_full_name, type: String) { |scope, value| scope.where("full_name ILIKE ?", "%#{value}%") }
   option(:feature_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
   option(:search_scope, type: Types::AdvancedSearch::GeneSearchFilterType) do |scope, value|
     scope.where('gene_browse_table_rows.id' => AdvancedSearches::Gene.new(query: value).results)

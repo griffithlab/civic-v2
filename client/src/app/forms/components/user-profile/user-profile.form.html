@@ -46,6 +46,8 @@
       <nz-select
         [(ngModel)]="this.countryId"
         nzAllowClear
+        [nzDropdownMatchSelectWidth]="false"
+        nzPlaceHolder="Select a Country"
         nzShowSearch>
         <nz-option
           *ngFor="let country of countries$ | ngrxPush"
