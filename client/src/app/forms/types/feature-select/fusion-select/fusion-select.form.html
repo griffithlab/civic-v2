@@ -1,13 +1,47 @@
+<nz-radio-group
+  [(ngModel)]="fusionType"
+  nzButtonStyle="solid"
+  (ngModelChange)="toggleForm($event)"
+  nzSize="small">
+  <label
+    nz-radio-button
+    nzValue="transcript"
+    >Transcript</label
+  >
+  <label
+    nz-radio-button
+    nzValue="regulatory"
+    >Regulatory</label
+  >
+</nz-radio-group>
+<br />
+<br />
+@if(fusionType == 'transcript') {
 <form
   nz-form
   [nzLayout]="layout"
-  (ngSubmit)="submitFusion(model)"
-  [formGroup]="form">
+  (ngSubmit)="submitFusion(transcriptModel)"
+  [formGroup]="transcriptForm">
   <formly-form
-    [form]="form"
-    [fields]="config"
-    [model]="model"
+    [form]="transcriptForm"
+    [fields]="transcriptConfig"
+    [model]="transcriptModel"
     [options]="options"
     (modelChange)="modelChange($event)">
   </formly-form>
 </form>
+} @else {
+<form
+  nz-form
+  [nzLayout]="layout"
+  (ngSubmit)="submitFusion(regulatoryModel)"
+  [formGroup]="regulatoryForm">
+  <formly-form
+    [form]="regulatoryForm"
+    [fields]="regulatoryConfig"
+    [model]="regulatoryModel"
+    [options]="options"
+    (modelChange)="modelChange($event)">
+  </formly-form>
+</form>
+}

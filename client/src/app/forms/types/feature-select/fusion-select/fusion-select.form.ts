@@ -7,6 +7,7 @@ import {
 } from '@angular/core'
 import {
   AbstractControl,
+  FormsModule,
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms'
@@ -37,14 +38,16 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { NZ_MODAL_DATA, NzModalModule, NzModalRef } from 'ng-zorro-antd/modal'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 type FusionSelectModel = {
   fivePrimeGeneId?: number
   fivePrimePartnerStatus: FusionPartnerStatus
-  fivePrimRegulatoryFusionType?: RegulatoryFusionType
+  fivePrimeRegulatoryFusionType?: RegulatoryFusionType
   threePrimeGeneId?: number
   threePrimePartnerStatus: FusionPartnerStatus
-  threePrimRegulatoryFusionType?: RegulatoryFusionType
+  threePrimeRegulatoryFusionType?: RegulatoryFusionType
 }
 
 export interface FusionSelectModalData {
@@ -60,11 +63,14 @@ export interface FusionSelectModalData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     NzFormModule,
     NzButtonModule,
     NzAlertModule,
     NzModalModule,
+    NzRadioModule,
+    NzSpaceModule,
     RouterModule,
     FormlyModule,
   ],
@@ -75,10 +81,30 @@ export class CvcFusionSelectForm {
   readonly #modal = inject(NzModalRef)
   readonly nzModalData: FusionSelectModalData = inject(NZ_MODAL_DATA)
 
-  model: FusionSelectModel
-  form: UntypedFormGroup
-  config: FormlyFieldConfig[]
+  transcriptForm: UntypedFormGroup
+  regulatoryForm: UntypedFormGroup
   layout: NzFormLayoutType = 'vertical'
+
+  transcriptConfig: FormlyFieldConfig[]
+  regulatoryConfig: FormlyFieldConfig[]
+
+  transcriptModel: FusionSelectModel = {
+    fivePrimeGeneId: undefined,
+    threePrimeGeneId: undefined,
+    fivePrimePartnerStatus: FusionPartnerStatus.Known,
+    threePrimePartnerStatus: FusionPartnerStatus.Known,
+    fivePrimeRegulatoryFusionType: undefined,
+    threePrimeRegulatoryFusionType: undefined,
+  }
+
+  regulatoryModel: FusionSelectModel = {
+    fivePrimeGeneId: undefined,
+    threePrimeGeneId: undefined,
+    fivePrimePartnerStatus: FusionPartnerStatus.Regulatory,
+    threePrimePartnerStatus: FusionPartnerStatus.Known,
+    fivePrimeRegulatoryFusionType: undefined,
+    threePrimeRegulatoryFusionType: undefined,
+  }
 
   options: FormlyFormOptions
 
@@ -90,22 +116,17 @@ export class CvcFusionSelectForm {
 
   mutationState?: MutationState
 
+  fusionType: 'transcript' | 'regulatory' = 'transcript'
+
   constructor(
     private query: SelectOrCreateFusionGQL,
     errors: NetworkErrorsService
   ) {
     this.selectOrCreateFusionMutator = new MutatorWithState(errors)
 
-    this.form = new UntypedFormGroup({})
+    this.transcriptForm = new UntypedFormGroup({})
+    this.regulatoryForm = new UntypedFormGroup({})
 
-    this.model = {
-      fivePrimeGeneId: undefined,
-      threePrimeGeneId: undefined,
-      fivePrimePartnerStatus: FusionPartnerStatus.Known,
-      threePrimePartnerStatus: FusionPartnerStatus.Known,
-      fivePrimRegulatoryFusionType: undefined,
-      threePrimRegulatoryFusionType: undefined,
-    }
     this.options = {}
 
     const selectOptions = [
@@ -120,10 +141,6 @@ export class CvcFusionSelectForm {
       {
         label: 'Multiple',
         value: FusionPartnerStatus.Multiple,
-      },
-      {
-        label: 'Regulatory',
-        value: FusionPartnerStatus.Regulatory,
       },
     ]
 
@@ -142,7 +159,7 @@ export class CvcFusionSelectForm {
         }
       })
 
-    this.config = [
+    this.transcriptConfig = [
       {
         wrappers: ['form-layout'],
         props: {
@@ -150,41 +167,18 @@ export class CvcFusionSelectForm {
         },
         validators: {
           partnerStatus: {
-            message:
-              "At least one of 5' or 3' partner status must be Known or Regulatory",
+            message: "At least one of 5' or 3' partner status must be Known",
             expression: (x: AbstractControl) => {
               const model = x.value
               if (model) {
                 if (
                   model.fivePrimePartnerStatus == FusionPartnerStatus.Known ||
-                  model.fivePrimePartnerStatus ==
-                    FusionPartnerStatus.Regulatory ||
-                  model.threePrimePartnerStatus == FusionPartnerStatus.Known ||
-                  model.threePrimePartnerStatus ==
-                    FusionPartnerStatus.Regulatory
+                  model.threePrimePartnerStatus == FusionPartnerStatus.Known
                 ) {
                   return true
                 }
               }
               return false
-            },
-            errorPath: 'fivePrimePartnerStatus',
-          },
-          regulatoryStatus: {
-            message: "At most one of 5' or 3' partner status can be Regulatory",
-            expression: (x: AbstractControl) => {
-              const model = x.value
-              if (model) {
-                if (
-                  model.fivePrimePartnerStatus ==
-                    FusionPartnerStatus.Regulatory &&
-                  model.threePrimePartnerStatus ==
-                    FusionPartnerStatus.Regulatory
-                ) {
-                  return false
-                }
-              }
-              return true
             },
             errorPath: 'fivePrimePartnerStatus',
           },
@@ -205,17 +199,13 @@ export class CvcFusionSelectForm {
         fieldGroup: [
           {
             wrappers: ['form-card'],
-            props: {
-              formCardOptions: {
-                title: 'New Fusion Feature',
-              },
-            },
+            props: {},
             fieldGroup: [
               {
                 wrappers: ['form-row'],
                 props: {
                   formRowOptions: {
-                    span: 8,
+                    span: 12,
                   },
                 },
                 fieldGroup: [
@@ -225,7 +215,7 @@ export class CvcFusionSelectForm {
                     props: {
                       label: "5' Partner Status",
                       tooltip:
-                        "Select Known if the specific 5' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 5' Gene partners. Select Regulatory if this partner is a Regulatory fusion partner.",
+                        "Select Known if the specific 5' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 5' Gene partners.",
                       required: true,
                       placeholder: "5' Partner Status",
                       options: selectOptions,
@@ -233,25 +223,28 @@ export class CvcFusionSelectForm {
                     },
                   },
                   {
-                    key: 'fivePrimeRegulatoryFusionType',
+                    key: 'threePrimePartnerStatus',
                     type: 'base-select',
                     props: {
-                      label: "5' Regulatory Element Type",
-                      tooltip: '',
                       required: true,
-                      placeholder: "5' Regulatory Element",
-                      options: regulatoryOptions,
+                      placeholder: "3' Partner Status",
+                      label: "3' Partner Status",
+                      tooltip:
+                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners.",
+                      options: selectOptions,
                       multiple: false,
                     },
-                    expressions: {
-                      'props.required': (field) =>
-                        field.model.fivePrimePartnerStatus ==
-                        FusionPartnerStatus.Regulatory,
-                      'props.disabled': (field) =>
-                        field.model.fivePrimePartnerStatus !=
-                        FusionPartnerStatus.Regulatory,
-                    },
                   },
+                ],
+              },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
                   {
                     key: 'fivePrimeGeneId',
                     type: 'feature-select',
@@ -266,57 +259,10 @@ export class CvcFusionSelectForm {
                     expressions: {
                       'props.disabled': (field) =>
                         field.model.fivePrimePartnerStatus !=
-                          FusionPartnerStatus.Known &&
-                        field.model.fivePrimePartnerStatus !=
-                          FusionPartnerStatus.Regulatory,
+                        FusionPartnerStatus.Known,
                       'props.required': (field) =>
                         field.model.fivePrimePartnerStatus ==
-                          FusionPartnerStatus.Known ||
-                        field.model.fivePrimePartnerStatus ==
-                          FusionPartnerStatus.Regulatory,
-                    },
-                  },
-                ],
-              },
-              {
-                wrappers: ['form-row'],
-                props: {
-                  formRowOptions: {
-                    span: 8,
-                  },
-                },
-                fieldGroup: [
-                  {
-                    key: 'threePrimePartnerStatus',
-                    type: 'base-select',
-                    props: {
-                      required: true,
-                      placeholder: "3' Partner Status",
-                      label: "3' Partner Status",
-                      tooltip:
-                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners. Select Regulatory if this partner is a Regulatory fusion partner.",
-                      options: selectOptions,
-                      multiple: false,
-                    },
-                  },
-                  {
-                    key: 'threePrimeRegulatoryFusionType',
-                    type: 'base-select',
-                    props: {
-                      label: "3' Regulatory Element Type",
-                      tooltip: '',
-                      required: true,
-                      placeholder: "3' Regulatory Element",
-                      options: regulatoryOptions,
-                      multiple: false,
-                    },
-                    expressions: {
-                      'props.required': (field) =>
-                        field.model.threePrimePartnerStatus ==
-                        FusionPartnerStatus.Regulatory,
-                      'props.disabled': (field) =>
-                        field.model.threePrimePartnerStatus !=
-                        FusionPartnerStatus.Regulatory,
+                        FusionPartnerStatus.Known,
                     },
                   },
                   {
@@ -333,14 +279,139 @@ export class CvcFusionSelectForm {
                     expressions: {
                       'props.disabled': (field) =>
                         field.model.threePrimePartnerStatus !=
-                          FusionPartnerStatus.Known &&
-                        field.model.threePrimePartnerStatus !=
-                          FusionPartnerStatus.Regulatory,
+                        FusionPartnerStatus.Known,
                       'props.required': (field) =>
                         field.model.threePrimePartnerStatus ==
-                          FusionPartnerStatus.Known ||
+                        FusionPartnerStatus.Known,
+                    },
+                  },
+                ],
+              },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 24,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'organizationId',
+                    type: 'org-submit-button',
+                    props: {
+                      submitLabel: 'Create Fusion',
+                      align: 'right',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    this.regulatoryConfig = [
+      {
+        wrappers: ['form-layout'],
+        props: {
+          showDevPanel: false,
+        },
+        validators: {
+          sameGene: {
+            message: "5' and 3' Genes must be different",
+            expression: (x: AbstractControl) => {
+              const model = x.value
+              if (model && model.fivePrimeGeneId && model.threePrimeGeneId) {
+                if (model.fivePrimeGeneId == model.threePrimeGeneId) {
+                  return false
+                }
+              }
+              return true
+            },
+            errorPath: 'fivePrimeGeneId',
+          },
+        },
+        fieldGroup: [
+          {
+            wrappers: ['form-card'],
+            props: {},
+            fieldGroup: [
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'fivePrimeRegulatoryFusionType',
+                    type: 'base-select',
+                    props: {
+                      label: 'Regulatory Element Type',
+                      tooltip: '',
+                      required: true,
+                      placeholder: 'Regulatory Element',
+                      options: regulatoryOptions,
+                      multiple: false,
+                    },
+                  },
+                  {
+                    key: 'threePrimePartnerStatus',
+                    type: 'base-select',
+                    props: {
+                      required: true,
+                      placeholder: "3' Partner Status",
+                      label: "3' Partner Status",
+                      tooltip:
+                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners.",
+                      options: selectOptions,
+                      multiple: false,
+                    },
+                  },
+                ],
+              },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'fivePrimeGeneId',
+                    type: 'feature-select',
+                    props: {
+                      label: 'Regulatory Partner',
+                      placeholder: 'Select Gene',
+                      tooltip:
+                        'Select the Regulatory Gene partner in the Fusion',
+                      canChangeFeatureType: false,
+                      hideFeatureTypeSelect: true,
+                      featureType: FeatureInstanceTypes.Gene,
+                      required: true,
+                    },
+                  },
+                  {
+                    key: 'threePrimeGeneId',
+                    type: 'feature-select',
+                    props: {
+                      label: "3' Fusion Partner",
+                      placeholder: 'Select Gene',
+                      tooltip: "Select the 3' Gene partner in the Fusion",
+                      canChangeFeatureType: false,
+                      hideFeatureTypeSelect: true,
+                      featureType: FeatureInstanceTypes.Gene,
+                    },
+                    expressions: {
+                      'props.disabled': (field) =>
+                        field.model.threePrimePartnerStatus !=
+                        FusionPartnerStatus.Known,
+                      'props.required': (field) =>
                         field.model.threePrimePartnerStatus ==
-                          FusionPartnerStatus.Regulatory,
+                        FusionPartnerStatus.Known,
                     },
                   },
                 ],
@@ -372,24 +443,24 @@ export class CvcFusionSelectForm {
 
   modelChange(model: Maybe<FusionSelectModel>) {
     if (model) {
-      if (
-        this.model.fivePrimePartnerStatus != FusionPartnerStatus.Known &&
-        this.model.fivePrimePartnerStatus != FusionPartnerStatus.Regulatory
-      ) {
-        this.model = {
-          ...this.model,
-          fivePrimeGeneId: undefined,
-        }
-      }
-      if (
-        this.model.threePrimePartnerStatus != FusionPartnerStatus.Known &&
-        this.model.threePrimePartnerStatus != FusionPartnerStatus.Regulatory
-      ) {
-        this.model = {
-          ...this.model,
-          threePrimeGeneId: undefined,
-        }
-      }
+      //if (
+      //  this.model.fivePrimePartnerStatus != FusionPartnerStatus.Known &&
+      //  this.model.fivePrimePartnerStatus != FusionPartnerStatus.Regulatory
+      //) {
+      //  this.model = {
+      //    ...this.model,
+      //    fivePrimeGeneId: undefined,
+      //  }
+      //}
+      //if (
+      //  this.model.threePrimePartnerStatus != FusionPartnerStatus.Known &&
+      //  this.model.threePrimePartnerStatus != FusionPartnerStatus.Regulatory
+      //) {
+      //  this.model = {
+      //    ...this.model,
+      //    threePrimeGeneId: undefined,
+      //  }
+      //}
 
       //mark form as invalid here?
       if (
@@ -420,6 +491,12 @@ export class CvcFusionSelectForm {
       if (model.threePrimeGeneId == model.fivePrimeGeneId) {
         return
       }
+    }
+  }
+
+  toggleForm(mode: 'regulatory' | 'transcript') {
+    if (mode == 'regulatory') {
+    } else {
     }
   }
 
