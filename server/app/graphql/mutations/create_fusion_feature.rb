@@ -39,7 +39,7 @@ class Mutations::CreateFusionFeature < Mutations::MutationWithOrg
       if gene_input.gene_id.present? && (gene_input.partner_status != 'known' && gene_input.partner_status != 'regulatory')
         raise GraphQL::ExecutionError, "Partner status needs to be 'known' or 'regulatory' if a gene_id is set"
       end
-      if gene_input.gene_id.blank? && (gene_input.partner_status == 'known' || gene_input.partner_status != 'regulatory')
+      if gene_input.gene_id.blank? && (gene_input.partner_status == 'known' || gene_input.partner_status == 'regulatory')
         raise GraphQL::ExecutionError, "Partner status can't be 'known' or 'regulatory' if a gene_id is not set"
       end
     end
