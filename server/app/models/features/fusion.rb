@@ -6,17 +6,10 @@ module Features
     belongs_to :five_prime_gene, class_name: 'Features::Gene', optional: true
     belongs_to :three_prime_gene, class_name: 'Features::Gene', optional: true
 
-    enum five_prime_partner_status: {
-      known: 'known',
-      unknown: 'unknown',
-      multiple: 'multiple',
-    }, _prefix: true
+    enum five_prime_partner_status: Constants::FUSION_PARTNER_STATUSES, _prefix: true
+    enum three_prime_partner_status: Constants::FUSION_PARTNER_STATUSES, _prefix: true
 
-    enum three_prime_partner_status: {
-      known: 'known',
-      unknown: 'unknown',
-      multiple: 'multiple',
-    }, _prefix: true
+    enum regulatory_fusion_type: Constants::REGULATORY_FUSION_ENUM_TYPES
 
     has_many :variant_groups
     has_many :source_suggestions
@@ -24,29 +17,20 @@ module Features
     #TODO - move to feature?
     has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-    validate :partner_status_valid_for_gene_ids
-    validate :at_least_one_gene_id
-
-    def partner_status_valid_for_gene_ids
-      if !self.in_revision_validation_context
-        [self.five_prime_gene, self.three_prime_gene].zip([self.five_prime_partner_status, self.three_prime_partner_status], [:five_prime_gene, :three_prime_gene]).each do |gene, status, fk|
-          if gene.nil? && status == 'known'
-            errors.add(fk, "Partner status cannot be 'known' if the gene isn't set")
-          elsif !gene.nil? && status != 'known'
-            errors.add(fk, "Partner status has to be 'known' if gene is set")
-          end
-        end
-      end
-    end
-
-    def at_least_one_gene_id
-      if !self.in_revision_validation_context && self.five_prime_gene_id.nil? && self.three_prime_gene_id.nil?
-        errors.add(:base, "One or both of the genes need to be set")
-      end
-    end
+    validates_with FusionFeatureValidator
 
     def display_name
       name
+    end
+
+    def self.format_regulatory_fusion_type(rft)
+      if rft == 'reg_enhancer'
+        'reg_e'
+      elsif rft == 'reg_promoter'
+        'reg_p'
+      else
+        rft
+      end
     end
 
     def editable_fields

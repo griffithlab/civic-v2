@@ -1,13 +1,15 @@
-mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimePartnerStatus: FusionPartnerStatus! ) {
+mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimeRegulatoryFusionType: RegulatoryFusionType, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimeRegulatoryFusionType: RegulatoryFusionType, $threePrimePartnerStatus: FusionPartnerStatus!) {
   createFusionFeature(input: {
     organizationId: $organizationId
     fivePrimeGene: {
       geneId: $fivePrimeGeneId,
       partnerStatus: $fivePrimePartnerStatus
+      regulatoryFusionType: $fivePrimeRegulatoryFusionType
     },
     threePrimeGene: {
       geneId: $threePrimeGeneId,
-      partnerStatus: $threePrimePartnerStatus
+      partnerStatus: $threePrimePartnerStatus,
+      regulatoryFusionType: $threePrimeRegulatoryFusionType
     }
 
   }) {

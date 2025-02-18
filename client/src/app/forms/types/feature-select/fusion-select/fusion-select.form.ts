@@ -7,6 +7,7 @@ import {
 } from '@angular/core'
 import {
   AbstractControl,
+  FormsModule,
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms'
@@ -14,6 +15,7 @@ import {
   FeatureInstanceTypes,
   FusionPartnerStatus,
   Maybe,
+  RegulatoryFusionType,
   SelectOrCreateFusionGQL,
   SelectOrCreateFusionMutation,
   SelectOrCreateFusionMutationVariables,
@@ -28,7 +30,6 @@ import { CommonModule } from '@angular/common'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
-import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
@@ -37,12 +38,16 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { NZ_MODAL_DATA, NzModalModule, NzModalRef } from 'ng-zorro-antd/modal'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzSpaceModule } from 'ng-zorro-antd/space'
 
 type FusionSelectModel = {
   fivePrimeGeneId?: number
   fivePrimePartnerStatus: FusionPartnerStatus
+  fivePrimeRegulatoryFusionType?: RegulatoryFusionType
   threePrimeGeneId?: number
   threePrimePartnerStatus: FusionPartnerStatus
+  threePrimeRegulatoryFusionType?: RegulatoryFusionType
 }
 
 export interface FusionSelectModalData {
@@ -58,13 +63,14 @@ export interface FusionSelectModalData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    PushPipe,
+    FormsModule,
     ReactiveFormsModule,
-    LetDirective,
     NzFormModule,
     NzButtonModule,
     NzAlertModule,
     NzModalModule,
+    NzRadioModule,
+    NzSpaceModule,
     RouterModule,
     FormlyModule,
   ],
@@ -75,10 +81,30 @@ export class CvcFusionSelectForm {
   readonly #modal = inject(NzModalRef)
   readonly nzModalData: FusionSelectModalData = inject(NZ_MODAL_DATA)
 
-  model: FusionSelectModel
-  form: UntypedFormGroup
-  config: FormlyFieldConfig[]
+  transcriptForm: UntypedFormGroup
+  regulatoryForm: UntypedFormGroup
   layout: NzFormLayoutType = 'vertical'
+
+  transcriptConfig: FormlyFieldConfig[]
+  regulatoryConfig: FormlyFieldConfig[]
+
+  transcriptModel: FusionSelectModel = {
+    fivePrimeGeneId: undefined,
+    threePrimeGeneId: undefined,
+    fivePrimePartnerStatus: FusionPartnerStatus.Known,
+    threePrimePartnerStatus: FusionPartnerStatus.Known,
+    fivePrimeRegulatoryFusionType: undefined,
+    threePrimeRegulatoryFusionType: undefined,
+  }
+
+  regulatoryModel: FusionSelectModel = {
+    fivePrimeGeneId: undefined,
+    threePrimeGeneId: undefined,
+    fivePrimePartnerStatus: FusionPartnerStatus.Regulatory,
+    threePrimePartnerStatus: FusionPartnerStatus.Known,
+    fivePrimeRegulatoryFusionType: undefined,
+    threePrimeRegulatoryFusionType: undefined,
+  }
 
   options: FormlyFormOptions
 
@@ -90,20 +116,17 @@ export class CvcFusionSelectForm {
 
   mutationState?: MutationState
 
+  fusionType: 'transcript' | 'regulatory' = 'transcript'
+
   constructor(
     private query: SelectOrCreateFusionGQL,
-    private errors: NetworkErrorsService
+    errors: NetworkErrorsService
   ) {
     this.selectOrCreateFusionMutator = new MutatorWithState(errors)
 
-    this.form = new UntypedFormGroup({})
+    this.transcriptForm = new UntypedFormGroup({})
+    this.regulatoryForm = new UntypedFormGroup({})
 
-    this.model = {
-      fivePrimeGeneId: undefined,
-      threePrimeGeneId: undefined,
-      fivePrimePartnerStatus: FusionPartnerStatus.Known,
-      threePrimePartnerStatus: FusionPartnerStatus.Known,
-    }
     this.options = {}
 
     const selectOptions = [
@@ -121,7 +144,22 @@ export class CvcFusionSelectForm {
       },
     ]
 
-    this.config = [
+    const regulatoryOptions = Object.keys(RegulatoryFusionType)
+      .map((x) => {
+        const val = RegulatoryFusionType[x as keyof typeof RegulatoryFusionType]
+        return { label: val.toLowerCase(), value: val }
+      })
+      .sort((a, b) => {
+        if (a.label == 'reg_e') {
+          return -1
+        } else if (a.label == 'reg_p') {
+          return -1
+        } else {
+          return a.label.localeCompare(b.label)
+        }
+      })
+
+    this.transcriptConfig = [
       {
         wrappers: ['form-layout'],
         props: {
@@ -161,11 +199,7 @@ export class CvcFusionSelectForm {
         fieldGroup: [
           {
             wrappers: ['form-card'],
-            props: {
-              formCardOptions: {
-                title: 'New Fusion Feature',
-              },
-            },
+            props: {},
             fieldGroup: [
               {
                 wrappers: ['form-row'],
@@ -181,13 +215,36 @@ export class CvcFusionSelectForm {
                     props: {
                       label: "5' Partner Status",
                       tooltip:
-                        "Select Known if the specific 5' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 5' Gene partners",
+                        "Select Known if the specific 5' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 5' Gene partners.",
                       required: true,
                       placeholder: "5' Partner Status",
                       options: selectOptions,
                       multiple: false,
                     },
                   },
+                  {
+                    key: 'threePrimePartnerStatus',
+                    type: 'base-select',
+                    props: {
+                      required: true,
+                      placeholder: "3' Partner Status",
+                      label: "3' Partner Status",
+                      tooltip:
+                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners.",
+                      options: selectOptions,
+                      multiple: false,
+                    },
+                  },
+                ],
+              },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
                   {
                     key: 'fivePrimeGeneId',
                     type: 'feature-select',
@@ -208,6 +265,111 @@ export class CvcFusionSelectForm {
                         FusionPartnerStatus.Known,
                     },
                   },
+                  {
+                    key: 'threePrimeGeneId',
+                    type: 'feature-select',
+                    props: {
+                      label: "3' Fusion Partner",
+                      placeholder: 'Select Gene',
+                      tooltip: "Select the 3' Gene partner in the Fusion",
+                      canChangeFeatureType: false,
+                      hideFeatureTypeSelect: true,
+                      featureType: FeatureInstanceTypes.Gene,
+                    },
+                    expressions: {
+                      'props.disabled': (field) =>
+                        field.model.threePrimePartnerStatus !=
+                        FusionPartnerStatus.Known,
+                      'props.required': (field) =>
+                        field.model.threePrimePartnerStatus ==
+                        FusionPartnerStatus.Known,
+                    },
+                  },
+                ],
+              },
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 24,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'organizationId',
+                    type: 'org-submit-button',
+                    props: {
+                      submitLabel: 'Create Fusion',
+                      align: 'right',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    this.regulatoryConfig = [
+      {
+        wrappers: ['form-layout'],
+        props: {
+          showDevPanel: false,
+        },
+        validators: {
+          sameGene: {
+            message: "5' and 3' Genes must be different",
+            expression: (x: AbstractControl) => {
+              const model = x.value
+              if (model && model.fivePrimeGeneId && model.threePrimeGeneId) {
+                if (model.fivePrimeGeneId == model.threePrimeGeneId) {
+                  return false
+                }
+              }
+              return true
+            },
+            errorPath: 'fivePrimeGeneId',
+          },
+        },
+        fieldGroup: [
+          {
+            wrappers: ['form-card'],
+            props: {},
+            fieldGroup: [
+              {
+                wrappers: ['form-row'],
+                props: {
+                  formRowOptions: {
+                    span: 12,
+                  },
+                },
+                fieldGroup: [
+                  {
+                    key: 'fivePrimeRegulatoryFusionType',
+                    type: 'base-select',
+                    props: {
+                      label: 'Regulatory Element Type',
+                      tooltip: '',
+                      required: true,
+                      placeholder: 'Regulatory Element',
+                      options: regulatoryOptions,
+                      multiple: false,
+                    },
+                  },
+                  {
+                    key: 'threePrimePartnerStatus',
+                    type: 'base-select',
+                    props: {
+                      required: true,
+                      placeholder: "3' Partner Status",
+                      label: "3' Partner Status",
+                      tooltip:
+                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners.",
+                      options: selectOptions,
+                      multiple: false,
+                    },
+                  },
                 ],
               },
               {
@@ -219,16 +381,17 @@ export class CvcFusionSelectForm {
                 },
                 fieldGroup: [
                   {
-                    key: 'threePrimePartnerStatus',
-                    type: 'base-select',
+                    key: 'fivePrimeGeneId',
+                    type: 'feature-select',
                     props: {
-                      required: true,
-                      placeholder: "3' Partner Status",
-                      label: "3' Partner Status",
+                      label: 'Regulatory Partner',
+                      placeholder: 'Select Gene',
                       tooltip:
-                        "Select Known if the specific 3' Gene partner is known, Unknown if not. Select Multiple if there are multiple potential 3' Gene partners",
-                      options: selectOptions,
-                      multiple: false,
+                        'Select the Regulatory Gene partner in the Fusion',
+                      canChangeFeatureType: false,
+                      hideFeatureTypeSelect: true,
+                      featureType: FeatureInstanceTypes.Gene,
+                      required: true,
                     },
                   },
                   {
@@ -280,18 +443,24 @@ export class CvcFusionSelectForm {
 
   modelChange(model: Maybe<FusionSelectModel>) {
     if (model) {
-      if (this.model.fivePrimePartnerStatus != FusionPartnerStatus.Known) {
-        this.model = {
-          ...this.model,
-          fivePrimeGeneId: undefined,
-        }
-      }
-      if (this.model.threePrimePartnerStatus != FusionPartnerStatus.Known) {
-        this.model = {
-          ...this.model,
-          threePrimeGeneId: undefined,
-        }
-      }
+      //if (
+      //  this.model.fivePrimePartnerStatus != FusionPartnerStatus.Known &&
+      //  this.model.fivePrimePartnerStatus != FusionPartnerStatus.Regulatory
+      //) {
+      //  this.model = {
+      //    ...this.model,
+      //    fivePrimeGeneId: undefined,
+      //  }
+      //}
+      //if (
+      //  this.model.threePrimePartnerStatus != FusionPartnerStatus.Known &&
+      //  this.model.threePrimePartnerStatus != FusionPartnerStatus.Regulatory
+      //) {
+      //  this.model = {
+      //    ...this.model,
+      //    threePrimeGeneId: undefined,
+      //  }
+      //}
 
       //mark form as invalid here?
       if (
@@ -322,6 +491,12 @@ export class CvcFusionSelectForm {
       if (model.threePrimeGeneId == model.fivePrimeGeneId) {
         return
       }
+    }
+  }
+
+  toggleForm(mode: 'regulatory' | 'transcript') {
+    if (mode == 'regulatory') {
+    } else {
     }
   }
 

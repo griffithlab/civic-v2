@@ -129,7 +129,6 @@ export enum ActivitySubjectInput {
   Assertion = 'ASSERTION',
   Comment = 'COMMENT',
   EvidenceItem = 'EVIDENCE_ITEM',
-  ExonCoordinate = 'EXON_COORDINATE',
   Feature = 'FEATURE',
   Flag = 'FLAG',
   MolecularProfile = 'MOLECULAR_PROFILE',
@@ -138,7 +137,6 @@ export enum ActivitySubjectInput {
   Source = 'SOURCE',
   SourceSuggestion = 'SOURCE_SUGGESTION',
   Variant = 'VARIANT',
-  VariantCoordinate = 'VARIANT_COORDINATE',
   VariantGroup = 'VARIANT_GROUP'
 }
 
@@ -2924,6 +2922,7 @@ export type Fusion = Commentable & EventOriginObject & EventSubject & Flaggable 
   link: Scalars['String']['output'];
   name: Scalars['String']['output'];
   openRevisionCount: Scalars['Int']['output'];
+  regulatoryFusionType?: Maybe<RegulatoryFusionType>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
@@ -3045,11 +3044,14 @@ export type FusionPartnerInput = {
   geneId?: InputMaybe<Scalars['Int']['input']>;
   /** The status of the fusion partner */
   partnerStatus: FusionPartnerStatus;
+  /** If the fusion partner status is set to regulatory, what type of regulatory fusion is it? */
+  regulatoryFusionType?: InputMaybe<RegulatoryFusionType>;
 };
 
 export enum FusionPartnerStatus {
   Known = 'KNOWN',
   Multiple = 'MULTIPLE',
+  Regulatory = 'REGULATORY',
   Unknown = 'UNKNOWN'
 }
 
@@ -5686,6 +5688,35 @@ export enum ReferenceBuild {
   Grch37 = 'GRCH37',
   Grch38 = 'GRCH38',
   Ncbi36 = 'NCBI36'
+}
+
+export enum RegulatoryFusionType {
+  RegAttenuator = 'REG_ATTENUATOR',
+  RegCaatSignal = 'REG_CAAT_SIGNAL',
+  RegDnaseIHypersensitiveSite = 'REG_DNASE_I_HYPERSENSITIVE_SITE',
+  RegE = 'REG_E',
+  RegEnhancerBlockingElement = 'REG_ENHANCER_BLOCKING_ELEMENT',
+  RegGcSignal = 'REG_GC_SIGNAL',
+  RegImprintingControlRegion = 'REG_IMPRINTING_CONTROL_REGION',
+  RegInsulator = 'REG_INSULATOR',
+  RegLocusControlRegion = 'REG_LOCUS_CONTROL_REGION',
+  RegMatrixAttachmentRegion = 'REG_MATRIX_ATTACHMENT_REGION',
+  RegMinus_10Signal = 'REG_MINUS_10_SIGNAL',
+  RegMinus_35Signal = 'REG_MINUS_35_SIGNAL',
+  RegOther = 'REG_OTHER',
+  RegP = 'REG_P',
+  RegPolyaSignalSequence = 'REG_POLYA_SIGNAL_SEQUENCE',
+  RegRecodingStimulatoryRegion = 'REG_RECODING_STIMULATORY_REGION',
+  RegRecombinationEnhancer = 'REG_RECOMBINATION_ENHANCER',
+  RegReplicationRegulatoryRegion = 'REG_REPLICATION_REGULATORY_REGION',
+  RegResponseElement = 'REG_RESPONSE_ELEMENT',
+  RegRibosomeBindingSite = 'REG_RIBOSOME_BINDING_SITE',
+  RegRiboswitch = 'REG_RIBOSWITCH',
+  RegSilencer = 'REG_SILENCER',
+  RegTataBox = 'REG_TATA_BOX',
+  RegTerminator = 'REG_TERMINATOR',
+  RegTranscriptionalCisRegulatoryRegion = 'REG_TRANSCRIPTIONAL_CIS_REGULATORY_REGION',
+  RegUorf = 'REG_UORF'
 }
 
 export type RejectRevisionsActivity = ActivityInterface & {
@@ -9323,8 +9354,10 @@ export type FeatureSelectTypeaheadFieldsFragment = { __typename: 'Feature', id: 
 export type SelectOrCreateFusionMutationVariables = Exact<{
   organizationId?: InputMaybe<Scalars['Int']['input']>;
   fivePrimeGeneId?: InputMaybe<Scalars['Int']['input']>;
+  fivePrimeRegulatoryFusionType?: InputMaybe<RegulatoryFusionType>;
   fivePrimePartnerStatus: FusionPartnerStatus;
   threePrimeGeneId?: InputMaybe<Scalars['Int']['input']>;
+  threePrimeRegulatoryFusionType?: InputMaybe<RegulatoryFusionType>;
   threePrimePartnerStatus: FusionPartnerStatus;
 }>;
 
@@ -17198,9 +17231,9 @@ export const FeatureSelectTagDocument = gql`
     }
   }
 export const SelectOrCreateFusionDocument = gql`
-    mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimePartnerStatus: FusionPartnerStatus!) {
+    mutation SelectOrCreateFusion($organizationId: Int, $fivePrimeGeneId: Int, $fivePrimeRegulatoryFusionType: RegulatoryFusionType, $fivePrimePartnerStatus: FusionPartnerStatus!, $threePrimeGeneId: Int, $threePrimeRegulatoryFusionType: RegulatoryFusionType, $threePrimePartnerStatus: FusionPartnerStatus!) {
   createFusionFeature(
-    input: {organizationId: $organizationId, fivePrimeGene: {geneId: $fivePrimeGeneId, partnerStatus: $fivePrimePartnerStatus}, threePrimeGene: {geneId: $threePrimeGeneId, partnerStatus: $threePrimePartnerStatus}}
+    input: {organizationId: $organizationId, fivePrimeGene: {geneId: $fivePrimeGeneId, partnerStatus: $fivePrimePartnerStatus, regulatoryFusionType: $fivePrimeRegulatoryFusionType}, threePrimeGene: {geneId: $threePrimeGeneId, partnerStatus: $threePrimePartnerStatus, regulatoryFusionType: $threePrimeRegulatoryFusionType}}
   ) {
     new
     feature {
