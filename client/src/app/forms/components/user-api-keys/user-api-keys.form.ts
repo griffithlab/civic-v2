@@ -52,7 +52,6 @@ import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message'
     NzTypographyModule,
     NzIconModule,
     NzToolTipModule,
-    NzSpaceModule,
     NzMessageModule,
     CvcFormErrorsAlertModule,
   ],
