@@ -47,6 +47,7 @@ export interface VariantTypesTableUserFilters {
   selector: 'cvc-variant-types-table',
   templateUrl: './variant-types-table.component.html',
   styleUrls: ['./variant-types-table.component.less'],
+  standalone: false,
 })
 export class CvcVariantTypesTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -195,7 +196,10 @@ export class CvcVariantTypesTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<VariantTypeBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<VariantTypeBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

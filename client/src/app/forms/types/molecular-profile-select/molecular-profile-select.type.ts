@@ -94,6 +94,7 @@ type SelectDisplayModel = {
   styleUrls: ['./molecular-profile-select.type.less'],
   animations: [slideMotion, fadeMotion],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfileSelectField
   extends MolecularProfileSelectMixin

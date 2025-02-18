@@ -43,6 +43,7 @@ type SourceTagInput = SourceWithDisplayName | SourceWithCitation
   templateUrl: './source-tag.component.html',
   styleUrls: ['./source-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourceTagComponent {
   _source!: SourceTagInput

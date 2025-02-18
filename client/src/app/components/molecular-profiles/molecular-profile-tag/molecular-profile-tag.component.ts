@@ -30,6 +30,7 @@ export interface LinkableMolecularProfileSegments {
   templateUrl: './molecular-profile-tag.component.html',
   styleUrls: ['./molecular-profile-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfileTagComponent implements OnInit {
   @Input() molecularProfile!:

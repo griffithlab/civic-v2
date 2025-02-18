@@ -35,6 +35,7 @@ export interface CvcEntityTagListContext {
   templateUrl: './entity-tag-list.component.html',
   styleUrls: ['./entity-tag-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EntityTagListComponent {
   @Input() set cvcTagListConfig(config: CvcEntityTagListConfig) {

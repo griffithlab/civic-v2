@@ -111,12 +111,12 @@
           nzCloseable
           (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <nz-alert
-          *ngIf="this.assertion.status == 'SUBMITTED'"
+          *ngIf="assertion.status == 'SUBMITTED'"
           nzBanner
           nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
         <nz-alert
-          *ngIf="this.assertion.status == 'REJECTED'"
+          *ngIf="assertion.status == 'REJECTED'"
           nzBanner
           nzMessage="This Assertion has been rejected."
           nzType="error">

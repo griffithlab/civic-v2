@@ -14,6 +14,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-variants-revise',
   templateUrl: './variants-revise.view.html',
   styleUrls: ['./variants-revise.view.less'],
+  standalone: false,
 })
 export class VariantsReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>

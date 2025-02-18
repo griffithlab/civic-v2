@@ -18,6 +18,7 @@ export interface LinkablePhenotype {
   templateUrl: './phenotype-tag.component.html',
   styleUrls: ['./phenotype-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcPhenotypeTagComponent {
   _phenotype!: LinkablePhenotype

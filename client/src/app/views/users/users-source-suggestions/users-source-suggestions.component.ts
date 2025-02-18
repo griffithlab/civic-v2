@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
   selector: 'cvc-users-source-suggestions',
   templateUrl: './users-source-suggestions.component.html',
   styleUrls: ['./users-source-suggestions.component.less'],
+  standalone: false,
 })
 export class UsersSourceSuggestionsComponent {
   userId: number

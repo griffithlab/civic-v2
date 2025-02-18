@@ -9,6 +9,7 @@ import {
   selector: 'cvc-features-comments',
   templateUrl: './features-comments.page.html',
   styleUrls: ['./features-comments.page.less'],
+  standalone: false,
 })
 export class FeaturesCommentsPage {
   commentable: CommentableInput

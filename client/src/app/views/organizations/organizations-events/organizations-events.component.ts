@@ -7,6 +7,7 @@ import { ActivityFeedScope } from '@app/components/activities/activity-feed/acti
   selector: 'cvc-organizations-events',
   templateUrl: './organizations-events.component.html',
   styleUrls: ['./organizations-events.component.less'],
+  standalone: false,
 })
 export class OrganizationsEventsComponent {
   feedScope: ActivityFeedScope

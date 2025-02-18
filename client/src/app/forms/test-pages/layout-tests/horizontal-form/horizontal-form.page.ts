@@ -13,6 +13,7 @@ import {
   selector: 'cvc-horizontal-form',
   templateUrl: './horizontal-form.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HorizontalFormPage implements OnInit {
   model: any

@@ -10,6 +10,7 @@ import {
   selector: 'cvc-features-events',
   templateUrl: './features-events.page.html',
   styleUrls: ['./features-events.page.less'],
+  standalone: false,
 })
 export class FeaturesEventsPage {
   feedScope: ActivityFeedScope

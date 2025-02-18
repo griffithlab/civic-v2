@@ -13,6 +13,7 @@ export interface LinkableVariantgroup {
   selector: 'cvc-variant-group-tag',
   templateUrl: './variant-group-tag.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantGroupTagComponent {
   _variantgroup!: LinkableVariantgroup

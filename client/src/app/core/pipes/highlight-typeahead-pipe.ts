@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 @Pipe({
   name: 'highlightTypeahead',
   pure: true,
+  standalone: false,
 })
 export class HighlightTypeaheadPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}

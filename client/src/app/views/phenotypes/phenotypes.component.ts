@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core'
   selector: 'cvc-phenotypes',
   templateUrl: './phenotypes.component.html',
   styleUrls: ['./phenotypes.component.less'],
+  standalone: false,
 })
 export class PhenotypesComponent implements OnInit {
   constructor() {}

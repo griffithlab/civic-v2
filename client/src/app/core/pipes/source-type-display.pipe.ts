@@ -6,6 +6,7 @@ import { Maybe } from 'graphql/jsutils/Maybe'
 @Pipe({
   name: 'sourceTypeDisplay',
   pure: true,
+  standalone: false,
 })
 export class SourceTypeDisplayPipe implements PipeTransform {
   transform(value: Maybe<SourceSource>): string {

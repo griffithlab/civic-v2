@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators'
   selector: 'cvc-variant-groups-add-view',
   templateUrl: './variant-groups-add.view.html',
   styleUrls: ['./variant-groups-add.view.less'],
+  standalone: false,
 })
 export class VariantGroupsAddView implements OnInit {
   isSignedIn$?: Observable<boolean>

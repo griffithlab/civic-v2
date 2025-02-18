@@ -19,6 +19,7 @@ import { isNonNulled } from 'rxjs-etc'
   templateUrl: './viewer-button.component.html',
   styleUrls: ['./viewer-button.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcViewerButtonComponent implements OnInit {
   @Input() cvcCollapsed: boolean = false

@@ -18,6 +18,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-variants-summary',
   templateUrl: './variants-summary.page.html',
   styleUrls: ['./variants-summary.page.less'],
+  standalone: false,
 })
 export class VariantsSummaryPage {
   @Input() variantId: Maybe<number>
@@ -28,7 +29,10 @@ export class VariantsSummaryPage {
 
   subscribable: SubscribableInput
 
-  constructor(private gql: VariantSummaryGQL, private route: ActivatedRoute) {
+  constructor(
+    private gql: VariantSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     var queryVariantId: number
     if (this.variantId) {
       queryVariantId = this.variantId

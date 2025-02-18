@@ -5,7 +5,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'cvc-submit-evidence-activity-details',
-  standalone: true,
   imports: [CvcCommentBodyModule, NzTypographyModule],
   templateUrl: './submit-evidence-activity.component.html',
   styleUrl: './submit-evidence-activity.component.less',

@@ -7,6 +7,7 @@ export type EnumOutputStyle = 'display-string' | 'icon-name'
 @Pipe({
   name: 'therapyInteractionEnumDisplay',
   pure: true,
+  standalone: false,
 })
 export class TherapyInteractionEnumDisplayPipe implements PipeTransform {
   transform(

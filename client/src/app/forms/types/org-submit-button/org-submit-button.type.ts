@@ -48,6 +48,7 @@ export interface CvcOrgSubmitButtonFieldConfig
   templateUrl: './org-submit-button.type.html',
   styleUrls: ['./org-submit-button.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrgSubmitButtonComponent
   extends FieldType<FieldTypeConfig<CvcOrgSubmitButtonProps>>

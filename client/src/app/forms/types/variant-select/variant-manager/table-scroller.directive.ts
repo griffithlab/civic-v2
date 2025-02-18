@@ -27,6 +27,7 @@ export type ScrollFetch = { first?: number; after?: string }
 @UntilDestroy()
 @Directive({
   selector: '[cvcTableScroller]',
+  standalone: false,
 })
 export class TableScrollerDirective implements AfterViewInit {
   @Output() cvcTableScrollerOnScroll = new EventEmitter<ScrollEvent>()

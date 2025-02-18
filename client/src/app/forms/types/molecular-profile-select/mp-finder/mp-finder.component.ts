@@ -35,6 +35,7 @@ type MpFinderState = {
   templateUrl: './mp-finder.component.html',
   styleUrls: ['./mp-finder.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MpFinderComponent {
   @Output() cvcOnSelect = new EventEmitter<MolecularProfile>()

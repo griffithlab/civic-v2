@@ -16,6 +16,7 @@ export interface TagLinkableUser {
   selector: 'cvc-user-tag',
   templateUrl: './user-tag.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcUserTagComponent {
   _user!: TagLinkableUser

@@ -8,7 +8,6 @@ import { JsonPipe } from '@angular/common'
 
 @Component({
   selector: 'cvc-create-variant-activity-details',
-  standalone: true,
   imports: [JsonPipe],
   templateUrl: './create-variant-activity.component.html',
   styleUrl: './create-variant-activity.component.less',

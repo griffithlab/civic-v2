@@ -4,6 +4,7 @@ import { Maybe } from '@app/generated/civic.apollo'
 @Pipe({
   name: 'typenameToIcon',
   pure: true,
+  standalone: false,
 })
 export class TypenameToIconPipe implements PipeTransform {
   transform(value: Maybe<string>): string {

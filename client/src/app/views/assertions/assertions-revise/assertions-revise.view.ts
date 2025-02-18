@@ -14,6 +14,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-assertions-revise-view',
   templateUrl: './assertions-revise.view.html',
   styleUrls: ['./assertions-revise.view.less'],
+  standalone: false,
 })
 export class AssertionsReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>

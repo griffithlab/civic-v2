@@ -74,6 +74,7 @@ type CitationCheckResult = {
   templateUrl: './source-quick-add.form.html',
   styleUrls: ['./source-quick-add.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SourceQuickAddForm implements OnInit, OnChanges {
   @Input() cvcSourceType?: SourceSource

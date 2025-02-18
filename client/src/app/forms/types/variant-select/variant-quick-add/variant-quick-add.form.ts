@@ -41,6 +41,7 @@ type VariantQuickAddDisplay = {
   selector: 'cvc-variant-quick-add-form',
   templateUrl: './variant-quick-add.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantQuickAddForm implements OnChanges {
   @Input()
@@ -139,13 +140,15 @@ export class CvcVariantQuickAddForm implements OnChanges {
         props: {
           submitLabel: 'Add Variant',
         },
-      }
+      },
     ]
 
     // keep form module updated w/ Inputs
-    this.featureId$.pipe(untilDestroyed(this)).subscribe((id: Maybe<number>) => {
-      this.model.featureId = id
-    })
+    this.featureId$
+      .pipe(untilDestroyed(this))
+      .subscribe((id: Maybe<number>) => {
+        this.model.featureId = id
+      })
 
     this.searchString$
       .pipe(untilDestroyed(this))
@@ -194,7 +197,10 @@ export class CvcVariantQuickAddForm implements OnChanges {
         this.formMessageDisplay$.next({ message: undefined })
         setTimeout(() => {
           if (data && data.createVariant) {
-            this.cvcOnCreate.next({id: data.createVariant.variant.id, new: data.createVariant.new})
+            this.cvcOnCreate.next({
+              id: data.createVariant.variant.id,
+              new: data.createVariant.new,
+            })
           }
         }, 1000)
       }
@@ -211,7 +217,7 @@ export class CvcVariantQuickAddForm implements OnChanges {
       const id = changes.cvcFeatureName.currentValue
       this.featureName$.next(id)
     }
-/*     if (changes.cvcSearchString) {
+    /*     if (changes.cvcSearchString) {
       const name = changes.cvcSearchString.currentValue
       this.model = { ...this.model, name: name }
     } */

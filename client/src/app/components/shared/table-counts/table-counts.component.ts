@@ -36,6 +36,7 @@ export type EntityEdge = {
   templateUrl: './table-counts.component.html',
   styleUrls: ['./table-counts.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableCountsComponent implements OnInit {
   @Input() cvcTableCountsConnection!: Observable<EntityConnection>
@@ -61,7 +62,7 @@ export class TableCountsComponent implements OnInit {
         return {
           edgeCount: edges.length,
           filteredCount: filteredCount,
-          lastUpdated: c.lastUpdated
+          lastUpdated: c.lastUpdated,
         }
       })
     )

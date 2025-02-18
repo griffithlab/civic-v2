@@ -16,6 +16,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-therapies-summary',
   templateUrl: './therapies-summary.component.html',
   styleUrls: ['./therapies-summary.component.less'],
+  standalone: false,
 })
 export class TherapiesSummaryComponent implements OnDestroy {
   routeSub: Subscription
@@ -26,7 +27,10 @@ export class TherapiesSummaryComponent implements OnDestroy {
   loading$?: Observable<boolean>
   therapy$?: Observable<Maybe<TherapiesSummaryFieldsFragment>>
 
-  constructor(private route: ActivatedRoute, private gql: TherapiesSummaryGQL) {
+  constructor(
+    private route: ActivatedRoute,
+    private gql: TherapiesSummaryGQL
+  ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.therapyId = +params.therapyId
 

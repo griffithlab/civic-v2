@@ -136,6 +136,7 @@ const DirectionSelectMixin = mixin(
   templateUrl: './direction-select.type.html',
   styleUrls: ['./direction-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcDirectionSelectField
   extends DirectionSelectMixin

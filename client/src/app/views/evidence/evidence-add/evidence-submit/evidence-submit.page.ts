@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'cvc-evidence-submit',
   templateUrl: './evidence-submit.page.html',
+  standalone: false,
 })
 export class EvidenceSubmitPage implements OnDestroy {
   evidenceId?: number

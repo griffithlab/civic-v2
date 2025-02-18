@@ -51,6 +51,7 @@ export interface SelectableRevisionStatus {
   selector: 'cvc-revisions-list-and-filter',
   templateUrl: './revisions-list-and-filter.component.html',
   styleUrls: ['./revisions-list-and-filter.component.less'],
+  standalone: false,
 })
 export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   @Input() moderated!: ModeratedInput

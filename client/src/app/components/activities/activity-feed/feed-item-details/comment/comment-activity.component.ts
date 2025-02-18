@@ -6,7 +6,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'cvc-comment-activity-details',
-  standalone: true,
   imports: [CommonModule, CvcCommentBodyModule, NzTypographyModule],
   templateUrl: './comment-activity.component.html',
   styleUrl: './comment-activity.component.less',

@@ -84,6 +84,7 @@ const VariantTypeSelectMixin = mixin(
   templateUrl: './variant-type-select.type.html',
   styleUrls: ['./variant-type-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantTypeSelectField
   extends VariantTypeSelectMixin
@@ -108,13 +109,11 @@ export class CvcVariantTypeSelectField
       },
       description:
         'Add one or more variant types from the <a href="http://www.sequenceontology.org/browser/" target="_blank">Sequence Ontology</a> (e.g., missense, loss-of-function). Be specific as possible, avoid the addition of root concepts, and use the sequence_variant tree of the sequence ontology.',
-      
     },
   }
 
   @ViewChildren('optionTemplates', { read: TemplateRef })
   optionTemplates?: QueryList<TemplateRef<any>>
-
 
   constructor(
     private taq: VariantTypeSelectTypeaheadGQL,

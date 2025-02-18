@@ -9,19 +9,16 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 
 @Component({
-  standalone: true,
   selector: 'cvc-ncit-details',
   templateUrl: './ncit-details.component.html',
   styleUrls: ['./ncit-details.component.less'],
   imports: [
     CommonModule,
-
     NzDescriptionsModule,
     NzCardModule,
     NzTagModule,
     NzGridModule,
     NzTabsModule,
-
     CvcTagListModule,
   ],
 })

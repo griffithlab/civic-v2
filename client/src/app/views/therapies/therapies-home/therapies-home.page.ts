@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core'
   selector: 'therapies-home',
   templateUrl: './therapies-home.page.html',
   styleUrls: ['./therapies-home.page.less'],
+  standalone: false,
 })
 export class TherapiesHomePage implements OnInit {
   constructor() {}

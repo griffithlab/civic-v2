@@ -115,7 +115,6 @@ export const FEED_SCROLL_SERVICE_TOKEN =
   templateUrl: './activity-feed.component.html',
   styleUrl: './activity-feed.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     UiScrollModule,

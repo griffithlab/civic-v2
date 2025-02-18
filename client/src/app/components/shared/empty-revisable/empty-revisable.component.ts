@@ -5,6 +5,7 @@ import { Maybe } from '@app/generated/civic.apollo'
   selector: 'cvc-empty-revisable',
   templateUrl: './empty-revisable.component.html',
   styleUrls: ['./empty-revisable.component.less'],
+  standalone: false,
 })
 export class CvcEmptyRevisableComponent implements OnInit {
   @Input() notification: Maybe<string>

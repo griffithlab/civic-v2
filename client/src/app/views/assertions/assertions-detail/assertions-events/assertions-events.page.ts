@@ -11,6 +11,7 @@ import {
   templateUrl: './assertions-events.page.html',
   styleUrls: ['./assertions-events.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AssertionsEventsPage {
   feedScope: ActivityFeedScope

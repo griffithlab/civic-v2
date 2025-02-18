@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core'
   selector: 'cvc-form-errors-alert',
   templateUrl: './form-errors-alert.component.html',
   styleUrls: ['./form-errors-alert.component.less'],
+  standalone: false,
 })
 export class CvcFormErrorsAlertComponent implements OnInit {
   @Input() errors!: any

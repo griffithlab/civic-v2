@@ -32,6 +32,7 @@ export interface SelectableFlagState {
   selector: 'cvc-flag-list-and-filter',
   templateUrl: './flag-list-and-filter.component.html',
   styleUrls: ['./flag-list-and-filter.component.less'],
+  standalone: false,
 })
 export class CvcFlagListAndFilterComponent implements OnInit {
   @Input() flaggable!: FlaggableInput

@@ -10,6 +10,7 @@ import { ViewerService } from '@app/core/services/viewer/viewer.service'
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LayoutComponent {
   isCollapsed = false

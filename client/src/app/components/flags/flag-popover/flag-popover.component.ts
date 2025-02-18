@@ -12,6 +12,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-flag-popover',
   templateUrl: './flag-popover.component.html',
   styleUrls: ['./flag-popover.component.less'],
+  standalone: false,
 })
 export class CvcFlagPopoverComponent implements OnInit {
   @Input() flagId!: number

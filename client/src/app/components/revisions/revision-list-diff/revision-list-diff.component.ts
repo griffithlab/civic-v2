@@ -11,6 +11,7 @@ import { ObjectFieldDiff } from '@app/generated/civic.apollo'
   selector: 'cvc-revision-list-diff',
   templateUrl: './revision-list-diff.component.html',
   styleUrls: ['./revision-list-diff.component.less'],
+  standalone: false,
 })
 export class RevisionListDiffComponent implements OnInit {
   @Input() diffObject!: ObjectFieldDiff

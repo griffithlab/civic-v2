@@ -28,7 +28,6 @@ import { CvcNcitDetailsComponent } from '@app/components/factors/ncit-details/nc
   selector: 'cvc-mp-factor-variant-card',
   templateUrl: './molecular-profile-factor-variant-card.component.html',
   styleUrls: ['./molecular-profile-factor-variant-card.component.less'],
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
   selector: 'evidence-home',
   templateUrl: './evidence-home.page.html',
   styleUrls: ['./evidence-home.page.less'],
+  standalone: false,
 })
 export class EvidenceHomePage implements OnInit {
   viewer$: Observable<Viewer>

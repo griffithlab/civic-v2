@@ -71,6 +71,7 @@ type ExampleExpression = {
   templateUrl: './mp-expression-editor.component.html',
   styleUrls: ['./mp-expression-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>
@@ -163,7 +164,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
       description: 'KIT D816V must be absent.',
     },
   ]
-  
+
   viewer$: Observable<Viewer>
   mostRecentOrg$: Observable<Maybe<Organization>>
   mostRecentOrgId: Maybe<number>
@@ -173,7 +174,7 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
     private createMolecularProfileGql: CreateMolecularProfile2GQL,
     private mpEditorPrepopulate: MpExpressionEditorPrepopulateGQL,
     private networkErrorService: NetworkErrorsService,
-    private viewerService: ViewerService,
+    private viewerService: ViewerService
   ) {
     this.createMolecularProfileMutator = new MutatorWithState(
       this.networkErrorService
@@ -197,13 +198,9 @@ export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
-    this.mostRecentOrg$
-      .pipe(
-        untilDestroyed(this)
-      )
-      .subscribe((org) => {
-        this.mostRecentOrgId = org?.id
-      })
+    this.mostRecentOrg$.pipe(untilDestroyed(this)).subscribe((org) => {
+      this.mostRecentOrgId = org?.id
+    })
     this.onInputChange$
       .pipe(
         // tag('onInputChange$'),

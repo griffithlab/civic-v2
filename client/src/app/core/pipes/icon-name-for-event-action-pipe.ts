@@ -4,6 +4,7 @@ import { EventAction } from '@app/generated/civic.apollo'
 @Pipe({
   name: 'iconNameForEventAction',
   pure: true,
+  standalone: false,
 })
 export class IconNameForEventActionPipe implements PipeTransform {
   transform(a: EventAction): string {

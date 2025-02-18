@@ -24,6 +24,7 @@ export const EvidenceRatingLabelMap = new Map<number, string>([
 @Pipe({
   name: 'evidenceEnumDisplay',
   pure: true,
+  standalone: false,
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
   transform(

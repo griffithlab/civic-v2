@@ -52,6 +52,7 @@ export interface BrowseFeaturesTableUserFilters {
   templateUrl: './features-table.component.html',
   styleUrls: ['./features-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFeaturesTableComponent implements OnInit {
   @Input() cvcHeight?: number

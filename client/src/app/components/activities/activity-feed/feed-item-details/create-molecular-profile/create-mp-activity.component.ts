@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'cvc-create-mp-activity-details',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './create-mp-activity.component.html',
   styleUrl: './create-mp-activity.component.less',

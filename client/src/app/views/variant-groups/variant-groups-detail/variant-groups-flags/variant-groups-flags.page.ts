@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
   selector: 'cvc-variant-groups-flags',
   templateUrl: './variant-groups-flags.page.html',
   styleUrls: ['./variant-groups-flags.page.less'],
+  standalone: false,
 })
 export class VariantGroupsFlagsPage implements OnDestroy {
   flaggable?: FlaggableInput

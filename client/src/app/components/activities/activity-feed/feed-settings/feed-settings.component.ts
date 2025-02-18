@@ -22,7 +22,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 
 @Component({
   selector: 'cvc-activity-feed-settings',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,

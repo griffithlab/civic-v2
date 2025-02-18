@@ -12,6 +12,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-source-popover',
   templateUrl: './source-popover.component.html',
   styleUrls: ['./source-popover.component.less'],
+  standalone: false,
 })
 export class CvcSourcePopoverComponent implements OnInit {
   @Input() sourceId!: number

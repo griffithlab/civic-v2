@@ -12,6 +12,7 @@ import { Apollo } from 'apollo-angular'
   selector: 'cvc-assertions-comments',
   templateUrl: './assertions-comments.page.html',
   styleUrls: ['./assertions-comments.page.less'],
+  standalone: false,
 })
 export class AssertionsCommentsPage implements OnInit {
   commentable: CommentableInput

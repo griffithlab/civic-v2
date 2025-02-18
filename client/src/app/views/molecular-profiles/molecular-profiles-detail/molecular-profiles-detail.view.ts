@@ -20,6 +20,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'molecular-profiles-detail',
   templateUrl: './molecular-profiles-detail.view.html',
   styleUrls: ['./molecular-profiles-detail.view.less'],
+  standalone: false,
 })
 export class MolecularProfilesDetailView implements OnDestroy {
   queryRef?: QueryRef<

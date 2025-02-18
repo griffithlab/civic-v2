@@ -44,6 +44,7 @@ function populateMatchText(input: Maybe<TagInfo[]>): Maybe<TagInfo[]> {
   templateUrl: './tag-overflow.component.html',
   styleUrls: ['./tag-overflow.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTagOverflowComponent implements OnChanges {
   @Input({ transform: populateMatchText }) tags: Maybe<TagInfo[]>

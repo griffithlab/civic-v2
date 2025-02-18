@@ -52,6 +52,7 @@ export interface VariantGroupTableUserFilters {
   templateUrl: './variant-groups-table.component.html',
   styleUrls: ['./variant-groups-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantGroupsTableComponent implements OnInit {
   @Input() cvcHeight?: number

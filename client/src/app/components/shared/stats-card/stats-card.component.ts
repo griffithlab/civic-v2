@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs'
   templateUrl: './stats-card.component.html',
   styleUrls: ['./stats-card.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcStatsCardComponent implements OnInit {
   @Input() cvcStats!: Stats

@@ -16,6 +16,7 @@ import { NzSelectOptionInterface } from 'ng-zorro-antd/select'
   templateUrl: './enum-select.component.html',
   styleUrls: ['./enum-select.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEnumSelectComponent {
   @Input() cvcFormControl!: UntypedFormControl

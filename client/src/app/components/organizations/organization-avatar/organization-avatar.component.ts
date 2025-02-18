@@ -15,6 +15,7 @@ export interface WithProfileImageAndName {
   templateUrl: './organization-avatar.component.html',
   styleUrls: ['./organization-avatar.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrganizationAvatarComponent implements OnInit {
   @Input() organization!: WithProfileImageAndName

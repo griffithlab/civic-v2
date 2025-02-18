@@ -16,6 +16,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-phenotypes-detail',
   templateUrl: './phenotypes-detail.component.html',
   styleUrls: ['./phenotypes-detail.component.less'],
+  standalone: false,
 })
 export class PhenotypesDetailComponent implements OnDestroy {
   routeSub: Subscription

@@ -44,6 +44,7 @@ type OrganizationLeaderboard = {
   templateUrl: './organization-leaderboards.component.html',
   styleUrls: ['./organization-leaderboards.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrganizationLeaderboardsComponent implements OnInit {
   // SOURCE STREAMS
@@ -167,12 +168,14 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           (result: ApolloQueryResult<OrganizationCommentsLeaderboardQuery>) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationLeaderboards.commentsLeaderboard.edges.map((e) => {
-                if (e.node) {
-                  const row = organizationToOrganizationRow(e.node)
-                  rows.push(row)
+              result.data.organizationLeaderboards.commentsLeaderboard.edges.map(
+                (e) => {
+                  if (e.node) {
+                    const row = organizationToOrganizationRow(e.node)
+                    rows.push(row)
+                  }
                 }
-              })
+              )
             }
 
             return <OrganizationLeaderboard>{
@@ -207,12 +210,14 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationLeaderboards.moderationLeaderboard.edges.map((e) => {
-                if (e.node) {
-                  const row = organizationToOrganizationRow(e.node)
-                  rows.push(row)
+              result.data.organizationLeaderboards.moderationLeaderboard.edges.map(
+                (e) => {
+                  if (e.node) {
+                    const row = organizationToOrganizationRow(e.node)
+                    rows.push(row)
+                  }
                 }
-              })
+              )
             }
 
             return <OrganizationLeaderboard>{
@@ -247,12 +252,14 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationLeaderboards.revisionsLeaderboard.edges.map((e) => {
-                if (e.node) {
-                  const row = organizationToOrganizationRow(e.node)
-                  rows.push(row)
+              result.data.organizationLeaderboards.revisionsLeaderboard.edges.map(
+                (e) => {
+                  if (e.node) {
+                    const row = organizationToOrganizationRow(e.node)
+                    rows.push(row)
+                  }
                 }
-              })
+              )
             }
 
             return <OrganizationLeaderboard>{
@@ -287,12 +294,14 @@ export class CvcOrganizationLeaderboardsComponent implements OnInit {
           ) => {
             let rows: OrganizationLeaderboardRow[] = []
             if (result.data) {
-              result.data.organizationLeaderboards.submissionsLeaderboard.edges.map((e) => {
-                if (e.node) {
-                  const row = organizationToOrganizationRow(e.node)
-                  rows.push(row)
+              result.data.organizationLeaderboards.submissionsLeaderboard.edges.map(
+                (e) => {
+                  if (e.node) {
+                    const row = organizationToOrganizationRow(e.node)
+                    rows.push(row)
+                  }
                 }
-              })
+              )
             }
 
             return <OrganizationLeaderboard>{

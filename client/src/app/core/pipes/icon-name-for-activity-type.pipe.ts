@@ -4,6 +4,7 @@ import { ActivityTypeInput } from '@app/generated/civic.apollo'
 @Pipe({
   name: 'iconNameForActivityTypeInput',
   pure: true,
+  standalone: false,
 })
 export class IconNameForActivityTypeInputPipe implements PipeTransform {
   private iconMap: { [key in ActivityTypeInput]?: string } = {

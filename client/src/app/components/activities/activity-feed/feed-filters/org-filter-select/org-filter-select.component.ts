@@ -19,7 +19,6 @@ import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'cvc-org-filter-select',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,

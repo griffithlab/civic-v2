@@ -6,6 +6,7 @@ export type EventVerbiageContext = 'feed' | 'contributor-card' | 'action-filter'
 @Pipe({
   name: 'eventVerbiage',
   pure: true,
+  standalone: false,
 })
 export class EventVerbiagePipe implements PipeTransform {
   transform(

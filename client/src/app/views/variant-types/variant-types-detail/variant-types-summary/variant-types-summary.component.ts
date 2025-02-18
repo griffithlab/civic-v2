@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
   selector: 'cvc-variant-types-summary',
   templateUrl: './variant-types-summary.component.html',
   styleUrls: ['./variant-types-summary.component.less'],
+  standalone: false,
 })
 export class VariantTypesSummaryComponent implements OnDestroy {
   variantTypeId?: number

@@ -12,6 +12,7 @@ import { isNonNulled } from 'rxjs-etc'
   selector: 'cvc-therapy-popover',
   templateUrl: './cvc-therapy-popover.component.html',
   styleUrls: ['./cvc-therapy-popover.component.less'],
+  standalone: false,
 })
 export class CvcTherapyPopoverComponent implements OnInit {
   @Input() therapyId!: number

@@ -14,6 +14,7 @@ import { CvcFilterChange } from '../variant-manager.types'
   templateUrl: './enum-filter-menu.component.html',
   styleUrls: ['./enum-filter-menu.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EnumFilterMenuComponent {
   @Input() cvcColumnKey!: string

@@ -4,7 +4,7 @@ import { FormlyModule } from '@ngx-formly/core'
 import { ReactiveFormsModule } from '@angular/forms'
 
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number'
+import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy'
 import { CvcBaseInputField } from './input.type'
 
 @NgModule({
@@ -13,7 +13,7 @@ import { CvcBaseInputField } from './input.type'
     CommonModule,
     ReactiveFormsModule,
     NzInputModule,
-    NzInputNumberModule,
+    NzInputNumberLegacyModule,
 
     FormlyModule.forChild({
       types: [

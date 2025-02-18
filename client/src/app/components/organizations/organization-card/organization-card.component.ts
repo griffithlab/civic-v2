@@ -11,6 +11,7 @@ import { OrganizationGroupsFieldsFragment } from '@app/generated/civic.apollo'
   templateUrl: './organization-card.component.html',
   styleUrls: ['./organization-card.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcOrganizationCardComponent implements OnInit {
   @Input() organization!: OrganizationGroupsFieldsFragment

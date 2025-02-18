@@ -18,6 +18,7 @@ import { tag } from 'rxjs-spy/operators'
   templateUrl: './form-debug.component.html',
   styleUrls: ['./form-debug.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFormDebugComponent implements OnInit {
   @Input() cvcForm: Maybe<AbstractControl>

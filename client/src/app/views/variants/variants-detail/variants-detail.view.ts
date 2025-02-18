@@ -20,6 +20,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'variants-detail',
   templateUrl: './variants-detail.view.html',
   styleUrls: ['./variants-detail.view.less'],
+  standalone: false,
 })
 export class VariantsDetailView implements OnDestroy {
   queryRef?: QueryRef<VariantDetailQuery, VariantDetailQueryVariables>

@@ -16,6 +16,7 @@ export interface Subject {
 @Component({
   selector: 'cvc-revision-tag',
   templateUrl: './revision-tag.component.html',
+  standalone: false,
 })
 export class CvcRevisionTagComponent implements OnInit {
   @Input() revision!: LinkableRevision

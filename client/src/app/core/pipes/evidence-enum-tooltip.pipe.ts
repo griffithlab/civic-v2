@@ -5,6 +5,7 @@ import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-
 @Pipe({
   name: 'enumTooltip',
   pure: true,
+  standalone: false,
 })
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(

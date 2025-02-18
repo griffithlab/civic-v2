@@ -30,6 +30,7 @@ import { map, takeUntil } from 'rxjs/operators'
   selector: 'cvc-user-profile-form',
   templateUrl: './user-profile.form.html',
   styleUrls: ['./user-profile.form.less'],
+  standalone: false,
 })
 export class CvcUserProfileForm implements OnInit, OnDestroy {
   @Input() user!: UserDetailFieldsFragment

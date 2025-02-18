@@ -11,6 +11,7 @@ export interface LinkableClinicalTrial {
   selector: 'cvc-clinical-trial-tag',
   templateUrl: './clinical-trial-tag.component.html',
   styleUrls: ['./clinical-trial-tag.component.less'],
+  standalone: false,
 })
 export class CvcClinicalTrialTagComponent {
   _clinicalTrial!: LinkableClinicalTrial

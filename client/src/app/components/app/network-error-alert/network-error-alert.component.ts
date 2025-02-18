@@ -8,6 +8,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal'
   templateUrl: './network-error-alert.component.html',
   styleUrls: ['./network-error-alert.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcNetworkErrorAlertComponent {
   errors: NetworkErrorsService

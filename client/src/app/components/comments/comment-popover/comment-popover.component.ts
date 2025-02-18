@@ -12,6 +12,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-comment-popover',
   templateUrl: './comment-popover.component.html',
   styleUrls: ['./comment-popover.component.less'],
+  standalone: false,
 })
 export class CvcCommentPopoverComponent implements OnInit {
   @Input() commentId!: number

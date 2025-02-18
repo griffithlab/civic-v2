@@ -20,7 +20,6 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module'
 
 @Component({
-  standalone: true,
   selector: 'cvc-factor-summary',
   templateUrl: './factor-summary.page.html',
   styleUrls: ['./factor-summary.page.less'],
@@ -31,7 +30,6 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
     NzTypographyModule,
     NzSpaceModule,
     NzTagModule,
-
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcSourceTagModule,

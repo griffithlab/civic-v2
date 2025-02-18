@@ -29,6 +29,7 @@ const defaultProps: CvcFormLayoutWrapperProps = {
   templateUrl: './form-layout.wrapper.html',
   styleUrls: ['./form-layout.wrapper.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFormLayoutWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormLayoutWrapperProps>>

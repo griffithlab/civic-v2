@@ -19,6 +19,7 @@ export interface LinkableTherapy {
   templateUrl: './cvc-therapy-tag.component.html',
   styleUrls: ['./cvc-therapy-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTherapyTagComponent {
   _therapy!: LinkableTherapy

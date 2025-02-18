@@ -38,6 +38,7 @@ import {
   selector: 'cvc-assertion-revise-form',
   templateUrl: './assertion-revise.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAssertionReviseForm
   implements OnInit, AfterViewInit, OnDestroy

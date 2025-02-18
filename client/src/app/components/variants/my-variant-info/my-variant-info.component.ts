@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs'
   selector: 'cvc-my-variant-info',
   templateUrl: './my-variant-info.component.html',
   styleUrls: ['./my-variant-info.component.less'],
+  standalone: false,
 })
 export class CvcMyVariantInfoComponent implements OnDestroy {
   @Input() variantInfo: Maybe<MyVariantInfoFieldsFragment>

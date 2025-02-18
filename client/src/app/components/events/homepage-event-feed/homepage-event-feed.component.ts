@@ -26,6 +26,7 @@ export type EventDisplayOption =
   selector: 'cvc-homepage-event-feed',
   templateUrl: './homepage-event-feed.component.html',
   styleUrls: ['./homepage-event-feed.component.less'],
+  standalone: false,
 })
 export class CvcHomepageEventFeedComponent implements OnInit {
   @Input() pageSize = 15

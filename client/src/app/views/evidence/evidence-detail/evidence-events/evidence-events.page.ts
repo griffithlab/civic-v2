@@ -11,6 +11,7 @@ import {
   templateUrl: './evidence-events.page.html',
   styleUrls: ['./evidence-events.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EvidenceEventsPage {
   feedScope: ActivityFeedScope

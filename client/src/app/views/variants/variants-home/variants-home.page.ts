@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
   selector: 'variants-home',
   templateUrl: './variants-home.page.html',
   styleUrls: ['./variants-home.page.less'],
+  standalone: false,
 })
 export class VariantsHomePage implements OnInit {
   viewer$: Observable<Viewer>

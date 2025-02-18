@@ -4,6 +4,7 @@ import { Maybe } from '@app/generated/civic.apollo'
 @Pipe({
   name: 'ifEmpty',
   pure: true,
+  standalone: false,
 })
 export class IfEmptyPipe implements PipeTransform {
   transform(input: any, defaultValue: string): string {

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
   selector: 'cvc-variant-groups-revisions',
   templateUrl: './variant-groups-revisions.page.html',
   styleUrls: ['./variant-groups-revisions.page.less'],
+  standalone: false,
 })
 export class VariantGroupsRevisionsPage implements OnDestroy {
   subject!: ModeratedInput

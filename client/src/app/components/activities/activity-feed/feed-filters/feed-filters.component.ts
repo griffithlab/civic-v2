@@ -31,7 +31,7 @@ import {
   UserFilterSearchQuery,
   UserFilterSearchQueryVariables,
 } from '@app/generated/civic.apollo'
-import { CommonModule, KeyValuePipe } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzSelectModule } from 'ng-zorro-antd/select'
@@ -62,11 +62,9 @@ export const defaultFilters = {}
 @UntilDestroy()
 @Component({
   selector: 'cvc-activity-feed-filters',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    KeyValuePipe,
     NzAlertModule,
     NzButtonModule,
     NzIconModule,

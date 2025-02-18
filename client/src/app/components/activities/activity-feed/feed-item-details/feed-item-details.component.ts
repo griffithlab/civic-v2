@@ -49,7 +49,6 @@ import { CvcDeleteCommentActivity } from './delete-comment/delete-comment-activi
 
 @Component({
   selector: 'cvc-activity-feed-item-details',
-  standalone: true,
   imports: [
     CommonModule,
     CvcPipesModule,

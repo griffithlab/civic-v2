@@ -141,6 +141,7 @@ const SignificanceSelectMixin = mixin(
   selector: 'cvc-significance-select',
   templateUrl: './significance-select.type.html',
   styleUrls: ['./significance-select.type.less'],
+  standalone: false,
 })
 export class CvcSignificanceSelectField
   extends SignificanceSelectMixin

@@ -22,7 +22,6 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
 
 @Component({
-  standalone: true,
   selector: 'cvc-fusion-summary',
   templateUrl: './fusion-summary.page.html',
   styleUrls: ['./fusion-summary.page.less'],

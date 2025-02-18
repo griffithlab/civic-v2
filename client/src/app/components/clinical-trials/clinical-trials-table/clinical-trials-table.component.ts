@@ -55,6 +55,7 @@ export interface ClinicalTrialsTableUserFilters {
   selector: 'cvc-clinical-trials-table',
   templateUrl: './clinical-trials-table.component.html',
   styleUrls: ['./clinical-trials-table.component.less'],
+  standalone: false,
 })
 export class CvcClinicalTrialsTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -202,7 +203,10 @@ export class CvcClinicalTrialsTableComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  trackByIndex(_: number, data: Maybe<BrowseClinicalTrialsRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<BrowseClinicalTrialsRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

@@ -16,6 +16,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-clinical-trials-detail',
   templateUrl: './clinical-trials-detail.component.html',
   styleUrls: ['./clinical-trials-detail.component.less'],
+  standalone: false,
 })
 export class ClinicalTrialsDetailComponent implements OnDestroy {
   routeSub: Subscription

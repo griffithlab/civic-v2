@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'cvc-assertions-revisions',
   templateUrl: './assertions-revisions.page.html',
+  standalone: false,
 })
 export class AssertionsRevisionsPage implements OnInit {
   subject!: ModeratedInput

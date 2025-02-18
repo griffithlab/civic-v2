@@ -28,7 +28,6 @@ import { CommonModule } from '@angular/common'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { RouterModule } from '@angular/router'
-import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { UntilDestroy } from '@ngneat/until-destroy'
 import {
@@ -51,16 +50,13 @@ export interface FusionSelectModalData {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   selector: 'cvc-fusion-select-form',
   templateUrl: './fusion-select.form.html',
   styleUrls: ['./fusion-select.form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    PushPipe,
     ReactiveFormsModule,
-    LetDirective,
     NzFormModule,
     NzButtonModule,
     NzAlertModule,

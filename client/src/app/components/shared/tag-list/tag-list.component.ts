@@ -18,6 +18,7 @@ import { Maybe } from '@app/generated/civic.apollo'
     '[class.sm]': 'size === "sm"',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcTagListComponent implements OnInit {
   @Input() size!: Maybe<'xs' | 'sm'>

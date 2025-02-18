@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'cvc-molecular-profiles-revisions',
   templateUrl: './molecular-profiles-revisions.page.html',
+  standalone: false,
 })
 export class MolecularProfilesRevisionsPage implements OnDestroy {
   subject!: ModeratedInput

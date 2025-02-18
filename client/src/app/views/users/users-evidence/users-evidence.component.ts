@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
   selector: 'cvc-users-evidence',
   templateUrl: './users-evidence.component.html',
   styleUrls: ['./users-evidence.component.less'],
+  standalone: false,
 })
 export class UsersEvidenceComponent {
   userId: number

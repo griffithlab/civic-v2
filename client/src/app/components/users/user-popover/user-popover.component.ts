@@ -18,6 +18,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-user-popover',
   templateUrl: './user-popover.component.html',
   styleUrls: ['./user-popover.component.less'],
+  standalone: false,
 })
 export class CvcUserPopoverComponent implements OnInit {
   @Input() userId!: number

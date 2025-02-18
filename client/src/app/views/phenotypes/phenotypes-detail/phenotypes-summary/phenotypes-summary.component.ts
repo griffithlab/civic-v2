@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
   selector: 'cvc-phenotypes-summary',
   templateUrl: './phenotypes-summary.component.html',
   styleUrls: ['./phenotypes-summary.component.less'],
+  standalone: false,
 })
 export class PhenotypesSummaryComponent implements OnDestroy {
   routeSub: Subscription

@@ -12,6 +12,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-clinical-trial-popover',
   templateUrl: './clinical-trial-popover.component.html',
   styleUrls: ['./clinical-trial-popover.component.less'],
+  standalone: false,
 })
 export class CvcClinicalTrialPopoverComponent implements OnInit {
   @Input() clinicalTrialId!: number

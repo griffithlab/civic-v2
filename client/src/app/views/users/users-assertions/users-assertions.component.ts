@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
   selector: 'cvc-users-assertions',
   templateUrl: './users-assertions.component.html',
   styleUrls: ['./users-assertions.component.less'],
+  standalone: false,
 })
 export class UsersAssertionsComponent {
   userId: number

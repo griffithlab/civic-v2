@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators'
   selector: 'cvc-user-coi-form',
   templateUrl: './user-coi.form.html',
   styleUrls: ['./user-coi.form.less'],
+  standalone: false,
 })
 export class CvcUserCoiForm implements OnDestroy {
   @Output() coiUpdatedEvent = new EventEmitter<void>()

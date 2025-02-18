@@ -21,6 +21,7 @@ import { Maybe } from '@app/generated/civic.apollo'
   host: {
     '[class.full-width]': `cvcFullWidth === true`,
   },
+  standalone: false,
 })
 export class CvcAttributeTagComponent implements OnChanges {
   @Input() cvcAttrValue: Maybe<CvcInputEnum>

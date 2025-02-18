@@ -21,6 +21,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   selector: 'assertions-detail',
   templateUrl: './assertions-detail.view.html',
   styleUrls: ['./assertions-detail.view.less'],
+  standalone: false,
 })
 export class AssertionsDetailView implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>

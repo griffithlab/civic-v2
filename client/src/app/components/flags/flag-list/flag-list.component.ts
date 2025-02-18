@@ -25,6 +25,7 @@ type SuccessType = false | 'accepted' | 'rejected'
   selector: 'cvc-flag-list',
   templateUrl: './flag-list.component.html',
   styleUrls: ['./flag-list.component.less'],
+  standalone: false,
 })
 export class FlagListComponent implements OnInit, OnDestroy {
   @Input() flags!: FlagFragment[]

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
   selector: 'cvc-features-suggest',
   templateUrl: './features-suggest.page.html',
   styleUrls: ['./features-suggest.page.less'],
+  standalone: false,
 })
 export class FeaturesSuggestPage implements OnDestroy {
   featureId?: number

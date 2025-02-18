@@ -12,6 +12,7 @@ import { pluck } from 'rxjs-etc/operators'
   selector: 'cvc-contributor-avatars',
   templateUrl: './contributor-avatars.component.html',
   styleUrls: ['./contributor-avatars.component.less'],
+  standalone: false,
 })
 export class CvcContributorAvatarsComponent implements OnInit {
   @Input() subscribable: Maybe<SubscribableInput>

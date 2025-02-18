@@ -68,6 +68,7 @@ const EntityTypeSelectMixin = mixin(
   templateUrl: './type-select.type.html',
   styleUrls: ['./type-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEntityTypeSelectField
   extends EntityTypeSelectMixin

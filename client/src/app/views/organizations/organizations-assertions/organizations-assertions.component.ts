@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
   selector: 'cvc-organizations-assertions',
   templateUrl: './organizations-assertions.component.html',
   styleUrls: ['./organizations-assertions.component.less'],
+  standalone: false,
 })
 export class OrganizationsAssertionsComponent {
   organizationId: number

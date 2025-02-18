@@ -90,6 +90,7 @@ const DiseaseSelectMixin = mixin(
   templateUrl: './disease-select.type.html',
   styleUrls: ['./disease-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcDiseaseSelectField
   extends DiseaseSelectMixin
@@ -217,7 +218,7 @@ export class CvcDiseaseSelectField
         ([requiresDisease, entityType, diseaseId]: [
           boolean,
           Maybe<EntityType>,
-          Maybe<number | number[]>
+          Maybe<number | number[]>,
         ]) => {
           this.onStateUpdates(requiresDisease, entityType, diseaseId)
         }

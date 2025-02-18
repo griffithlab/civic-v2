@@ -90,6 +90,7 @@ const ClingenCodeSelectMixin = mixin(
   templateUrl: './clingen-code-select.type.html',
   styleUrls: ['./clingen-code-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcClingenCodeSelectField
   extends ClingenCodeSelectMixin

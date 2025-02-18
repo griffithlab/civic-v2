@@ -40,6 +40,7 @@ interface WithDisplayNameAndValue {
   templateUrl: './comment-input.form.html',
   styleUrls: ['./comment-input.form.less'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CvcCommentInputForm implements OnDestroy, OnChanges {
   @Input() comment?: string

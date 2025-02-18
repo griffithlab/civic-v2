@@ -12,6 +12,7 @@ import { filter, map } from 'rxjs/operators'
   selector: 'cvc-variant-popover',
   templateUrl: './variant-popover.component.html',
   styleUrls: ['./variant-popover.component.less'],
+  standalone: false,
 })
 export class CvcVariantPopoverComponent implements OnInit {
   @Input() variantId!: number

@@ -13,7 +13,6 @@ import { CvcActivityRevision } from '../shared/activity-revision/activity-revisi
 
 @Component({
   selector: 'cvc-accept-revisions-activity-details',
-  standalone: true,
   imports: [CommonModule, CvcActivityRevision],
   templateUrl: './accept-revisions-activity.component.html',
   styleUrl: './accept-revisions-activity.component.less',

@@ -42,6 +42,7 @@ type SuccessType = false | 'accepted' | 'rejected'
   selector: 'cvc-revision-list',
   templateUrl: './revision-list.component.html',
   styleUrls: ['./revision-list.component.less'],
+  standalone: false,
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() revisions?: Revision[]

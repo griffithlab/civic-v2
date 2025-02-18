@@ -13,7 +13,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
-  standalone: true,
   selector: 'cvc-gene-base-summary',
   templateUrl: './gene-base-summary.page.html',
   styleUrls: ['./gene-base-summary.page.less'],
@@ -24,7 +23,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
     NzTypographyModule,
     NzSpaceModule,
     NzTagModule,
-
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcSourceTagModule,

@@ -17,7 +17,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'cvc-flag-entity-activity-details',
-  standalone: true,
   imports: [CommonModule, CvcCommentBodyModule, NzTypographyModule],
   templateUrl: './flag-entity-activity.component.html',
   styleUrl: './flag-entity-activity.component.less',

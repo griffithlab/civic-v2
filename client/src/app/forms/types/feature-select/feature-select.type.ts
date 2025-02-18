@@ -79,6 +79,7 @@ const FeatureSelectMixin = mixin(
   templateUrl: './feature-select.type.html',
   styleUrls: ['./feature-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcFeatureSelectField
   extends FeatureSelectMixin

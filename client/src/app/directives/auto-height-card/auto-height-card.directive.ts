@@ -20,6 +20,7 @@ type AutoHeightOffset = string | number | undefined
 @Directive({
   // tslint:disable-next-line: directive-selector
   selector: '[cvcAutoHeightCard]',
+  standalone: false,
 })
 export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   // optional offset value, if provided will be added to height calculation

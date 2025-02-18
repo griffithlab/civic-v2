@@ -22,6 +22,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
   selector: 'users-detail',
   templateUrl: './users-detail.component.html',
   styleUrls: ['./users-detail.component.less'],
+  standalone: false,
 })
 export class UsersDetailComponent implements OnDestroy {
   queryRef?: QueryRef<UserDetailQuery, UserDetailQueryVariables>

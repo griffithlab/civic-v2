@@ -51,6 +51,7 @@ import { pluck } from 'rxjs-etc/operators'
   templateUrl: './assertions-table.component.html',
   styleUrls: ['./assertions-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>

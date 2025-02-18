@@ -17,7 +17,7 @@ export type CvcNewsItem = {
   selector: 'cvc-news-item-list',
   templateUrl: './news-item-list.component.html',
   styleUrls: ['./news-item-list.component.less'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NewsItemListComponent {
   @Input() cvcNewsItems?: CvcNewsItem[]

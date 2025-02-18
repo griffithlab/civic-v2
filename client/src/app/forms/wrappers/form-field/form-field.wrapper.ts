@@ -32,6 +32,7 @@ const defaultWrapperOptions: FormFieldOptions = {}
     '[class.layout-vertical]': 'formLayout === "vertical"',
     '[class.layout-inline]': 'formLayout === "inline"',
   },
+  standalone: false,
 })
 export class CvcFormFieldWrapper
   extends FieldWrapper<FormlyFieldConfig>

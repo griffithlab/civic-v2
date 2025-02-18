@@ -9,6 +9,7 @@ export type InputEnum = EvidenceLevel
 @Pipe({
   name: 'evidenceLevelDisplay',
   pure: true,
+  standalone: false,
 })
 export class EvidenceLevelDisplayPipe implements PipeTransform {
   transform(

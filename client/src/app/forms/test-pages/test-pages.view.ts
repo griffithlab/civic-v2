@@ -8,6 +8,7 @@ import { Maybe } from '@app/generated/civic.apollo'
   templateUrl: './test-pages.view.html',
   styleUrls: ['./test-pages.view.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TestPagesView {
   tabs: RouteableTab[]

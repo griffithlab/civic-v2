@@ -4,7 +4,6 @@ import { JsonPipe } from '@angular/common'
 
 @Component({
   selector: 'cvc-moderate-assertion-activity-details',
-  standalone: true,
   imports: [JsonPipe],
   templateUrl: './moderate-assertion-activity.component.html',
   styleUrl: './moderate-assertion-activity.component.less',

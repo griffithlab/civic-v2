@@ -77,6 +77,7 @@ const OriginSelectMixin = mixin(
   selector: 'cvc-origin-select',
   templateUrl: './origin-select.type.html',
   styleUrls: ['./origin-select.type.less'],
+  standalone: false,
 })
 export class CvcOriginSelectField
   extends OriginSelectMixin

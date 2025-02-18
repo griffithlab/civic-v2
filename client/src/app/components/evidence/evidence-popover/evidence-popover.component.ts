@@ -12,6 +12,7 @@ import { isNonNulled } from 'rxjs-etc'
   selector: 'cvc-evidence-popover',
   templateUrl: './evidence-popover.component.html',
   styleUrls: ['./evidence-popover.component.less'],
+  standalone: false,
 })
 export class CvcEvidencePopoverComponent implements OnInit {
   @Input() evidenceId!: number

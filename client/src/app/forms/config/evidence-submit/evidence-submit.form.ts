@@ -44,6 +44,7 @@ import { ActivatedRoute } from '@angular/router'
   selector: 'cvc-evidence-submit-form',
   templateUrl: './evidence-submit.form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEvidenceSubmitForm implements OnDestroy, AfterViewInit, OnInit {
   model?: EvidenceSubmitModel

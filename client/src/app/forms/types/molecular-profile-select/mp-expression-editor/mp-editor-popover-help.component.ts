@@ -7,6 +7,7 @@ import { MpParseErrorType } from '@app/core/utilities/molecular-profile-parser'
   styles: [
     '.help-content { max-width: 500px; } blockquote { margin-left: 1em; }',
   ],
+  standalone: false,
 })
 export class MpEditorPopoverHelpComponent {
   @Input() cvcErrorType?: // if undefined, will display 'getting started' help

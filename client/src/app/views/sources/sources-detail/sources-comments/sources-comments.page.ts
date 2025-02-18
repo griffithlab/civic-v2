@@ -9,6 +9,7 @@ import {
   selector: 'cvc-sources-comments',
   templateUrl: './sources-comments.page.html',
   styleUrls: ['./sources-comments.page.less'],
+  standalone: false,
 })
 export class SourcesCommentsPage {
   commentable: CommentableInput

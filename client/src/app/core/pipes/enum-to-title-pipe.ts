@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 @Pipe({
   name: 'enumToTitle',
   pure: true,
+  standalone: false,
 })
 export class EnumToTitlePipe implements PipeTransform {
   transform(enum_text?: string): string {

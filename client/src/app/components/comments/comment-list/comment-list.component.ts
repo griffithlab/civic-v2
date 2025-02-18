@@ -29,6 +29,7 @@ interface CommentTagSegmentWithId {
   selector: 'cvc-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.less'],
+  standalone: false,
 })
 export class CvcCommentListComponent implements OnInit {
   @Input() commentable!: CommentableInput

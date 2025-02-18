@@ -12,6 +12,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-revision-popover',
   templateUrl: './revision-popover.component.html',
   styleUrls: ['./revision-popover.component.less'],
+  standalone: false,
 })
 export class CvcRevisionPopoverComponent implements OnInit {
   @Input() revisionId!: number

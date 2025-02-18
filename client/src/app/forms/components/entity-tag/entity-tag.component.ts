@@ -81,6 +81,7 @@ export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
     '[class.new]': `cvcStatus === 'NEW'`,
     '[class.superseded]': `cvcStatus === 'SUPERSEDED'`,
   },
+  standalone: false,
 })
 export class CvcEntityTagComponent implements OnChanges {
   @Input()

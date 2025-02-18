@@ -28,6 +28,7 @@ interface RevisionsTab {
   selector: 'cvc-variants-revisions',
   templateUrl: './variants-revisions.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VariantsRevisionsPage implements OnDestroy, OnInit {
   routeSub?: Subscription

@@ -12,6 +12,7 @@ import { Maybe } from '@app/generated/civic.apollo'
   templateUrl: './clearable-input-filter.component.html',
   styleUrls: ['./clearable-input-filter.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcClearableInputFilterComponent {
   @Input() placeholderText?: Maybe<string>

@@ -18,6 +18,7 @@ import { pluck } from 'rxjs-etc/operators'
   templateUrl: './clinical-trials-summary.component.html',
   styleUrls: ['./clinical-trials-summary.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ClinicalTrialsSummaryComponent implements OnDestroy {
   routeSub: Subscription

@@ -6,6 +6,7 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo'
   selector: 'cvc-features-flags',
   templateUrl: './features-flags.page.html',
   styleUrls: ['./features-flags.page.less'],
+  standalone: false,
 })
 export class FeaturesFlagsPage implements OnInit {
   flaggable: FlaggableInput

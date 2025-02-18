@@ -89,6 +89,7 @@ const PhenotypeSelectMixin = mixin(
   templateUrl: './phenotype-select.type.html',
   styleUrls: ['./phenotype-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcPhenotypeSelectField
   extends PhenotypeSelectMixin

@@ -13,6 +13,7 @@ import { Observable } from 'rxjs'
 @Component({
   selector: 'cvc-comment-display',
   templateUrl: './comment-display.component.html',
+  standalone: false,
 })
 export class CvcCommentDisplayComponent implements OnInit {
   comment = input.required<CommentListNodeFragment>()

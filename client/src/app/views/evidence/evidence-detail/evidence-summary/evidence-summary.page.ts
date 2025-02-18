@@ -19,6 +19,7 @@ import { Observable } from 'rxjs'
   selector: 'cvc-evidence-summary',
   templateUrl: './evidence-summary.page.html',
   styleUrls: ['./evidence-summary.page.less'],
+  standalone: false,
 })
 export class EvidenceSummaryPage {
   @Input() evidenceId: Maybe<number>
@@ -30,7 +31,10 @@ export class EvidenceSummaryPage {
   subscribable: SubscribableInput
   statusValues = EvidenceStatus
 
-  constructor(private gql: EvidenceSummaryGQL, private route: ActivatedRoute) {
+  constructor(
+    private gql: EvidenceSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     var queryEvidenceId: number
     if (this.evidenceId) {
       queryEvidenceId = this.evidenceId

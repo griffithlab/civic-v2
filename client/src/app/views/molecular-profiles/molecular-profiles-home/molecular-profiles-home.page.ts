@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
   selector: 'molecular-profiles-home',
   templateUrl: './molecular-profiles-home.page.html',
   styleUrls: ['./molecular-profiles-home.page.less'],
+  standalone: false,
 })
 export class MolecularProfilesHomePage implements OnInit {
   viewer$?: Observable<Viewer>

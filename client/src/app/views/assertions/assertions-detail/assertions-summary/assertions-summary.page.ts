@@ -20,6 +20,7 @@ import { AssertionState } from '@app/forms/states/assertion.state'
   selector: 'cvc-assertion-summary',
   templateUrl: './assertions-summary.page.html',
   styleUrls: ['./assertions-summary.page.less'],
+  standalone: false,
 })
 export class AssertionsSummaryPage {
   @Input() assertionId: Maybe<number>
@@ -33,7 +34,10 @@ export class AssertionsSummaryPage {
 
   subscribable: SubscribableInput
 
-  constructor(private gql: AssertionSummaryGQL, private route: ActivatedRoute) {
+  constructor(
+    private gql: AssertionSummaryGQL,
+    private route: ActivatedRoute
+  ) {
     var queryAssertionId: number
     if (this.assertionId) {
       queryAssertionId = this.assertionId

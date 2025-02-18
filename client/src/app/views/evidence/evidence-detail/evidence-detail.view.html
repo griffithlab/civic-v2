@@ -134,12 +134,12 @@
           nzCloseable
           (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <nz-alert
-          *ngIf="this.evidence.status == 'SUBMITTED'"
+          *ngIf="evidence.status == 'SUBMITTED'"
           nzBanner
           nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
         <nz-alert
-          *ngIf="this.evidence.status == 'REJECTED'"
+          *ngIf="evidence.status == 'REJECTED'"
           nzBanner
           nzMessage="This Evidence Item has been rejected."
           nzType="error">

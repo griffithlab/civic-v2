@@ -20,6 +20,7 @@ const defaultWrapperOptions: FormCardOptions = {
   selector: 'cvc-form-card',
   templateUrl: './form-card.wrapper.html',
   styleUrls: ['./form-card.wrapper.less'],
+  standalone: false,
 })
 export class CvcFormCardWrapper
   extends FieldWrapper<FormlyFieldConfig<CvcFormCardWrapperProps>>

@@ -83,6 +83,7 @@ const SourceSelectMixin = mixin(
   templateUrl: './source-select.type.html',
   styleUrls: ['./source-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcSourceSelectField
   extends SourceSelectMixin

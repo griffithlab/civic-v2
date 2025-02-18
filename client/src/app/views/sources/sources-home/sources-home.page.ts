@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
   selector: 'sources-home',
   templateUrl: './sources-home.page.html',
   styleUrls: ['./sources-home.page.less'],
+  standalone: false,
 })
 export class SourcesHomePage implements OnInit {
   viewer$: Observable<Viewer>

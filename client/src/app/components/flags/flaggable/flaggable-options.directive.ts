@@ -7,6 +7,7 @@ export type FlaggableOptions = {
 
 @Directive({
   selector: '[cvcFlaggableOptions]',
+  standalone: false,
 })
 export class CvcFlaggableOptionsDirective {
   constructor() {}

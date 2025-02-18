@@ -21,6 +21,7 @@ export interface LinkableVariant {
   templateUrl: './variant-tag.component.html',
   styleUrls: ['./variant-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcVariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant

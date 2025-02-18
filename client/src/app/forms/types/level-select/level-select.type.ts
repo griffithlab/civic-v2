@@ -71,6 +71,7 @@ const LevelSelectMixin = mixin(
   templateUrl: './level-select.type.html',
   styleUrls: ['./level-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcLevelSelectField
   extends LevelSelectMixin

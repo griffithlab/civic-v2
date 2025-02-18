@@ -28,6 +28,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
   selector: 'cvc-update-source-suggestion-form',
   templateUrl: './update-source-suggestion.form.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class CvcUpdateSourceSuggestionForm implements OnDestroy {
   @Input() sourceSuggestionId!: number

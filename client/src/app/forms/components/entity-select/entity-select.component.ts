@@ -88,6 +88,7 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
   templateUrl: './entity-select.component.html',
   styleUrls: ['./entity-select.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Input() cvcFormControl!: UntypedFormControl
@@ -220,7 +221,7 @@ export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
             string,
             Maybe<string>,
             NzSelectOptionInterface[],
-            boolean
+            boolean,
           ]) => {
             const entityName = this.cvcEntityName.plural
             const minLength = this.cvcMinSearchStrLength

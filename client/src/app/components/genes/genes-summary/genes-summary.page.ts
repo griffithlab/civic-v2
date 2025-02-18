@@ -10,6 +10,7 @@ import {
   selector: 'cvc-genes-summary',
   templateUrl: './genes-summary.page.html',
   styleUrls: ['./genes-summary.page.less'],
+  standalone: false,
 })
 export class GenesSummaryPage implements OnInit {
   @Input() gene!: GeneSummaryFieldsFragment

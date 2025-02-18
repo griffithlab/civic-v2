@@ -25,6 +25,7 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
   selector: 'cvc-revert-entity-button',
   templateUrl: './revert-entity-button.component.html',
   styleUrls: ['./revert-entity-button.component.less'],
+  standalone: false,
 })
 export class CvcRevertEntityButtonComponent implements OnInit {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'

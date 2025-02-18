@@ -47,6 +47,7 @@ export interface OrganizationsTableFilters {
   selector: 'cvc-organizations-table',
   templateUrl: './organizations-table.component.html',
   styleUrls: ['./organizations-table.component.less'],
+  standalone: false,
 })
 export class CvcOrganizationsTableComponent implements OnInit {
   @Input() cvcHeight?: number
@@ -199,7 +200,10 @@ export class CvcOrganizationsTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: Maybe<OrganizationBrowseTableRowFieldsFragment>): Maybe<number> {
+  trackByIndex(
+    _: number,
+    data: Maybe<OrganizationBrowseTableRowFieldsFragment>
+  ): Maybe<number> {
     return data?.id
   }
 }

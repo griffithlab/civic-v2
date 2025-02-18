@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'cvc-activity-feed-counts',
-  standalone: true,
   imports: [CommonModule, NzTypographyModule],
   templateUrl: './feed-counts.component.html',
   styleUrl: './feed-counts.component.less',

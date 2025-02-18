@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators'
   selector: 'evidence-add',
   templateUrl: './evidence-add.view.html',
   styleUrls: ['./evidence-add.view.less'],
+  standalone: false,
 })
 export class EvidenceAddView implements OnInit {
   isSignedIn$?: Observable<boolean>

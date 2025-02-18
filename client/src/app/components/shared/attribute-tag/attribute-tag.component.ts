@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
   templateUrl: './attribute-tag.component.html',
   styleUrls: ['./attribute-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcAttributeTagComponent {
   @Input() cvcAttrValue!: any

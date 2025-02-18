@@ -6,6 +6,7 @@ import { LinkableMolecularProfile } from '../molecular-profile-tag/molecular-pro
   selector: 'cvc-mp-gene-variant-card',
   templateUrl: './molecular-profile-gene-variant-card.component.html',
   styleUrls: ['./molecular-profile-gene-variant-card.component.less'],
+  standalone: false,
 })
 export class CvcMolecularProfileGeneVariantCardComponent implements OnInit {
   @Input() variant!: VariantMolecularProfileCardFieldsFragment

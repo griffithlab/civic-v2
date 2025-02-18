@@ -48,7 +48,6 @@ export type FeatureIdWithCreationStatus = {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

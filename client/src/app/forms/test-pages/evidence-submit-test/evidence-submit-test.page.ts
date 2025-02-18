@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
   selector: 'cvc-nonstate-form',
   templateUrl: './evidence-submit-test.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EvidenceSubmitTestPage implements OnInit {
   constructor() {}

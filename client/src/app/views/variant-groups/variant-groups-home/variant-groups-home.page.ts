@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
   selector: 'variant-groups-home',
   templateUrl: './variant-groups-home.page.html',
   styleUrls: ['./variant-groups-home.page.less'],
+  standalone: false,
 })
 export class VariantGroupsHomePage implements OnInit {
   viewer$: Observable<Viewer>

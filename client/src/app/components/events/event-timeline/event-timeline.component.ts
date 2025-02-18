@@ -10,6 +10,7 @@ import { EventDisplayOption } from '../event-feed/event-feed.component'
   selector: 'cvc-event-timeline',
   templateUrl: './event-timeline.component.html',
   styleUrls: ['./event-timeline.component.less'],
+  standalone: false,
 })
 export class CvcEventTimelineComponent implements OnInit {
   @Input() events!: Maybe<EventFeedNodeFragment>[]

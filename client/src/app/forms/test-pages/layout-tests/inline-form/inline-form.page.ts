@@ -13,6 +13,7 @@ import {
   selector: 'cvc-inline-form',
   templateUrl: './inline-form.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class InlineFormPage implements OnInit {
   model: any
