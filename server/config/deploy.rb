@@ -2,7 +2,7 @@ require_relative 'deploy/sidekiq'
 require_relative 'deploy/puma'
 
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.16.0"
+lock "~> 3.19.0"
 
 set :application, "civic"
 set :repo_url, "https://github.com/griffithlab/civic-v2.git"
