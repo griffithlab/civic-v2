@@ -22,6 +22,7 @@ module Types::Entities
     field :most_recent_organization_id, Int, null: true
     field :ranks, Types::Entities::RanksType, null: false
     field :email, String, null: true
+    field :api_keys, [Types::ApiKeyType], null: false
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
@@ -125,6 +126,14 @@ module Types::Entities
         submissions_rank: Leaderboard.single_user_query(object.id, Leaderboard.submission_actions),
         revisions_rank: Leaderboard.single_user_query(object.id, Leaderboard.revision_actions)
       }
+    end
+
+    def api_keys
+      if object.id == context[:current_user]&.id
+        object.api_keys.where(revoked: false)
+      else
+        []
+      end
     end
   end
 end

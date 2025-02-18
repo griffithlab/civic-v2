@@ -143,6 +143,15 @@
                 *nzSpaceItem
                 (uploadComplete)="profileUploadComplete($event)">
               </cvc-avatar-uploader>
+              <button
+                *nzSpaceItem
+                nz-button
+                nzSize="small"
+                nzType="primary"
+                nzBlock
+                (click)="manageApiKeysModalVisible = true">
+                Manage API Keys
+              </button>
             </ng-container>
           </nz-space>
         </nz-col>
@@ -274,7 +283,7 @@
                       nzTitle="Updated">
                       {{
                         user.mostRecentConflictOfInterestStatement.createdAt
-                          | date : 'shortDate'
+                          | date: 'shortDate'
                       }}
                     </nz-descriptions-item>
                     <nz-descriptions-item
@@ -282,7 +291,7 @@
                       nzTitle="Expires">
                       {{
                         user.mostRecentConflictOfInterestStatement.expiresAt
-                          | date : 'shortDate'
+                          | date: 'shortDate'
                       }}
                     </nz-descriptions-item>
                     <nz-descriptions-item
@@ -381,7 +390,6 @@
       </nz-row>
     </nz-page-header-content>
   </nz-page-header>
-
   <nz-modal
     [(nzVisible)]="this.updateProfileModalVisible"
     [nzContent]="profileModalContent"
@@ -396,6 +404,18 @@
     </ng-template>
   </nz-modal>
 </ng-container>
+
+<nz-modal
+  [(nzVisible)]="this.manageApiKeysModalVisible"
+  [nzContent]="apiKeysModalContent"
+  [nzTitle]="apiKeysModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="this.manageApiKeysModalVisible = false">
+  <ng-template #apiKeysModalTitle><span>Manage API Keys</span></ng-template>
+  <ng-template #apiKeysModalContent>
+    <cvc-user-api-keys-form></cvc-user-api-keys-form>
+  </ng-template>
+</nz-modal>
 
 <nz-modal
   [(nzVisible)]="this.updateCoiModalVisible"

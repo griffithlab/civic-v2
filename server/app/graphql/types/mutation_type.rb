@@ -62,5 +62,9 @@ module Types
     field :create_feature, mutation: Mutations::CreateFeature
     field :create_fusion_feature, mutation: Mutations::CreateFusionFeature
     field :create_fusion_variant, mutation: Mutations::CreateFusionVariant
+
+    #api keys
+    field :generate_api_key, mutation: Mutations::GenerateApiKey
+    field :revoke_api_key, mutation: Mutations::RevokeApiKey
   end
 end
