@@ -279,7 +279,7 @@ export class CvcEvidenceSelectField
       // tag('onFieldsChange$')
     )
 
-    // combine all synchronized requireds updates, emit table prefs array
+    // combine all synchronized required updates, emit table prefs array
     this.onRequiredChange$ = combineLatest(this.synchronizedRequired$).pipe(
       map((fields) => {
         const newPrefs: Partial<ColumnPrefsOption>[] = []
