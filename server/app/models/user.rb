@@ -32,8 +32,8 @@ class User < ActiveRecord::Base
 
   has_many :comment_mentions, foreign_key: :user_id, class_name: 'UserMention'
 
-  enum area_of_expertise: ['Patient Advocate', 'Clinical Scientist', 'Research Scientist']
-  enum role: ['curator', 'editor', 'admin']
+  enum :area_of_expertise, ['Patient Advocate', 'Clinical Scientist', 'Research Scientist']
+  enum :role, ['curator', 'editor', 'admin']
 
   validates :username, format: { without: /\s|@/, message: 'cannot contain whitespace or @ symbols' }
   validate :username_is_not_role_name

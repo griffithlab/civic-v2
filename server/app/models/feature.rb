@@ -19,7 +19,7 @@ class Feature < ApplicationRecord
     class_name: 'CreateFeatureActivity'
   has_one :creating_user, through: :creation_activity, source: :user
 
-  enum deprecation_reason: ['duplicate', 'invalid_feature', 'other']
+  enum :deprecation_reason, ['duplicate', 'invalid_feature', 'other']
 
   has_many :variants
 
