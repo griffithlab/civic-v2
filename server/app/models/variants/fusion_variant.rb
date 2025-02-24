@@ -51,7 +51,7 @@ module Variants
     end
 
     #TODO remove after backfill/when columns removed
-    enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
+    enum :reference_build, [:GRCh38, :GRCh37, :NCBI36]
 
     def unique_editable_fields
       []

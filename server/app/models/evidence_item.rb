@@ -15,14 +15,14 @@ class EvidenceItem < ActiveRecord::Base
   has_and_belongs_to_many :assertions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-  enum evidence_type: Constants::EVIDENCE_TYPES, _suffix: true
-  enum evidence_level: Constants::EVIDENCE_LEVELS
-  enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
+  enum :evidence_type, Constants::EVIDENCE_TYPES, suffix: true
+  enum :evidence_level, Constants::EVIDENCE_LEVELS
+  enum :evidence_direction, Constants::EVIDENCE_DIRECTIONS, suffix: true
   #TODO make this an enum:
   #enum evidence_status: Constants::EVIDENCE_STATUS
-  enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
-  enum significance: Constants::SIGNIFICANCES
-  enum therapy_interaction_type: Constants::THERAPY_INTERACTION_TYPES
+  enum :variant_origin, Constants::VARIANT_ORIGINS, suffix: true
+  enum :significance, Constants::SIGNIFICANCES
+  enum :therapy_interaction_type, Constants::THERAPY_INTERACTION_TYPES
 
   has_one :submission_event,
     ->() { where(action: 'submitted').includes(:originating_user) },

@@ -5,7 +5,7 @@ class Notification < ActiveRecord::Base
   belongs_to :event
   belongs_to :subscription, optional: true, dependent: :destroy
 
-  enum type: [:subscribed_event, :mention]
+  enum :type, [:subscribed_event, :mention]
 
   def self.unread_count_for_user(user)
     where(notified_user: user, seen: false).count

@@ -6,17 +6,17 @@ module Features
     belongs_to :five_prime_gene, class_name: 'Features::Gene', optional: true
     belongs_to :three_prime_gene, class_name: 'Features::Gene', optional: true
 
-    enum five_prime_partner_status: {
+    enum :five_prime_partner_status, {
       known: 'known',
       unknown: 'unknown',
       multiple: 'multiple',
-    }, _prefix: true
+    }, prefix: true
 
-    enum three_prime_partner_status: {
+    enum :three_prime_partner_status, {
       known: 'known',
       unknown: 'unknown',
       multiple: 'multiple',
-    }, _prefix: true
+    }, prefix: true
 
     has_many :variant_groups
     has_many :source_suggestions

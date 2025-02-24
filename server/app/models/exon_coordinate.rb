@@ -17,19 +17,19 @@ class ExonCoordinate < ApplicationRecord
 
   validates_with ExonCoordinateValidator
 
-  enum reference_build: Constants::SUPPORTED_REFERENCE_BUILDS
+  enum :reference_build, Constants::SUPPORTED_REFERENCE_BUILDS
 
-  enum exon_offset_direction: {
+  enum :exon_offset_direction, {
     positive: 'positive',
     negative: 'negative'
   }
 
-  enum strand: {
+  enum :strand, {
     positive: 'positive',
     negative: 'negative'
-  }, _suffix: true
+  }, suffix: true
 
-  enum record_state: {
+  enum :record_state, {
     stub: 'stub',
     exons_provided: 'exons_provided',
     fully_curated: 'fully_curated'

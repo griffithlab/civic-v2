@@ -17,12 +17,12 @@ class Assertion < ActiveRecord::Base
   has_and_belongs_to_many :phenotypes
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-  enum amp_level: Constants::AMP_LEVELS
-  enum assertion_type: Constants::ASSERTION_TYPES, _suffix: true
-  enum assertion_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
-  enum significance: Constants::SIGNIFICANCES
-  enum therapy_interaction_type: Constants::THERAPY_INTERACTION_TYPES
-  enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
+  enum :amp_level, Constants::AMP_LEVELS
+  enum :assertion_type, Constants::ASSERTION_TYPES, suffix: true
+  enum :assertion_direction, Constants::EVIDENCE_DIRECTIONS, suffix: true
+  enum :significance, Constants::SIGNIFICANCES
+  enum :therapy_interaction_type, Constants::THERAPY_INTERACTION_TYPES
+  enum :variant_origin, Constants::VARIANT_ORIGINS, suffix: true
 
   has_one :submission_event,
     ->() { where(action: 'assertion submitted').includes(:originating_user) },

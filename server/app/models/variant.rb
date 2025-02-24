@@ -32,7 +32,7 @@ class Variant < ApplicationRecord
     class_name: 'CreateVariantActivity'
   has_one :creating_user, through: :creation_activity, source: :user
 
-  enum deprecation_reason: ['duplicate', 'invalid_variant', 'other', 'feature_deprecated']
+  enum :deprecation_reason, ['duplicate', 'invalid_variant', 'other', 'feature_deprecated']
 
   has_many :activities_linked_entities,
     ->() { where(entity_type: 'Variant') },

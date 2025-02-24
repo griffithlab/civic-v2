@@ -4,9 +4,9 @@ class VariantCoordinate < ApplicationRecord
 
   belongs_to :variant, touch: true
 
-  enum reference_build: Constants::SUPPORTED_REFERENCE_BUILDS
+  enum :reference_build, Constants::SUPPORTED_REFERENCE_BUILDS
 
-  enum record_state: {
+  enum :record_state, {
     stub: 'stub',
     fully_curated: 'fully_curated'
   }

@@ -13,7 +13,7 @@ class Source < ActiveRecord::Base
   has_many :authors, through: :authors_sources
   has_many :variant_groups
 
-  enum source_type: ['PubMed', 'ASCO', 'ASH']
+  enum :source_type, ['PubMed', 'ASCO', 'ASH']
 
   validate :citation_id_format_matches_source_type
 
