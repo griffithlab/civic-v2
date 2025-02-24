@@ -26,6 +26,7 @@ module Civic2
     config.active_support.cache_format_version = 7.1
     config.active_record.async_query_executor = :global_thread_pool
     config.active_record.global_executor_concurrency = 4
+    config.active_support.to_time_preserves_timezone = :zone
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
