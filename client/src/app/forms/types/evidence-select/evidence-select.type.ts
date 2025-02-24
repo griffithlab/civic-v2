@@ -261,7 +261,7 @@ export class CvcEvidenceSelectField
       )
     })
 
-    // combine all synchronized requireds updates, emit table filter changes array
+    // combine all synchronized required updates, emit table filter changes array
     this.onFieldsChange$ = combineLatest(this.synchronizedFields$).pipe(
       map((fields) => {
         const newFilters: CvcFilterChange[] = []
