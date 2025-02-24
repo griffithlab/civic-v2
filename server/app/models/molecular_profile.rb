@@ -37,7 +37,7 @@ class MolecularProfile < ActiveRecord::Base
     class_name: 'CreateComplexMolecularProfileActivity'
   has_one :creating_user, through: :complex_molecular_profile_creation_activity, source: :user
 
-  enum deprecation_reason: ['duplicate', 'invalid_molecular_profile', 'other', 'variant_deprecated']
+  enum :deprecation_reason, ['duplicate', 'invalid_molecular_profile', 'other', 'variant_deprecated']
 
   validates :name, presence: true
 
