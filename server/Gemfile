@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~>3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 8.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
@@ -63,14 +63,14 @@ gem 'kramdown', '~> 2.4.0'
 #GitHub style markdown
 gem 'kramdown-parser-gfm', '~> 1.1.0'
 
-gem 'angular_rails_csrf', '~> 5.0.0'
+gem 'angular_rails_csrf', '~> 7.0.0'
 
 
 gem 'sidekiq', '< 8'
 gem 'sidekiq-cron', '~> 1.10.0'
 
 gem 'aws-sdk-s3', '~> 1.94.0'
-gem 'awesome_nested_set', '~> 3.6.0'
+gem 'awesome_nested_set', '~> 3.6'
 gem 'obo', '~> 0.1.5'
 
 gem 'activejob-null', '~> 0.0.1'
@@ -92,7 +92,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'listen', '~> 3.3'
 
-  gem 'capistrano', '~> 3.16.0'
+  gem 'capistrano', '~> 3.19.0'
   gem 'capistrano-rails', '~> 1.6.1'
   gem 'capistrano-rbenv', '~> 2.2.0'
 
