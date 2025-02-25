@@ -2,5 +2,5 @@ class MaterializedViews::UserBrowseTableRow < MaterializedViews::MaterializedVie
   has_many :affiliations, primary_key: :id, foreign_key: :user_id
   has_many :organizations, through: :affiliations
 
-  enum role: ['curator', 'editor', 'admin']
+  enum :role, ['curator', 'editor', 'admin']
 end
