@@ -1,4 +1,4 @@
 class RoleMention < ApplicationRecord
   belongs_to :comment
-  enum :role, ['curator', 'editor', 'admin']
+  enum :role, [ "curator", "editor", "admin" ]
 end

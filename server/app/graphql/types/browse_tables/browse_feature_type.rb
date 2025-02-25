@@ -9,9 +9,9 @@ module Types::BrowseTables
     field :link, String, null: false
     field :deprecated, Boolean, null: false
     field :description, String, null: false
-    field :feature_aliases, [String], null: true
-    field :diseases, [Types::Entities::DiseaseType], null: true
-    field :therapies, [Types::Entities::TherapyType], null: true
+    field :feature_aliases, [ String ], null: true
+    field :diseases, [ Types::Entities::DiseaseType ], null: true
+    field :therapies, [ Types::Entities::TherapyType ], null: true
     field :variant_count, Int, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
@@ -29,14 +29,14 @@ module Types::BrowseTables
 
     def diseases
       Array(object.diseases)
-        .sort_by { |d| -d['total'] }
-        .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}", deprecated: d['deprecated'] } }
+        .sort_by { |d| -d["total"] }
+        .map { |d| { name: d["name"], id: d["id"], link: "/diseases/#{d['id']}", deprecated: d["deprecated"] } }
     end
 
     def therapies
       Array(object.therapies)
-        .sort_by { |d| -d['total'] }
-        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}", deprecated: d['deprecated'] } }
+        .sort_by { |d| -d["total"] }
+        .map { |d| { name: d["name"], id: d["id"], link: "/therapies/#{d['id']}", deprecated: d["deprecated"] } }
     end
   end
 end

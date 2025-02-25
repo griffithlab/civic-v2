@@ -36,7 +36,7 @@ Trestle.resource(:diseases) do
       col(sm: 2) { text_field :doid }
       col(sm: 2) do
         form_group :deprecated, label: false do
-          check_box :deprecated 
+          check_box :deprecated
         end
       end
     end

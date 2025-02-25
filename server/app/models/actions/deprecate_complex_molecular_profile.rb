@@ -24,7 +24,7 @@ module Actions
 
     def create_events
       events << Event.new(
-        action: 'deprecated molecular profile',
+        action: "deprecated molecular profile",
         originating_user: deprecating_user,
         subject: molecular_profile,
         originating_object: molecular_profile,
@@ -33,4 +33,3 @@ module Actions
     end
   end
 end
-

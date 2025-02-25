@@ -5,10 +5,9 @@ module Types::Popovers
     def variant_count
       VariantType.where(id: object.id)
         .joins(:variants)
-        .select('variants.id')
+        .select("variants.id")
         .distinct
         .count
     end
   end
 end
-

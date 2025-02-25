@@ -29,11 +29,11 @@ module Actions
     end
 
     def create_event
-      action = if new_status == 'submitted'
-                 'assertion reverted'
-               else
+      action = if new_status == "submitted"
+                 "assertion reverted"
+      else
                  "assertion #{new_status}"
-               end
+      end
 
 
       events << Event.new(
@@ -44,6 +44,5 @@ module Actions
         originating_object: assertion
       )
     end
-
   end
 end

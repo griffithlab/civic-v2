@@ -2,15 +2,15 @@ class VariantCoordinateValidator < ActiveModel::Validator
   include ValidationHelpers
 
   def validate(record)
-    if record.record_state == 'stub'
+    if record.record_state == "stub"
       validate_stub(record)
     else
       case record.coordinate_type
-      when 'Gene Variant Coordinate'
+      when "Gene Variant Coordinate"
         validate_gene_variant_coordinates(record)
-      when 'Five Prime Fusion Coordinate'
+      when "Five Prime Fusion Coordinate"
         validate_fusion_variant_coordinates(record)
-      when 'Three Prime Fusion Coordinate'
+      when "Three Prime Fusion Coordinate"
         validate_fusion_variant_coordinates(record)
       else
         raise StandardError.new("Unsupported coordinate type: #{record.coordinate_type}")

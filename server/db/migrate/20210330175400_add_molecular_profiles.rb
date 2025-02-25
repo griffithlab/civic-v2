@@ -7,7 +7,7 @@ class AddMolecularProfiles < ActiveRecord::Migration[6.1]
     add_index :molecular_profiles, :name
 
     create_join_table :molecular_profiles, :variants do |t|
-      t.index [:molecular_profile_id, :variant_id], name: 'idx_molecular_profile_variant_id'
+      t.index [ :molecular_profile_id, :variant_id ], name: 'idx_molecular_profile_variant_id'
     end
 
     add_foreign_key :molecular_profiles_variants, :molecular_profiles

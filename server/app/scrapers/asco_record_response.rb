@@ -1,4 +1,4 @@
-require 'htmlentities'
+require "htmlentities"
 
 class AscoRecordResponse
   attr_reader :json
@@ -7,28 +7,28 @@ class AscoRecordResponse
   end
 
   def presenter
-    json['FirstAuthor']
+    json["FirstAuthor"]
   end
 
   def asco_abstract_id
-    json['abstractId']
+    json["abstractId"]
   end
 
   def nct_id
-    json['ClinicalTrialRegistryNumber']
+    json["ClinicalTrialRegistryNumber"]
   end
 
   def article_title
-    json['Title']
+    json["Title"]
   end
 
   def journal
-    json['SiteCitation']
+    json["SiteCitation"]
   end
 
   def abstract
     sanitizer = Rails::Html::FullSanitizer.new
     decoder = HTMLEntities.new
-    decoder.decode(sanitizer.sanitize(json['Body']).strip)
+    decoder.decode(sanitizer.sanitize(json["Body"]).strip)
   end
 end

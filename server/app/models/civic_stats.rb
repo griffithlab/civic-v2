@@ -1,5 +1,4 @@
 class CivicStats
-
   def self.homepage_stats
     [
       Feature,
@@ -23,4 +22,3 @@ class CivicStats
     end
   end
 end
-

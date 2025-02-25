@@ -1,30 +1,30 @@
 module Types::Commentable
   class CommentableInput < Types::BaseInputObject
-    description 'Entity to comment on'
+    description "Entity to comment on"
 
     argument :id, Int, required: true,
-      description: 'ID of the entity to comment on.'
+      description: "ID of the entity to comment on."
     argument :entity_type, Types::Commentable::CommentableEntitiesType, required: true,
-      description: 'The type of the entity to comment on.'
+      description: "The type of the entity to comment on."
 
     def prepare
       const = case entity_type
-      when 'FEATURE'
+      when "FEATURE"
         Feature
-      when 'VARIANT'
+      when "VARIANT"
         Variant
-      when 'EVIDENCE_ITEM'
+      when "EVIDENCE_ITEM"
         EvidenceItem
-      when 'ASSERTION'
+      when "ASSERTION"
         Assertion
-      when 'VARIANT_GROUP'
+      when "VARIANT_GROUP"
         VariantGroup
-      when 'SOURCE'
+      when "SOURCE"
         Source
-      when 'MOLECULAR_PROFILE'
+      when "MOLECULAR_PROFILE"
         MolecularProfile
       else
-        raise 'Unknown Enum Value'
+        raise "Unknown Enum Value"
       end
 
       const.find_by(id: id)

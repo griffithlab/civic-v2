@@ -1,22 +1,22 @@
 class Mutations::CreateMolecularProfile < Mutations::MutationWithOrg
-  description 'Create a new Molecular Profile in order to attach Evidence Items to it.'
+  description "Create a new Molecular Profile in order to attach Evidence Items to it."
 
   argument :structure, Types::MolecularProfile::MolecularProfileComponentInput,
     required: true,
     validates: { Types::MolecularProfile::MolecularProfileComponentValidator => {} },
-    description: 'Representation of the constituent parts of the Molecular Profile along with the logic used to combine them.'
+    description: "Representation of the constituent parts of the Molecular Profile along with the logic used to combine them."
 
   field :molecular_profile, Types::Entities::MolecularProfileType, null: false,
-   description: 'The newly created (or already existing) Molecular Profile.'
+   description: "The newly created (or already existing) Molecular Profile."
 
   attr_reader :variants
 
   def authorized?(organization_id: nil, **kwargs)
     validate_user_acting_as_org(user: context[:current_user], organization_id: organization_id)
-    return true
+    true
   end
 
-  def ready?(structure: , organization_id: nil)
+  def ready?(structure:, organization_id: nil)
     validate_user_logged_in
     variant_ids = structure.variant_ids.uniq
 
@@ -32,7 +32,7 @@ class Mutations::CreateMolecularProfile < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Variants [#{deprecated_variants.map(&:name).join(', ')}] are Deprecated and should not be used."
     end
 
-    return true
+    true
   end
 
   def resolve(structure:, organization_id: nil)
@@ -50,7 +50,7 @@ class Mutations::CreateMolecularProfile < Mutations::MutationWithOrg
         molecular_profile: res.molecular_profile
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

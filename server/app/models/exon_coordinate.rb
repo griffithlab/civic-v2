@@ -20,25 +20,25 @@ class ExonCoordinate < ApplicationRecord
   enum :reference_build, Constants::SUPPORTED_REFERENCE_BUILDS
 
   enum :exon_offset_direction, {
-    positive: 'positive',
-    negative: 'negative'
+    positive: "positive",
+    negative: "negative"
   }
 
   enum :strand, {
-    positive: 'positive',
-    negative: 'negative'
+    positive: "positive",
+    negative: "negative"
   }, suffix: true
 
   enum :record_state, {
-    stub: 'stub',
-    exons_provided: 'exons_provided',
-    fully_curated: 'fully_curated'
+    stub: "stub",
+    exons_provided: "exons_provided",
+    fully_curated: "fully_curated"
   }
 
   def self.generate_stub(variant, coordinate_type)
     ExonCoordinate.create!(
       variant: variant,
-      record_state: 'stub',
+      record_state: "stub",
       coordinate_type: coordinate_type
     )
   end
@@ -53,21 +53,21 @@ class ExonCoordinate < ApplicationRecord
 
   def formatted_offset
     if exon_offset_direction.nil?
-      ''
-    elsif exon_offset_direction == 'positive'
-      '+'
-    elsif exon_offset_direction == 'negative'
-      '-'
+      ""
+    elsif exon_offset_direction == "positive"
+      "+"
+    elsif exon_offset_direction == "negative"
+      "-"
     end
   end
 
   def formatted_strand
     if strand.nil?
-      ''
-    elsif strand == 'positive'
-      '1'
-    elsif strand == 'negative'
-      '-1'
+      ""
+    elsif strand == "positive"
+      "1"
+    elsif strand == "negative"
+      "-1"
     end
   end
 
@@ -78,7 +78,7 @@ class ExonCoordinate < ApplicationRecord
       :representative_transcript,
       :exon,
       :exon_offset,
-      :exon_offset_direction,
+      :exon_offset_direction
     ]
   end
 

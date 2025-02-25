@@ -19,13 +19,13 @@ module Actions
 
     def update_revision_status(revision)
       revision.lock!
-      revision.status = 'rejected'
+      revision.status = "rejected"
       revision.save
     end
 
     def create_event(revision)
       events << Event.new(
-        action: 'revision rejected',
+        action: "revision rejected",
         originating_user: rejecting_user,
         subject: revision.subject,
         originating_object: revision,

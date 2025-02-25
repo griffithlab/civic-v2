@@ -11,14 +11,14 @@ module Scrapers
     end
 
     def self.get_exons_for_ensembl_id(ensembl_id, warning = nil)
-      t = ensembl_id.split('.').first
+      t = ensembl_id.split(".").first
       url = "#{ENSEMBL_DOMAIN}/overlap/id/#{ensembl_id}?content-type=application/json;feature=exon"
         begin
           data = call_api(url)
         rescue StandardError => e
-          error_message = JSON.parse(e.message)['error']
+          error_message = JSON.parse(e.message)["error"]
           if error_message == "No object found for ID #{ensembl_id}"
-            t = ensembl_id.split('.').first
+            t = ensembl_id.split(".").first
             res = get_exons_for_ensembl_id(t, "Transcript ID Version not found in GRCh37: #{ensembl_id}")
               if res.error
                 return EnsemblResult.new(nil, res.error, warning)
@@ -32,7 +32,7 @@ module Scrapers
       if data.nil?
         return EnsemblResult.new(nil, "No data returned for transcript: #{ensembl_id}", warning)
       end
-      EnsemblResult.new(data.sort_by { |exon| exon['start'] }, nil, warning)
+      EnsemblResult.new(data.sort_by { |exon| exon["start"] }, nil, warning)
     end
 
     def self.get_fusion_exon(transcript, position, position_type, variant)
@@ -44,8 +44,8 @@ module Scrapers
 
       exons = res.value
 
-      t = transcript.split('.').first
-      e = exons.select{ |e| e['Parent'] == t && e[position_type] == position }
+      t = transcript.split(".").first
+      e = exons.select { |e| e["Parent"] == t && e[position_type] == position }
 
       if e.size > 1
         return EnsemblResult.new(nil, "More than one exon match found", warning)

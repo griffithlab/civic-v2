@@ -7,8 +7,8 @@ class VariantCoordinate < ApplicationRecord
   enum :reference_build, Constants::SUPPORTED_REFERENCE_BUILDS
 
   enum :record_state, {
-    stub: 'stub',
-    fully_curated: 'fully_curated'
+    stub: "stub",
+    fully_curated: "fully_curated"
   }
 
   validates :reference_bases, format: {
@@ -37,7 +37,7 @@ class VariantCoordinate < ApplicationRecord
   def self.generate_stub(variant, coordinate_type)
     VariantCoordinate.create!(
       variant: variant,
-      record_state: 'stub',
+      record_state: "stub",
       coordinate_type: coordinate_type
     )
   end
@@ -59,7 +59,7 @@ class VariantCoordinate < ApplicationRecord
       :stop,
       :reference_bases,
       :variant_bases,
-      :representative_transcript,
+      :representative_transcript
     ]
   end
 end

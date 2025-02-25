@@ -7,7 +7,7 @@ module Types::Popovers
     def assertion_count
       Phenotype.where(id: object.id)
         .joins(:assertions)
-        .select('assertions.id')
+        .select("assertions.id")
         .where("assertions.status != 'rejected'")
         .distinct
         .count
@@ -17,7 +17,7 @@ module Types::Popovers
       Phenotype.where(id: object.id)
         .joins(:evidence_items)
         .where("evidence_items.status != 'rejected'")
-        .select('evidence_items.id')
+        .select("evidence_items.id")
         .distinct
         .count
     end
@@ -26,10 +26,9 @@ module Types::Popovers
       Phenotype.where(id: object.id)
         .joins(:evidence_items)
         .where("evidence_items.status != 'rejected'")
-        .select('evidence_items.molecular_profile_id')
+        .select("evidence_items.molecular_profile_id")
         .distinct
         .count
     end
   end
 end
-

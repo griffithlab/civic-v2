@@ -1,5 +1,4 @@
 module Activities
-
   class SuggestRevisionSet < Base
     attr_reader :revision_set, :revisions, :revision_results, :revised_objects, :subject
 
@@ -28,7 +27,7 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
 
       events << cmd.events
@@ -38,7 +37,7 @@ module Activities
     end
 
     def linked_entities
-      [revision_set, revisions].flatten
+      [ revision_set, revisions ].flatten
     end
   end
 end

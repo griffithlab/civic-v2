@@ -9,7 +9,7 @@ class UploadTsvsToAws < ApplicationJob
     if release_present
       expected_files.each do |s3_target, local_file|
         unless bucket.object(s3_target).exists? && bucket.object(s3_target).content_length > 0
-          io = File.new(absolute_local_path(local_file), 'r')
+          io = File.new(absolute_local_path(local_file), "r")
           bucket.put_object({
             key: s3_target,
             body: io
@@ -28,11 +28,11 @@ class UploadTsvsToAws < ApplicationJob
   end
 
   def bucket_name
-    'civic-aws-opendata'
+    "civic-aws-opendata"
   end
 
   def date_string
-    Date.today.beginning_of_month.strftime('%d-%b-%Y')
+    Date.today.beginning_of_month.strftime("%d-%b-%Y")
   end
 
   def client
@@ -64,9 +64,9 @@ class UploadTsvsToAws < ApplicationJob
       "FeatureSummaries/date=#{date_string}/FeatureSummaries.tsv" => "#{date_string}/#{date_string}-FeatureSummaries.tsv",
       "VariantGroupSummaries/date=#{date_string}/VariantGroupSummaries.tsv"=> "#{date_string}/#{date_string}-VariantGroupSummaries.tsv",
       "VariantSummaries/date=#{date_string}/VariantSummaries.tsv" => "#{date_string}/#{date_string}-VariantSummaries.tsv",
-      "MolecularProfileSummaries/date=#{date_string}/MolecularProfileSummaries.tsv" => "#{date_string}/#{date_string}-MolecularProfileSummaries.tsv",
-      #"VCF/date=#{date_string}/civic_accepted.vcf" => "#{date_string}/#{date_string}-civic_accepted.vcf",
-      #"VCF/date=#{date_string}/civic_accepted_and_submitted.vcf" => "#{date_string}/#{date_string}-civic_accepted_and_submitted.vcf"
+      "MolecularProfileSummaries/date=#{date_string}/MolecularProfileSummaries.tsv" => "#{date_string}/#{date_string}-MolecularProfileSummaries.tsv"
+      # "VCF/date=#{date_string}/civic_accepted.vcf" => "#{date_string}/#{date_string}-civic_accepted.vcf",
+      # "VCF/date=#{date_string}/civic_accepted_and_submitted.vcf" => "#{date_string}/#{date_string}-civic_accepted_and_submitted.vcf"
     }
   end
 end

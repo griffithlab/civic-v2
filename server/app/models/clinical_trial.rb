@@ -15,7 +15,7 @@ class ClinicalTrial < ActiveRecord::Base
     Rails.application.routes.url_helpers.url_for("/clinical-trials/#{self.id}")
   end
 
- 
+
   private
   def populate_additional_fields_if_needed
     if self.name.blank? || self.description.blank?

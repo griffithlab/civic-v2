@@ -4,6 +4,6 @@ class SubmitEvidenceItemActivity < Activity
   end
 
   def generate_verbiage
-    'submitted'
+    "submitted"
   end
 end

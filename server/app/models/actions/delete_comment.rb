@@ -13,7 +13,7 @@ module Actions
     def execute
       mark_deleted
       event = Event.new(
-        action: 'comment deleted',
+        action: "comment deleted",
         originating_user: originating_user,
         subject: comment.commentable,
         organization_id: organization_id,

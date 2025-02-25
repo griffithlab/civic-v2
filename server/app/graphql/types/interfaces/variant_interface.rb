@@ -3,7 +3,7 @@ module Types::Interfaces
     include Types::BaseInterface
     connection_type_class Types::Connections::VariantsConnection
 
-    #TODO: Remove Me
+    # TODO: Remove Me
     orphan_types Types::Variants::FusionVariantType
 
     implements Types::Interfaces::Commentable
@@ -16,15 +16,15 @@ module Types::Interfaces
     field :id, Int, null: false
     field :name, String, null: false
     field :feature, Types::Entities::FeatureType, null: false
-    field :variant_types, [Types::Entities::VariantTypeType], null: false
+    field :variant_types, [ Types::Entities::VariantTypeType ], null: false
     field :link, String, null: false
-    field :variant_aliases, [String], null: false
+    field :variant_aliases, [ String ], null: false
     field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :single_variant_molecular_profile_id, Int, null: false
     field :deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
     field :deprecated, Boolean, null: false
     field :deprecation_reason, Types::VariantDeprecationReasonType, null: true
-    field :creation_activity, Types::Activities::CreateVariantActivityType, null: true #TODO: should try to make this non-nullable if complete backfill is possible
+    field :creation_activity, Types::Activities::CreateVariantActivityType, null: true # TODO: should try to make this non-nullable if complete backfill is possible
     field :molecular_profiles, Types::Entities::MolecularProfileType.connection_type, null: false
 
     def feature

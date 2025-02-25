@@ -11,7 +11,7 @@ class CreateSolidErrorsTables < ActiveRecord::Migration[7.1]
 
       t.timestamps
 
-      t.index [:exception_class, :message, :severity, :source], unique: true, name: "solid_error_uniqueness_index"
+      t.index [ :exception_class, :message, :severity, :source ], unique: true, name: "solid_error_uniqueness_index"
     end
 
     create_table :solid_errors_occurrences do |t|

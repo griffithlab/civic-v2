@@ -1,8 +1,8 @@
-#Conversion from a GraphQL FactorVariantFields input object to FactorVariant model type
+# Conversion from a GraphQL FactorVariantFields input object to FactorVariant model type
 class InputAdaptors::FactorVariantInputAdaptor
   attr_reader :input
 
-  def initialize(variant_input_object: )
+  def initialize(variant_input_object:)
     @input = variant_input_object
   end
 

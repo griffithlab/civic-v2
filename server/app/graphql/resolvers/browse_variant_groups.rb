@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
   # include SearchObject for GraphQL
@@ -10,7 +10,7 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
   scope { MaterializedViews::VariantGroupBrowseTableRow.all }
 
   option(:name, type: String) do |scope, value|
-    scope.where('name ILIKE ?', "%#{value}%")
+    scope.where("name ILIKE ?", "%#{value}%")
   end
 
   option(:feature_names, type: String) do |scope, value|
@@ -36,4 +36,3 @@ class Resolvers::BrowseVariantGroups < GraphQL::Schema::Resolver
     end
   end
 end
-

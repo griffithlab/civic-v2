@@ -1,6 +1,5 @@
 module Types::Entities
   class FusionType < Types::Entities::FeatureType
-
     field :five_prime_gene, Types::Entities::GeneType, null: true
     field :three_prime_gene, Types::Entities::GeneType, null: true
 

@@ -5,7 +5,7 @@ module WithCapitalizedName
     before_save :format_name
 
     def self.capitalize_name(name)
-      name.strip.split.map { |w| w[0] = w[0].upcase; w }.join(' ')
+      name.strip.split.map { |w| w[0] = w[0].upcase; w }.join(" ")
     end
   end
 

@@ -1,9 +1,9 @@
 class Mutations::DeprecateFeature < Mutations::MutationWithOrg
-  description 'Deprecate a feature to prevent it from being used in the future and implicitly deprecate all the variants and molecular profiles linked to this feature.'
+  description "Deprecate a feature to prevent it from being used in the future and implicitly deprecate all the variants and molecular profiles linked to this feature."
 
   argument :feature_id, Int,
     required: true,
-    description: 'The CIViC ID of the feature to deprecate.'
+    description: "The CIViC ID of the feature to deprecate."
 
   argument :deprecation_reason, Types::FeatureDeprecationReasonType,
     required: true,
@@ -11,16 +11,16 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
 
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text giving more context for deprecation this feature.'
+    description: "Text giving more context for deprecation this feature."
 
   field :feature, Types::Entities::FeatureType, null: true,
-    description: 'The deprecated Feature.'
+    description: "The deprecated Feature."
 
-  field :newly_deprecated_variants, [Types::Interfaces::VariantInterface], null: true,
-    description: 'The variants linked to this feature that are newly deprecated.'
+  field :newly_deprecated_variants, [ Types::Interfaces::VariantInterface ], null: true,
+    description: "The variants linked to this feature that are newly deprecated."
 
-  field :newly_deprecated_molecular_profiles, [Types::Entities::MolecularProfileType], null: true,
-    description: 'The molecular profiles linked to this feature\'s variants that weren\'t already deprecated and have been newly deprecated by running this mutation.'
+  field :newly_deprecated_molecular_profiles, [ Types::Entities::MolecularProfileType ], null: true,
+    description: "The molecular profiles linked to this feature's variants that weren't already deprecated and have been newly deprecated by running this mutation."
 
   attr_reader :feature
 
@@ -37,7 +37,7 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Feature is already deprecated."
     end
 
-    if feature.feature_instance_type == 'Features::Gene'
+    if feature.feature_instance_type == "Features::Gene"
       raise GraphQL::ExecutionError, "Gene Features may not be manually deprecated."
     end
 
@@ -51,7 +51,7 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Feature is linked to Variants that belong to Molecular Profiles with accepted or submitted Evidence Items: #{mps_with_eids.join(', ')}. Move their Evidence Items to a different Molecular Profile and try again."
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, **kwargs)
@@ -60,10 +60,10 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
     if !Role.user_is_at_least_a?(current_user, :editor)
-      raise GraphQL::ExecutionError, 'User must be an editor in order to deprecate Features.'
+      raise GraphQL::ExecutionError, "User must be an editor in order to deprecate Features."
     end
 
-    return true
+    true
   end
 
   def resolve(organization_id: nil, deprecation_reason:, comment:, **kwargs)
@@ -84,7 +84,7 @@ class Mutations::DeprecateFeature < Mutations::MutationWithOrg
         newly_deprecated_variants: res.newly_deprecated_variants
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

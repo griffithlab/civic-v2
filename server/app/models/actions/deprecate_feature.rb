@@ -32,12 +32,12 @@ module Actions
           deprecating_user: deprecating_user,
           variant: variant,
           organization_id: organization_id,
-          deprecation_reason: 'feature_deprecated'
+          deprecation_reason: "feature_deprecated"
         )
         cmd.perform
 
         if !cmd.succeeded?
-          raise StandardError.new(cmd.errors.join(', '))
+          raise StandardError.new(cmd.errors.join(", "))
         end
 
         newly_deprecated_variants << cmd.variant
@@ -48,7 +48,7 @@ module Actions
 
     def create_events
       events << Event.new(
-        action: 'deprecated feature',
+        action: "deprecated feature",
         originating_user: deprecating_user,
         subject: feature,
         originating_object: feature,
@@ -57,4 +57,3 @@ module Actions
     end
   end
 end
-

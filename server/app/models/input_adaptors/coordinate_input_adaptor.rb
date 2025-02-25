@@ -1,8 +1,8 @@
-#Conversion from a GraphQL Coordinate input object to VariantCoordinate model type
+# Conversion from a GraphQL Coordinate input object to VariantCoordinate model type
 class InputAdaptors::CoordinateInputAdaptor
   attr_reader :input
 
-  def initialize(coordinate_input_object: )
+  def initialize(coordinate_input_object:)
     @input = coordinate_input_object
   end
 

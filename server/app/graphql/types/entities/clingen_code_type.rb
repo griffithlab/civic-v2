@@ -12,7 +12,7 @@ module Types::Entities
     end
 
     def exclusive
-      object.code == 'N/A'
+      object.code == "N/A"
     end
   end
 end

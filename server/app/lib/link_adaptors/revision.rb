@@ -1,6 +1,5 @@
 module LinkAdaptors
   class Revision < Base
-
     def display_name
       "#RID#{obj.id}"
     end

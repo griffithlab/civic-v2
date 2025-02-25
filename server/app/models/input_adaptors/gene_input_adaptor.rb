@@ -1,8 +1,8 @@
-#Conversion from a GraphQL GeneFields input object to Gene model type
+# Conversion from a GraphQL GeneFields input object to Gene model type
 class InputAdaptors::GeneInputAdaptor
   attr_reader :input
 
-  def initialize(gene_input_object: )
+  def initialize(gene_input_object:)
     @input = gene_input_object
   end
 

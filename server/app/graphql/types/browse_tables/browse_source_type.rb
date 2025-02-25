@@ -5,7 +5,7 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :source_type, Types::SourceSourceType, null: false
     field :citation_id, Int, null: false
-    field :authors, [String], null: false
+    field :authors, [ String ], null: false
     field :publication_year, Int, null: true
     field :journal, String, null: true
     field :name, String, null: true
@@ -13,7 +13,7 @@ module Types::BrowseTables
     field :source_suggestion_count, Int, null: false
     field :citation, String, null: false
     field :display_type, String, null: false
-    field :clinical_trials, [Types::Entities::ClinicalTrialType], null: false
+    field :clinical_trials, [ Types::Entities::ClinicalTrialType ], null: false
     field :source_url, String, null: false
     field :link, String, null: false
     field :open_access, Boolean, null: false
@@ -21,7 +21,7 @@ module Types::BrowseTables
     field :deprecated, Boolean, null: false
 
     def deprecated
-      object&.retraction_nature == 'Retraction'
+      object&.retraction_nature == "Retraction"
     end
 
     def source_url
@@ -29,8 +29,8 @@ module Types::BrowseTables
     end
 
     def display_type
-      if object.source_type == 'PUBMED'
-        'PubMed'
+      if object.source_type == "PUBMED"
+        "PubMed"
       else
         object.source_type
       end

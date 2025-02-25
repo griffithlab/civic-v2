@@ -17,7 +17,7 @@ class LinksController < ApplicationController
   end
 
   def redirect_legacy_gene_id
-    params[:idtype] = 'genes'
+    params[:idtype] = "genes"
     redirect
   end
 

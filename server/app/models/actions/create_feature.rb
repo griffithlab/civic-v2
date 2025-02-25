@@ -16,7 +16,7 @@ module Actions
       feature.save!
 
       event = Event.new(
-        action: 'feature created',
+        action: "feature created",
         originating_user: originating_user,
         subject: feature,
         organization_id: organization_id,
@@ -24,7 +24,6 @@ module Actions
       )
 
       events << event
-
     end
   end
 end

@@ -1,6 +1,5 @@
 module Types::Entities
   class EvidenceItemType < Types::BaseObject
-
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
@@ -13,14 +12,14 @@ module Types::Entities
     field :significance, Types::EvidenceSignificanceType, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
-    field :therapies, [Types::Entities::TherapyType], null: false
+    field :therapies, [ Types::Entities::TherapyType ], null: false
     field :therapy_interaction_type, Types::TherapyInteractionType, null: true
     field :evidence_direction, Types::EvidenceDirectionType, null: false
     field :evidence_level, Types::EvidenceLevelType, null: false
     field :evidence_rating, Int, null: true,
-      validates: { inclusion: { in: [1, 2, 3, 4, 5], allow_blank: true } }
+      validates: { inclusion: { in: [ 1, 2, 3, 4, 5 ], allow_blank: true } }
     field :evidence_type, Types::EvidenceTypeType, null: false
-    field :phenotypes, [Types::Entities::PhenotypeType], null: false
+    field :phenotypes, [ Types::Entities::PhenotypeType ], null: false
     field :source, Types::Entities::SourceType, null: false
     field :status, Types::EvidenceStatusType, null: false
     field :variant_hgvs, String, null: false
@@ -29,7 +28,7 @@ module Types::Entities
     field :submission_activity, Types::Activities::SubmitEvidenceItemActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
-    field :assertions, [Types::Entities::AssertionType], null: false
+    field :assertions, [ Types::Entities::AssertionType ], null: false
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)

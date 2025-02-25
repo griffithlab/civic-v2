@@ -1,12 +1,12 @@
-require 'open3'
+require "open3"
 
 class CreateCivicVcfs < ApplicationJob
   def perform
-    ENV['CIVICPY_CACHE_FILE'] = civicpy_cache_file_location
+    ENV["CIVICPY_CACHE_FILE"] = civicpy_cache_file_location
     statuses.each do |description, status_list|
-      cmd = ["civicpy", "create-vcf", "--vcf-file-path", vcf_path(description)]
+      cmd = [ "civicpy", "create-vcf", "--vcf-file-path", vcf_path(description) ]
       status_list.each do |status|
-        cmd.concat(["--include-status", status])
+        cmd.concat([ "--include-status", status ])
       end
       stdout, stderr, process_status = Open3.capture3(*cmd)
       if not process_status.success?
@@ -17,8 +17,8 @@ class CreateCivicVcfs < ApplicationJob
 
   def statuses
     {
-      'accepted' => ['accepted'],
-      'accepted_and_submitted' => ['accepted', 'submitted'],
+      "accepted" => [ "accepted" ],
+      "accepted_and_submitted" => [ "accepted", "submitted" ]
     }
   end
 
@@ -28,11 +28,10 @@ class CreateCivicVcfs < ApplicationJob
 
   private
   def vcf_path(description)
-    raise 'Implement in subclass!'
+    raise "Implement in subclass!"
   end
 
   def civicpy_cache_file_location
-    File.join(Rails.root, 'public', 'downloads', 'nightly', 'nightly-civicpy_cache.pkl')
+    File.join(Rails.root, "public", "downloads", "nightly", "nightly-civicpy_cache.pkl")
   end
 end
-

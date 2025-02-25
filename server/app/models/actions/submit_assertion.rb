@@ -3,7 +3,7 @@ module Actions
     include Actions::Transactional
     attr_reader :assertion, :originating_user, :organization_id
 
-    def initialize(assertion:, originating_user:, organization_id: )
+    def initialize(assertion:, originating_user:, organization_id:)
       @assertion = assertion
       @originating_user = originating_user
       @organization_id = organization_id
@@ -11,7 +11,7 @@ module Actions
 
     private
     def execute
-      assertion.status = 'submitted'
+      assertion.status = "submitted"
       assertion.evidence_items_count = assertion.evidence_item_ids.size
       assertion.save!
       assertion.subscribe_user(originating_user)
@@ -20,7 +20,7 @@ module Actions
 
     def create_event
       events << Event.new(
-        action: 'assertion submitted',
+        action: "assertion submitted",
         originating_user: originating_user,
         subject: assertion,
         organization_id: organization_id,

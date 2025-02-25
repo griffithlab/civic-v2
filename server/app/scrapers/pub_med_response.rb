@@ -5,14 +5,14 @@ class PubMedResponse
   end
 
   def citation
-    [first_author, year].compact.join(', ')
+    [ first_author, year ].compact.join(", ")
   end
 
   def authors
-    xml.xpath('//AuthorList/Author').to_a.each.with_index(1).map do |author, i|
+    xml.xpath("//AuthorList/Author").to_a.each.with_index(1).map do |author, i|
       {
-        fore_name: author.xpath('ForeName').text,
-        last_name: author.xpath('LastName').text,
+        fore_name: author.xpath("ForeName").text,
+        last_name: author.xpath("LastName").text,
         author_position: i
       }
     end
@@ -23,12 +23,12 @@ class PubMedResponse
   end
 
   def abstract
-    xpath_contents_or_nil('//Abstract/AbstractText')
+    xpath_contents_or_nil("//Abstract/AbstractText")
   end
 
   def first_author
-    xpath_contents_or_nil('//AuthorList/Author[1]/LastName') do |author_name|
-      if xml.xpath('//AuthorList/Author').size > 1
+    xpath_contents_or_nil("//AuthorList/Author[1]/LastName") do |author_name|
+      if xml.xpath("//AuthorList/Author").size > 1
         author_name + " et al."
       else
         author_name
@@ -37,15 +37,15 @@ class PubMedResponse
   end
 
   def publication_date
-    [day, month, year]
+    [ day, month, year ]
   end
 
   def year
-    xpath_contents_or_nil('//Journal/JournalIssue/PubDate/Year')
+    xpath_contents_or_nil("//Journal/JournalIssue/PubDate/Year")
   end
 
   def month
-    monthname = xpath_contents_or_nil('//Journal/JournalIssue/PubDate/Month')
+    monthname = xpath_contents_or_nil("//Journal/JournalIssue/PubDate/Month")
     if monthname
       Date::ABBR_MONTHNAMES.index(monthname)
     else
@@ -54,25 +54,25 @@ class PubMedResponse
   end
 
   def day
-    xpath_contents_or_nil('//Journal/JournalIssue/PubDate/Day')
+    xpath_contents_or_nil("//Journal/JournalIssue/PubDate/Day")
   end
 
   def journal
-    xpath_contents_or_nil('//Journal/ISOAbbreviation')
+    xpath_contents_or_nil("//Journal/ISOAbbreviation")
   end
 
   def full_journal_title
-    xpath_contents_or_nil('//Journal/Title')
+    xpath_contents_or_nil("//Journal/Title")
   end
 
   def article_title
-    xpath_contents_or_nil('//Article/ArticleTitle')
+    xpath_contents_or_nil("//Article/ArticleTitle")
   end
 
   def is_review?
-    (xml.xpath('//PublicationTypeList/PublicationType') || [])
+    (xml.xpath("//PublicationTypeList/PublicationType") || [])
       .map(&:text)
-      .any? { |x| x == 'Review' }
+      .any? { |x| x == "Review" }
   end
 
   def clinical_trial_ids

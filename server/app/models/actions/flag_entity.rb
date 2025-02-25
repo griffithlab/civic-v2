@@ -14,14 +14,14 @@ module Actions
       create_flag
       mark_as_flagged
       create_event
-      #subscribe_user
+      # subscribe_user
     end
 
     def create_flag
       @flag = Flag.create!(
         flagging_user: flagging_user,
         flaggable: flaggable,
-        state: 'open'
+        state: "open"
       )
     end
 
@@ -32,7 +32,7 @@ module Actions
 
     def create_event
       events << Event.new(
-        action: 'flagged',
+        action: "flagged",
         originating_user: flagging_user,
         subject: flaggable,
         originating_object: flag,
@@ -45,4 +45,3 @@ module Actions
     end
   end
 end
-

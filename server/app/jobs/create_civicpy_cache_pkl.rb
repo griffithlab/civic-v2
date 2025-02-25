@@ -1,7 +1,6 @@
-require 'open3'
+require "open3"
 
 class CreateCivicpyCachePkl < ApplicationJob
-
   def perform
     stdout, stderr, status = Open3.capture3("civicpy", "update", "--hard", "--cache-save-path", civicpy_cache_file_location)
     if not status.success?
@@ -11,7 +10,6 @@ class CreateCivicpyCachePkl < ApplicationJob
 
   private
   def civicpy_cache_file_location
-    raise 'Implement in subclass!'
+    raise "Implement in subclass!"
   end
 end
-

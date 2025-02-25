@@ -1,8 +1,8 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 module Resolvers::Leaderboards
-  class UserCommentsLeaderboard < Resolvers::LeaderboardBase 
+  class UserCommentsLeaderboard < Resolvers::LeaderboardBase
     include SearchObject.module(:graphql)
 
     include UserLeaderboardQueries
@@ -16,4 +16,3 @@ module Resolvers::Leaderboards
     setup_options
   end
 end
-

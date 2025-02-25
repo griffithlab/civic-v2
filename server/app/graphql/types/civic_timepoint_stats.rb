@@ -7,7 +7,7 @@ module Types
   end
 
   class CivicTimepointStats < Types::BaseObject
-    description 'Counts of CIViC activity over time, used for the homepage'
+    description "Counts of CIViC activity over time, used for the homepage"
     field :features, TimePointCounts, null: false
     field :variants, TimePointCounts, null: false
     field :molecular_profiles, TimePointCounts, null: false

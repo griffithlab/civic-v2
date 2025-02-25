@@ -11,14 +11,14 @@ class EidsWithOnsetTerms < Report
 
   def setup
     @onset_terms = Phenotype.where(hpo_class: [
-      'Young adult onset',
-      'Intermediate young adult onset',
-      'Late young adult onset',
-      'Childhood onset',
-      'Juvenile onset',
-      'Pediatric onset',
-      'Congenital onset',
-      'Infantile onset'
+      "Young adult onset",
+      "Intermediate young adult onset",
+      "Late young adult onset",
+      "Childhood onset",
+      "Juvenile onset",
+      "Pediatric onset",
+      "Congenital onset",
+      "Infantile onset"
     ])
   end
 
@@ -34,7 +34,7 @@ class EidsWithOnsetTerms < Report
   def execute
     onset_terms.each do |term|
       term.evidence_items.each do |eid|
-        data << ["EID#{eid.id}", "https://civicdb.org/#{eid.link}", term.hpo_class, term.hpo_id]
+        data << [ "EID#{eid.id}", "https://civicdb.org/#{eid.link}", term.hpo_class, term.hpo_id ]
       end
     end
   end

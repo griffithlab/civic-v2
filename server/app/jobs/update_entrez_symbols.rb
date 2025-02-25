@@ -1,5 +1,5 @@
-require 'tempfile'
-require 'open-uri'
+require "tempfile"
+require "open-uri"
 
 class UpdateEntrezSymbols < ApplicationJob
   attr_reader :entrez_file
@@ -15,7 +15,7 @@ class UpdateEntrezSymbols < ApplicationJob
   end
 
   def create_tempfile
-    @entrez_file = Tempfile.new(['entrez_download', '.gz'], File.join(Rails.root, 'tmp'))
+    @entrez_file = Tempfile.new([ "entrez_download", ".gz" ], File.join(Rails.root, "tmp"))
   end
 
   def download_file
@@ -37,4 +37,3 @@ class UpdateEntrezSymbols < ApplicationJob
     "ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz"
   end
 end
-

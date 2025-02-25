@@ -3,7 +3,7 @@ require "test_helper"
 class ExampleQueriesTest < ActiveSupport::TestCase
   def setup
     MolecularProfile.reindex
-    path = File.join(Rails.root, 'config', 'query_examples')
+    path = File.join(Rails.root, "config", "query_examples")
     @queries = GqlExamples.new(path)
   end
 
