@@ -519,7 +519,7 @@ GEM
     solargraph-rails (1.1.0)
       activesupport
       solargraph
-    solid_errors (0.5.0)
+    solid_errors (0.6.1)
       actionmailer (>= 7.0)
       actionpack (>= 7.0)
       actionview (>= 7.0)
@@ -646,7 +646,7 @@ DEPENDENCIES
   simplecov-lcov
   solargraph
   solargraph-rails
-  solid_errors (~> 0.5.0)
+  solid_errors (~> 0.6.0)
   trestle (~> 0.9.5)
   trestle-search (~> 0.4.3)
   typhoeus (~> 1.4.0)
