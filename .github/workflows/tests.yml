@@ -24,6 +24,7 @@ jobs:
         working-directory: ./server
         run: bin/brakeman --no-pager
   lint:
+    name: Rubocop
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
