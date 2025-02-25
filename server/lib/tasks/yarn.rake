@@ -1,1 +1,1 @@
-Rake::Task["assets:precompile"].enhance ["yarn:install"]
+Rake::Task["assets:precompile"].enhance [ "yarn:install" ]

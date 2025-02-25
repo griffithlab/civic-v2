@@ -15,7 +15,7 @@ Event.where(action: 'deprecated variant', activity_id: nil).find_each do |event|
     e.save!
   end
 
-  activity.link_entities!(deprecate_mp_events.map{|e| e.subject})
+  activity.link_entities!(deprecate_mp_events.map { |e| e.subject })
 
   comment = event.subject.deprecation_comment
   if comment

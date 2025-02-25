@@ -1,6 +1,6 @@
 class AddExonOffsetDirection < ActiveRecord::Migration[7.1]
   def up
-    create_enum :exon_offset_direction, ["positive", "negative"]
+    create_enum :exon_offset_direction, [ "positive", "negative" ]
 
     change_table :variant_coordinates do |t|
       t.enum :exon_offset_direction, enum_type: "exon_offset_direction", null: true

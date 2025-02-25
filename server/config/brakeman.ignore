@@ -1,0 +1,143 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "09fc970f7ea73e90cf7ec159377e3dcc5cb729f6f96560878ad04d615c32b32c",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/links_controller.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(FrontendRouter.new((params[:idtype] or params[:idType]), params[:id], request.base_url).url)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LinksController",
+        "method": "redirect"
+      },
+      "user_input": "FrontendRouter.new((params[:idtype] or params[:idType]), params[:id], request.base_url).url",
+      "confidence": "High",
+      "cwe_id": [
+        601
+      ],
+      "note": "request.base_url is not user supplied so the redirect is controlled"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "152485d4ef97729e4d8753ff4bd71b6ecbb521a2a517378a741a416ea77cc792",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/jobs/allele_registry_ids.rb",
+      "line": 9,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{ruby_executable} #{script_path} put \\\"reg.genome.network/allele/#{allele_registry_id}/externalSource/civic\\\" \\\"p1=#{allele_registry_id}\\\" #{allele_registry_username} #{allele_registry_password}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AlleleRegistryIds",
+        "method": "add_allele_registry_link"
+      },
+      "user_input": "ruby_executable",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": "ruby_executable is derived from RbConfig, not user supplied"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "645550e096a807a43dbd85fbc9e12d3dbbddb36529130a6a88a8a2313f938ce0",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/jobs/upload_network_to_ndex.rb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"python3 #{script_path} #{ndex_username} #{ndex_password} --server public.ndexbio.org --file #{tsv_path}  --template 4ce6075a-cd88-11e8-aaa6-0ac135e8bacf --type all\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UploadNetworkToNdex",
+        "method": "perform"
+      },
+      "user_input": "script_path",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": "all interpolated variables are controlled, not user supplied"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "b10c9f3397c1df6347fc25719858d4aab9af1bb3d63b7b7037b04a8a13a22862",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/graphql/loaders/polymorphic_window_loader.rb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "loaded_model.select(\"*,\\n        row_number() OVER (\\n          PARTITION BY #{relation_name}_id ORDER BY #{order_col} #{order_dir}\\n        ) as rank\").where(foreign_key => foreign_ids).where(\"#{relation_name}_type = ?\", related_model.to_s)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Loaders::PolymorphicWindowLoader",
+        "method": "perform"
+      },
+      "user_input": "relation_name",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "relation_name is from internal code, never user supplied"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "e71caf4e82e3893ecef1e7bbdc05f7433f0884739801c74a656b664e8393f91b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/graphql/loaders/polymorphic_window_loader.rb",
+      "line": 44,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "loaded_model.from(\"(#{loaded_model.select(\"*,\\n        row_number() OVER (\\n          PARTITION BY #{relation_name}_id ORDER BY #{order_col} #{order_dir}\\n        ) as rank\").where(foreign_key => foreign_ids).where(\"#{relation_name}_type = ?\", related_model.to_s).to_sql}) as #{loaded_model.table_name}\").where(\"rank <= #{limit}\").where(\"#{relation_name}_type = ?\", related_model.to_s)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Loaders::PolymorphicWindowLoader",
+        "method": "perform"
+      },
+      "user_input": "relation_name",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "all interpolated values are from internal code"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "f3a5d67a38f3bb02a8fa9b1eda52cb8c3006c982c7cf212860b9efa4b95d0568",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/jobs/allele_registry_ids.rb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{ruby_executable} #{script_path} delete \\\"reg.genome.network/allele/#{allele_registry_id}/externalSource/civic\\\" \\\"p1=#{allele_registry_id}\\\" #{allele_registry_username} #{allele_registry_password}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AlleleRegistryIds",
+        "method": "delete_allele_registry_link"
+      },
+      "user_input": "ruby_executable",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": "ruby_executable is derived from RbConfig, not user supplied"
+    }
+  ],
+  "brakeman_version": "7.0.0"
+}

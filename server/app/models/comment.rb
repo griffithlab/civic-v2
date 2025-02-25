@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
   include WithTimepointCounts
-  ##before_destroy :mark_events_unlinkable
+  # #before_destroy :mark_events_unlinkable
 
   belongs_to :user
   belongs_to :commentable, ->() { unscope(where: :deleted) }, polymorphic: true
@@ -11,16 +11,16 @@ class Comment < ActiveRecord::Base
   has_many :role_mentions
 
   has_one :creation_event,
-    ->() { where(action: 'commented') },
+    ->() { where(action: "commented") },
     as: :originating_object,
-    class_name: 'Event'
+    class_name: "Event"
 
-  default_scope -> { order('created_at ASC') }
+  default_scope -> { order("created_at ASC") }
 
   alias_attribute :text, :comment
 
   def link
-    if self.commentable_type == 'Revision' or self.commentable_type == 'Flag'
+    if self.commentable_type == "Revision" or self.commentable_type == "Flag"
       self.commentable.link
     else
       "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.commentable_type]}/#{self.commentable_id}/comments"
@@ -34,8 +34,8 @@ class Comment < ActiveRecord::Base
   private
   def mark_events_unlinkable
     if self.commentable.respond_to?(:events)
-      unlinkable_events = self.commentable.events.where(action: 'commented')
-        .select { |e| e.state_params['comment'] && e.state_params['comment']['id'] == self.id }
+      unlinkable_events = self.commentable.events.where(action: "commented")
+        .select { |e| e.state_params["comment"] && e.state_params["comment"]["id"] == self.id }
       unlinkable_events.each do |e|
         e.unlinkable = true
         e.save
@@ -45,8 +45,8 @@ class Comment < ActiveRecord::Base
 
   def self.timepoint_query
     ->(x) {
-      Event.where(action: 'commented')
-        .where('events.created_at >= ?', x)
+      Event.where(action: "commented")
+        .where("events.created_at >= ?", x)
         .distinct
     }
   end

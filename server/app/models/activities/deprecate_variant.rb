@@ -2,7 +2,7 @@ module Activities
   class DeprecateVariant < Base
     attr_reader :variant, :newly_deprecated_molecular_profiles, :deprecation_reason
 
-    def initialize(deprecating_user: , variant:, organization_id: nil, deprecation_reason:, note:)
+    def initialize(deprecating_user:, variant:, organization_id: nil, deprecation_reason:, note:)
       super(organization_id: organization_id, user: deprecating_user, note: note)
       @variant = variant
       @deprecation_reason = deprecation_reason
@@ -27,7 +27,7 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
       @newly_deprecated_molecular_profiles = cmd.newly_deprecated_molecular_profiles

@@ -1,4 +1,4 @@
-#run after backfill variant coords
+# run after backfill variant coords
 require 'net/http'
 require 'json'
 require 'uri'
@@ -16,7 +16,7 @@ def call_api(url, key)
   end
 end
 
-#hgnc symbol?
+# hgnc symbol?
 def get_ensembl_id(gene_symbol)
   key =  "#{gene_symbol}:ensembl_id"
   url ="https://grch37.rest.ensembl.org/xrefs/symbol/human/#{gene_symbol}?object_type=gene;content-type=application/json"
@@ -34,12 +34,12 @@ end
 
 def get_exons_for_region(region)
   key = "#{region}::exons"
-  url = "https://grch37.rest.ensembl.org/overlap/region/human/#{region}?feature=exon;content-type=application/json" 
+  url = "https://grch37.rest.ensembl.org/overlap/region/human/#{region}?feature=exon;content-type=application/json"
   data = call_api(url, key)
   data.sort_by { |exon| exon['start'] }
 end
 
-#exon vs cds?
+# exon vs cds?
 def get_exons_for_ensembl_id(ensembl_id)
   key = "#{ensembl_id}::exons"
   url = "https://grch37.rest.ensembl.org/overlap/id/#{ensembl_id}?content-type=application/json;feature=exon"
@@ -63,6 +63,3 @@ begin
 rescue StandardError => e
   binding.irb
 end
-
-
-

@@ -10,8 +10,7 @@ module Types::Entities
   end
 
   class NcitDetailsType < Types::BaseObject
-    field :synonyms, [NcitSynonym], null: false
-    field :definitions, [NcitDefinition], null: false
+    field :synonyms, [ NcitSynonym ], null: false
+    field :definitions, [ NcitDefinition ], null: false
   end
 end
-

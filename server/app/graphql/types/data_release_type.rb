@@ -9,7 +9,7 @@ module Types
   end
 
   class DataReleaseType < Types::BaseObject
-    field :name, String, null: false 
+    field :name, String, null: false
     field :feature_tsv, DownloadableFile, null: true
     field :variant_tsv, DownloadableFile, null: true
     field :variant_group_tsv, DownloadableFile, null: true
@@ -20,4 +20,3 @@ module Types
     field :accepted_and_submitted_variants_vcf, DownloadableFile, null: true
   end
 end
-

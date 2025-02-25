@@ -1,10 +1,10 @@
 class Event < ActiveRecord::Base
   belongs_to :subject, polymorphic: true
-  belongs_to :originating_user, foreign_key: :originating_user_id, class_name: 'User'
+  belongs_to :originating_user, foreign_key: :originating_user_id, class_name: "User"
   belongs_to :organization, required: false
   belongs_to :originating_object, polymorphic: true
 
-  has_many  :notifications
+  has_many :notifications
 
   belongs_to :activity
 
@@ -13,10 +13,10 @@ class Event < ActiveRecord::Base
 
   before_create :capture_user_role
 
-  after_commit :queue_feed_updates, on: [:create]
-  after_commit :update_most_recent_org, on: [:create]
+  after_commit :queue_feed_updates, on: [ :create ]
+  after_commit :update_most_recent_org, on: [ :create ]
 
-  #TODO actions as an enum rather than freetext
+  # TODO actions as an enum rather than freetext
 
   def capture_user_role
     self.user_role = self.originating_user.role
@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   private
   def subject_is_subscribable
     unless subject.is_a?(Subscribable)
-      errors.add(:subject, 'Subject must be a Subscribable object')
+      errors.add(:subject, "Subject must be a Subscribable object")
     end
   end
 

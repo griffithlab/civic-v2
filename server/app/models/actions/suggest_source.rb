@@ -3,7 +3,7 @@ module Actions
     include Actions::Transactional
     attr_reader :source, :originating_user, :organization_id, :molecular_profile_id, :disease_id, :source_suggestion
 
-    def initialize(source:, originating_user:, organization_id:, molecular_profile_id: nil, disease_id: nil )
+    def initialize(source:, originating_user:, organization_id:, molecular_profile_id: nil, disease_id: nil)
       @source = source
       @originating_user = originating_user
       @organization_id = organization_id
@@ -16,7 +16,7 @@ module Actions
       @source_suggestion = SourceSuggestion.create!(
         user: originating_user,
         source: source,
-        status: 'new',
+        status: "new",
         molecular_profile_id: molecular_profile_id,
         disease_id: disease_id,
       )
@@ -25,7 +25,7 @@ module Actions
 
     def create_event(suggestion)
       events << Event.new(
-        action: 'publication suggested',
+        action: "publication suggested",
         originating_user: originating_user,
         subject: source,
         organization_id: organization_id,

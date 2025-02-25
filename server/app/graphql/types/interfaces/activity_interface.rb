@@ -3,13 +3,13 @@ module Types::Interfaces
     include Types::BaseInterface
     connection_type_class Types::Connections::ActivitiesConnection
 
-    description 'An activity done by a curator or editor'
+    description "An activity done by a curator or editor"
 
     field :id, Int, null: false
     field :verbiage, String, null: false
     field :note, String, null: true
-    field :parsed_note, [Types::Commentable::CommentBodySegment], null: false
-    field :events, [Types::Entities::EventType], null: false
+    field :parsed_note, [ Types::Commentable::CommentBodySegment ], null: false
+    field :events, [ Types::Entities::EventType ], null: false
     field :subject, Types::Interfaces::EventSubject, null: false
     field :user, Types::Entities::UserType, null: false
     field :organization, Types::Entities::OrganizationType, null: true

@@ -1,4 +1,4 @@
-#NOTE: cannot run this until last
+# NOTE: cannot run this until last
 Event.where(action: 'commented', activity_id: nil).find_each do |event|
   if event.originating_object.blank?
     Notification.where(event: event).destroy_all
@@ -19,6 +19,3 @@ Event.where(action: 'commented', activity_id: nil).find_each do |event|
     activity.save!
   end
 end
-
-
-

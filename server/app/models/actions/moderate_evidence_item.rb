@@ -25,7 +25,7 @@ module Actions
       end
 
       evidence_item.status = new_status
-      if new_status == 'rejected'
+      if new_status == "rejected"
         evidence_item.save(validate: false)
       else
         evidence_item.save!
@@ -34,11 +34,11 @@ module Actions
     end
 
     def create_event
-      action = if new_status == 'submitted'
-                 'reverted'
-               else
+      action = if new_status == "submitted"
+                 "reverted"
+      else
                  new_status
-               end
+      end
 
 
       events << Event.new(

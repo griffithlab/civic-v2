@@ -1,4 +1,4 @@
-app_dir = '/var/www/civic/current'
+app_dir = "/var/www/civic/current"
 max_threads_count = 3
 min_threads_count = 3
 threads min_threads_count, max_threads_count

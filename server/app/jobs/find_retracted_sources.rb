@@ -1,5 +1,5 @@
-require 'tempfile'
-require 'open-uri'
+require "tempfile"
+require "open-uri"
 
 class FindRetractedSources < ApplicationJob
   attr_reader :retraction_watch_file
@@ -15,7 +15,7 @@ class FindRetractedSources < ApplicationJob
   end
 
   def create_tempfile
-    @retraction_watch_file = Tempfile.new('retraction_watch_download', File.join(Rails.root, 'tmp'))
+    @retraction_watch_file = Tempfile.new("retraction_watch_download", File.join(Rails.root, "tmp"))
   end
 
   def download_file
@@ -37,4 +37,3 @@ class FindRetractedSources < ApplicationJob
     "https://api.labs.crossref.org/data/retractionwatch?ginny@crossref.org"
   end
 end
-

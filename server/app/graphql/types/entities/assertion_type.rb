@@ -1,6 +1,5 @@
 module Types::Entities
   class AssertionType < Types::BaseObject
-
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
@@ -14,11 +13,11 @@ module Types::Entities
     field :summary, String, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
-    field :therapies, [Types::Entities::TherapyType], null: false
+    field :therapies, [ Types::Entities::TherapyType ], null: false
     field :therapy_interaction_type, Types::TherapyInteractionType, null: true
     field :assertion_direction, Types::AssertionDirectionType, null: false
     field :assertion_type, Types::AssertionTypeType, null: false
-    field :phenotypes, [Types::Entities::PhenotypeType], null: false
+    field :phenotypes, [ Types::Entities::PhenotypeType ], null: false
     field :status, Types::EvidenceStatusType, null: false
     field :variant_origin, Types::VariantOriginType, null: false
     field :regulatory_approval, GraphQL::Types::Boolean, null: true
@@ -27,14 +26,14 @@ module Types::Entities
     field :fda_companion_test_last_updated, GraphQL::Types::ISO8601DateTime, null: true
     field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true
     field :nccn_guideline_version, String, null: true
-    field :acmg_codes, [Types::Entities::AcmgCodeType], null: false
-    field :clingen_codes, [Types::Entities::ClingenCodeType], null: false
+    field :acmg_codes, [ Types::Entities::AcmgCodeType ], null: false
+    field :clingen_codes, [ Types::Entities::ClingenCodeType ], null: false
     field :amp_level, Types::AmpLevelType, null: true
     field :submission_event, Types::Entities::EventType, null: false
     field :submission_activity, Types::Activities::SubmitAssertionActivityType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
-    field :evidence_items, [Types::Entities::EvidenceItemType], null: false
+    field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
 
     def disease
@@ -67,7 +66,7 @@ module Types::Entities
 
     def regulatory_approval_last_updated
       Loaders::AssociationLoader.for(Assertion, :revisions).load(object).then do | revisions |
-        regulatory_revisions = revisions.select{|r| r.field_name == 'fda_regulatory_approval' && r.status == 'accepted'}
+        regulatory_revisions = revisions.select { |r| r.field_name == "fda_regulatory_approval" && r.status == "accepted" }
         if !regulatory_revisions.empty?
           regulatory_revisions.last.updated_at
         else
@@ -78,7 +77,7 @@ module Types::Entities
 
     def fda_companion_test_last_updated
       Loaders::AssociationLoader.for(Assertion, :revisions).load(object).then do | revisions |
-        regulatory_revisions = revisions.select{|r| r.field_name == 'fda_companion_test' && r.status == 'accepted'}
+        regulatory_revisions = revisions.select { |r| r.field_name == "fda_companion_test" && r.status == "accepted" }
         if !regulatory_revisions.empty?
           regulatory_revisions.last.updated_at
         else

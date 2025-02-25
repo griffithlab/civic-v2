@@ -5,7 +5,7 @@ class AddMolecularProfileAliases < ActiveRecord::Migration[6.1]
     end
 
     create_join_table :molecular_profile_aliases, :molecular_profiles, table_name: :molecular_profile_aliases_molecular_profiles do |t|
-      t.index [:molecular_profile_alias_id, :molecular_profile_id], name: :idx_mp_alias_id_mp_id_on_mp_alias_join_table
+      t.index [ :molecular_profile_alias_id, :molecular_profile_id ], name: :idx_mp_alias_id_mp_id_on_mp_alias_join_table
     end
 
     add_index :molecular_profile_aliases, :name

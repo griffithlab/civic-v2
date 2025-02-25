@@ -5,20 +5,20 @@ module Types::Popovers
     field :molecular_profile_count, Int, null: false
 
     def assertion_count
-      Assertion.where.not(status: 'rejected')
+      Assertion.where.not(status: "rejected")
         .where(disease_id: object.id)
         .count
     end
 
     def evidence_item_count
-      EvidenceItem.where.not(status: 'rejected')
+      EvidenceItem.where.not(status: "rejected")
         .where(disease_id: object.id)
         .count
     end
 
     def molecular_profile_count
       EvidenceItem
-        .where.not(status: 'rejected')
+        .where.not(status: "rejected")
         .where(disease_id: object.id)
         .select(:molecular_profile_id)
         .distinct
@@ -26,4 +26,3 @@ module Types::Popovers
     end
   end
 end
-

@@ -12,12 +12,12 @@ module Types::BrowseTables
     field :most_recent_activity_timestamp, GraphQL::Types::ISO8601DateTime, null: true
     field :activity_count, Int, null: false
     field :member_count, Int, null: false
-    field :child_organizations, [Types::Entities::OrganizationType], null: false
+    field :child_organizations, [ Types::Entities::OrganizationType ], null: false
 
     def child_organizations
       Array(object.child_organizations)
-        .sort_by { |f| f['child_name'] }
-        .map { |f| { id: f['child_id'], name: f['child_name']} }
+        .sort_by { |f| f["child_name"] }
+        .map { |f| { id: f["child_id"], name: f["child_name"] } }
     end
   end
 end

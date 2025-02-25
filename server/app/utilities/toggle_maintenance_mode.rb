@@ -1,5 +1,4 @@
 class ToggleMaintenanceMode < ActionWrapper
-
   def self.name
     "Toggle Maintenance Mode"
   end

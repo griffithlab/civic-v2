@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
@@ -14,23 +14,23 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
   end
 
   option(:name, type: String) do |scope, value|
-    scope.where('name ILIKE ?', "%#{value}%")
+    scope.where("name ILIKE ?", "%#{value}%")
   end
 
   option(:doid, type: String) do |scope, value|
-    if value.upcase.starts_with?('DOID:')
-      scope.where(doid: value.upcase.gsub('DOID:',''))
+    if value.upcase.starts_with?("DOID:")
+      scope.where(doid: value.upcase.gsub("DOID:", ""))
     else
       scope.where(doid: value)
     end
   end
 
   option(:feature_name, type: String) do |scope, value|
-    scope.where(json_name_query_for_column(scope.table_name, 'features'), "%#{value}%")
+    scope.where(json_name_query_for_column(scope.table_name, "features"), "%#{value}%")
   end
 
   option(:disease_alias, type: String) do |scope, value|
-    scope.where(array_query_for_column('alias_names'), "%#{value}%")
+    scope.where(array_query_for_column("alias_names"), "%#{value}%")
   end
 
   option(:sort_by, type: Types::BrowseTables::DiseasesSortType) do |scope, value|
@@ -50,4 +50,3 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
     end
   end
 end
-

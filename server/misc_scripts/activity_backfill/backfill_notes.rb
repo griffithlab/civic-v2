@@ -1,4 +1,4 @@
-Activity.where.not(type: ["CommentActivity", 'ModerateAssertionActivity', 'ModerateEvidenceItemActivity'])
+Activity.where.not(type: [ "CommentActivity", 'ModerateAssertionActivity', 'ModerateEvidenceItemActivity' ])
 .find_each do |a|
   events = Event.where(action: 'commented', activity_id: a.id)
   events.each do |e|

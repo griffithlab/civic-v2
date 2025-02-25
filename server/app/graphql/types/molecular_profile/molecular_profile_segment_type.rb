@@ -8,7 +8,6 @@ module Types::MolecularProfile
   end
 
   class MolecularProfileSegmentType < Types::BaseUnion
-
     description "A segment of a molecular profile. Either a string representing a boolean operator or a tag component representing a gene or variant"
     possible_types Types::MolecularProfile::MolecularProfileTextSegment,
       Types::Entities::FeatureType,

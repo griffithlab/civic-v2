@@ -1,5 +1,5 @@
-require 'tempfile'
-require 'open-uri'
+require "tempfile"
+require "open-uri"
 
 class UpdateSequenceOntology < ApplicationJob
   attr_reader :soid_file
@@ -15,7 +15,7 @@ class UpdateSequenceOntology < ApplicationJob
   end
 
   def create_tempfile
-    @soid_file = Tempfile.new('soid_download', File.join(Rails.root, 'tmp'))
+    @soid_file = Tempfile.new("soid_download", File.join(Rails.root, "tmp"))
   end
 
   def download_file

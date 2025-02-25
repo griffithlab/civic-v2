@@ -1,8 +1,8 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 module Resolvers::Leaderboards
-  class OrganizationRevisionsLeaderboard < Resolvers::LeaderboardBase 
+  class OrganizationRevisionsLeaderboard < Resolvers::LeaderboardBase
     include SearchObject.module(:graphql)
 
     type Types::Entities::LeaderboardOrganizationType.connection_type, null: false
@@ -14,4 +14,3 @@ module Resolvers::Leaderboards
     setup_options
   end
 end
-

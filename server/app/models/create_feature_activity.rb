@@ -1,5 +1,4 @@
 class CreateFeatureActivity < Activity
-
   def feature
     self.subject
   end

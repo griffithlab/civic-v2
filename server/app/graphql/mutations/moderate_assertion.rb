@@ -1,15 +1,15 @@
 class Mutations::ModerateAssertion < Mutations::MutationWithOrg
-  description 'Perform moderation actions on an assertion such as accepting, rejecting, or reverting.'
+  description "Perform moderation actions on an assertion such as accepting, rejecting, or reverting."
 
   argument :assertion_id, Int, required: true,
-    description: 'ID of the Assertion to moderate'
+    description: "ID of the Assertion to moderate"
 
   argument :new_status, Types::EvidenceStatusType, required: true,
-    description: 'The desired status of the Assertion'
+    description: "The desired status of the Assertion"
 
   field :assertion, Types::Entities::AssertionType, null: false,
-    description: 'The moderated Assertion'
-  
+    description: "The moderated Assertion"
+
 
   attr_reader :assertion
 
@@ -26,7 +26,7 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Assertion already has status #{new_stats}."
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, new_status:,  **_)
@@ -34,20 +34,20 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
 
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
-    #users may reject their own assertions
-    if new_status == 'rejected' && assertion.submitter == current_user
+    # users may reject their own assertions
+    if new_status == "rejected" && assertion.submitter == current_user
       return true
     end
 
-    if new_status == 'accepted' && assertion.submitter == current_user
-      raise GraphQL::ExecutionError, 'Users may not accept their own submitted Assertions.'
+    if new_status == "accepted" && assertion.submitter == current_user
+      raise GraphQL::ExecutionError, "Users may not accept their own submitted Assertions."
     end
 
     if !Role.user_is_at_least_a?(current_user, :editor)
-      raise GraphQL::ExecutionError, 'User must be an editor in order to moderate Assertions.'
+      raise GraphQL::ExecutionError, "User must be an editor in order to moderate Assertions."
     end
 
-    return true
+    true
   end
 
   def resolve(organization_id: nil, new_status:, **_)
@@ -65,7 +65,7 @@ class Mutations::ModerateAssertion < Mutations::MutationWithOrg
         assertion: assertion
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

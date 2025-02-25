@@ -12,19 +12,19 @@ class DiseasesWithoutEids < Report
   def setup
     @diseases_without_associations = Disease
       .left_joins(:assertions, :evidence_items)
-      .group('diseases.id')
-      .having('COUNT(assertions.id) = 0 AND COUNT(evidence_items.id) = 0')
+      .group("diseases.id")
+      .having("COUNT(assertions.id) = 0 AND COUNT(evidence_items.id) = 0")
       .where(deprecated: false)
       .distinct
   end
 
   def headers
-    ['ID', 'DOID', 'Name']
+    [ "ID", "DOID", "Name" ]
   end
 
   def execute
     diseases_without_associations.each do |disease|
-      data << [disease.id, disease.doid, disease.name]
+      data << [ disease.id, disease.doid, disease.name ]
     end
   end
 end

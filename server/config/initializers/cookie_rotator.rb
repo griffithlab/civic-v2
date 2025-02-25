@@ -1,5 +1,5 @@
-#Rotate cookies to use new digest algorithm
-#https://guides.rubyonrails.org/v7.0/upgrading_ruby_on_rails.html#key-generator-digest-class-changing-to-use-sha256
+# Rotate cookies to use new digest algorithm
+# https://guides.rubyonrails.org/v7.0/upgrading_ruby_on_rails.html#key-generator-digest-class-changing-to-use-sha256
 Rails.application.config.after_initialize do
   Rails.application.config.action_dispatch.cookies_rotations.tap do |cookies|
     authenticated_encrypted_cookie_salt = Rails.application.config.action_dispatch.authenticated_encrypted_cookie_salt

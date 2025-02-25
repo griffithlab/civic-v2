@@ -1,4 +1,4 @@
-require 'set'
+require "set"
 
 module Actions
   class ExtractMentions
@@ -22,13 +22,13 @@ module Actions
       with_roles = input_segments.flat_map do |segment|
         if segment.is_a?(String)
           segment.split(self.role_regexp).map do |split_segment|
-            if split_segment.starts_with?('$')
+            if split_segment.starts_with?("$")
               role = split_segment[1..-1]
               mentioned_roles << role.singularize
               {
                 entity_id: User.roles[role.singularize],
                 display_name: role,
-                tag_type: 'ROLE'
+                tag_type: "ROLE"
               }
             else
               split_segment
@@ -42,19 +42,19 @@ module Actions
       with_roles.flat_map do |segment|
         if segment.is_a?(String)
           segment.split(self.class.user_regexp).map do |split_segment|
-            if split_segment.starts_with?('@')
+            if split_segment.starts_with?("@")
               minus_at = split_segment[1..-1]
-              if user = User.where('username ILIKE ?', minus_at).first
+              if user = User.where("username ILIKE ?", minus_at).first
                 mentioned_users << user
                 user
-              elsif organization = Organization.where('name ILIKE ?', minus_at).first
+              elsif organization = Organization.where("name ILIKE ?", minus_at).first
                 mentioned_organizations << organization
                 {
                   entity_id: organization.id,
                   display_name: organization.name,
-                  tag_type: 'ORGANIZATION'
+                  tag_type: "ORGANIZATION"
                 }
-              elsif ['editors', 'admins'].include?(minus_at)
+              elsif [ "editors", "admins" ].include?(minus_at)
                 mentioned_roles << minus_at
                 split_segment
               else

@@ -2,7 +2,7 @@ module Types::Interfaces
   module Flaggable
     include Types::BaseInterface
 
-    description 'A CIViC entity that can be flagged for editor attention.'
+    description "A CIViC entity that can be flagged for editor attention."
 
     field :id, Int, null: false
     field :name, String, null: false

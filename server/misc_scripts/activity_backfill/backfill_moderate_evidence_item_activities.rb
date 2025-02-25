@@ -1,4 +1,4 @@
-Event.where(action: ['accepted', 'rejected', 'reverted'], activity_id: nil).find_each do |event|
+Event.where(action: [ 'accepted', 'rejected', 'reverted' ], activity_id: nil).find_each do |event|
   if !event.subject.nil?
     activity = ModerateEvidenceItemActivity.create(
       subject: event.subject,

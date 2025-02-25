@@ -1,8 +1,8 @@
-#Conversion from a GraphQL VariantFields input object to Variant model type
+# Conversion from a GraphQL VariantFields input object to Variant model type
 class InputAdaptors::FusionVariantInputAdaptor
   attr_reader :input
 
-  def initialize(variant_input_object: )
+  def initialize(variant_input_object:)
     @input = variant_input_object
   end
 

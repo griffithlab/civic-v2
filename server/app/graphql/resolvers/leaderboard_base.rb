@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::LeaderboardBase < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
@@ -16,11 +16,11 @@ class Resolvers::LeaderboardBase < GraphQL::Schema::Resolver
     option(:window, type: Types::TimeWindow) do |scope, value|
       case value
       when "LAST_WEEK"
-        scope.where('events.created_at >= ?', 1.week.ago)
+        scope.where("events.created_at >= ?", 1.week.ago)
       when "LAST_MONTH"
-        scope.where('events.created_at >= ?', 1.month.ago)
+        scope.where("events.created_at >= ?", 1.month.ago)
       when "LAST_YEAR"
-        scope.where('events.created_at >= ?', 1.year.ago)
+        scope.where("events.created_at >= ?", 1.year.ago)
       else
         scope
       end

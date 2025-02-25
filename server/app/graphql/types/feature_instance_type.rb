@@ -1,6 +1,6 @@
 module Types
   class FeatureInstanceType < Types::BaseUnion
-    description 'The specific type of a feature instance'
+    description "The specific type of a feature instance"
     possible_types "Types::Entities::GeneType", "Types::Entities::FactorType", "Types::Entities::FusionType"
 
     def self.resolve_type(object, context)

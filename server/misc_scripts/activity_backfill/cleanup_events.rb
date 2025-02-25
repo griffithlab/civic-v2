@@ -1,4 +1,4 @@
-Event.where(action: ['revision accepted', 'revision suggested', 'revision rejected']).find_each do |event|
+Event.where(action: [ 'revision accepted', 'revision suggested', 'revision rejected' ]).find_each do |event|
   if event.subject != event.originating_object.subject
     revision = event.originating_object
     if event.state_params&.dig('suggested_change', 'id') == event.originating_object_id
@@ -14,7 +14,7 @@ Event.where(action: ['revision accepted', 'revision suggested', 'revision reject
 end
 
 events = Event.where(originating_object_type: 'Flag')
-  .find_each.reject { |x| x.subject == x.originating_object.flaggable };
+  .find_each.reject { |x| x.subject == x.originating_object.flaggable }
 
 events.each do |e|
   e.subject = e.originating_object.flaggable

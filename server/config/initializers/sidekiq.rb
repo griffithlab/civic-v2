@@ -1,9 +1,9 @@
-require 'sidekiq'
-require 'sidekiq-cron'
+require "sidekiq"
+require "sidekiq-cron"
 
 
 unless Rails.env.headless?
-  Sidekiq.configure_server do |config| 
+  Sidekiq.configure_server do |config|
     config.on(:startup) do
       schedule_file = Rails.root.join("config", "scheduled_tasks.yml")
 

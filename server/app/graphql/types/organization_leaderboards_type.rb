@@ -6,4 +6,3 @@ module Types
     field :revisions_leaderboard, resolver: Resolvers::Leaderboards::OrganizationRevisionsLeaderboard
   end
 end
-

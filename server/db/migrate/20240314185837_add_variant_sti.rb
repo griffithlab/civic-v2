@@ -9,7 +9,6 @@ class AddVariantSti < ActiveRecord::Migration[6.1]
     end
 
     change_column_null :variants, :type, false
-
   end
 
   def down

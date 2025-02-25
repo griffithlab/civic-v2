@@ -1,7 +1,7 @@
 module UserAdaptors
   class Orcid
     def self.create_from_omniauth(auth_hash)
-      User.new(orcid: auth_hash['uid']).tap do |user|
+      User.new(orcid: auth_hash["uid"]).tap do |user|
         fill_user_record_from_orcid(user)
       end
     end
@@ -13,4 +13,3 @@ module UserAdaptors
     end
   end
 end
-

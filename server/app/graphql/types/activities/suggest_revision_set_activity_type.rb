@@ -2,7 +2,7 @@ module Types::Activities
   class SuggestRevisionSetActivityType < Types::BaseObject
     implements Types::Interfaces::ActivityInterface
 
-    field :revisions, [Types::Revisions::RevisionType], null: false
+    field :revisions, [ Types::Revisions::RevisionType ], null: false
     field :revision_set, Types::Entities::RevisionSetType, null: false
 
     def revisions

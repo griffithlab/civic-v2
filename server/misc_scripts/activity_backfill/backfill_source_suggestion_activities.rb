@@ -28,7 +28,7 @@ Event.where(action: 'publication suggested', activity_id: nil).find_each do |eve
     end
   end
 
-  activity.link_entities!([source_suggestion, possible_comment].compact)
+  activity.link_entities!([ source_suggestion, possible_comment ].compact)
   activity.verbiage = activity.generate_verbiage
   activity.save!
 end
