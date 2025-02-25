@@ -83,6 +83,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   gem 'brakeman', require: false
+  gem "rubocop-rails-omakase", require: false
 end
 
 group :development do
