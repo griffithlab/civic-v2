@@ -1,7 +1,7 @@
 class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
-  description 'Suggest a Revision to a Variant entity.'
+  description "Suggest a Revision to a Variant entity."
   argument :id, Int, required: true,
-    description: 'The ID of the Variant to suggest a Revision to.'
+    description: "The ID of the Variant to suggest a Revision to."
 
   argument :fields, Types::Revisions::GeneVariantFields, required: true,
     description: <<~DOC.strip
@@ -11,12 +11,12 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
 
   argument :comment, String, required: false,
     validates: { length: { minimum: 10 } },
-    description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
+    description: "Text describing the reason for the change. Will be attached to the Revision as a comment."
 
   field :variant, Types::Variants::GeneVariantType, null: false,
-    description: 'The Variant the user has proposed a Revision to.'
+    description: "The Variant the user has proposed a Revision to."
 
-  field :results, [Types::Revisions::RevisionResult], null: false,
+  field :results, [ Types::Revisions::RevisionResult ], null: false,
     description: <<~DOC.strip
       A list of Revisions generated as a result of this suggestion.
       If an existing Revision exactly matches the proposed one, it will be returned instead.
@@ -56,12 +56,12 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Provided variant type ids: #{fields.variant_type_ids.join(', ')} but only #{existing_variant_type_ids.join(', ')} exist."
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, **kwargs)
     validate_user_acting_as_org(user: context[:current_user], organization_id: organization_id)
-    return true
+    true
   end
 
   def resolve(fields:, id:, organization_id: nil, comment: nil)
@@ -71,12 +71,12 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
 
     updated_coordinates = InputAdaptors::CoordinateInputAdaptor.new(coordinate_input_object: fields.coordinates).perform
     updated_coordinates.variant_id = variant.id
-    updated_coordinates.coordinate_type = 'Gene Variant Coordinate'
+    updated_coordinates.coordinate_type = "Gene Variant Coordinate"
     coordinate_revisions_obj = Activities::RevisedObjectPair.new(existing_obj: variant.coordinates, updated_obj: updated_coordinates)
 
-    #set variant id?
+    # set variant id?
     cmd = Activities::SuggestRevisionSet.new(
-      revised_objects: [variant_revisions_obj, coordinate_revisions_obj],
+      revised_objects: [ variant_revisions_obj, coordinate_revisions_obj ],
       subject: variant,
       originating_user: context[:current_user],
       organization_id: organization_id,
@@ -90,12 +90,7 @@ class Mutations::SuggestGeneVariantRevision < Mutations::MutationWithOrg
         results: res.revision_results
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end
-
-
-
-
-

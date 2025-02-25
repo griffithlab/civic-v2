@@ -1,8 +1,8 @@
-#Conversion from a GraphQL AssertionFields input object to Assertion model type
+# Conversion from a GraphQL AssertionFields input object to Assertion model type
 class InputAdaptors::AssertionInputAdaptor
   attr_reader :input
 
-  def initialize(assertion_input_object: )
+  def initialize(assertion_input_object:)
     @input = assertion_input_object
   end
 
@@ -83,6 +83,6 @@ class InputAdaptors::AssertionInputAdaptor
       errors << "Provided molecular profile id: #{fields.molecular_profile_id} is not found."
     end
 
-    return errors
+    errors
   end
 end

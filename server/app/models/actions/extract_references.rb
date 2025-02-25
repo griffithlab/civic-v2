@@ -1,4 +1,4 @@
-require 'set'
+require "set"
 
 module Actions
   class ExtractReferences
@@ -67,12 +67,12 @@ module Actions
       if match = "##{query_term}".match(self.scan_regex)
         (klass, tag_type) = self.extract_type(match[:type])
         if referenced_items = klass.where("CAST(id as TEXT) LIKE ?", "#{match[:id]}%").order(:id).limit(10)
-          return referenced_items.map do |referenced_item|
+          referenced_items.map do |referenced_item|
             val = {
               entity_id: referenced_item.id,
               display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
               tag_type: tag_type,
-              feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
+              feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil
             }
             if referenced_item.respond_to?(:deprecated)
               val[:deprecated] = referenced_item.deprecated
@@ -86,29 +86,29 @@ module Actions
             val
           end
         else
-          return []
+          []
         end
       else
-        return []
+        []
       end
     end
 
     def self.extract_type(type)
       case type.upcase
-      when 'V'
-        [Variant, 'VARIANT']
-      when 'F'
-        [Feature, 'FEATURE']
-      when 'VG'
-        [VariantGroup, 'VARIANT_GROUP']
-      when 'E'
-        [EvidenceItem, 'EVIDENCE_ITEM']
-      when 'R'
-        [Revision, 'REVISION']
-      when 'A'
-        [Assertion, 'ASSERTION']
-      when 'MP'
-        [MolecularProfile, 'MOLECULAR_PROFILE']
+      when "V"
+        [ Variant, "VARIANT" ]
+      when "F"
+        [ Feature, "FEATURE" ]
+      when "VG"
+        [ VariantGroup, "VARIANT_GROUP" ]
+      when "E"
+        [ EvidenceItem, "EVIDENCE_ITEM" ]
+      when "R"
+        [ Revision, "REVISION" ]
+      when "A"
+        [ Assertion, "ASSERTION" ]
+      when "MP"
+        [ MolecularProfile, "MOLECULAR_PROFILE" ]
       end
     end
 

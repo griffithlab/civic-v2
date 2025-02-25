@@ -27,7 +27,7 @@ class AssertionValidator < ActiveModel::Validator
       if record.therapy_ids.blank?
         record.errors.add :therapy_ids, "Therapy required for #{record.evidence_type} evidence type"
       else
-        deprecated_therapies = record.therapies.select{|t| t.deprecated}
+        deprecated_therapies = record.therapies.select { |t| t.deprecated }
         if deprecated_therapies.count > 0
           record.errors.add :therapy_ids, "One or more Therapy is deprecated. Select a different term. The current term may have been added into CIViC twice on accident and has been deprecated. Switch to the non-deprecated term by deleting the current term from the Revise form and re-entering it."
         end
@@ -73,63 +73,63 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."
     end
 
-    if record.variant_origin == 'Combined' && !record.molecular_profile.is_multi_variant?
+    if record.variant_origin == "Combined" && !record.molecular_profile.is_multi_variant?
       record.errors.add :variant_origin, "Combined variant origin can only apply when the Molecular Profile has multiple Variants."
     end
   end
 
   def valid_types
     @valid_types ||= {
-      'Predictive' => {
-        significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
-        assertion_direction: ['Supports', 'Does Not Support'],
+      "Predictive" => {
+        significance: [ "Sensitivity/Response", "Resistance", "Adverse Response", "Reduced Sensitivity", "N/A" ],
+        assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: true,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
-        allow_regulatory_approval: true,
+        allow_regulatory_approval: true
       },
-     'Diagnostic' => {
-        significance: ['Positive', 'Negative'],
-        assertion_direction: ['Supports', 'Does Not Support'],
+     "Diagnostic" => {
+        significance: [ "Positive", "Negative" ],
+        assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: false,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
-        allow_regulatory_approval: false,
+        allow_regulatory_approval: false
       },
-     'Prognostic' => {
-        significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
-        assertion_direction: ['Supports', 'Does Not Support'],
+     "Prognostic" => {
+        significance: [ "Better Outcome", "Poor Outcome", "N/A" ],
+        assertion_direction: [ "Supports", "Does Not Support" ],
         disease: true,
         therapy: false,
         acmg_codes: false,
         amp_level: true,
         clingen_codes: false,
-        allow_regulatory_approval: false,
+        allow_regulatory_approval: false
       },
-     'Predisposing' => {
-        significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
-        assertion_direction: ['Supports'],
+     "Predisposing" => {
+        significance: [ "Pathogenic", "Likely Pathogenic", "Benign", "Likely Benign", "Uncertain Significance" ],
+        assertion_direction: [ "Supports" ],
         disease: true,
         therapy: false,
         acmg_codes: true,
         amp_level: false,
         clingen_codes: false,
-        allow_regulatory_approval: false,
+        allow_regulatory_approval: false
       },
-     'Oncogenic' => {
-        significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain Significance', 'Likely Benign', 'Benign'],
-        assertion_direction: ['Supports'],
+     "Oncogenic" => {
+        significance: [ "Oncogenic", "Likely Oncogenic", "Uncertain Significance", "Likely Benign", "Benign" ],
+        assertion_direction: [ "Supports" ],
         disease: true,
         therapy: false,
         acmg_codes: false,
         amp_level: false,
         clingen_codes: true,
-        allow_regulatory_approval: false,
-      },
+        allow_regulatory_approval: false
+      }
     }
   end
 end

@@ -1,6 +1,6 @@
 class GenerateOpenCravatLink < ApplicationJob
   def perform(variant)
-    return if variant.allele_registry_id.nil? || variant.allele_registry_id == 'unregistered'
+    return if variant.allele_registry_id.nil? || variant.allele_registry_id == "unregistered"
 
     coords = get_build_38_coords(variant)
 
@@ -44,32 +44,31 @@ class GenerateOpenCravatLink < ApplicationJob
     new_start = convert_zero_to_one_based(start, ref, alt)
 
     if ref.blank?
-      ref = '-'
+      ref = "-"
     end
 
     if alt.blank?
-      alt = '-'
+      alt = "-"
     end
 
     query_params = {
       chrom: "chr#{coords["chromosome"]}",
       pos: new_start,
       ref_base: ref,
-      alt_base: alt,
+      alt_base: alt
     }.to_query
 
     query_params
   end
 
-  #https://www.biostars.org/p/84686/
+  # https://www.biostars.org/p/84686/
   def convert_zero_to_one_based(start, ref, alt)
-    if ref.size == alt.size #SNV
+    if ref.size == alt.size # SNV
       start.to_i + 1
-    elsif ref.size > alt.size #DEL
+    elsif ref.size > alt.size # DEL
       start.to_i + 1
-    else #INS
+    else # INS
       start
     end
   end
-
 end

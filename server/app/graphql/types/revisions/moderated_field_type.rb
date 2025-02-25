@@ -1,4 +1,4 @@
-require_relative '../linkable_tag.rb'
+require_relative "../linkable_tag.rb"
 
 module Types::Revisions
   class ModeratedObjectField < Types::BaseObject
@@ -18,11 +18,11 @@ module Types::Revisions
   end
 
   class ObjectFieldType < Types::BaseObject
-    field :objects, [Types::Revisions::ModeratedObjectField], null: false
+    field :objects, [ Types::Revisions::ModeratedObjectField ], null: false
   end
 
   class ModeratedFieldType < Types::BaseUnion
-    description 'Fields that can have revisions can be either scalar values or complex objects'
+    description "Fields that can have revisions can be either scalar values or complex objects"
     possible_types Types::Revisions::ScalarFieldType, Types::Revisions::ObjectFieldType
 
     def self.resolve_type(object, context)

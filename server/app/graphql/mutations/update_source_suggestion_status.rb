@@ -1,21 +1,21 @@
 class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
-  description 'Update the status of a SourceSuggestion by ID. The user updating the SourceSuggestion must be signed in.'
+  description "Update the status of a SourceSuggestion by ID. The user updating the SourceSuggestion must be signed in."
 
   argument :id, Int, required: true,
-    description: 'The ID of the SourceSuggestion to update.'
+    description: "The ID of the SourceSuggestion to update."
 
   argument :new_status, Types::SourceSuggestionStatusType, required: true,
-    description: 'The desired status of the SourceSuggestion.'
+    description: "The desired status of the SourceSuggestion."
 
   argument :reason, String, required: false,
-    description: 'The justification for marking a source as curated/rejected'
+    description: "The justification for marking a source as curated/rejected"
 
   field :source_suggestion, Types::Entities::SourceSuggestionType, null: false,
-    description: 'The updated SourceSuggestion.'
+    description: "The updated SourceSuggestion."
 
   attr_reader :source_suggestion
 
-  def ready?(organization_id: nil, id: , **_)
+  def ready?(organization_id: nil, id:, **_)
     validate_user_logged_in
     validate_user_org(organization_id)
 
@@ -24,7 +24,7 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "SourceSuggestion with id #{id} doesn't exist"
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, **_)
@@ -32,10 +32,10 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
     if Role.user_is_at_least_a?(current_user, :editor) && !current_user.has_valid_coi_statement?
-      raise GraphQL::ExecutionError, 'User must have a valid conflict of interest statement on file.'
+      raise GraphQL::ExecutionError, "User must have a valid conflict of interest statement on file."
     end
 
-    return true
+    true
   end
 
   def resolve(id:, organization_id: nil, new_status:, reason: nil, **_)
@@ -51,7 +51,7 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
       res = cmd.perform
 
       if !res.succeeded?
-        raise GraphQL::ExecutionError, res.errors.join(', ')
+        raise GraphQL::ExecutionError, res.errors.join(", ")
       end
     end
 

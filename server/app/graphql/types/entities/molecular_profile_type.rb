@@ -7,31 +7,31 @@ module Types::Entities
     implements Types::Interfaces::EventOriginObject
 
     field :id, Int, null: false
-    field :raw_name, String, null: false, 
-      description: 'The profile name as stored, with ids rather than names.'
+    field :raw_name, String, null: false,
+      description: "The profile name as stored, with ids rather than names."
     field :name, String, null: false,
-      description: 'The human readable name of this profile, including gene and variant names.'
-    field :parsed_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false, 
-      description: 'The profile name with its constituent parts as objects, suitable for building tags.'
-    field :variants, [Types::Interfaces::VariantInterface], null: false,
-      description: 'The collection of variants included in this molecular profile. Please note the name for their relation to each other.'
+      description: "The human readable name of this profile, including gene and variant names."
+    field :parsed_name, [ Types::MolecularProfile::MolecularProfileSegmentType ], null: false,
+      description: "The profile name with its constituent parts as objects, suitable for building tags."
+    field :variants, [ Types::Interfaces::VariantInterface ], null: false,
+      description: "The collection of variants included in this molecular profile. Please note the name for their relation to each other."
 
     field :assertions, Types::Entities::AssertionType.connection_type, null: false do
-      description 'The collection of assertions associated with this molecular profile.'
+      description "The collection of assertions associated with this molecular profile."
       argument :include_rejected, Boolean, required: false
     end
 
     field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false do
-      description 'The collection of evidence items associated with this molecular profile.'
+      description "The collection of evidence items associated with this molecular profile."
       argument :include_rejected, Boolean, required: false
     end
 
-    field :sources, [Types::Entities::SourceType], null: false
+    field :sources, [ Types::Entities::SourceType ], null: false
     field :description, String, null: true
-    field :molecular_profile_aliases, [String], null: false
+    field :molecular_profile_aliases, [ String ], null: false
     field :deprecated, Boolean, null: false
     field :deprecation_reason, Types::MolecularProfileDeprecationReasonType, null: true
-    field :deprecated_variants, [Types::Interfaces::VariantInterface], null: false
+    field :deprecated_variants, [ Types::Interfaces::VariantInterface ], null: false
     field :variant_deprecation_activity, Types::Activities::DeprecateVariantActivityType, null: true
     field :complex_molecular_profile_deprecation_activity, Types::Activities::DeprecateComplexMolecularProfileActivityType, null: true
     field :molecular_profile_score, Float, null: false
@@ -54,7 +54,7 @@ module Types::Entities
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
         segments.map { |s| s.respond_to?(:mp_name) ? s.mp_name : s }
           .compact
-          .join(' ')
+          .join(" ")
       end
     end
 
@@ -121,7 +121,7 @@ module Types::Entities
             molecular_profile_id: object.id,
             accepted_count: 0,
             rejected_count: 0,
-            submitted_count: 0,
+            submitted_count: 0
           }
         end
       end
@@ -144,7 +144,7 @@ module Types::Entities
         end
       end
     end
-    
+
     def is_multi_variant
       Loaders::AssociationCountLoader.for(MolecularProfile, association: :variants).load(object.id).then do |count|
         count > 1

@@ -1,18 +1,18 @@
 class Mutations::AddComment < Mutations::MutationWithOrg
-  description 'Add a comment to any commentable entity.'
+  description "Add a comment to any commentable entity."
 
   argument :title, String, required: false,
-    description: 'Optional title for the comment.'
+    description: "Optional title for the comment."
 
   argument :body, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text of the comment.'
+    description: "Text of the comment."
 
   argument :subject, Types::Commentable::CommentableInput, required: true,
-    description: 'The commentable to attach the comment to. Specified by ID and Type.'
+    description: "The commentable to attach the comment to. Specified by ID and Type."
 
   field :comment, Types::Entities::CommentType, null: true,
-    description: 'The newly created comment.'
+    description: "The newly created comment."
 
   def ready?(organization_id: nil, subject:, **kwargs)
     validate_user_logged_in
@@ -21,12 +21,12 @@ class Mutations::AddComment < Mutations::MutationWithOrg
     if subject.nil?
       raise GraphQL::ExecutionError, "Subject with the given ID doesn't exist"
     end
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, **kwargs)
     validate_user_acting_as_org(user: context[:current_user], organization_id: organization_id)
-    return true
+    true
   end
 
   def resolve(title: nil, body:, subject:, organization_id: nil)
@@ -42,10 +42,10 @@ class Mutations::AddComment < Mutations::MutationWithOrg
 
     if res.succeeded?
       {
-        comment: res.comment,
+        comment: res.comment
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

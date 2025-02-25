@@ -1,8 +1,8 @@
 class Mutations::Subscribe < Mutations::BaseMutation
-  description 'Subscribe to a CIViC entity in order to receive notifications about it.'
+  description "Subscribe to a CIViC entity in order to receive notifications about it."
 
-  argument :subscribables, [Types::Subscribable::SubscribableInput], required: true,
-    description: 'A list of one or more entities to subscribe to, each identified by its ID and type.'
+  argument :subscribables, [ Types::Subscribable::SubscribableInput ], required: true,
+    description: "A list of one or more entities to subscribe to, each identified by its ID and type."
 
   argument :subscribe_to_children, Boolean, required: false,
     default_value: false,
@@ -11,13 +11,13 @@ class Mutations::Subscribe < Mutations::BaseMutation
       IE: If you subscribe to a Gene, do you want to receive notifications for its Variants as well?
     DOC
 
-  field :subscriptions, [Types::Subscribable::SubscriptionType], null: false,
-    description: 'The newly created subscription objects.'
+  field :subscriptions, [ Types::Subscribable::SubscriptionType ], null: false,
+    description: "The newly created subscription objects."
 
   def ready?(**_)
     validate_user_logged_in
 
-    return true
+    true
   end
 
   def resolve(subscribables:, subscribe_to_children:)

@@ -1,9 +1,9 @@
 class Mutations::DeprecateVariant < Mutations::MutationWithOrg
-  description 'Deprecate a variant to prevent it from being used in the future and implicitly deprecate all the molecular profiles linked to this variant.'
+  description "Deprecate a variant to prevent it from being used in the future and implicitly deprecate all the molecular profiles linked to this variant."
 
   argument :variant_id, Int,
     required: true,
-    description: 'The CIViC ID of the variant to deprecate.'
+    description: "The CIViC ID of the variant to deprecate."
 
   argument :deprecation_reason, Types::VariantDeprecationReasonType,
     required: true,
@@ -11,13 +11,13 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
 
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text giving more context for deprecation this variant.'
+    description: "Text giving more context for deprecation this variant."
 
   field :variant, Types::Interfaces::VariantInterface, null: true,
-    description: 'The deprecated Variant.'
+    description: "The deprecated Variant."
 
-  field :newly_deprecated_molecular_profiles, [Types::Entities::MolecularProfileType], null: true,
-    description: 'The molecular profiles linked to this variant that weren\'t already deprecated and have been newly deprecated by running this mutation.'
+  field :newly_deprecated_molecular_profiles, [ Types::Entities::MolecularProfileType ], null: true,
+    description: "The molecular profiles linked to this variant that weren't already deprecated and have been newly deprecated by running this mutation."
 
   attr_reader :variant
 
@@ -44,7 +44,7 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Variant is linked to Molecular Profiles with accepted or submitted Evidence Items: #{mps_with_eids.join(', ')}. Move their Evidence Items to a different Molecular Profile and try again."
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, **kwargs)
@@ -53,10 +53,10 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
     if !Role.user_is_at_least_a?(current_user, :editor)
-      raise GraphQL::ExecutionError, 'User must be an editor in order to deprecate Variants.'
+      raise GraphQL::ExecutionError, "User must be an editor in order to deprecate Variants."
     end
 
-    return true
+    true
   end
 
   def resolve(organization_id: nil, deprecation_reason:, comment:, **kwargs)
@@ -76,7 +76,7 @@ class Mutations::DeprecateVariant < Mutations::MutationWithOrg
         newly_deprecated_molecular_profiles: res.newly_deprecated_molecular_profiles
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

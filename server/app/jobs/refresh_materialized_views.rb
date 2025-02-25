@@ -1,8 +1,7 @@
 class RefreshMaterializedViews < ApplicationJob
-
   def perform(kwargs)
-    views = kwargs.with_indifferent_access['views']
-    to_refresh = if views == 'all'
+    views = kwargs.with_indifferent_access["views"]
+    to_refresh = if views == "all"
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
                      MaterializedViews::TherapyBrowseTableRow,
@@ -14,11 +13,11 @@ class RefreshMaterializedViews < ApplicationJob
                      MaterializedViews::UserBrowseTableRow,
                      MaterializedViews::OrganizationBrowseTableRow
                    ]
-                 elsif views == 'features_only'
+    elsif views == "features_only"
                    [
                      MaterializedViews::FeatureBrowseTableRow
                    ]
-                 elsif views == 'except_features'
+    elsif views == "except_features"
                    [
                      MaterializedViews::DiseaseBrowseTableRow,
                      MaterializedViews::TherapyBrowseTableRow,
@@ -29,9 +28,9 @@ class RefreshMaterializedViews < ApplicationJob
                      MaterializedViews::UserBrowseTableRow,
                      MaterializedViews::OrganizationBrowseTableRow
                    ]
-                 else
+    else
                    []
-                 end
+    end
 
     to_refresh.each { |klass| klass.refresh }
   end

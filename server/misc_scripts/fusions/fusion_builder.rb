@@ -1,4 +1,4 @@
-#run after backfill variant coords
+# run after backfill variant coords
 require 'net/http'
 require 'json'
 require 'uri'
@@ -41,6 +41,3 @@ begin
 rescue StandardError => e
   binding.irb
 end
-
-
-

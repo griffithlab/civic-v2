@@ -1,8 +1,8 @@
-#Conversion from a GraphQL FusionFields input object to Fusion model type
+# Conversion from a GraphQL FusionFields input object to Fusion model type
 class InputAdaptors::FusionInputAdaptor
   attr_reader :input
 
-  def initialize(fusion_input_object: )
+  def initialize(fusion_input_object:)
     @input = fusion_input_object
   end
 
@@ -14,10 +14,10 @@ class InputAdaptors::FusionInputAdaptor
       feature_alias_ids: get_alias_ids,
       feature_instance: i
     )
-    #because there are validations on the fusion feature instance,
-    #this ensures that the inverse relationship from feature instance -> feature is made
+    # because there are validations on the fusion feature instance,
+    # this ensures that the inverse relationship from feature instance -> feature is made
     i.feature = f
-    return f
+    f
   end
 
   private

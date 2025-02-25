@@ -1,5 +1,5 @@
 class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
-  description 'Propose adding a new EvidenceItem to the CIViC database.'
+  description "Propose adding a new EvidenceItem to the CIViC database."
 
   argument :fields, Types::Revisions::EvidenceItemFields, required: true,
     description: <<~DOC.strip
@@ -8,10 +8,10 @@ class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
 
   argument :comment, String, required: false,
     validates: { length: { minimum: 10 } },
-    description: 'Text describing any further context or details about your proposed EvidenceItem. Will be attached as a comment.'
+    description: "Text describing any further context or details about your proposed EvidenceItem. Will be attached as a comment."
 
   field :evidence_item, Types::Entities::EvidenceItemType, null: false,
-    description: 'The newly created EvidenceItem'
+    description: "The newly created EvidenceItem"
 
 
   def ready?(organization_id: nil, fields:, **kwargs)
@@ -21,15 +21,15 @@ class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
     input_errors = InputAdaptors::EvidenceItemInputAdaptor.check_input_for_errors(evidence_input_object: fields)
 
     if input_errors.any?
-      raise GraphQL::ExecutionError, input_errors.join('|')
+      raise GraphQL::ExecutionError, input_errors.join("|")
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, **kwargs)
     validate_user_acting_as_org(user: context[:current_user], organization_id: organization_id)
-    return true
+    true
   end
 
   def resolve(fields:, organization_id: nil, comment: nil)
@@ -46,15 +46,10 @@ class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
 
     if res.succeeded?
       {
-        evidence_item: evidence_item,
+        evidence_item: evidence_item
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end
-
-
-
-
-

@@ -3,36 +3,36 @@ module Features
     include Subscribable
     include IsFeatureInstance
 
-    belongs_to :five_prime_gene, class_name: 'Features::Gene', optional: true
-    belongs_to :three_prime_gene, class_name: 'Features::Gene', optional: true
+    belongs_to :five_prime_gene, class_name: "Features::Gene", optional: true
+    belongs_to :three_prime_gene, class_name: "Features::Gene", optional: true
 
     enum :five_prime_partner_status, {
-      known: 'known',
-      unknown: 'unknown',
-      multiple: 'multiple',
+      known: "known",
+      unknown: "unknown",
+      multiple: "multiple"
     }, prefix: true
 
     enum :three_prime_partner_status, {
-      known: 'known',
-      unknown: 'unknown',
-      multiple: 'multiple',
+      known: "known",
+      unknown: "unknown",
+      multiple: "multiple"
     }, prefix: true
 
     has_many :variant_groups
     has_many :source_suggestions
 
-    #TODO - move to feature?
-    has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+    # TODO - move to feature?
+    has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
 
     validate :partner_status_valid_for_gene_ids
     validate :at_least_one_gene_id
 
     def partner_status_valid_for_gene_ids
       if !self.in_revision_validation_context
-        [self.five_prime_gene, self.three_prime_gene].zip([self.five_prime_partner_status, self.three_prime_partner_status], [:five_prime_gene, :three_prime_gene]).each do |gene, status, fk|
-          if gene.nil? && status == 'known'
+        [ self.five_prime_gene, self.three_prime_gene ].zip([ self.five_prime_partner_status, self.three_prime_partner_status ], [ :five_prime_gene, :three_prime_gene ]).each do |gene, status, fk|
+          if gene.nil? && status == "known"
             errors.add(fk, "Partner status cannot be 'known' if the gene isn't set")
-          elsif !gene.nil? && status != 'known'
+          elsif !gene.nil? && status != "known"
             errors.add(fk, "Partner status has to be 'known' if gene is set")
           end
         end

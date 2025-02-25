@@ -1,13 +1,12 @@
 class AddNewCodes < ActiveRecord::Migration[6.1]
   def up
-
-    #Add tiering for Clingen Codes. Issue#873
-    ClingenCode.where.not(code: ['OP3', 'OM3', 'OS3', 'N/A']).find_each do |code|
+    # Add tiering for Clingen Codes. Issue#873
+    ClingenCode.where.not(code: [ 'OP3', 'OM3', 'OS3', 'N/A' ]).find_each do |code|
       modifiers = [
         'Very-strong',
         'Strong',
         'Moderate',
-        'Supporting',
+        'Supporting'
       ]
 
       if code.code =~ /VS\d/
@@ -26,7 +25,6 @@ class AddNewCodes < ActiveRecord::Migration[6.1]
     end
 
     ClingenCode.create!(code: "OS3_Very-strong", description: '')
-
   end
 
   def down

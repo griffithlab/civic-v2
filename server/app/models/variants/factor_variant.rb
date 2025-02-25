@@ -4,7 +4,7 @@ module Variants
       [
         :feature_id,
         :name,
-        :ncit_id,
+        :ncit_id
       ]
     end
 
@@ -16,7 +16,7 @@ module Variants
       [
         :vicc_compliant_name,
         :hgvs_description_ids,
-        :clinvar_entry_ids,
+        :clinvar_entry_ids
       ]
     end
 

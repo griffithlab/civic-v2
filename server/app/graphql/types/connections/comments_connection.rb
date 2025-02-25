@@ -1,23 +1,23 @@
 module Types::Connections
   class CommentsConnection < Types::BaseConnection
-    attr_reader :comment_subject 
+    attr_reader :comment_subject
 
-    description 'Connection type for objects with comments including additional metadata.'
+    description "Connection type for objects with comments including additional metadata."
 
-    field :unique_commenters, [Types::Entities::UserType], null: false,
-      description: 'List of all users that have commented on this entity.'
+    field :unique_commenters, [ Types::Entities::UserType ], null: false,
+      description: "List of all users that have commented on this entity."
 
-    field :mentioned_users, [Types::Entities::UserType], null: false,
-      description: 'List of users mentioned in this comment thread.'
+    field :mentioned_users, [ Types::Entities::UserType ], null: false,
+      description: "List of users mentioned in this comment thread."
 
-    field :mentioned_roles, [Types::Commentable::CommentTagSegment], null: false,
-      description: 'List of roles mentioned in this comment thread'
+    field :mentioned_roles, [ Types::Commentable::CommentTagSegment ], null: false,
+      description: "List of roles mentioned in this comment thread"
 
-    field :mentioned_entities, [Types::Commentable::CommentTagSegment], null: false,
-      description: 'List of entities mentioned in this comment thread.'
+    field :mentioned_entities, [ Types::Commentable::CommentTagSegment ], null: false,
+      description: "List of entities mentioned in this comment thread."
 
     field :unfiltered_count_for_subject, Int, null: true,
-      description: 'When filtered on a subject, the total number of comments for that subject, irregardless of other filters. Returns null when there is no subject.'
+      description: "When filtered on a subject, the total number of comments for that subject, irregardless of other filters. Returns null when there is no subject."
 
     def unique_commenters
       User.where(id: comment_scope.select(:user_id)).distinct
@@ -37,8 +37,8 @@ module Types::Connections
           {
             entity_id: User.roles[r],
             display_name: r,
-            tag_type: 'ROLE',
-            link: "",
+            tag_type: "ROLE",
+            link: ""
           }
         end
     end

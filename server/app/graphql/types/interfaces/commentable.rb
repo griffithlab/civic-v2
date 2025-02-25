@@ -2,7 +2,7 @@ module Types::Interfaces
   module Commentable
     include Types::BaseInterface
 
-    description 'A CIViC entity that can have comments on it.'
+    description "A CIViC entity that can have comments on it."
     field :id, Int, null: false
     field :name, String, null: false
     field :link, String, null: false

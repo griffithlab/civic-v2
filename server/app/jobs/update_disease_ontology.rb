@@ -1,5 +1,5 @@
-require 'tempfile'
-require 'open-uri'
+require "tempfile"
+require "open-uri"
 
 class UpdateDiseaseOntology < ApplicationJob
   attr_reader :doid_file
@@ -15,7 +15,7 @@ class UpdateDiseaseOntology < ApplicationJob
   end
 
   def create_tempfile
-    @doid_file = Tempfile.new('doid_download', File.join(Rails.root, 'tmp'))
+    @doid_file = Tempfile.new("doid_download", File.join(Rails.root, "tmp"))
   end
 
   def download_file
@@ -37,4 +37,3 @@ class UpdateDiseaseOntology < ApplicationJob
     "https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/src/ontology/subsets/DO_cancer_slim.obo"
   end
 end
-

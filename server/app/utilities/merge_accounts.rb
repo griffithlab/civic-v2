@@ -1,5 +1,4 @@
 class MergeAccounts < ActionWrapper
-
   def self.name
     "Merge User Accounts"
   end
@@ -11,7 +10,7 @@ class MergeAccounts < ActionWrapper
   def self.inputs
     {
       account_id_to_keep: :int,
-      account_id_to_merge_in: :int,
+      account_id_to_merge_in: :int
     }
   end
 

@@ -4,9 +4,9 @@ module Subscribable
   included do
     has_many :subscriptions, as: :subscribable
     has_many :events, as: :subject
-    #TODO make a final decision on delete strategy
-    #after_save :sweep_unlinkable_events_for_soft_delete
-    #before_destroy :sweep_unlinkable_events_for_hard_delete
+    # TODO make a final decision on delete strategy
+    # after_save :sweep_unlinkable_events_for_soft_delete
+    # before_destroy :sweep_unlinkable_events_for_hard_delete
   end
 
   def subscribe_user(user, subscription_type: OnSiteSubscription, subscribe_to_children: false)
@@ -40,7 +40,7 @@ module Subscribable
     elsif self.respond_to?(:name)
       name
     else
-      ''
+      ""
     end
   end
 end

@@ -32,7 +32,7 @@ class NcitDetails
       return nil
     end
 
-    return {
+    {
       synonyms: data["synonyms"]&.select { |s| s["type"] == "FULL_SYN" } || [],
       definitions: data["definitions"] || []
     }

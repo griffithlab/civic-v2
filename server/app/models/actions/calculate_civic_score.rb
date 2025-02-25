@@ -20,11 +20,11 @@ module Actions
 
     def calculate_scores
       molecular_profile.evidence_items.each_with_object({}) do |ei, evidence_scores|
-        evidence_scores[ei] = if ei.status == 'accepted'
+        evidence_scores[ei] = if ei.status == "accepted"
                                 calculate_score(ei)
-                              else
+        else
                                 0
-                              end
+        end
       end
     end
 
@@ -34,11 +34,11 @@ module Actions
 
     def evidence_level_values
       @values ||= {
-        'A' => 10.0,
-        'B' => 5.0,
-        'C' => 2.5,
-        'D' => 1.0,
-        'E' => 0.25,
+        "A" => 10.0,
+        "B" => 5.0,
+        "C" => 2.5,
+        "D" => 1.0,
+        "E" => 0.25
       }
     end
   end

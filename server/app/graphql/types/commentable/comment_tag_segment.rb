@@ -1,4 +1,4 @@
-require_relative '../linkable_tag.rb'
+require_relative "../linkable_tag.rb"
 
 module Types::Commentable
   class CommentTagSegment < Types::BaseObject

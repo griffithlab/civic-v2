@@ -1,4 +1,4 @@
-require 'set'
+require "set"
 
 class DiseasesWithIcdo < Report
   attr_reader :qualifying_disease_ids
@@ -14,7 +14,7 @@ class DiseasesWithIcdo < Report
   def setup
     @qualifying_disease_ids = Set.new
     candidate_diseases = Disease.joins(:evidence_items)
-      .where.not(evidence_items: {status: 'rejected'})
+      .where.not(evidence_items: { status: "rejected" })
       .where.not(doid: nil).distinct
 
     candidate_diseases.find_each do |disease|
@@ -24,8 +24,6 @@ class DiseasesWithIcdo < Report
       end
       sleep 0.1
     end
-
-
   end
 
   def headers
@@ -33,16 +31,16 @@ class DiseasesWithIcdo < Report
       "Total Diseases",
       "Total Diseases Associated with a DOID and ICD-O code",
       "Total Non Rejected EIDs",
-      "Total Non Rejected EIDs Associated with a DOID and ICD-O code.",
+      "Total Non Rejected EIDs Associated with a DOID and ICD-O code."
     ]
   end
 
   def execute
     data << [
-      Disease.joins(:evidence_items).where.not(evidence_items: {status: 'rejected'}).distinct.count,
+      Disease.joins(:evidence_items).where.not(evidence_items: { status: "rejected" }).distinct.count,
       qualifying_disease_ids.size,
-      EvidenceItem.where.not(status: 'rejected').count,
-      EvidenceItem.where.not(status: 'rejected').where(disease_id: qualifying_disease_ids).count,
+      EvidenceItem.where.not(status: "rejected").count,
+      EvidenceItem.where.not(status: "rejected").where(disease_id: qualifying_disease_ids).count
     ]
   end
 end

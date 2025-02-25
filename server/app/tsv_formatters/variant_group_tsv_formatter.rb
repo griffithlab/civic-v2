@@ -5,12 +5,12 @@ class VariantGroupTsvFormatter
 
   def self.headers
     [
-      'variant_group_id',
-      'variant_group_civic_url',
-      'variant_group',
-      'description',
-      'last_review_date',
-      'is_flagged'
+      "variant_group_id",
+      "variant_group_civic_url",
+      "variant_group",
+      "description",
+      "last_review_date",
+      "is_flagged"
     ]
   end
 
@@ -26,7 +26,6 @@ class VariantGroupTsvFormatter
   end
 
   def self.file_name
-    'VariantGroupSummaries.tsv'
+    "VariantGroupSummaries.tsv"
   end
 end
-

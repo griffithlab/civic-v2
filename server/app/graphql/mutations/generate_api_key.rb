@@ -1,7 +1,7 @@
 class Mutations::GenerateApiKey < Mutations::BaseMutation
-  description 'Generate a new API key for the current user.'
+  description "Generate a new API key for the current user."
 
-  field :api_key, Types::ApiKeyType, null: true, description: 'The newly created API key.'
+  field :api_key, Types::ApiKeyType, null: true, description: "The newly created API key."
   field :user, Types::Entities::UserType
 
   def resolve
@@ -11,7 +11,7 @@ class Mutations::GenerateApiKey < Mutations::BaseMutation
     api_key = ApiKey.create(bearer: current_user)
 
     unless api_key.valid?
-      raise GraphQL::ExecutionError, 'Failed to generate API Key'
+      raise GraphQL::ExecutionError, "Failed to generate API Key"
     end
 
     {

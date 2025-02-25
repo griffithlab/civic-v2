@@ -22,10 +22,10 @@ Trestle.resource(:variants) do
     column :name
     column :feature
     column :variant_aliases do |variant|
-      variant.variant_aliases.map {|a| a.name }.join(', ')
+      variant.variant_aliases.map { |a| a.name }.join(", ")
     end
     column :variant_types do |variant|
-      variant.variant_types.map{|t| status_tag(t.name) }
+      variant.variant_types.map { |t| status_tag(t.name) }
     end
     column :flagged
   end
@@ -56,7 +56,7 @@ Trestle.resource(:variants) do
       row do
         col(sm: 4) { text_field :allele_registry_id }
         col(sm: 8) do
-          select :clinvar_entry_ids, ClinvarEntry.order(:clinvar_id), { label: 'ClinVar IDs' }, multiple: true
+          select :clinvar_entry_ids, ClinvarEntry.order(:clinvar_id), { label: "ClinVar IDs" }, multiple: true
         end
       end
 
@@ -66,7 +66,7 @@ Trestle.resource(:variants) do
 
       row do
         col(sm: 6) do
-          references = Variant.reference_builds.keys.map { |b| [b, b] }
+          references = Variant.reference_builds.keys.map { |b| [ b, b ] }
           select :reference_build, references
         end
         col(sm: 6) { text_field :ensembl_version }
@@ -82,7 +82,6 @@ Trestle.resource(:variants) do
         col(sm: 4) { text_field :representative_transcript2 }
         col(sm: 2) { text_field :start2 }
         col(sm: 2) { text_field :stop2 }
-
       end
 
       divider
@@ -106,7 +105,7 @@ Trestle.resource(:variants) do
       end
     end
 
-    tab :flags, badge: variant.flags.where(state: 'open').exists? do
+    tab :flags, badge: variant.flags.where(state: "open").exists? do
       table variant.flags do
         column :id do |flag|
           link_to flag.id, FlagsAdmin.instance_path(flag)
@@ -121,7 +120,7 @@ Trestle.resource(:variants) do
       end
     end
 
-    tab :revisions, badge: variant.revisions.where(status: 'new').exists? do
+    tab :revisions, badge: variant.revisions.where(status: "new").exists? do
       table variant.revisions do
         column :id do |revision|
           link_to revision.id, RevisionsAdmin.instance_path(revision)

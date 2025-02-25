@@ -7,9 +7,9 @@ class OrcidApi
 
   def name
     name = [
-      user_data.dig('person', 'name', 'given-names', 'value'),
-      user_data.dig('person', 'name', 'family-name', 'value')
-    ].join(' ')
+      user_data.dig("person", "name", "given-names", "value"),
+      user_data.dig("person", "name", "family-name", "value")
+    ].join(" ")
 
     if name.present?
       name
@@ -19,7 +19,7 @@ class OrcidApi
   end
 
   def orcid
-     user_data['orcid-identifier']['path']
+     user_data["orcid-identifier"]["path"]
   end
 
   private
@@ -33,7 +33,7 @@ class OrcidApi
 
   def headers
     {
-      'Accept' => 'application/orcid+json'
+      "Accept" => "application/orcid+json"
     }
   end
 end

@@ -1,5 +1,5 @@
 class Mutations::EditUser < Mutations::BaseMutation
-  description 'Updated currently logged in Users\'s profile'
+  description "Updated currently logged in Users's profile"
 
   argument :name, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
     description: "The user's full name"
@@ -29,18 +29,18 @@ class Mutations::EditUser < Mutations::BaseMutation
   def ready?(**_)
     validate_user_logged_in
 
-    return true
+    true
   end
 
   def authorized?(**_)
-    return true
+    true
   end
 
   def resolve(**args)
     current_user = context[:current_user]
 
     if current_user.update(args)
-      return {
+      {
         user: current_user
       }
     else

@@ -1,14 +1,14 @@
 class Mutations::UpdateNotificationStatus < Mutations::BaseMutation
-  description 'Mark one or more notifications as read/unread. The notification IDs provided must belong to the requesting user.'
-  argument :ids, [Int], required: true,
-    description: 'A list of one or more Notification IDs.'
+  description "Mark one or more notifications as read/unread. The notification IDs provided must belong to the requesting user."
+  argument :ids, [ Int ], required: true,
+    description: "A list of one or more Notification IDs."
 
-  argument :new_status, Types::ReadStatus , required: true,
-    description: 'The new status of the selected notifications.'
+  argument :new_status, Types::ReadStatus, required: true,
+    description: "The new status of the selected notifications."
 
-  field :notifications, [Types::Entities::NotificationType],
+  field :notifications, [ Types::Entities::NotificationType ],
     null: false,
-    description: 'A list of the notifications in their new state.'
+    description: "A list of the notifications in their new state."
 
   attr_reader :notifications
 
@@ -23,7 +23,7 @@ class Mutations::UpdateNotificationStatus < Mutations::BaseMutation
       notification
     end
 
-    return true
+    true
   end
 
   def authorized?(**_)
@@ -33,7 +33,7 @@ class Mutations::UpdateNotificationStatus < Mutations::BaseMutation
       end
     end
 
-    return true
+    true
   end
 
   def resolve(new_status:, **_)

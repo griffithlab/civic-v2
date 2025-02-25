@@ -14,7 +14,7 @@ class OrganizationContributions < Report
       organization_id: Organization.order(:name).all.to_a,
       start_date: :date,
       end_date: :date,
-      include_suborgs: :boolean,
+      include_suborgs: :boolean
     }
   end
 
@@ -25,24 +25,24 @@ class OrganizationContributions < Report
     org = Organization.find(organization_id)
     if include_suborgs
       sub_groups = org.groups
-      @all_org_ids = [org.id] + sub_groups.map(&:id)
+      @all_org_ids = [ org.id ] + sub_groups.map(&:id)
     else
       @all_org_ids = org.id
     end
   end
 
   def headers
-    ["Contribution Type", "Count"]
+    [ "Contribution Type", "Count" ]
   end
 
   def execute
-    data << ["Assertions Submitted", SubmitAssertionActivity.where(organization_id: all_org_ids, created_at: (start_date..end_date)).count]
-    data << ["Evidence Submitted", SubmitEvidenceItemActivity.where(organization_id: all_org_ids, created_at: (start_date..end_date)).count]
-    data << ["Comments Made", CommentActivity.where(organization_id: all_org_ids, created_at: (start_date..end_date)).count]
-    data << ["Revisions Suggested", Event.where(organization_id: all_org_ids, action: 'revision suggested', created_at: (start_date..end_date)).count]
-    data << ["Accepted Revisions Proposed by Organization", calculate_contribution('revision suggested', 'revision suggested')]
-    data << ["Accepted Evidence Submitted by Organization", calculate_contribution('accepted', 'submitted')]
-    data << ["Accepted Assertions Submitted by Organization", calculate_contribution('assertion accepted', 'assertion submitted')]
+    data << [ "Assertions Submitted", SubmitAssertionActivity.where(organization_id: all_org_ids, created_at: (start_date..end_date)).count ]
+    data << [ "Evidence Submitted", SubmitEvidenceItemActivity.where(organization_id: all_org_ids, created_at: (start_date..end_date)).count ]
+    data << [ "Comments Made", CommentActivity.where(organization_id: all_org_ids, created_at: (start_date..end_date)).count ]
+    data << [ "Revisions Suggested", Event.where(organization_id: all_org_ids, action: "revision suggested", created_at: (start_date..end_date)).count ]
+    data << [ "Accepted Revisions Proposed by Organization", calculate_contribution("revision suggested", "revision suggested") ]
+    data << [ "Accepted Evidence Submitted by Organization", calculate_contribution("accepted", "submitted") ]
+    data << [ "Accepted Assertions Submitted by Organization", calculate_contribution("assertion accepted", "assertion submitted") ]
   end
 
   private

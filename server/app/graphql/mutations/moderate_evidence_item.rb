@@ -1,15 +1,15 @@
 class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
-  description 'Perform moderation actions on an evidence item such as accepting, rejecting, or reverting.'
+  description "Perform moderation actions on an evidence item such as accepting, rejecting, or reverting."
 
   argument :evidence_item_id, Int, required: true,
-    description: 'ID of the Evidence Item to moderate'
+    description: "ID of the Evidence Item to moderate"
 
   argument :new_status, Types::EvidenceStatusType, required: true,
-    description: 'The desired status of the Evidence Item'
+    description: "The desired status of the Evidence Item"
 
   field :evidence_item, Types::Entities::EvidenceItemType, null: false,
-    description: 'The moderated Evidence Item'
-  
+    description: "The moderated Evidence Item"
+
 
   attr_reader :evidence_item
 
@@ -26,7 +26,7 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "EvidenceItem already has status #{new_stats}."
     end
 
-    return true
+    true
   end
 
   def authorized?(organization_id: nil, new_status:,  **_)
@@ -34,20 +34,20 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
 
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
-    #users may reject their own eids
-    if new_status == 'rejected' && evidence_item.submitter == current_user
+    # users may reject their own eids
+    if new_status == "rejected" && evidence_item.submitter == current_user
       return true
     end
 
-    if new_status == 'accepted' && evidence_item.submitter == current_user
-      raise GraphQL::ExecutionError, 'Users may not accept their own submitted evidence.'
+    if new_status == "accepted" && evidence_item.submitter == current_user
+      raise GraphQL::ExecutionError, "Users may not accept their own submitted evidence."
     end
 
     if !Role.user_is_at_least_a?(current_user, :editor)
-      raise GraphQL::ExecutionError, 'User must be an editor in order to moderate Evidence.'
+      raise GraphQL::ExecutionError, "User must be an editor in order to moderate Evidence."
     end
 
-    return true
+    true
   end
 
   def resolve(organization_id: nil, new_status:, **_)
@@ -65,7 +65,7 @@ class Mutations::ModerateEvidenceItem < Mutations::MutationWithOrg
         evidence_item: evidence_item
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

@@ -1,10 +1,10 @@
 class EventHierarchy
   def self.self_with_children(subscribable)
-    traverse(subscribable, :children, [subscribable])
+    traverse(subscribable, :children, [ subscribable ])
   end
 
   def self.self_with_direct_relations(subscribable)
-    traverse(subscribable, :direct_relations, [subscribable])
+    traverse(subscribable, :direct_relations, [ subscribable ])
   end
 
   private
@@ -25,36 +25,34 @@ class EventHierarchy
       hierarchy = {
         Feature => {
           children: [
-            :variants,
+            :variants
           ],
           direct_relations: [
-            :revisions,
+            :revisions
           ]
         },
         Variant => {
-          children: [
-          ],
+          children: [],
           direct_relations: [
-            :revisions,
+            :revisions
           ]
         },
         EvidenceItem => {
-          children: [
-          ],
+          children: [],
           direct_relations: [
-            :revisions,
+            :revisions
           ]
         },
         Revision => {
-          children: [ ],
-          direct_relations: [ ],
+          children: [],
+          direct_relations: []
         },
         Assertion => {
           children: [
-            :evidence_items,
+            :evidence_items
           ],
           direct_relations: [
-            :revisions,
+            :revisions
           ]
         },
         MolecularProfile => {
@@ -64,13 +62,13 @@ class EventHierarchy
             :assertions
           ],
           direct_relations: [
-            :revisions,
+            :revisions
           ]
-        },
+        }
       }
       hierarchy.default = {
         direct_relations: [],
-        children: [],
+        children: []
       }
       @hierarchy = hierarchy
     end

@@ -1,7 +1,7 @@
 Trestle.resource(:comments) do
-  #exclude comments that were unable to be ported in the revisions backfill
+  # exclude comments that were unable to be ported in the revisions backfill
   collection do
-    Comment.where.not(commentable_type: 'SuggestedChange')
+    Comment.where.not(commentable_type: "SuggestedChange")
   end
 
   menu do
