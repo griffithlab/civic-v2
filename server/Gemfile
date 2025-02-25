@@ -113,3 +113,5 @@ group :test do
   gem 'simplecov'
   gem 'simplecov-lcov'
 end
+
+gem "csv", "~> 3.3"
