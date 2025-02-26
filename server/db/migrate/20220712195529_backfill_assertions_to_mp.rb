@@ -1,6 +1,6 @@
 class BackfillAssertionsToMp < ActiveRecord::Migration[6.1]
   def change
-    #moved to migration script, no-op
+    # moved to migration script, no-op
   end
 
   def down

@@ -17,8 +17,8 @@ Trestle.admin(:reports) do
     def generate_report
       @report = Reports::AVAILABLE_REPORTS.find { |x| params[:name] == x.name }
       report_params = params.permit(@report.inputs.keys).to_h.symbolize_keys
-      #checkbox will come in as 0 or 1
-      #cast it to a boolean here so reports dont have to worry about that
+      # checkbox will come in as 0 or 1
+      # cast it to a boolean here so reports dont have to worry about that
       report_params.each do |key, val|
         if @report.inputs[key] == :boolean
           report_params[key] =  ActiveRecord::Type::Boolean.new.cast(val)
@@ -43,7 +43,7 @@ Trestle.admin(:reports) do
 
     private
     def stream_table(report)
-      require 'csv'
+      require "csv"
       headers.delete("Content-Length")
       headers["Cache-Control"] = "no-cache"
       headers["Content-Type"] = "text/csv"
@@ -61,7 +61,7 @@ Trestle.admin(:reports) do
   end
 
   routes do
-    get '/:name', action: :show
-    post '/:name', action: :generate_report
+    get "/:name", action: :show
+    post "/:name", action: :generate_report
   end
 end

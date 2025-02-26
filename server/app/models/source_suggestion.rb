@@ -7,8 +7,8 @@ class SourceSuggestion < ActiveRecord::Base
   belongs_to :disease, optional: true
   belongs_to :molecular_profile, optional: true
 
-  validates :status, inclusion: { in: ['new', 'curated', 'rejected' ] }
+  validates :status, inclusion: { in: [ "new", "curated", "rejected" ] }
 
-  has_activity :creation_activity, activity_type: 'SuggestSourceActivity'
-  has_activity :last_status_update_activity, activity_type: 'UpdateSourceSuggestionStatusActivity'
+  has_activity :creation_activity, activity_type: "SuggestSourceActivity"
+  has_activity :last_status_update_activity, activity_type: "UpdateSourceSuggestionStatusActivity"
 end

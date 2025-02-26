@@ -20,7 +20,7 @@ module Scrapers
       [
         "protocolSection.identificationModule.nctId",
         "protocolSection.identificationModule.briefTitle",
-        "protocolSection.descriptionModule.briefSummary"
+        "protocolSection.descriptionModule.briefSummary",
       ].join(",")
     end
   end

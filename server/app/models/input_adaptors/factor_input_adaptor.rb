@@ -1,8 +1,8 @@
-#Conversion from a GraphQL FactorFields input object to Gene model type
+# Conversion from a GraphQL FactorFields input object to Gene model type
 class InputAdaptors::FactorInputAdaptor
   attr_reader :input
 
-  def initialize(factor_input_object: )
+  def initialize(factor_input_object:)
     @input = factor_input_object
   end
 

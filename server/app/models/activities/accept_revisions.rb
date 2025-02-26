@@ -10,9 +10,9 @@ module Activities
 
     private
     def create_activity
-      #Set the subject of this activity to the subject of the revision's creation activity
-      #In the case of gene/exon coordinates, the revision's subject will be the coordinate Object
-      #which we do not want. The creation activity's subject will be the Variant.
+      # Set the subject of this activity to the subject of the revision's creation activity
+      # In the case of gene/exon coordinates, the revision's subject will be the coordinate Object
+      # which we do not want. The creation activity's subject will be the Variant.
       activity_subject = revisions.first&.creation_activity&.subject
       @activity = AcceptRevisionsActivity.create!(
         subject: activity_subject,
@@ -30,14 +30,14 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
       @superseded_revisions = cmd.superseded_revisions
     end
 
     def linked_entities
-      [revisions, superseded_revisions].flatten.compact
+      [ revisions, superseded_revisions ].flatten.compact
     end
   end
 end

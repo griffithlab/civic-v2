@@ -1,22 +1,22 @@
 class Mutations::SubmitVariantGroup < Mutations::MutationWithOrg
-  description 'Create a new variant group.'
+  description "Create a new variant group."
 
   argument :name, String, required: true,
-    description: 'The name of the disease.',
+    description: "The name of the disease.",
     validates: { length: { minimum: 5 } }
 
   argument :description, String, required: false,
-    description: 'A description of the variant group.',
+    description: "A description of the variant group.",
     validates: { length: { minimum: 10 } }
 
-  argument :variant_ids, [Int], required: true,
-    description: 'A list of CIViC variant IDs to add to the variant group.'
+  argument :variant_ids, [ Int ], required: true,
+    description: "A list of CIViC variant IDs to add to the variant group."
 
-  argument :source_ids, [Int], required: true,
-    description: 'A list of CIViC source IDs to associate with the variant group.'
+  argument :source_ids, [ Int ], required: true,
+    description: "A list of CIViC source IDs to associate with the variant group."
 
   field :variant_group, Types::Entities::VariantGroupType, null: false,
-    description: 'The newly created Variant Group'
+    description: "The newly created Variant Group"
 
   def ready?(organization_id: nil, **kwargs)
     validate_user_logged_in
@@ -24,7 +24,7 @@ class Mutations::SubmitVariantGroup < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(name: , description:, variant_ids:, source_ids:, **kwargs)
+  def resolve(name:, description:, variant_ids:, source_ids:, **kwargs)
     errors = []
 
     existing_variant_ids = Variant.where(id: variant_ids).pluck(:id)
@@ -42,14 +42,14 @@ class Mutations::SubmitVariantGroup < Mutations::MutationWithOrg
     end
 
     if errors.size > 0
-      raise GraphQL::ExecutionError, errors.join(', ')
+      raise GraphQL::ExecutionError, errors.join(", ")
     else
       v = VariantGroup.new(name: name, description: description, variant_ids: variant_ids, source_ids: source_ids)
       if v.valid?
         v.save!
-        return {variant_group: v}
+        return { variant_group: v }
       else
-        raise GraphQl::ExecutionError, v.errors.full_messages.join(', ')
+        raise GraphQl::ExecutionError, v.errors.full_messages.join(", ")
       end
     end
   end

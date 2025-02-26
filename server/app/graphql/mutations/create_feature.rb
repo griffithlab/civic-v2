@@ -1,18 +1,18 @@
 class Mutations::CreateFeature < Mutations::MutationWithOrg
-  description 'Create a new Feature in the database.'
+  description "Create a new Feature in the database."
 
   argument :name, String, required: true,
-    description: 'The name of the feature to create.',
+    description: "The name of the feature to create.",
     validates: { allow_blank: false }
 
   argument :feature_type, Types::CreateableFeatureTypesType, required: true,
-    description: 'The Type of Feature you are creating'
+    description: "The Type of Feature you are creating"
 
   field :feature, Types::Entities::FeatureType, null: false,
-    description: 'The newly created Feature.'
+    description: "The newly created Feature."
 
   field :new, Boolean, null: false,
-    description: 'True if the feature was newly created. False if the returned feature was already in the database.'
+    description: "True if the feature was newly created. False if the returned feature was already in the database."
 
   def ready?(organization_id: nil, **kwargs)
     validate_user_logged_in
@@ -27,13 +27,12 @@ class Mutations::CreateFeature < Mutations::MutationWithOrg
   end
 
   def resolve(name:, feature_type:, organization_id: nil)
-
     existing_feature = Feature.left_joins(:feature_aliases).where(feature_instance_type: feature_type.to_s)
-      .where('features.name ILIKE ?', name)
+      .where("features.name ILIKE ?", name)
       .or(
           Feature.where(feature_instance_type: feature_type.to_s)
             .left_joins(:feature_aliases)
-            .where('feature_aliases.name ILIKE ?', name)
+            .where("feature_aliases.name ILIKE ?", name)
          )
       .first
 
@@ -59,7 +58,7 @@ class Mutations::CreateFeature < Mutations::MutationWithOrg
           new: true,
         }
       else
-        raise GraphQL::ExecutionError, res.errors.join(', ')
+        raise GraphQL::ExecutionError, res.errors.join(", ")
       end
     end
   end

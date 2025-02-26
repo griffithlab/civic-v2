@@ -1,7 +1,7 @@
 class ActionWrapper
   AVAILABLE_ACTIONS = [
     MergeAccounts,
-    ToggleMaintenanceMode
+    ToggleMaintenanceMode,
   ]
 
   def self.name
@@ -13,8 +13,8 @@ class ActionWrapper
   end
 
   def self.inputs
-    #format input_name: :type
-    #supported types :text, :date, :boolean, :int
+    # format input_name: :type
+    # supported types :text, :date, :boolean, :int
     {}
   end
 

@@ -16,7 +16,7 @@ module Types::Entities
     field :publication_day, Int, null: true
     field :journal, String, null: true
     field :full_journal_title, String, null: true
-    field :clinical_trials, [Types::Entities::ClinicalTrialType], null: true
+    field :clinical_trials, [ Types::Entities::ClinicalTrialType ], null: true
     field :abstract, String, null: true
     field :publication_date, String, null: true
     field :pmc_id, String, null: true
@@ -31,7 +31,7 @@ module Types::Entities
     field :deprecated, Boolean, null: false
 
     def deprecated
-      object&.retraction_nature == 'Retraction'
+      object&.retraction_nature == "Retraction"
     end
 
     def clinical_trials
@@ -69,24 +69,24 @@ module Types::Entities
     end
 
     def full_journal_title
-      if object.source_type == 'ASCO'
-        'Journal of Clinical Oncology'
+      if object.source_type == "ASCO"
+        "Journal of Clinical Oncology"
       else
         object.full_journal_title
       end
     end
 
     def author_string
-      if object.source_type == 'PubMed' || object.source_type == 'ASH'
+      if object.source_type == "PubMed" || object.source_type == "ASH"
         Loaders::AssociationLoader.for(Source, :authors_sources).load(object).then do |authors_sources|
           Promise.all(authors_sources.map { |as| Loaders::AssociationLoader.for(AuthorsSource, :author).load(as) }).then do |authors|
             authors_sources.sort_by { |as| as.author_position }
               .map { |as| "#{as.author.fore_name} #{as.author.last_name}" }
               .reject { |a| a.blank? }
-              .join(', ')
+              .join(", ")
           end
         end
-      elsif object.source_type == 'ASCO'
+      elsif object.source_type == "ASCO"
         object.asco_presenter
       else
         raise StandardError.new("Unexpected source type  #{object.source_type}")

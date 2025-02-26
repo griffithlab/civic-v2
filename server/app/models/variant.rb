@@ -6,8 +6,8 @@ class Variant < ApplicationRecord
   include WithTimepointCounts
 
   belongs_to :feature
-  has_many :variant_coordinates, foreign_key: 'variant_id'
-  has_many :exon_coordinates, foreign_key: 'variant_id'
+  has_many :variant_coordinates, foreign_key: "variant_id"
+  has_many :exon_coordinates, foreign_key: "variant_id"
 
   has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
@@ -16,7 +16,7 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :variant_types
   has_and_belongs_to_many :clinvar_entries
   has_and_belongs_to_many :hgvs_descriptions
-  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+  has_many :comment_mentions, foreign_key: :comment_id, class_name: "EntityMention"
 
   belongs_to :single_variant_molecular_profile,
     class_name: "MolecularProfile",
@@ -24,26 +24,26 @@ class Variant < ApplicationRecord
 
   has_one :deprecation_activity,
     as: :subject,
-    class_name: 'DeprecateVariantActivity'
+    class_name: "DeprecateVariantActivity"
   has_one :deprecating_user, through: :deprecation_activity, source: :user
 
   has_one :creation_activity,
     as: :subject,
-    class_name: 'CreateVariantActivity'
+    class_name: "CreateVariantActivity"
   has_one :creating_user, through: :creation_activity, source: :user
 
-  enum :deprecation_reason, ['duplicate', 'invalid_variant', 'other', 'feature_deprecated']
+  enum :deprecation_reason, [ "duplicate", "invalid_variant", "other", "feature_deprecated" ]
 
   has_many :activities_linked_entities,
-    ->() { where(entity_type: 'Variant') },
+    ->() { where(entity_type: "Variant") },
     foreign_key: :entity_id,
-    class_name: 'ActivityLinkedEntity'
+    class_name: "ActivityLinkedEntity"
   has_many :activities, through: :activities_linked_entities
 
   has_one :deprecate_activity_link,
-    ->() { where(entity_type: 'Variant').eager_load(:activity).where("activities.type = 'DeprecateVariantActivity'") },
+    ->() { where(entity_type: "Variant").eager_load(:activity).where("activities.type = 'DeprecateVariantActivity'") },
     foreign_key: :entity_id,
-    class_name: 'ActivityLinkedEntity'
+    class_name: "ActivityLinkedEntity"
   has_one :deprecate_activity, through: :deprecate_activity_link, source: :activity
 
   after_commit :reindex_mps
@@ -56,7 +56,7 @@ class Variant < ApplicationRecord
   validate :correct_coordinate_type
   validates_with VariantFieldsValidator
 
-  searchkick highlight: [:name, :aliases], callbacks: :async
+  searchkick highlight: [ :name, :aliases ], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :feature) }
 
   def self.valid_variant_coordinate_types
@@ -79,19 +79,19 @@ class Variant < ApplicationRecord
     Rails.application.routes.url_helpers.url_for("/variants/#{self.id}")
   end
 
-  #Name to be used when displayed as part of a Molecular Profile
+  # Name to be used when displayed as part of a Molecular Profile
   def mp_name
     name
   end
 
   def self.timepoint_query
     ->(x) {
-      self.joins(molecular_profiles: [:evidence_items])
-        .group('variants.id')
-        .select('variants.id')
+      self.joins(molecular_profiles: [ :evidence_items ])
+        .group("variants.id")
+        .select("variants.id")
         .where("evidence_items.status != 'rejected'")
         .where("variants.deprecated = ?", false)
-        .having('MIN(evidence_items.created_at) >= ?', x)
+        .having("MIN(evidence_items.created_at) >= ?", x)
         .distinct
         .count
     }
@@ -131,7 +131,7 @@ class Variant < ApplicationRecord
                        base_query
                          .where.not(id: revision_target_id)
                          .exists?
-                     else
+    else
                        if persisted?
                          base_query
                            .where.not(id: id)
@@ -140,10 +140,10 @@ class Variant < ApplicationRecord
                          base_query
                            .exists?
                        end
-                     end
+    end
 
     if duplicate_name
-      errors.add(:name, 'must be unique within a Feature')
+      errors.add(:name, "must be unique within a Feature")
     end
   end
 
@@ -173,8 +173,8 @@ class Variant < ApplicationRecord
   end
 
   def required_fields
-    #Fields that this variant type _must_ have populated
-    #(Excluding name and feature id, that is handled in the parent)
+    # Fields that this variant type _must_ have populated
+    # (Excluding name and feature id, that is handled in the parent)
     raise StandardError.new("Implement in Variant subclass")
   end
 
@@ -182,7 +182,7 @@ class Variant < ApplicationRecord
     [
       Variants::GeneVariant,
       Variants::FactorVariant,
-      Variants::FusionVariant
+      Variants::FusionVariant,
     ]
   end
 end

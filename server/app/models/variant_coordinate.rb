@@ -7,29 +7,29 @@ class VariantCoordinate < ApplicationRecord
   enum :reference_build, Constants::SUPPORTED_REFERENCE_BUILDS
 
   enum :record_state, {
-    stub: 'stub',
-    fully_curated: 'fully_curated'
+    stub: "stub",
+    fully_curated: "fully_curated",
   }
 
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
-    message: "only allows A,C,T,G or /"
+    message: "only allows A,C,T,G or /",
   }, allow_nil: true
 
   validates :variant_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
-    message: "only allows A,C,T,G or /"
+    message: "only allows A,C,T,G or /",
   }, allow_nil: true
 
   validates :representative_transcript, format: {
     with: Constants::ENSEMBL_TRANSCRIPT_ID_FORMAT,
-    message: "must be a valid, versioned, human, Ensembl transcript ID"
+    message: "must be a valid, versioned, human, Ensembl transcript ID",
   }, allow_nil: true
 
   validates :coordinate_type, presence: true
   validates :coordinate_type, inclusion: {
     in: Constants::VALID_VARIANT_COORDINATE_TYPES,
-    message: "%{value} is not a valid coordinate type"
+    message: "%{value} is not a valid coordinate type",
   }
 
   validates_with VariantCoordinateValidator
@@ -37,7 +37,7 @@ class VariantCoordinate < ApplicationRecord
   def self.generate_stub(variant, coordinate_type)
     VariantCoordinate.create!(
       variant: variant,
-      record_state: 'stub',
+      record_state: "stub",
       coordinate_type: coordinate_type
     )
   end
