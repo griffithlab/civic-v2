@@ -7,6 +7,6 @@
   <nz-rate
     [ngModel]="formControl.value"
     [nzCount]="props.count"
-    [nzTooltips]="this.props.hoverText"
+    [nzTooltips]="props.hoverText"
     (ngModelChange)="rating$.next($event)"></nz-rate>
 </div>

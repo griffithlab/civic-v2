@@ -3,7 +3,7 @@
     <span>{{ display.message }}</span>
   </ng-container>
   <cvc-form-submission-status-display
-    [mutationState]="this.mutationState"
+    [mutationState]="mutationState"
     entityType="Feature"
     [successMessage]="success">
     <!-- FIXME: network errors (e.g. not logged in err) are not being displayed -->
