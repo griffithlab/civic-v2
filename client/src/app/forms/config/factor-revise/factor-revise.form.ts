@@ -26,7 +26,6 @@ import {
 } from '@app/forms/utilities/factor-to-model-fields'
 import { factorReviseFields } from './factor-revise.form.config'
 import { CommonModule } from '@angular/common'
-import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcForms2Module } from '@app/forms/forms.module'
@@ -35,18 +34,16 @@ import { FactorReviseModel } from '@app/forms/models/factor-revise.model'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-factor-revise-form',
-    templateUrl: './factor-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        LetDirective,
-        PushPipe,
-        NzFormModule,
-        NzButtonModule,
-        CvcForms2Module,
-        CvcFormSubmissionStatusDisplayModule,
-    ]
+  selector: 'cvc-factor-revise-form',
+  templateUrl: './factor-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    NzFormModule,
+    NzButtonModule,
+    CvcForms2Module,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcFactorReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number

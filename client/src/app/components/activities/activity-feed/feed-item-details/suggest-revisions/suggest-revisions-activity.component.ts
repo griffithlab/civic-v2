@@ -8,15 +8,14 @@ import {
   Revision,
   SuggestRevisionSetActivityDetailFragment,
 } from '@app/generated/civic.apollo'
-import { JsonPipe } from '@angular/common'
 import { CvcActivityRevision } from '../shared/activity-revision/activity-revision.component'
 
 @Component({
-    selector: 'cvc-suggest-revision-set-activity-details',
-    imports: [JsonPipe, CvcActivityRevision],
-    templateUrl: './suggest-revisions-activity.component.html',
-    styleUrl: './suggest-revisions-activity.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-suggest-revision-set-activity-details',
+  imports: [CvcActivityRevision],
+  templateUrl: './suggest-revisions-activity.component.html',
+  styleUrl: './suggest-revisions-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcSuggestRevisionsActivity {
   activity = input.required<SuggestRevisionSetActivityDetailFragment>({

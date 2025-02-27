@@ -26,7 +26,6 @@ import {
 } from '@app/forms/utilities/fusion-to-model-fields'
 import { fusionReviseFields } from './fusion-revise.form.config'
 import { CommonModule } from '@angular/common'
-import { LetDirective, PushPipe } from '@ngrx/component'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { CvcForms2Module } from '@app/forms/forms.module'
@@ -35,18 +34,16 @@ import { FusionReviseModel } from '@app/forms/models/fusion-revise.model'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-fusion-revise-form',
-    templateUrl: './fusion-revise.form.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        LetDirective,
-        PushPipe,
-        NzFormModule,
-        NzButtonModule,
-        CvcForms2Module,
-        CvcFormSubmissionStatusDisplayModule,
-    ]
+  selector: 'cvc-fusion-revise-form',
+  templateUrl: './fusion-revise.form.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    NzFormModule,
+    NzButtonModule,
+    CvcForms2Module,
+    CvcFormSubmissionStatusDisplayModule,
+  ],
 })
 export class CvcFusionReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number

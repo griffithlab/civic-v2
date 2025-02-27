@@ -8,15 +8,14 @@ import {
   RejectRevisionsActivityDetailFragment,
   Revision,
 } from '@app/generated/civic.apollo'
-import { JsonPipe } from '@angular/common'
 import { CvcActivityRevision } from '../shared/activity-revision/activity-revision.component'
 
 @Component({
-    selector: 'cvc-reject-revisions-activity-details',
-    imports: [JsonPipe, CvcActivityRevision],
-    templateUrl: './reject-revisions-activity.component.html',
-    styleUrl: './reject-revisions-activity.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-reject-revisions-activity-details',
+  imports: [CvcActivityRevision],
+  templateUrl: './reject-revisions-activity.component.html',
+  styleUrl: './reject-revisions-activity.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcRejectRevisionsActivity {
   activity = input.required<RejectRevisionsActivityDetailFragment>({

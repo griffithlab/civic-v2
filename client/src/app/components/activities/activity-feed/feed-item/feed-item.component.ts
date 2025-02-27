@@ -35,7 +35,6 @@ import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { Subject } from 'rxjs'
-import { CvcCommentActivity } from '../feed-item-details/comment/comment-activity.component'
 import { CvcActivityFeedItemDetails } from '../feed-item-details/feed-item-details.component'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import {
@@ -62,46 +61,45 @@ export type FeedItemToggle = {
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-activity-feed-item',
-    templateUrl: './feed-item.component.html',
-    styleUrl: './feed-item.component.less',
-    animations: [
-        trigger('details', [
-            state('hidden', style({ height: 0, 'overflow-y': 'hidden' })),
-            state('visible', style({ height: '*', 'overflow-y': 'hidden' })),
-            transition('visible <=> hidden', animate('.25s ease-out')),
-            transition('hidden <=> visible', animate('.25s ease-in')),
-        ]),
-        trigger('toggle', [
-            state('hide', style({ transform: 'rotate(0deg)' })),
-            state('show', style({ transform: 'rotate(90deg)' })),
-            transition('hide <=> show', animate('0.2s linear')),
-        ]),
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        NzCardModule,
-        NzTypographyModule,
-        NzIconModule,
-        NzTagModule,
-        NzGridModule,
-        CvcActivityFeedItemDetails,
-        CvcPipesModule,
-        CvcUserTagModule,
-        CvcOrganizationTagModule,
-        CvcFeatureTagModule,
-        CvcAssertionsTagModule,
-        CvcEvidenceTagModule,
-        CvcVariantTagModule,
-        CvcRevisionTagModule,
-        CvcVariantGroupTagModule,
-        CvcSourceTagModule,
-        CvcMolecularProfileTagModule,
-        CvcCommentActivity,
-        CvcFeatureVariantTagModule,
-        CvcCommentTagModule,
-    ]
+  selector: 'cvc-activity-feed-item',
+  templateUrl: './feed-item.component.html',
+  styleUrl: './feed-item.component.less',
+  animations: [
+    trigger('details', [
+      state('hidden', style({ height: 0, 'overflow-y': 'hidden' })),
+      state('visible', style({ height: '*', 'overflow-y': 'hidden' })),
+      transition('visible <=> hidden', animate('.25s ease-out')),
+      transition('hidden <=> visible', animate('.25s ease-in')),
+    ]),
+    trigger('toggle', [
+      state('hide', style({ transform: 'rotate(0deg)' })),
+      state('show', style({ transform: 'rotate(90deg)' })),
+      transition('hide <=> show', animate('0.2s linear')),
+    ]),
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    NzCardModule,
+    NzTypographyModule,
+    NzIconModule,
+    NzTagModule,
+    NzGridModule,
+    CvcActivityFeedItemDetails,
+    CvcPipesModule,
+    CvcUserTagModule,
+    CvcOrganizationTagModule,
+    CvcFeatureTagModule,
+    CvcAssertionsTagModule,
+    CvcEvidenceTagModule,
+    CvcVariantTagModule,
+    CvcRevisionTagModule,
+    CvcVariantGroupTagModule,
+    CvcSourceTagModule,
+    CvcMolecularProfileTagModule,
+    CvcFeatureVariantTagModule,
+    CvcCommentTagModule,
+  ],
 })
 export class CvcActivityFeedItem implements OnInit {
   activity = input<Maybe<ActivityFeedItemFragment>>(undefined, {

@@ -6,7 +6,6 @@ import {
   Output,
   Signal,
   WritableSignal,
-  computed,
   effect,
   input,
   signal,
@@ -16,22 +15,16 @@ import {
   ActivityFeedFilters,
   ActivityFeedFilterOptions,
   ActivityFeedScope,
-  ActivityFeedSettings,
   FeedQueryRefetchEvent,
 } from '../activity-feed.types'
 import {
   ActivityFeedUpdatesGQL,
   ActivitySubjectInput,
   ActivityTypeInput,
-  DateSort,
   DateSortColumns,
-  Maybe,
   SortDirection,
-  UserFilterSearchGQL,
-  UserFilterSearchQuery,
-  UserFilterSearchQueryVariables,
 } from '@app/generated/civic.apollo'
-import { CommonModule, KeyValuePipe } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzSelectModule } from 'ng-zorro-antd/select'
@@ -61,37 +54,36 @@ export const defaultFilters = {}
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-activity-feed-filters',
-    imports: [
-        CommonModule,
-        FormsModule,
-        KeyValuePipe,
-        NzAlertModule,
-        NzButtonModule,
-        NzIconModule,
-        NzGridModule,
-        NzFormModule,
-        NzSelectModule,
-        NzDatePickerModule,
-        CvcPipesModule,
-        CvcUserFilterSelect,
-        CvcOrgFilterSelect,
-    ],
-    templateUrl: './feed-filters.component.html',
-    styleUrls: ['./feed-filters.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        trigger('refreshAlertAnimation', [
-            transition(':enter', [
-                style({ height: 0, opacity: 0, overflow: 'hidden' }),
-                animate('250ms ease-out', style({ height: '*', opacity: 1 })),
-            ]),
-            transition(':leave', [
-                style({ overflow: 'hidden' }),
-                animate('250ms ease-in', style({ height: 0, opacity: 0 })),
-            ]),
-        ]),
-    ]
+  selector: 'cvc-activity-feed-filters',
+  imports: [
+    CommonModule,
+    FormsModule,
+    NzAlertModule,
+    NzButtonModule,
+    NzIconModule,
+    NzGridModule,
+    NzFormModule,
+    NzSelectModule,
+    NzDatePickerModule,
+    CvcPipesModule,
+    CvcUserFilterSelect,
+    CvcOrgFilterSelect,
+  ],
+  templateUrl: './feed-filters.component.html',
+  styleUrls: ['./feed-filters.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('refreshAlertAnimation', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0, overflow: 'hidden' }),
+        animate('250ms ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ overflow: 'hidden' }),
+        animate('250ms ease-in', style({ height: 0, opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class CvcActivityFeedFilterSelects implements OnInit {
   @Output() cvcFiltersChange: EventEmitter<ActivityFeedFilters>
