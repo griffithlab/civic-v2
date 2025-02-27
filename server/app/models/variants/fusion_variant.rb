@@ -136,7 +136,7 @@ module Variants
       elsif partner_status == 'multiple'
         'v'
       elsif partner_status == 'regulatory'
-        "#{regulatory_type}@#{gene.name}(entrez:#{gene.entrez_id})"
+        "#{Features::Fusion.format_regulatory_fusion_type(regulatory_type)}@#{gene.name}(entrez:#{gene.entrez_id})"
       end
     end
 

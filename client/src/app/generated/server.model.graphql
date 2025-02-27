@@ -9812,32 +9812,32 @@ enum ReferenceBuild {
 }
 
 enum RegulatoryFusionType {
-  REG_ATTENUATOR
-  REG_CAAT_SIGNAL
-  REG_DNASE_I_HYPERSENSITIVE_SITE
-  REG_E
-  REG_ENHANCER_BLOCKING_ELEMENT
-  REG_GC_SIGNAL
-  REG_IMPRINTING_CONTROL_REGION
-  REG_INSULATOR
-  REG_LOCUS_CONTROL_REGION
-  REG_MATRIX_ATTACHMENT_REGION
-  REG_MINUS_10_SIGNAL
-  REG_MINUS_35_SIGNAL
-  REG_OTHER
-  REG_P
-  REG_POLYA_SIGNAL_SEQUENCE
-  REG_RECODING_STIMULATORY_REGION
-  REG_RECOMBINATION_ENHANCER
-  REG_REPLICATION_REGULATORY_REGION
-  REG_RESPONSE_ELEMENT
-  REG_RIBOSOME_BINDING_SITE
-  REG_RIBOSWITCH
-  REG_SILENCER
-  REG_TATA_BOX
-  REG_TERMINATOR
-  REG_TRANSCRIPTIONAL_CIS_REGULATORY_REGION
-  REG_UORF
+  CAAT_signal
+  DNase_I_hypersensitive_site
+  GC_signal
+  TATA_box
+  attenuator
+  enhancer
+  enhancer_blocking_element
+  imprinting_control_region
+  insulator
+  locus_control_region
+  matrix_attachment_region
+  minus_10_signal
+  minus_35_signal
+  other
+  polyA_signal_sequence
+  promoter
+  recoding_stimulatory_region
+  recombination_enhancer
+  replication_regulatory_region
+  response_element
+  ribosome_binding_site
+  riboswitch
+  silencer
+  terminator
+  transcriptional_cis_regulatory_region
+  uORF
 }
 
 type RejectRevisionsActivity implements ActivityInterface {

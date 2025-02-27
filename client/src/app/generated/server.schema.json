@@ -44570,157 +44570,157 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "REG_ATTENUATOR",
+              "name": "attenuator",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_CAAT_SIGNAL",
+              "name": "CAAT_signal",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_DNASE_I_HYPERSENSITIVE_SITE",
+              "name": "DNase_I_hypersensitive_site",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_E",
+              "name": "enhancer",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_ENHANCER_BLOCKING_ELEMENT",
+              "name": "enhancer_blocking_element",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_GC_SIGNAL",
+              "name": "GC_signal",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_IMPRINTING_CONTROL_REGION",
+              "name": "imprinting_control_region",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_INSULATOR",
+              "name": "insulator",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_LOCUS_CONTROL_REGION",
+              "name": "locus_control_region",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_MATRIX_ATTACHMENT_REGION",
+              "name": "matrix_attachment_region",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_MINUS_35_SIGNAL",
+              "name": "minus_35_signal",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_MINUS_10_SIGNAL",
+              "name": "minus_10_signal",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_POLYA_SIGNAL_SEQUENCE",
+              "name": "polyA_signal_sequence",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_P",
+              "name": "promoter",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_RECODING_STIMULATORY_REGION",
+              "name": "recoding_stimulatory_region",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_RECOMBINATION_ENHANCER",
+              "name": "recombination_enhancer",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_REPLICATION_REGULATORY_REGION",
+              "name": "replication_regulatory_region",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_RESPONSE_ELEMENT",
+              "name": "response_element",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_RIBOSOME_BINDING_SITE",
+              "name": "ribosome_binding_site",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_RIBOSWITCH",
+              "name": "riboswitch",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_SILENCER",
+              "name": "silencer",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_TATA_BOX",
+              "name": "TATA_box",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_TERMINATOR",
+              "name": "terminator",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_TRANSCRIPTIONAL_CIS_REGULATORY_REGION",
+              "name": "transcriptional_cis_regulatory_region",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_UORF",
+              "name": "uORF",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "REG_OTHER",
+              "name": "other",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

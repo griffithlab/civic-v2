@@ -167,7 +167,7 @@ module Constants
       ["transcriptional_cis_regulatory_region", "SO:0001055"],
       ["uORF", "SO:0002027"],
       ["other", nil]
-    ].map { |(type, soid)|  ["reg_#{type}", soid] }
+    ]
 
     REGULATORY_FUSION_ENUM_TYPES = REGULATORY_FUSION_TYPES.map { |(type, _)| [type, type] }.to_h
 

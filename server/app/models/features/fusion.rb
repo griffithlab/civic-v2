@@ -24,12 +24,12 @@ module Features
     end
 
     def self.format_regulatory_fusion_type(rft)
-      if rft == 'reg_enhancer'
+      if rft == 'enhancer'
         'reg_e'
-      elsif rft == 'reg_promoter'
+      elsif rft == 'promoter'
         'reg_p'
       else
-        rft
+        "reg_#{rft}"
       end
     end
 

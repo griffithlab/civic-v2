@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
   create_enum "fusion_partner_status", ["known", "unknown", "multiple", "regulatory"]
-  create_enum "regulatory_fusion_types", ["reg_attenuator", "reg_CAAT_signal", "reg_DNase_I_hypersensitive_site", "reg_enhancer", "reg_enhancer_blocking_element", "reg_GC_signal", "reg_imprinting_control_region", "reg_insulator", "reg_locus_control_region", "reg_matrix_attachment_region", "reg_minus_35_signal", "reg_minus_10_signal", "reg_polyA_signal_sequence", "reg_promoter", "reg_recoding_stimulatory_region", "reg_recombination_enhancer", "reg_replication_regulatory_region", "reg_response_element", "reg_ribosome_binding_site", "reg_riboswitch", "reg_silencer", "reg_TATA_box", "reg_terminator", "reg_transcriptional_cis_regulatory_region", "reg_uORF", "reg_other"]
+  create_enum "regulatory_fusion_types", ["attenuator", "CAAT_signal", "DNase_I_hypersensitive_site", "enhancer", "enhancer_blocking_element", "GC_signal", "imprinting_control_region", "insulator", "locus_control_region", "matrix_attachment_region", "minus_35_signal", "minus_10_signal", "polyA_signal_sequence", "promoter", "recoding_stimulatory_region", "recombination_enhancer", "replication_regulatory_region", "response_element", "ribosome_binding_site", "riboswitch", "silencer", "TATA_box", "terminator", "transcriptional_cis_regulatory_region", "uORF", "other"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -105,6 +105,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_170055) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "bearer_type"
+    t.bigint "bearer_id"
+    t.text "token_prefix", null: false
+    t.text "token_suffix", null: false
+    t.text "token_digest", null: false
+    t.boolean "revoked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+    t.index ["revoked"], name: "index_api_keys_on_revoked"
+    t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
