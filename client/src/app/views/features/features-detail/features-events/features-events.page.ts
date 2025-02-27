@@ -7,9 +7,10 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-features-events',
-  templateUrl: './features-events.page.html',
-  styleUrls: ['./features-events.page.less'],
+    selector: 'cvc-features-events',
+    templateUrl: './features-events.page.html',
+    styleUrls: ['./features-events.page.less'],
+    standalone: false
 })
 export class FeaturesEventsPage {
   feedScope: ActivityFeedScope

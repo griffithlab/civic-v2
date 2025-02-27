@@ -9,9 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-phenotype-popover',
-  templateUrl: './phenotype-popover.component.html',
-  styleUrls: ['./phenotype-popover.component.less'],
+    selector: 'cvc-phenotype-popover',
+    templateUrl: './phenotype-popover.component.html',
+    styleUrls: ['./phenotype-popover.component.less'],
+    standalone: false
 })
 export class CvcPhenotypePopoverComponent implements OnInit {
   @Input() phenotypeId!: number

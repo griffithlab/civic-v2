@@ -14,9 +14,10 @@ import { filter } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'cvc-coordinates-card',
-  templateUrl: './coordinates-card.component.html',
-  styleUrls: ['./coordinates-card.component.less'],
+    selector: 'cvc-coordinates-card',
+    templateUrl: './coordinates-card.component.html',
+    styleUrls: ['./coordinates-card.component.less'],
+    standalone: false
 })
 export class CvcCoordinatesCard implements OnInit {
   @Input() cvcVariantId?: number

@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EntityTagPopoverInput } from '../entity-tag-popover/entity-tag-popover.component';
 
 @Component({
-  selector: 'cvc-string-tag',
-  templateUrl: './string-tag.component.html',
-  styleUrls: ['./string-tag.component.less']
+    selector: 'cvc-string-tag',
+    templateUrl: './string-tag.component.html',
+    styleUrls: ['./string-tag.component.less'],
+    standalone: false
 })
 export class CvcStringTagComponent {
   @Input() cvcLabel?: string

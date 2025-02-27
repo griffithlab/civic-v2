@@ -86,10 +86,11 @@ const DiseaseSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-disease-select',
-  templateUrl: './disease-select.type.html',
-  styleUrls: ['./disease-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-disease-select',
+    templateUrl: './disease-select.type.html',
+    styleUrls: ['./disease-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcDiseaseSelectField
   extends DiseaseSelectMixin

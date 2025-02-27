@@ -3,8 +3,9 @@ import { Maybe } from '@app/generated/civic.apollo'
 import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-enum-tooltip'
 
 @Pipe({
-  name: 'enumTooltip',
-  pure: true,
+    name: 'enumTooltip',
+    pure: true,
+    standalone: false
 })
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(

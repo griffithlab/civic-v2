@@ -5,8 +5,9 @@ import { formatSourceSuggestionStatusEnum } from '../utilities/enum-formatters/f
 export type EnumOutputStyle = 'display-string' | 'icon-name'
 
 @Pipe({
-  name: 'sourceSuggestionStatusEnumDisplay',
-  pure: true,
+    name: 'sourceSuggestionStatusEnumDisplay',
+    pure: true,
+    standalone: false
 })
 export class SourceSuggestionStatusEnumDisplay implements PipeTransform {
   transform(

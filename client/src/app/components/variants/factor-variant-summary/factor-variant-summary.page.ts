@@ -21,30 +21,29 @@ import { CvcNcitDetailsComponent } from '@app/components/factors/ncit-details/nc
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
-  standalone: true,
-  selector: 'cvc-factor-variant-summary',
-  templateUrl: './factor-variant-summary.page.html',
-  styleUrls: ['./factor-variant-summary.page.less'],
-  imports: [
-    CommonModule,
-    PushPipe,
-    NzGridModule,
-    NzDescriptionsModule,
-    NzTagModule,
-    NzCardModule,
-    NzTypographyModule,
-    CvcEmptyRevisableModule,
-    CvcTagListModule,
-    CvcVariantTypeTagModule,
-    CvcCoordinatesCardModule,
-    CvcLinkTagModule,
-    CvcUserTagModule,
-    CvcFeatureTagModule,
-    CvcMolecularProfilesTableModule,
-    CvcMyVariantInfoModule,
-    CvcPipesModule,
-    CvcNcitDetailsComponent,
-  ],
+    selector: 'cvc-factor-variant-summary',
+    templateUrl: './factor-variant-summary.page.html',
+    styleUrls: ['./factor-variant-summary.page.less'],
+    imports: [
+        CommonModule,
+        PushPipe,
+        NzGridModule,
+        NzDescriptionsModule,
+        NzTagModule,
+        NzCardModule,
+        NzTypographyModule,
+        CvcEmptyRevisableModule,
+        CvcTagListModule,
+        CvcVariantTypeTagModule,
+        CvcCoordinatesCardModule,
+        CvcLinkTagModule,
+        CvcUserTagModule,
+        CvcFeatureTagModule,
+        CvcMolecularProfilesTableModule,
+        CvcMyVariantInfoModule,
+        CvcPipesModule,
+        CvcNcitDetailsComponent,
+    ]
 })
 export class CvcFactorVariantSummaryComponent implements OnInit {
   @Input() variant!: VariantSummaryFieldsFragment

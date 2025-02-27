@@ -17,10 +17,11 @@ export interface LinkableFeature {
 }
 
 @Component({
-  selector: 'cvc-feature-tag',
-  templateUrl: './feature-tag.component.html',
-  styleUrl: './feature-tag.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-feature-tag',
+    templateUrl: './feature-tag.component.html',
+    styleUrl: './feature-tag.component.less',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFeatureTagComponent implements OnInit {
   @Input() feature!: LinkableFeature

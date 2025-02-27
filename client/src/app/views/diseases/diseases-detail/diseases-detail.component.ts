@@ -13,9 +13,10 @@ import { startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'cvc-diseases-detail',
-  templateUrl: './diseases-detail.component.html',
-  styleUrls: ['./diseases-detail.component.less'],
+    selector: 'cvc-diseases-detail',
+    templateUrl: './diseases-detail.component.html',
+    styleUrls: ['./diseases-detail.component.less'],
+    standalone: false
 })
 export class DiseasesDetailComponent implements OnDestroy {
   routeSub: Subscription

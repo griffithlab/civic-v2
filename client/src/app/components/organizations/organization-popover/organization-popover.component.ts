@@ -9,9 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-organization-popover',
-  templateUrl: './organization-popover.component.html',
-  styleUrls: ['./organization-popover.component.less'],
+    selector: 'cvc-organization-popover',
+    templateUrl: './organization-popover.component.html',
+    styleUrls: ['./organization-popover.component.less'],
+    standalone: false
 })
 export class CvcOrganizationPopoverComponent implements OnInit {
   @Input() orgId!: number

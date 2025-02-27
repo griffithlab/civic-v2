@@ -9,9 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-clinical-trial-popover',
-  templateUrl: './clinical-trial-popover.component.html',
-  styleUrls: ['./clinical-trial-popover.component.less'],
+    selector: 'cvc-clinical-trial-popover',
+    templateUrl: './clinical-trial-popover.component.html',
+    styleUrls: ['./clinical-trial-popover.component.less'],
+    standalone: false
 })
 export class CvcClinicalTrialPopoverComponent implements OnInit {
   @Input() clinicalTrialId!: number

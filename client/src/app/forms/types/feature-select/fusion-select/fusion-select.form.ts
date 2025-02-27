@@ -51,23 +51,22 @@ export interface FusionSelectModalData {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
-  selector: 'cvc-fusion-select-form',
-  templateUrl: './fusion-select.form.html',
-  styleUrls: ['./fusion-select.form.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    PushPipe,
-    ReactiveFormsModule,
-    LetDirective,
-    NzFormModule,
-    NzButtonModule,
-    NzAlertModule,
-    NzModalModule,
-    RouterModule,
-    FormlyModule,
-  ],
+    selector: 'cvc-fusion-select-form',
+    templateUrl: './fusion-select.form.html',
+    styleUrls: ['./fusion-select.form.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        PushPipe,
+        ReactiveFormsModule,
+        LetDirective,
+        NzFormModule,
+        NzButtonModule,
+        NzAlertModule,
+        NzModalModule,
+        RouterModule,
+        FormlyModule,
+    ]
 })
 export class CvcFusionSelectForm {
   @Output() onFusionSelected = new EventEmitter<number>()

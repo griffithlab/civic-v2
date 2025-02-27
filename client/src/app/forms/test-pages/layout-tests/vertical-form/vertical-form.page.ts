@@ -10,9 +10,10 @@ import {
 } from '../layout-forms.config'
 
 @Component({
-  selector: 'cvc-vertical-form',
-  templateUrl: './vertical-form.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-vertical-form',
+    templateUrl: './vertical-form.page.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class VerticalFormPage implements OnInit {
   model: any

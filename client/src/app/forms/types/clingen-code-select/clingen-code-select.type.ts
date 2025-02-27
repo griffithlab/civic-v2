@@ -86,10 +86,11 @@ const ClingenCodeSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-clingen-code-select',
-  templateUrl: './clingen-code-select.type.html',
-  styleUrls: ['./clingen-code-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-clingen-code-select',
+    templateUrl: './clingen-code-select.type.html',
+    styleUrls: ['./clingen-code-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcClingenCodeSelectField
   extends ClingenCodeSelectMixin

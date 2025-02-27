@@ -48,9 +48,10 @@ export interface UsersTableFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-users-table',
-  templateUrl: './users-table.component.html',
-  styleUrls: ['./users-table.component.less'],
+    selector: 'cvc-users-table',
+    templateUrl: './users-table.component.html',
+    styleUrls: ['./users-table.component.less'],
+    standalone: false
 })
 export class CvcUsersTableComponent implements OnInit {
   @Input() cvcHeight?: number

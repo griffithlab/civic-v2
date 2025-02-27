@@ -44,9 +44,10 @@ export interface VariantTypesTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-variant-types-table',
-  templateUrl: './variant-types-table.component.html',
-  styleUrls: ['./variant-types-table.component.less'],
+    selector: 'cvc-variant-types-table',
+    templateUrl: './variant-types-table.component.html',
+    styleUrls: ['./variant-types-table.component.less'],
+    standalone: false
 })
 export class CvcVariantTypesTableComponent implements OnInit {
   @Input() cvcHeight?: number

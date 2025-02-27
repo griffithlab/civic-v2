@@ -20,29 +20,28 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
-  standalone: true,
-  selector: 'cvc-fusion-variant-summary',
-  templateUrl: './fusion-variant-summary.page.html',
-  styleUrls: ['./fusion-variant-summary.page.less'],
-  imports: [
-    CommonModule,
-    PushPipe,
-    NzGridModule,
-    NzDescriptionsModule,
-    NzTagModule,
-    NzCardModule,
-    NzTypographyModule,
-    CvcEmptyRevisableModule,
-    CvcTagListModule,
-    CvcVariantTypeTagModule,
-    CvcCoordinatesCardModule,
-    CvcLinkTagModule,
-    CvcUserTagModule,
-    CvcFeatureTagModule,
-    CvcMolecularProfilesTableModule,
-    CvcMyVariantInfoModule,
-    CvcPipesModule,
-  ],
+    selector: 'cvc-fusion-variant-summary',
+    templateUrl: './fusion-variant-summary.page.html',
+    styleUrls: ['./fusion-variant-summary.page.less'],
+    imports: [
+        CommonModule,
+        PushPipe,
+        NzGridModule,
+        NzDescriptionsModule,
+        NzTagModule,
+        NzCardModule,
+        NzTypographyModule,
+        CvcEmptyRevisableModule,
+        CvcTagListModule,
+        CvcVariantTypeTagModule,
+        CvcCoordinatesCardModule,
+        CvcLinkTagModule,
+        CvcUserTagModule,
+        CvcFeatureTagModule,
+        CvcMolecularProfilesTableModule,
+        CvcMyVariantInfoModule,
+        CvcPipesModule,
+    ]
 })
 export class CvcFusionVariantSummaryComponent implements OnInit {
   @Input() variant!: VariantSummaryFieldsFragment

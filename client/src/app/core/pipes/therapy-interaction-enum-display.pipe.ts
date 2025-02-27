@@ -5,8 +5,9 @@ import { formatTherapyInteractionEnum } from '../utilities/enum-formatters/forma
 export type EnumOutputStyle = 'display-string' | 'icon-name'
 
 @Pipe({
-  name: 'therapyInteractionEnumDisplay',
-  pure: true,
+    name: 'therapyInteractionEnumDisplay',
+    pure: true,
+    standalone: false
 })
 export class TherapyInteractionEnumDisplayPipe implements PipeTransform {
   transform(

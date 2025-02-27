@@ -14,9 +14,10 @@ import { pluck } from 'rxjs-etc/operators'
 type StatTimeOption =  'allTime' | 'newThisYear' | 'newThisMonth' | 'newThisWeek' 
 
 @Component({
-  selector: 'cvc-site-stats-card',
-  templateUrl: './site-stats-card.component.html',
-  styleUrls: ['./site-stats-card.component.less'],
+    selector: 'cvc-site-stats-card',
+    templateUrl: './site-stats-card.component.html',
+    styleUrls: ['./site-stats-card.component.less'],
+    standalone: false
 })
 export class CvcSiteStatsCardComponent implements OnInit {
   private statsRef!: QueryRef<CivicStatsQuery, {}>
