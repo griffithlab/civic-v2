@@ -3273,10 +3273,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@ngrx/component@^18.0.1":
-  version "18.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-18.0.1.tgz#57d5781a2f473fb7c5abc38b4249a24a0faf68dc"
-  integrity sha512-BaAFwtcT+pdD88m08AlK8L2GZMHu1xO3JvgR+RvgZnE423kwfEx3W+mOQ2iVSrwLzBs4NAkxsYY9Nt6maI1AnA==
+"@ngrx/component@^19.0.1":
+  version "19.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-19.0.1.tgz#60eddab00db11bb6a96ecab33129df4f6c92d89a"
+  integrity sha512-uuGgjB8eAcIj9IiaMUxbIqCHo++jcPPsV2zEiF0q6v8CY07wrCQnn02jxwY09eNCUnvXQiGfYosV2wIWF1gu5A==
   dependencies:
     tslib "^2.0.0"
 

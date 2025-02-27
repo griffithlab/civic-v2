@@ -34,7 +34,7 @@
     "@angular/router": "^19.2.0",
     "@apollo/client": "^3.13.1",
     "@ngneat/until-destroy": "^10.0.0",
-    "@ngrx/component": "^18.0.1",
+    "@ngrx/component": "^19.0.1",
     "@ngx-formly/core": "^6.3.12",
     "@ngx-formly/ng-zorro-antd": "^6.3.12",
     "apollo-angular": "^10.0.3",
