@@ -8,6 +8,7 @@ class ActiveSupport::TestCase
 
   set_fixture_class feature_genes: Features::Gene
   set_fixture_class feature_factors: Features::Factor
+  set_fixture_class feature_fusions: Features::Fusion
 
   # Add more helper methods to be used by all tests here...
 end
