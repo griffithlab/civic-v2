@@ -1,6 +1,7 @@
 query ActivityFeedUpdates(
   $subject: [SubscribableQueryInput!]
   $organizationId: [Int!]
+  $includeSubgroups: Boolean
   $userId: [Int!]
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
@@ -12,7 +13,7 @@ query ActivityFeedUpdates(
     subject: $subject
     userId: $userId
     includeAutomatedEvents: $includeAutomatedEvents
-    organizationId: $organizationId
+    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
     activityType: $activityType
     subjectType: $subjectType
     mode: $mode

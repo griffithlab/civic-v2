@@ -16,7 +16,7 @@ query EvidenceManager(
   $variantId: Int
   $molecularProfileId: Int
   $assertionId: Int
-  $organizationId: Int
+  $organizationId: [Int!]
   $userId: Int
   $sortBy: EvidenceSort
   $phenotypeId: Int
@@ -45,7 +45,7 @@ query EvidenceManager(
     variantId: $variantId
     molecularProfileId: $molecularProfileId
     assertionId: $assertionId
-    organizationId: $organizationId
+    organization: {ids: $organizationId}
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId

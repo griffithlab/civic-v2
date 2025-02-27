@@ -7937,9 +7937,9 @@ Filter on organization id and whether or not to include the organization's subgr
 """
 input OrganizationFilter {
   """
-  The organization ID.
+  An array of organization IDs.
   """
-  id: Int
+  ids: [Int!]
 
   """
   Whether or not to include the organization's subgroup.
@@ -8217,7 +8217,11 @@ type Query {
     mode: EventFeedMode
     occurredAfter: ISO8601DateTime
     occurredBefore: ISO8601DateTime
-    organizationId: [Int!]
+
+    """
+    Filter EIDs on the organization the evidence item was submitted under.
+    """
+    organization: OrganizationFilter
 
     """
     Sort order for the activities. Defaults to most recent.
@@ -8308,9 +8312,9 @@ type Query {
     molecularProfileName: String
 
     """
-    Exact match filtering on the ID of the organization the assertion was submitted under.
+    Filter EIDs on the organization the evidence item was submitted under.
     """
-    organizationId: Int
+    organization: OrganizationFilter
 
     """
     Exact match filtering of the assertions based on the internal CIViC phenotype id
@@ -8925,9 +8929,9 @@ type Query {
     molecularProfileName: String
 
     """
-    Exact match filtering on the ID of the organization the evidence item was submitted under.
+    Filter EIDs on the organization the evidence item was submitted under.
     """
-    organizationId: Int
+    organization: OrganizationFilter
 
     """
     Exact match filtering of the evidence items based on the internal CIViC phenotype id

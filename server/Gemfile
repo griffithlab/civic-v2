@@ -92,7 +92,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'listen', '~> 3.3'
 
-  gem 'capistrano', '~> 3.16.0'
+  gem 'capistrano', '~> 3.19.0'
   gem 'capistrano-rails', '~> 1.6.1'
   gem 'capistrano-rbenv', '~> 2.2.0'
 
