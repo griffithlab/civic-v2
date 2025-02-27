@@ -16,7 +16,8 @@ query AssertionsBrowse(
   $molecularProfileName: String
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
-  $organizationId: Int
+  $organizationId: [Int!]
+  $includeSubgroups: Boolean
   $userId: Int
   $phenotypeId: Int
   $diseaseId: Int
@@ -41,7 +42,7 @@ query AssertionsBrowse(
     ampLevel: $ampLevel
     molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
-    organizationId: $organizationId
+    organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
     userId: $userId
     phenotypeId: $phenotypeId
     therapyId: $therapyId

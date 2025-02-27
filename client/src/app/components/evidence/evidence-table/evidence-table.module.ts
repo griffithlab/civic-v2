@@ -53,6 +53,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
     NzTypographyModule,
     NzDropDownModule,
     NzRadioModule,
+    NzCheckboxModule,
 
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,

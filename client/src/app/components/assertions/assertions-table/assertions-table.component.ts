@@ -120,6 +120,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
   statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+  includeSubgroups: Maybe<boolean>
 
   availableStatusFilters = EvidenceStatusFilter
   statusFilterVisible = false
@@ -144,7 +145,8 @@ export class CvcAssertionsTableComponent implements OnInit {
       variantId: this.variantId,
       molecularProfileId: this.molecularProfileId,
       evidenceId: this.evidenceId,
-      organizationId: this.organizationId,
+      organizationId: this.organizationId ? [this.organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false, 
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
@@ -261,6 +263,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       status: this.statusInput,
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       assertionType: this.assertionTypeInput
         ? this.assertionTypeInput
         : undefined,
@@ -283,6 +286,11 @@ export class CvcAssertionsTableComponent implements OnInit {
   }
 
   statusChanged() {
+    this.debouncedQuery.next()
+    this.statusFilterVisible = false
+  }
+
+  includeSubgroupsChanged() {
     this.debouncedQuery.next()
     this.statusFilterVisible = false
   }

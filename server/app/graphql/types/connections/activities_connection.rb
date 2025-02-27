@@ -64,10 +64,10 @@ module Types::Connections
           end
           return Activity.where(user_id: object.arguments[:user_id])
         elsif feed_mode == :organization
-          if !object.arguments[:organization_id]
+          if !object.arguments[:organization] || object.arguments[:organization][:ids].blank?
             raise GraphQL::ExecutionError, "Must provide an organization id when activity feed is in Organization mode."
           end
-          return Activity.where(organization_id: object.arguments[:organization_id])
+          return Activity.where(organization_id: object.arguments[:organization][:ids])
         elsif feed_mode == :unscoped
           Activity.all
         #subject mode

@@ -128,6 +128,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   molecularProfileNameInput: Maybe<string>
   variantOriginInput: Maybe<VariantOrigin>
   statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+  includeSubgroups: Maybe<boolean>
 
   availableStatusFilters = EvidenceStatusFilter
   statusFilterVisible = false
@@ -164,7 +165,8 @@ export class CvcEvidenceTableComponent implements OnInit {
         : undefined,
       evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
       first: this.initialPageSize,
-      organizationId: this.organizationId,
+      organizationId: this.organizationId ? [this.organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       phenotypeId: this.phenotypeId,
       rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
       sourceId: this.sourceId,
@@ -287,6 +289,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         therapyName: this.therapyNameInput,
         description: this.descriptionInput,
         status: this.statusInput,
+        includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
         evidenceLevel: this.evidenceLevelInput
           ? this.evidenceLevelInput
           : undefined,
@@ -313,6 +316,11 @@ export class CvcEvidenceTableComponent implements OnInit {
   }
 
   statusChanged() {
+    this.filterChange$.next()
+    this.statusFilterVisible = false
+  }
+
+  includeSubgroupsChanged() {
     this.filterChange$.next()
     this.statusFilterVisible = false
   }
