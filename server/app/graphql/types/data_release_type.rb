@@ -10,7 +10,7 @@ module Types
 
   class DataReleaseType < Types::BaseObject
     field :name, String, null: false 
-    field :gene_tsv, DownloadableFile, null: true
+    field :feature_tsv, DownloadableFile, null: true
     field :variant_tsv, DownloadableFile, null: true
     field :variant_group_tsv, DownloadableFile, null: true
     field :evidence_tsv, DownloadableFile, null: true

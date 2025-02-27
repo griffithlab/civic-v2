@@ -44,7 +44,7 @@ class VariantTsvFormatter
     ]
   end
 
-  def self.factor_headers 
+  def self.factor_headers
     [
       'ncit_id'
     ]

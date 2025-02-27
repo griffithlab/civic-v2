@@ -172,4 +172,6 @@ module Constants
     REGULATORY_FUSION_ENUM_TYPES = REGULATORY_FUSION_TYPES.map { |(type, _)| [type, type] }.to_h
 
     FUSION_PARTNER_STATUSES = [ 'known', 'unknown', 'multiple', 'regulatory' ].map { [_1, _1] }.to_h
+
+    API_HMAC_KEY = ENV['CIVIC_API_HMAC_KEY'] || Rails.application.credentials.api_hmac_key
 end

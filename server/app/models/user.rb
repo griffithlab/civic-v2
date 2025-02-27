@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   #has_many :badge_claims
   has_many :affiliations
   has_many :organizations, through: :affiliations
+  has_many :api_keys, as: :bearer
   has_many :notifications, foreign_key: :notified_user_id
   belongs_to :most_recent_organization, class_name: 'Organization', optional: true
   belongs_to :country, optional: true

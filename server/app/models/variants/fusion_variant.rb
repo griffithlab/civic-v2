@@ -100,6 +100,10 @@ module Variants
       ]
     end
 
+    def on_revision_accepted
+      PopulateFusionCoordinates.perform_later(self)
+    end
+
     private
     def construct_five_prime_name(name_type:)
           construct_partner_name(
@@ -169,10 +173,6 @@ module Variants
       unless self.name == Constants::REPRESENTATIVE_FUSION_VARIANT_NAME
         PopulateFusionCoordinates.perform_later(self)
       end
-    end
-
-    def on_revision_accepted
-      PopulateFusionCoordinates.perform_later(self)
     end
   end
 end
