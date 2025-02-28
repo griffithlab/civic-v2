@@ -147,12 +147,12 @@ export class CvcFusionSelectForm {
     const regulatoryOptions = Object.keys(RegulatoryFusionType)
       .map((x) => {
         const val = RegulatoryFusionType[x as keyof typeof RegulatoryFusionType]
-        return { label: val.toLowerCase(), value: val }
+        return { label: val, value: val }
       })
       .sort((a, b) => {
-        if (a.label == 'reg_e') {
+        if (a.label == 'enhancer') {
           return -1
-        } else if (a.label == 'reg_p') {
+        } else if (a.label == 'promoter') {
           return -1
         } else {
           return a.label.localeCompare(b.label)
