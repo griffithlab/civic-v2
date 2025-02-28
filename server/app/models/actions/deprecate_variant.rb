@@ -30,7 +30,7 @@ module Actions
           raise "Molecular Profile #{mp.id} can't be deprecated because it has evidence items that are in accepted or submitted state."
         elsif !mp.deprecated
           mp.deprecated = true
-          mp.deprecation_reason = 'variant_deprecated'
+          mp.deprecation_reason = "variant_deprecated"
           mp.save!
           newly_deprecated_molecular_profiles.append(mp)
         end
@@ -39,7 +39,7 @@ module Actions
 
     def create_events
       events << Event.new(
-        action: 'deprecated variant',
+        action: "deprecated variant",
         originating_user: deprecating_user,
         subject: variant,
         originating_object: variant,
@@ -48,7 +48,7 @@ module Actions
 
       newly_deprecated_molecular_profiles.each do |mp|
         events << Event.new(
-          action: 'deprecated molecular profile',
+          action: "deprecated molecular profile",
           originating_user: deprecating_user,
           subject: mp,
           originating_object: variant,
@@ -58,4 +58,3 @@ module Actions
     end
   end
 end
-

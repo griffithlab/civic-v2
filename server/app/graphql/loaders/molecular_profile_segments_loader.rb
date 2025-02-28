@@ -10,7 +10,7 @@ module Loaders
       resolved_variants = {}
 
       MolecularProfile.where(id: ids).each do |mp|
-        mps[mp.id] = mp.name.split(' ').map do |segment|
+        mps[mp.id] = mp.name.split(" ").map do |segment|
           if variant_match = segment.match(MolecularProfile::VARIANT_REGEX)
             variant_id = variant_match[:id].to_i
             resolved_variants[variant_id] = nil
@@ -24,7 +24,7 @@ module Loaders
       Variant.where(id: resolved_variants.keys)
         .each { |v| resolved_variants[v.id] = v }
 
-      Feature.includes(:feature_instance).where(id: resolved_variants.map{|id, v| v.feature_id})
+      Feature.includes(:feature_instance).where(id: resolved_variants.map { |id, v| v.feature_id })
         .each { |f| resolved_features[f.id] = f }
 
       ids.each do |id|

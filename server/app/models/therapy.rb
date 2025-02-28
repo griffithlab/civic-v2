@@ -10,14 +10,14 @@ class Therapy < ApplicationRecord
 
   validates :ncit_id, uniqueness: true, allow_nil: true
 
-  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name, :aliases]
+  searchkick highlight: [ :name, :aliases ], callbacks: :async, word_start: [ :name, :aliases ]
   scope :search_import, -> { includes(:therapy_aliases) }
 
   def search_data
     {
       name: name,
       ncit_id: ncit_id,
-      aliases: therapy_aliases.map(&:name)
+      aliases: therapy_aliases.map(&:name),
     }
   end
 
@@ -40,10 +40,10 @@ class Therapy < ApplicationRecord
   def self.timepoint_query
     ->(x) {
       self.joins(:evidence_items)
-        .group('therapies.id')
-        .select('therapies.id')
+        .group("therapies.id")
+        .select("therapies.id")
         .where("evidence_items.status != 'rejected'")
-        .having('MIN(evidence_items.created_at) >= ?', x)
+        .having("MIN(evidence_items.created_at) >= ?", x)
         .distinct
         .count
     }

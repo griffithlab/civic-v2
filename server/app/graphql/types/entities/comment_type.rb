@@ -13,7 +13,7 @@ module Types::Entities
     field :commenter, Types::Entities::UserType, null: false
     field :creation_event, Types::Entities::EventType, null: true
     field :commentable, Types::Interfaces::Commentable, null: false
-    field :parsed_comment, [Types::Commentable::CommentBodySegment], null: false
+    field :parsed_comment, [ Types::Commentable::CommentBodySegment ], null: false
     field :deleted, Boolean, null: false
 
     def commenter

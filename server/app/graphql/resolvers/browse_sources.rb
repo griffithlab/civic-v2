@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   # include SearchObject for GraphQL
@@ -8,9 +8,9 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   type Types::BrowseTables::BrowseSourceType.connection_type, null: false
 
   scope do
-    MaterializedViews::SourceBrowseTableRow.order('source_suggestion_count desc')
+    MaterializedViews::SourceBrowseTableRow.order("source_suggestion_count desc")
       .where.not(citation: nil)
-      .order('evidence_item_count desc')
+      .order("evidence_item_count desc")
       .all
   end
 
@@ -23,28 +23,28 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   end
 
   option(:citation_id, type: Int) do |scope, value|
-    scope.where('citation_id::text LIKE ?', "#{value}%")
+    scope.where("citation_id::text LIKE ?", "#{value}%")
   end
 
   option(:author, type: String) do |scope, value|
     query = "%#{value}%"
-    scope.where("array_to_string(authors, '|') ILIKE ?", query).or(scope.where('asco_presenter ILIKE ?', query))
+    scope.where("array_to_string(authors, '|') ILIKE ?", query).or(scope.where("asco_presenter ILIKE ?", query))
   end
 
   option(:year, type: Int) do |scope, value|
-    scope.where('publication_year::text LIKE ?', "#{value}%")
+    scope.where("publication_year::text LIKE ?", "#{value}%")
   end
 
   option(:journal, type: String) do |scope, value|
-    scope.where('journal ILIKE ?', "%#{value}%")
+    scope.where("journal ILIKE ?", "%#{value}%")
   end
 
   option(:name, type: String) do |scope, value|
-    scope.where('title ILIKE ?', "%#{value}%")
+    scope.where("title ILIKE ?", "%#{value}%")
   end
 
   option(:clinical_trial_id, type: Int) do |scope, value|
-    scope.joins(:clinical_trials).where('clinical_trials.id = ?', value)
+    scope.joins(:clinical_trials).where("clinical_trials.id = ?", value)
   end
 
   option(:id, type: Int) do |scope, value|
@@ -55,7 +55,7 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     if value
       scope.where(open_access: true)
     elsif value == false
-      scope.where(open_access: [false, nil])
+      scope.where(open_access: [ false, nil ])
     else
       scope
     end
@@ -82,4 +82,3 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     end
   end
 end
-

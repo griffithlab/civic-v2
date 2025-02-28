@@ -2,10 +2,10 @@ class Mutations::UpdateCoi < Mutations::BaseMutation
   description "Update the currently logged in User's Conflict of Interest statement"
 
   argument :coi_present, Boolean, required: true,
-    description: 'Does the user report having a conflict of interest? Mark true if so.'
+    description: "Does the user report having a conflict of interest? Mark true if so."
 
   argument :statement, String, required: false,
-    description: 'If the user reports a potential conflict of interest please provide a brief summary of it.'
+    description: "If the user reports a potential conflict of interest please provide a brief summary of it."
 
   field :coi_statement, Types::Entities::CoiType, null: false
 
@@ -31,7 +31,7 @@ class Mutations::UpdateCoi < Mutations::BaseMutation
     )
 
     return {
-      coi_statement: coi
+      coi_statement: coi,
     }
   end
 end

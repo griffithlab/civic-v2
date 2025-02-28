@@ -26,13 +26,13 @@ module Activities
       )
       cmd.perform
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
       events << cmd.events
     end
 
     def linked_entities
-      [revisions]
+      [ revisions ]
     end
   end
 end
