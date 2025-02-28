@@ -30,7 +30,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import {
   debounceTime,
@@ -44,6 +44,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
+import { ActivatedRoute } from '@angular/router'
 
 @UntilDestroy()
 @Component({
@@ -88,6 +89,8 @@ export class CvcAssertionsTableComponent implements OnInit {
   isScrolling: boolean = false
 
   private debouncedQuery = new Subject<void>()
+  
+  queryParamsSub$: Subscription
 
   isLoading$?: Observable<boolean>
   assertions$?: Observable<Maybe<AssertionBrowseFieldsFragment>[]>
@@ -131,12 +134,18 @@ export class CvcAssertionsTableComponent implements OnInit {
 
   constructor(
     private gql: AssertionsBrowseGQL,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
     this.scrollIndex$ = new Subject<number>()
+    this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
+      if (params.has('includeSubgroups')) {
+        this.includeSubgroups = params.get('includeSubgroups') === 'true' ? true : false
+      }
+    })
   }
 
   ngOnInit() {
@@ -304,6 +313,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.queryParamsSub$.unsubscribe()
     this.destroy$.next()
     this.destroy$.unsubscribe()
   }

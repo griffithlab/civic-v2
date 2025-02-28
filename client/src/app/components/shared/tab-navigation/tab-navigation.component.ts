@@ -23,12 +23,4 @@ export class CvcTabNavigationComponent {
   @ContentChild('tabBarExtraContent') tabBarExtraContent?: TemplateRef<any>
 
   selectedTabIndex: Maybe<number>
-
-  constructor(private router: Router) {
-    this.selectedTabIndex = this.getActivatedRouteIndex(this.router.url)
-  }
-
-  getActivatedRouteIndex(url: string): Maybe<number> {
-    return this.tabs?.findIndex((path) => url.includes(path.routeName))
-  }
 }
