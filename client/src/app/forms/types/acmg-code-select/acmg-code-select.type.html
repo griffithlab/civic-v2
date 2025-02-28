@@ -21,7 +21,7 @@
   [nzCustomTemplate]="selectedTemplate"
   [formControl]="formControl"
   [formlyAttributes]="field"
-  [nzPlaceHolder]="this.defaultOptions.props?.placeholders?.default || 'Select an ACMG Code'"
+[nzPlaceHolder]="defaultOptions.props?.placeholders?.default || 'Select an ACMG Code'"
   [nzDisabled]="onRequiresAcmgCode$ && !(onRequiresAcmgCode$ | ngrxPush)"
   [nzOptions]="(selectOption$ | ngrxPush) || []"
   (nzOpenChange)="onOpenChange$.next($event)"

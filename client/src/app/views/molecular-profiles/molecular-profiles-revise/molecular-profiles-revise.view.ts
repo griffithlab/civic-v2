@@ -11,9 +11,10 @@ import { map, startWith } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 
 @Component({
-  selector: 'cvc-molecular-profiles-revise',
-  templateUrl: './molecular-profiles-revise.view.html',
-  styleUrls: ['./molecular-profiles-revise.view.less'],
+    selector: 'cvc-molecular-profiles-revise',
+    templateUrl: './molecular-profiles-revise.view.html',
+    styleUrls: ['./molecular-profiles-revise.view.less'],
+    standalone: false
 })
 export class MolecularProfilesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>

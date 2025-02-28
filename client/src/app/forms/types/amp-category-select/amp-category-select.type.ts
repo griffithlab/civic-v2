@@ -59,9 +59,10 @@ const AmpCategorySelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-amp-category-select',
-  templateUrl: './amp-category-select.type.html',
-  styleUrls: ['./amp-category-select.type.less'],
+    selector: 'cvc-amp-category-select',
+    templateUrl: './amp-category-select.type.html',
+    styleUrls: ['./amp-category-select.type.less'],
+    standalone: false
 })
 export class CvcAmpCategorySelectField
   extends AmpCategorySelectMixin

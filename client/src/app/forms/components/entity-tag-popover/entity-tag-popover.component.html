@@ -1,10 +1,10 @@
-<ng-container [ngSwitch]="this.entity.entityType">
-    <cvc-molecular-profile-popover *ngSwitchCase="'MolecularProfile'" [molecularProfileId]="this.entity.entityId"></cvc-molecular-profile-popover>
-    <cvc-disease-popover *ngSwitchCase="'Disease'" [diseaseId]="this.entity.entityId"></cvc-disease-popover>
-    <cvc-therapy-popover *ngSwitchCase="'Therapy'" [therapyId]="this.entity.entityId"></cvc-therapy-popover>
-    <cvc-source-popover *ngSwitchCase="'Source'" [sourceId]="this.entity.entityId"></cvc-source-popover>
-    <cvc-phenotype-popover *ngSwitchCase="'Phenotype'" [phenotypeId]="this.entity.entityId"></cvc-phenotype-popover>
-    <cvc-evidence-popover *ngSwitchCase="'EvidenceItem'" [evidenceId]="this.entity.entityId"></cvc-evidence-popover>
-    <cvc-feature-popover *ngSwitchCase="'Feature'" [featureId]="this.entity.entityId"></cvc-feature-popover>
-    <cvc-variant-popover *ngSwitchCase="'Variant'" [variantId]="this.entity.entityId"></cvc-variant-popover>
+<ng-container [ngSwitch]="entity.entityType">
+    <cvc-molecular-profile-popover *ngSwitchCase="'MolecularProfile'" [molecularProfileId]="entity.entityId"></cvc-molecular-profile-popover>
+    <cvc-disease-popover *ngSwitchCase="'Disease'" [diseaseId]="entity.entityId"></cvc-disease-popover>
+    <cvc-therapy-popover *ngSwitchCase="'Therapy'" [therapyId]="entity.entityId"></cvc-therapy-popover>
+    <cvc-source-popover *ngSwitchCase="'Source'" [sourceId]="entity.entityId"></cvc-source-popover>
+    <cvc-phenotype-popover *ngSwitchCase="'Phenotype'" [phenotypeId]="entity.entityId"></cvc-phenotype-popover>
+    <cvc-evidence-popover *ngSwitchCase="'EvidenceItem'" [evidenceId]="entity.entityId"></cvc-evidence-popover>
+    <cvc-feature-popover *ngSwitchCase="'Feature'" [featureId]="entity.entityId"></cvc-feature-popover>
+    <cvc-variant-popover *ngSwitchCase="'Variant'" [variantId]="entity.entityId"></cvc-variant-popover>
 </ng-container>

@@ -89,11 +89,12 @@ type SelectDisplayModel = {
 }
 
 @Component({
-  selector: '',
-  templateUrl: './molecular-profile-select.type.html',
-  styleUrls: ['./molecular-profile-select.type.less'],
-  animations: [slideMotion, fadeMotion],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '',
+    templateUrl: './molecular-profile-select.type.html',
+    styleUrls: ['./molecular-profile-select.type.less'],
+    animations: [slideMotion, fadeMotion],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcMolecularProfileSelectField
   extends MolecularProfileSelectMixin

@@ -63,10 +63,11 @@ export interface EvidenceTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-evidence-table',
-  templateUrl: './evidence-table.component.html',
-  styleUrls: ['./evidence-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-evidence-table',
+    templateUrl: './evidence-table.component.html',
+    styleUrls: ['./evidence-table.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcEvidenceTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>

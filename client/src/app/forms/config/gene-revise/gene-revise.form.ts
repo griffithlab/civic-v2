@@ -18,9 +18,10 @@ import { geneReviseFields } from './gene-revise.form.config'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-gene-revise-form',
-  templateUrl: './gene-revise.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-gene-revise-form',
+    templateUrl: './gene-revise.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcGeneReviseForm implements OnInit, AfterViewInit {
   @Input() featureId!: number

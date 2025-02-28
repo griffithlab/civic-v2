@@ -18,9 +18,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'evidence-detail',
-  templateUrl: './evidence-detail.view.html',
-  styleUrls: ['./evidence-detail.view.less'],
+    selector: 'evidence-detail',
+    templateUrl: './evidence-detail.view.html',
+    styleUrls: ['./evidence-detail.view.less'],
+    standalone: false
 })
 export class EvidenceDetailView implements OnDestroy {
   queryRef?: QueryRef<EvidenceDetailQuery, EvidenceDetailQueryVariables>

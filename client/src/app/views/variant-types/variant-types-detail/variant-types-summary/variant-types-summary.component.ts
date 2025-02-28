@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-variant-types-summary',
-  templateUrl: './variant-types-summary.component.html',
-  styleUrls: ['./variant-types-summary.component.less'],
+    selector: 'cvc-variant-types-summary',
+    templateUrl: './variant-types-summary.component.html',
+    styleUrls: ['./variant-types-summary.component.less'],
+    standalone: false
 })
 export class VariantTypesSummaryComponent implements OnDestroy {
   variantTypeId?: number

@@ -36,11 +36,9 @@ type ColumnDefinition = {
 
 @Component({
   selector: 'cvc-activity-revision',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    JsonPipe,
     NzTypographyModule,
     NzSwitchModule,
     NzGridModule,

@@ -74,10 +74,11 @@ export type VariantManagerSettings = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-variant-manager',
-  templateUrl: './variant-manager.component.html',
-  styleUrls: ['./variant-manager.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-variant-manager',
+    templateUrl: './variant-manager.component.html',
+    styleUrls: ['./variant-manager.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcVariantManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableSettings?: VariantManagerSettings

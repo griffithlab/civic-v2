@@ -67,10 +67,11 @@ type ExampleExpression = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-mp-expression-editor',
-  templateUrl: './mp-expression-editor.component.html',
-  styleUrls: ['./mp-expression-editor.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-mp-expression-editor',
+    templateUrl: './mp-expression-editor.component.html',
+    styleUrls: ['./mp-expression-editor.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MpExpressionEditorComponent implements AfterViewInit, OnChanges {
   @Input() cvcPrepopulateWithId: Maybe<number>

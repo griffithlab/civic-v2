@@ -4,9 +4,10 @@ import { NzTabChangeEvent } from 'ng-zorro-antd/tabs'
 import { MyGeneInfoService } from './my-gene-info.service'
 
 @Component({
-  selector: 'cvc-my-gene-info',
-  templateUrl: './my-gene-info.component.html',
-  styleUrls: ['./my-gene-info.component.less'],
+    selector: 'cvc-my-gene-info',
+    templateUrl: './my-gene-info.component.html',
+    styleUrls: ['./my-gene-info.component.less'],
+    standalone: false
 })
 export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   @Input() geneInfo: any

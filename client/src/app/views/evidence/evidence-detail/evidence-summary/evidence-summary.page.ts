@@ -16,9 +16,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 
 @Component({
-  selector: 'cvc-evidence-summary',
-  templateUrl: './evidence-summary.page.html',
-  styleUrls: ['./evidence-summary.page.less'],
+    selector: 'cvc-evidence-summary',
+    templateUrl: './evidence-summary.page.html',
+    styleUrls: ['./evidence-summary.page.less'],
+    standalone: false
 })
 export class EvidenceSummaryPage {
   @Input() evidenceId: Maybe<number>

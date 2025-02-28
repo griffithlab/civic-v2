@@ -26,9 +26,10 @@ const BaseSelectMixin = mixin(
   >()
 )
 @Component({
-  selector: 'cvc-base-select',
-  templateUrl: './select.type.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-base-select',
+    templateUrl: './select.type.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcBaseSelectField
   extends BaseSelectMixin

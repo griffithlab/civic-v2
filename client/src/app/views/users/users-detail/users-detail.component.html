@@ -129,7 +129,7 @@
                 </nz-descriptions-item>
               </nz-descriptions>
             </div>
-            <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+            <ng-container *ngIf="ownProfile$ | ngrxPush">
               <button
                 *nzSpaceItem
                 nz-button
@@ -252,12 +252,12 @@
                   Editor Conflict of Interest Statement
                 </ng-template>
                 <ng-template #updateCoi>
-                  <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+                  <ng-container *ngIf="ownProfile$ | ngrxPush">
                     <button
                       nz-button
                       nzType="primary"
                       nzSize="small"
-                      (click)="this.updateCoiModalVisible = true">
+                      (click)="updateCoiModalVisible = true">
                       Update COI
                     </button>
                   </ng-container>
@@ -391,26 +391,26 @@
     </nz-page-header-content>
   </nz-page-header>
   <nz-modal
-    [(nzVisible)]="this.updateProfileModalVisible"
+    [(nzVisible)]="updateProfileModalVisible"
     [nzContent]="profileModalContent"
     [nzTitle]="profileModalTitle"
     [nzFooter]="null"
-    (nzOnCancel)="this.handleProfileModalCancel()">
+    (nzOnCancel)="handleProfileModalCancel()">
     <ng-template #profileModalTitle><span>Edit Profile</span></ng-template>
     <ng-template #profileModalContent>
       <cvc-user-profile-form
         [user]="user"
-        (profileUpdatedEvent)="this.profileUpdated()"></cvc-user-profile-form>
+        (profileUpdatedEvent)="profileUpdated()"></cvc-user-profile-form>
     </ng-template>
   </nz-modal>
 </ng-container>
 
 <nz-modal
-  [(nzVisible)]="this.manageApiKeysModalVisible"
+  [(nzVisible)]="manageApiKeysModalVisible"
   [nzContent]="apiKeysModalContent"
   [nzTitle]="apiKeysModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.manageApiKeysModalVisible = false">
+  (nzOnCancel)="manageApiKeysModalVisible = false">
   <ng-template #apiKeysModalTitle><span>Manage API Keys</span></ng-template>
   <ng-template #apiKeysModalContent>
     <cvc-user-api-keys-form></cvc-user-api-keys-form>
@@ -418,16 +418,16 @@
 </nz-modal>
 
 <nz-modal
-  [(nzVisible)]="this.updateCoiModalVisible"
+  [(nzVisible)]="updateCoiModalVisible"
   [nzContent]="coiModalContent"
   [nzTitle]="coiModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.handleCoiModalCancel()">
+  (nzOnCancel)="handleCoiModalCancel()">
   <ng-template #coiModalTitle
     ><span>Update your Conflict of Interest Statement</span></ng-template
   >
   <ng-template #coiModalContent>
     <cvc-user-coi-form
-      (coiUpdatedEvent)="this.coiUpdated()"></cvc-user-coi-form>
+      (coiUpdatedEvent)="coiUpdated()"></cvc-user-coi-form>
   </ng-template>
 </nz-modal>

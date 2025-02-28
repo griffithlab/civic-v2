@@ -27,10 +27,11 @@ export interface TitleSegment {
 }
 
 @Component({
-  selector: 'cvc-section-navigation',
-  templateUrl: './section-navigation.component.html',
-  styleUrls: ['./section-navigation.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-section-navigation',
+    templateUrl: './section-navigation.component.html',
+    styleUrls: ['./section-navigation.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>

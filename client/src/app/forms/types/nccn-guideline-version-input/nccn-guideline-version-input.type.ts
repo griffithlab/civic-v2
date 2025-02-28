@@ -28,15 +28,16 @@ const NccnGuidelineVersionMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-nccn-guideline-version-input',
-  template: `
+    selector: 'cvc-nccn-guideline-version-input',
+    template: `
     <input
       nz-input
       placeholder="ex: 1.2023"
       [formControl]="formControl"
       [formlyAttributes]="field" />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcNccnGuidelineVersionField extends NccnGuidelineVersionMixin implements AfterViewInit {
   defaultDescription = "Please enter the version of the NCCN guideline you're referencing in the format <strong>Version.Year</strong>"

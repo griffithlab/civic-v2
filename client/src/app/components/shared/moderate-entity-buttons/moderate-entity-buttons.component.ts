@@ -31,10 +31,11 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-moderate-entity-buttons',
-  templateUrl: './moderate-entity-buttons.component.html',
-  styleUrls: ['./moderate-entity-buttons.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-moderate-entity-buttons',
+    templateUrl: './moderate-entity-buttons.component.html',
+    styleUrls: ['./moderate-entity-buttons.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcModerateEntityButtonsComponent implements OnInit, OnChanges {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'

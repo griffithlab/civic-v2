@@ -52,9 +52,10 @@ interface Checked {
 }
 
 @Component({
-  selector: 'cvc-users-notifications',
-  templateUrl: './users-notifications.component.html',
-  styleUrls: ['./users-notifications.component.less'],
+    selector: 'cvc-users-notifications',
+    templateUrl: './users-notifications.component.html',
+    styleUrls: ['./users-notifications.component.less'],
+    standalone: false
 })
 export class UsersNotificationsComponent {
   userId: number

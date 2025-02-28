@@ -48,19 +48,18 @@ export type FeatureIdWithCreationStatus = {
 
 @UntilDestroy()
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CvcFormSubmissionStatusDisplayModule,
-    LetDirective,
-    PushPipe,
-    FormlyModule,
-    NzGridModule,
-  ],
-  selector: 'cvc-feature-quick-add-form',
-  templateUrl: './feature-quick-add.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        CvcFormSubmissionStatusDisplayModule,
+        LetDirective,
+        PushPipe,
+        FormlyModule,
+        NzGridModule,
+    ],
+    selector: 'cvc-feature-quick-add-form',
+    templateUrl: './feature-quick-add.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcFeatureQuickAddForm implements OnChanges {
   @Input()

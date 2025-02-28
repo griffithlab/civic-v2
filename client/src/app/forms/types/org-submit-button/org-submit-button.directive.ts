@@ -10,7 +10,8 @@ export interface ButtonMutation {
 }
 @UntilDestroy()
 @Directive({
-  selector: 'button[cvcOrgSubmitButton]',
+    selector: 'button[cvcOrgSubmitButton]',
+    standalone: false
 })
 export class CvcOrgSubmitButtonDirective implements AfterViewInit, OnDestroy {
   @Output()

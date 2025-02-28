@@ -26,10 +26,11 @@ const BaseCheckboxMixin = mixin(
   BaseFieldType<FieldTypeConfig<CvcBaseCheckboxFieldProps>, Maybe<boolean>>()
 )
 @Component({
-  selector: 'cvc-checkbox',
-  templateUrl: './checkbox.type.html',
-  styleUrls: ['./checkbox.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-checkbox',
+    templateUrl: './checkbox.type.html',
+    styleUrls: ['./checkbox.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcBaseCheckboxField
   extends BaseCheckboxMixin
