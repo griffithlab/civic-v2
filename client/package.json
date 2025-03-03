@@ -38,7 +38,7 @@
     "@ngx-formly/core": "^6.3.12",
     "@ngx-formly/ng-zorro-antd": "^6.3.12",
     "apollo-angular": "^10.0.3",
-    "ng-zorro-antd": "18.0.1",
+    "ng-zorro-antd": "19.1.0",
     "ngx-cookie-service": "19.1.2",
     "ngx-ui-scroll": "3.2.0",
     "rxjs": "^7.8.1",
