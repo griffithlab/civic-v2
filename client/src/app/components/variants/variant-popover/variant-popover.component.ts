@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  AfterViewChecked,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core'
 import {
   Maybe,
   VariantPopoverFieldsFragment,
@@ -6,18 +13,20 @@ import {
 } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, map } from 'rxjs/operators'
+import { filter, finalize, map } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-variant-popover',
-    templateUrl: './variant-popover.component.html',
-    styleUrls: ['./variant-popover.component.less'],
-    standalone: false
+  selector: 'cvc-variant-popover',
+  templateUrl: './variant-popover.component.html',
+  styleUrls: ['./variant-popover.component.less'],
+  standalone: false,
 })
-export class CvcVariantPopoverComponent implements OnInit {
+export class CvcVariantPopoverComponent implements OnInit, AfterViewChecked {
   @Input() variantId!: number
+  @Output() contentRendered = new EventEmitter<void>()
 
   variant$?: Observable<Maybe<VariantPopoverFieldsFragment>>
+  queryFinished = false
 
   constructor(private gql: VariantPopoverGQL) {}
 
@@ -28,11 +37,18 @@ export class CvcVariantPopoverComponent implements OnInit {
       )
     }
 
-    this.variant$ = this.gql
-      .watch({ variantId: this.variantId })
-      .valueChanges.pipe(
-        map(({ data }) => data?.variant),
-        filter(isNonNulled)
-      )
+    this.variant$ = this.gql.fetch({ variantId: this.variantId }).pipe(
+      map(({ data }) => data?.variant),
+      filter(isNonNulled),
+      finalize(() => {
+        this.queryFinished = true
+      })
+    )
+  }
+
+  ngAfterViewChecked() {
+    if (this.queryFinished) {
+      this.contentRendered.emit()
+    }
   }
 }

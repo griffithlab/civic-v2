@@ -13,7 +13,9 @@
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
-    <cvc-variant-popover [variantId]="variant.id"></cvc-variant-popover>
+    <cvc-variant-popover
+      [variantId]="variant.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-variant-popover>
   </ng-template>
 </ng-template>
 
