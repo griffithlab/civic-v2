@@ -1,7 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  QueryList,
+  ViewChildren,
+} from '@angular/core'
 
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableEvidence {
   id: number
@@ -12,12 +20,13 @@ export interface LinkableEvidence {
 }
 
 @Component({
-    selector: 'cvc-evidence-tag',
-    templateUrl: './evidence-tag.component.html',
-    styleUrls: ['./evidence-tag.component.less'],
-    standalone: false
+  selector: 'cvc-evidence-tag',
+  templateUrl: './evidence-tag.component.html',
+  styleUrls: ['./evidence-tag.component.less'],
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceTagComponent {
+export class CvcEvidenceTagComponent implements AfterViewInit {
   _evidence!: LinkableEvidence
   @Input()
   set evidence(eid: LinkableEvidence) {
@@ -35,6 +44,8 @@ export class CvcEvidenceTagComponent {
   @Input() linked?: boolean = true
   @Input() enablePopover?: boolean = true
 
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
   iconColor: string
 
   constructor() {
@@ -43,5 +54,18 @@ export class CvcEvidenceTagComponent {
 
   idFunction() {
     return this.evidence.id
+  }
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    } else {
+      console.warn('cvc-variant-tag: no NzPopoverDirective found in view')
+    }
   }
 }
