@@ -51,11 +51,11 @@
   padding: @padding-sm;
   border-bottom: 1px solid @border-color-split;
 }
+
+// global default max dimensions for all popover contents.
+// individual popover minumum dimensions are set in the entity-specific .less files.
 #popover-content {
-  // need to specify a width to popover content or else it won't be able to
-  // correctly calculate its display position
-  min-width: 350px;
   max-width: 500px;
-  // also height for right or left-positioned popovers
-  min-height: 125px;
+  max-height: 700px;
+  overflow: auto;
 }

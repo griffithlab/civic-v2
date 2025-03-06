@@ -4,6 +4,8 @@ import {
   Component,
   Input,
   QueryList,
+  signal,
+  WritableSignal,
   ViewChildren,
 } from '@angular/core'
 
@@ -33,6 +35,7 @@ export class CvcVariantTagComponent implements AfterViewInit {
   @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
   popover: NzPopoverDirective | undefined
   iconColor: string
+  loading: WritableSignal<boolean> = signal(true)
 
   constructor() {
     this.iconColor = getEntityColor('Variant')
@@ -45,6 +48,7 @@ export class CvcVariantTagComponent implements AfterViewInit {
   updatePopoverPosition() {
     if (this.popover) {
       this.popover.updatePosition()
+      this.loading.set(false)
     }
   }
 

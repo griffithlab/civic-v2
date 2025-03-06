@@ -4,10 +4,13 @@ import {
   Component,
   Input,
   QueryList,
+  signal,
   ViewChildren,
+  WritableSignal,
 } from '@angular/core'
 
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
@@ -41,8 +44,9 @@ export class CvcEvidenceTagComponent implements AfterViewInit {
     return this._evidence
   }
 
-  @Input() linked?: boolean = true
-  @Input() enablePopover?: boolean = true
+  @Input() linked: boolean = true
+  @Input() enablePopover: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
 
   @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
   popover: NzPopoverDirective | undefined
@@ -65,7 +69,7 @@ export class CvcEvidenceTagComponent implements AfterViewInit {
     if (this.popoverList.length > 0) {
       this.popover = this.popoverList.first
     } else {
-      console.warn('cvc-variant-tag: no NzPopoverDirective found in view')
+      console.warn('NzPopoverDirective not found in tag view')
     }
   }
 }

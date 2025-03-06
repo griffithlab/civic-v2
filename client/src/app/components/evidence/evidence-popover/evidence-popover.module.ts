@@ -18,6 +18,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
+import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -41,6 +43,8 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcStatusTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
+    CvcEmptyValueModule,
+    NzSpinModule,
   ],
   exports: [CvcEvidencePopoverComponent],
 })

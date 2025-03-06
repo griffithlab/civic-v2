@@ -1,5 +1,6 @@
 <div id="popover-content">
-  <ng-container *ngIf="evidence$ | ngrxPush as evidence">
+  @let evidence = evidence$ | async;
+  @if (evidence) {
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
@@ -33,7 +34,13 @@
         nzSize="small"
         [nzColumn]="1">
         <nz-descriptions-item nzTitle="Evidence Statement">
-          {{ evidence.description }}
+          @if (evidence.description) {
+            <div class="long-text">
+              {{ evidence.description }}
+            </div>
+          } @else {
+            <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+          }
         </nz-descriptions-item>
       </nz-descriptions>
       <nz-descriptions
@@ -167,9 +174,5 @@
         </nz-col>
       </nz-row>
     </nz-card>
-  </ng-container>
+  }
 </div>
-
-<ng-template #noDescription>
-  Evidence item has not been provided a description.
-</ng-template>

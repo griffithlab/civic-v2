@@ -29,6 +29,21 @@ export type LinkableEntity = {
   tooltip?: string
 }
 
+export type PopoverPlacement =
+  | 'top'
+  | 'left'
+  | 'right'
+  | 'bottom'
+  | 'topLeft'
+  | 'topRight'
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'leftTop'
+  | 'leftBottom'
+  | 'rightTop'
+  | 'rightBottom'
+  | Array<string>
+
 export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
   entity: any
 ): entity is LinkableEntity =>
@@ -55,33 +70,33 @@ export type CvcTagLabelMax =
 export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
 
 @Component({
-    selector: 'cvc-entity-tag',
-    templateUrl: './entity-tag.component.html',
-    styleUrls: ['./entity-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        '[class.full-width]': `cvcFullWidth === true`,
-        '[class.label-max]': `cvcTruncateLabel !== undefined`,
-        '[class.label-max-50]': `cvcTruncateLabel === '50px'`,
-        '[class.label-max-75]': `cvcTruncateLabel === '75px'`,
-        '[class.label-max-100]': `cvcTruncateLabel === '100px'`,
-        '[class.label-max-125]': `cvcTruncateLabel === '125px'`,
-        '[class.label-max-150]': `cvcTruncateLabel === '150px'`,
-        '[class.label-max-175]': `cvcTruncateLabel === '175px'`,
-        '[class.label-max-200]': `cvcTruncateLabel === '200px'`,
-        '[class.label-max-250]': `cvcTruncateLabel === '250px'`,
-        '[class.label-max-300]': `cvcTruncateLabel === '300px'`,
-        '[class.label-max-350]': `cvcTruncateLabel === '350px'`,
-        '[class.label-max-400]': `cvcTruncateLabel === '400px'`,
-        '[class.label-max-450]': `cvcTruncateLabel === '450px'`,
-        '[class.label-max-500]': `cvcTruncateLabel === '500px'`,
-        '[class.rejected]': `cvcStatus === 'REJECTED'`,
-        '[class.accepted]': `cvcStatus === 'ACCEPTED'`,
-        '[class.submitted]': `cvcStatus === 'SUBMITTED'`,
-        '[class.new]': `cvcStatus === 'NEW'`,
-        '[class.superseded]': `cvcStatus === 'SUPERSEDED'`,
-    },
-    standalone: false
+  selector: 'cvc-entity-tag',
+  templateUrl: './entity-tag.component.html',
+  styleUrls: ['./entity-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.full-width]': `cvcFullWidth === true`,
+    '[class.label-max]': `cvcTruncateLabel !== undefined`,
+    '[class.label-max-50]': `cvcTruncateLabel === '50px'`,
+    '[class.label-max-75]': `cvcTruncateLabel === '75px'`,
+    '[class.label-max-100]': `cvcTruncateLabel === '100px'`,
+    '[class.label-max-125]': `cvcTruncateLabel === '125px'`,
+    '[class.label-max-150]': `cvcTruncateLabel === '150px'`,
+    '[class.label-max-175]': `cvcTruncateLabel === '175px'`,
+    '[class.label-max-200]': `cvcTruncateLabel === '200px'`,
+    '[class.label-max-250]': `cvcTruncateLabel === '250px'`,
+    '[class.label-max-300]': `cvcTruncateLabel === '300px'`,
+    '[class.label-max-350]': `cvcTruncateLabel === '350px'`,
+    '[class.label-max-400]': `cvcTruncateLabel === '400px'`,
+    '[class.label-max-450]': `cvcTruncateLabel === '450px'`,
+    '[class.label-max-500]': `cvcTruncateLabel === '500px'`,
+    '[class.rejected]': `cvcStatus === 'REJECTED'`,
+    '[class.accepted]': `cvcStatus === 'ACCEPTED'`,
+    '[class.submitted]': `cvcStatus === 'SUBMITTED'`,
+    '[class.new]': `cvcStatus === 'NEW'`,
+    '[class.superseded]': `cvcStatus === 'SUPERSEDED'`,
+  },
+  standalone: false,
 })
 export class CvcEntityTagComponent implements OnChanges {
   @Input()

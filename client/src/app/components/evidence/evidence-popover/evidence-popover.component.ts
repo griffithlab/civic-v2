@@ -11,8 +11,8 @@ import {
   EvidencePopoverGQL,
   Maybe,
 } from '@app/generated/civic.apollo'
-import { map, filter, finalize } from 'rxjs/operators'
-import { Observable } from 'rxjs'
+import { map, filter, finalize, tap, take, delay } from 'rxjs/operators'
+import { Observable, Subject } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 
 @Component({
@@ -27,9 +27,19 @@ export class CvcEvidencePopoverComponent implements OnInit {
   @Output() contentRendered = new EventEmitter<void>()
 
   evidence$?: Observable<Maybe<EvidencePopoverFragment>>
+  updatePosition$ = new Subject<void>()
   queryFinished = false
 
-  constructor(private gql: EvidencePopoverGQL) {}
+  constructor(private gql: EvidencePopoverGQL) {
+    this.updatePosition$
+      .pipe(
+        take(3), // popover content settles after 2-3 updates
+        tap(() => {
+          this.contentRendered.emit()
+        })
+      )
+      .subscribe()
+  }
 
   ngOnInit() {
     if (this.evidenceId == undefined) {
@@ -39,6 +49,7 @@ export class CvcEvidencePopoverComponent implements OnInit {
     this.evidence$ = this.gql.fetch({ evidenceId: this.evidenceId }).pipe(
       map(({ data }) => data?.evidenceItem),
       filter(isNonNulled),
+      // delay(2000), // pause for testing
       finalize(() => {
         this.queryFinished = true
       })
@@ -47,7 +58,7 @@ export class CvcEvidencePopoverComponent implements OnInit {
 
   ngAfterViewChecked() {
     if (this.queryFinished) {
-      this.contentRendered.emit()
+      this.updatePosition$.next()
     }
   }
 }
