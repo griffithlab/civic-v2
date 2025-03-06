@@ -1,11 +1,16 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
+  QueryList,
   SimpleChanges,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core'
 import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
 import {
@@ -20,6 +25,7 @@ import {
   EntityTagTypeWithPopover,
   ENTITY_TAG_TYPES_WITH_POPOVER,
 } from '../entity-tag-popover/entity-tag-popover.component'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export type LinkableEntity = {
   __typename: string
@@ -98,7 +104,7 @@ export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
   },
   standalone: false,
 })
-export class CvcEntityTagComponent implements OnChanges {
+export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   @Input()
   set cvcLinkableEntity(entity: Maybe<LinkableEntity>) {
     if (!entity) return
@@ -121,10 +127,16 @@ export class CvcEntityTagComponent implements OnChanges {
   @Input() cvcShowPopover: boolean = false
   @Input() cvcShowIcon: boolean = true
   @Input() cvcTruncateLabel?: CvcTagLabelMax
+  @Input() cvcPopoverPlacement: PopoverPlacement = 'top'
 
   @Output() cvcTagCheckedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
   @Output() cvcOnClose: EventEmitter<MouseEvent>
+
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
+
+  @ViewChild('defaultTag') popoverOrigin!: ElementRef
 
   typename?: string
   id?: number
@@ -211,6 +223,11 @@ export class CvcEntityTagComponent implements OnChanges {
     }
   }
 
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
   // ngOnChanges(changes: SimpleChanges): void {
   ngOnChanges(changes: SimpleChanges): void {
     // disable link for checkable mode
@@ -226,6 +243,14 @@ export class CvcEntityTagComponent implements OnChanges {
       if (context !== 'default') {
         this.cvcDisableLink = true
       }
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    } else {
+      console.warn('NzPopoverDirective not found in entity-tag view')
     }
   }
 }
