@@ -136,8 +136,6 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
   popover: NzPopoverDirective | undefined
 
-  @ViewChild('defaultTag') popoverOrigin!: ElementRef
-
   typename?: string
   id?: number
   entity?: LinkableEntity

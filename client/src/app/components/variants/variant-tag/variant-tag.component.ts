@@ -10,6 +10,7 @@ import {
 } from '@angular/core'
 
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableVariant {
@@ -31,6 +32,7 @@ export class CvcVariantTagComponent implements AfterViewInit {
   @Input() enablePopover?: boolean = true
   @Input() truncateLongName?: boolean = false
   @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
 
   @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
   popover: NzPopoverDirective | undefined

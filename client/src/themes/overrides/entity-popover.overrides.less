@@ -54,8 +54,20 @@
 
 // global default max dimensions for all popover contents.
 // individual popover minumum dimensions are set in the entity-specific .less files.
+// See note below for how min-width/heights are specified.
 #popover-content {
   max-width: 500px;
   max-height: 700px;
   overflow: auto;
 }
+// NOTE: min-width/heights are specified in the styles for
+// each individual popover component. The minimum dimensions of the popover
+// before it is resized after content is loaded. The initial
+// placement algorithm will use those dimensions to determine
+// the best initial placement for the popover.
+// So these should be set as close to the average popover size
+// for this entity,without going over its smallest size (given
+// the various ways it might be rendered). If there's a big
+// difference between these estimates and the final rendered
+// size, there will be brief flickering as the popover is resized
+// or (worse) repositioned.

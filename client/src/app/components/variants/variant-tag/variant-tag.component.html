@@ -9,6 +9,7 @@
     nz-popover
     [ngClass]="{ deprecated: variant.deprecated }"
     [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverPlacement]="popoverPlacement"
     [nzPopoverContent]="enablePopover ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>

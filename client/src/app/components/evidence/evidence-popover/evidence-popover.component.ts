@@ -49,7 +49,6 @@ export class CvcEvidencePopoverComponent implements OnInit {
     this.evidence$ = this.gql.fetch({ evidenceId: this.evidenceId }).pipe(
       map(({ data }) => data?.evidenceItem),
       filter(isNonNulled),
-      // delay(2000), // pause for testing
       finalize(() => {
         this.queryFinished = true
       })

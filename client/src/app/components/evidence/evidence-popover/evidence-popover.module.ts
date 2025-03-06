@@ -20,6 +20,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -44,6 +45,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin'
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
     CvcEmptyValueModule,
+    CvcEntityChildCounts,
     NzSpinModule,
   ],
   exports: [CvcEvidencePopoverComponent],
