@@ -14,10 +14,11 @@ export interface LinkablePhenotype {
 }
 
 @Component({
-  selector: 'cvc-phenotype-tag',
-  templateUrl: './phenotype-tag.component.html',
-  styleUrls: ['./phenotype-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-phenotype-tag',
+    templateUrl: './phenotype-tag.component.html',
+    styleUrls: ['./phenotype-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcPhenotypeTagComponent {
   _phenotype!: LinkablePhenotype

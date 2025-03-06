@@ -12,9 +12,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-form-submission-status-display',
-  templateUrl: './form-submission-status-display.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-form-submission-status-display',
+    templateUrl: './form-submission-status-display.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFormSubmissionStatusDisplayComponent implements OnInit {
   private _mutationState?: MutationState

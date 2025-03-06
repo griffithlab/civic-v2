@@ -19,9 +19,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 @UntilDestroy()
 @Component({
-  selector: 'users-detail',
-  templateUrl: './users-detail.component.html',
-  styleUrls: ['./users-detail.component.less'],
+    selector: 'users-detail',
+    templateUrl: './users-detail.component.html',
+    styleUrls: ['./users-detail.component.less'],
+    standalone: false
 })
 export class UsersDetailComponent implements OnDestroy {
   queryRef?: QueryRef<UserDetailQuery, UserDetailQueryVariables>
@@ -35,7 +36,7 @@ export class UsersDetailComponent implements OnDestroy {
 
   updateCoiModalVisible = false
   updateProfileModalVisible = false
-
+  manageApiKeysModalVisible = false
   routeSub: Subscription
   viewerSub?: Subscription
 

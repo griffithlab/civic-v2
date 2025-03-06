@@ -13,24 +13,22 @@ import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
-  standalone: true,
-  selector: 'cvc-gene-base-summary',
-  templateUrl: './gene-base-summary.page.html',
-  styleUrls: ['./gene-base-summary.page.less'],
-  imports: [
-    CommonModule,
-    NzGridModule,
-    NzDescriptionsModule,
-    NzTypographyModule,
-    NzSpaceModule,
-    NzTagModule,
-
-    CvcEmptyRevisableModule,
-    CvcTagListModule,
-    CvcSourceTagModule,
-    CvcLinkTagModule,
-    CvcPipesModule,
-  ],
+    selector: 'cvc-gene-base-summary',
+    templateUrl: './gene-base-summary.page.html',
+    styleUrls: ['./gene-base-summary.page.less'],
+    imports: [
+        CommonModule,
+        NzGridModule,
+        NzDescriptionsModule,
+        NzTypographyModule,
+        NzSpaceModule,
+        NzTagModule,
+        CvcEmptyRevisableModule,
+        CvcTagListModule,
+        CvcSourceTagModule,
+        CvcLinkTagModule,
+        CvcPipesModule,
+    ]
 })
 export class CvcGeneBaseSummaryComponent {
   @Input() gene?: GeneBaseFieldsFragment

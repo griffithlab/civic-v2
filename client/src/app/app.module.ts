@@ -18,12 +18,12 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n'
 import { en_US } from 'ng-zorro-antd/i18n'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { GraphQLModule } from '@app/graphql/graphql.module'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module'
 import { Observable } from 'rxjs'
 import { AppErrorHandler } from './core/utilities/app-error-handler'
 import { CvcForms2Module } from '@app/forms/forms.module'
+import { graphqlProvider } from './graphql/graphql.module'
 
 registerLocaleData(en)
 
@@ -38,7 +38,6 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    GraphQLModule,
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
     CvcForms2Module,
@@ -47,6 +46,7 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
     CvcNetworkErrorAlertModule,
   ],
   providers: [
+    graphqlProvider,
     {
       provide: ErrorHandler,
       useClass: AppErrorHandler,

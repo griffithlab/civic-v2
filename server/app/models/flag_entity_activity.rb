@@ -1,5 +1,4 @@
 class FlagEntityActivity < Activity
-
   has_one_linked :flag
 
   def flaggable
@@ -7,6 +6,6 @@ class FlagEntityActivity < Activity
   end
 
   def generate_verbiage
-    'flagged'
+    "flagged"
   end
 end

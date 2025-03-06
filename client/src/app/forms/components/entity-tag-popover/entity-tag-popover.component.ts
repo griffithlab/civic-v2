@@ -19,9 +19,10 @@ export type EntityTagPopoverInput = {
 }
 
 @Component({
-  selector: 'cvc-entity-tag-popover',
-  templateUrl: './entity-tag-popover.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-entity-tag-popover',
+    templateUrl: './entity-tag-popover.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcEntityTagPopoverComponent implements OnInit {
   @Input() entity!: EntityTagPopoverInput

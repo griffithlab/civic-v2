@@ -4,12 +4,11 @@ import { DeprecateComplexMolecularProfileActivityDetailFragment } from '@app/gen
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
-  selector: 'cvc-deprecate-mp-activity-details',
-  standalone: true,
-  imports: [CvcCommentBodyModule, NzTypographyModule],
-  templateUrl: './deprecate-mp-activity.component.html',
-  styleUrl: './deprecate-mp-activity.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-deprecate-mp-activity-details',
+    imports: [CvcCommentBodyModule, NzTypographyModule],
+    templateUrl: './deprecate-mp-activity.component.html',
+    styleUrl: './deprecate-mp-activity.component.less',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcDeprecateMpActivity {
   activity =

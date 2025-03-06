@@ -1,4 +1,4 @@
-#TODO remove 
+# TODO remove
 class SuggestedChange < ActiveRecord::Base; end
 
 class MakeEventColumnsNonNullable < ActiveRecord::Migration[6.1]
@@ -10,7 +10,7 @@ class MakeEventColumnsNonNullable < ActiveRecord::Migration[6.1]
           e.unlinkable = true
         else
           case e.action
-          when 'flagged','flag resolved'
+          when 'flagged', 'flag resolved'
             e.originating_object = Flag.find(e.state_params['flag']['id'])
           when 'commented'
             e.originating_object = Comment.find(e.state_params['comment']['id'])

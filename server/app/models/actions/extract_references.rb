@@ -1,4 +1,4 @@
-require 'set'
+require "set"
 
 module Actions
   class ExtractReferences
@@ -30,7 +30,7 @@ module Actions
                   tag_type: tag_type,
                   link: referenced_item.link,
                   revision_set_id: referenced_item.respond_to?(:revision_set_id) ? referenced_item.revision_set_id : nil,
-                  feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil
+                  feature: referenced_item.respond_to?(:feature) ? referenced_item.feature : nil,
                 }
                 if referenced_item.respond_to?(:deprecated)
                   val[:deprecated] = referenced_item.deprecated
@@ -95,20 +95,20 @@ module Actions
 
     def self.extract_type(type)
       case type.upcase
-      when 'V'
-        [Variant, 'VARIANT']
-      when 'F'
-        [Feature, 'FEATURE']
-      when 'VG'
-        [VariantGroup, 'VARIANT_GROUP']
-      when 'E'
-        [EvidenceItem, 'EVIDENCE_ITEM']
-      when 'R'
-        [Revision, 'REVISION']
-      when 'A'
-        [Assertion, 'ASSERTION']
-      when 'MP'
-        [MolecularProfile, 'MOLECULAR_PROFILE']
+      when "V"
+        [ Variant, "VARIANT" ]
+      when "F"
+        [ Feature, "FEATURE" ]
+      when "VG"
+        [ VariantGroup, "VARIANT_GROUP" ]
+      when "E"
+        [ EvidenceItem, "EVIDENCE_ITEM" ]
+      when "R"
+        [ Revision, "REVISION" ]
+      when "A"
+        [ Assertion, "ASSERTION" ]
+      when "MP"
+        [ MolecularProfile, "MOLECULAR_PROFILE" ]
       end
     end
 

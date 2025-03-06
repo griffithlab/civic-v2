@@ -20,9 +20,10 @@ import { Observable, Subject } from 'rxjs'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-flag-add-form',
-  templateUrl: './flag-add.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-flag-add-form',
+    templateUrl: './flag-add.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFlagAddForm implements OnInit {
   @Input() flaggable!: FlaggableInput

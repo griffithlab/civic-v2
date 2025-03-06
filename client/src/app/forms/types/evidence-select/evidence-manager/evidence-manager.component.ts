@@ -74,10 +74,11 @@ export type EvidenceManagerSettings = {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-evidence-manager',
-  templateUrl: './evidence-manager.component.html',
-  styleUrls: ['./evidence-manager.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-evidence-manager',
+    templateUrl: './evidence-manager.component.html',
+    styleUrls: ['./evidence-manager.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcEvidenceManagerComponent implements OnChanges, AfterViewInit {
   @Input() cvcTableSettings?: EvidenceManagerSettings

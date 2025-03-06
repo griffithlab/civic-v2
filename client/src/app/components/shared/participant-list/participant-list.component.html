@@ -6,7 +6,7 @@
     <nz-list>
       <ng-container *ngFor="let u of participantList; let i = index">
         <nz-list-item
-          *ngIf="i + 1 <= this.defaultListSize"
+          *ngIf="i + 1 <= defaultListSize"
           nzSize="small"
           [class.selected-participant]="u.id == selectedItem?.id"
           (click)="onParticipantSelected(u)"
@@ -19,7 +19,7 @@
       </ng-container>
     </nz-list>
     <button
-      *ngIf="participantList.length > this.defaultListSize"
+      *ngIf="participantList.length > defaultListSize"
       nz-button
       nzType="default"
       nzSize="small"
@@ -30,7 +30,7 @@
       Expand
     </button>
     <button
-      *ngIf="this.isExpanded"
+      *ngIf="isExpanded"
       nz-button
       nzType="default"
       nzSize="small"

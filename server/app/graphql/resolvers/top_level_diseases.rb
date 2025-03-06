@@ -1,5 +1,5 @@
-require 'search_object'
-require 'search_object/plugin/graphql'
+require "search_object"
+require "search_object/plugin/graphql"
 
 class Resolvers::TopLevelDiseases < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
@@ -18,12 +18,12 @@ class Resolvers::TopLevelDiseases < GraphQL::Schema::Resolver
   end
 
   option(:name, type: String) do |scope, value|
-    scope.where('name ILIKE ?', "%#{value}%")
+    scope.where("name ILIKE ?", "%#{value}%")
   end
 
   option(:doid, type: String) do |scope, value|
-    if value.upcase.starts_with?('DOID:')
-      scope.where(doid: value.upcase.gsub('DOID:',''))
+    if value.upcase.starts_with?("DOID:")
+      scope.where(doid: value.upcase.gsub("DOID:", ""))
     else
       scope.where(doid: value)
     end

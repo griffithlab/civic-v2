@@ -1,9 +1,9 @@
 class Mutations::DeprecateComplexMolecularProfile < Mutations::MutationWithOrg
-  description 'Deprecate a complex molecular profile to prevent it from being used in the future.'
+  description "Deprecate a complex molecular profile to prevent it from being used in the future."
 
   argument :molecular_profile_id, Int,
     required: true,
-    description: 'The CIViC ID of the complex molecular profile to deprecate.'
+    description: "The CIViC ID of the complex molecular profile to deprecate."
 
   argument :deprecation_reason, Types::MolecularProfileDeprecationReasonMutationInputType,
     required: true,
@@ -11,10 +11,10 @@ class Mutations::DeprecateComplexMolecularProfile < Mutations::MutationWithOrg
 
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text giving more context for deprecating this complex molecular profile.'
+    description: "Text giving more context for deprecating this complex molecular profile."
 
   field :molecular_profile, Types::Entities::MolecularProfileType, null: true,
-    description: 'The deprecated complex Molecular Profile.'
+    description: "The deprecated complex Molecular Profile."
 
   attr_reader :molecular_profile
 
@@ -48,7 +48,7 @@ class Mutations::DeprecateComplexMolecularProfile < Mutations::MutationWithOrg
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
     if !Role.user_is_at_least_a?(current_user, :editor)
-      raise GraphQL::ExecutionError, 'User must be an editor in order to deprecate Molecular Profiles.'
+      raise GraphQL::ExecutionError, "User must be an editor in order to deprecate Molecular Profiles."
     end
 
     return true
@@ -70,7 +70,7 @@ class Mutations::DeprecateComplexMolecularProfile < Mutations::MutationWithOrg
         molecular_profile: molecular_profile,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

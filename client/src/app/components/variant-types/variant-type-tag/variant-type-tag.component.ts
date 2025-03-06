@@ -15,10 +15,11 @@ export interface LinkableVariantType {
 }
 
 @Component({
-  selector: 'cvc-variant-type-tag',
-  templateUrl: './variant-type-tag.component.html',
-  styleUrls: ['./variant-type-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-variant-type-tag',
+    templateUrl: './variant-type-tag.component.html',
+    styleUrls: ['./variant-type-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcVariantTypeTagComponent {
   _variantType!: LinkableVariantType

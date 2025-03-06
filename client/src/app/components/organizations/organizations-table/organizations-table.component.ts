@@ -44,9 +44,10 @@ export interface OrganizationsTableFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-organizations-table',
-  templateUrl: './organizations-table.component.html',
-  styleUrls: ['./organizations-table.component.less'],
+    selector: 'cvc-organizations-table',
+    templateUrl: './organizations-table.component.html',
+    styleUrls: ['./organizations-table.component.less'],
+    standalone: false
 })
 export class CvcOrganizationsTableComponent implements OnInit {
   @Input() cvcHeight?: number

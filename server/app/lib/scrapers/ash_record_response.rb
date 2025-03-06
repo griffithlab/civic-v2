@@ -10,29 +10,29 @@ module Scrapers
     end
 
     def citation
-      [first_author, year].join(', ')
+      [ first_author, year ].join(", ")
     end
 
     def first_author
       if authors.size == 0
         ""
       elsif authors.size > 1
-        authors.first[:last_name] + ' et al.'
+        authors.first[:last_name] + " et al."
       else
-        authors.first[:last_name] + ' et al.'
+        authors.first[:last_name] + " et al."
       end
     end
 
     def authors
-      @authors ||= meta_tags.xpath("//meta[@name='citation_author']").map { |tag| tag['content'] }
+      @authors ||= meta_tags.xpath("//meta[@name='citation_author']").map { |tag| tag["content"] }
         .each
         .with_index(1)
         .map do |author, i|
-          (last_name, fore_name) = author.split(', ')
+          (last_name, fore_name) = author.split(", ")
           {
             fore_name: fore_name,
             last_name: last_name,
-            author_position: i
+            author_position: i,
           }
         end
     end
@@ -42,19 +42,19 @@ module Scrapers
     end
 
     def publication_date
-      [day, month, year]
+      [ day, month, year ]
     end
 
     def day
-      date.split('/')[-1]
+      date.split("/")[-1]
     end
 
     def month
-      date.split('/')[1]
+      date.split("/")[1]
     end
 
     def year
-      date.split('/')[0]
+      date.split("/")[0]
     end
 
     def citation_id

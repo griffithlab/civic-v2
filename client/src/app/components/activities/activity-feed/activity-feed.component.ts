@@ -111,39 +111,38 @@ export const FEED_SCROLL_SERVICE_TOKEN =
   new InjectionToken<ScrollerStateService>('ActivityFeedScrollerState')
 @UntilDestroy()
 @Component({
-  selector: 'cvc-activity-feed',
-  templateUrl: './activity-feed.component.html',
-  styleUrl: './activity-feed.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    CommonModule,
-    UiScrollModule,
-    NzAlertModule,
-    NzCardModule,
-    NzGridModule,
-    NzSpaceModule,
-    NzTagModule,
-    NzSpinModule,
-    NzResultModule,
-    NzButtonModule,
-    NzIconModule,
-    CvcActivityFeedItem,
-    CvcAutoHeightDivModule,
-    CvcActivityFeedCounts,
-    CvcActivityFeedSettingsButton,
-    CvcActivityFeedFilterSelects,
-  ],
-  providers: [
-    {
-      provide: FEED_SCROLL_SERVICE_TOKEN,
-      useFactory: (zone: NgZone) => {
-        return new ScrollerStateService(zone)
-      },
-      deps: [NgZone],
-    },
-  ],
-  animations: [],
+    selector: 'cvc-activity-feed',
+    templateUrl: './activity-feed.component.html',
+    styleUrl: './activity-feed.component.less',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        UiScrollModule,
+        NzAlertModule,
+        NzCardModule,
+        NzGridModule,
+        NzSpaceModule,
+        NzTagModule,
+        NzSpinModule,
+        NzResultModule,
+        NzButtonModule,
+        NzIconModule,
+        CvcActivityFeedItem,
+        CvcAutoHeightDivModule,
+        CvcActivityFeedCounts,
+        CvcActivityFeedSettingsButton,
+        CvcActivityFeedFilterSelects,
+    ],
+    providers: [
+        {
+            provide: FEED_SCROLL_SERVICE_TOKEN,
+            useFactory: (zone: NgZone) => {
+                return new ScrollerStateService(zone);
+            },
+            deps: [NgZone],
+        },
+    ],
+    animations: []
 })
 export class CvcActivityFeed implements OnInit {
   // INPUTS

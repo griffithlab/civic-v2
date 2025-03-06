@@ -1,4 +1,4 @@
-Event.where(action: ['requeued source suggestion', 'curated source suggestion', 'rejected source suggestion'], activity_id: nil).find_each do |event|
+Event.where(action: [ 'requeued source suggestion', 'curated source suggestion', 'rejected source suggestion' ], activity_id: nil).find_each do |event|
   activity = UpdateSourceSuggestionStatusActivity.create(
     subject: event.subject,
     user_id: event.originating_user_id,
@@ -9,8 +9,7 @@ Event.where(action: ['requeued source suggestion', 'curated source suggestion', 
   event.activity_id = activity.id
   event.save!
 
-  activity.link_entities!([event.originating_object])
+  activity.link_entities!([ event.originating_object ])
   activity.verbiage = activity.generate_verbiage
   activity.save!
 end
-    

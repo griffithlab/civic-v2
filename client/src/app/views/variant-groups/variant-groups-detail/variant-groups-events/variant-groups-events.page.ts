@@ -6,9 +6,10 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-variant-groups-events',
-  templateUrl: './variant-groups-events.page.html',
-  styleUrls: ['./variant-groups-events.page.less'],
+    selector: 'cvc-variant-groups-events',
+    templateUrl: './variant-groups-events.page.html',
+    styleUrls: ['./variant-groups-events.page.less'],
+    standalone: false
 })
 export class VariantGroupsEventsPage {
   subscribable: SubscribableInput

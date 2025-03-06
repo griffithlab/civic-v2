@@ -1,19 +1,19 @@
 class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
-  description 'Create a new Fusion Variant in the database.'
+  description "Create a new Fusion Variant in the database."
 
   argument :coordinates, Types::Fusion::FusionVariantInputType, required: true
 
   argument :feature_id, Int, required: true,
-    description: 'The CIViC ID of the Feature to which the new variant belongs.'
+    description: "The CIViC ID of the Feature to which the new variant belongs."
 
   field :variant, Types::Interfaces::VariantInterface, null: false,
-    description: 'The newly created Variant.'
+    description: "The newly created Variant."
 
   field :molecular_profile, Types::Entities::MolecularProfileType, null: false,
     description: "The newly created molecular profile for the new variant."
 
   field :new, Boolean, null: false,
-    description: 'True if the variant was newly created. False if the returned variant was already in the database.'
+    description: "True if the variant was newly created. False if the returned variant was already in the database."
 
   def ready?(feature_id:, coordinates:, organization_id: nil, **kwargs)
     validate_user_logged_in
@@ -28,7 +28,7 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
 
       if !variant_coords.valid?
         errs = variant_coords.errors
-        #no variant is present yet, ignore this for now
+        # no variant is present yet, ignore this for now
         errs.delete(:variant)
         if errs.any?
           raise GraphQL::ExecutionError, "#{variant_coords.coordinate_type} is invalid: #{variant_coords.errors.full_messages.join("\n")}."
@@ -60,7 +60,7 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
       return {
         variant: existing_variant,
         new: false,
-        molecular_profile: existing_variant.single_variant_molecular_profile
+        molecular_profile: existing_variant.single_variant_molecular_profile,
       }
 
     else
@@ -80,10 +80,10 @@ class Mutations::CreateFusionVariant < Mutations::MutationWithOrg
         return {
           variant: res.variant,
           new: true,
-          molecular_profile: res.molecular_profile
+          molecular_profile: res.molecular_profile,
         }
       else
-        raise GraphQL::ExecutionError, res.errors.join(', ')
+        raise GraphQL::ExecutionError, res.errors.join(", ")
       end
     end
   end

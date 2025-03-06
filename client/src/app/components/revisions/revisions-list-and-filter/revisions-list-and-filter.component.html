@@ -7,7 +7,7 @@
           [revisions]="revisions$ | ngrxPush"
           (revisionSetSelectedEvent)="onRevisionSetSelected($event)"
           (revisionMutationCompleted)="refresh()"
-          [refetchQueries]="this.refetchQueries"
+          [refetchQueries]="refetchQueries"
           *nzSpaceItem></cvc-revision-list>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
           <ng-container
@@ -28,18 +28,18 @@
       <!-- TODO: Evaluate the need for this nz-space -->
       <nz-space
         nzDirection="vertical"
-        *ngIf="this.filteredSet">
+        *ngIf="filteredSet">
         <nz-row *nzSpaceItem>
           <nz-tag
             nzMode="closeable"
             (nzOnClose)="onSetFilterClearClicked()"
-            >Group: {{ this.filteredSet }}</nz-tag
+            >Group: {{ filteredSet }}</nz-tag
           >
         </nz-row>
       </nz-space>
       <cvc-participant-list
         listTitle="Filter by Revision Status"
-        [preselectedOption]="this.preselectedRevisionStatus"
+        [preselectedOption]="preselectedRevisionStatus"
         [participantList]="selectableStatuses"
         (participantSelectedEvent)="onStatusSelected($event)">
         <ng-template

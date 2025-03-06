@@ -25,10 +25,11 @@ type VariantSubmitState = {
 }
 
 @Component({
-  selector: 'cvc-variant-submit-form',
-  templateUrl: './variant-submit.form.html',
-  styleUrls: ['./variant-submit.form.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-variant-submit-form',
+    templateUrl: './variant-submit.form.html',
+    styleUrls: ['./variant-submit.form.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class VariantSubmitForm {
   @Output() onVariantSelected = new EventEmitter<Variant>()

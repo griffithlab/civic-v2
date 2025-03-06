@@ -1,6 +1,6 @@
 <nz-card nzType="inner">
   <nz-alert
-    *ngIf="this.success"
+    *ngIf="success"
     nzBanner
     nzMessage="Flag submitted"
     nzType="success"
@@ -25,7 +25,7 @@
     <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
     <nz-spin
       nzTip="Submitting"
-      [nzSpinning]="this.loading">
+      [nzSpinning]="loading">
       <nz-form-item>
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
@@ -47,11 +47,11 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn"
+                  [disabled]="!(comment !== undefined && comment.length >= 10) || !viewer.signedIn"
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
                   [nzTooltipTitle]="'For ' + selectedOrg?.name">
-                  Flag {{ this.flaggable.entityType | enumToTitle }}
+                  Flag {{ flaggable.entityType | enumToTitle }}
                 </button>
               </ng-template>
             </cvc-form-buttons>

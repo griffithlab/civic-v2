@@ -21,13 +21,13 @@ Trestle.resource(:organizations) do
       col(sm: 2) do
         if organization.profile_image.attached?
           form_group :profile_image, label: false do
-            link_to image_tag(organization.profile_image.variant(resize_to_limit: [128, 128]).processed.url), organization.profile_image.variant(resize_to_limit: [128, 128]).processed.url
+            link_to image_tag(organization.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url), organization.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url
           end
         end
       end
     end
 
-    select :parent_id, [nil] + Organization.all
+    select :parent_id, [ nil ] + Organization.all
 
     url_field :url
 

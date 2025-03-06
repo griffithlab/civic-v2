@@ -30,7 +30,7 @@
       <nz-space nzDirection="vertical">
         <cvc-participant-list *nzSpaceItem
           listTitle="Flag State"
-          [preselectedOption]="this.selectableStates[0]"
+          [preselectedOption]="selectableStates[0]"
           [participantList]="selectableStates"
           (participantSelectedEvent)="onStateSelected($event)">
           <ng-template

@@ -1,4 +1,4 @@
-require_relative '../linkable_tag.rb'
+require_relative "../linkable_tag.rb"
 
 module Types::BrowseTables
   class BrowseMolecularProfileType < Types::BaseObject
@@ -6,14 +6,14 @@ module Types::BrowseTables
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :diseases, [Types::LinkableDisease], null: false
-    field :therapies, [Types::LinkableTherapy], null: false
-    field :variants, [Types::LinkableVariant], null: false
+    field :diseases, [ Types::LinkableDisease ], null: false
+    field :therapies, [ Types::LinkableTherapy ], null: false
+    field :variants, [ Types::LinkableVariant ], null: false
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
     field :variant_count, Int, null: false
-    field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
+    field :aliases, [ Types::Entities::MolecularProfileAliasType ], null: false
     field :molecular_profile_score, Float, null: false
     field :deprecated, Boolean, null: false
 
@@ -23,7 +23,7 @@ module Types::BrowseTables
 
     def name
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
-        segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+        segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(" ")
       end
     end
 
@@ -33,36 +33,36 @@ module Types::BrowseTables
 
     def features
       Array(object.features)
-        .sort_by { |f| f['name'] }
-        .map { |f| { name: f['name'], id: f['id'], link: "/features/#{f['id']}"} }
+        .sort_by { |f| f["name"] }
+        .map { |f| { name: f["name"], id: f["id"], link: "/features/#{f['id']}" } }
     end
 
     def variants
       Array(object.variants)
-        .sort_by { |v| v['name'] }
+        .sort_by { |v| v["name"] }
         .map do |v|
-          feature = feature_for_id(v['feature_id'])
+          feature = feature_for_id(v["feature_id"])
           {
-            name: v['name'],
-            id: v['id'],
+            name: v["name"],
+            id: v["id"],
             link: "/variants/#{v['id']}",
             feature: feature,
             match_text: "#{feature['name']} #{v['name']}",
-            deprecated: v['deprecated']
+            deprecated: v["deprecated"],
           }
          end
     end
 
     def diseases
       Array(object.diseases)
-        .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/diseases/#{d['id']}", deprecated: d['deprecated']} }
+        .sort_by { |d| -d["total"] }
+        .map { |d| { name: d["name"], id: d["id"], link: "/diseases/#{d['id']}", deprecated: d["deprecated"] } }
     end
 
     def therapies
       Array(object.therapies)
-        .sort_by { |d| -d['total']}
-        .map { |d| { name: d['name'], id: d['id'], link: "/therapies/#{d['id']}", deprecated: d['deprecated']} }
+        .sort_by { |d| -d["total"] }
+        .map { |d| { name: d["name"], id: d["id"], link: "/therapies/#{d['id']}", deprecated: d["deprecated"] } }
     end
 
     def aliases
@@ -74,7 +74,7 @@ module Types::BrowseTables
     private
     def feature_for_id(id)
       @features ||= Array(object.features)
-      feature = @features.find { |f| f['id'] == id }
+      feature = @features.find { |f| f["id"] == id }
       feature[:link] = Rails.application.routes.url_helpers.url_for("/features/#{feature['id']}")
 
       feature

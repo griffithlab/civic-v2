@@ -9,9 +9,10 @@ import {
 import { Apollo } from 'apollo-angular'
 
 @Component({
-  selector: 'cvc-evidence-comments',
-  templateUrl: './evidence-comments.page.html',
-  styleUrls: ['./evidence-comments.page.less'],
+    selector: 'cvc-evidence-comments',
+    templateUrl: './evidence-comments.page.html',
+    styleUrls: ['./evidence-comments.page.less'],
+    standalone: false
 })
 export class EvidenceCommentsPage implements OnInit {
   commentable: CommentableInput

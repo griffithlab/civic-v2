@@ -1,4 +1,4 @@
-#From https://github.com/Shopify/graphql-batch/blob/master/examples/active_storage_loader.rb
+# From https://github.com/Shopify/graphql-batch/blob/master/examples/active_storage_loader.rb
 
 ####
 # This is a loader for has_one_attached and has_many_attached Active Storage attachments
@@ -75,4 +75,3 @@ module Loaders
     end
   end
 end
-

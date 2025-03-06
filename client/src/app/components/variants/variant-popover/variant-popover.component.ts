@@ -9,9 +9,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-variant-popover',
-  templateUrl: './variant-popover.component.html',
-  styleUrls: ['./variant-popover.component.less'],
+    selector: 'cvc-variant-popover',
+    templateUrl: './variant-popover.component.html',
+    styleUrls: ['./variant-popover.component.less'],
+    standalone: false
 })
 export class CvcVariantPopoverComponent implements OnInit {
   @Input() variantId!: number

@@ -3,9 +3,10 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { Observable } from 'rxjs'
 
 @Component({
-  selector: 'variants-home',
-  templateUrl: './variants-home.page.html',
-  styleUrls: ['./variants-home.page.less'],
+    selector: 'variants-home',
+    templateUrl: './variants-home.page.html',
+    styleUrls: ['./variants-home.page.less'],
+    standalone: false
 })
 export class VariantsHomePage implements OnInit {
   viewer$: Observable<Viewer>
