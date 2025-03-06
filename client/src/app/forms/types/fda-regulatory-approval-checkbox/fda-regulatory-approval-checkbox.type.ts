@@ -26,10 +26,11 @@ const FdaRegulatoryApprovalMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-fda-regulatory-approval-checkbox',
-  templateUrl: './fda-regulatory-approval-checkbox.type.html',
-  styleUrls: ['./fda-regulatory-approval-checkbox.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-fda-regulatory-approval-checkbox',
+    templateUrl: './fda-regulatory-approval-checkbox.type.html',
+    styleUrls: ['./fda-regulatory-approval-checkbox.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFdaRegulatoryApprovalCheckboxField extends FdaRegulatoryApprovalMixin implements AfterViewInit {
   defaultDescription = "Check this if the referenced therapy is approved for use by the FDA in the specific disease associated with the Assertion (as in a listing <a href='https://www.cancer.gov/about-cancer/treatment/drugs/cancer-type' target='_blank'>here</a>.)"

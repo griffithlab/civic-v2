@@ -1,5 +1,5 @@
 class Mutations::EditUser < Mutations::BaseMutation
-  description 'Updated currently logged in Users\'s profile'
+  description "Updated currently logged in Users's profile"
 
   argument :name, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
     description: "The user's full name"
@@ -41,7 +41,7 @@ class Mutations::EditUser < Mutations::BaseMutation
 
     if current_user.update(args)
       return {
-        user: current_user
+        user: current_user,
       }
     else
       raise GraphQL::ExecutionError, current_user.errors.full_messages.join(", ")

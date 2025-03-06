@@ -49,10 +49,11 @@ const RatingMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-rating',
-  templateUrl: './rating.type.html',
-  styleUrls: ['./rating.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-rating',
+    templateUrl: './rating.type.html',
+    styleUrls: ['./rating.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcRatingField extends RatingMixin implements AfterViewInit {
   // LOCAL SOURCE STREAMS

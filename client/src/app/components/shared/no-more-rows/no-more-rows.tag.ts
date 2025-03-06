@@ -10,9 +10,10 @@ import { BehaviorSubject, interval } from 'rxjs'
 import { first } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-no-more-rows',
-  templateUrl: './no-more-rows.tag.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-no-more-rows',
+    templateUrl: './no-more-rows.tag.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NoMoreRowsTag {
   @Input()

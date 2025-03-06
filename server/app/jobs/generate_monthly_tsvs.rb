@@ -1,6 +1,6 @@
 class GenerateMonthlyTsvs < GenerateTsvs
   def release_path
-    @dir_name ||= Date.today.beginning_of_month.strftime('%d-%b-%Y')
+    @dir_name ||= Date.today.beginning_of_month.strftime("%d-%b-%Y")
   end
 
   def beginning_of_next_month
@@ -14,4 +14,3 @@ class GenerateMonthlyTsvs < GenerateTsvs
     release_path
   end
 end
-

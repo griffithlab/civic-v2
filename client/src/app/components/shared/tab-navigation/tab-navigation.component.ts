@@ -11,9 +11,10 @@ export interface RouteableTab {
 }
 
 @Component({
-  selector: 'cvc-tab-navigation',
-  templateUrl: './tab-navigation.component.html',
-  styleUrls: ['./tab-navigation.component.less'],
+    selector: 'cvc-tab-navigation',
+    templateUrl: './tab-navigation.component.html',
+    styleUrls: ['./tab-navigation.component.less'],
+    standalone: false
 })
 export class CvcTabNavigationComponent {
   @Input() entity: Maybe<SubscribableInput>

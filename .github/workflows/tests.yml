@@ -6,6 +6,41 @@ on:
     branches: [ main, staging]
 
 jobs:
+  scan_ruby:
+    name: Brakeman
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: '3.3'
+          working-directory: ./server
+
+      - name: Scan for security vulnerabilities
+        working-directory: ./server
+        run: bin/brakeman --no-pager
+  lint:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          working-directory: ./server
+          bundler-cache: true
+
+      - name: Lint code
+        working-directory: ./server
+        run: bin/rubocop -f github
+
   backend_tests:
     name: Backend Tests
     runs-on: 'ubuntu-latest'
@@ -59,7 +94,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - run: npm install -g yarn
         working-directory: ./client

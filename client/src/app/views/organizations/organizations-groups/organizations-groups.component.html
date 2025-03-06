@@ -1,5 +1,5 @@
 <nz-spin
-  [nzSpinning]="this.loading$ | ngrxPush"
+  [nzSpinning]="loading$ | ngrxPush"
   style="min-height: 20em">
   <nz-row [nzGutter]="[8, 8]">
     <ng-container *ngFor="let organization of organizations$ | ngrxPush">

@@ -1,6 +1,6 @@
 class ProfileImagesController < ApplicationController
   def upload
-   unless signed_in? 
+   unless signed_in?
     return head(:forbidden)
    end
 

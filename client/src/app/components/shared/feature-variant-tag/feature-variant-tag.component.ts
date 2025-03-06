@@ -24,10 +24,11 @@ export interface LinkableVariant {
 }
 
 @Component({
-  selector: 'cvc-feature-variant-tag',
-  templateUrl: './feature-variant-tag.component.html',
-  styleUrls: ['./feature-variant-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-feature-variant-tag',
+    templateUrl: './feature-variant-tag.component.html',
+    styleUrls: ['./feature-variant-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFeatureVariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant

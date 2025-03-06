@@ -1,6 +1,6 @@
-<nz-spin [nzSpinning]="this.variantListLoading$ | ngrxPush">
+<nz-spin [nzSpinning]="variantListLoading$ | ngrxPush">
   <nz-space nzDirection="vertical">
-    <ng-container *ngrxLet="this.undeprecatedVariants$ as undeprecatedVariants">
+    <ng-container *ngrxLet="undeprecatedVariants$ as undeprecatedVariants">
       <ng-container
         *ngIf="undeprecatedVariants && undeprecatedVariants.length > 0">
         <nz-alert
@@ -21,7 +21,7 @@
 
 <nz-card nzType="inner">
   <nz-alert
-    *ngIf="this.success"
+    *ngIf="success"
     nzBanner
     nzMessage="Feature deprecated"
     nzType="success"
@@ -62,7 +62,7 @@
     <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
     <nz-spin
       nzTip="Submitting"
-      [nzSpinning]="this.loading">
+      [nzSpinning]="loading">
       <nz-form-item>
         <nz-form-control>
           <ng-container *ngrxLet="viewer$ as viewer">
@@ -85,7 +85,7 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !this.reason "
+                  [disabled]="!(comment !== undefined && comment.length >= 10) || !viewer.signedIn || !viewer.isEditor || !reason "
                   nz-tooltip
                   [nzTooltipTrigger]="selectedOrg ? 'hover' : null"
                   [nzTooltipTitle]="'For ' + selectedOrg?.name">

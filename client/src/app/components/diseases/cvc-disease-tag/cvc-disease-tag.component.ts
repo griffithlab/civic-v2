@@ -15,10 +15,11 @@ export interface LinkableDisease {
 }
 
 @Component({
-  selector: 'cvc-disease-tag',
-  templateUrl: './cvc-disease-tag.component.html',
-  styleUrls: ['./cvc-disease-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-disease-tag',
+    templateUrl: './cvc-disease-tag.component.html',
+    styleUrls: ['./cvc-disease-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcDiseaseTagComponent {
   _disease!: LinkableDisease

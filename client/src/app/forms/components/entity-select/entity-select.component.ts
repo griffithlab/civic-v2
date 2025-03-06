@@ -84,10 +84,11 @@ export const cvcDefaultSelectMessageOptions: CvcEntitySelectMessageOptions = {
 
 @UntilDestroy({ arrayName: 'stateSubscriptions' })
 @Component({
-  selector: 'cvc-entity-select',
-  templateUrl: './entity-select.component.html',
-  styleUrls: ['./entity-select.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-entity-select',
+    templateUrl: './entity-select.component.html',
+    styleUrls: ['./entity-select.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcEntitySelectComponent implements OnChanges, AfterViewInit {
   @Input() cvcFormControl!: UntypedFormControl

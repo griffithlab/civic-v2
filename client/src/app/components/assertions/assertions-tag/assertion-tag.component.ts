@@ -11,10 +11,11 @@ export interface LinkableAssertion {
 }
 
 @Component({
-  selector: 'cvc-assertion-tag',
-  templateUrl: './assertion-tag.component.html',
-  styleUrls: ['./assertion-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-assertion-tag',
+    templateUrl: './assertion-tag.component.html',
+    styleUrls: ['./assertion-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcAssertionTagComponent {
   _assertion!: LinkableAssertion

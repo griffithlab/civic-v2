@@ -8,10 +8,11 @@ import { CvcEntityTagListConfig } from '../entity-tag-list/entity-tag-list.compo
 import { LinkableEntity } from '../entity-tag/entity-tag.component'
 
 @Component({
-  selector: 'cvc-entity-collection-tag',
-  templateUrl: './entity-collection-tag.component.html',
-  styleUrls: ['./entity-collection-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-entity-collection-tag',
+    templateUrl: './entity-collection-tag.component.html',
+    styleUrls: ['./entity-collection-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcEntityCollectionTagComponent {
   @Input() set cvcCollectionTagConfig(config: CvcEntityTagListConfig) {

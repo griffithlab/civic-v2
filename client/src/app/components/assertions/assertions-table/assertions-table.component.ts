@@ -48,10 +48,11 @@ import { ActivatedRoute } from '@angular/router'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-assertions-table',
-  templateUrl: './assertions-table.component.html',
-  styleUrls: ['./assertions-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-assertions-table',
+    templateUrl: './assertions-table.component.html',
+    styleUrls: ['./assertions-table.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>

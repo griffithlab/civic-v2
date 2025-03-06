@@ -1,15 +1,15 @@
 <nz-spin
-  [nzSpinning]="this.loading$ | ngrxPush"
+  [nzSpinning]="loading$ | ngrxPush"
   nzTip="Loading">
   <ng-container
-    *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">
+    *ngIf="unfilteredCount$ | ngrxPush as count; else noEvents">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="this.showFilters ? '18' : '24'">
+      <nz-col [nzSpan]="showFilters ? '18' : '24'">
         <nz-space
           nzDirection="vertical"
           style="width: 100%">
           <nz-card
-            [nzTitle]="this.showFilters ? 'Events' : undefined"
+            [nzTitle]="showFilters ? 'Events' : undefined"
             [nzExtra]="refreshFeed"
             *nzSpaceItem>
             <ng-container *ngIf="events$ | ngrxPush as events">
@@ -41,8 +41,8 @@
             </ng-container>
             <ng-template #refreshFeed>
               <ng-container
-                *ngIf="this.pollForNewEvents && this.originalEventCount">
-                <ng-container *ngrxLet="this.newEventCount$ as newCount">
+                *ngIf="pollForNewEvents && originalEventCount">
+                <ng-container *ngrxLet="newEventCount$ as newCount">
                   <nz-badge
                     *ngIf="newCount && newCount > originalEventCount"
                     [nzCount]="newCount - originalEventCount">

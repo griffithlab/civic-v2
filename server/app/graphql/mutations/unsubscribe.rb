@@ -1,8 +1,8 @@
 class Mutations::Unsubscribe < Mutations::BaseMutation
-  description 'Unsubscribe from a CIViC entity to stop receiving notifications about it.'
+  description "Unsubscribe from a CIViC entity to stop receiving notifications about it."
 
-  argument :subscribables, [Types::Subscribable::SubscribableInput], required: true,
-    description: 'A list of one or more entities to unsubscribe from, each identified by its ID and type.'
+  argument :subscribables, [ Types::Subscribable::SubscribableInput ], required: true,
+    description: "A list of one or more entities to unsubscribe from, each identified by its ID and type."
 
   argument :unsubscribe_from_children, Boolean, required: false,
     default_value: false,
@@ -11,8 +11,8 @@ class Mutations::Unsubscribe < Mutations::BaseMutation
       IE: If you unsubscribe from a Gene do you want to stop receiving notifications for its Variants as well?
     DOC
 
-  field :unsubscribed_entities, [Types::Entities::SubscribableType], null: false,
-    description: 'The entities that were unsubscribed from.'
+  field :unsubscribed_entities, [ Types::Entities::SubscribableType ], null: false,
+    description: "The entities that were unsubscribed from."
 
   def ready?(**_)
     validate_user_logged_in
@@ -26,8 +26,7 @@ class Mutations::Unsubscribe < Mutations::BaseMutation
     end
 
     {
-      unsubscribed_entities: unsubscribed_entities
+      unsubscribed_entities: unsubscribed_entities,
     }
   end
-
 end

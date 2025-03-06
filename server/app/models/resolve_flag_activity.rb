@@ -6,6 +6,6 @@ class ResolveFlagActivity < Activity
   end
 
   def generate_verbiage
-    'resolved a flag on'
+    "resolved a flag on"
   end
 end

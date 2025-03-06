@@ -3,7 +3,7 @@ class AddCuratableFieldsToMps < ActiveRecord::Migration[6.1]
     add_column :molecular_profiles, :description, :text
 
     create_join_table :molecular_profiles, :sources do |t|
-      t.index [:molecular_profile_id, :source_id], name: 'idx_mp_source_id'
+      t.index [ :molecular_profile_id, :source_id ], name: 'idx_mp_source_id'
       t.timestamps
     end
 

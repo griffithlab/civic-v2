@@ -5,7 +5,7 @@ class OnSiteSubscription < Subscription
       originating_user: event.originating_user,
       notified_user: self.user,
       event: event,
-      seen: false
+      seen: false,
     }
 
     if !Notification.where(conditions).exists?

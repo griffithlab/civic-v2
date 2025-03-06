@@ -6,9 +6,10 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-molecular-profiles-comments',
-  templateUrl: './molecular-profiles-comments.page.html',
-  styleUrls: ['./molecular-profiles-comments.page.less'],
+    selector: 'cvc-molecular-profiles-comments',
+    templateUrl: './molecular-profiles-comments.page.html',
+    styleUrls: ['./molecular-profiles-comments.page.less'],
+    standalone: false
 })
 export class MolecularProfilesCommentsPage {
   commentable: CommentableInput

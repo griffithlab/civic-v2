@@ -74,10 +74,11 @@ const NccnGuidelineSelectMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-nccn-guideline-select',
-  templateUrl: './nccn-guideline-select.type.html',
-  styleUrls: ['./nccn-guideline-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-nccn-guideline-select',
+    templateUrl: './nccn-guideline-select.type.html',
+    styleUrls: ['./nccn-guideline-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcNccnGuidelineSelectField
   extends NccnGuidelineSelectMixin

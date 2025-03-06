@@ -2,7 +2,7 @@ class RevisionSet < ApplicationRecord
   include Subscribable
   include WithActivities
 
-  has_activity :creation_activity, activity_type: 'SuggestRevisionSetActivity'
+  has_activity :creation_activity, activity_type: "SuggestRevisionSetActivity"
 
   has_many :revisions
 

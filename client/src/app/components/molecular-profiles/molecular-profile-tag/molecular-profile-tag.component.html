@@ -43,7 +43,7 @@
   </cvc-icon-badges>
   <!-- molecular profile name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
-    {{ molecularProfile.name! | truncate: this.truncationLength }}
+    {{ molecularProfile.name! | truncate: truncationLength }}
   </ng-container>
   <ng-template #fullName>
     {{ molecularProfile.name }}

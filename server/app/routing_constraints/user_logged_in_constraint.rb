@@ -1,5 +1,5 @@
-#This is required for the mounted Sidekiq UI as
-#we need to auth the user, but it will never hit our Application Controller
+# This is required for the mounted Sidekiq UI as
+# we need to auth the user, but it will never hit our Application Controller
 class UserLoggedInConstraint
   def matches?(request)
     user_id = request.session[:user_id]
@@ -9,4 +9,3 @@ class UserLoggedInConstraint
     return false
   end
 end
-

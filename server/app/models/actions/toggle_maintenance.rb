@@ -1,4 +1,4 @@
-require 'fileutils'
+require "fileutils"
 
 module Actions
   class ToggleMaintenance
@@ -9,11 +9,11 @@ module Actions
     def initialize(maintenance_mode_enabled:)
       @maintenance_mode_enabled = maintenance_mode_enabled
 
-      base_path = File.join(Rails.root, 'public')
+      base_path = File.join(Rails.root, "public")
 
-      @maintenance_page = File.join(base_path, 'maintenance.html')
-      @backed_up_index_page = File.join(base_path, 'index.html.actual')
-      @index_file_path =  File.join(base_path, 'index.html')
+      @maintenance_page = File.join(base_path, "maintenance.html")
+      @backed_up_index_page = File.join(base_path, "index.html.actual")
+      @index_file_path =  File.join(base_path, "index.html")
     end
 
     def execute

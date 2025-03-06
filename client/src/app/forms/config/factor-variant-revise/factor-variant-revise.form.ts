@@ -29,9 +29,10 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-factor-variant-revise-form',
-  templateUrl: './factor-variant-revise.form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-factor-variant-revise-form',
+    templateUrl: './factor-variant-revise.form.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFactorVariantReviseForm implements OnInit, AfterViewInit {
   @Input() variantId!: number

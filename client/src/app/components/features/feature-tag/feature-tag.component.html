@@ -32,7 +32,7 @@
       [nzTwotoneColor]="'Feature' | entityColor"></i>
   </cvc-icon-badges>
   <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
-  <ng-container *ngIf="this.truncateLongName; else fullName">
+  <ng-container *ngIf="truncateLongName; else fullName">
     {{ feature.name | truncate: 12 }}
   </ng-container>
   <ng-template #fullName>

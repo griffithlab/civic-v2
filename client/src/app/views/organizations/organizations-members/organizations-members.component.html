@@ -19,13 +19,13 @@
       (click)="loadMore(pageInfo.endCursor)"
       nz-button
       nzBlock>
-      Load {{ this.initialPageSize }} More
+      Load {{ initialPageSize }} More
     </button>
   </nz-col>
 </nz-row>
 <!--
-<nz-spin [nzSpinning]="this.loading$ | ngrxPush">
-  <ng-container *ngIf="!(this.loading$ | ngrxPush)">
+<nz-spin [nzSpinning]="loading$ | ngrxPush">
+  <ng-container *ngIf="!(loading$ | ngrxPush)">
     <nz-space
       nzSize="middle"
       nzDirection="vertical"
@@ -51,7 +51,7 @@
               (click)="loadMore(pageInfo.endCursor)"
               nz-button
               nzBlock>
-              Load {{ this.initialPageSize }} More
+              Load {{ initialPageSize }} More
             </button>
           </ng-container>
         </ng-container>

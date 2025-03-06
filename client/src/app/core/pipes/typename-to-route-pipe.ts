@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'typenameToRoute',
-  pure: true,
+    name: 'typenameToRoute',
+    pure: true,
+    standalone: false
 })
 export class TypenameToRoutePipe implements PipeTransform {
   transform(n: string): string {

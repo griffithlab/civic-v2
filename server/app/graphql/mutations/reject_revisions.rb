@@ -1,23 +1,23 @@
 class Mutations::RejectRevisions < Mutations::MutationWithOrg
-  description 'Reject one or more revisions by ID or revision set ID. Any user may reject a Revision that they submitted themselves. Otherwise, the rejecting user must be an editor with valid conflict of interest statement on file.'
+  description "Reject one or more revisions by ID or revision set ID. Any user may reject a Revision that they submitted themselves. Otherwise, the rejecting user must be an editor with valid conflict of interest statement on file."
 
-  argument :ids, [Int], required: false,
-    description: 'A list of IDs of the Revisions to reject.'
+  argument :ids, [ Int ], required: false,
+    description: "A list of IDs of the Revisions to reject."
 
   argument :revision_set_id, Int, required: false,
-    description: 'The ID of a revision set.'
+    description: "The ID of a revision set."
 
   validates required: {
-    one_of: [:ids, :revision_set_id],
-    message: "Must specify either a list of revision ids or a revisions_set_id, but not both."
+    one_of: [ :ids, :revision_set_id ],
+    message: "Must specify either a list of revision ids or a revisions_set_id, but not both.",
   }
 
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text explaining the reasoning for rejecting this Revision. Will be attached as a comment.'
+    description: "Text explaining the reasoning for rejecting this Revision. Will be attached as a comment."
 
-  field :revisions, [Types::Revisions::RevisionType], null: false,
-    description: 'The rejected Revisions.'
+  field :revisions, [ Types::Revisions::RevisionType ], null: false,
+    description: "The rejected Revisions."
 
   attr_reader :revisions
 
@@ -30,13 +30,13 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
         revision = Revision.find_by(id: id)
         if revision.nil?
           raise GraphQL::ExecutionError, "Revision with id #{id} doesn't exist."
-        elsif revision.status != 'new'
+        elsif revision.status != "new"
           raise GraphQL::ExecutionError, "Revision with id #{id} is already #{revision.status}."
         end
         revision
       end
     elsif !revision_set_id.nil?
-      @revisions = Revision.where(revision_set_id: revision_set_id, status: 'new')
+      @revisions = Revision.where(revision_set_id: revision_set_id, status: "new")
       if revisions.count == 0
         raise GraphQL::ExecutionError, "Revisions with status 'new' in revision_set_id #{revision_set_id} don't exist."
       end
@@ -58,9 +58,9 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
       if revision.revisor == current_user
         true
       elsif !Role.user_is_at_least_a?(current_user, :editor)
-        raise GraphQL::ExecutionError, 'User must be an editor in order to reject this revision.'
+        raise GraphQL::ExecutionError, "User must be an editor in order to reject this revision."
       elsif !current_user.has_valid_coi_statement?
-        raise GraphQL::ExecutionError, 'User must have a valid conflict of interest statement on file.'
+        raise GraphQL::ExecutionError, "User must have a valid conflict of interest statement on file."
       else
         true
       end
@@ -80,10 +80,10 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
 
     if res.succeeded?
       {
-        revisions: res.revisions
+        revisions: res.revisions,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end

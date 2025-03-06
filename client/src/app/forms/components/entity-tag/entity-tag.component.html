@@ -11,7 +11,7 @@
       nz-popover
       nzPopoverTrigger="hover"
       [nzPopoverContent]="
-        cvcShowPopover && this.popoverInput ? popoverContent : undefined
+        cvcShowPopover && popoverInput ? popoverContent : undefined
       ">
       <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
     </span>
@@ -53,15 +53,15 @@ pseudo-tag styles & close btn -->
   <span
     nz-popover
     nzPopoverTrigger="hover"
-    [nzPopoverContent]="this.popoverInput ? popoverContent : undefined">
+    [nzPopoverContent]="popoverInput ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"> </ng-template>
   </span>
 </ng-template>
 
 <ng-template #popoverContent>
   <cvc-entity-tag-popover
-    *ngIf="this.popoverInput"
-    [entity]="this.popoverInput"></cvc-entity-tag-popover>
+    *ngIf="popoverInput"
+    [entity]="popoverInput"></cvc-entity-tag-popover>
 </ng-template>
 
 <!-- tag contents, just the tag icon and label, used by the context templates above-->
@@ -102,6 +102,6 @@ pseudo-tag styles & close btn -->
 
 <ng-template #popoverContent>
   <cvc-entity-tag-popover
-    *ngIf="this.popoverInput"
-    [entity]="this.popoverInput"></cvc-entity-tag-popover>
+    *ngIf="popoverInput"
+    [entity]="popoverInput"></cvc-entity-tag-popover>
 </ng-template>

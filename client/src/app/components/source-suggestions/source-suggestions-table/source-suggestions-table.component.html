@@ -141,7 +141,7 @@
         <th></th>
         <th>
           <cvc-clearable-input-filter
-            *ngIf="!this.submitterId"
+            *ngIf="!submitterId"
             [(inputModel)]="submitterInput"
             (inputModelChange)="
               filterChange$.next()
@@ -349,9 +349,9 @@
 </ng-template>
 <ng-template #manageSuggestionTemplate>
   <cvc-update-source-suggestion-form
-    *ngIf="this.selectedSourceId && this.selectedStatus"
-    [currentStatus]="this.selectedStatus"
-    [sourceSuggestionId]="this.selectedSourceId">
+    *ngIf="selectedSourceId && selectedStatus"
+    [currentStatus]="selectedStatus"
+    [sourceSuggestionId]="selectedSourceId">
   </cvc-update-source-suggestion-form>
 </ng-template>
 
@@ -362,11 +362,11 @@
     nzTheme="twotone"
     [nzTwotoneColor]="'Source' | entityColor"
     nzType="civic-source"></i>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

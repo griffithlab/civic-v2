@@ -7,10 +7,11 @@ import {
 } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-assertions-events',
-  templateUrl: './assertions-events.page.html',
-  styleUrls: ['./assertions-events.page.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-assertions-events',
+    templateUrl: './assertions-events.page.html',
+    styleUrls: ['./assertions-events.page.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AssertionsEventsPage {
   feedScope: ActivityFeedScope

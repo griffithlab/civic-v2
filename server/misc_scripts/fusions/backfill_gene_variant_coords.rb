@@ -2,10 +2,10 @@
 # need to turn off VariantCoordinatorValidator validation first
 
 Variants::GeneVariant.find_each do |variant|
-  #maybe_fusion = [
-    #variant.start2.present?,
-    #variant.variant_types.where(name: 'transcript_fusion').exists?
-  #].all?
+  # maybe_fusion = [
+  # variant.start2.present?,
+  # variant.variant_types.where(name: 'transcript_fusion').exists?
+  # ].all?
 
   coord = VariantCoordinate.where(
     variant: variant,

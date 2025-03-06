@@ -3,11 +3,11 @@ class ExonCoordinateValidator < ActiveModel::Validator
 
   def validate(record)
     case record.record_state
-    when 'stub'
+    when "stub"
       validate_stub(record)
-    when 'exons_provided'
+    when "exons_provided"
       validate_exons_only(record)
-    when 'fully_curated'
+    when "fully_curated"
       validate_full_record(record)
     else
       raise StandardError.new("Unexpected record state: #{record.record_state}")
@@ -15,9 +15,9 @@ class ExonCoordinateValidator < ActiveModel::Validator
   end
 
   private
-    #stub -> everything nullable except variant and coordinate type
-    #exons_provided -> exon, representative transcript, reference build, ensembl_version (possibly offset + direction)
-    #fully_curated -> everything required except offset + direction
+  # stub -> everything nullable except variant and coordinate type
+  # exons_provided -> exon, representative transcript, reference build, ensembl_version (possibly offset + direction)
+  # fully_curated -> everything required except offset + direction
   def validate_stub(record)
     validate_present(record, :coordinate_type)
   end

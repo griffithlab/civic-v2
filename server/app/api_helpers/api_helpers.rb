@@ -1,4 +1,4 @@
-require 'net/http'
+require "net/http"
 
 module ApiHelpers
   def get_json_response(url, params = {}, headers = {})
@@ -17,7 +17,7 @@ module ApiHelpers
       req[key] = val
     end
 
-    resp = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') { |http| http.request(req) }
+    resp = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") { |http| http.request(req) }
     case resp.code.to_i
     when 200 || 201
       resp.body

@@ -10,9 +10,10 @@ import { ActivityFeedFilters } from '../../../components/activities/activity-fee
 import { feedDefaultFilters } from '../../../components/activities/activity-feed/activity-feed.config'
 
 @Component({
-  selector: 'cvc-organizations-events',
-  templateUrl: './organizations-events.component.html',
-  styleUrls: ['./organizations-events.component.less'],
+    selector: 'cvc-organizations-events',
+    templateUrl: './organizations-events.component.html',
+    styleUrls: ['./organizations-events.component.less'],
+    standalone: false
 })
 export class OrganizationsEventsComponent {
   feedScope: ActivityFeedScope

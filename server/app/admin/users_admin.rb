@@ -11,7 +11,7 @@ Trestle.resource(:users) do
     User.roles.keys.each do |role|
       scope role.capitalize.pluralize, -> { User.where(role: role) }
     end
-    scope "Admins and Editors", -> { User.where(role: ['admin', 'editor']) }
+    scope "Admins and Editors", -> { User.where(role: [ "admin", "editor" ]) }
   end
 
   search do |q|
@@ -37,7 +37,7 @@ Trestle.resource(:users) do
       col(sm: 2) do
         if user.profile_image.attached?
           form_group :profile_image, label: false do
-            link_to image_tag(user.profile_image.variant(resize_to_limit: [128, 128]).processed.url), user.profile_image.variant(resize_to_limit: [128, 128]).processed.url
+            link_to image_tag(user.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url), user.profile_image.variant(resize_to_limit: [ 128, 128 ]).processed.url
           end
         end
       end
@@ -45,7 +45,7 @@ Trestle.resource(:users) do
 
     row do
       col(sm: 2) do
-        roles = User.roles.map { |role| [role, role] }
+        roles = User.roles.map { |role| [ role, role ] }
         select :role, roles
       end
       col(sm: 5) { email_field :email }
@@ -54,7 +54,7 @@ Trestle.resource(:users) do
 
     text_area :bio
 
-    collection_select :country_id, Country.order(:name), :id, :name, {prompt: 'Choose a Country' }, include_blank: true
+    collection_select :country_id, Country.order(:name), :id, :name, { prompt: "Choose a Country" }, include_blank: true
 
     select :organization_ids, Organization.order(:name), { label: "Organization" }, multiple: true
   end

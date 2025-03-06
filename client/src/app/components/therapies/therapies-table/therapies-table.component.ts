@@ -46,9 +46,10 @@ export interface TherapyTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-therapies-table',
-  templateUrl: './therapies-table.component.html',
-  styleUrls: ['./therapies-table.component.less'],
+    selector: 'cvc-therapies-table',
+    templateUrl: './therapies-table.component.html',
+    styleUrls: ['./therapies-table.component.less'],
+    standalone: false
 })
 export class CvcTherapiesTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
