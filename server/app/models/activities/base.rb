@@ -12,6 +12,7 @@ module Activities
     end
 
     def execute
+      setup
       create_activity
       call_actions
       after_actions
@@ -27,6 +28,10 @@ module Activities
 
     def call_actions
       raise NotImplementedError.new("Activity must implement call_actions")
+    end
+
+    def setup
+      # no op
     end
 
     def after_actions
