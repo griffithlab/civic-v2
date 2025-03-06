@@ -514,33 +514,50 @@
 </ng-template>
 
 <nz-dropdown-menu #statusFilterMenu>
-  <nz-radio-group
-    [(ngModel)]="statusInput"
-    (ngModelChange)="statusChanged()">
-    <label
-      nz-radio-button
-      [nzValue]="availableStatusFilters.NonRejected"
-      >Non-Rejected</label
-    >
-    <label
-      nz-radio-button
-      [nzValue]="availableStatusFilters.Accepted"
-      >Accepted</label
-    >
-    <label
-      nz-radio-button
-      [nzValue]="availableStatusFilters.Submitted"
-      >Submitted</label
-    >
-    <label
-      nz-radio-button
-      [nzValue]="availableStatusFilters.Rejected"
-      >Rejected</label
-    >
-    <label
-      nz-radio-button
-      [nzValue]="availableStatusFilters.All"
-      >All</label
-    >
-  </nz-radio-group>
+  <nz-card>
+    <nz-row>
+      <nz-radio-group
+        [(ngModel)]="statusInput"
+        (ngModelChange)="statusChanged()">
+        <label
+          nz-radio-button
+          [nzValue]="availableStatusFilters.NonRejected"
+          >Non-Rejected</label
+        >
+        <label
+          nz-radio-button
+          [nzValue]="availableStatusFilters.Accepted"
+          >Accepted</label
+        >
+        <label
+          nz-radio-button
+          [nzValue]="availableStatusFilters.Submitted"
+          >Submitted</label
+        >
+        <label
+          nz-radio-button
+          [nzValue]="availableStatusFilters.Rejected"
+          >Rejected</label
+        >
+        <label
+          nz-radio-button
+          [nzValue]="availableStatusFilters.All"
+          >All</label
+        >
+      </nz-radio-group>
+    </nz-row>
+    @if (this.organizationId) {
+      <nz-row>
+        <nz-col nzSpan="2">
+          <label
+            nz-checkbox
+            [(ngModel)]="includeSubgroups"
+            (ngModelChange)="includeSubgroupsChanged()"></label>
+        </nz-col>
+        <nz-col nzSpan="22">
+          <span>Include assertions submitted by child organizations</span>
+        </nz-col>
+      </nz-row>
+    }
+  </nz-card>
 </nz-dropdown-menu>

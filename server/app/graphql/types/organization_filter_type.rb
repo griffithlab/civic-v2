@@ -2,7 +2,7 @@ module Types
   class OrganizationFilterType < Types::BaseInputObject
     description "Filter on organization id and whether or not to include the organization's subgroups"
 
-    argument :id, Int, required: false, description: "The organization ID."
+    argument :ids, [ Int ], required: false, description: "An array of organization IDs."
 
     argument :name, String, required: false, description: "The organization name."
 

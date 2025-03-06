@@ -1,12 +1,12 @@
 query OrganizationMembers(
-  $organizationId: Int!
+  $organizationId: [Int!]
   $first: Int
   $last: Int
   $before: String
   $after: String
 ) {
   users(
-    organization: { id: $organizationId }
+    organization: { ids: $organizationId }
     first: $first
     last: $last
     before: $before

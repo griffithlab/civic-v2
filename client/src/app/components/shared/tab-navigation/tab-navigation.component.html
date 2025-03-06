@@ -4,7 +4,6 @@
       nzLinkRouter
       nzType="card"
       nzSize="small"
-      [nzSelectedIndex]="selectedTabIndex ?? null"
       [nzTabBarExtraContent]="extraTpl">
       <ng-template #extraTpl>
         <ng-container [ngTemplateOutlet]="tabBarExtraContent || null">
@@ -14,7 +13,8 @@
         <a
           *nzTabLink
           nz-tab-link
-          [routerLink]="tab.routeName">
+          [routerLink]="tab.routeName"
+          queryParamsHandling="merge">
           <i
             nz-icon
             [nzType]="tab.iconName"></i>

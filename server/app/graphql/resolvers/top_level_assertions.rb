@@ -33,8 +33,17 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:evidence_id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of evidence underlying the assertion.") do |scope, value|
     scope.joins(:evidence_items).where("evidence_items.id = ?", value)
   end
-  option(:organization_id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of the organization the assertion was submitted under.") do  |scope, value|
-    scope.joins(:submission_event).where("events.organization_id = ?", value)
+  option(:organization, type: Types::OrganizationFilterType, description: "Filter EIDs on the organization the evidence item was submitted under.") do  |scope, value|
+    if value.include_subgroups && !value.ids.blank?
+      org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }
+      scope.joins(:submission_event).where({ events: { organization_id: org_ids } })
+    elsif !value.ids.blank?
+      scope.joins(:submission_event).where({ events: { organization_id: value.ids } })
+    elsif !value.name.blank?
+      scope.joins(submission_event: [ :organization ]).where("organizations.name ILIKE ?", "#{value.name}%")
+    else
+      scope
+    end
   end
   option(:user_id, type: GraphQL::Types::Int, description: "Exact match filtering on the ID of the user who submitted the assertion.") do |scope, value|
     scope.joins(:submission_event).where("events.originating_user_id = ?", value)

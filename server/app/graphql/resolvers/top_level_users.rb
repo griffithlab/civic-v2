@@ -11,12 +11,15 @@ class Resolvers::TopLevelUsers < GraphQL::Schema::Resolver
   scope { MaterializedViews::UserBrowseTableRow.all.order(:id) }
 
   option(:organization, type: Types::OrganizationFilterType, description: "Limit to users that belong to a certain organizations") do |scope, value|
-    if value.include_subgroups && !value.id.nil?
-      scope.joins(:organizations).where({ organizations: { id: Organization.find(value.id).org_and_suborg_ids } })
-    elsif !value.id.nil?
-      scope.joins(:organizations).where("organizations.id = ?", value.id)
+    if value.include_subgroups && !value.ids.nil?
+      org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }
+      scope.joins(:organizations).where({ organizations: { id: org_ids } })
+    elsif !value.ids.nil?
+      scope.joins(:organizations).where({ organizations: { id: value.ids } })
+    elsif !value.name.blank?
+      scope.joins(:organizations).where("organizations.name ILIKE ?", "#{value.name}%")
     else
-      scope.joins(:organizations).where("name ILIKE ?", "#{value.name}%")
+      scope
     end
   end
 
