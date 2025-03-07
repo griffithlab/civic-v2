@@ -46,36 +46,38 @@ import { FEED_SCROLL_SERVICE_TOKEN } from '@app/components/activities/activity-f
 import { ScrollerStateService } from '@app/components/activities/activity-feed/feed-scroll-service/feed-scroll.service'
 import { CvcDeprecateFeatureActivity } from './deprecate-feature/deprecate-feature-activity.component'
 import { CvcDeleteCommentActivity } from './delete-comment/delete-comment-activity.component'
+import { CvcEndorseAssertionActivity } from './endorse-assertion/endorse-assertion-activity.component'
 
 @Component({
-    selector: 'cvc-activity-feed-item-details',
-    imports: [
-        CommonModule,
-        CvcPipesModule,
-        CvcCommentActivity,
-        CvcFlagEntityActivity,
-        CvcAcceptRevisionsActivity,
-        CvcCreateMpActivity,
-        CvcCreateVariantActivity,
-        CvcDeprecateMpActivity,
-        CvcDeprecateVariantActivity,
-        CvcModerateAssertionActivity,
-        CvcModerateEvidenceActivity,
-        CvcRejectRevisionsActivity,
-        CvcResolveFlagActivity,
-        CvcSubmitAssertionActivity,
-        CvcSuggestRevisionsActivity,
-        CvcSuggestRevisionsActivity,
-        CvcSuggestSourceActivity,
-        CvcUpdateSourceSuggestionActivity,
-        CvcSubmitEvidenceActivity,
-        CvcDeprecateFeatureActivity,
-        NzSkeletonModule,
-        CvcDeleteCommentActivity,
-    ],
-    templateUrl: './feed-item-details.component.html',
-    styleUrl: './feed-item-details.component.less',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'cvc-activity-feed-item-details',
+  imports: [
+    CommonModule,
+    CvcPipesModule,
+    CvcCommentActivity,
+    CvcFlagEntityActivity,
+    CvcAcceptRevisionsActivity,
+    CvcCreateMpActivity,
+    CvcCreateVariantActivity,
+    CvcDeprecateMpActivity,
+    CvcDeprecateVariantActivity,
+    CvcModerateAssertionActivity,
+    CvcModerateEvidenceActivity,
+    CvcRejectRevisionsActivity,
+    CvcResolveFlagActivity,
+    CvcSubmitAssertionActivity,
+    CvcSuggestRevisionsActivity,
+    CvcSuggestRevisionsActivity,
+    CvcSuggestSourceActivity,
+    CvcUpdateSourceSuggestionActivity,
+    CvcSubmitEvidenceActivity,
+    CvcDeprecateFeatureActivity,
+    NzSkeletonModule,
+    CvcDeleteCommentActivity,
+    CvcEndorseAssertionActivity,
+  ],
+  templateUrl: './feed-item-details.component.html',
+  styleUrl: './feed-item-details.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcActivityFeedItemDetails implements OnInit {
   cvcActivityId = input.required<number>()

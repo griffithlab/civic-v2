@@ -48,6 +48,7 @@ export const simpleActivityTypes = new Set([
   'ModerateAssertionActivity',
   'ModerateEvidenceItemActivity',
   'DeleteCommentActivity',
+  'EndorseAssertionActivity',
 ])
 
 //TODO: Remove me, not needed

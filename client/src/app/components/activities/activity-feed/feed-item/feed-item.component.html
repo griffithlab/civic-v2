@@ -107,13 +107,21 @@
           ">
         </ng-container>
       }
-      @if (showOrganization() && activity.organization) {
+      @if (
+        (showOrganization() ||
+          activity.__typename === 'EndorseAssertionActivity') &&
+        activity.organization
+      ) {
         <div class="organization">
           <span
             class="verbiage"
             nz-typography
             nzType="secondary">
-            for
+            @if (activity.__typename === 'EndorseAssertionActivity') {
+              on behalf of
+            } @else {
+              for
+            }
           </span>
           <cvc-organization-tag
             [org]="activity.organization"
