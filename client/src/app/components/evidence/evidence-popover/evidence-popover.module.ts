@@ -21,6 +21,11 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
+import { CvcAttributeTagModule } from '@app/forms/components/attribute-tag/attribute-tag.module'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { CvcEvidenceRatingModule } from '../evidence-rating/evidence-rating.module'
+import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module'
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -36,12 +41,17 @@ import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts
     NzTagModule,
     NzSpaceModule,
     NzTypographyModule,
+    NzToolTipModule,
+    CvcTagListModule,
     CvcPipesModule,
+    CvcAttributeTagModule,
+    CvcEvidenceRatingModule,
     CvcTherapyTagModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
     CvcSourceTagModule,
     CvcStatusTagModule,
+    CvcClinicalTrialTagModule,
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
     CvcEmptyValueModule,
