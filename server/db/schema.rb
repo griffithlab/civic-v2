@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "endorsement_status", ["active", "revoked", "requires_review"]
   create_enum "exon_coordinate_record_state", ["stub", "exons_provided", "fully_curated"]
   create_enum "exon_offset_direction", ["positive", "negative"]
-  create_enum "fusion_partner_status", ["known", "unknown", "multiple"]
+  create_enum "fusion_partner_status", ["known", "unknown", "multiple", "regulatory"]
+  create_enum "regulatory_fusion_types", ["attenuator", "CAAT_signal", "DNase_I_hypersensitive_site", "enhancer", "enhancer_blocking_element", "GC_signal", "imprinting_control_region", "insulator", "locus_control_region", "matrix_attachment_region", "minus_35_signal", "minus_10_signal", "polyA_signal_sequence", "promoter", "recoding_stimulatory_region", "recombination_enhancer", "replication_regulatory_region", "response_element", "ribosome_binding_site", "riboswitch", "silencer", "TATA_box", "terminator", "transcriptional_cis_regulatory_region", "uORF", "other"]
   create_enum "variant_coordinate_record_state", ["stub", "fully_curated"]
 
   create_table "acmg_codes", id: :serial, force: :cascade do |t|
@@ -97,11 +99,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.index ["token", "search_type"], name: "index_advanced_searches_on_token_and_search_type"
   end
 
-  create_table "affiliations", id: false, force: :cascade do |t|
+  create_table "affiliations", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "can_endorse", default: false, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
@@ -382,6 +385,30 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
   end
 
+  create_table "endorsement_history", force: :cascade do |t|
+    t.enum "old_status", null: false, enum_type: "endorsement_status"
+    t.enum "new_status", null: false, enum_type: "endorsement_status"
+    t.text "note", null: false
+    t.bigint "activity_id", null: false
+    t.bigint "endorsement_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_endorsement_history_on_activity_id"
+    t.index ["endorsement_id"], name: "index_endorsement_history_on_endorsement_id"
+  end
+
+  create_table "endorsements", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "assertion_id", null: false
+    t.enum "status", default: "active", null: false, enum_type: "endorsement_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assertion_id"], name: "index_endorsements_on_assertion_id"
+    t.index ["organization_id"], name: "index_endorsements_on_organization_id"
+    t.index ["user_id"], name: "index_endorsements_on_user_id"
+  end
+
   create_table "entity_mentions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -550,6 +577,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.enum "three_prime_partner_status", default: "unknown", null: false, enum_type: "fusion_partner_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["five_prime_gene_id"], name: "index_fusions_on_five_prime_gene_id"
     t.index ["three_prime_gene_id"], name: "index_fusions_on_three_prime_gene_id"
   end
@@ -680,6 +708,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "most_recent_activity_timestamp", precision: nil
+    t.boolean "can_endorse", default: false, null: false
+    t.boolean "is_approved_vcep", default: false, null: false
     t.index ["most_recent_activity_timestamp"], name: "index_organizations_on_most_recent_activity_timestamp"
   end
 
@@ -977,8 +1007,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
+    t.enum "regulatory_fusion_type", enum_type: "regulatory_fusion_types"
     t.index ["display_name"], name: "index_variant_types_on_display_name"
     t.index ["name"], name: "index_variant_types_on_name"
+    t.index ["regulatory_fusion_type"], name: "index_variant_types_on_regulatory_fusion_type"
     t.index ["soid"], name: "index_variant_types_on_soid"
   end
 
@@ -1017,7 +1049,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url_parameters"
+    t.text "open_cravat_url"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"
