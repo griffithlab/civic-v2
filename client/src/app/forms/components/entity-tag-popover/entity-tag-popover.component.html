@@ -1,20 +1,11 @@
 @switch (entity.entityType) {
-  @case ('MolecularProfile') {
-    <cvc-molecular-profile-popover
-      [molecularProfileId]="entity.entityId"></cvc-molecular-profile-popover>
+  @case ('Assertion') {
+    <cvc-assertion-popover
+      [assertionId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-assertion-popover>
   }
   @case ('Disease') {
     <cvc-disease-popover [diseaseId]="entity.entityId"></cvc-disease-popover>
-  }
-  @case ('Therapy') {
-    <cvc-therapy-popover [therapyId]="entity.entityId"></cvc-therapy-popover>
-  }
-  @case ('Source') {
-    <cvc-source-popover [sourceId]="entity.entityId"></cvc-source-popover>
-  }
-  @case ('Phenotype') {
-    <cvc-phenotype-popover
-      [phenotypeId]="entity.entityId"></cvc-phenotype-popover>
   }
   @case ('EvidenceItem') {
     <cvc-evidence-popover
@@ -23,6 +14,20 @@
   }
   @case ('Feature') {
     <cvc-feature-popover [featureId]="entity.entityId"></cvc-feature-popover>
+  }
+  @case ('MolecularProfile') {
+    <cvc-molecular-profile-popover
+      [molecularProfileId]="entity.entityId"></cvc-molecular-profile-popover>
+  }
+  @case ('Phenotype') {
+    <cvc-phenotype-popover
+      [phenotypeId]="entity.entityId"></cvc-phenotype-popover>
+  }
+  @case ('Source') {
+    <cvc-source-popover [sourceId]="entity.entityId"></cvc-source-popover>
+  }
+  @case ('Therapy') {
+    <cvc-therapy-popover [therapyId]="entity.entityId"></cvc-therapy-popover>
   }
   @case ('Variant') {
     <cvc-variant-popover

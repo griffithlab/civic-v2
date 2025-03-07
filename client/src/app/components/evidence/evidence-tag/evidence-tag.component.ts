@@ -59,6 +59,7 @@ export class CvcEvidenceTagComponent implements AfterViewInit {
   idFunction() {
     return this.evidence.id
   }
+
   updatePopoverPosition() {
     if (this.popover) {
       this.popover.updatePosition()

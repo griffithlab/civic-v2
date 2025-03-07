@@ -32,9 +32,7 @@
         [nzColumn]="1">
         <nz-descriptions-item nzTitle="Evidence Statement">
           @if (evidence.description) {
-            <div class="long-text">
-              {{ evidence.description }}
-            </div>
+            {{ evidence.description }}
           } @else {
             <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
           }
