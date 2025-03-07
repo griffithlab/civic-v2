@@ -1,8 +1,10 @@
 import {
-  AfterViewChecked,
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core'
@@ -13,7 +15,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, finalize, map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-variant-popover',
@@ -21,34 +23,36 @@ import { filter, finalize, map } from 'rxjs/operators'
   styleUrls: ['./variant-popover.component.less'],
   standalone: false,
 })
-export class CvcVariantPopoverComponent implements OnInit, AfterViewChecked {
+export class CvcVariantPopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() variantId!: number
   @Output() contentRendered = new EventEmitter<void>()
 
   variant$?: Observable<Maybe<VariantPopoverFieldsFragment>>
-  queryFinished = false
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: VariantPopoverGQL) {}
+  constructor(
+    private gql: VariantPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
-    if (this.variantId === undefined) {
-      throw new Error(
-        'Must pass a variant ID into the variant popover component.'
-      )
-    }
-
     this.variant$ = this.gql.fetch({ variantId: this.variantId }).pipe(
       map(({ data }) => data?.variant),
-      filter(isNonNulled),
-      finalize(() => {
-        this.queryFinished = true
-      })
+      filter(isNonNulled)
     )
   }
 
-  ngAfterViewChecked() {
-    if (this.queryFinished) {
-      this.contentRendered.emit()
-    }
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

@@ -1,8 +1,11 @@
 import {
-  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core'
@@ -14,42 +17,48 @@ import {
 } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, finalize, map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-assertion-popover',
   templateUrl: './assertion-popover.component.html',
   styleUrls: ['./assertion-popover.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcAssertionPopoverComponent implements OnInit, AfterViewChecked {
+export class CvcAssertionPopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() assertionId!: number
   @Output() contentRendered = new EventEmitter<void>()
 
   assertion$?: Observable<Maybe<AssertionPopoverFragment>>
-  queryFinished = false
 
   assertionRules = new AssertionState()
+  private resizeObserver: ResizeObserver
 
-  constructor(private gql: AssertionPopoverGQL) {}
+  constructor(
+    private gql: AssertionPopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
-    if (this.assertionId == undefined) {
-      throw new Error('cvc-assertion-popover requires valid assertionId input.')
-    }
     this.assertion$ = this.gql.fetch({ assertionId: this.assertionId }).pipe(
       map((r) => r.data),
       filter(isNonNulled),
-      map(({ assertion }) => assertion),
-      finalize(() => {
-        this.queryFinished = true
-      })
+      map(({ assertion }) => assertion)
     )
   }
 
-  ngAfterViewChecked() {
-    if (this.queryFinished) {
-      this.contentRendered.emit()
-    }
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

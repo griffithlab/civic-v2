@@ -4,6 +4,7 @@ import {
   Input,
   ViewChildren,
   QueryList,
+  AfterViewInit,
 } from '@angular/core'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
@@ -25,7 +26,7 @@ export interface LinkableAssertion {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcAssertionTagComponent {
+export class CvcAssertionTagComponent implements AfterViewInit {
   _assertion!: LinkableAssertion
   @Input()
   set assertion(assertion: LinkableAssertion) {

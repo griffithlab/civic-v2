@@ -4,243 +4,367 @@
       [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="molecularProfile">
+      [nzExtra]="cardExtra">
+      <!-- popover title -->
       <ng-template #cardTitle>
-        <nz-space>
-          <ng-container *nzSpaceItem>
-            <i
-              nz-icon
-              nzTheme="twotone"
-              [nzTwotoneColor]="'Assertion' | entityColor"
-              nzType="civic-assertion"></i>
-            {{ assertion.name }}
+        <i
+          nz-icon
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Assertion' | entityColor"
+          nzType="civic-assertion"></i>
+        {{ assertion.name }}
+      </ng-template>
+
+      <!-- status & flag, revision, comment counts-->
+      <ng-template #cardExtra>
+        <cvc-status-tag
+          [status]="assertion.status"
+          style="font-weight: normal"></cvc-status-tag>
+        <cvc-entity-child-counts
+          [cvcEntity]="assertion"
+          cvcRoute="assertions"></cvc-entity-child-counts>
+      </ng-template>
+
+      <!-- summary & description -->
+      <nz-descriptions
+        nzLayout="vertical"
+        nzSize="small"
+        nzBordered="true"
+        [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Summary">
+          <p nz-typography>{{ assertion.summary }}</p>
+        </nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="Description">
+          <p
+            nz-typography
+            nzEllipsis
+            nzExpandable
+            [nzEllipsisRows]="3">
+            {{ assertion.description }}
+          </p>
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <!-- assertion attributes -->
+      <nz-descriptions
+        nzSize="small"
+        nzLayout="horizontal"
+        [nzColumn]="2"
+        nzBordered="true">
+        <!-- assertion type -->
+        <nz-descriptions-item
+          nzTitle="Type"
+          nzSpan="1">
+          <cvc-attribute-tag
+            cvcAttrName="assertionType"
+            [cvcAttrValue]="assertion.assertionType"
+            nz-tooltip
+            iconPropertyType="type"
+            [nzTooltipTitle]="
+              assertion.assertionType | enumTooltip: 'assertionType'
+            ">
+          </cvc-attribute-tag>
+        </nz-descriptions-item>
+
+        <!-- assertion direction -->
+        <nz-descriptions-item
+          nzTitle="Direction"
+          nzSpan="1">
+          <cvc-attribute-tag
+            [cvcAttrValue]="assertion.assertionDirection"
+            nz-tooltip
+            [nzTooltipTitle]="
+              assertion.assertionDirection
+                | enumTooltip
+                  : 'assertionDirection'
+                  : assertion.assertionType
+                  : 'Assertion'
+            ">
+          </cvc-attribute-tag>
+        </nz-descriptions-item>
+
+        <!-- clinical significance -->
+        <nz-descriptions-item
+          nzTitle="Significance"
+          nzSpan="1">
+          <cvc-attribute-tag
+            [cvcAttrValue]="assertion.significance"
+            nz-tooltip
+            [nzTooltipTitle]="
+              assertion.significance
+                | enumTooltip
+                  : 'significance'
+                  : assertion.assertionType
+                  : 'Assertion'
+            ">
+          </cvc-attribute-tag>
+        </nz-descriptions-item>
+
+        <!-- variant origin -->
+        <nz-descriptions-item
+          [nzTitle]="voTitle"
+          nzSpan="1">
+          <ng-template #voTitle>Variant&nbsp;Origin</ng-template>
+          <cvc-attribute-tag
+            [cvcAttrValue]="assertion.variantOrigin"
+            nz-tooltip
+            [nzTooltipTitle]="
+              assertion.variantOrigin | enumTooltip: 'variantOrigin'
+            ">
+          </cvc-attribute-tag>
+        </nz-descriptions-item>
+      </nz-descriptions>
+      <nz-descriptions
+        nzSize="small"
+        nzLayout="horizontal"
+        [nzColumn]="2"
+        nzBordered="true">
+        <!-- AMP/ASO/CAP -->
+        <nz-descriptions-item
+          nzTitle="AMP/ASCO/CAP Category"
+          nzSpan="2">
+          <nz-tag
+            *ngIf="
+              assertionRules.requiresAmpLevel(assertion.assertionType);
+              else valueNotApplicable
+            ">
+            {{ assertion.ampLevel | formatAmp: 'verbose' }}
+          </nz-tag>
+        </nz-descriptions-item>
+        <!-- ACMG Codes -->
+        <nz-descriptions-item
+          [nzSpan]="2"
+          [nzTitle]="acmgTitle">
+          <ng-template #acmgTitle>
+            ACMG Codes
+            <span
+              nz-typography
+              nzType="secondary">
+              <i
+                nz-icon
+                nzType="info-circle"
+                nz-tooltip
+                nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
+              </i>
+            </span>
+          </ng-template>
+          <ng-container
+            *ngIf="
+              assertionRules.requiresAcmgCodes(assertion.assertionType);
+              else valueNotApplicable
+            ">
+            <cvc-tag-list
+              *ngIf="assertion.acmgCodes.length > 0; else valueUnspecified">
+              <nz-tag
+                nz-tooltip
+                [nzTooltipTitle]="code.description"
+                *ngFor="let code of assertion.acmgCodes">
+                {{ code.code }}
+              </nz-tag>
+            </cvc-tag-list>
           </ng-container>
-          <cvc-status-tag
-            *nzSpaceItem
-            [status]="assertion.status"
-            style="font-weight: normal"></cvc-status-tag>
-        </nz-space>
-      </ng-template>
-      <ng-template #molecularProfile>
-        <cvc-molecular-profile-tag
-          [molecularProfile]="assertion.molecularProfile"
-          [enablePopover]="false"
-          [truncateLongName]="true"></cvc-molecular-profile-tag>
-      </ng-template>
-      <nz-row>
-        <nz-col nzSpan="24">
-          <div class="popover-text">
-            <p nz-typography>
-              <ng-container
-                *ngIf="assertion.summary as summary; else noSummary">
-                {{ summary }}
-              </ng-container>
-            </p>
-          </div>
-        </nz-col>
-      </nz-row>
+        </nz-descriptions-item>
 
-      <nz-space
-        nzDirection="vertical"
-        nzSize="small">
-        <nz-descriptions
-          *nzSpaceItem
-          nzSize="small"
-          [nzColumn]="1"
-          nzBordered="true">
-          <nz-descriptions-item nzTitle="MP Expression">
-            <cvc-mp-tag-name
-              [nameSegments]="assertion.molecularProfile.parsedName"
-              [enablePopover]="false"></cvc-mp-tag-name>
-          </nz-descriptions-item>
-        </nz-descriptions>
-
-        <nz-descriptions
-          *nzSpaceItem
-          nzSize="small"
-          [nzColumn]="2"
-          nzBordered="true">
-          <nz-descriptions-item nzTitle="Type">
-            {{ assertion.assertionType | evidenceEnumDisplay }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item nzTitle="Direction">
-            {{ assertion.assertionDirection | evidenceEnumDisplay }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item nzTitle="Variant Origin">
-            {{ assertion.variantOrigin | evidenceEnumDisplay }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item
-            *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType)"
-            nzTitle="ACMG Codes"
-            nzSpan="2">
-            <ng-container *ngIf="assertion.acmgCodes.length > 0; else noAcmg">
+        <!-- ClinGen Codes -->
+        <nz-descriptions-item
+          [nzSpan]="2"
+          [nzTitle]="clingenTitle">
+          <ng-template #clingenTitle>
+            ClinGen/CGC/VICC&nbsp;Codes&nbsp;<span
+              nz-typography
+              nzType="secondary"
+              ><i
+                nz-icon
+                nzType="info-circle"
+                nz-tooltip
+                nzTooltipTitle="All codes are reviewed during acceptance. Absence of a code implies it is not met.">
+              </i>
+            </span>
+          </ng-template>
+          <ng-container
+            *ngIf="
+              assertionRules.requiresClingenCodes(assertion.assertionType) &&
+                assertion.clingenCodes[0].code !== 'N/A';
+              else valueNotApplicable
+            ">
+            <cvc-tag-list
+              *ngIf="assertion.clingenCodes.length > 0; else valueUnspecified">
               <nz-tag
                 nz-tooltip
                 [nzTooltipTitle]="code.description"
-                *ngFor="let code of assertion.acmgCodes"
-                >{{ code.code }}</nz-tag
-              >
-            </ng-container>
-            <ng-template #noAcmg> -- </ng-template>
-          </nz-descriptions-item>
-
-          <nz-descriptions-item
-            *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType)"
-            nzTitle="ClinGen/CGC/VICC Codes"
-            nzSpan="2">
-            <ng-container
-              *ngIf="assertion.clingenCodes.length > 0; else noClingen">
-              <nz-tag
-                nz-tooltip
-                [nzTooltipTitle]="code.description"
-                *ngFor="let code of assertion.clingenCodes"
-                >{{ code.code }}</nz-tag
-              >
-            </ng-container>
-            <ng-template #noClingen> -- </ng-template>
-          </nz-descriptions-item>
-
-          <nz-descriptions-item
-            *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType)"
-            nzTitle="AMP/ASCO/CAP Category">
-            {{ assertion.ampLevel | formatAmp : 'compact' | ifEmpty : '--' }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item nzTitle="Regulatory Approval">
-            <i
-              nz-icon
-              *ngIf="assertion.regulatoryApproval"
-              nzType="check-circle"
-              nzTheme="twotone"
-              nzTwotoneColor="#52c41a"></i>
-            <i
-              nz-icon
-              *ngIf="!assertion.regulatoryApproval"
-              nzType="close-square"
-              nzTheme="twotone"
-              nzTwotoneColor="#d93026"></i>
-            <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
-              (last updated
-              {{ assertion.regulatoryApprovalLastUpdated | timeAgo }})
-            </ng-container>
-          </nz-descriptions-item>
-
-          <nz-descriptions-item nzTitle="FDA Companion Test">
-            <i
-              nz-icon
-              *ngIf="assertion.fdaCompanionTest"
-              nzType="check-circle"
-              nzTheme="twotone"
-              nzTwotoneColor="#52c41a"></i>
-            <i
-              nz-icon
-              *ngIf="!assertion.fdaCompanionTest"
-              nzType="close-square"
-              nzTheme="twotone"
-              nzTwotoneColor="#d93026"></i>
-            <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
-              (last updated
-              {{ assertion.fdaCompanionTestLastUpdated | timeAgo }})
-            </ng-container>
-          </nz-descriptions-item>
-
-          <nz-descriptions-item nzTitle="NCCN Guideline">
-            {{ assertion.nccnGuideline?.name | ifEmpty : '--' }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item nzTitle="Variant Origin">
-            {{ assertion.variantOrigin | evidenceEnumDisplay }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item
-            nzTitle="Clinical Significance"
-            nzSpan="2">
-            {{ assertion.significance | evidenceEnumDisplay }}
-          </nz-descriptions-item>
-
-          <nz-descriptions-item
-            nzTitle="Disease"
-            nzSpan="2">
-            <ng-container *ngIf="assertion.disease; else noDisease">
-              <cvc-disease-tag
-                [enablePopover]="false"
-                [disease]="assertion.disease"
-                [truncateLongName]="true"></cvc-disease-tag>
-            </ng-container>
-            <ng-template #noDisease> N/A </ng-template>
-          </nz-descriptions-item>
-
-          <nz-descriptions-item
-            nzTitle="Therapies"
-            nzSpan="2"
-            *ngIf="assertion.therapies.length > 0">
-            <span *ngFor="let therapy of assertion.therapies">
-              <cvc-therapy-tag
-                [enablePopover]="false"
-                [therapy]="therapy"
-                [truncateLongName]="true"></cvc-therapy-tag>
-            </span>
-            <ng-container *ngIf="assertion.therapies.length > 1">
-              {{ assertion.therapyInteractionType | titlecase }}
-            </ng-container>
-          </nz-descriptions-item>
-
-          <!-- phenotypes -->
-          <nz-descriptions-item
-            nzTitle="Phenotypes"
-            nzSpan="2"
-            *ngIf="assertion.phenotypes.length > 0">
-            <span *ngFor="let ph of assertion.phenotypes">
-              <cvc-phenotype-tag
-                [enablePopover]="false"
-                [phenotype]="ph"></cvc-phenotype-tag>
-            </span>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-space>
-
-      <!-- entity comment, flags, etc. tags -->
-      <nz-row id="entity-child-counts">
-        <nz-col nzSpan="24">
-          <nz-space nzSize="small">
-            <a
-              routerLink="/assertions/{{ assertion.id }}/flags"
-              *nzSpaceItem>
-              <nz-tag nzColor="red">
-                <i
-                  nz-icon
-                  nzType="civic-flag"></i>
-                Flags ({{ assertion.flags.totalCount }})
+                *ngFor="let code of assertion.clingenCodes">
+                {{ code.code }}
               </nz-tag>
-            </a>
-            <a
-              routerLink="/assertions/{{ assertion.id }}/revisions"
-              *nzSpaceItem>
-              <nz-tag nzColor="orange">
-                <i
-                  nz-icon
-                  nzType="civic-revision"></i>
-                Revisions ({{ assertion.revisions.totalCount }})
-              </nz-tag>
-            </a>
-            <a
-              routerLink="/assertions/{{ assertion.id }}/comments"
-              *nzSpaceItem>
-              <nz-tag nzColor="blue">
-                <i
-                  nz-icon
-                  nzType="civic-comment"></i>
-                Comments ({{ assertion.comments.totalCount }})
-              </nz-tag>
-            </a>
-          </nz-space>
-        </nz-col>
-      </nz-row>
+            </cvc-tag-list>
+          </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
     </nz-card>
   </ng-container>
 </div>
+<ng-template #valueNotApplicable>
+  <cvc-empty-value cvcEmptyCategory="not-applicable"></cvc-empty-value>
+</ng-template>
+<ng-template #valueUnspecified>
+  <cvc-empty-value cvcEmptyCategory="unspecified"></cvc-empty-value>
+</ng-template>
 
-<ng-template #noSummary> No Summary exists for this Assertion. </ng-template>
+<ng-template
+  #temp
+  let-assertion>
+  <nz-descriptions
+    nzSize="small"
+    [nzColumn]="1"
+    nzBordered="true">
+    <nz-descriptions-item nzTitle="MP Expression">
+      <cvc-mp-tag-name
+        [nameSegments]="assertion.molecularProfile.parsedName"
+        [enablePopover]="false"></cvc-mp-tag-name>
+    </nz-descriptions-item>
+  </nz-descriptions>
+
+  <nz-descriptions
+    nzSize="small"
+    [nzColumn]="2"
+    nzBordered="true">
+    <nz-descriptions-item nzTitle="Type">
+      {{ assertion.assertionType | evidenceEnumDisplay }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Direction">
+      {{ assertion.assertionDirection | evidenceEnumDisplay }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Variant Origin">
+      {{ assertion.variantOrigin | evidenceEnumDisplay }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item
+      *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType)"
+      nzTitle="ACMG Codes"
+      nzSpan="2">
+      <ng-container *ngIf="assertion.acmgCodes.length > 0; else noAcmg">
+        <nz-tag
+          nz-tooltip
+          [nzTooltipTitle]="code.description"
+          *ngFor="let code of assertion.acmgCodes"
+          >{{ code.code }}</nz-tag
+        >
+      </ng-container>
+      <ng-template #noAcmg> -- </ng-template>
+    </nz-descriptions-item>
+
+    <nz-descriptions-item
+      *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType)"
+      nzTitle="ClinGen/CGC/VICC Codes"
+      nzSpan="2">
+      <ng-container *ngIf="assertion.clingenCodes.length > 0; else noClingen">
+        <nz-tag
+          nz-tooltip
+          [nzTooltipTitle]="code.description"
+          *ngFor="let code of assertion.clingenCodes"
+          >{{ code.code }}</nz-tag
+        >
+      </ng-container>
+      <ng-template #noClingen> -- </ng-template>
+    </nz-descriptions-item>
+
+    <nz-descriptions-item
+      *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType)"
+      nzTitle="AMP/ASCO/CAP Category">
+      {{ assertion.ampLevel | formatAmp: 'compact' | ifEmpty: '--' }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Regulatory Approval">
+      <i
+        nz-icon
+        *ngIf="assertion.regulatoryApproval"
+        nzType="check-circle"
+        nzTheme="twotone"
+        nzTwotoneColor="#52c41a"></i>
+      <i
+        nz-icon
+        *ngIf="!assertion.regulatoryApproval"
+        nzType="close-square"
+        nzTheme="twotone"
+        nzTwotoneColor="#d93026"></i>
+      <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
+        (last updated
+        {{ assertion.regulatoryApprovalLastUpdated | timeAgo }})
+      </ng-container>
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="FDA Companion Test">
+      <i
+        nz-icon
+        *ngIf="assertion.fdaCompanionTest"
+        nzType="check-circle"
+        nzTheme="twotone"
+        nzTwotoneColor="#52c41a"></i>
+      <i
+        nz-icon
+        *ngIf="!assertion.fdaCompanionTest"
+        nzType="close-square"
+        nzTheme="twotone"
+        nzTwotoneColor="#d93026"></i>
+      <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
+        (last updated
+        {{ assertion.fdaCompanionTestLastUpdated | timeAgo }})
+      </ng-container>
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="NCCN Guideline">
+      {{ assertion.nccnGuideline?.name | ifEmpty: '--' }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item nzTitle="Variant Origin">
+      {{ assertion.variantOrigin | evidenceEnumDisplay }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item
+      nzTitle="Clinical Significance"
+      nzSpan="2">
+      {{ assertion.significance | evidenceEnumDisplay }}
+    </nz-descriptions-item>
+
+    <nz-descriptions-item
+      nzTitle="Disease"
+      nzSpan="2">
+      <ng-container *ngIf="assertion.disease; else noDisease">
+        <cvc-disease-tag
+          [enablePopover]="false"
+          [disease]="assertion.disease"
+          [truncateLongName]="true"></cvc-disease-tag>
+      </ng-container>
+      <ng-template #noDisease> N/A </ng-template>
+    </nz-descriptions-item>
+
+    <nz-descriptions-item
+      nzTitle="Therapies"
+      nzSpan="2"
+      *ngIf="assertion.therapies.length > 0">
+      <span *ngFor="let therapy of assertion.therapies">
+        <cvc-therapy-tag
+          [enablePopover]="false"
+          [therapy]="therapy"
+          [truncateLongName]="true"></cvc-therapy-tag>
+      </span>
+      <ng-container *ngIf="assertion.therapies.length > 1">
+        {{ assertion.therapyInteractionType | titlecase }}
+      </ng-container>
+    </nz-descriptions-item>
+
+    <!-- phenotypes -->
+    <nz-descriptions-item
+      nzTitle="Phenotypes"
+      nzSpan="2"
+      *ngIf="assertion.phenotypes.length > 0">
+      <span *ngFor="let ph of assertion.phenotypes">
+        <cvc-phenotype-tag
+          [enablePopover]="false"
+          [phenotype]="ph"></cvc-phenotype-tag>
+      </span>
+    </nz-descriptions-item>
+  </nz-descriptions>
+</ng-template>

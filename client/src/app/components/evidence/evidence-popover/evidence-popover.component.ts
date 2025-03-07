@@ -1,9 +1,11 @@
 import {
-  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core'
@@ -14,7 +16,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { filter, finalize, map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-evidence-popover',
@@ -23,32 +25,35 @@ import { filter, finalize, map } from 'rxjs/operators'
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidencePopoverComponent implements OnInit, AfterViewChecked {
+export class CvcEvidencePopoverComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() evidenceId!: number
   @Output() contentRendered = new EventEmitter<void>()
 
   evidence$?: Observable<Maybe<EvidencePopoverFragment>>
-  queryFinished = false
-
-  constructor(private gql: EvidencePopoverGQL) {}
+  private resizeObserver: ResizeObserver
+  constructor(
+    private gql: EvidencePopoverGQL,
+    private elementRef: ElementRef
+  ) {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.contentRendered.emit()
+    })
+  }
 
   ngOnInit() {
-    if (this.evidenceId == undefined) {
-      throw new Error('cvc-evidence-popover requires valid evidenceId input.')
-    }
-
     this.evidence$ = this.gql.fetch({ evidenceId: this.evidenceId }).pipe(
       map(({ data }) => data?.evidenceItem),
-      filter(isNonNulled),
-      finalize(() => {
-        this.queryFinished = true
-      })
+      filter(isNonNulled)
     )
   }
 
-  ngAfterViewChecked() {
-    if (this.queryFinished) {
-      this.contentRendered.emit()
-    }
+  ngAfterViewInit() {
+    this.resizeObserver.observe(this.elementRef.nativeElement)
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect()
   }
 }

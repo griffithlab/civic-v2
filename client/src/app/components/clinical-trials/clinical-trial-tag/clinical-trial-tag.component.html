@@ -9,13 +9,14 @@
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="enablePopover ? clinicalTrialPopover : undefined"
-    nzPopoverPlacement="right">
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #clinicalTrialPopover>
     <cvc-clinical-trial-popover
-      [clinicalTrialId]="clinicalTrial.id"></cvc-clinical-trial-popover>
+      [clinicalTrialId]="clinicalTrial.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-clinical-trial-popover>
   </ng-template>
 </ng-template>
 
