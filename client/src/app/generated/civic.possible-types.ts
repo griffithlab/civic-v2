@@ -16,6 +16,7 @@
       "DeprecateComplexMolecularProfileActivity",
       "DeprecateFeatureActivity",
       "DeprecateVariantActivity",
+      "EndorseAssertionActivity",
       "FlagEntityActivity",
       "ModerateAssertionActivity",
       "ModerateEvidenceItemActivity",

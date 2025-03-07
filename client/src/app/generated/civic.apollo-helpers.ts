@@ -880,6 +880,45 @@ export type EditUserPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type EndorseAssertionActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'endorsementLogEntry' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | EndorseAssertionActivityKeySpecifier)[];
+export type EndorseAssertionActivityFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
+	endorsementLogEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EndorseAssertionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | EndorseAssertionPayloadKeySpecifier)[];
+export type EndorseAssertionPayloadFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EndorsementKeySpecifier = ('assertion' | 'createdAt' | 'lastReviewed' | 'organization' | 'status' | 'updatedAt' | 'user' | EndorsementKeySpecifier)[];
+export type EndorsementFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	status?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EndorsementLogKeySpecifier = ('createdAt' | 'endorsement' | 'newStatus' | 'note' | 'oldStatus' | 'updatedAt' | EndorsementLogKeySpecifier)[];
+export type EndorsementLogFieldPolicy = {
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
+	newStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	oldStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type EventKeySpecifier = ('action' | 'createdAt' | 'id' | 'organization' | 'originatingObject' | 'originatingUser' | 'subject' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
 	action?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1601,7 +1640,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'endorseAssertion' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1618,6 +1657,7 @@ export type MutationFieldPolicy = {
 	deprecateFeature?: FieldPolicy<any> | FieldReadFunction<any>,
 	deprecateVariant?: FieldPolicy<any> | FieldReadFunction<any>,
 	editUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	endorseAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	generateApiKey?: FieldPolicy<any> | FieldReadFunction<any>,
 	moderateAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3006,6 +3046,22 @@ export type StrictTypedTypePolicies = {
 	EditUserPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EditUserPayloadKeySpecifier | (() => undefined | EditUserPayloadKeySpecifier),
 		fields?: EditUserPayloadFieldPolicy,
+	},
+	EndorseAssertionActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EndorseAssertionActivityKeySpecifier | (() => undefined | EndorseAssertionActivityKeySpecifier),
+		fields?: EndorseAssertionActivityFieldPolicy,
+	},
+	EndorseAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EndorseAssertionPayloadKeySpecifier | (() => undefined | EndorseAssertionPayloadKeySpecifier),
+		fields?: EndorseAssertionPayloadFieldPolicy,
+	},
+	Endorsement?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EndorsementKeySpecifier | (() => undefined | EndorsementKeySpecifier),
+		fields?: EndorsementFieldPolicy,
+	},
+	EndorsementLog?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EndorsementLogKeySpecifier | (() => undefined | EndorsementLogKeySpecifier),
+		fields?: EndorsementLogFieldPolicy,
 	},
 	Event?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventKeySpecifier | (() => undefined | EventKeySpecifier),
