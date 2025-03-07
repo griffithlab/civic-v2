@@ -11,15 +11,15 @@ class AddEndorsements < ActiveRecord::Migration[8.0]
       t.references :organization, null: false
       t.references :user, null: false
       t.references :assertion, null: false
-      t.enum :status, enum_type: "endorsement_status", null: false, default: "active"
+      t.enum :status, enum_type: "endorsement_status", default: "active", null: false
+      t.timestamp :last_reviewed, null: false
       t.timestamps
     end
 
-    create_table :endorsement_history do |t|
-      t.enum :old_status, enum_type: "endorsement_status", null: false
+    create_table :endorsement_logs do |t|
+      t.enum :old_status, enum_type: "endorsement_status", null: true
       t.enum :new_status, enum_type: "endorsement_status", null: false
       t.text :note, null: false
-      t.references :activity, null: false
       t.references :endorsement
       t.timestamps
     end
@@ -31,10 +31,10 @@ class AddEndorsements < ActiveRecord::Migration[8.0]
     remove_column :organizations, :can_endorse
     remove_column :organizations, :is_approved_vcep
 
-    # remove_column :affiliations, :id
+    remove_column :affiliations, :id
     remove_column :affiliations, :can_endorse
 
-    drop_table :endorsement_history
+    drop_table :endorsement_logs
     drop_table :endorsements
 
     execute <<-SQL
