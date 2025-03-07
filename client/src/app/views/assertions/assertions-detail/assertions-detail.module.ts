@@ -21,6 +21,7 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module'
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
+import { CvcEndorseAssertionButtonComponent } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -47,6 +48,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module'
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
     CvcMolecularProfileTagModule,
+    CvcEndorseAssertionButtonComponent,
   ],
 })
 export class AssertionsDetailModule {}

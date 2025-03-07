@@ -1,0 +1,7 @@
+mutation EndorseAssertion($input: EndorseAssertionInput!) {
+  endorseAssertion(input: $input) {
+    assertion {
+      ...AssertionSummaryFields
+    }
+  }
+}

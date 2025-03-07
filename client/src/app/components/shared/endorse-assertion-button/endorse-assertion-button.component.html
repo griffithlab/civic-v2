@@ -1,0 +1,55 @@
+<button
+  nz-button
+  nz-tooltip="Endorse This Assertion"
+  nzSize="small"
+  (click)="showConfirm = true"
+  [nzLoading]="isSubmitting">
+  <i
+    nz-icon
+    nzType="check-circle"></i>
+  Endorse
+</button>
+
+<nz-modal
+  [(nzVisible)]="showConfirm"
+  [nzContent]="confirmModalContent"
+  [nzTitle]="confirmModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="handleConfirmModalCancel()">
+  <ng-template #confirmModalTitle
+    ><span>Endorse This Assertion</span></ng-template
+  >
+  <ng-template #confirmModalContent>
+    <nz-spin [nzSpinning]="isSubmitting">
+      <span>
+        You are about to formally
+        <strong>
+          Endorse this Assertion on behalf of {{ mostRecentOrg?.name }}</strong
+        >. Are you sure you wish to proceed?
+      </span>
+      <nz-divider></nz-divider>
+      <nz-space nzDirection="horizontal">
+        <span *nzSpaceItem>
+          <button
+            nzType="primary"
+            nzSize="small"
+            nz-button
+            (click)="endorse()"
+            nz-tooltip
+            [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
+            [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
+            Endorse
+          </button>
+        </span>
+        <span *nzSpaceItem>
+          <button
+            nz-button
+            (click)="showConfirm = false"
+            nzSize="small">
+            Cancel
+          </button>
+        </span>
+      </nz-space>
+    </nz-spin>
+  </ng-template>
+</nz-modal>
