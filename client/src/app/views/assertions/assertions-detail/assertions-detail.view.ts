@@ -12,7 +12,7 @@ import {
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { QueryRef } from 'apollo-angular'
 import { AssertionDetailQuery } from '@app/generated/civic.apollo'
-import { startWith, takeUntil } from 'rxjs/operators'
+import { map, startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
@@ -29,6 +29,7 @@ export class AssertionsDetailView implements OnDestroy {
   assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
   loading$?: Observable<boolean>
   flagsTotal$?: Observable<number>
+  endorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
   paramsSub: Subscription
@@ -86,6 +87,8 @@ export class AssertionsDetailView implements OnDestroy {
       this.assertion$ = observable.pipe(pluck('data', 'assertion'))
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
+
+      this.endorsementTotal$ = this.assertion$.pipe(map((assertion) => assertion?.endorsements.length || 0))
 
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (assertionResp) => {

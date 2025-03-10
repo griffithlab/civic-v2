@@ -23,14 +23,15 @@
   </ng-template>
   <div
     cvcFlaggable
-    [flags]="flagsTotal$ | ngrxPush">
+    [flags]="flagsTotal$ | ngrxPush"
+    [endorsements]="endorsementTotal$ | ngrxPush">
     <nz-page-header
       *ngrxLet="viewer$ as viewer"
       class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 }">
+        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.endorsements.length > 0 }">
         <i
           nz-icon
           nzTheme="twotone"

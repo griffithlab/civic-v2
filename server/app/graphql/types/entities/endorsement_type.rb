@@ -1,5 +1,6 @@
 module Types::Entities
   class EndorsementType < Types::BaseObject
+    field :id, Int, null: false
     field :organization, Types::Entities::OrganizationType, null: false
     field :user, Types::Entities::UserType, null: false
     field :assertion, Types::Entities::AssertionType, null: false
