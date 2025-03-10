@@ -41,7 +41,7 @@ Trestle.resource(:affiliations) do
       end
     end
     row do
-      col { check_box :can_endorse, label: "Organization Allowed to Endorse Assertions" }
+      col { check_box :can_endorse, label: "User Allowed to Endorse Assertions for this Organization" }
     end
   end
 
