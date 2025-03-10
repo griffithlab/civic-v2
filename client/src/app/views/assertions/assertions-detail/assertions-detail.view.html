@@ -31,7 +31,7 @@
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.endorsements.length > 0 }">
+        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.endorsements.totalCount > 0 }">
         <i
           nz-icon
           nzTheme="twotone"

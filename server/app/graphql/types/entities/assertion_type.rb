@@ -35,7 +35,7 @@ module Types::Entities
     field :rejection_event, Types::Entities::EventType, null: true
     field :evidence_items, [ Types::Entities::EvidenceItemType ], null: false
     field :evidence_items_count, Integer, null: false
-    field :endorsements, [ Types::Entities::EndorsementType ], null: false
+    field :endorsements, resolver: Resolvers::Endorsements
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)

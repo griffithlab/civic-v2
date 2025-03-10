@@ -912,6 +912,19 @@ export type EndorsementFieldPolicy = {
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type EndorsementConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EndorsementConnectionKeySpecifier)[];
+export type EndorsementConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EndorsementEdgeKeySpecifier = ('cursor' | 'node' | EndorsementEdgeKeySpecifier)[];
+export type EndorsementEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type EndorsementLogKeySpecifier = ('createdAt' | 'endorsement' | 'newStatus' | 'note' | 'oldStatus' | 'updatedAt' | EndorsementLogKeySpecifier)[];
 export type EndorsementLogFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3060,6 +3073,14 @@ export type StrictTypedTypePolicies = {
 	Endorsement?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EndorsementKeySpecifier | (() => undefined | EndorsementKeySpecifier),
 		fields?: EndorsementFieldPolicy,
+	},
+	EndorsementConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EndorsementConnectionKeySpecifier | (() => undefined | EndorsementConnectionKeySpecifier),
+		fields?: EndorsementConnectionFieldPolicy,
+	},
+	EndorsementEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EndorsementEdgeKeySpecifier | (() => undefined | EndorsementEdgeKeySpecifier),
+		fields?: EndorsementEdgeFieldPolicy,
 	},
 	EndorsementLog?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EndorsementLogKeySpecifier | (() => undefined | EndorsementLogKeySpecifier),

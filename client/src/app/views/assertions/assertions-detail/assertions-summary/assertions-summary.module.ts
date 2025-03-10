@@ -24,6 +24,9 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-value.module'
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -31,6 +34,7 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
     CommonModule,
     LetDirective,
     PushPipe,
+    RouterModule,
     NzGridModule,
     NzSpaceModule,
     NzGridModule,
@@ -41,6 +45,7 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
     NzDescriptionsModule,
     NzToolTipModule,
     NzPopoverModule,
+    NzAvatarModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,
@@ -54,6 +59,7 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
     CvcMolecularProfileTagModule,
     CvcMolecularProfileTagNameModule,
     CvcCommentBodyModule,
+    CvcOrganizationTagModule,
   ],
   exports: [AssertionsSummaryPage],
 })

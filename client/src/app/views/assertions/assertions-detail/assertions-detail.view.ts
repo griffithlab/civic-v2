@@ -88,7 +88,7 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
-      this.endorsementTotal$ = this.assertion$.pipe(map((assertion) => assertion?.endorsements.length || 0))
+      this.endorsementTotal$ = this.assertion$.pipe(pluck('endorsements', 'totalCount'))
 
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (assertionResp) => {
