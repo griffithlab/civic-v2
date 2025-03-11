@@ -10,12 +10,14 @@
     [ngClass]="{ deprecated: source.deprecated }"
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="enablePopover ? sourcePopover : undefined"
-    nzPopoverPlacement="right">
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #sourcePopover>
-    <cvc-source-popover [sourceId]="source.id"></cvc-source-popover>
+    <cvc-source-popover
+      [sourceId]="source.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-source-popover>
   </ng-template>
 </ng-template>
 
