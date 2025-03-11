@@ -1,11 +1,16 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
 
 import { Maybe } from '@app/generated/civic.apollo'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableDisease {
   id: number
@@ -15,30 +20,30 @@ export interface LinkableDisease {
 }
 
 @Component({
-    selector: 'cvc-disease-tag',
-    templateUrl: './cvc-disease-tag.component.html',
-    styleUrls: ['./cvc-disease-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-disease-tag',
+  templateUrl: './cvc-disease-tag.component.html',
+  styleUrls: ['./cvc-disease-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CvcDiseaseTagComponent {
-  _disease!: LinkableDisease
-  @Input()
-  set disease(d: LinkableDisease) {
-    if (!d) {
-      throw new Error('disease-tag disease Input requires LinkableDisease.')
-    }
-    this._disease = d
-  }
-  get disease(): LinkableDisease {
-    return this._disease
-  }
-
+export class CvcDiseaseTagComponent implements AfterViewInit {
+  @Input() disease!: LinkableDisease
   @Input() enablePopover?: boolean = true
   @Input() truncateLongName?: boolean = false
   @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
 
-  idFunction() {
-    return this.disease.id
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
+    }
   }
 }
