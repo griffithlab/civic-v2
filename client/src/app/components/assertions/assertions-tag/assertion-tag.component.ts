@@ -27,19 +27,7 @@ export interface LinkableAssertion {
   standalone: false,
 })
 export class CvcAssertionTagComponent implements AfterViewInit {
-  _assertion!: LinkableAssertion
-  @Input()
-  set assertion(assertion: LinkableAssertion) {
-    if (!assertion) {
-      throw new Error(
-        'cvc-assertion-tag assertion input requires LinkableAssertion.'
-      )
-    }
-    this._assertion = assertion
-  }
-  get assertion(): LinkableAssertion {
-    return this._assertion
-  }
+  @Input() assertion!: LinkableAssertion
   @Input() linked?: boolean = true
   @Input() enablePopover?: boolean = true
   @Input() popoverPlacement: PopoverPlacement = 'top'
