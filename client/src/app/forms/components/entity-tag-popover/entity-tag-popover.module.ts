@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { CvcAssertionsPopoverModule } from '@app/components/assertions/assertions-popover/assertions-popover.module'
-import { CvcDiseasePopoverModule } from '@app/components/diseases/cvc-disease-popover/cvc-disease-popover.module'
+import { CvcDiseasePopoverModule } from '@app/components/diseases/disease-popover/disease-popover.module'
 import { CvcEvidencePopoverModule } from '@app/components/evidence/evidence-popover/evidence-popover.module'
 import { CvcFeaturePopoverModule } from '@app/components/features/feature-popover/feature-popover.module'
 import { CvcMolecularProfilePopoverModule } from '@app/components/molecular-profiles/molecular-profile-popover/molecular-profile-popover.module'

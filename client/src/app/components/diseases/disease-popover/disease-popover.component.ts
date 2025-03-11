@@ -17,8 +17,8 @@ import { filter, map } from 'rxjs/operators'
 
 @Component({
   selector: 'cvc-disease-popover',
-  templateUrl: './cvc-disease-popover.component.html',
-  styleUrls: ['./cvc-disease-popover.component.less'],
+  templateUrl: './disease-popover.component.html',
+  styleUrls: ['./disease-popover.component.less'],
   standalone: false,
 })
 export class CvcDiseasePopoverComponent implements OnInit {

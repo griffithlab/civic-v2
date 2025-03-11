@@ -17,7 +17,7 @@ import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
-import { CvcDiseaseTagModule } from '../cvc-disease-tag/cvc-disease-tag.module'
+import { CvcDiseaseTagModule } from '@app/components/diseases/disease-tag/disease-tag.module'
 import { CvcDiseasesTableComponent } from './diseases-table.component'
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module'
 

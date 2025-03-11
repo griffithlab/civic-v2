@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core'
@@ -21,8 +20,8 @@ export interface LinkableDisease {
 
 @Component({
   selector: 'cvc-disease-tag',
-  templateUrl: './cvc-disease-tag.component.html',
-  styleUrls: ['./cvc-disease-tag.component.less'],
+  templateUrl: './disease-tag.component.html',
+  styleUrls: ['./disease-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
