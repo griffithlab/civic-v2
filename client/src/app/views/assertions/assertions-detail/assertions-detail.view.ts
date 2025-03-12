@@ -18,6 +18,12 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 
+type ActiveEndorsement = {
+  organization: {
+    id: number
+  }
+}
+
 @Component({
   selector: 'assertions-detail',
   templateUrl: './assertions-detail.view.html',
@@ -30,7 +36,7 @@ export class AssertionsDetailView implements OnDestroy {
   assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>
   loading$?: Observable<boolean>
   flagsTotal$?: Observable<number>
-  endorsementTotal$?: Observable<number>
+  activeEndorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
   paramsSub: Subscription
@@ -89,8 +95,8 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
-      this.endorsementTotal$ = this.assertion$.pipe(
-        pluck('endorsements', 'totalCount')
+      this.activeEndorsementTotal$ = this.assertion$.pipe(
+        pluck('activeEndorsements', 'totalCount')
       )
 
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
@@ -177,5 +183,15 @@ export class AssertionsDetailView implements OnDestroy {
       this.successMessage = undefined
       this.errors = res.errors
     }
+  }
+
+  hasActiveEndorsement(
+    currentOrgId: number,
+    activeEndorsements: ActiveEndorsement[]
+  ): boolean {
+    return (
+      activeEndorsements.filter((ae) => ae.organization.id === currentOrgId)
+        .length > 0
+    )
   }
 }

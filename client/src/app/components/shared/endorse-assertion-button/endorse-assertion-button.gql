@@ -5,3 +5,11 @@ mutation EndorseAssertion($input: EndorseAssertionInput!) {
     }
   }
 }
+
+mutation RevokeEndorsement($input: RevokeEndorsementInput!) {
+  revokeEndorsement(input: $input) {
+    assertion {
+      ...AssertionSummaryFields
+    }
+  }
+}

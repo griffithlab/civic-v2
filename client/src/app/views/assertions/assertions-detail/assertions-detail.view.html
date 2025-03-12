@@ -24,14 +24,14 @@
   <div
     cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush"
-    [endorsements]="endorsementTotal$ | ngrxPush">
+    [endorsements]="activeEndorsementTotal$ | ngrxPush">
     <nz-page-header
       *ngrxLet="viewer$ as viewer"
       class="site-page-header">
       <!-- title -->
       <nz-page-header-title
         cvcFlaggableOptions
-        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.endorsements.totalCount > 0 }">
+        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 || assertion.activeEndorsements.totalCount > 0 }">
         <i
           nz-icon
           nzTheme="twotone"
@@ -95,13 +95,29 @@
               </cvc-revert-entity-button>
             </ng-container>
           </span>
-
+          @if(viewer.signedIn && viewer.canModerate && viewer.mostRecentOrg &&
+          viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
+          !hasActiveEndorsement(viewer.mostRecentOrg.id,
+          assertion.activeEndorsements.nodes)) {
           <span *nzSpaceItem>
             <cvc-endorse-assertion-button
+              mode="endorse"
               [assertionId]="assertion.id"
               (onEndorsed)="onEndorsementAction($event)">
             </cvc-endorse-assertion-button>
           </span>
+          } @if(viewer.signedIn && viewer.canModerate && viewer.mostRecentOrg &&
+          viewer.endorsableOrgIds.includes(viewer.mostRecentOrg.id) &&
+          hasActiveEndorsement(viewer.mostRecentOrg.id,
+          assertion.activeEndorsements.nodes)) {
+          <span *nzSpaceItem>
+            <cvc-endorse-assertion-button
+              mode="revoke"
+              [assertionId]="assertion.id"
+              (onEndorsed)="onEndorsementAction($event)">
+            </cvc-endorse-assertion-button>
+          </span>
+          }
         </nz-space>
       </nz-page-header-extra>
 

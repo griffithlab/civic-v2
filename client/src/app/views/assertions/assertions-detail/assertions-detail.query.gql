@@ -29,8 +29,21 @@ fragment AssertionDetailFields on Assertion {
   comments {
     totalCount
   }
-  endorsements(status: ACTIVE) {
+  activeEndorsements: endorsements(status: ACTIVE) {
     totalCount
+    nodes {
+      organization {
+        id
+      }
+    }
+  }
+  requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
+    totalCount
+    nodes {
+      organization {
+        id
+      }
+    }
   }
   ...assertionSubmissionActivity
 }

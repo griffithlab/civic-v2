@@ -9,11 +9,13 @@ import {
 } from '@app/core/utilities/mutation-state-wrapper'
 import {
   Maybe,
-  Organization,
   EndorseAssertionGQL,
   EndorseAssertionMutationVariables,
   EndorseAssertionMutation,
   ViewerOrganizationFragment,
+  RevokeEndorsementGQL,
+  RevokeEndorsementMutation,
+  RevokeEndorsementMutationVariables,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -26,8 +28,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { Observable, Subject } from 'rxjs'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 
+export type EndorsementMode = 'endorse' | 'revoke'
 export type EndorsementResult = {
-  action: 'endorse' | 'revoke'
+  action: EndorsementMode
   success: boolean
   errors: string[]
 }
@@ -53,6 +56,7 @@ export type EndorsementResult = {
 })
 export class CvcEndorseAssertionButtonComponent implements OnInit {
   @Input() assertionId!: number
+  @Input() mode!: EndorsementMode
 
   @Output() onEndorsed = new EventEmitter<EndorsementResult>()
 
@@ -62,8 +66,15 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
     EndorseAssertionMutationVariables
   >
 
+  revokeAssertionMutator: MutatorWithState<
+    RevokeEndorsementGQL,
+    RevokeEndorsementMutation,
+    RevokeEndorsementMutationVariables
+  >
+
   isSubmitting = false
   showConfirm = false
+  showRevokeConfirm = false
 
   mostRecentOrg: Maybe<ViewerOrganizationFragment>
 
@@ -71,31 +82,45 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
   viewer$: Observable<Viewer>
   constructor(
     private endorseAssertionGql: EndorseAssertionGQL,
+    private revokeEndorsementGql: RevokeEndorsementGQL,
     private networkErrorService: NetworkErrorsService,
     private viewerService: ViewerService
   ) {
     this.endorseAssertionMutator = new MutatorWithState(
       this.networkErrorService
     )
+    this.revokeAssertionMutator = new MutatorWithState(this.networkErrorService)
+
     this.viewer$ = this.viewerService.viewer$
   }
 
-  endorse() {
+  perform() {
     this.isSubmitting = true
     let state: MutationState
-    state = this.endorseAssertionMutator.mutate(this.endorseAssertionGql, {
-      input: {
-        assertionId: this.assertionId,
-        organizationId: this.mostRecentOrg?.id,
-      },
-    })
+
+    if (this.mode === 'endorse') {
+      state = this.endorseAssertionMutator.mutate(this.endorseAssertionGql, {
+        input: {
+          assertionId: this.assertionId,
+          organizationId: this.mostRecentOrg?.id,
+        },
+      })
+    } else {
+      state = this.revokeAssertionMutator.mutate(this.revokeEndorsementGql, {
+        input: {
+          assertionId: this.assertionId,
+          organizationId: this.mostRecentOrg?.id,
+        },
+      })
+    }
 
     state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
       if (res) {
         this.isSubmitting = false
         this.showConfirm = false
+        this.showRevokeConfirm = false
         this.onEndorsed.emit({
-          action: 'endorse',
+          action: this.mode,
           success: true,
           errors: [],
         })
@@ -106,8 +131,9 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
       if (errs) {
         this.isSubmitting = false
         this.showConfirm = false
+        this.showRevokeConfirm = false
         this.onEndorsed.emit({
-          action: 'endorse',
+          action: this.mode,
           success: false,
           errors: errs,
         })
@@ -121,6 +147,7 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
 
   handleConfirmModalCancel() {
     this.showConfirm = false
+    this.showRevokeConfirm = false
   }
 
   ngOnInit() {
@@ -129,9 +156,9 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
         'Must pass in an assertion id to the CvcEndorseAssertionButtonComponent'
       )
     }
-    if (this.assertionId === undefined) {
+    if (this.mode === undefined) {
       throw new Error(
-        'Must pass in an entityType to the CvcEndorseAssertionButtonComponent'
+        'Must pass in a mode to the CvcEndorseAssertionButtonComponent'
       )
     }
 
