@@ -25,6 +25,12 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { Observable, Subject } from 'rxjs'
 import { pluck } from 'rxjs-etc/dist/esm/operators'
 
+export type EndorsementResult = {
+  action: 'endorse' | 'revoke'
+  success: boolean
+  errors: string[]
+}
+
 @UntilDestroy()
 @Component({
   selector: 'cvc-endorse-assertion-button',
@@ -47,7 +53,7 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
 export class CvcEndorseAssertionButtonComponent implements OnInit {
   @Input() assertionId!: number
 
-  @Output() onEndorsed = new EventEmitter<true | string[]>()
+  @Output() onEndorsed = new EventEmitter<EndorsementResult>()
 
   endorseAssertionMutator: MutatorWithState<
     EndorseAssertionGQL,
@@ -87,7 +93,11 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
       if (res) {
         this.isSubmitting = false
         this.showConfirm = false
-        this.onEndorsed.emit(true)
+        this.onEndorsed.emit({
+          action: 'endorse',
+          success: true,
+          errors: [],
+        })
       }
     })
 
@@ -95,7 +105,11 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
       if (errs) {
         this.isSubmitting = false
         this.showConfirm = false
-        this.onEndorsed.emit(errs)
+        this.onEndorsed.emit({
+          action: 'endorse',
+          success: false,
+          errors: errs,
+        })
       }
     })
 

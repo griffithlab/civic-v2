@@ -16,12 +16,13 @@ import { map, startWith, takeUntil } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
+import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
 
 @Component({
-    selector: 'assertions-detail',
-    templateUrl: './assertions-detail.view.html',
-    styleUrls: ['./assertions-detail.view.less'],
-    standalone: false
+  selector: 'assertions-detail',
+  templateUrl: './assertions-detail.view.html',
+  styleUrls: ['./assertions-detail.view.less'],
+  standalone: false,
 })
 export class AssertionsDetailView implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>
@@ -88,7 +89,9 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
-      this.endorsementTotal$ = this.assertion$.pipe(pluck('endorsements', 'totalCount'))
+      this.endorsementTotal$ = this.assertion$.pipe(
+        pluck('endorsements', 'totalCount')
+      )
 
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (assertionResp) => {
@@ -158,6 +161,21 @@ export class AssertionsDetailView implements OnDestroy {
       this.errors = []
       this.successMessage = `Assertion successfully ${res}.`
       this.queryRef?.refetch()
+    }
+  }
+
+  onEndorsementAction(res: EndorsementResult) {
+    if (res.success) {
+      if (res.action == 'endorse') {
+        this.successMessage = `Assertion Endorsed Successfully`
+      } else {
+        this.successMessage = `Successfully Revoked Endorsement`
+      }
+      this.errors = []
+      this.queryRef?.refetch()
+    } else {
+      this.successMessage = undefined
+      this.errors = res.errors
     }
   }
 }

@@ -95,7 +95,9 @@
           </span>
 
           <span *nzSpaceItem>
-            <cvc-endorse-assertion-button [assertionId]="assertion.id">
+            <cvc-endorse-assertion-button
+              [assertionId]="assertion.id"
+              (onEndorsed)="onEndorsementAction($event)">
             </cvc-endorse-assertion-button>
           </span>
         </nz-space>
