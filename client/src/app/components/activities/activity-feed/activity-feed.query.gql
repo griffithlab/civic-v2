@@ -181,4 +181,5 @@ fragment ActivityFeedItem on ActivityInterface {
   ...SuggestSourceActivityDetail @include(if: $requestDetails)
   ...UpdateSourceSuggestionStatusActivityDetail @include(if: $requestDetails)
   ...EndorseAssertionActivityDetail @include(if: $requestDetails)
+  ...RevokeEndorsementActivityDetail @include(if: $requestDetails)
 }

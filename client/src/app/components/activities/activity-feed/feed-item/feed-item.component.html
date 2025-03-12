@@ -109,7 +109,8 @@
       }
       @if (
         (showOrganization() ||
-          activity.__typename === 'EndorseAssertionActivity') &&
+          activity.__typename === 'EndorseAssertionActivity' ||
+          activity.__typename === 'RevokeEndorsementActivity') &&
         activity.organization
       ) {
         <div class="organization">
@@ -117,7 +118,10 @@
             class="verbiage"
             nz-typography
             nzType="secondary">
-            @if (activity.__typename === 'EndorseAssertionActivity') {
+            @if (
+              activity.__typename === 'EndorseAssertionActivity' ||
+              activity.__typename === 'RevokeEndorsementActivity'
+            ) {
               on behalf of
             } @else {
               for

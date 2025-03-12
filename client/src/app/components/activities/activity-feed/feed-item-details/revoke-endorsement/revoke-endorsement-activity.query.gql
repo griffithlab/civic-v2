@@ -1,0 +1,4 @@
+fragment RevokeEndorsementActivityDetail on RevokeEndorsementActivity {
+  ...ActivityFeedItemBase
+  ...ActivityFeedItemEvents
+}

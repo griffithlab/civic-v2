@@ -1,7 +1,5 @@
 import {
   ActivityInterfaceEdge,
-  ActivitySubjectInput,
-  ActivityTypeInput,
   DateSortColumns,
   EventFeedMode,
   SortDirection,
@@ -49,6 +47,7 @@ export const simpleActivityTypes = new Set([
   'ModerateEvidenceItemActivity',
   'DeleteCommentActivity',
   'EndorseAssertionActivity',
+  'RevokeEndorsementActivity',
 ])
 
 //TODO: Remove me, not needed
