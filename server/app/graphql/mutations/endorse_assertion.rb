@@ -17,7 +17,7 @@ class Mutations::EndorseAssertion < Mutations::MutationWithOrg
     if @assertion.blank?
       raise GraphQL::ExecutionError, "Assertion with id #{assertion_id} doesn't exist."
     end
-    if @assertion.status != 'accepted'
+    if @assertion.status != "accepted"
       raise GraphQL::ExecutionError, "Assertion #{assertion_id} has not been accepted."
     end
     if @assertion.flagged
