@@ -3,7 +3,9 @@
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
-      id="card-content">
+      id="card-content"
+      [nzExtra]="cardExtra">
+      <!-- popover title -->
       <ng-template #cardTitle>
         <i
           nz-icon
@@ -12,7 +14,14 @@
           nzType="civic-feature"></i>
         {{ feature.featureInstance.__typename }} - {{ feature.name }}
       </ng-template>
+      <!-- revision, comment, flag counts -->
+      <ng-template #cardExtra>
+        <cvc-entity-child-counts
+          [cvcEntity]="feature"
+          cvcRoute="features"></cvc-entity-child-counts>
+      </ng-template>
 
+      <!-- summary & description -->
       <nz-descriptions
         nzSize="small"
         [nzColumn]="2"
@@ -38,46 +47,6 @@
           {{ feature.variants.totalCount }}
         </nz-descriptions-item>
       </nz-descriptions>
-
-      <!-- entity comment, flags, etc. tags -->
-      <nz-row id="entity-child-counts">
-        <nz-col nzSpan="24">
-          <nz-space nzSize="small">
-            <a
-              routerLink="/features/{{ feature.id }}/flags"
-              *nzSpaceItem>
-              <nz-tag nzColor="red">
-                <i
-                  nz-icon
-                  nzType="civic-flag"></i>
-                Flags ({{ feature.flags.totalCount }})
-              </nz-tag>
-            </a>
-            <a
-              routerLink="/features/{{ feature.id }}/revisions"
-              *nzSpaceItem>
-              <nz-tag nzColor="orange">
-                <i
-                  nz-icon
-                  nzType="civic-revision"></i>
-                Revisions
-                <!-- ({{ feature.revisions.totalCount }}) -->
-              </nz-tag>
-            </a>
-            <a
-              routerLink="/features/{{ feature.id }}/comments"
-              *nzSpaceItem>
-              <nz-tag nzColor="blue">
-                <i
-                  nz-icon
-                  nzType="civic-comment"></i>
-                Comments
-                <!-- ({{ feature.comments.totalCount }}) -->
-              </nz-tag>
-            </a>
-          </nz-space>
-        </nz-col>
-      </nz-row>
     </nz-card>
   </ng-container>
 </div>

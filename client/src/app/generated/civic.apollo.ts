@@ -8232,9 +8232,9 @@ export type FeaturePopoverQueryVariables = Exact<{
 }>;
 
 
-export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']['input']>;
@@ -8694,9 +8694,9 @@ export type VariantGroupPopoverQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupPopoverQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> } | undefined };
+export type VariantGroupPopoverQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> } | undefined };
 
-export type VariantGroupPopoverFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> };
+export type VariantGroupPopoverFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> };
 
 export type BrowseVariantGroupsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -11130,6 +11130,12 @@ export const FeaturePopoverFragmentDoc = gql`
   variants {
     totalCount
   }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
   flags(state: OPEN) {
     totalCount
   }
@@ -11683,6 +11689,15 @@ export const VariantGroupPopoverFieldsFragmentDoc = gql`
   id
   name
   description
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
   variants {
     edges {
       node {
