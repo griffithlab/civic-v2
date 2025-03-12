@@ -27,6 +27,6 @@ module Types::Events
     value "FEATURE_CREATED", value: "feature created"
     value "COMMENT_DELETED", value: "comment deleted"
     value "ASSERTION_ENDORSED", value: "assertion endorsed"
-    value "ASSERTION_ENDORSMENT_REVOKED", value: "assertion endorsment revoked"
+    value "ASSERTION_ENDORSMENT_REVOKED", value: "assertion endorsement revoked"
   end
 end

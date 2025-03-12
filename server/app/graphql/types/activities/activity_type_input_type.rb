@@ -20,5 +20,6 @@ module Types::Activities
     value "DEPRECATE_FEATURE", value: "DeprecateFeatureActivity"
     value "DELETE_COMMENT", value: "DeleteCommentActivity"
     value "ENDORSE_ASSERTION", value: "EndorseAssertionActivity"
+    value "REVOKE_ENDORSEMENT", value: "RevokeEndorsementActivity"
   end
 end

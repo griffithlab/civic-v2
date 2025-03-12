@@ -69,5 +69,6 @@ module Types
 
     # endorsements
     field :endorse_assertion, mutation: Mutations::EndorseAssertion
+    field :revoke_endorsement, mutation: Mutations::RevokeEndorsement
   end
 end
