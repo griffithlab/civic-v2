@@ -22,6 +22,7 @@
       "ModerateEvidenceItemActivity",
       "RejectRevisionsActivity",
       "ResolveFlagActivity",
+      "RevokeEndorsementActivity",
       "SubmitAssertionActivity",
       "SubmitEvidenceItemActivity",
       "SuggestRevisionSetActivity",

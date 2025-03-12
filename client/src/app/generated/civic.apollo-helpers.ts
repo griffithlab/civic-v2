@@ -1657,7 +1657,7 @@ export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfile
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'endorseAssertion' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addRemoteCitation' | 'addTherapy' | 'createFeature' | 'createFusionFeature' | 'createFusionVariant' | 'createMolecularProfile' | 'createVariant' | 'deleteComment' | 'deprecateComplexMolecularProfile' | 'deprecateFeature' | 'deprecateVariant' | 'editUser' | 'endorseAssertion' | 'flagEntity' | 'generateApiKey' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'revokeApiKey' | 'revokeEndorsement' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestFactorRevision' | 'suggestFactorVariantRevision' | 'suggestFusionRevision' | 'suggestFusionVariantRevision' | 'suggestGeneRevision' | 'suggestGeneVariantRevision' | 'suggestMolecularProfileRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1682,6 +1682,7 @@ export type MutationFieldPolicy = {
 	rejectRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
 	revokeApiKey?: FieldPolicy<any> | FieldReadFunction<any>,
+	revokeEndorsement?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitEvidence?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitVariantGroup?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2121,6 +2122,26 @@ export type RevokeApiKeyPayloadKeySpecifier = ('clientMutationId' | 'success' | 
 export type RevokeApiKeyPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	success?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RevokeEndorsementActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'endorsementLogEntry' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | RevokeEndorsementActivityKeySpecifier)[];
+export type RevokeEndorsementActivityFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
+	endorsementLogEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	note?: FieldPolicy<any> | FieldReadFunction<any>,
+	organization?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedNote?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	verbiage?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RevokeEndorsementPayloadKeySpecifier = ('assertion' | 'clientMutationId' | RevokeEndorsementPayloadKeySpecifier)[];
+export type RevokeEndorsementPayloadFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ScalarFieldKeySpecifier = ('value' | ScalarFieldKeySpecifier)[];
 export type ScalarFieldFieldPolicy = {
@@ -3472,6 +3493,14 @@ export type StrictTypedTypePolicies = {
 	RevokeApiKeyPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RevokeApiKeyPayloadKeySpecifier | (() => undefined | RevokeApiKeyPayloadKeySpecifier),
 		fields?: RevokeApiKeyPayloadFieldPolicy,
+	},
+	RevokeEndorsementActivity?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevokeEndorsementActivityKeySpecifier | (() => undefined | RevokeEndorsementActivityKeySpecifier),
+		fields?: RevokeEndorsementActivityFieldPolicy,
+	},
+	RevokeEndorsementPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevokeEndorsementPayloadKeySpecifier | (() => undefined | RevokeEndorsementPayloadKeySpecifier),
+		fields?: RevokeEndorsementPayloadFieldPolicy,
 	},
 	ScalarField?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ScalarFieldKeySpecifier | (() => undefined | ScalarFieldKeySpecifier),
