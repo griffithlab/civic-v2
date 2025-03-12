@@ -1563,6 +1563,7 @@ type BrowseUser {
   ): NotificationConnection
   orcid: String
   organizations: [Organization!]!
+  organizationsWithEndorsementPrivileges: [Organization!]!
   profileImagePath(size: Int = 56): String
   ranks: Ranks!
   revisionCount: Int!
@@ -6597,6 +6598,7 @@ type LeaderboardUser {
   ): NotificationConnection
   orcid: String
   organizations: [Organization!]!
+  organizationsWithEndorsementPrivileges: [Organization!]!
   profileImagePath(size: Int = 56): String
   rank: Int!
   ranks: Ranks!
@@ -12228,6 +12230,7 @@ type User {
   ): NotificationConnection
   orcid: String
   organizations: [Organization!]!
+  organizationsWithEndorsementPrivileges: [Organization!]!
   profileImagePath(size: Int = 56): String
   ranks: Ranks!
   role: UserRole!

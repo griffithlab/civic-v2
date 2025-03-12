@@ -13,6 +13,7 @@ import {
   EndorseAssertionGQL,
   EndorseAssertionMutationVariables,
   EndorseAssertionMutation,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -64,7 +65,7 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
   isSubmitting = false
   showConfirm = false
 
-  mostRecentOrg: Maybe<Organization>
+  mostRecentOrg: Maybe<ViewerOrganizationFragment>
 
   destroy$ = new Subject<void>()
   viewer$: Observable<Viewer>

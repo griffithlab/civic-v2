@@ -461,7 +461,7 @@
                   <label
                     *ngIf="
                       viewer.isCurator &&
-                        viewer.id != revision.creationActivity?.user.id;
+                        viewer.user?.id != revision.creationActivity?.user.id;
                       else canRevise
                     "
                     nz-checkbox
@@ -525,15 +525,13 @@
                       [nzPopoverTitle]="validationPopoverTitleTemplate"
                       [(nzPopoverVisible)]="validationPopoverVisible"
                       (click)="
-                        validationPopoverVisible =
-                          !validationPopoverVisible
+                        validationPopoverVisible = !validationPopoverVisible
                       "
                       [nzPopoverContent]="validationPopoverContentTemplate"
                       [nzPopoverTrigger]="undefined"
                       nzPopoverPlacement="bottom"
                       [disabled]="
-                        selectedRevisionIds.length === 0 ||
-                        !viewer.signedIn
+                        selectedRevisionIds.length === 0 || !viewer.signedIn
                       ">
                       Review Selected Revisions
                       <i

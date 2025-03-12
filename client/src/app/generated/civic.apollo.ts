@@ -915,6 +915,7 @@ export type BrowseUser = {
   notifications?: Maybe<NotificationConnection>;
   orcid?: Maybe<Scalars['String']['output']>;
   organizations: Array<Organization>;
+  organizationsWithEndorsementPrivileges: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']['output']>;
   ranks: Ranks;
   revisionCount: Scalars['Int']['output'];
@@ -3719,6 +3720,7 @@ export type LeaderboardUser = {
   notifications?: Maybe<NotificationConnection>;
   orcid?: Maybe<Scalars['String']['output']>;
   organizations: Array<Organization>;
+  organizationsWithEndorsementPrivileges: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']['output']>;
   rank: Scalars['Int']['output'];
   ranks: Ranks;
@@ -7246,6 +7248,7 @@ export type User = {
   notifications?: Maybe<NotificationConnection>;
   orcid?: Maybe<Scalars['String']['output']>;
   organizations: Array<Organization>;
+  organizationsWithEndorsementPrivileges: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']['output']>;
   ranks: Ranks;
   role: UserRole;
@@ -8965,12 +8968,16 @@ export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: nu
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ViewerBaseQuery = { __typename: 'Query', viewer?: { __typename: 'User', id: number, username: string, role: UserRole, displayName: string, profileImagePath?: string | undefined, mostRecentOrganizationId?: number | undefined, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', coiStatus: CoiStatus } | undefined } | undefined };
+export type ViewerBaseQuery = { __typename: 'Query', viewer?: { __typename: 'User', id: number, username: string, role: UserRole, displayName: string, profileImagePath?: string | undefined, mostRecentOrganizationId?: number | undefined, organizationsWithEndorsementPrivileges: Array<{ __typename: 'Organization', id: number }>, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', coiStatus: CoiStatus } | undefined } | undefined };
 
 export type ViewerNotificationCountQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ViewerNotificationCountQuery = { __typename: 'Query', notifications: { __typename: 'NotificationConnection', unreadCount: number } };
+
+export type ViewerFieldsFragment = { __typename: 'User', id: number, username: string, role: UserRole, displayName: string, profileImagePath?: string | undefined, mostRecentOrganizationId?: number | undefined, organizationsWithEndorsementPrivileges: Array<{ __typename: 'Organization', id: number }>, organizations: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, mostRecentConflictOfInterestStatement?: { __typename: 'Coi', coiStatus: CoiStatus } | undefined };
+
+export type ViewerOrganizationFragment = { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined };
 
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
@@ -12018,6 +12025,32 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   flagged
 }
     `;
+export const ViewerOrganizationFragmentDoc = gql`
+    fragment viewerOrganization on Organization {
+  id
+  name
+  profileImagePath(size: 32)
+}
+    `;
+export const ViewerFieldsFragmentDoc = gql`
+    fragment viewerFields on User {
+  id
+  username
+  role
+  displayName
+  profileImagePath(size: 32)
+  organizationsWithEndorsementPrivileges {
+    id
+  }
+  organizations {
+    ...viewerOrganization
+  }
+  mostRecentConflictOfInterestStatement {
+    coiStatus
+  }
+  mostRecentOrganizationId
+}
+    ${ViewerOrganizationFragmentDoc}`;
 export const RevisableAssertionFieldsFragmentDoc = gql`
     fragment RevisableAssertionFields on Assertion {
   id
@@ -15999,23 +16032,10 @@ export const BrowseVariantsDocument = gql`
 export const ViewerBaseDocument = gql`
     query ViewerBase {
   viewer {
-    id
-    username
-    role
-    displayName
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
-    mostRecentConflictOfInterestStatement {
-      coiStatus
-    }
-    mostRecentOrganizationId
+    ...viewerFields
   }
 }
-    `;
+    ${ViewerFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

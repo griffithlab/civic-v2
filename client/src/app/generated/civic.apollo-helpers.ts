@@ -385,7 +385,7 @@ export type BrowseTherapyEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseUserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'evidenceCount' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'ranks' | 'revisionCount' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | BrowseUserKeySpecifier)[];
+export type BrowseUserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'evidenceCount' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithEndorsementPrivileges' | 'profileImagePath' | 'ranks' | 'revisionCount' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | BrowseUserKeySpecifier)[];
 export type BrowseUserFieldPolicy = {
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -406,6 +406,7 @@ export type BrowseUserFieldPolicy = {
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationsWithEndorsementPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1453,7 +1454,7 @@ export type LeaderboardRankFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	rank?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardUserKeySpecifier = ('actionCount' | 'apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
+export type LeaderboardUserKeySpecifier = ('actionCount' | 'apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithEndorsementPrivileges' | 'profileImagePath' | 'rank' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | LeaderboardUserKeySpecifier)[];
 export type LeaderboardUserFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1474,6 +1475,7 @@ export type LeaderboardUserFieldPolicy = {
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationsWithEndorsementPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	rank?: FieldPolicy<any> | FieldReadFunction<any>,
 	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2495,7 +2497,7 @@ export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('apiKeys' | 'areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentActivityTimestamp' | 'mostRecentConflictOfInterestStatement' | 'mostRecentEvent' | 'mostRecentOrg' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'organizationsWithEndorsementPrivileges' | 'profileImagePath' | 'ranks' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	apiKeys?: FieldPolicy<any> | FieldReadFunction<any>,
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2516,6 +2518,7 @@ export type UserFieldPolicy = {
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
+	organizationsWithEndorsementPrivileges?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	ranks?: FieldPolicy<any> | FieldReadFunction<any>,
 	role?: FieldPolicy<any> | FieldReadFunction<any>,

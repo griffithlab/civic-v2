@@ -24,6 +24,7 @@ import {
   ModerateEvidenceItemGQL,
   ModerateEvidenceItemMutation,
   ModerateEvidenceItemMutationVariables,
+  ViewerOrganizationFragment,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Observable } from 'rxjs'
@@ -31,11 +32,11 @@ import { pluck } from 'rxjs-etc/dist/esm/operators'
 
 @UntilDestroy()
 @Component({
-    selector: 'cvc-moderate-entity-buttons',
-    templateUrl: './moderate-entity-buttons.component.html',
-    styleUrls: ['./moderate-entity-buttons.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-moderate-entity-buttons',
+  templateUrl: './moderate-entity-buttons.component.html',
+  styleUrls: ['./moderate-entity-buttons.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcModerateEntityButtonsComponent implements OnInit, OnChanges {
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
@@ -59,7 +60,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit, OnChanges {
   isSubmitting = false
   showConfirm = false
 
-  mostRecentOrg: Maybe<Organization>
+  mostRecentOrg: Maybe<ViewerOrganizationFragment>
   viewer$: Observable<Viewer>
   constructor(
     private revertEvidenceGQL: ModerateEvidenceItemGQL,
