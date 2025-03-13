@@ -203,7 +203,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphql (2.2.16)
+    graphql (2.2.17)
       base64
     graphql-batch (0.5.4)
       graphql (>= 1.12.18, < 3)
@@ -605,7 +605,7 @@ DEPENDENCIES
   dockerfile-rails (>= 1.5)
   ed25519
   elasticsearch (~> 7.13.0)
-  graphql (~> 2.2.5)
+  graphql (~> 2.2.17)
   graphql-batch (~> 0.5.3)
   htmlentities (~> 4.3.4)
   image_processing (~> 1.12.2)
