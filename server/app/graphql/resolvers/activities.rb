@@ -17,8 +17,17 @@ module Resolvers
       scope.where(user_id: value)
     end
 
-    option(:organization_id, type: [ Int ]) do |scope, value|
-      scope.where(organization_id: value)
+    option(:organization, type: Types::OrganizationFilterType, description: "Filter EIDs on the organization the evidence item was submitted under.") do  |scope, value|
+      if value.include_subgroups && !value.ids.nil?
+        org_ids = Organization.where(id: value.ids).flat_map { |o| o.org_and_suborg_ids }
+        scope.where({ organization_id: org_ids })
+      elsif !value.ids.nil?
+        scope.where({ organization_id: value.ids })
+      elsif !value.name.blank?
+        scope.joins(:organization).where("name ILIKE ?", "#{value.name}%")
+      else
+        scope
+      end
     end
 
     option(:activity_type, type: [ Types::Activities::ActivityTypeInputType ]) do |scope, value|
