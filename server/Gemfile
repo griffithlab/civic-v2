@@ -22,7 +22,7 @@ gem "omniauth-google-oauth2", "~> 0.8.1"
 gem "omniauth-orcid", "~> 2.1.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0.0"
 
-gem "graphql", "~> 2.2.5"
+gem "graphql", "~> 2.2.17"
 gem "graphql-batch", "~>0.5.3"
 gem "search_object_graphql", "1.0.5"
 
