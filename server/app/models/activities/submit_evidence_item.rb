@@ -8,6 +8,13 @@ module Activities
     end
 
     private
+    def setup
+      if !evidence_item.valid?
+        msg = evidence_item.errors.map(&:full_message).join(", ")
+        raise StandardError.new(msg)
+      end
+    end
+
     def create_activity
       @activity = SubmitEvidenceItemActivity.create!(
         subject: evidence_item,
