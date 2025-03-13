@@ -29,6 +29,7 @@ import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module'
 import { CvcAssertionsTableComponent } from './assertions-table.component'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 
 @NgModule({
   declarations: [CvcAssertionsTableComponent],
@@ -50,6 +51,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
     NzTypographyModule,
     NzDropDownModule,
     NzRadioModule,
+    NzCheckboxModule,
 
     CvcAssertionsTagModule,
     CvcAutoHeightCardModule,

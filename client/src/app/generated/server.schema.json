@@ -38123,12 +38123,20 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "id",
-              "description": "The organization ID.",
+              "name": "ids",
+              "description": "An array of organization IDs.",
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -39259,20 +39267,12 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "organizationId",
-                  "description": null,
+                  "name": "organization",
+                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
                   "type": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Int",
-                        "ofType": null
-                      }
-                    }
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
+                    "ofType": null
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
@@ -39570,11 +39570,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "organizationId",
-                  "description": "Exact match filtering on the ID of the organization the assertion was submitted under.",
+                  "name": "organization",
+                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -41953,11 +41953,11 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "organizationId",
-                  "description": "Exact match filtering on the ID of the organization the evidence item was submitted under.",
+                  "name": "organization",
+                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
                     "ofType": null
                   },
                   "defaultValue": null,

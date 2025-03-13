@@ -26,6 +26,7 @@ export const feedDefaultSettings: ActivityFeedSettings = {
 
 export const feedDefaultFilters: ActivityFeedFilters = {
   organizationId: [],
+  includeSubgroups: false,
   userId: [],
   activityType: [],
   subjectType: [],

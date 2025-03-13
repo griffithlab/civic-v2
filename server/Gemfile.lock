@@ -222,7 +222,7 @@ GEM
       reline (>= 0.4.2)
     jaro_winkler (1.6.0)
     jmespath (1.6.2)
-    json (2.10.1)
+    json (2.10.2)
     jwt (2.10.1)
       base64
     kaminari (1.2.2)
@@ -353,7 +353,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.11)
+    rack (2.2.13)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-mini-profiler (2.3.4)
