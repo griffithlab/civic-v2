@@ -29628,6 +29628,22 @@
               "deprecationReason": null
             },
             {
+              "name": "canEndorse",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": null,
               "args": [],
@@ -29725,6 +29741,22 @@
               "deprecationReason": null
             },
             {
+              "name": "hasEndorsingSubgroups",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [],
@@ -29734,6 +29766,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isApprovedVcep",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },
@@ -37776,6 +37824,22 @@
           "description": null,
           "fields": [
             {
+              "name": "canEndorse",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": null,
               "args": [],
@@ -37873,6 +37937,22 @@
               "deprecationReason": null
             },
             {
+              "name": "hasEndorsingSubgroups",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [],
@@ -37882,6 +37962,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isApprovedVcep",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },
@@ -38124,7 +38220,7 @@
           "inputFields": [
             {
               "name": "ids",
-              "description": "An array of organization IDs.",
+              "description": "An array of Organization IDs. If any ID matches, the result will be returned.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -39571,7 +39667,7 @@
                 },
                 {
                   "name": "organization",
-                  "description": "Filter EIDs on the organization the evidence item was submitted under.",
+                  "description": "Filter AIDs on the organization the evidence item was submitted under.",
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "OrganizationFilter",
@@ -39743,6 +39839,18 @@
                   "type": {
                     "kind": "ENUM",
                     "name": "EvidenceStatusFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "endorsingOrganizations",
+                  "description": "Filter AIDs by Organziations that have endorsed them. Specifying multiple IDs will return Assertions endorsed by any of the Organizations.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationFilter",
                     "ofType": null
                   },
                   "defaultValue": null,

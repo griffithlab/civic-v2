@@ -3631,10 +3631,13 @@ export enum IntSearchOperator {
 export type LeaderboardOrganization = {
   __typename: 'LeaderboardOrganization';
   actionCount: Scalars['Int']['output'];
+  canEndorse: Scalars['Boolean']['output'];
   description: Scalars['String']['output'];
   eventCount: Scalars['Int']['output'];
   events: EventConnection;
+  hasEndorsingSubgroups: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  isApprovedVcep: Scalars['Boolean']['output'];
   memberCount: Scalars['Int']['output'];
   members: UserConnection;
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
@@ -4775,10 +4778,13 @@ export type ObjectFieldDiff = {
 
 export type Organization = {
   __typename: 'Organization';
+  canEndorse: Scalars['Boolean']['output'];
   description: Scalars['String']['output'];
   eventCount: Scalars['Int']['output'];
   events: EventConnection;
+  hasEndorsingSubgroups: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  isApprovedVcep: Scalars['Boolean']['output'];
   memberCount: Scalars['Int']['output'];
   members: UserConnection;
   mostRecentActivityTimestamp?: Maybe<Scalars['ISO8601DateTime']['output']>;
@@ -4814,7 +4820,7 @@ export type OrganizationProfileImagePathArgs = {
 
 /** Filter on organization id and whether or not to include the organization's subgroups */
 export type OrganizationFilter = {
-  /** An array of organization IDs. */
+  /** An array of Organization IDs. If any ID matches, the result will be returned. */
   ids?: InputMaybe<Array<Scalars['Int']['input']>>;
   /** Whether or not to include the organization's subgroup. */
   includeSubgroups?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5162,6 +5168,7 @@ export type QueryAssertionsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   diseaseId?: InputMaybe<Scalars['Int']['input']>;
   diseaseName?: InputMaybe<Scalars['String']['input']>;
+  endorsingOrganizations?: InputMaybe<OrganizationFilter>;
   evidenceId?: InputMaybe<Scalars['Int']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
@@ -8227,6 +8234,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   diseaseId?: InputMaybe<Scalars['Int']['input']>;
   therapyId?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<EvidenceStatusFilter>;
+  endorsingOrganizationIds?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
 }>;
 
 
@@ -9972,9 +9980,9 @@ export type OrganizationDetailQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } } | undefined };
+export type OrganizationDetailQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, canEndorse: boolean, hasEndorsingSubgroups: boolean, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } } | undefined };
 
-export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } };
+export type OrganizationDetailFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, canEndorse: boolean, hasEndorsingSubgroups: boolean, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }>, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, ranks: { __typename: 'Ranks', commentsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, moderationRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, revisionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined, submissionsRank?: { __typename: 'LeaderboardRank', rank: number, actionCount: number } | undefined } };
 
 export type OrganizationGroupsQueryVariables = Exact<{
   organizationId: Scalars['Int']['input'];
@@ -13521,6 +13529,8 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
   name
   url
   description
+  canEndorse
+  hasEndorsingSubgroups
   profileImagePath(size: 256)
   subGroups {
     id
@@ -14181,7 +14191,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: EvidenceSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $therapyName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $significance: EvidenceSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: [Int!], $includeSubgroups: Boolean, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $therapyId: Int, $status: EvidenceStatusFilter, $endorsingOrganizationIds: [Int!]) {
   assertions(
     first: $first
     last: $last
@@ -14206,6 +14216,7 @@ export const AssertionsBrowseDocument = gql`
     therapyId: $therapyId
     diseaseId: $diseaseId
     status: $status
+    endorsingOrganizations: {ids: $endorsingOrganizationIds, includeSubgroups: $includeSubgroups}
   ) {
     totalCount
     pageInfo {

@@ -1417,13 +1417,16 @@ export type GenerateApiKeyPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
+export type LeaderboardOrganizationKeySpecifier = ('actionCount' | 'canEndorse' | 'description' | 'eventCount' | 'events' | 'hasEndorsingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'rank' | 'ranks' | 'subGroups' | 'url' | LeaderboardOrganizationKeySpecifier)[];
 export type LeaderboardOrganizationFieldPolicy = {
 	actionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	canEndorse?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasEndorsingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	isApprovedVcep?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	members?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1861,12 +1864,15 @@ export type ObjectFieldDiffFieldPolicy = {
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
+export type OrganizationKeySpecifier = ('canEndorse' | 'description' | 'eventCount' | 'events' | 'hasEndorsingSubgroups' | 'id' | 'isApprovedVcep' | 'memberCount' | 'members' | 'mostRecentActivityTimestamp' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'ranks' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
+	canEndorse?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasEndorsingSubgroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	isApprovedVcep?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	members?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentActivityTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,

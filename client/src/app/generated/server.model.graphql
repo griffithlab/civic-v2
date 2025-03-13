@@ -6408,6 +6408,7 @@ scalar JSON
 
 type LeaderboardOrganization {
   actionCount: Int!
+  canEndorse: Boolean!
   description: String!
   eventCount: Int!
   events(
@@ -6431,7 +6432,9 @@ type LeaderboardOrganization {
     """
     last: Int
   ): EventConnection!
+  hasEndorsingSubgroups: Boolean!
   id: Int!
+  isApprovedVcep: Boolean!
   memberCount: Int!
   members(
     """
@@ -8071,6 +8074,7 @@ type ObjectFieldDiff {
 }
 
 type Organization {
+  canEndorse: Boolean!
   description: String!
   eventCount: Int!
   events(
@@ -8094,7 +8098,9 @@ type Organization {
     """
     last: Int
   ): EventConnection!
+  hasEndorsingSubgroups: Boolean!
   id: Int!
+  isApprovedVcep: Boolean!
   memberCount: Int!
   members(
     """
@@ -8132,7 +8138,7 @@ Filter on organization id and whether or not to include the organization's subgr
 """
 input OrganizationFilter {
   """
-  An array of organization IDs.
+  An array of Organization IDs. If any ID matches, the result will be returned.
   """
   ids: [Int!]
 
@@ -8477,6 +8483,12 @@ type Query {
     diseaseName: String
 
     """
+    Filter AIDs by Organziations that have endorsed them. Specifying multiple
+    IDs will return Assertions endorsed by any of the Organizations.
+    """
+    endorsingOrganizations: OrganizationFilter
+
+    """
     Exact match filtering on the ID of evidence underlying the assertion.
     """
     evidenceId: Int
@@ -8507,7 +8519,7 @@ type Query {
     molecularProfileName: String
 
     """
-    Filter EIDs on the organization the evidence item was submitted under.
+    Filter AIDs on the organization the evidence item was submitted under.
     """
     organization: OrganizationFilter
 
