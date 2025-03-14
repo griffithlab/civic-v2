@@ -9575,6 +9575,11 @@ type Query {
     first: Int
 
     """
+    Limit to therapies that are linked to at least one non-rejected Evidence Item or Assertion
+    """
+    hasLinkedEvidence: Boolean
+
+    """
     Filter on a therapy's internal CIViC id
     """
     id: Int
