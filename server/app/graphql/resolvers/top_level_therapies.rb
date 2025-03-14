@@ -23,6 +23,16 @@ class Resolvers::TopLevelTherapies < GraphQL::Schema::Resolver
     end
   end
 
+  option(:has_linked_evidence, type: Boolean, description: "Limit to therapies that are linked to at least one non-rejected Evidence Item or Assertion") do |scope, value|
+    if value
+      scope.left_outer_joins(:assertions, :evidence_items)
+        .where("(assertions.id IS NOT NULL AND assertions.status != 'rejected') OR (evidence_items.id IS NOT NULL AND evidence_items.status != 'rejected')")
+        .distinct
+    else
+      scope
+    end
+  end
+
   option(:therapy_alias, type: String) do |scope, value|
     scope.where(array_query_for_column("alias_names"), "%#{value}%")
   end
