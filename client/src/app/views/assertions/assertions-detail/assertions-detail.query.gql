@@ -32,16 +32,30 @@ fragment AssertionDetailFields on Assertion {
   activeEndorsements: endorsements(status: ACTIVE) {
     totalCount
     nodes {
+      id
       organization {
         id
+        name
+      }
+      user {
+        id
+        displayName
+        role
       }
     }
   }
   requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
     totalCount
     nodes {
+      id
       organization {
         id
+        name
+      }
+      user {
+        id
+        displayName
+        role
       }
     }
   }

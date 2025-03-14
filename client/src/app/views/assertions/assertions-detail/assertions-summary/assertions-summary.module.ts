@@ -27,6 +27,8 @@ import { CvcEmptyValueModule } from '@app/forms/components/empty-value/empty-val
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
 import { RouterModule } from '@angular/router'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -46,6 +48,8 @@ import { RouterModule } from '@angular/router'
     NzToolTipModule,
     NzPopoverModule,
     NzAvatarModule,
+    NzCardModule,
+    NzAlertModule,
     CvcEmptyValueModule,
     CvcPipesModule,
     CvcStatusTagModule,

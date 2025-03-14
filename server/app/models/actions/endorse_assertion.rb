@@ -26,6 +26,7 @@ module Actions
       if existing_endorsement
         @previous_status = existing_endorsement.status
         @endorsement = existing_endorsement
+        @endorsement.user = originating_user
         @endorsement.status = "active"
         @endorsement.last_reviewed = Time.now
         @endorsement.save!

@@ -200,76 +200,76 @@
     <nz-col [nzSpan]="12">
       <!-- right col layout row -->
       <nz-row [nzGutter]="[8, 8]">
-        <!-- BLOCK: status, endorsements, curation events block -->
-        <nz-col [nzSpan]="24">
-          <nz-descriptions
-            nzSize="small"
-            [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }"
-            nzBordered="true">
-            <!-- status -->
-            <nz-descriptions-item nzTitle="Status">
-              <cvc-status-tag [status]="assertion.status"></cvc-status-tag>
-            </nz-descriptions-item>
-
-            <!-- endorsements -->
-            <nz-descriptions-item [nzTitle]="endorsementTitleTemplate">
-              @if (assertion.endorsements.nodes.length == 0) {
-                <span
-                  nz-typography
-                  nzType="secondary">
-                  None</span
-                >
-              }
-              @for (
-                endorsement of assertion.endorsements.nodes;
-                track endorsement.id
-              ) {
-                <!-- <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag> -->
-                <a
-                  routerLink="/organizations/{{ endorsement.organization.id }}">
-                  <nz-avatar
-                    nzIcon="civic-organization"
-                    nzSize="small"
-                    nzShape="square"
-                    [nzSrc]="endorsement.organization.profileImagePath"
-                    nz-popover
-                    [nzPopoverContent]="endorsementPopoverTemplate">
-                  </nz-avatar>
-                </a>
-                <ng-template #endorsementPopoverTemplate>
-                  <nz-descriptions
-                    nzSize="small"
-                    [nzColumn]="1"
-                    nzBordered="true">
-                    <nz-descriptions-item nzTitle="Endorsing Organization">
-                      <cvc-organization-tag
-                        [org]="endorsement.organization"
-                        [enablePopover]="false"></cvc-organization-tag>
-                    </nz-descriptions-item>
-                    <nz-descriptions-item nzTitle="Endorsed By">
-                      <cvc-user-tag
-                        [user]="endorsement.user"
-                        [enablePopover]="false"></cvc-user-tag>
-                    </nz-descriptions-item>
-                    <nz-descriptions-item nzTitle="Endorsement Date">
-                      {{ endorsement.lastReviewed | timeAgo }}
-                    </nz-descriptions-item>
-                  </nz-descriptions>
-                </ng-template>
-              }
-            </nz-descriptions-item>
-            <ng-template #endorsementTitleTemplate>
-              @if (assertion.endorsements.totalCount > 0) {
-                <span style="color: #efbf04">
+        <!-- BLOCK: endorsements block -->
+        @for (
+          endorsement of assertion.endorsements.nodes;
+          track endorsement.id
+        ) {
+          <nz-col [nzSpan]="24">
+            <nz-alert
+              nzType="warning"
+              [nzMessage]="endorsementMessageTemplate"
+              nzShowIcon
+              [nzIcon]="endorsementIconTemplate"
+            ></nz-alert>
+            <ng-template #endorsementIconTemplate>
+              <span style="color: #efbf04; font-size: 24px">
+                <i
+                  nz-icon
+                  nzType="safety-certificate"
+                  nzTheme="fill">
+                </i>
+              </span>
+            </ng-template>
+            <ng-template #endorsementMessageTemplate>
+              endorsed by
+              <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>
+            </ng-template>
+            <ng-template #endorsementActionTemplate>
+              <span
+                nz-typography
+                nzType="secondary">
+                ({{ endorsement.lastReviewed | timeAgo }})
+              </span>
+            </ng-template>
+          </nz-col>
+          <!-- <nz-col [nzSpan]="24">
+            <nz-card nzSize="small" [nzBodyStyle]="{'padding': '0px'}">
+              <nz-row nzAlign="middle" style="flex-wrap: nowrap;">
+                <nz-col
+                  nzFlex="54px"
+                  style="text-align: center; color: #efbf04; font-size: 32px">
                   <i
                     nz-icon
                     nzType="safety-certificate"
                     nzTheme="fill">
                   </i>
-                </span>
-              }
-              Endorsements
-            </ng-template>
+                </nz-col>
+                <nz-col 
+                  nzFlex="auto">
+                  endorsed by
+                  <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>
+                  <span
+                    nz-typography
+                    nzType="secondary">
+                    ({{ endorsement.lastReviewed | timeAgo }})
+                  </span>
+                </nz-col>
+              </nz-row>
+            </nz-card>
+          </nz-col> -->
+        }
+        <!-- BLOCK: status, curation events block -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions
+            nzLayout="vertical"
+            nzSize="small"
+            [nzColumn]="{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+            <!-- status -->
+            <nz-descriptions-item nzTitle="Status">
+              <cvc-status-tag [status]="assertion.status"></cvc-status-tag>
+            </nz-descriptions-item>
 
             <!-- submit/accept/reject curation events -->
             <nz-descriptions-item [nzTitle]="submittedTitle">
