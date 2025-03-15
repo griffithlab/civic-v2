@@ -1,9 +1,9 @@
-@import "themes/overrides/entity-popover.overrides.less";
+@import 'themes/overrides/entity-popover.overrides.less';
+@import 'themes/overrides/descriptions-overrides.less';
 
-:host {
-  display: block;
-}
-
-.revision-card-title {
-  font-weight: normal;
+// based on minimum dimensions for this entity's popover contents.
+// max dimensions can also be set, but override with caution
+#popover-content {
+  min-width: 400px;
+  min-height: 300px;
 }

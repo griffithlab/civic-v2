@@ -3,10 +3,14 @@ import {
   Component,
   Input,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core'
 
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
-import { Maybe, MolecularProfileSegment } from '@app/generated/civic.apollo'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { MolecularProfileSegment } from '@app/generated/civic.apollo'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 export interface LinkableMolecularProfile {
   id: number
@@ -26,11 +30,11 @@ export interface LinkableMolecularProfileSegments {
 }
 
 @Component({
-    selector: 'cvc-molecular-profile-tag',
-    templateUrl: './molecular-profile-tag.component.html',
-    styleUrls: ['./molecular-profile-tag.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'cvc-molecular-profile-tag',
+  templateUrl: './molecular-profile-tag.component.html',
+  styleUrls: ['./molecular-profile-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CvcMolecularProfileTagComponent implements OnInit {
   @Input() molecularProfile!:
@@ -39,6 +43,9 @@ export class CvcMolecularProfileTagComponent implements OnInit {
   @Input() enablePopover?: boolean = true
   @Input() truncateLongName?: boolean | number = false
   @Input() linked?: boolean = true
+  @Input() popoverPlacement: PopoverPlacement = 'top'
+  @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
+  popover: NzPopoverDirective | undefined
 
   truncationLength: number = 20
 
@@ -52,11 +59,6 @@ export class CvcMolecularProfileTagComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.molecularProfile === undefined) {
-      throw new Error(
-        'cvc-molecular-profile-tag requires LinkableMolecularProfile input, none supplied.'
-      )
-    }
     if (typeof this.truncateLongName === 'number') {
       this.truncationLength = this.truncateLongName
     }
@@ -71,6 +73,17 @@ export class CvcMolecularProfileTagComponent implements OnInit {
           }
         })
         .join(' ')
+    }
+  }
+  updatePopoverPosition() {
+    if (this.popover) {
+      this.popover.updatePosition()
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.popoverList.length > 0) {
+      this.popover = this.popoverList.first
     }
   }
 }

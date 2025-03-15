@@ -1,40 +1,38 @@
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChildren,
   QueryList,
-  AfterViewInit,
+  ViewChildren,
 } from '@angular/core'
 import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+
 import { Maybe } from '@app/generated/civic.apollo'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
-export interface LinkableRevision {
+export interface LinkableDisease {
   id: number
   name: string
   link: string
-  revisionSetId: number
-}
-
-export interface Subject {
-  id: number
-  __typename: string
+  deprecated: boolean
 }
 
 @Component({
-  selector: 'cvc-revision-tag',
-  templateUrl: './revision-tag.component.html',
+  selector: 'cvc-disease-tag',
+  templateUrl: './disease-tag.component.html',
+  styleUrls: ['./disease-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CvcRevisionTagComponent implements AfterViewInit {
-  @Input() revision!: LinkableRevision
-  @Input() subject?: Subject
-  @Input() enablePopover: Boolean = true
+export class CvcDiseaseTagComponent implements AfterViewInit {
+  @Input() disease!: LinkableDisease
+  @Input() enablePopover?: boolean = true
+  @Input() truncateLongName?: boolean = false
+  @Input() linked?: boolean = true
   @Input() popoverPlacement: PopoverPlacement = 'top'
-
   @ViewChildren(NzPopoverDirective) popoverList!: QueryList<NzPopoverDirective>
   popover: NzPopoverDirective | undefined
-  constructor() {}
 
   updatePopoverPosition() {
     if (this.popover) {

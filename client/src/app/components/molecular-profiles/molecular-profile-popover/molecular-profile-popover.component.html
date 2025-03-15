@@ -3,12 +3,20 @@
     <nz-card
       [nzTitle]="cardTitle"
       nzBordered="false"
-      id="card-content">
+      id="card-content"
+      [nzExtra]="cardExtra">
+      <!-- popover title -->
       <ng-template #cardTitle>
         <i
           nz-icon
           nzType="civic:molecularprofile"></i>
         {{ mp.name }}
+      </ng-template>
+      <!-- revision, comment, flag counts -->
+      <ng-template #cardExtra>
+        <cvc-entity-child-counts
+          [cvcEntity]="mp"
+          cvcRoute="molecular-profiles"></cvc-entity-child-counts>
       </ng-template>
 
       <nz-descriptions
@@ -58,44 +66,6 @@
           </ng-template>
         </nz-descriptions-item>
       </nz-descriptions>
-
-      <!-- entity comment, flags, etc. tags -->
-      <nz-row id="entity-child-counts">
-        <nz-col nzSpan="24">
-          <nz-space nzSize="small">
-            <a
-              routerLink="/molecular-profiles/{{ mp.id }}/flags"
-              *nzSpaceItem>
-              <nz-tag nzColor="red">
-                <i
-                  nz-icon
-                  nzType="civic-flag"></i>
-                Flags ({{ mp.flags.totalCount }})
-              </nz-tag>
-            </a>
-            <a
-              routerLink="/molecular-profiles/{{ mp.id }}/revisions"
-              *nzSpaceItem>
-              <nz-tag nzColor="orange">
-                <i
-                  nz-icon
-                  nzType="civic-revision"></i>
-                Revisions ({{ mp.revisions.totalCount }})
-              </nz-tag>
-            </a>
-            <a
-              routerLink="/molecular-profiles/{{ mp.id }}/comments"
-              *nzSpaceItem>
-              <nz-tag nzColor="blue">
-                <i
-                  nz-icon
-                  nzType="civic-comment"></i>
-                Comments ({{ mp.comments.totalCount }})
-              </nz-tag>
-            </a>
-          </nz-space>
-        </nz-col>
-      </nz-row>
     </nz-card>
   </ng-container>
 </div>

@@ -13,6 +13,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcMolecularProfileTagNameModule } from '../molecular-profile-tag-name/molecular-profile-tag-name.module'
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 
 @NgModule({
   declarations: [CvcMolecularProfilePopoverComponent],
@@ -31,6 +32,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcLinkTagModule,
     CvcTagListModule,
     CvcMolecularProfileTagNameModule,
+    CvcEntityChildCounts,
   ],
   exports: [CvcMolecularProfilePopoverComponent],
 })

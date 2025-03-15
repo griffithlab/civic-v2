@@ -1,4 +1,4 @@
-@import "themes/global-variables.less";
+@import 'themes/global-variables.less';
 
 :host {
   // remove default popover padding so that component edges are flush with popover border
@@ -19,29 +19,8 @@
     // nz-card does provide an nzBordered option, but its label backgrounds
     // and compact mode are only applied when its borders are toggled on
     border: none;
-  }
-
-  #entity-child-counts {
-    // nz-description no longer has a border, so here we need to add one
-    // to provide a divider between the entity details and this child-count row
+    // adds a top border so that stacked nz-descriptions have a divider
     border-top: 1px solid @border-color-split;
-    // apply a small padding so entity-child tags aren't flush with popover edges
-    padding: @padding-sm;
-
-    nz-space {
-      // nz-space doesn't automatically expand to fit available horizontal space :(
-      width: 100%;
-    }
-
-    nz-space-item:last-child {
-      // and it applies its margin-right space to the final element, which breaks symmetry :(
-      margin-right: 0 !important; // TODO determine a more precise selector so this !important may be removed
-
-      nz-tag {
-        // tags also have a margin-right, we can remove that b/c we rely on nz-space for intra-tag margins
-        margin-right: 0;
-      }
-    }
   }
 }
 .popover-text {
@@ -50,11 +29,23 @@
   padding: @padding-sm;
   border-bottom: 1px solid @border-color-split;
 }
+
+// global default max dimensions for all popover contents.
+// individual popover minimum dimensions are set in the entity-specific .less files.
+// See note below for how min-width/heights are specified.
 #popover-content {
-  // need to specify a width to popover content or else it won't be able to
-  // correctly calculate its display position
-  min-width: 350px;
   max-width: 500px;
-  // also height for right or left-positioned popovers
-  min-height: 125px;
+  max-height: 700px;
+  overflow: auto;
 }
+// NOTE: min-width/heights are specified in the styles for
+// each individual popover component. The minimum dimensions of the popover
+// before it is resized after content is loaded. The initial
+// placement algorithm will use those dimensions to determine
+// the best initial placement for the popover.
+// So these should be set as close to the average popover size
+// for this entity,without going over its smallest size (given
+// the various ways it might be rendered). If there's a big
+// difference between these estimates and the final rendered
+// size, there will be brief flickering as the popover is resized
+// or (worse) repositioned.
