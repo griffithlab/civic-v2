@@ -9841,7 +9841,7 @@ type Query {
     """
     variantTypeIds: [Int!]
   ): VariantInterfaceConnection!
-  variantsTypeahead(featureId: Int, queryTerm: String!): [Variant!]!
+  variantsTypeahead(featureId: Int, queryTerm: String!): [VariantInterface!]!
   viewer: User
 }
 
