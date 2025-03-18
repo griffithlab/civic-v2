@@ -24,7 +24,12 @@ import {
   CvcTagLabelMax,
   PopoverPlacement,
 } from './entity-tag.types'
-import { getFragmentDoc, isLinkableEntity } from './entity-tag.functions'
+import {
+  getFragment,
+  getFragmentDoc,
+  isLinkableEntity,
+} from './entity-tag.functions'
+import result from '@app/generated/civic.possible-types'
 @Component({
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',
@@ -114,7 +119,7 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   private setCachedLinkableEntity(cacheId: string): void {
     const [typename, id] = cacheId.split(':')
     this.typename = typename
-    this.id = +id
+    this.id = Number(id)
     if (!this.typename || !this.id) {
       console.error(
         `entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`
@@ -123,55 +128,36 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     }
     // get linkable entity
     let fragment = undefined
+    let entity = undefined
     const fragmentDoc: Maybe<ReturnType<typeof gql>> = getFragmentDoc(
       typename,
       !this.cvcDisableLink
     )
     if (fragmentDoc) {
-      fragment = {
-        id: `${typename}:${id}`,
-        fragment: fragmentDoc,
-      }
+      fragment = getFragment(this.typename, this.id, fragmentDoc)
     } else {
       console.error(
         `Could not find fragment for ${typename}. Update entityTagFields Maps in entity-tag.functions.ts.`
       )
       return
     }
-    // if (!this.cvcDisableLink) {
-    //   fragment = {
-    //     id: `${typename}:${id}`,
-    //     fragment: gql`
-    //       fragment Linkable${typename}Entity on ${typename} {
-    //         id
-    //         name
-    //         link
-    //       }
-    //     `,
-    //   }
-    // } else if (this.cvcHasTooltip) {
-    //   fragment = {
-    //     id: `${typename}:${id}`,
-    //     fragment: gql`
-    //       fragment Linkable${typename}Entity on ${typename} {
-    //         id
-    //         name
-    //         tooltip
-    //       }
-    //     `,
-    //   }
-    // } else {
-    //   fragment = {
-    //     id: `${typename}:${id}`,
-    //     fragment: gql`
-    //       fragment Linkable${typename}Entity on ${typename} {
-    //         id
-    //         name
-    //       }
-    //     `,
-    //   }
-    // }
-    const entity = this.apollo.client.readFragment(fragment)
+    entity = this.apollo.client.readFragment(fragment)
+    // if cache-miss, check VariantInteface's other polymorphic types
+    if (!entity && typename === 'Variant') {
+      // cache misssed on a Variant type, check for its other polymorphic types
+      result.possibleTypes.VariantInterface.forEach((type) => {
+        if (type === 'Variant') return
+        const fragmentDoc: Maybe<ReturnType<typeof gql>> = getFragmentDoc(
+          type,
+          !this.cvcDisableLink
+        )
+        if (fragmentDoc) {
+          fragment = getFragment(type, this.id!, fragmentDoc)
+          entity = this.apollo.client.readFragment(fragment)
+          return
+        }
+      })
+    }
     if (!isLinkableEntity(entity)) {
       console.error(`entity-tag could not find cached entity ${cacheId}`)
       return

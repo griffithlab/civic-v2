@@ -35,14 +35,18 @@ import {
   PhenotypeTagFieldsFragmentDoc,
   PhenotypeLinkableTagFieldsFragmentDoc,
 } from '@app/generated/civic.apollo'
+import { OperationVariables } from '@apollo/client/core'
 
 export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
   entity: any
-): entity is LinkableEntity =>
-  entity !== undefined &&
-  entity.__typename &&
-  entity.id &&
-  entity.name !== undefined
+): entity is LinkableEntity => {
+  return (
+    entity !== undefined &&
+    entity.__typename &&
+    entity.id &&
+    entity.name !== undefined
+  )
+}
 
 const entityTagFieldsMap = new Map<string, Maybe<ReturnType<typeof gql>>>([
   ['Variant', VariantTagFieldsFragmentDoc],
@@ -91,4 +95,15 @@ export const getFragmentDoc = (
     return entityLinkableTagFieldsMap.get(typename)
   }
   return entityTagFieldsMap.get(typename)
+}
+
+export const getFragment = (
+  typename: string,
+  id: number,
+  fragmentDoc: ReturnType<typeof gql>
+): any => {
+  return {
+    id: `${typename}:${id}`,
+    fragment: fragmentDoc,
+  }
 }
