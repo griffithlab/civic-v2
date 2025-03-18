@@ -2,23 +2,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   QueryList,
   SimpleChanges,
-  ViewChild,
   ViewChildren,
 } from '@angular/core'
-import { TypeGuard } from '@app/core/pipes/type-guard.pipe'
-import {
-  EvidenceStatus,
-  FlagState,
-  Maybe,
-  RevisionStatus,
-} from '@app/generated/civic.apollo'
+import { Maybe } from '@app/generated/civic.apollo'
 import { Apollo, gql } from 'apollo-angular'
 import {
   EntityTagPopoverInput,
@@ -26,55 +18,13 @@ import {
   ENTITY_TAG_TYPES_WITH_POPOVER,
 } from '../entity-tag-popover/entity-tag-popover.component'
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
-
-export type LinkableEntity = {
-  __typename: string
-  id: number
-  name: string
-  link?: string
-  tooltip?: string
-}
-
-export type PopoverPlacement =
-  | 'top'
-  | 'left'
-  | 'right'
-  | 'bottom'
-  | 'topLeft'
-  | 'topRight'
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'leftTop'
-  | 'leftBottom'
-  | 'rightTop'
-  | 'rightBottom'
-  | Array<string>
-
-export const isLinkableEntity: TypeGuard<any, LinkableEntity> = (
-  entity: any
-): entity is LinkableEntity =>
-  entity !== undefined &&
-  entity.__typename &&
-  entity.id &&
-  entity.name !== undefined
-
-export type CvcTagLabelMax =
-  | '50px'
-  | '750px'
-  | '100px'
-  | '125px'
-  | '150px'
-  | '175px'
-  | '200px'
-  | '250px'
-  | '300px'
-  | '350px'
-  | '400px'
-  | '450px'
-  | '500px'
-
-export type CvcEntityTagStatus = EvidenceStatus | RevisionStatus | FlagState
-
+import {
+  LinkableEntity,
+  CvcEntityTagStatus,
+  CvcTagLabelMax,
+  PopoverPlacement,
+} from './entity-tag.types'
+import { isLinkableEntity } from './entity-tag.functions'
 @Component({
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',

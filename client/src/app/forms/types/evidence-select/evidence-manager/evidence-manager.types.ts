@@ -6,7 +6,7 @@ import { CvcEmptyValueCategory } from '@app/forms/components/empty-value/empty-v
 import {
   CvcTagLabelMax,
   PopoverPlacement,
-} from '@app/forms/components/entity-tag/entity-tag.component'
+} from '@app/forms/components/entity-tag/entity-tag.types'
 import {
   EvidenceItem,
   EvidenceManagerFieldsFragment,

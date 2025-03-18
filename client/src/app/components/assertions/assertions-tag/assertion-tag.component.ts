@@ -9,7 +9,7 @@ import {
 import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 import { getEntityColor } from '@app/core/utilities/get-entity-color'
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo'
-import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.component'
+import { PopoverPlacement } from '@app/forms/components/entity-tag/entity-tag.types'
 
 export interface LinkableAssertion {
   id: number

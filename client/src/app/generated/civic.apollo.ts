@@ -8890,33 +8890,57 @@ export type EvidenceCountsForMolecularProfileQueryVariables = Exact<{
 
 export type EvidenceCountsForMolecularProfileQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string, evidenceCountsByStatus: { __typename: 'EvidenceItemsByStatus', submittedCount: number, acceptedCount: number } } | undefined };
 
-export type LinkableGeneQueryVariables = Exact<{
-  geneId: Scalars['Int']['input'];
-}>;
+export type VariantTagFieldsFragment = { __typename: 'Variant', id: number, name: string };
 
+export type VariantLinkableTagFieldsFragment = { __typename: 'Variant', id: number, name: string, link: string };
 
-export type LinkableGeneQuery = { __typename: 'Query', gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined };
+export type GeneVariantTagFieldsFragment = { __typename: 'GeneVariant', id: number, name: string };
 
-export type LinkableVariantQueryVariables = Exact<{
-  variantId: Scalars['Int']['input'];
-}>;
+export type GeneVariantLinkableTagFieldsFragment = { __typename: 'GeneVariant', id: number, name: string, link: string };
 
+export type FactorVariantTagFieldsFragment = { __typename: 'FactorVariant', id: number, name: string };
 
-export type LinkableVariantQuery = { __typename: 'Query', variant?: { __typename: 'FactorVariant', id: number, name: string, link: string } | { __typename: 'FusionVariant', id: number, name: string, link: string } | { __typename: 'GeneVariant', id: number, name: string, link: string } | { __typename: 'Variant', id: number, name: string, link: string } | undefined };
+export type FactorVariantLinkableTagFieldsFragment = { __typename: 'FactorVariant', id: number, name: string, link: string };
 
-export type LinkableTherapyQueryVariables = Exact<{
-  therapyId: Scalars['Int']['input'];
-}>;
+export type FusionVariantTagFieldsFragment = { __typename: 'FusionVariant', id: number, name: string };
 
+export type FusionVariantLinkableTagFieldsFragment = { __typename: 'FusionVariant', id: number, name: string, link: string };
 
-export type LinkableTherapyQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, link: string } | undefined };
+export type ClinicalTrialTagFieldsFragment = { __typename: 'ClinicalTrial', id: number, name: string };
 
-export type LinkableFeatureQueryVariables = Exact<{
-  featureId: Scalars['Int']['input'];
-}>;
+export type ClinicalTrialLinkableTagFieldsFragment = { __typename: 'ClinicalTrial', id: number, name: string, link: string };
 
+export type EvidenceTagFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string };
 
-export type LinkableFeatureQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, link: string, featureType: FeatureInstanceTypes } | undefined };
+export type EvidenceLinkableTagFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string };
+
+export type AssertionTagFieldsFragment = { __typename: 'Assertion', id: number, name: string };
+
+export type AssertionLinkableTagFieldsFragment = { __typename: 'Assertion', id: number, name: string, link: string };
+
+export type TherapyTagFieldsFragment = { __typename: 'Therapy', id: number, name: string };
+
+export type TherapyLinkableTagFieldsFragment = { __typename: 'Therapy', id: number, name: string, link: string };
+
+export type DiseaseTagFieldsFragment = { __typename: 'Disease', id: number, name: string };
+
+export type DiseaseLinkableTagFieldsFragment = { __typename: 'Disease', id: number, name: string, link: string };
+
+export type MolecularProfileTagFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string };
+
+export type MolecularProfileLinkableTagFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string };
+
+export type SourceTagFieldsFragment = { __typename: 'Source', id: number, name: string };
+
+export type SourceLinkableTagFieldsFragment = { __typename: 'Source', id: number, name: string, link: string };
+
+export type VariantTypeTagFieldsFragment = { __typename: 'VariantType', id: number, name: string };
+
+export type VariantTypeLinkableTagFieldsFragment = { __typename: 'VariantType', id: number, name: string, link: string };
+
+export type VariantGroupTagFieldsFragment = { __typename: 'VariantGroup', id: number, name: string };
+
+export type VariantGroupLinkableTagFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, link: string };
 
 export type DeprecateFeatureMutationVariables = Exact<{
   featureId: Scalars['Int']['input'];
@@ -11900,6 +11924,175 @@ export const BrowseVariantsFieldsFragmentDoc = gql`
   }
   deprecated
   flagged
+}
+    `;
+export const VariantTagFieldsFragmentDoc = gql`
+    fragment variantTagFields on Variant {
+  id
+  name
+}
+    `;
+export const VariantLinkableTagFieldsFragmentDoc = gql`
+    fragment variantLinkableTagFields on Variant {
+  id
+  name
+  link
+}
+    `;
+export const GeneVariantTagFieldsFragmentDoc = gql`
+    fragment geneVariantTagFields on GeneVariant {
+  id
+  name
+}
+    `;
+export const GeneVariantLinkableTagFieldsFragmentDoc = gql`
+    fragment geneVariantLinkableTagFields on GeneVariant {
+  id
+  name
+  link
+}
+    `;
+export const FactorVariantTagFieldsFragmentDoc = gql`
+    fragment factorVariantTagFields on FactorVariant {
+  id
+  name
+}
+    `;
+export const FactorVariantLinkableTagFieldsFragmentDoc = gql`
+    fragment factorVariantLinkableTagFields on FactorVariant {
+  id
+  name
+  link
+}
+    `;
+export const FusionVariantTagFieldsFragmentDoc = gql`
+    fragment fusionVariantTagFields on FusionVariant {
+  id
+  name
+}
+    `;
+export const FusionVariantLinkableTagFieldsFragmentDoc = gql`
+    fragment fusionVariantLinkableTagFields on FusionVariant {
+  id
+  name
+  link
+}
+    `;
+export const ClinicalTrialTagFieldsFragmentDoc = gql`
+    fragment clinicalTrialTagFields on ClinicalTrial {
+  id
+  name
+}
+    `;
+export const ClinicalTrialLinkableTagFieldsFragmentDoc = gql`
+    fragment clinicalTrialLinkableTagFields on ClinicalTrial {
+  id
+  name
+  link
+}
+    `;
+export const EvidenceTagFieldsFragmentDoc = gql`
+    fragment evidenceTagFields on EvidenceItem {
+  id
+  name
+}
+    `;
+export const EvidenceLinkableTagFieldsFragmentDoc = gql`
+    fragment evidenceLinkableTagFields on EvidenceItem {
+  id
+  name
+  link
+}
+    `;
+export const AssertionTagFieldsFragmentDoc = gql`
+    fragment assertionTagFields on Assertion {
+  id
+  name
+}
+    `;
+export const AssertionLinkableTagFieldsFragmentDoc = gql`
+    fragment assertionLinkableTagFields on Assertion {
+  id
+  name
+  link
+}
+    `;
+export const TherapyTagFieldsFragmentDoc = gql`
+    fragment therapyTagFields on Therapy {
+  id
+  name
+}
+    `;
+export const TherapyLinkableTagFieldsFragmentDoc = gql`
+    fragment therapyLinkableTagFields on Therapy {
+  id
+  name
+  link
+}
+    `;
+export const DiseaseTagFieldsFragmentDoc = gql`
+    fragment diseaseTagFields on Disease {
+  id
+  name
+}
+    `;
+export const DiseaseLinkableTagFieldsFragmentDoc = gql`
+    fragment diseaseLinkableTagFields on Disease {
+  id
+  name
+  link
+}
+    `;
+export const MolecularProfileTagFieldsFragmentDoc = gql`
+    fragment molecularProfileTagFields on MolecularProfile {
+  id
+  name
+}
+    `;
+export const MolecularProfileLinkableTagFieldsFragmentDoc = gql`
+    fragment molecularProfileLinkableTagFields on MolecularProfile {
+  id
+  name
+  link
+}
+    `;
+export const SourceTagFieldsFragmentDoc = gql`
+    fragment sourceTagFields on Source {
+  id
+  name
+}
+    `;
+export const SourceLinkableTagFieldsFragmentDoc = gql`
+    fragment sourceLinkableTagFields on Source {
+  id
+  name
+  link
+}
+    `;
+export const VariantTypeTagFieldsFragmentDoc = gql`
+    fragment variantTypeTagFields on VariantType {
+  id
+  name
+}
+    `;
+export const VariantTypeLinkableTagFieldsFragmentDoc = gql`
+    fragment variantTypeLinkableTagFields on VariantType {
+  id
+  name
+  link
+}
+    `;
+export const VariantGroupTagFieldsFragmentDoc = gql`
+    fragment variantGroupTagFields on VariantGroup {
+  id
+  name
+}
+    `;
+export const VariantGroupLinkableTagFieldsFragmentDoc = gql`
+    fragment variantGroupLinkableTagFields on VariantGroup {
+  id
+  name
+  link
 }
     `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
@@ -16007,87 +16200,6 @@ export const EvidenceCountsForMolecularProfileDocument = gql`
   })
   export class EvidenceCountsForMolecularProfileGQL extends Apollo.Query<EvidenceCountsForMolecularProfileQuery, EvidenceCountsForMolecularProfileQueryVariables> {
     document = EvidenceCountsForMolecularProfileDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LinkableGeneDocument = gql`
-    query LinkableGene($geneId: Int!) {
-  gene(id: $geneId) {
-    id
-    name
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableGeneGQL extends Apollo.Query<LinkableGeneQuery, LinkableGeneQueryVariables> {
-    document = LinkableGeneDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LinkableVariantDocument = gql`
-    query LinkableVariant($variantId: Int!) {
-  variant(id: $variantId) {
-    id
-    name
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableVariantGQL extends Apollo.Query<LinkableVariantQuery, LinkableVariantQueryVariables> {
-    document = LinkableVariantDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LinkableTherapyDocument = gql`
-    query LinkableTherapy($therapyId: Int!) {
-  therapy(id: $therapyId) {
-    id
-    name
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableTherapyGQL extends Apollo.Query<LinkableTherapyQuery, LinkableTherapyQueryVariables> {
-    document = LinkableTherapyDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LinkableFeatureDocument = gql`
-    query LinkableFeature($featureId: Int!) {
-  feature(id: $featureId) {
-    id
-    name
-    link
-    featureType
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkableFeatureGQL extends Apollo.Query<LinkableFeatureQuery, LinkableFeatureQueryVariables> {
-    document = LinkableFeatureDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
