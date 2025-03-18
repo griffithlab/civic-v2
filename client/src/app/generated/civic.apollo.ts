@@ -8930,6 +8930,10 @@ export type MolecularProfileTagFieldsFragment = { __typename: 'MolecularProfile'
 
 export type MolecularProfileLinkableTagFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string };
 
+export type PhenotypeTagFieldsFragment = { __typename: 'Phenotype', id: number, name: string };
+
+export type PhenotypeLinkableTagFieldsFragment = { __typename: 'Phenotype', id: number, name: string, link: string };
+
 export type SourceTagFieldsFragment = { __typename: 'Source', id: number, name: string };
 
 export type SourceLinkableTagFieldsFragment = { __typename: 'Source', id: number, name: string, link: string };
@@ -8941,6 +8945,10 @@ export type VariantTypeLinkableTagFieldsFragment = { __typename: 'VariantType', 
 export type VariantGroupTagFieldsFragment = { __typename: 'VariantGroup', id: number, name: string };
 
 export type VariantGroupLinkableTagFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, link: string };
+
+export type ClingenCodeTagFieldsFragment = { __typename: 'ClingenCode', id: number, name: string };
+
+export type AcmgCodeTagFieldsFragment = { __typename: 'AcmgCode', id: number, name: string };
 
 export type DeprecateFeatureMutationVariables = Exact<{
   featureId: Scalars['Int']['input'];
@@ -12056,6 +12064,19 @@ export const MolecularProfileLinkableTagFieldsFragmentDoc = gql`
   link
 }
     `;
+export const PhenotypeTagFieldsFragmentDoc = gql`
+    fragment phenotypeTagFields on Phenotype {
+  id
+  name
+}
+    `;
+export const PhenotypeLinkableTagFieldsFragmentDoc = gql`
+    fragment phenotypeLinkableTagFields on Phenotype {
+  id
+  name
+  link
+}
+    `;
 export const SourceTagFieldsFragmentDoc = gql`
     fragment sourceTagFields on Source {
   id
@@ -12093,6 +12114,18 @@ export const VariantGroupLinkableTagFieldsFragmentDoc = gql`
   id
   name
   link
+}
+    `;
+export const ClingenCodeTagFieldsFragmentDoc = gql`
+    fragment clingenCodeTagFields on ClingenCode {
+  id
+  name
+}
+    `;
+export const AcmgCodeTagFieldsFragmentDoc = gql`
+    fragment acmgCodeTagFields on AcmgCode {
+  id
+  name
 }
     `;
 export const RevisableAssertionFieldsFragmentDoc = gql`

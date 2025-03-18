@@ -24,7 +24,7 @@ import {
   CvcTagLabelMax,
   PopoverPlacement,
 } from './entity-tag.types'
-import { isLinkableEntity } from './entity-tag.functions'
+import { getFragmentDoc, isLinkableEntity } from './entity-tag.functions'
 @Component({
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',
@@ -123,39 +123,54 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     }
     // get linkable entity
     let fragment = undefined
-    if (!this.cvcDisableLink) {
+    const fragmentDoc: Maybe<ReturnType<typeof gql>> = getFragmentDoc(
+      typename,
+      !this.cvcDisableLink
+    )
+    if (fragmentDoc) {
       fragment = {
         id: `${typename}:${id}`,
-        fragment: gql`
-          fragment Linkable${typename}Entity on ${typename} {
-            id
-            name
-            link
-          }
-        `,
-      }
-    } else if (this.cvcHasTooltip) {
-      fragment = {
-        id: `${typename}:${id}`,
-        fragment: gql`
-          fragment Linkable${typename}Entity on ${typename} {
-            id
-            name
-            tooltip
-          }
-        `,
+        fragment: fragmentDoc,
       }
     } else {
-      fragment = {
-        id: `${typename}:${id}`,
-        fragment: gql`
-          fragment Linkable${typename}Entity on ${typename} {
-            id
-            name
-          }
-        `,
-      }
+      console.error(
+        `Could not find fragment for ${typename}. Update entityTagFields Maps in entity-tag.functions.ts.`
+      )
+      return
     }
+    // if (!this.cvcDisableLink) {
+    //   fragment = {
+    //     id: `${typename}:${id}`,
+    //     fragment: gql`
+    //       fragment Linkable${typename}Entity on ${typename} {
+    //         id
+    //         name
+    //         link
+    //       }
+    //     `,
+    //   }
+    // } else if (this.cvcHasTooltip) {
+    //   fragment = {
+    //     id: `${typename}:${id}`,
+    //     fragment: gql`
+    //       fragment Linkable${typename}Entity on ${typename} {
+    //         id
+    //         name
+    //         tooltip
+    //       }
+    //     `,
+    //   }
+    // } else {
+    //   fragment = {
+    //     id: `${typename}:${id}`,
+    //     fragment: gql`
+    //       fragment Linkable${typename}Entity on ${typename} {
+    //         id
+    //         name
+    //       }
+    //     `,
+    //   }
+    // }
     const entity = this.apollo.client.readFragment(fragment)
     if (!isLinkableEntity(entity)) {
       console.error(`entity-tag could not find cached entity ${cacheId}`)

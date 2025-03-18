@@ -108,6 +108,17 @@ fragment molecularProfileLinkableTagFields on MolecularProfile {
   link
 }
 
+fragment phenotypeTagFields on Phenotype {
+  id
+  name
+}
+
+fragment phenotypeLinkableTagFields on Phenotype {
+  id
+  name
+  link
+}
+
 fragment sourceTagFields on Source {
   id
   name
@@ -139,4 +150,14 @@ fragment variantGroupLinkableTagFields on VariantGroup {
   id
   name
   link
+}
+
+fragment clingenCodeTagFields on ClingenCode {
+  id
+  name
+}
+
+fragment acmgCodeTagFields on AcmgCode {
+  id
+  name
 }
