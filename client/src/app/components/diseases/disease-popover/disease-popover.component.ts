@@ -1,39 +1,34 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core'
 import {
+  DiseasePopover,
+  DiseasePopoverGQL,
   Maybe,
-  SourcePopoverFragment,
-  SourcePopoverGQL,
 } from '@app/generated/civic.apollo'
 import { Observable } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import { filter, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'cvc-source-popover',
-  templateUrl: './source-popover.component.html',
-  styleUrls: ['./source-popover.component.less'],
+  selector: 'cvc-disease-popover',
+  templateUrl: './disease-popover.component.html',
+  styleUrls: ['./disease-popover.component.less'],
   standalone: false,
 })
-export class CvcSourcePopoverComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  @Input() sourceId!: number
+export class CvcDiseasePopoverComponent implements OnInit {
+  @Input() diseaseId!: number
   @Output() contentRendered = new EventEmitter<void>()
-
-  source$?: Observable<Maybe<SourcePopoverFragment>>
+  disease$?: Observable<Maybe<DiseasePopover>>
   private resizeObserver: ResizeObserver
 
   constructor(
-    private gql: SourcePopoverGQL,
+    private gql: DiseasePopoverGQL,
     private elementRef: ElementRef
   ) {
     this.resizeObserver = new ResizeObserver(() => {
@@ -42,13 +37,17 @@ export class CvcSourcePopoverComponent
   }
 
   ngOnInit() {
-    this.source$ = this.gql
-      .watch({ sourceId: this.sourceId })
+    if (this.diseaseId == undefined) {
+      throw new Error('cvc-disease-popover requires valid diseaseId input.')
+    }
+    this.disease$ = this.gql
+      .watch({ diseaseId: this.diseaseId })
       .valueChanges.pipe(
-        map(({ data }) => data?.sourcePopover),
+        map(({ data }) => data?.diseasePopover),
         filter(isNonNulled)
       )
   }
+
   ngAfterViewInit() {
     this.resizeObserver.observe(this.elementRef.nativeElement)
   }

@@ -12,6 +12,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 import { CvcFeatureTagModule } from '@app/components/features/feature-tag/feature-tag.module'
+import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 
 @NgModule({
   declarations: [CvcVariantPopoverComponent],
@@ -29,6 +30,7 @@ import { CvcFeatureTagModule } from '@app/components/features/feature-tag/featur
     CvcPipesModule,
     CvcFeatureTagModule,
     CvcLinkTagModule,
+    CvcEntityChildCounts,
   ],
   exports: [CvcVariantPopoverComponent],
 })

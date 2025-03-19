@@ -9,11 +9,15 @@
     nz-popover
     [ngClass]="{ deprecated: feature.deprecated }"
     [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverPlacement]="popoverPlacement"
     [nzPopoverContent]="enablePopover ? featurePopover : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #featurePopover>
-    <cvc-feature-popover [featureId]="feature.id"></cvc-feature-popover>
+    <cvc-feature-popover
+      [featureId]="feature.id"
+      (contentRendered)="updatePopoverPosition()">
+    </cvc-feature-popover>
   </ng-template>
 </ng-template>
 

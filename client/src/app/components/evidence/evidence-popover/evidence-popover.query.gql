@@ -50,6 +50,11 @@ fragment evidencePopover on EvidenceItem {
     displayType
     link
     deprecated
+    clinicalTrials {
+      nctId
+      id
+      link
+    }
   }
   flags(state: OPEN) {
     totalCount

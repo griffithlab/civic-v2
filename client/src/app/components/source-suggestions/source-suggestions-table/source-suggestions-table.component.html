@@ -226,11 +226,16 @@
               </ng-container>
               <ng-template #statusNote>
                 <i
-                  *ngIf="suggestion.lastStatusUpdateActivity && suggestion.lastStatusUpdateActivity.parsedNote.length > 0"
+                  *ngIf="
+                    suggestion.lastStatusUpdateActivity &&
+                    suggestion.lastStatusUpdateActivity.parsedNote.length > 0
+                  "
                   nz-icon
                   nz-popover
-                  [nzPopoverContent]="!isScrolling ? statusNoteContentTemplate : ''"
-                  [nzPopoverOverlayStyle]="{'width': '300px'}"
+                  [nzPopoverContent]="
+                    !isScrolling ? statusNoteContentTemplate : ''
+                  "
+                  [nzPopoverOverlayStyle]="{ width: '300px' }"
                   nzType="civic-comment"></i>
               </ng-template>
               <ng-template #statusNoteContentTemplate>
@@ -251,7 +256,7 @@
             nzAlign="center"
             nz-popover
             [nzPopoverContent]="!isScrolling ? creationCommentTemplate : ''"
-            [nzPopoverOverlayStyle]="{'width': '300px'}">
+            [nzPopoverOverlayStyle]="{ width: '300px' }">
             <i
               nz-icon
               nzTheme="twotone"
@@ -259,9 +264,7 @@
               nzType="civic-comment"></i>
             <ng-template #creationCommentTemplate>
               <cvc-comment-body
-                [commentBodySegments]="
-                  suggestion.creationActivity!.parsedNote
-                ">
+                [commentBodySegments]="suggestion.creationActivity!.parsedNote">
               </cvc-comment-body>
             </ng-template>
           </td>
@@ -306,7 +309,7 @@
                 [queryParams]="{
                   molecularProfileId: suggestion.molecularProfile?.id,
                   sourceId: suggestion.source?.id,
-                  diseaseId: suggestion.disease?.id
+                  diseaseId: suggestion.disease?.id,
                 }"
                 [disabled]="suggestion.status != status.New"
                 nz-button

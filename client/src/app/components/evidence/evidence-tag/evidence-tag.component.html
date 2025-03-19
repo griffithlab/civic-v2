@@ -12,13 +12,15 @@
       accepted: evidence.status === 'ACCEPTED',
     }"
     nz-popover
+    [nzPopoverPlacement]="popoverPlacement"
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="enablePopover ? evidencePopover : undefined"
-    nzPopoverPlacement="right">
+    [nzPopoverContent]="enablePopover ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
-  <ng-template #evidencePopover>
-    <cvc-evidence-popover [evidenceId]="evidence.id"></cvc-evidence-popover>
+  <ng-template #popoverContent>
+    <cvc-evidence-popover
+      [evidenceId]="evidence.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-evidence-popover>
   </ng-template>
 </ng-template>
 

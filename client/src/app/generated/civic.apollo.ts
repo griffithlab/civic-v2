@@ -5725,6 +5725,7 @@ export type QueryTherapiesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  hasLinkedEvidence?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -8212,9 +8213,9 @@ export type AssertionPopoverQueryVariables = Exact<{
 }>;
 
 
-export type AssertionPopoverQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, variantOrigin: VariantOrigin, ampLevel?: AmpLevel | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, therapyInteractionType?: TherapyInteraction | undefined, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type AssertionPopoverQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, summary: string, description: string, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, variantOrigin: VariantOrigin, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, therapyInteractionType?: TherapyInteraction | undefined, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type AssertionPopoverFragment = { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, variantOrigin: VariantOrigin, ampLevel?: AmpLevel | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, fdaCompanionTest?: boolean | undefined, fdaCompanionTestLastUpdated?: any | undefined, therapyInteractionType?: TherapyInteraction | undefined, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type AssertionPopoverFragment = { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, summary: string, description: string, assertionType: AssertionType, assertionDirection: AssertionDirection, significance: AssertionSignificance, variantOrigin: VariantOrigin, ampLevel?: AmpLevel | undefined, nccnGuidelineVersion?: string | undefined, regulatoryApproval?: boolean | undefined, fdaCompanionTest?: boolean | undefined, therapyInteractionType?: TherapyInteraction | undefined, acmgCodes: Array<{ __typename: 'AcmgCode', code: string, description: string }>, clingenCodes: Array<{ __typename: 'ClingenCode', code: string, description: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type AssertionsBrowseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -8403,9 +8404,9 @@ export type EvidencePopoverQueryVariables = Exact<{
 }>;
 
 
-export type EvidencePopoverQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, description: string, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, significance: EvidenceSignificance, variantOrigin: VariantOrigin, therapyInteractionType?: TherapyInteraction | undefined, evidenceRating?: number | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, displayType: string, link: string, deprecated: boolean }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type EvidencePopoverQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, description: string, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, significance: EvidenceSignificance, variantOrigin: VariantOrigin, therapyInteractionType?: TherapyInteraction | undefined, evidenceRating?: number | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, displayType: string, link: string, deprecated: boolean, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type EvidencePopoverFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, description: string, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, significance: EvidenceSignificance, variantOrigin: VariantOrigin, therapyInteractionType?: TherapyInteraction | undefined, evidenceRating?: number | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, displayType: string, link: string, deprecated: boolean }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type EvidencePopoverFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, description: string, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, significance: EvidenceSignificance, variantOrigin: VariantOrigin, therapyInteractionType?: TherapyInteraction | undefined, evidenceRating?: number | undefined, therapies: Array<{ __typename: 'Therapy', id: number, name: string, link: string, deprecated: boolean }>, disease?: { __typename: 'Disease', id: number, name: string, link: string, deprecated: boolean } | undefined, phenotypes: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, parsedName: Array<{ __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean }> }, source: { __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, displayType: string, link: string, deprecated: boolean, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type EvidenceBrowseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -8448,9 +8449,9 @@ export type FeaturePopoverQueryVariables = Exact<{
 }>;
 
 
-export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+export type FeaturePopoverQuery = { __typename: 'Query', feature?: { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
 
-export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+export type FeaturePopoverFragment = { __typename: 'Feature', id: number, name: string, fullName?: string | undefined, featureAliases: Array<string>, featureInstance: { __typename: 'Factor' } | { __typename: 'Fusion' } | { __typename: 'Gene' }, variants: { __typename: 'VariantInterfaceConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
 
 export type BrowseFeaturesQueryVariables = Exact<{
   featureName?: InputMaybe<Scalars['String']['input']>;
@@ -8924,9 +8925,9 @@ export type VariantGroupPopoverQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupPopoverQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> } | undefined };
+export type VariantGroupPopoverQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> } | undefined };
 
-export type VariantGroupPopoverFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> };
+export type VariantGroupPopoverFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number }, variants: { __typename: 'VariantInterfaceConnection', edges: Array<{ __typename: 'VariantInterfaceEdge', node?: { __typename: 'FactorVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'FusionVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'GeneVariant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | { __typename: 'Variant', id: number, name: string, link: string, deprecated: boolean, flagged: boolean, feature: { __typename: 'Feature', id: number, name: string, link: string, deprecated: boolean, flagged: boolean } } | undefined }> }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceType: SourceSource, link: string, deprecated: boolean }> };
 
 export type BrowseVariantGroupsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10974,6 +10975,7 @@ export const AssertionPopoverFragmentDoc = gql`
   name
   status
   summary
+  description
   assertionType
   assertionDirection
   significance
@@ -10991,10 +10993,9 @@ export const AssertionPopoverFragmentDoc = gql`
     id
     name
   }
+  nccnGuidelineVersion
   regulatoryApproval
-  regulatoryApprovalLastUpdated
   fdaCompanionTest
-  fdaCompanionTestLastUpdated
   therapies {
     id
     name
@@ -11336,6 +11337,11 @@ export const EvidencePopoverFragmentDoc = gql`
     displayType
     link
     deprecated
+    clinicalTrials {
+      nctId
+      id
+      link
+    }
   }
   flags(state: OPEN) {
     totalCount
@@ -11396,6 +11402,12 @@ export const FeaturePopoverFragmentDoc = gql`
   }
   featureAliases
   variants {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
     totalCount
   }
   flags(state: OPEN) {
@@ -11951,6 +11963,15 @@ export const VariantGroupPopoverFieldsFragmentDoc = gql`
   id
   name
   description
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
   variants {
     edges {
       node {

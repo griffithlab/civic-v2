@@ -44692,6 +44692,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "hasLinkedEvidence",
+                  "description": "Limit to therapies that are linked to at least one non-rejected Evidence Item or Assertion",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "therapyAlias",
                   "description": null,
                   "type": {
