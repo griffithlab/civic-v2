@@ -27,8 +27,10 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { BehaviorSubject, filter, map, Subject } from 'rxjs'
 import { variantgroupSuggestFields } from './variantgroup-revise.form.config'
+import { tag } from 'rxjs-spy/operators'
+import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
@@ -93,10 +95,15 @@ export class CvcVariantgroupReviseForm
   }
   ngAfterViewInit(): void {
     this.revisableFieldsGQL
-      .fetch({ variantGroupId: this.variantGroupId })
-      .pipe(untilDestroyed(this))
+      .watch({ variantGroupId: this.variantGroupId })
+      .valueChanges.pipe(
+        map(({ data }) => data?.variantGroup),
+        filter(isNonNulled),
+        untilDestroyed(this),
+        tag('variantgroup-revise-form revisableFieldsGQL')
+      )
       .subscribe({
-        next: ({ data: { variantGroup } }) => {
+        next: (variantGroup) => {
           if (variantGroup) {
             this.model = {
               id: variantGroup.id,

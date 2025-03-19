@@ -30,6 +30,7 @@ import {
   isLinkableEntity,
 } from './entity-tag.functions'
 import result from '@app/generated/civic.possible-types'
+
 @Component({
   selector: 'cvc-entity-tag',
   templateUrl: './entity-tag.component.html',
@@ -94,7 +95,9 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   typename?: string
   id?: number
   entity?: LinkableEntity
+  fragmentDoc?: ReturnType<typeof gql>
   popoverInput?: EntityTagPopoverInput
+  isLinked = false
 
   constructor(private apollo: Apollo) {
     this.cvcOnClose = new EventEmitter<MouseEvent>()
@@ -103,7 +106,8 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
   private hasPopover(
     entityType: string
   ): entityType is EntityTagTypeWithPopover {
-    return ENTITY_TAG_TYPES_WITH_POPOVER.includes(entityType)
+    const typesWithPopover = ENTITY_TAG_TYPES_WITH_POPOVER
+    return typesWithPopover.includes(entityType)
   }
 
   private setLinkableEntity(entity: LinkableEntity): void {
@@ -120,6 +124,8 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     const [typename, id] = cacheId.split(':')
     this.typename = typename
     this.id = Number(id)
+    this.isLinked = !this.cvcDisableLink
+
     if (!this.typename || !this.id) {
       console.error(
         `entity-tag received an invalid cacheId: ${cacheId}. Cache IDs must be in the format 'TYPENAME:ID'.`
@@ -131,8 +137,9 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     let entity = undefined
     const fragmentDoc: Maybe<ReturnType<typeof gql>> = getFragmentDoc(
       typename,
-      !this.cvcDisableLink
+      this.isLinked
     )
+
     if (fragmentDoc) {
       fragment = getFragment(this.typename, this.id, fragmentDoc)
     } else {
@@ -141,15 +148,17 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
       )
       return
     }
+
     entity = this.apollo.client.readFragment(fragment)
+
     // if cache-miss, check VariantInteface's other polymorphic types
     if (!entity && typename === 'Variant') {
       // cache misssed on a Variant type, check for its other polymorphic types
       result.possibleTypes.VariantInterface.forEach((type) => {
-        if (type === 'Variant') return
+        if (type === 'Variant') return // already checked for Variant:id above
         const fragmentDoc: Maybe<ReturnType<typeof gql>> = getFragmentDoc(
           type,
-          !this.cvcDisableLink
+          this.isLinked
         )
         if (fragmentDoc) {
           fragment = getFragment(type, this.id!, fragmentDoc)
