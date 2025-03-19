@@ -30,6 +30,7 @@ export const feedDefaultFilters: ActivityFeedFilters = {
   userId: [],
   activityType: [],
   subjectType: [],
+  linkedEndorsementId: null,
   occurredAfter: null,
   occurredBefore: null,
   sortByColumn: DateSortColumns.Created,

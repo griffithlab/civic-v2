@@ -9,6 +9,7 @@ query ActivityFeed(
   $userId: [Int!]
   $activityType: [ActivityTypeInput!]
   $subjectType: [ActivitySubjectInput!]
+  $linkedEndorsementId: Int
   $includeAutomatedEvents: Boolean
   $includeConnection: Boolean = true
   $includePageInfo: Boolean = true
@@ -26,6 +27,7 @@ query ActivityFeed(
     before: $before
     after: $after
     userId: $userId
+    linkedEndorsementId: $linkedEndorsementId
     includeAutomatedEvents: $includeAutomatedEvents
     organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
     activityType: $activityType

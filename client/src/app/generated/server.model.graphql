@@ -8415,6 +8415,11 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Filter activities on being linked to the endorsement with the given CIViC ID.
+    """
+    linkedEndorsementId: Int
     mode: EventFeedMode
     occurredAfter: ISO8601DateTime
     occurredBefore: ISO8601DateTime
@@ -8999,6 +9004,56 @@ type Query {
     last: Int
     name: String
   ): DiseaseConnection!
+
+  """
+  List and filter endorsements.
+  """
+  endorsements(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    CIViC Assertion ID that is being endorsed.
+    """
+    endorsedAssertionId: Int
+
+    """
+    CIViC Organization ID of the organization endorsing the assertion.
+    """
+    endorsingOrganizationId: Int
+
+    """
+    CIViC User ID of the user endorsing the assertion.
+    """
+    endorsingUserId: Int
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Sort order for the endorsements. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to endorsements of a particular status
+    """
+    status: EndorsementStatus
+  ): EndorsementConnection!
 
   """
   Retrieve entity type typeahead fields for a entity mention search term.

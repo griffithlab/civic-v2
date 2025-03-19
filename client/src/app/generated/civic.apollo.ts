@@ -5010,6 +5010,8 @@ export type Query = {
   /** Retrieve disease typeahead fields for a search term. */
   diseaseTypeahead: Array<Disease>;
   diseases: DiseaseConnection;
+  /** List and filter endorsements. */
+  endorsements: EndorsementConnection;
   /** Retrieve entity type typeahead fields for a entity mention search term. */
   entityTypeahead: Array<CommentTagSegment>;
   /** List and filter events for an object */
@@ -5139,6 +5141,7 @@ export type QueryActivitiesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   includeAutomatedEvents?: InputMaybe<Scalars['Boolean']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  linkedEndorsementId?: InputMaybe<Scalars['Int']['input']>;
   mode?: InputMaybe<EventFeedMode>;
   occurredAfter?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
   occurredBefore?: InputMaybe<Scalars['ISO8601DateTime']['input']>;
@@ -5382,6 +5385,19 @@ export type QueryDiseasesArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryEndorsementsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  endorsedAssertionId?: InputMaybe<Scalars['Int']['input']>;
+  endorsingOrganizationId?: InputMaybe<Scalars['Int']['input']>;
+  endorsingUserId?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  sortBy?: InputMaybe<DateSort>;
+  status?: InputMaybe<EndorsementStatus>;
 };
 
 
@@ -7973,6 +7989,7 @@ export type ActivityFeedQueryVariables = Exact<{
   userId?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   activityType?: InputMaybe<Array<ActivityTypeInput> | ActivityTypeInput>;
   subjectType?: InputMaybe<Array<ActivitySubjectInput> | ActivitySubjectInput>;
+  linkedEndorsementId?: InputMaybe<Scalars['Int']['input']>;
   includeAutomatedEvents?: InputMaybe<Scalars['Boolean']['input']>;
   includeConnection?: InputMaybe<Scalars['Boolean']['input']>;
   includePageInfo?: InputMaybe<Scalars['Boolean']['input']>;
@@ -8339,6 +8356,20 @@ export type BrowseDiseasesQueryVariables = Exact<{
 export type BrowseDiseasesQuery = { __typename: 'Query', browseDiseases: { __typename: 'BrowseDiseaseConnection', lastUpdated: any, totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined }, edges: Array<{ __typename: 'BrowseDiseaseEdge', cursor: string, node?: { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> } | undefined }> } };
 
 export type BrowseDiseaseRowFieldsFragment = { __typename: 'BrowseDisease', id: number, name: string, doid?: string | undefined, diseaseUrl?: string | undefined, assertionCount: number, evidenceItemCount: number, variantCount: number, featureCount: number, link: string, deprecated: boolean, diseaseAliases?: Array<string> | undefined, features: Array<{ __typename: 'LinkableFeature', id: number, name: string, link: string }> };
+
+export type EndorsementListQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  assertionId?: InputMaybe<Scalars['Int']['input']>;
+  sortBy?: InputMaybe<DateSort>;
+}>;
+
+
+export type EndorsementListQuery = { __typename: 'Query', endorsements: { __typename: 'EndorsementConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'EndorsementEdge', cursor: string, node?: { __typename: 'Endorsement', id: number, lastReviewed: any, status: EndorsementStatus, organization: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined }> } };
+
+export type EndorsementListNodeFragment = { __typename: 'Endorsement', id: number, lastReviewed: any, status: EndorsementStatus, organization: { __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }, user: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } };
 
 export type EventFeedCountQueryVariables = Exact<{
   subject?: InputMaybe<SubscribableQueryInput>;
@@ -11133,6 +11164,24 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   link
   deprecated
   diseaseAliases
+}
+    `;
+export const EndorsementListNodeFragmentDoc = gql`
+    fragment endorsementListNode on Endorsement {
+  id
+  organization {
+    id
+    name
+    profileImagePath(size: 64)
+  }
+  user {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  lastReviewed
+  status
 }
     `;
 export const EventFeedNodeFragmentDoc = gql`
@@ -14037,7 +14086,7 @@ ${GeneVariantSummaryFieldsFragmentDoc}
 ${FactorVariantSummaryFieldsFragmentDoc}
 ${FusionVariantSummaryFieldsFragmentDoc}`;
 export const ActivityFeedDocument = gql`
-    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $includeSubgroups: Boolean!, $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $includeAutomatedEvents: Boolean, $includeConnection: Boolean = true, $includePageInfo: Boolean = true, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime, $sortBy: DateSort) {
+    query ActivityFeed($subject: [SubscribableQueryInput!], $first: Int, $last: Int, $before: String, $after: String, $organizationId: [Int!], $includeSubgroups: Boolean!, $userId: [Int!], $activityType: [ActivityTypeInput!], $subjectType: [ActivitySubjectInput!], $linkedEndorsementId: Int, $includeAutomatedEvents: Boolean, $includeConnection: Boolean = true, $includePageInfo: Boolean = true, $mode: EventFeedMode, $showFilters: Boolean!, $requestDetails: Boolean!, $occurredAfter: ISO8601DateTime, $occurredBefore: ISO8601DateTime, $sortBy: DateSort) {
   activities(
     subject: $subject
     first: $first
@@ -14045,6 +14094,7 @@ export const ActivityFeedDocument = gql`
     before: $before
     after: $after
     userId: $userId
+    linkedEndorsementId: $linkedEndorsementId
     includeAutomatedEvents: $includeAutomatedEvents
     organization: {ids: $organizationId, includeSubgroups: $includeSubgroups}
     activityType: $activityType
@@ -14490,6 +14540,43 @@ export const BrowseDiseasesDocument = gql`
   })
   export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
     document = BrowseDiseasesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EndorsementListDocument = gql`
+    query EndorsementList($first: Int, $last: Int, $before: String, $after: String, $assertionId: Int, $sortBy: DateSort) {
+  endorsements(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    endorsedAssertionId: $assertionId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...endorsementListNode
+      }
+    }
+  }
+}
+    ${EndorsementListNodeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EndorsementListGQL extends Apollo.Query<EndorsementListQuery, EndorsementListQueryVariables> {
+    document = EndorsementListDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

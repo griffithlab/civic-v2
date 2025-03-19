@@ -1,6 +1,6 @@
 module Activities
   class AcceptRevisions < Base
-    attr_reader :revisions, :accepting_user, :superseded_revisions
+    attr_reader :revisions, :accepting_user, :superseded_revisions, :endorsements, :activity_subject
 
     def initialize(accepting_user:, revisions:, organization_id: nil, note:)
       super(organization_id: organization_id, user: accepting_user, note: note)
@@ -13,7 +13,7 @@ module Activities
       # Set the subject of this activity to the subject of the revision's creation activity
       # In the case of gene/exon coordinates, the revision's subject will be the coordinate Object
       # which we do not want. The creation activity's subject will be the Variant.
-      activity_subject = revisions.first&.creation_activity&.subject
+      @activity_subject = revisions.first&.creation_activity&.subject
       @activity = AcceptRevisionsActivity.create!(
         subject: activity_subject,
         user: accepting_user,
@@ -36,8 +36,22 @@ module Activities
       @superseded_revisions = cmd.superseded_revisions
     end
 
+    def after_actions
+      @endorsements = if activity_subject.is_a?(EvidenceItem)
+        activity_subject.assertions.flat_map{ |a| a.endorsements.select{ |e| e.active? || e.requires_review? }}
+      elsif activity_subject.is_a?(Assertion)
+        activity_subject.endorsements.select{ |e| e.active? || e.requires_review? }
+      else
+        []
+      end
+      endorsements.select{ |e| e.active? }.each do |e|
+        e.status = 'requires_review'
+        e.save!
+      end
+    end
+
     def linked_entities
-      [ revisions, superseded_revisions ].flatten.compact
+      [ revisions, superseded_revisions, endorsements ].flatten.compact
     end
   end
 end

@@ -1,6 +1,6 @@
 module Activities
   class FlagEntity < Base
-    attr_reader :flaggable, :flag
+    attr_reader :flaggable, :flag, :endorsements
 
     def initialize(flagging_user:, flaggable:, organization_id: nil, note:)
       super(organization_id: organization_id, user: flagging_user, note: note)
@@ -31,8 +31,20 @@ module Activities
       events << cmd.events
     end
 
+    def after_actions
+      @endorsements = if self.flaggable.respond_to?(:endorsements)
+        self.flaggable.endorsements.select{ |e| e.active? || e.requires_review? }
+      else
+        []
+      end
+      endorsements.select{ |e| e.active? }.each do |e|
+        e.status = 'requires_review'
+        e.save!
+      end
+    end
+
     def linked_entities
-      [ flag ]
+      [ flag, endorsements ]
     end
   end
 end

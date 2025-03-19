@@ -66,6 +66,11 @@ export class AssertionsDetailView implements OnDestroy {
       tabLabel: 'Flags',
     },
     {
+      routeName: 'endorsements',
+      iconName: 'safety-certificate',
+      tabLabel: 'Endorsements',
+    },
+    {
       routeName: 'events',
       iconName: 'civic-event',
       tabLabel: 'Activity',
@@ -117,6 +122,18 @@ export class AssertionsDetailView implements OnDestroy {
                 return {
                   badgeCount: assertionResp?.comments.totalCount,
                   badgeColor: '#cccccc',
+                  ...tab,
+                }
+              } else if (tab.tabLabel === 'Endorsements') {
+                let activeCount = assertionResp?.activeEndorsements.totalCount ? assertionResp?.activeEndorsements.totalCount : 0 
+                let requiresReviewCount = assertionResp?.requiresReviewEndorsements.totalCount ? assertionResp?.requiresReviewEndorsements.totalCount : 0 
+                let count = activeCount + requiresReviewCount
+                if (count == 0) {
+                  let count = undefined
+                }
+                return {
+                  badgeCount: count,
+                  badgeColor: '#EFBF04',
                   ...tab,
                 }
               } else {
