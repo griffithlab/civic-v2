@@ -33,12 +33,12 @@ module Activities
 
     def after_actions
       @endorsements = if self.flaggable.respond_to?(:endorsements)
-        self.flaggable.endorsements.select{ |e| e.active? || e.requires_review? }
+        self.flaggable.endorsements.select { |e| e.active? || e.requires_review? }
       else
         []
       end
-      endorsements.select{ |e| e.active? }.each do |e|
-        e.status = 'requires_review'
+      endorsements.select { |e| e.active? }.each do |e|
+        e.status = "requires_review"
         e.save!
       end
     end

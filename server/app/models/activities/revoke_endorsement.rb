@@ -2,8 +2,8 @@ module Activities
   class RevokeEndorsement < Base
     attr_reader :endorsement
 
-    def initialize(originating_user:, endorsement:, organization_id: nil)
-      super(organization_id: organization_id, user: originating_user)
+    def initialize(originating_user:, endorsement:, note:, organization_id: nil)
+      super(organization_id: organization_id, user: originating_user, note: note)
       @endorsement = endorsement
     end
 
@@ -13,6 +13,7 @@ module Activities
         subject: endorsement.assertion,
         user: user,
         organization: organization,
+        note: note
       )
     end
 

@@ -10529,6 +10529,11 @@ input RevokeEndorsementInput {
   clientMutationId: String
 
   """
+  Text describing the reason for revoking this Endorsement.
+  """
+  comment: String!
+
+  """
   The ID of the organization to credit the user's contributions to.
   If the user belongs to a single organization or no organizations, this field is not required.
   This field is required if the user belongs to more than one organization.

@@ -86,10 +86,19 @@
             Assertion</strong
           >. Are you sure you wish to proceed?
         </span>
-        <nz-divider></nz-divider>
+        <nz-divider class="endorsement-divider"></nz-divider>
+        <textarea
+          placeholder="Enter a reason for revoking this Endorsement"
+          rows="4"
+          nz-input
+          [(ngModel)]="revocationComment"></textarea>
+        <nz-divider class="endorsement-divider"></nz-divider>
         <nz-space nzDirection="horizontal">
           <span *nzSpaceItem>
             <button
+              [disabled]="
+                revocationComment == undefined || revocationComment.length < 10
+              "
               nzType="primary"
               nzSize="small"
               nz-button

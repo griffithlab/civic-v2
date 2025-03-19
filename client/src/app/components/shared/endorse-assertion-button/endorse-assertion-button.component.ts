@@ -23,6 +23,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
@@ -47,6 +48,7 @@ export type EndorsementResult = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NzInputModule,
     NzButtonModule,
     NzIconModule,
     NzToolTipModule,
@@ -77,6 +79,8 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
   isSubmitting = false
   showConfirm = false
   showRevokeConfirm = false
+
+  revocationComment?: string
 
   mostRecentOrg: Maybe<ViewerOrganizationFragment>
 
@@ -133,6 +137,7 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
           input: {
             assertionId: this.assertionId,
             organizationId: this.mostRecentOrg?.id,
+            comment: this.revocationComment || '',
           },
         },
         mutationOptions
