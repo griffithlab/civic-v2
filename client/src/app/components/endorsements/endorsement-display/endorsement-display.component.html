@@ -1,7 +1,10 @@
-<nz-card 
+<nz-card
   *ngrxLet="endorsement() as endorsement"
-  nzSize="small" [nzBodyStyle]="{'padding': '0px'}">
-  <nz-row nzAlign="middle" style="flex-wrap: nowrap;">
+  nzSize="small"
+  [nzBodyStyle]="{ padding: '0px' }">
+  <nz-row
+    nzAlign="middle"
+    style="flex-wrap: nowrap">
     @if (endorsement.status == 'ACTIVE') {
       <nz-col
         nzFlex="54px"
@@ -21,10 +24,10 @@
         <ng-container *ngTemplateOutlet="endorsementIcon"></ng-container>
       </nz-col>
     }
-    <nz-col 
-      nzFlex="auto">
+    <nz-col nzFlex="auto">
       endorsed by
-      <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>
+      <cvc-organization-tag
+        [org]="endorsement.organization"></cvc-organization-tag>
       <span
         nz-typography
         nzType="secondary">
@@ -34,13 +37,18 @@
   </nz-row>
   @if (endorsement.status == 'REQUIRES_REVIEW' && feedFilters) {
     <nz-collapse>
-      <nz-collapse-panel nzHeader="The assertion has changes since it has last been endorsed. Expand to see changes.">
-         <cvc-activity-feed
-          [cvcFilters]="feedFilters" [cvcShowFilters]="false"></cvc-activity-feed>
+      <nz-collapse-panel
+        nzHeader="The assertion has changes since it has last been endorsed. Expand to see changes.">
+        <cvc-activity-feed
+          [cvcFilters]="feedFilters"
+          [cvcShowFilters]="false"
+          cvcTitle="Post Endorsement Changes"></cvc-activity-feed>
       </nz-collapse-panel>
     </nz-collapse>
   }
-  <ng-template #endorsementIcon let-status="$implicit">
+  <ng-template
+    #endorsementIcon
+    let-status="$implicit">
     <i
       nz-icon
       nzType="safety-certificate"
@@ -51,7 +59,9 @@
   </ng-template>
   <ng-template #endorsementIconTooltipText>
     @if (endorsement.status == 'REQUIRES_REVIEW') {
-      Assertion has changes since endorsement. Endorsement requires review. Re-endorse assertion or revoke endorsement after review has been completed.
+      Assertion has changes since endorsement. Endorsement requires review.
+      Re-endorse assertion or revoke endorsement after review has been
+      completed.
     } @else if (endorsement.status == 'REVOKED') {
       Endorsement has been revoked.
     } @else if (endorsement.status == 'ACTIVE') {
