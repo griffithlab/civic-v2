@@ -8,7 +8,10 @@ class Resolvers::TopLevelEndorsements < GraphQL::Schema::Resolver
 
   description "List and filter endorsements."
 
-  scope { Endorsement.order("endorsements.created_at DESC") }
+  scope do
+    Endorsement.in_order_of(:status, [ "active", "requires_review", "revoked" ])
+      .order("endorsements.last_reviewed DESC")
+  end
 
   option(:endorsing_user_id, type: Int, description: "CIViC User ID of the user endorsing the assertion.") do |scope, value|
     scope.where(user_id: value)

@@ -4,10 +4,8 @@ import {
   EndorsementListNodeFragment,
   EndorsementListQuery,
   EndorsementListQueryVariables,
-  DateSortColumns,
   Maybe,
   PageInfo,
-  SortDirection,
 } from '@app/generated/civic.apollo'
 
 import { QueryRef } from 'apollo-angular'
@@ -17,10 +15,10 @@ import { isNonNulled } from 'rxjs-etc'
 import { filter, map, pluck } from 'rxjs/operators'
 
 @Component({
-    selector: 'cvc-endorsement-list',
-    templateUrl: './endorsement-list.component.html',
-    styleUrls: ['./endorsement-list.component.less'],
-    standalone: false
+  selector: 'cvc-endorsement-list',
+  templateUrl: './endorsement-list.component.html',
+  styleUrls: ['./endorsement-list.component.less'],
+  standalone: false,
 })
 export class CvcEndorsementListComponent implements OnInit {
   @Input() assertionId!: number
@@ -29,7 +27,10 @@ export class CvcEndorsementListComponent implements OnInit {
   pageInfo$?: Observable<PageInfo>
   endorsements$?: Observable<Maybe<EndorsementListNodeFragment>[]>
 
-  private queryRef$!: QueryRef<EndorsementListQuery, EndorsementListQueryVariables>
+  private queryRef$!: QueryRef<
+    EndorsementListQuery,
+    EndorsementListQueryVariables
+  >
 
   private pageSize = 5
 
@@ -39,10 +40,6 @@ export class CvcEndorsementListComponent implements OnInit {
     this.queryRef$ = this.gql.watch({
       assertionId: this.assertionId,
       last: this.pageSize,
-      sortBy: {
-        column: DateSortColumns.Created,
-        direction: SortDirection.Asc,
-      },
     })
 
     let results = this.queryRef$.valueChanges
@@ -50,7 +47,8 @@ export class CvcEndorsementListComponent implements OnInit {
     this.pageInfo$ = results.pipe(
       pluck('data'),
       filter(isNonNulled),
-      map(({ endorsements }) => endorsements.pageInfo))
+      map(({ endorsements }) => endorsements.pageInfo)
+    )
 
     this.loading$ = results.pipe(map(({ loading }) => loading))
 
