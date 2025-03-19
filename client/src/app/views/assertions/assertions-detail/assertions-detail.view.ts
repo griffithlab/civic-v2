@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, computed, OnDestroy, Signal, signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {
   Maybe,
@@ -17,6 +17,7 @@ import { pluck } from 'rxjs-etc/operators'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 import { EndorsementResult } from '@app/components/shared/endorse-assertion-button/endorse-assertion-button.component'
+import { toSignal } from '@angular/core/rxjs-interop'
 
 type ActiveEndorsement = {
   organization: {
@@ -37,6 +38,7 @@ export class AssertionsDetailView implements OnDestroy {
   loading$?: Observable<boolean>
   flagsTotal$?: Observable<number>
   activeEndorsementTotal$?: Observable<number>
+  requiresReviewEndorsementTotal$?: Observable<number>
   viewer$: Observable<Viewer>
 
   paramsSub: Subscription
@@ -80,6 +82,8 @@ export class AssertionsDetailView implements OnDestroy {
   errors: string[] = []
   successMessage: Maybe<string>
 
+  endorsementCount?: Signal<number>
+
   constructor(
     private gql: AssertionDetailGQL,
     private viewerService: ViewerService,
@@ -100,8 +104,20 @@ export class AssertionsDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.assertion$.pipe(pluck('flags', 'totalCount'))
 
-      this.activeEndorsementTotal$ = this.assertion$.pipe(
-        pluck('activeEndorsements', 'totalCount')
+      const activeCount = toSignal(
+        (this.activeEndorsementTotal$ = this.assertion$.pipe(
+          pluck('activeEndorsements', 'totalCount')
+        ))
+      )
+
+      const requiresReviewCount = toSignal(
+        (this.requiresReviewEndorsementTotal$ = this.assertion$.pipe(
+          pluck('requiresReviewEndorsements', 'totalCount')
+        ))
+      )
+
+      this.endorsementCount = computed(
+        () => (activeCount() || 0) + (requiresReviewCount() || 0)
       )
 
       this.assertion$.pipe(takeUntil(this.destroy$)).subscribe({

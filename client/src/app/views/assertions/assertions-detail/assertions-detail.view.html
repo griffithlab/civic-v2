@@ -24,7 +24,7 @@
   <div
     cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush"
-    [endorsements]="activeEndorsementTotal$ | ngrxPush">
+    [endorsements]="endorsementCount ? endorsementCount() : 0">
     <nz-page-header
       *ngrxLet="viewer$ as viewer"
       class="site-page-header">
