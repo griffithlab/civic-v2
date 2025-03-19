@@ -32,13 +32,13 @@ module Activities
     end
 
     def after_actions
-      @endorsements = if new_status == 'rejected'
-        evidence_item.assertions.flat_map{|a| a.endorsements.select{ |e| e.active? || e.requires_review? }}
+      @endorsements = if new_status == "rejected"
+        evidence_item.assertions.flat_map { |a| a.endorsements.select { |e| e.active? || e.requires_review? } }
       else
         []
       end
-      endorsements.select{ |e| e.active? }.each do |e|
-        e.status = 'requires_review'
+      endorsements.select { |e| e.active? }.each do |e|
+        e.status = "requires_review"
         e.save!
       end
     end

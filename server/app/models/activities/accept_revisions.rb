@@ -38,14 +38,14 @@ module Activities
 
     def after_actions
       @endorsements = if activity_subject.is_a?(EvidenceItem)
-        activity_subject.assertions.flat_map{ |a| a.endorsements.select{ |e| e.active? || e.requires_review? }}
+        activity_subject.assertions.flat_map { |a| a.endorsements.select { |e| e.active? || e.requires_review? } }
       elsif activity_subject.is_a?(Assertion)
-        activity_subject.endorsements.select{ |e| e.active? || e.requires_review? }
+        activity_subject.endorsements.select { |e| e.active? || e.requires_review? }
       else
         []
       end
-      endorsements.select{ |e| e.active? }.each do |e|
-        e.status = 'requires_review'
+      endorsements.select { |e| e.active? }.each do |e|
+        e.status = "requires_review"
         e.save!
       end
     end
