@@ -16,6 +16,8 @@ import {
   RevokeEndorsementGQL,
   RevokeEndorsementMutation,
   RevokeEndorsementMutationVariables,
+  AssertionDetailGQL,
+  EndorsementListGQL,
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzButtonModule } from 'ng-zorro-antd/button'
@@ -83,6 +85,8 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
   constructor(
     private endorseAssertionGql: EndorseAssertionGQL,
     private revokeEndorsementGql: RevokeEndorsementGQL,
+    private assertionDetailGql: AssertionDetailGQL,
+    private endorsementListGql: EndorsementListGQL,
     private networkErrorService: NetworkErrorsService,
     private viewerService: ViewerService
   ) {
@@ -98,20 +102,41 @@ export class CvcEndorseAssertionButtonComponent implements OnInit {
     this.isSubmitting = true
     let state: MutationState
 
+    let mutationOptions = {
+      refetchQueries: [
+        {
+          query: this.assertionDetailGql.document,
+          variables: { id: this.assertionId },
+        },
+        {
+          query: this.endorsementListGql.document,
+          variables: { assertionId: this.assertionId },
+        },
+      ],
+    }
+
     if (this.mode === 'endorse') {
-      state = this.endorseAssertionMutator.mutate(this.endorseAssertionGql, {
-        input: {
-          assertionId: this.assertionId,
-          organizationId: this.mostRecentOrg?.id,
+      state = this.endorseAssertionMutator.mutate(
+        this.endorseAssertionGql,
+        {
+          input: {
+            assertionId: this.assertionId,
+            organizationId: this.mostRecentOrg?.id,
+          },
         },
-      })
+        mutationOptions
+      )
     } else {
-      state = this.revokeAssertionMutator.mutate(this.revokeEndorsementGql, {
-        input: {
-          assertionId: this.assertionId,
-          organizationId: this.mostRecentOrg?.id,
+      state = this.revokeAssertionMutator.mutate(
+        this.revokeEndorsementGql,
+        {
+          input: {
+            assertionId: this.assertionId,
+            organizationId: this.mostRecentOrg?.id,
+          },
         },
-      })
+        mutationOptions
+      )
     }
 
     state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
