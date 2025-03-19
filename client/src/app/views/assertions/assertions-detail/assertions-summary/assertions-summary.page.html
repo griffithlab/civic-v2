@@ -202,7 +202,9 @@
       <nz-row [nzGutter]="[8, 8]">
         <!-- BLOCK: endorsements block -->
         @for (
-          endorsement of assertion.endorsements.nodes;
+          endorsement of assertion.activeEndorsements.nodes.concat(
+            assertion.requiresReviewEndorsements.nodes
+          );
           track endorsement.id
         ) {
           <nz-col [nzSpan]="24">
@@ -210,8 +212,7 @@
               nzType="warning"
               [nzMessage]="endorsementMessageTemplate"
               nzShowIcon
-              [nzIcon]="endorsementIconTemplate"
-            ></nz-alert>
+              [nzIcon]="endorsementIconTemplate"></nz-alert>
             <ng-template #endorsementIconTemplate>
               <span style="color: #efbf04; font-size: 24px">
                 <i
@@ -223,7 +224,8 @@
             </ng-template>
             <ng-template #endorsementMessageTemplate>
               endorsed by
-              <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>
+              <cvc-organization-tag
+                [org]="endorsement.organization"></cvc-organization-tag>
             </ng-template>
             <ng-template #endorsementActionTemplate>
               <span
@@ -245,7 +247,7 @@
                     nzTheme="fill">
                   </i>
                 </nz-col>
-                <nz-col 
+                <nz-col
                   nzFlex="auto">
                   endorsed by
                   <cvc-organization-tag [org]="endorsement.organization"></cvc-organization-tag>

@@ -99,20 +99,24 @@ fragment AssertionSummaryFields on Assertion {
       profileImagePath(size: 32)
     }
   }
-  endorsements(status: ACTIVE) {
+  activeEndorsements: endorsements(status: ACTIVE) {
     totalCount
     nodes {
       id
       organization {
         id
         name
-        profileImagePath(size: 64)
       }
-      user {
+      lastReviewed
+    }
+  }
+  requiresReviewEndorsements: endorsements(status: REQUIRES_REVIEW) {
+    totalCount
+    nodes {
+      id
+      organization {
         id
-        displayName
-        role
-        profileImagePath(size: 32)
+        name
       }
       lastReviewed
     }

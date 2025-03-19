@@ -141,8 +141,13 @@ export class AssertionsDetailView implements OnDestroy {
                   ...tab,
                 }
               } else if (tab.tabLabel === 'Endorsements') {
-                let activeCount = assertionResp?.activeEndorsements.totalCount ? assertionResp?.activeEndorsements.totalCount : 0 
-                let requiresReviewCount = assertionResp?.requiresReviewEndorsements.totalCount ? assertionResp?.requiresReviewEndorsements.totalCount : 0 
+                let activeCount = assertionResp?.activeEndorsements.totalCount
+                  ? assertionResp?.activeEndorsements.totalCount
+                  : 0
+                let requiresReviewCount = assertionResp
+                  ?.requiresReviewEndorsements.totalCount
+                  ? assertionResp?.requiresReviewEndorsements.totalCount
+                  : 0
                 let count = activeCount + requiresReviewCount
                 if (count == 0) {
                   let count = undefined
