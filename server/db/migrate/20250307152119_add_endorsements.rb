@@ -16,14 +16,6 @@ class AddEndorsements < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    create_table :endorsement_logs do |t|
-      t.enum :old_status, enum_type: "endorsement_status", null: true
-      t.enum :new_status, enum_type: "endorsement_status", null: false
-      t.text :note, null: false
-      t.references :endorsement
-      t.timestamps
-    end
-
     add_column :affiliations, :id, :primary_key
   end
 
@@ -34,7 +26,6 @@ class AddEndorsements < ActiveRecord::Migration[8.0]
     remove_column :affiliations, :id
     remove_column :affiliations, :can_endorse
 
-    drop_table :endorsement_logs
     drop_table :endorsements
 
     execute <<-SQL

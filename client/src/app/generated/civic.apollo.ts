@@ -1896,7 +1896,6 @@ export type EndorseAssertionActivity = ActivityInterface & {
   assertion: Assertion;
   createdAt: Scalars['ISO8601DateTime']['output'];
   endorsement: Endorsement;
-  endorsementLogEntry: EndorsementLog;
   events: Array<Event>;
   id: Scalars['Int']['output'];
   note?: Maybe<Scalars['String']['output']>;
@@ -1965,16 +1964,6 @@ export type EndorsementEdge = {
   cursor: Scalars['String']['output'];
   /** The item at the end of the edge. */
   node?: Maybe<Endorsement>;
-};
-
-export type EndorsementLog = {
-  __typename: 'EndorsementLog';
-  createdAt: Scalars['ISO8601DateTime']['output'];
-  endorsement: Endorsement;
-  newStatus: EndorsementStatus;
-  note: Scalars['String']['output'];
-  oldStatus?: Maybe<EndorsementStatus>;
-  updatedAt: Scalars['ISO8601DateTime']['output'];
 };
 
 export enum EndorsementStatus {
@@ -6108,7 +6097,6 @@ export type RevokeEndorsementActivity = ActivityInterface & {
   assertion: Assertion;
   createdAt: Scalars['ISO8601DateTime']['output'];
   endorsement: Endorsement;
-  endorsementLogEntry: EndorsementLog;
   events: Array<Event>;
   id: Scalars['Int']['output'];
   note?: Maybe<Scalars['String']['output']>;

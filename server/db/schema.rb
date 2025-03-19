@@ -385,16 +385,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_07_152119) do
     t.index ["user_id"], name: "index_domain_expert_tags_on_user_id"
   end
 
-  create_table "endorsement_logs", force: :cascade do |t|
-    t.enum "old_status", enum_type: "endorsement_status"
-    t.enum "new_status", null: false, enum_type: "endorsement_status"
-    t.text "note", null: false
-    t.bigint "endorsement_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["endorsement_id"], name: "index_endorsement_logs_on_endorsement_id"
-  end
-
   create_table "endorsements", force: :cascade do |t|
     t.bigint "organization_id", null: false
     t.bigint "user_id", null: false

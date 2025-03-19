@@ -3,7 +3,6 @@ class Endorsement < ApplicationRecord
   belongs_to :user
   belongs_to :assertion
 
-  has_many :endorsement_logs
   has_many :activities_linked_entities,
     ->() { where(entity_type: "Endorsement") },
     foreign_key: :entity_id,

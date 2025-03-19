@@ -882,12 +882,11 @@ export type EditUserPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EndorseAssertionActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'endorsementLogEntry' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | EndorseAssertionActivityKeySpecifier)[];
+export type EndorseAssertionActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | EndorseAssertionActivityKeySpecifier)[];
 export type EndorseAssertionActivityFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsementLogEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -925,15 +924,6 @@ export type EndorsementEdgeKeySpecifier = ('cursor' | 'node' | EndorsementEdgeKe
 export type EndorsementEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type EndorsementLogKeySpecifier = ('createdAt' | 'endorsement' | 'newStatus' | 'note' | 'oldStatus' | 'updatedAt' | EndorsementLogKeySpecifier)[];
-export type EndorsementLogFieldPolicy = {
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
-	newStatus?: FieldPolicy<any> | FieldReadFunction<any>,
-	note?: FieldPolicy<any> | FieldReadFunction<any>,
-	oldStatus?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EventKeySpecifier = ('action' | 'createdAt' | 'id' | 'organization' | 'originatingObject' | 'originatingUser' | 'subject' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
@@ -2130,12 +2120,11 @@ export type RevokeApiKeyPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevokeEndorsementActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'endorsementLogEntry' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | RevokeEndorsementActivityKeySpecifier)[];
+export type RevokeEndorsementActivityKeySpecifier = ('assertion' | 'createdAt' | 'endorsement' | 'events' | 'id' | 'note' | 'organization' | 'parsedNote' | 'subject' | 'user' | 'verbiage' | RevokeEndorsementActivityKeySpecifier)[];
 export type RevokeEndorsementActivityFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	endorsement?: FieldPolicy<any> | FieldReadFunction<any>,
-	endorsementLogEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	note?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3112,10 +3101,6 @@ export type StrictTypedTypePolicies = {
 	EndorsementEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EndorsementEdgeKeySpecifier | (() => undefined | EndorsementEdgeKeySpecifier),
 		fields?: EndorsementEdgeFieldPolicy,
-	},
-	EndorsementLog?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | EndorsementLogKeySpecifier | (() => undefined | EndorsementLogKeySpecifier),
-		fields?: EndorsementLogFieldPolicy,
 	},
 	Event?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventKeySpecifier | (() => undefined | EventKeySpecifier),

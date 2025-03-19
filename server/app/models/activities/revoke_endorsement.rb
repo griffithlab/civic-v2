@@ -1,6 +1,6 @@
 module Activities
   class RevokeEndorsement < Base
-    attr_reader :endorsement, :endorsement_log
+    attr_reader :endorsement
 
     def initialize(originating_user:, endorsement:, organization_id: nil)
       super(organization_id: organization_id, user: originating_user)
@@ -28,11 +28,10 @@ module Activities
       end
       events << cmd.events
       @endorsement = cmd.endorsement
-      @endorsement_log = cmd.endorsement_log
     end
 
     def linked_entities
-      [ endorsement, endorsement_log ]
+      [ endorsement ]
     end
   end
 end

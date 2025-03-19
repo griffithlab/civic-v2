@@ -2952,7 +2952,6 @@ type EndorseAssertionActivity implements ActivityInterface {
   assertion: Assertion!
   createdAt: ISO8601DateTime!
   endorsement: Endorsement!
-  endorsementLogEntry: EndorsementLog!
   events: [Event!]!
   id: Int!
   note: String
@@ -3055,15 +3054,6 @@ type EndorsementEdge {
   The item at the end of the edge.
   """
   node: Endorsement
-}
-
-type EndorsementLog {
-  createdAt: ISO8601DateTime!
-  endorsement: Endorsement!
-  newStatus: EndorsementStatus!
-  note: String!
-  oldStatus: EndorsementStatus
-  updatedAt: ISO8601DateTime!
 }
 
 enum EndorsementStatus {
@@ -10514,7 +10504,6 @@ type RevokeEndorsementActivity implements ActivityInterface {
   assertion: Assertion!
   createdAt: ISO8601DateTime!
   endorsement: Endorsement!
-  endorsementLogEntry: EndorsementLog!
   events: [Event!]!
   id: Int!
   note: String

@@ -2,7 +2,7 @@ module Actions
   class EndorseAssertion
     include Actions::Transactional
 
-    attr_reader :assertion, :originating_user, :organization_id, :endorsement, :endorsement_log, :previous_status
+    attr_reader :assertion, :originating_user, :organization_id, :endorsement, :previous_status
 
     def initialize(assertion:, originating_user:, organization_id:)
       @assertion = assertion
@@ -13,7 +13,6 @@ module Actions
     private
     def execute
       create_or_update_endorsement
-      create_log_entry
       create_event
     end
 
@@ -40,15 +39,6 @@ module Actions
           last_reviewed: Time.now,
         )
       end
-    end
-
-    def create_log_entry
-      @endorsement_log = EndorsementLog.create!(
-        old_status: previous_status,
-        new_status: "active",
-        note: "Endorsement",
-        endorsement: endorsement
-      )
     end
 
     def create_event
