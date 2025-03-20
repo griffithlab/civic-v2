@@ -1,1 +1,14 @@
-<pre>{{ activity() | json }}</pre>
+<div class="comment-container">
+  @if (activity().parsedNote.length > 0) {
+    <cvc-comment-body
+      [commentBodySegments]="activity().parsedNote"></cvc-comment-body>
+  } @else {
+    <div class="no-note">
+      <span
+        nz-typography
+        nzType="secondary"
+        >No note provided.</span
+      >
+    </div>
+  }
+</div>
