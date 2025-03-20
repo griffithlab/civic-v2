@@ -21819,6 +21819,133 @@
         },
         {
           "kind": "INPUT_OBJECT",
+          "name": "FeatureSearchFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "entrezId",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "entrezSymbol",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "alias",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "openRevisionCount",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hasAssertion",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanSearchInput",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "subFilters",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "FeatureSearchFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "booleanOperator",
+              "description": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "BooleanOperator",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
           "name": "FeaturesSort",
           "description": null,
           "fields": null,
@@ -26994,133 +27121,6 @@
                     }
                   }
                 }
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "GeneSearchFilter",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "IntSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "entrezId",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "IntSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "entrezSymbol",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "description",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "alias",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "StringSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "openRevisionCount",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "IntSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "hasAssertion",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "BooleanSearchInput",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "subFilters",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "GeneSearchFilter",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "booleanOperator",
-              "description": null,
-              "type": {
-                "kind": "ENUM",
-                "name": "BooleanOperator",
-                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
@@ -43049,7 +43049,7 @@
               "deprecationReason": null
             },
             {
-              "name": "searchGenes",
+              "name": "searchFeatures",
               "description": null,
               "args": [
                 {
@@ -43060,7 +43060,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "GeneSearchFilter",
+                      "name": "FeatureSearchFilter",
                       "ofType": null
                     }
                   },

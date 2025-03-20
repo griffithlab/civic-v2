@@ -1,7 +1,7 @@
 module AdvancedSearches
-  class Gene < AdvancedSearches::Base
+  class Feature < AdvancedSearches::Base
     def base_query
-      Feature.where(feature_instance_type: "Features::Gene").left_outer_joins(:feature_aliases)
+      ::Feature.left_outer_joins(:feature_aliases)
     end
 
     def resolve_search_fields(node)
@@ -89,8 +89,7 @@ module AdvancedSearches
         return nil
       end
 
-      matching_ids = ::Assertion.joins(molecular_profile: { variants: [ :feature ] }).where('features.feature_instance_type': "Features::Gene").distinct.pluck("features.id")
-
+      matching_ids = ::Assertion.joins(molecular_profile: { variants: [ :feature ] }).distinct.pluck("features.id")
 
       if node.has_assertion.value
         base_query.where(id: matching_ids)

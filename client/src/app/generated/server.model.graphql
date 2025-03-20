@@ -4543,6 +4543,18 @@ enum FeatureInstanceTypes {
   GENE
 }
 
+input FeatureSearchFilter {
+  alias: StringSearchInput
+  booleanOperator: BooleanOperator
+  description: StringSearchInput
+  entrezId: IntSearchInput
+  entrezSymbol: StringSearchInput
+  hasAssertion: BooleanSearchInput
+  id: IntSearchInput
+  openRevisionCount: IntSearchInput
+  subFilters: [FeatureSearchFilter!]
+}
+
 input FeaturesSort {
   """
   Available columns for sorting
@@ -5826,18 +5838,6 @@ input GeneFields {
   Source IDs cited by the Gene's summary.
   """
   sourceIds: [Int!]!
-}
-
-input GeneSearchFilter {
-  alias: StringSearchInput
-  booleanOperator: BooleanOperator
-  description: StringSearchInput
-  entrezId: IntSearchInput
-  entrezSymbol: StringSearchInput
-  hasAssertion: BooleanSearchInput
-  id: IntSearchInput
-  openRevisionCount: IntSearchInput
-  subFilters: [GeneSearchFilter!]
 }
 
 type GeneVariant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & VariantInterface & WithRevisions {
@@ -9466,7 +9466,7 @@ type Query {
     types: [SearchableEntities!]
   ): [SearchResult!]!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
-  searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
+  searchFeatures(createPermalink: Boolean = false, query: FeatureSearchFilter!): AdvancedSearchResult!
 
   """
   Find a source by CIViC ID

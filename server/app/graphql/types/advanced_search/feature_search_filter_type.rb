@@ -1,5 +1,5 @@
 module Types::AdvancedSearch
-  class GeneSearchFilterType < Types::BaseInputObject
+  class FeatureSearchFilterType < Types::BaseInputObject
     argument :id, Types::AdvancedSearch::IntSearchInput, required: false
     argument :entrez_id, Types::AdvancedSearch::IntSearchInput, required: false
     argument :entrez_symbol, Types::AdvancedSearch::StringSearchInput, required: false
@@ -7,7 +7,7 @@ module Types::AdvancedSearch
     argument :alias, Types::AdvancedSearch::StringSearchInput, required: false
     argument :open_revision_count, Types::AdvancedSearch::IntSearchInput, required: false
     argument :has_assertion, Types::AdvancedSearch::BooleanSearchInput, required: false
-    argument :sub_filters, [ Types::AdvancedSearch::GeneSearchFilterType ], required: false
+    argument :sub_filters, [ Types::AdvancedSearch::FeatureSearchFilterType ], required: false
     argument :boolean_operator, Types::AdvancedSearch::BooleanOperator, required: false
   end
 end

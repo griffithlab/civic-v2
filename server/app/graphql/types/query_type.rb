@@ -164,8 +164,8 @@ module Types
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
-    field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
-      argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
+    field :search_features, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :query, Types::AdvancedSearch::FeatureSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
     end
 
@@ -313,11 +313,11 @@ module Types
       end
     end
 
-    def search_genes(query:, create_permalink:)
+    def search_features(query:, create_permalink:)
       permalink = if create_permalink
                     ::AdvancedSearch.where(
                       params: context.query.query_string,
-                      search_type: "searchGenes"
+                      search_type: "searchFeatures"
                     ).first_or_create
                       .token
       else
@@ -325,9 +325,9 @@ module Types
       end
 
       {
-        result_ids: ::AdvancedSearches::Gene.new(query: query).results,
+        result_ids: ::AdvancedSearches::Feature.new(query: query).results,
         permalink_id: permalink,
-        search_endpoint: "searchGenes",
+        search_endpoint: "searchFeatures",
       }
     end
 
