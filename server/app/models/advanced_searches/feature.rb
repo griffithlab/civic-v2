@@ -13,6 +13,12 @@ module AdvancedSearches
         resolve_alias_filter(node),
         resolve_open_revision_count_filter(node),
         resolve_has_assertion_filter(node),
+        resolve_feature_instance_type_filter(node),
+        resolve_ncit_id_filter(node),
+        resolve_five_prime_partner_entrez_id(node),
+        resolve_three_prime_partner_entrez_id(node),
+        resolve_five_prime_partner_entrez_symbol(node),
+        resolve_three_prime_partner_entrez_symbol(node),
       ]
     end
 
@@ -96,6 +102,92 @@ module AdvancedSearches
       else
         base_query.where.not(id: matching_ids)
       end
+    end
+
+    def resolve_feature_instance_type_filter(node)
+      if node.feature_instance_type.nil?
+        return nil
+      end
+
+      (clause, value) = node.feature_instance_type.resolve_query_for_type("features.feature_instance_type")
+      base_query.where(clause, value)
+    end
+
+    def resolve_ncit_id_filter(node)
+      if node.ncit_id.nil?
+        return nil
+      end
+
+      (clause, value) = node.ncit_id.resolve_query_for_type("factors.ncit_id")
+
+      matching_ids = ::Features::Factor
+        .joins(:feature)
+        .where(clause, value)
+        .pluck("features.id")
+
+      base_query.where(id: matching_ids)
+    end
+
+    def resolve_five_prime_partner_entrez_id(node)
+      if node.five_prime_partner_entrez_id.nil?
+        return nil
+      end
+
+      (clause, value) = node.five_prime_partner_entrez_id.resolve_query_for_type("genes.entrez_id")
+
+      matching_ids = ::Features::Fusion
+        .joins(:five_prime_gene, :feature)
+        .where(clause, value)
+        .pluck("features.id")
+
+      base_query.where(id: matching_ids)
+    end
+
+    def resolve_three_prime_partner_entrez_id(node)
+      if node.three_prime_partner_entrez_id.nil?
+        return nil
+      end
+
+      (clause, value) = node.three_prime_partner_entrez_id.resolve_query_for_type("genes.entrez_id")
+
+      matching_ids = ::Features::Fusion
+        .joins(:three_prime_gene, :feature)
+        .where(clause, value)
+        .pluck("features.id")
+
+      base_query.where(id: matching_ids)
+    end
+
+    def resolve_five_prime_partner_entrez_symbol(node)
+      if node.five_prime_partner_entrez_symbol.nil?
+        return nil
+      end
+
+      (clause, value) = node.five_prime_partner_entrez_symbol.resolve_query_for_type("gene_features.name")
+
+      matching_ids = ::Features::Fusion
+        .joins(:feature)
+        .joins("INNER JOIN features as gene_features ON gene_features.id = fusions.five_prime_gene_id")
+        .where(clause, value)
+        .pluck("features.id")
+
+      base_query.where(id: matching_ids)
+    end
+
+    def resolve_three_prime_partner_entrez_symbol(node)
+      if node.three_prime_partner_entrez_symbol.nil?
+        return nil
+      end
+
+      (clause, value) = node.three_prime_partner_entrez_symbol.resolve_query_for_type("gene_features.name")
+
+      matching_ids = ::Features::Fusion
+        .joins(:feature)
+        .joins("INNER JOIN features as gene_features ON gene_features.id = fusions.three_prime_gene_id")
+        .where(clause, value)
+        .pluck("features.id")
+
+      base_query.where(id: matching_ids)
     end
   end
 end

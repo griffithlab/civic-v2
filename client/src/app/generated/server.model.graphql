@@ -2900,6 +2900,11 @@ type EditUserPayload {
   user: User!
 }
 
+enum EnumSearchOperator {
+  EQ
+  NE
+}
+
 type Event {
   action: EventAction!
   createdAt: ISO8601DateTime!
@@ -4543,16 +4548,27 @@ enum FeatureInstanceTypes {
   GENE
 }
 
+input FeatureInstanceTypesSearchInput {
+  comparisonOperator: EnumSearchOperator!
+  value: FeatureInstanceTypes!
+}
+
 input FeatureSearchFilter {
   alias: StringSearchInput
   booleanOperator: BooleanOperator
   description: StringSearchInput
   entrezId: IntSearchInput
   entrezSymbol: StringSearchInput
+  featureInstanceType: FeatureInstanceTypesSearchInput
+  fivePrimePartnerEntrezId: IntSearchInput
+  fivePrimePartnerEntrezSymbol: StringSearchInput
   hasAssertion: BooleanSearchInput
   id: IntSearchInput
+  ncitId: StringSearchInput
   openRevisionCount: IntSearchInput
   subFilters: [FeatureSearchFilter!]
+  threePrimePartnerEntrezId: IntSearchInput
+  threePrimePartnerEntrezSymbol: StringSearchInput
 }
 
 input FeaturesSort {
