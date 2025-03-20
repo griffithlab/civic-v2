@@ -3,9 +3,10 @@ import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { Maybe } from '@app/generated/civic.apollo';
 
 @Component({
-  selector: 'cvc-form-debug-field-list',
-  templateUrl: './form-debug-field-list.component.html',
-  styleUrls: ['./form-debug-field-list.component.less']
+    selector: 'cvc-form-debug-field-list',
+    templateUrl: './form-debug-field-list.component.html',
+    styleUrls: ['./form-debug-field-list.component.less'],
+    standalone: false
 })
 export class FormDebugFieldListComponent implements OnInit {
   _cvcFormControl: Maybe<AbstractControl>

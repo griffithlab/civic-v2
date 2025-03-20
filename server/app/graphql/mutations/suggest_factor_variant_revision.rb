@@ -1,7 +1,7 @@
 class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
-  description 'Suggest a Revision to a Variant entity.'
+  description "Suggest a Revision to a Variant entity."
   argument :id, Int, required: true,
-    description: 'The ID of the Variant to suggest a Revision to.'
+    description: "The ID of the Variant to suggest a Revision to."
 
   argument :fields, Types::Revisions::FactorVariantFields, required: true,
     description: <<~DOC.strip
@@ -11,12 +11,12 @@ class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
 
   argument :comment, String, required: false,
     validates: { length: { minimum: 10 } },
-    description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
+    description: "Text describing the reason for the change. Will be attached to the Revision as a comment."
 
   field :variant, Types::Variants::FactorVariantType, null: false,
-    description: 'The Variant the user has proposed a Revision to.'
+    description: "The Variant the user has proposed a Revision to."
 
-  field :results, [Types::Revisions::RevisionResult], null: false,
+  field :results, [ Types::Revisions::RevisionResult ], null: false,
     description: <<~DOC.strip
       A list of Revisions generated as a result of this suggestion.
       If an existing Revision exactly matches the proposed one, it will be returned instead.
@@ -81,15 +81,10 @@ class Mutations::SuggestFactorVariantRevision < Mutations::MutationWithOrg
     if res.succeeded?
       {
         variant: variant,
-        results: res.revision_results
+        results: res.revision_results,
       }
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      raise GraphQL::ExecutionError, res.errors.join(", ")
     end
   end
 end
-
-
-
-
-

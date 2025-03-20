@@ -2,31 +2,31 @@
   nz-button
   nz-tooltip="Revert to Submitted"
   nzSize="small"
-  (click)="this.showConfirm = true"
-  [nzLoading]="this.isSubmitting">
+  (click)="showConfirm = true"
+  [nzLoading]="isSubmitting">
   <i
     nz-icon
     nzType="undo"></i>
 </button>
 
 <nz-modal
-  [(nzVisible)]="this.showConfirm"
+  [(nzVisible)]="showConfirm"
   [nzContent]="confirmModalContent"
   [nzTitle]="confirmModalTitle"
   [nzFooter]="null"
-  (nzOnCancel)="this.handleConfirmModalCancel()">
+  (nzOnCancel)="handleConfirmModalCancel()">
   <ng-template #confirmModalTitle
-    ><span>Revert this {{ this.entityType }} to Submitted?</span></ng-template
+    ><span>Revert this {{ entityType }} to Submitted?</span></ng-template
   >
   <ng-template #confirmModalContent>
-    <nz-spin [nzSpinning]="this.isSubmitting">
+    <nz-spin [nzSpinning]="isSubmitting">
       <nz-space nzDirection="horizontal">
         <span *nzSpaceItem>
           <button
             nzType="primary"
             nzSize="small"
             nz-button
-            (click)="this.revert()"
+            (click)="revert()"
             nz-tooltip
             [nzTooltipTrigger]="mostRecentOrg ? 'hover' : null"
             [nzTooltipTitle]="'For ' + mostRecentOrg?.name">
@@ -36,7 +36,7 @@
         <span *nzSpaceItem>
           <button
             nz-button
-            (click)="this.showConfirm = false"
+            (click)="showConfirm = false"
             nzSize="small">
             Cancel
           </button>

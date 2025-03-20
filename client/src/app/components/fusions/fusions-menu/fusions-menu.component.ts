@@ -17,9 +17,10 @@ import { isNonNulled } from 'rxjs-etc'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-fusions-menu',
-  templateUrl: './fusions-menu.component.html',
-  styleUrls: ['./fusions-menu.component.less'],
+    selector: 'cvc-fusions-menu',
+    templateUrl: './fusions-menu.component.html',
+    styleUrls: ['./fusions-menu.component.less'],
+    standalone: false
 })
 export class CvcFusionsMenuComponent implements OnInit {
   @Input() geneId?: number

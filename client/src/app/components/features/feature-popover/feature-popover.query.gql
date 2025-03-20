@@ -15,12 +15,12 @@ fragment featurePopover on Feature {
   variants {
     totalCount
   }
-  # revisions(status: NEW) {
-  #   totalCount
-  # }
-  # comments {
-  #   totalCount
-  # }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
   flags(state: OPEN) {
     totalCount
   }

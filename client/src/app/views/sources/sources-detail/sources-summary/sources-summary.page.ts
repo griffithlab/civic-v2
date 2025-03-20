@@ -13,9 +13,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable, Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-sources-summary',
-  templateUrl: './sources-summary.page.html',
-  styleUrls: ['./sources-summary.page.less'],
+    selector: 'cvc-sources-summary',
+    templateUrl: './sources-summary.page.html',
+    styleUrls: ['./sources-summary.page.less'],
+    standalone: false
 })
 export class SourcesSummaryPage implements OnDestroy {
   routeSub: Subscription

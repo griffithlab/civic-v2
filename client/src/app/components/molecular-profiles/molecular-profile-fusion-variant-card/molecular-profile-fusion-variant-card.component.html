@@ -82,10 +82,10 @@
 
               <nz-descriptions-item
                 [nzSpan]="4"
-                *ngIf="this.displayMps.length > 0"
+                *ngIf="displayMps.length > 0"
                 nzTitle="Other Molecular Profiles">
                 <cvc-tag-list>
-                  <ng-container *ngFor="let mp of this.displayMps">
+                  <ng-container *ngFor="let mp of displayMps">
                     <cvc-molecular-profile-tag
                       [molecularProfile]="mp"
                       [truncateLongName]="true"></cvc-molecular-profile-tag>
@@ -93,13 +93,13 @@
                   <ng-container
                     *ngIf="
                       variant.molecularProfiles.totalCount >
-                      this.displayMps.length + 1
+                      displayMps.length + 1
                     ">
                     <a routerLink="/variants/{{ variant.id }}/summary">
                       + view
                       {{
                         variant.molecularProfiles.totalCount -
-                          this.displayMps.length
+                          displayMps.length
                       }}
                       more
                     </a>

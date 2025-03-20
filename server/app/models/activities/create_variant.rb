@@ -27,7 +27,7 @@ module Activities
       cmd.perform
 
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
 
       @variant = cmd.variant
@@ -40,8 +40,8 @@ module Activities
     end
 
     def stub_coordinates
-      if variant.type == 'Variants::GeneVariant'
-        variant.coordinates = VariantCoordinate.generate_stub(variant, 'Gene Variant Coordinate')
+      if variant.type == "Variants::GeneVariant"
+        variant.coordinates = VariantCoordinate.generate_stub(variant, "Gene Variant Coordinate")
       end
     end
 

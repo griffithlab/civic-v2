@@ -2,7 +2,7 @@ module Activities
   class AddComment < Base
     attr_reader :comment, :subject, :body, :title
 
-    def initialize(subject:, originating_user:, organization_id:, body:, title: '')
+    def initialize(subject:, originating_user:, organization_id:, body:, title: "")
       super(organization_id: organization_id, user: originating_user)
       @subject = subject
       @body = body
@@ -30,7 +30,7 @@ module Activities
       cmd.perform
 
       if !cmd.succeeded?
-        raise StandardError.new(cmd.errors.join(', '))
+        raise StandardError.new(cmd.errors.join(", "))
       end
 
       @comment = cmd.comment

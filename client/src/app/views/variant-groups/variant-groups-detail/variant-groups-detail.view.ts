@@ -14,9 +14,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'cvc-variant-groups-detail',
-  templateUrl: './variant-groups-detail.view.html',
-  styleUrls: ['./variant-groups-detail.view.less'],
+    selector: 'cvc-variant-groups-detail',
+    templateUrl: './variant-groups-detail.view.html',
+    styleUrls: ['./variant-groups-detail.view.less'],
+    standalone: false
 })
 export class VariantGroupsDetailView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>

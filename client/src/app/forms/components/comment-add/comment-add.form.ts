@@ -27,10 +27,11 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-comment-add-form',
-  templateUrl: './comment-add.form.html',
-  styleUrls: ['./comment-add.form.less'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'cvc-comment-add-form',
+    templateUrl: './comment-add.form.html',
+    styleUrls: ['./comment-add.form.less'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CvcCommentAddForm {
   @Input() subject!: CommentableInput

@@ -10,6 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { CvcFeaturePopoverComponent } from './feature-popover.component'
+import { CvcEntityChildCounts } from '@app/components/shared/entity-child-counts.component/entity-child-counts.component.component'
 
 @NgModule({
   declarations: [CvcFeaturePopoverComponent],
@@ -25,6 +26,7 @@ import { CvcFeaturePopoverComponent } from './feature-popover.component'
     NzIconModule,
     NzSpaceModule,
     CvcPipesModule,
+    CvcEntityChildCounts,
   ],
   exports: [CvcFeaturePopoverComponent],
 })

@@ -8,12 +8,14 @@
   <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="enablePopover ? popoverContent : undefined">
+    [nzPopoverContent]="enablePopover ? popoverContent : undefined"
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
     <cvc-variant-group-popover
-      [variantGroupId]="variantgroup.id"></cvc-variant-group-popover>
+      [variantGroupId]="variantgroup.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-variant-group-popover>
   </ng-template>
 </ng-template>
 

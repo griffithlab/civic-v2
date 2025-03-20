@@ -1,4 +1,4 @@
-#Copied from https://raw.githubusercontent.com/Shopify/graphql-batch/3a157b54917a3a1dd2431f38d88ea4b89fd36942/examples/association_loader.rb
+# Copied from https://raw.githubusercontent.com/Shopify/graphql-batch/3a157b54917a3a1dd2431f38d88ea4b89fd36942/examples/association_loader.rb
 
 module Loaders
   class AssociationLoader < GraphQL::Batch::Loader

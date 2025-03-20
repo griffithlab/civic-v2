@@ -15,9 +15,10 @@ import { pluck } from 'rxjs-etc/operators'
 import { Observable } from 'rxjs'
 
 @Component({
-  selector: 'cvc-variants-summary',
-  templateUrl: './variants-summary.page.html',
-  styleUrls: ['./variants-summary.page.less'],
+    selector: 'cvc-variants-summary',
+    templateUrl: './variants-summary.page.html',
+    styleUrls: ['./variants-summary.page.less'],
+    standalone: false
 })
 export class VariantsSummaryPage {
   @Input() variantId: Maybe<number>

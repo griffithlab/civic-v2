@@ -1,6 +1,6 @@
-<cvc-form-submission-status-display [redirectUrl]="this.url" [mutationState]="this.mutationState" entityType="Gene" [successMessage]="success">
+<cvc-form-submission-status-display [redirectUrl]="url" [mutationState]="mutationState" entityType="Gene" [successMessage]="success">
   <ng-template #success>
-    Revision(s) submitted! You will be redirected to the Revisions page or can view them <a href="{{this.url}}">here.</a>
+    Revision(s) submitted! You will be redirected to the Revisions page or can view them <a href="{{url}}">here.</a>
   </ng-template>
   <form
     *ngIf="model; else loadingModel"

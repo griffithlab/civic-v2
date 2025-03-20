@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_20_161652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,6 +104,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["organization_id"], name: "index_affiliations_on_organization_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "bearer_type"
+    t.bigint "bearer_id"
+    t.text "token_prefix", null: false
+    t.text "token_suffix", null: false
+    t.text "token_digest", null: false
+    t.boolean "revoked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+    t.index ["revoked"], name: "index_api_keys_on_revoked"
+    t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
   end
 
   create_table "assertions", id: :serial, force: :cascade do |t|
@@ -1003,7 +1017,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_14_154057) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
-    t.text "open_cravat_url"
+    t.text "open_cravat_url_parameters"
     t.bigint "feature_id"
     t.string "type", null: false
     t.string "ncit_id"

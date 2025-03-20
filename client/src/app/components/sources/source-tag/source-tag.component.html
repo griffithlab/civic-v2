@@ -10,12 +10,14 @@
     [ngClass]="{ deprecated: source.deprecated }"
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="enablePopover ? sourcePopover : undefined"
-    nzPopoverPlacement="right">
+    [nzPopoverPlacement]="popoverPlacement">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #sourcePopover>
-    <cvc-source-popover [sourceId]="source.id"></cvc-source-popover>
+    <cvc-source-popover
+      [sourceId]="source.id"
+      (contentRendered)="updatePopoverPosition()"></cvc-source-popover>
   </ng-template>
 </ng-template>
 
@@ -29,12 +31,12 @@
     nzTheme="twotone"
     [nzTwotoneColor]="'Source' | entityColor"
     nzType="civic-source"></i>
-  <ng-container *ngIf="this.mode === 'normal'; else concise">
+  <ng-container *ngIf="mode === 'normal'; else concise">
     <ng-container *ngIf="truncateLongName">
-      {{ this.displayName | truncate: 50 }}
+      {{ displayName | truncate: 50 }}
     </ng-container>
     <ng-container *ngIf="!truncateLongName">
-      {{ this.displayName }}
+      {{ displayName }}
     </ng-container>
   </ng-container>
   <ng-template #concise> SID:{{ source.id }} </ng-template>

@@ -10,14 +10,15 @@ import { Maybe } from '@app/generated/civic.apollo'
  * internal margins between tag rows, and appropriate padding with its parent
  */
 @Component({
-  selector: 'cvc-tag-list',
-  templateUrl: './tag-list.component.html',
-  styleUrls: ['./tag-list.component.less'],
-  host: {
-    '[class.xs]': 'size === "xs" || !size',
-    '[class.sm]': 'size === "sm"',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-tag-list',
+    templateUrl: './tag-list.component.html',
+    styleUrls: ['./tag-list.component.less'],
+    host: {
+        '[class.xs]': 'size === "xs" || !size',
+        '[class.sm]': 'size === "sm"',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcTagListComponent implements OnInit {
   @Input() size!: Maybe<'xs' | 'sm'>

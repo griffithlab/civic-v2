@@ -1,4 +1,4 @@
-<ng-container *ngrxLet="this.viewer$ as viewer">
+<ng-container *ngrxLet="viewer$ as viewer">
   <nz-tabset [nzAnimated]="false">
     <nz-tab nzTitle="Write">
       <nz-mention
@@ -7,7 +7,7 @@
         [nzPrefix]="['#', '@', '$']"
         nzNotFoundContent="No matches..."
         [nzValueWith]="autoCompleteValueFor"
-        (nzOnSelect)="this.suggestions = []">
+        (nzOnSelect)="suggestions = []">
         <textarea
           [placeholder]="(viewer && viewer.canCurate) ? 'Enter comment (minimum length 10. Use @ to mention users; # to link entities)' : 'Please sign in'"
           nzMentionTrigger
@@ -24,7 +24,7 @@
     </nz-tab>
     <nz-tab
       nzTitle="Preview"
-      (nzClick)="this.onPreviewButtonClicked()">
+      (nzClick)="onPreviewButtonClicked()">
       <ng-container *ngIf="(previewLoading$ | ngrxPush) as loading">
         <nz-spin nzTip="Loading..."></nz-spin>
       </ng-container>

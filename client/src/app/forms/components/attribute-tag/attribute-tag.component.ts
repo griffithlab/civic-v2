@@ -14,13 +14,14 @@ import { CvcInputEnum } from '@app/forms/forms.types'
 import { Maybe } from '@app/generated/civic.apollo'
 
 @Component({
-  selector: 'cvc-attribute-tag',
-  templateUrl: './attribute-tag.component.html',
-  styleUrls: ['./attribute-tag.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.full-width]': `cvcFullWidth === true`,
-  },
+    selector: 'cvc-attribute-tag',
+    templateUrl: './attribute-tag.component.html',
+    styleUrls: ['./attribute-tag.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[class.full-width]': `cvcFullWidth === true`,
+    },
+    standalone: false
 })
 export class CvcAttributeTagComponent implements OnChanges {
   @Input() cvcAttrValue: Maybe<CvcInputEnum>

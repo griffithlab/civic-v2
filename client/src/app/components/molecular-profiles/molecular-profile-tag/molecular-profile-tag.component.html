@@ -10,14 +10,15 @@
     [ngClass]="{ deprecated: molecularProfile.deprecated }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverPlacement]="popoverPlacement"
     [nzPopoverContent]="enablePopover ? popoverContent : undefined">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
     <cvc-molecular-profile-popover
-      [molecularProfileId]="
-        molecularProfile.id
-      "></cvc-molecular-profile-popover>
+      [molecularProfileId]="molecularProfile.id"
+      (contentRendered)="updatePopoverPosition()">
+    </cvc-molecular-profile-popover>
   </ng-template>
 </ng-template>
 
@@ -43,7 +44,7 @@
   </cvc-icon-badges>
   <!-- molecular profile name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
-    {{ molecularProfile.name! | truncate: this.truncationLength }}
+    {{ molecularProfile.name! | truncate: truncationLength }}
   </ng-container>
   <ng-template #fullName>
     {{ molecularProfile.name }}

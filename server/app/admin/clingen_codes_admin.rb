@@ -30,4 +30,3 @@ Trestle.resource(:clingen_codes) do
       text_area :description
     end
   end
-

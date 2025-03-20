@@ -6,7 +6,7 @@
     <nz-select
       [disabled]="!props.canChangeFeatureType"
       [(ngModel)]="selectedFeatureType"
-      (ngModelChange)="this.onFeatureType$.next($event); this.formControl.setValue(undefined)">
+    (ngModelChange)="onFeatureType$.next($event); formControl.setValue(undefined)">
       <nz-option
         nzValue="GENE"
         nzLabel="Gene"></nz-option>

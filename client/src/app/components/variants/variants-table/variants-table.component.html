@@ -156,6 +156,7 @@
             <cvc-variant-tag
               [variant]="variant"
               [enablePopover]="!isScrolling"
+              popoverPlacement="right"
               [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td nzLeft>
@@ -217,11 +218,11 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <ng-container *ngIf="this.cvcTitleTemplate">
+  <ng-container *ngIf="cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
-  <ng-container *ngIf="this.cvcTitle">
-    {{ this.cvcTitle }}
+  <ng-container *ngIf="cvcTitle">
+    {{ cvcTitle }}
   </ng-container>
 
   <span class="table-info">

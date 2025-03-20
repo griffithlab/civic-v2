@@ -14,9 +14,10 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'features-detail',
-  templateUrl: './features-detail.view.html',
-  styleUrls: ['./features-detail.view.less'],
+    selector: 'features-detail',
+    templateUrl: './features-detail.view.html',
+    styleUrls: ['./features-detail.view.less'],
+    standalone: false
 })
 export class FeaturesDetailView implements OnDestroy {
   loading$?: Observable<boolean>

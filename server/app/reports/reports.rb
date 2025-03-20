@@ -5,6 +5,6 @@ module Reports
     DiseasesWithIcdo,
     DuplicateDoids,
     DuplicateDiseaseNames,
-    DiseasesWithoutEids
+    DiseasesWithoutEids,
   ]
 end

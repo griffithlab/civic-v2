@@ -34,7 +34,7 @@ class NcitDetails
 
     return {
       synonyms: data["synonyms"]&.select { |s| s["type"] == "FULL_SYN" } || [],
-      definitions: data["definitions"] || []
+      definitions: data["definitions"] || [],
     }
   end
 

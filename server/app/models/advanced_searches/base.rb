@@ -23,11 +23,11 @@ module AdvancedSearches
 
         q = if supplied_search_fields.size == 1
               base_query
-            else
+        else
               supplied_search_fields[1..-1].inject(base_query) do |q, f|
                 q.send(operator, f)
               end
-            end
+        end
 
         if node.sub_filters
           node.sub_filters.inject(q) do |q, f|
@@ -49,9 +49,8 @@ module AdvancedSearches
     end
 
     def validate_node(node, fields)
-
       if fields.empty? && node.sub_filters.nil?
-        raise StandardError.new('Node has no filters.')
+        raise StandardError.new("Node has no filters.")
       end
 
       if fields.size == 1 && node.sub_filters.nil?
@@ -59,12 +58,12 @@ module AdvancedSearches
       end
 
       if node.boolean_operator.nil?
-        raise StandardError.new('Must supply a boolean operator.')
+        raise StandardError.new("Must supply a boolean operator.")
       end
     end
 
     def resolve_search_fields
-      raise StandardError.new('Must implement in child class.')
+      raise StandardError.new("Must implement in child class.")
     end
   end
 end

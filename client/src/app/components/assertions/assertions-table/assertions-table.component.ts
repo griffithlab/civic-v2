@@ -30,7 +30,7 @@ import {
 } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
 import {
   debounceTime,
@@ -44,13 +44,15 @@ import {
   withLatestFrom,
 } from 'rxjs/operators'
 import { pluck } from 'rxjs-etc/operators'
+import { ActivatedRoute } from '@angular/router'
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-assertions-table',
-  templateUrl: './assertions-table.component.html',
-  styleUrls: ['./assertions-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-assertions-table',
+    templateUrl: './assertions-table.component.html',
+    styleUrls: ['./assertions-table.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
@@ -88,6 +90,8 @@ export class CvcAssertionsTableComponent implements OnInit {
   isScrolling: boolean = false
 
   private debouncedQuery = new Subject<void>()
+  
+  queryParamsSub$: Subscription
 
   isLoading$?: Observable<boolean>
   assertions$?: Observable<Maybe<AssertionBrowseFieldsFragment>[]>
@@ -120,6 +124,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
   statusInput: Maybe<EvidenceStatusFilter> = EvidenceStatusFilter.NonRejected
+  includeSubgroups: Maybe<boolean>
 
   availableStatusFilters = EvidenceStatusFilter
   statusFilterVisible = false
@@ -130,12 +135,18 @@ export class CvcAssertionsTableComponent implements OnInit {
 
   constructor(
     private gql: AssertionsBrowseGQL,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
     this.scrollIndex$ = new Subject<number>()
+    this.queryParamsSub$ = this.route.queryParamMap.subscribe((params) => {
+      if (params.has('includeSubgroups')) {
+        this.includeSubgroups = params.get('includeSubgroups') === 'true' ? true : false
+      }
+    })
   }
 
   ngOnInit() {
@@ -144,7 +155,8 @@ export class CvcAssertionsTableComponent implements OnInit {
       variantId: this.variantId,
       molecularProfileId: this.molecularProfileId,
       evidenceId: this.evidenceId,
-      organizationId: this.organizationId,
+      organizationId: this.organizationId ? [this.organizationId] : [],
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false, 
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
@@ -261,6 +273,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       status: this.statusInput,
+      includeSubgroups: this.includeSubgroups ? this.includeSubgroups : false,
       assertionType: this.assertionTypeInput
         ? this.assertionTypeInput
         : undefined,
@@ -287,6 +300,11 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.statusFilterVisible = false
   }
 
+  includeSubgroupsChanged() {
+    this.debouncedQuery.next()
+    this.statusFilterVisible = false
+  }
+
   // virtual scroll helpers
   trackByIndex(
     _: number,
@@ -296,6 +314,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.queryParamsSub$.unsubscribe()
     this.destroy$.next()
     this.destroy$.unsubscribe()
   }

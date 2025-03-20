@@ -93,10 +93,11 @@ const VariantSelectMixin = mixin(
 )
 
 @Component({
-  selector: '',
-  templateUrl: './variant-select.type.html',
-  styleUrls: ['./variant-select.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '',
+    templateUrl: './variant-select.type.html',
+    styleUrls: ['./variant-select.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcVariantSelectField
   extends VariantSelectMixin

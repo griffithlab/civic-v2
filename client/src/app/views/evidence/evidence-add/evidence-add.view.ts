@@ -4,9 +4,10 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 @Component({
-  selector: 'evidence-add',
-  templateUrl: './evidence-add.view.html',
-  styleUrls: ['./evidence-add.view.less'],
+    selector: 'evidence-add',
+    templateUrl: './evidence-add.view.html',
+    styleUrls: ['./evidence-add.view.less'],
+    standalone: false
 })
 export class EvidenceAddView implements OnInit {
   isSignedIn$?: Observable<boolean>

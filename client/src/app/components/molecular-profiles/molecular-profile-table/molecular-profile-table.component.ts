@@ -45,10 +45,11 @@ export interface MolecularProfileTableUserFilters {
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-molecular-profiles-table',
-  templateUrl: './molecular-profile-table.component.html',
-  styleUrls: ['./molecular-profile-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-molecular-profiles-table',
+    templateUrl: './molecular-profile-table.component.html',
+    styleUrls: ['./molecular-profile-table.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcMolecularProfilesTableComponent implements OnInit {
   @Input() cvcHeight?: Maybe<string>

@@ -25,17 +25,16 @@ import { tag } from 'rxjs-spy/operators'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
-  selector: 'cvc-user-filter-select',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NzIconModule,
-    NzSelectModule,
-    CvcPipesModule,
-  ],
-  templateUrl: './user-filter-select.component.html',
-  styleUrl: './user-filter-select.component.less',
+    selector: 'cvc-user-filter-select',
+    imports: [
+        CommonModule,
+        FormsModule,
+        NzIconModule,
+        NzSelectModule,
+        CvcPipesModule,
+    ],
+    templateUrl: './user-filter-select.component.html',
+    styleUrl: './user-filter-select.component.less'
 })
 export class CvcUserFilterSelect {
   cvcUniqueParticipants =

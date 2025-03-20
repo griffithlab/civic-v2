@@ -25,15 +25,14 @@ class Actions::SuggestRevisionSet
       updated_obj.validate!
 
       existing_obj.editable_fields.each do |field_name|
-
         current_value = existing_obj.send(field_name)
         suggested_value = updated_obj.send(field_name)
 
         change_present = if current_value.is_a?(Array)
                            current_value.sort != suggested_value.sort
-                         else
+        else
                            current_value != suggested_value
-                         end
+        end
 
 
         next unless change_present
@@ -41,9 +40,9 @@ class Actions::SuggestRevisionSet
 
         revision_subject = if existing_obj.kind_of?(IsFeatureInstance)
                              existing_obj.feature
-                           else
+        else
                              existing_obj
-                           end
+        end
 
         cmd = Actions::SuggestRevision.new(
           revision_subject: revision_subject,
@@ -59,7 +58,7 @@ class Actions::SuggestRevisionSet
         res = cmd.perform
 
         if res.errors.any?
-          raise StandardError.new(res.errors.join(','))
+          raise StandardError.new(res.errors.join(","))
         else
           revisions << res.revision
           revision_results << {
@@ -78,4 +77,3 @@ class Actions::SuggestRevisionSet
     end
   end
 end
-

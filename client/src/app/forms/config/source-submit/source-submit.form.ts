@@ -23,9 +23,10 @@ import { SourceModel, sourceFormModelToInput } from '@app/forms/utilities/source
 
 @UntilDestroy()
 @Component({
-  selector: 'cvc-source-submit-form',
-  templateUrl: './source-submit.form.html',
-  styleUrls: ['./source-submit.form.less'],
+    selector: 'cvc-source-submit-form',
+    templateUrl: './source-submit.form.html',
+    styleUrls: ['./source-submit.form.less'],
+    standalone: false
 })
 export class CvcSourceSubmitForm implements OnInit{
   model: SourceModel

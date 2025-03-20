@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { CvcDiseaseTagComponent } from './cvc-disease-tag.component'
+import { CvcDiseaseTagComponent } from './disease-tag.component'
 import { RouterModule } from '@angular/router'
 import { NzTagModule } from 'ng-zorro-antd/tag'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzIconModule } from 'ng-zorro-antd/icon'
-import { CvcDiseasePopoverModule } from '../cvc-disease-popover/cvc-disease-popover.module'
+import { CvcDiseasePopoverModule } from '@app/components/diseases/disease-popover/disease-popover.module'
 import { CvcPipesModule } from '@app/core/pipes/pipes.module'
 
 @NgModule({

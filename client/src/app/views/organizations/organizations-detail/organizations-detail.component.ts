@@ -16,9 +16,10 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component'
 
 @Component({
-  selector: 'organizations-detail',
-  templateUrl: './organizations-detail.component.html',
-  styleUrls: ['./organizations-detail.component.less'],
+    selector: 'organizations-detail',
+    templateUrl: './organizations-detail.component.html',
+    styleUrls: ['./organizations-detail.component.less'],
+    standalone: false
 })
 export class OrganizationsDetailComponent implements OnDestroy {
   queryRef?: QueryRef<OrganizationDetailQuery, OrganizationDetailQueryVariables>

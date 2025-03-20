@@ -1,0 +1,28 @@
+mutation GenerateApiKey($input: GenerateApiKeyInput!) {
+  generateApiKey(input: $input) {
+    apiKey {
+      id
+      reminder
+      createdAt
+      token
+    }
+  }
+}
+
+mutation RevokeApiKey($input: RevokeApiKeyInput!) {
+  revokeApiKey(input: $input) {
+    success
+  }
+}
+
+query ApiKeys {
+  viewer {
+    apiKeys {
+      id
+      reminder
+      createdAt
+      token
+    }
+  }
+}
+

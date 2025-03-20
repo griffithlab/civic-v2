@@ -26,10 +26,11 @@ const FdaCompanionTestMixin = mixin(
 )
 
 @Component({
-  selector: 'cvc-fda-companion-test-checkbox',
-  templateUrl: './fda-companion-test-checkbox.type.html',
-  styleUrls: ['./fda-companion-test-checkbox.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-fda-companion-test-checkbox',
+    templateUrl: './fda-companion-test-checkbox.type.html',
+    styleUrls: ['./fda-companion-test-checkbox.type.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CvcFdaCompanionTestCheckboxField extends FdaCompanionTestMixin implements AfterViewInit {
   defaultDescription = 'Select Yes if an FDA approved companion test exists for the variant and therapy associated with the Assertion (such as tests listed <a href="https://www.fda.gov/medical-devices/in-vitro-diagnostics/list-cleared-or-approved-companion-diagnostic-devices-in-vitro-and-imaging-tools" target="_blank">here</a>).'

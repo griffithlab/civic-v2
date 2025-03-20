@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'cvc-variant-groups-suggest-page',
-  templateUrl: './variant-group-suggest.page.html',
+    selector: 'cvc-variant-groups-suggest-page',
+    templateUrl: './variant-group-suggest.page.html',
+    standalone: false
 })
 export class VariantGroupSuggestPage implements OnDestroy {
   variantGroupId?: number

@@ -7,6 +7,6 @@ class Subscription < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
 
   def send_notification(event)
-    raise 'Implement in subclass!'
+    raise "Implement in subclass!"
   end
 end

@@ -12,12 +12,11 @@ import { CommonModule } from '@angular/common'
 import { CvcActivityRevision } from '../shared/activity-revision/activity-revision.component'
 
 @Component({
-  selector: 'cvc-accept-revisions-activity-details',
-  standalone: true,
-  imports: [CommonModule, CvcActivityRevision],
-  templateUrl: './accept-revisions-activity.component.html',
-  styleUrl: './accept-revisions-activity.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cvc-accept-revisions-activity-details',
+    imports: [CommonModule, CvcActivityRevision],
+    templateUrl: './accept-revisions-activity.component.html',
+    styleUrl: './accept-revisions-activity.component.less',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcAcceptRevisionsActivity {
   activity = input.required<AcceptRevisionsActivityDetailFragment>({

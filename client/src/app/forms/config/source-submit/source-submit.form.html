@@ -1,4 +1,4 @@
-<ng-container *ngIf="this.fullyCuratedSource$ | ngrxPush as isFullyCurated">
+<ng-container *ngIf="fullyCuratedSource$ | ngrxPush as isFullyCurated">
   <nz-alert *ngIf="isFullyCurated" nzType="warning" [nzMessage]="fullyCuratedAlert" > </nz-alert>
   <ng-template #fullyCuratedAlert>
       <p>
@@ -9,7 +9,7 @@
   </ng-template>
   <br/>
 </ng-container>
-<ng-container *ngIf="this.existingSourceSuggestion$ | ngrxPush as hasExistingSuggestion">
+<ng-container *ngIf="existingSourceSuggestion$ | ngrxPush as hasExistingSuggestion">
   <nz-alert *ngIf="hasExistingSuggestion" nzType="warning" [nzMessage]="fullyCuratedAlert" > </nz-alert>
   <ng-template #fullyCuratedAlert>
       <p>
@@ -21,13 +21,13 @@
   <br/>
 </ng-container>
 <cvc-form-submission-status-display
-  [mutationState]="this.mutationState"
+  [mutationState]="mutationState"
   entityType="Source"
-  [redirectUrl]="this.url"
+  [redirectUrl]="url"
   [successMessage]="success">
   <ng-template #success>
     You will be redirected shortly or you may view your Source Suggestion
-    <a [href]="this.url">here</a>.
+    <a [href]="url">here</a>.
   </ng-template>
   <form
     [formGroup]="form"

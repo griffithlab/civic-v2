@@ -9,13 +9,13 @@ module Types::Entities
 
     def coi_status
       if object.nil?
-        'MISSING'
+        "MISSING"
       elsif object.expired?
-        'EXPIRED'
+        "EXPIRED"
       elsif object.coi_present?
-        'CONFLICT'
+        "CONFLICT"
       else
-        'VALID'
+        "VALID"
       end
     end
   end
