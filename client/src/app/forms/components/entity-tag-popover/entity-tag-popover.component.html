@@ -34,17 +34,22 @@
       [variantId]="entity.entityId"
       (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
   }
+  @case ('FactorVariant') {
+    <cvc-variant-popover
+      [variantId]="entity.entityId"
+      (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
+  }
   @case ('FeatureVariant') {
     <cvc-variant-popover
       [variantId]="entity.entityId"
       (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
   }
-  @case ('GeneVariant') {
+  @case ('FusionVariant') {
     <cvc-variant-popover
       [variantId]="entity.entityId"
       (contentRendered)="contentRendered.emit()"></cvc-variant-popover>
   }
-  @case ('FactorVariant') {
+  @case ('GeneVariant') {
     <cvc-variant-popover
       [variantId]="entity.entityId"
       (contentRendered)="contentRendered.emit()"></cvc-variant-popover>

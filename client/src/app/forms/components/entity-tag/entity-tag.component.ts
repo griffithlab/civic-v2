@@ -151,29 +151,22 @@ export class CvcEntityTagComponent implements OnChanges, AfterViewInit {
     // check if entity is in cache
     let possibleEntity = this.apollo.client.readFragment(fragment)
     if (possibleEntity !== null) {
-      console.info(`====== found ${typename} entity in cache`)
       this.entity = this.apollo.client.readFragment(fragment)
     } else {
-      console.warn(`++++++ cache miss for ${typename} entity.`)
-    }
-
-    // if cache-miss, check VariantInteface's other polymorphic types
-    if (!this.entity && typename === 'Variant') {
-      console.info(`++++++ checking VariantInterface's other polymorphic types`)
-      // cache misssed on a Variant type, check for its other polymorphic types
-      result.possibleTypes.VariantInterface.forEach((type) => {
-        if (type === 'Variant') return // already checked for Variant
-        const fragmentDoc = getFragmentDoc(type, this.isLinked)
-        if (fragmentDoc) {
-          console.log('?????? checking cache for type:', type)
-          fragment = getFragment(type, this.id!, fragmentDoc)
-          const entity = this.apollo.client.readFragment(fragment)
-          if (entity !== null) {
-            this.entity = entity
-            console.log(`++++++ found ${type} entity:`, this.entity)
+      // cache misssed on a polymorphic type, check subtypes
+      if (typename === 'Variant') {
+        result.possibleTypes.VariantInterface.forEach((type) => {
+          if (type === 'Variant') return // already checked for Variant
+          const fragmentDoc = getFragmentDoc(type, this.isLinked)
+          if (fragmentDoc) {
+            fragment = getFragment(type, this.id!, fragmentDoc)
+            possibleEntity = this.apollo.client.readFragment(fragment)
+            if (possibleEntity !== null) {
+              this.entity = possibleEntity
+            }
           }
-        }
-      })
+        })
+      }
     }
 
     // check if entity is a LinkableEntity

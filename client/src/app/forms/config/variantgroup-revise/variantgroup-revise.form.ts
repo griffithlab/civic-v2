@@ -99,8 +99,8 @@ export class CvcVariantgroupReviseForm
       .valueChanges.pipe(
         map(({ data }) => data?.variantGroup),
         filter(isNonNulled),
-        untilDestroyed(this),
-        tag('variantgroup-revise-form revisableFieldsGQL')
+        untilDestroyed(this)
+        // tag('variantgroup-revise-form revisableFieldsGQL')
       )
       .subscribe({
         next: (variantGroup) => {

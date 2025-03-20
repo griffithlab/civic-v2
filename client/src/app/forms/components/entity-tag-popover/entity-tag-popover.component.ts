@@ -20,6 +20,7 @@ export const ENTITY_TAG_TYPES_WITH_POPOVER = [
   'FeatureVariant',
   'GeneVariant',
   'FactorVariant',
+  'FusionVariant',
   'EvidenceItem',
 ]
 type EntityTagTypeWithPopoverTuple = typeof ENTITY_TAG_TYPES_WITH_POPOVER
